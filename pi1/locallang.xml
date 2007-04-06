@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin &quot;tx_realty_pi1&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="realty.pi_flexform.sheet_general">General</label>
+			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
+			<label index="realty.pi_flexform.realty_list">Realty List</label>
+			<label index="realty.pi_flexform.favorites">Favorites</label>
+			<label index="realty.pi_flexform.gallery">Gallery</label>
+			<label index="realty.pi_flexform.city_selector">City selector</label>
+			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using " AND "):</label>
+			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
+			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
+			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
+			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
+			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
+			<label index="realty.pi_flexform.citySelectorTargetPID">Target page for the city selector:</label>
+
+			<label index="label_title">Title</label>
+			<label index="label_city">City</label>
+			<label index="label_district">District</label>
+			<label index="label_tstamp">Date of last change</label>
+			<label index="label_extra_charges">Extra charges</label>
+			<label index="label_extra_charges_short">Extra charges</label>
+			<label index="label_rent_excluding_bills">Rent excluding bills</label>
+			<label index="label_rent_excluding_bills_short">Rent excluding bills</label>
+			<label index="label_number_of_rooms">Number of rooms</label>
+			<label index="label_number_of_rooms_short">rooms</label>
+			<label index="label_balcony">Balcony/patio</label>
+			<label index="label_balcony_Short">balcony/patio</label>
+			<label index="label_garden">garden</label>
+			<label index="label_garden_short">Garden (usage)</label>
+			<label index="label_elevator">Elevator</label>
+			<label index="label_elevator_short">elevator</label>
+			<label index="label_accessible">Accessible</label>
+			<label index="label_accessible_short">accessible</label>
+			<label index="label_assisted_living">Assisted living</label>
+			<label index="label_assisted_living_short">assisted living</label>
+			<label index="label_fitted_kitchen">Fitted kitchen</label>
+			<label index="label_fitted_kitchen_short">fitted kitchen</label>
+			<label index="label_construction_year">Year of construction</label>
+			<label index="label_construction_year_short">year of construction</label>
+			<label index="label_usable_from">Can be used starting at</label>
+			<label index="label_usable_from_short">can be used starting at</label>
+			<label index="label_object_number">Object #</label>
+			<label index="label_address">Address</label>
+			<label index="label_description">Description</label>
+			<label index="label_equipment">Equipment</label>
+			<label index="label_overview">Overview</label>
+			<label index="label_location">Location</label>
+			<label index="label_misc">Miscellaneous</label>
+			<label index="label_layout">Layout</label>
+			<label index="label_living_area">Size of the living area</label>
+			<label index="label_total_area">Total area</label>
+			<label index="label_heating_included">Extra charges include heating</label>
+			<label index="label_deposit">Security deposit</label>
+			<label index="label_provision">Provision/broker's fee</label>
+			<label index="label_buying_price">Price for buying</label>
+			<label index="label_year_rent">Net rent per year</label>
+			<label index="label_rented">Rented</label>
+			<label index="label_apartment_type">Apartment type</label>
+			<label index="label_house_type">House type</label>
+			<label index="label_floor">Floor</label>
+			<label index="label_floors">Number of floors</label>
+			<label index="label_bedrooms">Number of bedrooms</label>
+			<label index="label_bathrooms">Number of bathrooms</label>
+			<label index="label_heating_type">Type of heating</label>
+			<label index="label_garage_type">Garage/parking space</label>
+			<label index="label_garage_rent">Rent for garage/parking space</label>
+			<label index="label_garage_price">Price for buying the garage/parking space</label>
+			<label index="label_pets">Pets</label>
+			<label index="label_condition">Condition</label>
+
+			<label index="label_weofferyou_formal">We offer you the following objects:</label>
+			<label index="label_weofferyou_informal">We offer you the following objects:</label>
+			<label index="label_yourfavorites_formal">You have the following objects on your favorites list:</label>
+			<label index="label_yourfavorites_informal">You have the following objects on your favorites list:</label>
+			<label index="label_searchin">Search in</label>
+			<label index="label_page">Page</label>
+			<label index="label_approx">approx.</label>
+			<label index="label_squareMeters">m&amp;sup2;</label>
+			<label index="label_back">Back to the list</label>
+			<label index="label_add_to_favorites">Add to favorites</label>
+			<label index="label_remove_from_favorites">Remove from favorites</label>
+			<label index="label_cityselector_head">Search in city</label>
+			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
+			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
+			<label index="label_next_image">go to the next image</label>
+			<label index="label_sorry">Sorry!</label>
+			<label index="label_ascending">ascending</label>
+			<label index="label_descending">descending</label>
+			<label index="label_sort">sort</label>
+			<label index="label_search">search</label>
+			<label index="label_sortby">Display sorted by</label>
+			<label index="label_contact">Contact us</label>
+			<label index="label_close_window">Close window</label>
+
+			<label index="message_now">now</label>
+			<label index="message_yes">yes</label>
+			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
+			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
+			<label index="message_noResultsFound_favorites_formal">Your favorites list currently is empty.</label>
+			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
+			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
+			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="realty.pi_flexform.sheet_general">Allgemein</label>
+			<label index="realty.pi_flexform.what_to_display">Was soll angezeigt werden:</label>
+			<label index="realty.pi_flexform.realty_list">Immobilienliste</label>
+			<label index="realty.pi_flexform.favorites">Merkzettel</label>
+			<label index="realty.pi_flexform.gallery">Galerie</label>
+			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
+			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit " AND " an die WHERE-Klausel angehängt):</label>
+			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
+			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
+			<label index="realty.pi_flexform.singlePID">Seite mit der Einzelansicht:</label>
+			<label index="realty.pi_flexform.galleryPID">Seite mit der Galerie:</label>
+			<label index="realty.pi_flexform.favoritesPID">Seite mit dem Merkzettel:</label>
+			<label index="realty.pi_flexform.citySelectorTargetPID">Zielseite für den Stadtwähler:</label>
+
+			<label index="label_title">Titel</label>
+			<label index="label_city">Ort</label>
+			<label index="label_district">Ortsteil</label>
+			<label index="label_tstamp">&amp;Auml;nderungsdatum</label>
+			<label index="label_extra_charges">Nebenkosten</label>
+			<label index="label_extra_charges_short">&lt;acronym title="Nebenkosten"&gt;NK&lt;/acronym&gt;</label>
+			<label index="label_rent_excluding_bills">Kaltmiete</label>
+			<label index="label_rent_excluding_bills_short">&lt;acronym title="Kaltmiete"&gt;KM&lt;/acronym&gt;</label>
+			<label index="label_number_of_rooms">Zimmeranzahl</label>
+			<label index="label_number_of_rooms_short">Zimmer</label>
+			<label index="label_balcony">Balkon/Terrasse</label>
+			<label index="label_balcony_short">Balkon/Terrasse</label>
+			<label index="label_garden">Garten/-mitbenutzung</label>
+			<label index="label_garden_short">Garten</label>
+			<label index="label_elevator">Personenaufzug</label>
+			<label index="label_elevator_short">Personenaufzug</label>
+			<label index="label_accessible">Rollstuhlgerecht</label>
+			<label index="label_accessible_short">rollstuhlgerecht</label>
+			<label index="label_assisted_living">Betreutes Wohnen</label>
+			<label index="label_assisted_living_short">betreutes Wohnen</label>
+			<label index="label_fitted_kitchen">Einbauk&amp;uuml;che</label>
+			<label index="label_fitted_kitchen_short">&lt;acronym title="Einbauk&amp;uuml;che"&gt;EBK&lt;/acronym&gt;</label>
+			<label index="label_construction_year">Baujahr</label>
+			<label index="label_construction_year_short">Baujahr</label>
+			<label index="label_usable_from">Frei ab</label>
+			<label index="label_usable_from_short">frei ab</label>
+			<label index="label_object_number">Objekt Nr.</label>
+			<label index="label_address">Adresse</label>
+			<label index="label_description">Beschreibung</label>
+			<label index="label_equipment">Ausstattung</label>
+			<label index="label_overview">&amp;Uuml;berblick</label>
+			<label index="label_location">Lage</label>
+			<label index="label_misc">Sonstiges</label>
+			<label index="label_layout">Aufteilung</label>
+			<label index="label_living_area">Wohnfl&amp;auml;che</label>
+			<label index="label_total_area">Nutzfl&amp;auml;che</label>
+			<label index="label_heating_included">Nebenkosten inkl.&amp;nbsp;Heizung</label>
+			<label index="label_deposit">Kaution</label>
+			<label index="label_provision">Provision/Courtage</label>
+			<label index="label_buying_price">Kaufpreis</label>
+			<label index="label_year_rent">Nettojahresmiete</label>
+			<label index="label_rented">Vermietet</label>
+			<label index="label_apartment_type">Wohnungstyp</label>
+			<label index="label_house_type">Haustyp</label>
+			<label index="label_floor">Etage</label>
+			<label index="label_floors">Anzahl Etagen</label>
+			<label index="label_bedrooms">Anzahl Schlafzimmer</label>
+			<label index="label_bathrooms">Anzahl Badezimmer</label>
+			<label index="label_heating_type">Heizungsart</label>
+			<label index="label_garage_type">Garage/Stellplatz</label>
+			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
+			<label index="label_garage_price">Kaufpreis für Garage/Stellplatz</label>
+			<label index="label_pets">Haustiere</label>
+			<label index="label_condition">Zustand</label>
+
+			<label index="label_weofferyou_formal">Wir bieten Ihnen folgende Objekte an:</label>
+			<label index="label_weofferyou_informal">Wir bieten dir folgende Objekte an:</label>
+			<label index="label_yourfavorites_formal">Sie haben die folgenden Objekte auf Ihrem Merkzettel:</label>
+			<label index="label_yourfavorites_informal">Du hast die folgenden Objekte auf deinem Merkzettel:</label>
+			<label index="label_searchin">Ergebnis weiter einschr&amp;auml;nken</label>
+			<label index="label_page">Seite</label>
+			<label index="label_approx">ca.</label>
+			<label index="label_squareMeters">m&amp;sup2;</label>
+			<label index="label_back">Zur&amp;uuml;ck</label>
+			<label index="label_add_to_favorites">Auf den Merkzettel</label>
+			<label index="label_remove_from_favorites">Vom Merkzettel l&amp;ouml;schen</label>
+			<label index="label_cityselector_head">Immobilien-Suche</label>
+			<label index="label_cityselector_description_formal">Wir bieten Ihnen neue interessante Immobilien in folgenden St&amp;auml;dten &amp;#8230;</label>
+			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden St&amp;auml;dten &amp;#8230;</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt w&amp;auml;hlen &amp;#8212;</label>
+			<label index="label_next_image">zum n&amp;auml;chsten Bild</label>
+			<label index="label_sorry">Sorry!</label>
+			<label index="label_ascending">aufsteigend</label>
+			<label index="label_descending">absteigend</label>
+			<label index="label_sort">Sortieren</label>
+			<label index="label_search">Suchen</label>
+			<label index="label_sortby">Anzeigen nach</label>
+			<label index="label_contact">Kontakt aufnehmen</label>
+			<label index="label_close_window">Fenster schließen</label>
+
+			<label index="message_now">sofort</label>
+			<label index="message_yes">ja</label>
+			<label index="message_noResultsFound_realty_list_formal">Leider wurden keine Ergebnisse für Ihre Suchkriterien gefunden. Versuchen Sie die Suche zu verallgemeinern.</label>
+			<label index="message_noResultsFound_realty_list_informal">Leider wurden keine Ergebnisse für deine Suchkriterien gefunden. Versuche die Suche zu verallgemeinern.</label>
+			<label index="message_noResultsFound_favorites_formal">Zurzeit befinden sich keine Objekte auf Ihrem Merkzettel.</label>
+			<label index="message_noResultsFound_favorites_informal">Zurzeit befinden sich keine Objekte auf deinem Merkzettel.</label>
+			<label index="message_invalidImage_formal">Dieses Bild ist in unseren Datenbanken leider nicht verf&amp;uuml;gbar. Bitte &amp;uuml;berpr&amp;uuml;fen Sie, ob die Adresse in der Adresszeile Ihres Browsers korrekt ist. Falls Sie einem Link zu dieser Seite gefolgt sind, ist der Link m&amp;ouml;glicherweise fehlerhaft oder veraltet.</label>
+			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verf&amp;uuml;gbar. Bitte &amp;uuml;berpr&amp;uuml;fe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link m&amp;ouml;glicherweise fehlerhaft oder veraltet.</label>
+		</languageKey>
+	</data>
+</T3locallang>
