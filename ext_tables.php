@@ -3,6 +3,10 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+$extPath = t3lib_extMgm::extPath($_EXTKEY);
+$extRelPath = t3lib_extMgm::extRelPath($_EXTKEY);
+$extIconRelPath = $extRelPath . 'icons/';
+
 $TCA['tx_realty_objects'] = Array (
 	'ctrl' => Array (
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects',
@@ -23,8 +27,8 @@ $TCA['tx_realty_objects'] = Array (
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_objects.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_objects.gif',
 	)
 );
 
@@ -40,8 +44,8 @@ $TCA['tx_realty_apartment_types'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_apartment_types.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_apartment_types.gif',
 	)
 );
 
@@ -57,8 +61,8 @@ $TCA['tx_realty_house_types'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_house_types.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_house_types.gif',
 	)
 );
 
@@ -74,8 +78,8 @@ $TCA['tx_realty_heating_types'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_heating_types.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_heating_types.gif',
 	)
 );
 
@@ -91,8 +95,8 @@ $TCA['tx_realty_car_places'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_car_places.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_car_places.gif',
 	)
 );
 
@@ -108,8 +112,8 @@ $TCA['tx_realty_pets'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_pets.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_pets.gif',
 	)
 );
 
@@ -125,8 +129,8 @@ $TCA['tx_realty_conditions'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_conditions.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_conditions.gif',
 	)
 );
 
@@ -145,8 +149,8 @@ $TCA['tx_realty_images'] = Array (
 		'enablecolumns' => Array (
 			'disabled' => 'hidden',
 		),
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_images.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_images.gif',
 	)
 );
 
@@ -162,8 +166,8 @@ $TCA['tx_realty_cities'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_cities.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_cities.gif',
 	)
 );
 
@@ -179,8 +183,8 @@ $TCA['tx_realty_districts'] = Array (
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY title',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_realty_districts.gif',
+		'dynamicConfigFile' => $extPath.'tca.php',
+		'iconfile' => $extIconRelPath.'icon_tx_realty_districts.gif',
 	)
 );
 
@@ -195,7 +199,7 @@ t3lib_extMgm::addPlugin(Array('LLL:EXT:realty/locallang_db.xml:tt_content.list_t
 t3lib_extMgm::addStaticFile($_EXTKEY,'pi1/static/', 'Realty List');
 
 if (TYPO3_MODE == 'BE') {
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi1/class.tx_realty_pi1_wizicon.php';
+	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon'] = $extPath.'pi1/class.tx_realty_pi1_wizicon.php';
 }
 
 ?>
