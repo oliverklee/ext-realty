@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'cms' => '',
-			'oelib' => '',
+			'oelib' => '0.3.0-',
 		),
 		'conflicts' => array(
 		),
