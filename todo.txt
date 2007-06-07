@@ -28,7 +28,5 @@ ToDo list for the "Realty Manager" extension
 
 ToDo list before releasing a new version
 ----------------------------------------
-- make sure that the latest oelib has been released
-- delete the kickstarter files from doc/
 - delete the example images (all *.jpg) from pi1/images
 - delete all CVS/SVN directories
