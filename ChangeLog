@@ -1,7 +1,8 @@
 2007-06-07 Oliver Klee  <typo3-coding@oliverklee.de>
 
-	* make the extension work with MySQL 5 (#694)
-	* Removed the kickstarter files
+	* Fix: Flexform is shown twice if a second BE language exists (#641)
+	* Fix: make the extension work with MySQL 5 (#694)
+	* Change: Removed the kickstarter files
 
 2007-03-08 Oliver Klee  <typo3-coding@oliverklee.de>
 
