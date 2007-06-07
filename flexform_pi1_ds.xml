@@ -6,30 +6,30 @@
 		<sDEF>
 	  		<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.sheet_general</sheetTitle>
+					<sheetTitle>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sheet_general</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<what_to_display>
 						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.what_to_display</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.what_to_display</label>
 							<config>
 								<type>select</type>
 								<items type="array">
 									<numIndex index="0" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.realty_list</numIndex>
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.realty_list</numIndex>
 										<numIndex index="1">realty_list</numIndex>
 									</numIndex>
 									<numIndex index="3" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.favorites</numIndex>
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.favorites</numIndex>
 										<numIndex index="1">favorites</numIndex>
 									</numIndex>
 									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.gallery</numIndex>
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.gallery</numIndex>
 										<numIndex index="1">gallery</numIndex>
 									</numIndex>
 									<numIndex index="2" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.city_selector</numIndex>
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.city_selector</numIndex>
 										<numIndex index="1">city_selector</numIndex>
 									</numIndex>
 								</items>
@@ -92,7 +92,7 @@
 					</recursive>
 					<staticSqlFilter>
 						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.staticSqlFilter</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.staticSqlFilter</label>
 							<config>
 								<type>input</type>
 								<size>256</size>
@@ -102,7 +102,7 @@
 					</staticSqlFilter>
 					<checkboxesFilter>
 						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.checkboxesFilter</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.checkboxesFilter</label>
 							<config>
 								<type>select</type>
 								<items type="array">
@@ -152,7 +152,7 @@
 					<sortCriteria>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.sortCriteria</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sortCriteria</label>
 							<config>
 								<type>check</type>
 								<items>
@@ -190,7 +190,7 @@
 					<singlePID>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.singlePID</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.singlePID</label>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
@@ -205,7 +205,7 @@
 					<galleryPID>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.galleryPID</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.galleryPID</label>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
@@ -220,7 +220,7 @@
 					<favoritesPID>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.favoritesPID</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.favoritesPID</label>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
@@ -235,7 +235,7 @@
 					<citySelectorTargetPID>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.php:realty.pi_flexform.citySelectorTargetPID</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.citySelectorTargetPID</label>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
