@@ -1,5 +1,6 @@
 2007-06-07 Oliver Klee  <typo3-coding@oliverklee.de>
 
+	* Fix: Cannot upload images (#695)
 	* Fix Create hash values for all language labels (#69)
 	* Change: Provide icons for the Realty Manager (#176)
 	* Fix: Flexform is shown twice if a second BE language exists (#641)

@@ -1175,8 +1175,8 @@ $TCA['tx_realty_images'] = Array (
 				'uploadfolder' => 'uploads/tx_realty',
 				'show_thumbs' => 1,
 				'size' => 1,
-				'minitems' => 1,
-				'maxitems' => 1,
+				'minitems' => 0,
+				'maxitems' => 1
 			)
 		),
 	),
