@@ -3,16 +3,16 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$TCA['tx_realty_objects'] = Array (
+$TCA['tx_realty_objects'] = array(
 	'ctrl' => $TCA['tx_realty_objects']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,hidden,starttime,endtime,object_number,object_type,title,emphasized,street,zip,city,district,number_of_rooms,living_area,total_area,rent_excluding_bills,extra_charges,heating_included,deposit,provision,usable_from,buying_price,year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,construction_year,state,balcony,garden,elevator,accessible,assisted_living,fitted_kitchen,description,equipment,layout,location,misc,images'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -22,36 +22,36 @@ $TCA['tx_realty_objects'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_objects',
 				'foreign_table_where' => 'AND tx_realty_objects.pid=###CURRENT_PID### AND tx_realty_objects.sys_language_uid IN (-1,0)',
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'hidden' => Array (
+		'hidden' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-			'config' => Array (
+			'config' => array(
 				'type' => 'check',
 				'default' => '0'
 			)
 		),
-		'starttime' => Array (
+		'starttime' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '8',
 				'max' => '20',
@@ -60,672 +60,672 @@ $TCA['tx_realty_objects'] = Array (
 				'checkbox' => '0'
 			)
 		),
-		'endtime' => Array (
+		'endtime' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '8',
 				'max' => '20',
 				'eval' => 'date',
 				'checkbox' => '0',
 				'default' => '0',
-				'range' => Array (
+				'range' => array(
 					'upper' => mktime(0, 0, 0, 12, 31, 2020),
 					'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'))
 				)
 			)
 		),
-		'object_number' => Array (
+		'object_number' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim',
+				'eval' => 'trim'
 			)
 		),
-		'object_type' => Array (
+		'object_type' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type',
-			'config' => Array (
+			'config' => array(
 				'type' => 'radio',
-				'items' => Array (
-					Array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.0', '0'),
-					Array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1', '1'),
-				),
+				'items' => array(
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.0', '0'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1', '1')
+				)
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
 				'eval' => 'required',
-				'eval' => 'trim',
+				'eval' => 'trim'
 			)
 		),
-		'emphasized' => Array (
+		'emphasized' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'street' => Array (
+		'street' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.street',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim',
+				'eval' => 'trim'
 			)
 		),
-		'zip' => Array (
+		'zip' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '5',
 				'max' => '5',
-				'eval' => 'num',
+				'eval' => 'num'
 			)
 		),
-		'city' => Array (
+		'city' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_realty_cities',
 				'foreign_table_where' => 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_cities',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
 		),
-		'district' => Array (
+		'district' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_districts',
 				'foreign_table_where' => 'AND tx_realty_districts.pid=###STORAGE_PID### ORDER BY tx_realty_districts.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_districts',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
 						'script' => 'wizard_add.php',
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
 						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+					)
+				)
 			)
 		),
-		'number_of_rooms' => Array (
+		'number_of_rooms' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'trim',
+				'eval' => 'trim'
 			)
 		),
-		'living_area' => Array (
+		'living_area' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.living_area',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'total_area' => Array (
+		'total_area' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_area',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'rent_excluding_bills' => Array (
+		'rent_excluding_bills' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'extra_charges' => Array (
+		'extra_charges' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.extra_charges',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'heating_included' => Array (
+		'heating_included' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'deposit' => Array (
+		'deposit' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim',
+				'eval' => 'trim'
 			)
 		),
-		'provision' => Array (
+		'provision' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim',
+				'eval' => 'trim'
 			)
 		),
-		'usable_from' => Array (
+		'usable_from' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim',
+				'eval' => 'trim'
 			)
 		),
-		'buying_price' => Array (
+		'buying_price' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'year_rent' => Array (
+		'year_rent' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_rent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'rented' => Array (
+		'rented' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'apartment_type' => Array (
+		'apartment_type' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.apartment_type',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_apartment_types',
 				'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_apartment_types',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
 		),
-		'house_type' => Array (
+		'house_type' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.house_type',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_house_types',
 				'foreign_table_where' => 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_house_types',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
 		),
-		'floor' => Array (
+		'floor' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '2',
 				'max' => '2',
 				'eval' => 'int',
 				'checkbox' => '0',
-				'range' => Array (
+				'range' => array(
 					'upper' => '99',
 					'lower' => '0'
 				),
 				'default' => 0
 			)
 		),
-		'floors' => Array (
+		'floors' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floors',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '2',
 				'max' => '2',
 				'eval' => 'int',
 				'checkbox' => '0',
-				'range' => Array (
+				'range' => array(
 					'upper' => '99',
 					'lower' => '0'
 				),
 				'default' => 0
 			)
 		),
-		'bedrooms' => Array (
+		'bedrooms' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.bedrooms',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '2',
 				'max' => '2',
 				'eval' => 'int',
 				'checkbox' => '0',
-				'range' => Array (
+				'range' => array(
 					'upper' => '99',
 					'lower' => '0'
 				),
 				'default' => 0
 			)
 		),
-		'bathrooms' => Array (
+		'bathrooms' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.bathrooms',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '2',
 				'max' => '2',
 				'eval' => 'int',
 				'checkbox' => '0',
-				'range' => Array (
+				'range' => array(
 					'upper' => '99',
 					'lower' => '0'
 				),
 				'default' => 0
 			)
 		),
-		'heating_type' => Array (
+		'heating_type' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_heating_types',
 				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###STORAGE_PID### ORDER BY tx_realty_heating_types.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_heating_types',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
 		),
-		'garage_type' => Array (
+		'garage_type' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_car_places',
 				'foreign_table_where' => 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_car_places',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
 		),
-		'garage_rent' => Array (
+		'garage_rent' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_rent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'garage_price' => Array (
+		'garage_price' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_price',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '6',
-				'eval' => 'double2',
+				'eval' => 'double2'
 			)
 		),
-		'pets' => Array (
+		'pets' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.pets',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_pets',
 				'foreign_table_where' => 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_pets',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
 		),
-		'construction_year' => Array (
+		'construction_year' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '4',
 				'max' => '4',
 				'eval' => 'int',
 				'checkbox' => '0',
-				'range' => Array (
+				'range' => array(
 					'upper' => '2100',
 					'lower' => '1400'
 				),
 				'default' => 0
 			)
 		),
-		'state' => Array (
+		'state' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_conditions',
 				'foreign_table_where' => 'AND tx_realty_conditions.pid=###STORAGE_PID### ORDER BY tx_realty_conditions.uid',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_conditions',
 							'pid' => '###STORAGE_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
 		),
-		'balcony' => Array (
+		'balcony' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'garden' => Array (
+		'garden' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garden',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'elevator' => Array (
+		'elevator' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.elevator',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'accessible' => Array (
+		'accessible' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.accessible',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'assisted_living' => Array (
+		'assisted_living' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.assisted_living',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'fitted_kitchen' => Array (
+		'fitted_kitchen' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen',
-			'config' => Array (
-				'type' => 'check',
+			'config' => array(
+				'type' => 'check'
 			)
 		),
-		'description' => Array (
+		'description' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.description',
-			'config' => Array (
+			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5',
+				'rows' => '5'
 			)
 		),
-		'equipment' => Array (
+		'equipment' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.equipment',
-			'config' => Array (
+			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5',
+				'rows' => '5'
 			)
 		),
-		'layout' => Array (
+		'layout' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.layout',
-			'config' => Array (
+			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '3',
+				'rows' => '3'
 			)
 		),
-		'location' => Array (
+		'location' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.location',
-			'config' => Array (
+			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5',
+				'rows' => '5'
 			)
 		),
-		'misc' => Array (
+		'misc' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.misc',
-			'config' => Array (
+			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5',
+				'rows' => '5'
 			)
 		),
-		'images' => Array (
+		'images' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.images',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_realty_images',
 				'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### ORDER BY tx_realty_images.uid',
@@ -733,53 +733,53 @@ $TCA['tx_realty_objects'] = Array (
 				'minitems' => 0,
 				'maxitems' => 99,
 				'MM' => 'tx_realty_objects_images_mm',
-				'wizards' => Array(
+				'wizards' => array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
-					'add' => Array(
+					'add' => array(
 						'type' => 'script',
 						'title' => 'Create new record',
 						'icon' => 'add.gif',
-						'params' => Array(
+						'params' => array(
 							'table'=>'tx_realty_images',
 							'pid' => '###CURRENT_PID###',
 							'setValue' => 'prepend'
 						),
-						'script' => 'wizard_add.php',
+						'script' => 'wizard_add.php'
 					),
-					'edit' => Array(
+					'edit' => array(
 						'type' => 'popup',
 						'title' => 'Edit',
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
+					)
+				)
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, object_number, object_type, title;;;;2-2-2, emphasized;;;;3-3-3, street, zip, city, district, number_of_rooms, living_area, total_area, rent_excluding_bills, extra_charges, heating_included, deposit, provision, usable_from, apartment_type, house_type, floor, floors, bedrooms, bathrooms, heating_type, garage_type, garage_rent, pets, construction_year, state, balcony, garden, elevator, accessible, assisted_living, fitted_kitchen, description;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], equipment;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], layout, location;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], images'),
-		'1' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, object_number, object_type, title;;;;2-2-2, emphasized;;;;3-3-3, street, zip, city, district, number_of_rooms, living_area, total_area, provision, usable_from, buying_price, year_rent, rented, apartment_type, house_type, floor, floors, bedrooms, bathrooms, heating_type, garage_type, garage_price, construction_year, state, balcony, garden, elevator, accessible, fitted_kitchen, description;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], equipment;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], layout, location;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], images')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, object_number, object_type, title;;;;2-2-2, emphasized;;;;3-3-3, street, zip, city, district, number_of_rooms, living_area, total_area, rent_excluding_bills, extra_charges, heating_included, deposit, provision, usable_from, apartment_type, house_type, floor, floors, bedrooms, bathrooms, heating_type, garage_type, garage_rent, pets, construction_year, state, balcony, garden, elevator, accessible, assisted_living, fitted_kitchen, description;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], equipment;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], layout, location;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], images'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, object_number, object_type, title;;;;2-2-2, emphasized;;;;3-3-3, street, zip, city, district, number_of_rooms, living_area, total_area, provision, usable_from, buying_price, year_rent, rented, apartment_type, house_type, floor, floors, bedrooms, bathrooms, heating_type, garage_type, garage_price, construction_year, state, balcony, garden, elevator, accessible, fitted_kitchen, description;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], equipment;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], layout, location;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], images')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => 'starttime, endtime')
+	'palettes' => array(
+		'1' => array('showitem' => 'starttime, endtime')
 	)
 );
 
 
 
-$TCA['tx_realty_apartment_types'] = Array (
+$TCA['tx_realty_apartment_types'] = array(
 	'ctrl' => $TCA['tx_realty_apartment_types']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -789,54 +789,54 @@ $TCA['tx_realty_apartment_types'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_apartment_types',
-				'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###CURRENT_PID### AND tx_realty_apartment_types.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###CURRENT_PID### AND tx_realty_apartment_types.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_apartment_types.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
 
 
-$TCA['tx_realty_house_types'] = Array (
+$TCA['tx_realty_house_types'] = array(
 	'ctrl' => $TCA['tx_realty_house_types']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -846,54 +846,54 @@ $TCA['tx_realty_house_types'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_house_types',
-				'foreign_table_where' => 'AND tx_realty_house_types.pid=###CURRENT_PID### AND tx_realty_house_types.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_house_types.pid=###CURRENT_PID### AND tx_realty_house_types.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_house_types.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
 
 
-$TCA['tx_realty_heating_types'] = Array (
+$TCA['tx_realty_heating_types'] = array(
 	'ctrl' => $TCA['tx_realty_heating_types']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -903,54 +903,53 @@ $TCA['tx_realty_heating_types'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_heating_types',
-				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###CURRENT_PID### AND tx_realty_heating_types.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###CURRENT_PID### AND tx_realty_heating_types.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_heating_types.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
 
-
-$TCA['tx_realty_car_places'] = Array (
+$TCA['tx_realty_car_places'] = array(
 	'ctrl' => $TCA['tx_realty_car_places']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -960,54 +959,54 @@ $TCA['tx_realty_car_places'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_car_places',
-				'foreign_table_where' => 'AND tx_realty_car_places.pid=###CURRENT_PID### AND tx_realty_car_places.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_car_places.pid=###CURRENT_PID### AND tx_realty_car_places.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_car_places.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
 
 
-$TCA['tx_realty_pets'] = Array (
+$TCA['tx_realty_pets'] = array(
 	'ctrl' => $TCA['tx_realty_pets']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -1017,54 +1016,54 @@ $TCA['tx_realty_pets'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_pets',
-				'foreign_table_where' => 'AND tx_realty_pets.pid=###CURRENT_PID### AND tx_realty_pets.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_pets.pid=###CURRENT_PID### AND tx_realty_pets.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_pets.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
 
 
-$TCA['tx_realty_conditions'] = Array (
+$TCA['tx_realty_conditions'] = array(
 	'ctrl' => $TCA['tx_realty_conditions']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -1074,52 +1073,52 @@ $TCA['tx_realty_conditions'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_conditions',
-				'foreign_table_where' => 'AND tx_realty_conditions.pid=###CURRENT_PID### AND tx_realty_conditions.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_conditions.pid=###CURRENT_PID### AND tx_realty_conditions.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_conditions.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
-$TCA['tx_realty_images'] = Array (
+$TCA['tx_realty_images'] = array(
 	'ctrl' => $TCA['tx_realty_images']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,hidden,caption,image'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -1129,45 +1128,45 @@ $TCA['tx_realty_images'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_images',
-				'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### AND tx_realty_images.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### AND tx_realty_images.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'hidden' => Array (
+		'hidden' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
-			'config' => Array (
+			'config' => array(
 				'type' => 'check',
 				'default' => '0'
 			)
 		),
-		'caption' => Array (
+		'caption' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images.caption',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
 		),
-		'image' => Array (
+		'image' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images.image',
-			'config' => Array (
+			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => 'gif,png,jpeg,jpg',
@@ -1178,28 +1177,28 @@ $TCA['tx_realty_images'] = Array (
 				'minitems' => 0,
 				'maxitems' => 1
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, caption, image')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, caption, image')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
 
 
-$TCA['tx_realty_cities'] = Array (
+$TCA['tx_realty_cities'] = array(
 	'ctrl' => $TCA['tx_realty_cities']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -1209,54 +1208,54 @@ $TCA['tx_realty_cities'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_cities',
-				'foreign_table_where' => 'AND tx_realty_cities.pid=###CURRENT_PID### AND tx_realty_cities.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_cities.pid=###CURRENT_PID### AND tx_realty_cities.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_cities.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
 
 
-$TCA['tx_realty_districts'] = Array (
+$TCA['tx_realty_districts'] = array(
 	'ctrl' => $TCA['tx_realty_districts']['ctrl'],
-	'interface' => Array (
+	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
-	'columns' => Array (
-		'sys_language_uid' => array (
+	'columns' => array(
+		'sys_language_uid' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array (
+			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
@@ -1266,39 +1265,39 @@ $TCA['tx_realty_districts'] = Array (
 				)
 			)
 		),
-		'l18n_parent' => Array (
+		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => Array (
+			'config' => array(
 				'type' => 'select',
-				'items' => Array (
-					Array('', 0),
+				'items' => array(
+					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_districts',
-				'foreign_table_where' => 'AND tx_realty_districts.pid=###CURRENT_PID### AND tx_realty_districts.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tx_realty_districts.pid=###CURRENT_PID### AND tx_realty_districts.sys_language_uid IN (-1,0)'
 			)
 		),
-		'l18n_diffsource' => Array (
-			'config' => Array (
+		'l18n_diffsource' => array(
+			'config' => array(
 				'type' => 'passthrough'
 			)
 		),
-		'title' => Array (
+		'title' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_districts.title',
-			'config' => Array (
+			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'required'
 			)
-		),
+		)
 	),
-	'types' => Array (
-		'0' => Array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
 	),
-	'palettes' => Array (
-		'1' => Array('showitem' => '')
+	'palettes' => array(
+		'1' => array('showitem' => '')
 	)
 );
 
