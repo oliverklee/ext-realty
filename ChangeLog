@@ -1,5 +1,6 @@
 2007-06-07 Oliver Klee  <typo3-coding@oliverklee.de>
 
+	* make the extension work with MySQL 5 (#694)
 	* Removed the kickstarter files
 
 2007-03-08 Oliver Klee  <typo3-coding@oliverklee.de>

@@ -41,7 +41,7 @@
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
 			<label index="tx_realty_objects.construction_year">Year of construction</label>
-			<label index="tx_realty_objects.condition">Condition</label>
+			<label index="tx_realty_objects.state">Condition</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
@@ -112,7 +112,7 @@
 			<label index="tx_realty_objects.garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.pets">Haustiere</label>
 			<label index="tx_realty_objects.construction_year">Baujahr</label>
-			<label index="tx_realty_objects.condition">Zustand</label>
+			<label index="tx_realty_objects.state">Zustand</label>
 			<label index="tx_realty_objects.balcony">Balkon/Terrasse</label>
 			<label index="tx_realty_objects.garden">Garten(-mitbenutzung)</label>
 			<label index="tx_realty_objects.elevator">Personenaufzug</label>

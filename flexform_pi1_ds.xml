@@ -136,8 +136,8 @@
 										<numIndex index="1">pets</numIndex>
 									</numIndex>
 									<numIndex index="8" type="array">
-										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.condition</numIndex>
-										<numIndex index="1">condition</numIndex>
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state</numIndex>
+										<numIndex index="1">state</numIndex>
 									</numIndex>
 								</items>
 								<minitems>0</minitems>

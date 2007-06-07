@@ -73,7 +73,7 @@
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>
-			<label index="label_condition">Condition</label>
+			<label index="label_state">Condition</label>
 
 			<label index="label_weofferyou_formal">We offer you the following objects:</label>
 			<label index="label_weofferyou_informal">We offer you the following objects:</label>
@@ -177,7 +177,7 @@
 			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="label_garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="label_pets">Haustiere</label>
-			<label index="label_condition">Zustand</label>
+			<label index="label_state">Zustand</label>
 
 			<label index="label_weofferyou_formal">Wir bieten Ihnen folgende Objekte an:</label>
 			<label index="label_weofferyou_informal">Wir bieten dir folgende Objekte an:</label>

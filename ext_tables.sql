@@ -67,7 +67,7 @@ CREATE TABLE tx_realty_objects (
 	garage_price tinytext NOT NULL,
 	pets int(11) DEFAULT '0' NOT NULL,
 	construction_year int(11) DEFAULT '0' NOT NULL,
-	condition int(11) DEFAULT '0' NOT NULL,
+	state int(11) DEFAULT '0' NOT NULL,
 	balcony tinyint(3) DEFAULT '0' NOT NULL,
 	garden tinyint(3) DEFAULT '0' NOT NULL,
 	elevator tinyint(3) DEFAULT '0' NOT NULL,

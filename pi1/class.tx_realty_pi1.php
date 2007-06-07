@@ -53,7 +53,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'heating_type' => 'tx_realty_heating_types',
 		'garage_type' => 'tx_realty_car_places',
 		'pets' => 'tx_realty_pets',
-		'condition' => 'tx_realty_conditions',
+		'state' => 'tx_realty_conditions',
 		'images' => 'tx_realty_images',
 		'images_relation' => 'tx_realty_objects_images_mm',
 	);
@@ -102,7 +102,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'garage_price' => TYPE_NUMERIC,
 		'pets' => TYPE_STRING,
 		'construction_year' => TYPE_NUMERIC,
-		'condition' => TYPE_STRING,
+		'state' => TYPE_STRING,
 		'balcony' => TYPE_BOOLEAN,
 		'garden' => TYPE_BOOLEAN,
 		'elevator' => TYPE_BOOLEAN,
@@ -553,7 +553,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				break;
 
-			case 'condition':
+			case 'state':
 				// The fallthrough is intended.
 			case 'pets':
 				// The fallthrough is intended.
