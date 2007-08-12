@@ -57,7 +57,7 @@ plugin.tx_realty_pi1 {
 	# comma-separated list of PIDs that contain the realty records to be displayed
 	pages =
 	# recursion level for the pages list
-	recursive =
+	recursive = 0
 	# static SQL Filter (will be appended to the WHERE clause using " AND ")
 	staticSqlFilter =
 	# name of the DB field to create the search filter checkboxes from
