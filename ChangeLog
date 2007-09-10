@@ -1,10 +1,10 @@
 2007-09-09 Oliver Klee  <typo3-coding@oliverklee.de>
 
-	* [#1146] Add a Dutch FE localization, localization by Michael Zweigle
+	* [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
 
 2007-08-31 Oliver Klee  <typo3-coding@oliverklee.de>
 
-	* Documented the city selector in the manual
+	* Documentation: Documented the city selector in the manual
 
 2007-08-26 Oliver Klee  <typo3-coding@oliverklee.de>
 
@@ -12,13 +12,13 @@
 
 2007-08-12 Oliver Klee  <typo3-coding@oliverklee.de>
 
-	* Add a reference and a tutorial to the manual
+	* Documentation: Add a reference and a tutorial to the manual
 
 2007-06-07 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* Code cleanup and refactoring (#656)
 	* Fix: Cannot upload images (#695)
-	* Fix Create hash values for all language labels (#69)
+	* Fix: Create hash values for all language labels (#69)
 	* Change: Provide icons for the Realty Manager (#176)
 	* Fix: Flexform is shown twice if a second BE language exists (#641)
 	* Fix: make the extension work with MySQL 5 (#694)
