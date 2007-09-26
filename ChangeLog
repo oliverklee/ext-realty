@@ -1,3 +1,7 @@
+2007-09-26 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1127] Change: Require TYPO3 4
+
 2007-09-25 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1154] Feature: Allow to restrict access to the single view page to logged-in users
