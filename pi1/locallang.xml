@@ -107,6 +107,8 @@
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
+			<label index="message_please_login_formal">Please log in to view this page.</label>
+			<label index="message_please_login_informal">Please log in to view this page.</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="realty.pi_flexform.sheet_general">Allgemein</label>
@@ -208,6 +210,8 @@
 			<label index="message_noResultsFound_favorites_informal">Zurzeit befinden sich keine Objekte auf deinem Merkzettel.</label>
 			<label index="message_invalidImage_formal">Dieses Bild ist in unseren Datenbanken leider nicht verf&amp;uuml;gbar. Bitte &amp;uuml;berpr&amp;uuml;fen Sie, ob die Adresse in der Adresszeile Ihres Browsers korrekt ist. Falls Sie einem Link zu dieser Seite gefolgt sind, ist der Link m&amp;ouml;glicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verf&amp;uuml;gbar. Bitte &amp;uuml;berpr&amp;uuml;fe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link m&amp;ouml;glicherweise fehlerhaft oder veraltet.</label>
+			<label index="message_please_login_formal">Bitte loggen Sie sich ein, um diese Seite anzuzeigen.</label>
+			<label index="message_please_login_informal">Bitte logge dich ein, um diese Seite anzuzeigen.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">Algemene beschrijving</label>
@@ -412,6 +416,8 @@
 			<label index="message_invalidImage_formal" type="integer">24179165</label>
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
 			<label index="label_balcony_short" type="integer">91922626</label>
+			<label index="message_please_login_formal" type="integer">64977327</label>
+			<label index="message_please_login_informal" type="integer">64977327</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -616,6 +622,8 @@
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
+			<label index="message_please_login_formal">Please log in to view this page.</label>
+			<label index="message_please_login_informal">Please log in to view this page.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

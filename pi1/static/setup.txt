@@ -45,9 +45,16 @@ plugin.tx_realty_pi1 {
 	# e.g. width=600,height=400,resizable=no,toolbar=no,location=no,directories=no,status=no,menubar=no
 	galleryPopupParameters =
 
+	# whether the single view page may only be viewed by logged-in FE users
+	requireLoginForSingleViewPage = 0
+
+	# PID of the page with a login form (only used if requireLoginForDetailsPage is 1)
+	loginPID =
+
 	# PID of the contact page which will be linked from the favorites list
 	# (leave empty to disable this link)
 	contactPID =
+
 
 	##########################################################################
 	# The following variable can also be set using flexforms. Non-empty values

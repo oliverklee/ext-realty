@@ -41,6 +41,11 @@
 	clear: both;
 }
 
+.tx-realty-pi1 .error {
+	color: red;
+	font-weight: bold;
+},
+
 /* Buttons */
 .tx-realty-pi1 a.back,
 .tx-realty-pi1 a.close {

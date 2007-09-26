@@ -24,7 +24,9 @@
 /**
  * Plugin 'Realty List' for the 'realty' extension.
  *
- * @author	Oliver Klee <typo3-coding@oliverklee.de>
+ * @package		TYPO3
+ * @subpackage	tx_realty
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
@@ -347,16 +349,39 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Displays a single item from the database.
+	 * Displays a single item from the database. If access to the single view
+	 * is denied, a message with a link to the login page will be displayed
+	 * instead.
 	 *
-	 * @return	string		HTML of a single database entry (may be an empty string in the case of an error)
+	 * @return	string		HTML of a single database entry (will be an empty
+	 * 						string in the case of an error) or an error message
+	 * 						with a link to the login page if access is denied
 	 *
 	 * @access	protected
 	 */
 	function createSingleView()	{
 		$result = '';
 
-		$this->internal['currentRow'] = $this->pi_getRecord($this->tableNames['objects'], $this->piVars['showUid']);
+		$uid = intval($this->piVars['showUid']);
+
+		if ($this->isAccessToSingleViewPageAllowed()) {
+			$this->internal['currentRow'] = $this->pi_getRecord(
+				$this->tableNames['objects'],
+				$uid
+			);
+		} else {
+			$this->internal['currentRow'] = array();
+
+			$this->setMarkerContent(
+				'login_link',
+				$this->createLinkToSingleViewPage(
+					$this->pi_getLL('message_please_login'), $uid
+				)
+			);
+
+			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
+		}
+
 		if (!empty($this->internal['currentRow'])) {
 			// This sets the title of the page for display and for use in indexed search results.
 			if (!empty($this->internal['currentRow']['title']))	{
@@ -541,15 +566,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		switch($key) {
 			case 'linked_title':
-				// disable the caching if we are in the favorites list
-				$useCache = ($this->getConfValueString('what_to_display') != 'favorites');
-				$result = $this->pi_list_linkSingle(
+				$result = $this->createLinkToSingleViewPage(
 					$this->internal['currentRow']['title'],
-					intval($this->internal['currentRow']['uid']),
-					$useCache,
-					array(),
-					false,
-					$this->getConfValueInteger('singlePID')
+					$this->internal['currentRow']['uid']
 				);
 				break;
 
@@ -1553,6 +1572,133 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Checks that we are properly initialized.
+	 *
+	 * @return	boolean		true if we are properly initialized, false otherwise
+	 *
+	 * @access	public
+	 */
+	function isInitialized() {
+		return $this->isInitialized;
+	}
+
+	/**
+	 * Checks whether a front end user is logged in.
+	 *
+	 * @return	boolean		true if a user is logged in, false otherwise
+	 *
+	 * @access	public
+	 */
+	function isLoggedIn() {
+		return ((boolean) $GLOBALS['TSFE'])
+			&& ((boolean) $GLOBALS['TSFE']->loginUser);
+	}
+
+	/**
+	 * Checks whether displaying the single view page currently is allowed. This
+	 * depends on whether currently a FE user is logged in and whether, per
+	 * configuration, access to the details page is allowed even when no user is
+	 * logged in.
+	 *
+	 * @return	boolean		true if the details page is allowed to be viewed,
+	 * 						false otherwise
+	 *
+	 * @access	public
+	 */
+	function isAccessToSingleViewPageAllowed() {
+		return ($this->isLoggedIn()
+			|| !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
+	}
+
+	/**
+	 * Sets a configuration value.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 *
+	 * @param	string		key of the configuration property to set, must not be empty
+	 * @param	mixed		value of the configuration property, may be empty or zero
+	 *
+	 * @access	public
+	 */
+	function setConfigurationValue($key, $value) {
+		if (!is_array($this->conf)) {
+			$this->conf = array();
+		}
+
+		$this->conf[$key] = $value;
+	}
+
+	/**
+	 * Creates a link to the single view page.
+	 *
+	 * $linkText will be used as link text.
+	 *
+	 * If the current FE user is denied access to the single view page, the
+	 * created link will lead to the login page instead, including a
+	 * redirect_url parameter to the single view page.
+	 *
+	 * @param	string		$linkText, must not be empty
+	 * @param	integer		UID of the realty object to show
+	 *
+	 * @return	string		link tag, either to the single view page or to the
+	 *						login page
+	 *
+	 * @access	public
+	 */
+	function createLinkToSingleViewPage($linkText, $uid) {
+		$result = '';
+
+		if (!empty($linkText)) {
+			// disable the caching if we are in the favorites list
+			$useCache
+				= ($this->getConfValueString('what_to_display') != 'favorites');
+
+			$completeLink = $this->pi_list_linkSingle(
+				htmlspecialchars($linkText),
+				intval($uid),
+				$useCache,
+				array(),
+				false,
+				$this->getConfValueInteger('singlePID')
+			);
+
+			if ($this->isAccessToSingleViewPageAllowed()) {
+				$result = $completeLink;
+			} else {
+				$redirectUrl = t3lib_div::locationHeaderUrl(
+					$this->cObj->lastTypoLinkUrl
+				);
+				$result = $this->cObj->getTypoLink(
+					htmlspecialchars($linkText),
+					$this->getConfValueInteger('loginPID'),
+					array('redirect_url' => $redirectUrl)
+				);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Sets the data for the current row in the list view.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 *
+	 * @param	array		associative array with the data for the current
+	 * 						row like it could have been retrieved from the DB,
+	 * 						must be neither empty nor null
+	 *
+	 * @access	public
+	 */
+	function setCurrentRow($currentRow) {
+		if (!is_array($this->internal)) {
+			$this->internal = array();
+		}
+
+		$this->internal['currentRow'] = $currentRow;
 	}
 }
 

@@ -1,3 +1,7 @@
+2007-09-25 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1154] Feature: Allow to restrict access to the single view page to logged-in users
+
 2007-09-09 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
