@@ -127,7 +127,7 @@
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
-			<label index="label_tstamp">&amp;Auml;nderungsdatum</label>
+			<label index="label_tstamp">Änderungsdatum</label>
 			<label index="label_extra_charges">Nebenkosten</label>
 			<label index="label_extra_charges_short">&lt;acronym title=&quot;Nebenkosten&quot;&gt;NK&lt;/acronym&gt;</label>
 			<label index="label_rent_excluding_bills">Kaltmiete</label>
@@ -144,8 +144,8 @@
 			<label index="label_accessible_short">rollstuhlgerecht</label>
 			<label index="label_assisted_living">Betreutes Wohnen</label>
 			<label index="label_assisted_living_short">betreutes Wohnen</label>
-			<label index="label_fitted_kitchen">Einbauk&amp;uuml;che</label>
-			<label index="label_fitted_kitchen_short">&lt;acronym title=&quot;Einbauk&amp;uuml;che&quot;&gt;EBK&lt;/acronym&gt;</label>
+			<label index="label_fitted_kitchen">Einbauküche</label>
+			<label index="label_fitted_kitchen_short">&lt;acronym title=&quot;Einbauküche&quot;&gt;EBK&lt;/acronym&gt;</label>
 			<label index="label_construction_year">Baujahr</label>
 			<label index="label_construction_year_short">Baujahr</label>
 			<label index="label_usable_from">Frei ab</label>
@@ -154,12 +154,12 @@
 			<label index="label_address">Adresse</label>
 			<label index="label_description">Beschreibung</label>
 			<label index="label_equipment">Ausstattung</label>
-			<label index="label_overview">&amp;Uuml;berblick</label>
+			<label index="label_overview">Überblick</label>
 			<label index="label_location">Lage</label>
 			<label index="label_misc">Sonstiges</label>
 			<label index="label_layout">Aufteilung</label>
-			<label index="label_living_area">Wohnfl&amp;auml;che</label>
-			<label index="label_total_area">Nutzfl&amp;auml;che</label>
+			<label index="label_living_area">Wohnfläche</label>
+			<label index="label_total_area">Nutzfläche</label>
 			<label index="label_heating_included">Nebenkosten inkl.&amp;nbsp;Heizung</label>
 			<label index="label_deposit">Kaution</label>
 			<label index="label_provision">Provision/Courtage</label>
@@ -182,18 +182,18 @@
 			<label index="label_weofferyou_informal">Wir bieten dir folgende Objekte an:</label>
 			<label index="label_yourfavorites_formal">Sie haben die folgenden Objekte auf Ihrem Merkzettel:</label>
 			<label index="label_yourfavorites_informal">Du hast die folgenden Objekte auf deinem Merkzettel:</label>
-			<label index="label_searchin">Ergebnis weiter einschr&amp;auml;nken</label>
+			<label index="label_searchin">Ergebnis weiter einschränken</label>
 			<label index="label_page">Seite</label>
 			<label index="label_approx">ca.</label>
 			<label index="label_squareMeters">m&amp;sup2;</label>
-			<label index="label_back">Zur&amp;uuml;ck</label>
+			<label index="label_back">Zurück</label>
 			<label index="label_add_to_favorites">Auf den Merkzettel</label>
-			<label index="label_remove_from_favorites">Vom Merkzettel l&amp;ouml;schen</label>
+			<label index="label_remove_from_favorites">Vom Merkzettel löschen</label>
 			<label index="label_cityselector_head">Immobilien-Suche</label>
-			<label index="label_cityselector_description_formal">Wir bieten Ihnen neue interessante Immobilien in folgenden St&amp;auml;dten &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden St&amp;auml;dten &amp;#8230;</label>
-			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt w&amp;auml;hlen &amp;#8212;</label>
-			<label index="label_next_image">zum n&amp;auml;chsten Bild</label>
+			<label index="label_cityselector_description_formal">Wir bieten Ihnen neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
+			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
+			<label index="label_next_image">zum nächsten Bild</label>
 			<label index="label_sorry">Sorry!</label>
 			<label index="label_ascending">aufsteigend</label>
 			<label index="label_descending">absteigend</label>
@@ -208,8 +208,8 @@
 			<label index="message_noResultsFound_realty_list_informal">Leider wurden keine Ergebnisse für deine Suchkriterien gefunden. Versuche die Suche zu verallgemeinern.</label>
 			<label index="message_noResultsFound_favorites_formal">Zurzeit befinden sich keine Objekte auf Ihrem Merkzettel.</label>
 			<label index="message_noResultsFound_favorites_informal">Zurzeit befinden sich keine Objekte auf deinem Merkzettel.</label>
-			<label index="message_invalidImage_formal">Dieses Bild ist in unseren Datenbanken leider nicht verf&amp;uuml;gbar. Bitte &amp;uuml;berpr&amp;uuml;fen Sie, ob die Adresse in der Adresszeile Ihres Browsers korrekt ist. Falls Sie einem Link zu dieser Seite gefolgt sind, ist der Link m&amp;ouml;glicherweise fehlerhaft oder veraltet.</label>
-			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verf&amp;uuml;gbar. Bitte &amp;uuml;berpr&amp;uuml;fe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link m&amp;ouml;glicherweise fehlerhaft oder veraltet.</label>
+			<label index="message_invalidImage_formal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfen Sie, ob die Adresse in der Adresszeile Ihres Browsers korrekt ist. Falls Sie einem Link zu dieser Seite gefolgt sind, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
+			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_please_login_formal">Bitte loggen Sie sich ein, um diese Seite anzuzeigen.</label>
 			<label index="message_please_login_informal">Bitte logge dich ein, um diese Seite anzuzeigen.</label>
 		</languageKey>
