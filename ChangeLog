@@ -1,3 +1,7 @@
+2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
+
+	* [#67] in the SQL schema, sanitize some types
+
 2007-10-04 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1220] Change: Require TYPO3 4.1.2

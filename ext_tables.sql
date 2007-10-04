@@ -2,8 +2,8 @@
 # Table structure for table 'tx_realty_objects_images_mm'
 #
 CREATE TABLE tx_realty_objects_images_mm (
-  uid_local int(11) DEFAULT '0' NOT NULL,
-  uid_foreign int(11) DEFAULT '0' NOT NULL,
+  uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+  uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
   tablenames varchar(30) DEFAULT '' NOT NULL,
   sorting int(11) DEFAULT '0' NOT NULL,
   KEY uid_local (uid_local),
@@ -14,7 +14,7 @@ CREATE TABLE tx_realty_objects_images_mm (
 # Table structure for table 'tx_realty_objects'
 #
 CREATE TABLE tx_realty_objects (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE tx_realty_objects (
 # Table structure for table 'tx_realty_apartment_types'
 #
 CREATE TABLE tx_realty_apartment_types (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE tx_realty_apartment_types (
 # Table structure for table 'tx_realty_house_types'
 #
 CREATE TABLE tx_realty_house_types (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE tx_realty_house_types (
 # Table structure for table 'tx_realty_heating_types'
 #
 CREATE TABLE tx_realty_heating_types (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE tx_realty_heating_types (
 # Table structure for table 'tx_realty_car_places'
 #
 CREATE TABLE tx_realty_car_places (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE tx_realty_car_places (
 # Table structure for table 'tx_realty_pets'
 #
 CREATE TABLE tx_realty_pets (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE tx_realty_pets (
 # Table structure for table 'tx_realty_conditions'
 #
 CREATE TABLE tx_realty_conditions (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -205,7 +205,7 @@ CREATE TABLE tx_realty_conditions (
 # Table structure for table 'tx_realty_images'
 #
 CREATE TABLE tx_realty_images (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -216,7 +216,7 @@ CREATE TABLE tx_realty_images (
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	caption tinytext NOT NULL,
-	image blob NOT NULL,
+	image tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
@@ -226,7 +226,7 @@ CREATE TABLE tx_realty_images (
 # Table structure for table 'tx_realty_cities'
 #
 CREATE TABLE tx_realty_cities (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
@@ -245,7 +245,7 @@ CREATE TABLE tx_realty_cities (
 # Table structure for table 'tx_realty_districts'
 #
 CREATE TABLE tx_realty_districts (
-	uid int(11) NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
