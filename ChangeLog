@@ -1,3 +1,7 @@
+2007-10-08 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
+
 2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
 
 	* [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
