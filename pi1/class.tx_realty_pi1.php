@@ -529,6 +529,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'city',
 			'district',
 			'living_area',
+			'buying_price',
 			'rent_excluding_bills',
 			'extra_charges',
 			'number_of_rooms',
@@ -537,6 +538,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'list_image_right',
 		) as $key) {
 			$this->setMarkerContent($key, $this->getFieldContent($key));
+		}
+
+		switch ($this->getFieldContent('object_type')){
+			case 1:
+				$this->readSubpartsToHide('rent_excluding_bills', 'wrapper');
+				$this->readSubpartsToHide('extra_charges', 'wrapper');
+				break;
+			case 0:
+				$this->readSubpartsToHide('buying_price', 'wrapper');
+				break;
+			default:
+				break;
 		}
 
 		if (($this->getConfValueString('what_to_display') == 'favorites')

@@ -1,3 +1,7 @@
+2007-10-06 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
+
 2007-10-08 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
