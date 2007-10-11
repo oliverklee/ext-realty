@@ -55,6 +55,7 @@
 			<label index="tx_realty_objects.layout">Layout</label>
 			<label index="tx_realty_objects.location">Location</label>
 			<label index="tx_realty_objects.misc">Miscellaneous</label>
+			<label index="tx_realty_objects.details_page">Separate page for the details view for this object</label>
 			<label index="tx_realty_objects.images">Images</label>
 			<label index="tx_realty_objects.tstamp">Last changed</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
@@ -126,6 +127,7 @@
 			<label index="tx_realty_objects.layout">Aufteilung</label>
 			<label index="tx_realty_objects.location">Lage</label>
 			<label index="tx_realty_objects.misc">Sonstiges</label>
+			<label index="tx_realty_objects.details_page">Separate Seite für die Detailansicht dieses Objektes</label>
 			<label index="tx_realty_objects.images">Bilder</label>
 			<label index="tx_realty_objects.tstamp">Änderungsdatum</label>
 			<label index="tx_realty_apartment_types">Wohnungstyp</label>
@@ -199,6 +201,7 @@
 			<label index="tx_realty_objects.layout" type="integer">247307244</label>
 			<label index="tx_realty_objects.location" type="integer">216383317</label>
 			<label index="tx_realty_objects.misc" type="integer">59226864</label>
+			<label index="tx_realty_objects.details_page" type="integer">265680266</label>
 			<label index="tx_realty_objects.images" type="integer">268373344</label>
 			<label index="tx_realty_objects.tstamp" type="integer">68135228</label>
 			<label index="tx_realty_apartment_types" type="integer">220566396</label>
@@ -272,6 +275,7 @@
 			<label index="tx_realty_objects.layout">Layout</label>
 			<label index="tx_realty_objects.location">Location</label>
 			<label index="tx_realty_objects.misc">Miscellaneous</label>
+			<label index="tx_realty_objects.details_page">Separate page for the details view for this object</label>
 			<label index="tx_realty_objects.images">Images</label>
 			<label index="tx_realty_objects.tstamp">Last changed</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>

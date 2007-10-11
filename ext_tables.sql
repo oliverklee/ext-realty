@@ -79,6 +79,7 @@ CREATE TABLE tx_realty_objects (
 	layout tinytext NOT NULL,
 	location text NOT NULL,
 	misc text NOT NULL,
+	details_page tinytext,
 	images int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),

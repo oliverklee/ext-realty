@@ -581,7 +581,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			case 'linked_title':
 				$result = $this->createLinkToSingleViewPage(
 					$this->internal['currentRow']['title'],
-					$this->internal['currentRow']['uid']
+					$this->internal['currentRow']['uid'],
+					$this->internal['currentRow']['details_page']
 				);
 				break;
 
@@ -1655,13 +1656,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @param	string		$linkText, must not be empty
 	 * @param	integer		UID of the realty object to show
+	 * @param	string		PID or URL of the single view page, set to '' to use
+	 * 						the default single view page
 	 *
 	 * @return	string		link tag, either to the single view page or to the
 	 *						login page
 	 *
 	 * @access	public
 	 */
-	function createLinkToSingleViewPage($linkText, $uid) {
+	function createLinkToSingleViewPage(
+		$linkText, $uid, $separateSingleViewPage = ''
+	) {
 		$result = '';
 
 		if (!empty($linkText)) {
@@ -1669,14 +1674,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$useCache
 				= ($this->getConfValueString('what_to_display') != 'favorites');
 
-			$completeLink = $this->pi_list_linkSingle(
-				htmlspecialchars($linkText),
-				intval($uid),
-				$useCache,
-				array(),
-				false,
-				$this->getConfValueInteger('singlePID')
-			);
+			if ($separateSingleViewPage != '') {
+				$completeLink = $this->cObj->getTypoLink(
+					htmlspecialchars($linkText),
+					$separateSingleViewPage
+				);
+			} else {
+				$completeLink = $this->pi_list_linkSingle(
+					htmlspecialchars($linkText),
+					intval($uid),
+					$useCache,
+					array(),
+					false,
+					$this->getConfValueInteger('singlePID')
+				);
+			}
 
 			if ($this->isAccessToSingleViewPageAllowed()) {
 				$result = $completeLink;

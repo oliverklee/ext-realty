@@ -36,15 +36,16 @@ require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 require_once(t3lib_extMgm::extPath('realty')
 	.'pi1/class.tx_realty_pi1.php');
 
-// These values might need to be changed for other environments.
-// This is because we don't bother to create the FE pages for these tests.
-define('TX_REALTY_SINGLE_PID', '1');
-define('TX_REALTY_LOGIN_PID', '76');
+define('TX_REALTY_FIRST_PID', '100000');
+define('TX_REALTY_SINGLE_PID', '100000');
+define('TX_REALTY_LOGIN_PID', '100001');
+define('TX_REALTY_OTHER_SINGLE_PID', '100002');
+define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
 
 class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
-	protected function setUp() {
+	public function setUp() {
 		// Bolster up the fake front end.
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
 
@@ -62,9 +63,13 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->init(array());
 		// We expect the single view page to be at page #1.
 		$this->fixture->setConfigurationValue('singlePID', TX_REALTY_SINGLE_PID);
+
+		$this->createDummyPages();
 	}
 
-	protected function tearDown() {
+	public function tearDown() {
+		$this->deleteDummyPages();
+
 		unset($this->fixture);
 	}
 
@@ -274,6 +279,168 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	/////////////////////////////////////////////
+	// Tests concerning separate details pages.
+	/////////////////////////////////////////////
+
+	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessAllowed() {
+		$this->allowAccess();
+		$this->assertContains(
+			TX_REALTY_OTHER_SINGLE_PID,
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+			)
+		);
+	}
+
+	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			TX_REALTY_OTHER_SINGLE_PID,
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+			)
+		);
+	}
+
+	public function testLinkToSeparateSingleViewPageContainsATagIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			'<a href=',
+			$this->fixture->createLinkToSingleViewPage(
+				'&', 0, TX_REALTY_OTHER_SINGLE_PID
+			)
+		);
+	}
+
+	public function testLinkToSeparateSingleViewPageLinksToLoginPageIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			TX_REALTY_LOGIN_PID,
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+			)
+		);
+	}
+
+	public function testLinkToSeparateSingleViewPageContainsRedirectUrlIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			'redirect_url',
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+			)
+		);
+	}
+
+	public function testLinkToSeparateSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
+		$this->allowAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertNotContains(
+			TX_REALTY_LOGIN_PID,
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+			)
+		);
+	}
+
+	public function testLinkToSeparateSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
+		$this->allowAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertNotContains(
+			'redirect_url',
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+			)
+		);
+	}
+
+
+	/////////////////////////////////////////////
+	// Tests concerning external details pages.
+	/////////////////////////////////////////////
+
+	public function testLinkToExternalSingleViewPageContainsExternalUrlIfAccessAllowed() {
+		$this->allowAccess();
+		$this->assertContains(
+			'http://'.TX_REALTY_EXTERNAL_SINGLE_PAGE,
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
+			)
+		);
+	}
+
+	public function testLinkToExternalSingleViewPageContainsExternalUrlIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			urlencode('http://'.TX_REALTY_EXTERNAL_SINGLE_PAGE),
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
+			)
+		);
+	}
+
+	public function testLinkToExternalSingleViewPageContainsATagIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			'<a href=',
+			$this->fixture->createLinkToSingleViewPage(
+				'&', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
+			)
+		);
+	}
+
+	public function testLinkToExternalSingleViewPageLinksToLoginPageIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			TX_REALTY_LOGIN_PID,
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
+			)
+		);
+	}
+
+	public function testLinkToExternalSingleViewPageContainsRedirectUrlIfAccessDenied() {
+		$this->denyAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertContains(
+			'redirect_url',
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
+			)
+		);
+	}
+
+	public function testLinkToExternalSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
+		$this->allowAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertNotContains(
+			TX_REALTY_LOGIN_PID,
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
+			)
+		);
+	}
+
+	public function testLinkToExternalSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
+		$this->allowAccess();
+		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->assertNotContains(
+			'redirect_url',
+			$this->fixture->createLinkToSingleViewPage(
+				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
+			)
+		);
+	}
+
+
 	///////////////////////
 	// Utility functions.
 	///////////////////////
@@ -315,6 +482,38 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 */
 	private function allowAccess() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+	}
+
+	/**
+	 * Creates dummy FE pages (like login and single view).
+	 */
+	private function createDummyPages() {
+		$pageUids = array(
+				TX_REALTY_LOGIN_PID,
+				TX_REALTY_SINGLE_PID,
+				TX_REALTY_OTHER_SINGLE_PID
+		);
+
+		foreach ($pageUids as $uid) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'pages',
+				array(
+					'uid' => $uid,
+					'pid' => 1,
+					'doktype' => 1
+				)
+			);
+		}
+	}
+
+	/**
+	 * Deletes the dummy FE pages.
+	 */
+	private function deleteDummyPages() {
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'pages',
+			'uid >= '.TX_REALTY_FIRST_PID
+		);
 	}
 }
 
