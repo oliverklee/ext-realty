@@ -691,7 +691,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'title',
 				$tableName,
 				'uid='.$foreignKey
-					.t3lib_pageSelect::enableFields($tableName)
+					.$this->enableFields($tableName)
 			);
 			if ($dbResult && $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
 				$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -1724,6 +1724,55 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->internal['currentRow'] = $currentRow;
+	}
+
+	/**
+	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no
+	 * longer accessible statically.
+	 *
+	 * Returns a part of a WHERE clause which will filter out records with
+	 * start/end times or deleted/hidden/fe_groups fields set to values that
+	 * should de-select them according to the current time, preview settings or
+	 * user login.
+	 * Is using the $TCA arrays "ctrl" part where the key "enablefields"
+	 * determines for each table which of these features applies to that table.
+	 *
+	 * @param	string		table name found in the $TCA array
+	 * @param	integer		If $show_hidden is set (0/1), any hidden-fields in
+	 * 						records are ignored. NOTICE: If you call this function,
+	 * 						consider what to do with the show_hidden parameter.
+	 * 						Maybe it should be set? See tslib_cObj->enableFields
+	 * 						where it's implemented correctly.
+	 * @param	array		Array you can pass where keys can be "disabled",
+	 * 						"starttime", "endtime", "fe_group" (keys from
+	 * 						"enablefields" in TCA) and if set they will make sure
+	 * 						that part of the clause is not added. Thus disables
+	 * 						the specific part of the clause. For previewing etc.
+	 * @param	boolean		If set, enableFields will be applied regardless of
+	 * 						any versioning preview settings which might otherwise
+	 * 						disable enableFields.
+	 * @return	string		the clause starting like " AND ...=... AND ...=..."
+	 *
+	 * @access	protected
+	 */
+	function enableFields($table, $show_hidden = -1, $ignore_array = array(), $noVersionPreview = false) {
+		// We need to use an array as the singleton otherwise won't work.
+		static $pageCache = array();
+
+		if (!$pageCache[0]) {
+			if ($GLOBALS['TSFE'] && $GLOBALS['TSFE']->sys_page) {
+				$pageCache[0] =& $GLOBALS['TSFE']->sys_page;
+			} else {
+				$pageCache[0] = t3lib_div::makeInstance('t3lib_pageSelect');
+			}
+		}
+
+		return $pageCache[0]->enableFields(
+			$table,
+			$show_hidden,
+			$ignore_array,
+			$noVersionPreview
+		);
 	}
 }
 

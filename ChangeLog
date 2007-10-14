@@ -1,3 +1,7 @@
+2007-10-14 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1233] Fix: Don't call enableFields statically
+
 2007-10-11 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1222] Feature: Add a URL field "Separate details page" to the realty object records
