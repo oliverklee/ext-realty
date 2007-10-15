@@ -1112,11 +1112,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$currentImageTag = $this->getImage('galleryThumbnail');
 
 		while (!empty($currentImageTag)) {
-			// create a link for the full-size display of images except for the current image
+			// Creates a link for the full-size display of images except for the current image.
+			// Ensures the possibility to style the current thumbnail seperately in the CSS file.
 			if ($counter != $this->piVars['image']) {
 				$imageTag = $this->pi_linkTP_keepPIvars($currentImageTag, array('image' => $counter), true);
+				$this->setMarkerContent('is_current', '');
 			} else {
 				$imageTag = $currentImageTag;
+				$this->setMarkerContent('is_current', ' current');
 			}
 
 			$this->setMarkerContent('image_thumbnail', $imageTag);

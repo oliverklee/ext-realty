@@ -1,3 +1,7 @@
+2007-10-15 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image
+
 2007-10-14 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1233] Fix: Don't call enableFields statically
