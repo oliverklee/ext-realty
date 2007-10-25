@@ -24,7 +24,7 @@
 
 2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
 
-	* [#67] FIx: In the SQL schema, sanitize some types
+	* [#67] Fix: In the SQL schema, sanitize some types
 
 2007-10-04 Saskia Metzler <saskia@merlin.owl.de>
 
