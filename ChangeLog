@@ -1,3 +1,7 @@
+2007-11-02 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1240] Feature: Make it configurable whether to show the complete address of realty objects in the FE
+
 2007-10-15 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image

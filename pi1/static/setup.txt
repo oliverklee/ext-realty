@@ -67,6 +67,8 @@ plugin.tx_realty_pi1 {
 	recursive = 0
 	# static SQL Filter (will be appended to the WHERE clause using " AND ")
 	staticSqlFilter =
+	# whether the address of a realty object is shown in the FE
+	showAddressOfObjects = 0
 	# name of the DB field to create the search filter checkboxes from
 	checkboxesFilter =
 	# DB fields by which a FE user can sort the list view, stored in a bitfield (see tx_realty_pi1::sortCriteria)

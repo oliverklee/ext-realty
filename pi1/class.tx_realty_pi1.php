@@ -398,6 +398,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->setMarkerContent($key, $this->getFieldContent($key));
 			}
 
+			if (!($this->getConfValueBoolean('showAddressOfObjects'))) {
+				$this->readSubpartsToHide(
+					'street',
+					'field_wrapper');
+			}
+
 			// string stuff that should conditionally be visible
 			foreach (array(
 				'object_number',
