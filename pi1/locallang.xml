@@ -16,6 +16,7 @@
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
+			<label index="realty.pi_flexform.createSummaryStringOfFavorites">Provide an e-mail form with a summary of the current favorites list:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
@@ -87,6 +88,7 @@
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
+			<label index="label_on_favorites_list">Objects on the favorites list:</label>
 			<label index="label_cityselector_head">Search in city</label>
 			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
@@ -120,6 +122,7 @@
 			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Adressen der Objekte im FE anzeigen:</label>
+			<label index="realty.pi_flexform.createSummaryStringOfFavorites">Zusammenfassung des aktuellen Merkzettels in E-Mail-Formular aufnehmen:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
 			<label index="realty.pi_flexform.singlePID">Seite mit der Einzelansicht:</label>
@@ -191,6 +194,7 @@
 			<label index="label_back">Zurück</label>
 			<label index="label_add_to_favorites">Auf den Merkzettel</label>
 			<label index="label_remove_from_favorites">Vom Merkzettel löschen</label>
+			<label index="label_on_favorites_list">Objekte auf dem Merkzettel:</label>
 			<label index="label_cityselector_head">Immobilien-Suche</label>
 			<label index="label_cityselector_description_formal">Wir bieten Ihnen neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
@@ -430,6 +434,7 @@
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
+			<label index="realty.pi_flexform.createSummaryStringOfFavorites" type="integer">184197415</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
@@ -500,6 +505,7 @@
 			<label index="label_back" type="integer">8374236</label>
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
+			<label index="label_on_favorites_list" type="integer">104683823</label>
 			<label index="label_cityselector_head" type="integer">182629236</label>
 			<label index="label_cityselector_description_formal" type="integer">110211522</label>
 			<label index="label_cityselector_description_informal" type="integer">110211522</label>
@@ -740,6 +746,7 @@
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
+			<label index="realty.pi_flexform.createSummaryStringOfFavorites">Provide an e-mail form with a summary of the current favorites list:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
@@ -811,6 +818,7 @@
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
+			<label index="label_on_favorites_list">Objects on the favorites list:</label>
 			<label index="label_cityselector_head">Search in city</label>
 			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>

@@ -108,6 +108,14 @@
 							</config>
 						</TCEforms>
 					</showAddressOfObjects>
+					<createSummaryStringOfFavorites>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.createSummaryStringOfFavorites</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</createSummaryStringOfFavorites>
 					<checkboxesFilter>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.checkboxesFilter</label>

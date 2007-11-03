@@ -1203,7 +1203,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->addToFavorites($this->piVars['favorites']);
 			}
 		}
-		return;
+
+		$this->writeSummaryStringOfFavoritesToSession();
 	}
 
 	/**
@@ -1318,20 +1319,73 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * Before storing, the list of favorites is clear of duplicates.
 	 *
-	 * @param	array		list of UIDs in the favorites list to store, must already be int-safe, may be empty, must not be null
-	 *
-	 * @access	protected
+	 * @param	array		list of UIDs in the favorites list to store, must 
+	 * 						already be int-safe, may be empty
 	 */
-	function storeFavorites($favorites) {
+	public function storeFavorites(array $favorites) {
 		$favoritesString = implode(',', array_unique($favorites));
 
-		if (isset($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user->setKey('ses', $this->favoritesSessionKey, $favoritesString);
+		if (is_object($GLOBALS['TSFE']->fe_user)) {
+			$GLOBALS['TSFE']->fe_user->setKey(
+				'ses',
+				$this->favoritesSessionKey,
+				$favoritesString
+			);
 			$GLOBALS['TSFE']->fe_user->storeSessionData();
 		}
 
 		return;
 	}
+
+	/**
+	 * Creates a formatted string to prefill an e-mail form. The string contains
+	 * the object numbers and titles of the objects on the current favorites list.
+	 * If there are no selected favorites, an empty string is returned.
+	 *
+	 * @return	string		formatted string to use in an e-mail form, may be empty
+	 */
+	 public function createSummaryStringOfFavorites() {
+	 	$summaryStringOfFavorites = '';
+
+	 	$currentFavorites = $this->getFavorites();
+		if ($currentFavorites != '') {
+		 	$table = $this->tableNames['objects'];
+		 	$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'object_number, title',
+				$table,
+				'uid IN ('.$currentFavorites.')'
+					.$this->enableFields($table)
+			);
+
+			if ($dbResult) {
+				$summaryStringOfFavorites = $this->pi_getLL('label_on_favorites_list').chr(10);
+
+				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+					$objectNumber = $row['object_number'];
+					$objectTitle = $row['title'];
+					$summaryStringOfFavorites .= '* '.$objectNumber.' '.$objectTitle.chr(10);
+				}
+			}
+		}
+
+	 	return $summaryStringOfFavorites;
+	 }
+
+	/**
+	 * Writes a formatted string containing object numbers and titles of objects
+	 * on the favorites list to session. Does nothing if this option is not
+	 * enabled in TS setup.
+	 */
+	 public function writeSummaryStringOfFavoritesToSession() {
+	 	if ($this->getConfValueBoolean('createSummaryStringOfFavorites')) {
+		 	$GLOBALS['TSFE']->fe_user->setKey(
+				'ses',
+				'summaryStringOfFavorites',
+				$this->createSummaryStringOfFavorites()
+			);
+			$GLOBALS['TSFE']->fe_user->storeSessionData();
+	 	}
+	 }
 
 	/**
 	 * Gets the selected values of the search checkboxes from

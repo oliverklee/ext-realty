@@ -40,6 +40,8 @@ define('TX_REALTY_FIRST_PID', '100000');
 define('TX_REALTY_SINGLE_PID', '100000');
 define('TX_REALTY_LOGIN_PID', '100001');
 define('TX_REALTY_OTHER_SINGLE_PID', '100002');
+define('TX_REALTY_OBJECT_1', '100000');
+define('TX_REALTY_OBJECT_2', '100001');
 define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
 
 class tx_realty_pi1_testcase extends tx_phpunit_testcase {
@@ -56,6 +58,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
 
+		if (!is_object($GLOBALS['TSFE']->fe_user)) {
+			$GLOBALS['TSFE']->fe_user
+				= t3lib_div::makeInstance('tslib_feUserAuth');
+		}
+
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->cObj = t3lib_div::makeInstance('tslib_cObj');
 		$this->fixture->cObj->start('');
@@ -64,11 +71,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// We expect the single view page to be at page #1.
 		$this->fixture->setConfigurationValue('singlePID', TX_REALTY_SINGLE_PID);
 
+		$this->fixture->storeFavorites(array());
+		
 		$this->createDummyPages();
+		$this->createDummyObjects();
 	}
 
 	public function tearDown() {
 		$this->deleteDummyPages();
+		$this->deleteDummyObjects();
 
 		unset($this->fixture);
 	}
@@ -278,6 +289,91 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
+		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+
+		$this->assertContains(
+			'* 1 foo1'.chr(10),
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+		$this->assertNotContains(
+			'* 2',
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+	}
+
+	public function testCreateSummaryStringOfFavoritesContainsDataFromTwoObjects() {
+		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_2));
+
+		$this->assertContains(
+			'* 1 foo1'.chr(10),
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+		$this->assertContains(
+			'* 2 foo2'.chr(10),
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+	}
+
+	public function testCreateSummaryStringOfFavoritesIsEmptyWithoutData() {
+		$this->assertEquals(
+			'',
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+	}
+
+	public function testWriteSummaryStringOfFavoritesToDatabaseIfFunctionIsEnabled() {
+		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 1);
+
+		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->writeSummaryStringOfFavoritesToSession();
+		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
+				'ses',
+				'summaryStringOfFavorites'
+		);
+		$this->assertContains(
+			'* 1 foo1',
+			$sessionData
+		);
+	}
+
+	public function testWriteSummaryStringOfFavoritesToDatabaseIfFunctionIsDisabled() {
+		$GLOBALS['TSFE']->fe_user->setKey(
+				'ses',
+				'summaryStringOfFavorites',
+				'foo'
+			);
+		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 0);
+		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->writeSummaryStringOfFavoritesToSession();
+		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
+				'ses',
+				'summaryStringOfFavorites'
+		);
+
+		$this->assertEquals(
+			'foo',
+			$sessionData
+		);
+		
+	}
+
+	public function testWriteSummaryStringOfFavoritesToDatabaseIfFeUserIsLoggedIn() {
+		$this->fakeFeUserLogin();
+		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 1);
+
+		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->writeSummaryStringOfFavoritesToSession();
+		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
+				'ses',
+				'summaryStringOfFavorites'
+		);
+		$this->assertContains(
+			'* 1 foo1',
+			$sessionData
+		);
+	}
 
 	/////////////////////////////////////////////
 	// Tests concerning separate details pages.
@@ -449,10 +545,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 * Fakes that a FE user has logged in.
 	 */
 	private function fakeFeUserLogin() {
-		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user
-				= t3lib_div::makeInstance('tslib_feUserAuth');
-		}
 		$GLOBALS['TSFE']->fe_user->createUserSession(array());
 		$GLOBALS['TSFE']->loginUser = 1;
 	}
@@ -513,6 +605,38 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			'pages',
 			'uid >= '.TX_REALTY_FIRST_PID
+		);
+	}
+
+	/**
+	 * Creates dummy realty objects in the DB.
+	 */
+	private function createDummyObjects() {
+		$objectUids = array(
+				TX_REALTY_OBJECT_1,
+				TX_REALTY_OBJECT_2
+		);
+		$objectNumber = 1;
+		foreach ($objectUids as $uid) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_realty_objects',
+				array(
+					'uid' => $uid,
+					'title' => 'foo'.$objectNumber,
+					'object_number' => $objectNumber
+				)
+			);
+			$objectNumber++;
+		}
+	}
+
+	/**
+	 * Deletes all dummy objects from the DB.
+	 */
+	private function deleteDummyObjects() {
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tx_realty_objects',
+			'uid >= '.TX_REALTY_OBJECT_1
 		);
 	}
 }
