@@ -1,4 +1,4 @@
-ToDo list for the "Realty Manager" extension
+To-do list for the "Realty Manager" extension
 --------------------------------------------
 
 - accessibility: change the JavaScript submits to real submit buttons while keeping the design
@@ -8,7 +8,6 @@ ToDo list for the "Realty Manager" extension
 - add fields that might be interesting for shared flats, e.g. smoking
 - implement localization of records
 - clean up list view template code to keep logical structure of code
-- code cleanup: in the SQL schema, sanitize some types
 - code cleanup: make the list view code using the type table
 - code cleanup: move createWhereClause to its own function
 - if the list view has zero results, don't display the table and the result browser at all (just the search box and a paragraph with the message)
@@ -18,7 +17,6 @@ ToDo list for the "Realty Manager" extension
 - make it configurable *whether* to have the page browser
 - make it configurable *where* to have the page browser (top, bottom, both)
 - provide an RSS feed for new objects
-- make the manual render on typo3.org
 - if the gallery is openened in a separate window AND JavaScript is allowed, add a "close this window" link to the gallery
 - move the pagination to oelib
 - make it configurable which fields to show in the miniature table in the list view
@@ -29,4 +27,5 @@ ToDo list for the "Realty Manager" extension
 ToDo list before releasing a new version
 ----------------------------------------
 - delete the example images (all *.jpg) from pi1/images
-- delete all CVS/SVN directories
+- delete all *.xcf files from doc/
+- delete all SVN directories
