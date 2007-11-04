@@ -1,0 +1,94 @@
+plugin.tx_realty_pi1 {
+	# location of the HTML template file
+	templateFile = EXT:realty/pi1/tx_realty_pi1.tpl.htm
+	# location of the CSS file (leave empty to include no CSS file)
+	cssFile = /typo3conf/ext/realty/pi1/tx_realty_pi1.tpl.css
+
+	# whether to use formal or informal language
+	salutation = formal
+
+	# decimal separator
+	decimalSeparator = ,
+	# currency unit
+	currencyUnit = &euro;
+	# format for all dates (as required for strftime)
+	dateFormat = %d.%m.%Y
+
+	# maximum X size of images in the list view
+	listImageMaxX = 98
+	# maximum Y size of images in the list view
+	listImageMaxY = 98
+	# maximum X size of images in the single view
+	singleImageMaxX = 137
+	# maximum Y size of images in the single view
+	singleImageMaxY = 137
+	# maximum X size of the full-sized image in the gallery
+	galleryFullSizeImageX = 600
+	# maximum Y size of the full-sized image in the gallery
+	galleryFullSizeImageY = 600
+	# maximum X size of thumbnails in the gallery
+	galleryThumbnailX = 137
+	# maximum Y size of thumbnails in the gallery
+	galleryThumbnailY = 137
+
+	# ordered, comma-separated list of fields from tx_realty_objects that will be shown in the table in the single view
+	fieldsInSingleViewTable = construction_year,layout,number_of_rooms,living_area,total_area,rent_excluding_bills,extra_charges,heating_included,deposit,provision,usable_from,buying_price,year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,state,balcony,garden,elevator,accessible,assisted_living,fitted_kitchen
+	# ordered, comma-separated list of field names that will be stored in the session when displaying the favorites list, leave empty to disable
+	favoriteFieldsInSession =
+
+	# link target for links to the gallery (leave empty to open in the same window)
+	# note: setting this will break XHTML 1.0 strict compatibility
+	galleryLinkTarget =
+	# name of the gallery pop-up window (in case the pop-up window is enabled)
+	galleryPopupWindowName =
+	# parameters for the gallery pop-up window (leave empty to disable pop-up windows),
+	# e.g. width=600,height=400,resizable=no,toolbar=no,location=no,directories=no,status=no,menubar=no
+	galleryPopupParameters =
+
+	# whether the single view page may only be viewed by logged-in FE users
+	requireLoginForSingleViewPage = 0
+
+	# PID of the page with a login form (only used if requireLoginForDetailsPage is 1)
+	loginPID =
+
+	# PID of the contact page which will be linked from the favorites list
+	# (leave empty to disable this link)
+	contactPID =
+
+
+	##########################################################################
+	# The following variable can also be set using flexforms. Non-empty values
+	# in flexforms override values set via TS.
+	##########################################################################
+
+	# comma-separated list of PIDs that contain the realty records to be displayed
+	pages =
+	# recursion level for the pages list
+	recursive = 0
+	# static SQL Filter (will be appended to the WHERE clause using " AND ")
+	staticSqlFilter =
+	# whether the address of a realty object is shown in the FE
+	showAddressOfObjects = 0
+	# Enable this option by setting this value to 1 if you want to provide an
+	# e-mail form with a brief summary of the current favorites. 
+	createSummaryStringOfFavorites = 0
+	# name of the DB field to create the search filter checkboxes from
+	checkboxesFilter =
+	# DB fields by which a FE user can sort the list view, stored in a bitfield (see tx_realty_pi1::sortCriteria)
+	sortCriteria =
+	# PID of the page for the single view (leave empty to use the same page as the list view)
+	singlePID =
+	# PID of the page with the gallery (leave empty to disable the gallery)
+	galleryPID =
+	# PID of the page with the favorites list
+	favoritesPID =
+	# PID of the target page for the city selector
+	citySelectorTargetPID =
+}
+
+plugin.tx_realty_pi1.listView {
+	results_at_a_time = 10
+	maxPages = 5
+	orderBy = tstamp
+	descFlag = 1
+}
