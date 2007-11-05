@@ -1,7 +1,3 @@
-2007-11-04 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1241] Feature: Add a class/module that can be called via a cron job
-
 2007-11-03 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1238] Feature: Include the object numbers and titles of the objects on the favorites list in an e-mail form
