@@ -28,14 +28,13 @@
  */
 
 class tx_realty_pi1_wizicon {
-
 	/**
 	 * Processing the wizard items array
 	 *
-	 * @param	array		$wizardItems: The wizard items
-	 * @return	Modified array with wizard items
+	 * @param	array		the wizard items
+	 * @return	array		modified array with wizard items
 	 */
-	function proc($wizardItems)	{
+	public function proc(array $wizardItems) {
 		global $LANG;
 
 		$LL = $this->includeLocalLang();
@@ -55,15 +54,13 @@ class tx_realty_pi1_wizicon {
 	 *
 	 * @return	The array with language labels
 	 */
-	function includeLocalLang()	{
+	public function includeLocalLang() {
 		$llFile = t3lib_extMgm::extPath(realty).'locallang.xml';
 		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 
 		return $LOCAL_LANG;
 	}
 }
-
-
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_wizicon.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_wizicon.php']);

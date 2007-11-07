@@ -38,15 +38,15 @@ define('TYPE_BOOLEAN', 2);
 
 class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** same as class name */
-	var $prefixId = 'tx_realty_pi1';
+	public $prefixId = 'tx_realty_pi1';
 	/** path to this script relative to the extension dir */
-	var $scriptRelPath = 'pi1/class.tx_realty_pi1.php';
+	public $scriptRelPath = 'pi1/class.tx_realty_pi1.php';
 	/** the extension key */
-	var $extKey = 'realty';
+	public $extKey = 'realty';
 	/** the upload directory for images */
-	var $uploadDirectory = 'uploads/tx_realty/';
+	private $uploadDirectory = 'uploads/tx_realty/';
 	/** the names of the DB tables for foreign keys */
-	var $tableNames = array(
+	private $tableNames = array(
 		'objects' => 'tx_realty_objects',
 		'city' => 'tx_realty_cities',
 		'district' => 'tx_realty_districts',
@@ -60,18 +60,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'images_relation' => 'tx_realty_objects_images_mm',
 	);
 	/** session key for storing the favorites list */
-	var $favoritesSessionKey = 'tx_realty_favorites';
+	private $favoritesSessionKey = 'tx_realty_favorites';
 	/** session key for storing data of all favorites that currently get displayed */
-	var $favoritesSessionKeyVerbose = 'tx_realty_favorites_verbose';
+	private $favoritesSessionKeyVerbose = 'tx_realty_favorites_verbose';
 
 	/** the data of the currently displayed favorites using the keys [uid][fieldname] */
-	var $favoritesDataVerbose;
+	private $favoritesDataVerbose;
 
 	/**
 	 * Display types of the records fields with the column names as keys.
 	 * These types are used for deciding whether to display or hide a field
 	 */
-	var $fieldTypes = array(
+	private $fieldTypes = array(
 		'object_number' => TYPE_STRING,
 		'object_type' => TYPE_STRING,
 		'title' => TYPE_STRING,
@@ -124,7 +124,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * starting with the lowest bit for the first checkbox.
 	 * We can have up to 10 checkboxes.
 	 */
-	var $sortCriteria = array(
+	private $sortCriteria = array(
 		0x0001 => 'object_number',
 		0x0002 => 'title',
 		0x0004 => 'city',
@@ -136,7 +136,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		0x0100 => 'tstamp',
 	);
 
-	var $pi_checkCHash = true;
+	public $pi_checkCHash = true;
 
 	/**
 	 * Displays the Realty Manager HTML.
@@ -145,10 +145,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	array		TypoScript configuration for the plugin
 	 *
 	 * @return	string		HTML for the plugin
-	 *
-	 * @access	public
 	 */
-	function main($content, $conf)	{
+	public function main($content, array $conf)	{
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
@@ -200,10 +198,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Shows a list of database entries.
 	 *
 	 * @return	string		HTML list of table entries
-	 *
-	 * @access	protected
 	 */
-	function createListView()	{
+	private function createListView()	{
 		$result = '';
 
 		$this->setSubpartContent('list_filter', $this->createCheckboxesFilter());
@@ -265,10 +261,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Initializes the list view, but does not create any actual HTML output.
 	 *
 	 * @return	pointer		the result of a DB query for the realty objects to list (may be null)
-	 *
-	 * @access	protected
 	 */
-	function initListView() {
+	private function initListView() {
 		// local settings for the listView function
 		$lConf = $this->conf['listView.'];
 
@@ -356,10 +350,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML of a single database entry (will be an empty
 	 * 						string in the case of an error) or an error message
 	 * 						with a link to the login page if access is denied
-	 *
-	 * @access	protected
 	 */
-	function createSingleView()	{
+	private function createSingleView()	{
 		$result = '';
 
 		$uid = intval($this->piVars['showUid']);
@@ -441,10 +433,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * DB fields specified via the TS setup variable "fieldsInSingleViewTable"".
 	 *
 	 * @return	boolean		true if at least one row has been filled, false otherwise
-	 *
-	 * @access	protected
 	 */
-	function createOverviewTableInSingleView() {
+	private function createOverviewTableInSingleView() {
 		$result = false;
 
 		$rows = array();
@@ -497,10 +487,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * in TS setup.
 	 *
 	 * @return	string		HTML for the images
-	 *
-	 * @access	protected
 	 */
-	function createImagesInSingleView() {
+	private function createImagesInSingleView() {
 		$result = '';
 
 		$counter = 0;
@@ -522,10 +510,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	integer		Row counter. Starts at 0 (zero). Used for alternating class values in the output rows.
 	 *
 	 * @return	string		HTML output, a table row with a class attribute set (alternative based on odd/even rows)
-	 *
-	 * @access	protected
 	 */
-	function createListRow($rowCounter = 0) {
+	private function createListRow($rowCounter = 0) {
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarkerContent('class_position_in_list', $position);
 
@@ -577,10 +563,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
 	 *
 	 * @return	string		value of the field (may be empty)
-	 *
-	 * @access	protected
 	 */
-	function getFieldContent($key)	{
+	public function getFieldContent($key)	{
 		$result = '';
 
 		switch($key) {
@@ -682,10 +666,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	string		key of the field that contains the foreign key of the table to retrieve.
 	 *
 	 * @return	string		the title of the record with the given UID in the foreign table, may be empty
-	 *
-	 * @access	protected
 	 */
-	function getForeignRecordTitle($key) {
+	private function getForeignRecordTitle($key) {
 		$result = '';
 
 		/** this will be 0 if there is no record entered */
@@ -715,10 +697,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
 	 *
 	 * @return	string		HTML for the number in the field formatted using decimalSeparator and areaUnit from the TS setup, may be an empty string
-	 *
-	 * @access	protected
 	 */
-	function getFormattedArea($key) {
+	private function getFormattedArea($key) {
 		return $this->getFormattedNumber($key, $this->pi_getLL('label_squareMeters'));
 	}
 
@@ -730,10 +710,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
 	 *
 	 * @return	string		HTML for the number in the field formatted using decimalSeparator and currencyUnit from the TS setup, may be an empty string
-	 *
-	 * @access	protected
 	 */
-	function getFormattedCurrency($key) {
+	private function getFormattedCurrency($key) {
 		return $this->getFormattedNumber($key, $this->getConfValueString('currencyUnit'));
 	}
 
@@ -743,12 +721,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the field's value is empty or its intval is zero, an empty string will be returned.
 	 *
 	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
-	 *
 	 * @return	string		HTML for the number in the field formatted using decimalSeparator with $unit appended, may be an empty string
-	 *
-	 * @access	protected
 	 */
-	function getFormattedNumber($key, $unit) {
+	private function getFormattedNumber($key, $unit) {
 		$result = '';
 
 		$rawValue = $this->internal['currentRow'][$key];
@@ -770,10 +745,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @param	string		key of the label to retrieve (the name of a database column), may not be empty
 	 * @param	string		prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
-	 *
-	 * @access	protected
 	 */
-	function removeSubpartIfEmptyInteger($key, $prefix = '') {
+	private function removeSubpartIfEmptyInteger($key, $prefix = '') {
 		if (intval($this->internal['currentRow'][$key]) == 0) {
 			$this->readSubpartsToHide($key, $prefix);
 		}
@@ -789,10 +762,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @param	string		key of the label to retrieve (the name of a database column), may not be empty
 	 * @param	string		prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
-	 *
-	 * @access	protected
 	 */
-	function removeSubpartIfEmptyString($key, $prefix = '') {
+	private function removeSubpartIfEmptyString($key, $prefix = '') {
 		if (empty($this->internal['currentRow'][$key])) {
 			$this->readSubpartsToHide($key, $prefix);
 		}
@@ -808,7 +779,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		comma-separated list of features
 	 */
-	function getFeatureList() {
+	private function getFeatureList() {
 		$features = array();
 
 		// get features described by DB relations
@@ -858,10 +829,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	integer		the number of the image to retrieve (zero-based, may be zero)
 	 *
 	 * @return	string		IMG tag
-	 *
-	 * @access	protected
 	 */
-	function getImage($maxSizeVariable, $offset = 0) {
+	private function getImage($maxSizeVariable, $offset = 0) {
 		$result = '';
 
 		$dbResult = $this->queryForImage($offset);
@@ -900,10 +869,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	integer		the number of the image to retrieve (zero-based, may be zero)
 	 *
 	 * @return	string		IMG tag wrapped in a link (may be empty)
-	 *
-	 * @access	protected
 	 */
-	function getImageLinkedToGallery($maxSizeVariable, $offset = 0) {
+	private function getImageLinkedToGallery($maxSizeVariable, $offset = 0) {
 		$result = $this->getImage($maxSizeVariable, $offset);
 
 		if (!empty($result) && $this->hasConfValueInteger('galleryPID')) {
@@ -941,10 +908,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	integer		the number of the image for which to retrieve the caption (zero-based, may be zero)
 	 *
 	 * @return	string		image caption (may be empty)
-	 *
-	 * @access	protected
 	 */
-	function getImageCaption($offset = 0) {
+	private function getImageCaption($offset = 0) {
 		$result = '';
 
 		$dbResult = $this->queryForImage($offset);
@@ -965,10 +930,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	integer		the number of the image to retrieve (zero-based, may be zero)
 	 *
 	 * @return	pointer		SQL result pointer (may be null)
-	 *
-	 * @access	protected
 	 */
-	function queryForImage($offset = 0) {
+	private function queryForImage($offset = 0) {
 		$where = 'AND '.$this->tableNames['objects'].'.uid='.$this->internal['currentRow']['uid'];
 
 		return $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
@@ -987,10 +950,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Counts the images that are associated with the current record.
 	 *
 	 * @return	integer		the number of images associated with the current record (may be zero)
-	 *
-	 * @access	protected
 	 */
-	function countImages() {
+	private function countImages() {
 		$result = 0;
 		$where = 'uid_local='.$this->internal['currentRow']['uid'];
 
@@ -1016,10 +977,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	string		text used for the alt and title attributes (may be empty)
 	 *
 	 * @return	string		IMG tag
-	 *
-	 * @access	protected
 	 */
-	function createImageTag($filename, $maxSizeVariable, $caption = '') {
+	private function createImageTag($filename, $maxSizeVariable, $caption = '') {
 		$fullPath = $this->uploadDirectory.$filename;
 		$maxWidth = $this->getConfValueInteger($maxSizeVariable.'X');
 		$maxHeight = $this->getConfValueInteger($maxSizeVariable.'Y');
@@ -1033,10 +992,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * message will be displayed instead.
 	 *
 	 * @return	string		HTML of the gallery (will not be empty)
-	 *
-	 * @access	protected
 	 */
-	function createGallery() {
+	private function createGallery() {
 		$result = '';
 		$isOkay = false;
 
@@ -1080,10 +1037,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * The image's size is limited by galleryFullSizeImageX and
 	 * galleryFullSizeImageY in TS setup.
-	 *
-	 * @access	protected
 	 */
-	function createGalleryFullSizeImage() {
+	private function createGalleryFullSizeImage() {
 		$imageTag = $this->getImage('galleryFullSizeImage', $this->piVars['image']);
 
 		$numberOfImages = $this->countImages();
@@ -1108,10 +1063,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * in TS setup.
 	 *
 	 * @return	string		HTML for all thumbnails
-	 *
-	 * @access	protected
 	 */
-	function createGalleryThumbnails() {
+	private function createGalleryThumbnails() {
 		$result = '';
 
 		$counter = 0;
@@ -1142,10 +1095,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates a form for selecting a single city.
 	 *
 	 * @return	string		HTML of the city selector (will not be empty)
-	 *
-	 * @access	protected
 	 */
-	function createCitySelector() {
+	private function createCitySelector() {
 		// set marker for target page of form
 		$this->setMarkerContent('target_url', $this->pi_getPageLink($this->getConfValueInteger('citySelectorTargetPID')));
 
@@ -1192,10 +1143,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Otherwise, these items will get added to the list of favorites.
 	 *
 	 * Please note that $this->piVars['remove'] is expected to already be int-safe.
-	 *
-	 * @access	protected
 	 */
-	function processSubmittedFavorites() {
+	private function processSubmittedFavorites() {
 		if (isset($this->piVars['favorites']) && !empty($this->piVars['favorites'])) {
 			if ($this->piVars['remove']) {
 				$this->removeFromFavorites($this->piVars['favorites']);
@@ -1214,10 +1163,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * because the favorites list serves as a filter merely.
 	 *
 	 * @param	array		list of realty object UIDs to add (will be intvaled by this function), may be empty or even null
-	 *
-	 * @access	protected
 	 */
-	function addToFavorites($itemsToAdd) {
+	public function addToFavorites(array $itemsToAdd) {
 		if ($itemsToAdd) {
 			$favorites = $this->getFavoritesArray();
 
@@ -1236,10 +1183,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * list, they will silently being ignored (no harm done here).
 	 *
 	 * @param	array		list of realty object UIDs to to remove (will be intvaled by this function), may be empty or even null
-	 *
-	 * @access	protected
 	 */
-	function removeFromFavorites($itemsToRemove) {
+	private function removeFromFavorites(array $itemsToRemove) {
 		if ($itemsToRemove) {
 			$favorites = $this->getFavoritesArray();
 
@@ -1269,13 +1214,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		comma-separated list of UIDs of the objects on the favorites list (may be empty)
 	 *
-	 * @access	protected
-	 *
 	 * @see	getFavoritesArray
 	 * @see	addToFavorites
 	 * @see	storeFavorites
 	 */
-	function getFavorites() {
+	private function getFavorites() {
 		$result = '';
 
 		if (isset($GLOBALS['TSFE']->fe_user)) {
@@ -1297,13 +1240,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	array		list of UIDs of the objects on the favorites list (may be empty, but will not be null)
 	 *
-	 * @access	protected
-	 *
 	 * @see	getFavorites
 	 * @see	addToFavorites
 	 * @see	storeFavorites
 	 */
-	function getFavoritesArray() {
+	private function getFavoritesArray() {
 		$result = array();
 
 		$favorites = $this->getFavorites();
@@ -1319,7 +1260,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * Before storing, the list of favorites is clear of duplicates.
 	 *
-	 * @param	array		list of UIDs in the favorites list to store, must 
+	 * @param	array		list of UIDs in the favorites list to store, must
 	 * 						already be int-safe, may be empty
 	 */
 	public function storeFavorites(array $favorites) {
@@ -1392,10 +1333,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * $this->piVars['search'].
 	 *
 	 * @return	array		array of unique, int-safe values from $this->piVars['search'] (may be empty, but not null)
-	 *
-	 * @access	protected
 	 */
-	function getSearchSelection() {
+	private function getSearchSelection() {
 		$result = array();
 
 		if (isset($this->piVars['search'])) {
@@ -1420,10 +1359,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @return	string		htmlspecialchared URL of the page set in $this->getConfValueInteger('favoritesPID'), will not be empty
-	 *
-	 * @access	protected
 	 */
-	function getFavoritesUrl() {
+	private function getFavoritesUrl() {
 		// use "clear the variables anyway, don't cache"
 		return htmlspecialchars($this->pi_linkTP_keepPIvars_url(
 			array(),
@@ -1442,10 +1379,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @return	string		htmlspecialchared URL of the current page, will not be empty
-	 *
-	 * @access	protected
 	 */
-	function getSelfUrl() {
+	private function getSelfUrl() {
 		// use "don't clear the variables, don't cache"
 		return htmlspecialchars($this->pi_linkTP_keepPIvars_url(
 			array(),
@@ -1463,10 +1398,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * results.
 	 *
 	 * @return	string		HTML code for the page browser (may be empty)
-	 *
-	 * @access	protected
 	 */
-	function createPagination() {
+	private function createPagination() {
 		$result = '';
 
 		if ($this->internal['lastPage'] > 0) {
@@ -1499,10 +1432,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates HTML for a list of links to result pages.
 	 *
 	 * @return	string		HTML for the pages list (will not be empty)
-	 *
-	 * @access	protected
 	 */
-	function createPageList() {
+	private function createPageList() {
 		/** how many links to the left and right we want to have at most */
 		$surroundings = round(($this->internal['maxPages'] - 1) / 2);
 
@@ -1527,10 +1458,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	boolean		whether to output the link text nonetheless if $pageNum is the current page
 	 *
 	 * @return	string		HTML code of the link (will be empty if $alsoShowNonLinks is false and the $pageNum is the current page)
-	 *
-	 * @access	protected
 	 */
-	function createPaginationLink($pageNum, $linkText, $alsoShowNonLinks = true) {
+	private function createPaginationLink($pageNum, $linkText, $alsoShowNonLinks = true) {
 		$result = '';
 		$this->setMarkerContent('linktext', $linkText);
 
@@ -1559,10 +1488,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * return an empty string.
 	 *
 	 * @return	string		HTML for the WRAPPER_SORTING subpart
-	 *
-	 * @access	protected
 	 */
-	function createSorting() {
+	private function createSorting() {
 		$result = '';
 
 		// Only have the sort form if at least one sort criteria is selected in the BE.
@@ -1604,10 +1531,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * the BE and $this->piVars['city'] is set (by the city selector).
 	 *
 	 * @return	string		HTML for the search bar (may be empty)
-	 *
-	 * @access	protected
 	 */
-	function createCheckboxesFilter() {
+	private function createCheckboxesFilter() {
 		$result = '';
 
 		// Only have the sort form if at least one sort criteria is selected in the BE.
@@ -1655,10 +1580,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Checks that we are properly initialized.
 	 *
 	 * @return	boolean		true if we are properly initialized, false otherwise
-	 *
-	 * @access	public
 	 */
-	function isInitialized() {
+	public function isInitialized() {
 		return $this->isInitialized;
 	}
 
@@ -1666,10 +1589,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Checks whether a front end user is logged in.
 	 *
 	 * @return	boolean		true if a user is logged in, false otherwise
-	 *
-	 * @access	public
 	 */
-	function isLoggedIn() {
+	public function isLoggedIn() {
 		return ((boolean) $GLOBALS['TSFE'])
 			&& ((boolean) $GLOBALS['TSFE']->loginUser);
 	}
@@ -1682,10 +1603,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	boolean		true if the details page is allowed to be viewed,
 	 * 						false otherwise
-	 *
-	 * @access	public
 	 */
-	function isAccessToSingleViewPageAllowed() {
+	public function isAccessToSingleViewPageAllowed() {
 		return ($this->isLoggedIn()
 			|| !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
 	}
@@ -1697,10 +1616,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @param	string		key of the configuration property to set, must not be empty
 	 * @param	mixed		value of the configuration property, may be empty or zero
-	 *
-	 * @access	public
 	 */
-	function setConfigurationValue($key, $value) {
+	public function setConfigurationValue($key, $value) {
 		if (!is_array($this->conf)) {
 			$this->conf = array();
 		}
@@ -1724,10 +1641,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		link tag, either to the single view page or to the
 	 *						login page
-	 *
-	 * @access	public
 	 */
-	function createLinkToSingleViewPage(
+	public function createLinkToSingleViewPage(
 		$linkText, $uid, $separateSingleViewPage = ''
 	) {
 		$result = '';
@@ -1778,10 +1693,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	array		associative array with the data for the current
 	 * 						row like it could have been retrieved from the DB,
 	 * 						must be neither empty nor null
-	 *
-	 * @access	public
 	 */
-	function setCurrentRow($currentRow) {
+	public function setCurrentRow(array $currentRow) {
 		if (!is_array($this->internal)) {
 			$this->internal = array();
 		}
@@ -1815,10 +1728,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						any versioning preview settings which might otherwise
 	 * 						disable enableFields.
 	 * @return	string		the clause starting like " AND ...=... AND ...=..."
-	 *
-	 * @access	protected
 	 */
-	function enableFields($table, $show_hidden = -1, $ignore_array = array(), $noVersionPreview = false) {
+	private function enableFields($table, $show_hidden = -1, $ignore_array = array(), $noVersionPreview = false) {
 		// We need to use an array as the singleton otherwise won't work.
 		static $pageCache = array();
 
