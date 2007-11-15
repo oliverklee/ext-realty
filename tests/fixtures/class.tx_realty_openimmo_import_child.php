@@ -1,4 +1,3 @@
-#! /usr/bin/php -q
 <?php
 /***************************************************************
 * Copyright notice
@@ -22,42 +21,36 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
- * Class 'tx_realty_cli' for the 'realty' extension.
+ * Class 'tx_realty_openimmo_import_child' for the 'realty' extension.
  *
- * This class provides access via command line interface.
+ * This is mere a class used for unit tests of the 'realty' extension. Don't
+ * use it for any other purpose.
  *
  * @package		TYPO3
  * @subpackage	tx_realty
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-define('TYPO3_cliMode', true);
-define('TYPO3_MOD_PATH', '../typo3conf/ext/realty/cli/');
-$BACK_PATH = '../../../../../';
-$MCONF['name'] = '_CLI_realty';
-
-require_once(__FILE__.'/'.$BACK_PATH.'typo3/init.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openimmo_import.php');
 
-class tx_realty_cli {
-	/**
-	 * The constructor calls the main function of the class for OpenImmo import.
-	 */
-	public function __construct() {
-		$globalConfiguration = unserialize(
-			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-		);
-		$importFolder = $globalConfiguration['importFolder'];
-		$importer = t3lib_div::makeInstance('tx_realty_openimmo_import');
-		echo $importer->importFromZip($importFolder);
+final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
+	public function unifyImportPath($importDirectory) {
+		return parent::unifyImportPath($importDirectory);
+	}
+
+	public function getPathsOfZipsToExtract($importDirectory) {
+		return parent::getPathsOfZipsToExtract($importDirectory);
+	}
+
+	public function getNameForExtractionFolder($pathOfZip) {
+		return parent::getNameForExtractionFolder($pathOfZip);
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/class.tx_realty_cli.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/class.tx_realty_cli.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openimmo_import_child']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/seminars/tests/fixtures/class.tx_realty_openimmo_import_child.php']);
 }
-
-$SOBE = t3lib_div::makeInstance('tx_realty_cli');
 
 ?>

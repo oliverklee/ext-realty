@@ -1,3 +1,7 @@
+2007-11-15 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1242] Feature: Unpack ZIPs
+
 2007-11-07 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1272] Change: Make use of PHP 5 capabilites (type hinting, real access modifiers)

@@ -1,0 +1,2 @@
+# cat=basic; type=string; label=Absolute path of the import folder for OpenImmo records.
+importFolder =
