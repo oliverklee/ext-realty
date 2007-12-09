@@ -747,36 +747,17 @@ $TCA['tx_realty_objects'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.images',
 			'config' => array(
-				'type' => 'select',
+				'type'=> 'inline',
 				'foreign_table' => 'tx_realty_images',
-				'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### ORDER BY tx_realty_images.uid',
-				'size' => 5,
 				'minitems' => 0,
 				'maxitems' => 99,
-				'MM' => 'tx_realty_objects_images_mm',
-				'wizards' => array(
-					'_PADDING' => 2,
-					'_VERTICAL' => 1,
-					'add' => array(
-						'type' => 'script',
-						'title' => 'Create new record',
-						'icon' => 'add.gif',
-						'params' => array(
-							'table'=>'tx_realty_images',
-							'pid' => '###CURRENT_PID###',
-							'setValue' => 'prepend'
-						),
-						'script' => 'wizard_add.php'
-					),
-					'edit' => array(
-						'type' => 'popup',
-						'title' => 'Edit',
-						'script' => 'wizard_edit.php',
-						'popup_onlyOpenIfSelected' => 1,
-						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
+				'appearance' => array(
+					'collapseAll' => 1,
+					'expandSingle' => 1,
+					'newRecordLinkAddTitle' => 1,
+					'newRecordLinkPosition' => 'bottom',
+				),
+				'MM' => 'tx_realty_objects_images_mm'
 			)
 		)
 	),
