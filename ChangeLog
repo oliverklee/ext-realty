@@ -1,3 +1,7 @@
+2007-12-10 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1227] Change: replace entities for square meters
+
 2007-12-09 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#876] Feature: Use IRRE for managing image records within realty objects
