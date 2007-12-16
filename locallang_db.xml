@@ -58,6 +58,13 @@
 			<label index="tx_realty_objects.details_page">Separate page for the details view for this object</label>
 			<label index="tx_realty_objects.images">Images</label>
 			<label index="tx_realty_objects.tstamp">Last changed</label>
+			<label index="tx_realty_objects.employer">Employer</label>
+			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
+			<label index="tx_realty_objects.openimmo_obid">&quot;OpenImmo-OBID&quot;</label>
+			<label index="tx_realty_objects.utilization">Utilization</label>
+			<label index="tx_realty_objects.action">Action</label>
+			<label index="tx_realty_objects.contact_person">Contact person</label>
+			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
 			<label index="tx_realty_apartment_types.title">Title</label>
 			<label index="tx_realty_house_types">House type</label>
@@ -130,6 +137,13 @@
 			<label index="tx_realty_objects.details_page">Separate Seite für die Detailansicht dieses Objektes</label>
 			<label index="tx_realty_objects.images">Bilder</label>
 			<label index="tx_realty_objects.tstamp">Änderungsdatum</label>
+			<label index="tx_realty_objects.employer">Firma</label>
+			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
+			<label index="tx_realty_objects.openimmo_obid">&quot;OpenImmo-OBID&quot;</label>
+			<label index="tx_realty_objects.utilization">Nutzungsart</label>
+			<label index="tx_realty_objects.action">Aktion</label>
+			<label index="tx_realty_objects.contact_person">Kontaktperson</label>
+			<label index="tx_realty_objects.contact_email">Kontakt-E-Mail</label>
 			<label index="tx_realty_apartment_types">Wohnungstyp</label>
 			<label index="tx_realty_apartment_types.title">Titel</label>
 			<label index="tx_realty_house_types">Haustyp</label>
@@ -204,6 +218,13 @@
 			<label index="tx_realty_objects.details_page" type="integer">265680266</label>
 			<label index="tx_realty_objects.images" type="integer">268373344</label>
 			<label index="tx_realty_objects.tstamp" type="integer">68135228</label>
+			<label index="tx_realty_objects.employer" type="integer">158221070</label>
+			<label index="tx_realty_objects.openimmo_anid" type="integer">252752095</label>
+			<label index="tx_realty_objects.openimmo_obid" type="integer">56450947</label>
+			<label index="tx_realty_objects.utilization" type="integer">175992354</label>
+			<label index="tx_realty_objects.action" type="integer">311148</label>
+			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
+			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
 			<label index="tx_realty_apartment_types" type="integer">220566396</label>
 			<label index="tx_realty_apartment_types.title" type="integer">192455458</label>
 			<label index="tx_realty_house_types" type="integer">11148572</label>
@@ -278,6 +299,13 @@
 			<label index="tx_realty_objects.details_page">Separate page for the details view for this object</label>
 			<label index="tx_realty_objects.images">Images</label>
 			<label index="tx_realty_objects.tstamp">Last changed</label>
+			<label index="tx_realty_objects.employer">Employer</label>
+			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
+			<label index="tx_realty_objects.openimmo_obid">&quot;OpenImmo-OBID&quot;</label>
+			<label index="tx_realty_objects.utilization">Utilization</label>
+			<label index="tx_realty_objects.action">Action</label>
+			<label index="tx_realty_objects.contact_person">Contact person</label>
+			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
 			<label index="tx_realty_apartment_types.title">Title</label>
 			<label index="tx_realty_house_types">House type</label>

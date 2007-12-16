@@ -81,6 +81,13 @@ CREATE TABLE tx_realty_objects (
 	misc text NOT NULL,
 	details_page tinytext,
 	images int(11) DEFAULT '0' NOT NULL,
+	employer text NOT NULL, 
+	openimmo_anid text NOT NULL,
+	openimmo_obid text NOT NULL,
+	utilization text NOT NULL,
+	action text NOT NULL,
+	contact_person text NOT NULL,
+	contact_email text NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
