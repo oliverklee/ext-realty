@@ -1,3 +1,7 @@
+2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1384] Change: Require PHP 5.1
+
 2007-12-16 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1275] Feature: Create a class (model) that represents a realty object
