@@ -1,2 +1,16 @@
-# cat=basic; type=string; label=Absolute path of the import folder for OpenImmo records.
+# cat=basic; type=string; label=Language for CLI mode:Use the ISO 639-1 code.
+cliLanguage = en
+# cat=basic; type=string; label=Import folder:Absolute path of the directory that contains the OpenImmo ZIP files.
 importFolder =
+# cat=basic; type=string; label=Schema File:Absolute path of the validation schema for OpenImmo records.
+openImmoSchemaFile =
+# cat=basic; type=integer; label=SysFolder PID:Page ID of SysFolder where new records get stored.
+pidForOpenImmoRecords =
+# cat=basic; type=string; label=E-mail address:Default e-mail address which receives the log. Leave empty to disable the sending of e-mails.
+emailAddress =
+# cat=basic; type=boolean; label=Only Errors:Receive e-mails only in case errors have occured.
+onlyErrors = 0
+# cat=basic; type=string; label=E-mail template:Path of the template file for the e-mail look. Needs to start with EXT:.
+emailTemplate = EXT:realty/lib/tx_realty_email_notification.tmpl
+# cat=basic; type=boolean; label=Ignore validation results:Try to import realty data despite validation errors.
+ignoreValidation = 0

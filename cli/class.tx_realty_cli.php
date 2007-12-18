@@ -34,6 +34,8 @@
 
 define('TYPO3_cliMode', true);
 define('TYPO3_MOD_PATH', '../typo3conf/ext/realty/cli/');
+// Disable the following line if you need access to the cli script via browser.
+define('PATH_thisScript', $_SERVER['argv'][0]);
 $BACK_PATH = '../../../../../';
 $MCONF['name'] = '_CLI_realty';
 
@@ -49,8 +51,10 @@ class tx_realty_cli {
 			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
 		);
 		$importFolder = $globalConfiguration['importFolder'];
+		$schemaFile = $globalConfiguration['openImmoSchemaFile'];
+		$language = $globalConfiguration['cliLanguage'];
 		$importer = t3lib_div::makeInstance('tx_realty_openimmo_import');
-		echo $importer->importFromZip($importFolder);
+		echo $importer->importFromZip($importFolder, $schemaFile, $language);
 	}
 }
 

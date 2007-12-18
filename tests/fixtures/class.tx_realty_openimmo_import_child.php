@@ -47,10 +47,75 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 	public function getNameForExtractionFolder($pathOfZip) {
 		return parent::getNameForExtractionFolder($pathOfZip);
 	}
+
+	public function getPathForXml($pathOfZip) {
+		return parent::getPathForXml($pathOfZip);
+	}
+
+	public function loadXmlFile($pathOfZip) {
+		return parent::loadXmlFile($pathOfZip);
+	}
+
+	public function writeToDatabase($domDocument) {
+		return parent::writeToDatabase($domDocument, 'string');
+	}
+
+	public function setSchemaFile($pathToSchemaFile) {
+		return parent::setSchemaFile($pathToSchemaFile);
+	}
+
+	public function getImportedXml() {
+		return parent::getImportedXml();
+	}
+
+	public function getRequiredFields() {
+		return parent::getRequiredFields();
+	}
+
+	public function setRequiredFields($fields) {
+		return parent::setRequiredFields($fields);
+	}
+
+	public function ensureContactEmail() {
+		return parent::ensureContactEmail();
+	}
+
+	public function prepareEmails($emailData) {
+		return parent::prepareEmails($emailData);
+	}
+
+	public function findContactEmails($pathOfZip) {
+		return parent::findContactEmails($pathOfZip);
+	}
+
+	public function getContactEmailFromRealtyObject() {
+		return parent::getContactEmailFromRealtyObject();
+	}
+
+	public function loadRealtyObject($data) {
+		return parent::loadRealtyObject($data);
+	}
+
+	public function defaultEmailAddress() {
+		return parent::defaultEmailAddress();
+	}
+
+	public function convertDomDocumentToArray($domDocument) {
+		return parent::convertDomDocumentToArray($domDocument, 'string');
+	}
+
+	/**
+	 * To ensure static test conditions, the redefinition of this function
+	 * always returns false. In tx_realty_openimmo_import, it returns a boolean
+	 * value from the global configuration.
+	 */
+	public function ignoreValidation() {
+		return false;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openimmo_import_child']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/seminars/tests/fixtures/class.tx_realty_openimmo_import_child.php']);
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openimmo_import_child.php']);
 }
 
 ?>
