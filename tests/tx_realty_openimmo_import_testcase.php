@@ -642,11 +642,11 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 				if ($row) {
 					$newAutoIncrementValue = $row['uid'] + 1;
+					$GLOBALS['TYPO3_DB']->sql_query(
+						'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
+					);
 				}
 			}
-			$GLOBALS['TYPO3_DB']->sql_query(
-				'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
-			);
 		}
 	}
 }
