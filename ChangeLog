@@ -1,5 +1,9 @@
 2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
 
+	* [#1232] Fix: Make the Realty Manager work with oelib > 0.3.0
+
+2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
+
 	* [#1384] Change: Require PHP 5.1
 
 2007-12-16 Saskia Metzler <saskia@merlin.owl.de>
