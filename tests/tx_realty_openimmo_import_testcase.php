@@ -33,6 +33,8 @@ require_once(t3lib_extMgm::extPath('realty')
 	.'tests/fixtures/class.tx_realty_openimmo_import_child.php');
 
 define('REALTY_IMPORT_FOLDER', '/tmp/tx_realty_fixtures/');
+define('DUMMY_PAGE_UID', 100000);
+define('DUMMY_PAGE_CONTENT_UID', 100001);
 
 class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	private $fixture;
@@ -47,10 +49,15 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			.'/tests/fixtures/tx_realty_fixtures/ /tmp/'
 		);
 		$this->fixture = new tx_realty_openimmo_import_child();
+
+		$this->createDummyPages();
 	}
 
 	public function tearDown() {
 		unset($this->fixture);
+
+		$this->deleteDummyPages();
+		$this->resetAutoIncrement();
 
 		// remove test folder from /tmp/
 		exec('rm -rf '.REALTY_IMPORT_FOLDER);
@@ -535,6 +542,112 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			array('bar'),
 			$this->fixture->findContactEmails(REALTY_IMPORT_FOLDER.'email.zip')
 		);
+	}
+
+	public function testCreateDummyCachePage() {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'page_id',
+			'cache_pages',
+			''
+		);
+		$allPageIds = array();
+		if ($dbResult) {
+			while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+				$allPageIds[] = $dbResultRow['page_id'];
+			}
+		}
+
+		$this->assertTrue(
+			in_array(DUMMY_PAGE_UID, $allPageIds)
+		);
+	}
+
+	public function testClearFeCacheDeletesCashedPage() {
+		$this->fixture->clearFeCache();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'page_id',
+			'cache_pages',
+			''
+		);
+		$allPageIds = array();
+		if ($dbResult) {
+			while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+				$allPageIds[] = $dbResultRow['page_id'];
+			}
+		}
+
+		$this->assertFalse(
+			in_array(DUMMY_PAGE_UID, $allPageIds)
+		);
+	}
+
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Creates dummy pages.
+	 */
+	private function createDummyPages() {
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'pages',
+			array('uid' => DUMMY_PAGE_UID)
+		);
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'tt_content',
+			array(
+				'uid' => DUMMY_CONTENT_PAGE_UID,
+				'pid' => DUMMY_PAGE_UID,
+				'list_type' => 'realty_pi1'
+			)
+		);
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'cache_pages',
+			array(
+				'page_id' => DUMMY_PAGE_UID
+			)
+		);
+	}
+
+	/**
+	 * Deletes dummy pages.
+	 */
+	private function deleteDummyPages() {
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'pages',
+			'uid ='.DUMMY_PAGE_UID
+		);
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'tt_content',
+			'uid ='.DUMMY_PAGE_CONTENT_UID
+		);
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'cache_pages',
+			'page_id ='.DUMMY_PAGE_UID
+		);
+	}
+
+	/**
+	 * Resets the auto increment value for the tables 'pages' and 'tt_content'
+	 * to the highest existing UID + 1. This is required to leave the table in
+	 * the same status that it had before adding dummy records.
+	 */
+	private function resetAutoIncrement() {
+		foreach (array('pages', 'tt_content') as $table) {
+			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+				'SELECT MAX(uid) AS uid FROM '.$table.';'
+			);
+			if ($dbResult) {
+				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+				if ($row) {
+					$newAutoIncrementValue = $row['uid'] + 1;
+				}
+			}
+			$GLOBALS['TYPO3_DB']->sql_query(
+				'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
+			);
+		}
 	}
 }
 

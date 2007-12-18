@@ -178,6 +178,8 @@ class tx_realty_openimmo_import {
 		}
 
 		$this->cleanUp($checkedImportDirectory);
+		$this->clearFeCache();
+
 		$this->storeLogsAndClearTemporaryLog();
 
 		return $this->logEntry;
@@ -893,6 +895,22 @@ class tx_realty_openimmo_import {
 					$image,
 					PATH_site.$uploadFolder.basename($image)
 				);
+			}
+		}
+	}
+
+	/**
+	 * Clears the FE cache of the pages which contain the realty plugin.
+	 */
+	protected function clearFeCache() {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tt_content',
+			'list_type = "realty_pi1"'
+		);
+		if ($dbResult) {
+			while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+				t3lib_TCEmain::clear_cacheCmd(intval($dbResultRow['pid']));
 			}
 		}
 	}
