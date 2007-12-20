@@ -40,16 +40,12 @@ final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_
 		parent::addElementToArray($arrayToExpand, $keyToInsert, $valueToInsert);
 	}
 
-	public function createRecordsForImages($domElementAnhang) {
-		return parent::createRecordsForImages($domElementAnhang);
+	public function createRecordsForImages() {
+		return parent::createRecordsForImages();
 	}
 
-	public function findFirstChild($domnode, $nameOfChild) {
-		return parent::findFirstChild($domnode, $nameOfChild);
-	}
-
-	public function findFirstGrandchild($domnode, $nameOfChild, $nameOfGrandchild) {
-		return parent::findFirstGrandchild($domnode, $nameOfChild, $nameOfGrandchild);
+	public function findFirstGrandchild($nameOfChild, $nameOfGrandchild) {
+		return parent::findFirstGrandchild($nameOfChild, $nameOfGrandchild);
 	}
 
 	public function fetchDomAttributes($nodeWithAttributes) {
@@ -60,8 +56,8 @@ final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_
 		return parent::getNodeName($domNode);
 	}
 
-	public function isolateRealtyRecords(DOMNode $rawDomDocument) {
-		return parent::isolateRealtyRecords($rawDomDocument);
+	public function loadRawRealtyData($rawRealtyData) {
+		return parent::loadRawRealtyData($rawRealtyData);
 	}
 }
 

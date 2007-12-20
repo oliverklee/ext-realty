@@ -41,36 +41,23 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		unset($this->fixture);
 	}
 
-	public function testFindFirstChildReturnsChildIfExists() {
-		$parent = new DOMDocument();
-		$child = $parent->appendChild(
-			$parent->createElement('child', 'foo')
-		);
-		$result = $this->fixture->findFirstChild($parent, 'child');
-
-		$this->assertEquals(
-			$result->nodeValue,
-			'foo'
-		);
-	}
-
-	public function testFindFirstChildReturnsNullIfChildNotExists() {
-		$parent = new DOMDocument();
-
-		$this->assertNull(
-			$this->fixture->findFirstChild($parent, 'child')
-		);
-	}
-
 	public function testFindFirstGrandchildReturnsGrandchildIfExists() {
-		$parent = new DOMDocument();
+		$node = new DOMDocument();
+		$parent = $node->appendChild(
+			$node->createElement('immobilie')
+		);
 		$child = $parent->appendChild(
-			$parent->createElement('child')
+			$node->createElement('child')
 		);
 		$grandchild = $child->appendChild(
-			$parent->createElement('grandchild', 'foo')
+			$node->createElement('grandchild', 'foo')
 		);
-		$result = $this->fixture->findFirstGrandchild($parent, 'child', 'grandchild');
+		$this->fixture->loadRawRealtyData($node);
+
+		$result = $this->fixture->findFirstGrandchild(
+			'child',
+			'grandchild'
+		);
 
 		$this->assertEquals(
 			$result->nodeValue,
@@ -79,21 +66,29 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFindFirstGrandchildReturnsNullIfGrandchildNotExists() {
-		$parent = new DOMDocument();
-		$child = $parent->appendChild(
-			$parent->createElement('child')
+		$node = new DOMDocument();
+		$parent = $node->appendChild(
+			$node->createElement('immobilie')
 		);
+		$child = $parent->appendChild(
+			$node->createElement('child')
+		);
+		$this->fixture->loadRawRealtyData($node);
 
 		$this->assertNull(
-			$this->fixture->findFirstGrandchild($parent, 'child', 'grandchild')
+			$this->fixture->findFirstGrandchild('child', 'grandchild')
 		);
 	}
 
 	public function testFindFirstGrandchildReturnsNullIfGivenDomnodeIsEmpty() {
-		$parent = new DOMDocument();
+		$node = new DOMDocument();
+		$parent = $node->appendChild(
+			$node->createElement('immobilie')
+		);
+		$this->fixture->loadRawRealtyData($node);
 
 		$this->assertNull(
-			$this->fixture->findFirstGrandchild($parent, 'child', 'grandchild')
+			$this->fixture->findFirstGrandchild('child', 'grandchild')
 		);
 	}
 
@@ -143,121 +138,71 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsolateRealtyRecordsWhenNoRealtyRecordGiven() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
+	public function testGetConvertedDataWhenSeveralRecordsGiven() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie/>'
+					.'<immobilie/>'
+					.'<immobilie/>'
+					.'<immobilie/>'
+				.'</anbieter>'
+			.'</openimmo>'
 		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-
-		$this->assertEquals(
-			$this->fixture->isolateRealtyRecords($node),
-			array()
-		);
-	}
-
-	public function testIsolateRealtyRecordsWhenOneRealtyRecordGiven() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
-		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-		$realtyOne = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-
-		$result = $this->fixture->isolateRealtyRecords($node);
-
-		$this->assertEquals(
-			$result[0]->nodeName,
-			'immobilie'
-		);
-	}
-
-	public function testIsolateRealtyRecordsWhenTwoRealtyRecordsGiven() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
-		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-		$realtyOne = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$realtyTwo = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-
-		$result = $this->fixture->isolateRealtyRecords($node);
-
-		$this->assertEquals(
-			$result[0]->nodeName,
-			'immobilie'
-		);
-
-		$this->assertEquals(
-			$result[1]->nodeName,
-			'immobilie'
-		);
-	}
-
-	public function testGetConvertedDataWhenSeveralRecordsAreGiven() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
-		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-		$realtyOne = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$realtyTwo = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$realtyThree = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$realtyFour = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
+		$this->fixture->loadRawRealtyData($node);
 
 		$this->assertEquals(
 			array(
 				array(),
 				array(),
 				array(),
-				array(),
+				array()
+			),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataWhenSeveralRecordsWithContainContent() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<geo>'
+							.'<strasse>bar</strasse>'
+							.'<plz>bar</plz>'
+						.'</geo>'
+					.'</immobilie>'
+					.'<immobilie>'
+						.'<geo>'
+							.'<strasse>foo</strasse>'
+						.'</geo>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->loadRawRealtyData($node);
+
+		$this->assertEquals(
+			array(
+				array('street' => 'bar', 'zip' => 'bar'),
+				array('street' => 'foo'),
 			),
 			$this->fixture->getConvertedData($node)
 		);
 	}
 
 	public function testGetConvertedDataReturnsUniversalDataInEachRecord() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<firma>foo</firma>'
+					.'<openimmo_anid>bar</openimmo_anid>'
+					.'<immobilie/>'
+					.'<immobilie/>'
+				.'</anbieter>'
+			.'</openimmo>'
 		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-		$employer = $vendor->appendChild(
-			$node->createElement('firma', 'foo')
-		);
-		$anid = $vendor->appendChild(
-			$node->createElement('openimmo_anid', 'bar')
-		);
-		$realtyOne = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$immobilieTwo = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
+		$this->fixture->loadRawRealtyData($node);
 
 		$supposedResult = array(
 			'employer' => 'foo',
@@ -277,128 +222,145 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConvertedDataWhenSeveralPropertiesAreGiven() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<geo>'
+							.'<strasse>foobar</strasse>'
+							.'<plz>bar</plz>'
+						.'</geo>'
+						.'<freitexte>'
+							.'<lage>foo</lage>'
+						.'</freitexte>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
 		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-		$realty = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$geography = $realty->appendChild(
-			$node->createElement('geo')
-		);
-		$street = $geography->appendChild(
-			$node->createElement('strasse', 'foobar')
-		);
-		$zip = $geography->appendChild(
-			$node->createElement('plz', 'bar')
-		);
-		$texts = $realty->appendChild(
-			$node->createElement('freitexte')
-		);
-		$location =  $texts->appendChild(
-			$node->createElement('lage', 'foo')
-		);
-		$realResult = $this->fixture->getConvertedData($node);
-		$supposedResult = array(
+		$this->fixture->loadRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
 			array(
-			'street' => 'foobar',
-			'zip' => 'bar',
-			'location' => 'foo'
+				array(
+					'street' => 'foobar',
+					'zip' => 'bar',
+					'location' => 'foo'
+				)
 			)
 		);
+	}
 
-		ksort($realResult[0]);
-		ksort($supposedResult[0]);
-		$this->assertEquals(
-			$realResult,
-			$supposedResult
+	public function testGetConvertedDataSetsPetsTitle() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<verwaltung_objekt>'
+							.'<haustiere>true</haustiere>'
+						.'</verwaltung_objekt>'
+					.'</immobilie>'
+					.'<immobilie>'
+						.'<verwaltung_objekt>'
+							.'<haustiere>0</haustiere>'
+						.'</verwaltung_objekt>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->loadRawRealtyData($node);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertTrue(
+			is_array($result)
+		);
+		$this->assertFalse(
+			$result[0]['pets'] == 'true'
+		);
+		$this->assertFalse(
+			$result[1]['pets'] === 0
 		);
 	}
 
-	public function testGetConvertedDataFetchesInnenCourtage() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
+	public function testGetConvertedDataFetchesAltenativeContactEmail() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<kontaktperson>'
+							.'<email_direkt>foo</email_direkt>'
+						.'</kontaktperson>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
 		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-		$realty = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$costs = $realty->appendChild(
-			$node->createElement('preise')
-		);
-		$innenCourtage = $costs->appendChild(
-			$node->createElement('innen_courtage', '1')
-		);
+		$this->fixture->loadRawRealtyData($node);
+
 
 		$this->assertEquals(
-			array(array('provision' => '1')),
-			$this->fixture->getConvertedData($node)
+			$this->fixture->getConvertedData($node),
+			array(array('contact_email' => 'foo'))
 		);
 	}
 
-	public function testGetConvertedDataFetchesTotalCourtage() {
-		$node = new DOMDocument();
-		$openimmo = $node->appendChild(
-			$node->createElement('openimmo')
+	public function testGetConvertedDataReplacesBooleanStringsWithTrueBooleans() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<geo>'
+							.'<strasse>true</strasse>'
+							.'<plz>false</plz>'
+						.'</geo>'
+						.'<freitexte>'
+							.'<lage>TRUE</lage>'
+						.'</freitexte>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
 		);
-		$vendor = $openimmo->appendChild(
-			$node->createElement('anbieter')
-		);
-		$realty = $vendor->appendChild(
-			$node->createElement('immobilie')
-		);
-		$costs = $realty->appendChild(
-			$node->createElement('preise')
-		);
-		$innenCourtage = $costs->appendChild(
-			$node->createElement('innen_courtage', '1')
-		);
-		$secondCourtage = $costs->appendChild(
-			$node->createElement('aussen_courtage', '1')
-		);
+		$this->fixture->loadRawRealtyData($node);
 
 		$this->assertEquals(
-			array(array('provision' => '2')),
-			$this->fixture->getConvertedData($node)
+			$this->fixture->getConvertedData($node),
+			array(
+				array(
+					'street' => 1,
+					'zip' => 0,
+					'location' => 1
+				)
+			)
 		);
 	}
 
 	public function testCreateRecordsForImagesIfNodeWithoutImagePathGiven() {
-		$node = new DOMDocument();
-		$appendix = $node->appendChild(
-			$node->createElement('anhang')
+		$node = DOMDocument::loadXML(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>foo</anhangtitel>'
+				.'</anhang>'
+			.'</immobilie>'
 		);
-		$appendixTitle = $appendix->appendChild(
-			$node->createElement('anhangtitel', 'foo')
-		);
+		$this->fixture->loadRawRealtyData($node);
 
 		$this->assertEquals(
 			array(),
-			$this->fixture->createRecordsForImages($node)
+			$this->fixture->createRecordsForImages()
 		);
 	}
 
 	public function testCreateRecordsForImagesIfNodeOneImagePathGiven() {
-		$node = new DOMDocument();
-		$appendix = $node->appendChild(
-			$node->createElement('anhang')
+		$node = DOMDocument::loadXML(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>foo</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
 		);
-		$appendixTitle = $appendix->appendChild(
-			$node->createElement('anhangtitel', 'bar')
-		);
-		$data = $appendix->appendChild(
-			$node->createElement('daten')
-		);
-		$path = $data->appendChild(
-			$node->createElement('pfad', 'foo')
-		);
+		$this->fixture->loadRawRealtyData($node);
 
 		$this->assertEquals(
 			array(
@@ -407,39 +369,30 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 					'image' => 'foo'
 				)
 			),
-			$this->fixture->createRecordsForImages($node)
+			$this->fixture->createRecordsForImages()
 		);
 	}
 
 	public function testCreateRecordsForImagesIfNodeTwoImagePathsGiven() {
-		$node = new DOMDocument();
-		$appendix = $node->appendChild(
-			$node->createElement('anhang')
+		$node = DOMDocument::loadXML(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>bar</pfad>'
+					.'</daten>'
+				.'</anhang>'
+				.' <anhang>'
+					.'<anhangtitel>foo</anhangtitel>'
+					.'<daten>'
+						.'<pfad>foo</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
 		);
-		$appendixTitle = $appendix->appendChild(
-			$node->createElement('anhangtitel', 'bar')
-		);
-		$data = $appendix->appendChild(
-			$node->createElement('daten')
-		);
-		$path = $data->appendChild(
-			$node->createElement('pfad', 'bar')
-		);
-		$appendix = $node->appendChild(
-			$node->createElement('anhang')
-		);
-		$appendixTitle = $appendix->appendChild(
-			$node->createElement('anhangtitel', 'foo')
-		);
-		$data = $appendix->appendChild(
-			$node->createElement('daten')
-		);
-		$path = $data->appendChild(
-			$node->createElement('pfad', 'foo')
-		);
+		$this->fixture->loadRawRealtyData($node);
 
-		$images = $this->fixture->createRecordsForImages($node);
-
+		$images = $this->fixture->createRecordsForImages();
 		$this->assertEquals(
 			array(
 				'caption' => 'bar',
@@ -453,6 +406,34 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				'image' => 'foo'
 			),
 			$images[1]
+		);
+	}
+
+	public function testCreateRecordsForImagesOfTwoRealtyObjectsInOneFile() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<immobilie>'
+					.'<anhang>'
+						.'<anhangtitel>bar</anhangtitel>'
+						.'<daten>'
+							.'<pfad>bar</pfad>'
+						.'</daten>'
+					.'</anhang>'
+				.'</immobilie>'
+				.'<immobilie>'
+					.' <anhang>'
+						.'<anhangtitel>foo</anhangtitel>'
+						.'<daten>'
+							.'<pfad>foo</pfad>'
+						.'</daten>'
+					.'</anhang>'
+				.'</immobilie>'
+			.'</openimmo>'
+		);
+		$this->fixture->loadRawRealtyData($node);
+
+		$this->assertTrue(
+			count($this->fixture->createRecordsForImages()) == 1
 		);
 	}
 

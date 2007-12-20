@@ -27,6 +27,8 @@
 			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
 			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
 			<label index="label_object_number">Object Number</label>
+			<label index="label_allowed">Allowed</label>
+			<label index="label_not_allowed">Unwelcome</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="message_no_zips">Es wurden keine ZIP-Archive im Import Ordner gefunden. Überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</label>
@@ -48,6 +50,8 @@
 			<label index="message_introduction">Hier ist das Ergebnis des letzen Imports Ihrer OpenImmo Datensätze.</label>
 			<label index="message_explanation">Sie erhalten diese E-Mail, weil Sie die Kotaktperson für die oben genannten Immobilien sind.</label>
 			<label index="label_object_number">Objekt Nummer</label>
+			<label index="label_allowed">Erlaubt</label>
+			<label index="label_not_allowed">Unerwünscht</label>
 		</languageKey>
 	</data>
 	<orig_hash type="array">
@@ -71,6 +75,8 @@
 			<label index="message_introduction" type="integer">254777339</label>
 			<label index="message_explanation" type="integer">205777286</label>
 			<label index="label_object_number" type="integer">180539649</label>
+			<label index="label_allowed" type="integer">196476508</label>
+			<label index="label_not_allowed" type="integer">95428607</label>
 		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
@@ -94,6 +100,8 @@
 			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
 			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
 			<label index="label_object_number">Object Number</label>
+			<label index="label_allowed">Allowed</label>
+			<label index="label_not_allowed">Unwelcome</label>
 		</languageKey>
 	</orig_text>
 </T3locallang>

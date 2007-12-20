@@ -155,12 +155,13 @@ class tx_realty_object {
 	protected function loadDatabaseEntry($uid) {
 		$dbResultArray = array();
 
-		if ($this->uidExistsInDatabase($uid)) {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'*',
-				'tx_realty_objects',
-				'uid='.$uid
-			);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'*',
+			'tx_realty_objects',
+			'uid='.$uid
+		);
+
+		if ($dbResult) {
 			$dbResultArray = $this->fetchDatabaseResult($dbResult);
 		}
 
@@ -654,19 +655,6 @@ class tx_realty_object {
 		}
 
 		return $recordExists;
-	}
-
-	/**
-	 * Checks whether a record with a certain UID exists in the database table
-	 * 'tx_realty_objects'.
-	 *
-	 * @param	integer		UID to find in database, must be > 0
-	 *
-	 * @return	boolean		true if the UID could be found in the database,
-	 * 						false otherwise
-	 */
-	private function uidExistsInDatabase($uid) {
-		return $this->recordExistsInDatabase(array('uid' => $uid));
 	}
 
 	/**

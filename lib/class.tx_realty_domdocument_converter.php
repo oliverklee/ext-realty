@@ -83,11 +83,20 @@ class tx_realty_domdocument_converter {
 		'contact_email' => array('kontaktperson' => 'email_zentrale')
 	);
 
+	/** raw data of an OpenImmo record */
+	private $rawRealtyData = null;
+
 	/** data which is the same for all realty records of one DOMDocument */
 	private $universalRealtyData = array();
 
 	/** imported data of a realty record */
 	private $importedData = array();
+
+	/**
+	 * Number of the current record. Sometimes there are several realties in one
+	 * OpenImmo record.
+	 */
+	private $recordNumber = 0;
 
 	/**
 	 * Handles the conversion of a DOMDocument and returns the realty records
@@ -104,19 +113,48 @@ class tx_realty_domdocument_converter {
 	 * @return	array		data of each realty record, may be empty
 	 */
 	public function getConvertedData(DOMDocument $domDocument) {
-		$this->fetchUniversalData($domDocument);
-
-		$result = array();
-		$singleRealtyRecords = $this->isolateRealtyRecords($domDocument);
-
-		foreach ($singleRealtyRecords as $record) {
-			$realtyRecordArray = $this->getRealtyArrayOfDomNode($record);
-			$this->addUniversalData(&$realtyRecordArray);
-
-			$result[] = $realtyRecordArray;
+		$this->loadRawRealtyData($domDocument);
+		if (!$this->hasValidRootNode()) {
+			return array();
 		}
 
+		$result = array();
+
+		$this->fetchUniversalData();
+		while ($this->recordNumber < $this->numberOfRecords()) {
+			$realtyRecordArray = $this->getRealtyArray();
+			$this->addUniversalData(&$realtyRecordArray);
+			$result[] = $realtyRecordArray;
+
+			$this->resetImportedData();
+			$this->recordNumber++;
+		}
+		$this->resetRecordNumber();
+
 		return $result;
+	}
+
+	/**
+	 * Loads the raw data from a DOMDocument.
+	 *
+	 * @param	DOMDocument		raw data to load, must not be null
+	 */
+	protected function loadRawRealtyData(DOMDocument $rawRealtyData) {
+		$this->rawRealtyData = new DOMXPath($rawRealtyData);
+	}
+
+	/**
+	 * Resets the imported data.
+	 */
+	private function resetImportedData() {
+		$this->importedData = array();
+	}
+
+	/**
+	 * Resets the record number to 0.
+	 */
+	private function resetRecordNumber() {
+		$this->recordNumber = 0;
 	}
 
 	/**
@@ -134,77 +172,40 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
-	 * Fetches data from a DOMDocument which is equal for the whole set of
-	 * realty records in this DOMDocument and stores it to
-	 * $this->universalRealtyData.
-	 *
-	 * @param	DOMDocument		realty records to import, must not be null
+	 * Fetches data which is the same for the whole set of realty records in
+	 * the current OpenImmo record and stores it to $this->universalRealtyData.
 	 */
-	private function fetchUniversalData(DOMDocument $rawDomDocument) {
-		$openImmoNode = $this->findBeginningOpenImmoNode($rawDomDocument);
-		if (!$openImmoNode) {
-			return;
-		}
-
-		$this->universalRealtyData = $this->fetchEmployerAndAnid($openImmoNode);
+	private function fetchUniversalData() {
+		$this->universalRealtyData = $this->fetchEmployerAndAnid();
 	}
 
 	/**
-	 * Fetches 'employer' and 'openimmo_anid' from the DOMNode named 'openimmo'
-	 * of an OpenImmo record and returns them in an array. These nodes must only
-	 * occur once in an OpenImmo record.
-	 *
-	 * @param 	DOMNode		node named 'openimmo' of an OpenImmo record, must
-	 * 						not be null
+	 * Fetches 'employer' and 'openimmo_anid' from an OpenImmo record and
+	 * returns them in an array. These nodes must only occur once in an OpenImmo
+	 * record.
 	 *
 	 * @return	array		contains the elements 'employer' and
 	 * 						'openimmo_anid', will be empty if the nodes were not
 	 * 						found
 	 */
-	private function fetchEmployerAndAnid(DOMNode $openImmoNode) {
+	private function fetchEmployerAndAnid() {
 		$result = array();
 
 		foreach (array(
 			'firma' => 'employer',
 			'openimmo_anid' => 'openimmo_anid'
 		) as $grandchild => $columnName) {
-			$node = $this->findFirstGrandchild(
-				$openImmoNode,
-				'anbieter',
-				$grandchild
+			$nodeList = $this->rawRealtyData->query(
+				'//*[local-name()="anbieter"]/*[local-name()="'.$grandchild.'"]'
 			);
 			$this->addElementToArray(
 				&$result,
 				$columnName,
-				$node->nodeValue
+				$nodeList->item(0)->nodeValue
 			);
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Splits the DOMDocument as an OpenImmo record can contain several realty
-	 * records. Returns an array of records.
-	 *
-	 * @param	DOMDocument		realty records to import, must not be null
-	 *
-	 * @return	array		DOMNodes of single realty records as elements, may
-	 * 						be empty
-	 */
-	protected function isolateRealtyRecords(DOMNode $rawDomDocument) {
-		$result = array();
-
-		$openImmoNode = $this->findBeginningOpenImmoNode($rawDomDocument);
-		if ($openImmoNode) {
-			$nodeWithRecordNodes = $this->findFirstChild($openImmoNode, 'anbieter');
-			if ($nodeWithRecordNodes) {
-				$result = $this->fetchRealtyNodes($nodeWithRecordNodes);
-			}
-		}
-
-		return $result;
-
 	}
 
 	/**
@@ -232,65 +233,72 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
-	 * Fetches DOMNodes containing a whole realty record. These nodes must be
-	 * child nodes of the given node and named 'immobilie'.
+	 * Gets the number of realties included in the current OpenImmo record.
 	 *
-	 * @param	DOMNode		realty records, must not be null
-	 *
-	 * @return	array		DOMNodes containing the realty records, empty if no
-	 * 						record could be fetched
+	 * @return	integer		number of realties in the current OpenImmo record, 0
+	 * 						if no realty data was found
 	 */
-	private function fetchRealtyNodes(DOMNode $realtyRecords) {
-		$result = array();
-		$nodeOfSingleRecord = null;
-		$currentChild = $realtyRecords->firstChild;
+	private function numberOfRecords() {
+		$nodeList = $this->getListedRealties();
 
-		do {
-			if ($this->getNodeName($currentChild) == 'immobilie') {
-				$result[] = $currentChild;
-			}
-			$currentChild = $currentChild->nextSibling;
-		} while ($currentChild);
+		if ($nodeList) {
+			$result = $nodeList->length;
+		} else {
+			$result = 0;
+		}
 
 		return $result;
 	}
 
 	/**
-	 * Converts a DOMNode named 'immobilie'. The result is an array. It contains
-	 * the values, fetched from the DOMNode. The keys are the same as the column
-	 * names of the database table 'tx_realty_objects'.
-	 * The result is an empty array if the given DOMNode is of an invalid
-	 * format.
-	 *
-	 * @param	DOMNode		data of a realty object, must not be null
+	 * Converts the realty data to an array. The array values, are fetched from
+	 * the DOMDocument to convert. The keys are the same as the column names of
+	 * the database table 'tx_realty_objects'. The result is an empty array if
+	 * the given data is of an invalid format.
 	 *
 	 * @return	array		data of the realty object, empty if the DOMNode is
 	 * 						not convertible
 	 */
-	private function getRealtyArrayOfDomNode(DOMNode $realtyData) {
-		$this->fetchNodeValues($realtyData);
-		$this->fetchImages($realtyData);
-		$this->fetchEquipmentAttributes($realtyData);
-		$this->fetchCategoryAttributes($realtyData);
-		$this->fetchState($realtyData);
-		$this->fetchAction($realtyData);
-		$this->fetchGaragePrice($realtyData);
+	private function getRealtyArray() {
+		$this->fetchNodeValues();
+		$this->fetchImages();
+		$this->fetchEquipmentAttributes();
+		$this->fetchCategoryAttributes();
+		$this->fetchState();
+		$this->fetchAction();
+		$this->fetchGaragePrice();
+
+		$this->makeBooleanStringsRealBooleans();
 
 		return $this->importedData;
 
 	}
 
 	/**
-	 * Fetches node values from the DOMNode named 'immobilie' and stores them
-	 * with their corresponding database column names as keys in
-	 * $this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie', must not be null
+	 * Replaces the strings 'true' and 'false' of the currently imported data
+	 * with real booleans. This replacement is not case sensitive.
 	 */
-	private function fetchNodeValues(DOMNode $openImmoNode) {
+	private function makeBooleanStringsRealBooleans() {
+		$lowercasedImportedData = array();
+		foreach ($this->importedData as $key => $value) {
+			$lowercasedImportedData[$key] = strtolower($value);
+		}
+
+		foreach (array_keys($lowercasedImportedData, 'true') as $key) {
+			$this->importedData[$key] = true;
+		}
+		foreach (array_keys($lowercasedImportedData, 'false') as $key) {
+			$this->importedData[$key] = false;
+		}
+	}
+
+	/**
+	 * Fetches node values and stores them with their corresponding database
+	 * column names as keys in $this->importedData.
+	 */
+	private function fetchNodeValues() {
 		foreach ($this->propertyArray as $databaseColumnName => $openImmoNames) {
 			$currentDomNode = $this->findFirstGrandchild(
-				$openImmoNode,
 				key($openImmoNames),
 				implode($openImmoNames)
 			);
@@ -299,55 +307,24 @@ class tx_realty_domdocument_converter {
 				$currentDomNode->nodeValue
 			);
 		}
-		$this->addComission($openImmoNode);
-		$this->appendStreetNumber($openImmoNode);
+		$this->appendStreetNumber();
+		$this->setTitleForPets();
+		$this->trySecondContactEmailIfEmailNotFound();
 	}
 
 	/**
-	 * Fetches 'innen_courtage' from the DOMNode named 'immobilie' and stores it
-	 * to the array element 'provision' of $this->importedData. If the key
-	 * 'provision' already exists, the sum of 'innen_courtage' and the current
-	 * value of 'provision' is stored in this element. The current value is
-	 * usually the value fetched from 'aussen_courtage' from the DOMNode.
-	 *
-	 * @param	DOMNode		node named 'immobilie', must not be null
+	 * Fetches 'hausnummer' and appends it to the string in the array element
+	 * 'street' of $this->importedData. If 'street' is empty or does not exist,
+	 * nothing is changed at all.
 	 */
-	private function addComission(DOMNode $openImmoNode) {
-		$innenCourtageNode = $this->findFirstGrandchild(
-			$openImmoNode,
-			'preise',
-			'innen_courtage'
-		);
-		if (!$this->importedData['provision']) {
-			$this->addImportedData('provision',	$innenCourtageNode->nodeValue);
-		} elseif (is_numeric($innenCourtageNode->nodeValue)
-			&& is_numeric($this->importedData['provision'])
-		) {
-			$courtage = $innenCourtageNode->nodeValue
-				+ $this->importedData['provision'];
-			$this->addImportedData('provision',	$courtage);
-		}
-	}
-
-	/**
-	 * Fetches 'hausnummer' from the DOMNode named 'immobilie' and appends it to
-	 * the string in the array element 'street' of $this->importedData. If
-	 * 'street' is empty or does not exist, nothing is changed at all.
-	 *
-	 * @param	DOMNode		node named 'immobilie', must not be null
-	 */
-	private function appendStreetNumber(DOMNode $openImmoNode) {
+	private function appendStreetNumber() {
 		if (!$this->importedData['street']
 			|| ($this->importedData['street'] == '')
 		) {
 			return;
 		}
 
-		$streetNumberNode = $this->findFirstGrandchild(
-			$openImmoNode,
-			'geo',
-			'hausnummer'
-		);
+		$streetNumberNode = $this->findFirstGrandchild('geo', 'hausnummer');
 		if ($streetNumberNode) {
 			$this->addImportedData(
 				'street',
@@ -357,18 +334,59 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
+	 * Replaces the value for 'pets' with a describtive string.
+	 * 'pets' is boolean in OpenImmo records. But in the database the value for
+	 * 'pets' is inserted to a separate table and displayed with this value as
+	 * title in the FE.
+	 */
+	private function setTitleForPets() {
+		global $LANG;
+
+		if (!array_key_exists('pets', $this->importedData)) {
+			return;
+		}
+
+		$this->initializeLanguage();
+
+		$petsValue = strtolower($this->importedData['pets']);
+
+		if (in_array($petsValue, array(1, 'true'))) {
+			$this->importedData['pets'] = $LANG->getLL('label_allowed');
+		} elseif (in_array($petsValue, array(0, 'false'))) {
+			$this->importedData['pets'] = $LANG->getLL('label_not_allowed');
+		}
+	}
+
+	/**
+	 * Fetches the contact e-mail from the tag 'email_direct' if the e-mail
+	 * address is not yet imported.
+	 */
+	private function trySecondContactEmailIfEmailNotFound() {
+		if (array_key_exists('contact_email', $this->importedData)) {
+			return;
+		}
+
+		$contactEmailNode = $this->findFirstGrandchild(
+			'kontaktperson',
+			'email_direkt'
+		);
+		$this->addImportedData(
+			'contact_email',
+			$contactEmailNode->nodeValue
+		);
+	}
+
+	/**
 	 * Fetches information about images from $openImmoNode of an OpenImmo record
 	 * and stores them as an inner array in $this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie', must not be null
 	 */
-	private function fetchImages(DOMNode $openImmoNode) {
-		$appendix = $this->findFirstChild($openImmoNode, 'anhaenge');
+	private function fetchImages() {
+		$images = $this->createRecordsForImages();
 
-		if ($appendix) {
+		if (!empty($images)) {
 			$this->addImportedData(
 				'images',
-				$this->createRecordsForImages($appendix)
+				$images
 			);
 		}
 	}
@@ -376,35 +394,35 @@ class tx_realty_domdocument_converter {
 	/**
 	 * Creates an array of image records for one realty record.
 	 *
-	 * @param	DOMNode		node named 'anhang', must not be null
-	 *
 	 * @return	array		image records, may be empty
 	 */
-	protected function createRecordsForImages(DOMNode $domElementAppendix) {
+	protected function createRecordsForImages() {
 		$images = array();
-		$domElementAppendix = $domElementAppendix->firstChild;
+		$listedRealties = $this->getListedRealties();
+		if (!$listedRealties) {
+			return array();
+		}
+		$annexes = $this->rawRealtyData->query(
+			'.//*[local-name()="anhang"]',
+			$listedRealties->item($this->recordNumber)
+		);
 
-		while ($domElementAppendix) {
-			$title = '';
-			$fileName = '';
-
-			if ($domElementAppendix->hasChildNodes()) {
-				// Only one of the child nodes' name is 'anhangtitel'.
-				foreach ($domElementAppendix->childNodes as $child) {
-					if ($this->getNodeName($child) == 'anhangtitel') {
-						$title = $child->nodeValue;
-					}
-					$nodeOfPath = $this->findFirstGrandchild(
-						$domElementAppendix,
-						'daten',
-						'pfad'
-					);
-					if ($nodeOfPath) {
-						$fileName = basename($nodeOfPath->nodeValue);
-					}
-				}
+		foreach ($annexes as $contextNode) {
+			$titleNodeList = $this->rawRealtyData->query(
+				'.//*[local-name()="anhangtitel"]',
+				$contextNode
+			);
+			if ($titleNodeList->item(0)) {
+				$title = $titleNodeList->item(0)->nodeValue;
 			}
-			$domElementAppendix = $domElementAppendix->nextSibling;
+
+			$fileNameNodeList = $this->rawRealtyData->query(
+				'.//*[local-name()="daten"]/*[local-name()="pfad"]',
+				$contextNode
+			);
+			if ($fileNameNodeList->item(0)) {
+				$fileName = basename($fileNameNodeList->item(0)->nodeValue);
+			}
 
 			if ($fileName != '') {
 				$images[] = array(
@@ -418,13 +436,10 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
-	 * Fetches attributes about equipment from the DOMNode named 'immobilie' of
-	 * an OpenImmo record and stores them with their corresponding database
-	 * column names as keys in $this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie' of an OpenImmo record
+	 * Fetches attributes about equipment and stores them with their
+	 * corresponding database column names as keys in $this->importedData.
 	 */
-	private function fetchEquipmentAttributes(DOMNode $openImmoNode) {
+	private function fetchEquipmentAttributes() {
 		$rawAttributes = array();
 
 		foreach (array(
@@ -435,7 +450,6 @@ class tx_realty_domdocument_converter {
 			'heizungsart'
 		) as $grandchildName) {
 			$nodeWithAttributes = $this->findFirstGrandchild(
-				$openImmoNode,
 				'ausstattung',
 				$grandchildName
 			);
@@ -447,7 +461,9 @@ class tx_realty_domdocument_converter {
 		if (!empty($rawAttributes['stellplatzart'])) {
 			$this->addImportedData(
 				'garage_type',
-				ucwords(implode(', ', array_keys($rawAttributes['stellplatzart'])))
+				$this->getFormattedString(
+					array_keys($rawAttributes['stellplatzart'])
+				)
 			);
 		}
 
@@ -468,29 +484,28 @@ class tx_realty_domdocument_converter {
 		if (!empty($rawAttributes['heizungsart'])) {
 			$this->addImportedData(
 				'heating_type',
-				ucwords(implode(', ', array_keys($rawAttributes['heizungsart'])))
+				$this->getFormattedString(
+					array_keys($rawAttributes['heizungsart'])
+				)
 			);
 		}
 	}
 
 	/**
-	 * Fetches attributes about 'objektkategorie' from the DOMNode named
-	 * 'immobilie' of an OpenImmo record and stores them with their
+	 * Fetches attributes about 'objektkategorie' and stores them with their
 	 * corresponding database column names as keys in this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie' of an OpenImmo record, must
-	 * 						not be null
 	 */
-	private function fetchCategoryAttributes(DOMNode $openImmoNode) {
-		$categoryNode = $this->findFirstChild($openImmoNode, 'objektkategorie');
-		if (!$categoryNode) {
-			return;
-		}
+	private function fetchCategoryAttributes() {
+		$this->fetchHouseType();
 
-		$this->fetchHouseType($categoryNode);
+		$nodeWithAttributes = $this->findFirstGrandchild(
+			'objektkategorie',
+			'vermarktungsart'
+		);
 
-		$nodeWithAttributes = $this->findFirstChild($categoryNode, 'vermarktungsart');
-		$objectTypeAttributes = $this->fetchDomAttributes($nodeWithAttributes);
+		$objectTypeAttributes = $this->fetchDomAttributes(
+			$nodeWithAttributes
+		);
 		if (!empty($objectTypeAttributes)) {
 			if (array_key_exists('KAUF', $objectTypeAttributes)) {
 				$this->addTrueToImportedData('object_type');
@@ -499,63 +514,60 @@ class tx_realty_domdocument_converter {
 			}
 		}
 
-		$nodeWithAttributes = $this->findFirstChild($categoryNode, 'nutzungsart');
+		$nodeWithAttributes = $this->findFirstGrandchild(
+			'objektkategorie',
+			'nutzungsart'
+		);
 		$utilizationAttributes = $this->fetchDomAttributes($nodeWithAttributes);
 		if (!empty($utilizationAttributes)) {
 			$this->addImportedData(
 				'utilization',
-				ucwords(implode(', ', array_keys($utilizationAttributes)))
+				$this->getFormattedString(array_keys($utilizationAttributes))
 			);
 		}
 	}
 
 	/**
-	 * Fetches the 'Objektart' from the DOMNode named 'objektkategorie' of an
-	 * OpenImmo record and stores it with the corresponding database column name
-	 * 'house_type' as key in $this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie' of an OpenImmo record, must
-	 * 						not be null
+	 * Fetches the 'Objektart' and stores it with the corresponding database
+	 * column name 'house_type' as key in $this->importedData.
 	 */
-	private function fetchHouseType(DOMNode $categoryNode) {
-		$nodeContainingAttributeNode = $this->findFirstChild(
-			$categoryNode,
+	private function fetchHouseType() {
+		$nodeContainingAttributeNode = $this->findFirstGrandchild(
+			'objektkategorie',
 			'objektart'
 		);
-
-		// $this->findFirstChild() cannot be used here, because the attribute
-		// nodes can have various names.
-		$nodeWithAttributes = $nodeContainingAttributeNode->firstChild;
-		// In case the first child is a dummy with a name starting with '#', the
-		// next sibling is taken.
-		if (strspn($this->getNodeName($nodeWithAttributes), '#') > 0) {
-			$nodeWithAttributes = $nodeWithAttributes->nextSibling;
+		if (!$nodeContainingAttributeNode) {
+			return;
 		}
 
-		$value = $this->getNodeName($nodeWithAttributes);
+		$nodeWithAttributes = $this->rawRealtyData->query(
+			'.//*[not(starts-with(local-name(),"#"))]',
+			$nodeContainingAttributeNode
+		);
+
+		$value = $this->getNodeName($nodeWithAttributes->item(0));
 
 		if ($value != '') {
 			$attributes = $this->fetchDomAttributes($nodeWithAttributes);
 
 			if (!empty($attributes)) {
-				$value .= ': '.implode(',', array_values($attributes));
+				$value .= ': '
+					.$this->getFormattedString(array_values($attributes));
 			}
 
-			$this->addImportedData('house_type', ucwords($value));
+			$this->addImportedData(
+				'house_type',
+				$this->getFormattedString(array($value))
+			);
 		}
 	}
 
 	/**
-	 * Fetches the attribute for 'garage_price' from the DOMNode named
-	 * 'immobilie' of an OpenImmo record and stores them with the corresponding
-	 * database column name as key in this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie' of an OpenImmo record, must
-	 * 						not be null
+	 * Fetches the attribute for 'garage_price' and stores them with the
+	 * corresponding database column name as key in this->importedData.
 	 */
-	private function fetchGaragePrice(DOMNode $openImmoNode) {
+	private function fetchGaragePrice() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
-			$openImmoNode,
 			'preise',
 			// 'stp_*' exists for each defined type of 'stellplatz'
 			'stp_garage'
@@ -575,16 +587,11 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
-	 * Fetches the attributes for 'state' from the DOMNode named 'immobilie' of
-	 * an OpenImmo record and stores them with the corresponding database column
-	 * name as key in this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie' of an OpenImmo record, must
-	 * 						not be null
+	 * Fetches the attributes for 'state' and stores them with the corresponding
+	 * database column name as key in this->importedData.
 	 */
-	private function fetchState(DOMNode $openImmoNode) {
+	private function fetchState() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
-			$openImmoNode,
 			'zustand_angaben',
 			'zustand'
 		);
@@ -594,22 +601,17 @@ class tx_realty_domdocument_converter {
 		if (!empty($attributes)) {
 			$this->addImportedData(
 				'state',
-				ucwords(implode(', ', array_values($attributes)))
+				$this->getFormattedString(array_values($attributes))
 			);
 		}
 	}
 
 	/**
-	 * Fetches the attribute 'aktion' from the DOMNode named 'immobilie' of an
-	 * OpenImmo record and stores them with the corresponding database column
-	 * name as key in this->importedData.
-	 *
-	 * @param	DOMNode		node named 'immobilie' of an OpenImmo record, must
-	 * 						not be null
+	 * Fetches the attribute 'aktion' and stores it with the corresponding
+	 * database column name as key in this->importedData.
 	 */
-	private function fetchAction(DOMNode $openImmoNode) {
+	private function fetchAction() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
-			$openImmoNode,
 			'verwaltung_techn',
 			'aktion'
 		);
@@ -618,18 +620,34 @@ class tx_realty_domdocument_converter {
 
 		if ($value) {
 			if (!empty($attributes)) {
-				$value .= ': '.implode(',', array_values($attributes));
+				$value .= ': '
+					.$this->getFormattedString(array_values($attributes));
 			}
-			$this->addImportedData('action', ucwords($value));
+			$this->addImportedData(
+				'action',
+				$this->getFormattedString(array($value))
+			);
 		}
 	}
 
 	/**
-	 * Returns the first grandchild of a DOMNode specified by the child's and
-	 * the grandchild's name. If one of these names can not be found, null is
-	 * returned.
+	 * Returns a comma-separated list of an array. The first letter of each word
+	 * is uppercased.
 	 *
-	 * @param	DOMNode		node where to find the grandchild, must not be null
+	 * @param	array		data to format, must not be empty
+	 *
+	 * @return	string		formatted string
+	 */
+	private function getFormattedString(array $dataToFormat) {
+		return ucwords(strtolower(implode(', ', $dataToFormat)));
+	}
+
+	/**
+	 * Returns the first grandchild of an element inside the realty record
+	 * with the curretn record number specified by the child's and the
+	 * grandchild's name. If one of these names can not be found or there are
+	 * no realty records, null is returned.
+	 *
 	 * @param	string		name of child, must not be empty
 	 * @param	string		name of grandchild, must not be empty
 	 *
@@ -637,13 +655,25 @@ class tx_realty_domdocument_converter {
 	 * 						exist
 	 */
 	protected function findFirstGrandchild(
-		DOMNode $domNode,
 		$nameOfChild,
 		$nameOfGrandchild
 	) {
-		$child = $this->findFirstChild($domNode, $nameOfChild);
-		if ($child) {
-			$result = $this->findFirstChild($child, $nameOfGrandchild);
+		$listedRealties = $this->getListedRealties();
+
+		if (!$listedRealties) {
+			return null;
+		}
+
+		$contextNode = $listedRealties->item($this->recordNumber);
+
+		$queryResult = $this->rawRealtyData->query(
+			'.//*[local-name()="'.$nameOfChild.'"]'
+				.'/*[local-name()="'.$nameOfGrandchild.'"]',
+			$contextNode
+		);
+
+		if ($queryResult) {
+			$result = $queryResult->item(0);
 		} else {
 			$result = null;
 		}
@@ -652,54 +682,29 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
-	 * Returns the first child of a DOMNode specified by the its name. If the
-	 * name can not be found, null is returned.
+	 * Checks whether the OpenImmo record has a valid root node. The node must
+	 * be named 'openimmo' or 'immoxml'.
 	 *
-	 * @param	DOMNode		node where to find the grandchild, must not be null
-	 * @param	string		name of child, must not be empty
-	 *
-	 * @return	DOMNode		first child with this name, null if it does not
-	 * 						exist
+	 * @return	boolean		true if the root node is named 'openimmo' or
+	 * 						'immoxml', false otherwise
 	 */
-	protected function findFirstChild(DOMNode $domNode, $nameOfChild) {
-		if (!$domNode->hasChildNodes()) {
-			return null;
-		}
+	private function hasValidRootNode() {
+		$rootNode = $this->rawRealtyData->query(
+			'//*[local-name()="openimmo"] | //*[local-name()="immoxml"]'
+		);
 
-		$result = null;
-
-		foreach ($domNode->childNodes as $child) {
-			if ($this->getNodeName($child) == $nameOfChild) {
-						$result = $child;
-			}
-		}
-
-		return $result;
+		return (boolean) $rootNode->item(0);
 	}
 
 	/**
-	 * Returns the node named 'openimmo' from $realtyData or null if this node
-	 * was not found.
+	 * Returns a DOMNodeList of the realty records found in $realtyData or null
+	 * if there are none.
 	 *
-	 * @param	DOMDocument		OpenImmo record
-	 *
-	 * @return	DOMNode		node named 'openimmo', null if this node was not
-	 * 						found
+	 * @return   	DOMNodeList		list of nodes named 'immobilie', null if
+	 * 							none were found
 	 */
-	private function findBeginningOpenImmoNode(DOMDocument $realtyData) {
-		if ($this->getNodeName($realtyData) == 'openimmo') {
-			$openImmoNode = $realtyData;
-		} elseif ($this->getNodeName($realtyData->firstChild) == 'openimmo' ) {
-			$openImmoNode = $realtyData->firstChild;
-		} elseif ($this->getNodeName($realtyData->firstChild->nextSibling)
-			== 'openimmo'
-		) {
-			$openImmoNode = $realtyData->firstChild->nextSibling;
-		} else {
-			$openImmoNode = null;
-		}
-
-		return $openImmoNode;
+	private function getListedRealties() {
+		return $this->rawRealtyData->query('//*[local-name()="immobilie"]');
 	}
 
 	/**
@@ -760,6 +765,25 @@ class tx_realty_domdocument_converter {
 		}
 
 		return $fetchedValues;
+	}
+
+	/**
+	 * Initializes the global variable $LANG needed for localized strings. Uses
+	 * the EM configuration to set the language.
+	 */
+	private function initializeLanguage() {
+		$LANG = t3lib_div::makeInstance('language');
+		$globalConfiguration = unserialize(
+			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
+		);
+
+		if ($globalConfiguration['cliLanguage'] == '') {
+			$LANG->init('default');
+		} else {
+			$LANG->init($globalConfiguration['cliLanguage']);
+		}
+
+		$LANG->includeLLFile('EXT:realty/lib/locallang.xml');
 	}
 }
 
