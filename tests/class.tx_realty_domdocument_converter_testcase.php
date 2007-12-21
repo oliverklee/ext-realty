@@ -52,7 +52,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		$grandchild = $child->appendChild(
 			$node->createElement('grandchild', 'foo')
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->findFirstGrandchild(
 			'child',
@@ -73,7 +73,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		$child = $parent->appendChild(
 			$node->createElement('child')
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertNull(
 			$this->fixture->findFirstGrandchild('child', 'grandchild')
@@ -85,7 +85,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		$parent = $node->appendChild(
 			$node->createElement('immobilie')
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertNull(
 			$this->fixture->findFirstGrandchild('child', 'grandchild')
@@ -149,7 +149,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anbieter>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertEquals(
 			array(
@@ -180,7 +180,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anbieter>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertEquals(
 			array(
@@ -202,7 +202,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anbieter>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$supposedResult = array(
 			'employer' => 'foo',
@@ -237,7 +237,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anbieter>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertEquals(
 			$this->fixture->getConvertedData($node),
@@ -268,7 +268,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anbieter>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertTrue(
@@ -294,7 +294,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anbieter>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 
 		$this->assertEquals(
@@ -319,7 +319,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anbieter>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertEquals(
 			$this->fixture->getConvertedData($node),
@@ -341,7 +341,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anhang>'
 			.'</immobilie>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertEquals(
 			array(),
@@ -360,7 +360,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anhang>'
 			.'</immobilie>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertEquals(
 			array(
@@ -390,7 +390,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</anhang>'
 			.'</immobilie>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$images = $this->fixture->createRecordsForImages();
 		$this->assertEquals(
@@ -430,7 +430,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 				.'</immobilie>'
 			.'</openimmo>'
 		);
-		$this->fixture->loadRawRealtyData($node);
+		$this->fixture->setRawRealtyData($node);
 
 		$this->assertTrue(
 			count($this->fixture->createRecordsForImages()) == 1

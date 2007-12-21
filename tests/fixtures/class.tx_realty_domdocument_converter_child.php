@@ -56,8 +56,8 @@ final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_
 		return parent::getNodeName($domNode);
 	}
 
-	public function loadRawRealtyData($rawRealtyData) {
-		return parent::loadRawRealtyData($rawRealtyData);
+	public function setRawRealtyData($rawRealtyData) {
+		return parent::setRawRealtyData($rawRealtyData);
 	}
 }
 

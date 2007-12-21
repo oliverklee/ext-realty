@@ -110,10 +110,11 @@ class tx_realty_domdocument_converter {
 	 *
 	 * @param	DOMDocument		data to convert, must not be null
 	 *
-	 * @return	array		data of each realty record, may be empty
+	 * @return	array		data of each realty record, will be empty if the
+	 * 						passed DOMDocument could not be converted
 	 */
 	public function getConvertedData(DOMDocument $domDocument) {
-		$this->loadRawRealtyData($domDocument);
+		$this->setRawRealtyData($domDocument);
 		if (!$this->hasValidRootNode()) {
 			return array();
 		}
@@ -121,15 +122,15 @@ class tx_realty_domdocument_converter {
 		$result = array();
 
 		$this->fetchUniversalData();
-		while ($this->recordNumber < $this->numberOfRecords()) {
+		$numberOfRecords = $this->getNumberOfRecords();
+
+		for ($this->recordNumber = 0; $this->recordNumber < $numberOfRecords; $this->recordNumber++) {
 			$realtyRecordArray = $this->getRealtyArray();
 			$this->addUniversalData(&$realtyRecordArray);
 			$result[] = $realtyRecordArray;
 
 			$this->resetImportedData();
-			$this->recordNumber++;
 		}
-		$this->resetRecordNumber();
 
 		return $result;
 	}
@@ -139,7 +140,7 @@ class tx_realty_domdocument_converter {
 	 *
 	 * @param	DOMDocument		raw data to load, must not be null
 	 */
-	protected function loadRawRealtyData(DOMDocument $rawRealtyData) {
+	protected function setRawRealtyData(DOMDocument $rawRealtyData) {
 		$this->rawRealtyData = new DOMXPath($rawRealtyData);
 	}
 
@@ -148,13 +149,6 @@ class tx_realty_domdocument_converter {
 	 */
 	private function resetImportedData() {
 		$this->importedData = array();
-	}
-
-	/**
-	 * Resets the record number to 0.
-	 */
-	private function resetRecordNumber() {
-		$this->recordNumber = 0;
 	}
 
 	/**
@@ -238,7 +232,7 @@ class tx_realty_domdocument_converter {
 	 * @return	integer		number of realties in the current OpenImmo record, 0
 	 * 						if no realty data was found
 	 */
-	private function numberOfRecords() {
+	private function getNumberOfRecords() {
 		$nodeList = $this->getListedRealties();
 
 		if ($nodeList) {
@@ -251,7 +245,7 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
-	 * Converts the realty data to an array. The array values, are fetched from
+	 * Converts the realty data to an array. The array values are fetched from
 	 * the DOMDocument to convert. The keys are the same as the column names of
 	 * the database table 'tx_realty_objects'. The result is an empty array if
 	 * the given data is of an invalid format.
