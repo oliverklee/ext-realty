@@ -1,3 +1,7 @@
+2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1218] Change: Format the prices according to the current FE language
+
 2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1232] Fix: Make the Realty Manager work with oelib > 0.3.0
