@@ -251,7 +251,10 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataSetsPetsTitle() {
+	public function testGetConvertedDataSetsPetsTitleIfValueIsStringTrue() {
+		global $LANG;
+		$this->fixture->initializeLanguage();
+
 		$node = DOMDocument::loadXML(
 			'<openimmo>'
 				.'<anbieter>'
@@ -260,9 +263,28 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 							.'<haustiere>true</haustiere>'
 						.'</verwaltung_objekt>'
 					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			$result[0]['pets'],
+			$LANG->getLL('label_allowed')
+		);
+	}
+
+	public function testGetConvertedDataSetsPetsTitleIfValueIsOne() {
+		global $LANG;
+		$this->fixture->initializeLanguage();
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
 					.'<immobilie>'
 						.'<verwaltung_objekt>'
-							.'<haustiere>0</haustiere>'
+							.'<haustiere>1</haustiere>'
 						.'</verwaltung_objekt>'
 					.'</immobilie>'
 				.'</anbieter>'
@@ -271,14 +293,73 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertTrue(
-			is_array($result)
+		$this->assertEquals(
+			$result[0]['pets'],
+			$LANG->getLL('label_allowed')
 		);
-		$this->assertFalse(
-			$result[0]['pets'] == 'true'
+	}
+
+	public function testGetConvertedDataSetsPetsTitleIfValueIsBooleanTrue() {
+		global $LANG;
+		$this->fixture->initializeLanguage();
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<verwaltung_objekt>'
+							.'<haustiere>'.true.'</haustiere>'
+						.'</verwaltung_objekt>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
 		);
-		$this->assertFalse(
-			$result[1]['pets'] === 0
+		$this->fixture->setRawRealtyData($node);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			$result[0]['pets'],
+			$LANG->getLL('label_allowed')
+		);
+	}
+
+	public function testGetConvertedDataSubstitudesSurplusDecimals() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<geo>'
+							.'<strasse>1.00</strasse>'
+						.'</geo>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('street' => '1'))
+		);
+	}
+
+	public function testGetConvertedDataNotSubstitudesNonSurplusDecimals() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<geo>'
+							.'<strasse>1.11</strasse>'
+						.'</geo>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('street' => '1.11'))
 		);
 	}
 
@@ -325,9 +406,9 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 			$this->fixture->getConvertedData($node),
 			array(
 				array(
-					'street' => 1,
-					'zip' => 0,
-					'location' => 1
+					'street' => true,
+					'zip' => false,
+					'location' => true
 				)
 			)
 		);

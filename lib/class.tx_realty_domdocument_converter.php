@@ -124,7 +124,11 @@ class tx_realty_domdocument_converter {
 		$this->fetchUniversalData();
 		$numberOfRecords = $this->getNumberOfRecords();
 
-		for ($this->recordNumber = 0; $this->recordNumber < $numberOfRecords; $this->recordNumber++) {
+		for (
+			$this->recordNumber = 0;
+			$this->recordNumber < $numberOfRecords;
+			$this->recordNumber++
+		) {
 			$realtyRecordArray = $this->getRealtyArray();
 			$this->addUniversalData(&$realtyRecordArray);
 			$result[] = $realtyRecordArray;
@@ -189,9 +193,7 @@ class tx_realty_domdocument_converter {
 			'firma' => 'employer',
 			'openimmo_anid' => 'openimmo_anid'
 		) as $grandchild => $columnName) {
-			$nodeList = $this->rawRealtyData->query(
-				'//*[local-name()="anbieter"]/*[local-name()="'.$grandchild.'"]'
-			);
+			$nodeList = $this->getNodeListFromRawData('anbieter', $grandchild);
 			$this->addElementToArray(
 				&$result,
 				$columnName,
@@ -262,7 +264,8 @@ class tx_realty_domdocument_converter {
 		$this->fetchAction();
 		$this->fetchGaragePrice();
 
-		$this->makeBooleanStringsRealBooleans();
+		$this->replaceImportedBooleanLikeStrings();
+		$this->substitudeSurplusDecimals();
 
 		return $this->importedData;
 
@@ -272,17 +275,51 @@ class tx_realty_domdocument_converter {
 	 * Replaces the strings 'true' and 'false' of the currently imported data
 	 * with real booleans. This replacement is not case sensitive.
 	 */
-	private function makeBooleanStringsRealBooleans() {
-		$lowercasedImportedData = array();
+	private function replaceImportedBooleanLikeStrings() {
 		foreach ($this->importedData as $key => $value) {
-			$lowercasedImportedData[$key] = strtolower($value);
+			if ($this->isBooleanLikeStringTrue($value)) {
+				$this->importedData[$key] = true;
+			} elseif ($this->isBooleanLikeStringFalse($value)) {
+				$this->importedData[$key] = false;
+			}
 		}
+	}
 
-		foreach (array_keys($lowercasedImportedData, 'true') as $key) {
-			$this->importedData[$key] = true;
-		}
-		foreach (array_keys($lowercasedImportedData, 'false') as $key) {
-			$this->importedData[$key] = false;
+	/**
+	 * Returns true if a string equals 'true'. In any other case false is
+	 * returned.
+	 *
+	 * @param	string		string to compare with 'true', may also be also
+	 * 						uppercased or empty
+	 * @return	boolean		true if the input value was the string 'true', false
+	 * 						otherwise
+	 */
+	private function isBooleanLikeStringTrue($booleanLikeString) {
+		return strtolower($booleanLikeString) == 'true';
+	}
+
+	/**
+	 * Returns true if a string equals 'false'. In any other case false is
+	 * returned.
+	 *
+	 * @param	string		string to compare with 'false', may also be also
+	 * 						uppercased or empty
+	 * @return	boolean		true if the input value was the string 'true', false
+	 * 						otherwise
+	 */
+	private function isBooleanLikeStringFalse($booleanLikeString) {
+		return strtolower($booleanLikeString) == 'false';
+	}
+
+
+	/**
+	 * Substitudes decimals from the currently imported data if they are zero.
+	 */
+	private function substitudeSurplusDecimals() {
+		foreach ($this->importedData as $key => $value) {
+			if (is_numeric($value) && ((int) $value) == $value) {
+				$this->importedData[$key] = intval($value);
+			}
 		}
 	}
 
@@ -301,6 +338,7 @@ class tx_realty_domdocument_converter {
 				$currentDomNode->nodeValue
 			);
 		}
+
 		$this->appendStreetNumber();
 		$this->setTitleForPets();
 		$this->trySecondContactEmailIfEmailNotFound();
@@ -343,17 +381,16 @@ class tx_realty_domdocument_converter {
 		$this->initializeLanguage();
 
 		$petsValue = strtolower($this->importedData['pets']);
-
-		if (in_array($petsValue, array(1, 'true'))) {
+		if (($petsValue == 1) || $this->isBooleanLikeStringTrue($petsValue)) {
 			$this->importedData['pets'] = $LANG->getLL('label_allowed');
-		} elseif (in_array($petsValue, array(0, 'false'))) {
+		} else {
 			$this->importedData['pets'] = $LANG->getLL('label_not_allowed');
 		}
 	}
 
 	/**
 	 * Fetches the contact e-mail from the tag 'email_direct' if the e-mail
-	 * address is not yet imported.
+	 * address has not been imported yet.
 	 */
 	private function trySecondContactEmailIfEmailNotFound() {
 		if (array_key_exists('contact_email', $this->importedData)) {
@@ -396,24 +433,31 @@ class tx_realty_domdocument_converter {
 		if (!$listedRealties) {
 			return array();
 		}
-		$annexes = $this->rawRealtyData->query(
-			'.//*[local-name()="anhang"]',
+
+		$annexes = $this->getNodeListFromRawData(
+			'anhang',
+			'',
 			$listedRealties->item($this->recordNumber)
 		);
 
 		foreach ($annexes as $contextNode) {
-			$titleNodeList = $this->rawRealtyData->query(
-				'.//*[local-name()="anhangtitel"]',
+			$titleNodeList = $this->getNodeListFromRawData(
+				'anhangtitel',
+				'',
 				$contextNode
 			);
+
+			$title = '';
 			if ($titleNodeList->item(0)) {
 				$title = $titleNodeList->item(0)->nodeValue;
 			}
 
-			$fileNameNodeList = $this->rawRealtyData->query(
-				'.//*[local-name()="daten"]/*[local-name()="pfad"]',
+			$fileNameNodeList = $this->getNodeListFromRawData(
+				'daten',
+				'pfad',
 				$contextNode
 			);
+
 			if ($fileNameNodeList->item(0)) {
 				$fileName = basename($fileNameNodeList->item(0)->nodeValue);
 			}
@@ -535,7 +579,7 @@ class tx_realty_domdocument_converter {
 		}
 
 		$nodeWithAttributes = $this->rawRealtyData->query(
-			'.//*[not(starts-with(local-name(),"#"))]',
+			'.//*[not(starts-with(local-name(), "#"))]',
 			$nodeContainingAttributeNode
 		);
 
@@ -637,10 +681,55 @@ class tx_realty_domdocument_converter {
 	}
 
 	/**
+	 * Returns DOMNodeList from the raw data. This list consists of all
+	 * elements from raw data which apply to $nodeName and to $childNodeName. If
+	 * $childNodeName is empty, $nodeName is the only criteria. $nodeName and
+	 * $childNodeName must not contain namespaces.
+	 * If $contextNode is set, the elements are fetched relatively from this
+	 * node.
+	 *
+	 * @param	string		node name, must not be empty
+	 * @param	string		child node name, may be empty, the elements are taken
+	 * 						from the node named $nodeName then
+	 * @param 	DOMNode		subnode to fetch a relative result, may be null, the
+	 * 						query is made on the root node then
+	 *
+	 *
+	 * @return	DOMNodeList		all nodes which are named $childNodeName,
+	 * 						$nodeName if $childNodeName is not set, can be
+	 * 						empty if these names do not exist
+	 */
+	private function getNodeListFromRawData(
+		$nodeName,
+		$childNodeName = '',
+		$contextNode = null
+	) {
+		$queryString = '';
+		$isContextNodeValid = false;
+		if ($contextNode && (get_parent_class($contextNode) == 'DOMNode')) {
+			$isContextNodeValid = true;
+			$queryString = '.';
+		}
+
+		$queryString .= '//*[local-name()="'.$nodeName.'"]';
+		if ($childNodeName != '') {
+			$queryString .= '/*[local-name()="'.$childNodeName.'"]';
+		}
+
+		if ($isContextNodeValid) {
+			$result = $this->rawRealtyData->query($queryString, $contextNode);
+		} else {
+			$result = $this->rawRealtyData->query($queryString);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Returns the first grandchild of an element inside the realty record
-	 * with the curretn record number specified by the child's and the
-	 * grandchild's name. If one of these names can not be found or there are
-	 * no realty records, null is returned.
+	 * with the current record number specified by the child's and the
+	 * grandchild's name. If one of these names can not be found or there are no
+	 * realty records, null is returned.
 	 *
 	 * @param	string		name of child, must not be empty
 	 * @param	string		name of grandchild, must not be empty
@@ -660,9 +749,9 @@ class tx_realty_domdocument_converter {
 
 		$contextNode = $listedRealties->item($this->recordNumber);
 
-		$queryResult = $this->rawRealtyData->query(
-			'.//*[local-name()="'.$nameOfChild.'"]'
-				.'/*[local-name()="'.$nameOfGrandchild.'"]',
+		$queryResult = $this->getNodeListFromRawData(
+			$nameOfChild,
+			$nameOfGrandchild,
 			$contextNode
 		);
 
@@ -698,7 +787,7 @@ class tx_realty_domdocument_converter {
 	 * 							none were found
 	 */
 	private function getListedRealties() {
-		return $this->rawRealtyData->query('//*[local-name()="immobilie"]');
+		return $this->getNodeListFromRawData('immobilie');
 	}
 
 	/**
@@ -765,7 +854,7 @@ class tx_realty_domdocument_converter {
 	 * Initializes the global variable $LANG needed for localized strings. Uses
 	 * the EM configuration to set the language.
 	 */
-	private function initializeLanguage() {
+	protected function initializeLanguage() {
 		$LANG = t3lib_div::makeInstance('language');
 		$globalConfiguration = unserialize(
 			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']

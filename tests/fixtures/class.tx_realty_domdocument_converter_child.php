@@ -59,6 +59,10 @@ final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_
 	public function setRawRealtyData($rawRealtyData) {
 		return parent::setRawRealtyData($rawRealtyData);
 	}
+
+	public function initializeLanguage() {
+		parent::initializeLanguage();
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domdocument_converter_child']) {
