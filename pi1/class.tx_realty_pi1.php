@@ -150,6 +150,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
+		$this->setLocaleConvention();
 		$this->getTemplateCode();
 		$this->setLabels();
 		$this->setCSS();
@@ -691,6 +692,28 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Sets the locale.
+	 */
+	private function setLocaleConvention() {
+		$configurationArray = $GLOBALS['TSFE']->config['config'];
+		$country = $this->getConfValueString('country');
+
+		if ($country == '') {
+			if ($configurationArray['language'] == 'en') {
+				$country ='US';
+			} else {
+				$country = strtoupper($configurationArray['language']);
+			}
+		} 
+		
+		$formattedLocale = $configurationArray['language'].'_'
+			.strtoupper($country).'.'
+			.strtoupper($configurationArray['renderCharset']
+		);
+		setlocale(LC_ALL, $formattedLocale);
+	}
+
+	/**
 	 * Retrieves the value of the record field $key formatted as an area.
 	 * If the field's value is empty or its intval is zero, an empty string will be returned.
 	 *
@@ -712,28 +735,37 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML for the number in the field formatted using decimalSeparator and currencyUnit from the TS setup, may be an empty string
 	 */
 	private function getFormattedCurrency($key) {
-		return $this->getFormattedNumber($key, $this->getConfValueString('currencyUnit'));
+		$localeConvention = localeconv();
+		return $this->getFormattedNumber($key, $localeConvention['currency_symbol']);
 	}
 
 	/**
 	 * Retrieves the value of the record field $key and formats,
-	 * using the value from decimalSeparator from the TS setup and appending $unit.
-	 * If the field's value is empty or its intval is zero, an empty string will be returned.
+	 * using the system's locale and appending $unit. If the field's value is
+	 * empty or its intval is zero, an empty string will be returned.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
-	 * @return	string		HTML for the number in the field formatted using decimalSeparator with $unit appended, may be an empty string
+	 * @param	string		key of the field to retrieve (the name of a database
+	 * 						column), may not be empty
+	 * @return	string		HTML for the number in the field formatted using the
+	 * 						system's locale with $unit appended, may be an empty
+	 * 						string
 	 */
 	private function getFormattedNumber($key, $unit) {
-		$result = '';
-
 		$rawValue = $this->internal['currentRow'][$key];
-
-		if (!empty($rawValue) && (intval($rawValue) !== 0) ) {
-			$withDecimal = preg_replace('/\./', $this->getConfValueString('decimalSeparator'), $rawValue);
-			$result = $withDecimal.'&nbsp;'.$unit;
+		if (empty($rawValue) || (intval($rawValue) == 0)) {
+			return '';
 		}
+		$localeConvention = localeconv();
+		$decimals = intval($this->getConfValueString('numberOfDecimals'));
+				
+		$formattedNumber = number_format(
+			$rawValue,
+			$decimals,
+			$localeConvention['decimal_point'],
+			$localeConvention['thousands_sep']
+		);
 
-		return $result;
+		return $formattedNumber.'&nbsp;'.$unit;;
 	}
 
 	/**
@@ -1586,6 +1618,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Checks whether a front end user is logged in.
+	 *
+	 * @return	boolean		true if a user is logged in, false otherwise
+	 */
+	public function isLoggedIn() {
+		return ((boolean) $GLOBALS['TSFE'])
+			&& ((boolean) $GLOBALS['TSFE']->loginUser);
+	}
+
+	/**
 	 * Checks whether displaying the single view page currently is allowed. This
 	 * depends on whether currently a FE user is logged in and whether, per
 	 * configuration, access to the details page is allowed even when no user is
@@ -1597,6 +1639,22 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	public function isAccessToSingleViewPageAllowed() {
 		return ($this->isLoggedIn()
 			|| !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
+	}
+
+	/**
+	 * Sets a configuration value.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 *
+	 * @param	string		key of the configuration property to set, must not be empty
+	 * @param	mixed		value of the configuration property, may be empty or zero
+	 */
+	public function setConfigurationValue($key, $value) {
+		if (!is_array($this->conf)) {
+			$this->conf = array();
+		}
+
+		$this->conf[$key] = $value;
 	}
 
 	/**
