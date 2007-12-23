@@ -109,7 +109,7 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 	 * always returns false. In tx_realty_openimmo_import, it returns a boolean
 	 * value from the global configuration.
 	 */
-	public function isErrorLogOnlyEnabled() {
+	public function isIgnoreValidationEnabled() {
 		return false;
 	}
 }

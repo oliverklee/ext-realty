@@ -15,7 +15,7 @@
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
-			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem.</label>
+			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
 			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
 			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>
 			<label index="message_successful_validation">The validation proceeded successfully.</label>
@@ -32,14 +32,14 @@
 			<label index="label_not_allowed">Unwelcome</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="message_no_zips">Es wurden keine ZIP-Archive im Import Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</label>
+			<label index="message_no_zips">Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</label>
 			<label index="message_not_written_to_database">Der Datensatz wurde nicht in die Datenbank geschrieben. Möglicherweise ist der Inhalt invalid.</label>
 			<label index="message_written_to_database">Der Datensatz wurde in die Datenbank eingefügt.</label>
 			<label index="message_fields_required">Die Pflichtfelder sind nicht gesetzt</label>
 			<label index="message_log_sent_to">Das Protokoll wurde gesendet an</label>
 			<label index="message_extracted_successfully">Das ZIP-Archiv wurde erfolgreich entpackt.</label>
 			<label index="message_extraction_failed">Das Entpacken des ZIP-Archives ist fehlgeschlagen, da das Archiv nicht geöffnet werden konnte. Möglicherweise ist die Datei fehlerhaft.</label>
-			<label index="message_invalid_xml_path">Der XML-Pfad wurde nicht gefunden. Eventuell ist kein Ordner mit dem entpacktem Inhalt des ZIP-Archives vorhanden. Ein Dateirechteproblem kann die Ursache sein.</label>
+			<label index="message_invalid_xml_path">Der XML-Pfad wurde nicht gefunden. Eventuell ist kein Ordner mit dem entpacktem Inhalt des ZIP-Archives vorhanden. Ein Dateirechteproblem kann die Ursache sein. Bitte stellen Sie sicher, dass Sie Schreibrechte im Import-Ordner haben.</label>
 			<label index="message_too_many_xml">Es darf nicht mehr als eine XML-Datei im ZIP-Archiv sein. Bitte entfernen Sie die überschüssigen XML-Dateien aus dem Archiv.</label>
 			<label index="message_no_xml">Im ZIP-Archiv kann keine XML-Datei gefunden werden. Sollte es dennoch eine geben, stellen Sie bitte sicher, dass sie mit '.xml' endet.</label>
 			<label index="message_successful_validation">Die Validierung war erfolgreich.</label>
@@ -65,7 +65,7 @@
 			<label index="message_log_sent_to" type="integer">24096936</label>
 			<label index="message_extracted_successfully" type="integer">215773016</label>
 			<label index="message_extraction_failed" type="integer">256903313</label>
-			<label index="message_invalid_xml_path" type="integer">134517997</label>
+			<label index="message_invalid_xml_path" type="integer">103030008</label>
 			<label index="message_too_many_xml" type="integer">238269320</label>
 			<label index="message_no_xml" type="integer">206769090</label>
 			<label index="message_successful_validation" type="integer">224591219</label>
@@ -91,7 +91,7 @@
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
-			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem.</label>
+			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
 			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
 			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>
 			<label index="message_successful_validation">The validation proceeded successfully.</label>

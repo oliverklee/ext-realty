@@ -300,7 +300,7 @@ class tx_realty_openimmo_import {
 	 *
 	 * @return	boolean		true if 'onlyErrors' is enabled, false otherwise
 	 */
-	private function enableErrorLogOnly() {
+	private function isErrorLogOnlyEnabled() {
 		return (boolean) $this->globalConfiguration['onlyErrors'];
 	}
 
@@ -321,7 +321,7 @@ class tx_realty_openimmo_import {
 	 * 						will be tried, no matter what the validation result
 	 * 						is
 	 */
-	protected function isErrorLogOnlyEnabled() {
+	protected function isIgnoreValidationEnabled() {
 		return (boolean) $this->globalConfiguration['ignoreValidation'];
 	}
 
@@ -397,7 +397,7 @@ class tx_realty_openimmo_import {
 
 		$result = array();
 		$emailDataToPrepare = $emailData;
-		if ($this->enableErrorLogOnly()) {
+		if ($this->isErrorLogOnlyEnabled()) {
 			$log = 'errorLog';
 		} else {
 			$log = 'logEntry';
@@ -439,32 +439,31 @@ class tx_realty_openimmo_import {
 	 * 						otherwise
 	 */
 	private function validateEmailDataArray(array $emailData) {
+		$isValidDataArray = true;
 		$requiredKeys = array(
 			'recipient',
 			'objectNumber',
 			'logEntry',
 			'errorLog'
 		);
-		$numberOfValidArrays = 0;
-		foreach ($emailData as $key => $dataArray) {
-			if (is_array($dataArray)) {
-				$validKeysInDataArray = count(
-					array_intersect(
-						array_keys($dataArray),
-						$requiredKeys
-					)
-				);
-				$isValidDataArray = ($validKeysInDataArray == 4);
-			} else {
-				$isValidDataArray = false;
-			}
 
-			if ($isValidDataArray)  {
-				$numberOfValidArrays++;
+		foreach ($emailData as $key => $dataArray) {
+			if (!is_array($dataArray)) {
+				$isValidDataArray = false;
+				break;
+			} else {
+				$numberOfValidArrays = count(
+					array_intersect(array_keys($dataArray),	$requiredKeys)
+				);
+
+				if ($numberOfValidArrays != 4) {
+					$isValidDataArray = false;
+					break;
+				}
 			}
 		}
 
-		return ($numberOfValidArrays == count($emailData));
+		return $isValidDataArray;
 	}
 
 	/**
@@ -560,7 +559,7 @@ class tx_realty_openimmo_import {
 	/**
 	 * Sends an e-mail with log information to each address given as a key of
 	 * $addressesAndMessages.
-	 * In case there is no default address configured in the EM, no messages are
+	 * If there is no default address configured in the EM, no messages will be
 	 * sent at all.
 	 *
 	 * @param	array		Three dimensional array with e-mail addresses as
@@ -823,7 +822,7 @@ class tx_realty_openimmo_import {
 		} elseif ($validationResult == 'message_validation_impossible') {
 			$this->addToLogEntry($LANG->getLL($validationResult));
 		} else {
-			if (!$this->isErrorLogOnlyEnabled()) {
+			if (!$this->isIgnoreValidationEnabled()) {
 				$this->importedXml = null;
 			}
 			$this->addToErrorLog($validationResult);
@@ -1010,7 +1009,7 @@ class tx_realty_openimmo_import {
 	 * Returns the object number of a realty object if it is set.
 	 *
 	 * @return	string		object number, may be empty if no object number
-	 * 						was	set or if the realty object is not initialized
+	 * 						was set or if the realty object is not initialized
 	 */
 	private function getObjectNumberFromRealtyObject() {
 		if (!is_object($this->realtyObject)) {

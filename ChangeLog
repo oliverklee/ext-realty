@@ -1,5 +1,9 @@
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1245] Feature: Read the XML files and (re)write the corresponding records
+
+2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
+
 	* [#1275] Feature: Create a class (model) that represents a realty object
 
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
@@ -9,10 +13,6 @@
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1218] Change: Format the prices according to the current FE language
-
-2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1245] Feature: Read the XML files and (re)write the corresponding records
 
 2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
 
