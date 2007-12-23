@@ -292,37 +292,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$this->internal['orderByList'] = 'object_number,title,city,district,buying_price,rent_excluding_bills,number_of_rooms,living_area,tstamp';
 
-		$additionalWhereClause = ($this->hasConfValueString('staticSqlFilter')) ?
-			// The space before the "AND" will be automatically added by pi_exec_query,
-			// and so we don't need to explicitely add it.
-			'AND '.$this->getConfValueString('staticSqlFilter') :
-			'';
-
-		// find only cities that match the uid in piVars['city']
-		if (isset($this->piVars['city'])) {
-			$additionalWhereClause .=  ' AND city='.$this->piVars['city'];
-		}
-
-		if ($this->getConfValueString('what_to_display') == 'favorites') {
-			// The favorites page should never get cached.
-			$GLOBALS['TSFE']->set_no_cache();
-			// The favorites list is the only content element that may
-			// accept changes to the favorites list.
-			$this->processSubmittedFavorites();
-			// If the favorites list is empty, make sure to create a valid query
-			// that will produce zero results.
-			$additionalWhereClause .= ($this->getFavorites() != '') ?
-				' AND uid IN('.$this->getFavorites().')' :
-				' AND (0=1)';
-			$this->favoritesDataVerbose = array();
-		}
-
-		$searchSelection = implode(',', $this->getSearchSelection());
-		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$additionalWhereClause .=
-				' AND '.$this->getConfValueString('checkboxesFilter')
-				.' IN ('.$searchSelection.')';
-		}
+		$additionalWhereClause = $this->createWhereClause();
 
 		// get number of records (the "true" activates the "counting" mode)
 		$dbResultCounter = $this->pi_exec_query($this->internal['currentTable'], true, $additionalWhereClause);
@@ -341,6 +311,51 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
 
 		return $dbResult;
+	}
+
+	/**
+	 * Creates the WHERE clause for initListView().
+	 *
+	 * @return	string		WHERE clause for initListView(), will be empty if
+	 * 						'staticSqlFilter' and $this->piVars['city'] are 
+	 * 						not set and 'what_to_display' is not 'favorites' and
+	 * 						'checkboxesFilter' is either not set or 
+	 * 						$searchSelection is empty
+	 */
+	private function createWhereClause() {
+		$whereClause = ($this->hasConfValueString('staticSqlFilter')) ?
+			// The space before the "AND" will be automatically added by pi_exec_query,
+			// and so we don't need to explicitely add it.
+			'AND '.$this->getConfValueString('staticSqlFilter') :
+			'';
+
+		// find only cities that match the uid in piVars['city']
+		if (isset($this->piVars['city'])) {
+			$whereClause .=  ' AND city='.$this->piVars['city'];
+		}
+
+		if ($this->getConfValueString('what_to_display') == 'favorites') {
+			// The favorites page should never get cached.
+			$GLOBALS['TSFE']->set_no_cache();
+			// The favorites list is the only content element that may
+			// accept changes to the favorites list.
+			$this->processSubmittedFavorites();
+			// If the favorites list is empty, make sure to create a valid query
+			// that will produce zero results.
+			$whereClause .= ($this->getFavorites() != '') ?
+				' AND uid IN('.$this->getFavorites().')' :
+				' AND (0=1)';
+			$this->favoritesDataVerbose = array();
+		}
+
+		$searchSelection = implode(',', $this->getSearchSelection());
+		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
+			$whereClause .=
+				' AND '.$this->getConfValueString('checkboxesFilter')
+				.' IN ('.$searchSelection.')';
+		}
+
+		return $whereClause;
 	}
 
 	/**
