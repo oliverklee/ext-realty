@@ -1,5 +1,9 @@
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#155] Change: pi1: move createWhereClause to its own function
+
+2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
+
 	* [#1218] Change: Format the prices according to the current FE language
 
 2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>

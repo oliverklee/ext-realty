@@ -49,10 +49,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function setUp() {
 		// Bolster up the fake front end.
-		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
-
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-
 		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
@@ -64,15 +60,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->fixture = new tx_realty_pi1();
-		$this->fixture->cObj = t3lib_div::makeInstance('tslib_cObj');
-		$this->fixture->cObj->start('');
+		// As TYPO3 mode is BE, the template file needs to be included explicitly.
+		$this->fixture->init(array(
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'
+		));
 
-		$this->fixture->init(array());
 		// We expect the single view page to be at page #1.
 		$this->fixture->setConfigurationValue('singlePID', TX_REALTY_SINGLE_PID);
 
 		$this->fixture->storeFavorites(array());
-		
+
 		$this->createDummyPages();
 		$this->createDummyObjects();
 	}
@@ -289,6 +286,21 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateListViewReturnsHtmlListOfTableEntries() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		// As TYPO3 mode is BE the PID in $GLOBALS['TSFE'] needs to be set explicitly.
+		$GLOBALS['TSFE']->id = TX_REALTY_SINGLE_PID;
+
+		$this->assertContains(
+			'foo1',
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			'foo2',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
 		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
 
@@ -356,7 +368,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'foo',
 			$sessionData
 		);
-		
 	}
 
 	public function testWriteSummaryStringOfFavoritesToDatabaseIfFeUserIsLoggedIn() {
@@ -623,7 +634,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				array(
 					'uid' => $uid,
 					'title' => 'foo'.$objectNumber,
-					'object_number' => $objectNumber
+					'object_number' => $objectNumber,
+					'pid' => TX_REALTY_SINGLE_PID
 				)
 			);
 			$objectNumber++;
