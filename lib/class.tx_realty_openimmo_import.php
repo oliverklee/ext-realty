@@ -35,10 +35,10 @@ require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domdocument_co
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
 class tx_realty_openimmo_import {
-	/** stores one entire log entry */
+	/** stores the complete log entry */
 	private $logEntry = '';
 
-	/** stores one entire error log */
+	/** stores the complete error log */
 	private $errorLog = '';
 
 	/**
@@ -60,24 +60,14 @@ class tx_realty_openimmo_import {
 	/** EM configuration data */
 	private $globalConfiguration = array();
 
-	/** instance of 'tx_realty_object' which inserts OpenImmo records to database*/
+	/** instance of 'tx_realty_object' which inserts OpenImmo records to database */
 	private $realtyObject = null;
-
-	/**
-	 * instance of 'tx_realty_domdocument_converter' which converts a
-	 * DOMDocument of an OpenImmo XML file to an array compatible to the
-	 * database table 'tx_realty_objects'
-	 */
-	private $domDocumentConverter = null;
 
 	/** the upload directory for images */
 	private $uploadDirectory = 'uploads/tx_realty/';
 
 	/** absolute path to the OpenImmo schema file */
 	private $schemaFile = '';
-
-	/** instance of 'tx_oelib_templatehelper', provides templating functions */
-	private $templateHelper = null;
 
 	/**
 	 * Constructor.
@@ -87,18 +77,6 @@ class tx_realty_openimmo_import {
 
 		libxml_use_internal_errors(true);
 		$this->storeGlobalConfiguration();
-
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
-		$this->domDocumentConverter = t3lib_div::makeInstance(
-			'tx_realty_domdocument_converter'
-		);
-
-		$this->templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
-		$this->templateHelper->init(
-			array(
-				'templateFile' => $this->globalConfiguration['emailTemplate']
-			)
-		);
 
 		// Needed as only templating functions of tx_oelib_templatehelper are
 		// usable outside FE mode.
@@ -123,7 +101,7 @@ class tx_realty_openimmo_import {
 	 * Depending on the configuration in EM the log or only the errors are sent
 	 * via e-mail to the contact addresses of each realty record if they are
 	 * available. Else the information goes to the address configured in EM. If
-	 * no e-mail address is configured, sending e-mails is disabled.
+	 * no e-mail address is configured, the sending of e-mails is disabled.
 	 *
 	 * @param	string		absolute path of the directory which contains the
 	 * 						ZIP archives, may end with a trailing slash, must not
@@ -167,11 +145,11 @@ class tx_realty_openimmo_import {
 			foreach ($zipsToExtract as $currentZip) {
 				$this->extractZip($currentZip);
 				$this->loadXmlFile($currentZip);
-				$emailData = $this->processRealtyRecordInsertion($currentZip);
-
-				$this->storeLogsAndClearTemporaryLog();
+				$emailData = array_merge(
+					$emailData,
+					$this->processRealtyRecordInsertion($currentZip)
+				);
 			}
-
 			$this->sendEmails($this->prepareEmails($emailData));
 		} else {
 			$this->addToErrorLog($LANG->getLL('message_no_zips'));
@@ -188,34 +166,37 @@ class tx_realty_openimmo_import {
 	/**
 	 * Processes the insertion of realty records to database. Tries to fetch the
 	 * data from the currently loaded XML file. If there is data, it is inserted
-	 * to database and the images found in the ZIP archieve are copied to the
+	 * to the database and the images found in the ZIP archive are copied to the
 	 * uploads folder.
 	 * Success and failures are logged and an array with data for e-mails about
 	 * the proceedings is returned.
 	 *
-	 * @param	string		path of current ZIP file, only used for log, may be
-	 * 						empty
+	 * @param	string		path of the current ZIP file, only used for log, may
+	 * 						be empty
 	 *
-	 * @return	array		arrays of email data for each record as values of an
-	 * 						outer array, will not be empty unless
-	 * 						$recordsToInsert was empty
+	 * @return	array		Two dimensional array of e-mail data. Each inner
+	 * 						array has the elements 'recipient', 'objectNumber',
+	 * 						'logEntry' and 'errorLog'. Will be empty if there
+	 * 						are no records to insert.
 	 */
 	private function processRealtyRecordInsertion($currentZip) {
 		global $LANG;
 
 		$recordsToInsert = $this->convertDomDocumentToArray(
-			$this->importedXml,
-			$currentZip
+			$this->getImportedXml()
 		);
+		$emailData = array();
 
 		if (!empty($recordsToInsert)) {
 			foreach ($recordsToInsert as $record) {
-				$this->writeToDatabase($record, $currentZip);
+				$this->writeToDatabase($record);
 
 				$emailData[] = $this->createEmailRawDataArray(
 					$this->getContactEmailFromRealtyObject(),
 					$this->getObjectNumberFromRealtyObject()
 				);
+
+				$this->storeLogsAndClearTemporaryLog();
 			}
 
 			$this->copyImagesFromExtractedZip($currentZip, $this->uploadDirectory);
@@ -233,43 +214,38 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
-	 * Tries to write an imported record to database and checks the
-	 * contact e-mail address. If the address is invalid, it is replaced by the
-	 * default address as configured in EM. Note: There is no check for the
-	 * validity of the default address.
-	 * If the DOMDocument cannot be loaded, or if required fields are missing,
-	 * the record will not be inserted to the database. Success and failures are
+	 * Tries to write an imported record to the database and checks the contact
+	 * e- mail address. If the address is invalid, it is replaced by the default
+	 * address as configured in EM.
+	 * Note: There is no check for the validity of the default address. If the
+	 * DOMDocument cannot be loaded, or if required fields are missing, the
+	 * record will not be inserted to the database. Success and failures are
 	 * logged.
 	 *
 	 * @param	array		record to insert, can be empty
-	 * @param	string		path of current ZIP archive , only used for log, may
-	 * 						be empty
 	 */
-	protected function writeToDatabase($realtyRecord, $currentZip) {
+	protected function writeToDatabase($realtyRecord) {
 		global $LANG;
 
 		$this->loadRealtyObject($realtyRecord);
 
 		if ($this->isRealtyObjectDataEmpty()) {
 			$this->addToErrorLog(
-				basename($currentZip).': '
-				.$LANG->getLL('message_not_written_to_database').chr(10)
+				$LANG->getLL('message_not_written_to_database').chr(10)
 			);
 		} else {
 			$missingRequiredFields = $this->realtyObject->checkForRequiredFields();
 			if (!empty($missingRequiredFields)) {
 				$this->addToErrorLog(
-				basename($currentZip).': '
-				.$LANG->getLL('message_fields_required')
-				.implode(', ', $missingRequiredFields).' '
-				.$LANG->getLL('message_not_written_to_database').chr(10)
+					$LANG->getLL('message_fields_required').': '
+						.implode(', ', $missingRequiredFields).' '
+						.$LANG->getLL('message_not_written_to_database').chr(10)
 			);
 			} else {
 				$this->ensureContactEmail();
 				$this->realtyObject->writeToDatabase();
 				$this->addToLogEntry(
-					basename($currentZip).': '
-					.$LANG->getLL('message_written_to_database').chr(10)
+					$LANG->getLL('message_written_to_database').chr(10)
 				);
 			}
 		}
@@ -304,13 +280,14 @@ class tx_realty_openimmo_import {
 	private function storeLogsAndClearTemporaryLog() {
 		$this->errorLog .= $this->temporaryErrorLog;
 		$this->temporaryErrorLog = '';
+
 		$this->logEntry .= $this->temporaryLogEntry;
 		$this->temporaryLogEntry = '';
 	}
 
 	/**
 	 * Stores the global configuration array which contains the configuration
-	 * done in the EM.
+	 * set in the EM.
 	 */
 	private function storeGlobalConfiguration() {
 		$this->globalConfiguration = unserialize(
@@ -330,7 +307,7 @@ class tx_realty_openimmo_import {
 	/**
 	 * Returns the default e-mail address, configured in the EM.
 	 *
-	 * @return	string		default email address, may be empty
+	 * @return	string		default e-mail address, may be empty
 	 */
 	protected function defaultEmailAddress() {
 		return $this->globalConfiguration['emailAddress'];
@@ -344,7 +321,7 @@ class tx_realty_openimmo_import {
 	 * 						will be tried, no matter what the validation result
 	 * 						is
 	 */
-	protected function ignoreValidation() {
+	protected function isErrorLogOnlyEnabled() {
 		return (boolean) $this->globalConfiguration['ignoreValidation'];
 	}
 
@@ -353,10 +330,10 @@ class tx_realty_openimmo_import {
 	 * Stores all information for an e-mail to an array with the keys
 	 * 'recipient', 'objectNumber', 'logEntry' and 'errorLog'.
 	 *
-	 * @param	string		email address, may be empty
+	 * @param	string		e-mail address, may be empty
 	 * @param	string		object number, may be empty
 	 *
-	 * @return	array		email raw data, contains the elements 'recipient',
+	 * @return	array		e-mail raw data, contains the elements 'recipient',
 	 * 						'objectNumber', 'logEntry' and 'errorLog', will not
 	 * 						be empty
 	 */
@@ -401,12 +378,17 @@ class tx_realty_openimmo_import {
 	 * If 'onlyErrors' is enabled in EM, the messages will just contain error
 	 * messages and no information about success.
 	 *
-	 * @param	array		e-mail data for each record, structured as
-	 * 						described for validateEmailDataArray(), may be empty
+	 * @param	array		Two dimensional array of e-mail data. Each inner
+	 * 						array has the elements 'recipient', 'objectNumber',
+	 * 						'logEntry' and 'errorLog'. May be empty.
 	 *
-	 * @return	array		e-mail addresses as keys and information about the
-	 * 						import of related records as values, empty if the
-	 * 						input array is empty or invalid
+	 * @return	array		Three dimensional array with e-mail addresses as
+	 * 						keys of the outer array. Innermost there is an array
+	 *						with only one element: Object number as key and the
+	 *						corresponding log information as value. This array
+	 *						is wrapped by a numeric array as object numbers are
+	 *						not necessarily unique. Empty if the input array is
+	 *						empty or invalid.
 	 */
 	protected function prepareEmails(array $emailData) {
 		if (!$this->validateEmailDataArray($emailData)) {
@@ -422,11 +404,11 @@ class tx_realty_openimmo_import {
 		}
 
 		foreach ($emailDataToPrepare as $recordNumber => $record) {
-			if (($record['recipient'] == '') || ($record['recipient'] == false)) {
+			if ($record['recipient'] == '') {
 				$record['recipient'] = $this->defaultEmailAddress();
 			}
 
-			if (($record['objectNumber'] == '') || ($record['objectNumber'] == false)) {
+			if ($record['objectNumber'] == '') {
 				$record['objectNumber'] = '------';
 			}
 
@@ -434,6 +416,7 @@ class tx_realty_openimmo_import {
 				$record['objectNumber'] => $record[$log]
 			);
 		}
+
 		$this->purgeRecordsWithoutLogMessages(&$result);
 		$this->purgeRecipientsForEmptyMessages(&$result);
 
@@ -441,39 +424,47 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
-	 * Validates an email data array which is used to prepare e-mails. Returns
+	 * Validates an e-mail data array which is used to prepare e-mails. Returns
 	 * true if the structure is correct, false otherwise.
 	 * The structure is correct, if there are arrays as values for each numeric
 	 * key and if those arrays contain the elements 'recipient', 'objectNumber',
 	 * 'logEntry' and 'errorLog' as keys.
 	 *
-	 * @param	array		e-mail data array to validate, may be empty
+	 * @param	array		e-mail data array to validate with arrays as values
+	 * 						for each numeric key and if those arrays contain the
+	 * 	 					elements 'recipient', 'objectNumber', 'logEntry' and
+	 * 						 'errorLog' as keys, may be empty
 	 *
 	 * @return	boolean		true if the structure of the array is valid, false
 	 * 						otherwise
 	 */
 	private function validateEmailDataArray(array $emailData) {
-		if (!is_numeric(implode(array_keys($emailData)))) {
-			return false;
-		}
-
-		$result = false;
 		$requiredKeys = array(
 			'recipient',
 			'objectNumber',
 			'logEntry',
 			'errorLog'
 		);
-
+		$numberOfValidArrays = 0;
 		foreach ($emailData as $key => $dataArray) {
-			if (count(array_intersect(array_keys($dataArray), $requiredKeys))
-				== 4
-			) {
-				$result = true;
+			if (is_array($dataArray)) {
+				$validKeysInDataArray = count(
+					array_intersect(
+						array_keys($dataArray),
+						$requiredKeys
+					)
+				);
+				$isValidDataArray = ($validKeysInDataArray == 4);
+			} else {
+				$isValidDataArray = false;
+			}
+
+			if ($isValidDataArray)  {
+				$numberOfValidArrays++;
 			}
 		}
 
-		return $result;
+		return ($numberOfValidArrays == count($emailData));
 	}
 
 	/**
@@ -511,50 +502,59 @@ class tx_realty_openimmo_import {
 	 * Fills a template file, which has already been included, with data for one
 	 * e-mail.
 	 *
-	 * @param		array		message content for one email: numeric keys and
-	 * 							arrays of object number associated with message
-	 * 							as values, must not be empty
+	 * @param		array		Wrapped message content for one e-mail: Each
+	 *			 				object number-message pair is wrapped by a
+	 *							numeric key as object numbers are not necessarily
+	 *							unique. Must not be empty
 	 *
-	 * @return		string		email body
+	 * @return		string		e-mail body
 	 */
 	private function fillEmailTemplate($recordsForOneEmail) {
-
 		global $LANG;
-		$this->templateHelper->getTemplateCode();
+
+		$templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
+		$templateHelper->init(
+			array(
+				'templateFile' => $this->globalConfiguration['emailTemplate']
+			)
+		);
+		$templateHelper->getTemplateCode();
+
 		$contentItem = array();
 
-		//collects data for the subpart 'CONTENT_ITEM'
-		$this->templateHelper->setMarkerContent(
+		// collects data for the subpart 'CONTENT_ITEM'
+		$templateHelper->setMarkerContent(
 			'label_object_number',
 			$LANG->getLL('label_object_number')
 		);
 		foreach ($recordsForOneEmail as $recordNumber => $record) {
-			$this->templateHelper->setMarkerContent(
+			// $record is an array of the object number associated with the log
+			$templateHelper->setMarkerContent(
 				'object_number',
 				key($record)
 			);
-			$this->templateHelper->setMarkerContent(
+			$templateHelper->setMarkerContent(
 				'log',
 				implode($record)
 			);
-			$contentItem[] = $this->templateHelper->getSubpart('CONTENT_ITEM');
+			$contentItem[] = $templateHelper->getSubpart('CONTENT_ITEM');
 		}
 
-		//fills the subpart 'EMAIL_BODY'
-		$this->templateHelper->setMarkerContent(
+		// fills the subpart 'EMAIL_BODY'
+		$templateHelper->setMarkerContent(
 			'header',
 			$LANG->getLL('label_introduction')
 		);
-		$this->templateHelper->setSubpartContent(
+		$templateHelper->setSubpartContent(
 			'CONTENT_ITEM',
 			implode(chr(10), $contentItem)
 		);
-		$this->templateHelper->setMarkerContent(
+		$templateHelper->setMarkerContent(
 			'footer',
 			$LANG->getLL('label_explanation')
 		);
 
-		return $this->templateHelper->getSubpart('EMAIL_BODY');
+		return $templateHelper->getSubpart('EMAIL_BODY');
 	}
 
 	/**
@@ -563,14 +563,16 @@ class tx_realty_openimmo_import {
 	 * In case there is no default address configured in the EM, no messages are
 	 * sent at all.
 	 *
-	 * @param	array		Prepared e-mail data: Addresses as keys and arrays
-	 * 						with message content as values. The content needs to
-	 * 						be structured as described in fillEmailTemplate().
-	 * 						Must not be empty.
+	 * @param	array		Three dimensional array with e-mail addresses as
+	 * 						keys of the outer array. Innermost there is an array
+	 *						with only one element: Object number as key and the
+	 *						corresponding log information as value. This array
+	 *						is wrapped by a numeric array as object numbers are
+	 *						not necessarily unique. Must not be empty.
 	 */
 	private function sendEmails(array $addressesAndMessages) {
-
 		global $LANG;
+
 		if ($this->defaultEmailAddress() == '') {
 			return;
 		}
@@ -585,7 +587,7 @@ class tx_realty_openimmo_import {
 
 		if (!empty($addressesAndMessages)) {
 			$this->addToLogEntry(
-				$LANG->getLL('message_log_sent_to').' '
+				$LANG->getLL('message_log_sent_to').': '
 				.implode(', ', array_keys($addressesAndMessages))
 			);
 		}
@@ -599,8 +601,9 @@ class tx_realty_openimmo_import {
 	 */
 	protected function ensureContactEmail() {
 		$address = $this->getContactEmailFromRealtyObject();
+		$isValid = ($address != '') && (t3lib_div::validEmail($address));
 
-		if (!($address && t3lib_div::validEmail($address))) {
+		if (!$isValid) {
 			$this->setContactEmailOfRealtyObject($this->defaultEmailAddress());
 		}
 	}
@@ -626,9 +629,7 @@ class tx_realty_openimmo_import {
 			return array();
 		}
 
-		$recordsArray = $this->domDocumentConverter->getConvertedData(
-			$domDocument
-		);
+		$recordsArray = $this->convertDomDocumentToArray($domDocument);
 
 		$emails = array();
 		foreach ($recordsArray as $record) {
@@ -765,9 +766,9 @@ class tx_realty_openimmo_import {
 				$result = implode($pathOfXml);
 			} elseif (count($pathOfXml) > 1) {
 				$this->addToErrorLog(
-					'message_too_many_xml'
+					basename($pathOfZip).': '.$LANG->getLL('message_too_many_xml')
 				);
-			} elseif (count($pathOfXml) < 1) {
+			} else {
 				$this->addToErrorLog(
 					basename($pathOfZip).': '.$LANG->getLL('message_no_xml')
 				);
@@ -789,7 +790,8 @@ class tx_realty_openimmo_import {
 	 * On error during validation, the document will only be loaded if
 	 * 'ignoreValidation' is set true in the EM. Otherwise it is not loaded and
 	 * '$this->importedXml' is set to null.
-	 * Logs validation.
+	 * Logs the validation result or a message about successful validation if
+	 * the result was empty.
 	 *
 	 * @param	string		absolute path where to find the ZIP archive which
 	 * 						includes an XML file, must not be empty
@@ -806,23 +808,25 @@ class tx_realty_openimmo_import {
 		$this->importedXml = DOMDocument::load($xmlPath);
 
 		$validationResult = $this->validateXml();
+
 		if ($validationResult == '') {
 			$this->addToLogEntry(
-				basename($xmlPath).': '
-				.$LANG->getLL('message_successful_validation').chr(10)
+				$LANG->getLL('message_successful_validation').chr(10)
 			);
-		} elseif ($validationResult == 'message_no_schema_file'
+		} elseif (($validationResult == 'message_no_schema_file')
 			|| ($validationResult == 'message_invalid_schema_file_path')
 		) {
 			$this->addToLogEntry(
-				basename($xmlPath).': '.$LANG->getLL($validationResult).' '
-				.$LANG->getLL('message_import_without_validation')
+				$LANG->getLL($validationResult).' '
+					.$LANG->getLL('message_import_without_validation')
 			);
+		} elseif ($validationResult == 'message_validation_impossible') {
+			$this->addToLogEntry($LANG->getLL($validationResult));
 		} else {
-			if (!$this->ignoreValidation()) {
+			if (!$this->isErrorLogOnlyEnabled()) {
 				$this->importedXml = null;
 			}
-			$this->addToErrorLog(basename($xmlPath).': '.$validationResult);
+			$this->addToErrorLog($validationResult);
 		}
 	}
 
@@ -830,7 +834,8 @@ class tx_realty_openimmo_import {
 	 * Returns the current content of the currently loaded XML file as a
 	 * DOMDocument.
 	 *
-	 * @return	DOMDocument		loaded XML file, may be null
+	 * @return	DOMDocument		loaded XML file, may be null if no document was
+	 * 							loaded e.g. due to validation errors
 	 */
 	protected function getImportedXml() {
 		return $this->importedXml;
@@ -847,11 +852,11 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
-	 * Validates the DOMDocument in '$this->importedXml'. Uses the schema file
-	 * path which is defined in '$this->schemaFile'. If this path is empty or
-	 * invalid, validation is considered to be successful and the absence of a
-	 * schema file is logged.
-	 * Returns an empty string on sucess, error messages otherwise. Logs errors.
+	 * Validates an XML file which must have been loaded before. Therefore
+	 * the schema file path in '$this->schemaFile' is used. If this path is
+	 * empty or invalid, validation is considered to be successful and the
+	 * absence of a schema file is logged. Returns an empty string on sucess,
+	 * error messages otherwise. Logs errors.
 	 *
 	 * @return	string		empty on success, an error message otherwise
 	 */
@@ -864,9 +869,9 @@ class tx_realty_openimmo_import {
 			$result = 'message_no_schema_file';
 		} elseif (!file_exists($this->schemaFile)) {
 			$result = 'message_invalid_schema_file_path';
-		} elseif (!($this->importedXml
-			&& $this->importedXml->schemaValidate($this->schemaFile)
-		)) {
+		} elseif (!$this->getImportedXml()) {
+			$result = 'message_validation_impossible';
+		} elseif (!$this->importedXml->schemaValidate($this->schemaFile)) {
 			$errors = libxml_get_errors();
 			foreach ($errors as $error) {
 				$result .= $LANG->getLL('message_line').' '.
@@ -929,6 +934,7 @@ class tx_realty_openimmo_import {
 		}
 
 		$originalPaths = $this->getPathsOfZipsToExtract($importDirectory);
+		$folders = '';
 
 		foreach ($originalPaths as $currentOriginalPath) {
 			$currentFolder = $this->getNameForExtractionFolder($currentOriginalPath);
@@ -937,7 +943,11 @@ class tx_realty_openimmo_import {
 			}
 			if (is_dir($currentFolder)) {
 				rmdir($currentFolder);
-				$folders .= basename($currentFolder).', ';
+
+				if ($folders != '') {
+					$folders .= ', ';
+				}
+				$folders .= basename($currentFolder);
 			}
 		}
 		if ($folders != '') {
@@ -953,10 +963,18 @@ class tx_realty_openimmo_import {
 	 *
 	 * @param	DOMDocument		which contains realty records, can be null
 	 *
-	 * @return	array		realty records in an array, may be empty
+	 * @return	array		realty records in an array, may be empty if the data
+	 * 						was not convertible
 	 */
-	protected function convertDomDocumentToArray(DOMDocument $realtyRecords) {
-		return $this->domDocumentConverter->getConvertedData($realtyRecords);
+	protected function convertDomDocumentToArray($realtyRecords) {
+		if (!$realtyRecords) {
+			return;
+		}
+
+		$domDocumentConverter = t3lib_div::makeInstance(
+			'tx_realty_domdocument_converter'
+		);
+		return $domDocumentConverter->getConvertedData($realtyRecords);
 	}
 
 	/**
@@ -970,65 +988,78 @@ class tx_realty_openimmo_import {
 	 * 						result row, or UID of an existing record
 	 */
 	protected function loadRealtyObject($data) {
+		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
 		$this->realtyObject->loadRealtyObject($data);
 	}
 
 	/**
-	 * Checks whether the realty object is empty.
+	 * Checks whether the realty object data is empty.
 	 *
 	 * @return	boolean		true if the realty object's data is empty, false
 	 * 						otherwise
 	 */
 	public function isRealtyObjectDataEmpty() {
+		if (!is_object($this->realtyObject)) {
+			return true;
+		}
+
 		return $this->realtyObject->isRealtyObjectDataEmpty();
 	}
 
 	/**
 	 * Returns the object number of a realty object if it is set.
 	 *
-	 * @return	string		object number, may be empty
+	 * @return	string		object number, may be empty if no object number
+	 * 						was	set or if the realty object is not initialized
 	 */
 	private function getObjectNumberFromRealtyObject() {
+		if (!is_object($this->realtyObject)) {
+			return '';
+		}
+
 		return $this->realtyObject->getProperty('object_number');
 	}
 
 	/**
 	 * Returns the contact e-mail address of a realty object if it is set.
 	 *
-	 * @return	string		contact email address, may be empty
+	 * @return	string		contact e-mail address, may be empty if no e-mail
+	 * 						address was found or if the realty object is not
+	 * 						initialized
 	 */
 	protected function getContactEmailFromRealtyObject() {
+		if (!is_object($this->realtyObject)) {
+			return '';
+		}
+
 		return $this->realtyObject->getProperty('contact_email');
 	}
 
 	/**
 	 * Sets the contact e-mail address of a realty object.
 	 *
-	 * @param	string		contact email address, must not be empty
+	 * @param	string		contact e-mail address, must not be empty
 	 */
 	private function setContactEmailOfRealtyObject($address) {
-		$this->realtyObject->setProperty('contact_email', $address);
-	}
+		if (!is_object($this->realtyObject)) {
+			return;
+		}
 
-	/**
-	 * Sets the required fields. These fields need to be defined in a realty
-	 * object which should be inserted into the database.
-	 * Usually this is done in 'tx_realty_object'. This function is needed for
-	 * unit testing only.
-	 *
-	 * @param	array		required fields, may be empty
-	 */
-	protected function setRequiredFields(array $fields) {
-		$this->realtyObject->setRequiredFields($fields);
+		$this->realtyObject->setProperty('contact_email', $address);
 	}
 
 	/**
 	 * Gets the required fields of a realty object.
 	 * This function is needed for unit testing only.
 	 *
-	 * @return	array		required fields, may be empty
+	 * @return	array		required fields, may be empty if no fields are
+	 * 						required or if the realty object is not initialized
 	 */
 	protected function getRequiredFields() {
+		if (!is_object($this->realtyObject)) {
+			return array();
+		}
+
 		return $this->realtyObject->getRequiredFields();
 	}
 }

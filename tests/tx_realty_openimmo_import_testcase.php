@@ -236,7 +236,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseIfDomDocumentWithoutRequiredFieldsIsGiven() {
+	public function testWriteToDatabaseIfDomDocumentWhenRequiredFieldsNotGiven() {
 		$dummyDocument = DOMDocument::loadXML(
 			'<openimmo>'
 				.'<anbieter>'
@@ -256,13 +256,16 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
+		$result = array();
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'street, zip, location',
 			'tx_realty_objects',
 			''
 		);
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-			$result[] = $row;
+		if ($dbResult) {
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+				$result[] = $row;
+			}
 		}
 
 		$this->assertFalse(
@@ -277,22 +280,16 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseIfDomDocumentWithRequiredFieldsIsGiven() {
-		$this->fixture->setRequiredFields(
-			array(
-				'zip',
-				'object_number',
-				'employer',
-				'openimmo_anid',
-				'openimmo_obid',
-				'contact_person',
-				'contact_email'
-			)
-		);
+	public function testWriteToDatabaseIfDomDocumentWhenRequiredFieldsAreGiven() {
 		$dummyDocument = DOMDocument::loadXML(
 			'<openimmo>'
 				.'<anbieter>'
 					.'<immobilie>'
+						.'<objektkategorie>'
+							.'<nutzungsart WOHNEN="1"/>'
+							.'<vermarktungsart KAUF="1"/>'
+							.'<objektart><zimmer/></objektart>'
+						.'</objektkategorie>'
 						.'<geo>'
 							.'<plz>bar</plz>'
 						.'</geo>'
@@ -302,6 +299,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 						.'</kontaktperson>'
 						.'<verwaltung_techn>'
 							.'<openimmo_obid>foo</openimmo_obid>'
+							.'<aktion/>'
 							.'<objektnr_extern>foo</objektnr_extern>'
 						.'</verwaltung_techn>'
 					.'</immobilie>'
@@ -314,14 +312,21 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
+		$result = array();
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			implode(', ', $this->fixture->getRequiredFields()),
+			'*',
 			'tx_realty_objects',
 			'zip = "bar" AND object_number = "foo"'
 		);
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-			$result[] = $row;
+		if ($dbResult) {
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+				$result[] = $row;
+			}
 		}
+
+		$this->assertTrue(
+			is_array($result[0])
+		);
 
 		$difference = array_diff(
 			$this->fixture->getRequiredFields(),

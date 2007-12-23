@@ -61,7 +61,7 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 	}
 
 	public function writeToDatabase($domDocument) {
-		return parent::writeToDatabase($domDocument, 'string');
+		return parent::writeToDatabase($domDocument);
 	}
 
 	public function setSchemaFile($pathToSchemaFile) {
@@ -74,10 +74,6 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 
 	public function getRequiredFields() {
 		return parent::getRequiredFields();
-	}
-
-	public function setRequiredFields($fields) {
-		return parent::setRequiredFields($fields);
 	}
 
 	public function ensureContactEmail() {
@@ -105,7 +101,7 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 	}
 
 	public function convertDomDocumentToArray($domDocument) {
-		return parent::convertDomDocumentToArray($domDocument, 'string');
+		return parent::convertDomDocumentToArray($domDocument);
 	}
 
 	/**
@@ -113,7 +109,7 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 	 * always returns false. In tx_realty_openimmo_import, it returns a boolean
 	 * value from the global configuration.
 	 */
-	public function ignoreValidation() {
+	public function isErrorLogOnlyEnabled() {
 		return false;
 	}
 }
