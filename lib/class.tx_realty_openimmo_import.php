@@ -64,10 +64,13 @@ class tx_realty_openimmo_import {
 	private $realtyObject = null;
 
 	/** the upload directory for images */
-	private $uploadDirectory = 'uploads/tx_realty/';
+	private $uploadDirectory = '';
 
 	/** absolute path to the OpenImmo schema file */
 	private $schemaFile = '';
+
+	/** default e-mail address */
+	private $defaultEmailAddress = '';
 
 	/**
 	 * Constructor.
@@ -77,10 +80,13 @@ class tx_realty_openimmo_import {
 
 		libxml_use_internal_errors(true);
 		$this->storeGlobalConfiguration();
+		$this->setUploadDirectory(PATH_site.'uploads/tx_realty/');
+		$this->setDefaultEmailAddress();
 
 		// Needed as only templating functions of tx_oelib_templatehelper are
 		// usable outside FE mode.
-		$LANG = t3lib_div::makeInstance('language');
+		$this->initializeLanguage();
+
 	}
 
 	/**
@@ -109,34 +115,20 @@ class tx_realty_openimmo_import {
 	 * @param	string		Absolute path to the XSD file which should be used
 	 * 						for validation. If it is not set, records will be
 	 * 						imported without validation.
-	 * @param	string		the ISO 639-1 code of the language to be used for
-	 * 						the log, will be English if the string is not passed
-	 * 						or empty
  	 *
 	 * @return	string		log entry with information about the proceedings of
 	 * 						ZIP import, will not be empty, contains at least a
 	 *						timestamp
 	 */
-	public function importFromZip(
-		$importDirectory,
-		$pathToSchemaFile = '',
-		$language = 'default'
-	) {
+	public function importFromZip($importDirectory, $pathToSchemaFile = '') {
 		global $LANG;
 
 		$this->addToLogEntry(date('Y-m-d G:i:s').chr(10));
 
-		if ($language == '') {
-			$LANG->init('default');
-		} else {
-			$LANG->init($language);
-		}
-		$LANG->includeLLFile('EXT:realty/lib/locallang.xml');
-
 		$this->setSchemaFile($pathToSchemaFile);
 
 		$emailData = array();
-		$checkedImportDirectory = $this->unifyImportPath($importDirectory);
+		$checkedImportDirectory = $this->unifyPath($importDirectory);
 		$zipsToExtract = $this->getPathsOfZipsToExtract($checkedImportDirectory);
 
 		$this->storeLogsAndClearTemporaryLog();
@@ -199,7 +191,7 @@ class tx_realty_openimmo_import {
 				$this->storeLogsAndClearTemporaryLog();
 			}
 
-			$this->copyImagesFromExtractedZip($currentZip, $this->uploadDirectory);
+			$this->copyImagesFromExtractedZip($currentZip);
 		} else {
 			$emailData = $this->createWrappedEmailRawDataArray(
 				$this->findContactEmails($currentZip)
@@ -296,6 +288,17 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
+	 * Sets the path for the upload directory. This path must be valid and
+	 * absolute and may end with a trailing slash.
+	 *
+	 * @param	string		absolute path of the upload directory, must not be
+	 * 						empty
+	 */
+	protected function setUploadDirectory($path) {
+		$this->uploadDirectory = $this->unifyPath($path);
+	}
+
+	/**
 	 * Checks if the configuration in the EM enables sending errors only.
 	 *
 	 * @return	boolean		true if 'onlyErrors' is enabled, false otherwise
@@ -309,8 +312,24 @@ class tx_realty_openimmo_import {
 	 *
 	 * @return	string		default e-mail address, may be empty
 	 */
-	protected function defaultEmailAddress() {
-		return $this->globalConfiguration['emailAddress'];
+	protected function getDefaultEmailAddress() {
+		return $this->defaultEmailAddress;
+	}
+
+	/**
+	 * Sets the default e-mail address to $emailAddress or to the e-mail
+	 * address configured in the EM if $emailAddress is 'EM'.
+	 * There is no validation for this e-mail address.
+	 *
+	 * @param	string		default e-mail address, if 'EM', the e-mail address
+	 * 						is set to the value configured in the EM
+	 */
+	protected function setDefaultEmailAddress($emailAddress = 'EM') {
+		if ($emailAddress == 'EM') {
+			$this->defaultEmailAddress = $this->globalConfiguration['emailAddress'];
+		} else {
+			$this->defaultEmailAddress = $emailAddress;
+		}
 	}
 
 	/**
@@ -405,7 +424,7 @@ class tx_realty_openimmo_import {
 
 		foreach ($emailDataToPrepare as $recordNumber => $record) {
 			if ($record['recipient'] == '') {
-				$record['recipient'] = $this->defaultEmailAddress();
+				$record['recipient'] = $this->getDefaultEmailAddress();
 			}
 
 			if ($record['objectNumber'] == '') {
@@ -572,7 +591,7 @@ class tx_realty_openimmo_import {
 	private function sendEmails(array $addressesAndMessages) {
 		global $LANG;
 
-		if ($this->defaultEmailAddress() == '') {
+		if ($this->getDefaultEmailAddress() == '') {
 			return;
 		}
 
@@ -603,7 +622,7 @@ class tx_realty_openimmo_import {
 		$isValid = ($address != '') && (t3lib_div::validEmail($address));
 
 		if (!$isValid) {
-			$this->setContactEmailOfRealtyObject($this->defaultEmailAddress());
+			$this->setContactEmailOfRealtyObject($this->getDefaultEmailAddress());
 		}
 	}
 
@@ -639,15 +658,15 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
-	 * Checks the correct punctuation of the import path. Adds a slash if missing
-	 * and strips whitespaces.
+	 * Checks the correct punctuation of a path to a directory. Adds a slash if
+	 * missing and strips whitespaces.
 	 *
 	 * @param	string		path to be checked, must not be empty
 	 *
 	 * @return	string		checked path, possibly modified
 	 */
-	protected function unifyImportPath($importDirectory) {
-		$checkedPath = trim($importDirectory);
+	protected function unifyPath($directory) {
+		$checkedPath = trim($directory);
 		if (strpos($checkedPath, '/', strlen($checkedPath) - 1) === false) {
 			$checkedPath .= '/';
 		}
@@ -711,7 +730,7 @@ class tx_realty_openimmo_import {
 	 * @param	string		path of a ZIP archive, must not be empty
 	 *
 	 * @return	string		path for a folder named like the ZIP archive, empty
-	 * if passed string is empty
+	 * 						if the passed string is empty
 	 */
 	protected function getNameForExtractionFolder($pathOfZip) {
 		return str_replace('.zip', '/', $pathOfZip);
@@ -841,6 +860,26 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
+	 * Initializes the global variable $LANG needed for localized strings. Uses
+	 * the EM configuration to set the language.
+	 */
+	protected function initializeLanguage() {
+		global $LANG;
+
+		if (!is_object($LANG)) {
+			$LANG = t3lib_div::makeInstance('language');
+		}
+
+		if ($this->globalConfiguration['cliLanguage'] == '') {
+			$LANG->init('default');
+		} else {
+			$LANG->init($this->globalConfiguration['cliLanguage']);
+		}
+
+		$LANG->includeLLFile('EXT:realty/lib/locallang.xml');
+	}
+
+	/**
 	 * Sets the path of the schema file used for validation.
 	 *
 	 * @param	string		absolute path of the schema file for validation, may
@@ -885,9 +924,8 @@ class tx_realty_openimmo_import {
 	 * Copies images for OpenImmo records to the local upload folder.
 	 *
 	 * @param	string		path of the extracted ZIP archive, must not be empty
-	 * @param	string		path of upload folder, must not be empty
 	 */
-	public function copyImagesFromExtractedZip($pathOfZip, $uploadFolder) {
+	public function copyImagesFromExtractedZip($pathOfZip) {
 		$folderWithImages = $this->getNameForExtractionFolder($pathOfZip);
 
 		foreach (array('jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF')
@@ -897,7 +935,7 @@ class tx_realty_openimmo_import {
 			foreach ($images as $image) {
 				copy(
 					$image,
-					PATH_site.$uploadFolder.basename($image)
+					$this->uploadDirectory.basename($image)
 				);
 			}
 		}

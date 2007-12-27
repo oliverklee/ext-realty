@@ -855,7 +855,11 @@ class tx_realty_domdocument_converter {
 	 * the EM configuration to set the language.
 	 */
 	protected function initializeLanguage() {
-		$LANG = t3lib_div::makeInstance('language');
+		global $LANG;
+
+		if (!is_object($LANG)) {
+			$LANG = t3lib_div::makeInstance('language');
+		}
 		$globalConfiguration = unserialize(
 			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
 		);

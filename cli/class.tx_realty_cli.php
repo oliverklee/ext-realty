@@ -52,9 +52,8 @@ class tx_realty_cli {
 		);
 		$importFolder = $globalConfiguration['importFolder'];
 		$schemaFile = $globalConfiguration['openImmoSchemaFile'];
-		$language = $globalConfiguration['cliLanguage'];
 		$importer = t3lib_div::makeInstance('tx_realty_openimmo_import');
-		echo $importer->importFromZip($importFolder, $schemaFile, $language);
+		echo $importer->importFromZip($importFolder, $schemaFile);
 	}
 }
 

@@ -648,6 +648,7 @@ class tx_realty_object {
 		);
 
 		if ($dbResult) {
+			$dbResultArray = array();
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
 				$dbResultArray[] = $row[$keyToSearch];
 			}

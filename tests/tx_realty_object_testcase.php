@@ -170,7 +170,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		if ($dbResult
 			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
-        	$supposedResult = $row;
+			$supposedResult = $row;
+		} else {
+			$this->fail('There was an error with the database query.');
 		}
 
 		// dbResult can be fetched only once, so the query is needed again.
@@ -357,6 +359,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
         	$fieldsInDb = array_keys($row);
+		} else {
+			$this->fail('There was an error with the database query.');
 		}
 
 		$this->assertEquals(
@@ -442,6 +446,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
 			$result = $row['uid'];
+		} else {
+			$this->fail('There was an error with the database query.');
 		}
 
 		$this->assertEquals(
@@ -459,41 +465,6 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'tx_realty_pets'
 			),
 			''
-		);
-	}
-
-	public function testPrepareInsertionAndInsertRelationsNotChangesDatabaseIfPropertyNotExists() {
-		$this->fixture->loadRealtyObject(TX_REALTY_OBJECT_UID_1);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			'tx_realty_pets',
-			''
-		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-     		$before = array_keys($row);;
-		}
-
-		$this->fixture->prepareInsertionAndInsertRelations(
-			'pets',
-			'tx_realty_pets'
-		);
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			'tx_realty_pets',
-			''
-		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-     		$after = array_keys($row);;
-		}
-
-		$this->assertEquals(
-			$before,
-			$after
 		);
 	}
 
@@ -517,7 +488,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
 			$mMresult = $row['uid_foreign'];
+		} else {
+			$this->fail('There was an error with the database query.');
 		}
+
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'caption, image',
 			'tx_realty_images',
@@ -527,6 +501,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
 			$result = $row;
+		} else {
+			$this->fail('There was an error with the database query.');
 		}
 
 		$this->assertEquals(
@@ -563,7 +539,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
 			$mMresult = $row['uid_foreign'];
+		} else {
+			$this->fail('There was an error with the database query.');
 		}
+
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'caption, image',
 			'tx_realty_images',
@@ -573,6 +552,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
 			$result = $row;
+		} else {
+			$this->fail('There was an error with the database query.');
 		}
 
 		$this->assertEquals(
@@ -580,6 +561,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$imageNew[0]
 		);
 	}
+
 
 	///////////////////////
 	// Utility functions.

@@ -1,5 +1,9 @@
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1398] Fix: Unit test failures
+
+2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
+
 	* [#1245] Feature: Read the XML files and (re)write the corresponding records
 
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>

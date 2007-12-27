@@ -40,15 +40,19 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
 	public function setUp() {
-		// copy test folder to /tmp/ to avoid changes to the original folder
+		// copies test folder to /tmp/ to avoid changes to the original folder
 		if (!is_dir(REALTY_IMPORT_FOLDER)) {
 			mkdir(REALTY_IMPORT_FOLDER);
 		}
 		exec('cp -rf '
 			.t3lib_extMgm::extPath('realty')
-			.'/tests/fixtures/tx_realty_fixtures/ /tmp/'
+			.'tests/fixtures/tx_realty_fixtures/ /tmp/'
 		);
 		$this->fixture = new tx_realty_openimmo_import_child();
+		// avoids using the extension's real upload folder
+		$this->fixture->setUploadDirectory(REALTY_IMPORT_FOLDER);
+		// avoids sending e-mails
+		$this->fixture->setDefaultEmailAddress('');
 
 		$this->createDummyPages();
 	}
@@ -87,16 +91,16 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnifyImportPathDoesNotChangeCorrectPath() {
+	public function testUnifyPathDoesNotChangeCorrectPath() {
 		$this->assertEquals(
-			$this->fixture->unifyImportPath('correct/path/'),
+			$this->fixture->unifyPath('correct/path/'),
 			'correct/path/'
 		);
 	}
 
-	public function testUnifyImportPathTrimsAndAddsNescessarySlash() {
+	public function testUnifyPathTrimsAndAddsNecessarySlash() {
 		$this->assertEquals(
-			$this->fixture->unifyImportPath(' incorrect/path '),
+			$this->fixture->unifyPath(' incorrect/path '),
 			'incorrect/path/'
 		);
 	}
@@ -161,8 +165,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	public function testCopyImagesFromExtractedZip() {
 		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
 		$this->fixture->copyImagesFromExtractedZip(
-			REALTY_IMPORT_FOLDER.'foo.zip',
-			'../../'.REALTY_IMPORT_FOLDER
+			REALTY_IMPORT_FOLDER.'foo.zip'
 		);
 
 		$this->assertTrue(
@@ -347,21 +350,23 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testEnsureContactEmailSetsDefaultAddressIfEmptyAddressSet() {
+		$this->fixture->setDefaultEmailAddress('default address');
 		$this->fixture->loadRealtyObject(array('contact_email' => ''));
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
-			$this->fixture->defaultEmailAddress(),
+			'default address',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
 
 	public function testEnsureContactEmailSetsDefaultAddressIfInvalidAddressIsSet() {
+		$this->fixture->setDefaultEmailAddress('default address');
 		$this->fixture->loadRealtyObject(array('contact_email' => 'foo'));
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
-			$this->fixture->defaultEmailAddress(),
+			'default address',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
@@ -397,7 +402,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$this->fixture->prepareEmails($emailData),
 			array(
-				$this->fixture->defaultEmailAddress() => array(
+				$this->fixture->getDefaultEmailAddress() => array(
 					array('foo' => 'bar')
 				)
 			)
@@ -586,6 +591,40 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			in_array(DUMMY_PAGE_UID, $allPageIds)
 		);
 	}
+
+	public function testImportFromZipDoesNotWriteImportFolderContentsToDatabase() {
+		global $LANG;
+		$this->fixture->initializeLanguage();
+
+		$result = $this->fixture->importFromZip(REALTY_IMPORT_FOLDER);
+		$this->assertNotContains(
+			$LANG->getLL('message_written_to_database'),
+			$result
+		);
+	}
+
+	public function testImportFromZipLogsNoSchemaFile() {
+		global $LANG;
+		$this->fixture->initializeLanguage();
+
+		$result = $this->fixture->importFromZip(REALTY_IMPORT_FOLDER);
+		$this->assertContains(
+			$LANG->getLL('message_no_schema_file'),
+			$result
+		);
+	}
+
+	public function testImportFromZipLogsMissingRequiredFields() {
+		global $LANG;
+		$this->fixture->initializeLanguage();
+
+		$result = $this->fixture->importFromZip(REALTY_IMPORT_FOLDER);
+		$this->assertContains(
+			$LANG->getLL('message_fields_required'),
+			$result
+		);
+	}
+
 
 	///////////////////////
 	// Utility functions.

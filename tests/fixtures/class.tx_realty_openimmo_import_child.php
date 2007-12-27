@@ -36,8 +36,8 @@
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openimmo_import.php');
 
 final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
-	public function unifyImportPath($importDirectory) {
-		return parent::unifyImportPath($importDirectory);
+	public function unifyPath($importDirectory) {
+		return parent::unifyPath($importDirectory);
 	}
 
 	public function getPathsOfZipsToExtract($importDirectory) {
@@ -96,12 +96,24 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 		return parent::loadRealtyObject($data);
 	}
 
-	public function defaultEmailAddress() {
-		return parent::defaultEmailAddress();
+	public function getDefaultEmailAddress() {
+		return parent::getDefaultEmailAddress();
+	}
+	
+	public function setDefaultEmailAddress($emailAddress = 'EM') {
+		parent::setDefaultEmailAddress($emailAddress);
 	}
 
 	public function convertDomDocumentToArray($domDocument) {
 		return parent::convertDomDocumentToArray($domDocument);
+	}
+
+	public function setUploadDirectory($path) {
+		return parent::setUploadDirectory($path);
+	}
+
+	public function initializeLanguage() {
+		parent::initializeLanguage();
 	}
 
 	/**
