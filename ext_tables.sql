@@ -85,7 +85,6 @@ CREATE TABLE tx_realty_objects (
 	openimmo_anid text NOT NULL,
 	openimmo_obid text NOT NULL,
 	utilization text NOT NULL,
-	action text NOT NULL,
 	contact_person text NOT NULL,
 	contact_email text NOT NULL,
 

@@ -796,15 +796,6 @@ $TCA['tx_realty_objects'] = array(
 				'eval' => 'trim'
 			)
 		),
-		'action' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.action',
-			'config' => array(
-				'type' => 'input',
-				'size' => '30',
-				'eval' => 'trim'
-			)
-		),
 		'contact_person' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person',
@@ -849,10 +840,10 @@ $TCA['tx_realty_objects'] = array(
 					.'orderedlist|unorderedlist|outdent|indent|link|table|image|'
 					.'line|chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'action, misc;;;richtext[cut|copy|paste|formatblock|'
-					.'textcolor|bold|italic|underline|left|center|right|'
-					.'orderedlist|unorderedlist|outdent|indent|link|table|'
-					.'image|line|chMode]'
+				.'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|'
+					.'italic|underline|left|center|right|orderedlist|'
+					.'unorderedlist|outdent|indent|link|table|image|line|'
+					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/],'
 				.'details_page, images, employer, contact_person, contact_email'
 		),
@@ -879,10 +870,10 @@ $TCA['tx_realty_objects'] = array(
 					.'orderedlist|unorderedlist|outdent|indent|link|table|image|'
 					.'line|chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'action, misc;;;richtext[cut|copy|paste|formatblock|'
-					.'textcolor|bold|italic|underline|left|center|right|'
-					.'orderedlist|unorderedlist|outdent|indent|link|table|'
-					.'image|line|chMode]'
+				.'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|'
+					.'italic|underline|left|center|right|orderedlist|'
+					.'unorderedlist|outdent|indent|link|table|image|line|'
+					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/],'
 				.'details_page, images, employer, contact_person, contact_email'
 		)
