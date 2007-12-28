@@ -1,3 +1,7 @@
+2007-12-28 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1322] Fix: In the unit tests, reset auto_increment for all tables that had test records
+
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#155] Change: pi1: move createWhereClause to its own function
