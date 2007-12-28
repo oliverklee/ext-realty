@@ -77,6 +77,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->deleteDummyPages();
 		$this->deleteDummyObjects();
+		$this->resetAutoIncrement();
 
 		unset($this->fixture);
 	}
@@ -650,6 +651,35 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			'uid >= '.TX_REALTY_OBJECT_1
 		);
+	}
+
+	/**
+	 * Resets the auto increment value for the table 'pages' and
+	 * 'tx_realty_objects' to the highest existing UID + 1. This is required to
+	 * leave the table in the same status that it had before adding dummy pages.
+	 *
+	 * TODO: This function has been copied from the oelib unit testing
+	 * framework. This function can be removed once the unit testing framework
+	 * supports the table "pages" (bug 1418).
+	 *
+	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=1418
+	 */
+	private function resetAutoIncrement() {
+		foreach (array('pages', 'tx_realty_objects') as $table) {
+			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+				'SELECT MAX(uid) AS uid FROM '.$table.';'
+			);
+			if ($dbResult) {
+				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+				if ($row) {
+					$newAutoIncrementValue = $row['uid'] + 1;
+					$GLOBALS['TYPO3_DB']->sql_query(
+						'ALTER TABLE '.$table.' AUTO_INCREMENT='
+							.$newAutoIncrementValue.';'
+					);
+				}
+			}
+		}
 	}
 }
 
