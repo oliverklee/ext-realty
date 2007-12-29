@@ -46,7 +46,7 @@ class tx_realty_object {
 	private $requiredFields = array(
 		'zip',
 		'object_number',
-		// 'object_type' refers to 'vermarktungsart' in OpenImmo schema.
+		// 'object_type' refers to 'vermarktungsart' in the OpenImmo schema.
 		'object_type',
 		'house_type'
 	);
@@ -201,31 +201,38 @@ class tx_realty_object {
 	 * associated in $this->propertyTables.
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
+	 *
+	 * @return 	boolean		true if the record was inserted, false otherwise
 	 */
 	public function writeToDatabase() {
 		if ($this->isRealtyObjectDataEmpty()) {
 			return;
 		}
 
-		$insertImages = false;
+		$wasSuccessful = false;
+
 
 		if ($this->recordExistsInDatabase($this->realtyObjectData)) {
 			$this->prepareInsertionAndInsertRelations();
 			$this->ensureUid(&$this->realtyObjectData);
-			$this->updateDatabaseEntry(
-				$this->realtyObjectData
-			);
-			$insertImages = true;
-		} elseif (!$this->checkForRequiredFields()) {
-			$this->prepareInsertionAndInsertRelations();
-			$this->createNewDatabaseEntry($this->realtyObjectData);
-			$insertImages = true;
+			$wasSuccessful = $this->updateDatabaseEntry($this->realtyObjectData);
+		} elseif (!$this->getProperty('deleted')) {
+			$requiredFields = $this->checkForRequiredFields();
+			if (empty($requiredFields)) {
+				$this->prepareInsertionAndInsertRelations();
+				$wasSuccessful = $this->createNewDatabaseEntry(
+					$this->realtyObjectData
+				);
+			}
 		}
-
-		if ($insertImages && !empty($this->images)) {
+		if ($this->getProperty('deleted')) {
+			$this->deleteRelatedImageRecords();
+		} elseif ($wasSuccessful && !empty($this->images)) {
 			$this->ensureUid(&$this->realtyObjectData);
 			$this->insertImageEntries($this->getAllImageData());
 		}
+
+		return $wasSuccessful;
 	}
 
 	/**
@@ -240,7 +247,7 @@ class tx_realty_object {
 	 */
 	public function getProperty($key) {
 		if ($this->isRealtyObjectDataEmpty()
-			|| !$this->isKeyOfRealtyObjectData($key)
+			|| !$this->hasProperty($key)
 		) {
 			return '';
 		}
@@ -270,7 +277,7 @@ class tx_realty_object {
 	public function setProperty($key, $value) {
 		if ($this->isRealtyObjectDataEmpty()
 			|| !$this->isAllowedValue($value)
-			|| !$this->isKeyOfRealtyObjectData($key)
+			|| !$this->hasProperty($key)
 		) {
 			return;
 		}
@@ -281,23 +288,26 @@ class tx_realty_object {
 	/**
 	 * Checks whether a value is either numeric or a string or of boolean.
 	 *
-	 * @param		mixed		value to check
+	 * @param	mixed		value to check
 	 *
-	 * @return		boolean		true if the value is either numeric or a string
-	 * 							or of boolean, false otherwise
+	 * @return	boolean		true if the value is either numeric or a string
+	 * 						or of boolean, false otherwise
 	 */
 	private function isAllowedValue($value) {
 		return (is_numeric($value) || is_string($value) || is_bool($value));
 	}
 
 	/**
-	 * Checks whether a key exists in $this->realtyObjectData.
-	 *
-	 * @param		string		key
-	 *
-	 * @return		boolean		true if the the key exists, false otherwise
+	 * Checks whether a $key is an element of the currently loaded realty
+	 * object.
+ 	 *
+	 * @param	string		key of value to fetch from current realty object,
+	 * 						must not be empty
+ 	 *
+	 * @return	boolean		true if $key exists in the currently loaded realty
+	 * 						object, false otherwise
 	 */
-	private function isKeyOfRealtyObjectData($key) {
+	private function hasProperty($key) {
 		return array_key_exists($key, $this->realtyObjectData);
 	}
 
@@ -410,7 +420,7 @@ class tx_realty_object {
 	 * 						created
 	 */
 	private function insertPropertyToOwnTable($key, $table) {
-		if ($this->getProperty($key) == '') {
+		if (!$this->hasProperty($key)) {
 			return 0;
 		}
 
@@ -489,6 +499,33 @@ class tx_realty_object {
 	}
 
 	/**
+	 * Sets the deleted flag for all image records related to the current realty
+	 * object to delete.
+	 */
+	private function deleteRelatedImageRecords() {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid_foreign',
+			'tx_realty_objects_images_mm',
+			'uid_local='.intval($this->getProperty('uid'))
+		);
+
+		if ($dbResult) {
+			$imagesToDelete = array();
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+				$imagesToDelete[] = $row['uid_foreign'];
+			}
+
+			if(!empty($imagesToDelete)) {
+				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+					'tx_realty_images',
+					'uid IN('.implode(',', $imagesToDelete).')',
+					array('deleted' => 1)
+				);
+			}
+		}
+	}
+
+	/**
 	 * Creates a relation between an image and a realty record in the table
 	 * 'tx_realty_objects_images_mm' if the relation does not exist yet.
 	 *
@@ -538,13 +575,15 @@ class tx_realty_object {
 	 *
 	 * @param	array		database column names as keys, must not be empty
 	 * @param	string		name of the database table, must not be empty
+	 *
+	 * @return 	boolean		true if the insert query was built, false otherwise
 	 */
 	protected function createNewDatabaseEntry(
 		array $realtyData,
 		$table = 'tx_realty_objects'
 	) {
 		if (empty($realtyData)) {
-			return;
+			return false;
 		}
 
 		$dataToInsert = $realtyData;
@@ -552,10 +591,9 @@ class tx_realty_object {
 		$dataToInsert['tstamp'] = mktime();
 		$dataToInsert['crdate'] = mktime();
 
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			$table,
-			$dataToInsert
-		);
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataToInsert);
+
+		return true;
 	}
 
 	/**
@@ -564,16 +602,18 @@ class tx_realty_object {
 	 * The value for 'tstamp' is set automatically
 	 *
 	 * @param	array		database column names as keys to update an already
-	 * 						existing entry, must at least contain an element 						with the key
-	 * 						'uid'
+	 * 						existing entry, must at least contain an element
+	 * 						with the key 'uid'
 	 * @param	string		name of the database table, must not be empty
+	 *
+	 * @return	boolean		true if the update query was built, false otherwise
 	 */
 	protected function updateDatabaseEntry(
 		array $realtyData,
 		$table = 'tx_realty_objects'
 	) {
 		if (!$realtyData['uid']) {
-			return;
+			return false;
 		}
 
 		$dataForUpdate = $realtyData;
@@ -584,6 +624,8 @@ class tx_realty_object {
 			'uid='.intval($dataForUpdate['uid']),
 			$dataForUpdate
 		);
+
+		return true;
 	}
 
 	/**
@@ -641,6 +683,7 @@ class tx_realty_object {
 		);
 
 		if ($dbResult) {
+			$dbResultArray = array();
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
 				$dbResultArray[] = $row[$keyToSearch];
 			}

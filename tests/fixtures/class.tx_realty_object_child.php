@@ -36,23 +36,12 @@
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 
 final class tx_realty_object_child extends tx_realty_object {
-	public function writeToDatabase() {
-		parent::writeToDatabase();
-	}
-
 	public function recordExistsInDatabase(
 		$dataArray,
 		$alternativeKey = 'object_number',
 		$table = 'tx_realty_objects'
 	) {
 		return parent::recordExistsInDatabase($dataArray, $alternativeKey, $table);
-	}
-
-	public function updateDatabaseEntry(
-		$dataArray,
-		$table = 'tx_realty_objects'
-	) {
-		parent::updateDatabaseEntry($dataArray, $table);
 	}
 
 	public function createNewDatabaseEntry(
