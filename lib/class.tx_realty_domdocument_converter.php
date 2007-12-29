@@ -653,19 +653,17 @@ class tx_realty_domdocument_converter {
 			'verwaltung_techn',
 			'aktion'
 		);
-		$attributes = $this->fetchDomAttributes($nodeWithAttributes);
-		$value = $this->getNodeName($nodeWithAttributes);
-
-		if ($value) {
-			if (!empty($attributes)) {
-				$value .= ': '
-					.$this->getFormattedString(array_values($attributes));
-			}
-			$this->addImportedData(
-				'action',
-				$this->getFormattedString(array($value))
-			);
-		}
+		// The node is valid when there is a node name, it does not need to
+		// have attributes.
+		if ($this->getNodeName($nodeWithAttributes)) {
+ 			$this->addImportedData(
+				'deleted',
+				in_array(
+					'DELETE',
+					$this->fetchDomAttributes($nodeWithAttributes)
+				)
+ 			);
+ 		}
 	}
 
 	/**

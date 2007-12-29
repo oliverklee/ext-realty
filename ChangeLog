@@ -1,3 +1,7 @@
+2007-12-29 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1402] Feature: Delete the corresponding record from database if 'aktion'=DELETE instead of importing this value to database
+
 2007-12-28 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1322] Fix: In the unit tests, reset auto_increment for all tables that had test records

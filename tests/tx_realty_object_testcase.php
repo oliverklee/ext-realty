@@ -38,44 +38,10 @@ define('TX_REALTY_OBJECT_NUMBER_1', '100000');
 class tx_realty_object_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
-	private $dummyObjectNew = array(
-		'object_number' => '100010',
-		'title' => 'bar',
-		'uid' => 100010
-	);
-
-	private $dummyObjectUpdateWithNumber = array(
-		'object_number' => TX_REALTY_OBJECT_NUMBER_1,
-		'title' => 'bar',
-		'uid' => 100010
-	);
-
-	private $dummyObjectUpdateWithUid = array(
-		'object_number' => '100010',
-		'title' => 'bar',
-		'uid' => TX_REALTY_OBJECT_UID_1
-	);
-
-	private $dummyObjectWithInvalidField = array(
-		'object_number' => '100010',
-		'title' => 'bar',
-		'uid' => TX_REALTY_OBJECT_UID_1,
-		'foobar' => 'foobar'
-	);
-
-	private $dummyObjectWitoutObjectNumber = array(
-		'title' => 'bar',
-		'uid' => TX_REALTY_OBJECT_UID_1
-	);
-
-	private $dummyObjectWitoutObjectNumberAndTitle = array(
-		'uid' => TX_REALTY_OBJECT_UID_1
-	);
-
 	public function setUp() {
 		$this->fixture = new tx_realty_object_child();
 		$this->increaseAutoIncrement();
-		$this->createDummyObjects();
+		$this->createDummyObject();
 	}
 
 	public function tearDown() {
@@ -199,42 +165,89 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUpdateDatabaseEntryWhenUidExistsInDb() {
-		$this->fixture->updateDatabaseEntry($this->dummyObjectUpdateWithUid);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			'tx_realty_objects',
-			'uid='.$this->dummyObjectNew['uid']
+	public function testWriteToDatabaseUpdatesDatabaseEntryWhenUidExistsInDb() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'uid' => TX_REALTY_OBJECT_UID_1
+			)
 		);
 
-		$this->assertTrue(
-			$dbResult !== false
+		$this->fixture->writeToDatabase();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			'tx_realty_objects',
+			'uid='.TX_REALTY_OBJECT_UID_1
+		);
+		if ($dbResult
+			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
+		) {
+			$result = $row;
+		} else {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$this->assertEquals(
+			$result,
+			array('title' => 'new title')
 		);
 	}
 
-	public function testUpdateDatabaseEntryWhenObjectNumberExistsInDb() {
-		$this->fixture->updateDatabaseEntry($this->dummyObjectUpdateWithNumber);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'object_number',
-			'tx_realty_objects',
-			'object_number='.$this->dummyObjectUpdateWithNumber['object_number']
+	public function testWriteToDatabaseUpdatesDatabaseEntryWhenObjectNumberExistsInDb() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => TX_REALTY_OBJECT_NUMBER_1
+			)
 		);
 
-		$this->assertTrue(
-			$dbResult !== false
+		$this->fixture->writeToDatabase();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			'tx_realty_objects',
+			'uid='.TX_REALTY_OBJECT_UID_1
+		);
+		if ($dbResult
+			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
+		) {
+			$result = $row;
+		} else {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$this->assertEquals(
+			$result,
+			array('title' => 'new title')
 		);
 	}
 
 	public function testCreateNewDatabaseEntry() {
-		$this->fixture->createNewDatabaseEntry($this->dummyObjectNew);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'object_number',
-			'tx_realty_objects',
-			'object_number='.$this->dummyObjectNew['object_number']
+		$this->fixture->createNewDatabaseEntry(
+			array(
+				'object_number' => (TX_REALTY_OBJECT_NUMBER_1 + 1),
+				'title' => 'new entry',
+				'uid' => (TX_REALTY_OBJECT_UID_1 + 1)
+			)
 		);
 
-		$this->assertTrue(
-			$dbResult !== false
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			'tx_realty_objects',
+			'uid='.intval(TX_REALTY_OBJECT_UID_1 + 1)
+		);
+		if ($dbResult
+			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
+		) {
+			$result = $row;
+		} else {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$this->assertEquals(
+			$result,
+			array('title' => 'new entry')
 		);
 	}
 
@@ -336,7 +349,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckMissingColumnNamesIfSomeDbFieldsNotExistInRealtyObjectData() {
-		$this->fixture->loadRealtyObject($this->dummyObjectWitoutObjectNumberAndTitle);
+		$this->fixture->loadRealtyObject(array('uid' => TX_REALTY_OBJECT_UID_1));
 		$result = $this->fixture->checkMissingColumnNames();
 
 		$this->assertContains(
@@ -382,7 +395,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteSurplusFieldsDeletesSurplusField() {
-		$this->fixture->loadRealtyObject($this->dummyObjectWithInvalidField);
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'bar',
+				'uid' => TX_REALTY_OBJECT_UID_1,
+				'foobar' => 'foobar'
+			)
+		);
 		$this->fixture->DeleteSurplusFields();
 
 		$this->assertNotContains(
@@ -561,6 +580,110 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$imageNew[0]
 		);
 	}
+	public function testDeleteFromDatabaseRemovesRelatedImage() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'bar',
+				'uid' => TX_REALTY_OBJECT_UID_1,
+				'deleted' => 1
+			));
+		$image = array(
+			array(
+				'caption' => 'foo',
+				'image' => 'bar'
+			)
+		);
+
+		$this->fixture->insertImageEntries($image);
+		$this->fixture->writeToDatabase();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid_foreign',
+			'tx_realty_objects_images_mm',
+			'uid_local='.TX_REALTY_OBJECT_UID_1
+		);
+		if ($dbResult
+			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
+		) {
+			$mMresult = $row['uid_foreign'];
+		} else {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'deleted',
+			'tx_realty_images',
+			'uid='.$mMresult
+		);
+		if ($dbResult) {
+			$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		} else {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$this->assertEquals(
+			array('deleted' => 1),
+			$result
+		);
+	}
+
+	public function testDeleteFromDatabaseRemovesSeveralRelatedImages() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'bar',
+				'uid' => TX_REALTY_OBJECT_UID_1,
+				'deleted' => 1
+			));
+		$image = array(
+			array(
+				'caption' => 'foo1',
+				'image' => 'bar1'
+			),
+			array(
+				'caption' => 'foo2',
+				'image' => 'bar2'
+			),
+			array(
+				'caption' => 'foo3',
+				'image' => 'bar3'
+			)
+		);
+
+		$this->fixture->insertImageEntries($image);
+		$this->fixture->writeToDatabase();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid_foreign',
+			'tx_realty_objects_images_mm',
+			'uid_local='.TX_REALTY_OBJECT_UID_1
+		);
+		if ($dbResult) {
+			$dbResultArray = array();
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+				$mMresult[] = $row['uid_foreign'];
+			}
+		} else {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'deleted',
+			'tx_realty_images',
+			'uid IN('.implode(',', $mMresult).')'
+		);
+		if ($dbResult) {
+			$dbResultArray = array();
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+				$dbResultArray[] = $row;
+			}
+		} else {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$this->assertTrue(
+			count($dbResultArray) == 3
+		);
+	}
 
 
 	///////////////////////
@@ -570,13 +693,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	/**
 	 * Creates dummy realty objects in the DB.
 	 */
-	private function createDummyObjects() {
+	private function createDummyObject() {
 		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			'tx_realty_objects',
 			array(
 				'uid' => TX_REALTY_OBJECT_UID_1,
 				'title' => 'foo',
-				'object_number' => '100000'
+				'object_number' => TX_REALTY_OBJECT_NUMBER_1
 			)
 		);
 	}

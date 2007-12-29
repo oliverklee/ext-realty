@@ -157,9 +157,8 @@ class tx_realty_openimmo_import {
 
 	/**
 	 * Processes the insertion of realty records to database. Tries to fetch the
-	 * data from the currently loaded XML file. If there is data, it is inserted
-	 * to the database and the images found in the ZIP archive are copied to the
-	 * uploads folder.
+	 * data from the currently loaded XML file. If there is data, it is
+	 * checked whether the record should be inserted or set to deleted.
 	 * Success and failures are logged and an array with data for e-mails about
 	 * the proceedings is returned.
 	 *
@@ -207,7 +206,7 @@ class tx_realty_openimmo_import {
 
 	/**
 	 * Tries to write an imported record to the database and checks the contact
-	 * e- mail address. If the address is invalid, it is replaced by the default
+	 * e-mail address. If the address is invalid, it is replaced by the default
 	 * address as configured in EM.
 	 * Note: There is no check for the validity of the default address. If the
 	 * DOMDocument cannot be loaded, or if required fields are missing, the
@@ -217,29 +216,48 @@ class tx_realty_openimmo_import {
 	 * @param	array		record to insert, can be empty
 	 */
 	protected function writeToDatabase($realtyRecord) {
-		global $LANG;
+ 		global $LANG;
 
-		$this->loadRealtyObject($realtyRecord);
+		$wasWrittenToDatabase = false;
+		// avoids an unwanted linefeed
+		$missingFieldsMessage = '';
 
-		if ($this->isRealtyObjectDataEmpty()) {
+ 		$this->loadRealtyObject($realtyRecord);
+
+		if (!$this->isRealtyObjectDataEmpty()) {
+ 			$missingRequiredFields = $this->realtyObject->checkForRequiredFields();
+ 			if (!empty($missingRequiredFields)) {
+				$missingFieldsMessage =	$LANG->getLL('message_fields_required')
+					.': '.implode(', ', $missingRequiredFields).' ';
+ 			} else {
+ 				$this->ensureContactEmail();
+				$this->checkIfDeletion();
+				$wasWrittenToDatabase = $this->realtyObject->writeToDatabase();
+ 			}
+ 		}
+
+		if (!$wasWrittenToDatabase) {
 			$this->addToErrorLog(
-				$LANG->getLL('message_not_written_to_database').chr(10)
+				$missingFieldsMessage
+					.$LANG->getLL('message_not_written_to_database').chr(10)
 			);
 		} else {
-			$missingRequiredFields = $this->realtyObject->checkForRequiredFields();
-			if (!empty($missingRequiredFields)) {
-				$this->addToErrorLog(
-					$LANG->getLL('message_fields_required').': '
-						.implode(', ', $missingRequiredFields).' '
-						.$LANG->getLL('message_not_written_to_database').chr(10)
+			$this->addToLogEntry(
+				$LANG->getLL('message_written_to_database').chr(10)
 			);
-			} else {
-				$this->ensureContactEmail();
-				$this->realtyObject->writeToDatabase();
-				$this->addToLogEntry(
-					$LANG->getLL('message_written_to_database').chr(10)
-				);
-			}
+		}
+	}
+
+	/**
+	 * Adds to the log when a record will be set to deleted when it is inserted.
+	 */
+	private function checkIfDeletion() {
+		global $LANG;
+
+		if ($this->realtyObject->getProperty('deleted')) {
+			$this->addToLogEntry(
+				$LANG->getLL('message_will_be_deleted').chr(10)
+			);
 		}
 	}
 
