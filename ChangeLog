@@ -1,3 +1,7 @@
+2007-12-31 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1434] Fix: Unit test failures
+
 2007-12-29 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1402] Feature: Delete the corresponding record from database if 'aktion'=DELETE instead of importing this value to database

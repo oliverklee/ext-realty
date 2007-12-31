@@ -634,7 +634,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'uid' => TX_REALTY_OBJECT_UID_1,
 				'deleted' => 1
 			));
-		$image = array(
+		$images = array(
 			array(
 				'caption' => 'foo1',
 				'image' => 'bar1'
@@ -649,7 +649,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->insertImageEntries($image);
+		$this->fixture->insertImageEntries($images);
 		$this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -658,7 +658,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'uid_local='.TX_REALTY_OBJECT_UID_1
 		);
 		if ($dbResult) {
-			$dbResultArray = array();
+			$mMresult = array();
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
 				$mMresult[] = $row['uid_foreign'];
 			}
@@ -674,14 +674,15 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		if ($dbResult) {
 			$dbResultArray = array();
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$dbResultArray[] = $row;
+				$dbResultArray[] = $row['deleted'];
 			}
 		} else {
 			$this->fail('There was an error with the database query.');
 		}
 
-		$this->assertTrue(
-			count($dbResultArray) == 3
+		$this->assertEquals(
+			array(1, 1, 1),
+			$dbResultArray
 		);
 	}
 
