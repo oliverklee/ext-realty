@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2006-2007 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2006-2008 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -317,9 +317,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates the WHERE clause for initListView().
 	 *
 	 * @return	string		WHERE clause for initListView(), will be empty if
-	 * 						'staticSqlFilter' and $this->piVars['city'] are 
+	 * 						'staticSqlFilter' and $this->piVars['city'] are
 	 * 						not set and 'what_to_display' is not 'favorites' and
-	 * 						'checkboxesFilter' is either not set or 
+	 * 						'checkboxesFilter' is either not set or
 	 * 						$searchSelection is empty
 	 */
 	private function createWhereClause() {
@@ -719,8 +719,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			} else {
 				$country = strtoupper($configurationArray['language']);
 			}
-		} 
-		
+		}
+
 		$formattedLocale = $configurationArray['language'].'_'
 			.strtoupper($country).'.'
 			.strtoupper($configurationArray['renderCharset']
@@ -772,7 +772,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 		$localeConvention = localeconv();
 		$decimals = intval($this->getConfValueString('numberOfDecimals'));
-				
+
 		$formattedNumber = number_format(
 			$rawValue,
 			$decimals,

@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2007-2008 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -99,7 +99,7 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 	public function getDefaultEmailAddress() {
 		return parent::getDefaultEmailAddress();
 	}
-	
+
 	public function setDefaultEmailAddress($emailAddress = 'EM') {
 		parent::setDefaultEmailAddress($emailAddress);
 	}
