@@ -476,16 +476,14 @@ class tx_realty_object {
 	 * 						empty
 	 */
 	protected function insertImageEntries(array $imagesArray) {
-		if ($this->hasProperty('uid')) {
-			$objectUid = $this->getProperty('uid');
-		} elseif ($this->hasProperty('object_number')) {
-			$this->ensureUid(&$this->realtyObjectData, 'object_number');
-			$objectUid = $this->getProperty('uid');
-		} else {
+		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
 			return;
 		}
 
+		$this->ensureUid(&$this->realtyObjectData, 'object_number');
+		$objectUid = $this->getProperty('uid');
 		$counter = 1;
+
 		foreach ($imagesArray as $imageData) {
 			if ($this->recordExistsInDatabase(
 				$imageData,
@@ -715,7 +713,7 @@ class tx_realty_object {
 				$keyToSearch.'="'.$dataArray[$keyToSearch].'"'
 			);
 
-			if ($dbResult 
+			if ($dbResult
 				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 			) {
 				$recordExists = ($row['number'] >= 1);
@@ -759,7 +757,9 @@ class tx_realty_object {
 		$key,
 		$table = 'tx_realty_objects'
 	) {
-		if (!array_key_exists($key, $dataArray)) {
+		if (!array_key_exists($key, $dataArray)
+			|| array_key_exists('uid', $dataArray)
+		) {
 			return;
 		}
 

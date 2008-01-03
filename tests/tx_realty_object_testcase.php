@@ -154,12 +154,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			'uid='.TX_REALTY_OBJECT_UID_1
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$supposedResult = $row;
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
+		}
+
+		$expectedResult = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$expectedResult) {
+			$this->fail('The database result was empty.');
 		}
 
 		// dbResult can be fetched only once, so the query is needed again.
@@ -171,7 +172,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$resultToCheck = $this->fixture->fetchDatabaseResult($dbResult);
 
 		$this->assertEquals(
-			$supposedResult,
+			$expectedResult,
 			$resultToCheck
 		);
 	}
@@ -202,12 +203,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			'uid='.TX_REALTY_OBJECT_UID_1
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$result = $row;
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
@@ -231,12 +233,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			'uid='.TX_REALTY_OBJECT_UID_1
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$result = $row;
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
@@ -259,12 +262,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			'uid='.intval(TX_REALTY_OBJECT_UID_1 + 1)
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$result = $row;
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
@@ -390,17 +394,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			''
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-        	$fieldsInDb = array_keys($row);
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
 			$this->fixture->checkMissingColumnNames(),
-			$fieldsInDb
+			array_keys($result)
 		);
 	}
 
@@ -483,16 +488,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'tx_realty_pets',
 			'title = "foo"'
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$result = $row['uid'];
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
 		}
 
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
+		}
+
 		$this->assertEquals(
-			$result,
+			$result['uid'],
 			$this->fixture->getProperty('pets')
 		);
 	}
@@ -521,29 +527,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->insertImageEntries($image);
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid_foreign',
-			'tx_realty_objects_images_mm',
-			'uid_local='.TX_REALTY_OBJECT_UID_1
+			'tx_realty_images.caption, tx_realty_images.image',
+			'tx_realty_objects_images_mm, tx_realty_images',
+			'tx_realty_objects_images_mm.uid_local='.TX_REALTY_OBJECT_UID_1
+				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$mMresult = $row['uid_foreign'];
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'caption, image',
-			'tx_realty_images',
-			'uid='.$mMresult
-		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$result = $row;
-		} else {
-			$this->fail('There was an error with the database query.');
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
@@ -572,29 +567,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->insertImageEntries($imageNew);
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid_foreign',
-			'tx_realty_objects_images_mm',
-			'uid_local='.TX_REALTY_OBJECT_UID_1
+			'tx_realty_images.caption, tx_realty_images.image',
+			'tx_realty_objects_images_mm, tx_realty_images',
+			'tx_realty_objects_images_mm.uid_local='.TX_REALTY_OBJECT_UID_1
+				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$mMresult = $row['uid_foreign'];
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'caption, image',
-			'tx_realty_images',
-			'uid='.$mMresult
-		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$result = $row;
-		} else {
-			$this->fail('There was an error with the database query.');
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
@@ -620,27 +604,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid_foreign',
-			'tx_realty_objects_images_mm',
-			'uid_local='.TX_REALTY_OBJECT_UID_1
+			'tx_realty_images.deleted',
+			'tx_realty_objects_images_mm, tx_realty_images',
+			'tx_realty_objects_images_mm.uid_local='.TX_REALTY_OBJECT_UID_1
+				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$mMresult = $row['uid_foreign'];
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'deleted',
-			'tx_realty_images',
-			'uid='.$mMresult
-		);
-		if ($dbResult) {
-			$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		} else {
-			$this->fail('There was an error with the database query.');
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
@@ -675,36 +650,26 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid_foreign',
-			'tx_realty_objects_images_mm',
-			'uid_local='.TX_REALTY_OBJECT_UID_1
+			'tx_realty_images.deleted',
+			'tx_realty_objects_images_mm, tx_realty_images',
+			'tx_realty_objects_images_mm.uid_local='.TX_REALTY_OBJECT_UID_1
+				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
 		);
-		if ($dbResult) {
-			$mMresult = array();
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$mMresult[] = $row['uid_foreign'];
-			}
-		} else {
+		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'deleted',
-			'tx_realty_images',
-			'uid IN('.implode(',', $mMresult).')'
-		);
-		if ($dbResult) {
-			$dbResultArray = array();
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$dbResultArray[] = $row['deleted'];
-			}
-		} else {
-			$this->fail('There was an error with the database query.');
+		$result = array();
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+			$result[] = $row['deleted'];
+		}
+		if (empty($result)) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
 			array(1, 1, 1),
-			$dbResultArray
+			$result
 		);
 	}
 
