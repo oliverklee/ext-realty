@@ -38,7 +38,7 @@ require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 final class tx_realty_object_child extends tx_realty_object {
 	public function recordExistsInDatabase(
 		$dataArray,
-		$alternativeKey = 'object_number',
+		$alternativeKey,
 		$table = 'tx_realty_objects'
 	) {
 		return parent::recordExistsInDatabase($dataArray, $alternativeKey, $table);
@@ -69,14 +69,6 @@ final class tx_realty_object_child extends tx_realty_object {
 
 	public function deleteSurplusFields() {
 		parent::deleteSurplusFields();
-	}
-
-	public function ensureUid(
-		$dataArray,
-		$key = 'object_number',
-		$table = 'tx_realty_objects'
-	) {
-		parent::ensureUid($dataArray, $key, $table);
 	}
 
 	public function checkForRequiredFields() {

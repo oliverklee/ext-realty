@@ -52,25 +52,46 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testRecordExistsInDatabaseIfNoExistingUidGiven() {
 		$this->assertFalse(
-			$this->fixture->recordExistsInDatabase(array('uid' => '99999'))
+			$this->fixture->recordExistsInDatabase(
+				array('uid' => '99999'),
+				'any_alternative_key'
+			)
 		);
 	}
 
 	public function testRecordExistsInDatabaseIfExistingUidGiven() {
 		$this->assertTrue(
-			$this->fixture->recordExistsInDatabase(array('uid' => TX_REALTY_OBJECT_UID_1))
+			$this->fixture->recordExistsInDatabase(
+				array('uid' => TX_REALTY_OBJECT_UID_1),
+				'any_alternative_key'
+			)
 		);
 	}
 
 	public function testRecordExistsInDatabaseIfNoExistingObjectNumberGiven() {
 		$this->assertFalse(
-			$this->fixture->recordExistsInDatabase(array('object_number' => '99999'))
+			$this->fixture->recordExistsInDatabase(
+				array('object_number' => '99999'),
+				'object_number'
+			)
 		);
 	}
 
 	public function testRecordExistsInDatabaseIfExistingObjectNumberGiven() {
 		$this->assertTrue(
-			$this->fixture->recordExistsInDatabase(array('object_number' => TX_REALTY_OBJECT_NUMBER_1))
+			$this->fixture->recordExistsInDatabase(
+				array('object_number' => TX_REALTY_OBJECT_NUMBER_1),
+				'object_number'
+			)
+		);
+	}
+
+	public function testRecordExistsInDatabaseIfKeyNotExistsInGivenDataArray() {
+		$this->assertFalse(
+			$this->fixture->recordExistsInDatabase(
+				array('key' => 'value'),
+				'other_key'
+			)
 		);
 	}
 
@@ -169,7 +190,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'new title',
-				'uid' => TX_REALTY_OBJECT_UID_1
+				'uid' => TX_REALTY_OBJECT_UID_1,
+				'object_number' => TX_REALTY_OBJECT_NUMBER_1
 			)
 		);
 
