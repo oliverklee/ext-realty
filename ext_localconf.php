@@ -121,4 +121,8 @@ t3lib_extMgm::addTypoScript(
 	43
 );
 
+// registers the key for class.tx_realty_cli.php
+$TYPO3_CONF_VARS['SC_OPTIONS']['GLOBAL']['cliKeys']['openImmoImport']
+	= array('EXT:realty/cli/class.tx_realty_cli.php', '_CLI_realty');
+
 ?>

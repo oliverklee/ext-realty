@@ -1,3 +1,7 @@
+2008-01-04 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1455] Change: Use typo3/cli_dispatch.php to launch the CLI importer class
+
 2008-01-03 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1434] Fix: Unit test failures

@@ -1,4 +1,3 @@
-#! /usr/bin/php -q
 <?php
 /***************************************************************
 * Copyright notice
@@ -27,26 +26,25 @@
  *
  * This class provides access via command line interface.
  *
+ * To run this script, use the following command in a console: '/[absolute path
+ * of the TYPO3 installation]/typo3/cli_dispatch.phpsh openImmoImport'.
+ *
  * @package		TYPO3
  * @subpackage	tx_realty
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+if (!defined('TYPO3_cliMode')) {
+	die('You cannot run this script directly!');
+}
 
-define('TYPO3_cliMode', true);
-define('TYPO3_MOD_PATH', '../typo3conf/ext/realty/cli/');
-// Disable the following line if you need access to the cli script via browser.
-define('PATH_thisScript', $_SERVER['argv'][0]);
-$BACK_PATH = '../../../../../';
-$MCONF['name'] = '_CLI_realty';
-
-require_once(__FILE__.'/'.$BACK_PATH.'typo3/init.php');
+require_once(PATH_t3lib.'class.t3lib_cli.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openimmo_import.php');
 
 class tx_realty_cli {
 	/**
-	 * The constructor calls the main function of the class for OpenImmo import.
+	 * Calls the OpenImmo importer.
 	 */
-	public function __construct() {
+	public function main() {
 		$globalConfiguration = unserialize(
 			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
 		);
@@ -61,6 +59,6 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli.php']);
 }
 
-$SOBE = t3lib_div::makeInstance('tx_realty_cli');
+t3lib_div::makeInstance('tx_realty_cli')->main();
 
 ?>
