@@ -228,7 +228,7 @@ class tx_realty_object {
 			&& $this->recordExistsInDatabase($this->realtyObjectData, 'object_number')
 		) {
 			$this->prepareInsertionAndInsertRelations();
-			$this->ensureUid(&$this->realtyObjectData, 'object_number');
+			$this->ensureUid($this->realtyObjectData, 'object_number');
 			$wasSuccessful = $this->updateDatabaseEntry($this->realtyObjectData);
 		} elseif (!$this->getProperty('deleted')) {
 			$requiredFields = $this->checkForRequiredFields();
@@ -442,7 +442,7 @@ class tx_realty_object {
 		$propertyArray = array('title' => $this->getProperty($key));
 
 		if ($this->recordExistsInDatabase($propertyArray, 'title', $table)) {
-			$this->ensureUid(&$propertyArray, 'title', $table);
+			$this->ensureUid($propertyArray, 'title', $table);
 			$this->updateDatabaseEntry(
 				$propertyArray,
 				$table
@@ -480,7 +480,7 @@ class tx_realty_object {
 			return;
 		}
 
-		$this->ensureUid(&$this->realtyObjectData, 'object_number');
+		$this->ensureUid($this->realtyObjectData, 'object_number');
 		$objectUid = $this->getProperty('uid');
 		$counter = 1;
 
@@ -490,7 +490,7 @@ class tx_realty_object {
 				'image',
 				'tx_realty_images'
 			)) {
-				$this->ensureUid(&$imageData, 'image', 'tx_realty_images');
+				$this->ensureUid($imageData, 'image', 'tx_realty_images');
 				$this->updateDatabaseEntry(
 					$imageData,
 					'tx_realty_images'

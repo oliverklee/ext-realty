@@ -118,7 +118,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 
 	public function testAddElementToArrayOnce() {
 		$data = array();
-		$this->fixture->addElementToArray(&$data, 'foo', 'bar');
+		$this->fixture->addElementToArray($data, 'foo', 'bar');
 
 		$this->assertEquals(
 			$data,
@@ -128,8 +128,8 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 
 	public function testAddElementToArrayTwice() {
 		$data = array();
-		$this->fixture->addElementToArray(&$data, 'foo', 'foo');
-		$this->fixture->addElementToArray(&$data, 'bar', 'bar');
+		$this->fixture->addElementToArray($data, 'foo', 'foo');
+		$this->fixture->addElementToArray($data, 'bar', 'bar');
 
 		$this->assertEquals(
 			$data,

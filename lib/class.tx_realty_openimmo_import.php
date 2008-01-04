@@ -454,8 +454,8 @@ class tx_realty_openimmo_import {
 			);
 		}
 
-		$this->purgeRecordsWithoutLogMessages(&$result);
-		$this->purgeRecipientsForEmptyMessages(&$result);
+		$this->purgeRecordsWithoutLogMessages($result);
+		$this->purgeRecipientsForEmptyMessages($result);
 
 		return $result;
 	}

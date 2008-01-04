@@ -1,3 +1,7 @@
+2008-01-04 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1463] Fix: Remove all call-time pass-by-reference
+
 2008-01-04 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1455] Change: Use typo3/cli_dispatch.php to launch the CLI importer class

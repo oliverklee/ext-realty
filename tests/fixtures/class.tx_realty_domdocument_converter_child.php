@@ -36,7 +36,7 @@
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domdocument_converter.php');
 
 final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_converter {
-	public function addElementToArray($arrayToExpand, $keyToInsert, $valueToInsert) {
+	public function addElementToArray(&$arrayToExpand, $keyToInsert, $valueToInsert) {
 		parent::addElementToArray($arrayToExpand, $keyToInsert, $valueToInsert);
 	}
 

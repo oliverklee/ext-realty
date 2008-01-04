@@ -130,7 +130,7 @@ class tx_realty_domdocument_converter {
 			$this->recordNumber++
 		) {
 			$realtyRecordArray = $this->getRealtyArray();
-			$this->addUniversalData(&$realtyRecordArray);
+			$this->addUniversalData($realtyRecordArray);
 			$result[] = $realtyRecordArray;
 
 			$this->resetImportedData();
@@ -195,7 +195,7 @@ class tx_realty_domdocument_converter {
 		) as $grandchild => $columnName) {
 			$nodeList = $this->getNodeListFromRawData('anbieter', $grandchild);
 			$this->addElementToArray(
-				&$result,
+				$result,
 				$columnName,
 				$nodeList->item(0)->nodeValue
 			);
@@ -810,7 +810,7 @@ class tx_realty_domdocument_converter {
 	 * @param	mixed		value to insert
 	 */
 	private function addImportedData($key, $value) {
-		$this->addElementToArray(&$this->importedData, $key, $value);
+		$this->addElementToArray($this->importedData, $key, $value);
 	}
 
 	/**
@@ -819,7 +819,7 @@ class tx_realty_domdocument_converter {
 	 * @param	string		key to insert
 	 */
 	private function addTrueToImportedData($key) {
-		$this->addElementToArray(&$this->importedData, $key, 1);
+		$this->addElementToArray($this->importedData, $key, 1);
 	}
 
 	/**
