@@ -122,9 +122,9 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnifyPathTrimsAndAddsNecessarySlash() {
+	public function testUnifyPathAddsNecessarySlash() {
 		$this->assertEquals(
-			$this->fixture->unifyPath(' incorrect/path '),
+			$this->fixture->unifyPath('incorrect/path'),
 			'incorrect/path/'
 		);
 	}
