@@ -29,8 +29,8 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty')
-	.'tests/fixtures/class.tx_realty_object_child.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_object_child.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 define('TX_REALTY_OBJECT_UID_1', 100000);
 define('TX_REALTY_OBJECT_NUMBER_1', '100000');
@@ -41,6 +41,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->fixture = new tx_realty_object_child();
 		$this->increaseAutoIncrement();
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger('pidForOpenImmoRecords', 1);
 		$this->createDummyObject();
 	}
 
@@ -592,7 +594,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'title' => 'bar',
 				'uid' => TX_REALTY_OBJECT_UID_1,
 				'deleted' => 1
-			));
+			)
+		);
 		$image = array(
 			array(
 				'caption' => 'foo',
@@ -630,7 +633,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'title' => 'bar',
 				'uid' => TX_REALTY_OBJECT_UID_1,
 				'deleted' => 1
-			));
+			)
+		);
 		$images = array(
 			array(
 				'caption' => 'foo1',
@@ -673,6 +677,98 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateNewDatabaseEntryInsertsCorrectPageIdForNewRecord() {
+		$this->fixture->createNewDatabaseEntry(
+			array(
+				'title' => 'bar',
+				'uid' => (TX_REALTY_OBJECT_UID_1 + 2),
+			)
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tx_realty_objects',
+			'uid='.(TX_REALTY_OBJECT_UID_1 + 2)
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
+		}
+
+		$this->assertEquals(
+			$result,
+			array('pid' => 1)
+		);
+	}
+	
+	public function testUpdatingAnExistingRecordDoesNotChangeThePadeId() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'uid' => TX_REALTY_OBJECT_UID_1,
+				'object_number' => TX_REALTY_OBJECT_NUMBER_1
+			)
+		);
+
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger('pidForOpenImmoRecords', 2);
+		$this->fixture->writeToDatabase();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tx_realty_objects',
+			'uid='.(TX_REALTY_OBJECT_UID_1)
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
+		}
+
+		$this->assertEquals(
+			$result,
+			array('pid' => 1)
+		);
+	}
+	
+	public function testDeletingAnExistingRecordDoesNotChangeThePageId() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'bar',
+				'uid' => TX_REALTY_OBJECT_UID_1,
+				'deleted' => 1
+			)
+		);
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger('pidForOpenImmoRecords', 2);
+		$this->fixture->writeToDatabase();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tx_realty_objects',
+			'uid='.(TX_REALTY_OBJECT_UID_1)
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
+		}
+
+		$this->assertEquals(
+			$result,
+			array('pid' => 1)
+		);
+	}
 
 	///////////////////////
 	// Utility functions.
@@ -687,7 +783,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			array(
 				'uid' => TX_REALTY_OBJECT_UID_1,
 				'title' => 'foo',
-				'object_number' => TX_REALTY_OBJECT_NUMBER_1
+				'object_number' => TX_REALTY_OBJECT_NUMBER_1,
+				'pid' => tx_oelib_configurationProxy::getInstance('realty')->
+					getConfigurationValueInteger('pidForOpenImmoRecords')
+				
 			)
 		);
 	}

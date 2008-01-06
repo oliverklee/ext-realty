@@ -1,5 +1,9 @@
 2008-01-06 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1447] Change: Use the EM configuration proxy in the Realty Manager
+	
+2008-01-06 Saskia Metzler <saskia@merlin.owl.de>
+
 	* [#1239] Feature: Add an automatic configuration check
 
 2008-01-04 Oliver Klee  <typo3-coding@oliverklee.de>

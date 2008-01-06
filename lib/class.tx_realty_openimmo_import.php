@@ -33,6 +33,7 @@
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domdocument_converter.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 class tx_realty_openimmo_import {
 	/** stores the complete log entry */
@@ -57,20 +58,14 @@ class tx_realty_openimmo_import {
 	/** DOMDocments of XML files are written to this */
 	private $importedXml = null;
 
-	/** EM configuration data */
-	private $globalConfiguration = array();
+	/** instance of tx_oelib_configuration_proxy to access the EM configuration */
+	private $globalConfiguration = null;
 
 	/** instance of 'tx_realty_object' which inserts OpenImmo records to database */
 	private $realtyObject = null;
 
 	/** the upload directory for images */
 	private $uploadDirectory = '';
-
-	/** absolute path to the OpenImmo schema file */
-	private $schemaFile = '';
-
-	/** default e-mail address */
-	private $defaultEmailAddress = '';
 
 	/**
 	 * Constructor.
@@ -79,9 +74,8 @@ class tx_realty_openimmo_import {
 		global $TYPO3_CONF_VARS, $LANG;
 
 		libxml_use_internal_errors(true);
-		$this->storeGlobalConfiguration();
+		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 		$this->setUploadDirectory(PATH_site.'uploads/tx_realty/');
-		$this->setDefaultEmailAddress();
 
 		// Needed as only templating functions of tx_oelib_templatehelper are
 		// usable outside FE mode.
@@ -92,14 +86,15 @@ class tx_realty_openimmo_import {
 	/**
 	 * Extracts ZIP archives from an absolute path of a directory and inserts
 	 * realty records to database:
-	 * If the directory exists and ZIP archives are found, folders are created.
-	 * They are named like the ZIP archives without the suffix '. zip'. The ZIP
-	 * archives are unpacked to these folders. Then for each ZIP file the
-	 * following is done: Validity of the XML file found in the ZIP archive is
-	 * checked. If the file is valid and also if 'ignoreValidation' is enabled
-	 * in the EM, the realty records are fetched and inserted to database.
-	 * The validation failures are logged and the XML file will be ignored
-	 * unless 'ignoreValidation' is enabled.
+	 * If the directory, specified in the EM configuration, exists and ZIP
+	 * archives are found, folders are created. They are named like the ZIP
+	 * archives without the suffix '.zip'. The ZIP archives are unpacked to
+	 * these folders. Then for each ZIP file the following is done: The validity
+	 * of the XML file found in the ZIP archive is checked by using the XSD
+	 * file defined in the EM. If the file is valid and also if
+	 * 'ignoreValidation' is enabled in the EM, the realty records are fetched
+	 * and inserted to database. The validation failures are logged and the XML
+	 * file will be ignored unless 'ignoreValidation' is enabled.
 	 * If the records of one XML could be inserted to database, images found
 	 * in the extracted ZIP archive are copied to the uploads folder.
 	 * Afterwards the extraction folders are removed and a log string about the
@@ -109,26 +104,19 @@ class tx_realty_openimmo_import {
 	 * available. Else the information goes to the address configured in EM. If
 	 * no e-mail address is configured, the sending of e-mails is disabled.
 	 *
-	 * @param	string		absolute path of the directory which contains the
-	 * 						ZIP archives, may end with a trailing slash, must not
-	 * 						be empty
-	 * @param	string		Absolute path to the XSD file which should be used
-	 * 						for validation. If it is not set, records will be
-	 * 						imported without validation.
- 	 *
 	 * @return	string		log entry with information about the proceedings of
 	 * 						ZIP import, will not be empty, contains at least a
 	 *						timestamp
 	 */
-	public function importFromZip($importDirectory, $pathToSchemaFile = '') {
+	public function importFromZip() {
 		global $LANG;
 
 		$this->addToLogEntry(date('Y-m-d G:i:s').chr(10));
 
-		$this->setSchemaFile($pathToSchemaFile);
-
 		$emailData = array();
-		$checkedImportDirectory = $this->unifyPath($importDirectory);
+		$checkedImportDirectory = $this->unifyPath(
+			$this->globalConfiguration->getConfigurationValueString('importFolder')
+		);
 		$zipsToExtract = $this->getPathsOfZipsToExtract($checkedImportDirectory);
 
 		$this->storeLogsAndClearTemporaryLog();
@@ -296,16 +284,6 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
-	 * Stores the global configuration array which contains the configuration
-	 * set in the EM.
-	 */
-	private function storeGlobalConfiguration() {
-		$this->globalConfiguration = unserialize(
-			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-		);
-	}
-
-	/**
 	 * Sets the path for the upload directory. This path must be valid and
 	 * absolute and may end with a trailing slash.
 	 *
@@ -322,7 +300,9 @@ class tx_realty_openimmo_import {
 	 * @return	boolean		true if 'onlyErrors' is enabled, false otherwise
 	 */
 	private function isErrorLogOnlyEnabled() {
-		return (boolean) $this->globalConfiguration['onlyErrors'];
+		return $this->globalConfiguration->getConfigurationValueBoolean(
+			'onlyErrors'
+		);
 	}
 
 	/**
@@ -331,23 +311,9 @@ class tx_realty_openimmo_import {
 	 * @return	string		default e-mail address, may be empty
 	 */
 	protected function getDefaultEmailAddress() {
-		return $this->defaultEmailAddress;
-	}
-
-	/**
-	 * Sets the default e-mail address to $emailAddress or to the e-mail
-	 * address configured in the EM if $emailAddress is 'EM'.
-	 * There is no validation for this e-mail address.
-	 *
-	 * @param	string		default e-mail address, if 'EM', the e-mail address
-	 * 						is set to the value configured in the EM
-	 */
-	protected function setDefaultEmailAddress($emailAddress = 'EM') {
-		if ($emailAddress == 'EM') {
-			$this->defaultEmailAddress = $this->globalConfiguration['emailAddress'];
-		} else {
-			$this->defaultEmailAddress = $emailAddress;
-		}
+		return $this->globalConfiguration->getConfigurationValueString(
+			'emailAddress'
+		);
 	}
 
 	/**
@@ -358,8 +324,10 @@ class tx_realty_openimmo_import {
 	 * 						will be tried, no matter what the validation result
 	 * 						is
 	 */
-	protected function isIgnoreValidationEnabled() {
-		return (boolean) $this->globalConfiguration['ignoreValidation'];
+	private function isIgnoreValidationEnabled() {
+		return $this->globalConfiguration->getConfigurationValueBoolean(
+			'ignoreValidation'
+		);
 	}
 
 
@@ -551,7 +519,10 @@ class tx_realty_openimmo_import {
 		$templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
 		$templateHelper->init(
 			array(
-				'templateFile' => $this->globalConfiguration['emailTemplate']
+				'templateFile' => 
+					$this->globalConfiguration->getConfigurationValueString(
+						'emailTemplate'
+					)
 			)
 		);
 		$templateHelper->getTemplateCode();
@@ -881,30 +852,23 @@ class tx_realty_openimmo_import {
 	 * Initializes the global variable $LANG needed for localized strings. Uses
 	 * the EM configuration to set the language.
 	 */
-	protected function initializeLanguage() {
+	private function initializeLanguage() {
 		global $LANG;
 
 		if (!is_object($LANG)) {
 			$LANG = t3lib_div::makeInstance('language');
 		}
 
-		if ($this->globalConfiguration['cliLanguage'] == '') {
+		$cliLanguage = $this->globalConfiguration->getConfigurationValueString(
+			'cliLanguage'
+		);
+		if ($cliLanguage == '') {
 			$LANG->init('default');
 		} else {
-			$LANG->init($this->globalConfiguration['cliLanguage']);
+			$LANG->init($cliLanguage);
 		}
 
 		$LANG->includeLLFile('EXT:realty/lib/locallang.xml');
-	}
-
-	/**
-	 * Sets the path of the schema file used for validation.
-	 *
-	 * @param	string		absolute path of the schema file for validation, may
-	 * 						be empty
-	 */
-	protected function setSchemaFile($pathToSchemaFile) {
-		$this->schemaFile = $pathToSchemaFile;
 	}
 
 	/**
@@ -920,14 +884,17 @@ class tx_realty_openimmo_import {
 		global $LANG;
 
 		$result = '';
+		$schemaFile = $this->globalConfiguration->getConfigurationValueString(
+			'openImmoSchema'
+		);
 
-		if ($this->schemaFile == '') {
+		if ($schemaFile == '') {
 			$result = 'message_no_schema_file';
-		} elseif (!file_exists($this->schemaFile)) {
+		} elseif (!file_exists($schemaFile)) {
 			$result = 'message_invalid_schema_file_path';
 		} elseif (!$this->getImportedXml()) {
 			$result = 'message_validation_impossible';
-		} elseif (!$this->importedXml->schemaValidate($this->schemaFile)) {
+		} elseif (!$this->importedXml->schemaValidate($schemaFile)) {
 			$errors = libxml_get_errors();
 			foreach ($errors as $error) {
 				$result .= $LANG->getLL('message_line').' '.

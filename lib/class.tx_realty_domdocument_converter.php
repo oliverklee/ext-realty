@@ -30,6 +30,9 @@
  * @subpackage	tx_realty
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
+
 class tx_realty_domdocument_converter {
 	/**
 	 * Associates database column names with their correspondings used in
@@ -858,14 +861,13 @@ class tx_realty_domdocument_converter {
 		if (!is_object($LANG)) {
 			$LANG = t3lib_div::makeInstance('language');
 		}
-		$globalConfiguration = unserialize(
-			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-		);
 
-		if ($globalConfiguration['cliLanguage'] == '') {
+		$cliLanguage = tx_oelib_configurationProxy::getInstance('realty')->
+			getConfigurationValueString('cliLanguage');
+		if ($cliLanguage == '') {
 			$LANG->init('default');
 		} else {
-			$LANG->init($globalConfiguration['cliLanguage']);
+			$LANG->init($cliLanguage);
 		}
 
 		$LANG->includeLLFile('EXT:realty/lib/locallang.xml');

@@ -32,6 +32,7 @@
  */
 require_once(PATH_t3lib.'class.t3lib_refindex.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 class tx_realty_object {
 	/** contains the realty object's data */
@@ -69,9 +70,6 @@ class tx_realty_object {
 		'tx_realty_heating_types' => 'heating_type'
 	);
 
-	/** PID of system folder for new OpenImmo records */
-	private $pidForOpenImmoRecords = 0;
-
 	/** instance of tx_oelb_templatehelper */
 	private $templateHelper;
 
@@ -79,15 +77,10 @@ class tx_realty_object {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$globalConfiguration = unserialize(
-			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
+		$this->templateHelper = t3lib_div::makeInstance(
+			'tx_oelib_templatehelper'
 		);
-		$this->pidForOpenImmoRecords = intval(
-			$globalConfiguration['pidForOpenImmoRecords']
-		);
-
-		$this->templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
-		$this->templateHelper->init();
+ 		$this->templateHelper->init();
 	}
 
 	/**
@@ -611,7 +604,8 @@ class tx_realty_object {
 		}
 
 		$dataToInsert = $realtyData;
-		$dataToInsert['pid'] = $this->pidForOpenImmoRecords;
+		$dataToInsert['pid'] = tx_oelib_configurationProxy::getInstance('realty')->
+			getConfigurationValueInteger('pidForOpenImmoRecords');
 		$dataToInsert['tstamp'] = mktime();
 		$dataToInsert['crdate'] = mktime();
 

@@ -61,6 +61,10 @@ final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_
 	}
 
 	public function initializeLanguage() {
+		global $LANG;
+		
+		// the language class does not restore this value
+		$LANG->lang = 'default';
 		parent::initializeLanguage();
 	}
 }

@@ -29,8 +29,8 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty')
-	.'tests/fixtures/class.tx_realty_openimmo_import_child.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openimmo_import_child.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 define('REALTY_IMPORT_FOLDER', '/tmp/tx_realty_fixtures/');
 define('DUMMY_PAGE_UID', 100000);
@@ -38,6 +38,8 @@ define('DUMMY_PAGE_CONTENT_UID', 100001);
 
 class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	private $fixture;
+
+	private $globalConfiguration;
 
 	public function setUp() {
 		// copies test folder to /tmp/ to avoid changes to the original folder
@@ -51,8 +53,30 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_openimmo_import_child();
 		// avoids using the extension's real upload folder
 		$this->fixture->setUploadDirectory(REALTY_IMPORT_FOLDER);
+
+		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 		// avoids sending e-mails
-		$this->fixture->setDefaultEmailAddress('');
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			''
+		);
+		// several tests need these conditions
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'ignoreValidation',
+			false
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyErrors',
+			false
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema',
+			REALTY_IMPORT_FOLDER.'schema.xsd'
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'importFolder',
+			REALTY_IMPORT_FOLDER
+		);
 
 		$this->createDummyPages();
 	}
@@ -221,7 +245,6 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 
 	public function testLoadXmlFileIfXmlIsInvalid() {
 		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'bar.zip');
-		$this->fixture->setSchemaFile(REALTY_IMPORT_FOLDER.'schema.xsd');
 		$this->fixture->loadXmlFile(REALTY_IMPORT_FOLDER.'bar.zip');
 		$this->assertNotEquals(
 			get_class($this->fixture->getImportedXml()),
@@ -231,7 +254,19 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 
 	public function testLoadXmlFileIfXmlIsValid() {
 		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
-		$this->fixture->setSchemaFile(REALTY_IMPORT_FOLDER.'schema.xsd');
+		$this->fixture->loadXmlFile(REALTY_IMPORT_FOLDER.'foo.zip');
+
+		$this->assertTrue(
+			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
+		);
+	}
+
+	public function testLoadXmlFileIfXmlIsInvalidButValidationIsIgnored() {
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'ignoreValidation',
+			true
+		);
+		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
 		$this->fixture->loadXmlFile(REALTY_IMPORT_FOLDER.'foo.zip');
 
 		$this->assertTrue(
@@ -340,7 +375,9 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testEnsureContactEmailNotChangesAddressIfValidAddressIsSet() {
-		$this->fixture->loadRealtyObject(array('contact_email' => 'foo-valid@email-address.org'));
+		$this->fixture->loadRealtyObject(
+			array('contact_email' => 'foo-valid@email-address.org')
+		);
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
@@ -350,23 +387,33 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testEnsureContactEmailSetsDefaultAddressIfEmptyAddressSet() {
-		$this->fixture->setDefaultEmailAddress('default address');
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			'default_address@email-address.org'
+		);
 		$this->fixture->loadRealtyObject(array('contact_email' => ''));
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
-			'default address',
+			$this->globalConfiguration->getConfigurationValueString(
+				'emailAddress'
+			),
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
 
 	public function testEnsureContactEmailSetsDefaultAddressIfInvalidAddressIsSet() {
-		$this->fixture->setDefaultEmailAddress('default address');
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			'default_address@email-address.org'
+		);
 		$this->fixture->loadRealtyObject(array('contact_email' => 'foo'));
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
-			'default address',
+			$this->globalConfiguration->getConfigurationValueString(
+				'emailAddress'
+			),
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
@@ -390,6 +437,11 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPrepareEmailsFillsEmptyEmailFieldWithDefaultAddress() {
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			'default_address@email-address.org'
+		);
+
 		$emailData = array(
 			array(
 				'recipient' => '',
@@ -402,8 +454,68 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$this->fixture->prepareEmails($emailData),
 			array(
-				$this->fixture->getDefaultEmailAddress() => array(
+				$this->globalConfiguration->getConfigurationValueString(
+					'emailAddress'
+				) => array(
 					array('foo' => 'bar')
+				)
+			)
+		);
+	}
+
+	public function testPrepareEmailsUsesLogEntryIfOnlyErrorsIsDisabled() {
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			'default_address@email-address.org'
+		);
+
+		$emailData = array(
+			array(
+				'recipient' => '',
+				'objectNumber' => 'foo',
+				'logEntry' => 'log entry',
+				'errorLog' => 'error log'
+			)
+		);
+
+		$this->assertEquals(
+			$this->fixture->prepareEmails($emailData),
+			array(
+				$this->globalConfiguration->getConfigurationValueString(
+					'emailAddress'
+				) => array(
+					array('foo' => 'log entry')
+				)
+			)
+		);
+	}
+
+	public function testPrepareEmailsUsesLogEntryIfOnlyErrorsIsEnabled() {
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyErrors',
+			true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			'default_address@email-address.org'
+		);
+
+		$emailData = array(
+			array(
+				'recipient' => '',
+				'objectNumber' => 'foo',
+				'logEntry' => 'log entry',
+				'errorLog' => 'error log'
+			)
+		);
+
+		$this->assertEquals(
+			$this->fixture->prepareEmails($emailData),
+			array(
+				$this->globalConfiguration->getConfigurationValueString(
+					'emailAddress'
+				) => array(
+					array('foo' => 'error log')
 				)
 			)
 		);
@@ -594,31 +706,69 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 
 	public function testImportFromZipDoesNotWriteImportFolderContentsToDatabase() {
 		global $LANG;
-		$this->fixture->initializeLanguage();
 
-		$result = $this->fixture->importFromZip(REALTY_IMPORT_FOLDER);
+		$result = $this->fixture->importFromZip();
 		$this->assertNotContains(
 			$LANG->getLL('message_written_to_database'),
 			$result
 		);
 	}
 
-	public function testImportFromZipLogsNoSchemaFile() {
+	public function testImportFromZipReturnsLogMessageNoSchemaFileIfTheSchemaFileWasNotSet() {
 		global $LANG;
-		$this->fixture->initializeLanguage();
 
-		$result = $this->fixture->importFromZip(REALTY_IMPORT_FOLDER);
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema',
+			''
+		);
+
+		$result = $this->fixture->importFromZip();
 		$this->assertContains(
 			$LANG->getLL('message_no_schema_file'),
 			$result
 		);
 	}
 
-	public function testImportFromZipLogsMissingRequiredFields() {
+	public function testImportFromZipReturnsLogMessageIncorrectSchemaFileIfTheSchemaFilePathWasIncorrect() {
 		global $LANG;
-		$this->fixture->initializeLanguage();
 
-		$result = $this->fixture->importFromZip(REALTY_IMPORT_FOLDER);
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema',
+			'/any/not/existing/path'
+		);
+
+		$result = $this->fixture->importFromZip();
+		$this->assertContains(
+			$LANG->getLL('message_invalid_schema_file_path'),
+			$result
+		);
+	}
+
+	public function testImportFromZipReturnsLogMessageNoSchemaFileIfNoSchemaFileWasSet() {
+		global $LANG;
+
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema',
+			''
+		);
+
+		$result = $this->fixture->importFromZip();
+		$this->assertContains(
+			$LANG->getLL('message_no_schema_file'),
+			$result
+		);
+	}
+
+	public function testImportFromZipReturnsLogMessageMissingRequiredFields() {
+		global $LANG;
+
+		// validation needs to be disabled for this test
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema',
+			''
+		);
+
+		$result = $this->fixture->importFromZip();
 		$this->assertContains(
 			$LANG->getLL('message_fields_required'),
 			$result

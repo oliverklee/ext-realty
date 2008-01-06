@@ -45,13 +45,8 @@ class tx_realty_cli {
 	 * Calls the OpenImmo importer.
 	 */
 	public function main() {
-		$globalConfiguration = unserialize(
-			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-		);
-		$importFolder = $globalConfiguration['importFolder'];
-		$schemaFile = $globalConfiguration['openImmoSchemaFile'];
 		$importer = t3lib_div::makeInstance('tx_realty_openimmo_import');
-		echo $importer->importFromZip($importFolder, $schemaFile);
+		echo $importer->importFromZip();
 	}
 }
 

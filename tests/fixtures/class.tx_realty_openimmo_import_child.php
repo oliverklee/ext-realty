@@ -64,10 +64,6 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 		return parent::writeToDatabase($domDocument);
 	}
 
-	public function setSchemaFile($pathToSchemaFile) {
-		return parent::setSchemaFile($pathToSchemaFile);
-	}
-
 	public function getImportedXml() {
 		return parent::getImportedXml();
 	}
@@ -100,29 +96,12 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 		return parent::getDefaultEmailAddress();
 	}
 
-	public function setDefaultEmailAddress($emailAddress = 'EM') {
-		parent::setDefaultEmailAddress($emailAddress);
-	}
-
 	public function convertDomDocumentToArray($domDocument) {
 		return parent::convertDomDocumentToArray($domDocument);
 	}
 
 	public function setUploadDirectory($path) {
 		return parent::setUploadDirectory($path);
-	}
-
-	public function initializeLanguage() {
-		parent::initializeLanguage();
-	}
-
-	/**
-	 * To ensure static test conditions, the redefinition of this function
-	 * always returns false. In tx_realty_openimmo_import, it returns a boolean
-	 * value from the global configuration.
-	 */
-	public function isIgnoreValidationEnabled() {
-		return false;
 	}
 }
 

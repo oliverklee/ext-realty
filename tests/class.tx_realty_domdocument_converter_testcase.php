@@ -29,8 +29,8 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty')
-	.'tests/fixtures/class.tx_realty_domdocument_converter_child.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_domdocument_converter_child.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 	public function setUp() {
@@ -253,7 +253,6 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 
 	public function testGetConvertedDataSetsPetsTitleIfValueIsStringTrue() {
 		global $LANG;
-		$this->fixture->initializeLanguage();
 
 		$node = DOMDocument::loadXML(
 			'<openimmo>'
@@ -277,7 +276,6 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 
 	public function testGetConvertedDataSetsPetsTitleIfValueIsOne() {
 		global $LANG;
-		$this->fixture->initializeLanguage();
 
 		$node = DOMDocument::loadXML(
 			'<openimmo>'
@@ -301,7 +299,6 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 
 	public function testGetConvertedDataSetsPetsTitleIfValueIsBooleanTrue() {
 		global $LANG;
-		$this->fixture->initializeLanguage();
 
 		$node = DOMDocument::loadXML(
 			'<openimmo>'
@@ -320,6 +317,102 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$result[0]['pets'],
 			$LANG->getLL('label_allowed')
+		);
+	}
+
+	public function testGetConvertedDataSetsPetsGermanTitleIfLanguageIsGerman() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueString('cliLanguage', 'de');
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<verwaltung_objekt>'
+							.'<haustiere>true</haustiere>'
+						.'</verwaltung_objekt>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			$result[0]['pets'],
+			'Erlaubt'
+		);
+	}
+
+	public function testGetConvertedDataSetsPetsEnglishTitleIfLanguageIsEnglish() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueString('cliLanguage', 'en');
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<verwaltung_objekt>'
+							.'<haustiere>true</haustiere>'
+						.'</verwaltung_objekt>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			$result[0]['pets'],
+			'Allowed'
+		);
+	}
+
+	public function testGetConvertedDataSetsPetsEnglishTitleIfLanguageKeyIsInvalid() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueString('cliLanguage', 'xy');
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<verwaltung_objekt>'
+							.'<haustiere>true</haustiere>'
+						.'</verwaltung_objekt>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			$result[0]['pets'],
+			'Allowed'
+		);
+	}
+
+	public function testGetConvertedDataSetsPetsEnglishTitleIfLanguageKeyIsEmpty() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueString('cliLanguage', '');
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<verwaltung_objekt>'
+							.'<haustiere>true</haustiere>'
+						.'</verwaltung_objekt>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			$result[0]['pets'],
+			'Allowed'
 		);
 	}
 
