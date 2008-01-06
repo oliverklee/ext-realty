@@ -1,3 +1,5 @@
+# cat=basic; type=boolean; label=Configuration check:Enables the configuration check.
+enableConfigCheck = 1
 # cat=basic; type=string; label=Language for CLI mode:Use the ISO 639-1 code.
 cliLanguage = en
 # cat=basic; type=string; label=Import folder:Absolute path of the directory that contains the OpenImmo ZIP files.
