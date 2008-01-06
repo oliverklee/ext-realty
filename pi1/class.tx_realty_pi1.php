@@ -166,7 +166,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$result = '';
 
-		switch ($this->getConfValueString('what_to_display')) {
+		$whatToDisplay = $this->getConfValueString('what_to_display');
+		$this->setFlavor($whatToDisplay);
+
+		switch ($whatToDisplay) {
 			case 'gallery':
 				$result = $this->createGallery();
 				break;
@@ -181,16 +184,25 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			default:
 				// Show the single view if a 'showUid' variable is set.
 				if (isset($this->piVars['showUid']) && $this->piVars['showUid']) {
+					$this->setFlavor('single_view');
 					$result = $this->createSingleView();
 					// If the single view results in an error, use the list view instead.
 					if (empty($result)) {
+						$this->setFlavor('realty_list');
 						$result = $this->createListView();
 					}
 				} else {
+					$this->setFlavor('realty_list');
 					$result = $this->createListView();
 				}
 				break;
 		}
+
+		// Checks the configuration and display any errors.
+		// The direct return value from $this->checkConfiguration() is not useed
+		// as this would ignore any previous error messages.
+		$this->checkConfiguration();
+		$result .= $this->getWrappedConfigCheckMessage();
 
 		return $this->pi_wrapInBaseClass($result);
 	}

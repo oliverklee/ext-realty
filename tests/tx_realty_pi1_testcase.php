@@ -33,8 +33,7 @@ require_once(PATH_tslib.'class.tslib_content.php');
 require_once(PATH_tslib.'class.tslib_feuserauth.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
-require_once(t3lib_extMgm::extPath('realty')
-	.'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
 
 define('TX_REALTY_FIRST_PID', '100000');
 define('TX_REALTY_SINGLE_PID', '100000');
@@ -82,6 +81,50 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		unset($this->fixture);
 	}
 
+
+	public function testConfigurationCheckIsActiveWhenEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
+			= serialize(array('enableConfigCheck' => 1));
+		// $this->fixture needs to be initialized again as the configuration is
+		// checked during initialization
+		unset($this->fixture);
+		$this->fixture = new tx_realty_pi1();
+		$this->fixture->init(array(
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'
+		));
+		// ensures there is at least one configuration error to report
+		$this->fixture->setConfigurationValue('numberOfDecimals', -1);
+		// As TYPO3 mode is BE, the PID in $GLOBALS['TSFE'] needs to be set
+		// explicitly.
+		$GLOBALS['TSFE']->id = TX_REALTY_SINGLE_PID;
+
+		$this->assertContains(
+			'Configuration check warning',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testConfigurationCheckIsNotActiveWhenDisabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
+			= serialize(array('enableConfigCheck' => 0));
+		// $this->fixture needs to be initialized again as the configuration is
+		// checked during initialization
+		unset($this->fixture);
+		$this->fixture = new tx_realty_pi1();
+		$this->fixture->init(array(
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'
+		));
+		// ensures there is at least one configuration error to report
+		$this->fixture->setConfigurationValue('numberOfDecimals', -1);
+		// As TYPO3 mode is BE, the PID in $GLOBALS['TSFE'] needs to be set
+		// explicitly.
+		$GLOBALS['TSFE']->id = TX_REALTY_SINGLE_PID;
+
+		$this->assertNotContains(
+			'Configuration check warning',
+			$this->fixture->main('', array())
+		);
+	}
 
 	public function testPi1MustBeInitialized() {
 		$this->assertNotNull(

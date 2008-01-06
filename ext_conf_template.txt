@@ -1,0 +1,2 @@
+# cat=basic; type=boolean; label=Configuration check:Enables the configuration check.
+enableConfigCheck = 1
