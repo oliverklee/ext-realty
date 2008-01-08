@@ -386,9 +386,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteSummaryStringOfFavoritesToDatabaseIfFunctionIsEnabled() {
-		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 1);
-
+	public function testWriteSummaryStringOfFavoritesToDatabase() {
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 		$this->fixture->writeSummaryStringOfFavoritesToSession();
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
@@ -401,29 +399,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteSummaryStringOfFavoritesToDatabaseIfFunctionIsDisabled() {
-		$GLOBALS['TSFE']->fe_user->setKey(
-				'ses',
-				'summaryStringOfFavorites',
-				'foo'
-			);
-		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 0);
-		$this->fixture->addToFavorites(array($this->firstRealtyUid));
-		$this->fixture->writeSummaryStringOfFavoritesToSession();
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
-				'ses',
-				'summaryStringOfFavorites'
-		);
-
-		$this->assertEquals(
-			'foo',
-			$sessionData
-		);
-	}
-
 	public function testWriteSummaryStringOfFavoritesToDatabaseIfFeUserIsLoggedIn() {
 		$this->fakeFeUserLogin();
-		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 1);
 
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 		$this->fixture->writeSummaryStringOfFavoritesToSession();
