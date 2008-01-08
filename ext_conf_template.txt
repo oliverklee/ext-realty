@@ -1,2 +1,6 @@
 # cat=basic; type=boolean; label=Configuration check:Enables the configuration check.
 enableConfigCheck = 1
+# cat=basic; type=integer; label=PID For Realty Records And Images:Page ID of the system folder where new records get stored.
+pidForRealtyObjectsAndImages =
+# cat=basic; type=integer; label=PID For Auxiliary Records:Page ID of the system folder where auxiliary records (e.g. house types, heating types) get stored. Leave empty to store these records in the same SysFolder as OpenImmo records.
+pidForAuxiliaryRecords =
