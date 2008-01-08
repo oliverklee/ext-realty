@@ -34,17 +34,26 @@ require_once(PATH_tslib.'class.tslib_feuserauth.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
-define('TX_REALTY_FIRST_PID', '100000');
-define('TX_REALTY_SINGLE_PID', '100000');
-define('TX_REALTY_LOGIN_PID', '100001');
-define('TX_REALTY_OTHER_SINGLE_PID', '100002');
-define('TX_REALTY_OBJECT_1', '100000');
-define('TX_REALTY_OBJECT_2', '100001');
+define('TX_REALTY_FIRST_OBJECT_NUMBER', '1');
+define('TX_REALTY_SECOND_OBJECT_NUMBER', '2');
+define('TX_REALTY_FIRST_TITLE', 'a title');
+define('TX_REALTY_SECOND_TITLE', 'another title');
 define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
 
 class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private $fixture;
+
+	private $testingFramework;
+
+	private $loginPid = 0;
+	private $listViewPid = 0;
+	private $singlePid = 0;
+	private $systemFolderPid = 0;
+	private $otherSinglePid = 0;
+	private $firstRealtyUid = 0;
+	private $secondRealtyUid = 0;
 
 	public function setUp() {
 		// Bolster up the fake front end.
@@ -54,30 +63,34 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
 
 		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user
-				= t3lib_div::makeInstance('tslib_feUserAuth');
+			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
 		}
 
-		$this->fixture = new tx_realty_pi1();
-		// As TYPO3 mode is BE, the template file needs to be included explicitly.
-		$this->fixture->init(array(
-			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'
-		));
-
-		// We expect the single view page to be at page #1.
-		$this->fixture->setConfigurationValue('singlePID', TX_REALTY_SINGLE_PID);
-
-		$this->fixture->storeFavorites(array());
-
+		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyPages();
 		$this->createDummyObjects();
+
+		$this->fixture = new tx_realty_pi1();
+		// This passed array with configuration values becomes part of
+		// $this->fixture->conf. "conf" is inherited from tslib_pibase and needs
+		// to contain "pidList". "pidList" is none of our configuration values
+		// but if cObj->currentRecord is set, "pidList" is set to our
+		// configuration value "pages".
+		// As we are in BE mode, "pidList" needs to be set directly.
+		// The template file also needs to be included explicitly.
+		$this->fixture->init(array(
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+			'singlePID' => $this->singlePid,
+			'pidList' => $this->systemFolderPid
+		));
+
+		// Ensures an empty favorites list.
+		$this->fixture->storeFavorites(array());
 	}
 
 	public function tearDown() {
-		$this->deleteDummyPages();
-		$this->deleteDummyObjects();
-		$this->resetAutoIncrement();
-
+		$this->testingFramework->cleanUp();
+		unset($this->testingFramework);
 		unset($this->fixture);
 	}
 
@@ -90,13 +103,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		unset($this->fixture);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
-			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+			'pidList' => $this->systemFolderPid
 		));
 		// ensures there is at least one configuration error to report
 		$this->fixture->setConfigurationValue('numberOfDecimals', -1);
-		// As TYPO3 mode is BE, the PID in $GLOBALS['TSFE'] needs to be set
-		// explicitly.
-		$GLOBALS['TSFE']->id = TX_REALTY_SINGLE_PID;
 
 		$this->assertContains(
 			'Configuration check warning',
@@ -112,13 +123,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		unset($this->fixture);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
-			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+			'pidList' => $this->systemFolderPid
 		));
 		// ensures there is at least one configuration error to report
 		$this->fixture->setConfigurationValue('numberOfDecimals', -1);
-		// As TYPO3 mode is BE, the PID in $GLOBALS['TSFE'] needs to be set
-		// explicitly.
-		$GLOBALS['TSFE']->id = TX_REALTY_SINGLE_PID;
 
 		$this->assertNotContains(
 			'Configuration check warning',
@@ -222,16 +231,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testLinkToSingleViewPageContainsSinglePidIfAccessAllowed() {
 		$this->allowAccess();
 		$this->assertContains(
-			TX_REALTY_SINGLE_PID,
+			(string) $this->singlePid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
 
 	public function testLinkToSingleViewPageContainsSinglePidIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			TX_REALTY_SINGLE_PID,
+			(string) $this->singlePid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
@@ -259,7 +268,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSingleViewPageContainsATagIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
 			'<a href=', $this->fixture->createLinkToSingleViewPage('&', 0)
 		);
@@ -267,16 +276,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSingleViewPageLinksToLoginPageIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			TX_REALTY_LOGIN_PID,
+			(string) $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
 
 	public function testLinkToSingleViewPageContainsRedirectUrlIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
@@ -285,16 +294,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
 		$this->allowAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
-			TX_REALTY_LOGIN_PID,
+			$this->loginPid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
 
 	public function testLinkToSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
 		$this->allowAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
@@ -304,7 +313,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testGetFieldContentCreatesLinkToSinglePageIfAccessDenied() {
 		$this->denyAccess();
 
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->fixture->setCurrentRow(array(
 			'title' => 'foo',
 			'uid' => 0
@@ -332,42 +341,40 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testCreateListViewReturnsHtmlListOfTableEntries() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		// As TYPO3 mode is BE the PID in $GLOBALS['TSFE'] needs to be set explicitly.
-		$GLOBALS['TSFE']->id = TX_REALTY_SINGLE_PID;
 
 		$this->assertContains(
-			'foo1',
+			TX_REALTY_FIRST_TITLE,
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
-			'foo2',
+			TX_REALTY_SECOND_TITLE,
 			$this->fixture->main('', array())
 		);
 	}
 
 	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
-		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 
 		$this->assertContains(
-			'* 1 foo1'.chr(10),
+			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 		$this->assertNotContains(
-			'* 2',
+			'* '.TX_REALTY_SECOND_OBJECT_NUMBER.' '.TX_REALTY_SECOND_TITLE.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
 
 	public function testCreateSummaryStringOfFavoritesContainsDataFromTwoObjects() {
-		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
-		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_2));
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
+		$this->fixture->addToFavorites(array($this->secondRealtyUid));
 
 		$this->assertContains(
-			'* 1 foo1'.chr(10),
+			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 		$this->assertContains(
-			'* 2 foo2'.chr(10),
+			'* '.TX_REALTY_SECOND_OBJECT_NUMBER.' '.TX_REALTY_SECOND_TITLE.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
@@ -382,14 +389,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testWriteSummaryStringOfFavoritesToDatabaseIfFunctionIsEnabled() {
 		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 1);
 
-		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 		$this->fixture->writeSummaryStringOfFavoritesToSession();
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
 				'ses',
 				'summaryStringOfFavorites'
 		);
 		$this->assertContains(
-			'* 1 foo1',
+			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
 			$sessionData
 		);
 	}
@@ -401,7 +408,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'foo'
 			);
 		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 0);
-		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 		$this->fixture->writeSummaryStringOfFavoritesToSession();
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
 				'ses',
@@ -418,14 +425,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fakeFeUserLogin();
 		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 1);
 
-		$this->fixture->addToFavorites(array(TX_REALTY_OBJECT_1));
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 		$this->fixture->writeSummaryStringOfFavoritesToSession();
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
 				'ses',
 				'summaryStringOfFavorites'
 		);
 		$this->assertContains(
-			'* 1 foo1',
+			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
 			$sessionData
 		);
 	}
@@ -437,75 +444,75 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessAllowed() {
 		$this->allowAccess();
 		$this->assertContains(
-			TX_REALTY_OTHER_SINGLE_PID,
+			(string) $this->otherSinglePid,
 			$this->fixture->createLinkToSingleViewPage(
-				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+				'foo', 0, $this->otherSinglePid
 			)
 		);
 	}
 
 	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			TX_REALTY_OTHER_SINGLE_PID,
+			(string) $this->otherSinglePid,
 			$this->fixture->createLinkToSingleViewPage(
-				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+				'foo', 0, $this->otherSinglePid
 			)
 		);
 	}
 
 	public function testLinkToSeparateSingleViewPageContainsATagIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
 			'<a href=',
 			$this->fixture->createLinkToSingleViewPage(
-				'&', 0, TX_REALTY_OTHER_SINGLE_PID
+				'&', 0, $this->otherSinglePid
 			)
 		);
 	}
 
 	public function testLinkToSeparateSingleViewPageLinksToLoginPageIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			TX_REALTY_LOGIN_PID,
+			(string) $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
-				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+				'foo', 0, $this->otherSinglePid
 			)
 		);
 	}
 
 	public function testLinkToSeparateSingleViewPageContainsRedirectUrlIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
-				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+				'foo', 0, $this->otherSinglePid
 			)
 		);
 	}
 
 	public function testLinkToSeparateSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
 		$this->allowAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
-			TX_REALTY_LOGIN_PID,
+			(string) $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
-				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+				'foo', 0, $this->otherSinglePid
 			)
 		);
 	}
 
 	public function testLinkToSeparateSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
 		$this->allowAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
-				'foo', 0, TX_REALTY_OTHER_SINGLE_PID
+				'foo', 0, $this->otherSinglePid
 			)
 		);
 	}
@@ -527,7 +534,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToExternalSingleViewPageContainsExternalUrlIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
 			urlencode('http://'.TX_REALTY_EXTERNAL_SINGLE_PAGE),
 			$this->fixture->createLinkToSingleViewPage(
@@ -538,7 +545,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToExternalSingleViewPageContainsATagIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
 			'<a href=',
 			$this->fixture->createLinkToSingleViewPage(
@@ -549,9 +556,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToExternalSingleViewPageLinksToLoginPageIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			TX_REALTY_LOGIN_PID,
+			(string) $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
 			)
@@ -560,7 +567,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToExternalSingleViewPageContainsRedirectUrlIfAccessDenied() {
 		$this->denyAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
@@ -571,9 +578,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToExternalSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
 		$this->allowAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
-			TX_REALTY_LOGIN_PID,
+			(string) $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
 			)
@@ -582,7 +589,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToExternalSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
 		$this->allowAccess();
-		$this->fixture->setConfigurationValue('loginPID', TX_REALTY_LOGIN_PID);
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
@@ -635,94 +642,33 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 * Creates dummy FE pages (like login and single view).
 	 */
 	private function createDummyPages() {
-		$pageUids = array(
-				TX_REALTY_LOGIN_PID,
-				TX_REALTY_SINGLE_PID,
-				TX_REALTY_OTHER_SINGLE_PID
-		);
-
-		foreach ($pageUids as $uid) {
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'pages',
-				array(
-					'uid' => $uid,
-					'pid' => 1,
-					'doktype' => 1
-				)
-			);
-		}
-	}
-
-	/**
-	 * Deletes the dummy FE pages.
-	 */
-	private function deleteDummyPages() {
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'pages',
-			'uid >= '.TX_REALTY_FIRST_PID
-		);
+		$this->loginPid = $this->testingFramework->createFrontEndPage();
+		$this->listViewPid = $this->testingFramework->createFrontEndPage();
+		$this->singlePid = $this->testingFramework->createFrontEndPage();
+		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
+		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 	}
 
 	/**
 	 * Creates dummy realty objects in the DB.
 	 */
 	private function createDummyObjects() {
-		$objectUids = array(
-				TX_REALTY_OBJECT_1,
-				TX_REALTY_OBJECT_2
-		);
-		$objectNumber = 1;
-		foreach ($objectUids as $uid) {
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'tx_realty_objects',
-				array(
-					'uid' => $uid,
-					'title' => 'foo'.$objectNumber,
-					'object_number' => $objectNumber,
-					'pid' => TX_REALTY_SINGLE_PID
-				)
-			);
-			$objectNumber++;
-		}
-	}
-
-	/**
-	 * Deletes all dummy objects from the DB.
-	 */
-	private function deleteDummyObjects() {
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		$this->firstRealtyUid = $this->testingFramework->createRecord(
 			'tx_realty_objects',
-			'uid >= '.TX_REALTY_OBJECT_1
+			array(
+				'title' => TX_REALTY_FIRST_TITLE,
+				'object_number' => TX_REALTY_FIRST_OBJECT_NUMBER,
+				'pid' => $this->systemFolderPid
+			)
 		);
-	}
-
-	/**
-	 * Resets the auto increment value for the table 'pages' and
-	 * 'tx_realty_objects' to the highest existing UID + 1. This is required to
-	 * leave the table in the same status that it had before adding dummy pages.
-	 *
-	 * TODO: This function has been copied from the oelib unit testing
-	 * framework. This function can be removed once the unit testing framework
-	 * supports the table "pages" (bug 1418).
-	 *
-	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=1418
-	 */
-	private function resetAutoIncrement() {
-		foreach (array('pages', 'tx_realty_objects') as $table) {
-			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-				'SELECT MAX(uid) AS uid FROM '.$table.';'
-			);
-			if ($dbResult) {
-				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-				if ($row) {
-					$newAutoIncrementValue = $row['uid'] + 1;
-					$GLOBALS['TYPO3_DB']->sql_query(
-						'ALTER TABLE '.$table.' AUTO_INCREMENT='
-							.$newAutoIncrementValue.';'
-					);
-				}
-			}
-		}
+		$this->secondRealtyUid = $this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'title' => TX_REALTY_SECOND_TITLE,
+				'object_number' => TX_REALTY_SECOND_OBJECT_NUMBER,
+				'pid' => $this->systemFolderPid
+			)
+		);
 	}
 }
 

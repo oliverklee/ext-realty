@@ -1,5 +1,9 @@
 2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
+
+2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
+
 	* [#1436] Feature: Allow to specify a sysfolder for the auxiliary records
 
 2008-01-08 Saskia Metzler <saskia@merlin.owl.de>

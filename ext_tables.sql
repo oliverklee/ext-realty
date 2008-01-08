@@ -2,12 +2,14 @@
 # Table structure for table 'tx_realty_objects_images_mm'
 #
 CREATE TABLE tx_realty_objects_images_mm (
-  uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-  uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-  tablenames varchar(30) DEFAULT '' NOT NULL,
-  sorting int(11) DEFAULT '0' NOT NULL,
-  KEY uid_local (uid_local),
-  KEY uid_foreign (uid_foreign)
+	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	tablenames varchar(30) DEFAULT '' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
 );
 
 #
@@ -33,6 +35,7 @@ CREATE TABLE tx_realty_objects (
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	starttime int(11) DEFAULT '0' NOT NULL,
 	endtime int(11) DEFAULT '0' NOT NULL,
 	object_number tinytext NOT NULL,
@@ -105,6 +108,7 @@ CREATE TABLE tx_realty_apartment_types (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -124,6 +128,7 @@ CREATE TABLE tx_realty_house_types (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -145,6 +150,7 @@ CREATE TABLE tx_realty_heating_types (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -164,6 +170,7 @@ CREATE TABLE tx_realty_car_places (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -183,6 +190,7 @@ CREATE TABLE tx_realty_pets (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -202,6 +210,7 @@ CREATE TABLE tx_realty_conditions (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -222,6 +231,7 @@ CREATE TABLE tx_realty_images (
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	caption tinytext NOT NULL,
 	image tinytext NOT NULL,
 
@@ -242,6 +252,7 @@ CREATE TABLE tx_realty_cities (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -261,6 +272,7 @@ CREATE TABLE tx_realty_districts (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
