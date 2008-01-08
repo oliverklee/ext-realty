@@ -77,6 +77,10 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			'importFolder',
 			REALTY_IMPORT_FOLDER
 		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'notifyContactPersons',
+			true
+		);
 
 		$this->createDummyPages();
 	}
@@ -103,29 +107,29 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 
 	public function testGetPathsOfZipsToExtract() {
 		$this->assertEquals(
-			$this->fixture->getPathsOfZipsToExtract(REALTY_IMPORT_FOLDER),
-			glob(REALTY_IMPORT_FOLDER.'*.zip')
+			glob(REALTY_IMPORT_FOLDER.'*.zip'),
+			$this->fixture->getPathsOfZipsToExtract(REALTY_IMPORT_FOLDER)
 		);
 	}
 
 	public function testGetNameForExtractionFolder() {
 		$this->assertEquals(
-			$this->fixture->getNameForExtractionFolder('bar.zip'),
-			'bar/'
+			'bar/',
+			$this->fixture->getNameForExtractionFolder('bar.zip')
 		);
 	}
 
 	public function testUnifyPathDoesNotChangeCorrectPath() {
 		$this->assertEquals(
-			$this->fixture->unifyPath('correct/path/'),
-			'correct/path/'
+			'correct/path/',
+			$this->fixture->unifyPath('correct/path/')
 		);
 	}
 
-	public function testUnifyPathAddsNecessarySlash() {
+	public function testUnifyPathTrimsAndAddsNecessarySlash() {
 		$this->assertEquals(
-			$this->fixture->unifyPath('incorrect/path'),
-			'incorrect/path/'
+			'incorrect/path/',
+			$this->fixture->unifyPath('incorrect/path')
 		);
 	}
 
@@ -204,15 +208,15 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
 
 		$this->assertEquals(
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'foo.zip'),
-			REALTY_IMPORT_FOLDER.'foo/foo.xml'
+			REALTY_IMPORT_FOLDER.'foo/foo.xml',
+			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'foo.zip')
 		);
 	}
 
 	public function testGetPathForXmlIfFolderNotExists() {
 		$this->assertEquals(
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'foo.zip'),
-			''
+			'',
+			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'foo.zip')
 		);
 	}
 
@@ -220,8 +224,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'bar-bar.zip');
 
 		$this->assertEquals(
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'bar-bar.zip'),
-			''
+			'',
+			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'bar-bar.zip')
 		);
 	}
 
@@ -229,8 +233,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'empty.zip');
 
 		$this->assertEquals(
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'empty.zip'),
-			''
+			'',
+			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'empty.zip')
 		);
 	}
 
@@ -381,8 +385,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
-			$this->fixture->getContactEmailFromRealtyObject(),
-			'foo-valid@email-address.org'
+			'foo-valid@email-address.org',
+			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
 
@@ -395,9 +399,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
-			$this->globalConfiguration->getConfigurationValueString(
-				'emailAddress'
-			),
+			'default_address@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
@@ -411,9 +413,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture->ensureContactEmail();
 
 		$this->assertEquals(
-			$this->globalConfiguration->getConfigurationValueString(
-				'emailAddress'
-			),
+			'default_address@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
@@ -422,8 +422,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$emailData = array();
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
-			array()
+			array(),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -431,12 +431,12 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$emailData = array('invalid' => 'array');
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
-			array()
+			array(),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
-	public function testPrepareEmailsFillsEmptyEmailFieldWithDefaultAddress() {
+	public function testPrepareEmailsFillsEmptyEmailFieldWithDefaultAddressIfNotifyContactPersonsIsEnabled() {
 		$this->globalConfiguration->setConfigurationValueString(
 			'emailAddress',
 			'default_address@email-address.org'
@@ -452,14 +452,40 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
 			array(
-				$this->globalConfiguration->getConfigurationValueString(
-					'emailAddress'
-				) => array(
+				'default_address@email-address.org' => array(
 					array('foo' => 'bar')
 				)
+			),
+			$this->fixture->prepareEmails($emailData)
+		);
+	}
+
+	public function testPrepareEmailsReplacesNonEmptyEmailAddressIfNotifyContactPersonsIsDisabled() {
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			'default_address@email-address.org'
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'notifyContactPersons',
+			false
+		);
+		$emailData = array(
+			array(
+				'recipient' => 'foo-valid@email-address.org',
+				'objectNumber' => 'foo',
+				'logEntry' => 'bar',
+				'errorLog' => 'bar'
 			)
+		);
+
+		$this->assertEquals(
+			array(
+				'default_address@email-address.org' => array(
+					array('foo' => 'bar')
+				)
+			),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -479,14 +505,12 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
 			array(
-				$this->globalConfiguration->getConfigurationValueString(
-					'emailAddress'
-				) => array(
+				'default_address@email-address.org' => array(
 					array('foo' => 'log entry')
 				)
-			)
+			),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -510,14 +534,12 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
 			array(
-				$this->globalConfiguration->getConfigurationValueString(
-					'emailAddress'
-				) => array(
+				'default_address@email-address.org' => array(
 					array('foo' => 'error log')
 				)
-			)
+			),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -532,12 +554,12 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
 			array(
 				'foo' => array(
 					array('------' => 'bar')
 				)
-			)
+			),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -558,13 +580,13 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
 			array(
 				'foo' => array(
 					array('number' => 'bar'),
 					array('number' => 'foo')
 				)
-			)
+			),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -585,7 +607,6 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
 			array(
 				'foo' => array(
 					array('number' => 'foo')
@@ -593,7 +614,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 				'bar' => array(
 					array('number' => 'bar')
 				)
-			)
+			),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -614,12 +636,12 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
 			array(
 				'foo' => array(
 					array('number' => 'bar')
 				)
-			)
+			),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
@@ -640,8 +662,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->prepareEmails($emailData),
-			array()
+			array(),
+			$this->fixture->prepareEmails($emailData)
 		);
 	}
 
