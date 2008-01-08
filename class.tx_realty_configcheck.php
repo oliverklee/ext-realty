@@ -107,6 +107,28 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCssFile();
 		$this->checkCssClassNames();
 		$this->checkDateFormat();
+		$this->checkWhatToDisplay();
+	}
+
+	/**
+	 * Checks the setting of the configuration value what_to_display.
+	 */
+	private function checkWhatToDisplay() {
+		$this->checkIfSingleInSetNotEmpty(
+			'what_to_display',
+			true,
+			'sDEF',
+			'This value specifies the type of the realty plug-in to display. '
+				.'If it is not set correctly, it is ignored and the list view '
+				.'is displayed.',
+			array(
+				'gallery',
+				'city_selector',
+				'favorites',
+				'realty_list',
+				'fe_editor'
+			)
+		);
 	}
 
 	/**
