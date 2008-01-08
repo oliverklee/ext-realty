@@ -1,5 +1,9 @@
 2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1435] Change: Simplify the inclusion of the favorites list in an e-mail form
+
+2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
+
 	* [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
 
 2008-01-08 Saskia Metzler <saskia@merlin.owl.de>

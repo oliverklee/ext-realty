@@ -1373,18 +1373,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Writes a formatted string containing object numbers and titles of objects
-	 * on the favorites list to session. Does nothing if this option is not
-	 * enabled in TS setup.
+	 * on the favorites list to session.
 	 */
 	 public function writeSummaryStringOfFavoritesToSession() {
-	 	if ($this->getConfValueBoolean('createSummaryStringOfFavorites')) {
-		 	$GLOBALS['TSFE']->fe_user->setKey(
-				'ses',
-				'summaryStringOfFavorites',
-				$this->createSummaryStringOfFavorites()
-			);
-			$GLOBALS['TSFE']->fe_user->storeSessionData();
-	 	}
+	 	$GLOBALS['TSFE']->fe_user->setKey(
+			'ses',
+			'summaryStringOfFavorites',
+			$this->createSummaryStringOfFavorites()
+		);
+		$GLOBALS['TSFE']->fe_user->storeSessionData();
 	 }
 
 	/**

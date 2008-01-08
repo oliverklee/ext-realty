@@ -76,7 +76,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_favorites() {
 		$this->check_tx_realty_pi1_realty_list();
 		$this->checkContactPid();
-		$this->checkCreateSummaryStringOfFavorites();
 		$this->checkFavoriteFieldsInSession();
 		$this->checkFavoritesPid();
 		$this->checkImageSizeValuesForListView();
@@ -369,21 +368,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies whether the address of a realty object is '
 				.'shown in the FE. It might be interpreted incorrectly if no '
 				.'logical value was set.'
-		);
-	}
-
-	/**
-	 * Checks the setting of the configuration value
-	 * createSummaryStringOfFavorites.
-	 */
-	private function checkCreateSummaryStringOfFavorites() {
-		$this->checkIfBoolean(
-			'createSummaryStringOfFavorites',
-			true,
-			'sDEF',
-			'This value specifies whether an e-mail form should be provided '
-				.'an e-mail form with a brief summary of the current favorites. '
-				.'It might be interpreted incorrectly if no logical value was set.'
 		);
 	}
 
