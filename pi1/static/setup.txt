@@ -69,9 +69,6 @@ plugin.tx_realty_pi1 {
 	staticSqlFilter =
 	# whether the address of a realty object is shown in the FE
 	showAddressOfObjects = 0
-	# Enable this option by setting this value to 1 if you want to provide an
-	# e-mail form with a brief summary of the current favorites. 
-	createSummaryStringOfFavorites = 0
 	# name of the DB field to create the search filter checkboxes from
 	checkboxesFilter =
 	# DB fields by which a FE user can sort the list view, stored in a bitfield (see tx_realty_pi1::sortCriteria)
