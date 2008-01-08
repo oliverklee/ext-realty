@@ -1,18 +1,20 @@
-# cat=basic; type=boolean; label=Configuration check:Enables the configuration check.
+# cat=basic; type=boolean; label=Configuration Check:Enables the configuration check.
 enableConfigCheck = 1
-# cat=basic; type=string; label=Language for CLI mode:Use the ISO 639-1 code.
+# cat=basic; type=string; label=Language For CLI mode:Use the ISO 639-1 code.
 cliLanguage = en
-# cat=basic; type=string; label=Import folder:Absolute path of the directory that contains the OpenImmo ZIP files.
+# cat=basic; type=string; label=Import Folder:Absolute path of the directory that contains the OpenImmo ZIP files.
 importFolder =
 # cat=basic; type=string; label=Schema File:Absolute path of the validation schema for OpenImmo records.
 openImmoSchemaFile =
 # cat=basic; type=integer; label=SysFolder PID:Page ID of SysFolder where new records get stored.
 pidForOpenImmoRecords =
-# cat=basic; type=string; label=E-mail address:Default e-mail address which receives the log. Leave empty to disable the sending of e-mails.
+# cat=basic; type=string; label=Default E-mail Address:This E-mail address receives the complete log if "Notify Contact Persons" is disabled. If "Notify Contact Persons" is enabled it receives only log parts concerning objects which did not have a valid e-mail address. Leave this field empty to disable the sending of e-mails at all.
 emailAddress =
+# cat=basic; type=boolean; label=Notify Contact Persons:Send one e-mail directly to each contact person found in the OpenImmo record. This e-mail contains collected log information about their objects. The default e-mail address is only used if there was no valid address within at least one record.
+notifyContactPersons = 0
 # cat=basic; type=boolean; label=Only Errors:Receive e-mails only if errors have occurred.
 onlyErrors = 0
-# cat=basic; type=string; label=E-mail template:Path of the template file for the e-mail layout. Needs to start with EXT:.
+# cat=basic; type=string; label=E-mail Template:Path of the template file for the e-mail layout. Needs to start with EXT:.
 emailTemplate = EXT:realty/lib/tx_realty_email_notification.tmpl
-# cat=basic; type=boolean; label=Ignore validation results:Try to import realty data despite validation errors.
+# cat=basic; type=boolean; label=Ignore Validation Results:Try to import realty data despite validation errors.
 ignoreValidation = 0

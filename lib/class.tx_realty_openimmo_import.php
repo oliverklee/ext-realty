@@ -310,9 +310,22 @@ class tx_realty_openimmo_import {
 	 *
 	 * @return	string		default e-mail address, may be empty
 	 */
-	protected function getDefaultEmailAddress() {
+	private function getDefaultEmailAddress() {
 		return $this->globalConfiguration->getConfigurationValueString(
 			'emailAddress'
+		);
+	}
+
+	/**
+	 * Checks whether contact persons of each record should receive e-mails
+	 * about the import of their records.
+	 *
+	 * @return	boolean		true if contact persons should receive e-mails,
+	 * 						false otherwise
+	 */
+	private function isNotifyContactPersonsEnabled() {
+		return $this->globalConfiguration->getConfigurationValueBoolean(
+			'notifyContactPersons'
 		);
 	}
 
@@ -329,7 +342,6 @@ class tx_realty_openimmo_import {
 			'ignoreValidation'
 		);
 	}
-
 
 	/**
 	 * Stores all information for an e-mail to an array with the keys
@@ -409,7 +421,9 @@ class tx_realty_openimmo_import {
 		}
 
 		foreach ($emailDataToPrepare as $recordNumber => $record) {
-			if ($record['recipient'] == '') {
+			if (!$this->isNotifyContactPersonsEnabled()
+				|| ($record['recipient'] == '')
+			) {
 				$record['recipient'] = $this->getDefaultEmailAddress();
 			}
 
@@ -519,7 +533,7 @@ class tx_realty_openimmo_import {
 		$templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
 		$templateHelper->init(
 			array(
-				'templateFile' => 
+				'templateFile' =>
 					$this->globalConfiguration->getConfigurationValueString(
 						'emailTemplate'
 					)

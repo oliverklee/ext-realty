@@ -92,10 +92,6 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 		return parent::loadRealtyObject($data);
 	}
 
-	public function getDefaultEmailAddress() {
-		return parent::getDefaultEmailAddress();
-	}
-
 	public function convertDomDocumentToArray($domDocument) {
 		return parent::convertDomDocumentToArray($domDocument);
 	}
