@@ -34,6 +34,8 @@ require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.p
 
 define('TX_REALTY_OBJECT_UID_1', 100000);
 define('TX_REALTY_OBJECT_NUMBER_1', '100000');
+define('TX_REALTY_PID_1', 100000);
+define('TX_REALTY_PID_2', 100001);
 
 class tx_realty_object_testcase extends tx_phpunit_testcase {
 	private $fixture;
@@ -42,7 +44,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_object_child();
 		$this->increaseAutoIncrement();
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger('pidForOpenImmoRecords', 1);
+			setConfigurationValueInteger(
+				'pidForRealtyObjectsAndImages',
+				TX_REALTY_PID_1
+			);
 		$this->createDummyObject();
 	}
 
@@ -98,42 +103,45 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadDatabaseEntryWithValidUid() {
-		$realResult = $this->fixture->loadDatabaseEntry(TX_REALTY_OBJECT_UID_1);
-		$supposedResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$result = $this->fixture->loadDatabaseEntry(TX_REALTY_OBJECT_UID_1);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			'tx_realty_objects',
 			'uid='.TX_REALTY_OBJECT_UID_1
 			);
-		if ($supposedResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($supposedResult))
-		) {
-        	$supposedResultArray = $row;
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$expectedResult = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$expectedResult) {
+			$this->fail('The database result was empty.');
 		}
 
 		$this->assertEquals(
-			$realResult,
-			$supposedResultArray
+			$expectedResult,
+			$result
 		);
 	}
 
 	public function testLoadDatabaseEntryWithInvalidUid() {
 		$this->assertEquals(
-			$this->fixture->loadDatabaseEntry('99999'),
-			array()
+			array(),
+			$this->fixture->loadDatabaseEntry('99999')
 		);
 	}
 
 	public function testGetDataTypeWhenArrayGiven() {
 		$this->assertEquals(
-			$this->fixture->getDataType(array('foo')),
-			'array'
+			'array',
+			$this->fixture->getDataType(array('foo'))
 		);
 	}
 
 	public function testGetDataTypeWhenIntegerGiven() {
 		$this->assertEquals(
-			$this->fixture->getDataType(1),
-			'uid'
+			'uid',
+			$this->fixture->getDataType(1)
 		);
 	}
 
@@ -145,8 +153,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->getDataType($dbResult),
-			'dbResult'
+			'dbResult',
+			$this->fixture->getDataType($dbResult)
 		);
 	}
 
@@ -184,8 +192,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$resultToCheck = $this->fixture->fetchDatabaseResult($dbResult);
 
 		$this->assertEquals(
-			$resultToCheck,
-			array()
+			array(),
+			$resultToCheck
 		);
 	}
 
@@ -215,8 +223,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			array('title' => 'new title')
+			array('title' => 'new title'),
+			$result
 		);
 	}
 
@@ -245,8 +253,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			array('title' => 'new title')
+			array('title' => 'new title'),
+			$result
 		);
 	}
 
@@ -262,7 +270,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'title',
 			'tx_realty_objects',
-			'uid='.intval(TX_REALTY_OBJECT_UID_1 + 1)
+			'uid='.(TX_REALTY_OBJECT_UID_1 + 1)
 		);
 		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
@@ -274,8 +282,100 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			array('title' => 'new entry')
+			array('title' => 'new entry'),
+			$result
+		);
+	}
+
+	public function testCreateNewDatabaseEntryCreatesRealtyRecordWithRealtyRecordsPid() {
+		$this->fixture->createNewDatabaseEntry(
+			array(
+				'object_number' => (TX_REALTY_OBJECT_NUMBER_1 + 1),
+				'uid' => (TX_REALTY_OBJECT_UID_1 + 1)
+			)
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tx_realty_objects',
+			'uid='.(TX_REALTY_OBJECT_UID_1 + 1)
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
+		}
+
+		$this->assertEquals(
+			array('pid' => TX_REALTY_PID_1),
+			$result
+		);
+	}
+
+	public function testCreateNewDatabaseEntryCreatesPetsRecordWithAuxiliaryRecordsPid() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger(
+				'pidForAuxiliaryRecords',
+				TX_REALTY_PID_2
+			);
+
+		$this->fixture->createNewDatabaseEntry(
+			array(
+				'uid' => TX_REALTY_OBJECT_UID_1
+			),
+			'tx_realty_pets'
+
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tx_realty_pets',
+			'uid='.TX_REALTY_OBJECT_UID_1
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
+		}
+
+		$this->assertEquals(
+			array('pid' => (TX_REALTY_PID_2)),
+			$result
+		);
+	}
+
+	public function testCreateNewDatabaseEntryCreatesPetsRecordWithRealtyRecordsPidIfAuxiliaryRecordPidNotSet() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger('pidForAuxiliaryRecords', 0);
+
+		$this->fixture->createNewDatabaseEntry(
+			array(
+				'uid' => TX_REALTY_OBJECT_UID_1
+			),
+			'tx_realty_pets'
+
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tx_realty_pets',
+			'uid='.TX_REALTY_OBJECT_UID_1
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$result) {
+			$this->fail('The database result was empty.');
+		}
+
+		$this->assertEquals(
+			array('pid' => TX_REALTY_PID_1),
+			$result
 		);
 	}
 
@@ -283,8 +383,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject(TX_REALTY_OBJECT_UID_1);
 
 		$this->assertEquals(
-			$this->fixture->getProperty('foo'),
-			''
+			'',
+			$this->fixture->getProperty('foo')
 		);
 	}
 
@@ -292,15 +392,15 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject(TX_REALTY_OBJECT_UID_1);
 
 		$this->assertEquals(
-			$this->fixture->getProperty('uid'),
-			TX_REALTY_OBJECT_UID_1
+			TX_REALTY_OBJECT_UID_1,
+			$this->fixture->getProperty('uid')
 		);
 	}
 
 	public function testGetPropertyWithExistingKeyWhenNoObjectLoaded() {
 		$this->assertEquals(
-			$this->fixture->getProperty('uid'),
-			''
+			'',
+			$this->fixture->getProperty('uid')
 		);
 	}
 
@@ -309,8 +409,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('uid', 'foo');
 
 		$this->assertEquals(
-			$this->fixture->getProperty('uid'),
-			'foo'
+			'foo',
+			$this->fixture->getProperty('uid')
 		);
 	}
 
@@ -319,8 +419,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('uid', true);
 
 		$this->assertEquals(
-			$this->fixture->getProperty('uid'),
-			true
+			true,
+			$this->fixture->getProperty('uid')
 		);
 	}
 
@@ -329,8 +429,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('uid', 100);
 
 		$this->assertEquals(
-			$this->fixture->getProperty('uid'),
-			100
+			100,
+			$this->fixture->getProperty('uid')
 		);
 	}
 
@@ -339,8 +439,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('foo', 'bar');
 
 		$this->assertEquals(
-			$this->fixture->getProperty('foo'),
-			''
+			'',
+			$this->fixture->getProperty('foo')
 		);
 	}
 
@@ -349,8 +449,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('uid', array('bar'));
 
 		$this->assertEquals(
-			$this->fixture->getProperty('uid'),
-			TX_REALTY_OBJECT_UID_1
+			TX_REALTY_OBJECT_UID_1,
+			$this->fixture->getProperty('uid')
 		);
 	}
 
@@ -371,8 +471,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject(TX_REALTY_OBJECT_UID_1);
 
 		$this->assertEquals(
-			$this->fixture->checkMissingColumnNames(),
-			array()
+			array(),
+			$this->fixture->checkMissingColumnNames()
 		);
 	}
 
@@ -406,8 +506,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$this->fixture->checkMissingColumnNames(),
-			array_keys($result)
+			array_keys($result),
+			$this->fixture->checkMissingColumnNames()
 		);
 	}
 
@@ -443,8 +543,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject(TX_REALTY_OBJECT_UID_1);
 		$this->fixture->setRequiredFields(array());
 		$this->assertEquals(
-			$this->fixture->checkForRequiredFields(),
-			array()
+			array(),
+			$this->fixture->checkForRequiredFields()
 		);
 	}
 
@@ -458,8 +558,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->fixture->checkForRequiredFields(),
-			array()
+			array(),
+			$this->fixture->checkForRequiredFields()
 		);
 	}
 
@@ -500,8 +600,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result['uid'],
-			$this->fixture->getProperty('pets')
+			$this->fixture->getProperty('pets'),
+			$result['uid']
 		);
 	}
 
@@ -509,11 +609,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject(TX_REALTY_OBJECT_UID_1);
 
 		$this->assertEquals(
+			'',
 			$this->fixture->prepareInsertionAndInsertRelations(
 				'pets',
 				'tx_realty_pets'
-			),
-			''
+			)
 		);
 	}
 
@@ -544,8 +644,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			$image[0]
+			$image[0],
+			$result
 		);
 	}
 
@@ -584,8 +684,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			$imageNew[0]
+			$imageNew[0],
+			$result
 		);
 	}
 	public function testDeleteFromDatabaseRemovesRelatedImage() {
@@ -700,11 +800,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			array('pid' => 1)
+			array('pid' => TX_REALTY_PID_1),
+			$result
 		);
 	}
-	
+
 	public function testUpdatingAnExistingRecordDoesNotChangeThePadeId() {
 		$this->fixture->loadRealtyObject(
 			array(
@@ -715,7 +815,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger('pidForOpenImmoRecords', 2);
+			setConfigurationValueInteger(
+				'pidForRealtyObjectsAndImages',
+				TX_REALTY_PID_2
+			);
 		$this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -733,11 +836,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			array('pid' => 1)
+			array('pid' => TX_REALTY_PID_1),
+			$result
 		);
 	}
-	
+
 	public function testDeletingAnExistingRecordDoesNotChangeThePageId() {
 		$this->fixture->loadRealtyObject(
 			array(
@@ -747,7 +850,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger('pidForOpenImmoRecords', 2);
+			setConfigurationValueInteger(
+				'pidForRealtyObjectsAndImages',
+				TX_REALTY_PID_2
+			);
 		$this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -765,8 +871,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			$result,
-			array('pid' => 1)
+			array('pid' => TX_REALTY_PID_1),
+			$result
 		);
 	}
 
@@ -785,8 +891,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'title' => 'foo',
 				'object_number' => TX_REALTY_OBJECT_NUMBER_1,
 				'pid' => tx_oelib_configurationProxy::getInstance('realty')->
-					getConfigurationValueInteger('pidForOpenImmoRecords')
-				
+					getConfigurationValueInteger('pidForRealtyObjectsAndImages')
+
 			)
 		);
 	}

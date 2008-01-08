@@ -603,9 +603,18 @@ class tx_realty_object {
 			return false;
 		}
 
+		$pid = tx_oelib_configurationProxy::getInstance('realty')->
+			getConfigurationValueInteger('pidForAuxiliaryRecords');
+		if (($pid == 0)
+			|| ($table == 'tx_realty_images')
+			|| ($table == 'tx_realty_objects')
+		) {
+			$pid = tx_oelib_configurationProxy::getInstance('realty')->
+				getConfigurationValueInteger('pidForRealtyObjectsAndImages');
+		}
+
 		$dataToInsert = $realtyData;
-		$dataToInsert['pid'] = tx_oelib_configurationProxy::getInstance('realty')->
-			getConfigurationValueInteger('pidForOpenImmoRecords');
+		$dataToInsert['pid'] = $pid;
 		$dataToInsert['tstamp'] = mktime();
 		$dataToInsert['crdate'] = mktime();
 
