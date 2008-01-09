@@ -456,7 +456,7 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataFetchesAltenativeContactEmail() {
+	public function testGetConvertedDataFetchesAlternativeContactEmail() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>'
 				.'<anbieter>'
@@ -474,6 +474,48 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$this->fixture->getConvertedData($node),
 			array(array('contact_email' => 'foo'))
+		);
+	}
+
+	public function testGetConvertedDataFetchesPhoneNumber() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<kontaktperson>'
+							.'<tel_zentrale>1234567</tel_zentrale>'
+						.'</kontaktperson>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('contact_phone' => '1234567'))
+		);
+	}
+
+	public function testGetConvertedDataFetchesAlternativePhoneNumber() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<kontaktperson>'
+							.'<tel_privat>1234567</tel_privat>'
+						.'</kontaktperson>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('contact_phone' => '1234567'))
 		);
 	}
 

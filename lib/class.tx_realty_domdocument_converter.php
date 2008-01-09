@@ -83,7 +83,8 @@ class tx_realty_domdocument_converter {
 		'misc' => array('freitexte' => 'sonstige_angaben'),
 		'openimmo_obid' => array('verwaltung_techn' => 'openimmo_obid'),
 		'contact_person' => array('kontaktperson' => 'name'),
-		'contact_email' => array('kontaktperson' => 'email_zentrale')
+		'contact_email' => array('kontaktperson' => 'email_zentrale'),
+		'contact_phone' => array('kontaktperson' => 'tel_zentrale')
 	);
 
 	/** raw data of an OpenImmo record */
@@ -345,6 +346,7 @@ class tx_realty_domdocument_converter {
 		$this->appendStreetNumber();
 		$this->setTitleForPets();
 		$this->trySecondContactEmailIfEmailNotFound();
+		$this->trySecondContactPhoneNumberIfPhoneNumberNotFound();
 	}
 
 	/**
@@ -406,6 +408,25 @@ class tx_realty_domdocument_converter {
 		);
 		$this->addImportedData(
 			'contact_email',
+			$contactEmailNode->nodeValue
+		);
+	}
+
+	/**
+	 * Fetches the contact phone number from the tag 'tel_privat' if the phone
+	 * number has not been imported yet.
+	 */
+	private function trySecondContactPhoneNumberIfPhoneNumberNotFound() {
+		if (array_key_exists('contact_phone', $this->importedData)) {
+			return;
+		}
+
+		$contactEmailNode = $this->findFirstGrandchild(
+			'kontaktperson',
+			'tel_privat'
+		);
+		$this->addImportedData(
+			'contact_phone',
 			$contactEmailNode->nodeValue
 		);
 	}

@@ -813,6 +813,15 @@ $TCA['tx_realty_objects'] = array(
 				'size' => '30',
 				'eval' => 'trim'
 			)
+		),
+		'contact_phone' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_phone',
+			'config' => array(
+				'type' => 'input',
+				'size' => '30',
+				'eval' => 'trim'
+			)
 		)
 	),
 	'types' => array(
@@ -844,8 +853,9 @@ $TCA['tx_realty_objects'] = array(
 					.'italic|underline|left|center|right|orderedlist|'
 					.'unorderedlist|outdent|indent|link|table|image|line|'
 					.'chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/],'
-				.'details_page, images, employer, contact_person, contact_email'
+					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
+				.'details_page, images, employer, contact_person, contact_email, '
+				.'contact_phone'
 		),
 		'1' => array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
@@ -874,8 +884,9 @@ $TCA['tx_realty_objects'] = array(
 					.'italic|underline|left|center|right|orderedlist|'
 					.'unorderedlist|outdent|indent|link|table|image|line|'
 					.'chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/],'
-				.'details_page, images, employer, contact_person, contact_email'
+					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
+				.'details_page, images, employer, contact_person, contact_email, '
+				.'contact_phone'
 		)
 	),
 	'palettes' => array(

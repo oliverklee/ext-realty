@@ -64,6 +64,7 @@
 			<label index="tx_realty_objects.utilization">Utilization</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
+			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
 			<label index="tx_realty_apartment_types.title">Title</label>
 			<label index="tx_realty_house_types">House type</label>
@@ -142,6 +143,7 @@
 			<label index="tx_realty_objects.utilization">Nutzungsart</label>
 			<label index="tx_realty_objects.contact_person">Kontaktperson</label>
 			<label index="tx_realty_objects.contact_email">Kontakt-E-Mail</label>
+			<label index="tx_realty_objects.contact_phone">Kontakt-Telefonnummer</label>
 			<label index="tx_realty_apartment_types">Wohnungstyp</label>
 			<label index="tx_realty_apartment_types.title">Titel</label>
 			<label index="tx_realty_house_types">Haustyp</label>
@@ -222,6 +224,7 @@
 			<label index="tx_realty_objects.utilization" type="integer">175992354</label>
 			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
 			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
+			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
 			<label index="tx_realty_apartment_types" type="integer">220566396</label>
 			<label index="tx_realty_apartment_types.title" type="integer">192455458</label>
 			<label index="tx_realty_house_types" type="integer">11148572</label>
@@ -302,6 +305,7 @@
 			<label index="tx_realty_objects.utilization">Utilization</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
+			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
 			<label index="tx_realty_apartment_types.title">Title</label>
 			<label index="tx_realty_house_types">House type</label>
