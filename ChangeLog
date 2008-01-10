@@ -1,3 +1,7 @@
+2008-01-10 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1469] Feature: Add an icon for the content wizard
+
 2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
