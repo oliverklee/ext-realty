@@ -1,2 +1,2 @@
-# cat=basic; type=boolean; label=Configuration check:Enables the configuration check.
+# cat=basic; type=boolean; label=Configuration check:Enables the configuration check in the front-end.
 enableConfigCheck = 1
