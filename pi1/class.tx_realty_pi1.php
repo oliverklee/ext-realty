@@ -418,12 +418,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->setMarkerContent($key, $this->getFieldContent($key));
 			}
 
-			if (!($this->getConfValueBoolean('showAddressOfObjects'))) {
-				$this->readSubpartsToHide(
-					'street',
-					'field_wrapper');
-			}
-
 			// string stuff that should conditionally be visible
 			foreach (array(
 				'object_number',
@@ -434,8 +428,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'equipment',
 				'misc'
 			) as $key) {
-				$this->setOrDeleteMarkerIfNotEmpty($key, $this->getFieldContent($key), '', 'field_wrapper');
+				$this->setOrDeleteMarkerIfNotEmpty(
+					$key,
+					$this->getFieldContent($key),
+					'',
+					'field_wrapper'
+				);
 			}
+
+			if (!$this->getConfValueBoolean('showAddressOfObjects')) {
+				$this->readSubpartsToHide('street', 'field_wrapper');
+			}
+
+			$this->fillOrHideOffererWrapper();
 
 			// marker for button
 			$this->setMarkerContent('back_url', $this->pi_linkTP_keepPIvars_url(array('showUid' => '')));
@@ -581,6 +586,32 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $this->substituteMarkerArrayCached('LIST_ITEM');
+	}
+
+	/**
+	 * Fills the field wrapper "offerer" if displaying contact information is
+	 * enabled and if there is data for this wrapper. Otherwise the complete
+	 * wrapper is hidden.
+	 */
+	private function fillOrHideOffererWrapper() {
+		$atLeastOneMarkerSet = false;
+		foreach (array('employer', 'contact_phone') as $key) {
+			if ($this->setOrDeleteMarkerIfNotEmpty(
+					$key,
+					$this->getFieldContent($key),
+					'',
+					'field_wrapper'
+				)
+			) {
+				$atLeastOneMarkerSet = true;
+			}
+		}
+
+		if (!$this->getConfValueBoolean('showContactInformation')
+			|| !$atLeastOneMarkerSet
+		) {
+			$this->readSubpartsToHide('offerer', 'field_wrapper');
+		}
 	}
 
 	/**

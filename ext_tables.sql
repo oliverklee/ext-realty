@@ -90,7 +90,7 @@ CREATE TABLE tx_realty_objects (
 	utilization text NOT NULL,
 	contact_person text NOT NULL,
 	contact_email text NOT NULL,
-	contact_phone test NOT NULL
+	contact_phone text NOT NULL
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)

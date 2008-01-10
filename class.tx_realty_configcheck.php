@@ -93,6 +93,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkLoginPid();
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowAddressOfObjects();
+		$this->checkShowContactInformation();
 	}
 
 	/**
@@ -390,6 +391,20 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies whether the address of a realty object is '
 				.'shown in the FE. It might be interpreted incorrectly if no '
 				.'logical value was set.'
+		);
+	}
+
+	/**
+	 * Checks the setting of the configuration value showContactInformation.
+	 */
+	private function checkShowContactInformation() {
+		$this->checkIfBoolean(
+			'showContactInformation',
+			true,
+			'sDEF',
+			'This value specifies whether the offerer and the contact phone '
+				.'number of a realty are shown in the FE. It might be '
+				.'interpreted incorrectly if no boolean value was set.'
 		);
 	}
 

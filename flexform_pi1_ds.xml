@@ -108,6 +108,14 @@
 							</config>
 						</TCEforms>
 					</showAddressOfObjects>
+					<showContactInformation>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showContactInformation</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</showContactInformation>
 					<checkboxesFilter>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.checkboxesFilter</label>

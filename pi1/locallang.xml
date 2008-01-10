@@ -16,6 +16,7 @@
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
+			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
@@ -51,6 +52,8 @@
 			<label index="label_object_number">Object #</label>
 			<label index="label_address">Address</label>
 			<label index="label_description">Description</label>
+			<label index="label_offerer">Offerer</label>
+			<label index="label_phone">Phone:</label>
 			<label index="label_equipment">Equipment</label>
 			<label index="label_overview">Overview</label>
 			<label index="label_location">Location</label>
@@ -121,6 +124,7 @@
 			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Adressen der Objekte im FE anzeigen:</label>
+			<label index="realty.pi_flexform.showContactInformation">Kontaktdaten im FE anzeigen:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
 			<label index="realty.pi_flexform.singlePID">Seite mit der Einzelansicht:</label>
@@ -156,6 +160,8 @@
 			<label index="label_object_number">Objekt Nr.</label>
 			<label index="label_address">Adresse</label>
 			<label index="label_description">Beschreibung</label>
+			<label index="label_offerer">Anbieter</label>
+			<label index="label_phone">Telefon:</label>
 			<label index="label_equipment">Ausstattung</label>
 			<label index="label_overview">Überblick</label>
 			<label index="label_location">Lage</label>
@@ -432,6 +438,7 @@
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
+			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
@@ -466,6 +473,8 @@
 			<label index="label_object_number" type="integer">120700088</label>
 			<label index="label_address" type="integer">232242979</label>
 			<label index="label_description" type="integer">190479069</label>
+			<label index="label_offerer" type="integer">172702595</label>
+			<label index="label_phone" type="integer">108244482</label>
 			<label index="label_equipment" type="integer">164420141</label>
 			<label index="label_overview" type="integer">62421031</label>
 			<label index="label_location" type="integer">216383317</label>
@@ -743,6 +752,7 @@
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
+			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
@@ -778,6 +788,8 @@
 			<label index="label_object_number">Object #</label>
 			<label index="label_address">Address</label>
 			<label index="label_description">Description</label>
+			<label index="label_offerer">Offerer</label>
+			<label index="label_phone">Phone:</label>
 			<label index="label_equipment">Equipment</label>
 			<label index="label_overview">Overview</label>
 			<label index="label_location">Location</label>

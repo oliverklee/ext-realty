@@ -494,6 +494,71 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDetailPageContainsContactInformationIfOptionIsEnabled() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array(
+				'employer' => 'test company',
+				'contact_phone' => '12345'
+			)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			'test company',
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			'12345',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageNotContainsContactInformationIfOptionIsDisabled() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array(
+				'employer' => 'test company',
+				'contact_phone' => '12345'
+			)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', false);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+		$this->assertNotContains(
+			'test company',
+			$this->fixture->main('', array())
+		);
+		$this->assertNotContains(
+			'12345',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageNotContainsContactInformationIfNoContactInformationAvailable() {
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning external details pages.
