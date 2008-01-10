@@ -1,22 +1,22 @@
 # cat=basic; type=boolean; label=Configuration check:Enables the configuration check in the front-end.
 enableConfigCheck = 1
-# cat=basic; type=string; label=Language for the import messages:This will determine the language that will be used in status output and e-mails during the import. Use the ISO 639-1 code, for example "en" or "de".
-cliLanguage = en
 # cat=basic; type=string; label=Import folder:Absolute path of the directory that contains the OpenImmo ZIP files to import.
 importFolder =
-# cat=basic; type=string; label=XML Schema file:Absolute path of the XML Schema file (*.xsd) that will be used for validating the OpenImmo files during the import.
-openImmoSchemaFile =
 # cat=basic; type=integer; label=PID for realty records and images:Page ID of the system folder where new realty and image records will be stored.
 pidForRealtyObjectsAndImages =
 # cat=basic; type=integer; label=PID for auxiliary records:Page ID of the system folder where auxiliary records (like cities or house types) will be stored. Leave this field empty to store these records in the same system folder as realty records and images.
 pidForAuxiliaryRecords =
 # cat=basic; type=string; label=Recipient of the import logs:This e-mail address will receive the complete import log if "Notify contact persons" is disabled. If "Notify contact persons" is enabled, this address will receive only the log parts about OpenImmo files that did not contain a valid contact e-mail address. Leave this field empty to completely disable e-mailing the import logs.
 emailAddress =
-# cat=basic; type=boolean; label=Notify contact persons:If this is checked, the contact e-mail addresses listed in the OpenImmo files will receive the import log of their objects.
-notifyContactPersons = 0
 # cat=basic; type=boolean; label=E-mail the log only on errors:Check this to only have the import send out e-mails if an errors has occurred. This will suppress the e-mailing the import log if everything has gone well.
 onlyErrors = 0
-# cat=basic; type=string; label=E-mail text template:Path of the text template file for the e-mail layout. Needs to start with EXT:.
-emailTemplate = EXT:realty/lib/tx_realty_email_notification.tmpl
+# cat=basic; type=boolean; label=Notify contact persons:If this is checked, the contact e-mail addresses listed in the OpenImmo files will receive the import log of their objects.
+notifyContactPersons = 0
+# cat=basic; type=string; label=XML Schema file for validation:Absolute path of the XML Schema file (*.xsd) that will be used for validating the OpenImmo files during the import.
+openImmoSchemaFile =
 # cat=basic; type=boolean; label=Ignore validation results:Usually, the import will stop for OpenImmo files that fail the XML Schema validation. Check this to have the importer try its best even on importing even in these cases.
 ignoreValidation = 0
+# cat=basic; type=string; label=Language of the import messages:This will determine the language that will be used in status output and e-mails during the import. Use the ISO 639-1 code, for example "en" or "de".
+cliLanguage = en
+# cat=basic; type=string; label=E-mail text template:Path of the text template file for the e-mail layout. Needs to start with EXT:.
+emailTemplate = EXT:realty/lib/tx_realty_email_notification.tmpl
