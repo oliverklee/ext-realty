@@ -5,21 +5,12 @@
 2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
-
-2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
-
 	* [#1435] Change: Simplify the inclusion of the favorites list in an e-mail form
-
-2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
-
 	* [#1436] Feature: Allow to specify a sysfolder for the auxiliary records
 
 2008-01-06 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1447] Change: Use the EM configuration proxy in the Realty Manager
-	
-2008-01-06 Saskia Metzler <saskia@merlin.owl.de>
-
 	* [#1239] Feature: Add an automatic configuration check
 
 2007-12-29 Saskia Metzler <saskia@merlin.owl.de>
@@ -33,17 +24,11 @@
 2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#155] Change: pi1: move createWhereClause to its own function
-
-2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
-
 	* [#1218] Change: Format the prices according to the current FE language
 
 2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1232] Fix: Make the Realty Manager work with oelib > 0.3.0
-
-2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
-
 	* [#1384] Change: Require PHP 5.1
 
 2007-12-16 Saskia Metzler <saskia@merlin.owl.de>
@@ -57,9 +42,6 @@
 2007-12-09 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#876] Feature: Use IRRE for managing image records within realty objects
-
-2007-12-09 Saskia Metzler <saskia@merlin.owl.de>
-
 	* [#1227] Fix: Square meters is not displayed correctly in the string for living area's size
 
 2007-11-07 Oliver Klee  <typo3-coding@oliverklee.de>
@@ -86,24 +68,18 @@
 
 	* [#1222] Feature: Add a URL field "Separate details page" to the realty object records
 
-2007-10-06 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
-
 2007-10-08 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
 
+2007-10-06 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
+
 2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
 
 	* [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
-
-2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
-
 	* [#67] Fix: In the SQL schema, sanitize some types
-
-2007-10-04 Saskia Metzler <saskia@merlin.owl.de>
-
 	* [#1220] Change: Require TYPO3 4.1.2
 
 2007-09-26 Oliver Klee  <typo3-coding@oliverklee.de>
