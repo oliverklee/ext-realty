@@ -1,3 +1,7 @@
+2008-01-11 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1510] Fixture: EM configuration variable name for the XML Schema file not used consistently
+
 2008-01-10 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1469] Feature: Add an icon for the content wizard
