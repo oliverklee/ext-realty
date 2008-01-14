@@ -296,28 +296,71 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->internal['descFlag'] = $lConf['descFlag'];
 		}
 
+		$orderBy = $this->internal['orderBy'];
+		if ($orderBy != '') {
+			// '+0' converts the database column's type to NUMERIC as the
+			// columns in the array below are regularly used for numeric
+			// values but also might need to contain strings.
+			if (in_array($orderBy, array(
+					'buying_price',
+					'number_of_rooms',
+					'object_number',
+					'rent_excluding_bills'
+				)
+			)) {
+				$orderBy .= ' +0';
+			}
+
+			$orderBy .= ($this->internal['descFlag'] ? ' DESC' : ' ASC');
+		}
+
 		// number of results to show in a listing
-		$this->internal['results_at_a_time'] = t3lib_div::intInRange($lConf['results_at_a_time'], 0, 1000, 3);
+		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
+			$lConf['results_at_a_time'],
+			0,
+			1000,
+			3
+		);
 
 		// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
-		$this->internal['maxPages'] = t3lib_div::intInRange($lConf['maxPages'], 1, 1000, 2);
+		$this->internal['maxPages'] = t3lib_div::intInRange(
+			$lConf['maxPages'],
+			1,
+			1000,
+			2
+		);
 
-		$this->internal['orderByList'] = 'object_number,title,city,district,buying_price,rent_excluding_bills,number_of_rooms,living_area,tstamp';
+		$this->internal['orderByList'] = 'object_number,title,city,district,'
+			.'buying_price,rent_excluding_bills,number_of_rooms,living_area,tstamp';
 
 		$additionalWhereClause = $this->createWhereClause();
 
 		// get number of records (the "true" activates the "counting" mode)
-		$dbResultCounter = $this->pi_exec_query($this->internal['currentTable'], true, $additionalWhereClause);
+		$dbResultCounter = $this->pi_exec_query(
+			$this->internal['currentTable'],
+			true,
+			$additionalWhereClause
+		);
 
 		$counterRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($dbResultCounter);
 		$this->internal['res_count'] = $counterRow[0];
 		// The number of the last possible page in a listing
 		// (which is the number of pages minus one as the numbering starts at zero).
 		// If there are no results, the last page still has the number 0.
-		$this->internal['lastPage'] = max(0, ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1);
+		$this->internal['lastPage'] = max(
+			0,
+			ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1
+		);
 
 		// make listing query, pass query to SQL database
-		$dbResult = $this->pi_exec_query($this->internal['currentTable'], false, $additionalWhereClause);
+		$dbResult = $this->pi_exec_query(
+			$this->internal['currentTable'],
+			false,
+			$additionalWhereClause,
+			'',
+			'',
+			$orderBy
+		);
 
 		$this->setMarkerContent('self_url', $this->getSelfUrl());
 		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
