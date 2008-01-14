@@ -208,25 +208,38 @@ class tx_realty_openimmo_import {
 
 		$this->loadRealtyObject($realtyRecord);
 		$this->ensureContactEmail();
+
+		$pleaseValidateMessage = '';
+		if ($this->globalConfiguration->
+			getConfigurationValueString('openImmoSchema') != ''
+		) {
+			$pleaseValidateMessage = $LANG->getLL('message_please_validate');
+		}
+
 		$errorMessage = $this->realtyObject->writeToDatabase();
 
-		if ($errorMessage == '') {
+		switch ($errorMessage) {
+			case '':
 			$this->addToLogEntry(
 				$LANG->getLL('message_written_to_database').chr(10)
 			);
-		} elseif ($errorMessage == 'message_deleted_flag_set') {
+			break;
+		case 'message_deleted_flag_set':
 			// A set deleted flag is no real error, so is not stored in the
 			// error log.
 			$this->addToLogEntry($LANG->getLL($errorMessage).chr(10));
-		} elseif ($errorMessage == 'message_fields_required') {
+			break;
+		case 'message_fields_required':
 			$this->addToErrorLog($LANG->getLL($errorMessage).': '
 				.implode(', ', $this->realtyObject->checkForRequiredFields())
-				.'.'.chr(10)
+				.'. '.$pleaseValidateMessage.chr(10)
 			);
-		} else {
+			break;
+		default:
 			$this->addToErrorLog(
-				$LANG->getLL($errorMessage).chr(10)
+				$LANG->getLL($errorMessage).' '.$pleaseValidateMessage.chr(10)
 			);
+			break;
 		}
 	}
 
