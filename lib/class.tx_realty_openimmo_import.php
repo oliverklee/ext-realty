@@ -206,45 +206,26 @@ class tx_realty_openimmo_import {
 	protected function writeToDatabase($realtyRecord) {
  		global $LANG;
 
-		$wasWrittenToDatabase = false;
-		// avoids an unwanted linefeed
-		$missingFieldsMessage = '';
+		$this->loadRealtyObject($realtyRecord);
+		$this->ensureContactEmail();
+		$errorMessage = $this->realtyObject->writeToDatabase();
 
- 		$this->loadRealtyObject($realtyRecord);
-
-		if (!$this->isRealtyObjectDataEmpty()) {
- 			$missingRequiredFields = $this->realtyObject->checkForRequiredFields();
- 			if (!empty($missingRequiredFields)) {
-				$missingFieldsMessage =	$LANG->getLL('message_fields_required')
-					.': '.implode(', ', $missingRequiredFields).' ';
- 			} else {
- 				$this->ensureContactEmail();
-				$this->checkIfDeletion();
-				$wasWrittenToDatabase = $this->realtyObject->writeToDatabase();
- 			}
- 		}
-
-		if (!$wasWrittenToDatabase) {
-			$this->addToErrorLog(
-				$missingFieldsMessage
-					.$LANG->getLL('message_not_written_to_database').chr(10)
-			);
-		} else {
+		if ($errorMessage == '') {
 			$this->addToLogEntry(
 				$LANG->getLL('message_written_to_database').chr(10)
 			);
-		}
-	}
-
-	/**
-	 * Adds to the log when a record will be set to deleted when it is inserted.
-	 */
-	private function checkIfDeletion() {
-		global $LANG;
-
-		if ($this->realtyObject->getProperty('deleted')) {
-			$this->addToLogEntry(
-				$LANG->getLL('message_will_be_deleted').chr(10)
+		} elseif ($errorMessage == 'message_deleted_flag_set') {
+			// A set deleted flag is no real error, so is not stored in the
+			// error log.
+			$this->addToLogEntry($LANG->getLL($errorMessage).chr(10));
+		} elseif ($errorMessage == 'message_fields_required') {
+			$this->addToErrorLog($LANG->getLL($errorMessage).': '
+				.implode(', ', $this->realtyObject->checkForRequiredFields())
+				.'.'.chr(10)
+			);
+		} else {
+			$this->addToErrorLog(
+				$LANG->getLL($errorMessage).chr(10)
 			);
 		}
 	}
@@ -830,24 +811,38 @@ class tx_realty_openimmo_import {
 
 		$validationResult = $this->validateXml();
 
-		if ($validationResult == '') {
-			$this->addToLogEntry(
-				$LANG->getLL('message_successful_validation').chr(10)
-			);
-		} elseif (($validationResult == 'message_no_schema_file')
-			|| ($validationResult == 'message_invalid_schema_file_path')
-		) {
-			$this->addToLogEntry(
-				$LANG->getLL($validationResult).' '
-					.$LANG->getLL('message_import_without_validation')
-			);
-		} elseif ($validationResult == 'message_validation_impossible') {
-			$this->addToLogEntry($LANG->getLL($validationResult));
-		} else {
-			if (!$this->isIgnoreValidationEnabled()) {
-				$this->importedXml = null;
-			}
-			$this->addToErrorLog($validationResult);
+		switch ($validationResult) {
+			case '':
+				$this->addToLogEntry(
+					$LANG->getLL('message_successful_validation').chr(10)
+				);
+				break;
+			case 'message_no_schema_file':
+				$this->addToLogEntry(
+					$LANG->getLL($validationResult).' '
+						.$LANG->getLL('message_import_without_validation')
+				);
+				break;
+			case 'message_invalid_schema_file_path':
+				$this->addToErrorLog(
+					$LANG->getLL($validationResult).' '
+						.$LANG->getLL('message_import_without_validation')
+				);
+				break;
+			case 'message_validation_impossible':
+				$this->addToErrorLog($LANG->getLL($validationResult));
+
+				if (!$this->isIgnoreValidationEnabled()) {
+					$this->importedXml = null;
+				}
+				break;
+			default:
+				$this->addToErrorLog($validationResult);
+
+				if (!$this->isIgnoreValidationEnabled()) {
+					$this->importedXml = null;
+				}
+				break;
 		}
 	}
 
@@ -1026,20 +1021,6 @@ class tx_realty_openimmo_import {
 	protected function loadRealtyObject($data) {
 		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
 		$this->realtyObject->loadRealtyObject($data);
-	}
-
-	/**
-	 * Checks whether the realty object data is empty.
-	 *
-	 * @return	boolean		true if the realty object's data is empty, false
-	 * 						otherwise
-	 */
-	public function isRealtyObjectDataEmpty() {
-		if (!is_object($this->realtyObject)) {
-			return true;
-		}
-
-		return $this->realtyObject->isRealtyObjectDataEmpty();
 	}
 
 	/**

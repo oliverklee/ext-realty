@@ -670,9 +670,6 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	public function testFindContactEmailsIfEmailNotExists() {
 		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
 
-		$this->assertTrue(
-			$this->fixture->isRealtyObjectDataEmpty()
-		);
 		$this->assertEquals(
 			array(),
 			$this->fixture->findContactEmails(REALTY_IMPORT_FOLDER.'foo.zip')

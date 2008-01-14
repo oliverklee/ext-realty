@@ -1,3 +1,7 @@
+2008-01-14 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1511] Change: Make the import messages more specific
+
 2008-01-11 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1505] Fix: The city selector doesn't use the target PID in the redirect link

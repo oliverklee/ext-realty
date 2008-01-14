@@ -9,10 +9,12 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
-			<label index="message_not_written_to_database">The record was not written to the database. The contents might be invalid or the deleted flag was set and the record did not exist in database anyway.</label>
+			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
+			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
+			<label index="message_message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
+			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
-			<label index="message_will_be_deleted">The deleted flag was set. Writing this record to the database will set the database record to deleted. If the record to set to deleted does not exist in the database yet, it will not be inserted at all.</label>
-			<label index="message_fields_required">The required fields are not set</label>
+			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
@@ -23,6 +25,7 @@
 			<label index="message_no_schema_file">There is no schema file set for validation.</label>
 			<label index="message_invalid_schema_file_path">The path of the schema file is invalid. Please check your configuration in the extension manager.</label>
 			<label index="message_import_without_validation">The import is done without validation.</label>
+			<label index="message_please_validate">Please ensure the validity of the data to import.</label>
 			<label index="message_validation_impossible">The validation is not possible. There might be a syntax error in the XML file to load.</label>
 			<label index="message_line">Line</label>
 			<label index="message_folder_removed">The folders with recently unpacked content have been removed.</label>
@@ -34,10 +37,12 @@
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="message_no_zips">Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</label>
-			<label index="message_not_written_to_database">Der Datensatz wurde nicht in die Datenbank geschrieben. Möglicherweise ist der Inhalt invalid oder der Datensatz ist als 'deleted' markiert und existierte bisher sowieso nicht in der Datenbank.</label>
+			<label index="message_object_not_loaded">Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</label>
+			<label index="message_updating_failed">Während der Aktualisierung des Datensatzes trat ein Fehler auf. Der Datensatz konnte nicht aktualisiert werden.</label>
+			<label index="message_message_insertion_failed">Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</label>
+			<label index="message_deleted_flag_set">Der importierte Datensatz ist zum Löschen markiert. Wenn er in der Datenbank existiert, wird er nun gelöscht. Andernfalls wird dieser Datensatzes ignoriert.</label>
 			<label index="message_written_to_database">Der Datensatz wurde in die Datenbank eingefügt.</label>
-			<label index="message_will_be_deleted">Der Datensatz ist als 'deleted' markiert. Diesen Datensatz in die Datenbank einzufügen, bedeutet den dort vorhandenen, korrespondierenden Datensatz ebenfalls auf 'deleted' zu setzen. Wenn der auf 'deleted' zu setzende Datensatz noch nicht in der Datenbank existiert, wird kein Datensatz eingefügt.</label>
-			<label index="message_fields_required">Die Pflichtfelder sind nicht gesetzt</label>
+			<label index="message_fields_required">Der Datensatz wurde nicht importiert, weil die Pflichtfelder nicht gesetzt sind</label>
 			<label index="message_log_sent_to">Das Protokoll wurde gesendet an</label>
 			<label index="message_extracted_successfully">Das ZIP-Archiv wurde erfolgreich entpackt.</label>
 			<label index="message_extraction_failed">Das Entpacken des ZIP-Archives ist fehlgeschlagen, da das Archiv nicht geöffnet werden konnte. Möglicherweise ist die Datei fehlerhaft.</label>
@@ -48,6 +53,7 @@
 			<label index="message_no_schema_file">Es wurde keine Schemadatei zur Validierung gesetzt.</label>
 			<label index="message_invalid_schema_file_path">Der Pfad zur Schemadatei ist ungültig. Bitte überprüfen Sie die Konfiguration im Extension Manager.</label>
 			<label index="message_import_without_validation">Der Import wird ohne Validierung durchgeführt.</label>
+			<label index="message_please_validate">Bitte stellen Sie sicher, dass der Datensatz valide ist.</label>
 			<label index="message_validation_impossible">Eine Validierung ist nicht möglich. Eventuell ist ein Syntaxfehler in der zu ladenden XML-Datei.</label>
 			<label index="message_line">Zeile</label>
 			<label index="message_folder_removed">Die Ordner, die für das Entpacken der ZIP-Archive erstellt wurden, wurden entfernt.</label>
@@ -61,9 +67,11 @@
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
 			<label index="message_no_zips" type="integer">105518736</label>
-			<label index="message_not_written_to_database" type="integer">111922805</label>
+			<label index="message_object_not_loaded" type="integer">56779241</label>
+			<label index="message_updating_failed" type="integer">109345992</label>
+			<label index="message_message_insertion_failed" type="integer">50157132</label>
+			<label index="message_deleted_flag_set" type="integer">232865486</label>
 			<label index="message_written_to_database" type="integer">198437427</label>
-			<label index="message_will_be_deleted" type="integer">180185880</label>
 			<label index="message_fields_required" type="integer">51391000</label>
 			<label index="message_log_sent_to" type="integer">24096936</label>
 			<label index="message_extracted_successfully" type="integer">215773016</label>
@@ -75,6 +83,7 @@
 			<label index="message_no_schema_file" type="integer">90705624</label>
 			<label index="message_invalid_schema_file_path" type="integer">201826895</label>
 			<label index="message_import_without_validation" type="integer">211192423</label>
+			<label index="message_please_validate" type="integer">164447491</label>
 			<label index="message_validation_impossible" type="integer">100672002</label>
 			<label index="message_line" type="integer">75513451</label>
 			<label index="message_folder_removed" type="integer">180096515</label>
@@ -88,9 +97,11 @@
 	<orig_text type="array">
 		<languageKey index="de" type="array">
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
-			<label index="message_not_written_to_database">The record was not written to the database. The contents might be invalid or the deleted flag was set and the record did not exist in database anyway.</label>
+			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
+			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
+			<label index="message_message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
+			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
-			<label index="message_will_be_deleted">The deleted flag was set. Writing this record to the database will set the database record to deleted. If the record to set to deleted does not exist in the database yet, it will not be inserted at all.</label>
 			<label index="message_fields_required">The required fields are not set</label>
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
@@ -102,6 +113,7 @@
 			<label index="message_no_schema_file">There is no schema file set for validation.</label>
 			<label index="message_invalid_schema_file_path">The path of the schema file is invalid. Please check your configuration in the extension manager.</label>
 			<label index="message_import_without_validation">The import is done without validation.</label>
+			<label index="message_please_validate">Please ensure the validity of the data to import.</label>
 			<label index="message_validation_impossible">The validation is not possible. There might be a syntax error in the XML file to load.</label>
 			<label index="message_line">Line</label>
 			<label index="message_folder_removed">The folders with recently unpacked content have been removed.</label>

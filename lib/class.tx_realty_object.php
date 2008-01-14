@@ -208,38 +208,45 @@ class tx_realty_object {
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
 	 *
-	 * @return 	boolean		true if the record was inserted, false otherwise
+	 * @return 	string		locallang key of an error message if the record was
+	 * 						not written to database, an empty string if it was
+	 * 						written successfully
 	 */
 	public function writeToDatabase() {
 		if ($this->isRealtyObjectDataEmpty()) {
-			return;
+			return 'message_object_not_loaded';
 		}
 
-		$wasSuccessful = false;
+		$errorMessage = '';
 
 		if (($this->hasProperty('uid') || $this->hasProperty('object_number'))
 			&& $this->recordExistsInDatabase($this->realtyObjectData, 'object_number')
 		) {
 			$this->prepareInsertionAndInsertRelations();
 			$this->ensureUid($this->realtyObjectData, 'object_number');
-			$wasSuccessful = $this->updateDatabaseEntry($this->realtyObjectData);
+			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
+				$errorMessage = 'message_updating_failed';
+			}
 		} elseif (!$this->getProperty('deleted')) {
 			$requiredFields = $this->checkForRequiredFields();
 			if (empty($requiredFields)) {
 				$this->prepareInsertionAndInsertRelations();
-				$wasSuccessful = $this->createNewDatabaseEntry(
-					$this->realtyObjectData
-				);
+				if (!$this->createNewDatabaseEntry($this->realtyObjectData)) {
+					$errorMessage = 'message_insertion_failed';
+				}
+			} else {
+				$errorMessage = 'message_fields_required';
 			}
 		}
 
 		if ($this->getProperty('deleted')) {
 			$this->deleteRelatedImageRecords();
-		} elseif ($wasSuccessful && !empty($this->images)) {
+			$errorMessage = 'message_deleted_flag_set';
+		} elseif (($errorMessage == '') && !empty($this->images)) {
 			$this->insertImageEntries($this->getAllImageData());
 		}
 
-		return $wasSuccessful;
+		return $errorMessage;
 	}
 
 	/**
@@ -593,7 +600,8 @@ class tx_realty_object {
 	 * @param	array		database column names as keys, must not be empty
 	 * @param	string		name of the database table, must not be empty
 	 *
-	 * @return 	boolean		true if the insert query was built, false otherwise
+	 * @return 	boolean		true if the insert query was successful, false
+	 * 						otherwise
 	 */
 	protected function createNewDatabaseEntry(
 		array $realtyData,
@@ -618,9 +626,10 @@ class tx_realty_object {
 		$dataToInsert['tstamp'] = mktime();
 		$dataToInsert['crdate'] = mktime();
 
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataToInsert);
-
-		return true;
+		return (boolean) $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			$table,
+			$dataToInsert
+		);
 	}
 
 	/**
@@ -633,7 +642,8 @@ class tx_realty_object {
 	 * 						with the key 'uid'
 	 * @param	string		name of the database table, must not be empty
 	 *
-	 * @return	boolean		true if the update query was built, false otherwise
+	 * @return	boolean		true if the update query was succesful, false
+	 * 						otherwise
 	 */
 	protected function updateDatabaseEntry(
 		array $realtyData,
@@ -646,13 +656,11 @@ class tx_realty_object {
 		$dataForUpdate = $realtyData;
 		$dataForUpdate['tstamp'] = mktime();
 
-		$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+		return (boolean) $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 			$table,
 			'uid='.intval($dataForUpdate['uid']),
 			$dataForUpdate
 		);
-
-		return true;
 	}
 
 	/**

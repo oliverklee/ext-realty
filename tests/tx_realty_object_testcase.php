@@ -206,7 +206,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->writeToDatabase();
+		$message = $this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'title',
@@ -225,6 +225,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('title' => 'new title'),
 			$result
+		);
+		$this->assertEquals(
+			'',
+			$message
 		);
 	}
 
@@ -236,7 +240,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->writeToDatabase();
+		$message = $this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'title',
@@ -255,6 +259,34 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('title' => 'new title'),
 			$result
+		);
+		$this->assertEquals(
+			'',
+			$message
+		);
+	}
+
+	public function testWriteToDatabaseReturnsRequiredFieldsMessageIfTheRequiredFieldsAreNotSet() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'object_number' => (TX_REALTY_OBJECT_NUMBER_1 + 1),
+				'title' => 'new entry',
+				'uid' => (TX_REALTY_OBJECT_UID_1 + 1)
+			)
+		);
+
+		$this->assertEquals(
+			'message_fields_required',
+			$this->fixture->writeToDatabase()
+		);
+	}
+
+	public function testWriteToDatabaseReturnsObjectNotLoadedMessageIfTheCurrentObjectIsEmpty() {
+		$this->fixture->loadRealtyObject(array());
+
+		$this->assertEquals(
+			'message_object_not_loaded',
+			$this->fixture->writeToDatabase()
 		);
 	}
 
@@ -704,7 +736,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->insertImageEntries($image);
-		$this->fixture->writeToDatabase();
+		$message = $this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'tx_realty_images.deleted',
@@ -724,6 +756,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('deleted' => 1),
 			$result
+		);
+		$this->assertEquals(
+			'message_deleted_flag_set',
+			$message
 		);
 	}
 
@@ -751,7 +787,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->insertImageEntries($images);
-		$this->fixture->writeToDatabase();
+		$message = $this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'tx_realty_images.deleted',
@@ -774,6 +810,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(1, 1, 1),
 			$result
+		);
+		$this->assertEquals(
+			'message_deleted_flag_set',
+			$message
 		);
 	}
 
@@ -819,7 +859,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'pidForRealtyObjectsAndImages',
 				TX_REALTY_PID_2
 			);
-		$this->fixture->writeToDatabase();
+		$message = $this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'pid',
@@ -838,6 +878,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('pid' => TX_REALTY_PID_1),
 			$result
+		);
+		$this->assertEquals(
+			'',
+			$message
 		);
 	}
 
@@ -854,7 +898,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'pidForRealtyObjectsAndImages',
 				TX_REALTY_PID_2
 			);
-		$this->fixture->writeToDatabase();
+		$message = $this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'pid',
@@ -873,6 +917,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('pid' => TX_REALTY_PID_1),
 			$result
+		);
+		$this->assertEquals(
+			'message_deleted_flag_set',
+			$message
 		);
 	}
 
