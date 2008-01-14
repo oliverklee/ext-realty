@@ -352,6 +352,283 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, TX_REALTY_FIRST_OBJECT_NUMBER)
+				< strpos($result, TX_REALTY_SECOND_OBJECT_NUMBER)
+		);
+	}
+
+	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 1;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, TX_REALTY_SECOND_OBJECT_NUMBER)
+				< strpos($result, TX_REALTY_FIRST_OBJECT_NUMBER)
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '9')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '11')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '9')
+				< strpos($result, '11')
+		);
+	}
+
+	public function testListViewIsSortedDescendinglyByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '9')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '11')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 1;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '11')
+				< strpos($result, '9')
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortHaveDots() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '12.34')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '4.10')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '4.10')
+				< strpos($result, '12.34')
+		);
+	}
+
+	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortHaveDots() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '12.34')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '4.10')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 1;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '12.34')
+				< strpos($result, '4.10')
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '12.34')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '12.00')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '12.00')
+				< strpos($result, '12.34')
+		);
+	}
+
+	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '12.34')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '12.00')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 1;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '12.34')
+				< strpos($result, '12.00')
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '12,34')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '4,10')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '4,10')
+				< strpos($result, '12,34')
+		);
+	}
+
+	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('object_number' => '12,34')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('object_number' => '4,10')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
+		$this->fixture->conf['listView.']['descFlag'] = 1;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '12,34')
+				< strpos($result, '4,10')
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByBuyingPriceWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('buying_price' => '9', 'object_type' => '1')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('buying_price' => '11', 'object_type' => '1')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'buying_price';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '9')
+				< strpos($result, '11')
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByRentWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('rent_excluding_bills' => '9', 'object_type' => '0')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('rent_excluding_bills' => '11', 'object_type' => '0')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'rent_excluding_bills';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '9')
+				< strpos($result, '11')
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByNumberOfRoomsWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('number_of_rooms' => '9')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('number_of_rooms' => '11')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'number_of_rooms';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '9')
+				< strpos($result, '11')
+		);
+	}
+
 	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 
