@@ -67,6 +67,9 @@ class tx_realty_openimmo_import {
 	/** the upload directory for images */
 	private $uploadDirectory = '';
 
+	/** folders which were created by this class */
+	private $createdFolders = array();
+
 	/**
 	 * Constructor.
 	 */
@@ -182,10 +185,6 @@ class tx_realty_openimmo_import {
 		} else {
 			$emailData = $this->createWrappedEmailRawDataArray(
 				$this->findContactEmails($currentZip)
-			);
-			$this->addToErrorLog(
-				basename($currentZip).': '
-				.$LANG->getLL('message_not_written_to_database').chr(10)
 			);
 		}
 
@@ -634,7 +633,7 @@ class tx_realty_openimmo_import {
 	 * @return	array		contact e-mails on success, an empty array otherwise
 	 */
 	protected function findContactEmails($pathOfZip) {
-		$xmlPath = $this->getPathForXml($pathOfZip);
+		$xmlPath = $this->getPathForXml($pathOfZip, true);
 		if ($xmlPath == '') {
 			return array();
 		}
@@ -740,9 +739,13 @@ class tx_realty_openimmo_import {
 	 * 						not be empty
 	 *
 	 * @return	string		path for folder named like the ZIP archive without
-	 * 						the suffix '.zip', may be empty
+	 * 						the suffix '.zip', may be empty if the provided ZIP
+	 * 						file does not exists or if the folder to create
+	 * 						already exists
 	 */
 	public function createExtractionFolder($pathOfZip) {
+		global $LANG;
+
 		if (!file_exists($pathOfZip)) {
 			return '';
 		}
@@ -750,6 +753,12 @@ class tx_realty_openimmo_import {
 		$folderForZipExtraction = $this->getNameForExtractionFolder($pathOfZip);
 		if (!is_dir($folderForZipExtraction)) {
 			mkdir($folderForZipExtraction);
+			$this->createdFolders[] = $folderForZipExtraction;
+		} else {
+			$this->addToErrorLog(
+				$folderForZipExtraction.': '.$LANG->getLL('message_surplus_folder')
+			);
+			$folderForZipExtraction = '';
 		}
 
 		return $folderForZipExtraction;
@@ -763,10 +772,11 @@ class tx_realty_openimmo_import {
 	 *
 	 * @param	string		absolute path where to find the ZIP archive which
 	 * 						includes an XML file, must not be empty
+	 * @param	boolean		whether this function logs occurring errors or not
 	 *
 	 * @return	string		absolute path of the XML file, empty string on error
 	 */
-	protected function getPathForXml($pathOfZip) {
+	protected function getPathForXml($pathOfZip, $processSilently = false) {
 		global $LANG;
 
 		$result = '';
@@ -779,16 +789,21 @@ class tx_realty_openimmo_import {
 
 			if (count($pathOfXml) == 1) {
 				$result = implode($pathOfXml);
-			} elseif (count($pathOfXml) > 1) {
+			} elseif (count($pathOfXml) > 1 && !$processSilently
+				&& in_array($folderWithXml, $this->createdFolders)
+			) {
 				$this->addToErrorLog(
 					basename($pathOfZip).': '.$LANG->getLL('message_too_many_xml')
 				);
-			} else {
+			} elseif (!$processSilently
+				&& in_array($folderWithXml, $this->createdFolders)
+			) {
 				$this->addToErrorLog(
 					basename($pathOfZip).': '.$LANG->getLL('message_no_xml')
 				);
 			}
-		} else {
+		} elseif (!$processSilently && in_array($folderWithXml, $this->createdFolders)
+		) {
 			$this->addToErrorLog(
 				basename($pathOfZip).': '.$LANG->getLL('message_invalid_xml_path')
 			);
@@ -982,16 +997,18 @@ class tx_realty_openimmo_import {
 
 		foreach ($originalPaths as $currentOriginalPath) {
 			$currentFolder = $this->getNameForExtractionFolder($currentOriginalPath);
-			foreach (glob($currentFolder.'*') as $fileToDelete) {
-				unlink($fileToDelete);
-			}
-			if (is_dir($currentFolder)) {
-				rmdir($currentFolder);
-
-				if ($folders != '') {
-					$folders .= ', ';
+			if (in_array($currentFolder, $this->createdFolders)) {
+				foreach (glob($currentFolder.'*') as $fileToDelete) {
+					unlink($fileToDelete);
 				}
-				$folders .= basename($currentFolder);
+				if (is_dir($currentFolder)) {
+					rmdir($currentFolder);
+
+					if ($folders != '') {
+						$folders .= ', ';
+					}
+					$folders .= basename($currentFolder);
+				}
 			}
 		}
 		if ($folders != '') {

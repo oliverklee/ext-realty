@@ -52,8 +52,8 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 		parent::clearFeCache();
 	}
 
-	public function getPathForXml($pathOfZip) {
-		return parent::getPathForXml($pathOfZip);
+	public function getPathForXml($pathOfZip, $processSilently = false) {
+		return parent::getPathForXml($pathOfZip, $processSilently);
 	}
 
 	public function loadXmlFile($pathOfZip) {

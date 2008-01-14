@@ -11,13 +11,14 @@
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
 			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
-			<label index="message_message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
+			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
 			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
 			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
+			<label index="message_surplus_folder">The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</label>
 			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
 			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
 			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>
@@ -39,13 +40,14 @@
 			<label index="message_no_zips">Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</label>
 			<label index="message_object_not_loaded">Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</label>
 			<label index="message_updating_failed">Während der Aktualisierung des Datensatzes trat ein Fehler auf. Der Datensatz konnte nicht aktualisiert werden.</label>
-			<label index="message_message_insertion_failed">Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</label>
+			<label index="message_insertion_failed">Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</label>
 			<label index="message_deleted_flag_set">Der importierte Datensatz ist zum Löschen markiert. Wenn er in der Datenbank existiert, wird er nun gelöscht. Andernfalls wird dieser Datensatzes ignoriert.</label>
 			<label index="message_written_to_database">Der Datensatz wurde in die Datenbank eingefügt.</label>
 			<label index="message_fields_required">Der Datensatz wurde nicht importiert, weil die Pflichtfelder nicht gesetzt sind</label>
 			<label index="message_log_sent_to">Das Protokoll wurde gesendet an</label>
 			<label index="message_extracted_successfully">Das ZIP-Archiv wurde erfolgreich entpackt.</label>
 			<label index="message_extraction_failed">Das Entpacken des ZIP-Archives ist fehlgeschlagen, da das Archiv nicht geöffnet werden konnte. Möglicherweise ist die Datei fehlerhaft.</label>
+			<label index="message_surplus_folder">Der Ordner, der für den Import erstellt werden muss, existiert bereits in Ihrem Import-Verzeichnis. Der Datensatz kann nicht importiert werden, solange dieser Ordner existiert. Bitte entfernen Sie ihn aus dem Import-Verzeichnis.</label>
 			<label index="message_invalid_xml_path">Der XML-Pfad wurde nicht gefunden. Eventuell ist kein Ordner mit dem entpacktem Inhalt des ZIP-Archives vorhanden. Ein Dateirechteproblem kann die Ursache sein. Bitte stellen Sie sicher, dass Sie Schreibrechte im Import-Ordner haben.</label>
 			<label index="message_too_many_xml">Es darf nicht mehr als eine XML-Datei im ZIP-Archiv sein. Bitte entfernen Sie die überschüssigen XML-Dateien aus dem Archiv.</label>
 			<label index="message_no_xml">Im ZIP-Archiv kann keine XML-Datei gefunden werden. Sollte es dennoch eine geben, stellen Sie bitte sicher, dass sie mit '.xml' endet.</label>
@@ -69,13 +71,14 @@
 			<label index="message_no_zips" type="integer">105518736</label>
 			<label index="message_object_not_loaded" type="integer">56779241</label>
 			<label index="message_updating_failed" type="integer">109345992</label>
-			<label index="message_message_insertion_failed" type="integer">50157132</label>
+			<label index="message_insertion_failed" type="integer">50157132</label>
 			<label index="message_deleted_flag_set" type="integer">232865486</label>
 			<label index="message_written_to_database" type="integer">198437427</label>
-			<label index="message_fields_required" type="integer">51391000</label>
+			<label index="message_fields_required" type="integer">127661848</label>
 			<label index="message_log_sent_to" type="integer">24096936</label>
 			<label index="message_extracted_successfully" type="integer">215773016</label>
 			<label index="message_extraction_failed" type="integer">256903313</label>
+			<label index="message_surplus_folder" type="integer">135193776</label>
 			<label index="message_invalid_xml_path" type="integer">103030008</label>
 			<label index="message_too_many_xml" type="integer">238269320</label>
 			<label index="message_no_xml" type="integer">206769090</label>
@@ -99,13 +102,14 @@
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
 			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
-			<label index="message_message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
+			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
 			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
-			<label index="message_fields_required">The required fields are not set</label>
+			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
+			<label index="message_surplus_folder">The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</label>
 			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
 			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
 			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>

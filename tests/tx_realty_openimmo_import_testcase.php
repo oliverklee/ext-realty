@@ -173,11 +173,20 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDeletesImportFolder() {
+	public function testCleanUpRemovesAFolderCreatedByTheImporter() {
 		$this->fixture->createExtractionFolder(REALTY_IMPORT_FOLDER.'foo.zip');
 		$this->fixture->cleanUp(REALTY_IMPORT_FOLDER);
 
 		$this->assertFalse(
+			file_exists(REALTY_IMPORT_FOLDER.'foo/')
+		);
+	}
+
+	public function testCleanUpDoesNotRemoveAForeignFolderAlthoughItIsNamedLikeAZipToImport() {
+		mkdir(REALTY_IMPORT_FOLDER.'foo/');
+		$this->fixture->cleanUp(REALTY_IMPORT_FOLDER);
+
+		$this->assertTrue(
 			file_exists(REALTY_IMPORT_FOLDER.'foo/')
 		);
 	}
@@ -730,6 +739,21 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			$LANG->getLL('message_written_to_database'),
 			$result
+		);
+	}
+
+	public function testImportFromZipSKipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
+		global $LANG;
+
+		mkdir(REALTY_IMPORT_FOLDER.'foo/');
+		$result = $this->fixture->importFromZip();
+
+		$this->assertContains(
+			$LANG->getLL('message_surplus_folder'),
+			$result
+		);
+		$this->assertTrue(
+			is_dir(REALTY_IMPORT_FOLDER.'foo/')
 		);
 	}
 
