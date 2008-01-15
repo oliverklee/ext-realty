@@ -742,7 +742,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipSKipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
+	public function testImportFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
 		global $LANG;
 
 		mkdir(REALTY_IMPORT_FOLDER.'foo/');

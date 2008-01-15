@@ -781,6 +781,7 @@ class tx_realty_openimmo_import {
 
 		$result = '';
 
+		$errorMessage = '';
 		$folderWithXml = $this->getNameForExtractionFolder($pathOfZip);
 		$pathOfXml = array();
 
@@ -789,23 +790,23 @@ class tx_realty_openimmo_import {
 
 			if (count($pathOfXml) == 1) {
 				$result = implode($pathOfXml);
-			} elseif (count($pathOfXml) > 1 && !$processSilently
-				&& in_array($folderWithXml, $this->createdFolders)
-			) {
-				$this->addToErrorLog(
-					basename($pathOfZip).': '.$LANG->getLL('message_too_many_xml')
-				);
-			} elseif (!$processSilently
-				&& in_array($folderWithXml, $this->createdFolders)
-			) {
-				$this->addToErrorLog(
-					basename($pathOfZip).': '.$LANG->getLL('message_no_xml')
-				);
+			} else {
+				if (count($pathOfXml) > 1) {
+					$errorMessage = 'message_too_many_xml';
+				} else {				
+					$errorMessage = 'message_no_xml';
+				}
 			}
-		} elseif (!$processSilently && in_array($folderWithXml, $this->createdFolders)
+		} else {
+			$errorMessage = 'message_invalid_xml_path';
+		}
+
+		// logs an error message if necessary
+		if ($errorMessage != '' && !$processSilently 
+			&& in_array($folderWithXml, $this->createdFolders)
 		) {
 			$this->addToErrorLog(
-				basename($pathOfZip).': '.$LANG->getLL('message_invalid_xml_path')
+				basename($pathOfZip).': '.$LANG->getLL($errorMessage)
 			);
 		}
 

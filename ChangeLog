@@ -1,8 +1,11 @@
+2008-01-15 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1522] Fix: Importer needs to bail out if the temporary directory already exists.
+
 2008-01-14 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1229] Change: Sorting of prices should be numerical, not alphabetical
 	* [#1511] Change: Make the import messages more specific
-	* [#1522] Fix: Importer needs to bail out if the temporary directory already exists.
 
 2008-01-11 Oliver Klee  <typo3-coding@oliverklee.de>
 
