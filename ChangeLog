@@ -1,3 +1,7 @@
+2008-01-16 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1538] Change: Do not allow to set a UID in an array to load as a realty object
+
 2008-01-15 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1522] Fix: Importer needs to bail out if the temporary directory already exists.

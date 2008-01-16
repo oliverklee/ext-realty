@@ -91,13 +91,18 @@ class tx_realty_object {
 	 * UID of an existent realty object to load from the database. If the data
 	 * is of an invalid type, $this->realtyObjectData stays empty.
 	 *
-	 * @param	mixed		data for the realty object: an array a database
+	 * @param	mixed		data for the realty object: an array, a database
 	 * 						result row, or a UID (of integer > 0) of an existing
-	 * 						record
+	 * 						record, an array must not contain the key 'uid'
 	 */
 	public function loadRealtyObject($realtyData) {
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
+				if (isset($realtyData['uid'])) {
+					throw new Exception(
+						'The column "uid" must not be set in $realtyData.'
+					);
+				}
 				$convertedData = $this->isolateImageRecords($realtyData);
 				break;
 			case 'uid' :
@@ -597,7 +602,8 @@ class tx_realty_object {
 	 * the database.
 	 * The values for PID, 'tstamp' and 'crdate' are provided by this function.
 	 *
-	 * @param	array		database column names as keys, must not be empty
+	 * @param	array		database column names as keys, must not be empty and
+	 * 						must not contain the key 'uid'
 	 * @param	string		name of the database table, must not be empty
 	 *
 	 * @return 	boolean		true if the insert query was successful, false
@@ -611,6 +617,13 @@ class tx_realty_object {
 			return false;
 		}
 
+		if (isset($realtyData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $realtyData.'
+			);
+		}
+
+		$dataToInsert = $realtyData;
 		$pid = tx_oelib_configurationProxy::getInstance('realty')->
 			getConfigurationValueInteger('pidForAuxiliaryRecords');
 		if (($pid == 0)
@@ -621,7 +634,6 @@ class tx_realty_object {
 				getConfigurationValueInteger('pidForRealtyObjectsAndImages');
 		}
 
-		$dataToInsert = $realtyData;
 		$dataToInsert['pid'] = $pid;
 		$dataToInsert['tstamp'] = mktime();
 		$dataToInsert['crdate'] = mktime();
