@@ -1,3 +1,7 @@
+2008-01-16 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1541] Change: Remove the return; for functions that do not return anything
+
 2008-01-14 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1229] Change: Sorting of prices should be numerical, not alphabetical

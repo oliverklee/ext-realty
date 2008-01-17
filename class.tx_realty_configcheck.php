@@ -148,8 +148,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				$this->setErrorMessage($message);
 			}
 		}
-
-		return;
 	}
 
 	/**
