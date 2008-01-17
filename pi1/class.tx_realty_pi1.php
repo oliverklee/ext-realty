@@ -883,7 +883,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (intval($this->internal['currentRow'][$key]) == 0) {
 			$this->readSubpartsToHide($key, $prefix);
 		}
-		return;
 	}
 
 	/**
@@ -900,7 +899,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (empty($this->internal['currentRow'][$key])) {
 			$this->readSubpartsToHide($key, $prefix);
 		}
-		return;
 	}
 
 	/**
@@ -1183,8 +1181,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$this->setMarkerContent('image_fullsize', $imageTag);
 		$this->setMarkerContent('caption_fullsize', $this->getImageCaption($this->piVars['image']));
-
-		return;
 	}
 
 	/**
@@ -1306,8 +1302,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 			$this->storeFavorites($favorites);
 		}
-
-		return;
 	}
 
 	/**
@@ -1331,8 +1325,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 			$this->storeFavorites($favorites);
 		}
-
-		return;
 	}
 
 	/**
@@ -1407,8 +1399,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 			$GLOBALS['TSFE']->fe_user->storeSessionData();
 		}
-
-		return;
 	}
 
 	/**
