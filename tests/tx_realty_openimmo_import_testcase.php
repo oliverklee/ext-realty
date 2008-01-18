@@ -659,6 +659,38 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testImportARecordAndImportItAgainAfterContentsHaveChanged() {
+		// disables validation
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema',
+			''
+		);
+		$this->fixture->importFromZip();
+		$result = $this->testingFramework->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'uid',
+				'tx_realty_objects',
+				'object_number="bar1234567" AND zip="zip"'
+			)
+		);
+
+		// overwrites "same-name.zip"
+		exec('cp -f '
+			.self::$importFolder.'changed-copy-of-same-name/same-name.zip '
+			.self::$importFolder.'same-name.zip'
+		);
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" AND zip="changed zip" '
+					.'AND uid='.$result['uid']
+			)
+		);
+	}
+
 	public function testImportFromZipDoesNotWriteImportFolderContentsToDatabase() {
 		global $LANG;
 

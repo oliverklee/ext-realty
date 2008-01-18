@@ -1,5 +1,6 @@
 2008-01-18 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1547] Feature: Add a test for importing a file with the same name twice
 	* [#1521] Fix: Deleted records break all sorts of stuff
 
 2008-01-17 Oliver Klee  <typo3-coding@oliverklee.de>
