@@ -30,14 +30,15 @@
  */
 
 require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_object_child.php');
+
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
 class tx_realty_object_testcase extends tx_phpunit_testcase {
 	private $fixture;
-	private $templateHelper;
 	private $testingFramework;
+	private $templateHelper;
 
 	private $objectUid = 0;	
 	private $pageId = 0;
@@ -63,18 +64,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		$this->cleanUp();
 		unset($this->fixture);
 		unset($this->templateHelper);
-		$this->testingFramework->cleanUp(true);
 		unset($this->testingFramework);
-
-		// Inserting images causes an entry to 'sys_refindex' which is currently
-		// not cleaned up automatically by the testing framework.
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'sys_refindex',
-			'ref_string = "uploads/tx_realty/bar"'
-		);
-
 	}
 
 	public function testRecordExistsInDatabaseIfNoExistingUidGiven() {
@@ -946,6 +939,28 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'object_number' => self::$objectNumber,
 				'pid' => $this->pageId
 			)
+		);
+	}
+	
+	/**
+	 * Cleans up the tables in which dummy records are created during the tests.
+	 */
+	private function cleanUp() {
+		foreach (array(
+			'tx_realty_objects',
+			'tx_realty_objects_images_mm',
+			'tx_realty_images',
+			'tx_realty_cities'
+		) as $table) {
+			$this->testingFramework->markTableAsDirty($table);
+		}
+		$this->testingFramework->cleanUp();
+		
+		// Inserting images causes an entry to 'sys_refindex' which is currently
+		// not cleaned up automatically by the testing framework.
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'sys_refindex',
+			'ref_string = "uploads/tx_realty/bar"'
 		);
 	}
 }

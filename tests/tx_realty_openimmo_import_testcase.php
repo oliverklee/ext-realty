@@ -31,9 +31,9 @@
 
 require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openimmo_import_child.php');
 
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
 class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	private $fixture;
@@ -65,7 +65,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->testingFramework->cleanUp(true);
+		$this->cleanUp();
 		unset($this->testingFramework);
 		unset($this->templateHelper);
 		unset($this->fixture);
@@ -782,6 +782,16 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			'notifyContactPersons',
 			true
 		);
+	}
+
+	/**
+	 * Cleans up the tables in which dummy records are created during the tests.
+	 */
+	private function cleanUp() {
+		foreach (array('tx_realty_objects', 'tx_realty_house_types') as $table) {
+			$this->testingFramework->markTableAsDirty($table);
+		}
+		$this->testingFramework->cleanUp();
 	}
 }
 
