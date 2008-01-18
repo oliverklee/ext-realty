@@ -746,6 +746,7 @@ class tx_realty_object {
 				'COUNT(*) AS number',
 				$table,
 				$keyToSearch.'="'.$dataArray[$keyToSearch].'"'
+					.$this->templateHelper->enableFields($table)
 			);
 
 			if ($dbResult

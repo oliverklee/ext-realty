@@ -921,6 +921,161 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateANewRealtyRecordAlthoughTheSameRecordWasSetToDeletedInTheDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => self::$otherObjectNumber,
+				'deleted' => 1,
+			)
+		);
+
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$otherObjectNumber)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number='.self::$otherObjectNumber.' AND uid!='.$uid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testDeleteAnExistingRealtyRecordAndImportItAgainIfTheDeletedFlagIsSetExplicitly() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->writeToDatabase();
+
+		$this->fixture->loadRealtyObject(
+			array(
+				'object_number' => self::$objectNumber,
+				'deleted' => 0
+			)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number='.self::$objectNumber.' AND uid!='.$this->objectUid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testDeleteAnExistingRealtyRecordAndImportItAgainIfTheDeletedFlagIsNotSetExplicitly() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->writeToDatabase();
+
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$objectNumber)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number='.self::$objectNumber.' AND uid!='.$this->objectUid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testInsertDeleteAndReinsertAnImageRecord() {
+		$imageUid = $this->testingFramework->createRecord(
+			'tx_realty_images',
+			array(
+				'caption' => 'foo',
+				'image' => 'bar',
+				'deleted' => 1,
+			)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->insertImageEntries(
+			array(
+				array(
+					'caption' => 'foo',
+					'image' => 'bar'
+				)
+			)
+		);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_images',
+				'caption="foo" AND image="bar" AND uid!='.$imageUid
+					.$this->templateHelper->enableFields('tx_realty_images')
+			)
+		);
+	}
+
+	public function testInsertDeleteAutomaticallyAndReinsertAnImageRecord() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('deleted', 1);
+
+		$image = array(
+			array(
+				'caption' => 'foo',
+				'image' => 'bar'
+			)
+		);
+		$this->fixture->insertImageEntries($image);
+
+		$result = $this->testingFramework->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'uid',
+				'tx_realty_images',
+				'caption="foo" AND image="bar"'
+					.$this->templateHelper->enableFields('tx_realty_images')
+			)		
+		);
+
+		// deletes the image
+		$this->fixture->writeToDatabase();
+		$this->fixture->insertImageEntries($image);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_images',
+				'caption="foo" AND image="bar" AND uid!='.$result['uid']
+					.$this->templateHelper->enableFields('tx_realty_images')
+			)
+		);
+	}
+
+	public function testRecreateAnAuxiliaryRecord() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities',
+			array(
+				'title' => 'foo',
+				'deleted' => 1,
+			)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', 'foo');
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_cities',
+				'title="foo" AND uid!='.$cityUid
+					.$this->templateHelper->enableFields('tx_realty_cities')
+			)
+		);
+	}
+
 
 	///////////////////////
 	// Utility functions.
