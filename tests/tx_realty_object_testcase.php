@@ -538,14 +538,27 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetPropertyWhenValueOfArrayNotSetsValue() {
+	public function testSetPropertyDoesNotSetTheValueWhenTheValuesTypeIsInvalid() {
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->setProperty('uid', array('bar'));
+		$this->fixture->setProperty('pets', array('bar'));
 
 		$this->assertEquals(
 			$this->objectUid,
 			$this->fixture->getProperty('uid')
 		);
+	}
+
+	public function testSetPropertyThrowsAnExeptionIfTheKeyToSetIsUid() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		
+		try {
+			$this->fixture->setProperty('uid', 12345);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testIsRealtyObjectDataEmptyReturnsFalseIfObjectLoaded() {

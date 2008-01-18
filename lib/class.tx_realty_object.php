@@ -296,7 +296,7 @@ class tx_realty_object {
 	 * loaded.
 	 *
 	 * @param	string		key of the value to set in current realty object,
-	 * 						must not be empty
+	 * 						must not be empty and must not be 'uid'
 	 * @param	mixed		value to set, must be either numeric or a string
 	 * 						(also empty) or of boolean, may not be null
 	 */
@@ -306,6 +306,10 @@ class tx_realty_object {
 			|| !$this->hasProperty($key)
 		) {
 			return;
+		}
+
+		if ($key == 'uid') {
+			throw new Exception('The key must not be "uid".');
 		}
 
 		$this->realtyObjectData[$key] = $value;
