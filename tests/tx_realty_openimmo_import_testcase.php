@@ -30,85 +30,54 @@
  */
 
 require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openimmo_import_child.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
-define('REALTY_IMPORT_FOLDER', '/tmp/tx_realty_fixtures/');
-define('DUMMY_PAGE_UID', 100000);
-define('DUMMY_PAGE_CONTENT_UID', 100001);
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
 class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	private $fixture;
-
+	private $testingFramework;
 	private $globalConfiguration;
+	private $templateHelper;
+
+	private static $importFolder = '/tmp/tx_realty_fixtures/';
 
 	public function setUp() {
-		// copies test folder to /tmp/ to avoid changes to the original folder
-		if (!is_dir(REALTY_IMPORT_FOLDER)) {
-			mkdir(REALTY_IMPORT_FOLDER);
+		// copies the test folder to /tmp/ to avoid changes to the original folder
+		if (!is_dir(self::$importFolder)) {
+			mkdir(self::$importFolder);
 		}
 		exec('cp -rf '
 			.t3lib_extMgm::extPath('realty')
 			.'tests/fixtures/tx_realty_fixtures/ /tmp/'
 		);
-		$this->fixture = new tx_realty_openimmo_import_child();
-		// avoids using the extension's real upload folder
-		$this->fixture->setUploadDirectory(REALTY_IMPORT_FOLDER);
 
+		$this->fixture = new tx_realty_openimmo_import_child(true);
+		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
-		// avoids sending e-mails
-		$this->globalConfiguration->setConfigurationValueString(
-			'emailAddress',
-			''
+		$this->templateHelper = t3lib_div::makeInstance(
+			'tx_oelib_templatehelper'
 		);
-		// several tests need these conditions
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'ignoreValidation',
-			false
-		);
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'onlyErrors',
-			false
-		);
-		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema',
-			REALTY_IMPORT_FOLDER.'schema.xsd'
-		);
-		$this->globalConfiguration->setConfigurationValueString(
-			'importFolder',
-			REALTY_IMPORT_FOLDER
-		);
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'notifyContactPersons',
-			true
-		);
+ 		$this->templateHelper->init();
 
-		$this->createDummyPages();
+		$this->setupStaticConditions();
 	}
 
 	public function tearDown() {
+		$this->testingFramework->cleanUp(true);
+		unset($this->testingFramework);
+		unset($this->templateHelper);
 		unset($this->fixture);
 
-		$this->deleteDummyPages();
-		$this->resetAutoIncrement();
-
-		// remove test folder from /tmp/
-		exec('rm -rf '.REALTY_IMPORT_FOLDER);
-
-		// deletes dummy records
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'tx_realty_objects',
-			'zip = "bar" AND object_number = "foo"'
-		);
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'tx_realty_house_types',
-			'title = "foo"'
-		);
+		// removes the test folder from /tmp/
+		exec('rm -rf '.self::$importFolder);
 	}
 
 	public function testGetPathsOfZipsToExtract() {
 		$this->assertEquals(
-			glob(REALTY_IMPORT_FOLDER.'*.zip'),
-			$this->fixture->getPathsOfZipsToExtract(REALTY_IMPORT_FOLDER)
+			glob(self::$importFolder.'*.zip'),
+			$this->fixture->getPathsOfZipsToExtract(self::$importFolder)
 		);
 	}
 
@@ -134,22 +103,22 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateExtractionFolderForExistingZip() {
-		$dirName = $this->fixture->createExtractionFolder(REALTY_IMPORT_FOLDER.'foo.zip');
+		$dirName = $this->fixture->createExtractionFolder(self::$importFolder.'foo.zip');
 
 		$this->assertTrue(
-			is_dir(REALTY_IMPORT_FOLDER.'foo/')
+			is_dir(self::$importFolder.'foo/')
 		);
 		$this->assertEquals(
-			REALTY_IMPORT_FOLDER.'foo/',
+			self::$importFolder.'foo/',
 			$dirName
 		);
 	}
 
 	public function testCreateExtractionFolderForNonExistingZip() {
-		$dirName = $this->fixture->createExtractionFolder(REALTY_IMPORT_FOLDER.'foobar.zip');
+		$dirName = $this->fixture->createExtractionFolder(self::$importFolder.'foobar.zip');
 
 		$this->assertFalse(
-			is_dir(REALTY_IMPORT_FOLDER.'foobar/')
+			is_dir(self::$importFolder.'foobar/')
 		);
 		$this->assertEquals(
 			'',
@@ -158,98 +127,98 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testExtractZipIfOneZipToExtract() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 
 		$this->assertTrue(
-			is_dir(REALTY_IMPORT_FOLDER.'foo/')
+			is_dir(self::$importFolder.'foo/')
 		);
 	}
 
 	public function testExtractZipIfZipDoesNotExist() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foobar.zip');
+		$this->fixture->extractZip(self::$importFolder.'foobar.zip');
 
 		$this->assertFalse(
-			is_dir(REALTY_IMPORT_FOLDER.'foobar/')
+			is_dir(self::$importFolder.'foobar/')
 		);
 	}
 
 	public function testCleanUpRemovesAFolderCreatedByTheImporter() {
-		$this->fixture->createExtractionFolder(REALTY_IMPORT_FOLDER.'foo.zip');
-		$this->fixture->cleanUp(REALTY_IMPORT_FOLDER);
+		$this->fixture->createExtractionFolder(self::$importFolder.'foo.zip');
+		$this->fixture->cleanUp(self::$importFolder);
 
 		$this->assertFalse(
-			file_exists(REALTY_IMPORT_FOLDER.'foo/')
+			file_exists(self::$importFolder.'foo/')
 		);
 	}
 
 	public function testCleanUpDoesNotRemoveAForeignFolderAlthoughItIsNamedLikeAZipToImport() {
-		mkdir(REALTY_IMPORT_FOLDER.'foo/');
-		$this->fixture->cleanUp(REALTY_IMPORT_FOLDER);
+		mkdir(self::$importFolder.'foo/');
+		$this->fixture->cleanUp(self::$importFolder);
 
 		$this->assertTrue(
-			file_exists(REALTY_IMPORT_FOLDER.'foo/')
+			file_exists(self::$importFolder.'foo/')
 		);
 	}
 
 	public function testCleanUpDoesNotRemoveContentsIfFileIsGiven() {
-		$this->fixture->cleanUp(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->cleanUp(self::$importFolder.'foo.zip');
 
 		$this->assertTrue(
-			file_exists(REALTY_IMPORT_FOLDER.'foo.zip')
+			file_exists(self::$importFolder.'foo.zip')
 		);
 	}
 
 	public function testCopyImagesFromExtractedZip() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 		$this->fixture->copyImagesFromExtractedZip(
-			REALTY_IMPORT_FOLDER.'foo.zip'
+			self::$importFolder.'foo.zip'
 		);
 
 		$this->assertTrue(
-			file_exists(REALTY_IMPORT_FOLDER.'foo.jpg')
+			file_exists(self::$importFolder.'foo.jpg')
 		);
 		$this->assertTrue(
-			file_exists(REALTY_IMPORT_FOLDER.'bar.jpg')
+			file_exists(self::$importFolder.'bar.jpg')
 		);
 	}
 
 	public function testGetPathForXmlIfFolderWithOneXmlExists() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 
 		$this->assertEquals(
-			REALTY_IMPORT_FOLDER.'foo/foo.xml',
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'foo.zip')
+			self::$importFolder.'foo/foo.xml',
+			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
 		);
 	}
 
 	public function testGetPathForXmlIfFolderNotExists() {
 		$this->assertEquals(
 			'',
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'foo.zip')
+			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
 		);
 	}
 
 	public function testGetPathForXmlIfFolderWithTwoXmlExists() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'bar-bar.zip');
+		$this->fixture->extractZip(self::$importFolder.'bar-bar.zip');
 
 		$this->assertEquals(
 			'',
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'bar-bar.zip')
+			$this->fixture->getPathForXml(self::$importFolder.'bar-bar.zip')
 		);
 	}
 
 	public function testGetPathForXmlIfFolderWithoutXmlExists() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'empty.zip');
+		$this->fixture->extractZip(self::$importFolder.'empty.zip');
 
 		$this->assertEquals(
 			'',
-			$this->fixture->getPathForXml(REALTY_IMPORT_FOLDER.'empty.zip')
+			$this->fixture->getPathForXml(self::$importFolder.'empty.zip')
 		);
 	}
 
 	public function testLoadXmlFileIfFolderWithOneXmlExists() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
-		$this->fixture->loadXmlFile(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
 
 		$this->assertTrue(
 			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
@@ -257,8 +226,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadXmlFileIfXmlIsInvalid() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'bar.zip');
-		$this->fixture->loadXmlFile(REALTY_IMPORT_FOLDER.'bar.zip');
+		$this->fixture->extractZip(self::$importFolder.'bar.zip');
+		$this->fixture->loadXmlFile(self::$importFolder.'bar.zip');
 		$this->assertNotEquals(
 			get_class($this->fixture->getImportedXml()),
 			'DOMDocument'
@@ -266,8 +235,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadXmlFileIfXmlIsValid() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
-		$this->fixture->loadXmlFile(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
 
 		$this->assertTrue(
 			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
@@ -279,8 +248,8 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			'ignoreValidation',
 			true
 		);
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
-		$this->fixture->loadXmlFile(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
 
 		$this->assertTrue(
 			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
@@ -288,6 +257,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseIfDomDocumentWhenRequiredFieldsNotGiven() {
+		$objectNumber = 'bar1234567';
 		$dummyDocument = DOMDocument::loadXML(
 			'<openimmo>'
 				.'<anbieter>'
@@ -299,6 +269,9 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 						.'<freitexte>'
 							.'<lage>foo</lage>'
 						.'</freitexte>'
+						.'<verwaltung_techn>'
+							.'<objektnr_extern>'.$objectNumber.'</objektnr_extern>'
+						.'</verwaltung_techn>'
 					.'</immobilie>'
 				.'</anbieter>'
 			.'</openimmo>'
@@ -307,31 +280,18 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$result = array();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'street, zip, location',
-			'tx_realty_objects',
-			''
-		);
-		if ($dbResult) {
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$result[] = $row;
-			}
-		}
-
-		$this->assertFalse(
-			in_array(
-				array(
-					'street' => 'foobar',
-					'zip' => 'bar',
-					'location' => 'foo'
-				),
-				$result
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="'.$objectNumber.'"'
+					.$this->templateHelper->enableFields('tx_realty_objects')
 			)
 		);
 	}
 
 	public function testWriteToDatabaseIfDomDocumentWhenRequiredFieldsAreGiven() {
+		$objectNumber = 'bar1234567';
 		$dummyDocument = DOMDocument::loadXML(
 			'<openimmo>'
 				.'<anbieter>'
@@ -351,7 +311,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 						.'<verwaltung_techn>'
 							.'<openimmo_obid>foo</openimmo_obid>'
 							.'<aktion/>'
-							.'<objektnr_extern>foo</objektnr_extern>'
+							.'<objektnr_extern>'.$objectNumber.'</objektnr_extern>'
 						.'</verwaltung_techn>'
 					.'</immobilie>'
 					.'<openimmo_anid>foo</openimmo_anid>'
@@ -363,27 +323,13 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$result = array();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
-			'tx_realty_objects',
-			'zip = "bar" AND object_number = "foo"'
-		);
-		if ($dbResult) {
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$result[] = $row;
-			}
-		}
-
-		$this->assertTrue(
-			is_array($result[0])
-		);
-
-		$difference = array_diff(
-			$this->fixture->getRequiredFields(),
-			array_keys($result[0]));
-		$this->assertTrue(
-			empty($difference)
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="'.$objectNumber.'"'
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
 		);
 	}
 
@@ -677,58 +623,39 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFindContactEmailsIfEmailNotExists() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'foo.zip');
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 
 		$this->assertEquals(
 			array(),
-			$this->fixture->findContactEmails(REALTY_IMPORT_FOLDER.'foo.zip')
+			$this->fixture->findContactEmails(self::$importFolder.'foo.zip')
 		);
 	}
 
 	public function testFindContactEmailsIfEmailExists() {
-		$this->fixture->extractZip(REALTY_IMPORT_FOLDER.'email.zip');
+		$this->fixture->extractZip(self::$importFolder.'email.zip');
 
 		$this->assertEquals(
 			array('bar'),
-			$this->fixture->findContactEmails(REALTY_IMPORT_FOLDER.'email.zip')
+			$this->fixture->findContactEmails(self::$importFolder.'email.zip')
 		);
 	}
 
-	public function testCreateDummyCachePage() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'page_id',
-			'cache_pages',
-			''
+	public function testClearFeCacheDeletesCachedPage() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$contentUid = $this->testingFramework->createContentElement(
+			$pageUid,
+			array('list_type' => 'tx_realty_pi1')
 		);
-		$allPageIds = array();
-		if ($dbResult) {
-			while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				$allPageIds[] = $dbResultRow['page_id'];
-			}
-		}
+		$this->testingFramework->createPageCacheEntry($contentUid);
 
-		$this->assertTrue(
-			in_array(DUMMY_PAGE_UID, $allPageIds)
-		);
-	}
-
-	public function testClearFeCacheDeletesCashedPage() {
 		$this->fixture->clearFeCache();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'page_id',
-			'cache_pages',
-			''
-		);
-		$allPageIds = array();
-		if ($dbResult) {
-			while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				$allPageIds[] = $dbResultRow['page_id'];
-			}
-		}
-
-		$this->assertFalse(
-			in_array(DUMMY_PAGE_UID, $allPageIds)
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				'cache_pages',
+				'page_id='.$pageUid
+			)
 		);
 	}
 
@@ -745,7 +672,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	public function testImportFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
 		global $LANG;
 
-		mkdir(REALTY_IMPORT_FOLDER.'foo/');
+		mkdir(self::$importFolder.'foo/');
 		$result = $this->fixture->importFromZip();
 
 		$this->assertContains(
@@ -753,7 +680,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			$result
 		);
 		$this->assertTrue(
-			is_dir(REALTY_IMPORT_FOLDER.'foo/')
+			is_dir(self::$importFolder.'foo/')
 		);
 	}
 
@@ -824,67 +751,37 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	///////////////////////
 
 	/**
-	 * Creates dummy pages.
+	 * Sets the global configuration values which need to be static during the
+	 * tests.
 	 */
-	private function createDummyPages() {
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'pages',
-			array('uid' => DUMMY_PAGE_UID)
+	private function setupStaticConditions() {
+		// avoids using the extension's real upload folder		
+		$this->fixture->setUploadDirectory(self::$importFolder);
+		// avoids sending e-mails
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress',
+			''
 		);
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'tt_content',
-			array(
-				'uid' => DUMMY_CONTENT_PAGE_UID,
-				'pid' => DUMMY_PAGE_UID,
-				'list_type' => 'realty_pi1'
-			)
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'ignoreValidation',
+			false
 		);
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'cache_pages',
-			array(
-				'page_id' => DUMMY_PAGE_UID
-			)
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyErrors',
+			false
 		);
-	}
-
-	/**
-	 * Deletes dummy pages.
-	 */
-	private function deleteDummyPages() {
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'pages',
-			'uid ='.DUMMY_PAGE_UID
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema',
+			self::$importFolder.'schema.xsd'
 		);
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'tt_content',
-			'uid ='.DUMMY_PAGE_CONTENT_UID
+		$this->globalConfiguration->setConfigurationValueString(
+			'importFolder',
+			self::$importFolder
 		);
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'cache_pages',
-			'page_id ='.DUMMY_PAGE_UID
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'notifyContactPersons',
+			true
 		);
-	}
-
-	/**
-	 * Resets the auto increment value for the tables 'pages' and 'tt_content'
-	 * to the highest existing UID + 1. This is required to leave the table in
-	 * the same status that it had before adding dummy records.
-	 */
-	private function resetAutoIncrement() {
-		foreach (array('pages', 'tt_content') as $table) {
-			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-				'SELECT MAX(uid) AS uid FROM '.$table.';'
-			);
-			if ($dbResult) {
-				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-				if ($row) {
-					$newAutoIncrementValue = $row['uid'] + 1;
-					$GLOBALS['TYPO3_DB']->sql_query(
-						'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
-					);
-				}
-			}
-		}
 	}
 }
 

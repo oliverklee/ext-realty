@@ -72,11 +72,18 @@ class tx_realty_object {
 
 	/** instance of tx_oelb_templatehelper */
 	private $templateHelper;
+	
+	/** whether a newly created record is for testing purposes only */
+	private $isDummyRecord = false;
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param	boolean		whether the database records to create are for
+	 * 						testing purposes only
 	 */
-	public function __construct() {
+	public function __construct($createDummyRecords = false) {
+		$this->isDummyRecord = $createDummyRecords;
 		$this->templateHelper = t3lib_div::makeInstance(
 			'tx_oelib_templatehelper'
 		);
@@ -581,7 +588,10 @@ class tx_realty_object {
 				array(
 					'uid_local' => intval($objectUid),
 					'uid_foreign' => intval($imageUid),
-					'sorting' => intval($counter)
+					'sorting' => intval($counter),
+					// allows an easy removal of records created during the unit tests
+					'is_dummy_record' => $this->isDummyRecord
+					
 				)
 			);
 		}
@@ -637,6 +647,8 @@ class tx_realty_object {
 		$dataToInsert['pid'] = $pid;
 		$dataToInsert['tstamp'] = mktime();
 		$dataToInsert['crdate'] = mktime();
+		// allows an easy removal of records created during the unit tests
+		$dataToInsert['is_dummy_record'] = $this->isDummyRecord;
 
 		return (boolean) $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			$table,

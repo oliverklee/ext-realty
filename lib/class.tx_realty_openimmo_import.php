@@ -69,13 +69,20 @@ class tx_realty_openimmo_import {
 
 	/** folders which were created by this class */
 	private $createdFolders = array();
+	
+	/** whether the class is tested and only dummy records should be created */
+	private $isTestMode = false;
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param	boolean		whether the class ist tested and therefore only
+	 * 						dummy records should be inserted into the database
 	 */
-	public function __construct() {
+	public function __construct($isTestMode = false) {
 		global $TYPO3_CONF_VARS, $LANG;
 
+		$this->isTestMode = $isTestMode;
 		libxml_use_internal_errors(true);
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 		$this->setUploadDirectory(PATH_site.'uploads/tx_realty/');
@@ -1050,7 +1057,7 @@ class tx_realty_openimmo_import {
 	 * 						result row, or UID of an existing record
 	 */
 	protected function loadRealtyObject($data) {
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
+		$this->realtyObject = new tx_realty_object($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data);
 	}
 
