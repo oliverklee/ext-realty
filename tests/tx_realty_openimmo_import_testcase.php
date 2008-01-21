@@ -168,6 +168,15 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCleanUpRemovesCreatedFolderAlthoughTheExtractedArchiveContainsAFolder() {
+		$this->fixture->extractZip(self::$importFolder.'contains-folder.zip');
+		$this->fixture->cleanUp(self::$importFolder);
+
+		$this->assertFalse(
+			file_exists(self::$importFolder.'contains-folder/')
+		);
+	}
+
 	public function testCopyImagesFromExtractedZip() {
 		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 		$this->fixture->copyImagesFromExtractedZip(
@@ -256,7 +265,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseIfDomDocumentWhenRequiredFieldsNotGiven() {
+	public function testRecordIsNotWrittenToTheDatabaseIfTheRequiredFieldsAreNotSet() {
 		$objectNumber = 'bar1234567';
 		$dummyDocument = DOMDocument::loadXML(
 			'<openimmo>'
@@ -290,7 +299,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseIfDomDocumentWhenRequiredFieldsAreGiven() {
+	public function testRecordIsWrittenToTheDatabaseIfRequiredFieldsAreSet() {
 		$objectNumber = 'bar1234567';
 		$dummyDocument = DOMDocument::loadXML(
 			'<openimmo>'

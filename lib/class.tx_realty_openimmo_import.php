@@ -1000,29 +1000,24 @@ class tx_realty_openimmo_import {
 			return;
 		}
 
-		$originalPaths = $this->getPathsOfZipsToExtract($importDirectory);
-		$folders = '';
+		$listOfRemovedFolders = '';
 
-		foreach ($originalPaths as $currentOriginalPath) {
-			$currentFolder = $this->getNameForExtractionFolder($currentOriginalPath);
+		foreach ($this->getPathsOfZipsToExtract($importDirectory) as $currentPath) {
+			$currentFolder = $this->getNameForExtractionFolder($currentPath);
 			if (in_array($currentFolder, $this->createdFolders)) {
-				foreach (glob($currentFolder.'*') as $fileToDelete) {
-					unlink($fileToDelete);
-				}
-				if (is_dir($currentFolder)) {
-					rmdir($currentFolder);
+				exec('rm -rf '.$currentFolder);
 
-					if ($folders != '') {
-						$folders .= ', ';
-					}
-					$folders .= basename($currentFolder);
+				if ($listOfRemovedFolders != '') {
+					$listOfRemovedFolders .= ', ';
 				}
+				$listOfRemovedFolders .= basename($currentFolder);
 			}
 		}
-		if ($folders != '') {
+
+		if ($listOfRemovedFolders != '') {
 			$this->addToLogEntry(
 				$LANG->getLL('message_folder_removed')
-				.': '.$folders
+				.': '.$listOfRemovedFolders
 			);
 		}
 	}

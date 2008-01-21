@@ -1,3 +1,7 @@
+2008-01-21 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1523] Fix: The temporary directories should be removed using rm -rf so no cruft will be left
+
 2008-01-18 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1547] Feature: Add a test for importing a file with the same name twice
