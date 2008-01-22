@@ -29,7 +29,7 @@
 			<label index="message_please_validate">Please ensure the validity of the data to import.</label>
 			<label index="message_validation_impossible">The validation is not possible. There might be a syntax error in the XML file to load.</label>
 			<label index="message_line">Line</label>
-			<label index="message_folder_removed">The folders with recently unpacked content have been removed.</label>
+			<label index="message_files_removed">The following files have been removed</label>
 			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
 			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
 			<label index="label_object_number">Object Number</label>
@@ -58,7 +58,7 @@
 			<label index="message_please_validate">Bitte stellen Sie sicher, dass der Datensatz valide ist.</label>
 			<label index="message_validation_impossible">Eine Validierung ist nicht möglich. Eventuell ist ein Syntaxfehler in der zu ladenden XML-Datei.</label>
 			<label index="message_line">Zeile</label>
-			<label index="message_folder_removed">Die Ordner, die für das Entpacken der ZIP-Archive erstellt wurden, wurden entfernt.</label>
+			<label index="message_files_removed">Folgende Dateien wurden gelöscht</label>
 			<label index="message_introduction">Hier ist das Ergebnis des letzen Imports Ihrer OpenImmo Datensätze.</label>
 			<label index="message_explanation">Sie erhalten diese E-Mail, weil Sie die Kotaktperson für die oben genannten Immobilien sind.</label>
 			<label index="label_object_number">Objektnummer</label>
@@ -89,7 +89,7 @@
 			<label index="message_please_validate" type="integer">164447491</label>
 			<label index="message_validation_impossible" type="integer">100672002</label>
 			<label index="message_line" type="integer">75513451</label>
-			<label index="message_folder_removed" type="integer">180096515</label>
+			<label index="message_files_removed" type="integer">180330163</label>
 			<label index="message_introduction" type="integer">254777339</label>
 			<label index="message_explanation" type="integer">205777286</label>
 			<label index="label_object_number" type="integer">180539649</label>
@@ -120,7 +120,7 @@
 			<label index="message_please_validate">Please ensure the validity of the data to import.</label>
 			<label index="message_validation_impossible">The validation is not possible. There might be a syntax error in the XML file to load.</label>
 			<label index="message_line">Line</label>
-			<label index="message_folder_removed">The folders with recently unpacked content have been removed.</label>
+			<label index="message_files_removed">The following files have been removed</label>
 			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
 			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
 			<label index="label_object_number">Object Number</label>

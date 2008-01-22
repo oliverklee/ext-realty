@@ -67,15 +67,21 @@ class tx_realty_openimmo_import {
 	/** the upload directory for images */
 	private $uploadDirectory = '';
 
-	/** folders which were created by this class */
-	private $createdFolders = array();
-	
+	/**
+	 * ZIP archives which are deleted at the end of import and folders which
+	 * were created during the import.
+	 * Archives are added to this array if they contain exactly one XML file as
+	 * this is the criterion for trying to import the XML file as an OpenImmo
+	 * record.
+	 */
+	private $filesToDelete = array();
+
 	/** whether the class is tested and only dummy records should be created */
 	private $isTestMode = false;
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param	boolean		whether the class ist tested and therefore only
 	 * 						dummy records should be inserted into the database
 	 */
@@ -760,7 +766,7 @@ class tx_realty_openimmo_import {
 		$folderForZipExtraction = $this->getNameForExtractionFolder($pathOfZip);
 		if (!is_dir($folderForZipExtraction)) {
 			mkdir($folderForZipExtraction);
-			$this->createdFolders[] = $folderForZipExtraction;
+			$this->filesToDelete[] = $folderForZipExtraction;
 		} else {
 			$this->addToErrorLog(
 				$folderForZipExtraction.': '.$LANG->getLL('message_surplus_folder')
@@ -797,10 +803,11 @@ class tx_realty_openimmo_import {
 
 			if (count($pathOfXml) == 1) {
 				$result = implode($pathOfXml);
+				$this->filesToDelete[] = $pathOfZip;
 			} else {
 				if (count($pathOfXml) > 1) {
 					$errorMessage = 'message_too_many_xml';
-				} else {				
+				} else {
 					$errorMessage = 'message_no_xml';
 				}
 			}
@@ -809,8 +816,8 @@ class tx_realty_openimmo_import {
 		}
 
 		// logs an error message if necessary
-		if ($errorMessage != '' && !$processSilently 
-			&& in_array($folderWithXml, $this->createdFolders)
+		if ($errorMessage != '' && !$processSilently
+			&& in_array($folderWithXml, $this->filesToDelete)
 		) {
 			$this->addToErrorLog(
 				basename($pathOfZip).': '.$LANG->getLL($errorMessage)
@@ -988,7 +995,9 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
-	 * Removes the folders which have been created to extract ZIP archives.
+	 * Removes the ZIP archives which have been imported and the folders which
+	 * have been created to extract the ZIP archives.
+	 * Logs which ZIP archives have been deleted.
 	 *
 	 * @param	string		absolute path of the folder which contains the ZIP
 	 * 						archives, must not be empty
@@ -1000,26 +1009,40 @@ class tx_realty_openimmo_import {
 			return;
 		}
 
-		$listOfRemovedFolders = '';
-
+		$removedFiles = array();
 		foreach ($this->getPathsOfZipsToExtract($importDirectory) as $currentPath) {
-			$currentFolder = $this->getNameForExtractionFolder($currentPath);
-			if (in_array($currentFolder, $this->createdFolders)) {
-				exec('rm -rf '.$currentFolder);
-
-				if ($listOfRemovedFolders != '') {
-					$listOfRemovedFolders .= ', ';
-				}
-				$listOfRemovedFolders .= basename($currentFolder);
+			$removedZipArchive = $this->deleteFile($currentPath);
+			if ($removedZipArchive != '') {
+				$removedFiles[] = $removedZipArchive;
 			}
+			$this->deleteFile($this->getNameForExtractionFolder($currentPath));
 		}
 
-		if ($listOfRemovedFolders != '') {
+		if (!empty($removedFiles)) {
 			$this->addToLogEntry(
-				$LANG->getLL('message_folder_removed')
-				.': '.$listOfRemovedFolders
+				$LANG->getLL('message_files_removed')
+				.': '.implode(', ', $removedFiles)
 			);
 		}
+	}
+
+	/**
+	 * Removes a file if it occurs in the list of files for which deletion is
+	 * allowed.
+	 *
+	 * @param	string		path of the file to delete, must not be empty
+	 *
+	 * @return	string		basename of the deleted file or an empty string if
+	 * 						no file was deleted
+	 */
+	private function deleteFile($pathOfFile) {
+		$removedFile = '';
+		if (in_array($pathOfFile, $this->filesToDelete)) {
+			exec('rm -rf '.$pathOfFile);
+			$removedFile = basename($pathOfFile);
+		}
+
+		return $removedFile;
 	}
 
 	/**

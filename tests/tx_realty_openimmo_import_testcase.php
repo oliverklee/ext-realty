@@ -142,6 +142,40 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetPathForXmlIfFolderWithOneXmlExists() {
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+
+		$this->assertEquals(
+			self::$importFolder.'foo/foo.xml',
+			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
+		);
+	}
+
+	public function testGetPathForXmlIfFolderNotExists() {
+		$this->assertEquals(
+			'',
+			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
+		);
+	}
+
+	public function testGetPathForXmlIfFolderWithTwoXmlExists() {
+		$this->fixture->extractZip(self::$importFolder.'bar-bar.zip');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getPathForXml(self::$importFolder.'bar-bar.zip')
+		);
+	}
+
+	public function testGetPathForXmlIfFolderWithoutXmlExists() {
+		$this->fixture->extractZip(self::$importFolder.'empty.zip');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getPathForXml(self::$importFolder.'empty.zip')
+		);
+	}
+
 	public function testCleanUpRemovesAFolderCreatedByTheImporter() {
 		$this->fixture->createExtractionFolder(self::$importFolder.'foo.zip');
 		$this->fixture->cleanUp(self::$importFolder);
@@ -177,6 +211,36 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCleanUpRemovesZipWithOneXmlInIt() {
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->getPathForXml(self::$importFolder.'foo.zip');
+		$this->fixture->cleanUp(self::$importFolder);
+
+		$this->assertFalse(
+			file_exists(self::$importFolder.'foo.zip')
+		);
+	}
+
+	public function testCleanUpDoesNotRemoveZipWithoutXmls() {
+		$this->fixture->extractZip(self::$importFolder.'empty.zip');
+		$this->fixture->getPathForXml(self::$importFolder.'empty.zip');
+		$this->fixture->cleanUp(self::$importFolder);
+
+		$this->assertTrue(
+			file_exists(self::$importFolder.'empty.zip')
+		);
+	}
+
+	public function testCleanUpDoesNotRemoveZipWithTwoXmls() {
+		$this->fixture->extractZip(self::$importFolder.'bar-bar.zip');
+		$this->fixture->getPathForXml(self::$importFolder.'bar-bar.zip');
+		$this->fixture->cleanUp(self::$importFolder);
+
+		$this->assertTrue(
+			file_exists(self::$importFolder.'bar-bar.zip')
+		);
+	}
+
 	public function testCopyImagesFromExtractedZip() {
 		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 		$this->fixture->copyImagesFromExtractedZip(
@@ -188,40 +252,6 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertTrue(
 			file_exists(self::$importFolder.'bar.jpg')
-		);
-	}
-
-	public function testGetPathForXmlIfFolderWithOneXmlExists() {
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-
-		$this->assertEquals(
-			self::$importFolder.'foo/foo.xml',
-			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
-		);
-	}
-
-	public function testGetPathForXmlIfFolderNotExists() {
-		$this->assertEquals(
-			'',
-			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
-		);
-	}
-
-	public function testGetPathForXmlIfFolderWithTwoXmlExists() {
-		$this->fixture->extractZip(self::$importFolder.'bar-bar.zip');
-
-		$this->assertEquals(
-			'',
-			$this->fixture->getPathForXml(self::$importFolder.'bar-bar.zip')
-		);
-	}
-
-	public function testGetPathForXmlIfFolderWithoutXmlExists() {
-		$this->fixture->extractZip(self::$importFolder.'empty.zip');
-
-		$this->assertEquals(
-			'',
-			$this->fixture->getPathForXml(self::$importFolder.'empty.zip')
 		);
 	}
 
@@ -796,7 +826,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	 * tests.
 	 */
 	private function setupStaticConditions() {
-		// avoids using the extension's real upload folder		
+		// avoids using the extension's real upload folder
 		$this->fixture->setUploadDirectory(self::$importFolder);
 		// avoids sending e-mails
 		$this->globalConfiguration->setConfigurationValueString(
