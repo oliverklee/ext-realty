@@ -211,25 +211,16 @@ class tx_realty_domdocument_converter {
 	/**
 	 * Substitutes XML namespaces from a node name and returns the name.
 	 *
-	 * @param	DOMNode		node with a name, may be null
+	 * @param	DOMNode		node, may be null
 	 *
 	 * @return	string		node name without namespaces, may be empty
 	 */
 	protected function getNodeName($domNode) {
-		if (!is_object($domNode)) {
+		if (!is_a($domNode, 'DOMNode')) {
 			return '';
 		}
 
-		$rawNodeName = $domNode->nodeName;
-		$position = strpos($rawNodeName, ':');
-
-		if ($position === false) {
-			$nodeName = $rawNodeName;
-		} else {
-			$nodeName = substr($rawNodeName, $position + 1);
-		}
-
-		return $nodeName;
+		return preg_replace('/(.*)\:/', '', $domNode->nodeName);
 	}
 
 	/**

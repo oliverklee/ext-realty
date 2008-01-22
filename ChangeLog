@@ -1,6 +1,7 @@
 2008-01-22 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1546] Change: Delete the ZIPs after import
+	* [#1438] Fix: Clean up the OpenImmo import (and related) unit tests
 
 2008-01-21 Saskia Metzler <saskia@merlin.owl.de>
 
