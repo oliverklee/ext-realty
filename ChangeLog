@@ -2,6 +2,7 @@
 
 	* [#1546] Change: Delete the ZIPs after import
 	* [#1438] Fix: Clean up the OpenImmo import (and related) unit tests
+	* [#1263] Feature: In the detail view, add a link to a contact page
 
 2008-01-21 Saskia Metzler <saskia@merlin.owl.de>
 

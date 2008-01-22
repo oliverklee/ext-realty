@@ -79,6 +79,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkFavoriteFieldsInSession();
 		$this->checkFavoritesPid();
 		$this->checkImageSizeValuesForListView();
+		$this->checkAllowDirectRequestsForObjects();
 	}
 
 	/**
@@ -94,6 +95,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowAddressOfObjects();
 		$this->checkShowContactInformation();
+		$this->checkAllowDirectRequestsForObjects();
 	}
 
 	/**
@@ -403,6 +405,22 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies whether the offerer and the contact phone '
 				.'number of a realty are shown in the FE. It might be '
 				.'interpreted incorrectly if no boolean value was set.'
+		);
+	}
+
+	/**
+	 * Checks the setting of the configuration value allowDirectRequestsForObjects.
+	 */
+	private function checkAllowDirectRequestsForObjects() {
+		$this->checkIfBoolean(
+			'allowDirectRequestsForObjects',
+			true,
+			'sDEF',
+			'This value specifies whether a request for an object may be send '
+				.'directly to the FE user who created this record or to the '
+				.'contact person if the record was automatically imported from '
+				.'an OpenImmo file. This value might be interpreted incorrectly '
+				.'if no boolean value was set.'
 		);
 	}
 

@@ -108,6 +108,14 @@
 							</config>
 						</TCEforms>
 					</showAddressOfObjects>
+					<allowDirectRequestsForObjects>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.allowDirectRequestsForObjects</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</allowDirectRequestsForObjects>					
 					<showContactInformation>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showContactInformation</label>
