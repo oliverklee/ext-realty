@@ -6,7 +6,16 @@ if (!defined('TYPO3_MODE')) {
 $TCA['tx_realty_objects'] = array(
 	'ctrl' => $TCA['tx_realty_objects']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,hidden,starttime,endtime,object_number,object_type,title,emphasized,street,zip,city,district,number_of_rooms,living_area,total_area,rent_excluding_bills,extra_charges,heating_included,deposit,provision,usable_from,buying_price,year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,construction_year,state,balcony,garden,elevator,accessible,assisted_living,fitted_kitchen,description,equipment,layout,location,misc,details_page,images'
+		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,'
+			.'hidden,starttime,endtime,object_number,object_type,title,'
+			.'emphasized,street,zip,city,district,number_of_rooms,living_area,'
+			.'total_area,rent_excluding_bills,extra_charges,heating_included,'
+			.'deposit,provision,usable_from,buying_price,year_rent,rented,'
+			.'apartment_type,house_type,floor,floors,bedrooms,bathrooms,'
+			.'heating_type,garage_type,garage_rent,garage_price,pets,'
+			.'construction_year,state,balcony,garden,elevator,accessible,'
+			.'assisted_living,fitted_kitchen,description,equipment,layout,'
+			.'location,misc,details_page,images,owner'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -822,6 +831,18 @@ $TCA['tx_realty_objects'] = array(
 				'size' => '30',
 				'eval' => 'trim'
 			)
+		),
+		'owner' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.owner',
+			'config' => array(
+				'type' => 'group',
+				'internal_type' => 'db',
+				'allowed' => 'fe_users',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1
+			)
 		)
 	),
 	'types' => array(
@@ -855,7 +876,7 @@ $TCA['tx_realty_objects'] = array(
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
 				.'details_page, images, employer, contact_person, contact_email, '
-				.'contact_phone'
+				.'contact_phone, owner'
 		),
 		'1' => array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
@@ -886,7 +907,7 @@ $TCA['tx_realty_objects'] = array(
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
 				.'details_page, images, employer, contact_person, contact_email, '
-				.'contact_phone'
+				.'contact_phone, owner'
 		)
 	),
 	'palettes' => array(
