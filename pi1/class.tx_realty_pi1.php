@@ -166,7 +166,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$result = '';
 
-		$whatToDisplay = $this->getConfValueString('what_to_display');
+		$whatToDisplay = $this->getCurrentView();
 		$this->setFlavor($whatToDisplay);
 
 		switch ($whatToDisplay) {
@@ -176,25 +176,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			case 'city_selector':
 				$result = $this->createCitySelector();
 				break;
-			case 'favorites':
-				// The fallthrough is intended because createListView() and
-				// createSingleView will differentiate later.
-			case 'realty_list':
-				// The fallthrough is intended.
-			default:
-				// Show the single view if a 'showUid' variable is set.
-				if (isset($this->piVars['showUid']) && $this->piVars['showUid']) {
-					$this->setFlavor('single_view');
-					$result = $this->createSingleView();
-					// If the single view results in an error, use the list view instead.
-					if (empty($result)) {
-						$this->setFlavor('realty_list');
-						$result = $this->createListView();
-					}
-				} else {
-					$this->setFlavor('realty_list');
+			case 'single_view':
+				$result = $this->createSingleView();
+				// If the single view results in an error, use the list view instead.
+				if (empty($result)) {
 					$result = $this->createListView();
 				}
+				break;
+			case 'favorites':
+				// The fallthrough is intended because the favorites view is just
+				// a special realty list.
+			case 'realty_list':
+				// The fallthrough is intended because creating the realty list
+				// is the default case.
+			default:
+				$result = $this->createListView();
 				break;
 		}
 
@@ -240,22 +236,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('LIST_RESULT'));
 			$this->setSubpartContent('favorites_result', $this->substituteMarkerArrayCached('FAVORITES_RESULT'));
 		} else {
-			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getConfValueString('what_to_display')));
+			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getCurrentView()));
 			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
 			$this->setSubpartContent('favorites_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
 		}
-		if ($this->getConfValueString('what_to_display') == 'favorites') {
-			if ($this->hasConfValueInteger('contactPID')) {
-				$contact_url = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
-					array(),
-					true,
-					true,
-					$this->getConfValueInteger('contactPID')
-				));
-				$this->setMarkerContent('contact_url', $contact_url);
-			} else {
-				$this->readSubpartsToHide('contact', 'wrapper');
-			}
+
+		if (($this->getCurrentView() == 'favorites')) {
+			$this->fillOrHideContactWrapper();
 			$result = $this->substituteMarkerArrayCached('FAVORITES_VIEW');
 
 			if ($this->hasConfValueString('favoriteFieldsInSession')
@@ -373,7 +360,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		WHERE clause for initListView(), will be empty if
 	 * 						'staticSqlFilter' and $this->piVars['city'] are
-	 * 						not set and 'what_to_display' is not 'favorites' and
+	 * 						not set and the view is not 'favorites' and
 	 * 						'checkboxesFilter' is either not set or
 	 * 						$searchSelection is empty
 	 */
@@ -389,7 +376,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$whereClause .=  ' AND city='.$this->piVars['city'];
 		}
 
-		if ($this->getConfValueString('what_to_display') == 'favorites') {
+		if ($this->getCurrentView() == 'favorites') {
 			// The favorites page should never get cached.
 			$GLOBALS['TSFE']->set_no_cache();
 			// The favorites list is the only content element that may
@@ -489,12 +476,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setMarkerContent('back_url', $this->pi_linkTP_keepPIvars_url(array('showUid' => '')));
 			$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
 
-			if ($this->getConfValueString('what_to_display') == 'favorites') {
+			if ($this->getCurrentView() == 'favorites') {
 				$this->readSubpartsToHide('add_to_favorites', 'wrapper');
 			} else {
 				$this->readSubpartsToHide('remove_from_favorites', 'wrapper');
 			}
 
+			$this->fillOrHideContactWrapper();
 			$this->createOverviewTableInSingleView();
 			$this->setSubpartContent('images_list', $this->createImagesInSingleView());
 
@@ -502,6 +490,36 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Fills the contact wrapper if there is information to display and
+	 * displaying contact information is enabled for the current view. Otherwise
+	 * hides the complete wrapper.
+	 */
+	private function fillOrHideContactWrapper() {
+		$hideContactWrapper = true;
+
+		if ((($this->getCurrentView() == 'single_view')
+				&& $this->getConfValueBoolean('allowDirectRequestsForObjects'))
+			|| (($this->getCurrentView() == 'favorites')
+				&& !$this->getConfValueBoolean('allowDirectRequestsForObjects'))
+		) {
+			if ($this->hasConfValueInteger('contactPID')) {
+				$contactUrl = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
+					array('objectUid' => intval($this->piVars['showUid'])),
+					true,
+					true,
+					$this->getConfValueInteger('contactPID')
+				));
+				$this->setMarkerContent('contact_url', $contactUrl);
+				$hideContactWrapper = false;
+			}
+		}
+
+		if ($hideContactWrapper) {
+			$this->readSubpartsToHide('contact', 'wrapper');
+		}
 	}
 
 	/**
@@ -620,7 +638,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 		}
 
-		if (($this->getConfValueString('what_to_display') == 'favorites')
+		if (($this->getCurrentView() == 'favorites')
 			&& ($this->hasConfValueString('favoriteFieldsInSession'))) {
 			$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
 			foreach (explode(',', $this->getConfValueString('favoriteFieldsInSession')) as $key) {
@@ -1128,7 +1146,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$result = '';
 		$isOkay = false;
 
-		if (isset($this->piVars['showUid']) && $this->piVars['showUid']) {
+		if ($this->getCurrentView() == 'single_view') {
 			$this->internal['currentRow'] = $this->pi_getRecord($this->tableNames['objects'], $this->piVars['showUid']);
 
 			// This sets the title of the page for display and for use in indexed search results.
@@ -1697,6 +1715,31 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Returns the current view.
+	 *
+	 * @return	string		Name of the current view ('realty_list',
+	 * 						'favorites', 'city_selector' or 'gallery'), will not 
+	 * 						be empty. If no view is set 'realty_list' is 
+	 * 						returned as this is the fallback case.
+	 */
+	private function getCurrentView() {
+		$whatToDisplay = $this->getConfValueString('what_to_display');
+
+		if (in_array($whatToDisplay, array('gallery', 'city_selector', 'favorites'))) {
+			$result = $whatToDisplay;
+		} else {
+			$result = 'realty_list';
+		}
+
+		// switches to the single view if a 'showUid' variable is set
+		if (isset($this->piVars['showUid']) && $this->piVars['showUid']) {
+			$result = 'single_view';
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Checks that we are properly initialized.
 	 *
 	 * @return	boolean		true if we are properly initialized, false otherwise
@@ -1730,22 +1773,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Sets a configuration value.
-	 *
-	 * This function is intended to be used for testing purposes only.
-	 *
-	 * @param	string		key of the configuration property to set, must not be empty
-	 * @param	mixed		value of the configuration property, may be empty or zero
-	 */
-	public function setConfigurationValue($key, $value) {
-		if (!is_array($this->conf)) {
-			$this->conf = array();
-		}
-
-		$this->conf[$key] = $value;
-	}
-
-	/**
 	 * Creates a link to the single view page.
 	 *
 	 * $linkText will be used as link text.
@@ -1770,7 +1797,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (!empty($linkText)) {
 			// disable the caching if we are in the favorites list
 			$useCache
-				= ($this->getConfValueString('what_to_display') != 'favorites');
+				= ($this->getCurrentView() != 'favorites');
 
 			if ($separateSingleViewPage != '') {
 				$completeLink = $this->cObj->getTypoLink(
@@ -1803,6 +1830,22 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Sets a configuration value.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 *
+	 * @param	string		key of the configuration property to set, must not be empty
+	 * @param	mixed		value of the configuration property, may be empty or zero
+	 */
+	public function setConfigurationValue($key, $value) {
+		if (!is_array($this->conf)) {
+			$this->conf = array();
+		}
+
+		$this->conf[$key] = $value;
 	}
 
 	/**
