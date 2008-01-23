@@ -9,13 +9,15 @@ $TCA['tx_realty_objects'] = array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,'
 			.'hidden,starttime,endtime,object_number,object_type,title,'
 			.'emphasized,street,zip,city,district,number_of_rooms,living_area,'
-			.'total_area,rent_excluding_bills,extra_charges,heating_included,'
-			.'deposit,provision,usable_from,buying_price,year_rent,rented,'
-			.'apartment_type,house_type,floor,floors,bedrooms,bathrooms,'
-			.'heating_type,garage_type,garage_rent,garage_price,pets,'
+			.'total_area,estate_size,rent_excluding_bills,extra_charges,'
+			.'heating_included,deposit,provision,usable_from,buying_price,'
+			.'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,'
+			.'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,'
 			.'construction_year,state,balcony,garden,elevator,accessible,'
 			.'assisted_living,fitted_kitchen,description,equipment,layout,'
-			.'location,misc,details_page,images,owner'
+			.'location,misc,details_page,images,employer,openimmo_anid,'
+			.'openimmo_obid,utilization,contact_person,contact_email,contact_phone,'
+			.'owner'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -235,6 +237,15 @@ $TCA['tx_realty_objects'] = array(
 		'total_area' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_area',
+			'config' => array(
+				'type' => 'input',
+				'size' => '5',
+				'eval' => 'double2'
+			)
+		),
+		'estate_size' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.estate_size',
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
@@ -851,7 +862,7 @@ $TCA['tx_realty_objects'] = array(
 				.'object_number, openimmo_anid, openimmo_obid, object_type, '
 				.'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, '
 				.'street, zip, city, district, number_of_rooms, living_area, '
-				.'total_area, rent_excluding_bills, extra_charges, '
+				.'total_area, estate_size, rent_excluding_bills, extra_charges, '
 				.'heating_included, deposit, provision, usable_from, '
 				.'apartment_type, house_type, floor, floors, bedrooms, '
 				.'bathrooms, heating_type, garage_type, garage_rent, pets, '
@@ -883,9 +894,9 @@ $TCA['tx_realty_objects'] = array(
 				.'object_number, openimmo_anid, openimmo_obid, object_type, '
 				.'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, '
 				.'street, zip, city, district, number_of_rooms, living_area, '
-				.'total_area, provision, usable_from, buying_price, year_rent, '
-				.'rented, apartment_type, house_type, floor, floors, bedrooms, '
-				.'bathrooms, heating_type, garage_type, garage_price, '
+				.'total_area, estate_size, provision, usable_from, buying_price, '
+				.'year_rent, rented, apartment_type, house_type, floor, floors, '
+				.'bedrooms, bathrooms, heating_type, garage_type, garage_price, '
 				.'construction_year, state, balcony, garden, elevator, '
 				.'accessible, fitted_kitchen, '
 				.'description;;;richtext[cut|copy|paste|formatblock|textcolor|'

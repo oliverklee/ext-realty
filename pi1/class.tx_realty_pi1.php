@@ -83,6 +83,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'number_of_rooms' => TYPE_STRING,
 		'living_area' => TYPE_NUMERIC,
 		'total_area' => TYPE_NUMERIC,
+		'estate_size' => TYPE_NUMERIC,
 		'rent_excluding_bills' => TYPE_NUMERIC,
 		'extra_charges' => TYPE_NUMERIC,
 		'heating_included' => TYPE_BOOLEAN,
@@ -717,6 +718,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			case 'total_area':
 				// The fallthrough is intended.
 			case 'living_area':
+				$result = $this->getFormattedArea($key);
+				break;
+			case 'estate_size':
 				$result = $this->getFormattedArea($key);
 				break;
 

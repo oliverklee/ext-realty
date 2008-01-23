@@ -49,6 +49,7 @@ CREATE TABLE tx_realty_objects (
 	number_of_rooms tinytext NOT NULL,
 	living_area tinytext NOT NULL,
 	total_area tinytext NOT NULL,
+	estate_size tinytext NOT NULL,
 	rent_excluding_bills tinytext NOT NULL,
 	extra_charges tinytext NOT NULL,
 	heating_included tinyint(3) DEFAULT '0' NOT NULL,

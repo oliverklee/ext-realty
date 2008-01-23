@@ -1,3 +1,7 @@
+2008-01-23 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1532] Feature: Import the estate size and display it in the detail view.
+
 2008-01-22 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1546] Change: Delete the ZIPs after import

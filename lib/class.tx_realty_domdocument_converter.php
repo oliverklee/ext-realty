@@ -58,6 +58,7 @@ class tx_realty_domdocument_converter {
 		'number_of_rooms' => array('flaechen' => 'anzahl_zimmer'),
 		'living_area' => array('flaechen' => 'wohnflaeche'),
 		'total_area' => array('flaechen' => 'gesamtflaeche'),
+		'estate_size' => array('flaechen' => 'grundstuecksflaeche'),
 		'rent_excluding_bills' => array('preise' => 'kaltmiete'),
 		'extra_charges' => array('preise' => 'nebenkosten'),
 		'heating_included' => array('preise' => 'heizkosten_enthalten'),

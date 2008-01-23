@@ -22,6 +22,7 @@
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
+			<label index="tx_realty_objects.estate_size">Estate size in m²</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Rent excluding bills</label>
 			<label index="tx_realty_objects.extra_charges">Extra charges</label>
 			<label index="tx_realty_objects.heating_included">Extra charges include heating</label>
@@ -102,6 +103,7 @@
 			<label index="tx_realty_objects.number_of_rooms">Zimmeranzahl</label>
 			<label index="tx_realty_objects.living_area">Wohnfläche in m²</label>
 			<label index="tx_realty_objects.total_area">Nutzfläche in m²</label>
+			<label index="tx_realty_objects.estate_size">Grundstücksfläche in m²</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Kaltmiete</label>
 			<label index="tx_realty_objects.extra_charges">Nebenkosten</label>
 			<label index="tx_realty_objects.heating_included">Nebenkosten inklusive Heizung</label>
@@ -184,6 +186,7 @@
 			<label index="tx_realty_objects.number_of_rooms" type="integer">151522303</label>
 			<label index="tx_realty_objects.living_area" type="integer">191559076</label>
 			<label index="tx_realty_objects.total_area" type="integer">79620667</label>
+			<label index="tx_realty_objects.estate_size" type="integer">85968249</label>
 			<label index="tx_realty_objects.rent_excluding_bills" type="integer">255153687</label>
 			<label index="tx_realty_objects.extra_charges" type="integer">91504638</label>
 			<label index="tx_realty_objects.heating_included" type="integer">150189013</label>
@@ -266,6 +269,7 @@
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
+			<label index="tx_realty_objects.estate_size">Estate size in m²</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Rent excluding bills</label>
 			<label index="tx_realty_objects.extra_charges">Extra charges</label>
 			<label index="tx_realty_objects.heating_included">Extra charges include heating</label>

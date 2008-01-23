@@ -62,6 +62,7 @@
 			<label index="label_layout">Layout</label>
 			<label index="label_living_area">Size of the living area</label>
 			<label index="label_total_area">Total area</label>
+			<label index="label_estate_size">Estate size</label>
 			<label index="label_heating_included">Extra charges include heating</label>
 			<label index="label_deposit">Security deposit</label>
 			<label index="label_provision">Provision/broker's fee</label>
@@ -171,6 +172,7 @@
 			<label index="label_layout">Aufteilung</label>
 			<label index="label_living_area">Wohnfläche</label>
 			<label index="label_total_area">Nutzfläche</label>
+			<label index="label_estate_size">Grundstücksfläche</label>
 			<label index="label_heating_included">Nebenkosten inkl.&amp;nbsp;Heizung</label>
 			<label index="label_deposit">Kaution</label>
 			<label index="label_provision">Provision/Courtage</label>
@@ -485,6 +487,7 @@
 			<label index="label_layout" type="integer">247307244</label>
 			<label index="label_living_area" type="integer">38494779</label>
 			<label index="label_total_area" type="integer">109266585</label>
+			<label index="label_estate_size" type="integer">133635012</label>
 			<label index="label_heating_included" type="integer">150189013</label>
 			<label index="label_deposit" type="integer">254246076</label>
 			<label index="label_provision" type="integer">224380131</label>
@@ -801,6 +804,7 @@
 			<label index="label_layout">Layout</label>
 			<label index="label_living_area">Size of the living area</label>
 			<label index="label_total_area">Total area</label>
+			<label index="label_estate_size">Estate size</label>
 			<label index="label_heating_included">Extra charges include heating</label>
 			<label index="label_deposit">Security deposit</label>
 			<label index="label_provision">Provision/broker's fee</label>

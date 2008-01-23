@@ -685,6 +685,26 @@ class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataGetsEstateSize() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<flaechen>'
+							.'<grundstuecksflaeche>12345</grundstuecksflaeche>'
+						.'</flaechen>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('estate_size' => '12345')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testCreateRecordsForImagesIfOneImageAppendixWithoutAnImagePathIsGiven() {
 		$node = $this->setRawDataToConvert(
 			'<immobilie>'
