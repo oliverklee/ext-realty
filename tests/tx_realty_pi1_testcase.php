@@ -698,7 +698,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
 
 		$this->assertContains(
-			$this->otherSinglePid,
+			(string) $this->otherSinglePid,
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
@@ -737,7 +737,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 
 		$this->assertContains(
-			$this->otherSinglePid,
+			(string) $this->otherSinglePid,
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
@@ -779,7 +779,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
-			$this->otherSinglePid,
+			(string) $this->otherSinglePid,
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
