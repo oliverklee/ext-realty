@@ -934,6 +934,24 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetFieldContentOfEstateSize() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('estate_size' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		// $this->createListView() is called indirectly here. It sets the correct
+		// values for $this->internal.
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'12345',
+			$this->fixture->getFieldContent('estate_size')
+		);
+	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning external details pages.
