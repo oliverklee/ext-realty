@@ -194,7 +194,7 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_pi1']
 	= 'pi_flexform';
 
-t3lib_extMgm::addPiFlexFormValue($_EXTKEY.'_pi1', 'FILE:EXT:realty/flexform_pi1_ds.xml');
+t3lib_extMgm::addPiFlexFormValue($_EXTKEY.'_pi1', 'FILE:EXT:realty/pi1/flexform_pi1_ds.xml');
 
 t3lib_extMgm::addPlugin(
 	array(
