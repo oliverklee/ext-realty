@@ -40,12 +40,12 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 	private $templateHelper;
 
-	private $objectUid = 0;	
+	private $objectUid = 0;
 	private $pageId = 0;
 	private $otherPageId = 0;
 	private static $objectNumber = '100000';
 	private static $otherObjectNumber = '100001';
-	
+
 	public function setUp() {
 		$this->fixture = new tx_realty_object_child(true);
 		$this->templateHelper = t3lib_div::makeInstance(
@@ -550,7 +550,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testSetPropertyThrowsAnExeptionIfTheKeyToSetIsUid() {
 		$this->fixture->loadRealtyObject($this->objectUid);
-		
+
 		try {
 			$this->fixture->setProperty('uid', 12345);
 		} catch (Exception $expected) {
@@ -898,7 +898,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUpdatingAnExistingRecordDoesNotChangeThePadeId() {
+	public function testUpdatingAnExistingRecordDoesNotChangeThePageId() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('title', 'new title');
 
@@ -1049,7 +1049,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'tx_realty_images',
 				'caption="foo" AND image="bar"'
 					.$this->templateHelper->enableFields('tx_realty_images')
-			)		
+			)
 		);
 
 		// deletes the image
@@ -1109,7 +1109,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
-	
+
 	/**
 	 * Cleans up the tables in which dummy records are created during the tests.
 	 */
@@ -1123,7 +1123,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->markTableAsDirty($table);
 		}
 		$this->testingFramework->cleanUp();
-		
+
 		// Inserting images causes an entry to 'sys_refindex' which is currently
 		// not cleaned up automatically by the testing framework.
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery(

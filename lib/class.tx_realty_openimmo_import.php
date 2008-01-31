@@ -96,7 +96,6 @@ class tx_realty_openimmo_import {
 		// Needed as only templating functions of tx_oelib_templatehelper are
 		// usable outside FE mode.
 		$this->initializeLanguage();
-
 	}
 
 	/**
@@ -1061,6 +1060,7 @@ class tx_realty_openimmo_import {
 		$domDocumentConverter = t3lib_div::makeInstance(
 			'tx_realty_domdocument_converter'
 		);
+
 		return $domDocumentConverter->getConvertedData($realtyRecords);
 	}
 
