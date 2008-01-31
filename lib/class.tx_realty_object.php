@@ -72,13 +72,13 @@ class tx_realty_object {
 
 	/** instance of tx_oelb_templatehelper */
 	private $templateHelper;
-	
+
 	/** whether a newly created record is for testing purposes only */
 	private $isDummyRecord = false;
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param	boolean		whether the database records to create are for
 	 * 						testing purposes only
 	 */
@@ -595,7 +595,6 @@ class tx_realty_object {
 					'sorting' => intval($counter),
 					// allows an easy removal of records created during the unit tests
 					'is_dummy_record' => $this->isDummyRecord
-					
 				)
 			);
 		}
@@ -815,7 +814,6 @@ class tx_realty_object {
 			$dataArray = array_merge($dataArray, array('uid' => $row['uid']));
 		}
 	}
-
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php'])	{
