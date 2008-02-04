@@ -13,14 +13,23 @@
 		<languageKey index="de" type="array">
 			<label index="pi1_title">Immobilienmanager</label>
 		</languageKey>
+		<languageKey index="ru" type="array">
+			<label index="pi1_title">Управление недвижимостью</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
 			<label index="pi1_title" type="integer">56917018</label>
 		</languageKey>
+		<languageKey index="ru" type="array">
+			<label index="pi1_title" type="integer">56917018</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
+			<label index="pi1_title">Realty Manager</label>
+		</languageKey>
+		<languageKey index="ru" type="array">
 			<label index="pi1_title">Realty Manager</label>
 		</languageKey>
 	</orig_text>

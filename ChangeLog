@@ -1,5 +1,6 @@
 2008-02-24 Oliver Klee  <typo3-coding@oliverklee.de>
 
+	* [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
 	* [#1607] Feature: Add a field in the EM: SysFolder to save the realty records to, depending on the ZIP file name
 
 2008-01-30 Saskia Metzler <saskia@merlin.owl.de>
