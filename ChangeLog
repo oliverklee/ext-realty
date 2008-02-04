@@ -1,3 +1,7 @@
+2008-02-24 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
+
 2008-01-30 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1446] Change: Move the flexforms file to pi1
