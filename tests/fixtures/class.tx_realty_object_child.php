@@ -45,10 +45,9 @@ final class tx_realty_object_child extends tx_realty_object {
 	}
 
 	public function createNewDatabaseEntry(
-		$dataArray,
-		$table = 'tx_realty_objects'
+		array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
 	) {
-		parent::createNewDatabaseEntry($dataArray, $table);
+		parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
 	}
 
 	public function fetchDatabaseResult($databaseResult) {

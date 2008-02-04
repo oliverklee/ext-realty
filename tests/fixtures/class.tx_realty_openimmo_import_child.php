@@ -60,8 +60,8 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 		return parent::loadXmlFile($pathOfZip);
 	}
 
-	public function writeToDatabase($domDocument) {
-		return parent::writeToDatabase($domDocument);
+	public function writeToDatabase($domDocument, $overridePid = 0) {
+		return parent::writeToDatabase($domDocument, $overridePid);
 	}
 
 	public function getImportedXml() {

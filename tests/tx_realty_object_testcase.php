@@ -384,9 +384,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testWriteToDatabaseCreatesNewRealtyRecordWithRealtyRecordPid() {
 		$this->fixture->loadRealtyObject(
-			array(
-				'object_number' => self::$otherObjectNumber
-			)
+			array('object_number' => self::$otherObjectNumber)
 		);
 		$this->fixture->writeToDatabase();
 
@@ -408,6 +406,42 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('pid' => $this->pageId),
 			$result
+		);
+	}
+
+	public function testWriteToDatabaseCanOverrideDefaultPidForNewRecords() {
+		$systemFolderPid = $this->testingFramework->createSystemFolder();
+
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$otherObjectNumber)
+		);
+		$this->fixture->writeToDatabase($systemFolderPid);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number='.self::$otherObjectNumber
+				.' AND pid='.$systemFolderPid
+				.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testWriteToDatabaseUpdatesAndCannotOverrideDefaultPid() {
+		$systemFolderPid = $this->testingFramework->createSystemFolder();
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$objectNumber)
+		);
+		$this->fixture->writeToDatabase($systemFolderPid);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'uid='.$this->objectUid
+				.' AND pid='.$this->pageId
+			)
 		);
 	}
 

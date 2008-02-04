@@ -1,3 +1,7 @@
+2008-02-24 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1607] Feature: Add a field in the EM: SysFolder to save the realty records to, depending on the ZIP file name
+
 2008-01-30 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1446] Change: Move the flexforms file to pi1

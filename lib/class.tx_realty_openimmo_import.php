@@ -181,9 +181,11 @@ class tx_realty_openimmo_import {
 		);
 		$emailData = array();
 
+		$overridePid = $this->getOverridePidForZip($currentZip);
+
 		if (!empty($recordsToInsert)) {
 			foreach ($recordsToInsert as $record) {
-				$this->writeToDatabase($record);
+				$this->writeToDatabase($record, $overridePid);
 
 				$emailData[] = $this->createEmailRawDataArray(
 					$this->getContactEmailFromRealtyObject(),
@@ -204,6 +206,49 @@ class tx_realty_openimmo_import {
 	}
 
 	/**
+	 * Finds out whether a particular PID is configured for objects in the ZIP
+	 * with the given file name $fileName.
+	 *
+	 * @param	string		path of the ZIP to check
+	 *
+	 * @return	integer		PID of the system folder to store the realty record
+	 * 						in or 0 if the default folder should be used
+	 */
+	private function getOverridePidForZip($fileName) {
+		if (($fileName == '')
+			|| ($this->globalConfiguration->getConfigurationValueString(
+				'pidsForRealtyObjectsAndImagesByFileName'
+			) == '')
+		) {
+			return 0;
+		}
+
+		$overridePid = 0;
+		$matches = array();
+		$baseName = basename($fileName, '.zip');
+
+		if (preg_match_all(
+			'/(^|;)([^\:]+)\:(\d+)/',
+			$this->globalConfiguration->getConfigurationValueString(
+				'pidsForRealtyObjectsAndImagesByFileName'
+			),
+			$matches
+		)) {
+			$fileNamePatterns = $matches[2];
+			$pids = $matches[3];
+
+			foreach ($fileNamePatterns as $index => $pattern) {
+				if (preg_match('/'.$pattern.'/', $baseName)) {
+					$overridePid = $pids[$index];
+					break;
+				}
+			}
+		}
+
+		return $overridePid;
+	}
+
+	/**
 	 * Tries to write an imported record to the database and checks the contact
 	 * e-mail address. If the address is invalid, it is replaced by the default
 	 * address as configured in EM.
@@ -212,9 +257,11 @@ class tx_realty_openimmo_import {
 	 * record will not be inserted to the database. Success and failures are
 	 * logged.
 	 *
-	 * @param	array		record to insert, can be empty
+	 * @param	array		record to insert, may be empty
+	 * @param	integer		PID for new records (omit this parameter to use
+	 * 						the PID set in the global configuration)
 	 */
-	protected function writeToDatabase($realtyRecord) {
+	protected function writeToDatabase(array $realtyRecord, $overridePid = 0) {
  		global $LANG;
 
 		$this->loadRealtyObject($realtyRecord);
@@ -227,7 +274,7 @@ class tx_realty_openimmo_import {
 			$pleaseValidateMessage = $LANG->getLL('message_please_validate');
 		}
 
-		$errorMessage = $this->realtyObject->writeToDatabase();
+		$errorMessage = $this->realtyObject->writeToDatabase($overridePid);
 
 		switch ($errorMessage) {
 			case '':

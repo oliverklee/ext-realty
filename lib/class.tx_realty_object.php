@@ -220,11 +220,14 @@ class tx_realty_object {
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
 	 *
+	 * @param	integer		PID for new records (omit this parameter to use
+	 * 						the PID set in the global configuration)
+	 *
 	 * @return 	string		locallang key of an error message if the record was
 	 * 						not written to database, an empty string if it was
 	 * 						written successfully
 	 */
-	public function writeToDatabase() {
+	public function writeToDatabase($overridePid = 0) {
 		if ($this->isRealtyObjectDataEmpty()) {
 			return 'message_object_not_loaded';
 		}
@@ -243,7 +246,9 @@ class tx_realty_object {
 			$requiredFields = $this->checkForRequiredFields();
 			if (empty($requiredFields)) {
 				$this->prepareInsertionAndInsertRelations();
-				if (!$this->createNewDatabaseEntry($this->realtyObjectData)) {
+				if (!$this->createNewDatabaseEntry(
+					$this->realtyObjectData, 'tx_realty_objects', $overridePid
+				)) {
 					$errorMessage = 'message_insertion_failed';
 				}
 			} else {
@@ -618,13 +623,15 @@ class tx_realty_object {
 	 * @param	array		database column names as keys, must not be empty and
 	 * 						must not contain the key 'uid'
 	 * @param	string		name of the database table, must not be empty
+	 * @param	integer		PID for new realty and image records (omit this
+	 * 						parameter to use the PID set in the global
+	 * 						configuration)
 	 *
 	 * @return 	boolean		true if the insert query was successful, false
 	 * 						otherwise
 	 */
 	protected function createNewDatabaseEntry(
-		array $realtyData,
-		$table = 'tx_realty_objects'
+		array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
 	) {
 		if (empty($realtyData)) {
 			return false;
@@ -643,8 +650,12 @@ class tx_realty_object {
 			|| ($table == 'tx_realty_images')
 			|| ($table == 'tx_realty_objects')
 		) {
-			$pid = tx_oelib_configurationProxy::getInstance('realty')->
-				getConfigurationValueInteger('pidForRealtyObjectsAndImages');
+			if ($overridePid > 0) {
+				$pid = $overridePid;
+			} else {
+				$pid = tx_oelib_configurationProxy::getInstance('realty')->
+					getConfigurationValueInteger('pidForRealtyObjectsAndImages');
+			}
 		}
 
 		$dataToInsert['pid'] = $pid;

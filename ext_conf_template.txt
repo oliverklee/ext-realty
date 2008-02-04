@@ -1,11 +1,13 @@
 # cat=basic; type=boolean; label=Configuration check:Enables the configuration check in the front-end.
 enableConfigCheck = 1
-# cat=basic; type=string; label=Import folder:Absolute path of the directory that contains the OpenImmo ZIP files to import.
+# cat=basic; type=string; label=Import directory:Absolute path of the directory that contains the OpenImmo ZIP files to import.
 importFolder =
 # cat=basic; type=integer; label=PID for realty records and images:Page ID of the system folder where new realty and image records will be stored.
 pidForRealtyObjectsAndImages =
 # cat=basic; type=integer; label=PID for auxiliary records:Page ID of the system folder where auxiliary records (like cities or house types) will be stored. Leave this field empty to store these records in the same system folder as realty records and images.
 pidForAuxiliaryRecords =
+# cat=basic; type=string; label=PIDs for realty records by filename:This will sort imported realty records and images into system folders depending on the file name of the ZIP. This field is optional. Have a look in the manual for details on how to use this.
+pidsForRealtyObjectsAndImagesByFileName =
 # cat=basic; type=string; label=Recipient of the import logs:This e-mail address will receive the complete import log if "Notify contact persons" is disabled. If "Notify contact persons" is enabled, this address will receive only the log parts about OpenImmo files that did not contain a valid contact e-mail address. Leave this field empty to completely disable e-mailing the import logs.
 emailAddress =
 # cat=basic; type=boolean; label=E-mail the log only on errors:Check this to only have the import send out e-mails if an errors has occurred. This will suppress the e-mailing the import log if everything has gone well.

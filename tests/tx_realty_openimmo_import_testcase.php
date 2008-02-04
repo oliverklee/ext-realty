@@ -41,6 +41,9 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	private $globalConfiguration;
 	private $templateHelper;
 
+	/** the PID of the system folder where imported records will be stored */
+	private $systemFolderPid;
+
 	private static $importFolder = '/tmp/tx_realty_fixtures/';
 
 	public function setUp() {
@@ -55,11 +58,13 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 
 		$this->fixture = new tx_realty_openimmo_import_child(true);
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
-		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
-		$this->templateHelper = t3lib_div::makeInstance(
-			'tx_oelib_templatehelper'
-		);
+		$this->globalConfiguration
+			= tx_oelib_configurationProxy::getInstance('realty');
+		$this->templateHelper
+			= t3lib_div::makeInstance('tx_oelib_templatehelper');
  		$this->templateHelper->init();
+
+		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 
 		$this->setupStaticConditions();
 	}
@@ -699,11 +704,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testImportARecordAndImportItAgainAfterContentsHaveChanged() {
-		// disables validation
-		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema',
-			''
-		);
+		$this->disableValidation();
 		$this->fixture->importFromZip();
 		$result = $this->testingFramework->getAssociativeDatabaseResult(
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -803,16 +804,219 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 	public function testImportFromZipReturnsLogMessageMissingRequiredFields() {
 		global $LANG;
 
-		// validation needs to be disabled for this test
-		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema',
-			''
-		);
+		$this->disableValidation();
 
 		$result = $this->fixture->importFromZip();
 		$this->assertContains(
 			$LANG->getLL('message_fields_required'),
 			$result
+		);
+	}
+
+
+	//////////////////////////////////////////////////////////////
+	// Tests for setting the PID depending on the ZIP file name.
+	//////////////////////////////////////////////////////////////
+
+	public function testImportedRecordHasTheConfiguredPidByDefault() {
+		$this->disableValidation();
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$this->systemFolderPid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testImportedRecordHasTheConfiguredPidIfTheFilenameHasNoMatches() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName', 'nomatch:'.$pid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$this->systemFolderPid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheOnlyPattern() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName', 'same:'.$pid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$pid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testOverridePidCanMatchTheStartOfAString() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName', '^same:'.$pid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$pid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testOverridePidCanMatchTheEndOfAString() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName', 'name$:'.$pid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$pid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheFirstPattern() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName',
+			'same:'.$pid.';'
+				.'nomatch:'.$this->systemFolderPid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$pid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheLastPattern() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName',
+			'nomatch:'.$this->systemFolderPid.';'
+				.'same:'.$pid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$pid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheMiddlePattern() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName',
+			'nomatch1:'.$this->systemFolderPid.';'
+				.'same:'.$pid.';'
+				.'nomatch2:'.$this->systemFolderPid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$pid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
+		);
+	}
+
+	public function testImportedRecordOverridesPidStopsAtFirstMatchingPattern() {
+		$this->disableValidation();
+
+		$pid = $this->testingFramework->createSystemFolder();
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName',
+			'sam:'.$pid.';'
+				.'same:'.$this->systemFolderPid.';'
+		);
+
+		// imports same-name.zip
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="bar1234567" '
+					.'AND pid='.$pid
+					.$this->templateHelper->enableFields('tx_realty_objects')
+			)
 		);
 	}
 
@@ -830,28 +1034,28 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 		$this->fixture->setUploadDirectory(self::$importFolder);
 		// avoids sending e-mails
 		$this->globalConfiguration->setConfigurationValueString(
-			'emailAddress',
-			''
+			'emailAddress', ''
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
-			'ignoreValidation',
-			false
+			'ignoreValidation', false
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
-			'onlyErrors',
-			false
+			'onlyErrors', false
 		);
 		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema',
-			self::$importFolder.'schema.xsd'
+			'openImmoSchema', self::$importFolder.'schema.xsd'
 		);
 		$this->globalConfiguration->setConfigurationValueString(
-			'importFolder',
-			self::$importFolder
+			'importFolder', self::$importFolder
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
-			'notifyContactPersons',
-			true
+			'notifyContactPersons', true
+		);
+		$this->globalConfiguration->setConfigurationValueInteger(
+			'pidForRealtyObjectsAndImages', $this->systemFolderPid
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName', ''
 		);
 	}
 
@@ -863,6 +1067,15 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->markTableAsDirty($table);
 		}
 		$this->testingFramework->cleanUp();
+	}
+
+	/**
+	 * Disables the XML validation.
+	 */
+	private function disableValidation() {
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema', ''
+		);
 	}
 }
 
