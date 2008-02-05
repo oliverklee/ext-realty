@@ -678,26 +678,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteSummaryStringOfFavoritesToDatabaseIfFunctionIsDisabled() {
-		$GLOBALS['TSFE']->fe_user->setKey(
-				'ses',
-				'summaryStringOfFavorites',
-				'foo'
-			);
-		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 0);
-		$this->fixture->addToFavorites(array($this->firstRealtyUid));
-		$this->fixture->writeSummaryStringOfFavoritesToSession();
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
-				'ses',
-				'summaryStringOfFavorites'
-		);
-
-		$this->assertEquals(
-			'foo',
-			$sessionData
-		);
-	}
-
 	public function testWriteSummaryStringOfFavoritesToDatabaseIfFeUserIsLoggedIn() {
 		$this->fakeFeUserLogin();
 		$this->fixture->setConfigurationValue('createSummaryStringOfFavorites', 1);
@@ -713,6 +693,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$sessionData
 		);
 	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning separate details pages.
@@ -791,6 +772,37 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, $this->otherSinglePid
 			)
+		);
+	}
+
+	public function testDetailPageDisplaysTheZip() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'12345',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsDisabled() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', false);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'12345',
+			$this->fixture->main('', array())
 		);
 	}
 

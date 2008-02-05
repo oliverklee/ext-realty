@@ -472,6 +472,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'object_number',
 				'street',
 				'district',
+				'zip',
 				'description',
 				'location',
 				'equipment',
