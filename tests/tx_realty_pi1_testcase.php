@@ -952,6 +952,37 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDetailPageDisplaysTheZip() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'12345',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsDisabled() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', false);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'12345',
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning external details pages.

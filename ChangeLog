@@ -1,6 +1,7 @@
 2008-02-05 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1465] Change: Change the way the CSS file is included
+	* [#1544] Feature: Show the ZIP code of an object in the detail view
 
 2008-02-04 Oliver Klee  <typo3-coding@oliverklee.de>
 
