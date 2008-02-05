@@ -69,7 +69,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkSingleViewPid();
 	}
 
-
 	/**
 	 * Checks the configuration for the favorites view of the realty manager.
 	 */
@@ -107,7 +106,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCssStyledContent();
 		$this->checkTemplateFile();
 		$this->checkSalutationMode();
-		$this->checkCssFile();
+		$this->checkCssFileFromConstants();
 		$this->checkCssClassNames();
 		$this->checkDateFormat();
 		$this->checkWhatToDisplay();
@@ -132,47 +131,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'fe_editor'
 			)
 		);
-	}
-
-	/**
-	 * Checks whether the CSS file (if a name is provided) actually is a file.
-	 * If no file name is provided, no error will be displayed as this is
-	 * perfectly allowed.
-	 * Note: This function is already defined in the tx_oelib_configcheck class.
-	 * But here we need to check for a relative path instead of the absolute.
-	 *
-	 * @param	boolean		whether the css file can also be selected via
-	 * 						flexforms
-	 */
-	public function checkCssFile($canUseFlexforms = false) {
-		if ($this->objectToCheck->hasConfValueString(
-				'cssFile',
-				's_template_special'
-			)
-		) {
-			$fileName = $this->objectToCheck->getConfValueString(
-				'cssFile',
-				's_template_special',
-				true
-			);
-		if (!is_file(PATH_site.$fileName)) {
-				$message = 'The specified CSS file <strong>'
-					.htmlspecialchars($fileName)
-					.'</strong> cannot be read. '
-					.'If that variable does not point to an existing file, no '
-					.'special CSS will be used for styling this extension\'s HTML. '
-					.'Please either create the file <strong>'.$fileName
-					.'</strong> or select an existing file using the TS '
-					.'setup variable <strong>'.$this->getTSSetupPath()
-					.'cssFile</strong>';
-				if ($canUseFlexforms) {
-					$message .= ' or via FlexForms';
-				}
-				$message .= '. If you do not want to use any special CSS, you '
-					.'can set that variable to an empty string.';
-				$this->setErrorMessage($message);
-			}
-		}
 	}
 
 	/**
