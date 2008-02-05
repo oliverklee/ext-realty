@@ -1,8 +1,6 @@
 plugin.tx_realty_pi1 {
 	# location of the HTML template file
 	templateFile = EXT:realty/pi1/tx_realty_pi1.tpl.htm
-	# location of the CSS file (leave empty to include no CSS file)
-	cssFile = /typo3conf/ext/realty/pi1/tx_realty_pi1.tpl.css
 
 	# whether to use formal or informal language
 	salutation = formal
@@ -93,4 +91,8 @@ plugin.tx_realty_pi1.listView {
 	maxPages = 5
 	orderBy = tstamp
 	descFlag = 1
+}
+
+page.includeCSS {
+	tx_realty_pi1 = {$plugin.tx_realty_pi1.cssFile}
 }
