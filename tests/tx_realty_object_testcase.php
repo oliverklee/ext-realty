@@ -29,7 +29,7 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_object_child.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_objectChild.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
@@ -47,7 +47,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	private static $otherObjectNumber = '100001';
 
 	public function setUp() {
-		$this->fixture = new tx_realty_object_child(true);
+		$this->fixture = new tx_realty_objectChild(true);
 		$this->templateHelper = t3lib_div::makeInstance(
 			'tx_oelib_templatehelper'
 		);

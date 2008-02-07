@@ -38,14 +38,14 @@ if (!defined('TYPO3_cliMode')) {
 }
 
 require_once(PATH_t3lib.'class.t3lib_cli.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openimmo_import.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openImmoImport.php');
 
 class tx_realty_cli {
 	/**
 	 * Calls the OpenImmo importer.
 	 */
 	public function main() {
-		$importer = t3lib_div::makeInstance('tx_realty_openimmo_import');
+		$importer = t3lib_div::makeInstance('tx_realty_openImmoImport');
 		echo $importer->importFromZip();
 	}
 }

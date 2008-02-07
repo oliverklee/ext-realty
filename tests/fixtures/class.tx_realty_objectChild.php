@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_object_child' for the 'realty' extension.
+ * Class 'tx_realty_objectChild' for the 'realty' extension.
  *
  * This is mere a class used for unit tests of the 'realty' extension. Don't
  * use it for any other purpose.
@@ -35,7 +35,7 @@
 
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 
-final class tx_realty_object_child extends tx_realty_object {
+final class tx_realty_objectChild extends tx_realty_object {
 	public function recordExistsInDatabase(
 		$dataArray,
 		$alternativeKey,
@@ -95,8 +95,8 @@ final class tx_realty_object_child extends tx_realty_object {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_object_child']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_object_child.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_objectChild.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_objectChild.php']);
 }
 
 ?>

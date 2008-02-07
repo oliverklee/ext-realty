@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_openimmo_import_child' for the 'realty' extension.
+ * Class 'tx_realty_openImmoImportChild' for the 'realty' extension.
  *
  * This is mere a class used for unit tests of the 'realty' extension. Don't
  * use it for any other purpose.
@@ -33,9 +33,9 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openimmo_import.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openImmoImport.php');
 
-final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
+final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	public function unifyPath($importDirectory) {
 		return parent::unifyPath($importDirectory);
 	}
@@ -101,8 +101,8 @@ final class tx_realty_openimmo_import_child extends tx_realty_openimmo_import {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openimmo_import_child']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openimmo_import_child.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openImmoImportChild.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openImmoImportChild.php']);
 }
 
 ?>

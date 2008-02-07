@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_domdocument_converter_child' for the 'realty' extension.
+ * Class 'tx_realty_domDocumentConverterChild' for the 'realty' extension.
  *
  * This is mere a class used for unit tests of the 'realty' extension. Don't
  * use it for any other purpose.
@@ -33,9 +33,9 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domdocument_converter.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domDocumentConverter.php');
 
-final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_converter {
+final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentConverter {
 	public function addElementToArray(&$arrayToExpand, $keyToInsert, $valueToInsert) {
 		parent::addElementToArray($arrayToExpand, $keyToInsert, $valueToInsert);
 	}
@@ -69,8 +69,8 @@ final class tx_realty_domdocument_converter_child extends tx_realty_domdocument_
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domdocument_converter_child']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domdocument_converter_child.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domDocumentConverterChild.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domDocumentConverterChild.php']);
 }
 
 ?>

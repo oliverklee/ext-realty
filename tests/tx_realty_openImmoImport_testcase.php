@@ -22,20 +22,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * Unit tests for the tx_realty_openimmo_import class in the 'realty' extension.
+ * Unit tests for the tx_realty_openImmoImport class in the 'realty' extension.
  *
  * @package		TYPO3
  * @subpackage	tx_realty
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openimmo_import_child.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openImmoImportChild.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
-class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
+class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private $fixture;
 	private $testingFramework;
 	private $globalConfiguration;
@@ -56,7 +56,7 @@ class tx_realty_openimmo_import_testcase extends tx_phpunit_testcase {
 			.'tests/fixtures/tx_realty_fixtures/ /tmp/'
 		);
 
-		$this->fixture = new tx_realty_openimmo_import_child(true);
+		$this->fixture = new tx_realty_openImmoImportChild(true);
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->globalConfiguration
 			= tx_oelib_configurationProxy::getInstance('realty');

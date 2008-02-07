@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * Class 'tx_realty_domdocument_converter' for the 'realty' extension.
+ * Class 'tx_realty_domDocumentConverter' for the 'realty' extension.
  * It converts DOMDocuments of OpenImmo data to arrays which have the columns of
  * the database table 'tx_realty_objects' as keys.
  *
@@ -33,7 +33,7 @@
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
-class tx_realty_domdocument_converter {
+class tx_realty_domDocumentConverter {
 	/**
 	 * Associates database column names with their correspondings used in
 	 * OpenImmo records.
@@ -887,8 +887,8 @@ class tx_realty_domdocument_converter {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domdocument_converter.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domdocument_converter.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domDocumentConverter.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domDocumentConverter.php']);
 }
 
 ?>

@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * Unit tests for the tx_realty_domdocument_converter class in the 'realty'
+ * Unit tests for the tx_realty_domDocumentConverter class in the 'realty'
  * extension.
  *
  * @package		TYPO3
@@ -30,12 +30,12 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_domdocument_converter_child.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_domDocumentConverterChild.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
-class tx_realty_domdocument_converter_testcase extends tx_phpunit_testcase {
+class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	public function setUp() {
-		$this->fixture = new tx_realty_domdocument_converter_child();
+		$this->fixture = new tx_realty_domDocumentConverterChild();
 	}
 
 	public function tearDown() {
