@@ -116,32 +116,64 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadDatabaseEntryWithValidUid() {
-		$result = $this->fixture->loadDatabaseEntry($this->objectUid);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
-			'tx_realty_objects',
-			'uid='.$this->objectUid
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$expectedResult = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$expectedResult) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
-			$expectedResult,
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'*',
+					'tx_realty_objects',
+					'uid='.$this->objectUid
+				)
+			),
+			$this->fixture->loadDatabaseEntry($this->objectUid, false)
 		);
 	}
 
 	public function testLoadDatabaseEntryWithInvalidUid() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->loadDatabaseEntry('99999')
+			$this->fixture->loadDatabaseEntry('99999', false)
 		);
+	}
+
+	public function testLoadDatabaseEntryOfAnEnabledObjectIfEnabledObjectsOnlyIsSet() {
+		$this->assertEquals(
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'*',
+					'tx_realty_objects',
+					'uid='.$this->objectUid
+				)
+			),
+			$this->fixture->loadDatabaseEntry($this->objectUid, true)
+		);		
+	}
+
+	public function testLoadDatabaseEntryDoesNotLoadADisabledObjectIfEnabledObjectsOnlyIsSet() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array('deleted' => 1)
+		);
+		$this->assertEquals(
+			array(),
+			$this->fixture->loadDatabaseEntry($uid, true)
+		);		
+	}
+
+	public function testLoadDatabaseEntryLoadsADisabledObjectIfEnabledObjectsOnlyIsNotSet() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array('deleted' => 1)
+		);
+		$this->assertEquals(
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'*',
+					'tx_realty_objects',
+					'uid='.$uid
+				)
+			),
+			$this->fixture->loadDatabaseEntry($uid, false)
+		);	
 	}
 
 	public function testGetDataTypeWhenArrayGiven() {

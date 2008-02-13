@@ -95,6 +95,15 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkShowAddressOfObjects();
 		$this->checkShowContactInformation();
 		$this->checkAllowDirectRequestsForObjects();
+		$this->checkContactPid();
+	}
+
+	/**
+	 * Checks the configuration for the contact form of the realty manager.
+	 */
+	public function check_tx_realty_pi1_contact_form() {
+		$this->checkCommonFrontEndSettings();
+		$this->checkDefaultEmail();
 	}
 
 	/**
@@ -128,6 +137,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'city_selector',
 				'favorites',
 				'realty_list',
+				'contact_form',
 				'fe_editor'
 			)
 		);
@@ -363,6 +373,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies whether the offerer and the contact phone '
 				.'number of a realty are shown in the FE. It might be '
 				.'interpreted incorrectly if no boolean value was set.'
+		);
+	}
+
+	/**
+	 * Checks the setting for the default e-mail address.
+	 */
+	private function checkDefaultEmail() {
+		$this->checkForNonEmptyString(
+			'defaultEmail',
+			true,
+			'',
+			'This value specifies the recipient for requests on objects. '
+				.'This address is always used if direct requests for objects '
+				.'are disabled and it is used if a direct request is not '
+				.'possible because an object\'s contact data cannot be found.'
 		);
 	}
 

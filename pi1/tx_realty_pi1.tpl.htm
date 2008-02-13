@@ -433,6 +433,72 @@
 
 
 
+<!-- ###CONTACT_FORM### -->
+<div class="contact-form">
+	<h2>###LABEL_CONTACT_FORM###</h2>
+	<h3>###LABEL_CONTACT_FORM_DESCRIPTION###</h3>
+	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
+    <fieldset class="tx-realty-pi1-fieldset">
+		<legend>###LABEL_REQUESTED_OBJECT###</legend>
+		<p>###LABEL_OBJECT_NUMBER###: <strong>###OBJECT_NUMBER###</strong></p>
+		<p>###LABEL_TITLE###: <strong>###TITLE###</strong></p>
+	   </fieldset>
+	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
+    <fieldset class="tx-realty-pi1-fieldset">
+		<form method="post" action="">
+			<!-- ###WRAPPER_REQUESTEE_DATA### -->
+ 			<p><label for="tx_realty_pi1-requesteeName">###LABEL_YOUR_NAME###:</label></p>
+			<p><input name="tx_realty_pi1[requesteeName]" id="tx_realty_pi1-requesteeName" type="text" size="30" maxlength="50"></p>
+			<p><label for="tx_realty_pi1-requesteeEmail>###LABEL_YOUR_EMAIL###:</label></p>
+			<p><input name="tx_realty_pi1[requesteeEmail]" id="tx_realty_pi1-requesteeEmail" type="text" size="30" maxlength="50"></p>
+			<p><label for="tx_realty_pi1-requesteePhone">###LABEL_YOUR_PHONE###:</label></p>
+			<p><input name="tx_realty_pi1[requesteePhone]" id="tx_realty_pi1-requesteePhone" type="text" size="30" maxlength="50"></p>
+			<!-- ###WRAPPER_REQUESTEE_DATA### -->
+			<p><label for="tx_realty_pi1-request">###LABEL_YOUR_REQUEST###:</label></p>
+			<p><textarea name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10"></textarea></p>
+			<p>
+				<input type="hidden" name="tx_realty_pi1[isSubmitted]" value="1"/>
+				<input type="submit" name="###LABEL_SUBMIT###">
+			</p>
+		</form>
+    </fieldset>
+</div>
+<!-- ###CONTACT_FORM### -->
+
+<!-- ###CONTACT_FORM_ERROR### -->
+<div class="contact-form">
+	<h3>###LABEL_SORRY###</h3>
+	<p class="error">###ERROR_MESSAGE###</p>
+</div>
+<!-- ###CONTACT_FORM_ERROR### -->
+
+<!-- ###CONTACT_FORM_SUBMITTED### -->
+<div class="tx-realty-pi1-contact-form">
+	<h3>###LABEL_THANK_YOU###</h3>
+	<p class="notification">###LABEL_MESSAGE_SENT###</p>
+</div>
+<!-- ###CONTACT_FORM_SUBMITTED### -->
+
+<!-- ###EMAIL_BODY### -->
+###LABEL_SALUTATION###<!-- ###WRAPPER_CONTACT_PERSON### --> ###CONTACT_PERSON###<!-- ###WRAPPER_CONTACT_PERSON### -->,
+
+<!-- ###WRAPPER_EMAIL_FROM_GENERAL_CONTACT_FORM### -->
+<!-- ###WRAPPER_SUMMARY_STRING_OF_FAVORITES### -->###LABEL_SUMMARY_STRING_OF_FAVORITES### ###SUMMARY_STRING_OF_FAVORITES###<!-- ###WRAPPER_SUMMARY_STRING_OF_FAVORITES### -->
+<!-- ###WRAPPER_EMAIL_FROM_GENERAL_CONTACT_FORM### -->
+
+<!-- ###WRAPPER_EMAIL_FROM_SPECIALIZED_CONTACT_FORM### -->
+<!-- ###WRAPPER_OBJECT_NUMBER### -->###LABEL_OBJECT_NUMBER###: ###OBJECT_NUMBER###<!-- ###WRAPPER_OBJECT_NUMBER### -->
+<!-- ###WRAPPER_TITLE### -->###LABEL_TITLE###: ###TITLE###<!-- ###WRAPPER_TITLE### -->
+<!-- ###WRAPPER_UID### -->###LABEL_UID###: ###UID###<!-- ###WRAPPER_UID### -->
+<!-- ###WRAPPER_EMAIL_FROM_SPECIALIZED_CONTACT_FORM### -->
+
+###REQUESTEE_NAME### ###LABEL_HAS_REQUEST###
+###REQUEST###
+
+<!-- ###WRAPPER_REQUESTEE_PHONE### -->###LABEL_REQUESTEE_PHONE### ###REQUESTEE_PHONE###<!-- ###WRAPPER_REQUESTEE_PHONE### -->
+<!-- ###EMAIL_BODY### -->
+
+
 </div>
 
 </body>

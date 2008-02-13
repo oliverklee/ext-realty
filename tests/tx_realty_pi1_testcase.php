@@ -54,6 +54,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private $otherSinglePid = 0;
 	private $firstRealtyUid = 0;
 	private $secondRealtyUid = 0;
+	private $favoritesPid = 0;
 
 	public function setUp() {
 		// Bolster up the fake front end.
@@ -81,6 +82,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 			'singlePID' => $this->singlePid,
+			'favoritesPID' => $this->favoritesPid,
 			'pidList' => $this->systemFolderPid
 		));
 
@@ -691,19 +693,25 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	///////////////////////////////////////
+	// Tests concerning the contact link.
+	///////////////////////////////////////
+
 	public function testContactLinkIsDisplayedInTheDetailViewIfDirectRequestsAreAllowedAndTheContactPidIsSet() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
+		$result = $this->fixture->main('', array());
 
 		$this->assertContains(
 			(string) $this->otherSinglePid,
-			$this->fixture->main('', array())
+			$result
 		);
 		$this->assertContains(
 			'class="button contact"',
-			$this->fixture->main('', array())
+			$result
 		);
 	}
 
@@ -735,14 +743,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 0);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
+		$result = $this->fixture->main('', array());
 
 		$this->assertContains(
 			(string) $this->otherSinglePid,
-			$this->fixture->main('', array())
+			$result
 		);
 		$this->assertContains(
 			'class="button contact"',
-			$this->fixture->main('', array())
+			$result
 		);
 	}
 
@@ -768,22 +777,45 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactLinkIsNotDisplayedInTheDetailViewAndContainsTheObjectUid() {
+	public function testContactLinkIsDisplayedInTheDetailViewAndContainsTheObjectUid() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
-
+		$result = $this->fixture->main('', array());
 		$this->assertContains(
 			'class="button contact"',
-			$this->fixture->main('', array())
+			$result
 		);
 		$this->assertContains(
 			(string) $this->otherSinglePid,
-			$this->fixture->main('', array())
+			$result
 		);
 		$this->assertContains(
-			'tx_realty_pi1[objectUid]='.$this->secondRealtyUid,
+			'tx_realty_pi1[showUid]='.$this->secondRealtyUid,
+			$result
+		);
+	}
+
+	public function testContactLinkIsNotDisplayedInTheDetailViewIfTheContactFormHasTheSamePid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
+		$this->fixture->setConfigurationValue('contactPID', $this->singlePid);
+		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
+
+		$this->assertNotContains(
+			'class="button contact"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testContactLinkIsNotDisplayedInTheFavoritesViewIfTheContactFormHasTheSamePid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
+		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 0);
+		$this->fixture->setConfigurationValue('contactPID', $this->favoritesPid);
+
+		$this->assertNotContains(
+			'class="button contact"',
 			$this->fixture->main('', array())
 		);
 	}
@@ -1113,6 +1145,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->singlePid = $this->testingFramework->createFrontEndPage();
 		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
+		$this->favoritesPid = $this->testingFramework->createSystemFolder();
 	}
 
 	/**

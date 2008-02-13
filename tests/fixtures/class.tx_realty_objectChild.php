@@ -62,8 +62,8 @@ final class tx_realty_objectChild extends tx_realty_object {
 		return parent::checkMissingColumnNames();
 	}
 
-	public function loadDatabaseEntry($uid) {
-		return parent::loadDatabaseEntry($uid);
+	public function loadDatabaseEntry($uid, $enabledObjectsOnly) {
+		return parent::loadDatabaseEntry($uid, $enabledObjectsOnly);
 	}
 
 	public function deleteSurplusFields() {

@@ -14,9 +14,11 @@
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
+			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
+			<label index="realty.pi_flexform.defaultEmail">Default e-mail address for requests:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -112,10 +114,44 @@
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_favorites_formal">Your favorites list currently is empty.</label>
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
+			<label index="message_noResultsFound_contact_form_formal">The object you requested contact for does not exist.</label>
+			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
+			<label index="label_contact_form">Contact Form</label>
+			<label index="label_salutation">Hello</label>
+			<label index="label_uid">Database ID</label>
+			<label index="label_user_text">wrote the following</label>
+			<label index="label_user_contact_information">Contact information</label>
+			<label index="label_email_subject_specialized">Request concerning object #</label>
+			<label index="label_email_subject_general">Realty request</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the contact person.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the contact person.</label>
+			<label index="label_requested_object">The requested object:</label>
+			<label index="label_your_name_formal">Your name</label>
+			<label index="label_your_name_informal">Your name</label>
+			<label index="label_your_email_formal">Your e-mail address</label>
+			<label index="label_your_email_informal">Your e-mail address</label>
+			<label index="label_your_phone_formal">Your phone number</label>
+			<label index="label_your_phone_informal">Your phone number</label>
+			<label index="label_your_request_formal">Your request</label>
+			<label index="label_your_request_informal">Your request</label>
+			<label index="label_submit">Send</label>
+			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
+			<label index="label_set_name_formal">Please provide your name.</label>
+			<label index="label_set_name_informal">Please provide your name.</label>
+			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
+			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
+			<label index="label_no_empty_textarea">Please enter a request.</label>
+			<label index="label_thank_you_formal">Thank you for your request.</label>
+			<label index="label_thank_you_informal">Thank you for your request.</label>
+			<label index="label_message_sent_formal">Your request was sent.</label>
+			<label index="label_message_sent_informal">Your request was sent.</label>
+			<label index="label_has_request">has written the following request:</label>
+			<label index="label_requestee_phone">The sender's phone number:</label>
+			<label index="label_summary_string_of_favorites">The following objects were on the requestee's favorites list:</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="realty.pi_flexform.sheet_general">Allgemein</label>
@@ -124,9 +160,11 @@
 			<label index="realty.pi_flexform.favorites">Merkzettel</label>
 			<label index="realty.pi_flexform.gallery">Galerie</label>
 			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
+			<label index="realty.pi_flexform.contact_form">Kontaktformular</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Adressen der Objekte im FE anzeigen:</label>
 			<label index="realty.pi_flexform.showContactInformation">Kontaktdaten im FE anzeigen:</label>
+			<label index="realty.pi_flexform.defaultEmail">Standard E-Mail-Adresse für Kontaktanfragen:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Kontaktanfragen direkt an die Kontaktperson der jeweiligen Immobilie senden:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
@@ -222,10 +260,44 @@
 			<label index="message_noResultsFound_realty_list_informal">Leider wurden keine Ergebnisse für deine Suchkriterien gefunden. Versuche die Suche zu verallgemeinern.</label>
 			<label index="message_noResultsFound_favorites_formal">Zurzeit befinden sich keine Objekte auf Ihrem Merkzettel.</label>
 			<label index="message_noResultsFound_favorites_informal">Zurzeit befinden sich keine Objekte auf deinem Merkzettel.</label>
+			<label index="message_noResultsFound_contact_form_formal">Das von Ihnen für die Kontaktanfrage gewählte Objekt existiert nicht.</label>
+			<label index="message_noResultsFound_contact_form_informal">Das von dir für die Kontaktanfrage gewählte Objekt existiert nicht.</label>
 			<label index="message_invalidImage_formal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfen Sie, ob die Adresse in der Adresszeile Ihres Browsers korrekt ist. Falls Sie einem Link zu dieser Seite gefolgt sind, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_please_login_formal">Bitte loggen Sie sich ein, um diese Seite anzuzeigen.</label>
 			<label index="message_please_login_informal">Bitte logge dich ein, um diese Seite anzuzeigen.</label>
+			<label index="label_contact_form">Kontaktformular</label>
+			<label index="label_salutation">Guten Tag</label>
+			<label index="label_uid">Datenbank ID</label>
+			<label index="label_user_text">hat folgende Anfrage</label>
+			<label index="label_user_contact_information">Kontaktdaten</label>
+			<label index="label_email_subject_specialized">Anfrage für Objekt</label>
+			<label index="label_email_subject_general">Immobilien-Anfrage</label>
+			<label index="label_contact_form_description_formal">Hier können Sie eine Nachricht an die Kontaktperson senden.</label>
+			<label index="label_contact_form_description_informal">Hier kannst du eine Nachricht an die Kontaktperson schicken.</label>
+			<label index="label_requested_object">Das betreffende Objekt:</label>
+			<label index="label_your_name_formal">Ihr Name</label>
+			<label index="label_your_name_informal">Dein Name</label>
+			<label index="label_your_email_formal">Ihre E-Mail-Adresse</label>
+			<label index="label_your_email_informal">Deine E-Mail -Adresse</label>
+			<label index="label_your_phone_formal">Ihre Telefonnummer</label>
+			<label index="label_your_phone_informal">Deine Telefonnummer</label>
+			<label index="label_your_request_formal">Ihre Anfrage</label>
+			<label index="label_your_request_informal">Deine Anfrage</label>
+			<label index="label_submit">Abschicken</label>
+			<label index="label_no_contact_person">Die Anfrage kann nicht gesendet werden, weil für dieses Objekt keine Kontaktperson angegeben wurde.</label>
+			<label index="label_set_name_formal">Bitte geben Sie Ihren Namen ein.</label>
+			<label index="label_set_name_informal">Bitte gib deinen Namen ein.</label>
+			<label index="label_set_valid_email_address_formal">Bitte geben Sie eine gültige E-Mail-Addresse an.</label>
+			<label index="label_set_valid_email_address_informal">Bitte gib eine gültige E-Mail-Addresse an.</label>
+			<label index="label_no_empty_textarea">Bitte geben Sie ihr Anliegen an.</label>
+			<label index="label_thank_you_formal">Danke für Ihre Anfrage.</label>
+			<label index="label_thank_you_informal">Danke für deine Anfrage.</label>
+			<label index="label_message_sent_formal">Ihre Anfrage wurde verschickt.</label>
+			<label index="label_message_sent_informal">Deine Anfrage wurde abgeschickt.</label>
+			<label index="label_has_request">hat folgende Anfrage geschickt:</label>
+			<label index="label_requestee_phone">Die Telefonnummer des Absenders:</label>
+			<label index="label_summary_string_of_favorites">Folgende Objekte waren auf dem Merkzettel:</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">Algemene beschrijving</label>
@@ -544,9 +616,11 @@
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
+			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
 			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
+			<label index="realty.pi_flexform.defaultEmail" type="integer">51671508</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">117633312</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
@@ -565,6 +639,7 @@
 			<label index="label_number_of_rooms" type="integer">151522303</label>
 			<label index="label_number_of_rooms_short" type="integer">214532891</label>
 			<label index="label_balcony" type="integer">143910655</label>
+			<label index="label_balcony_short" type="integer">91922626</label>
 			<label index="label_garden" type="integer">237438195</label>
 			<label index="label_garden_short" type="integer">237814086</label>
 			<label index="label_elevator" type="integer">157509981</label>
@@ -641,11 +716,44 @@
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
 			<label index="message_noResultsFound_favorites_formal" type="integer">84241814</label>
 			<label index="message_noResultsFound_favorites_informal" type="integer">84241814</label>
+			<label index="message_noResultsFound_contact_form_formal" type="integer">112812831</label>
+			<label index="message_noResultsFound_contact_form_informal" type="integer">112812831</label>
 			<label index="message_invalidImage_formal" type="integer">24179165</label>
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
-			<label index="label_balcony_short" type="integer">91922626</label>
 			<label index="message_please_login_formal" type="integer">64977327</label>
 			<label index="message_please_login_informal" type="integer">64977327</label>
+			<label index="label_contact_form" type="integer">66477422</label>
+			<label index="label_salutation" type="integer">145861013</label>
+			<label index="label_uid" type="integer">169261614</label>
+			<label index="label_user_text" type="integer">258596858</label>
+			<label index="label_user_contact_information" type="integer">98817744</label>
+			<label index="label_email_subject_specialized" type="integer">217444631</label>
+			<label index="label_email_subject_general" type="integer">88417728</label>
+			<label index="label_contact_form_description_formal" type="integer">144701232</label>
+			<label index="label_contact_form_description_informal" type="integer">144701232</label>
+			<label index="label_requested_object" type="integer">244291644</label>
+			<label index="label_your_name_formal" type="integer">35776261</label>
+			<label index="label_your_name_informal" type="integer">35776261</label>
+			<label index="label_your_email_formal" type="integer">197667972</label>
+			<label index="label_your_email_informal" type="integer">197667972</label>
+			<label index="label_your_phone_formal" type="integer">86104819</label>
+			<label index="label_your_phone_informal" type="integer">86104819</label>
+			<label index="label_your_request_formal" type="integer">84651870</label>
+			<label index="label_your_request_informal" type="integer">84651870</label>
+			<label index="label_submit" type="integer">155805401</label>
+			<label index="label_no_contact_person" type="integer">231672500</label>
+			<label index="label_set_name_formal" type="integer">49257832</label>
+			<label index="label_set_name_informal" type="integer">49257832</label>
+			<label index="label_set_valid_email_address_formal" type="integer">115392064</label>
+			<label index="label_set_valid_email_address_informal" type="integer">115392064</label>
+			<label index="label_no_empty_textarea" type="integer">151709982</label>
+			<label index="label_thank_you_formal" type="integer">231839047</label>
+			<label index="label_thank_you_informal" type="integer">231839047</label>
+			<label index="label_message_sent_formal" type="integer">162249641</label>
+			<label index="label_message_sent_informal" type="integer">162249641</label>
+			<label index="label_has_request" type="integer">233711688</label>
+			<label index="label_requestee_phone" type="integer">254665035</label>
+			<label index="label_summary_string_of_favorites" type="integer">142693794</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -961,9 +1069,11 @@
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
+			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
+			<label index="realty.pi_flexform.defaultEmail">Default e-mail address for requests:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -1059,10 +1169,47 @@
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_favorites_formal">Your favorites list currently is empty.</label>
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
+			<label index="message_noResultsFound_contact_form_formal">The object you requested contact for does not exist.</label>
+			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
+			<label index="label_contact_form">Contact Form</label>
+			<label index="label_salutation">Hello</label>
+			<label index="label_uid">Database ID</label>
+			<label index="label_user_text">wrote the following</label>
+			<label index="label_user_contact_information">Contact information</label>
+			<label index="label_email_subject">Request concerning object #</label>
+			<label index="label_your_name_formal">Your name</label>
+			<label index="label_your_name_informal">Your name</label>
+			<label index="label_your_email_formal">Your e-mail address</label>
+			<label index="label_your_email_informal">Your e-mail address</label>
+			<label index="label_your_phone_formal">Your phone number</label>
+			<label index="label_your_phone_informal">Your phone number</label>
+			<label index="label_your_request_formal">Your request</label>
+			<label index="label_your_request_informal">Your request</label>
+			<label index="label_submit">Send</label>
+			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
+			<label index="label_thank_you">Thank you.</label>
+			<label index="label_message_sent">Your request was sent.</label>
+			<label index="label_set_name_formal">Please provide your name.</label>
+			<label index="label_set_name_informal">Please provide your name.</label>
+			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
+			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
+			<label index="label_no_empty_textarea">Please enter a request.</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the contact person.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the contact person.</label>
+			<label index="label_requested_object">The requested object:</label>
+			<label index="label_summary_string_of_favorites">The following objects were on the requestee's favorites list:</label>
+			<label index="label_email_subject_specialized">Request concerning object #</label>
+			<label index="label_email_subject_general">Realty request</label>
+			<label index="label_thank_you_formal">Thank you for your request.</label>
+			<label index="label_thank_you_informal">Thank you for your request.</label>
+			<label index="label_has_request">has written the following request:</label>
+			<label index="label_requestee_phone">The sender's phone number:</label>
+			<label index="label_message_sent_formal">Your request was sent.</label>
+			<label index="label_message_sent_informal">Your request was sent.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

@@ -101,8 +101,10 @@ class tx_realty_object {
 	 * @param	mixed		data for the realty object: an array, a database
 	 * 						result row, or a UID (of integer > 0) of an existing
 	 * 						record, an array must not contain the key 'uid'
+	 * @param	boolean		whether realty objects to be loaded by database ID
+	 * 						must be non-deleted and not hidden
 	 */
-	public function loadRealtyObject($realtyData) {
+	public function loadRealtyObject($realtyData, $enabledObjectsOnly = false) {
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
 				if (isset($realtyData['uid'])) {
@@ -113,7 +115,10 @@ class tx_realty_object {
 				$convertedData = $this->isolateImageRecords($realtyData);
 				break;
 			case 'uid' :
-				$convertedData = $this->loadDatabaseEntry(intval($realtyData));
+				$convertedData = $this->loadDatabaseEntry(
+					intval($realtyData),
+					$enabledObjectsOnly
+				);
 				break;
 			case 'dbResult' :
 				$convertedData = $this->fetchDatabaseResult($realtyData);
@@ -156,27 +161,36 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Loads an existing realty object entry from the database.
+	 * Loads an existing realty object entry from the database. If
+	 * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
 	 *
 	 * @param	integer		UID of the database entry to load, must be > 0
+	 * @param	boolean		whether only non-deleted and non-hidden objects
+	 * 						should be loaded
 	 *
 	 * @return	array		contents of the database entry, empty if database
 	 * 						result could not be fetched
 	 */
-	protected function loadDatabaseEntry($uid) {
-		$dbResultArray = array();
+	protected function loadDatabaseEntry($uid, $enabledObjectsOnly) {
+		$result = array();
+
+		$additionalWhereClause = '';
+		if ($enabledObjectsOnly) {
+			$additionalWhereClause = 
+				$this->templateHelper->enableFields('tx_realty_objects');
+		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			'tx_realty_objects',
-			'uid='.$uid
+			'uid='.$uid.$additionalWhereClause
 		);
 
 		if ($dbResult) {
-			$dbResultArray = $this->fetchDatabaseResult($dbResult);
+			$result = $this->fetchDatabaseResult($dbResult);
 		}
 
-		return $dbResultArray;
+		return $result;
 	}
 
 	/**

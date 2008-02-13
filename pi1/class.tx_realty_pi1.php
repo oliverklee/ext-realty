@@ -30,6 +30,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
 
 // field types for realty objects
 define('TYPE_NUMERIC', 0);
@@ -57,7 +58,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'pets' => 'tx_realty_pets',
 		'state' => 'tx_realty_conditions',
 		'images' => 'tx_realty_images',
-		'images_relation' => 'tx_realty_objects_images_mm',
+		'images_relation' => 'tx_realty_objects_images_mm'
 	);
 	/** session key for storing the favorites list */
 	private $favoritesSessionKey = 'tx_realty_favorites';
@@ -183,6 +184,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				if (empty($result)) {
 					$result = $this->createListView();
 				}
+				break;
+			case 'contact_form':
+				$contactForm = new tx_realty_contactForm($this);
+				$result = $contactForm->getHtmlOfContactForm(
+						$this->piVars,
+						$this->createSummaryStringOfFavorites()
+					);
 				break;
 			case 'favorites':
 				// The fallthrough is intended because the favorites view is just
@@ -500,26 +508,31 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * hides the complete wrapper.
 	 */
 	private function fillOrHideContactWrapper() {
-		$hideContactWrapper = true;
+		$showContactWrapper = false;
 
-		if ((($this->getCurrentView() == 'single_view')
-				&& $this->getConfValueBoolean('allowDirectRequestsForObjects'))
-			|| (($this->getCurrentView() == 'favorites')
-				&& !$this->getConfValueBoolean('allowDirectRequestsForObjects'))
+		if (($this->getCurrentView() == 'single_view')
+			&& $this->getConfValueBoolean('allowDirectRequestsForObjects')
+			&& ($this->getConfValueInteger('contactPID') != $this->getConfValueInteger('singlePID'))
 		) {
-			if ($this->hasConfValueInteger('contactPID')) {
-				$contactUrl = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
-					array('objectUid' => intval($this->piVars['showUid'])),
-					true,
-					true,
-					$this->getConfValueInteger('contactPID')
-				));
-				$this->setMarkerContent('contact_url', $contactUrl);
-				$hideContactWrapper = false;
-			}
+			$piVarsArray = array('showUid' => intval($this->piVars['showUid']));
+			$showContactWrapper = true;
+		} elseif (($this->getCurrentView() == 'favorites')
+			&& !$this->getConfValueBoolean('allowDirectRequestsForObjects')
+			&& ($this->getConfValueInteger('contactPID') != $this->getConfValueInteger('favoritesPID'))
+		) {
+			$piVarsArray = array();
+			$showContactWrapper = true;
 		}
 
-		if ($hideContactWrapper) {
+		if ($this->hasConfValueInteger('contactPID') && $showContactWrapper) {
+			$contactUrl = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
+				$piVarsArray,
+				false,
+				false,
+				$this->getConfValueInteger('contactPID')
+			));
+			$this->setMarkerContent('contact_url', $contactUrl);
+		} else {
 			$this->readSubpartsToHide('contact', 'wrapper');
 		}
 	}
@@ -1722,22 +1735,28 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns the current view.
 	 *
-	 * @return	string		Name of the current view ('realty_list',
-	 * 						'favorites', 'city_selector' or 'gallery'), will not 
-	 * 						be empty. If no view is set 'realty_list' is 
+	 * @return	string		Name of the current view ('realty_list', 'contact_form',
+	 * 						'favorites', 'city_selector' or 'gallery'), will not
+	 * 						be empty. If no view is set, 'realty_list' is
 	 * 						returned as this is the fallback case.
 	 */
 	private function getCurrentView() {
 		$whatToDisplay = $this->getConfValueString('what_to_display');
 
-		if (in_array($whatToDisplay, array('gallery', 'city_selector', 'favorites'))) {
+		if (in_array(
+			$whatToDisplay,
+			array('contact_form', 'city_selector', 'favorites', 'gallery')
+		)) {
 			$result = $whatToDisplay;
 		} else {
 			$result = 'realty_list';
 		}
 
-		// switches to the single view if a 'showUid' variable is set
-		if (isset($this->piVars['showUid']) && $this->piVars['showUid']) {
+		// switches from the list view to the single view if a 'showUid'
+		// variable is set
+		if ((in_array($result, array('realty_list', 'favorites')))
+			&& isset($this->piVars['showUid']) && $this->piVars['showUid']
+		) {
 			$result = 'single_view';
 		}
 
@@ -1835,6 +1854,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets the configuration.
+	 *
+	 * @return	array		configuration array, might be empty
+	 */
+	public function getConfiguration() {
+		return $this->conf;
 	}
 
 	/**
