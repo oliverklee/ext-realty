@@ -204,7 +204,7 @@ t3lib_extMgm::addPlugin(
 	'list_type'
 );
 
-t3lib_extMgm::addStaticFile($_EXTKEY,'pi1/static/', 'Realty List');
+t3lib_extMgm::addStaticFile($_EXTKEY,'pi1/static/', 'Realty Manager');
 
 if (TYPO3_MODE == 'BE') {
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon']

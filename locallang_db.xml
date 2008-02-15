@@ -77,7 +77,7 @@
 			<label index="tx_realty_cities.title">City name</label>
 			<label index="tx_realty_districts">District</label>
 			<label index="tx_realty_districts.title">The district's name</label>
-			<label index="tt_content.list_type_pi1">Realty List</label>
+			<label index="tt_content.list_type_pi1">Realty Manager</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="tx_realty_objects">Immobilienobjekt</label>
@@ -149,7 +149,7 @@
 			<label index="tx_realty_cities.title">Ortsname</label>
 			<label index="tx_realty_districts">Ortsteil</label>
 			<label index="tx_realty_districts.title">Name des Ortsteils</label>
-			<label index="tt_content.list_type_pi1">Immobilienliste</label>
+			<label index="tt_content.list_type_pi1">Immobilienmanager</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Объекты недвижимости</label>
@@ -294,7 +294,7 @@
 			<label index="tx_realty_cities.title" type="integer">163522718</label>
 			<label index="tx_realty_districts" type="integer">235647734</label>
 			<label index="tx_realty_districts.title" type="integer">69265812</label>
-			<label index="tt_content.list_type_pi1" type="integer">175133151</label>
+			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -439,7 +439,7 @@
 			<label index="tx_realty_cities.title">City name</label>
 			<label index="tx_realty_districts">District</label>
 			<label index="tx_realty_districts.title">The district's name</label>
-			<label index="tt_content.list_type_pi1">Realty List</label>
+			<label index="tt_content.list_type_pi1">Realty Manager</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Realty object</label>
