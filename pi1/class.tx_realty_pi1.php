@@ -240,10 +240,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setMarkerContent('realty_items', $listBody);
 			$this->setSubpartContent('pagination', $this->createPagination());
 			$this->setSubpartContent('wrapper_sorting', $this->createSorting());
-			// We manually populate the subpart because the automatic filling of
-			// subparts doesn't work with nesting that deep.
-			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('LIST_RESULT'));
-			$this->setSubpartContent('favorites_result', $this->substituteMarkerArrayCached('FAVORITES_RESULT'));
 		} else {
 			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getCurrentView()));
 			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
@@ -301,7 +297,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'buying_price',
 					'number_of_rooms',
 					'object_number',
-					'rent_excluding_bills'
+					'rent_excluding_bills',
+					'living_area'
 				)
 			)) {
 				$orderBy .= ' +0';
