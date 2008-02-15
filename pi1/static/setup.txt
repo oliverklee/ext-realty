@@ -7,8 +7,6 @@ plugin.tx_realty_pi1 {
 
 	# number of decimal digits for formatting prices
 	numberOfDecimals = 2
-	# abbreviation of the country to use for locale, leave empty if country and language are the same
-	country =
 	# format for all dates (as required for strftime)
 	dateFormat = %d.%m.%Y
 

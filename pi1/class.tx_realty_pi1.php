@@ -832,22 +832,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Sets the locale.
 	 */
 	private function setLocaleConvention() {
-		$configurationArray = $GLOBALS['TSFE']->config['config'];
-		$country = $this->getConfValueString('country');
-
-		if ($country == '') {
-			if ($configurationArray['language'] == 'en') {
-				$country ='US';
-			} else {
-				$country = strtoupper($configurationArray['language']);
-			}
-		}
-
-		$formattedLocale = $configurationArray['language'].'_'
-			.strtoupper($country).'.'
-			.strtoupper($configurationArray['renderCharset']
-		);
-		setlocale(LC_ALL, $formattedLocale);
+		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
 	}
 
 	/**
