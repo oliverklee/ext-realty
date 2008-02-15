@@ -560,7 +560,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewIsSortedAscendinglyByBuyingPriceWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+	public function testListViewIsSortedAscendinglyByBuyingPrice() {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
 			$this->firstRealtyUid,
@@ -583,7 +583,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewIsSortedAscendinglyByRentWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+	public function testListViewIsSortedAscendinglyByRent() {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
 			$this->firstRealtyUid,
@@ -606,7 +606,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewIsSortedAscendinglyByNumberOfRoomsWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
+	public function testListViewIsSortedAscendinglyByNumberOfRooms() {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
 			$this->firstRealtyUid,
@@ -616,6 +616,29 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			$this->secondRealtyUid,
 			array('number_of_rooms' => '11')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'number_of_rooms';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertTrue(
+			strpos($result, '9')
+				< strpos($result, '11')
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyByLivingArea() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('living_area' => '9')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('living_area' => '11')
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
