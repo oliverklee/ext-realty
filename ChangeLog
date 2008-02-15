@@ -1,3 +1,7 @@
+2008-02-15 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1605] Change: The plugin and the content wizard should use the term "Realty Manager", not "Realty List"
+
 2008-02-13 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1264] Feature: Add contact form
