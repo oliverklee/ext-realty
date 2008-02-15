@@ -1120,6 +1120,47 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////
+	// Tests for the gallery.
+	///////////////////////////
+
+	public function testGalleryShowsWarningWithMissingShowUidParameter() {
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testGalleryShowsWarningWithMissingImageParameter() {
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testGalleryShowsNoWarningWithAllParameter() {
+		$imageUid = $this->testingFramework->createRecord('tx_realty_images');
+		$this->testingFramework->createRelation(
+			'tx_realty_objects_images_mm',
+			$this->firstRealtyUid, $imageUid
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->piVars['image'] = 0;
+
+		$this->assertNotContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	///////////////////////
 	// Utility functions.
 	///////////////////////

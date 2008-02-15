@@ -1146,7 +1146,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$result = '';
 		$isOkay = false;
 
-		if ($this->getCurrentView() == 'single_view') {
+		if ($this->hasShowUidInUrl()) {
 			$this->internal['currentRow'] = $this->pi_getRecord($this->tableNames['objects'], $this->piVars['showUid']);
 
 			// This sets the title of the page for display and for use in indexed search results.
@@ -1737,12 +1737,24 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		// switches from the list view to the single view if a 'showUid'
 		// variable is set
 		if ((in_array($result, array('realty_list', 'favorites')))
-			&& isset($this->piVars['showUid']) && $this->piVars['showUid']
+			&& $this->hasShowUidInUrl()
 		) {
 			$result = 'single_view';
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Checks whether the showUid parameter is set and contains a positive
+	 * number.
+	 *
+	 * @return	boolean		true if showUid is set and is a positive integer,
+	 * 						false otherwise
+	 */
+	private function hasShowUidInUrl() {
+		return isset($this->piVars['showUid'])
+			&& (intval($this->piVars['showUid']) > 0);
 	}
 
 	/**
