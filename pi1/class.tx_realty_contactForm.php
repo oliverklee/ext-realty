@@ -41,7 +41,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/** data for the contact form */
 	private $contactFormData = array(
 		'isSubmitted' => false,
-		'showUid' => '',
+		'showUid' => 0,
 		'requesteeName' => '',
 		'requesteeEmail' => '',
 		'requesteePhone' => '',
@@ -53,10 +53,10 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	private $realtyObject = null;
 
 	/**
-	 * The Constructor.
+	 * The constructor.
 	 *
 	 * @param	tx_oelib_templatehelper		plugin in which uses this contact
-	 * 						form
+	 * 										form
 	 */
 	public function __construct(tx_oelib_templatehelper $plugin) {
 		$this->plugin = $plugin;
@@ -145,6 +145,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * @return	boolean		true if the contact data for sending an e-mail could
 	 * 						be fetched and the send e-mail function was called,
 	 * 						false otherwise
+	 *
+	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=961
 	 */
 	private function sendRequest() {
 		$contactData = $this->getContactData();
@@ -181,7 +183,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			'request' => $this->contactFormData['request'],
 			'requestee_name' => $this->contactFormData['requesteeName'],
 			'requestee_phone' => $this->contactFormData['requesteePhone'],
-			'summary_string_of_favorites' => $this->contactFormData['summaryStringOfFavorites'],
+			'summary_string_of_favorites'
+				=> $this->contactFormData['summaryStringOfFavorites'],
 			'contact_person' => $contactPerson
 		) as $marker => $value) {
 			$this->plugin->setOrDeleteMarkerIfNotEmpty(
@@ -204,8 +207,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	private function getEmailSubject() {
 		if ($this->isSpecializedView()) {
 			$this->loadCurrentRealtyObject();
-			$result = $this->plugin->translate('label_email_subject_specialized').' '
-				.$this->realtyObject->getProperty('object_number');
+			$result = $this->plugin->translate('label_email_subject_specialized')
+				.' '.$this->realtyObject->getProperty('object_number');
 		} else {
 			$result = $this->plugin->translate('label_email_subject_general');
 		}
@@ -239,8 +242,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 */
 	private function formatEmailBody($rawEmailBody) {
 		$body = trim(preg_replace('/\n|\r/', chr(13).chr(10), $rawEmailBody));
-		return preg_replace('/(\r\n){2,}/', chr(13).chr(10).chr(13).chr(10), $body);
-
+		return preg_replace(
+			'/(\r\n){2,}/', chr(13).chr(10).chr(13).chr(10), $body
+		);
 	}
 
 	/**
@@ -258,7 +262,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			'requesteeEmail' => 'email',
 			'requesteePhone' => 'telephone'
 		) as $contactFormDataKey => $ownerDataKey) {
-			$this->contactFormData[$contactFormDataKey] = $ownerData[$ownerDataKey];
+			$this->contactFormData[$contactFormDataKey]
+				= $ownerData[$ownerDataKey];
 		}
 	}
 
@@ -266,9 +271,11 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Returns the name and e-mail address of the owner of a realty object in an
 	 * associative array with the keys 'name' and 'email'. If the object has no
 	 * owner, the contact person's name and e-mail address are returned instead.
-	 * If there is neither an owner nor a contact person or if the fetched e-mail
-	 * address is invalid, the configured default e-mail address is returned
-	 * instead. The result does not contain a name then.
+	 *
+	 * If there is neither an owner nor a contact person or if the fetched
+	 * e-mail address is invalid, the configured default e-mail address is
+	 * returned instead. The result then does not contain a name.
+	 *
 	 * If neither an owner nor a contact person nor a default e-mail address can
 	 * be found, an empty array is returned.
 	 *
@@ -393,7 +400,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * 						otherwise
 	 */
 	private function isSpecializedView() {
-		return intval($this->contactFormData['showUid']) != 0;
+		return ($this->contactFormData['showUid'] > 0);
 	}
 
 	/**
@@ -408,14 +415,15 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Checks whether a name is valid.
+	 * Checks whether a name is non-empty and valid.
 	 *
-	 * @return	boolean		true if the name is valid, false otherwise
+	 * @param	string		the name to check, may be empty
+	 *
+	 * @return	boolean		true if the name is non-empty and valid, false
+	 * 						otherwise
 	 */
 	private function isValidName($name) {
-		return (($name != '')
-			&& (preg_match('/^[\S ]+$/s', $name) == count($name))
-		);
+		return (boolean) preg_match('/^[\S ]+$/s', $name);
 	}
 
 	/**
@@ -425,11 +433,26 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * @param	string		summary string of the current favorites list, may be
 	 * 						empty
 	 */
-	private function storeContactFormData(array $contactFormData, $summaryStringOfFavorites) {
-		foreach ($contactFormData as $key => $value) {
-			$this->contactFormData[$key] = $contactFormData[$key];
+	private function storeContactFormData(
+		array $contactFormData, $summaryStringOfFavorites
+	) {
+		foreach (
+			array(
+				'requesteeName', 'requesteeEmail', 'requesteePhone', 'request'
+			) as $key
+		) {
+			$this->contactFormData[$key] = isset($contactFormData[$key])
+				? trim($contactFormData[$key]) : '';
 		}
-		$this->contactFormData['summaryStringOfFavorites'] = $summaryStringOfFavorites;
+
+		$this->contactFormData['isSubmitted']
+			= isset($this->contactFormData['isSubmitted'])
+			? (boolean) $contactFormData['isSubmitted'] : false;
+		$this->contactFormData['showUid']
+			= isset($this->contactFormData['showUid'])
+			? intval($contactFormData['showUid']) : 0;
+		$this->contactFormData['summaryStringOfFavorites']
+			= $summaryStringOfFavorites;
 	}
 
 	/**
@@ -437,7 +460,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 */
 	private function loadCurrentRealtyObject() {
 		if ($this->realtyObject->isRealtyObjectDataEmpty()) {
-			$this->realtyObject->loadRealtyObject(intval($this->contactFormData['showUid']));
+			$this->realtyObject->loadRealtyObject(
+				intval($this->contactFormData['showUid'])
+			);
 		}
 	}
 }

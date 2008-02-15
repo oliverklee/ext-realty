@@ -139,6 +139,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	 * Note: This function can be removed when the testing framework allows to
 	 * create FE users.
 	 *
+	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=1439
+	 *
 	 * @param	array		data for the FE user, may be empty
 	 *
 	 * @return	integer		UID of the FE user
@@ -169,30 +171,33 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 		$this->createFeUser(array());
 
-		$this->assertTrue(
+		$this->assertEquals(
+			1,
 			$this->testingFramework->countRecords(
 				'fe_users',
 				'tx_oelib_is_dummy_record=1'
-			) == 1
+			)
 		);
 	}
 
 	public function testCreateDummyRecordsCreatesDummyObjectAndFeUser() {
-		// Ensures, the database is clean of other dummy records.
+		// Ensures that the database is clean of other dummy records.
 		$this->testingFramework->cleanUp();
 		$this->createDummyRecords();
 
-		$this->assertTrue(
+		$this->assertEquals(
+			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'is_dummy_record=1'
-			) == 1
+			)
 		);
-		$this->assertTrue(
+		$this->assertEquals(
+			1,
 			$this->testingFramework->countRecords(
 				'fe_users',
 				'tx_oelib_is_dummy_record=1'
-			) == 1
+			)
 		);
 	}
 
@@ -218,7 +223,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	// Tests conerning view-dependently displayed strings.
 	////////////////////////////////////////////////////////
 
-	public function testSpecializedContactFormContainsObjectTitleOfTheCurrentRealty() {
+	public function testSpecializedContactFormContainsObjectTitle() {
 		$this->assertContains(
 			self::$realtyTitle,
 			$this->fixture->getHtmlOfContactForm(
@@ -227,7 +232,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormContainsObjectNumberOfTheCurrentRealty() {
+	public function testSpecializedContactFormContainsObjectNumber() {
 		$this->assertContains(
 			self::$realtyObjectNumber,
 			$this->fixture->getHtmlOfContactForm(
@@ -236,21 +241,21 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormNotContainsTitleLabelIfNoCurrentRealtyWasSet() {
+	public function testGeneralContactFormDoesNotContainTitleLabelWithoutRealtySet() {
 		$this->assertNotContains(
 			$this->pi1->translate('label_title'),
 			$this->fixture->getHtmlOfContactForm(array())
 		);
 	}
 
-	public function testGeneralContactFormNotContainsObjectNumberLabelIfNoCurrentRealtyWasSet() {
+	public function testGeneralContactFormDoesNotContainObjectNumberLabelWithoutRealtySet() {
 		$this->assertNotContains(
 			$this->pi1->translate('label_object_number'),
 			$this->fixture->getHtmlOfContactForm(array())
 		);
 	}
 
-	public function testSpecializedContactFormHasFieldsForNameAndEmailAddressIfNoFeUserIsLoggedIn() {
+	public function testSpecializedContactFormHasFieldsForNameAndEmailAddressIfNotLoggedIn() {
 		$result = $this->fixture->getHtmlOfContactForm(
 			array('showUid' => $this->realtyUid)
 		);
@@ -265,7 +270,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormHasFieldsForNameAndEmailAddressIfNoFeUserIsLoggedIn() {
+	public function testGeneralContactFormHasFieldsForNameAndEmailAddressIfNotLoggedIn() {
 		$result = $this->fixture->getHtmlOfContactForm(array());
 
 		$this->assertContains(
@@ -278,7 +283,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDoesNotHaveFieldsForNameAndEmailAddressIfAFeUserIsLoggedIn() {
+	public function testSpecializedContactFormDoesNotHaveFieldsForNameAndEmailAddressIfLoggedIn() {
 		$this->fakeFeUserLogin($this->feUserId);
 		$result = $this->fixture->getHtmlOfContactForm(
 			array('showUid' => $this->realtyUid)
@@ -294,7 +299,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormDoesNotHaveFieldsForNameAndEmailAddressIfAFeUserIsLoggedIn() {
+	public function testGeneralContactFormDoesNotHaveFieldsForNameAndEmailAddressIfLoggedIn() {
 		$this->fakeFeUserLogin($this->feUserId);
 		$result = $this->fixture->getHtmlOfContactForm(array());
 
@@ -313,7 +318,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	// Tests concerning (error) messages.
 	///////////////////////////////////////
 
-	public function testSpecializedContactFormDisplaysAnErrorIfTheRealtyObjectDoesNotExistInTheDatabase() {
+	public function testSpecializedContactFormDisplaysAnErrorIfRealtyObjectDoesNotExist() {
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_contact_form'),
 			$this->fixture->getHtmlOfContactForm(
@@ -792,4 +797,5 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
+
 ?>

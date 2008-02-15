@@ -120,15 +120,14 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
-			<label index="label_contact_form">Contact Form</label>
 			<label index="label_salutation">Hello</label>
 			<label index="label_uid">Database ID</label>
 			<label index="label_user_text">wrote the following</label>
 			<label index="label_user_contact_information">Contact information</label>
 			<label index="label_email_subject_specialized">Request concerning object #</label>
 			<label index="label_email_subject_general">Realty request</label>
-			<label index="label_contact_form_description_formal">Here you can write a message to the contact person.</label>
-			<label index="label_contact_form_description_informal">Here you can write a message to the contact person.</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
 			<label index="label_requested_object">The requested object:</label>
 			<label index="label_your_name_formal">Your name</label>
 			<label index="label_your_name_informal">Your name</label>
@@ -266,15 +265,14 @@
 			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_please_login_formal">Bitte loggen Sie sich ein, um diese Seite anzuzeigen.</label>
 			<label index="message_please_login_informal">Bitte logge dich ein, um diese Seite anzuzeigen.</label>
-			<label index="label_contact_form">Kontaktformular</label>
 			<label index="label_salutation">Guten Tag</label>
 			<label index="label_uid">Datenbank ID</label>
 			<label index="label_user_text">hat folgende Anfrage</label>
 			<label index="label_user_contact_information">Kontaktdaten</label>
 			<label index="label_email_subject_specialized">Anfrage für Objekt</label>
 			<label index="label_email_subject_general">Immobilien-Anfrage</label>
-			<label index="label_contact_form_description_formal">Hier können Sie eine Nachricht an die Kontaktperson senden.</label>
-			<label index="label_contact_form_description_informal">Hier kannst du eine Nachricht an die Kontaktperson schicken.</label>
+			<label index="label_contact_form_description_formal">Hier können Sie eine Nachricht an den Anbieter senden.</label>
+			<label index="label_contact_form_description_informal">Hier kannst du eine Nachricht an den Anbieter schicken.</label>
 			<label index="label_requested_object">Das betreffende Objekt:</label>
 			<label index="label_your_name_formal">Ihr Name</label>
 			<label index="label_your_name_informal">Dein Name</label>
@@ -722,15 +720,14 @@
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
 			<label index="message_please_login_formal" type="integer">64977327</label>
 			<label index="message_please_login_informal" type="integer">64977327</label>
-			<label index="label_contact_form" type="integer">66477422</label>
 			<label index="label_salutation" type="integer">145861013</label>
 			<label index="label_uid" type="integer">169261614</label>
 			<label index="label_user_text" type="integer">258596858</label>
 			<label index="label_user_contact_information" type="integer">98817744</label>
 			<label index="label_email_subject_specialized" type="integer">217444631</label>
 			<label index="label_email_subject_general" type="integer">88417728</label>
-			<label index="label_contact_form_description_formal" type="integer">144701232</label>
-			<label index="label_contact_form_description_informal" type="integer">144701232</label>
+			<label index="label_contact_form_description_formal" type="integer">76871856</label>
+			<label index="label_contact_form_description_informal" type="integer">76871856</label>
 			<label index="label_requested_object" type="integer">244291644</label>
 			<label index="label_your_name_formal" type="integer">35776261</label>
 			<label index="label_your_name_informal" type="integer">35776261</label>
@@ -1175,7 +1172,6 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
-			<label index="label_contact_form">Contact Form</label>
 			<label index="label_salutation">Hello</label>
 			<label index="label_uid">Database ID</label>
 			<label index="label_user_text">wrote the following</label>
@@ -1198,8 +1194,8 @@
 			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
 			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
 			<label index="label_no_empty_textarea">Please enter a request.</label>
-			<label index="label_contact_form_description_formal">Here you can write a message to the contact person.</label>
-			<label index="label_contact_form_description_informal">Here you can write a message to the contact person.</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
 			<label index="label_requested_object">The requested object:</label>
 			<label index="label_summary_string_of_favorites">The following objects were on the requestee's favorites list:</label>
 			<label index="label_email_subject_specialized">Request concerning object #</label>
