@@ -27,6 +27,7 @@
 			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID">Target page for the city selector:</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -173,6 +174,7 @@
 			<label index="realty.pi_flexform.galleryPID">Seite mit der Galerie:</label>
 			<label index="realty.pi_flexform.favoritesPID">Seite mit dem Merkzettel:</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID">Zielseite für den Stadtwähler:</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System-Ordner für im FE erstellte Objekte:</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -629,6 +631,7 @@
 			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID" type="integer">12423386</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords" type="integer">3674712</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -1082,6 +1085,7 @@
 			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID">Target page for the city selector:</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>

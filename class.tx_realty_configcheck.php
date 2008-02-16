@@ -111,6 +111,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_fe_editor() {
 		$this->checkCommonFrontEndSettings();
+		$this->checkSysFolderForFeCreatedRecords();
 	}
 
 	/**
@@ -497,6 +498,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the PID of the target page for the city '
 				.'selector. The city selector cannot be displayed if this value '
 				.'is invalid.'
+		);
+	}
+
+	/**
+	 * Checks the settings for the PID of the system folder for FE-created
+	 * records.
+	 */
+	private function checkSysFolderForFeCreatedRecords() {
+		$this->checkIfSingleSysFolderNotEmpty(
+			'sysFolderForFeCreatedRecords',
+			true,
+			'sDEF',
+			'This value specifies the PID of the system folder for FE-created '
+				.'records. New records will be stored on the root page if this '
+				.'value is invalid.'
 		);
 	}
 }

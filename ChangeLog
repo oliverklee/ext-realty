@@ -1,5 +1,6 @@
 2008-02-16 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1250] Feature: Add configuration: sysfolder for new FE-created records
 	* [#1251] Feature: Add new content type "FE editor"
 	* [#1617] Change: Remove the ignoreValidation option and always proceed in case of validation errors
 
