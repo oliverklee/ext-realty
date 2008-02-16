@@ -106,10 +106,8 @@ class tx_realty_openImmoImport {
 	 * archives without the suffix '.zip'. The ZIP archives are unpacked to
 	 * these folders. Then for each ZIP file the following is done: The validity
 	 * of the XML file found in the ZIP archive is checked by using the XSD
-	 * file defined in the EM. If the file is valid and also if
-	 * 'ignoreValidation' is enabled in the EM, the realty records are fetched
-	 * and inserted to database. The validation failures are logged and the XML
-	 * file will be ignored unless 'ignoreValidation' is enabled.
+	 * file defined in the EM. The realty records are fetched and inserted to
+	 * database. The validation failures are logged.
 	 * If the records of one XML could be inserted to database, images found
 	 * in the extracted ZIP archive are copied to the uploads folder.
 	 * Afterwards the extraction folders are removed and a log string about the
@@ -378,20 +376,6 @@ class tx_realty_openImmoImport {
 	private function isNotifyContactPersonsEnabled() {
 		return $this->globalConfiguration->getConfigurationValueBoolean(
 			'notifyContactPersons'
-		);
-	}
-
-	/**
-	 * Finds out whether the validation result should be ignored for the import
-	 * of realty records.
-	 *
-	 * @param	boolean		whether the import of realty records to database
-	 * 						will be tried, no matter what the validation result
-	 * 						is
-	 */
-	private function isIgnoreValidationEnabled() {
-		return $this->globalConfiguration->getConfigurationValueBoolean(
-			'ignoreValidation'
 		);
 	}
 
@@ -878,18 +862,11 @@ class tx_realty_openImmoImport {
 	 * is stored in an array.
 	 * The ZIP archive must have been extracted to a folder named like the ZIP
 	 * without the suffix '.zip' before.
-	 * On error during validation, the document will only be loaded if
-	 * 'ignoreValidation' is set true in the EM. Otherwise it is not loaded and
-	 * '$this->importedXml' is set to null.
-	 * Logs the validation result or a message about successful validation if
-	 * the result was empty.
 	 *
 	 * @param	string		absolute path where to find the ZIP archive which
 	 * 						includes an XML file, must not be empty
 	 */
 	protected function loadXmlFile($pathOfZip) {
-		global $LANG;
-
 		$xmlPath = $this->getPathForXml($pathOfZip);
 
 		if ($xmlPath == '') {
@@ -897,42 +874,7 @@ class tx_realty_openImmoImport {
 		}
 
 		$this->importedXml = DOMDocument::load($xmlPath);
-
-		$validationResult = $this->validateXml();
-
-		switch ($validationResult) {
-			case '':
-				$this->addToLogEntry(
-					$LANG->getLL('message_successful_validation').chr(10)
-				);
-				break;
-			case 'message_no_schema_file':
-				$this->addToLogEntry(
-					$LANG->getLL($validationResult).' '
-						.$LANG->getLL('message_import_without_validation')
-				);
-				break;
-			case 'message_invalid_schema_file_path':
-				$this->addToErrorLog(
-					$LANG->getLL($validationResult).' '
-						.$LANG->getLL('message_import_without_validation')
-				);
-				break;
-			case 'message_validation_impossible':
-				$this->addToErrorLog($LANG->getLL($validationResult));
-
-				if (!$this->isIgnoreValidationEnabled()) {
-					$this->importedXml = null;
-				}
-				break;
-			default:
-				$this->addToErrorLog($validationResult);
-
-				if (!$this->isIgnoreValidationEnabled()) {
-					$this->importedXml = null;
-				}
-				break;
-		}
+		$this->validateXml();
 	}
 
 	/**
@@ -970,37 +912,75 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Validates an XML file which must have been loaded before. Therefore
-	 * the schema file path in '$this->schemaFile' is used. If this path is
+	 * Validates an XML file and writes the validation result to the log.
+	 * The XML file must have been loaded before. The schema to validate
+	 * against is taken from the path in '$this- >schemaFile'. If this path is
 	 * empty or invalid, validation is considered to be successful and the
-	 * absence of a schema file is logged. Returns an empty string on sucess,
-	 * error messages otherwise. Logs errors.
-	 *
-	 * @return	string		empty on success, an error message otherwise
+	 * absence of a schema file is logged.
 	 */
 	private function validateXml() {
 		global $LANG;
 
-		$result = '';
+		$validationResult = '';
 		$schemaFile = $this->globalConfiguration->getConfigurationValueString(
 			'openImmoSchema'
 		);
 
 		if ($schemaFile == '') {
-			$result = 'message_no_schema_file';
+			$validationResult = 'message_no_schema_file';
 		} elseif (!file_exists($schemaFile)) {
-			$result = 'message_invalid_schema_file_path';
+			$validationResult = 'message_invalid_schema_file_path';
 		} elseif (!$this->getImportedXml()) {
-			$result = 'message_validation_impossible';
+			$validationResult = 'message_validation_impossible';
 		} elseif (!$this->importedXml->schemaValidate($schemaFile)) {
 			$errors = libxml_get_errors();
 			foreach ($errors as $error) {
-				$result .= $LANG->getLL('message_line').' '.
+				$validationResult .= $LANG->getLL('message_line').' '.
 					$error->line.': '.$error->message;
 			}
 		}
 
-		return $result;
+		$this->logValidationResult($validationResult);
+	}
+
+	/**
+	 * Logs the validation result of the XML file.
+	 *
+	 * @param	string		result of the validation, can be either one of the
+	 * 						locallang keys 'message_no_schema_file',
+	 * 						'message_invalid_schema_file_path' or
+	 * 						'message_validation_impossible' or an already
+	 * 						localizeded error message or an empty string if
+	 * 						success should be logged
+	 */
+	private function logValidationResult($validationResult) {
+		global $LANG;
+
+		switch ($validationResult) {
+			case '':
+				$this->addToLogEntry(
+					$LANG->getLL('message_successful_validation').chr(10)
+				);
+				break;
+			case 'message_no_schema_file':
+				$this->addToLogEntry(
+					$LANG->getLL($validationResult).' '
+						.$LANG->getLL('message_import_without_validation')
+				);
+				break;
+			case 'message_invalid_schema_file_path':
+				$this->addToErrorLog(
+					$LANG->getLL($validationResult).' '
+						.$LANG->getLL('message_import_without_validation')
+				);
+				break;
+			case 'message_validation_impossible':
+				$this->addToErrorLog($LANG->getLL($validationResult));
+				break;
+			default:
+				$this->addToErrorLog($validationResult);
+				break;
+		}
 	}
 
 	/**
