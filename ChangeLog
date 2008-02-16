@@ -1,3 +1,7 @@
+2008-02-16 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1617] Change: Remove the ignoreValidation option and always proceed in case of validation errors
+
 2008-02-15 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1647] Fix: Gallery is broken

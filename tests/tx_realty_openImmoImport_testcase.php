@@ -269,15 +269,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadXmlFileIfXmlIsInvalid() {
-		$this->fixture->extractZip(self::$importFolder.'bar.zip');
-		$this->fixture->loadXmlFile(self::$importFolder.'bar.zip');
-		$this->assertNotEquals(
-			get_class($this->fixture->getImportedXml()),
-			'DOMDocument'
-		);
-	}
-
 	public function testLoadXmlFileIfXmlIsValid() {
 		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
@@ -287,11 +278,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadXmlFileIfXmlIsInvalidButValidationIsIgnored() {
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'ignoreValidation',
-			true
-		);
+	public function testLoadXmlFileIfXmlIsInvalid() {
 		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
 
@@ -731,16 +718,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipDoesNotWriteImportFolderContentsToDatabase() {
-		global $LANG;
-
-		$result = $this->fixture->importFromZip();
-		$this->assertNotContains(
-			$LANG->getLL('message_written_to_database'),
-			$result
-		);
-	}
-
 	public function testImportFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
 		global $LANG;
 
@@ -1035,9 +1012,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		// avoids sending e-mails
 		$this->globalConfiguration->setConfigurationValueString(
 			'emailAddress', ''
-		);
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'ignoreValidation', false
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'onlyErrors', false

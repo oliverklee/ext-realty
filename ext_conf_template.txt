@@ -16,8 +16,6 @@ onlyErrors = 0
 notifyContactPersons = 0
 # cat=basic; type=string; label=XML Schema file for validation:Absolute path of the XML Schema file (*.xsd) that will be used for validating the OpenImmo files during the import.
 openImmoSchema =
-# cat=basic; type=boolean; label=Ignore validation results:Usually, the import will stop for OpenImmo files that fail the XML Schema validation. Check this to have the importer try its best even on importing even in these cases.
-ignoreValidation = 0
 # cat=basic; type=string; label=Language of the import messages:This will determine the language that will be used in status output and e-mails during the import. Use the ISO 639-1 code, for example "en" or "de".
 cliLanguage = en
 # cat=basic; type=string; label=E-mail text template:Path of the text template file for the e-mail layout. Needs to start with EXT:.
