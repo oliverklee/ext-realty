@@ -85,6 +85,8 @@ plugin.tx_realty_pi1 {
 	favoritesPID =
 	# PID of the target page for the city selector
 	citySelectorTargetPID =
+	# PID of the system folder for FE-created records
+	sysFolderForFeCreatedRecords =
 }
 
 plugin.tx_realty_pi1.listView {
