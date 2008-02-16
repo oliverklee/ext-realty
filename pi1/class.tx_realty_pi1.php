@@ -31,6 +31,7 @@
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
 
 // field types for realty objects
 define('TYPE_NUMERIC', 0);
@@ -191,6 +192,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 						$this->piVars,
 						$this->createSummaryStringOfFavorites()
 					);
+				break;
+			case 'fe_editor':
+				$frontEndEditor = new tx_realty_frontEndEditor($this);
+				$result = $frontEndEditor->getHtmlOfFrontEndEditor();
 				break;
 			case 'favorites':
 				// The fallthrough is intended because the favorites view is just
@@ -1718,17 +1723,20 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Returns the current view.
 	 *
 	 * @return	string		Name of the current view ('realty_list', 'contact_form',
-	 * 						'favorites', 'city_selector' or 'gallery'), will not
-	 * 						be empty. If no view is set, 'realty_list' is
+	 * 						'favorites', 'fe_editor', 'city_selector' or 'gallery'),
+	 * 						will not be empty. If no view is set, 'realty_list' is
 	 * 						returned as this is the fallback case.
 	 */
 	private function getCurrentView() {
 		$whatToDisplay = $this->getConfValueString('what_to_display');
 
-		if (in_array(
-			$whatToDisplay,
-			array('contact_form', 'city_selector', 'favorites', 'gallery')
-		)) {
+		if (in_array($whatToDisplay, array(
+			'contact_form',
+			'city_selector',
+			'favorites',
+			'fe_editor',
+			'gallery'
+		))) {
 			$result = $whatToDisplay;
 		} else {
 			$result = 'realty_list';

@@ -36,7 +36,10 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.contact_form</numIndex>
 										<numIndex index="1">contact_form</numIndex>
 									</numIndex>
-									
+									<numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.fe_editor</numIndex>
+										<numIndex index="1">fe_editor</numIndex>
+									</numIndex>
 								</items>
 								<size>1</size>
 								<maxitems>1</maxitems>

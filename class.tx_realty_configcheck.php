@@ -107,6 +107,13 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Checks the configuration for the FE editor of the realty manager.
+	 */
+	public function check_tx_realty_pi1_fe_editor() {
+		$this->checkCommonFrontEndSettings();
+	}
+
+	/**
 	 * Checks the settings that are common to all FE plug-in variations of this
 	 * extension: CSS styled content, static TypoScript template included,
 	 * template file, css file, salutation mode, and CSS class names.

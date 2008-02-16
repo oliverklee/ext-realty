@@ -15,6 +15,7 @@
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
+			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
@@ -160,6 +161,7 @@
 			<label index="realty.pi_flexform.gallery">Galerie</label>
 			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformular</label>
+			<label index="realty.pi_flexform.fe_editor">FE-Editor</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Adressen der Objekte im FE anzeigen:</label>
 			<label index="realty.pi_flexform.showContactInformation">Kontaktdaten im FE anzeigen:</label>
@@ -615,6 +617,7 @@
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
+			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
 			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
@@ -1067,6 +1070,7 @@
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
+			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
