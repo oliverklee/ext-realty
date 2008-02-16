@@ -60,7 +60,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		"Hello world!"
 	 */
-	public function getHtmlOfFrontEndEditor() {
+	public function render() {
 		return 'Hello world!';
 	}
 }

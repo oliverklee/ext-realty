@@ -195,7 +195,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 			case 'fe_editor':
 				$frontEndEditor = new tx_realty_frontEndEditor($this);
-				$result = $frontEndEditor->getHtmlOfFrontEndEditor();
+				$result = $frontEndEditor->render();
 				break;
 			case 'favorites':
 				// The fallthrough is intended because the favorites view is just

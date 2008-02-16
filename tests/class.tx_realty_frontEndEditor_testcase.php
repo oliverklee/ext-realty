@@ -60,10 +60,10 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		unset($this->fixture);
 	}
 
-	public function testGetHtmlOfFrontEndEditorReturnsHelloWorld() {
+	public function testRenderReturnsHelloWorld() {
 		$this->assertEquals(
 			'Hello world!',
-			$this->fixture->getHtmlOfFrontEndEditor()
+			$this->fixture->render()
 		);
 	}
 }
