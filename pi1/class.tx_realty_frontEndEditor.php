@@ -50,7 +50,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		$this->plugin->getTemplateCode();
 		$this->plugin->setLabels();
 		// For configuration stuff the own inherited templatehelper can be used.
-		$this->init($this->plugin->getConfiguration);
+		$this->init($this->plugin->getConfiguration());
 		$this->pi_initPIflexForm();
 	}
 
