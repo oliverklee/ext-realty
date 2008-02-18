@@ -752,7 +752,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'garage_price':
 				$this->removeSubpartIfEmptyInteger($key, 'wrapper');
-				$result = $this->getFormattedCurrency($key);
+				$result = $this->getFormattedPrice($key);
 				break;
 
 			case 'number_of_rooms':
@@ -850,17 +850,22 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Retrieves the value of the record field $key formatted as a currency
-	 * with the string set via TS setup as "currencyUnit" appended.
-	 * If the field's value is empty or its intval is zero, an empty string will be returned.
+	 * Returns the number found in the database column $key with a currency
+	 * symbol appended. This sybol is the value of 'currencyUnit' set in the TS
+	 * setup.
+	 * If the value of $key is zero after applying intval, an empty string
+	 * will be returned.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
+	 * @param	string		name of a database column, may not be empty
 	 *
-	 * @return	string		HTML for the number in the field formatted using decimalSeparator and currencyUnit from the TS setup, may be an empty string
+	 * @return	string		HTML for the number in the field with a currency
+	 * 						symbol appended, may be an empty string
 	 */
-	private function getFormattedCurrency($key) {
-		$localeConvention = localeconv();
-		return $this->getFormattedNumber($key, $localeConvention['currency_symbol']);
+	private function getFormattedPrice($key) {
+		return $this->getFormattedNumber(
+			$key,
+			$this->getConfValueString('currencyUnit')
+		);
 	}
 
 	/**
@@ -879,6 +884,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (empty($rawValue) || (intval($rawValue) == 0)) {
 			return '';
 		}
+
 		$localeConvention = localeconv();
 		$decimals = intval($this->getConfValueString('numberOfDecimals'));
 

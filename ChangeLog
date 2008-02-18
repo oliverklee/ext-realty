@@ -1,5 +1,6 @@
 2008-02-18 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1651] Change: Move the currency unit from the locale back into the TS setup
 	* [#1657] Fix: xml-import of the dataset "elevator" failed
 
 2008-02-17 Oliver Klee  <typo3-coding@oliverklee.de>

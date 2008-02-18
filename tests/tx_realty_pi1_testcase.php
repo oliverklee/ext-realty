@@ -354,6 +354,21 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateListViewReturnsPricesWithTheCurrencyUnitSetInTsSetup() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('buying_price' => '9', 'object_type' => '1')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
+
+		$this->assertContains(
+			'&euro;',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
