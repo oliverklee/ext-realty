@@ -5,6 +5,8 @@ plugin.tx_realty_pi1 {
 	# whether to use formal or informal language
 	salutation = formal
 
+	# currency symbol
+	currencyUnit = &euro;
 	# number of decimal digits for formatting prices
 	numberOfDecimals = 2
 	# format for all dates (as required for strftime)

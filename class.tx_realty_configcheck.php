@@ -66,6 +66,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkShowAddressOfObjects();
 		$this->checkSortCriteria();
 		$this->checkNumberOfDecimals();
+		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
 	}
 
@@ -86,6 +87,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_single_view() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkNumberOfDecimals();
+		$this->checkCurrencyUnit();
 		$this->checkRequireLoginForSingleViewPage();
 		$this->checkGalleryLinkTarget();
 		$this->checkGalleryPid();
@@ -106,6 +108,20 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCssFileFromConstants();
 		$this->checkCssClassNames();
 		$this->checkDateFormat();
+	}
+
+	/**
+	 * Checks the setting for the currency unit.
+	 */
+	private function checkCurrencyUnit() {
+		$this->checkForNonEmptyString(
+			'currencyUnit',
+			false,
+			'',
+			'This value specifies the currency of displayed prices. '
+				.'If this value is empty, prices will be displayed without a '
+				.'currency symbol.'
+		);
 	}
 
 	/**
