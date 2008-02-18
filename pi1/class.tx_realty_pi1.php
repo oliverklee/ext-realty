@@ -199,7 +199,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		// Checks the configuration and display any errors.
-		// The direct return value from $this->checkConfiguration() is not useed
+		// The direct return value from $this->checkConfiguration() is not used
 		// as this would ignore any previous error messages.
 		$this->checkConfiguration();
 		$result .= $this->getWrappedConfigCheckMessage();
