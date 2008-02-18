@@ -286,12 +286,12 @@ class tx_realty_domDocumentConverter {
 	 * returned.
 	 *
 	 * @param	string		string to compare with 'true', may also be also
-	 * 						uppercased or empty
+	 * 						uppercased, surrounded by quotes or empty
 	 * @return	boolean		true if the input value was the string 'true', false
 	 * 						otherwise
 	 */
 	private function isBooleanLikeStringTrue($booleanLikeString) {
-		return strtolower($booleanLikeString) == 'true';
+		return strtolower(trim($booleanLikeString, '"')) == 'true';
 	}
 
 	/**
@@ -299,12 +299,12 @@ class tx_realty_domDocumentConverter {
 	 * returned.
 	 *
 	 * @param	string		string to compare with 'false', may also be also
-	 * 						uppercased or empty
+	 * 						uppercased, surrounded by quotes or empty
 	 * @return	boolean		true if the input value was the string 'true', false
 	 * 						otherwise
 	 */
 	private function isBooleanLikeStringFalse($booleanLikeString) {
-		return strtolower($booleanLikeString) == 'false';
+		return strtolower(trim($booleanLikeString, '"')) == 'false';
 	}
 
 
@@ -371,7 +371,7 @@ class tx_realty_domDocumentConverter {
 	private function setTitleForPets() {
 		global $LANG;
 
-		if (!array_key_exists('pets', $this->importedData)) {
+		if (!isset($this->importedData['pets'])) {
 			return;
 		}
 
@@ -390,7 +390,7 @@ class tx_realty_domDocumentConverter {
 	 * address has not been imported yet.
 	 */
 	private function trySecondContactEmailIfEmailNotFound() {
-		if (array_key_exists('contact_email', $this->importedData)) {
+		if (isset($this->importedData['contact_email'])) {
 			return;
 		}
 
@@ -398,7 +398,7 @@ class tx_realty_domDocumentConverter {
 			'kontaktperson',
 			'email_direkt'
 		);
-		$this->addImportedData(
+		$this->addImportedDataIfAvailable(
 			'contact_email',
 			$contactEmailNode->nodeValue
 		);
@@ -409,7 +409,7 @@ class tx_realty_domDocumentConverter {
 	 * number has not been imported yet.
 	 */
 	private function trySecondContactPhoneNumberIfPhoneNumberNotFound() {
-		if (array_key_exists('contact_phone', $this->importedData)) {
+		if (isset($this->importedData['contact_phone'])) {
 			return;
 		}
 
@@ -417,7 +417,7 @@ class tx_realty_domDocumentConverter {
 			'kontaktperson',
 			'tel_privat'
 		);
-		$this->addImportedData(
+		$this->addImportedDataIfAvailable(
 			'contact_phone',
 			$contactEmailNode->nodeValue
 		);
@@ -428,14 +428,10 @@ class tx_realty_domDocumentConverter {
 	 * and stores them as an inner array in $this->importedData.
 	 */
 	private function fetchImages() {
-		$images = $this->createRecordsForImages();
-
-		if (!empty($images)) {
-			$this->addImportedData(
-				'images',
-				$images
-			);
-		}
+		$this->addImportedDataIfAvailable(
+			'images',
+			$this->createRecordsForImages()
+		);
 	}
 
 	/**
@@ -521,18 +517,26 @@ class tx_realty_domDocumentConverter {
 			);
 		}
 
-		if ($rawAttributes['serviceleistungen']['BETREUTES_WOHNEN']) {
-			$this->addImportedData('assisted_living', 1);
-		}
+		$this->addImportedDataIfAvailable(
+			'assisted_living',
+			$rawAttributes['serviceleistungen']['BETREUTES_WOHNEN']
+		);
 
-		if ($rawAttributes['fahrstuhl']['PERSONEN']
-			|| $rawAttributes['fahrstuhl']['LASTEN']
-		) {
-			$this->addTrueToImportedData('elevator');
-		}
+		$this->addImportedDataIfAvailable(
+			'fitted_kitchen',
+			$rawAttributes['kueche']['EBK']
+		);
 
-		if ($rawAttributes['kueche']['EBK']) {
-			$this->addTrueToImportedData('fitted_kitchen');
+		if (isset($rawAttributes['fahrstuhl']['PERSONEN'])) {
+			$this->addImportedData(
+				'elevator',
+				$rawAttributes['fahrstuhl']['PERSONEN']
+			);
+		} else {
+			$this->addImportedDataIfAvailable(
+				'elevator',
+				$rawAttributes['fahrstuhl']['LASTEN']
+			);
 		}
 
 		if (!empty($rawAttributes['heizungsart'])) {
@@ -560,9 +564,12 @@ class tx_realty_domDocumentConverter {
 		$objectTypeAttributes = $this->fetchDomAttributes(
 			$nodeWithAttributes
 		);
+
+		// It must be ensured that the key 'object_type' is set as soon as there
+		// are attributes provided, because 'object_type' is a required field.
 		if (!empty($objectTypeAttributes)) {
-			if (array_key_exists('KAUF', $objectTypeAttributes)) {
-				$this->addTrueToImportedData('object_type');
+			if (isset($objectTypeAttributes['KAUF'])) {
+				$this->addImportedData('object_type', $objectTypeAttributes['KAUF']);
 			} else {
 				$this->addImportedData('object_type', 0);
 			}
@@ -628,16 +635,14 @@ class tx_realty_domDocumentConverter {
 		);
 		$attributes = $this->fetchDomAttributes($nodeWithAttributes);
 
-		if (!empty($attributes)) {
-			$this->addImportedData(
-				'garage_rent',
-				$attributes['stellplatzmiete']
-			);
-			$this->addImportedData(
-				'garage_price',
-				$attributes['stellplatzkaufpreis']
-			);
-		}
+		$this->addImportedDataIfAvailable(
+			'garage_rent',
+			$attributes['stellplatzmiete']
+		);
+		$this->addImportedDataIfAvailable(
+			'garage_price',
+			$attributes['stellplatzkaufpreis']
+		);
 	}
 
 	/**
@@ -822,7 +827,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Adds an element to $this->importedData.
 	 *
-	 * @param	string		key to insert
+	 * @param	string		key to insert, must not be empty
 	 * @param	mixed		value to insert
 	 */
 	private function addImportedData($key, $value) {
@@ -830,12 +835,18 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Adds an element with the value 1 to $this->importedData.
+	 * Adds an element to $this->importedData if a non-empty value is provided.
 	 *
-	 * @param	string		key to insert
+	 * @param	string		key to insert, must not be empty
+	 * @param	mixed		value to insert, no element will be added if this
+	 * 						value is empty or null
 	 */
-	private function addTrueToImportedData($key) {
-		$this->addElementToArray($this->importedData, $key, 1);
+	private function addImportedDataIfAvailable($key, $value) {
+		if (!isset($value) || empty($value)) {
+			return;
+		}
+
+		$this->addImportedData($key, $value);
 	}
 
 	/**

@@ -1,3 +1,7 @@
+2008-02-18 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1657] Fix: xml-import of the dataset "elevator" failed
+
 2008-02-17 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1104] Change: Use type hinting for function parameters

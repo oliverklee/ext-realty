@@ -685,6 +685,31 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataReplacesQuotedBooleanStringsWithTrueBooleans() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<geo>'
+							.'<strasse>"true"</strasse>'
+							.'<plz>"false"</plz>'
+						.'</geo>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(
+				array(
+					'street' => true,
+					'zip' => false
+				)
+			),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedDataGetsEstateSize() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>'
@@ -860,6 +885,31 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			count($this->fixture->createRecordsForImages()) == 1
+		);
+	}
+
+	public function testGetConvertedImportsAttributeValuesCorrectly() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<ausstattung>'
+							.'<fahrstuhl PERSONEN="false"/>'
+							.'<kueche EBK="true"/>'
+						.'</ausstattung>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(
+				array(
+					'elevator' => false,
+					'fitted_kitchen' => true
+				)
+			),
+			$this->fixture->getConvertedData($node)
 		);
 	}
 
