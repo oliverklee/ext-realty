@@ -17,7 +17,7 @@ $TCA['tx_realty_objects'] = array(
 			.'assisted_living,fitted_kitchen,description,equipment,layout,'
 			.'location,misc,details_page,images,employer,openimmo_anid,'
 			.'openimmo_obid,utilization,contact_person,contact_email,contact_phone,'
-			.'owner'
+			.'owner,language'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -854,6 +854,15 @@ $TCA['tx_realty_objects'] = array(
 				'minitems' => 0,
 				'maxitems' => 1
 			)
+		),
+		'language' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.language',
+			'config' => array(
+				'type' => 'input',
+				'size' => 5,
+				'eval' => 'trim'
+			)
 		)
 	),
 	'types' => array(
@@ -887,7 +896,7 @@ $TCA['tx_realty_objects'] = array(
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
 				.'details_page, images, employer, contact_person, contact_email, '
-				.'contact_phone, owner'
+				.'contact_phone, owner, language'
 		),
 		'1' => array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
@@ -918,7 +927,7 @@ $TCA['tx_realty_objects'] = array(
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
 				.'details_page, images, employer, contact_person, contact_email, '
-				.'contact_phone, owner'
+				.'contact_phone, owner, language'
 		)
 	),
 	'palettes' => array(

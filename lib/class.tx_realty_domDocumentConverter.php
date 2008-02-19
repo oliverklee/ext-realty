@@ -259,6 +259,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchState();
 		$this->fetchAction();
 		$this->fetchGaragePrice();
+		$this->fetchLanguage();
 
 		$this->replaceImportedBooleanLikeStrings();
 		$this->substitudeSurplusDecimals();
@@ -685,6 +686,32 @@ class tx_realty_domDocumentConverter {
 				)
  			);
  		}
+	}
+
+	/**
+	 * Fetches the value for 'language' and stores it in $this->importedData.
+	 */
+	private function fetchLanguage() {
+		$userDefinedAnyfieldNode = $this->findFirstGrandchild(
+			'verwaltung_techn',
+			'user_defined_anyfield'
+		);
+		
+		if ($userDefinedAnyfieldNode) {
+			$listOfUserDefinedNodes = $this->getNodeListFromRawData(
+				'_all',
+				'feldart',
+				$userDefinedAnyfieldNode
+			);
+			foreach ($listOfUserDefinedNodes as $listItem) {
+				if ($listItem->firstChild->nodeValue == 'Sprache') {
+					$this->addImportedData(
+						'language',
+						$listItem->firstChild->nextSibling->nodeValue
+					);
+				}
+			}
+		}
 	}
 
 	/**
