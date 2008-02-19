@@ -119,7 +119,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings that are common to all FE plug-in variations of this
 	 * extension: CSS styled content, static TypoScript template included,
-	 * template file, css file, salutation mode, and CSS class names.
+	 * template file, CSS file, salutation mode, CSS class names and the locale.
 	 */
 	private function checkCommonFrontEndSettings() {
 		$this->checkCssStyledContent();
@@ -129,6 +129,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCssClassNames();
 		$this->checkDateFormat();
 		$this->checkWhatToDisplay();
+		$this->checkLocale();
 	}
 
 	/**
