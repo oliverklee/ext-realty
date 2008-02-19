@@ -274,7 +274,7 @@ class tx_realty_object {
 			$this->deleteRelatedImageRecords();
 			$errorMessage = 'message_deleted_flag_set';
 		} elseif (($errorMessage == '') && !empty($this->images)) {
-			$this->insertImageEntries($this->getAllImageData());
+			$this->insertImageEntries($this->getAllImageData(), $overridePid);
 		}
 
 		return $errorMessage;
@@ -509,8 +509,11 @@ class tx_realty_object {
 	 *
 	 * @param	array		array with data for each image to insert, may be
 	 * 						empty
+	 * @param	integer		PID for new object and image records (omit this
+	 * 						parameter to use the PID set in the global 
+	 * 						configuration)
 	 */
-	protected function insertImageEntries(array $imagesArray) {
+	protected function insertImageEntries(array $imagesArray, $overridePid = 0) {
 		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
 			return;
 		}
@@ -531,7 +534,11 @@ class tx_realty_object {
 					'tx_realty_images'
 				);
 			} else {
-				$this->createNewDatabaseEntry($imageData, 'tx_realty_images');
+				$this->createNewDatabaseEntry(
+					$imageData,
+					'tx_realty_images',
+					$overridePid
+				);
 			}
 
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(

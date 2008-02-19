@@ -47,7 +47,7 @@ final class tx_realty_objectChild extends tx_realty_object {
 	public function createNewDatabaseEntry(
 		array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
 	) {
-		parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
+		return parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
 	}
 
 	public function fetchDatabaseResult($databaseResult) {
@@ -78,8 +78,8 @@ final class tx_realty_objectChild extends tx_realty_object {
 		parent::prepareInsertionAndInsertRelations();
 	}
 
-	public function insertImageEntries($imagesArray) {
-		parent::insertImageEntries($imagesArray);
+	public function insertImageEntries($imagesArray, $overridePid = 0) {
+		parent::insertImageEntries($imagesArray, $overridePid);
 	}
 
 	public function fetchDomAttributes($nodeWithAttributes) {

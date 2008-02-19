@@ -65,9 +65,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->cleanUp();
-		unset($this->fixture);
-		unset($this->templateHelper);
-		unset($this->testingFramework);
+		unset($this->fixture, $this->templateHelper, $this->testingFramework);
 	}
 
 	public function testRecordExistsInDatabaseIfNoExistingUidGiven() {
@@ -962,6 +960,46 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			array('pid' => $this->pageId),
 			$result
 		);
+	}
+
+	public function testWriteToDatabaseInsertsCorrectPageIdForNewRecordIfOverridePidIsSet() {
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$otherObjectNumber)
+		);
+		$this->fixture->writeToDatabase($this->otherPageId);
+
+		$this->assertEquals(
+			array('pid' => $this->otherPageId),
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'pid',
+					'tx_realty_objects',
+					'object_number="'.self::$otherObjectNumber.'"'
+						.$this->templateHelper->enableFields('tx_realty_objects')
+				)
+			)
+		);
+	}
+
+	public function testImagesReceiveTheCorrectPageIdIfOverridePidIsSet() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'object_number' => self::$otherObjectNumber,
+				'images' => array(array('caption' => 'foo', 'image' => 'bar'))
+			)
+		);
+		$this->fixture->writeToDatabase($this->otherPageId);
+
+		$this->assertEquals(
+			array('pid' => $this->otherPageId),
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'pid',
+					'tx_realty_images',
+					'is_dummy_record=1'
+				)
+			)
+		);		
 	}
 
 	public function testUpdatingAnExistingRecordDoesNotChangeThePageId() {
