@@ -1,3 +1,7 @@
+2008-02-20 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1631] Fix: Some auxiliary records do not get imported
+
 2008-02-19 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1632] Feature: Use the combined fields "object number" and "language" for identifying an object in the DB
