@@ -1275,6 +1275,21 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateAConditionsRecord() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('state', 'foo');
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_conditions',
+				'title="foo" AND is_dummy_record=1'
+					.$this->templateHelper->enableFields('tx_realty_conditions')
+			)
+		);
+	}
+
 
 	///////////////////////
 	// Utility functions.
@@ -1305,7 +1320,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			'tx_realty_objects_images_mm',
 			'tx_realty_images',
-			'tx_realty_cities'
+			'tx_realty_cities',
+			'tx_realty_conditions'
 		) as $table) {
 			$this->testingFramework->markTableAsDirty($table);
 		}

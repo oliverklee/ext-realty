@@ -67,7 +67,8 @@ class tx_realty_object {
 		'tx_realty_districts' => 'district',
 		'tx_realty_pets' => 'pets',
 		'tx_realty_car_places' => 'garage_type',
-		'tx_realty_heating_types' => 'heating_type'
+		'tx_realty_heating_types' => 'heating_type',
+		'tx_realty_conditions' => 'state'
 	);
 
 	/** instance of tx_oelb_templatehelper */
