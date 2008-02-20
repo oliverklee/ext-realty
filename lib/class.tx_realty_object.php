@@ -176,7 +176,7 @@ class tx_realty_object {
 
 		$additionalWhereClause = '';
 		if ($enabledObjectsOnly) {
-			$additionalWhereClause = 
+			$additionalWhereClause =
 				$this->templateHelper->enableFields('tx_realty_objects');
 		}
 
@@ -249,10 +249,12 @@ class tx_realty_object {
 		$errorMessage = '';
 
 		if (($this->hasProperty('uid') || $this->hasProperty('object_number'))
-			&& $this->recordExistsInDatabase($this->realtyObjectData, 'object_number')
+			&& $this->recordExistsInDatabase(
+				$this->realtyObjectData, 'object_number, language'
+			)
 		) {
 			$this->prepareInsertionAndInsertRelations();
-			$this->ensureUid($this->realtyObjectData, 'object_number');
+			$this->ensureUid($this->realtyObjectData, 'object_number, language');
 			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
 				$errorMessage = 'message_updating_failed';
 			}
@@ -357,7 +359,7 @@ class tx_realty_object {
 	 * 						object, false otherwise
 	 */
 	private function hasProperty($key) {
-		return array_key_exists($key, $this->realtyObjectData);
+		return isset($this->realtyObjectData[$key]);
 	}
 
 	/**
@@ -494,7 +496,7 @@ class tx_realty_object {
 		if ($dbResult &&
 			($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
-			if (array_key_exists('uid', $row)) {
+			if (isset($row['uid'])) {
 				$result = $row['uid'];
 			}
 		}
@@ -510,7 +512,7 @@ class tx_realty_object {
 	 * @param	array		array with data for each image to insert, may be
 	 * 						empty
 	 * @param	integer		PID for new object and image records (omit this
-	 * 						parameter to use the PID set in the global 
+	 * 						parameter to use the PID set in the global
 	 * 						configuration)
 	 */
 	protected function insertImageEntries(array $imagesArray, $overridePid = 0) {
@@ -518,7 +520,7 @@ class tx_realty_object {
 			return;
 		}
 
-		$this->ensureUid($this->realtyObjectData, 'object_number');
+		$this->ensureUid($this->realtyObjectData, 'object_number, language');
 		$objectUid = $this->getProperty('uid');
 		$counter = 1;
 
@@ -552,7 +554,7 @@ class tx_realty_object {
 			if ($dbResult
 				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 			) {
-				if (array_key_exists('uid', $row)) {
+				if (isset($row['uid'])) {
 					$this->linkImageWithObject(
 						$objectUid,
 						$row['uid'],
@@ -742,16 +744,20 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Checks whether there is a database entry with the given UID or if there
-	 * is no element UID in $dataArray, a key named $alternativeKey already
-	 * exists in the database.
-	 * The result will be false if neither 'uid' nor $alternativeKey are
-	 * elements of $dataArray.
+	 * Checks whether a record exists in the database.
+	 * If $dataArray has got an element named 'uid', the database match is
+	 * searched by this UID. Otherwise, the database match is searched by the
+	 * list of alternative keys.
+	 * The result will be true if either the UIDs matched or if all the elements
+	 * of $dataArray which correspond to the list of alternative keys match the
+	 * a database record.
 	 *
 	 * @param	array		array of realty data, must not be empty
-	 * @param	string		Database column name which also occurs in the data
-	 * 						array as a key. This key's value is searched in the
-	 * 						database column in case there is no array key 'uid'.
+	 * @param	string		Comma-separated list of database column names which
+	 * 						also occur in the data array as keys. The database
+	 * 						match is searched by all these keys' values in case
+	 * 						there is no key 'uid' in $dataArray. The list may
+	 * 						contain spaces.
 	 * @param	string		Name of table where to find out whether an entry yet
 	 * 						exists. Must not be empty.
 	 *
@@ -764,87 +770,100 @@ class tx_realty_object {
 	 */
 	protected function recordExistsInDatabase(
 		array $dataArray,
-		$alternativeKey,
+		$alternativeKeys,
 		$table = 'tx_realty_objects'
 	) {
-		$recordExists = false;
-		$keyToSearch = '';
-
-		if (array_key_exists('uid', $dataArray) && ($dataArray['uid'] != 0)) {
-			$keyToSearch = 'uid';
-		} elseif (array_key_exists($alternativeKey, $dataArray)) {
-			$keyToSearch = $alternativeKey;
+		if (isset($dataArray['uid']) && ($dataArray['uid'] != 0)) {
+			$keys = 'uid';
+		} else {
+			$keys = $alternativeKeys;
 		}
 
-		if ($keyToSearch != '') {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'COUNT(*) AS number',
-				$table,
-				$keyToSearch.'="'.$dataArray[$keyToSearch].'"'
-					.$this->templateHelper->enableFields($table)
-			);
-
-			if ($dbResult
-				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-			) {
-				$recordExists = ($row['number'] >= 1);
-			}
-		}
-
-		return $recordExists;
-	}
-
-	/**
-	 * Checks whether a record with a certain object number exists in the
-	 * database table 'tx_realty_objects'.
-	 *
-	 * @param	string		object_number to find in database
-	 *
-	 * @return	boolean		true if the object number could be found in the
-	 * 						database, false otherwise
-	 */
-	private function objectNumberExistsInDatabase($objectNumber) {
-		return $this->recordExistsInDatabase(
-			array('object_number' => $objectNumber),
-			'object_number'
+		$databaseResult = $this->compareWithDatabase(
+			'COUNT(*) AS number', $dataArray, $keys, $table
 		);
+
+		return empty($databaseResult) ? false : ($databaseResult['number'] >= 1);
 	}
 
 	/**
-	 * Adds the UID from database to $dataArray if an entry, specified by $key,
-	 * already exists in database. $key also needs to be a key of $dataArray,
-	 * otherwise the UID cannot be added.
+	 * Adds the UID from a database record to $dataArray if all keys mentioned
+	 * in $keys match the values of $dataArray and the database entry.
 	 *
 	 * @param	array		data of an entry which already exists in database,
 	 * 						must not be empty
-	 * @param	string		key by which the existance of a database entry will
-	 * 						be proven, must not be empty and must also be a key
-	 * 						of $dataArray
+	 * @param	string		comma-separated list of all the keys by which the
+	 * 						existance of a database entry will be proven, must
+	 * 						be keys of $dataArray and of $table, may contain
+	 * 						spaces, must not be empty
 	 * @param	string		name of the table where to find out whether an entry
 	 * 						yet exists
 	 */
 	private function ensureUid(
 		array &$dataArray,
-		$key,
+		$keys,
 		$table = 'tx_realty_objects'
 	) {
-		if (!array_key_exists($key, $dataArray)
-			|| array_key_exists('uid', $dataArray)
-		) {
+		if (isset($dataArray['uid'])) {
 			return;
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			$table,
-			$key.'="'.$dataArray[$key].'"'
-				.$this->templateHelper->enableFields($table)
+		$databaseResultRow = $this->compareWithDatabase(
+			'uid', $dataArray, $keys, $table
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$dataArray = array_merge($dataArray, array('uid' => $row['uid']));
+		if (!empty($databaseResultRow)) {
+			$dataArray['uid'] = $databaseResultRow['uid'];
 		}
+	}
+
+	/**
+	 * Retrieves an associative array of data and returns the database result
+	 * according to $whatToSelect of the attempt to find matches for the list of
+	 * $keys. $keys is a comma-separated list of the database collumns which
+	 * should be compared with the corresponding values in $dataArray.
+	 *
+	 * @param	string		list of fields to select from the database table
+	 * 						(part of the sql-query right after SELECT), must not
+	 * 						be empty
+	 * @param	array		data from which to take elements for the database
+	 * 						comparison, must not be empty
+	 * @param	string		comma-separated list of keys whose values in
+	 * 						$dataArray and in the database should be compared,
+	 * 						may contain spaces, must not be empty
+	 * @param	string		table name, must not be empty
+	 *
+	 * @return	array		database result row in an array, will be empty if
+	 * 						no matching record was found
+	 */
+	private function compareWithDatabase($whatToSelect, $dataArray, $keys, $table) {
+		$result = false;
+
+		$keysToMatch = array();
+		foreach (explode(',', $keys) as $key) {
+			$trimmedKey = trim($key);
+			if (isset($dataArray[$trimmedKey])) {
+				$keysToMatch[] = $trimmedKey;
+			}
+		}
+
+		if (!empty($keysToMatch)) {
+			$whereClause = '1=1';
+			foreach ($keysToMatch as $key) {
+				$whereClause .= ' AND '.$key.'="'.$dataArray[$key].'"';
+			}
+
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				$whatToSelect,
+				$table,
+				$whereClause
+					.$this->templateHelper->enableFields($table)
+			);
+			if ($dbResult) {
+				$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			}
+		}
+
+		return is_array($result) ? $result : array();
 	}
 }
 

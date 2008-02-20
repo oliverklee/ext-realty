@@ -143,7 +143,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				)
 			),
 			$this->fixture->loadDatabaseEntry($this->objectUid, true)
-		);		
+		);
 	}
 
 	public function testLoadDatabaseEntryDoesNotLoadADisabledObjectIfEnabledObjectsOnlyIsSet() {
@@ -154,7 +154,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(),
 			$this->fixture->loadDatabaseEntry($uid, true)
-		);		
+		);
 	}
 
 	public function testLoadDatabaseEntryLoadsADisabledObjectIfEnabledObjectsOnlyIsNotSet() {
@@ -171,7 +171,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				)
 			),
 			$this->fixture->loadDatabaseEntry($uid, false)
-		);	
+		);
 	}
 
 	public function testGetDataTypeWhenArrayGiven() {
@@ -308,29 +308,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseUpdatesDatabaseEntryWhenUidAlreadyExistsInDb() {
+	public function testWriteToDatabaseUpdatesEntryIfUidExistsInDb() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('title', 'new title');
-
 		$message = $this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			'tx_realty_objects',
-			'object_number="'.self::$objectNumber.'"'
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
-			array('title' => 'new title'),
-			$result
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="'.self::$objectNumber.'" AND title="new title"'
+			)
 		);
 		$this->assertEquals(
 			'',
@@ -338,37 +326,131 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseUpdatesDatabaseEntryWhenObjectNumberExistsInDb() {
+	public function testWriteToDatabaseUpdatesEntryIfObjectNumberAndLanguageExistInTheDb() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => self::$objectNumber,
+				'language' => 'foo'
+			)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="'.self::$objectNumber.'" AND title="new title"'
+			)
+		);
+	}
+
+	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberExistsInTheDbAndTheLanguageDoesNot() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => self::$objectNumber,
+				'language' => 'bar'
+			)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number='.self::$objectNumber
+			)
+		);
+	}
+
+	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberExistsInTheDbAndTheLanguageIsEmpty() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => self::$objectNumber,
+				'language' => ''
+			)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number='.self::$objectNumber
+			)
+		);
+	}
+
+	public function testWriteToDatabaseUpdatesEntryIfObjectNumberExistsInTheDbAndNoLanguageIsSet() {
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'new title',
 				'object_number' => self::$objectNumber
 			)
 		);
-
 		$message = $this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			'tx_realty_objects',
-			'uid='.$this->objectUid
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
-			array('title' => 'new title'),
-			$result
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'uid='.$this->objectUid.' AND title="new title"'
+			)
 		);
 		$this->assertEquals(
 			'',
 			$message
+		);
+	}
+
+	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberButNoLanguageExistsInTheDbAndLanguageIsSet() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'title' => 'this is a title',
+				'object_number' => self::$objectNumber
+			)
+		);
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'this is a title',
+				'object_number' => self::$objectNumber,
+				'language' => 'bar'
+			)
+		);
+		$message = $this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'object_number="'.self::$objectNumber.'" AND title="this is a title"'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$message
+		);
+	}
+
+	public function testWriteToDatabaseCreatesNewEntryIfTheLanguageExistsInTheDbAndTheObjectNumberDoesNot() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => self::$otherObjectNumber,
+				'language' => 'foo'
+			)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				'tx_realty_objects',
+				'language="foo"'
+			)
 		);
 	}
 
@@ -999,7 +1081,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 					'is_dummy_record=1'
 				)
 			)
-		);		
+		);
 	}
 
 	public function testUpdatingAnExistingRecordDoesNotChangeThePageId() {
@@ -1209,7 +1291,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			array(
 				'title' => 'foo',
 				'object_number' => self::$objectNumber,
-				'pid' => $this->pageId
+				'pid' => $this->pageId,
+				'language' => 'foo'
 			)
 		);
 	}
