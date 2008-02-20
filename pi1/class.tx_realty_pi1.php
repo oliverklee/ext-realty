@@ -188,10 +188,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 			case 'contact_form':
 				$contactForm = new tx_realty_contactForm($this);
-				$result = $contactForm->getHtmlOfContactForm(
-						$this->piVars,
-						$this->createSummaryStringOfFavorites()
-					);
+				$result = $contactForm->render(
+					$this->piVars,
+					$this->createSummaryStringOfFavorites()
+				);
 				break;
 			case 'fe_editor':
 				$frontEndEditor = new tx_realty_frontEndEditor($this);

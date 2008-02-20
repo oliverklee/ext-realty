@@ -42,9 +42,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	private $contactFormData = array(
 		'isSubmitted' => false,
 		'showUid' => 0,
-		'requesteeName' => '',
-		'requesteeEmail' => '',
-		'requesteePhone' => '',
+		'requesterName' => '',
+		'requesterEmail' => '',
+		'requesterPhone' => '',
 		'request' => '',
 		'summaryStringOfFavorites' => ''
 	);
@@ -55,8 +55,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param	tx_oelib_templatehelper		plugin in which uses this contact
-	 * 										form
+	 * @param	tx_oelib_templatehelper		plugin which uses this contact form
 	 */
 	public function __construct(tx_oelib_templatehelper $plugin) {
 		$this->plugin = $plugin;
@@ -92,27 +91,25 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		HTML of the contact form, will not be empty
 	 */
-	public function getHtmlOfContactForm(
+	public function render(
 		array $contactFormData,
 		$summaryStringOfFavorites = ''
 	) {
 		$this->storeContactFormData($contactFormData, $summaryStringOfFavorites);
-		$subpartName = 'CONTACT_FORM_ERROR';
+		$subpartName = 'CONTACT_FORM';
 		$errorMessages = array();
 
-		if (!$this->contactFormData['isSubmitted']) {
-			$this->checkToHideRequesteeData();
-			if ($this->setOrHideSpecializedView()) {
-				$subpartName = 'CONTACT_FORM';
-			} else {
-				$errorMessages[] = 'message_noResultsFound_contact_form';
-			}
-		} else {
+		$this->checkToHideRequesterData();
+		if (!$this->setOrHideSpecializedView()) {
+			$errorMessages[] = 'message_noResultsFound_contact_form';
+		}
+
+		if ($this->contactFormData['isSubmitted']) {
 			if (!$this->isLoggedIn()) {
-				if (!$this->isValidName($this->contactFormData['requesteeName'])) {
+				if (!$this->isValidName($this->contactFormData['requesterName'])) {
 					$errorMessages[] = 'label_set_name';
 				}
-				if (!$this->isValidEmail($this->contactFormData['requesteeEmail'])) {
+				if (!$this->isValidEmail($this->contactFormData['requesterEmail'])) {
 					$errorMessages[] = 'label_set_valid_email_address';
 				}
 			}
@@ -129,7 +126,11 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			}
 		}
 
-		$this->setErrorMessageContent($errorMessages);
+		if (empty($errorMessages)) {
+			$this->plugin->hideSubparts('contact_form_error', 'wrapper');
+		} else {
+			$this->setErrorMessageContent($errorMessages);
+		}
 
 		return $this->plugin->getSubpart($subpartName);
 	}
@@ -167,13 +168,13 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the e-mail body. It contains the request and the requestee's
+	 * Returns the e-mail body. It contains the request and the requester's
 	 * contact data.
 	 *
 	 * @param	string		name of the contact person, must not be empty
 	 *
 	 * @return	string		the body of the e-mail to send, contains the request
-	 * 						and the contact data of the requestee, will not be
+	 * 						and the contact data of the requester, will not be
 	 * 						empty
 	 */
 	private function getFilledEmailBody($contactPerson) {
@@ -181,8 +182,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 
 		foreach (array(
 			'request' => $this->contactFormData['request'],
-			'requestee_name' => $this->contactFormData['requesteeName'],
-			'requestee_phone' => $this->contactFormData['requesteePhone'],
+			'requester_name' => $this->contactFormData['requesterName'],
+			'requester_email' => '('.$this->contactFormData['requesterEmail'].')',
+			'requester_phone' => $this->contactFormData['requesterPhone'],
 			'summary_string_of_favorites'
 				=> $this->contactFormData['summaryStringOfFavorites'],
 			'contact_person' => $contactPerson
@@ -218,7 +220,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 
 	/**
 	 * Returns the formatted "From:" header line for the e-mail to send.
-	 * The valitidy of the requestee's name and e-mail address is not checked by
+	 * The validity of the requester's name and e-mail address is not checked by
 	 * this function.
 	 *
 	 * @return	string		formatted string of header information, will not be
@@ -227,8 +229,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	private function getEmailSender() {
 		$this->setDataForLoggedInUser();
 
-		return 'From: "'.$this->contactFormData['requesteeName'].'" '
-			.'<'.$this->contactFormData['requesteeEmail'].'>'.chr(10);
+		return 'From: "'.$this->contactFormData['requesterName'].'" '
+			.'<'.$this->contactFormData['requesterEmail'].'>'.chr(10);
 	}
 
 	/**
@@ -248,7 +250,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Sets the requestee's data if the requestee is a logged in user. Does
+	 * Sets the requester's data if the requester is a logged in user. Does
 	 * nothing if no user is logged in.
 	 */
 	private function setDataForLoggedInUser() {
@@ -258,9 +260,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 
 		$ownerData = $this->getFeUserData($this->getFeUserUid());
 		foreach (array(
-			'requesteeName' => 'name',
-			'requesteeEmail' => 'email',
-			'requesteePhone' => 'telephone'
+			'requesterName' => 'name',
+			'requesterEmail' => 'email',
+			'requesterPhone' => 'telephone'
 		) as $contactFormDataKey => $ownerDataKey) {
 			$this->contactFormData[$contactFormDataKey]
 				= $ownerData[$ownerDataKey];
@@ -372,11 +374,11 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Hides the wrapper 'REQUESTEE_DATA' if a FE user is logged in.
+	 * Hides the wrapper 'REQUESTERR_DATA' if a FE user is logged in.
 	 */
-	private function checkToHideRequesteeData() {
+	private function checkToHideRequesterData() {
 		if ($this->isLoggedIn()) {
-			$this->plugin->hideSubparts('requestee_data', 'wrapper');
+			$this->plugin->hideSubparts('requester_data', 'wrapper');
 		}
 	}
 
@@ -438,7 +440,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	) {
 		foreach (
 			array(
-				'requesteeName', 'requesteeEmail', 'requesteePhone', 'request'
+				'requesterName', 'requesterEmail', 'requesterPhone', 'request'
 			) as $key
 		) {
 			$this->contactFormData[$key] = isset($contactFormData[$key])
@@ -467,7 +469,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_contactForm.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_contactForm.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_contactForm.php']);
 }
 ?>

@@ -435,7 +435,13 @@
 
 
 <!-- ###CONTACT_FORM### -->
-<div class="tx_realty_pi1-contact-form">
+<div class="tx-realty-pi1-contact-form">
+	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
+	<fieldset class="tx-realty-pi1-fieldset">
+		<h3>###LABEL_SORRY###</h3>
+		<p class="error">###ERROR_MESSAGE###</p>
+	</fieldset>
+	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
 	<p>###LABEL_CONTACT_FORM_DESCRIPTION###</p>
 	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
 	<fieldset class="tx-realty-pi1-fieldset">
@@ -446,14 +452,14 @@
 	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
     <fieldset class="tx-realty-pi1-fieldset">
 		<form method="post" action="">
-			<!-- ###WRAPPER_REQUESTEE_DATA### -->
- 			<p><label for="tx_realty_pi1-requesteeName">###LABEL_YOUR_NAME###:</label></p>
-			<p><input name="tx_realty_pi1[requesteeName]" id="tx_realty_pi1-requesteeName" type="text" size="30" maxlength="50"></p>
-			<p><label for="tx_realty_pi1-requesteeEmail>###LABEL_YOUR_EMAIL###:</label></p>
-			<p><input name="tx_realty_pi1[requesteeEmail]" id="tx_realty_pi1-requesteeEmail" type="text" size="30" maxlength="50"></p>
-			<p><label for="tx_realty_pi1-requesteePhone">###LABEL_YOUR_PHONE###:</label></p>
-			<p><input name="tx_realty_pi1[requesteePhone]" id="tx_realty_pi1-requesteePhone" type="text" size="30" maxlength="50"></p>
-			<!-- ###WRAPPER_REQUESTEE_DATA### -->
+			<!-- ###WRAPPER_REQUESTER_DATA### -->
+ 			<p><label for="tx_realty_pi1-requesterName">###LABEL_YOUR_NAME###:</label></p>
+			<p><input name="tx_realty_pi1[requesterName]" id="tx_realty_pi1-requesterName" type="text" size="30" maxlength="50"></p>
+			<p><label for="tx_realty_pi1-requesterEmail>###LABEL_YOUR_EMAIL###:</label></p>
+			<p><input name="tx_realty_pi1[requesterEmail]" id="tx_realty_pi1-requesterEmail" type="text" size="30" maxlength="50"></p>
+			<p><label for="tx_realty_pi1-requesterPhone">###LABEL_YOUR_PHONE###:</label></p>
+			<p><input name="tx_realty_pi1[requesterPhone]" id="tx_realty_pi1-requesterPhone" type="text" size="30" maxlength="50"></p>
+			<!-- ###WRAPPER_REQUESTER_DATA### -->
 			<p><label for="tx_realty_pi1-request">###LABEL_YOUR_REQUEST###:</label></p>
 			<p><textarea name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10"></textarea></p>
 			<p>
@@ -465,13 +471,6 @@
 	<div class="clear"></div>
 </div>
 <!-- ###CONTACT_FORM### -->
-
-<!-- ###CONTACT_FORM_ERROR### -->
-<div class="contact-form">
-	<h3>###LABEL_SORRY###</h3>
-	<p class="error">###ERROR_MESSAGE###</p>
-</div>
-<!-- ###CONTACT_FORM_ERROR### -->
 
 <!-- ###CONTACT_FORM_SUBMITTED### -->
 <div class="tx-realty-pi1-contact-form">
@@ -493,11 +492,11 @@
 <!-- ###WRAPPER_UID### -->###LABEL_UID###: ###UID###<!-- ###WRAPPER_UID### -->
 <!-- ###WRAPPER_EMAIL_FROM_SPECIALIZED_CONTACT_FORM### -->
 
-###REQUESTEE_NAME### ###LABEL_HAS_REQUEST###
+###REQUESTER_NAME### ###REQUESTER_EMAIL### ###LABEL_HAS_REQUEST###
 
 ###REQUEST###
 
-<!-- ###WRAPPER_REQUESTEE_PHONE### -->###LABEL_REQUESTEE_PHONE### ###REQUESTEE_PHONE###<!-- ###WRAPPER_REQUESTEE_PHONE### -->
+<!-- ###WRAPPER_REQUESTER_PHONE### -->###LABEL_REQUESTER_PHONE### ###REQUESTER_PHONE###<!-- ###WRAPPER_REQUESTER_PHONE### -->
 <!-- ###EMAIL_BODY### -->
 
 
