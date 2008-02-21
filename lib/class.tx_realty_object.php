@@ -848,15 +848,15 @@ class tx_realty_object {
 		}
 
 		if (!empty($keysToMatch)) {
-			$whereClause = '1=1';
+			$whereClauseParts = array();
 			foreach ($keysToMatch as $key) {
-				$whereClause .= ' AND '.$key.'="'.$dataArray[$key].'"';
+				$whereClauseParts[] = $key.'="'.$dataArray[$key].'"';
 			}
 
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				$whatToSelect,
 				$table,
-				$whereClause
+				implode(' AND ', $whereClauseParts)
 					.$this->templateHelper->enableFields($table)
 			);
 			if ($dbResult) {
