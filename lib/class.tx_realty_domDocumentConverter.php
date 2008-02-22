@@ -698,19 +698,15 @@ class tx_realty_domDocumentConverter {
 		);
 		
 		if ($userDefinedAnyfieldNode) {
-			$listOfUserDefinedNodes = $this->getNodeListFromRawData(
-				'_all',
-				'feldart',
+			$languageNode = $this->getNodeListFromRawData(
+				'sprache',
+				'',
 				$userDefinedAnyfieldNode
 			);
-			foreach ($listOfUserDefinedNodes as $listItem) {
-				if ($listItem->firstChild->nodeValue == 'Sprache') {
-					$this->addImportedData(
-						'language',
-						$listItem->firstChild->nextSibling->nodeValue
-					);
-				}
-			}
+			$this->addImportedData(
+				'language',
+				$languageNode->item(0)->nodeValue
+			);
 		}
 	}
 

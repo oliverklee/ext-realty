@@ -920,54 +920,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 					.'<immobilie>'
 						.'<verwaltung_techn>'
 							.'<user_defined_anyfield>'
-								.'<_all>'
-									.'<feldart>'
-										.'<name>Sprache</name>'
-										.'<wert>foo</wert>'
-									.'</feldart>'
-								.'</_all>'
-							.'</user_defined_anyfield>'
-						.'</verwaltung_techn>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$this->assertEquals(
-			array(array('language' => 'foo')),
-			$this->fixture->getConvertedData($node)
-		);
-	}
-
-	public function testGetConvertedImportsTheLanguageAlthoughSeveralFeldartTagsAreDefined() {
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<verwaltung_techn>'
-							.'<user_defined_anyfield>'
-								.'<_all>'
-									.'<feldart>'
-										.'<name>anything</name>'
-										.'<wert>value</wert>'
-									.'</feldart>'
-									.'<feldart>'
-										.'<name>anotherTag</name>'
-										.'<wert>value</wert>'
-									.'</feldart>'
-									.'<feldart>'
-										.'<name>thirdTag</name>'
-										.'<wert>value</wert>'
-									.'</feldart>'
-									.'<feldart>'
-										.'<name>Sprache</name>'
-										.'<wert>foo</wert>'
-									.'</feldart>'
-									.'<feldart>'
-										.'<name>lastTag</name>'
-										.'<wert>value</wert>'
-									.'</feldart>'
-								.'</_all>'
+								.'<sprache>foo</sprache>'
 							.'</user_defined_anyfield>'
 						.'</verwaltung_techn>'
 					.'</immobilie>'
