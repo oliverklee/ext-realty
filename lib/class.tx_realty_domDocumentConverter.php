@@ -693,10 +693,10 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function fetchLanguage() {
 		$userDefinedAnyfieldNode = $this->findFirstGrandchild(
-			'verwaltung_techn',
+			'verwaltung_objekt',
 			'user_defined_anyfield'
 		);
-		
+
 		if ($userDefinedAnyfieldNode) {
 			$languageNode = $this->getNodeListFromRawData(
 				'sprache',
