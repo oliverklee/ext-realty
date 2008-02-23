@@ -1142,6 +1142,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testGalleryShowsWarningWithMissingShowUidParameter() {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
@@ -1152,6 +1157,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
