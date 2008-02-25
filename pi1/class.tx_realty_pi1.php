@@ -225,9 +225,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createListView()	{
 		$result = '';
 
-		$this->setSubpartContent('list_filter', $this->createCheckboxesFilter());
-
 		$dbResult = $this->initListView();
+
+		$this->setSubpartContent('list_filter', $this->createCheckboxesFilter());
+		$this->setMarkerContent('self_url', $this->getSelfUrl());
+		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
 
 		if (($this->internal['res_count'] > 0)
 			&& $dbResult
@@ -270,121 +272,53 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Initializes the list view, but does not create any actual HTML output.
 	 *
-	 * @return	pointer		the result of a DB query for the realty objects to list (may be null)
+	 * @return	pointer		the result of a DB query for the realty objects to
+	 * 						list, may be null
 	 */
 	private function initListView() {
-		// local settings for the listView function
-		$lConf = $this->conf['listView.'];
+		// To ensure that sorting by cities actually sorts the titles and not
+		// the cities' UIDs, the join on the tx_realty_cities table is needed.
+		$table = $this->internal['currentTable'].' INNER JOIN '
+			.$this->tableNames['city'].' ON '.$this->internal['currentTable']
+			.'.city = '.$this->tableNames['city'].'.uid';
+		$whereClause = $this->createWhereClause();
 
-		if (!isset($this->piVars['pointer'])) {
-			$this->piVars['pointer'] = 0;
-		}
-
-		// initializing the query parameters
-		if (isset($this->piVars['orderBy'])) {
-			$this->internal['orderBy'] = $this->piVars['orderBy'];
-		} else {
-			$this->internal['orderBy'] = $lConf['orderBy'];
-		}
-		// initializing the query parameters
-		if (isset($this->piVars['descFlag'])) {
-			$this->internal['descFlag'] = $this->piVars['descFlag'];
-		} else {
-			$this->internal['descFlag'] = $lConf['descFlag'];
-		}
-
-		$orderBy = $this->internal['orderBy'];
-		if ($orderBy != '') {
-			// '+0' converts the database column's type to NUMERIC as the
-			// columns in the array below are regularly used for numeric
-			// values but also might need to contain strings.
-			if (in_array($orderBy, array(
-					'buying_price',
-					'number_of_rooms',
-					'object_number',
-					'rent_excluding_bills',
-					'living_area'
-				)
-			)) {
-				$orderBy .= ' +0';
-			}
-
-			$orderBy .= ($this->internal['descFlag'] ? ' DESC' : ' ASC');
-		}
-
-		// number of results to show in a listing
-		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
-			$lConf['results_at_a_time'],
-			0,
-			1000,
-			3
-		);
-
-		// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
-		$this->internal['maxPages'] = t3lib_div::intInRange(
-			$lConf['maxPages'],
-			1,
-			1000,
-			2
-		);
-
-		$this->internal['orderByList'] = 'object_number,title,city,district,'
-			.'buying_price,rent_excluding_bills,number_of_rooms,living_area,tstamp';
-
-		$additionalWhereClause = $this->createWhereClause();
-
-		// get number of records (the "true" activates the "counting" mode)
-		$dbResultCounter = $this->pi_exec_query(
-			$this->internal['currentTable'],
-			true,
-			$additionalWhereClause
-		);
-
-		$counterRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($dbResultCounter);
-		$this->internal['res_count'] = $counterRow[0];
-		// The number of the last possible page in a listing
-		// (which is the number of pages minus one as the numbering starts at zero).
-		// If there are no results, the last page still has the number 0.
-		$this->internal['lastPage'] = max(
-			0,
-			ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1
-		);
-
-		// make listing query, pass query to SQL database
-		$dbResult = $this->pi_exec_query(
-			$this->internal['currentTable'],
-			false,
-			$additionalWhereClause,
+		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$this->tableNames['objects'].'.*',
+			$table,
+			$whereClause,
 			'',
-			'',
-			$orderBy
+			$this->createOrderByStatement(),
+			$this->createLimitStatement($table, $whereClause)
 		);
-
-		$this->setMarkerContent('self_url', $this->getSelfUrl());
-		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
-
-		return $dbResult;
 	}
 
 	/**
 	 * Creates the WHERE clause for initListView().
 	 *
-	 * @return	string		WHERE clause for initListView(), will be empty if
-	 * 						'staticSqlFilter' and $this->piVars['city'] are
-	 * 						not set and the view is not 'favorites' and
-	 * 						'checkboxesFilter' is either not set or
-	 * 						$searchSelection is empty
+	 * @return	string		WHERE clause for initListView(), will not be empty
 	 */
 	private function createWhereClause() {
-		$whereClause = ($this->hasConfValueString('staticSqlFilter')) ?
-			// The space before the "AND" will be automatically added by pi_exec_query,
-			// and so we don't need to explicitely add it.
-			'AND '.$this->getConfValueString('staticSqlFilter') :
-			'';
+		// The result may only contain non-deleted and non-hidden records which
+		// are in the set of allowed pages.
+		$whereClause = '1=1'.$this->enableFields($this->tableNames['objects'])
+			.$this->enableFields($this->tableNames['city']);
+		$pidList = $this->pi_getPidList(
+			$this->conf['pidList'], $this->conf['recursive']
+		);
 
-		// find only cities that match the uid in piVars['city']
+		if (!empty($pidList)) {
+			$whereClause .=
+				' AND '.$this->tableNames['objects'].'.pid IN ('.$pidList.')';
+		}
+
+		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
+			? ' AND '.$this->getConfValueString('staticSqlFilter') : '';
+
+		// finds only cities that match the UID in piVars['city']
 		if (isset($this->piVars['city'])) {
-			$whereClause .=  ' AND city='.$this->piVars['city'];
+			$whereClause .=  ' AND '.$this->tableNames['objects'].'.city='
+				.intval($this->piVars['city']);
 		}
 
 		if ($this->getCurrentView() == 'favorites') {
@@ -395,20 +329,119 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->processSubmittedFavorites();
 			// If the favorites list is empty, make sure to create a valid query
 			// that will produce zero results.
-			$whereClause .= ($this->getFavorites() != '') ?
-				' AND uid IN('.$this->getFavorites().')' :
-				' AND (0=1)';
+			$whereClause .= ($this->getFavorites() != '')
+				? ' AND '.$this->tableNames['objects'].'.uid IN('.$this->getFavorites().')'
+				: ' AND (0=1)';
 			$this->favoritesDataVerbose = array();
 		}
 
 		$searchSelection = implode(',', $this->getSearchSelection());
 		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$whereClause .=
-				' AND '.$this->getConfValueString('checkboxesFilter')
+			$whereClause .=	' AND '.$this->tableNames['objects']
+				.'.'.$this->getConfValueString('checkboxesFilter')
 				.' IN ('.$searchSelection.')';
 		}
 
 		return $whereClause;
+	}
+
+	/**
+	 * Creates the ORDER BY statement for initListView().
+	 *
+	 * @return	string		ORDER BY statement for initListView(), will be empty
+	 * 						if 'orderBy' was empty or not within the set of
+	 * 						allowed sort criteria
+	 */
+	private function createOrderByStatement() {
+		$result = '';
+
+		$sortCriterion = isset($this->piVars['orderBy'])
+			? $this->piVars['orderBy']
+			: $this->getListViewConfValueString('orderBy');
+		$descendingFlag = isset($this->piVars['descFlag'])
+			? $this->piVars['descFlag']
+			: $this->getListViewConfValueBoolean('descFlag');
+
+		// checks whether the sort criterion is allowed
+		if (in_array($sortCriterion, $this->sortCriteria)) {
+			// '+0' converts the database column's type to NUMERIC as the
+			// columns in the array below are regularly used for numeric
+			// values but also might need to contain strings.
+			if (in_array($sortCriterion, array(
+				'buying_price',
+				'number_of_rooms',
+				'object_number',
+				'rent_excluding_bills',
+				'living_area'
+			))) {
+				$sortCriterion .= ' +0';
+			}
+
+			// The objects' table only contains the cities' UIDs. The result
+			// needs to be sorted by the cities' titles which are in a separate
+			// table.
+			if ($sortCriterion == 'city') {
+				$result = $this->tableNames['city'].'.title';
+			} else {
+				$result = $this->tableNames['objects'].'.'.$sortCriterion;
+			}
+
+			$result .= ($descendingFlag ? ' DESC' : ' ASC');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Creates the LIMIT statement for initListView().
+	 *
+	 * @param	string		table for which to create the LIMIT statement, must
+	 * 						not be empty
+	 * @param	string		WHERE clause of the query for which the LIMIT
+	 * 						statement will be, may be empty
+	 *
+	 * @return	string		LIMIT statement for initListView(), will not be
+	 * 						empty
+	 */
+	private function createLimitStatement($table, $whereClause) {
+		if (!isset($this->piVars['pointer'])) {
+			$this->piVars['pointer'] = 0;
+		}
+		// number of results to show in a listing
+		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
+			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
+		);
+
+		// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
+		$this->internal['maxPages'] = t3lib_div::intInRange(
+			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
+		);
+
+		// get number of records
+		$dbResultCounter = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'COUNT(*) AS number',
+			$table,
+			$whereClause
+		);
+
+		$counterRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($dbResultCounter);
+		$this->internal['res_count'] = $counterRow[0];
+
+		// The number of the last possible page in a listing
+		// (which is the number of pages minus one as the numbering starts at zero).
+		// If there are no results, the last page still has the number 0.
+		$this->internal['lastPage'] = max(
+			0,
+			ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1
+		);
+
+		$lowerLimit = intval($this->piVars['pointer'])
+			* intval($this->internal['results_at_a_time']);
+		$upperLimit = intval(t3lib_div::intInRange(
+			$this->internal['results_at_a_time'], 1, 1000)
+		);
+
+		return $lowerLimit.','.$upperLimit;
 	}
 
 	/**

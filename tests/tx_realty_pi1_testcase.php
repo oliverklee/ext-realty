@@ -36,10 +36,6 @@ require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
-define('TX_REALTY_FIRST_OBJECT_NUMBER', '1');
-define('TX_REALTY_SECOND_OBJECT_NUMBER', '2');
-define('TX_REALTY_FIRST_TITLE', 'a title');
-define('TX_REALTY_SECOND_TITLE', 'another title');
 define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
 
 class tx_realty_pi1_testcase extends tx_phpunit_testcase {
@@ -50,11 +46,34 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private $loginPid = 0;
 	private $listViewPid = 0;
 	private $singlePid = 0;
-	private $systemFolderPid = 0;
 	private $otherSinglePid = 0;
-	private $firstRealtyUid = 0;
-	private $secondRealtyUid = 0;
 	private $favoritesPid = 0;
+	private $systemFolderPid = 0;
+	private $subSystemFolderPid = 0;
+
+	/** first dummy realty object */
+	private $firstRealtyUid = 0;
+	/** object number for the first dummy realty object */
+	private static $firstObjectNumber = '1';
+	/** title for the first dummy realty object */
+	private static $firstObjectTitle = 'a title';
+
+	/** second dummy realty object */
+	private $secondRealtyUid = 0;
+	/** object number for the second dummy realty object */
+	private static $secondObjectNumber = '2';
+	/** title for the second dummy realty object */
+	private static $secondObjectTitle = 'another title';
+
+	/** first dummy city UID */
+	private $firstCityUid = 0;
+	/** title for the first dummy city */
+	private static $firstCityTitle = 'foo city';
+
+	/** second dummy city UID */
+	private $secondCityUid = 0;
+	/** title for the second dummy city */
+	private static $secondCityTitle = 'bar city';
 
 	public function setUp() {
 		// Bolster up the fake front end.
@@ -62,10 +81,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-
 		if (!is_object($GLOBALS['TSFE']->fe_user)) {
 			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
 		}
+		// This initialization ensures dummy system folders get recognized as
+		// "enabled". This affects the usage of sub-system folders in the tests.
+		$GLOBALS['TSFE']->initUserGroups();
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyPages();
@@ -92,8 +113,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
-		unset($this->testingFramework);
-		unset($this->fixture);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -341,19 +361,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateListViewReturnsHtmlListOfTableEntries() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-
-		$this->assertContains(
-			TX_REALTY_FIRST_TITLE,
-			$this->fixture->main('', array())
-		);
-		$this->assertContains(
-			TX_REALTY_SECOND_TITLE,
-			$this->fixture->main('', array())
-		);
-	}
-
 	public function testCreateListViewReturnsPricesWithTheCurrencyUnitSetInTsSetup() {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
@@ -369,15 +376,87 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateListViewReturnsListOfRecords() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testCreateListViewReturnsMainSysFolderRecordsAndSubFolderRecordsIfRecursionIsEnabled() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('recursive', '1');
+
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('pid' => $this->subSystemFolderPid)
+		);
+
+		$result = $this->fixture->main('', array());
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$result
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$result
+		);
+	}
+
+	public function testCreateListViewNotReturnsSubFolderRecordsIfRecursionIsDisabled() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('recursive', '0');
+
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('pid' => $this->subSystemFolderPid)
+		);
+
+		$result = $this->fixture->main('', array());
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$result
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$result
+		);
+	}
+
+	public function testTheResultIsCountedCorrectly() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			2,
+			$this->fixture->internal['res_count']
+		);
+	}
+
+
+	//////////////////////////////////
+	// Tests concerning the sorting.
+	//////////////////////////////////
+
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, TX_REALTY_FIRST_OBJECT_NUMBER)
-				< strpos($result, TX_REALTY_SECOND_OBJECT_NUMBER)
+		$this->assertGreaterThan(
+			strpos($result, self::$firstObjectNumber),
+			strpos($result, self::$secondObjectNumber)
 		);
 	}
 
@@ -386,10 +465,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 1;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, TX_REALTY_SECOND_OBJECT_NUMBER)
-				< strpos($result, TX_REALTY_FIRST_OBJECT_NUMBER)
+		$this->assertGreaterThan(
+			strpos($result, self::$secondObjectNumber),
+			strpos($result, self::$firstObjectNumber)
 		);
 	}
 
@@ -409,10 +490,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '9')
-				< strpos($result, '11')
+		$this->assertGreaterThan(
+			strpos($result, '9'),
+			strpos($result, '11')
 		);
 	}
 
@@ -432,10 +515,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 1;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '11')
-				< strpos($result, '9')
+		$this->assertGreaterThan(
+			strpos($result, '11'),
+			strpos($result, '9')
 		);
 	}
 
@@ -455,10 +540,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '4.10')
-				< strpos($result, '12.34')
+		$this->assertGreaterThan(
+			strpos($result, '4.10'),
+			strpos($result, '12.34')
 		);
 	}
 
@@ -478,10 +565,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 1;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '12.34')
-				< strpos($result, '4.10')
+		$this->assertGreaterThan(
+			strpos($result, '12.34'),
+			strpos($result, '4.10')
 		);
 	}
 
@@ -501,10 +590,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '12.00')
-				< strpos($result, '12.34')
+		$this->assertGreaterThan(
+			strpos($result, '12.00'),
+			strpos($result, '12.34')
 		);
 	}
 
@@ -524,10 +615,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 1;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '12.34')
-				< strpos($result, '12.00')
+		$this->assertGreaterThan(
+			strpos($result, '12.34'),
+			strpos($result, '12.00')
 		);
 	}
 
@@ -547,10 +640,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '4,10')
-				< strpos($result, '12,34')
+		$this->assertGreaterThan(
+			strpos($result, '4,10'),
+			strpos($result, '12,34')
 		);
 	}
 
@@ -570,10 +665,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'object_number';
 		$this->fixture->conf['listView.']['descFlag'] = 1;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '12,34')
-				< strpos($result, '4,10')
+		$this->assertGreaterThan(
+			strpos($result, '12,34'),
+			strpos($result, '4,10')
 		);
 	}
 
@@ -593,10 +690,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'buying_price';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '9')
-				< strpos($result, '11')
+		$this->assertGreaterThan(
+			strpos($result, '9'),
+			strpos($result, '11')
 		);
 	}
 
@@ -616,10 +715,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'rent_excluding_bills';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '9')
-				< strpos($result, '11')
+		$this->assertGreaterThan(
+			strpos($result, '9'),
+			strpos($result, '11')
 		);
 	}
 
@@ -639,10 +740,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'number_of_rooms';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '9')
-				< strpos($result, '11')
+		$this->assertGreaterThan(
+			strpos($result, '9'),
+			strpos($result, '11')
 		);
 	}
 
@@ -662,22 +765,94 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->conf['listView.']['orderBy'] = 'number_of_rooms';
 		$this->fixture->conf['listView.']['descFlag'] = 0;
 
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
-		$this->assertTrue(
-			strpos($result, '9')
-				< strpos($result, '11')
+		$this->assertGreaterThan(
+			strpos($result, '9'),
+			strpos($result, '11')
 		);
 	}
+
+	public function testListViewIsSortedAscendinglyByTheCitiesTitles() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'city';
+		$this->fixture->conf['listView.']['descFlag'] = 0;
+
+		// The result would be inverted if cities are sorted by their UID because
+		// the following can be asserted:
+		$this->assertTrue(
+			$this->firstCityUid < $this->secondCityUid
+		);
+
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertGreaterThan(
+			strpos($result, self::$secondCityTitle),
+			strpos($result, self::$firstCityTitle)
+		);
+	}
+
+	public function testListViewIsSortedDescendinglyByTheCitiesTitles() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'city';
+		$this->fixture->conf['listView.']['descFlag'] = 1;
+
+		// The result would be inverted if cities are sorted by their UID because
+		// the following can be asserted:
+		$this->assertTrue(
+			$this->firstCityUid < $this->secondCityUid
+		);
+
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertGreaterThan(
+			strpos($result, self::$firstCityTitle),
+			strpos($result, self::$secondCityTitle)
+		);
+	}
+
+	public function testListViewIsSortedByUidIfAnInvalidSortCriterionWasSet() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('street' => '11')
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->secondRealtyUid,
+			array('street' => '9')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->conf['listView.']['orderBy'] = 'street';
+		$this->fixture->conf['listView.']['descFlag'] = 1;
+
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertGreaterThan(
+			strpos($result, self::$firstCityTitle),
+			strpos($result, self::$secondCityTitle)
+		);
+	}
+
+
+	/////////////////////////////////////////////////////
+	// Tests concerning the summary sting of favorites.
+	/////////////////////////////////////////////////////
 
 	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 
 		$this->assertContains(
-			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 		$this->assertNotContains(
-			'* '.TX_REALTY_SECOND_OBJECT_NUMBER.' '.TX_REALTY_SECOND_TITLE.chr(10),
+			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
@@ -687,11 +862,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->addToFavorites(array($this->secondRealtyUid));
 
 		$this->assertContains(
-			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 		$this->assertContains(
-			'* '.TX_REALTY_SECOND_OBJECT_NUMBER.' '.TX_REALTY_SECOND_TITLE.chr(10),
+			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.chr(10),
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
@@ -711,7 +886,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'summaryStringOfFavorites'
 		);
 		$this->assertContains(
-			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
 			$sessionData
 		);
 	}
@@ -726,7 +901,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'summaryStringOfFavorites'
 		);
 		$this->assertContains(
-			'* '.TX_REALTY_FIRST_OBJECT_NUMBER.' '.TX_REALTY_FIRST_TITLE.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
 			$sessionData
 		);
 	}
@@ -1233,28 +1408,48 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->listViewPid = $this->testingFramework->createFrontEndPage();
 		$this->singlePid = $this->testingFramework->createFrontEndPage();
 		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
-		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
-		$this->favoritesPid = $this->testingFramework->createSystemFolder();
+		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
+		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
+		$this->subSystemFolderPid = $this->testingFramework->createSystemFolder(
+			$this->systemFolderPid
+		);
+	}
+
+	/**
+	 * Creates dummy city records in the DB.
+	 */
+	private function createDummyCities() {
+		$this->firstCityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities',
+			array('title' => self::$firstCityTitle)
+		);
+		$this->secondCityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities',
+			array('title' => self::$secondCityTitle)
+		);
 	}
 
 	/**
 	 * Creates dummy realty objects in the DB.
 	 */
 	private function createDummyObjects() {
+		$this->createDummyCities();
 		$this->firstRealtyUid = $this->testingFramework->createRecord(
 			'tx_realty_objects',
 			array(
-				'title' => TX_REALTY_FIRST_TITLE,
-				'object_number' => TX_REALTY_FIRST_OBJECT_NUMBER,
-				'pid' => $this->systemFolderPid
+				'title' => self::$firstObjectTitle,
+				'object_number' => self::$firstObjectNumber,
+				'pid' => $this->systemFolderPid,
+				'city' => $this->firstCityUid
 			)
 		);
 		$this->secondRealtyUid = $this->testingFramework->createRecord(
 			'tx_realty_objects',
 			array(
-				'title' => TX_REALTY_SECOND_TITLE,
-				'object_number' => TX_REALTY_SECOND_OBJECT_NUMBER,
-				'pid' => $this->systemFolderPid
+				'title' => self::$secondObjectTitle,
+				'object_number' => self::$secondObjectNumber,
+				'pid' => $this->systemFolderPid,
+				'city' => $this->secondCityUid
 			)
 		);
 	}

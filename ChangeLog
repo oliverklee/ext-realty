@@ -1,3 +1,7 @@
+2008-02-25 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1504] Fix: Sorting by related records sorts by UID
+
 2008-02-20 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1631] Fix: Some auxiliary records do not get imported
