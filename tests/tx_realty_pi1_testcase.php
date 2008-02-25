@@ -81,6 +81,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
+		// This object is required to be initialized before
+		// $GLOBALS['TSFE']->initUserGroups() can be called.
 		if (!is_object($GLOBALS['TSFE']->fe_user)) {
 			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
 		}
@@ -166,37 +168,20 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFeUserLogin() {
-		$this->fakeFeUserLogin();
-		$this->assertTrue(
-			$this->fixture->isLoggedIn()
-		);
-	}
-
-	public function testFeUserLogoff() {
-		$this->logoffFeUser();
-		$this->assertFalse(
-			$this->fixture->isLoggedIn()
-		);
-	}
-
-	public function testFeUserLoginAndLogoff() {
-		$this->fakeFeUserLogin();
-		$this->logoffFeUser();
-		$this->assertFalse(
-			$this->fixture->isLoggedIn()
-		);
-	}
-
 	public function testAccessToSingleViewIsAllowedWithoutLoginPerDefault() {
-		$this->logoffFeUser();
+		$this->testingFramework->logoutFrontEndUser();
+
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
 		);
 	}
 
 	public function testAccessToSingleViewIsAllowedWithLoginPerDefault() {
-		$this->fakeFeUserLogin();
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
 		);
@@ -204,7 +189,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithoutLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-		$this->logoffFeUser();
+		$this->testingFramework->logoutFrontEndUser();
+
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
 		);
@@ -212,7 +198,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-		$this->fakeFeUserLogin();
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
 		);
@@ -220,7 +210,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsDeniedWithoutLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$this->logoffFeUser();
+		$this->testingFramework->logoutFrontEndUser();
+
 		$this->assertFalse(
 			$this->fixture->isAccessToSingleViewPageAllowed()
 		);
@@ -228,7 +219,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$this->fakeFeUserLogin();
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
 		);
@@ -892,7 +887,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteSummaryStringOfFavoritesToDatabaseIfFeUserIsLoggedIn() {
-		$this->fakeFeUserLogin();
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
 
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 		$this->fixture->writeSummaryStringOfFavoritesToSession();
@@ -1366,30 +1364,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	///////////////////////
 
 	/**
-	 * Fakes that a FE user has logged in.
-	 */
-	private function fakeFeUserLogin() {
-		$GLOBALS['TSFE']->fe_user->createUserSession(array());
-		$GLOBALS['TSFE']->loginUser = 1;
-	}
-
-	/**
-	 * Logs off the current FE user (if he/she is logged in).
-	 */
-	private function logoffFeUser() {
-		if (is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user->logoff();
-		}
-		unset($GLOBALS['TSFE']->loginUser);
-	}
-
-	/**
 	 * Denies access to the details page by requiring logon to display that page
 	 * and then logging out any logged-in FE users.
 	 */
 	private function denyAccess() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$this->logoffFeUser();
+		$this->testingFramework->logoutFrontEndUser();
 	}
 
 	/**

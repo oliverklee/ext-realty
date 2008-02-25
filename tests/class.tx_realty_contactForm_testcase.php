@@ -64,10 +64,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
 
-		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
-		}
-
 		$this->pi1 = new tx_realty_pi1();
 		$this->pi1->init(array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'));
 
@@ -80,7 +76,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->logoutFeUser();
+		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
 		tx_oelib_mailerFactory::getInstance()->getMailer()->cleanUpCollectedEmailData();
 		tx_oelib_mailerFactory::getInstance()->disableTestMode();
@@ -93,27 +89,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	///////////////////////
 
 	/**
-	 * Fakes that a FE user has logged in.
-	 *
-	 * @param	integer		UID of the FE user, must be > 0
-	 */
-	private function fakeFeUserLogin($userId) {
-		$GLOBALS['TSFE']->fe_user->createUserSession(array());
-		$GLOBALS['TSFE']->fe_user->user = array('uid' => $userId);
-		$GLOBALS['TSFE']->loginUser = 1;
-	}
-
-	/**
-	 * Logs out the current FE user.
-	 */
-	private function logoutFeUser() {
-		if (is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user->logoff();
-		}
-		unset($GLOBALS['TSFE']->loginUser);
-	}
-
-	/**
 	 * Creates dummy records in the DB.
 	 */
 	private function createDummyRecords() {
@@ -124,97 +99,13 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 				'object_number' => self::$realtyObjectNumber
 			)
 		);
-		$this->feUserId = $this->createFeUser(
+		$this->feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
 			array(
 				'name' => self::$feUserTitle,
 				'email' => self::$feUserEmail,
 				'telephone' => '7654321'
 			)
-		);
-	}
-
-	/**
-	 * Creates a FE user and returns the UID.
-	 *
-	 * Note: This function can be removed when the testing framework allows to
-	 * create FE users.
-	 *
-	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=1439
-	 *
-	 * @param	array		data for the FE user, may be empty
-	 *
-	 * @return	integer		UID of the FE user
-	 */
-	private function createFeUser(array $data) {
-		$data['tx_oelib_is_dummy_record'] = 1;
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'fe_users',
-			$data
-		);
-		if ($dbResult) {
-			$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
-			$this->testingFramework->markTableAsDirty('fe_users');
-		} else {
-			throw new Exception('There was an error while creating the FE user');
-		}
-
-		return $result;
-	}
-
-
-	/////////////////////////////////////
-	// Tests for the utility functions.
-	/////////////////////////////////////
-
-	public function testCreateFeUserCreatesADummyFeUser() {
-		// Ensures that the database is clean of other dummy records.
-		$this->testingFramework->cleanUp();
-		$this->createFeUser(array());
-
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				'fe_users',
-				'tx_oelib_is_dummy_record=1'
-			)
-		);
-	}
-
-	public function testCreateDummyRecordsCreatesDummyObjectAndFeUser() {
-		// Ensures that the database is clean of other dummy records.
-		$this->testingFramework->cleanUp();
-		$this->createDummyRecords();
-
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				'tx_realty_objects',
-				'is_dummy_record=1'
-			)
-		);
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				'fe_users',
-				'tx_oelib_is_dummy_record=1'
-			)
-		);
-	}
-
-	public function testFakeUserLogin() {
-		$this->fakeFeUserLogin($this->feUserId);
-
-		$this->assertTrue(
-			$this->fixture->isLoggedIn()
-		);
-	}
-
-	public function testLogoutFeUser() {
-		$this->fakeFeUserLogin($this->feUserId);
-		$this->logoutFeUser();
-
-		$this->assertFalse(
-			$this->fixture->isLoggedIn()
 		);
 	}
 
@@ -284,7 +175,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSpecializedContactFormDoesNotHaveFieldsForNameAndEmailAddressIfLoggedIn() {
-		$this->fakeFeUserLogin($this->feUserId);
+		$this->testingFramework->loginFrontendUser($this->feUserId);
 		$result = $this->fixture->render(
 			array('showUid' => $this->realtyUid)
 		);
@@ -300,7 +191,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGeneralContactFormDoesNotHaveFieldsForNameAndEmailAddressIfLoggedIn() {
-		$this->fakeFeUserLogin($this->feUserId);
+		$this->testingFramework->loginFrontendUser($this->feUserId);
 		$result = $this->fixture->render(array());
 
 		$this->assertNotContains(
@@ -631,7 +522,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSpecializedContactFormUsesTheDefaultEmailAddressEmailIfTheOwnersAddressWasNotValid() {
-		$ownerUid = $this->createFeUser(array('email' => 'invalid-address'));
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('email' => 'invalid-address')
+		);
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
 			$this->realtyUid,
@@ -733,7 +627,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testNameAndEmailAddressAreFetchedAutomaticallyIfAFeUserIsLoggedIn() {
-		$this->fakeFeUserLogin($this->feUserId);
+		$this->testingFramework->loginFrontendUser($this->feUserId);
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
