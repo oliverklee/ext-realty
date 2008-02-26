@@ -138,6 +138,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Sends the filled-in request of the contact form to the owner of the
 	 * object (or to the contact person if there is no owner).
+	 * If a recipient for a blind carbon copy is configured, the request is
+	 * also sent to this address.
 	 *
 	 * Note: When this extension requires TYPO3 4.2, the return value of
 	 * sendEmail() should be returned instead of just returning true after
@@ -159,7 +161,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			$contactData['email'],
 			$this->getEmailSubject(),
 			$this->getFilledEmailBody($contactData['name']),
-			$this->getEmailSender(),
+			$this->getEmailSender().$this->getBccAddress(),
 			'',
 			'UTF-8'
 		);
@@ -223,14 +225,33 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * The validity of the requester's name and e-mail address is not checked by
 	 * this function.
 	 *
-	 * @return	string		formatted string of header information, will not be
-	 * 						empty
+	 * @return	string		formatted e-mail header line containing the sender,
+	 * 						will not be empty
 	 */
 	private function getEmailSender() {
 		$this->setDataForLoggedInUser();
 
 		return 'From: "'.$this->contactFormData['requesterName'].'" '
 			.'<'.$this->contactFormData['requesterEmail'].'>'.chr(10);
+	}
+
+	/**
+	 * Returns a formatted header line for the BCC if a blind carbon copy
+	 * address is set in the TS setup.
+	 * 
+	 * @return	string		formatted e-mail header for BCC ending with LF or an
+	 * 						empty string if no recipient was configured
+	 */
+	private function getBccAddress() {
+		$result = '';
+		
+		if ($this->plugin->hasConfValueString('blindCarbonCopyAddress')) {
+			$result = 'Bcc: '
+				.$this->plugin->getConfValueString('blindCarbonCopyAddress')
+				.chr(10);
+		}
+
+		return $result;
 	}
 
 	/**

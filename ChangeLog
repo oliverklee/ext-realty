@@ -1,3 +1,7 @@
+2008-02-26 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1550] Feature: Allow to have a configurable address as BCC: in the contact form
+
 2008-02-25 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1504] Fix: Sorting by related records sorts by UID

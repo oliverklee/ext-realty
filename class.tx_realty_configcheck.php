@@ -106,6 +106,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_contact_form() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkDefaultEmail();
+		$this->checkBlindCarbonCopyAddress();
 	}
 
 	/**
@@ -405,14 +406,29 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting for the default e-mail address.
 	 */
 	private function checkDefaultEmail() {
-		$this->checkForNonEmptyString(
+		$this->checkIsValidEmailNotEmpty(
 			'defaultEmail',
 			true,
-			'',
+			'sDEF',
+			true,
 			'This value specifies the recipient for requests on objects. '
 				.'This address is always used if direct requests for objects '
 				.'are disabled and it is used if a direct request is not '
 				.'possible because an object\'s contact data cannot be found.'
+		);
+	}
+
+	/**
+	 * Checks the setting for the BCC e-mail address.
+	 */
+	private function checkBlindCarbonCopyAddress() {
+		$this->checkIsValidEmailOrEmpty(
+			'blindCarbonCopyAddress',
+			true,
+			'sDEF',
+			true,
+			'This value specifies the recipient for for a blind carbon copy of '
+				.'each request on objects and may be left empty.'
 		);
 	}
 

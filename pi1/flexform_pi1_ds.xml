@@ -125,6 +125,15 @@
 							</config>
 						</TCEforms>
 					</defaultEmail>
+					<blindCarbonCopyAddress>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.blindCarbonCopyAddress</label>
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</blindCarbonCopyAddress>
 					<allowDirectRequestsForObjects>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.allowDirectRequestsForObjects</label>
