@@ -760,13 +760,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Sets the locale.
-	 */
-	private function setLocaleConvention() {
-		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
-	}
-
-	/**
 	 * Retrieves the value of the record field $key formatted as an area.
 	 * If the field's value is empty or its intval is zero, an empty string will be returned.
 	 *
