@@ -72,6 +72,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 		$this->createDummyRecords();
 		$this->pi1->setConfigurationValue('defaultEmail', 'any-default@email-address.org');
+		$this->pi1->setConfigurationValue('blindCarbonCopyAddress', '');
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 	}
 
@@ -640,6 +641,41 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'"'.self::$feUserTitle.'" <'.self::$feUserEmail.'>',
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
 		);
+	}
+
+	public function testTheHeaderContainsABccAddressIfThisWasConfigured() {
+		$this->pi1->setConfigurationValue(
+			'blindCarbonCopyAddress', 'bcc-address@valid-email.org'
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => true,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+				'request' => 'the request'
+			)
+		);
+
+		$this->assertContains(
+			'Bcc: bcc-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
+		);		
+	}
+
+	public function testTheHeaderContainsNoBccLineIfNoAddressWasConfigured() {
+		$this->fixture->render(
+			array(
+				'isSubmitted' => true,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+				'request' => 'the request'
+			)
+		);
+
+		$this->assertNotContains(
+			'Bcc:',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
+		);		
 	}
 
 	public function testNoEmailIsSentIfTheContactFormWasNotFilledCorrectly() {
