@@ -864,13 +864,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Sets the locale.
-	 */
-	private function setLocaleConvention() {
-		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
-	}
-
-	/**
 	 * Retrieves the value of the record field $key formatted as an area.
 	 * If the field's value is empty or its intval is zero, an empty string will be returned.
 	 *
@@ -1895,31 +1888,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Gets the configuration.
-	 *
-	 * @return	array		configuration array, might be empty
-	 */
-	public function getConfiguration() {
-		return $this->conf;
-	}
-
-	/**
-	 * Sets a configuration value.
-	 *
-	 * This function is intended to be used for testing purposes only.
-	 *
-	 * @param	string		key of the configuration property to set, must not be empty
-	 * @param	mixed		value of the configuration property, may be empty or zero
-	 */
-	public function setConfigurationValue($key, $value) {
-		if (!is_array($this->conf)) {
-			$this->conf = array();
-		}
-
-		$this->conf[$key] = $value;
 	}
 
 	/**
