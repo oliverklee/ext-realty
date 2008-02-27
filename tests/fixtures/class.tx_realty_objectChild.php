@@ -33,19 +33,20 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 
 final class tx_realty_objectChild extends tx_realty_object {
 	public function recordExistsInDatabase(
 		$dataArray,
 		$alternativeKey,
-		$table = 'tx_realty_objects'
+		$table = REALTY_TABLE_OBJECTS
 	) {
 		return parent::recordExistsInDatabase($dataArray, $alternativeKey, $table);
 	}
 
 	public function createNewDatabaseEntry(
-		array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
+		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
 	) {
 		return parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
 	}

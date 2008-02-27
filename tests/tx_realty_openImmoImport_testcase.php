@@ -29,11 +29,12 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openImmoImportChild.php');
-
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openImmoImportChild.php');
 
 class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private $fixture;
@@ -314,9 +315,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="'.$objectNumber.'"'
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -357,9 +358,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="'.$objectNumber.'"'
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -696,7 +697,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$result = $this->testingFramework->getAssociativeDatabaseResult(
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'uid',
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" AND zip="zip"'
 			)
 		);
@@ -711,7 +712,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" AND zip="changed zip" '
 					.'AND uid='.$result['uid']
 			)
@@ -804,10 +805,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$this->systemFolderPid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -826,10 +827,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$this->systemFolderPid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -848,10 +849,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$pid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -870,10 +871,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$pid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -892,10 +893,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$pid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -916,10 +917,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$pid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -940,10 +941,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$pid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -965,10 +966,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$pid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -989,10 +990,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="bar1234567" '
 					.'AND pid='.$pid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1037,7 +1038,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 * Cleans up the tables in which dummy records are created during the tests.
 	 */
 	private function cleanUp() {
-		foreach (array('tx_realty_objects', 'tx_realty_house_types') as $table) {
+		foreach (array(REALTY_TABLE_OBJECTS, REALTY_TABLE_HOUSE_TYPES) as $table) {
 			$this->testingFramework->markTableAsDirty($table);
 		}
 		$this->testingFramework->cleanUp();

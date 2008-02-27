@@ -1,6 +1,7 @@
 2008-02-27 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1627] Change: Use the file with common constants from oelib
+	* [#1675] Change: Move the table names to constants
 
 2008-02-26 Oliver Klee  <typo3-coding@oliverklee.de>
 

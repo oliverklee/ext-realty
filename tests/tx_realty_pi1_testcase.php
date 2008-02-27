@@ -33,9 +33,9 @@ require_once(PATH_tslib.'class.tslib_content.php');
 require_once(PATH_tslib.'class.tslib_feuserauth.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
 
 define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
@@ -360,7 +360,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testCreateListViewReturnsPricesWithTheCurrencyUnitSetInTsSetup() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('buying_price' => '9', 'object_type' => '1')
 		);
@@ -391,7 +391,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('recursive', '1');
 
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('pid' => $this->subSystemFolderPid)
 		);
@@ -412,7 +412,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('recursive', '0');
 
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('pid' => $this->subSystemFolderPid)
 		);
@@ -473,12 +473,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '9')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '11')
 		);
@@ -498,12 +498,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedDescendinglyByObjectNumberWhenTheLowerNumbersFirstDigitIsHigherThanTheHigherNumber() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '9')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '11')
 		);
@@ -523,12 +523,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortHaveDots() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '12.34')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '4.10')
 		);
@@ -548,12 +548,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortHaveDots() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '12.34')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '4.10')
 		);
@@ -573,12 +573,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '12.34')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '12.00')
 		);
@@ -598,12 +598,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortHaveDotsAndDifferOnlyInDecimals() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '12.34')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '12.00')
 		);
@@ -623,12 +623,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '12,34')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '4,10')
 		);
@@ -648,12 +648,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortHaveCommasAndDifferBeforeTheComma() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('object_number' => '12,34')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('object_number' => '4,10')
 		);
@@ -673,12 +673,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByBuyingPrice() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('buying_price' => '9', 'object_type' => '1')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('buying_price' => '11', 'object_type' => '1')
 		);
@@ -698,12 +698,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByRent() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('rent_excluding_bills' => '9', 'object_type' => '0')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('rent_excluding_bills' => '11', 'object_type' => '0')
 		);
@@ -723,12 +723,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByNumberOfRooms() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('number_of_rooms' => '9')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('number_of_rooms' => '11')
 		);
@@ -748,12 +748,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedAscendinglyByLivingArea() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('living_area' => '9')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('living_area' => '11')
 		);
@@ -813,12 +813,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedByUidIfAnInvalidSortCriterionWasSet() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('street' => '11')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('street' => '9')
 		);
@@ -1116,7 +1116,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testDetailPageContainsContactInformationIfOptionIsEnabled() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array(
 				'employer' => 'test company',
@@ -1143,7 +1143,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testDetailPageNotContainsContactInformationIfOptionIsDisabled() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array(
 				'employer' => 'test company',
@@ -1181,7 +1181,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testGetFieldContentOfEstateSize() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('estate_size' => '12345')
 		);
@@ -1199,7 +1199,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testDetailPageDisplaysTheZip() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('zip' => '12345')
 		);
@@ -1214,7 +1214,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsDisabled() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('zip' => '12345')
 		);
@@ -1344,9 +1344,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryShowsNoWarningWithAllParameter() {
-		$imageUid = $this->testingFramework->createRecord('tx_realty_images');
+		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
 		$this->testingFramework->createRelation(
-			'tx_realty_objects_images_mm',
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			$this->firstRealtyUid, $imageUid
 		);
 
@@ -1402,11 +1402,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 */
 	private function createDummyCities() {
 		$this->firstCityUid = $this->testingFramework->createRecord(
-			'tx_realty_cities',
+			REALTY_TABLE_CITIES,
 			array('title' => self::$firstCityTitle)
 		);
 		$this->secondCityUid = $this->testingFramework->createRecord(
-			'tx_realty_cities',
+			REALTY_TABLE_CITIES,
 			array('title' => self::$secondCityTitle)
 		);
 	}
@@ -1417,7 +1417,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private function createDummyObjects() {
 		$this->createDummyCities();
 		$this->firstRealtyUid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => self::$firstObjectTitle,
 				'object_number' => self::$firstObjectNumber,
@@ -1426,7 +1426,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->secondRealtyUid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => self::$secondObjectTitle,
 				'object_number' => self::$secondObjectNumber,

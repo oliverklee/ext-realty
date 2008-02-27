@@ -29,9 +29,9 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
 
@@ -51,17 +51,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private $uploadDirectory = 'uploads/tx_realty/';
 	/** the names of the DB tables for foreign keys */
 	private $tableNames = array(
-		'objects' => 'tx_realty_objects',
-		'city' => 'tx_realty_cities',
-		'district' => 'tx_realty_districts',
-		'apartment_type' => 'tx_realty_apartment_types',
-		'house_type' => 'tx_realty_house_types',
-		'heating_type' => 'tx_realty_heating_types',
-		'garage_type' => 'tx_realty_car_places',
-		'pets' => 'tx_realty_pets',
-		'state' => 'tx_realty_conditions',
-		'images' => 'tx_realty_images',
-		'images_relation' => 'tx_realty_objects_images_mm'
+		'objects' => REALTY_TABLE_OBJECTS,
+		'city' => REALTY_TABLE_CITIES,
+		'district' => REALTY_TABLE_DISTRICTS,
+		'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
+		'house_type' => REALTY_TABLE_HOUSE_TYPES,
+		'heating_type' => REALTY_TABLE_HEATING_TYPES,
+		'garage_type' => REALTY_TABLE_CAR_PLACES,
+		'pets' => REALTY_TABLE_PETS,
+		'state' => REALTY_TABLE_CONDITIONS,
+		'images' => REALTY_TABLE_IMAGES,
+		'images_relation' => REALTY_TABLE_OBJECTS_IMAGES_MM
 	);
 	/** session key for storing the favorites list */
 	private $favoritesSessionKey = 'tx_realty_favorites';

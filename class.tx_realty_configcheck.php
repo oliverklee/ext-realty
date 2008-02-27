@@ -34,6 +34,8 @@
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configcheck.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
+
 class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the configuration for the gallery of the realty manager.
@@ -267,7 +269,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the fields which should be displayed in '
 				.'single view. If this value is empty, the single view only '
 				.'shows the title of an object.',
-			$this->getDbColumnNames('tx_realty_objects')
+			$this->getDbColumnNames(REALTY_TABLE_OBJECTS)
 		);
 	}
 
@@ -284,7 +286,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'session when displaying the favorites list. This value may be '
 				.'empty. Wrong values cause empty fields in the session data '
 				.'array.',
-			$this->getDbColumnNames('tx_realty_objects')
+			$this->getDbColumnNames(REALTY_TABLE_OBJECTS)
 		);
 	}
 
@@ -459,7 +461,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the name of the DB field to create the search '
 				.'filter checkboxes from. Searching will not work properly if '
 				.'non-database fields are set.',
-			'tx_realty_objects'
+			REALTY_TABLE_OBJECTS
 		);
 	}
 

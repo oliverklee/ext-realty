@@ -31,8 +31,11 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 require_once(PATH_t3lib.'class.t3lib_refindex.php');
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
+
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 
 class tx_realty_object {
 	/** contains the realty object's data */
@@ -61,14 +64,14 @@ class tx_realty_object {
 
 	/** associates property names and their corresponding tables */
 	private $propertyTables = array(
-		'tx_realty_cities' => 'city',
-		'tx_realty_apartment_types' => 'apartment_type',
-		'tx_realty_house_types' => 'house_type',
-		'tx_realty_districts' => 'district',
-		'tx_realty_pets' => 'pets',
-		'tx_realty_car_places' => 'garage_type',
-		'tx_realty_heating_types' => 'heating_type',
-		'tx_realty_conditions' => 'state'
+		REALTY_TABLE_CITIES => 'city',
+		REALTY_TABLE_APARTMENT_TYPES => 'apartment_type',
+		REALTY_TABLE_HOUSE_TYPES => 'house_type',
+		REALTY_TABLE_DISTRICTS => 'district',
+		REALTY_TABLE_PETS => 'pets',
+		REALTY_TABLE_CAR_PLACES => 'garage_type',
+		REALTY_TABLE_HEATING_TYPES => 'heating_type',
+		REALTY_TABLE_CONDITIONS => 'state'
 	);
 
 	/** instance of tx_oelb_templatehelper */
@@ -178,12 +181,12 @@ class tx_realty_object {
 		$additionalWhereClause = '';
 		if ($enabledObjectsOnly) {
 			$additionalWhereClause =
-				$this->templateHelper->enableFields('tx_realty_objects');
+				$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS);
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			'uid='.$uid.$additionalWhereClause
 		);
 
@@ -264,7 +267,7 @@ class tx_realty_object {
 			if (empty($requiredFields)) {
 				$this->prepareInsertionAndInsertRelations();
 				if (!$this->createNewDatabaseEntry(
-					$this->realtyObjectData, 'tx_realty_objects', $overridePid
+					$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
 				)) {
 					$errorMessage = 'message_insertion_failed';
 				}
@@ -374,7 +377,7 @@ class tx_realty_object {
 	 */
 	protected function checkMissingColumnNames() {
 		$fieldsInDb = array_keys(
-			$GLOBALS['TYPO3_DB']->admin_get_fields('tx_realty_objects')
+			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
 		);
 		return array_diff($fieldsInDb, array_keys($this->getAllProperties()));
 	}
@@ -398,7 +401,7 @@ class tx_realty_object {
 	 */
 	protected function deleteSurplusFields() {
 		$fieldsInDb = array_keys(
-			$GLOBALS['TYPO3_DB']->admin_get_fields('tx_realty_objects')
+			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
 		);
 		$surplusFieldsInRealtyObjectData = array_diff(
 			array_keys($this->getAllProperties()),
@@ -529,27 +532,27 @@ class tx_realty_object {
 			if ($this->recordExistsInDatabase(
 				$imageData,
 				'image',
-				'tx_realty_images'
+				REALTY_TABLE_IMAGES
 			)) {
-				$this->ensureUid($imageData, 'image', 'tx_realty_images');
+				$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
 				$this->updateDatabaseEntry(
 					$imageData,
-					'tx_realty_images'
+					REALTY_TABLE_IMAGES
 				);
 			} else {
 				$this->createNewDatabaseEntry(
 					$imageData,
-					'tx_realty_images',
+					REALTY_TABLE_IMAGES,
 					$overridePid
 				);
 			}
 
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'uid',
-				'tx_realty_images',
+				REALTY_TABLE_IMAGES,
 				'image='.$GLOBALS['TYPO3_DB']->fullQuoteStr(
 					$imageData['image'],
-					'tx_realty_images'
+					REALTY_TABLE_IMAGES
 				)
 			);
 			if ($dbResult
@@ -574,7 +577,7 @@ class tx_realty_object {
 	private function deleteRelatedImageRecords() {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid_foreign',
-			'tx_realty_objects_images_mm',
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			'uid_local='.intval($this->getProperty('uid'))
 		);
 
@@ -586,7 +589,7 @@ class tx_realty_object {
 
 			if(!empty($imagesToDelete)) {
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-					'tx_realty_images',
+					REALTY_TABLE_IMAGES,
 					'uid IN('.implode(',', $imagesToDelete).')',
 					array('deleted' => 1)
 				);
@@ -608,7 +611,7 @@ class tx_realty_object {
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid_local, uid_foreign',
-			'tx_realty_objects_images_mm',
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			'uid_local='.intval($objectUid).' AND uid_foreign='.intval($imageUid)
 		);
 		if ($dbResult) {
@@ -617,7 +620,7 @@ class tx_realty_object {
 
 		if (!$resultRow) {
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'tx_realty_objects_images_mm',
+				REALTY_TABLE_OBJECTS_IMAGES_MM,
 				array(
 					'uid_local' => intval($objectUid),
 					'uid_foreign' => intval($imageUid),
@@ -655,7 +658,7 @@ class tx_realty_object {
 	 * 						otherwise
 	 */
 	protected function createNewDatabaseEntry(
-		array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
+		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
 	) {
 		if (empty($realtyData)) {
 			return false;
@@ -671,8 +674,8 @@ class tx_realty_object {
 		$pid = tx_oelib_configurationProxy::getInstance('realty')->
 			getConfigurationValueInteger('pidForAuxiliaryRecords');
 		if (($pid == 0)
-			|| ($table == 'tx_realty_images')
-			|| ($table == 'tx_realty_objects')
+			|| ($table == REALTY_TABLE_IMAGES)
+			|| ($table == REALTY_TABLE_OBJECTS)
 		) {
 			if ($overridePid > 0) {
 				$pid = $overridePid;
@@ -709,7 +712,7 @@ class tx_realty_object {
 	 */
 	protected function updateDatabaseEntry(
 		array $realtyData,
-		$table = 'tx_realty_objects'
+		$table = REALTY_TABLE_OBJECTS
 	) {
 		if (!$realtyData['uid']) {
 			return false;
@@ -772,7 +775,7 @@ class tx_realty_object {
 	protected function recordExistsInDatabase(
 		array $dataArray,
 		$alternativeKeys,
-		$table = 'tx_realty_objects'
+		$table = REALTY_TABLE_OBJECTS
 	) {
 		if (isset($dataArray['uid']) && ($dataArray['uid'] != 0)) {
 			$keys = 'uid';
@@ -803,7 +806,7 @@ class tx_realty_object {
 	private function ensureUid(
 		array &$dataArray,
 		$keys,
-		$table = 'tx_realty_objects'
+		$table = REALTY_TABLE_OBJECTS
 	) {
 		if (isset($dataArray['uid'])) {
 			return;

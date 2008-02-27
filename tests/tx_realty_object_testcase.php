@@ -29,11 +29,12 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_objectChild.php');
-
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_objectChild.php');
 
 class tx_realty_object_testcase extends tx_phpunit_testcase {
 	private $fixture;
@@ -118,7 +119,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'*',
-					'tx_realty_objects',
+					REALTY_TABLE_OBJECTS,
 					'uid='.$this->objectUid
 				)
 			),
@@ -138,7 +139,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'*',
-					'tx_realty_objects',
+					REALTY_TABLE_OBJECTS,
 					'uid='.$this->objectUid
 				)
 			),
@@ -148,7 +149,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testLoadDatabaseEntryDoesNotLoadADisabledObjectIfEnabledObjectsOnlyIsSet() {
 		$uid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array('deleted' => 1)
 		);
 		$this->assertEquals(
@@ -159,14 +160,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testLoadDatabaseEntryLoadsADisabledObjectIfEnabledObjectsOnlyIsNotSet() {
 		$uid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array('deleted' => 1)
 		);
 		$this->assertEquals(
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'*',
-					'tx_realty_objects',
+					REALTY_TABLE_OBJECTS,
 					'uid='.$uid
 				)
 			),
@@ -220,9 +221,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="'.self::$otherObjectNumber.'"'
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -259,7 +260,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	public function testGetDataTypeWhenDatabaseResultGiven() {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			'uid='.$this->objectUid
 		);
 
@@ -270,24 +271,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFetchDatabaseResultFromValidStream() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
-			'tx_realty_objects',
-			'uid='.$this->objectUid
+		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'*',
+				REALTY_TABLE_OBJECTS,
+				'uid='.$this->objectUid
+			)
 		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
 
-		$expectedResult = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$expectedResult) {
-			$this->fail('The database result was empty.');
-		}
-
-		// dbResult can be fetched only once, so the query is needed again.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			'uid='.$this->objectUid
 		);
 		$resultToCheck = $this->fixture->fetchDatabaseResult($dbResult);
@@ -316,7 +310,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="'.self::$objectNumber.'" AND title="new title"'
 			)
 		);
@@ -339,7 +333,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="'.self::$objectNumber.'" AND title="new title"'
 			)
 		);
@@ -358,7 +352,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number='.self::$objectNumber
 			)
 		);
@@ -377,7 +371,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number='.self::$objectNumber
 			)
 		);
@@ -395,7 +389,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'uid='.$this->objectUid.' AND title="new title"'
 			)
 		);
@@ -407,7 +401,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberButNoLanguageExistsInTheDbAndLanguageIsSet() {
 		$uid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => 'this is a title',
 				'object_number' => self::$objectNumber
@@ -425,7 +419,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="'.self::$objectNumber.'" AND title="this is a title"'
 			)
 		);
@@ -448,7 +442,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'language="foo"'
 			)
 		);
@@ -487,9 +481,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number="'.(self::$otherObjectNumber).'"'
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -500,24 +494,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'tx_realty_objects',
-			'object_number='.self::$otherObjectNumber
-				.$this->templateHelper->enableFields('tx_realty_objects')
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
 			array('pid' => $this->pageId),
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'pid',
+					REALTY_TABLE_OBJECTS,
+					'object_number='.self::$otherObjectNumber
+						.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				)
+			)
 		);
 	}
 
@@ -532,10 +518,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number='.self::$otherObjectNumber
 				.' AND pid='.$systemFolderPid
-				.$this->templateHelper->enableFields('tx_realty_objects')
+				.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -550,7 +536,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'uid='.$this->objectUid
 				.' AND pid='.$this->pageId
 			)
@@ -568,25 +554,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('city', 'foo');
 		$this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'tx_realty_cities',
-			'title="foo"'
-				.$this->templateHelper->enableFields('tx_realty_cities')
-		);
-
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
 			array('pid' => $this->otherPageId),
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'pid',
+					REALTY_TABLE_CITIES,
+					'title="foo"'
+						.$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
+				)
+			)
 		);
 	}
 
@@ -598,24 +575,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('city', 'foo');
 		$this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'tx_realty_cities',
-			'title="foo"'
-				.$this->templateHelper->enableFields('tx_realty_cities')
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
 			array('pid' => $this->pageId),
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'pid',
+					REALTY_TABLE_CITIES,
+					'title="foo"'
+						.$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
+				)
+			)
 		);
 	}
 
@@ -751,7 +720,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	public function testCheckMissigColumnNamesIfNoRealtyObjectIsLoaded() {
 		$this->assertEquals(
 			array_keys(
-				$GLOBALS['TYPO3_DB']->admin_get_fields('tx_realty_objects')
+				$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
 			),
 			$this->fixture->checkMissingColumnNames()
 		);
@@ -823,25 +792,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('city', 'foo');
 		$this->fixture->prepareInsertionAndInsertRelations(
 			'pets',
-			'tx_realty_cities'
+			REALTY_TABLE_CITIES
 		);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			'tx_realty_cities',
-			'title = "foo"'
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
 
 		$this->assertEquals(
-			$this->fixture->getProperty('city'),
-			$result['uid']
+			array('uid' => $this->fixture->getProperty('city')),
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'uid',
+					REALTY_TABLE_CITIES,
+					'title = "foo"'
+				)
+			)
 		);
 	}
 
@@ -852,7 +814,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'',
 			$this->fixture->prepareInsertionAndInsertRelations(
 				'pets',
-				'tx_realty_pets'
+				REALTY_TABLE_PETS
 			)
 		);
 	}
@@ -868,24 +830,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->insertImageEntries($image);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'tx_realty_images.caption, tx_realty_images.image',
-			'tx_realty_objects_images_mm, tx_realty_images',
-			'tx_realty_objects_images_mm.uid_local='.$this->objectUid
-				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
 			$image[0],
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					REALTY_TABLE_IMAGES.'.caption,'.REALTY_TABLE_IMAGES.'.image',
+					REALTY_TABLE_OBJECTS_IMAGES_MM.','.REALTY_TABLE_IMAGES,
+					REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_local='.$this->objectUid
+						.' AND '.REALTY_TABLE_IMAGES.'.uid='.REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_foreign'
+				)
+			)		
 		);
 	}
 
@@ -908,24 +862,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->insertImageEntries($imageNew);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'tx_realty_images.caption, tx_realty_images.image',
-			'tx_realty_objects_images_mm, tx_realty_images',
-			'tx_realty_objects_images_mm.uid_local='.$this->objectUid
-				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
 			$imageNew[0],
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					REALTY_TABLE_IMAGES.'.caption,'.REALTY_TABLE_IMAGES.'.image',
+					REALTY_TABLE_OBJECTS_IMAGES_MM.','.REALTY_TABLE_IMAGES,
+					REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_local='.$this->objectUid
+						.' AND '.REALTY_TABLE_IMAGES.'.uid='.REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_foreign'
+				)
+			)
 		);
 	}
 	public function testDeleteFromDatabaseRemovesRelatedImage() {
@@ -942,24 +888,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('deleted', 1);
 		$message = $this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'tx_realty_images.deleted',
-			'tx_realty_objects_images_mm, tx_realty_images',
-			'tx_realty_objects_images_mm.uid_local='.$this->objectUid
-				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
 			array('deleted' => 1),
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					REALTY_TABLE_IMAGES.'.deleted',
+					REALTY_TABLE_OBJECTS_IMAGES_MM.','.REALTY_TABLE_IMAGES,
+					REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_local='.$this->objectUid
+						.' AND '.REALTY_TABLE_IMAGES.'.uid='.REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_foreign'
+				)
+			)
 		);
 		$this->assertEquals(
 			'message_deleted_flag_set',
@@ -990,10 +928,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$message = $this->fixture->writeToDatabase();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'tx_realty_images.deleted',
-			'tx_realty_objects_images_mm, tx_realty_images',
-			'tx_realty_objects_images_mm.uid_local='.$this->objectUid
-				.' AND tx_realty_images.uid=tx_realty_objects_images_mm.uid_foreign'
+			REALTY_TABLE_IMAGES.'.deleted',
+			REALTY_TABLE_OBJECTS_IMAGES_MM.','.REALTY_TABLE_IMAGES,
+			REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_local='.$this->objectUid
+				.' AND '.REALTY_TABLE_IMAGES.'.uid='.REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_foreign'
 		);
 		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
@@ -1023,24 +961,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'tx_realty_objects',
-			'object_number="'.self::$otherObjectNumber.'"'
-				.$this->templateHelper->enableFields('tx_realty_objects')
-		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail('The database result was empty.');
-		}
-
 		$this->assertEquals(
 			array('pid' => $this->pageId),
-			$result
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'pid',
+					REALTY_TABLE_OBJECTS,
+					'object_number="'.self::$otherObjectNumber.'"'
+						.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				)
+			)
 		);
 	}
 
@@ -1055,9 +985,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
-					'tx_realty_objects',
+					REALTY_TABLE_OBJECTS,
 					'object_number="'.self::$otherObjectNumber.'"'
-						.$this->templateHelper->enableFields('tx_realty_objects')
+						.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 				)
 			)
 		);
@@ -1077,7 +1007,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
-					'tx_realty_images',
+					REALTY_TABLE_IMAGES,
 					'is_dummy_record=1'
 				)
 			)
@@ -1097,9 +1027,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'pid',
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			'object_number="'.self::$objectNumber.'"'
-				.$this->templateHelper->enableFields('tx_realty_objects')
+				.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 		);
 		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
@@ -1122,7 +1052,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testCreateANewRealtyRecordAlthoughTheSameRecordWasSetToDeletedInTheDatabase() {
 		$uid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array(
 				'object_number' => self::$otherObjectNumber,
 				'deleted' => 1,
@@ -1137,9 +1067,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number='.self::$otherObjectNumber.' AND uid!='.$uid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1160,9 +1090,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number='.self::$objectNumber.' AND uid!='.$this->objectUid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1180,16 +1110,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_objects',
+				REALTY_TABLE_OBJECTS,
 				'object_number='.self::$objectNumber.' AND uid!='.$this->objectUid
-					.$this->templateHelper->enableFields('tx_realty_objects')
+					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
 
 	public function testInsertDeleteAndReinsertAnImageRecord() {
 		$imageUid = $this->testingFramework->createRecord(
-			'tx_realty_images',
+			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'foo',
 				'image' => 'bar',
@@ -1210,9 +1140,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_images',
+				REALTY_TABLE_IMAGES,
 				'caption="foo" AND image="bar" AND uid!='.$imageUid
-					.$this->templateHelper->enableFields('tx_realty_images')
+					.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
 			)
 		);
 	}
@@ -1232,9 +1162,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$result = $this->testingFramework->getAssociativeDatabaseResult(
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'uid',
-				'tx_realty_images',
+				REALTY_TABLE_IMAGES,
 				'caption="foo" AND image="bar"'
-					.$this->templateHelper->enableFields('tx_realty_images')
+					.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
 			)
 		);
 
@@ -1245,16 +1175,16 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_images',
+				REALTY_TABLE_IMAGES,
 				'caption="foo" AND image="bar" AND uid!='.$result['uid']
-					.$this->templateHelper->enableFields('tx_realty_images')
+					.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
 			)
 		);
 	}
 
 	public function testRecreateAnAuxiliaryRecord() {
 		$cityUid = $this->testingFramework->createRecord(
-			'tx_realty_cities',
+			REALTY_TABLE_CITIES,
 			array(
 				'title' => 'foo',
 				'deleted' => 1,
@@ -1268,9 +1198,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_cities',
+				REALTY_TABLE_CITIES,
 				'title="foo" AND uid!='.$cityUid
-					.$this->templateHelper->enableFields('tx_realty_cities')
+					.$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
 			)
 		);
 	}
@@ -1283,9 +1213,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'tx_realty_conditions',
+				REALTY_TABLE_CONDITIONS,
 				'title="foo" AND is_dummy_record=1'
-					.$this->templateHelper->enableFields('tx_realty_conditions')
+					.$this->templateHelper->enableFields(REALTY_TABLE_CONDITIONS)
 			)
 		);
 	}
@@ -1302,7 +1232,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->pageId = $this->testingFramework->createSystemFolder();
 		$this->otherPageId = $this->testingFramework->createSystemFolder();
 		$this->objectUid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => 'foo',
 				'object_number' => self::$objectNumber,
@@ -1317,11 +1247,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	 */
 	private function cleanUp() {
 		foreach (array(
-			'tx_realty_objects',
-			'tx_realty_objects_images_mm',
-			'tx_realty_images',
-			'tx_realty_cities',
-			'tx_realty_conditions'
+			REALTY_TABLE_OBJECTS,
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			REALTY_TABLE_IMAGES,
+			REALTY_TABLE_CITIES,
+			REALTY_TABLE_CONDITIONS
 		) as $table) {
 			$this->testingFramework->markTableAsDirty($table);
 		}

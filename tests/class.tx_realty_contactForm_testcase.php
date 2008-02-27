@@ -29,10 +29,10 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
 
@@ -95,7 +95,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	 */
 	private function createDummyRecords() {
 		$this->realtyUid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => self::$realtyTitle,
 				'object_number' => self::$realtyObjectNumber
@@ -500,7 +500,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormUsesTheContactPersonsEmailIfTheObjectHasNoOwner() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
 			array(
 				'contact_person' => 'any contact person',
@@ -529,7 +529,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			array('email' => 'invalid-address')
 		);
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
 			array('owner' => $ownerUid)
 		);
@@ -551,7 +551,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormUsesTheDefaultEmailAddressEmailIfNoOwnerIsSetAndTheContactPersonsAddressIsInvalid() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
 			array(
 				'contact_person' => 'Mr.Contact',
@@ -576,7 +576,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormUsesTheOwnersEmailAddress() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
 			array('owner' => $this->feUserId)
 		);
