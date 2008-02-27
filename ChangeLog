@@ -1,3 +1,7 @@
+2008-02-27 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1504] Fix: Sorting by related records sorts by UID
+
 2008-02-26 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1548] Change: Move templating functions from realty_pi1 to the template helper

@@ -57,7 +57,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'pets' => 'tx_realty_pets',
 		'state' => 'tx_realty_conditions',
 		'images' => 'tx_realty_images',
-		'images_relation' => 'tx_realty_objects_images_mm',
+		'images_relation' => 'tx_realty_objects_images_mm'
 	);
 	/** session key for storing the favorites list */
 	private $favoritesSessionKey = 'tx_realty_favorites';
@@ -166,7 +166,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$result = '';
 
-		$whatToDisplay = $this->getConfValueString('what_to_display');
+		$whatToDisplay = $this->getCurrentView();
 		$this->setFlavor($whatToDisplay);
 
 		switch ($whatToDisplay) {
@@ -176,25 +176,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			case 'city_selector':
 				$result = $this->createCitySelector();
 				break;
-			case 'favorites':
-				// The fallthrough is intended because createListView() and
-				// createSingleView will differentiate later.
-			case 'realty_list':
-				// The fallthrough is intended.
-			default:
-				// Show the single view if a 'showUid' variable is set.
-				if (isset($this->piVars['showUid']) && $this->piVars['showUid']) {
-					$this->setFlavor('single_view');
-					$result = $this->createSingleView();
-					// If the single view results in an error, use the list view instead.
-					if (empty($result)) {
-						$this->setFlavor('realty_list');
-						$result = $this->createListView();
-					}
-				} else {
-					$this->setFlavor('realty_list');
+			case 'single_view':
+				$result = $this->createSingleView();
+				// If the single view results in an error, use the list view instead.
+				if (empty($result)) {
 					$result = $this->createListView();
 				}
+				break;
+			case 'favorites':
+				// The fallthrough is intended because the favorites view is just
+				// a special realty list.
+			case 'realty_list':
+				// The fallthrough is intended because creating the realty list
+				// is the default case.
+			default:
+				$result = $this->createListView();
 				break;
 		}
 
@@ -215,9 +211,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createListView()	{
 		$result = '';
 
-		$this->setSubpartContent('list_filter', $this->createCheckboxesFilter());
-
 		$dbResult = $this->initListView();
+
+		$this->setSubpartContent('list_filter', $this->createCheckboxesFilter());
+		$this->setMarkerContent('self_url', $this->getSelfUrl());
+		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
 
 		if (($this->internal['res_count'] > 0)
 			&& $dbResult
@@ -236,22 +234,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setSubpartContent('pagination', $this->createPagination());
 			$this->setSubpartContent('wrapper_sorting', $this->createSorting());
 		} else {
-			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getConfValueString('what_to_display')));
+			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getCurrentView()));
 			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
 			$this->setSubpartContent('favorites_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
 		}
-		if ($this->getConfValueString('what_to_display') == 'favorites') {
-			if ($this->hasConfValueInteger('contactPID')) {
-				$contact_url = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
-					array(),
-					true,
-					true,
-					$this->getConfValueInteger('contactPID')
-				));
-				$this->setMarkerContent('contact_url', $contact_url);
-			} else {
-				$this->readSubpartsToHide('contact', 'wrapper');
-			}
+
+		if (($this->getCurrentView() == 'favorites')) {
+			$this->fillOrHideContactWrapper();
 			$result = $this->substituteMarkerArrayCached('FAVORITES_VIEW');
 
 			if ($this->hasConfValueString('favoriteFieldsInSession')
@@ -269,78 +258,161 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Initializes the list view, but does not create any actual HTML output.
 	 *
-	 * @return	pointer		the result of a DB query for the realty objects to list (may be null)
+	 * @return	pointer		the result of a DB query for the realty objects to
+	 * 						list, may be null
 	 */
 	private function initListView() {
-		// local settings for the listView function
-		$lConf = $this->conf['listView.'];
+		// To ensure that sorting by cities actually sorts the titles and not
+		// the cities' UIDs, the join on the tx_realty_cities table is needed.
+		$table = $this->internal['currentTable'].' INNER JOIN '
+			.$this->tableNames['city'].' ON '.$this->internal['currentTable']
+			.'.city = '.$this->tableNames['city'].'.uid';
+		$whereClause = $this->createWhereClause();
 
-		if (!isset($this->piVars['pointer'])) {
-			$this->piVars['pointer'] = 0;
+		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$this->tableNames['objects'].'.*',
+			$table,
+			$whereClause,
+			'',
+			$this->createOrderByStatement(),
+			$this->createLimitStatement($table, $whereClause)
+		);
+	}
+
+	/**
+	 * Creates the WHERE clause for initListView().
+	 *
+	 * @return	string		WHERE clause for initListView(), will not be empty
+	 */
+	private function createWhereClause() {
+		// The result may only contain non-deleted and non-hidden records which
+		// are in the set of allowed pages.
+		$whereClause = '1=1'.$this->enableFields($this->tableNames['objects'])
+			.$this->enableFields($this->tableNames['city']);
+		$pidList = $this->pi_getPidList(
+			$this->conf['pidList'], $this->conf['recursive']
+		);
+
+		if (!empty($pidList)) {
+			$whereClause .=
+				' AND '.$this->tableNames['objects'].'.pid IN ('.$pidList.')';
 		}
 
-		// initializing the query parameters
-		if (isset($this->piVars['orderBy'])) {
-			$this->internal['orderBy'] = $this->piVars['orderBy'];
-		} else {
-			$this->internal['orderBy'] = $lConf['orderBy'];
-		}
-		// initializing the query parameters
-		if (isset($this->piVars['descFlag'])) {
-			$this->internal['descFlag'] = $this->piVars['descFlag'];
-		} else {
-			$this->internal['descFlag'] = $lConf['descFlag'];
+		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
+			? ' AND '.$this->getConfValueString('staticSqlFilter') : '';
+
+		// finds only cities that match the UID in piVars['city']
+		if (isset($this->piVars['city'])) {
+			$whereClause .=  ' AND '.$this->tableNames['objects'].'.city='
+				.intval($this->piVars['city']);
 		}
 
-		$orderBy = $this->internal['orderBy'];
-		if ($orderBy != '') {
+		if ($this->getCurrentView() == 'favorites') {
+			// The favorites page should never get cached.
+			$GLOBALS['TSFE']->set_no_cache();
+			// The favorites list is the only content element that may
+			// accept changes to the favorites list.
+			$this->processSubmittedFavorites();
+			// If the favorites list is empty, make sure to create a valid query
+			// that will produce zero results.
+			$whereClause .= ($this->getFavorites() != '')
+				? ' AND '.$this->tableNames['objects'].'.uid IN('.$this->getFavorites().')'
+				: ' AND (0=1)';
+			$this->favoritesDataVerbose = array();
+		}
+
+		$searchSelection = implode(',', $this->getSearchSelection());
+		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
+			$whereClause .=	' AND '.$this->tableNames['objects']
+				.'.'.$this->getConfValueString('checkboxesFilter')
+				.' IN ('.$searchSelection.')';
+		}
+
+		return $whereClause;
+	}
+
+	/**
+	 * Creates the ORDER BY statement for initListView().
+	 *
+	 * @return	string		ORDER BY statement for initListView(), will be empty
+	 * 						if 'orderBy' was empty or not within the set of
+	 * 						allowed sort criteria
+	 */
+	private function createOrderByStatement() {
+		$result = '';
+
+		$sortCriterion = isset($this->piVars['orderBy'])
+			? $this->piVars['orderBy']
+			: $this->getListViewConfValueString('orderBy');
+		$descendingFlag = isset($this->piVars['descFlag'])
+			? $this->piVars['descFlag']
+			: $this->getListViewConfValueBoolean('descFlag');
+
+		// checks whether the sort criterion is allowed
+		if (in_array($sortCriterion, $this->sortCriteria)) {
 			// '+0' converts the database column's type to NUMERIC as the
 			// columns in the array below are regularly used for numeric
 			// values but also might need to contain strings.
-			if (in_array($orderBy, array(
-					'buying_price',
-					'number_of_rooms',
-					'object_number',
-					'rent_excluding_bills',
-					'living_area'
-				)
-			)) {
-				$orderBy .= ' +0';
+			if (in_array($sortCriterion, array(
+				'buying_price',
+				'number_of_rooms',
+				'object_number',
+				'rent_excluding_bills',
+				'living_area'
+			))) {
+				$sortCriterion .= ' +0';
 			}
 
-			$orderBy .= ($this->internal['descFlag'] ? ' DESC' : ' ASC');
+			// The objects' table only contains the cities' UIDs. The result
+			// needs to be sorted by the cities' titles which are in a separate
+			// table.
+			if ($sortCriterion == 'city') {
+				$result = $this->tableNames['city'].'.title';
+			} else {
+				$result = $this->tableNames['objects'].'.'.$sortCriterion;
+			}
+
+			$result .= ($descendingFlag ? ' DESC' : ' ASC');
 		}
 
+		return $result;
+	}
+
+	/**
+	 * Creates the LIMIT statement for initListView().
+	 *
+	 * @param	string		table for which to create the LIMIT statement, must
+	 * 						not be empty
+	 * @param	string		WHERE clause of the query for which the LIMIT
+	 * 						statement will be, may be empty
+	 *
+	 * @return	string		LIMIT statement for initListView(), will not be
+	 * 						empty
+	 */
+	private function createLimitStatement($table, $whereClause) {
+		if (!isset($this->piVars['pointer'])) {
+			$this->piVars['pointer'] = 0;
+		}
 		// number of results to show in a listing
 		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
-			$lConf['results_at_a_time'],
-			0,
-			1000,
-			3
+			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
 		);
 
 		// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
 		$this->internal['maxPages'] = t3lib_div::intInRange(
-			$lConf['maxPages'],
-			1,
-			1000,
-			2
+			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
 		);
 
-		$this->internal['orderByList'] = 'object_number,title,city,district,'
-			.'buying_price,rent_excluding_bills,number_of_rooms,living_area,tstamp';
-
-		$additionalWhereClause = $this->createWhereClause();
-
-		// get number of records (the "true" activates the "counting" mode)
-		$dbResultCounter = $this->pi_exec_query(
-			$this->internal['currentTable'],
-			true,
-			$additionalWhereClause
+		// get number of records
+		$dbResultCounter = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'COUNT(*) AS number',
+			$table,
+			$whereClause
 		);
 
 		$counterRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($dbResultCounter);
 		$this->internal['res_count'] = $counterRow[0];
+
 		// The number of the last possible page in a listing
 		// (which is the number of pages minus one as the numbering starts at zero).
 		// If there are no results, the last page still has the number 0.
@@ -349,65 +421,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1
 		);
 
-		// make listing query, pass query to SQL database
-		$dbResult = $this->pi_exec_query(
-			$this->internal['currentTable'],
-			false,
-			$additionalWhereClause,
-			'',
-			'',
-			$orderBy
+		$lowerLimit = intval($this->piVars['pointer'])
+			* intval($this->internal['results_at_a_time']);
+		$upperLimit = intval(t3lib_div::intInRange(
+			$this->internal['results_at_a_time'], 1, 1000)
 		);
 
-		$this->setMarkerContent('self_url', $this->getSelfUrl());
-		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
-
-		return $dbResult;
-	}
-
-	/**
-	 * Creates the WHERE clause for initListView().
-	 *
-	 * @return	string		WHERE clause for initListView(), will be empty if
-	 * 						'staticSqlFilter' and $this->piVars['city'] are
-	 * 						not set and 'what_to_display' is not 'favorites' and
-	 * 						'checkboxesFilter' is either not set or
-	 * 						$searchSelection is empty
-	 */
-	private function createWhereClause() {
-		$whereClause = ($this->hasConfValueString('staticSqlFilter')) ?
-			// The space before the "AND" will be automatically added by pi_exec_query,
-			// and so we don't need to explicitely add it.
-			'AND '.$this->getConfValueString('staticSqlFilter') :
-			'';
-
-		// find only cities that match the uid in piVars['city']
-		if (isset($this->piVars['city'])) {
-			$whereClause .=  ' AND city='.$this->piVars['city'];
-		}
-
-		if ($this->getConfValueString('what_to_display') == 'favorites') {
-			// The favorites page should never get cached.
-			$GLOBALS['TSFE']->set_no_cache();
-			// The favorites list is the only content element that may
-			// accept changes to the favorites list.
-			$this->processSubmittedFavorites();
-			// If the favorites list is empty, make sure to create a valid query
-			// that will produce zero results.
-			$whereClause .= ($this->getFavorites() != '') ?
-				' AND uid IN('.$this->getFavorites().')' :
-				' AND (0=1)';
-			$this->favoritesDataVerbose = array();
-		}
-
-		$searchSelection = implode(',', $this->getSearchSelection());
-		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$whereClause .=
-				' AND '.$this->getConfValueString('checkboxesFilter')
-				.' IN ('.$searchSelection.')';
-		}
-
-		return $whereClause;
+		return $lowerLimit.','.$upperLimit;
 	}
 
 	/**
@@ -458,12 +478,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->setMarkerContent($key, $this->getFieldContent($key));
 			}
 
-			if (!($this->getConfValueBoolean('showAddressOfObjects'))) {
-				$this->readSubpartsToHide(
-					'street',
-					'field_wrapper');
-			}
-
 			// string stuff that should conditionally be visible
 			foreach (array(
 				'object_number',
@@ -475,14 +489,23 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'equipment',
 				'misc'
 			) as $key) {
-				$this->setOrDeleteMarkerIfNotEmpty($key, $this->getFieldContent($key), '', 'field_wrapper');
+				$this->setOrDeleteMarkerIfNotEmpty(
+					$key,
+					$this->getFieldContent($key),
+					'',
+					'field_wrapper'
+				);
+			}
+
+			if (!$this->getConfValueBoolean('showAddressOfObjects')) {
+				$this->readSubpartsToHide('street', 'field_wrapper');
 			}
 
 			// marker for button
 			$this->setMarkerContent('back_url', $this->pi_linkTP_keepPIvars_url(array('showUid' => '')));
 			$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
 
-			if ($this->getConfValueString('what_to_display') == 'favorites') {
+			if ($this->getCurrentView() == 'favorites') {
 				$this->readSubpartsToHide('add_to_favorites', 'wrapper');
 			} else {
 				$this->readSubpartsToHide('remove_from_favorites', 'wrapper');
@@ -495,6 +518,27 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Fills the contact wrapper if there is information to display and
+	 * displaying contact information is enabled for the current view. Otherwise
+	 * hides the complete wrapper.
+	 */
+	private function fillOrHideContactWrapper() {
+		if (($this->getCurrentView() == 'favorites')
+			&& $this->hasConfValueInteger('contactPID')
+		) {
+			$contactUrl = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
+				array(),
+				false,
+				false,
+				$this->getConfValueInteger('contactPID')
+			));
+			$this->setMarkerContent('contact_url', $contactUrl);
+		} else {
+			$this->readSubpartsToHide('contact', 'wrapper');
+		}
 	}
 
 	/**
@@ -613,7 +657,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 		}
 
-		if (($this->getConfValueString('what_to_display') == 'favorites')
+		if (($this->getCurrentView() == 'favorites')
 			&& ($this->hasConfValueString('favoriteFieldsInSession'))) {
 			$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
 			foreach (explode(',', $this->getConfValueString('favoriteFieldsInSession')) as $key) {
@@ -1079,7 +1123,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$result = '';
 		$isOkay = false;
 
-		if (isset($this->piVars['showUid']) && $this->piVars['showUid']) {
+		if ($this->hasShowUidInUrl()) {
 			$this->internal['currentRow'] = $this->pi_getRecord($this->tableNames['objects'], $this->piVars['showUid']);
 
 			// This sets the title of the page for display and for use in indexed search results.
@@ -1648,6 +1692,48 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Returns the current view.
+	 *
+	 * @return	string		Name of the current view ('realty_list',
+	 * 						'favorites', 'city_selector' or 'gallery'), will not
+	 * 						be empty. If no view is set, 'realty_list' is
+	 * 						returned as this is the fallback case.
+	 */
+	private function getCurrentView() {
+		$whatToDisplay = $this->getConfValueString('what_to_display');
+
+		if (in_array(
+			$whatToDisplay, array('city_selector', 'favorites', 'gallery')
+		)) {
+			$result = $whatToDisplay;
+		} else {
+			$result = 'realty_list';
+		}
+
+		// switches from the list view to the single view if a 'showUid'
+		// variable is set
+		if ((in_array($result, array('realty_list', 'favorites')))
+			&& $this->hasShowUidInUrl()
+		) {
+			$result = 'single_view';
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Checks whether the showUid parameter is set and contains a positive
+	 * number.
+	 *
+	 * @return	boolean		true if showUid is set and is a positive integer,
+	 * 						false otherwise
+	 */
+	private function hasShowUidInUrl() {
+		return isset($this->piVars['showUid'])
+			&& (intval($this->piVars['showUid']) > 0);
+	}
+
+	/**
 	 * Checks that we are properly initialized.
 	 *
 	 * @return	boolean		true if we are properly initialized, false otherwise
@@ -1695,7 +1781,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (!empty($linkText)) {
 			// disable the caching if we are in the favorites list
 			$useCache
-				= ($this->getConfValueString('what_to_display') != 'favorites');
+				= ($this->getCurrentView() != 'favorites');
 
 			if ($separateSingleViewPage != '') {
 				$completeLink = $this->cObj->getTypoLink(
