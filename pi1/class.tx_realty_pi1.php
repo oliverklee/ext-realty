@@ -29,6 +29,7 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
 // field types for realty objects
@@ -588,7 +589,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 		}
 
-		$this->setSubpartContent('overview_table', implode(chr(10), $rows));
+		$this->setSubpartContent('overview_table', implode(LF, $rows));
 
 		return $result;
 	}
@@ -1250,7 +1251,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$options = '';
 		if (count($cities)) {
 			foreach ($cities as $city) {
-				$options .= '<option value="'.$city['uid'].'">'.$city['title'].'</option>'.chr(10);
+				$options .= '<option value="'.$city['uid'].'">'
+					.$city['title'].'</option>'.LF;
 			}
 		}
 		$this->setOrDeleteMarkerIfNotEmpty('citySelector', $options, 'options', 'wrapper');
@@ -1417,12 +1419,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 
 			if ($dbResult) {
-				$summaryStringOfFavorites = $this->pi_getLL('label_on_favorites_list').chr(10);
+				$summaryStringOfFavorites = $this->pi_getLL('label_on_favorites_list').LF;
 
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 					$objectNumber = $row['object_number'];
 					$objectTitle = $row['title'];
-					$summaryStringOfFavorites .= '* '.$objectNumber.' '.$objectTitle.chr(10);
+					$summaryStringOfFavorites .= '* '.$objectNumber.' '.$objectTitle.LF;
 				}
 			}
 		}
@@ -1560,7 +1562,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$pageLinks[] = $this->createPaginationLink($i, $i + 1);
 		}
 
-		return implode(chr(10), $pageLinks);
+		return implode(LF, $pageLinks);
 	}
 
 	/**
@@ -1624,7 +1626,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$options[] = $this->substituteMarkerArrayCached('SORT_OPTION');
 				}
 			}
-			$this->setSubpartContent('sort_option', implode(chr(10), $options));
+			$this->setSubpartContent('sort_option', implode(LF, $options));
 			if (!$this->internal['descFlag']) {
 					$this->setMarkerContent('sort_checked_asc', ' checked="checked"');
 					$this->setMarkerContent('sort_checked_desc', '');
@@ -1684,7 +1686,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$this->setMarkerContent('search_label', $dbResultRow['title']);
 					$items[] = $this->substituteMarkerArrayCached('SEARCH_ITEM');
 				}
-				$this->setSubpartContent('search_item', implode(chr(10), $items));
+				$this->setSubpartContent('search_item', implode(LF, $items));
 				$result = $this->substituteMarkerArrayCached('LIST_FILTER');
 			}
 		}
