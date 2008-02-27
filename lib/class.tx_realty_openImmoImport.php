@@ -30,10 +30,12 @@
  * @subpackage	tx_realty
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domDocumentConverter.php');
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
+
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domDocumentConverter.php');
 
 class tx_realty_openImmoImport {
 	/** stores the complete log entry */
@@ -124,7 +126,7 @@ class tx_realty_openImmoImport {
 	public function importFromZip() {
 		global $LANG;
 
-		$this->addToLogEntry(date('Y-m-d G:i:s').chr(10));
+		$this->addToLogEntry(date('Y-m-d G:i:s').LF);
 
 		$emailData = array();
 		$checkedImportDirectory = $this->unifyPath(
@@ -277,23 +279,23 @@ class tx_realty_openImmoImport {
 		switch ($errorMessage) {
 			case '':
 			$this->addToLogEntry(
-				$LANG->getLL('message_written_to_database').chr(10)
+				$LANG->getLL('message_written_to_database').LF
 			);
 			break;
 		case 'message_deleted_flag_set':
 			// A set deleted flag is no real error, so is not stored in the
 			// error log.
-			$this->addToLogEntry($LANG->getLL($errorMessage).chr(10));
+			$this->addToLogEntry($LANG->getLL($errorMessage).LF);
 			break;
 		case 'message_fields_required':
 			$this->addToErrorLog($LANG->getLL($errorMessage).': '
 				.implode(', ', $this->realtyObject->checkForRequiredFields())
-				.'. '.$pleaseValidateMessage.chr(10)
+				.'. '.$pleaseValidateMessage.LF
 			);
 			break;
 		default:
 			$this->addToErrorLog(
-				$LANG->getLL($errorMessage).' '.$pleaseValidateMessage.chr(10)
+				$LANG->getLL($errorMessage).' '.$pleaseValidateMessage.LF
 			);
 			break;
 		}
@@ -307,7 +309,7 @@ class tx_realty_openImmoImport {
 	 * @param	string		message to log, may be empty
 	 */
 	private function addToLogEntry($logFraction) {
-		$this->temporaryLogEntry .= $logFraction.chr(10);
+		$this->temporaryLogEntry .= $logFraction.LF;
 	}
 
 	/**
@@ -317,7 +319,7 @@ class tx_realty_openImmoImport {
 	 * @param	string		error message to log, may be empty
 	 */
 	private function addToErrorLog($errorMessage) {
-		$this->temporaryErrorLog .= $errorMessage.chr(10);
+		$this->temporaryErrorLog .= $errorMessage.LF;
 		$this->addToLogEntry($errorMessage);
 	}
 
@@ -604,7 +606,7 @@ class tx_realty_openImmoImport {
 		);
 		$templateHelper->setSubpartContent(
 			'CONTENT_ITEM',
-			implode(chr(10), $contentItem)
+			implode(LF, $contentItem)
 		);
 		$templateHelper->setMarkerContent(
 			'footer',
@@ -959,7 +961,7 @@ class tx_realty_openImmoImport {
 		switch ($validationResult) {
 			case '':
 				$this->addToLogEntry(
-					$LANG->getLL('message_successful_validation').chr(10)
+					$LANG->getLL('message_successful_validation').LF
 				);
 				break;
 			case 'message_no_schema_file':

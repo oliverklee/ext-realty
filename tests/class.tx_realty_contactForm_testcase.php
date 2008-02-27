@@ -29,11 +29,12 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
-
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
+
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
 
 class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	/** contact form object to be tested */
@@ -266,7 +267,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'showUid' => $this->realtyUid,
 					'isSubmitted' => true,
 					'requesterName' => 'any name',
-					'requesterEmail' => 'requester@valid-email.org'.chr(10).'anything',
+					'requesterEmail' => 'requester@valid-email.org'.LF.'anything',
 					'request' => 'the request'
 
 				)
@@ -281,7 +282,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 				array(
 					'showUid' => $this->realtyUid,
 					'isSubmitted' => true,
-					'requesterName' => 'any name'.chr(10).'anything',
+					'requesterName' => 'any name'.LF.'anything',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request'
 

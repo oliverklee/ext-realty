@@ -33,8 +33,10 @@ require_once(PATH_tslib.'class.tslib_content.php');
 require_once(PATH_tslib.'class.tslib_feuserauth.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
+
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
 
 define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
 
@@ -843,11 +845,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 
 		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 		$this->assertNotContains(
-			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.chr(10),
+			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
@@ -857,11 +859,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->addToFavorites(array($this->secondRealtyUid));
 
 		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 		$this->assertContains(
-			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.chr(10),
+			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
@@ -881,7 +883,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'summaryStringOfFavorites'
 		);
 		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
 			$sessionData
 		);
 	}
@@ -899,7 +901,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'summaryStringOfFavorites'
 		);
 		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.chr(10),
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
 			$sessionData
 		);
 	}

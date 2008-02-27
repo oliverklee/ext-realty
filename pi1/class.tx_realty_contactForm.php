@@ -30,8 +30,10 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
+
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 
 class tx_realty_contactForm extends tx_oelib_templatehelper {
@@ -232,7 +234,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		$this->setDataForLoggedInUser();
 
 		return 'From: "'.$this->contactFormData['requesterName'].'" '
-			.'<'.$this->contactFormData['requesterEmail'].'>'.chr(10);
+			.'<'.$this->contactFormData['requesterEmail'].'>'.LF;
 	}
 
 	/**
@@ -247,8 +249,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		
 		if ($this->plugin->hasConfValueString('blindCarbonCopyAddress')) {
 			$result = 'Bcc: '
-				.$this->plugin->getConfValueString('blindCarbonCopyAddress')
-				.chr(10);
+				.$this->plugin->getConfValueString('blindCarbonCopyAddress').LF;
 		}
 
 		return $result;
@@ -264,9 +265,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * @return	string		formatted e-mail body, will not be empty
 	 */
 	private function formatEmailBody($rawEmailBody) {
-		$body = trim(preg_replace('/\n|\r/', chr(13).chr(10), $rawEmailBody));
+		$body = trim(preg_replace('/\n|\r/', CRLF, $rawEmailBody));
 		return preg_replace(
-			'/(\r\n){2,}/', chr(13).chr(10).chr(13).chr(10), $body
+			'/(\r\n){2,}/', CRLF.CRLF, $body
 		);
 	}
 
