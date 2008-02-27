@@ -31,8 +31,11 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 require_once(PATH_t3lib.'class.t3lib_refindex.php');
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
+
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 
 class tx_realty_object {
 	/** contains the realty object's data */
@@ -55,22 +58,30 @@ class tx_realty_object {
 
 	/** associates property names and their corresponding tables */
 	private $propertyTables = array(
-		'tx_realty_cities' => 'city',
-		'tx_realty_apartment_types' => 'apartment_type',
-		'tx_realty_house_types' => 'house_type',
-		'tx_realty_districts' => 'district',
-		'tx_realty_pets' => 'pets',
-		'tx_realty_car_places' => 'garage_type',
-		'tx_realty_heating_types' => 'heating_type'
+		REALTY_TABLE_CITIES => 'city',
+		REALTY_TABLE_APARTMENT_TYPES => 'apartment_type',
+		REALTY_TABLE_HOUSE_TYPES => 'house_type',
+		REALTY_TABLE_DISTRICTS => 'district',
+		REALTY_TABLE_PETS => 'pets',
+		REALTY_TABLE_CAR_PLACES => 'garage_type',
+		REALTY_TABLE_HEATING_TYPES => 'heating_type',
+		REALTY_TABLE_CONDITIONS => 'state'
 	);
 
 	/** instance of tx_oelb_templatehelper */
 	private $templateHelper;
 
+	/** whether a newly created record is for testing purposes only */
+	private $isDummyRecord = false;
+
 	/**
 	 * Constructor.
+	 *
+	 * @param	boolean		whether the database records to create are for
+	 * 						testing purposes only
 	 */
-	public function __construct() {
+	public function __construct($createDummyRecords = false) {
+		$this->isDummyRecord = $createDummyRecords;
 		$this->templateHelper = t3lib_div::makeInstance(
 			'tx_oelib_templatehelper'
 		);
@@ -85,17 +96,27 @@ class tx_realty_object {
 	 * UID of an existent realty object to load from the database. If the data
 	 * is of an invalid type, $this->realtyObjectData stays empty.
 	 *
-	 * @param	mixed		data for the realty object: an array a database
+	 * @param	mixed		data for the realty object: an array, a database
 	 * 						result row, or a UID (of integer > 0) of an existing
-	 * 						record
+	 * 						record, an array must not contain the key 'uid'
+	 * @param	boolean		whether realty objects to be loaded by database ID
+	 * 						must be non-deleted and not hidden
 	 */
-	public function loadRealtyObject($realtyData) {
+	public function loadRealtyObject($realtyData, $enabledObjectsOnly = false) {
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
+				if (isset($realtyData['uid'])) {
+					throw new Exception(
+						'The column "uid" must not be set in $realtyData.'
+					);
+				}
 				$convertedData = $this->isolateImageRecords($realtyData);
 				break;
 			case 'uid' :
-				$convertedData = $this->loadDatabaseEntry(intval($realtyData));
+				$convertedData = $this->loadDatabaseEntry(
+					intval($realtyData),
+					$enabledObjectsOnly
+				);
 				break;
 			case 'dbResult' :
 				$convertedData = $this->fetchDatabaseResult($realtyData);
@@ -138,27 +159,36 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Loads an existing realty object entry from the database.
+	 * Loads an existing realty object entry from the database. If
+	 * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
 	 *
 	 * @param	integer		UID of the database entry to load, must be > 0
+	 * @param	boolean		whether only non-deleted and non-hidden objects
+	 * 						should be loaded
 	 *
 	 * @return	array		contents of the database entry, empty if database
 	 * 						result could not be fetched
 	 */
-	protected function loadDatabaseEntry($uid) {
-		$dbResultArray = array();
+	protected function loadDatabaseEntry($uid, $enabledObjectsOnly) {
+		$result = array();
+
+		$additionalWhereClause = '';
+		if ($enabledObjectsOnly) {
+			$additionalWhereClause =
+				$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS);
+		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
-			'tx_realty_objects',
-			'uid='.$uid
+			REALTY_TABLE_OBJECTS,
+			'uid='.$uid.$additionalWhereClause
 		);
 
 		if ($dbResult) {
-			$dbResultArray = $this->fetchDatabaseResult($dbResult);
+			$result = $this->fetchDatabaseResult($dbResult);
 		}
 
-		return $dbResultArray;
+		return $result;
 	}
 
 	/**
@@ -202,38 +232,52 @@ class tx_realty_object {
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
 	 *
-	 * @return 	boolean		true if the record was inserted, false otherwise
+	 * @param	integer		PID for new records (omit this parameter to use
+	 * 						the PID set in the global configuration)
+	 *
+	 * @return 	string		locallang key of an error message if the record was
+	 * 						not written to database, an empty string if it was
+	 * 						written successfully
 	 */
-	public function writeToDatabase() {
+	public function writeToDatabase($overridePid = 0) {
 		if ($this->isRealtyObjectDataEmpty()) {
-			return;
+			return 'message_object_not_loaded';
 		}
 
-		$wasSuccessful = false;
+		$errorMessage = '';
 
 		if (($this->hasProperty('uid') || $this->hasProperty('object_number'))
-			&& $this->recordExistsInDatabase($this->realtyObjectData, 'object_number')
+			&& $this->recordExistsInDatabase(
+				$this->realtyObjectData, 'object_number, language'
+			)
 		) {
 			$this->prepareInsertionAndInsertRelations();
-			$this->ensureUid($this->realtyObjectData, 'object_number');
-			$wasSuccessful = $this->updateDatabaseEntry($this->realtyObjectData);
+			$this->ensureUid($this->realtyObjectData, 'object_number, language');
+			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
+				$errorMessage = 'message_updating_failed';
+			}
 		} elseif (!$this->getProperty('deleted')) {
 			$requiredFields = $this->checkForRequiredFields();
 			if (empty($requiredFields)) {
 				$this->prepareInsertionAndInsertRelations();
-				$wasSuccessful = $this->createNewDatabaseEntry(
-					$this->realtyObjectData
-				);
+				if (!$this->createNewDatabaseEntry(
+					$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
+				)) {
+					$errorMessage = 'message_insertion_failed';
+				}
+			} else {
+				$errorMessage = 'message_fields_required';
 			}
 		}
 
 		if ($this->getProperty('deleted')) {
 			$this->deleteRelatedImageRecords();
-		} elseif ($wasSuccessful && !empty($this->images)) {
-			$this->insertImageEntries($this->getAllImageData());
+			$errorMessage = 'message_deleted_flag_set';
+		} elseif (($errorMessage == '') && !empty($this->images)) {
+			$this->insertImageEntries($this->getAllImageData(), $overridePid);
 		}
 
-		return $wasSuccessful;
+		return $errorMessage;
 	}
 
 	/**
@@ -271,7 +315,7 @@ class tx_realty_object {
 	 * loaded.
 	 *
 	 * @param	string		key of the value to set in current realty object,
-	 * 						must not be empty
+	 * 						must not be empty and must not be 'uid'
 	 * @param	mixed		value to set, must be either numeric or a string
 	 * 						(also empty) or of boolean, may not be null
 	 */
@@ -281,6 +325,10 @@ class tx_realty_object {
 			|| !$this->hasProperty($key)
 		) {
 			return;
+		}
+
+		if ($key == 'uid') {
+			throw new Exception('The key must not be "uid".');
 		}
 
 		$this->realtyObjectData[$key] = $value;
@@ -309,7 +357,7 @@ class tx_realty_object {
 	 * 						object, false otherwise
 	 */
 	private function hasProperty($key) {
-		return array_key_exists($key, $this->realtyObjectData);
+		return isset($this->realtyObjectData[$key]);
 	}
 
 	/**
@@ -323,7 +371,7 @@ class tx_realty_object {
 	 */
 	protected function checkMissingColumnNames() {
 		$fieldsInDb = array_keys(
-			$GLOBALS['TYPO3_DB']->admin_get_fields('tx_realty_objects')
+			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
 		);
 		return array_diff($fieldsInDb, array_keys($this->getAllProperties()));
 	}
@@ -347,7 +395,7 @@ class tx_realty_object {
 	 */
 	protected function deleteSurplusFields() {
 		$fieldsInDb = array_keys(
-			$GLOBALS['TYPO3_DB']->admin_get_fields('tx_realty_objects')
+			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
 		);
 		$surplusFieldsInRealtyObjectData = array_diff(
 			array_keys($this->getAllProperties()),
@@ -446,7 +494,7 @@ class tx_realty_object {
 		if ($dbResult &&
 			($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
-			if (array_key_exists('uid', $row)) {
+			if (isset($row['uid'])) {
 				$result = $row['uid'];
 			}
 		}
@@ -461,13 +509,16 @@ class tx_realty_object {
 	 *
 	 * @param	array		array with data for each image to insert, may be
 	 * 						empty
+	 * @param	integer		PID for new object and image records (omit this
+	 * 						parameter to use the PID set in the global
+	 * 						configuration)
 	 */
-	protected function insertImageEntries(array $imagesArray) {
+	protected function insertImageEntries(array $imagesArray, $overridePid = 0) {
 		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
 			return;
 		}
 
-		$this->ensureUid($this->realtyObjectData, 'object_number');
+		$this->ensureUid($this->realtyObjectData, 'object_number, language');
 		$objectUid = $this->getProperty('uid');
 		$counter = 1;
 
@@ -475,29 +526,33 @@ class tx_realty_object {
 			if ($this->recordExistsInDatabase(
 				$imageData,
 				'image',
-				'tx_realty_images'
+				REALTY_TABLE_IMAGES
 			)) {
-				$this->ensureUid($imageData, 'image', 'tx_realty_images');
+				$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
 				$this->updateDatabaseEntry(
 					$imageData,
-					'tx_realty_images'
+					REALTY_TABLE_IMAGES
 				);
 			} else {
-				$this->createNewDatabaseEntry($imageData, 'tx_realty_images');
+				$this->createNewDatabaseEntry(
+					$imageData,
+					REALTY_TABLE_IMAGES,
+					$overridePid
+				);
 			}
 
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'uid',
-				'tx_realty_images',
+				REALTY_TABLE_IMAGES,
 				'image='.$GLOBALS['TYPO3_DB']->fullQuoteStr(
 					$imageData['image'],
-					'tx_realty_images'
+					REALTY_TABLE_IMAGES
 				)
 			);
 			if ($dbResult
 				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 			) {
-				if (array_key_exists('uid', $row)) {
+				if (isset($row['uid'])) {
 					$this->linkImageWithObject(
 						$objectUid,
 						$row['uid'],
@@ -516,7 +571,7 @@ class tx_realty_object {
 	private function deleteRelatedImageRecords() {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid_foreign',
-			'tx_realty_objects_images_mm',
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			'uid_local='.intval($this->getProperty('uid'))
 		);
 
@@ -528,7 +583,7 @@ class tx_realty_object {
 
 			if(!empty($imagesToDelete)) {
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-					'tx_realty_images',
+					REALTY_TABLE_IMAGES,
 					'uid IN('.implode(',', $imagesToDelete).')',
 					array('deleted' => 1)
 				);
@@ -550,7 +605,7 @@ class tx_realty_object {
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid_local, uid_foreign',
-			'tx_realty_objects_images_mm',
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			'uid_local='.intval($objectUid).' AND uid_foreign='.intval($imageUid)
 		);
 		if ($dbResult) {
@@ -559,11 +614,13 @@ class tx_realty_object {
 
 		if (!$resultRow) {
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				'tx_realty_objects_images_mm',
+				REALTY_TABLE_OBJECTS_IMAGES_MM,
 				array(
 					'uid_local' => intval($objectUid),
 					'uid_foreign' => intval($imageUid),
-					'sorting' => intval($counter)
+					'sorting' => intval($counter),
+					// allows an easy removal of records created during the unit tests
+					'is_dummy_record' => $this->isDummyRecord
 				)
 			);
 		}
@@ -584,37 +641,54 @@ class tx_realty_object {
 	 * the database.
 	 * The values for PID, 'tstamp' and 'crdate' are provided by this function.
 	 *
-	 * @param	array		database column names as keys, must not be empty
+	 * @param	array		database column names as keys, must not be empty and
+	 * 						must not contain the key 'uid'
 	 * @param	string		name of the database table, must not be empty
+	 * @param	integer		PID for new realty and image records (omit this
+	 * 						parameter to use the PID set in the global
+	 * 						configuration)
 	 *
-	 * @return 	boolean		true if the insert query was built, false otherwise
+	 * @return 	boolean		true if the insert query was successful, false
+	 * 						otherwise
 	 */
 	protected function createNewDatabaseEntry(
-		array $realtyData,
-		$table = 'tx_realty_objects'
+		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
 	) {
 		if (empty($realtyData)) {
 			return false;
 		}
 
-		$pid = tx_oelib_configurationProxy::getInstance('realty')->
-			getConfigurationValueInteger('pidForAuxiliaryRecords');
-		if (($pid == 0)
-			|| ($table == 'tx_realty_images')
-			|| ($table == 'tx_realty_objects')
-		) {
-			$pid = tx_oelib_configurationProxy::getInstance('realty')->
-				getConfigurationValueInteger('pidForRealtyObjectsAndImages');
+		if (isset($realtyData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $realtyData.'
+			);
 		}
 
 		$dataToInsert = $realtyData;
+		$pid = tx_oelib_configurationProxy::getInstance('realty')->
+			getConfigurationValueInteger('pidForAuxiliaryRecords');
+		if (($pid == 0)
+			|| ($table == REALTY_TABLE_IMAGES)
+			|| ($table == REALTY_TABLE_OBJECTS)
+		) {
+			if ($overridePid > 0) {
+				$pid = $overridePid;
+			} else {
+				$pid = tx_oelib_configurationProxy::getInstance('realty')->
+					getConfigurationValueInteger('pidForRealtyObjectsAndImages');
+			}
+		}
+
 		$dataToInsert['pid'] = $pid;
 		$dataToInsert['tstamp'] = mktime();
 		$dataToInsert['crdate'] = mktime();
+		// allows an easy removal of records created during the unit tests
+		$dataToInsert['is_dummy_record'] = $this->isDummyRecord;
 
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataToInsert);
-
-		return true;
+		return (boolean) $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			$table,
+			$dataToInsert
+		);
 	}
 
 	/**
@@ -627,11 +701,12 @@ class tx_realty_object {
 	 * 						with the key 'uid'
 	 * @param	string		name of the database table, must not be empty
 	 *
-	 * @return	boolean		true if the update query was built, false otherwise
+	 * @return	boolean		true if the update query was succesful, false
+	 * 						otherwise
 	 */
 	protected function updateDatabaseEntry(
 		array $realtyData,
-		$table = 'tx_realty_objects'
+		$table = REALTY_TABLE_OBJECTS
 	) {
 		if (!$realtyData['uid']) {
 			return false;
@@ -640,13 +715,11 @@ class tx_realty_object {
 		$dataForUpdate = $realtyData;
 		$dataForUpdate['tstamp'] = mktime();
 
-		$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+		return (boolean) $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 			$table,
 			'uid='.intval($dataForUpdate['uid']),
 			$dataForUpdate
 		);
-
-		return true;
 	}
 
 	/**
@@ -669,16 +742,20 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Checks whether there is a database entry with the given UID or if there
-	 * is no element UID in $dataArray, a key named $alternativeKey already
-	 * exists in the database.
-	 * The result will be false if neither 'uid' nor $alternativeKey are
-	 * elements of $dataArray.
+	 * Checks whether a record exists in the database.
+	 * If $dataArray has got an element named 'uid', the database match is
+	 * searched by this UID. Otherwise, the database match is searched by the
+	 * list of alternative keys.
+	 * The result will be true if either the UIDs matched or if all the elements
+	 * of $dataArray which correspond to the list of alternative keys match the
+	 * a database record.
 	 *
 	 * @param	array		array of realty data, must not be empty
-	 * @param	string		Database column name which also occurs in the data
-	 * 						array as a key. This key's value is searched in the
-	 * 						database column in case there is no array key 'uid'.
+	 * @param	string		Comma-separated list of database column names which
+	 * 						also occur in the data array as keys. The database
+	 * 						match is searched by all these keys' values in case
+	 * 						there is no key 'uid' in $dataArray. The list may
+	 * 						contain spaces.
 	 * @param	string		Name of table where to find out whether an entry yet
 	 * 						exists. Must not be empty.
 	 *
@@ -691,88 +768,101 @@ class tx_realty_object {
 	 */
 	protected function recordExistsInDatabase(
 		array $dataArray,
-		$alternativeKey,
-		$table = 'tx_realty_objects'
+		$alternativeKeys,
+		$table = REALTY_TABLE_OBJECTS
 	) {
-		$recordExists = false;
-		$keyToSearch = '';
-
-		if (array_key_exists('uid', $dataArray) && ($dataArray['uid'] != 0)) {
-			$keyToSearch = 'uid';
-		} elseif (array_key_exists($alternativeKey, $dataArray)) {
-			$keyToSearch = $alternativeKey;
+		if (isset($dataArray['uid']) && ($dataArray['uid'] != 0)) {
+			$keys = 'uid';
+		} else {
+			$keys = $alternativeKeys;
 		}
 
-		if ($keyToSearch != '') {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'COUNT(*) AS number',
-				$table,
-				$keyToSearch.'="'.$dataArray[$keyToSearch].'"'
-			);
-
-			if ($dbResult
-				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-			) {
-				$recordExists = ($row['number'] >= 1);
-			}
-		}
-
-		return $recordExists;
-	}
-
-	/**
-	 * Checks whether a record with a certain object number exists in the
-	 * database table 'tx_realty_objects'.
-	 *
-	 * @param	string		object_number to find in database
-	 *
-	 * @return	boolean		true if the object number could be found in the
-	 * 						database, false otherwise
-	 */
-	private function objectNumberExistsInDatabase($objectNumber) {
-		return $this->recordExistsInDatabase(
-			array('object_number' => $objectNumber),
-			'object_number'
+		$databaseResult = $this->compareWithDatabase(
+			'COUNT(*) AS number', $dataArray, $keys, $table
 		);
+
+		return empty($databaseResult) ? false : ($databaseResult['number'] >= 1);
 	}
 
 	/**
-	 * Adds the UID from database to $dataArray if an entry, specified by $key,
-	 * already exists in database. $key also needs to be a key of $dataArray,
-	 * otherwise the UID cannot be added.
+	 * Adds the UID from a database record to $dataArray if all keys mentioned
+	 * in $keys match the values of $dataArray and the database entry.
 	 *
 	 * @param	array		data of an entry which already exists in database,
 	 * 						must not be empty
-	 * @param	string		key by which the existance of a database entry will
-	 * 						be proven, must not be empty and must also be a key
-	 * 						of $dataArray
+	 * @param	string		comma-separated list of all the keys by which the
+	 * 						existance of a database entry will be proven, must
+	 * 						be keys of $dataArray and of $table, may contain
+	 * 						spaces, must not be empty
 	 * @param	string		name of the table where to find out whether an entry
 	 * 						yet exists
 	 */
 	private function ensureUid(
 		array &$dataArray,
-		$key,
-		$table = 'tx_realty_objects'
+		$keys,
+		$table = REALTY_TABLE_OBJECTS
 	) {
-		if (!array_key_exists($key, $dataArray)
-			|| array_key_exists('uid', $dataArray)
-		) {
+		if (isset($dataArray['uid'])) {
 			return;
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			$table,
-			$key.'="'.$dataArray[$key].'"'
-				.$this->templateHelper->enableFields($table)
+		$databaseResultRow = $this->compareWithDatabase(
+			'uid', $dataArray, $keys, $table
 		);
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			$dataArray = array_merge($dataArray, array('uid' => $row['uid']));
+		if (!empty($databaseResultRow)) {
+			$dataArray['uid'] = $databaseResultRow['uid'];
 		}
 	}
 
+	/**
+	 * Retrieves an associative array of data and returns the database result
+	 * according to $whatToSelect of the attempt to find matches for the list of
+	 * $keys. $keys is a comma-separated list of the database collumns which
+	 * should be compared with the corresponding values in $dataArray.
+	 *
+	 * @param	string		list of fields to select from the database table
+	 * 						(part of the sql-query right after SELECT), must not
+	 * 						be empty
+	 * @param	array		data from which to take elements for the database
+	 * 						comparison, must not be empty
+	 * @param	string		comma-separated list of keys whose values in
+	 * 						$dataArray and in the database should be compared,
+	 * 						may contain spaces, must not be empty
+	 * @param	string		table name, must not be empty
+	 *
+	 * @return	array		database result row in an array, will be empty if
+	 * 						no matching record was found
+	 */
+	private function compareWithDatabase($whatToSelect, $dataArray, $keys, $table) {
+		$result = false;
+
+		$keysToMatch = array();
+		foreach (explode(',', $keys) as $key) {
+			$trimmedKey = trim($key);
+			if (isset($dataArray[$trimmedKey])) {
+				$keysToMatch[] = $trimmedKey;
+			}
+		}
+
+		if (!empty($keysToMatch)) {
+			$whereClauseParts = array();
+			foreach ($keysToMatch as $key) {
+				$whereClauseParts[] = $key.'="'.$dataArray[$key].'"';
+			}
+
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				$whatToSelect,
+				$table,
+				implode(' AND ', $whereClauseParts)
+					.$this->templateHelper->enableFields($table)
+			);
+			if ($dbResult) {
+				$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			}
+		}
+
+		return is_array($result) ? $result : array();
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php'])	{

@@ -2,6 +2,7 @@
 
 	* [#1504] Fix: Sorting by related records sorts by UID
 	* [#1627] Change: Use the file with common constants from oelib
+	* [#1675] Change: Move the table names to constants
 
 2008-02-26 Oliver Klee  <typo3-coding@oliverklee.de>
 

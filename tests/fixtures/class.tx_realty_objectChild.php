@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_object_child' for the 'realty' extension.
+ * Class 'tx_realty_objectChild' for the 'realty' extension.
  *
  * This is mere a class used for unit tests of the 'realty' extension. Don't
  * use it for any other purpose.
@@ -33,22 +33,22 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 
-final class tx_realty_object_child extends tx_realty_object {
+final class tx_realty_objectChild extends tx_realty_object {
 	public function recordExistsInDatabase(
 		$dataArray,
 		$alternativeKey,
-		$table = 'tx_realty_objects'
+		$table = REALTY_TABLE_OBJECTS
 	) {
 		return parent::recordExistsInDatabase($dataArray, $alternativeKey, $table);
 	}
 
 	public function createNewDatabaseEntry(
-		$dataArray,
-		$table = 'tx_realty_objects'
+		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
 	) {
-		parent::createNewDatabaseEntry($dataArray, $table);
+		return parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
 	}
 
 	public function fetchDatabaseResult($databaseResult) {
@@ -63,8 +63,8 @@ final class tx_realty_object_child extends tx_realty_object {
 		return parent::checkMissingColumnNames();
 	}
 
-	public function loadDatabaseEntry($uid) {
-		return parent::loadDatabaseEntry($uid);
+	public function loadDatabaseEntry($uid, $enabledObjectsOnly) {
+		return parent::loadDatabaseEntry($uid, $enabledObjectsOnly);
 	}
 
 	public function deleteSurplusFields() {
@@ -79,8 +79,8 @@ final class tx_realty_object_child extends tx_realty_object {
 		parent::prepareInsertionAndInsertRelations();
 	}
 
-	public function insertImageEntries($imagesArray) {
-		parent::insertImageEntries($imagesArray);
+	public function insertImageEntries($imagesArray, $overridePid = 0) {
+		parent::insertImageEntries($imagesArray, $overridePid);
 	}
 
 	public function fetchDomAttributes($nodeWithAttributes) {
@@ -96,8 +96,8 @@ final class tx_realty_object_child extends tx_realty_object {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_object_child']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_object_child.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_objectChild.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_objectChild.php']);
 }
 
 ?>
