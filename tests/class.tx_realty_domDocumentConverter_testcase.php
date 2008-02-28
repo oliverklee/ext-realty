@@ -934,6 +934,63 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedImportsTheValueForNewBuilding() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<zustand_angaben>'
+							.'<alter ALTER_ATTR="neubau" />'
+						.'</zustand_angaben>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('old_or_new_building' => 1)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedImportsTheValueForOldBuilding() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<zustand_angaben>'
+							.'<alter ALTER_ATTR="altbau" />'
+						.'</zustand_angaben>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('old_or_new_building' => 2)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testConvertedDoesNotContainTheKeyOldOrNewBuildingIfNoValueWasSet() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<zustand_angaben>'
+							.'<alter ALTER_ATTR="" />'
+						.'</zustand_angaben>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testFetchDomAttributesIfValidNodeGiven() {
 		$node = new DOMDocument();
 		$element = $node->appendChild(

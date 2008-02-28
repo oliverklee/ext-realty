@@ -109,6 +109,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'garage_price' => TYPE_NUMERIC,
 		'pets' => TYPE_STRING,
 		'construction_year' => TYPE_NUMERIC,
+		'old_or_new_building' => TYPE_NUMERIC,
 		'state' => TYPE_STRING,
 		'balcony' => TYPE_BOOLEAN,
 		'garden' => TYPE_BOOLEAN,
@@ -991,14 +992,22 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 		}
 
-		if ($this->internal['currentRow']['construction_year']) {
-			$features[] = $this->pi_getLL('label_construction_year').' '.$this->internal['currentRow']['construction_year'];
+		if ($this->internal['currentRow']['old_or_new_building'] > 0) {
+			$features[] = $this->pi_getLL('label_old_or_new_building_'
+				.$this->internal['currentRow']['old_or_new_building']
+			);
+		}
+		if ($this->internal['currentRow']['construction_year'] > 0) {
+			$features[] = $this->pi_getLL('label_construction_year').' '
+				.$this->internal['currentRow']['construction_year'];
 		}
 
-		$features[] = $this->pi_getLL('label_usable_from_short').' '.$this->getFieldContent('usable_from');
+		$features[] = $this->pi_getLL('label_usable_from_short').' '
+			.$this->getFieldContent('usable_from');
 
 		if (!empty($this->internal['currentRow']['object_number'])) {
-			$features[] = $this->pi_getLL('label_object_number').' '.$this->internal['currentRow']['object_number'];
+			$features[] = $this->pi_getLL('label_object_number').' '
+				.$this->internal['currentRow']['object_number'];
 		}
 
 		return implode(', ', $features);

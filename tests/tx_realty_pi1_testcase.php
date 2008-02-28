@@ -443,6 +443,20 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests concerning the sorting.
 	//////////////////////////////////
 
+	public function testCreateListViewShowsValueForOldOrNewBuilding() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('old_or_new_building' => '1')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			$this->fixture->translate('label_old_or_new_building_1'),
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(

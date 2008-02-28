@@ -53,6 +53,8 @@
 			<label index="label_fitted_kitchen_short">fitted kitchen</label>
 			<label index="label_construction_year">Year of construction</label>
 			<label index="label_construction_year_short">year of construction</label>
+			<label index="label_old_or_new_building_1">new building</label>
+			<label index="label_old_or_new_building_2">old building</label>
 			<label index="label_usable_from">Can be used starting at</label>
 			<label index="label_usable_from_short">can be used starting at</label>
 			<label index="label_object_number">Object #</label>
@@ -205,6 +207,8 @@
 			<label index="label_fitted_kitchen_short">&lt;acronym title=&quot;Einbauküche&quot;&gt;EBK&lt;/acronym&gt;</label>
 			<label index="label_construction_year">Baujahr</label>
 			<label index="label_construction_year_short">Baujahr</label>
+			<label index="label_old_or_new_building_1">Neubau</label>
+			<label index="label_old_or_new_building_2">Altbau</label>
 			<label index="label_usable_from">Frei ab</label>
 			<label index="label_usable_from_short">frei ab</label>
 			<label index="label_object_number">Objekt Nr.</label>
@@ -667,6 +671,8 @@
 			<label index="label_fitted_kitchen_short" type="integer">246053483</label>
 			<label index="label_construction_year" type="integer">38900511</label>
 			<label index="label_construction_year_short" type="integer">6164852</label>
+			<label index="label_old_or_new_building_1" type="integer">241425363</label>
+			<label index="label_old_or_new_building_2" type="integer">97928723</label>
 			<label index="label_usable_from" type="integer">250200731</label>
 			<label index="label_usable_from_short" type="integer">90030952</label>
 			<label index="label_object_number" type="integer">120700088</label>
@@ -1126,6 +1132,8 @@
 			<label index="label_fitted_kitchen_short">fitted kitchen</label>
 			<label index="label_construction_year">Year of construction</label>
 			<label index="label_construction_year_short">year of construction</label>
+			<label index="label_old_or_new_building_1">new building</label>
+			<label index="label_old_or_new_building_2">old building</label>
 			<label index="label_usable_from">Can be used starting at</label>
 			<label index="label_usable_from_short">can be used starting at</label>
 			<label index="label_object_number">Object #</label>

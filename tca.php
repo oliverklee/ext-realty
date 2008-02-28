@@ -13,9 +13,9 @@ $TCA['tx_realty_objects'] = array(
 			.'heating_included,deposit,provision,usable_from,buying_price,'
 			.'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,'
 			.'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,'
-			.'construction_year,state,balcony,garden,elevator,accessible,'
-			.'assisted_living,fitted_kitchen,description,equipment,layout,'
-			.'location,misc,details_page,images,employer,openimmo_anid,'
+			.'construction_year,old_or_new_building,state,balcony,garden,elevator,'
+			.'accessible,assisted_living,fitted_kitchen,description,equipment,'
+			.'layout,location,misc,details_page,images,employer,openimmo_anid,'
 			.'openimmo_obid,utilization,contact_person,contact_email,contact_phone,'
 			.'owner,language'
 	),
@@ -617,6 +617,18 @@ $TCA['tx_realty_objects'] = array(
 				'default' => 0
 			)
 		),
+		'old_or_new_building' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', '0'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.1', '1'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.2', '2')
+				)
+			)
+		),
 		'state' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state',
@@ -875,8 +887,8 @@ $TCA['tx_realty_objects'] = array(
 				.'heating_included, deposit, provision, usable_from, '
 				.'apartment_type, house_type, floor, floors, bedrooms, '
 				.'bathrooms, heating_type, garage_type, garage_rent, pets, '
-				.'construction_year, state, balcony, garden, elevator, '
-				.'accessible, assisted_living, fitted_kitchen, '
+				.'construction_year, old_or_new_building, state, balcony, garden, '
+				.'elevator, accessible, assisted_living, fitted_kitchen, '
 				.'description;;;richtext[cut|copy|paste|formatblock|textcolor|'
 					.'bold|italic|underline|left|center|right|orderedlist|'
 					.'unorderedlist|outdent|indent|link|table|image|line|chMode]'
@@ -906,8 +918,8 @@ $TCA['tx_realty_objects'] = array(
 				.'total_area, estate_size, provision, usable_from, buying_price, '
 				.'year_rent, rented, apartment_type, house_type, floor, floors, '
 				.'bedrooms, bathrooms, heating_type, garage_type, garage_price, '
-				.'construction_year, state, balcony, garden, elevator, '
-				.'accessible, fitted_kitchen, '
+				.'construction_year, old_or_new_building, state, balcony, garden, '
+				.'elevator, accessible, fitted_kitchen, '
 				.'description;;;richtext[cut|copy|paste|formatblock|textcolor|'
 					.'bold|italic|underline|left|center|right|orderedlist|'
 					.'unorderedlist|outdent|indent|link|table|image|line|chMode]'

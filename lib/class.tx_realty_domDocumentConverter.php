@@ -257,6 +257,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchEquipmentAttributes();
 		$this->fetchCategoryAttributes();
 		$this->fetchState();
+		$this->fetchValueForOldOrNewBuilding();
 		$this->fetchAction();
 		$this->fetchGaragePrice();
 		$this->fetchLanguage();
@@ -370,8 +371,6 @@ class tx_realty_domDocumentConverter {
 	 * title in the FE.
 	 */
 	private function setTitleForPets() {
-		global $LANG;
-
 		if (!isset($this->importedData['pets'])) {
 			return;
 		}
@@ -380,9 +379,9 @@ class tx_realty_domDocumentConverter {
 
 		$petsValue = strtolower($this->importedData['pets']);
 		if (($petsValue == 1) || $this->isBooleanLikeStringTrue($petsValue)) {
-			$this->importedData['pets'] = $LANG->getLL('label_allowed');
+			$this->importedData['pets'] = $GLOBALS['LANG']->getLL('label_allowed');
 		} else {
-			$this->importedData['pets'] = $LANG->getLL('label_not_allowed');
+			$this->importedData['pets'] = $GLOBALS['LANG']->getLL('label_not_allowed');
 		}
 	}
 
@@ -504,7 +503,7 @@ class tx_realty_domDocumentConverter {
 				'ausstattung',
 				$grandchildName
 			);
-			$rawAttributes[$grandchildName] = $this->fetchDomAttributes(
+			$rawAttributes[$grandchildName] = $this->fetchLowercasedDomAttributes(
 				$nodeWithAttributes
 			);
 		}
@@ -520,23 +519,23 @@ class tx_realty_domDocumentConverter {
 
 		$this->addImportedDataIfAvailable(
 			'assisted_living',
-			$rawAttributes['serviceleistungen']['BETREUTES_WOHNEN']
+			$rawAttributes['serviceleistungen']['betreutes_wohnen']
 		);
 
 		$this->addImportedDataIfAvailable(
 			'fitted_kitchen',
-			$rawAttributes['kueche']['EBK']
+			$rawAttributes['kueche']['ebk']
 		);
 
-		if (isset($rawAttributes['fahrstuhl']['PERSONEN'])) {
+		if (isset($rawAttributes['fahrstuhl']['personen'])) {
 			$this->addImportedData(
 				'elevator',
-				$rawAttributes['fahrstuhl']['PERSONEN']
+				$rawAttributes['fahrstuhl']['personen']
 			);
 		} else {
 			$this->addImportedDataIfAvailable(
 				'elevator',
-				$rawAttributes['fahrstuhl']['LASTEN']
+				$rawAttributes['fahrstuhl']['lasten']
 			);
 		}
 
@@ -562,15 +561,15 @@ class tx_realty_domDocumentConverter {
 			'vermarktungsart'
 		);
 
-		$objectTypeAttributes = $this->fetchDomAttributes(
+		$objectTypeAttributes = $this->fetchLowercasedDomAttributes(
 			$nodeWithAttributes
 		);
 
 		// It must be ensured that the key 'object_type' is set as soon as there
 		// are attributes provided, because 'object_type' is a required field.
 		if (!empty($objectTypeAttributes)) {
-			if (isset($objectTypeAttributes['KAUF'])) {
-				$this->addImportedData('object_type', $objectTypeAttributes['KAUF']);
+			if (isset($objectTypeAttributes['kauf'])) {
+				$this->addImportedData('object_type', $objectTypeAttributes['kauf']);
 			} else {
 				$this->addImportedData('object_type', 0);
 			}
@@ -634,7 +633,7 @@ class tx_realty_domDocumentConverter {
 			// 'stp_*' exists for each defined type of 'stellplatz'
 			'stp_garage'
 		);
-		$attributes = $this->fetchDomAttributes($nodeWithAttributes);
+		$attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
 
 		$this->addImportedDataIfAvailable(
 			'garage_rent',
@@ -667,6 +666,22 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
+	 * Fetches the value for 'old_or_new_building' and stores it in 
+	 * $this->importedData.
+	 */
+	private function fetchValueForOldOrNewBuilding() {
+		$attributesArray = $this->fetchLowercasedDomAttributes(
+			$this->findFirstGrandchild('zustand_angaben', 'alter')
+		);
+
+		if ($attributesArray['alter_attr'] == 'neubau') {
+			$this->addImportedData('old_or_new_building', 1);
+		} elseif ($attributesArray['alter_attr'] == 'altbau') {
+			$this->addImportedData('old_or_new_building', 2);
+		}
+	}
+
+	/**
 	 * Fetches the attribute 'aktion' and stores it with the corresponding
 	 * database column name as key in this->importedData.
 	 */
@@ -681,8 +696,8 @@ class tx_realty_domDocumentConverter {
  			$this->addImportedData(
 				'deleted',
 				in_array(
-					'DELETE',
-					$this->fetchDomAttributes($nodeWithAttributes)
+					'delete',
+					$this->fetchLowercasedDomAttributes($nodeWithAttributes)
 				)
  			);
  		}
@@ -890,8 +905,7 @@ class tx_realty_domDocumentConverter {
 		$attributeToFetch = $nodeWithAttributes->attributes;
 		if ($attributeToFetch) {
 			foreach ($attributeToFetch as $domObject) {
-				$fetchedValues[$domObject->name] =
-					$domObject->value;
+				$fetchedValues[$domObject->name] = $domObject->value;
 			}
 		}
 
@@ -899,25 +913,43 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
+	 * Fetches an attribute from a given node and returns lowercased name/value
+	 * pairs as an array. If there are no attributes, the returned array will be
+	 * empty.
+	 *
+	 * @param	DOMNode		node from where to fetch the attribute, may be null
+	 *
+	 * @return	array		lowercased attributes and attribute values, empty if
+	 * 						there are no attributes
+	 */
+	private function fetchLowercasedDomAttributes($nodeWithAttributes) {
+		$result = array();
+
+		foreach ($this->fetchDomAttributes($nodeWithAttributes) as $key => $value) {
+			$result[strtolower($key)] = strtolower($value);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Initializes the global variable $LANG needed for localized strings. Uses
 	 * the EM configuration to set the language.
 	 */
 	protected function initializeLanguage() {
-		global $LANG;
-
-		if (!is_object($LANG)) {
-			$LANG = t3lib_div::makeInstance('language');
+		if (!is_object($GLOBALS['LANG'])) {
+			$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
 		}
 
 		$cliLanguage = tx_oelib_configurationProxy::getInstance('realty')->
 			getConfigurationValueString('cliLanguage');
 		if ($cliLanguage == '') {
-			$LANG->init('default');
+			$GLOBALS['LANG']->init('default');
 		} else {
-			$LANG->init($cliLanguage);
+			$GLOBALS['LANG']->init($cliLanguage);
 		}
 
-		$LANG->includeLLFile('EXT:realty/lib/locallang.xml');
+		$GLOBALS['LANG']->includeLLFile('EXT:realty/lib/locallang.xml');
 	}
 }
 

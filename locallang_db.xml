@@ -44,6 +44,9 @@
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
 			<label index="tx_realty_objects.construction_year">Year of construction</label>
+			<label index="tx_realty_objects.old_or_new_building">Old or new building</label>
+			<label index="tx_realty_objects.old_or_new_building.I.1">new building</label>
+			<label index="tx_realty_objects.old_or_new_building.I.2">old building</label>
 			<label index="tx_realty_objects.state">Condition</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
@@ -126,6 +129,9 @@
 			<label index="tx_realty_objects.garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.pets">Haustiere</label>
 			<label index="tx_realty_objects.construction_year">Baujahr</label>
+			<label index="tx_realty_objects.old_or_new_building">Altbau oder Neubau</label>
+			<label index="tx_realty_objects.old_or_new_building.I.1">Neubau</label>
+			<label index="tx_realty_objects.old_or_new_building.I.2">Altbau</label>
 			<label index="tx_realty_objects.state">Zustand</label>
 			<label index="tx_realty_objects.balcony">Balkon/Terrasse</label>
 			<label index="tx_realty_objects.garden">Garten(-mitbenutzung)</label>
@@ -281,6 +287,9 @@
 			<label index="tx_realty_objects.garage_price" type="integer">57868081</label>
 			<label index="tx_realty_objects.pets" type="integer">122743082</label>
 			<label index="tx_realty_objects.construction_year" type="integer">38900511</label>
+			<label index="tx_realty_objects.old_or_new_building" type="integer">81900542</label>
+			<label index="tx_realty_objects.old_or_new_building.I.1" type="integer">241425363</label>
+			<label index="tx_realty_objects.old_or_new_building.I.2" type="integer">97928723</label>
 			<label index="tx_realty_objects.state" type="integer">165843995</label>
 			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
 			<label index="tx_realty_objects.garden" type="integer">237814086</label>
@@ -436,6 +445,9 @@
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
 			<label index="tx_realty_objects.construction_year">Year of construction</label>
+			<label index="tx_realty_objects.old_or_new_building">Old or new building</label>
+			<label index="tx_realty_objects.old_or_new_building.I.1">new building</label>
+			<label index="tx_realty_objects.old_or_new_building.I.2">old building</label>
 			<label index="tx_realty_objects.state">Condition</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
