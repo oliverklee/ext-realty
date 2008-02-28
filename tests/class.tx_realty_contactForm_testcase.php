@@ -477,6 +477,90 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////////////
+	// Tests concerning the form fields' values.
+	//////////////////////////////////////////////
+
+	public function testUnsubmittedFormDoesNotContainMarkers() {
+		$this->assertNotContains(
+			'###',
+			$this->fixture->render(array('isSubmitted' => false))
+		);		
+	}
+
+	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForRequest() {
+		$this->assertContains(
+			'>the request</textarea>',
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'request' => 'the request'
+				)
+			)
+		);		
+	}
+
+	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForName() {
+		$this->assertContains(
+			'value="any name"',
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterName' => 'any name',
+				)
+			)
+		);
+	}
+
+	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForPhone() {
+		$this->assertContains(
+			'value="1234567"',
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterPhone' => '1234567',
+				)
+			)
+		);
+	}
+
+	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueOfEmail() {
+		$this->assertContains(
+			'value="requester@valid-email.org"',
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterEmail' => 'requester@valid-email.org',
+				)
+			)
+		);
+	}
+
+	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueOfFalseEmail() {
+		$this->assertContains(
+			'value="requester-invalid-email"',
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterEmail' => 'requester-invalid-email',
+				)
+			)
+		);
+	}
+
+	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueWithHtmlSpecialCharedTags() {
+		$this->assertContains(
+			'>&lt;fieldset /&gt;the request&lt;script /&gt;</textarea>',
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'request' => '<fieldset />the request<script />'
+				)
+			)
+		);				
+	}
+
+
 	/////////////////////////////////////////////
 	// Tests concerning the content of e-mails.
 	/////////////////////////////////////////////

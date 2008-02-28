@@ -102,6 +102,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		$errorMessages = array();
 
 		$this->checkToHideRequesterData();
+		$this->setFormValues();
 		if (!$this->setOrHideSpecializedView()) {
 			$errorMessages[] = 'message_noResultsFound_contact_form';
 		}
@@ -448,6 +449,21 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 */
 	private function isValidName($name) {
 		return (boolean) preg_match('/^[\S ]+$/s', $name);
+	}
+
+	/**
+	 * Sets the form fields' values to the currently stored form data.
+	 * Therefore converts special characters to HTML entities.
+	 */
+	private function setFormValues() {
+		foreach (array(
+			'request' => $this->contactFormData['request'],
+			'requester_name' => $this->contactFormData['requesterName'],
+			'requester_email' => $this->contactFormData['requesterEmail'],
+			'requester_phone' => $this->contactFormData['requesterPhone'],
+		) as $marker => $value) {
+			$this->plugin->setMarker($marker, htmlspecialchars($value));
+		}
 	}
 
 	/**
