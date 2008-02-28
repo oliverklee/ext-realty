@@ -167,7 +167,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->internal['currentTable'] = $this->tableNames['objects'];
-		$this->securePiVars(array('city', 'image', 'remove', 'descFlag'));
+		$this->securePiVars(
+			array('city', 'image', 'remove', 'descFlag', 'showUid')
+		);
 
 		$result = '';
 
@@ -196,7 +198,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				break;
 			case 'fe_editor':
-				$frontEndEditor = new tx_realty_frontEndEditor($this);
+				$frontEndEditor = new tx_realty_frontEndEditor(
+					$this,
+					$this->piVars['showUid']
+				);
 				$result = $frontEndEditor->render();
 				break;
 			case 'favorites':
