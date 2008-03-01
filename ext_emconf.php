@@ -17,7 +17,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Oliver Klee',
 	'author_email' => 'typo3-coding@oliverklee.de',
 	'shy' => 0,
-	'dependencies' => 'cms,oelib',
+	'dependencies' => 'cms,oelib,ameos_formidable',
 	'conflicts' => 'dbal',
 	'priority' => '',
 	'module' => '',
@@ -37,8 +37,10 @@ $EM_CONF[$_EXTKEY] = array(
 			'typo3' => '4.1.2-0.0.0',
 			'cms' => '',
 			'oelib' => '0.3.99-',
+			'ameos_formidable' => '0.7.0-0.7.0',
 		),
 		'conflicts' => array(
+			'dbal' => '',
 		),
 		'suggests' => array(
 			'mailform_userfunc' => '0.0.3.-',
