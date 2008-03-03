@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<formidable version="0.7.0">
+	<meta>
+		<name>FE editor form</name>
+		<description>This form is for editing realty records in the FE.</description>
+		<form>
+			<formid>tx_realty_frontEndEditor</formid>
+		</form>
+		<debug>false</debug>
+		<displaylabels>true</displaylabels>
+	</meta>
+	<control>
+		<datahandler:DB>
+			<tablename>tx_realty_objects</tablename>
+			<keyname>uid</keyname>
+			<process>
+				<beforeinsertion>
+					<userobj>
+						<extension>this</extension>
+						<method>modifyDataToInsert</method>
+					</userobj>
+				</beforeinsertion>
+			</process>
+		</datahandler:DB>
+		<renderer:STANDARD/>
+	</control>
+	<elements>
+		<renderlet:TEXT name="object_number" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number">
+			<readonly>
+				<userobj>
+					<extension>this</extension>
+					<method>isObjectNumberReadonly</method>
+				</userobj>
+			</readonly>
+			<validators>
+				<validator:DB>
+					<unique message="LLL:EXT:realty/pi1/locallang.xml:message_object_number_exists"/>
+				</validator:DB>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:RADIOBUTTON name="object_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type">
+			<data defaultvalue="0">
+				<items>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.0" value="0"/>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1" value="1"/>
+				</items>
+			</data>
+		</renderlet:RADIOBUTTON>
+		<renderlet:TEXT name="title" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title"/>
+		<renderlet:CHECKSINGLE name="emphasized" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized"/>
+		<renderlet:TEXT name="street" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.street"/>
+		<renderlet:TEXT name="zip" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip"/>
+		<renderlet:LISTBOX name="city" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:LISTBOX name="district" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:TEXT name="number_of_rooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="number_of_rooms" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="living_area"  label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.living_area">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="living_area" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="total_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_area">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="total_area" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="estate_size" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.estate_size">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="estate_size" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="rent_excluding_bills" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="rent_excluding_bills" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="extra_charges" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.extra_charges">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="extra_charges" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:CHECKSINGLE name="heating_included" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included"/>
+		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
+		<renderlet:TEXT name="provision" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision"/>
+		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
+				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true" />
+		</renderlet:DATE>
+		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="buying_price" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="year_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_rent">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="year_rent" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:CHECKSINGLE name="rented" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented"/>
+		<renderlet:LISTBOX name="apartment_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.apartment_type">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:LISTBOX name="house_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.house_type">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:TEXT name="floor" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidIntegerNumber</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="floor" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="floors" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floors">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidIntegerNumber</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="floors" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="bedrooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.bedrooms">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidIntegerNumber</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="bedrooms" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="bathrooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.bathrooms">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidIntegerNumber</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="bathrooms" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:LISTBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:LISTBOX name="garage_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:TEXT name="garage_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_rent">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="garage_rent" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="garage_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_price">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="garage_price" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:LISTBOX name="pets" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.pets">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:TEXT name="construction_year" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidYear</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidYearMessage</method>
+								<params>
+									<data name="fieldName" value="construction_year" />
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:LISTBOX name="old_or_new_building" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.1</caption>
+						<value>1</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.2</caption>
+						<value>2</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:LISTBOX name="state" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:CHECKSINGLE name="balcony" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony"/>
+		<renderlet:CHECKSINGLE name="garden" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garden"/>
+		<renderlet:CHECKSINGLE name="elevator" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.elevator"/>
+		<renderlet:CHECKSINGLE name="accessible" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.accessible"/>
+		<renderlet:CHECKSINGLE name="assisted_living" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.assisted_living"/>
+		<renderlet:CHECKSINGLE name="fitted_kitchen" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen"/>
+		<renderlet:TEXTAREA name="description" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.description"/>
+		<renderlet:TEXTAREA name="equipment" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.equipment"/>
+		<renderlet:TEXTAREA name="layout" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.layout"/>
+		<renderlet:TEXTAREA name="location" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.location"/>
+		<renderlet:TEXTAREA name="misc" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.misc"/>
+		<renderlet:TEXT name="employer" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer"/>
+		<renderlet:TEXT name="openimmo_obid" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.openimmo_obid"/>
+		<renderlet:TEXT name="utilization" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.utilization"/>
+		<renderlet:LISTBOX name="language" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.language">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:LINK name="images" label="LLL:EXT:realty/pi1/locallang.xml:label_append_images">
+			<url>
+				<userobj>
+					<extension>this</extension>
+					<method>getImageUploadLink</method>
+				</userobj>
+			</url>
+		</renderlet:LINK>
+		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_submit"/>
+	</elements>
+</formidable>

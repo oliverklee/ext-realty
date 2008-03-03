@@ -121,6 +121,10 @@
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
 			<label index="message_noResultsFound_contact_form_formal">The object you requested contact for does not exist.</label>
 			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
+			<label index="message_noResultsFound_fe_editor_formal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_noResultsFound_fe_editor_informal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_access_denied_formal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
+			<label index="message_access_denied_informal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
@@ -159,6 +163,7 @@
 			<label index="label_append_images">Append images</label>
 			<label index="message_no_valid_number">Please enter a valid number.</label>
 			<label index="message_no_valid_price">Please enter a valid price.</label>
+			<label index="message_no_valid_year">Please enter a year that lies in the past.</label>
 			<label index="message_object_number_exists">This object number already exists in the database. Please enter a different number.</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -275,6 +280,10 @@
 			<label index="message_noResultsFound_favorites_informal">Zurzeit befinden sich keine Objekte auf deinem Merkzettel.</label>
 			<label index="message_noResultsFound_contact_form_formal">Das von Ihnen für die Kontaktanfrage gewählte Objekt existiert nicht.</label>
 			<label index="message_noResultsFound_contact_form_informal">Das von dir für die Kontaktanfrage gewählte Objekt existiert nicht.</label>
+			<label index="message_noResultsFound_fe_editor_formal">Das Objekt existiert nicht in der Datenbank. Bitte wählen Sie ein anderes oder legen Sie einen neuen Datensatz an.</label>
+			<label index="message_noResultsFound_fe_editor_informal">Das Objekt existiert nicht in der Datenbank. Bitte wähle ein anderes oder lege einen neuen Datensatz an.</label>
+			<label index="message_access_denied_formal">Sie haben keinen Zugriff auf diesen Datensatz. Nur der Besitzer darf diesen Datensatz bearbeiten.</label>
+			<label index="message_access_denied_informal">Du hast keinen Zugriff auf diesen Datensatz. Nur der Besitzer darf diesen Datensatz bearbeiten.</label>
 			<label index="message_invalidImage_formal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfen Sie, ob die Adresse in der Adresszeile Ihres Browsers korrekt ist. Falls Sie einem Link zu dieser Seite gefolgt sind, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_please_login_formal">Bitte loggen Sie sich ein, um diese Seite anzuzeigen.</label>
@@ -313,6 +322,7 @@
 			<label index="label_append_images">Bilder hinzufügen</label>
 			<label index="message_no_valid_number">Bitte geben Sie eine gültige Zahl an.</label>
 			<label index="message_no_valid_price">Bitte geben Sie einen gültigen Preis an.</label>
+			<label index="message_no_valid_year">Bitte geben Sie eine Jahreszahl in der Vergangenheit ein.</label>
 			<label index="message_object_number_exists">Diese Objektnummer existiert bereits in der Datenbank. Bitte geben Sie eine andere an.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
@@ -739,6 +749,10 @@
 			<label index="message_noResultsFound_favorites_informal" type="integer">84241814</label>
 			<label index="message_noResultsFound_contact_form_formal" type="integer">112812831</label>
 			<label index="message_noResultsFound_contact_form_informal" type="integer">112812831</label>
+			<label index="message_noResultsFound_fe_editor_formal" type="integer">36101137</label>
+			<label index="message_noResultsFound_fe_editor_informal" type="integer">36101137</label>
+			<label index="message_access_denied_formal" type="integer">155310287</label>
+			<label index="message_access_denied_informal" type="integer">155310287</label>
 			<label index="message_invalidImage_formal" type="integer">24179165</label>
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
 			<label index="message_please_login_formal" type="integer">64977327</label>
@@ -777,6 +791,7 @@
 			<label index="label_append_images" type="integer">260019087</label>
 			<label index="message_no_valid_number" type="integer">179177779</label>
 			<label index="message_no_valid_price" type="integer">19191144</label>
+			<label index="message_no_valid_year" type="integer">38026596</label>
 			<label index="message_object_number_exists" type="integer">4134319</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
@@ -1200,6 +1215,10 @@
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
 			<label index="message_noResultsFound_contact_form_formal">The object you requested contact for does not exist.</label>
 			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
+			<label index="message_noResultsFound_fe_editor_formal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_noResultsFound_fe_editor_informal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_access_denied_formal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
+			<label index="message_access_denied_informal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
@@ -1241,6 +1260,7 @@
 			<label index="label_append_images">Append images</label>
 			<label index="message_no_valid_number">Please enter a valid number.</label>
 			<label index="message_no_valid_price">Please enter a valid price.</label>
+			<label index="message_no_valid_year">Please enter a year that lies in the past.</label>
 			<label index="message_object_number_exists">This object number already exists in the database. Please enter a different number.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">

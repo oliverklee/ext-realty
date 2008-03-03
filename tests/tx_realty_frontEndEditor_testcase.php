@@ -29,15 +29,27 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
 
 class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/** FE editor object to be tested */
 	private $fixture;
 	/** instance of tx_realty_pi1 */
 	private $pi1;
+	/** instance of tx_oelib_testingFramework */
+	private $testingFramework;
+
+	/** dummy FE user ID */
+	private $feUserId;
+	/** UID of the dummy object */
+	private $dummyObjectUid = 0;
+	/** dummy string value */
+	private static $dummyStringValue = 'test value';
 
 	public function setUp() {
 		// Bolster up the fake front end.
@@ -46,24 +58,369 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
 
-		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
-		}
+		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->createDummyRecords();
 
 		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'));
+		$this->pi1->init(
+			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm')
+		);
 
-		$this->fixture = new tx_realty_frontEndEditor($this->pi1);
+		$this->fixture = new tx_realty_frontEndEditor($this->pi1, 0, true);
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		$this->testingFramework->logoutFrontEndUser();
+		$this->testingFramework->cleanUp();
+		unset($this->fixture, $this->pi1, $this->testingFramework);
 	}
 
-	public function testRenderReturnsHelloWorld() {
-		$this->assertEquals(
-			'Hello world!',
+
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Creates dummy records in the DB.
+	 */
+	private function createDummyRecords() {
+		$this->feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->dummyObjectUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS
+		);
+		$this->createAuxiliaryRecords();
+	}
+
+	/**
+	 * Creates one dummy record in each table for auxiliary records.
+	 */
+	private function createAuxiliaryRecords() {
+		$realtyObject = new tx_realty_object(true);
+		$realtyObject->loadRealtyObject($this->dummyObjectUid);
+
+		foreach (array(
+			'city' => REALTY_TABLE_CITIES,
+			'district' => REALTY_TABLE_DISTRICTS,
+			'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
+			'house_type' => REALTY_TABLE_HOUSE_TYPES,
+			'heating_type' => REALTY_TABLE_HEATING_TYPES,
+			'garage_type' => REALTY_TABLE_CAR_PLACES,
+			'pets' => REALTY_TABLE_PETS,
+			'state' => REALTY_TABLE_CONDITIONS
+		) as $key => $table) {
+			$realtyObject->setProperty($key, self::$dummyStringValue);
+			$this->testingFramework->markTableAsDirty($table);
+		}
+
+		$realtyObject->writeToDatabase();
+	}
+
+
+	//////////////////////////////////////////////////////////////
+	// Tests concerning the error messages returned by render().
+	//////////////////////////////////////////////////////////////
+
+	public function testRenderReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+
+		$this->assertContains(
+			$this->pi1->translate('message_noResultsFound_fe_editor'),
 			$this->fixture->render()
+		);
+	}
+
+	public function testRenderReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+
+		$this->assertContains(
+			$this->pi1->translate('message_noResultsFound_fe_editor'),
+			$this->fixture->render()
+		);
+	}
+
+	public function testRenderReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertContains(
+			$this->pi1->translate('message_please_login'),
+			$this->fixture->render()
+		);
+	}
+
+	public function testRenderReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertContains(
+			$this->pi1->translate('message_please_login'),
+			$this->fixture->render()
+		);
+	}
+
+	public function testRenderReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditanObjectHeDoesNotOwn() {
+		$this->testingFramework->loginFrontEndUser(
+			$this->testingFramework->createFrontEndUser(
+				$this->testingFramework->createFrontEndUserGroup()
+			)
+		);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertContains(
+			$this->pi1->translate('message_access_denied'),
+			$this->fixture->render()
+		);
+	}
+
+
+	////////////////////////////////////////////////////
+	// Tests for the functions called in the XML form.
+	////////////////////////////////////////////////////
+	// * Functions concerning the rendering.
+	//////////////////////////////////////////
+
+	public function testIsObjectNumberReadonlyReturnsFalseForANewObject() {
+		$this->assertFalse(
+			$this->fixture->isObjectNumberReadonly()
+		);
+	}
+
+	public function testIsObjectNumberReadonlyReturnsTrueForAnExistingObject() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertTrue(
+			$this->fixture->isObjectNumberReadonly()
+		);
+	}
+
+
+	////////////////////////////
+	// * Validation functions.
+	////////////////////////////
+
+	public function testGetNoValidNumberMessage() {
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
+				.$GLOBALS['LANG']->sL('LLL:EXT:realty/pi1/locallang.xml:message_no_valid_number'),
+			$this->fixture->getNoValidNumberMessage(array('fieldName' => 'floor'))
+		);
+	}
+
+	public function testGetNoValidPriceMessage() {
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
+				.$GLOBALS['LANG']->sL('LLL:EXT:realty/pi1/locallang.xml:message_no_valid_price'),
+			$this->fixture->getNoValidPriceMessage(array('fieldName' => 'floor'))
+		);
+	}
+
+	public function testIsValidIntegerNumberReturnsTrueForAnIntegerInAString() {
+		$this->assertTrue(
+			$this->fixture->isValidIntegerNumber('12345')
+		);
+	}
+
+	public function testIsValidIntegerNumberReturnsTrueForAnIntegerWithThousandsSeparator() {
+		$localeConvention = $this->fixture->getLocaleConvention();
+
+		$this->assertTrue(
+			$this->fixture->isValidIntegerNumber(
+				'12'.$localeConvention['thousands_sep'].'345'
+			)
+		);
+	}
+
+	public function testIsValidIntegerNumberReturnsTrueForAnEmptyString() {
+		$this->assertTrue(
+			$this->fixture->isValidIntegerNumber('')
+		);
+	}
+
+	public function testIsValidIntegerNumberReturnsFalseForANumberWithDecimalSeparator() {
+		$localeConvention = $this->fixture->getLocaleConvention();
+
+		$this->assertFalse(
+			$this->fixture->isValidIntegerNumber(
+				'123'.$localeConvention['decimal_point'].'45'
+			)
+		);
+	}
+
+	public function testIsValidIntegerNumberReturnsFalseForANonNumericString() {
+		$this->assertFalse(
+			$this->fixture->isValidIntegerNumber('string')
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimal() {
+		$localeConvention = $this->fixture->getLocaleConvention();
+
+		$this->assertTrue(
+			$this->fixture->isValidNumberWithDecimals(
+				'1234'.$localeConvention['decimal_point'].'5'
+			)
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimalAndAThousandsSeparator() {
+		$localeConvention = $this->fixture->getLocaleConvention();
+
+		$this->assertTrue(
+			$this->fixture->isValidNumberWithDecimals(
+				'1'.$localeConvention['thousands_sep'].'234'.$localeConvention['decimal_point'].'5'
+			)
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimals() {
+		$localeConvention = $this->fixture->getLocaleConvention();
+
+		$this->assertTrue(
+			$this->fixture->isValidNumberWithDecimals(
+				'123'.$localeConvention['decimal_point'].'45'
+			)
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithoutDecimals() {
+		$this->assertTrue(
+			$this->fixture->isValidNumberWithDecimals('12345')
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsTrueForAnEmptyString() {
+		$this->assertTrue(
+			$this->fixture->isValidNumberWithDecimals('')
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsFalseForANumberWithMoreThanTwoDecimals() {
+		$localeConvention = $this->fixture->getLocaleConvention();
+
+		$this->assertFalse(
+			$this->fixture->isValidNumberWithDecimals(
+				'12'.$localeConvention['decimal_point'].'345'
+			)
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsFalseForANonNumericString() {
+		$this->assertFalse(
+			$this->fixture->isValidNumberWithDecimals('string')
+		);
+	}
+
+	public function testIsValidYearReturnsTrueForTheCurrentYear() {
+		$this->assertTrue(
+			$this->fixture->isValidYear(date('Y', mktime()))
+		);
+	}
+
+	public function testIsValidYearReturnsTrueForAFormerYear() {
+		$this->assertTrue(
+			$this->fixture->isValidYear('2000')
+		);
+	}
+
+	public function testIsValidYearReturnsFalseForAFutureYear() {
+		$this->assertFalse(
+			$this->fixture->isValidYear('2100')
+		);
+	}
+
+
+	///////////////////////////////////////////////
+	// * Functions called right before insertion.
+	///////////////////////////////////////////////
+
+	public function testAddAdministrativeDataAddsTheTimeStampForAnExistingObject() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertEquals(
+			'tstamp',
+			key($this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsTimeStampDatePidAndOwnerForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertEquals(
+			array('tstamp', 'crdate', 'owner', 'pid'),
+			array_keys($this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsCorrectPidForANewObject() {
+		$this->fixture->setConfigurationValue(
+			'sysFolderForFeCreatedRecords', '1234567'
+		);
+		$this->fixture->setRealtyObjectUid(0);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertEquals(
+			'1234567',
+			$result['pid']
+		);
+	}
+
+	public function testAddAdministrativeDataAddsFrontEndUserIdForANewObject() {
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid(0);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertEquals(
+			$this->feUserId,
+			$result['owner']
+		);
+	}
+
+	public function testAddAdministrativeNotDataAddsFrontEndUserIdForAnObjectToUpdate() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertFalse(
+			isset($result['owner'])
+		);
+	}
+
+	public function testUnifyNumbersToInsertForNoElementsWithNumericValues() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$formData = array('foo' => '12,3.45', 'bar' => 'abc,de.fgh');
+		$result = $this->fixture->modifyDataToInsert($formData);
+		// Comparing the time stamp does not make sense.
+		unset($result['tstamp']);
+
+		$this->assertEquals(
+			$formData,
+			$result
+		);
+	}
+
+	public function testUnifyNumbersToInsertIfSomeElementsNeedFormatting() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$localeConvention = $this->fixture->getLocaleConvention();
+		$result = $this->fixture->modifyDataToInsert(array(
+			'garage_rent' => '12'.$localeConvention['decimal_point'].'345',
+			'garage_price' => '12'.$localeConvention['thousands_sep'].'345'
+		));
+		// Comparing the time stamp does not make sense.
+		unset($result['tstamp']);
+
+		$this->assertEquals(
+			array('garage_rent' => '12.345', 'garage_price' => '12345'),
+			$result
 		);
 	}
 }

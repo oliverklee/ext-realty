@@ -117,6 +117,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_fe_editor() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
+		$this->checkLocale();
+		$this->checkLoginPid();
 	}
 
 	/**
