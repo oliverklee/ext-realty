@@ -1,5 +1,6 @@
 2008-03-03 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1717] Change: Make the city and title required in the BE realty object editor
 	* [#1709] Change: The thumbnails in the list view should lead to the detail view
 
 2008-02-28 Saskia Metzler <saskia@merlin.owl.de>

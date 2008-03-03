@@ -113,8 +113,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
-				'eval' => 'trim'
+				'eval' => 'required,trim'
 			)
 		),
 		'emphasized' => array(
@@ -151,7 +150,7 @@ $TCA['tx_realty_objects'] = array(
 				'foreign_table' => 'tx_realty_cities',
 				'foreign_table_where' => 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.uid',
 				'size' => 1,
-				'minitems' => 0,
+				'minitems' => 1,
 				'maxitems' => 1,
 				'wizards' => array(
 					'_PADDING' => 2,
