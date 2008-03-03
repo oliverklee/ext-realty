@@ -812,11 +812,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 			case 'list_image_right':
 				// If there is only one image, the right image will be filled.
-				$result = $this->getImageLinkedToGallery('listImageMax');
+				$result = $this->getImageLinkedToSingleView('listImageMax');
 				break;
 			case 'list_image_left':
 				// If there is only one image, the left image will be empty.
-				$result = $this->getImageLinkedToGallery('listImageMax', 1);
+				$result = $this->getImageLinkedToSingleView('listImageMax', 1);
 				break;
 
 			case 'description':
@@ -1057,7 +1057,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * additional onclick handler to open the gallery in a pop-up window.
 	 *
 	 * The image's size can be limited by two TS setup variables.
-	 * They names need to begin with the string defined as $maxSizeVariable.
+	 * Their names need to begin with the string defined as $maxSizeVariable.
 	 * The variable for the maximum width will then have the name set in
 	 * $maxSizVariable with a "X" appended. The variable for the maximum height
 	 * works the same, just with a "Y" appended.
@@ -1100,6 +1100,33 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets an image from the current record's image list as a complete IMG tag
+	 * with alternative text and title text, wrapped in a link pointing to the
+	 * single view page of the current record.
+	 *
+	 * The image's size can be limited by two TS setup variables. Their names
+	 * need to begin with the string defined as $maxSizeVariable. The variable
+	 * for the maximum width will then have the name set in $maxSizVariable with
+	 * a "X" appended, the variable for the maximum height with a "Y" appended.
+	 *
+	 * @param	string		prefix to the TS setup variables that define the max
+	 * 						size, will be prepended to "X" and "Y", must not be
+	 * 						empty
+	 * @param	integer		the number of the image to retrieve, zero-based,
+	 * 						may be zero
+	 *
+	 * @return	string		IMG tag wrapped in a link, will be empty if no image
+	 * 						is found
+	 */
+	private function getImageLinkedToSingleView($maxSizeVariable, $offset = 0) {
+		return $this->createLinkToSingleViewPageForAnyLinkText(
+			$this->getImage($maxSizeVariable, $offset),
+			$this->internal['currentRow']['uid'],
+			$this->internal['currentRow']['details_page']
+		);
 	}
 
 	/**
@@ -1850,7 +1877,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates a link to the single view page.
 	 *
-	 * $linkText will be used as link text.
+	 * $linkText will be used as link text. HTML tags will be replaced with
+	 * entities in $linkText.
 	 *
 	 * If the current FE user is denied access to the single view page, the
 	 * created link will lead to the login page instead, including a
@@ -1867,21 +1895,44 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	public function createLinkToSingleViewPage(
 		$linkText, $uid, $separateSingleViewPage = ''
 	) {
+		return $this->createLinkToSingleViewPageForAnyLinkText(
+			htmlspecialchars($linkText), $uid, $separateSingleViewPage
+		);
+	}
+
+	/**
+	 * Creates a link to the single view page.
+	 *
+	 * $linkText will be used as link text, can also be another tag, e.g. IMG.
+	 *
+	 * If the current FE user is denied access to the single view page, the
+	 * created link will lead to the login page instead, including a
+	 * redirect_url parameter to the single view page.
+	 *
+	 * @param	string		$linkText, must not be empty
+	 * @param	integer		UID of the realty object to show
+	 * @param	string		PID or URL of the single view page, set to '' to use
+	 * 						the default single view page
+	 *
+	 * @return	string		link tag, either to the single view page or to the
+	 *						login page
+	 */
+	private function createLinkToSingleViewPageForAnyLinkText(
+		$linkText, $uid, $separateSingleViewPage = ''
+	) {
 		$result = '';
 
 		if (!empty($linkText)) {
-			// disable the caching if we are in the favorites list
-			$useCache
-				= ($this->getCurrentView() != 'favorites');
+			// disables the caching if we are in the favorites list
+			$useCache = ($this->getCurrentView() != 'favorites');
 
 			if ($separateSingleViewPage != '') {
 				$completeLink = $this->cObj->getTypoLink(
-					htmlspecialchars($linkText),
-					$separateSingleViewPage
+					$linkText, $separateSingleViewPage
 				);
 			} else {
 				$completeLink = $this->pi_list_linkSingle(
-					htmlspecialchars($linkText),
+					$linkText,
 					intval($uid),
 					$useCache,
 					array(),
@@ -1897,7 +1948,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$this->cObj->lastTypoLinkUrl
 				);
 				$result = $this->cObj->getTypoLink(
-					htmlspecialchars($linkText),
+					$linkText,
 					$this->getConfValueInteger('loginPID'),
 					array('redirect_url' => $redirectUrl)
 				);

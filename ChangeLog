@@ -1,3 +1,7 @@
+2008-03-03 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1709] Change: The thumbnails in the list view should lead to the detail view
+
 2008-02-28 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1668] Feature: Create a new database column for old/new building and import the corresponding tag
