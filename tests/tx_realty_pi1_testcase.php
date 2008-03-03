@@ -329,6 +329,95 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testImagesInTheListViewAreLinkedToTheSingleView() {
+		// Titles are set to '' to ensure there are no other links to the
+		// single view page in the result.
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('title' => '')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1', 'title' => '')
+		);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid,
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_IMAGES,
+				array('caption' => 'foo')
+			)
+		);
+		$this->allowAccess();
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			'tx_realty_pi1[showUid]='.$this->firstRealtyUid,
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			(string) $this->singlePid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testImagesInTheListViewDoNotContainPopUpJavaScriptCode() {
+		// This test asserts that linked images in the list view do no longer
+		// lead to the gallery.
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1', 'title' => '')
+		);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid,
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_IMAGES,
+				array('caption' => 'foo')
+			)
+		);
+		$this->allowAccess();
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		// this enables the gallery popup window
+		$this->fixture->setConfigurationValue(
+			'galleryPopupParameters',
+			'width=600,height=400,resizable=no,toolbar=no,'
+			.'location=no,directories=no,status=no,menubar=no'
+		);
+		$this->assertNotContains(
+			'onclick="window.open(',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testImagesInTheListViewDoNotContainTheGalleryLinkTarget() {
+		// This test asserts that linked images in the list view do no longer
+		// lead to the gallery.
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1', 'title' => '')
+		);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid,
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_IMAGES,
+				array('caption' => 'foo')
+			)
+		);
+		$this->allowAccess();
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('galleryLinkTaget', 'foo');
+		$this->assertNotContains(
+			'taget="foo"',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testGetFieldContentCreatesLinkToSinglePageIfAccessDenied() {
 		$this->denyAccess();
 
@@ -446,8 +535,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -462,8 +551,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 1)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 1)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -489,8 +578,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -516,8 +605,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 1)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 1)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -543,8 +632,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -570,8 +659,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 1)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 1)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -597,8 +686,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -624,8 +713,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 1)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 1)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -651,8 +740,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -678,8 +767,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'object_number', 'descFlag' => 1)			
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 1)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -705,8 +794,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'buying_price', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'buying_price', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -732,8 +821,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'rent_excluding_bills', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'rent_excluding_bills', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -759,8 +848,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'number_of_rooms', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'number_of_rooms', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -786,8 +875,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'living_area', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'living_area', 'descFlag' => 0)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
@@ -802,8 +891,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testListViewIsSortedAscendinglyByTheCitiesTitles() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'city', 'descFlag' => 0)			
+			'listView.',
+			array('orderBy' => 'city', 'descFlag' => 0)
 		);
 
 		// The result would be inverted if cities are sorted by their UID because
@@ -824,8 +913,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testListViewIsSortedDescendinglyByTheCitiesTitles() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'city', 'descFlag' => 1)			
+			'listView.',
+			array('orderBy' => 'city', 'descFlag' => 1)
 		);
 
 		// The result would be inverted if cities are sorted by their UID because
@@ -857,8 +946,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
-			'listView.', 
-			array('orderBy' => 'street', 'descFlag' => 1)			
+			'listView.',
+			array('orderBy' => 'street', 'descFlag' => 1)
 		);
 
 		// Links inside the tags might contain numbers which could influence the
