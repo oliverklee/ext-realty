@@ -58,6 +58,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfCities</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:LISTBOX name="district" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district">
@@ -68,6 +72,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfDistricts</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:TEXT name="number_of_rooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms">
@@ -237,6 +245,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfApartmentTypes</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:LISTBOX name="house_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.house_type">
@@ -247,6 +259,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfHouseTypes</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:TEXT name="floor" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor">
@@ -333,6 +349,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfHeatingTypes</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:LISTBOX name="garage_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type">
@@ -343,6 +363,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfCarPlaces</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:TEXT name="garage_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_rent">
@@ -391,6 +415,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfPets</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:TEXT name="construction_year" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year">
@@ -438,6 +466,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfConditions</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:CHECKSINGLE name="balcony" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony"/>
@@ -462,6 +494,10 @@
 						<value>0</value>
 					</item>
 				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfLanguages</method>
+				</userobj>
 			</data>
 		</renderlet:LISTBOX>
 		<renderlet:LINK name="images" label="LLL:EXT:realty/pi1/locallang.xml:label_append_images">

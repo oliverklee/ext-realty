@@ -204,6 +204,77 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testPopulateListOfCities() {
+		$result = $this->fixture->populateListOfCities();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfDistricts() {
+		$result = $this->fixture->populateListOfDistricts();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfApartmentTypes() {
+		$result = $this->fixture->populateListOfApartmentTypes();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfHouseTypes() {
+		$result = $this->fixture->populateListOfHouseTypes();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfHeatingTypes() {
+		$result = $this->fixture->populateListOfHeatingTypes();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfConditions() {
+		$result = $this->fixture->populateListOfConditions();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfCarPlaces() {
+		$result = $this->fixture->populateListOfCarPlaces();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfPets() {
+		$result = $this->fixture->populateListOfPets();
+		$this->assertEquals(
+			self::$dummyStringValue,
+			$result[0]['caption']
+		);
+	}
+
+	public function testPopulateListOfLanguages() {
+		$this->assertGreaterThan(
+			1,
+			count($this->fixture->populateListOfLanguages())
+		);
+	}
+
 
 	////////////////////////////
 	// * Validation functions.

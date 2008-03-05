@@ -338,6 +338,98 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		);
 	}
 
+	/**
+	 * Fills the select box for city records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfCities() {
+		return $this->populateListByTitleAndUid('tx_realty_cities');
+	}
+
+	/**
+	 * Fills the select box for district records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfDistricts() {
+		return $this->populateListByTitleAndUid('tx_realty_districts');
+	}
+
+	/**
+	 * Fills the select box for house type records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfHouseTypes() {
+		return $this->populateListByTitleAndUid('tx_realty_house_types');
+	}
+
+	/**
+	 * Fills the select box for apartment type records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfApartmentTypes() {
+		return $this->populateListByTitleAndUid('tx_realty_apartment_types');
+	}
+
+	/**
+	 * Fills the select box for heating type records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfHeatingTypes() {
+		return $this->populateListByTitleAndUid('tx_realty_heating_types');
+	}
+
+	/**
+	 * Fills the select box for car place records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfCarPlaces() {
+		return $this->populateListByTitleAndUid('tx_realty_car_places');
+	}
+
+	/**
+	 * Fills the select box for state records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfConditions() {
+		return $this->populateListByTitleAndUid('tx_realty_conditions');
+	}
+
+	/**
+	 * Fills the select box for pet records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfPets() {
+		return $this->populateListByTitleAndUid('tx_realty_pets');
+	}
+
+	/**
+	 * Fills the select box for languages.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfLanguages() {
+		return $this->populateList(
+			'static_languages', 'lg_name_en', 'lg_iso_2', false
+		);
+	}
+
 
 	/////////////////////////////////////////////////////////
 	// Helper functions for the functions used by the form.
@@ -488,6 +580,74 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		}
 
 		return $modifiedFormData;
+	}
+
+	/**
+	 * Provides data items to fill select boxes. Returns caption-value pairs from
+	 * the database table named $tableName.
+	 * The field "title" will be returned within the array as caption. The UID
+	 * will be the value.
+	 *
+	 * @param	string		the table name to query, must not be empty
+	 * @param	boolean		whether the table has the column 'is_dummy_record'
+	 * 						for the test mode flag
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	private function populateListByTitleAndUid(
+		$tableName, $hasTestModeColumn = true
+	) {
+		return $this->populateList($tableName, 'title', 'uid', $hasTestModeColumn);
+	}
+
+	/**
+	 * Provides data items to fill select boxes. Returns caption-value pairs from
+	 * the database table named $tableName.
+	 *
+	 * @param	string		the table name to query, must not be empty
+	 * @param	string		name of the database column for the caption, must
+	 * 						not be empty
+	 * @param	string		name of the database column for the value, must not
+	 * 						be empty
+	 * @param	boolean		whether the table has the column 'is_dummy_record'
+	 * 						for the test mode flag
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	private function populateList(
+		$tableName, $keyForCaption, $keyForValue, $hasTestModeColumn = true
+	) {
+		$items = array();
+		$whereClause = '1=1';
+
+		if ($this->isTestMode && $hasTestModeColumn) {
+			$whereClause = 'is_dummy_record=1';
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$keyForCaption.','.$keyForValue,
+			$tableName,
+			$whereClause.$this->enableFields($tableName),
+			'',
+			$keyForCaption
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$items[] = array(
+				'caption' => $row[$keyForCaption], 'value' => $row[$keyForValue]
+			);
+		}
+
+		// Resets the array pointer as the populateList* functions expect
+		// arrays with a reset array pointer.
+		reset($items);
+
+		return $items;
 	}
 
 
