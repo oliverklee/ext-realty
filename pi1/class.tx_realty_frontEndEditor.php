@@ -32,6 +32,7 @@
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 
 class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
@@ -98,7 +99,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 			$this->formCreator->init(
 				$this,
 				t3lib_extMgm::extPath('realty').'pi1/tx_realty_frontEndEditor.xml',
-				($this->realtyObjectUid > 0) ? false : $this->realtyObjectUid
+				($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false
 			);
 		}
 	}
@@ -345,7 +346,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfCities() {
-		return $this->populateListByTitleAndUid('tx_realty_cities');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_CITIES);
 	}
 
 	/**
@@ -355,7 +356,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfDistricts() {
-		return $this->populateListByTitleAndUid('tx_realty_districts');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_DISTRICTS);
 	}
 
 	/**
@@ -365,7 +366,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfHouseTypes() {
-		return $this->populateListByTitleAndUid('tx_realty_house_types');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_HOUSE_TYPES);
 	}
 
 	/**
@@ -375,7 +376,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfApartmentTypes() {
-		return $this->populateListByTitleAndUid('tx_realty_apartment_types');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_APARTMENT_TYPES);
 	}
 
 	/**
@@ -385,7 +386,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfHeatingTypes() {
-		return $this->populateListByTitleAndUid('tx_realty_heating_types');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_HEATING_TYPES);
 	}
 
 	/**
@@ -395,7 +396,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfCarPlaces() {
-		return $this->populateListByTitleAndUid('tx_realty_car_places');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_CAR_PLACES);
 	}
 
 	/**
@@ -405,7 +406,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfConditions() {
-		return $this->populateListByTitleAndUid('tx_realty_conditions');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_CONDITIONS);
 	}
 
 	/**
@@ -415,7 +416,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						no matching records
 	 */
 	public function populateListOfPets() {
-		return $this->populateListByTitleAndUid('tx_realty_pets');
+		return $this->populateListByTitleAndUid(REALTY_TABLE_PETS);
 	}
 
 	/**
