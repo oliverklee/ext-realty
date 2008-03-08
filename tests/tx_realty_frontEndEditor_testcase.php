@@ -428,20 +428,54 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertEquals(
-			array('tstamp', 'crdate', 'owner', 'pid'),
+			array('tstamp', 'pid', 'crdate', 'owner'),
 			array_keys($this->fixture->modifyDataToInsert(array()))
 		);
 	}
 
-	public function testAddAdministrativeDataAddsCorrectPidForANewObject() {
+	public function testAddAdministrativeDataAddsDefaultPidForANewObject() {
+		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$this->fixture->setConfigurationValue(
-			'sysFolderForFeCreatedRecords', '1234567'
+			'sysFolderForFeCreatedRecords', $systemFolderPid
 		);
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
 
 		$this->assertEquals(
-			'1234567',
+			$systemFolderPid,
+			$result['pid']
+		);
+	}
+
+	public function testAddAdministrativeDataAddsPidDerivedFromCityRecordForANewObject() {
+		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('save_folder' => $systemFolderPid)
+		);
+
+		$this->fixture->setRealtyObjectUid(0);
+		$result = $this->fixture->modifyDataToInsert(array('city' => $cityUid));
+
+		$this->assertEquals(
+			$systemFolderPid,
+			$result['pid']
+		);
+	}
+
+	public function testAddAdministrativeDataAddsPidDerivedFromCityRecordForAnExistentObject() {
+		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('save_folder' => $systemFolderPid)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('city' => $cityUid)
+		);
+
+		$this->fixture->setRealtyObjectUid(0);
+		$result = $this->fixture->modifyDataToInsert(array('city' => $cityUid));
+
+		$this->assertEquals(
+			$systemFolderPid,
 			$result['pid']
 		);
 	}
@@ -470,8 +504,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$formData = array('foo' => '12,3.45', 'bar' => 'abc,de.fgh');
 		$result = $this->fixture->modifyDataToInsert($formData);
-		// Comparing the time stamp does not make sense.
-		unset($result['tstamp']);
+		// PID and time stamp will always be added, they are not needed here.
+		unset($result['tstamp'], $result['pid']);
 
 		$this->assertEquals(
 			$formData,
@@ -486,8 +520,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			'garage_rent' => '12'.$localeConvention['decimal_point'].'345',
 			'garage_price' => '12'.$localeConvention['thousands_sep'].'345'
 		));
-		// Comparing the time stamp does not make sense.
-		unset($result['tstamp']);
+		// PID and time stamp will always be added, they are not needed here.
+		unset($result['tstamp'], $result['pid']);
 
 		$this->assertEquals(
 			array('garage_rent' => '12.345', 'garage_price' => '12345'),

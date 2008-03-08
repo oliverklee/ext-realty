@@ -1412,10 +1412,21 @@ $TCA['tx_realty_cities'] = array(
 				'size' => '30',
 				'eval' => 'required'
 			)
+		),
+		'save_folder' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_cities.save_folder',
+			'config' => array(
+				'type' => 'group',
+				'internal_type' => 'db',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			)
 		)
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2, save_folder')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')

@@ -570,17 +570,46 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						for new objects also 'crdate', 'pid' and 'owner'
 	 */
 	private function addAdministrativeData(array $formData) {
+		$pidFromCity = $this->getPidFromCityRecord(intval($formData['city']));
 		$modifiedFormData = $formData;
+
 		$modifiedFormData['tstamp'] = mktime();
+		// The PID might have changed if the city did.
+		$modifiedFormData['pid'] = ($pidFromCity != 0) 
+			? $pidFromCity
+			: $this->getConfValueString('sysFolderForFeCreatedRecords');
+		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
 			$modifiedFormData['crdate'] = mktime();
 			$modifiedFormData['owner'] = $this->getFeUserUid();
-			$modifiedFormData['pid'] = $this->getConfValueString(
-				'sysFolderForFeCreatedRecords'
-			);
 		}
 
 		return $modifiedFormData;
+	}
+
+	/**
+	 * Returns the PID from the field 'save_folder'. This PID defines where to
+	 * store records for the city defined by $cityUid.
+	 *
+	 * @param	integer		UID of the city record from which to get the system
+	 * 						folder ID, must be integer > 0
+	 *
+	 * @return	integer		UID of the system folder where to store this city's
+	 * 						records, will be zero if no folder was set
+	 */
+	private function getPidFromCityRecord($cityUid) {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'save_folder',
+			REALTY_TABLE_CITIES,
+			'uid='.$cityUid
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return intval($row['save_folder']);
 	}
 
 	/**
