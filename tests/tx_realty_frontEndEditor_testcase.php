@@ -57,6 +57,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
+		$GLOBALS['LANG']->lang = $GLOBALS['TSFE']->config['config']['language'];
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
@@ -328,7 +329,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testGetNoValidNumberMessage() {
 		$this->assertEquals(
 			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
-				.$GLOBALS['LANG']->sL('LLL:EXT:realty/pi1/locallang.xml:message_no_valid_number'),
+				.$this->pi1->translate('message_no_valid_number'),
 			$this->fixture->getNoValidNumberMessage(array('fieldName' => 'floor'))
 		);
 	}
@@ -336,7 +337,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testGetNoValidPriceMessage() {
 		$this->assertEquals(
 			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
-				.$GLOBALS['LANG']->sL('LLL:EXT:realty/pi1/locallang.xml:message_no_valid_price'),
+				.$this->pi1->translate('message_no_valid_price'),
 			$this->fixture->getNoValidPriceMessage(array('fieldName' => 'floor'))
 		);
 	}

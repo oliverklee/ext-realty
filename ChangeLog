@@ -1,5 +1,6 @@
 2008-03-09 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1735] Fix: Unit tests failure
 	* [#1254] Feature: Redirect after save
 
 2008-03-07 Saskia Metzler <saskia@merlin.owl.de>

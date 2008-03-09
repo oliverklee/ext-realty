@@ -253,7 +253,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	public function getNoValidNumberMessage(array $formData) {
 		return $this->getMessageForRealtyObjectField(
 			$formData['fieldName'],
-			'LLL:EXT:realty/pi1/locallang.xml:message_no_valid_number'
+			'message_no_valid_number'
 		);
 	}
 
@@ -272,7 +272,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	public function getNoValidPriceMessage(array $formData) {
 		return $this->getMessageForRealtyObjectField(
 			$formData['fieldName'],
-			'LLL:EXT:realty/pi1/locallang.xml:message_no_valid_price'
+			'message_no_valid_price'
 		);
 	}
 
@@ -454,16 +454,17 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * @param	string		label of the field which concerns the the message,
 	 * 						must be the absolute path starting with "LLL:EXT:",
 	 * 						must not be empty
-	 * @param	string		label of the message to return, must be the absolute
-	 * 						path starting with "LLL:EXT:", must not be empty
+	 * @param	string		label of the message to return, must be defined in 
+	 * 						pi1/locallang.xml, must not be empty
 	 *
 	 * @return	string		localized message following the pattern
 	 * 						"[field name]: [message]"
 	 */
 	private function getMessageForField($labelOfField, $labelOfMessage) {
 		$GLOBALS['LANG']->lang = $GLOBALS['TSFE']->lang;
+
 		return $GLOBALS['LANG']->sL($labelOfField).': '
-			.$GLOBALS['LANG']->sL($labelOfMessage);
+			.$this->plugin->translate($labelOfMessage);
 	}
 
 	/**
