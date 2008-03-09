@@ -117,6 +117,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_fe_editor() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
+		$this->checkFeEditorRedirectPid();
 		$this->checkLocale();
 		$this->checkLoginPid();
 	}
@@ -551,6 +552,22 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'records. New records will be stored on the root page if this '
 				.'value is invalid.'
 		);
+	}
+
+	/**
+	 * Checks the settings for the PID of the FE page where to redirect to after
+	 * saving a FE-created record.
+	 */
+	private function checkFeEditorRedirectPid() {
+		$this->checkIfSingleFePageNotEmpty(
+			'feEditorRedirectPid',
+			true,
+			'sDEF',
+			'This value specifies the PID of the FE page to which users will be '
+				.'redirected after a FE-created record was saved. This '
+				.'redirecting will not proceed correctly if this value is '
+				.'invalid.'
+		);		
 	}
 }
 

@@ -169,7 +169,12 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditanObjectHeDoesNotOwn() {
+	public function testRenderReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->testingFramework->loginFrontEndUser(
 			$this->testingFramework->createFrontEndUser(
 				$this->testingFramework->createFrontEndUserGroup()
@@ -272,6 +277,46 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertGreaterThan(
 			1,
 			count($this->fixture->populateListOfLanguages())
+		);
+	}
+
+	public function testGetRedirectUrlReturnsCompleteUrlIfConfiguredCorrectly() {
+		$fePageUid = $this->testingFramework->createFrontEndPage();
+		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+
+		$this->assertContains(
+			'http://',
+			$this->fixture->getRedirectUrl()
+		);
+		$this->assertContains(
+			(string) $fePageUid,
+			$this->fixture->getRedirectUrl()
+		);
+	}
+
+	public function testGetRedirectUrlReturnsBaseUrlIfANonExistentPidIsSet() {
+		$this->pi1->setConfigurationValue('feEditorRedirectPid', '1234567');
+
+		$this->assertContains(
+			'http://',
+			$this->fixture->getRedirectUrl()
+		);
+		$this->assertNotContains(
+			'1234567',
+			$this->fixture->getRedirectUrl()
+		);
+	}
+
+	public function testGetRedirectUrlReturnsBaseUrlIfTheConfigurationIsMissing() {
+		$this->pi1->setConfigurationValue('feEditorRedirectPid', '0');
+
+		$this->assertContains(
+			'http://',
+			$this->fixture->getRedirectUrl()
+		);
+		$this->assertNotContains(
+			'0',
+			$this->fixture->getRedirectUrl()
 		);
 	}
 

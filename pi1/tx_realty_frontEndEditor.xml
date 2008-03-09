@@ -23,6 +23,16 @@
 			</process>
 		</datahandler:DB>
 		<renderer:STANDARD/>
+		<actionlets>
+			<actionlet:REDIRECT>
+				<url>
+					<userobj>
+						<extension>this</extension>
+						<method>getRedirectUrl</method>
+					</userobj>
+				</url>
+			</actionlet:REDIRECT>
+		</actionlets>
 	</control>
 	<elements>
 		<renderlet:TEXT name="object_number" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number">

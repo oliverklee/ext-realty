@@ -227,6 +227,18 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	////////////////////////////////
 
 	/**
+	 * Returns the URL where to redirect to after saving a record.
+	 *
+	 * @return	string		complete URL of the configured FE page, if none is
+	 * 						configured, the redirect will lead to the base URL
+	 */
+	public function getRedirectUrl() {
+		return t3lib_div::locationHeaderUrl($this->plugin->cObj->getTypoLink_URL(
+			$this->plugin->getConfValueInteger('feEditorRedirectPid')
+		));
+	}
+
+	/**
 	 * Returns a localized message that the number entered in the provided field
 	 * is not valid.
 	 *
