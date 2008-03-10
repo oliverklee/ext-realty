@@ -36,7 +36,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'php' => '5.1.0-0.0.0',
 			'typo3' => '4.1.2-0.0.0',
 			'cms' => '',
-			'oelib' => '0.3.99-',
+			'oelib' => '0.4.0-',
 		),
 		'conflicts' => array(
 		),
