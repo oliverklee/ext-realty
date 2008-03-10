@@ -348,12 +348,10 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsValidIntegerNumberReturnsTrueForAnIntegerWithThousandsSeparator() {
-		$localeConvention = $this->fixture->getLocaleConvention();
-
+	public function testIsValidIntegerNumberReturnsTrueForAnIntegerWithSpaceAsThousandsSeparator() {
 		$this->assertTrue(
 			$this->fixture->isValidIntegerNumber(
-				'12'.$localeConvention['thousands_sep'].'345'
+				'12 345'
 			)
 		);
 	}
@@ -364,12 +362,18 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsValidIntegerNumberReturnsFalseForANumberWithDecimalSeparator() {
-		$localeConvention = $this->fixture->getLocaleConvention();
-
+	public function testIsValidIntegerNumberReturnsFalseForANumberWithADotAsDecimalSeparator() {
 		$this->assertFalse(
 			$this->fixture->isValidIntegerNumber(
-				'123'.$localeConvention['decimal_point'].'45'
+				'123.45'
+			)
+		);
+	}
+
+	public function testIsValidIntegerNumberReturnsFalseForANumberWithACommaAsDecimalSeparator() {
+		$this->assertFalse(
+			$this->fixture->isValidIntegerNumber(
+				'123,45'
 			)
 		);
 	}
@@ -381,31 +385,33 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimal() {
-		$localeConvention = $this->fixture->getLocaleConvention();
-
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(
-				'1234'.$localeConvention['decimal_point'].'5'
+				'1234.5'
 			)
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimalAndAThousandsSeparator() {
-		$localeConvention = $this->fixture->getLocaleConvention();
-
+	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimalAndASpace() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(
-				'1'.$localeConvention['thousands_sep'].'234'.$localeConvention['decimal_point'].'5'
+				'1 234.5'
 			)
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimals() {
-		$localeConvention = $this->fixture->getLocaleConvention();
-
+	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimalsSeparatedByDot() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(
-				'123'.$localeConvention['decimal_point'].'45'
+				'123.45'
+			)
+		);
+	}
+
+	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimalsSeparatedByComma() {
+		$this->assertTrue(
+			$this->fixture->isValidNumberWithDecimals(
+				'123,45'
 			)
 		);
 	}
@@ -423,11 +429,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsFalseForANumberWithMoreThanTwoDecimals() {
-		$localeConvention = $this->fixture->getLocaleConvention();
-
 		$this->assertFalse(
 			$this->fixture->isValidNumberWithDecimals(
-				'12'.$localeConvention['decimal_point'].'345'
+				'12.345'
 			)
 		);
 	}
@@ -561,16 +565,15 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testUnifyNumbersToInsertIfSomeElementsNeedFormatting() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-		$localeConvention = $this->fixture->getLocaleConvention();
 		$result = $this->fixture->modifyDataToInsert(array(
-			'garage_rent' => '12'.$localeConvention['decimal_point'].'345',
-			'garage_price' => '12'.$localeConvention['thousands_sep'].'345'
+			'garage_rent' => '123,45',
+			'garage_price' => '12 345'
 		));
 		// PID and time stamp will always be added, they are not needed here.
 		unset($result['tstamp'], $result['pid']);
 
 		$this->assertEquals(
-			array('garage_rent' => '12.345', 'garage_price' => '12345'),
+			array('garage_rent' => '123.45', 'garage_price' => '12345'),
 			$result
 		);
 	}

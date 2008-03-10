@@ -89,10 +89,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		$this->init($this->plugin->getConfiguration());
 		$this->pi_initPIflexForm();
 
-		// initializes the locale
-		$this->setLocaleConvention();
-		$this->localeConvention = localeconv();
-
 		$this->formCreator = t3lib_div::makeInstance('tx_ameosformidable');
 		// The FORMidable object is not initialized for testing.
 		if (!$this->isTestMode) {
@@ -514,8 +510,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	/**
 	 * Unifies a number.
 	 *
-	 * Replaces the decimal separator which is defined by the current locale
-	 * with a dot and strips the thousands separator.
+	 * Replaces a comma by a dot and strips whitespaces.
 	 *
 	 * @param	string		number to be unified, may be empty
 	 *
@@ -527,13 +522,9 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 			return '';
 		}
 
-		$unifiedNumber = str_replace(
-			$this->localeConvention['thousands_sep'], '', $number
-		);
+		$unifiedNumber = str_replace(',', '.', $number);
 
-		return str_replace(
-			$this->localeConvention['decimal_point'], '.', $unifiedNumber
-		);
+		return str_replace(' ', '', $unifiedNumber);
 	}
 
 	/**
@@ -697,17 +688,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	///////////////////////////////////
 	// Utility functions for testing.
 	///////////////////////////////////
-
-	/**
-	 * Returns the locale convention.
-	 *
-	 * This function is for testing purposes.
-	 *
-	 * @return	array		locale convention, will not be empty
-	 */
-	public function getLocaleConvention() {
-		return $this->localeConvention;
-	}
 
 	/**
 	 * Fakes the setting of the current UID.
