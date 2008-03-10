@@ -30,6 +30,8 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
+require_once(PATH_formidableapi);
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
@@ -259,8 +261,8 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 *
 	 * @param	array	 	form data, must contain the key 'fieldName', the
 	 * 						value of 'fieldName' must be a database column name
-	 * 						of 'tx_realty_objects' which concerns the the
-	 * 						message, must not be empty
+	 * 						of 'tx_realty_objects' which concerns the message,
+	 * 						must not be empty
 	 *
 	 * @return	string		localized message following the pattern
 	 * 						"[field name]: [invalid price message]"
@@ -269,6 +271,25 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		return $this->getMessageForRealtyObjectField(
 			$formData['fieldName'],
 			'message_no_valid_price'
+		);
+	}
+
+	/**
+	 * Returns a localized message that the year entered in the provided field
+	 * is not valid.
+	 *
+	 * @param	array	 	form data, must contain the key 'fieldName', the
+	 * 						value of 'fieldName' must be a database column name
+	 * 						of 'tx_realty_objects' which concerns the message,
+	 * 						must not be empty
+	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [invalid price message]"
+	 */
+	public function getNoValidYearMessage(array $formData) {
+		return $this->getMessageForRealtyObjectField(
+			$formData['fieldName'],
+			'message_no_valid_year'
 		);
 	}
 
@@ -283,52 +304,41 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns a link where images can be uploaded.
-	 *
-	 * Note: This function is not implemented yet.
-	 *
-	 * @return	string		currently just an empty string
-	 */
-	public function getImageUploadLink() {
-		return '';
-	}
-
-	/**
 	 * Checks whether a number is valid and does not have decimal digits.
 	 *
-	 * @param	string		number to check, may contain a thousands separator
-	 * 						according to the locale, may be empty
+	 * @param	array		array with one element named "value" that contains
+	 * 						the number to check, this number may also be empty
 	 *
 	 * @return	boolean		true if the number is an integer or empty
 	 */
-	public function isValidIntegerNumber($number) {
-		return $this->isValidNumber($number, false);
+	public function isValidIntegerNumber(array $valueToCheck) {
+		return $this->isValidNumber($valueToCheck['value'], false);
 	}
 
 	/**
 	 * Checks whether a number which may have decimal digits is valid.
 	 *
-	 * @param	string		number to check, may contain a thousands separator
-	 * 						and a decimal separator according to the locale,
-	 * 						may be empty
+	 * @param	array		array with one element named "value" that contains
+	 * 						the number to check, this number may also be empty
 	 *
 	 * @return	boolean		true if the number is valid or empty
 	 */
-	public function isValidNumberWithDecimals($number) {
-		return $this->isValidNumber($number, true);
+	public function isValidNumberWithDecimals(array $valueToCheck) {
+		return $this->isValidNumber($valueToCheck['value'], true);
 	}
 
 	/**
-	 * Checks whether $number is this year or former.
+	 * Checks whether the provided year is this year or earlier.
 	 *
-	 * @param	string		year to check must be this year or former, may be
-	 * 						empty
+	 * @param	array		array with one element named "value" that contains
+	 * 						the year to check, this must be this year or earlier
+	 * 						or empty
 	 *
-	 * @return	boolean		true if $number is a valid year or empty
+	 * @return	boolean		true if the year is valid or empty
 	 */
-	public function isValidYear($number) {
-		return ($this->isValidNumber($number, false)
-			&& ($number <= date('Y', mktime())));
+	public function isValidYear(array $valueToCheck) {
+		return ($this->isValidNumber($valueToCheck['value'], false)
+			&& ($valueToCheck['value'] <= date('Y', mktime())));
 	}
 
 	/**

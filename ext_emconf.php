@@ -37,7 +37,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'typo3' => '4.1.2-0.0.0',
 			'cms' => '',
 			'oelib' => '0.3.99-',
-			'ameos_formidable' => '0.7.0-0.7.0',
+			'ameos_formidable' => '1.0.0-1.0.0',
 		),
 		'conflicts' => array(
 			'dbal' => '',

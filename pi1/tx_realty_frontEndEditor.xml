@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<formidable version="0.7.0">
+<formidable version="1.0.0">
 	<meta>
 		<name>FE editor form</name>
 		<description>This form is for editing realty records in the FE.</description>
@@ -206,7 +206,7 @@
 		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
 		<renderlet:TEXT name="provision" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision"/>
 		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
-				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true" />
+			<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true" />
 		</renderlet:DATE>
 		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
 			<validators>
@@ -510,14 +510,6 @@
 				</userobj>
 			</data>
 		</renderlet:LISTBOX>
-		<renderlet:LINK name="images" label="LLL:EXT:realty/pi1/locallang.xml:label_append_images">
-			<url>
-				<userobj>
-					<extension>this</extension>
-					<method>getImageUploadLink</method>
-				</userobj>
-			</url>
-		</renderlet:LINK>
 		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_submit"/>
 	</elements>
 </formidable>

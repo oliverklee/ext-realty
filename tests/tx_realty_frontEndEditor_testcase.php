@@ -342,121 +342,113 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetNoValidYearMessage() {
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
+				.$this->pi1->translate('message_no_valid_year'),
+			$this->fixture->getNoValidYearMessage(array('fieldName' => 'construction_year'))
+		);
+	}
+
 	public function testIsValidIntegerNumberReturnsTrueForAnIntegerInAString() {
 		$this->assertTrue(
-			$this->fixture->isValidIntegerNumber('12345')
+			$this->fixture->isValidIntegerNumber(array('value' => '12345'))
 		);
 	}
 
 	public function testIsValidIntegerNumberReturnsTrueForAnIntegerWithSpaceAsThousandsSeparator() {
 		$this->assertTrue(
-			$this->fixture->isValidIntegerNumber(
-				'12 345'
-			)
+			$this->fixture->isValidIntegerNumber(array('value' => '12 345'))
 		);
 	}
 
 	public function testIsValidIntegerNumberReturnsTrueForAnEmptyString() {
 		$this->assertTrue(
-			$this->fixture->isValidIntegerNumber('')
+			$this->fixture->isValidIntegerNumber(array('value' => ''))
 		);
 	}
 
 	public function testIsValidIntegerNumberReturnsFalseForANumberWithADotAsDecimalSeparator() {
 		$this->assertFalse(
-			$this->fixture->isValidIntegerNumber(
-				'123.45'
-			)
+			$this->fixture->isValidIntegerNumber(array('value' => '123.45'))
 		);
 	}
 
 	public function testIsValidIntegerNumberReturnsFalseForANumberWithACommaAsDecimalSeparator() {
 		$this->assertFalse(
-			$this->fixture->isValidIntegerNumber(
-				'123,45'
-			)
+			$this->fixture->isValidIntegerNumber(array('value' => '123,45')	)
 		);
 	}
 
 	public function testIsValidIntegerNumberReturnsFalseForANonNumericString() {
 		$this->assertFalse(
-			$this->fixture->isValidIntegerNumber('string')
+			$this->fixture->isValidIntegerNumber(array('value' => 'string'))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimal() {
 		$this->assertTrue(
-			$this->fixture->isValidNumberWithDecimals(
-				'1234.5'
-			)
+			$this->fixture->isValidNumberWithDecimals(array('value' => '1234.5'))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimalAndASpace() {
 		$this->assertTrue(
-			$this->fixture->isValidNumberWithDecimals(
-				'1 234.5'
-			)
+			$this->fixture->isValidNumberWithDecimals(array('value' => '1 234.5'))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimalsSeparatedByDot() {
 		$this->assertTrue(
-			$this->fixture->isValidNumberWithDecimals(
-				'123.45'
-			)
+			$this->fixture->isValidNumberWithDecimals(array('value' => '123.45'))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimalsSeparatedByComma() {
 		$this->assertTrue(
-			$this->fixture->isValidNumberWithDecimals(
-				'123,45'
-			)
+			$this->fixture->isValidNumberWithDecimals(array('value' => '123,45'))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithoutDecimals() {
 		$this->assertTrue(
-			$this->fixture->isValidNumberWithDecimals('12345')
+			$this->fixture->isValidNumberWithDecimals(array('value' => '12345'))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsTrueForAnEmptyString() {
 		$this->assertTrue(
-			$this->fixture->isValidNumberWithDecimals('')
+			$this->fixture->isValidNumberWithDecimals(array('value' => ''))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsFalseForANumberWithMoreThanTwoDecimals() {
 		$this->assertFalse(
-			$this->fixture->isValidNumberWithDecimals(
-				'12.345'
-			)
+			$this->fixture->isValidNumberWithDecimals(array('value' => '12.345'))
 		);
 	}
 
 	public function testIsValidNumberWithDecimalsReturnsFalseForANonNumericString() {
 		$this->assertFalse(
-			$this->fixture->isValidNumberWithDecimals('string')
+			$this->fixture->isValidNumberWithDecimals(array('value' => 'string'))
 		);
 	}
 
 	public function testIsValidYearReturnsTrueForTheCurrentYear() {
 		$this->assertTrue(
-			$this->fixture->isValidYear(date('Y', mktime()))
+			$this->fixture->isValidYear(array('value' => date('Y', mktime())))
 		);
 	}
 
 	public function testIsValidYearReturnsTrueForAFormerYear() {
 		$this->assertTrue(
-			$this->fixture->isValidYear('2000')
+			$this->fixture->isValidYear(array('value' => '2000'))
 		);
 	}
 
 	public function testIsValidYearReturnsFalseForAFutureYear() {
 		$this->assertFalse(
-			$this->fixture->isValidYear('2100')
+			$this->fixture->isValidYear(array('value' => '2100'))
 		);
 	}
 
