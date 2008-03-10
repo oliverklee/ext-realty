@@ -1498,6 +1498,65 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	/////////////////////////////////////////
+	// Tests concering the my objects list.
+	/////////////////////////////////////////
+
+	public function testAccessToMyObjectsViewIsForbiddenForNotLoggedInUser() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
+		$this->assertContains(
+			$this->fixture->translate('message_please_login'),
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			(string) $this->loginPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testNoResultsFoundMessageIsDisplayedForLoggedInUserWhoHasNoObjects() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_my_objects'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testOnlyObjectsTheLoggedInUserOwnsAreDisplayed() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+
+		$this->assertContains(
+			self::$firstCityTitle,
+			$this->fixture->main('', array())
+		);
+		$this->assertNotContains(
+			self::$secondCityTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	///////////////////////
 	// Utility functions.
 	///////////////////////

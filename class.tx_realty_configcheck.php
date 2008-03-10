@@ -112,13 +112,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Checks the configuration for the my objects view of the realty manager.
+	 */
+	public function check_tx_realty_pi1_my_objects() {
+		$this->check_tx_realty_pi1_realty_list();
+		$this->checkEditorPid();
+		$this->checkLoginPid();
+	}
+
+	/**
 	 * Checks the configuration for the FE editor of the realty manager.
 	 */
 	public function check_tx_realty_pi1_fe_editor() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
 		$this->checkFeEditorRedirectPid();
-		$this->checkLocale();
 		$this->checkLoginPid();
 	}
 
@@ -155,7 +163,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'favorites',
 				'realty_list',
 				'contact_form',
-				'fe_editor'
+				'fe_editor',
+				'my_objects'
 			)
 		);
 	}
@@ -523,6 +532,19 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the PID of the page for the favorites view. '
 				.'Favorites cannot be displayed if this value is invalid.'
 		);
+	}
+
+	/**
+	 * Checks the settings for the PID for the FE editor.
+	 */
+	private function checkEditorPid() {
+		$this->checkIfSingleFePageNotEmpty(
+			'editorPID',
+			true,
+			'sDEF',
+			'This value specifies the PID of the page for the FE editor. '
+				.'This page cannot be displayed if this value is invalid.'
+		);		
 	}
 
 	/**

@@ -107,9 +107,11 @@
 			<td class="item">
 				<table class="item">
 					<tr>
+						<!-- ###WRAPPER_CHECKBOX### -->
 						<td class="checkbox">
 							<input type="checkbox" name="tx_realty_pi1[favorites][]" value="###UID###"/>
 						</td>
+						<!-- ###WRAPPER_CHECKBOX### -->
 						<td class="description">
 							<h3>###LINKED_TITLE###</h3>
 							<p class="details">###FEATURES###</p>
@@ -229,6 +231,56 @@
 
 
 
+<!-- ###MY_OBJECTS_VIEW### -->
+<div class="list-view my-objects">
+<!-- ###MY_OBJECTS_RESULT### -->
+<form name="tx_realty_pi1_my_objects" method="post" action="">
+	<table class="result">
+		<thead>
+			<tr>
+				<td>
+					<!-- ###PAGINATION### --><!-- ###PAGINATION### -->
+					<h2>###LABEL_YOUR_OBJECTS###</h2>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+		###REALTY_ITEMS###
+		</tbody>
+		<tfoot>
+			<tr>
+				<td class="my-objects-pagination">
+					<!-- ###PAGINATION### --><!-- ###PAGINATION### -->
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+<!-- ###WRAPPER_SORTING### -->
+<form name="sorting" method="post" action="###SELF_URL###">
+	<table class="result">
+		<tr>
+			<td class="sorting">
+				<table class="sorting">
+					<tr>
+						<td>Anzeigen nach
+							<select name="sortBy">
+								<!-- ###OPTION### --><option value="###VALUE###">###LABEL###</option><!-- ###OPTION### -->
+							</select>
+						</td>
+						<td><input type="radio" name="sortOrder" id="sortOrderAsc" value="asc" ###CHECKED###/><label for="sortOrderAsc">###LABEL_ASCENDING###</label></td>
+						<td><input type="radio" name="sortOrder" id="sortOrderDesc" value="desc" ###CHECKED###/><label for="sortOrderDesc">###LABEL_DESCENDING###</label></td>
+						<td><a href="#" class="button" onclick="document.forms['sorting'].submit(); return false;"><span>###LABEL_SORT###</span></a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</form>
+<!-- ###WRAPPER_SORTING### -->
+<!-- ###MY_OBJECTS_RESULT### -->
+</div>
+<!-- ###MY_OBJECTS_VIEW### -->
 
 
 

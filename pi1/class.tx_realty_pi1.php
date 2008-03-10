@@ -205,6 +205,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				$result = $frontEndEditor->render();
 				break;
+			case 'my_objects':
+				$result = $this->createMyObjectsView();
+				break;
 			case 'favorites':
 				// The fallthrough is intended because the favorites view is just
 				// a special realty list.
@@ -259,19 +262,30 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getCurrentView()));
 			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
 			$this->setSubpartContent('favorites_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
+			$this->setSubpartContent('my_objects_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
 		}
 
-		if (($this->getCurrentView() == 'favorites')) {
-			$this->fillOrHideContactWrapper();
-			$result = $this->substituteMarkerArrayCached('FAVORITES_VIEW');
+		switch ($this->getCurrentView()) {
+			case 'favorites':
+				$this->fillOrHideContactWrapper();
+				$result = $this->getSubpart('FAVORITES_VIEW');
 
-			if ($this->hasConfValueString('favoriteFieldsInSession')
-				&& isset($GLOBALS['TSFE']->fe_user)) {
-				$GLOBALS['TSFE']->fe_user->setKey('ses', $this->favoritesSessionKeyVerbose, serialize($this->favoritesDataVerbose));
-				$GLOBALS['TSFE']->fe_user->storeSessionData();
-			}
-		} else {
-			$result = $this->substituteMarkerArrayCached('LIST_VIEW');
+				if ($this->hasConfValueString('favoriteFieldsInSession')
+					&& isset($GLOBALS['TSFE']->fe_user)) {
+					$GLOBALS['TSFE']->fe_user->setKey(
+						'ses',
+						$this->favoritesSessionKeyVerbose,
+						serialize($this->favoritesDataVerbose)
+					);
+					$GLOBALS['TSFE']->fe_user->storeSessionData();
+				}
+				break;
+			case 'my_objects':
+				$result = $this->getSubpart('MY_OBJECTS_VIEW');
+				break;
+			default:
+				$result = $this->getSubpart('LIST_VIEW');
+				break;
 		}
 
 		return $result;
@@ -329,18 +343,27 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				.intval($this->piVars['city']);
 		}
 
-		if ($this->getCurrentView() == 'favorites') {
-			// The favorites page should never get cached.
-			$GLOBALS['TSFE']->set_no_cache();
-			// The favorites list is the only content element that may
-			// accept changes to the favorites list.
-			$this->processSubmittedFavorites();
-			// If the favorites list is empty, make sure to create a valid query
-			// that will produce zero results.
-			$whereClause .= ($this->getFavorites() != '')
-				? ' AND '.$this->tableNames['objects'].'.uid IN('.$this->getFavorites().')'
-				: ' AND (0=1)';
-			$this->favoritesDataVerbose = array();
+		switch ($this->getCurrentView()) {
+			case 'favorites':
+				// The favorites page should never get cached.
+				$GLOBALS['TSFE']->set_no_cache();
+				// The favorites list is the only content element that may
+				// accept changes to the favorites list.
+				$this->processSubmittedFavorites();
+				// If the favorites list is empty, make sure to create a valid query
+				// that will produce zero results.
+				if ($this->getFavorites() != '') {
+					$whereClause .= ' AND '.REALTY_TABLE_OBJECTS.'.uid '
+						.'IN('.$this->getFavorites().')';
+				}
+				$this->favoritesDataVerbose = array();
+				break;
+			case 'my_objects':
+				$whereClause .= ' AND '.REALTY_TABLE_OBJECTS.'.owner'
+					.'='.$this->getFeUserUid();
+				break;
+			default:
+				break;
 		}
 
 		$searchSelection = implode(',', $this->getSearchSelection());
@@ -450,6 +473,28 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		);
 
 		return $lowerLimit.','.$upperLimit;
+	}
+
+	/**
+	 * Returns the HTML for the "my objects" list or an error message wrapped in
+	 * HTML if the user is not logged in or does not own objects.
+	 *
+	 * @return	string		HTML for the "my objects" view, will not be empty
+	 */
+	private function createMyObjectsView() {
+		if (!$this->isLoggedIn()) {
+			$this->setMarkerContent(
+				'login_link', $this->createLoginPageLink(
+					htmlspecialchars($this->translate('message_please_login'))
+				)
+			);
+			header('Status: 401 Unauthorized');
+			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
+		} else {
+			$result = $this->createListView();
+		}
+
+		return $result;
 	}
 
 	/**
@@ -696,12 +741,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 		}
 
-		if (($this->getCurrentView() == 'favorites')
-			&& ($this->hasConfValueString('favoriteFieldsInSession'))) {
-			$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
-			foreach (explode(',', $this->getConfValueString('favoriteFieldsInSession')) as $key) {
-				$this->favoritesDataVerbose[$this->getFieldContent('uid')][$key] = $this->getFieldContent($key);
-			}
+		switch ($this->getCurrentView()) {
+			case 'favorites':
+				if (!$this->hasConfValueString('favoriteFieldsInSession')) {
+					break;
+				}
+				$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
+				foreach (explode(',', $this->getConfValueString('favoriteFieldsInSession')) as $key) {
+					$this->favoritesDataVerbose[$this->getFieldContent('uid')][$key] = $this->getFieldContent($key);
+				}
+				break;
+			case 'my_objects':
+				$this->hideSubparts('checkbox', 'wrapper');
+				break;
+			default:
+				break;
 		}
 
 		return $this->substituteMarkerArrayCached('LIST_ITEM');
@@ -1629,8 +1683,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 			$links .= $this->createPageList();
 			$links .= $this->createPaginationLink(
-				min($this->internal['lastPage'],
-				$this->piVars['pointer'] + 1),
+				min($this->internal['lastPage'], $this->piVars['pointer'] + 1),
 				'&gt;',
 				false
 			);
@@ -1799,9 +1852,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Returns the current view.
 	 *
 	 * @return	string		Name of the current view ('realty_list', 'contact_form',
-	 * 						'favorites', 'fe_editor', 'city_selector' or 'gallery'),
-	 * 						will not be empty. If no view is set, 'realty_list' is
-	 * 						returned as this is the fallback case.
+	 * 						'favorites', 'fe_editor', 'city_selector', 'gallery'
+	 * 						or 'my_objects'), will not be empty. If no view is set,
+	 * 						'realty_list' is returned as this is the fallback case.
 	 */
 	private function getCurrentView() {
 		$whatToDisplay = $this->getConfValueString('what_to_display');
@@ -1811,7 +1864,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'city_selector',
 			'favorites',
 			'fe_editor',
-			'gallery'
+			'gallery',
+			'my_objects'
 		))) {
 			$result = $whatToDisplay;
 		} else {
@@ -1820,7 +1874,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// switches from the list view to the single view if a 'showUid'
 		// variable is set
-		if ((in_array($result, array('realty_list', 'favorites')))
+		if ((in_array($result, array('favorites', 'my_objects', 'realty_list')))
 			&& $this->hasShowUidInUrl()
 		) {
 			$result = 'single_view';
@@ -1848,16 +1902,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	public function isInitialized() {
 		return $this->isInitialized;
-	}
-
-	/**
-	 * Checks whether a front end user is logged in.
-	 *
-	 * @return	boolean		true if a user is logged in, false otherwise
-	 */
-	public function isLoggedIn() {
-		return ((boolean) $GLOBALS['TSFE'])
-			&& ((boolean) $GLOBALS['TSFE']->loginUser);
 	}
 
 	/**
@@ -1944,18 +1988,33 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			if ($this->isAccessToSingleViewPageAllowed()) {
 				$result = $completeLink;
 			} else {
-				$redirectUrl = t3lib_div::locationHeaderUrl(
-					$this->cObj->lastTypoLinkUrl
-				);
-				$result = $this->cObj->getTypoLink(
-					$linkText,
-					$this->getConfValueInteger('loginPID'),
-					array('redirect_url' => $redirectUrl)
-				);
+				$result = $this->createLoginPageLink($linkText);
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Creates a link to the login page. The link will contain a redirect URL to
+	 * the page which contains the link.
+	 *
+	 * @param	string		link text, HTML tags will not be replaced, must not
+	 * 						be empty
+	 *
+	 * @return	string		link text wrapped by the link to the login page,
+	 * 						will not be empty
+	 */
+	private function createLoginPageLink($linkText) {
+		$redirectUrl = t3lib_div::locationHeaderUrl(
+			$this->cObj->lastTypoLinkUrl
+		);
+
+		return $this->cObj->getTypoLink(
+			$linkText,
+			$this->getConfValueInteger('loginPID'),
+			array('redirect_url' => $redirectUrl)
+		);
 	}
 
 	/**
