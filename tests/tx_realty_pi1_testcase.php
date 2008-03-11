@@ -1556,6 +1556,69 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testMyObjectsViewContainsEditButton() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue('editorPID', $this->favoritesPid);
+
+		$this->assertContains(
+			'button edit',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testEditButtonInTheMyObjectsViewIsLinkedToTheFeEditor() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId)
+		);
+		$editorPid = $this->testingFramework->createFrontEndPage(0);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue('editorPID', $editorPid);
+
+		$this->assertContains(
+			$editorPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testEditButtonInTheMyObjectsViewContainsTheRecordUid() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId)
+		);
+		$editorPid = $this->testingFramework->createFrontEndPage(0);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue('editorPID', $editorPid);
+
+		// The title linked to the gallery will also contain this UID.
+		$this->assertEquals(
+			2,
+			substr_count(
+				$this->fixture->main('', array()),
+				'tx_realty_pi1[showUid]='.$this->firstRealtyUid
+			)
+		);
+	}
+
 
 	///////////////////////
 	// Utility functions.

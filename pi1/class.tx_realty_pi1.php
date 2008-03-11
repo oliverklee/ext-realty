@@ -352,10 +352,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->processSubmittedFavorites();
 				// If the favorites list is empty, make sure to create a valid query
 				// that will produce zero results.
-				if ($this->getFavorites() != '') {
-					$whereClause .= ' AND '.REALTY_TABLE_OBJECTS.'.uid '
-						.'IN('.$this->getFavorites().')';
-				}
+				$whereClause .= ($this->getFavorites() != '')
+					? ' AND '.REALTY_TABLE_OBJECTS.'.uid IN('.$this->getFavorites().')'
+					: ' AND 0=1';
 				$this->favoritesDataVerbose = array();
 				break;
 			case 'my_objects':
@@ -711,6 +710,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createListRow($rowCounter = 0) {
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarkerContent('class_position_in_list', $position);
+		$this->hideSubparts('editor_links', 'wrapper');
 
 		foreach (array(
 			'uid',
@@ -752,7 +752,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				break;
 			case 'my_objects':
+				$this->setMarker(
+					'editor_link',
+					$this->createLinkToFeEditorPage($this->internal['currentRow']['uid'])
+				);
 				$this->hideSubparts('checkbox', 'wrapper');
+				$this->unhideSubparts('wrapper_editor_links');
 				break;
 			default:
 				break;
@@ -2014,6 +2019,24 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$linkText,
 			$this->getConfValueInteger('loginPID'),
 			array('redirect_url' => $redirectUrl)
+		);
+	}
+
+	/**
+	 * Creates a link to the FE editor page.
+	 *
+	 * @param	integer		UID of the object to be loaded for editing, must be
+	 * 						integer >= 0 (Zero will open the FE editor for a new
+	 * 						record to insert.)
+	 *
+	 * @return	string		$linkText wrapped in link tags, will not be empty
+	 */
+	private function createLinkToFeEditorPage($uid) {
+		return t3lib_div::locationHeaderUrl(
+			$this->cObj->getTypoLink_URL(
+				$this->getConfValueInteger('editorPID'),
+				array('tx_realty_pi1[showUid]' => $uid)
+			)
 		);
 	}
 

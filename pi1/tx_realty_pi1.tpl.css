@@ -48,7 +48,8 @@
 
 /* Buttons */
 .tx-realty-pi1 a.back,
-.tx-realty-pi1 a.close {
+.tx-realty-pi1 a.close,
+.tx-realty-pi1 a.edit {
 	float: right;
 }
 .tx-realty-pi1 .favorites a.back,

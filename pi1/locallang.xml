@@ -28,7 +28,7 @@
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
 			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
-			<label index="realty.pi_flexform.editorPID">Seite mit dem FE-Editor:</label>
+			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID">Target page for the city selector:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
@@ -168,6 +168,7 @@
 			<label index="label_requester_phone">The sender's phone number:</label>
 			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
 			<label index="label_append_images">Append images</label>
+			<label index="label_edit">Edit</label>
 			<label index="message_no_valid_number">Please enter a valid number.</label>
 			<label index="message_no_valid_price">Please enter a valid price.</label>
 			<label index="message_no_valid_year">Please enter a year that lies in the past.</label>
@@ -334,6 +335,7 @@
 			<label index="label_requester_phone">Die Telefonnummer des Absenders:</label>
 			<label index="label_summary_string_of_favorites">Folgende Objekte waren auf dem Merkzettel:</label>
 			<label index="label_append_images">Bilder hinzufügen</label>
+			<label index="label_edit">Bearbeiten</label>
 			<label index="message_no_valid_number">Bitte geben Sie eine gültige Zahl an.</label>
 			<label index="message_no_valid_price">Bitte geben Sie einen gültigen Preis an.</label>
 			<label index="message_no_valid_year">Bitte geben Sie eine Jahreszahl in der Vergangenheit ein.</label>
@@ -809,6 +811,7 @@
 			<label index="label_has_request" type="integer">233711688</label>
 			<label index="label_requester_phone" type="integer">254665035</label>
 			<label index="label_summary_string_of_favorites" type="integer">199641813</label>
+			<label index="label_edit" type="integer">131916066</label>
 			<label index="label_append_images" type="integer">260019087</label>
 			<label index="message_no_valid_number" type="integer">179177779</label>
 			<label index="message_no_valid_price" type="integer">19191144</label>
@@ -1285,6 +1288,7 @@
 			<label index="label_requester_phone">The sender's phone number:</label>
 			<label index="label_message_sent_formal">Your request was sent.</label>
 			<label index="label_message_sent_informal">Your request was sent.</label>
+			<label index="label_edit">Edit</label>
 			<label index="label_append_images">Append images</label>
 			<label index="message_no_valid_number">Please enter a valid number.</label>
 			<label index="message_no_valid_price">Please enter a valid price.</label>
