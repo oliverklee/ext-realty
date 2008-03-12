@@ -24,6 +24,12 @@
 		</datahandler:DB>
 		<renderer:STANDARD/>
 		<actionlets>
+			<actionlet:USEROBJ>
+				<userobj>
+						<extension>this</extension>
+						<method>clearFrontEndCache</method>
+				</userobj>
+			</actionlet:USEROBJ>
 			<actionlet:REDIRECT>
 				<url>
 					<userobj>

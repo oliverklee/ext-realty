@@ -36,6 +36,7 @@ require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php')
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
 
 class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	/** the extension key (FORMidable expects this to be public) */
@@ -234,6 +235,13 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		return t3lib_div::locationHeaderUrl($this->plugin->cObj->getTypoLink_URL(
 			$this->plugin->getConfValueInteger('feEditorRedirectPid')
 		));
+	}
+
+	/**
+	 * Clears the FE cache for pages with a realty plugin.
+	 */
+	public function clearFrontEndCache() {
+		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
 	}
 
 	/**
@@ -460,7 +468,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * @param	string		label of the field which concerns the the message,
 	 * 						must be the absolute path starting with "LLL:EXT:",
 	 * 						must not be empty
-	 * @param	string		label of the message to return, must be defined in 
+	 * @param	string		label of the message to return, must be defined in
 	 * 						pi1/locallang.xml, must not be empty
 	 *
 	 * @return	string		localized message following the pattern
@@ -589,7 +597,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 
 		$modifiedFormData['tstamp'] = mktime();
 		// The PID might have changed if the city did.
-		$modifiedFormData['pid'] = ($pidFromCity != 0) 
+		$modifiedFormData['pid'] = ($pidFromCity != 0)
 			? $pidFromCity
 			: $this->getConfValueString('sysFolderForFeCreatedRecords');
 		// New records need some additional data.

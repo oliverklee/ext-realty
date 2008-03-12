@@ -672,7 +672,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testClearFeCacheDeletesCachedPage() {
+	public function testFrontEndCacheIsClearedAfterImport() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$contentUid = $this->testingFramework->createContentElement(
 			$pageUid,
@@ -680,7 +680,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 		$this->testingFramework->createPageCacheEntry($contentUid);
 
-		$this->fixture->clearFeCache();
+		$this->fixture->importFromZip();
 
 		$this->assertEquals(
 			0,

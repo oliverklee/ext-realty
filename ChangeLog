@@ -1,5 +1,6 @@
 2008-03-12 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1685] Feature: Clear the FE cache of pages with the Realty plugin after an object has been edited in the FE
 	* [#1259] Feature: Under the "my objects" list, add a button "create new object"
 
 2008-03-11 Saskia Metzler <saskia@merlin.owl.de>

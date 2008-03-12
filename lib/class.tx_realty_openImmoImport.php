@@ -35,6 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php')
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domDocumentConverter.php');
 
 class tx_realty_openImmoImport {
@@ -151,7 +152,7 @@ class tx_realty_openImmoImport {
 		}
 
 		$this->cleanUp($checkedImportDirectory);
-		$this->clearFeCache();
+		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
 
 		$this->storeLogsAndClearTemporaryLog();
 
@@ -1002,22 +1003,6 @@ class tx_realty_openImmoImport {
 					$image,
 					$this->uploadDirectory.basename($image)
 				);
-			}
-		}
-	}
-
-	/**
-	 * Clears the FE cache of the pages which contain the realty plugin.
-	 */
-	protected function clearFeCache() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'tt_content',
-			'list_type = "realty_pi1"'
-		);
-		if ($dbResult) {
-			while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				t3lib_TCEmain::clear_cacheCmd(intval($dbResultRow['pid']));
 			}
 		}
 	}

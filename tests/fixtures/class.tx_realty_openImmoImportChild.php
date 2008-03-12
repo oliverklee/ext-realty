@@ -48,10 +48,6 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 		return parent::getNameForExtractionFolder($pathOfZip);
 	}
 
-	public function clearFeCache() {
-		parent::clearFeCache();
-	}
-
 	public function getPathForXml($pathOfZip, $processSilently = false) {
 		return parent::getPathForXml($pathOfZip, $processSilently);
 	}
