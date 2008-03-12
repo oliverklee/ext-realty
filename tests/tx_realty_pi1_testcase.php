@@ -1590,7 +1590,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('editorPID', $editorPid);
 
 		$this->assertContains(
-			$editorPid,
+			(string) $editorPid,
 			$this->fixture->main('', array())
 		);
 	}
