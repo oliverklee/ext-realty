@@ -1619,6 +1619,38 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testMyObjectsViewContainsCreateNewObjectLink() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue(
+			'editorPID',
+			$this->testingFramework->createFrontEndPage(0)
+		);
+
+		$this->assertContains(
+			'button newRecord',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testCreateNewObjectLinkInTheMyObjectsViewContainsTheEditorPid() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$editorPid = $this->testingFramework->createFrontEndPage(0);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue('editorPID', $editorPid);
+
+		$this->assertContains(
+			(string) $editorPid,
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	///////////////////////
 	// Utility functions.

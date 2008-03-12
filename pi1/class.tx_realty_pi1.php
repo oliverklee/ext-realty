@@ -482,7 +482,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createMyObjectsView() {
 		if (!$this->isLoggedIn()) {
-			$this->setMarkerContent(
+			$this->setMarker(
 				'login_link', $this->createLoginPageLink(
 					htmlspecialchars($this->translate('message_please_login'))
 				)
@@ -490,6 +490,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			header('Status: 401 Unauthorized');
 			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
 		} else {
+			$this->setMarker(
+				'empty_editor_link',
+				$this->createLinkToFeEditorPage(0)
+			);
 			$result = $this->createListView();
 		}
 
