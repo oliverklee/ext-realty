@@ -302,6 +302,50 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
+		);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->objectUid,
+			$imageUid
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			array(
+				array('caption' => 'foo', 'image' => 'foo.jpg')
+			),
+			$this->fixture->getAllImageData()
+		);
+	}
+
+	public function testLoadRealtyObjectByDatabaseResultAlsoLoadsImages() {
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
+		);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->objectUid,
+			$imageUid
+		);
+		$this->fixture->loadRealtyObject(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'*',
+				REALTY_TABLE_OBJECTS,
+				'uid='.$this->objectUid
+			)
+		);
+
+		$this->assertEquals(
+			array(
+				array('caption' => 'foo', 'image' => 'foo.jpg')
+			),
+			$this->fixture->getAllImageData()
+		);
+	}
+
 	public function testWriteToDatabaseUpdatesEntryIfUidExistsInDb() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('title', 'new title');
@@ -839,7 +883,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 					REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_local='.$this->objectUid
 						.' AND '.REALTY_TABLE_IMAGES.'.uid='.REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_foreign'
 				)
-			)		
+			)
 		);
 	}
 
@@ -1220,6 +1264,100 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testAddImageRecordForLoadedObject() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg');
+
+		$this->assertEquals(
+			array(
+				array('caption' => 'foo', 'image' => 'foo.jpg')
+			),
+			$this->fixture->getAllImageData()
+		);
+	}
+
+	public function testAddImageRecordForLoadedObjectReturnsKeyWhereTheRecordIsStored() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->addImageRecord('foo', 'foo.jpg')
+		);
+	}
+
+	public function testAddImageRecordIfNoObjectIsLoaded() {
+		try {
+			$this->fixture->addImageRecord('foo', 'foo.jpg');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testMarkImageRecordAsDeleted() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->markImageRecordAsDeleted(
+			$this->fixture->addImageRecord('foo', 'foo.jpg')
+		);
+
+		$this->assertEquals(
+			array(
+				array('caption' => 'foo', 'image' => 'foo.jpg', 'deleted' => 1)
+			),
+			$this->fixture->getAllImageData()
+		);
+	}
+
+	public function testMarkImageRecordAsDeletedIfNoObjectIsLoaded() {
+		try {
+			$this->fixture->markImageRecordAsDeleted(
+				$this->fixture->addImageRecord('foo', 'foo.jpg')
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testMarkImageRecordAsDeletedForNonExistingRecord() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		try {
+			$this->fixture->markImageRecordAsDeleted(
+				$this->fixture->addImageRecord('foo', 'foo.jpg') + 1
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testWriteToDatabaseMarksImageRecordToDeleteAsDeleted() {
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
+		);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->objectUid,
+			$imageUid
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+			$this->fixture->markImageRecordAsDeleted(0);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_IMAGES,
+				'uid='.$imageUid.' AND deleted=1'
+			)
+		);
+	}
 
 	///////////////////////
 	// Utility functions.

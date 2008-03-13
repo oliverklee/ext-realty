@@ -31,6 +31,7 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 require_once(PATH_t3lib.'class.t3lib_refindex.php');
+require_once(PATH_t3lib.'class.t3lib_befunc.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
@@ -116,22 +117,23 @@ class tx_realty_object {
 						'The column "uid" must not be set in $realtyData.'
 					);
 				}
-				$convertedData = $this->isolateImageRecords($realtyData);
+				$this->realtyObjectData = $this->isolateImageRecords($realtyData);
 				break;
 			case 'uid' :
-				$convertedData = $this->loadDatabaseEntry(
+				$this->realtyObjectData = $this->loadDatabaseEntry(
 					intval($realtyData),
 					$enabledObjectsOnly
 				);
+				$this->loadImages();
 				break;
 			case 'dbResult' :
-				$convertedData = $this->fetchDatabaseResult($realtyData);
+				$this->realtyObjectData = $this->fetchDatabaseResult($realtyData);
+				$this->loadImages();
 				break;
 			default :
-				$convertedData = array();
+				$this->realtyObjectData = array();
 				break;
  		}
-		$this->realtyObjectData = $convertedData;
 	}
 
 	/**
@@ -297,9 +299,7 @@ class tx_realty_object {
 	 * 						does not exist
 	 */
 	public function getProperty($key) {
-		if ($this->isRealtyObjectDataEmpty()
-			|| !$this->hasProperty($key)
-		) {
+		if ($this->isRealtyObjectDataEmpty() || !$this->hasProperty($key)) {
 			return '';
 		}
 
@@ -580,20 +580,21 @@ class tx_realty_object {
 			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			'uid_local='.intval($this->getProperty('uid'))
 		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
 
-		if ($dbResult) {
-			$imagesToDelete = array();
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$imagesToDelete[] = $row['uid_foreign'];
-			}
+		$imagesToDelete = array();
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+			$imagesToDelete[] = $row['uid_foreign'];
+		}
 
-			if(!empty($imagesToDelete)) {
-				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-					REALTY_TABLE_IMAGES,
-					'uid IN('.implode(',', $imagesToDelete).')',
-					array('deleted' => 1)
-				);
-			}
+		if(!empty($imagesToDelete)) {
+			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				REALTY_TABLE_IMAGES,
+				'uid IN('.implode(',', $imagesToDelete).')',
+				array('deleted' => 1)
+			);
 		}
 	}
 
@@ -637,8 +638,75 @@ class tx_realty_object {
 	 *
 	 * @return	array		images data, may be empty
 	 */
-	protected function getAllImageData() {
+	public function getAllImageData() {
 		return $this->images;
+	}
+
+	/**
+	 * Loads the images of the current realty object into the local images array.
+	 */
+	private function loadImages() {
+		$this->images =array();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'caption,image',
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM,
+			'uid_local='.intval($this->getProperty('uid'))
+				.' AND uid=uid_foreign'
+				.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+			$this->images[] = $row;
+		}
+	}
+
+	/**
+	 * Adds a new image record to the currently loaded object.
+	 *
+	 * Note: This function does not check whether $fileName points to a file.
+	 *
+	 * @param	string		caption for the new image record, must not be empty
+	 * @param	string		name of the image in the upload directory, must not
+	 * 						be empty
+	 *
+	 * @return	integer		key of the newly created record, will be >= 0
+	 */
+	public function addImageRecord($caption, $fileName) {
+		if ($this->isRealtyObjectDataEmpty()) {
+			throw new Exception(
+				'A realty record must be loaded before images can be appended.'
+			);
+		}
+
+		$this->images[] = array('caption' => $caption, 'image' => $fileName);
+
+		return count($this->images) - 1;
+	}
+
+	/**
+	 * Marks an image record of the currently loaded object as deleted. This
+	 * record will be marked as deleted in the database when the object is
+	 * written to the database.
+	 *
+	 * @param	integer		key of the image record to mark as deleted, must be
+	 * 						a key of the image data array and must be >= 0
+	 */
+	public function markImageRecordAsDeleted($imageKey) {
+		if ($this->isRealtyObjectDataEmpty()) {
+			throw new Exception(
+				'A realty record must be loaded before images can be marked '
+					.'as deleted.'
+			);
+		}
+		if (!isset($this->images[$imageKey])) {
+			throw new Exception('The image record does not exist.');
+		}
+
+		$this->images[$imageKey]['deleted'] = 1;
 	}
 
 	/**
