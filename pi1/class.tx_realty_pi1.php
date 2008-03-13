@@ -1973,32 +1973,35 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createLinkToSingleViewPageForAnyLinkText(
 		$linkText, $uid, $separateSingleViewPage = ''
 	) {
-		$result = '';
+		if (empty($linkText)) {
+			return '';
+		}
 
-		if (!empty($linkText)) {
-			// disables the caching if we are in the favorites list
-			$useCache = ($this->getCurrentView() != 'favorites');
+		$hasSeparateSingleViewPage = ($separateSingleViewPage != '');
+		// disables the caching if we are in the favorites list
+		$useCache = ($this->getCurrentView() != 'favorites');
 
-			if ($separateSingleViewPage != '') {
-				$completeLink = $this->cObj->getTypoLink(
-					$linkText, $separateSingleViewPage
-				);
-			} else {
-				$completeLink = $this->pi_list_linkSingle(
-					$linkText,
-					intval($uid),
-					$useCache,
-					array(),
-					false,
-					$this->getConfValueInteger('singlePID')
-				);
-			}
+		if ($hasSeparateSingleViewPage) {
+			$completeLink = $this->cObj->getTypoLink(
+				$linkText, $separateSingleViewPage
+			);
+		} else {
+			$completeLink = $this->pi_list_linkSingle(
+				$linkText,
+				intval($uid),
+				$useCache,
+				array(),
+				false,
+				$this->getConfValueInteger('singlePID')
+			);
+		}
 
-			if ($this->isAccessToSingleViewPageAllowed()) {
-				$result = $completeLink;
-			} else {
-				$result = $this->createLoginPageLink($linkText);
-			}
+		if ($this->isAccessToSingleViewPageAllowed()) {
+			$result = $completeLink;
+		} else {
+			$result = $this->createLoginPageLink(
+				$linkText, $hasSeparateSingleViewPage
+			);
 		}
 
 		return $result;
@@ -2010,19 +2013,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @param	string		link text, HTML tags will not be replaced, must not
 	 * 						be empty
+	 * @param	boolean		whether the redirect link needs to be created for an
+	 * 						external single view page
 	 *
 	 * @return	string		link text wrapped by the link to the login page,
 	 * 						will not be empty
 	 */
-	private function createLoginPageLink($linkText) {
-		$redirectUrl = t3lib_div::locationHeaderUrl(
-			$this->cObj->lastTypoLinkUrl
-		);
+	private function createLoginPageLink($linkText, $hasExternalSingleViewPage = false) {
+		$redirectPage = ($hasExternalSingleViewPage)
+			? $this->cObj->lastTypoLinkUrl
+			: $this->cObj->getTypoLink_URL($GLOBALS['TSFE']->id);
 
 		return $this->cObj->getTypoLink(
 			$linkText,
 			$this->getConfValueInteger('loginPID'),
-			array('redirect_url' => $redirectUrl)
+			array('redirect_url' => t3lib_div::locationHeaderUrl($redirectPage))
 		);
 	}
 

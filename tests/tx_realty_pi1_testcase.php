@@ -91,6 +91,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// This initialization ensures dummy system folders get recognized as
 		// "enabled". This affects the usage of sub-system folders in the tests.
 		$GLOBALS['TSFE']->initUserGroups();
+		// Sets the current page ID to zero.
+		$this->setCurrentPage(0);
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyPages();
@@ -256,6 +258,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLinkToSingleViewPageContainsSinglePidIfAccessDenied() {
+		$this->setCurrentPage($this->singlePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
@@ -1186,6 +1189,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessDenied() {
+		$this->setCurrentPage($this->otherSinglePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
@@ -1521,6 +1525,27 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testAccessToMyObjectsViewContainsRedirectUrlWithPidIfAccessDenied() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
+		$myObjectsPid = $this->testingFramework->createFrontEndPage(0);
+		$this->setCurrentPage($myObjectsPid);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
+		$this->assertContains(
+			'redirect_url',
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			(string) $myObjectsPid,
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testNoResultsFoundMessageIsDisplayedForLoggedInUserWhoHasNoObjects() {
 		$feUserId = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()
@@ -1671,6 +1696,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 */
 	private function allowAccess() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+	}
+
+	/**
+	 * Fakes the current page ID.
+	 *
+	 * @param	integer		ID of the current page
+	 */
+	private function setCurrentPage($pid) {
+		$GLOBALS['TSFE']->id = $pid;
 	}
 
 	/**
