@@ -341,9 +341,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////
-	// * Validation functions.
-	////////////////////////////
+	//////////////////////////////////
+	// * Message creation functions.
+	//////////////////////////////////
 
 	public function testGetNoValidNumberMessage() {
 		$this->assertEquals(
@@ -368,6 +368,19 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->getNoValidYearMessage(array('fieldName' => 'construction_year'))
 		);
 	}
+
+	public function testGetNoValidEmailMessage() {
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email').': '
+				.$this->pi1->translate('label_set_valid_email_address'),
+			$this->fixture->getNoValidEmailMessage()
+		);
+	}
+
+
+	////////////////////////////
+	// * Validation functions.
+	////////////////////////////
 
 	public function testIsValidIntegerNumberReturnsTrueForAnIntegerInAString() {
 		$this->assertTrue(

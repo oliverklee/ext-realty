@@ -63,6 +63,9 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	/** whether the constructor is called in test mode */
 	private $isTestMode = false;
 
+	/** this is used to fake form values for testing */
+	private $fakedFormValues = array();
+
 	/**
 	 * The constructor.
 	 *
@@ -224,82 +227,8 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	////////////////////////////////
 	// Functions used by the form.
 	////////////////////////////////
-
-	/**
-	 * Returns the URL where to redirect to after saving a record.
-	 *
-	 * @return	string		complete URL of the configured FE page, if none is
-	 * 						configured, the redirect will lead to the base URL
-	 */
-	public function getRedirectUrl() {
-		return t3lib_div::locationHeaderUrl($this->plugin->cObj->getTypoLink_URL(
-			$this->plugin->getConfValueInteger('feEditorRedirectPid')
-		));
-	}
-
-	/**
-	 * Clears the FE cache for pages with a realty plugin.
-	 */
-	public function clearFrontEndCache() {
-		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
-	}
-
-	/**
-	 * Returns a localized message that the number entered in the provided field
-	 * is not valid.
-	 *
-	 * @param	array	 	form data, must contain the key 'fieldName', the
-	 * 						value of 'fieldName' must be a database column name
-	 * 						of 'tx_realty_objects' which concerns the message,
-	 * 						must not be empty
-	 *
-	 * @return	string		localized message following the pattern
-	 * 						"[field name]: [invalid number message]"
-	 */
-	public function getNoValidNumberMessage(array $formData) {
-		return $this->getMessageForRealtyObjectField(
-			$formData['fieldName'],
-			'message_no_valid_number'
-		);
-	}
-
-	/**
-	 * Returns a localized message that the price entered in the provided field
-	 * is not valid.
-	 *
-	 * @param	array	 	form data, must contain the key 'fieldName', the
-	 * 						value of 'fieldName' must be a database column name
-	 * 						of 'tx_realty_objects' which concerns the message,
-	 * 						must not be empty
-	 *
-	 * @return	string		localized message following the pattern
-	 * 						"[field name]: [invalid price message]"
-	 */
-	public function getNoValidPriceMessage(array $formData) {
-		return $this->getMessageForRealtyObjectField(
-			$formData['fieldName'],
-			'message_no_valid_price'
-		);
-	}
-
-	/**
-	 * Returns a localized message that the year entered in the provided field
-	 * is not valid.
-	 *
-	 * @param	array	 	form data, must contain the key 'fieldName', the
-	 * 						value of 'fieldName' must be a database column name
-	 * 						of 'tx_realty_objects' which concerns the message,
-	 * 						must not be empty
-	 *
-	 * @return	string		localized message following the pattern
-	 * 						"[field name]: [invalid price message]"
-	 */
-	public function getNoValidYearMessage(array $formData) {
-		return $this->getMessageForRealtyObjectField(
-			$formData['fieldName'],
-			'message_no_valid_year'
-		);
-	}
+	// * Functions for rendering.
+	///////////////////////////////
 
 	/**
 	 * Checks whether the object number is readonly.
@@ -309,60 +238,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 */
 	public function isObjectNumberReadonly() {
 		return $this->realtyObjectUid > 0;
-	}
-
-	/**
-	 * Checks whether a number is valid and does not have decimal digits.
-	 *
-	 * @param	array		array with one element named "value" that contains
-	 * 						the number to check, this number may also be empty
-	 *
-	 * @return	boolean		true if the number is an integer or empty
-	 */
-	public function isValidIntegerNumber(array $valueToCheck) {
-		return $this->isValidNumber($valueToCheck['value'], false);
-	}
-
-	/**
-	 * Checks whether a number which may have decimal digits is valid.
-	 *
-	 * @param	array		array with one element named "value" that contains
-	 * 						the number to check, this number may also be empty
-	 *
-	 * @return	boolean		true if the number is valid or empty
-	 */
-	public function isValidNumberWithDecimals(array $valueToCheck) {
-		return $this->isValidNumber($valueToCheck['value'], true);
-	}
-
-	/**
-	 * Checks whether the provided year is this year or earlier.
-	 *
-	 * @param	array		array with one element named "value" that contains
-	 * 						the year to check, this must be this year or earlier
-	 * 						or empty
-	 *
-	 * @return	boolean		true if the year is valid or empty
-	 */
-	public function isValidYear(array $valueToCheck) {
-		return ($this->isValidNumber($valueToCheck['value'], false)
-			&& ($valueToCheck['value'] <= date('Y', mktime())));
-	}
-
-	/**
-	 * Adds administrative data and unifies numbers.
-	 *
-	 * @see	addAdministrativeData(), unifyNumbersToInsert()
-	 *
-	 * @param	array 		form data, may be empty
-	 *
-	 * @return	array		form data with additional administrative data and
-	 * 						unified numbers
-	 */
-	public function modifyDataToInsert(array $formData) {
-		return $this->addAdministrativeData(
-			$this->unifyNumbersToInsert($formData)
-		);
 	}
 
 	/**
@@ -457,10 +332,207 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		);
 	}
 
+	/**
+	 * Provides data items to fill select boxes. Returns caption-value pairs from
+	 * the database table named $tableName.
+	 * The field "title" will be returned within the array as caption. The UID
+	 * will be the value.
+	 *
+	 * @param	string		the table name to query, must not be empty
+	 * @param	boolean		whether the table has the column 'is_dummy_record'
+	 * 						for the test mode flag
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	private function populateListByTitleAndUid(
+		$tableName, $hasTestModeColumn = true
+	) {
+		return $this->populateList($tableName, 'title', 'uid', $hasTestModeColumn);
+	}
 
-	/////////////////////////////////////////////////////////
-	// Helper functions for the functions used by the form.
-	/////////////////////////////////////////////////////////
+	/**
+	 * Provides data items to fill select boxes. Returns caption-value pairs from
+	 * the database table named $tableName.
+	 *
+	 * @param	string		the table name to query, must not be empty
+	 * @param	string		name of the database column for the caption, must
+	 * 						not be empty
+	 * @param	string		name of the database column for the value, must not
+	 * 						be empty
+	 * @param	boolean		whether the table has the column 'is_dummy_record'
+	 * 						for the test mode flag
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	private function populateList(
+		$tableName, $keyForCaption, $keyForValue, $hasTestModeColumn = true
+	) {
+		$items = array();
+		$whereClause = '1=1';
+
+		if ($this->isTestMode && $hasTestModeColumn) {
+			$whereClause = 'is_dummy_record=1';
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$keyForCaption.','.$keyForValue,
+			$tableName,
+			$whereClause.$this->enableFields($tableName),
+			'',
+			$keyForCaption
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$items[] = array(
+				'caption' => $row[$keyForCaption], 'value' => $row[$keyForValue]
+			);
+		}
+
+		// Resets the array pointer as the populateList* functions expect
+		// arrays with a reset array pointer.
+		reset($items);
+
+		return $items;
+	}
+
+
+	////////////////////////////
+	// * Validation functions.
+	////////////////////////////
+
+	/**
+	 * Checks whether a number is valid and does not have decimal digits.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the number to check, this number may also be empty
+	 *
+	 * @return	boolean		true if the number is an integer or empty
+	 */
+	public function isValidIntegerNumber(array $valueToCheck) {
+		return $this->isValidNumber($valueToCheck['value'], false);
+	}
+
+	/**
+	 * Checks whether a number which may have decimal digits is valid.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the number to check, this number may also be empty
+	 *
+	 * @return	boolean		true if the number is valid or empty
+	 */
+	public function isValidNumberWithDecimals(array $valueToCheck) {
+		return $this->isValidNumber($valueToCheck['value'], true);
+	}
+
+	/**
+	 * Checks whether the provided year is this year or earlier.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the year to check, this must be this year or earlier
+	 * 						or empty
+	 *
+	 * @return	boolean		true if the year is valid or empty
+	 */
+	public function isValidYear(array $valueToCheck) {
+		return ($this->isValidNumber($valueToCheck['value'], false)
+			&& ($valueToCheck['value'] <= date('Y', mktime())));
+	}
+
+	/**
+	 * Checks whether the a number is correctly formatted. The format must be
+	 * according to the current locale.
+	 *
+	 * @param	string		value to check to be a valid number, may be empty
+	 * @param	boolean		whether the number may have decimals
+	 *
+	 * @return	boolean		true if $valueToCheck is valid or empty, false
+	 * 						otherwise
+	 */
+	private function isValidNumber($valueToCheck, $mayHaveDecimals) {
+		if ($valueToCheck == '') {
+			return true;
+		}
+
+		$unifiedValueToCheck = $this->unifyNumber($valueToCheck);
+
+		if ($mayHaveDecimals) {
+			$result = preg_match('/^[\d]*(\.[\d]{1,2})?$/', $unifiedValueToCheck);
+		} else {
+			$result = preg_match('/^[\d]*$/', $unifiedValueToCheck);
+		}
+
+		return (boolean) $result;
+	}
+
+
+	//////////////////////////////////
+	// * Message creation functions.
+	//////////////////////////////////
+
+	/**
+	 * Returns a localized message that the number entered in the provided field
+	 * is not valid.
+	 *
+	 * @param	array	 	form data, must contain the key 'fieldName', the
+	 * 						value of 'fieldName' must be a database column name
+	 * 						of 'tx_realty_objects' which concerns the message,
+	 * 						must not be empty
+	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [invalid number message]"
+	 */
+	public function getNoValidNumberMessage(array $formData) {
+		return $this->getMessageForRealtyObjectField(
+			$formData['fieldName'], 'message_no_valid_number'
+		);
+	}
+
+	/**
+	 * Returns a localized message that the price entered in the provided field
+	 * is not valid.
+	 *
+	 * @param	array	 	form data, must contain the key 'fieldName', the
+	 * 						value of 'fieldName' must be a database column name
+	 * 						of 'tx_realty_objects' which concerns the message,
+	 * 						must not be empty
+	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [invalid price message]"
+	 */
+	public function getNoValidPriceMessage(array $formData) {
+		return $this->getMessageForRealtyObjectField(
+			$formData['fieldName'], 'message_no_valid_price'
+		);
+	}
+
+	/**
+	 * Returns a localized message that the year entered in the provided field
+	 * is not valid.
+	 *
+	 * @param	array	 	form data, must contain the key 'fieldName', the
+	 * 						value of 'fieldName' must be a database column name
+	 * 						of 'tx_realty_objects' which concerns the message,
+	 * 						must not be empty
+	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [invalid price message]"
+	 */
+	public function getNoValidYearMessage(array $formData) {
+		return $this->getMessageForRealtyObjectField(
+			$formData['fieldName'], 'message_no_valid_year'
+		);
+	}
+
+	public function getNoValidEmailMessage() {
+		return $this->getMessageForRealtyObjectField(
+			'contact_email', 'label_set_valid_email_address'
+		);
+	}
 
 	/**
 	 * Returns a localized message for a certain field.
@@ -499,50 +571,44 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		);
 	}
 
+
+	///////////////////////////////////
+	// * Functions used after submit.
+	///////////////////////////////////
+
 	/**
-	 * Checks whether the a number is correctly formatted. The format must be
-	 * according to the current locale.
+	 * Returns the URL where to redirect to after saving a record.
 	 *
-	 * @param	string		value to check to be a valid number, may be empty
-	 * @param	boolean		whether the number may have decimals
-	 *
-	 * @return	boolean		true if $valueToCheck is valid or empty, false
-	 * 						otherwise
+	 * @return	string		complete URL of the configured FE page, if none is
+	 * 						configured, the redirect will lead to the base URL
 	 */
-	private function isValidNumber($valueToCheck, $mayHaveDecimals) {
-		if ($valueToCheck == '') {
-			return true;
-		}
-
-		$unifiedValueToCheck = $this->unifyNumber($valueToCheck);
-
-		if ($mayHaveDecimals) {
-			$result = preg_match('/^[\d]*(\.[\d]{1,2})?$/', $unifiedValueToCheck);
-		} else {
-			$result = preg_match('/^[\d]*$/', $unifiedValueToCheck);
-		}
-
-		return (boolean) $result;
+	public function getRedirectUrl() {
+		return t3lib_div::locationHeaderUrl($this->plugin->cObj->getTypoLink_URL(
+			$this->plugin->getConfValueInteger('feEditorRedirectPid')
+		));
 	}
 
 	/**
-	 * Unifies a number.
-	 *
-	 * Replaces a comma by a dot and strips whitespaces.
-	 *
-	 * @param	string		number to be unified, may be empty
-	 *
-	 * @return	string		unified number with a dot as decimal separator, will
-	 * 						be empty if $number was empty
+	 * Clears the FE cache for pages with a realty plugin.
 	 */
-	private function unifyNumber($number) {
-		if ($number == '') {
-			return '';
-		}
+	public function clearFrontEndCache() {
+		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
+	}
 
-		$unifiedNumber = str_replace(',', '.', $number);
-
-		return str_replace(' ', '', $unifiedNumber);
+	/**
+	 * Adds administrative data and unifies numbers.
+	 *
+	 * @see	addAdministrativeData(), unifyNumbersToInsert()
+	 *
+	 * @param	array 		form data, may be empty
+	 *
+	 * @return	array		form data with additional administrative data and
+	 * 						unified numbers
+	 */
+	public function modifyDataToInsert(array $formData) {
+		return $this->addAdministrativeData(
+			$this->unifyNumbersToInsert($formData)
+		);
 	}
 
 	/**
@@ -634,74 +700,53 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		return intval($row['save_folder']);
 	}
 
+
+	////////////////////////////////////
+	// Miscellaneous helper functions.
+	////////////////////////////////////
+
 	/**
-	 * Provides data items to fill select boxes. Returns caption-value pairs from
-	 * the database table named $tableName.
-	 * The field "title" will be returned within the array as caption. The UID
-	 * will be the value.
+	 * Unifies a number.
 	 *
-	 * @param	string		the table name to query, must not be empty
-	 * @param	boolean		whether the table has the column 'is_dummy_record'
-	 * 						for the test mode flag
+	 * Replaces a comma by a dot and strips whitespaces.
 	 *
-	 * @return	array		items for the select box, will be empty if there are
-	 * 						no matching records
+	 * @param	string		number to be unified, may be empty
+	 *
+	 * @return	string		unified number with a dot as decimal separator, will
+	 * 						be empty if $number was empty
 	 */
-	private function populateListByTitleAndUid(
-		$tableName, $hasTestModeColumn = true
-	) {
-		return $this->populateList($tableName, 'title', 'uid', $hasTestModeColumn);
+	private function unifyNumber($number) {
+		if ($number == '') {
+			return '';
+		}
+
+		$unifiedNumber = str_replace(',', '.', $number);
+
+		return str_replace(' ', '', $unifiedNumber);
 	}
 
 	/**
-	 * Provides data items to fill select boxes. Returns caption-value pairs from
-	 * the database table named $tableName.
+	 * Returns a form value from the FORMidable object.
 	 *
-	 * @param	string		the table name to query, must not be empty
-	 * @param	string		name of the database column for the caption, must
-	 * 						not be empty
-	 * @param	string		name of the database column for the value, must not
+	 * Note: In test mode, this function will return faked values.
+	 *
+	 * @param	string		column name of tx_realty_objects as key, must not
 	 * 						be empty
-	 * @param	boolean		whether the table has the column 'is_dummy_record'
-	 * 						for the test mode flag
 	 *
-	 * @return	array		items for the select box, will be empty if there are
-	 * 						no matching records
+	 * @return	string		form value or an empty string if the value does not
+	 * 						exist
 	 */
-	private function populateList(
-		$tableName, $keyForCaption, $keyForValue, $hasTestModeColumn = true
-	) {
-		$items = array();
-		$whereClause = '1=1';
-
-		if ($this->isTestMode && $hasTestModeColumn) {
-			$whereClause = 'is_dummy_record=1';
+	private function getFormValue($key) {
+		if ($this->isTestMode) {
+			$result = isset($this->fakedFormValues[$key])
+				? $this->fakedFormValues[$key] : '';
+		} else {
+			$result = isset($this->formCreator->oDataHandler->__aFormData[$key])
+				? $this->formCreator->oDataHandler->__aFormData[$key] : '';
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$keyForCaption.','.$keyForValue,
-			$tableName,
-			$whereClause.$this->enableFields($tableName),
-			'',
-			$keyForCaption
-		);
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$items[] = array(
-				'caption' => $row[$keyForCaption], 'value' => $row[$keyForValue]
-			);
-		}
-
-		// Resets the array pointer as the populateList* functions expect
-		// arrays with a reset array pointer.
-		reset($items);
-
-		return $items;
+		return $result;
 	}
-
 
 	///////////////////////////////////
 	// Utility functions for testing.
@@ -719,6 +764,20 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	public function setRealtyObjectUid($uid) {
 		$this->realtyObjectUid = $uid;
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
+	}
+
+	/**
+	 * Fakes a form data value that is usually provided by the FORMidable
+	 * object.
+	 *
+	 * This function is for testing purposes.
+	 *
+	 * @param	string		column name of tx_realty_objects as key, must not
+	 * 						be empty
+	 * @param	string		faked value
+	 */
+	public function setFakedFormValue($key, $value) {
+		$this->fakedFormValues[$key] = $value;
 	}
 }
 

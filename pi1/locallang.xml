@@ -154,6 +154,7 @@
 			<label index="label_your_request_formal">Your request</label>
 			<label index="label_your_request_informal">Your request</label>
 			<label index="label_submit">Send</label>
+			<label index="label_save">Save</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
 			<label index="label_set_name_formal">Please provide your name.</label>
 			<label index="label_set_name_informal">Please provide your name.</label>
@@ -322,6 +323,7 @@
 			<label index="label_your_request_formal">Ihre Anfrage</label>
 			<label index="label_your_request_informal">Deine Anfrage</label>
 			<label index="label_submit">Abschicken</label>
+			<label index="label_save">Speichern</label>
 			<label index="label_no_contact_person">Die Anfrage kann nicht gesendet werden, weil für dieses Objekt keine Kontaktperson angegeben wurde.</label>
 			<label index="label_set_name_formal">Bitte geben Sie Ihren Namen ein.</label>
 			<label index="label_set_name_informal">Bitte gib deinen Namen ein.</label>
@@ -800,6 +802,7 @@
 			<label index="label_your_request_formal" type="integer">84651870</label>
 			<label index="label_your_request_informal" type="integer">84651870</label>
 			<label index="label_submit" type="integer">155805401</label>
+			<label index="label_save" type="integer">211601612</label>
 			<label index="label_no_contact_person" type="integer">231672500</label>
 			<label index="label_set_name_formal" type="integer">49257832</label>
 			<label index="label_set_name_informal" type="integer">49257832</label>
@@ -1271,6 +1274,7 @@
 			<label index="label_your_request_formal">Your request</label>
 			<label index="label_your_request_informal">Your request</label>
 			<label index="label_submit">Send</label>
+			<label index="label_save">Save</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
 			<label index="label_thank_you">Thank you.</label>
 			<label index="label_message_sent">Your request was sent.</label>
