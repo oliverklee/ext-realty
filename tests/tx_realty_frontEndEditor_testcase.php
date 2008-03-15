@@ -936,7 +936,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testAddAdministrativeDataAddsDefaultPidForANewObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
-		$this->fixture->setConfigurationValue(
+		$this->plugin->setConfigurationValue(
 			'sysFolderForFeCreatedRecords', $systemFolderPid
 		);
 		$this->fixture->setRealtyObjectUid(0);

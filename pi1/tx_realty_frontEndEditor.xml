@@ -70,20 +70,6 @@
 					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1" value="1"/>
 				</items>
 			</data>
-			<validators>
-				<validator:NUM>
-					<isbetween>0,1</isbetween>
-					<message>
-						<userobj>
-							<extension>this</extension>
-							<method>getValueNotAllowedMessage</method>
-							<params>
-								<data name="fieldName" value="object_type"/>
-							</params>
-						</userobj>
-					</message>
-				</validator:NUM>
-			</validators>
 		</renderlet:RADIOBUTTON>
 		<renderlet:TEXT name="title" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title">
 			<validators>

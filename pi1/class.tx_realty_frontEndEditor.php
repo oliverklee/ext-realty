@@ -1044,6 +1044,8 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 				$modifiedFormData[$key] = $this->unifyNumber($modifiedFormData[$key]);
 			}
 		}
+		// ensures the object type is always 'rent' or 'sale'
+		$modifiedFormData['object_type'] = $this->getObjectType();
 
 		return $modifiedFormData;
 	}
@@ -1066,7 +1068,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		// The PID might have changed if the city did.
 		$modifiedFormData['pid'] = ($pidFromCity != 0)
 			? $pidFromCity
-			: $this->getConfValueString('sysFolderForFeCreatedRecords');
+			: $this->plugin->getConfValueString('sysFolderForFeCreatedRecords');
 		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
 			$modifiedFormData['crdate'] = mktime();
