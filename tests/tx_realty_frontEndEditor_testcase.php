@@ -89,7 +89,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->createFrontEndUserGroup()
 		);
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS
+			REALTY_TABLE_OBJECTS,
+			array(
+				'object_number' => self::$dummyStringValue,
+				'language' => self::$dummyStringValue
+			)
 		);
 		$this->createAuxiliaryRecords();
 	}
@@ -361,6 +365,22 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetValueNotAllowedMessage() {
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type').': '
+				.$this->pi1->translate('message_value_not_allowed'),
+			$this->fixture->getValueNotAllowedMessage(array('fieldName' => 'object_type'))
+		);
+	}
+
+	public function testGetRequiredFieldMessage() {
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title').': '
+				.$this->pi1->translate('message_required_field'),
+			$this->fixture->getRequiredFieldMessage(array('fieldName' => 'title'))
+		);
+	}
+
 	public function testGetNoValidYearMessage() {
 		$this->assertEquals(
 			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
@@ -374,6 +394,73 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email').': '
 				.$this->pi1->translate('label_set_valid_email_address'),
 			$this->fixture->getNoValidEmailMessage()
+		);
+	}
+
+	public function testGetNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToBuy() {
+		$this->fixture->setFakedFormValue('object_type', '1');
+
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
+				.$this->pi1->translate('message_enter_valid_non_empty_buying_price'),
+			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
+		);
+	}
+
+	public function testGetNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToRent() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
+				.$this->pi1->translate('message_enter_valid_or_empty_buying_price'),
+			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
+		);
+	}
+
+	public function testGetNoValidPriceOrEmptyMessageForRentFieldsIfObjectToRent() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
+				.$this->pi1->translate('message_enter_valid_non_empty_rent'),
+			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
+		);
+	}
+
+	public function testGetNoValidPriceOrEmptyMessageForRentFieldsIfObjectToBuy() {
+		$this->fixture->setFakedFormValue('object_type', '1');
+
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
+				.$this->pi1->translate('message_enter_valid_or_empty_rent'),
+			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
+		);
+	}
+
+	public function testGetInvalidObjectNumberMessageForEmptyObjectNumber() {
+		$this->fixture->setFakedFormValue('object_number', '');
+
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
+				.$this->pi1->translate('message_required_field'),
+			$this->fixture->getInvalidObjectNumberMessage()
+		);
+	}
+
+	public function testGetInvalidObjectNumberMessageForNonEmptyObjectNumber() {
+		$this->fixture->setFakedFormValue('object_number', 'foo');
+
+		$this->assertEquals(
+			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
+				.$this->pi1->translate('message_object_number_exists'),
+			$this->fixture->getInvalidObjectNumberMessage()
+		);
+	}
+
+	public function testGetMessageNotReturnsLocalizedFieldNameForInvalidFieldName() {
+		$this->assertEquals(
+			$this->pi1->translate('message_required_field'),
+			$this->fixture->getRequiredFieldMessage(array('fieldName' => 'foo'))
 		);
 	}
 
@@ -481,6 +568,346 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsValidYearReturnsFalseForAFutureYear() {
 		$this->assertFalse(
 			$this->fixture->isValidYear(array('value' => '2100'))
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForSaleIfThePriceIsValid() {
+		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->assertTrue(
+			$this->fixture->isNonEmptyValidPriceForObjectForSale(
+				array('value' => '1234')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForSaleIfThePriceIsInvalid() {
+		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->assertFalse(
+			$this->fixture->isNonEmptyValidPriceForObjectForSale(
+				array('value' => 'foo')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForSaleIfThePriceIsEmpty() {
+		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->assertFalse(
+			$this->fixture->isNonEmptyValidPriceForObjectForSale(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForRentIfOnePriceIsValidAndOneEmpty() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('year_rent', '');
+
+		$this->assertTrue(
+			$this->fixture->isNonEmptyValidPriceForObjectForRent(
+				array('value' => '1234')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsValidAndOneEmpty() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('year_rent', '1234');
+
+		$this->assertTrue(
+			$this->fixture->isNonEmptyValidPriceForObjectForRent(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForRentIfBothPricesAreValid() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('year_rent', '1234');
+
+		$this->assertTrue(
+			$this->fixture->isNonEmptyValidPriceForObjectForRent(
+				array('value' => '1234')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForRentIfBothPricesAreInvalid() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('year_rent', 'foo');
+
+		$this->assertFalse(
+			$this->fixture->isNonEmptyValidPriceForObjectForRent(
+				array('value' => 'foo')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForRentIfBothPricesAreEmpty() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('year_rent', '');
+
+		$this->assertFalse(
+			$this->fixture->isNonEmptyValidPriceForObjectForRent(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForRentIfOnePriceIsInvalidAndOneValid() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('year_rent', '1234');
+
+		$this->assertFalse(
+			$this->fixture->isNonEmptyValidPriceForObjectForRent(
+				array('value' => 'foo')
+			)
+		);
+	}
+
+	public function testIsNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsInvalidAndOneValid() {
+		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('year_rent', 'foo');
+
+		$this->assertFalse(
+			$this->fixture->isNonEmptyValidPriceForObjectForRent(
+				array('value' => '1234')
+			)
+		);
+	}
+
+	public function testIsObjectNumberUniqueForLanguageForUniqueCombination() {
+		$this->fixture->setFakedFormValue('language', self::$dummyStringValue);
+
+		$this->assertTrue(
+			$this->fixture->isObjectNumberUniqueForLanguage(
+				array('value' => '1234')
+			)
+		);
+	}
+
+	public function testIsObjectNumberUniqueForLanguageForExistentCombination() {
+		$this->fixture->setFakedFormValue('language', self::$dummyStringValue);
+
+		$this->assertFalse(
+			$this->fixture->isObjectNumberUniqueForLanguage(
+				array('value' => self::$dummyStringValue)
+			)
+		);
+	}
+
+	public function testIsObjectNumberUniqueForLanguageForEmptyObjectNumber() {
+		$this->assertFalse(
+			$this->fixture->isObjectNumberUniqueForLanguage(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCityReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForCity(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCityReturnsFalseForZero() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForCity(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCityReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForCity(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForDistrictReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForDistrict(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForDistrictReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForDistrict(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForDistrictReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForDistrict(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForHouseTypeReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForHouseType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HOUSE_TYPES))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForHouseTypeReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForHouseType(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForHouseTypeReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForHouseType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HOUSE_TYPES) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForApartmentTypeReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForApartmentType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_APARTMENT_TYPES))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForApartmentTypeReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForApartmentType(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForApartmentTypeReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForApartmentType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_APARTMENT_TYPES) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForHeatingTypeReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForHeatingType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HEATING_TYPES))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForHeatingTypeReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForHeatingType(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForHeatingTypeReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForHeatingType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HEATING_TYPES) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForGarageTypeReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForGarageType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CAR_PLACES))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForGarageTypeReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForGarageType(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForGarageTypeReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForGarageType(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CAR_PLACES) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForStateReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForState(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CONDITIONS))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForStateReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForState(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForStateReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForState(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CONDITIONS) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForPetsReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForPets(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_PETS))
+			)
+		);
+	}
+
+	public function testIsAllowedValueForPetsReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForPets(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForPetsReturnsFalseForInvalidValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForPets(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_PETS) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForLanguageReturnsTrueForAllowedValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForLanguage(
+				array('value' => 'EN')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForLanguageReturnsTrueForEmptyValue() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForLanguage(
+				array('value' => '')
+			)
 		);
 	}
 
