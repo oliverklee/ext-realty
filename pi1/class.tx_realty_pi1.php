@@ -207,7 +207,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$contactFormClassName = t3lib_div::makeInstanceClassName(
 					'tx_realty_contactForm'
 				);
-				$contactForm = new $contactFormEditorClassName($this);
+				$contactForm = new $contactFormClassName($this);
 				$result = $contactForm->render(
 					$this->piVars,
 					$this->createSummaryStringOfFavorites()
