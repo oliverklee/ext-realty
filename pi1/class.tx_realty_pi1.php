@@ -144,6 +144,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	public $pi_checkCHash = true;
 
+	/** whether this class is called in the test mode */
+	private $isTestMode = false;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param	boolean		whether this class is called in the test mode
+	 */
+	public function __construct($isTestMode = false) {
+		$this->isTestMode = $isTestMode;
+	}
+
 	/**
 	 * Displays the Realty Manager HTML.
 	 *
@@ -152,7 +164,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		HTML for the plugin
 	 */
-	public function main($content, array $conf)	{
+	public function main($content, array $conf) {
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
@@ -169,7 +181,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$this->internal['currentTable'] = $this->tableNames['objects'];
 		$this->securePiVars(
-			array('city', 'image', 'remove', 'descFlag', 'showUid')
+			array('city', 'image', 'remove', 'descFlag', 'showUid', 'delete')
 		);
 
 		$result = '';
@@ -192,21 +204,39 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				break;
 			case 'contact_form':
-				$contactForm = new tx_realty_contactForm($this);
+				$contactFormClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_contactForm'
+				);
+				$contactForm = new $contactFormEditorClassName($this);
 				$result = $contactForm->render(
 					$this->piVars,
 					$this->createSummaryStringOfFavorites()
 				);
 				break;
 			case 'fe_editor':
-				$frontEndEditor = new tx_realty_frontEndEditor(
-					$this,
-					$this->piVars['showUid']
+				$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_frontEndEditor'
+				);
+				$frontEndEditor = new $frontEndEditorClassName(
+					$this, $this->piVars['showUid']
 				);
 				$result = $frontEndEditor->render();
 				break;
 			case 'my_objects':
-				$result = $this->createMyObjectsView();
+				// The FE editor processes the deletion of an object.
+				// For testing, the FE editors FORMidable object must not be
+				// created.
+				$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_frontEndEditor'
+				);
+				$frontEndEditor = new $frontEndEditorClassName(
+					$this, $this->piVars['delete'], $this->isTestMode
+				);
+				$errorView = $frontEndEditor->deleteRecord();
+
+				$result = ($errorView == '')
+					? $this->createMyObjectsView()
+					: $errorView;
 				break;
 			case 'favorites':
 				// The fallthrough is intended because the favorites view is just
@@ -491,9 +521,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
 		} else {
 			$this->setMarker(
-				'empty_editor_link',
-				$this->createLinkToFeEditorPage(0)
+				'empty_editor_link', $this->createLinkToFeEditorPage(0)
 			);
+
 			$result = $this->createListView();
 		}
 
@@ -756,18 +786,41 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				break;
 			case 'my_objects':
-				$this->setMarker(
-					'editor_link',
-					$this->createLinkToFeEditorPage($this->internal['currentRow']['uid'])
-				);
-				$this->hideSubparts('checkbox', 'wrapper');
-				$this->unhideSubparts('wrapper_editor_links');
+				$this->setListRowContentsForMyObjectsView();
 				break;
 			default:
 				break;
 		}
 
 		return $this->substituteMarkerArrayCached('LIST_ITEM');
+	}
+
+	/**
+	 * Sets subparts and markers for a list row in the my objects view.
+	 */
+	private function setListRowContentsForMyObjectsView() {
+		$this->setMarker(
+			'editor_link',
+			$this->createLinkToFeEditorPage($this->internal['currentRow']['uid'])
+		);
+		$this->setMarker(
+			'really_delete',
+			$this->translate('label_really_delete').'\n'
+				.$this->translate('label_object_number').' '
+				.$this->internal['currentRow']['object_number'].': '
+				.$this->internal['currentRow']['title']
+		);
+		$this->setMarker(
+			'delete_link',
+			$this->cObj->getTypoLink_URL(
+				$GLOBALS['TSFE']->id,
+				array(
+					'tx_realty_pi1[delete]' => $this->internal['currentRow']['uid']
+				)
+			)
+		);
+		$this->hideSubparts('checkbox', 'wrapper');
+		$this->unhideSubparts('wrapper_editor_links');
 	}
 
 	/**

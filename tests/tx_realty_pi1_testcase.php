@@ -98,7 +98,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
-		$this->fixture = new tx_realty_pi1();
+		// True enables the test mode which inhibits the FE editors FORMidable 
+		// object from being created.
+		$this->fixture = new tx_realty_pi1(true);
 		// This passed array with configuration values becomes part of
 		// $this->fixture->conf. "conf" is inherited from tslib_pibase and needs
 		// to contain "pidList". "pidList" is none of our configuration values
@@ -1572,11 +1574,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 
 		$this->assertContains(
-			self::$firstCityTitle,
+			self::$firstObjectTitle,
 			$this->fixture->main('', array())
 		);
 		$this->assertNotContains(
-			self::$secondCityTitle,
+			self::$secondObjectTitle,
 			$this->fixture->main('', array())
 		);
 	}
@@ -1640,6 +1642,39 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			substr_count(
 				$this->fixture->main('', array()),
 				'tx_realty_pi1[showUid]='.$this->firstRealtyUid
+			)
+		);
+	}
+
+	public function testDeleteObjectFromMyObjectsList() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+
+		$this->fixture->piVars['delete'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid='.$this->firstRealtyUid
+					.$this->fixture->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}

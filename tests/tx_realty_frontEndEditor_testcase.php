@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_frontEndEditorChild.php');
 
 class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/** FE editor object to be tested */
@@ -67,7 +67,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm')
 		);
 
-		$this->fixture = new tx_realty_frontEndEditor($this->pi1, 0, true);
+		$this->fixture = new tx_realty_frontEndEditorChild($this->pi1, 0, true);
 	}
 
 	public function tearDown() {
@@ -123,11 +123,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////////////////////////
-	// Tests concerning the error messages returned by render().
-	//////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////
+	// Tests concerning access and authorization.
+	///////////////////////////////////////////////
 
-	public function testRenderReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
+	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
 		// This will create a "Cannot modify header information - headers
 		// already sent by" warning because the called function sets a HTTP
 		// header. This is no error.
@@ -137,11 +137,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->render()
+			$this->fixture->checkAccess()
 		);
 	}
 
-	public function testRenderReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
+	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
 		// This will create a "Cannot modify header information - headers
 		// already sent by" warning because the called function sets a HTTP
 		// header. This is no error.
@@ -152,29 +152,29 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->render()
+			$this->fixture->checkAccess()
 		);
 	}
 
-	public function testRenderReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
+	public function testCheckAccessReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertContains(
 			$this->pi1->translate('message_please_login'),
-			$this->fixture->render()
+			$this->fixture->checkAccess()
 		);
 	}
 
-	public function testRenderReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
+	public function testCheckAccessReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertContains(
 			$this->pi1->translate('message_please_login'),
-			$this->fixture->render()
+			$this->fixture->checkAccess()
 		);
 	}
 
-	public function testRenderReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
+	public function testCheckAccessReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
 		// This will create a "Cannot modify header information - headers
 		// already sent by" warning because the called function sets a HTTP
 		// header. This is no error.
@@ -189,10 +189,150 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->pi1->translate('message_access_denied'),
-			$this->fixture->render()
+			$this->fixture->checkAccess()
 		);
 	}
 
+	public function testCheckAccessReturnsAnEmptyStringIfTheObjectExistsAndTheUserIsAuthorized() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->dummyObjectUid,
+			array('owner' => $this->feUserId)
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->checkAccess()
+		);
+	}
+
+	public function testCheckAccessReturnsAnEmptyStringIfTheObjectIsNewAndTheUserIsAuthorized() {
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->checkAccess()
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning deleteRecord().
+	/////////////////////////////////////
+
+	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+
+		$this->assertContains(
+			$this->pi1->translate('message_noResultsFound_fe_editor'),
+			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+
+		$this->assertContains(
+			$this->pi1->translate('message_noResultsFound_fe_editor'),
+			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testDeleteRecordReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertContains(
+			$this->pi1->translate('message_please_login'),
+			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testDeleteRecordReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertContains(
+			$this->pi1->translate('message_please_login'),
+			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testDeleteRecordReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToDeleteAnObjectHeDoesNotOwn() {
+		// This will create a "Cannot modify header information - headers
+		// already sent by" warning because the called function sets a HTTP
+		// header. This is no error.
+		// The warning will go away once bug 1650 is fixed.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
+		$this->testingFramework->loginFrontEndUser(
+			$this->testingFramework->createFrontEndUser(
+				$this->testingFramework->createFrontEndUserGroup()
+			)
+		);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertContains(
+			$this->pi1->translate('message_access_denied'),
+			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testDeleteRecordReturnsAnEmptyStringWhenUserAuthorizedAndUidZero() {
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testDeleteRecordFromTheDatabase() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->dummyObjectUid,
+			array('owner' => $this->feUserId)
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$this->fixture->deleteRecord();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid='.$this->dummyObjectUid
+					.$this->fixture->enableFields(REALTY_TABLE_OBJECTS)
+			)
+		);
+	}
+
+	public function testDeleteRecordReturnsAnEmptyStringWhenUserAuthorizedAndRecordWasDeleted() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->dummyObjectUid,
+			array('owner' => $this->feUserId)
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->deleteRecord()
+		);
+	}
 
 	////////////////////////////////////////////////////
 	// Tests for the functions called in the XML form.

@@ -99,8 +99,10 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		$this->pi_initPIflexForm();
 
 		$this->formCreator = t3lib_div::makeInstance('tx_ameosformidable');
-		// The FORMidable object is not initialized for testing.
-		if (!$this->isTestMode) {
+		// FORMidable would produce an error message if it is initialized with
+		// a non-existing UID.
+		// The FORMidable object is never initialized for testing.
+		if ($this->realtyObjectExistsInDatabase() && !$this->isTestMode) {
 			$this->formCreator->init(
 				$this,
 				t3lib_extMgm::extPath('realty').'pi1/tx_realty_frontEndEditor.xml',
@@ -108,11 +110,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 			);
 		}
 	}
-
-
-	////////////////////////////////////////
-	// Functions concerning the rendering.
-	////////////////////////////////////////
 
 	/**
 	 * Returns the FE editor in HTML if a user is logged in and authorized, and
@@ -123,17 +120,66 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 * 						requested object is not editable for the current user
 	 */
 	public function render() {
-		if (!$this->realtyObjectExistsInDatabase()) {
-			return $this->renderObjectDoesNotExistMessage();
-		}
-		if (!$this->isLoggedIn()) {
-			return $this->renderPleaseLogInMessage();
-		}
-		if (!$this->isFrontEndUserAuthorized()) {
-			return $this->renderNoAccessMessage();
+		$errorMessage = $this->checkAccess();
+		if ($errorMessage != '') {
+  			return $errorMessage;
 		}
 
 		return $this->formCreator->render();
+	}
+
+	/**
+	 * Deletes a record if the current object UID is a valid UID that identifies
+	 * an object of an authorized FE user. Otherwise an error message will be
+	 * returned.
+	 *
+	 * @return	string		empty if there was either nothing to delete or the
+	 * 						deletion was allowed, otherwise HTML of an error
+	 * 						message
+	 */
+	public function deleteRecord() {
+		$errorMessage = $this->checkAccess();
+		if ($errorMessage != '') {
+			return $errorMessage;		
+		}
+
+		if ($this->realtyObjectUid != 0) {
+			$this->realtyObject->setProperty('deleted', true);
+			// Providing the PID ensures the record not to change the location.
+			$this->realtyObject->writeToDatabase(
+				$this->realtyObject->getProperty('pid')
+			);
+			$this->clearFrontEndCache();
+		}
+
+		return '';
+	}
+
+
+	///////////////////////////////////////////////////
+	// Functions concerning access and authorization.
+	///////////////////////////////////////////////////
+
+	/**
+	 * Checks whether the current record actually exists and whether the current
+	 * FE user is logged in and authorized to change the record. Returns an error
+	 * message if these conditions are not given.
+	 *
+	 * @return	string		empty if the current record actually exists and if
+	 * 						the FE user is authorised, otherwise the HTML of a
+	 * 						message that tells which condition is not fulfilled
+	 */
+	protected function checkAccess() {
+		$result = '';
+		if (!$this->realtyObjectExistsInDatabase()) {
+			$result = $this->renderObjectDoesNotExistMessage();
+		} elseif (!$this->isLoggedIn()) {
+			$result = $this->renderPleaseLogInMessage();
+		} elseif (!$this->isFrontEndUserAuthorized()) {
+			$result = $this->renderNoAccessMessage();
+		}
+
+		return $result;
 	}
 
 	/**

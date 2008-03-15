@@ -182,6 +182,9 @@
 .tx-realty-pi1 .list-view .result  td.image {
 	vertical-align: middle;
 }
+.tx-realty-pi1 .list-view .result .item  td.tx-realty-pi1-editorLinks {
+	float: right;
+}
 
 /* description of the list item */
 .tx-realty-pi1 .list-view .result .description .title {
