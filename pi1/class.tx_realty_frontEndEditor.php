@@ -83,7 +83,8 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		$this->isTestMode = $isTestMode;
 		$this->realtyObjectUid = $uidOfObjectToEdit;
 
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
+		$objectClassName = t3lib_div::makeInstanceClassName('tx_realty_object');
+		$this->realtyObject = new $objectClassName($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid);
 
 		$this->plugin = $plugin;
@@ -148,7 +149,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 			$this->realtyObject->writeToDatabase(
 				$this->realtyObject->getProperty('pid')
 			);
-			$this->clearFrontEndCache();
+			tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
 		}
 
 		return '';
@@ -420,8 +421,8 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		$items = array();
 		$whereClause = '1=1';
 
-		if ($this->isTestMode && $hasTestModeColumn) {
-			$whereClause = 'is_dummy_record=1';
+		if ($hasTestModeColumn) {
+			$whereClause .= $this->getWhereClauseForTesting();
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -1035,13 +1036,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Clears the FE cache for pages with a realty plugin.
-	 */
-	public function clearFrontEndCache() {
-		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
-	}
-
-	/**
 	 * Adds administrative data and unifies numbers.
 	 *
 	 * @see	addAdministrativeData(), unifyNumbersToInsert()
@@ -1055,6 +1049,135 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		return $this->addAdministrativeData(
 			$this->unifyNumbersToInsert($formData)
 		);
+	}
+
+	/**
+	 * Sends an e-mail if a new object hase been createed.
+	 *
+	 * Clears the FE cache for pages with the realty plugin.
+	 */
+	public function sendEmailForNewObjectAndClearFrontEndCache() {
+		$this->sendEmailForNewObject();
+		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
+	}
+
+	/**
+	 * Sends an e-mail if a new object has been created.
+	 */
+	private function sendEmailForNewObject() {
+		if (($this->realtyObjectUid > 0)
+			|| !$this->plugin->hasConfValueString('feEditorNotifyEmail')
+		) {
+			return;
+		}
+
+		tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
+			$this->plugin->getConfValueString('feEditorNotifyEmail'),
+			$this->plugin->translate('label_email_subject_fe_editor'),
+			$this->getFilledEmailBody(),
+			$this->getFromLineForEmail(),
+			'',
+			'UTF-8'
+		);
+	}
+
+	/**
+	 * Returns the e-mail body formatted according to the template and filled
+	 * with the new object's summarized data.
+	 *
+	 * @return	string		body for the e-mail to send, will not be
+	 * 						empty
+	 */
+	private function getFilledEmailBody() {
+		$frontEndUserData = $this->getFrontEndUserData();
+		foreach (array(
+			'username' => $frontEndUserData['username'],
+			'name' => $frontEndUserData['name'],
+			'object_number' => $this->getFormValue('object_number'),
+			'title' => $this->getFormValue('title'),
+			'uid' => $this->getUidOfNewObject(),
+		) as $marker => $value) {
+			$this->plugin->setOrDeleteMarkerIfNotEmpty(
+				$marker, $value, '', 'wrapper'
+			);
+		}
+
+		return $this->plugin->getSubpart('FRONT_END_EDITOR_EMAIL');
+	}
+
+	/**
+	 * Returns the formatted "From:" header line for the e-mail to send.
+	 *
+	 * @return	string		formatted e-mail header line containing the sender,
+	 * 						will not be empty
+	 */
+	private function getFromLineForEmail() {
+		$frontEndUserData = $this->getFrontEndUserData();
+		return 'From: "'.$frontEndUserData['name'].'" '
+			.'<'.$frontEndUserData['email'].'>'.LF;
+	}
+
+	/**
+	 * Returns the 'name', 'username' and 'email' of a FE user record.
+	 *
+	 * Note: This function requires a FE user to be logged in.
+	 *
+	 * @return	array		associative array with the keys 'name', 'username'
+	 * 						and 'email', will be empty if the database result
+	 * 						could not be fetched
+	 */
+	private function getFrontEndUserData() {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'username, name, email',
+			'fe_users',
+			'uid='.$this->getFeUserUid()
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if ($result === false) {
+			throw new Exception(
+				'The FE user data could not be fetched. '
+				.'Please ensure a FE user to be logged in.'
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns the UID of the realty object that has recently been added to the
+	 * database.
+	 *
+	 * Note: This function is to be used only if there is really a new database
+	 * record with the current form data.
+	 *
+	 * @return	integer		UID of the newly added database record, will be > 0
+	 */
+	private function getUidOfNewObject() {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid',
+			REALTY_TABLE_OBJECTS,
+			'object_number="'.$GLOBALS['TYPO3_DB']->quoteStr(
+				$this->getFormValue('object_number'), REALTY_TABLE_OBJECTS
+			).'" AND language="'.$GLOBALS['TYPO3_DB']->quoteStr(
+				$this->getFormValue('language'), REALTY_TABLE_OBJECTS
+			).'"'.$this->getWhereClauseForTesting()
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if ($result === false) {
+			throw new Exception(
+				'There is no database record with the current form data.'
+			);
+		}
+
+		return $result['uid'];
 	}
 
 	/**
@@ -1245,6 +1368,32 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;
+	}
+
+	/**
+	 * Fakes that FORMidable has inserted a new record into the database.
+	 *
+	 * This function writes the array of faked form values to the database and
+	 * is for testing purposes.
+	 */
+	public function writeFakedFormDataToDatabase() {
+		// The faked record is marked as a dummy and no field are required to
+		// be set.
+		$this->setFakedFormValue('is_dummy_record', 1);
+		$this->realtyObject->setRequiredFields(array());
+		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
+		$this->realtyObject->writeToDatabase();
+	}
+
+	/**
+	 * Returns a WHERE clause part for the test mode, so only dummy records will
+	 * be received for testing.
+	 *
+	 * @return	string		WHERE clause part for testing if the test mode is
+	 * 						enabled, an empty string otherwise
+	 */
+	private function getWhereClauseForTesting() {
+		return $this->isTestMode ? ' AND is_dummy_record=1' : '';
 	}
 }
 

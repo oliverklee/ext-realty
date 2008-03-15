@@ -329,8 +329,10 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 
 		if ($result['email']) {
 			$result['name'] = $ownerData['name'];
-		} elseif ($this->plugin->hasConfValueString('defaultEmail')) {
-			$result['email'] = $this->plugin->getConfValueString('defaultEmail');
+		} elseif ($this->plugin->hasConfValueString('defaultContactEmail')) {
+			$result['email'] = $this->plugin->getConfValueString(
+				'defaultContactEmail'
+			);
 		}
 
 		return $result;

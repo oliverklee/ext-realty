@@ -27,7 +27,7 @@
 			<actionlet:USEROBJ>
 				<userobj>
 						<extension>this</extension>
-						<method>clearFrontEndCache</method>
+						<method>sendEmailForNewObjectAndClearFrontEndCache</method>
 				</userobj>
 			</actionlet:USEROBJ>
 			<actionlet:REDIRECT>

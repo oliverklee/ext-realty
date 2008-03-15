@@ -72,7 +72,9 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 
 		$this->createDummyRecords();
-		$this->pi1->setConfigurationValue('defaultEmail', 'any-default@email-address.org');
+		$this->pi1->setConfigurationValue(
+			'defaultContactEmail', 'any-default@email-address.org'
+		);
 		$this->pi1->setConfigurationValue('blindCarbonCopyAddress', '');
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 	}
@@ -350,7 +352,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet() {
-		$this->pi1->setConfigurationValue('defaultEmail', '');
+		$this->pi1->setConfigurationValue('defaultContactEmail', '');
 
 		$this->assertContains(
 			$this->pi1->translate('label_no_contact_person'),
@@ -367,7 +369,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGeneralContactFormDisplaysAnErrorAfterSubmittingIfNoDefaultEmailAddressWasSet() {
-		$this->pi1->setConfigurationValue('defaultEmail', '');
+		$this->pi1->setConfigurationValue('defaultContactEmail', '');
 
 		$this->assertContains(
 			$this->pi1->translate('label_no_contact_person'),

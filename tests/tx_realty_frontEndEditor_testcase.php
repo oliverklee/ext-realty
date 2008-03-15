@@ -30,6 +30,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
@@ -59,6 +60,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
 		$GLOBALS['LANG']->lang = $GLOBALS['TSFE']->config['config']['language'];
 
+		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
@@ -73,6 +75,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
+		tx_oelib_mailerFactory::getInstance()->getMailer()->cleanUpCollectedEmailData();
+		tx_oelib_mailerFactory::getInstance()->disableTestMode();
+
 		unset($this->fixture, $this->pi1, $this->testingFramework);
 	}
 
@@ -86,7 +91,12 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	 */
 	private function createDummyRecords() {
 		$this->feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'username' => 'test_user',
+				'name' => 'Mr. Test',
+				'email' => 'mr-test@valid-email.org'
+			)
 		);
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
@@ -425,6 +435,13 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	////////////////////////////////////////
+	// * Functions called after insertion.
+	////////////////////////////////////////
+	// ** getRedirectUrl().
+	/////////////////////////
+
 	public function testGetRedirectUrlReturnsCompleteUrlIfConfiguredCorrectly() {
 		$fePageUid = $this->testingFramework->createFrontEndPage();
 		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
@@ -465,6 +482,152 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	/////////////////////////////////////////////////////
+	// ** sendEmailForNewObjectAndClearFrontEndCache().
+	/////////////////////////////////////////////////////
+
+	public function testSendEmailForNewObjectSendsToTheConfiguredRecipient() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+		$this->assertEquals(
+			'recipient@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);		
+	}
+
+	public function testSentEmailHasTheCurrentFeUserAsFrom() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$this->assertEquals(
+			'From: "Mr. Test" <mr-test@valid-email.org>'.LF,
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
+		);		
+	}
+
+	public function testSentEmailContainsTheFeUsersName() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$this->assertContains(
+			'Mr. Test',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);				
+	}
+	
+	public function testSentEmailContainsTheFeUsersUsername() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$this->assertContains(
+			'test_user',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);						
+	}
+
+	public function testSentEmailContainsTheNewObjectsTitle() {
+		$this->fixture->setFakedFormValue('title', 'any title');
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$this->assertContains(
+			'any title',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);								
+	}
+
+	public function testSentEmailContainsTheNewObjectsObjectNumber() {
+		$this->fixture->setFakedFormValue('object_number', '1234');
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$this->assertContains(
+			'1234',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);								
+	}
+
+	public function testSentEmailContainsTheNewObjectsUid() {
+		// The UID is found with the help of the combination of object number
+		// and language.
+		$this->fixture->setFakedFormValue('object_number', '1234');
+		$this->fixture->setFakedFormValue('language', 'XY');
+		$this->fixture->writeFakedFormDataToDatabase();
+
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'uid',
+				REALTY_TABLE_OBJECTS,
+				'object_number="1234" AND language="XY"'
+			)
+		);
+
+		$this->assertContains(
+			$expectedResult['uid'],
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);										
+	}
+
+	public function testNoEmailIsSentIfNoRecipientWasConfigured() {
+		$this->pi1->setConfigurationValue('feEditorNotifyEmail', '');
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$this->assertEquals(
+			array(),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
+		);								
+	}
+
+	public function testNoEmailIsSentForExistingObject() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
+		
+		$this->assertEquals(
+			array(),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
+		);								
+	}
+
 	public function testClearFrontEndCacheDeletesCachedPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$contentUid = $this->testingFramework->createContentElement(
@@ -473,7 +636,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 		$this->testingFramework->createPageCacheEntry($contentUid);
 
-		$this->fixture->clearFrontEndCache();
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertEquals(
 			0,

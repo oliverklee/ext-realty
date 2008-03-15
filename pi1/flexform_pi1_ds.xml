@@ -120,15 +120,15 @@
 							</config>
 						</TCEforms>
 					</showAddressOfObjects>
-					<defaultEmail>
+					<defaultContactEmail>
 						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultEmail</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultContactEmail</label>
 							<config>
 								<type>input</type>
 								<eval>trim</eval>
 							</config>
 						</TCEforms>
-					</defaultEmail>
+					</defaultContactEmail>
 					<blindCarbonCopyAddress>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.blindCarbonCopyAddress</label>
@@ -346,6 +346,15 @@
 							</config>
 						</TCEforms>
 					</feEditorRedirectPid>
+					<feEditorNotifyEmail>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.feEditorNotifyEmail</label>
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</feEditorNotifyEmail>
 				</el>
 			</ROOT>
 		</sDEF>

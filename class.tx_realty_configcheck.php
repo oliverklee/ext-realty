@@ -107,7 +107,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_contact_form() {
 		$this->checkCommonFrontEndSettings();
-		$this->checkDefaultEmail();
+		$this->checkDefaultContactEmail();
 		$this->checkBlindCarbonCopyAddress();
 	}
 
@@ -127,6 +127,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
 		$this->checkFeEditorRedirectPid();
+		$this->checkFeEditorNotifyEmail();
 		$this->checkLoginPid();
 	}
 
@@ -417,11 +418,11 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the setting for the default e-mail address.
+	 * Checks the setting for the default contact e-mail address.
 	 */
-	private function checkDefaultEmail() {
+	private function checkDefaultContactEmail() {
 		$this->checkIsValidEmailNotEmpty(
-			'defaultEmail',
+			'defaultContactEmail',
 			true,
 			'sDEF',
 			true,
@@ -590,6 +591,20 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'redirecting will not proceed correctly if this value is '
 				.'invalid.'
 		);		
+	}
+	/**
+	 * Checks the setting for the FE editor's notification e-mail address.
+	 */
+	private function checkFeEditorNotifyEmail() {
+		$this->checkIsValidEmailNotEmpty(
+			'feEditorNotifyEmail',
+			true,
+			'sDEF',
+			true,
+			'This value specifies the recipient for a notification when a new '
+				.'record has been created in the FE. No e-mail will be send if '
+				.'this value is not configured correctly.'
+		);
 	}
 }
 

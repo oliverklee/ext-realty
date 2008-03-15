@@ -1,5 +1,6 @@
 2008-03-15 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1262] Feature: Send an e-mail when a new object has been FE-created
 	* [#1265] Feature: Add states "pending"/"published" to the FE-entered objects
 	* [#1260] Feature: Add "delete" link to the "my records" list
 	* [#1748] Fix: The realty object must not create auxilary records with UIDs as titles
