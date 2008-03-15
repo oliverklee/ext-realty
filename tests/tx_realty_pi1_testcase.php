@@ -1594,7 +1594,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('owner' => $feUserId)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-		$this->fixture->setConfigurationValue('editorPID', $this->favoritesPid);
+		$this->fixture->setConfigurationValue(
+			'editorPID', $this->testingFramework->createFrontEndPage(0)
+		);
 
 		$this->assertContains(
 			'button edit',
@@ -1632,9 +1634,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('owner' => $feUserId)
 		);
-		$editorPid = $this->testingFramework->createFrontEndPage(0);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-		$this->fixture->setConfigurationValue('editorPID', $editorPid);
+		$this->fixture->setConfigurationValue(
+			'editorPID', $this->testingFramework->createFrontEndPage(0)
+		);
 
 		// The title linked to the gallery will also contain this UID.
 		$this->assertEquals(
@@ -1711,7 +1714,43 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testMyObjectsViewDisplaysStatePublished() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 
+		$this->assertContains(
+			$this->fixture->translate('label_published'),
+			$this->fixture->main('', array())
+		);		
+	}
+
+	public function testMyObjectsViewDisplaysStatePending() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId, 'hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+
+		$this->assertContains(
+			$this->fixture->translate('label_pending'),
+			$this->fixture->main('', array())
+		);		
+	}
+
+	
 	///////////////////////
 	// Utility functions.
 	///////////////////////

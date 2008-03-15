@@ -1059,24 +1059,28 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testAddAdministrativeDataAddsTheTimeStampForAnExistingObject() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
+		$result = $this->fixture->modifyDataToInsert(array());
+		// object type will always be added and is not needed here.
+		unset($result['object_type']);
+
 		$this->assertEquals(
 			'tstamp',
-			key($this->fixture->modifyDataToInsert(array()))
+			key($result)
 		);
 	}
 
-	public function testAddAdministrativeDataAddsTimeStampDatePidAndOwnerForANewObject() {
+	public function testAddAdministrativeDataAddsTimeStampDatePidHiddenObjectTypeAndOwnerForANewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertEquals(
-			array('tstamp', 'pid', 'crdate', 'owner'),
+			array('object_type', 'tstamp', 'pid', 'crdate', 'owner', 'hidden'),
 			array_keys($this->fixture->modifyDataToInsert(array()))
 		);
 	}
 
 	public function testAddAdministrativeDataAddsDefaultPidForANewObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
-		$this->plugin->setConfigurationValue(
+		$this->pi1->setConfigurationValue(
 			'sysFolderForFeCreatedRecords', $systemFolderPid
 		);
 		$this->fixture->setRealtyObjectUid(0);
@@ -1141,12 +1145,32 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testNewRecordIsMarkedAsHidden() {
+		$this->fixture->setRealtyObjectUid(0);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertEquals(
+			1,
+			$result['hidden']
+		);		
+	}
+
+	public function testExistingRecordIsNotMarkedAsHidden() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertFalse(
+			isset($result['hidden'])
+		);		
+	}
+
 	public function testUnifyNumbersToInsertForNoElementsWithNumericValues() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$formData = array('foo' => '12,3.45', 'bar' => 'abc,de.fgh');
 		$result = $this->fixture->modifyDataToInsert($formData);
-		// PID and time stamp will always be added, they are not needed here.
-		unset($result['tstamp'], $result['pid']);
+		// PID, object type and time stamp will always be added,
+		// they are not needed here.
+		unset($result['tstamp'], $result['pid'], $result['object_type']);
 
 		$this->assertEquals(
 			$formData,
@@ -1160,8 +1184,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			'garage_rent' => '123,45',
 			'garage_price' => '12 345'
 		));
-		// PID and time stamp will always be added, they are not needed here.
-		unset($result['tstamp'], $result['pid']);
+		// PID, object type and time stamp will always be added,
+		// they are not needed here.
+		unset($result['tstamp'], $result['pid'], $result['object_type']);
 
 		$this->assertEquals(
 			array('garage_rent' => '123.45', 'garage_price' => '12345'),

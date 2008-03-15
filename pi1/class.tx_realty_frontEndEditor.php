@@ -84,8 +84,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		$this->realtyObjectUid = $uidOfObjectToEdit;
 
 		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
-		// The parameter 'true' ensures only enabled objects to become loaded.
-		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
+		$this->realtyObject->loadRealtyObject($this->realtyObjectUid);
 
 		$this->plugin = $plugin;
 		// For the templatehelper's functions about setting labels and filling
@@ -1099,12 +1098,14 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	/**
 	 * Adds some values to the form data before insertion into the database.
 	 * Added values for new objects are: 'crdate', 'tstamp', 'pid' and 'owner'.
+	 * In addition they become marked as 'hidden'.
 	 * For objects to update, just the 'tstamp' will be refreshed.
 	 *
 	 * @param	array		form data, may be empty
 	 *
 	 * @return	array		form data with additional elements: always 'tstamp',
-	 * 						for new objects also 'crdate', 'pid' and 'owner'
+	 * 						for new objects also 'hidden', 'crdate', 'pid' and
+	 * 						'owner'
 	 */
 	private function addAdministrativeData(array $formData) {
 		$pidFromCity = $this->getPidFromCityRecord(intval($formData['city']));
@@ -1119,6 +1120,7 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 		if ($this->realtyObjectUid == 0) {
 			$modifiedFormData['crdate'] = mktime();
 			$modifiedFormData['owner'] = $this->getFeUserUid();
+			$modifiedFormData['hidden'] = 1;
 		}
 
 		return $modifiedFormData;

@@ -330,13 +330,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function initListView() {
 		// To ensure that sorting by cities actually sorts the titles and not
 		// the cities' UIDs, the join on the tx_realty_cities table is needed.
-		$table = $this->internal['currentTable'].' INNER JOIN '
-			.$this->tableNames['city'].' ON '.$this->internal['currentTable']
-			.'.city = '.$this->tableNames['city'].'.uid';
+		$table = REALTY_TABLE_OBJECTS.' INNER JOIN '.REALTY_TABLE_CITIES
+			.' ON '.REALTY_TABLE_OBJECTS.'.city = '.REALTY_TABLE_CITIES.'.uid';
 		$whereClause = $this->createWhereClause();
 
 		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$this->tableNames['objects'].'.*',
+			REALTY_TABLE_OBJECTS.'.*',
 			$table,
 			$whereClause,
 			'',
@@ -351,27 +350,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		WHERE clause for initListView(), will not be empty
 	 */
 	private function createWhereClause() {
-		// The result may only contain non-deleted and non-hidden records which
-		// are in the set of allowed pages.
-		$whereClause = '1=1'.$this->enableFields($this->tableNames['objects'])
-			.$this->enableFields($this->tableNames['city']);
-		$pidList = $this->pi_getPidList(
-			$this->conf['pidList'], $this->conf['recursive']
-		);
-
-		if (!empty($pidList)) {
-			$whereClause .=
-				' AND '.$this->tableNames['objects'].'.pid IN ('.$pidList.')';
-		}
-
-		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
-			? ' AND '.$this->getConfValueString('staticSqlFilter') : '';
-
-		// finds only cities that match the UID in piVars['city']
-		if (isset($this->piVars['city'])) {
-			$whereClause .=  ' AND '.$this->tableNames['objects'].'.city='
-				.intval($this->piVars['city']);
-		}
+		$whereClause = '1=1';
+		$showHiddenObjects = -1;
 
 		switch ($this->getCurrentView()) {
 			case 'favorites':
@@ -390,14 +370,38 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			case 'my_objects':
 				$whereClause .= ' AND '.REALTY_TABLE_OBJECTS.'.owner'
 					.'='.$this->getFeUserUid();
+				$showHiddenObjects = 1;
 				break;
 			default:
 				break;
 		}
 
+		// The result may only contain non-deleted and non-hidden records except
+		// for the my objects view.
+		$whereClause .= $this->enableFields(REALTY_TABLE_OBJECTS, $showHiddenObjects)
+			.$this->enableFields(REALTY_TABLE_CITIES);
+
+		$pidList = $this->pi_getPidList(
+			$this->getConfValueString('pidList'),
+			$this->getConfValueInteger('recursive')
+		);
+		if (!empty($pidList)) {
+			$whereClause .=
+				' AND '.REALTY_TABLE_OBJECTS.'.pid IN ('.$pidList.')';
+		}
+
+		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
+			? ' AND '.$this->getConfValueString('staticSqlFilter') : '';
+
+		// finds only cities that match the UID in piVars['city']
+		if (isset($this->piVars['city'])) {
+			$whereClause .=  ' AND '.REALTY_TABLE_OBJECTS.'.city='
+				.intval($this->piVars['city']);
+		}
+
 		$searchSelection = implode(',', $this->getSearchSelection());
 		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$whereClause .=	' AND '.$this->tableNames['objects']
+			$whereClause .=	' AND '.REALTY_TABLE_OBJECTS
 				.'.'.$this->getConfValueString('checkboxesFilter')
 				.' IN ('.$searchSelection.')';
 		}
@@ -441,9 +445,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			// needs to be sorted by the cities' titles which are in a separate
 			// table.
 			if ($sortCriterion == 'city') {
-				$result = $this->tableNames['city'].'.title';
+				$result = REALTY_TABLE_CITIES.'.title';
 			} else {
-				$result = $this->tableNames['objects'].'.'.$sortCriterion;
+				$result = REALTY_TABLE_OBJECTS.'.'.$sortCriterion;
 			}
 
 			$result .= ($descendingFlag ? ' DESC' : ' ASC');
@@ -744,7 +748,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createListRow($rowCounter = 0) {
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarkerContent('class_position_in_list', $position);
-		$this->hideSubparts('editor_links', 'wrapper');
+		$this->hideSubparts('editor_specific_content', 'wrapper');
 
 		foreach (array(
 			'uid',
@@ -819,8 +823,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				)
 			)
 		);
+		$this->setMarker(
+			'record_state',
+			$this->translate($this->internal['currentRow']['hidden']
+				? 'label_pending' : 'label_published'
+			)
+		);
 		$this->hideSubparts('checkbox', 'wrapper');
-		$this->unhideSubparts('wrapper_editor_links');
+		$this->unhideSubparts('wrapper_editor_specific_content');
 	}
 
 	/**
