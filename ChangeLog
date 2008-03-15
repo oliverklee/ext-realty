@@ -1,5 +1,6 @@
 2008-03-15 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1748] Fix: The realty object must not create auxilary records with UIDs as titles
 	* [#1261] Feature: Make some fields required and add error messages
 
 2008-03-13 Saskia Metzler <saskia@merlin.owl.de>

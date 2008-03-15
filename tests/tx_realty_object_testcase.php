@@ -834,31 +834,79 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	public function testPrepareInsertionAndInsertRelationsWritesUidOfInsertedPropertyToRealtyObjectData() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('city', 'foo');
-		$this->fixture->prepareInsertionAndInsertRelations(
-			'pets',
-			REALTY_TABLE_CITIES
-		);
+		$this->fixture->prepareInsertionAndInsertRelations();
 
 		$this->assertEquals(
-			array('uid' => $this->fixture->getProperty('city')),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'uid',
-					REALTY_TABLE_CITIES,
-					'title = "foo"'
-				)
+			1,
+			$this->testingFramework->countRecords(
+				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
 			)
 		);
 	}
 
-	public function testPrepareInsertionAndInsertRelationsReturnsEmptyStringIfPropertyNotExists() {
+	public function testPrepareInsertionAndInsertRelationsDoesNotCreateARecordForAnInteger() {
 		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', '12345');
+		$this->fixture->prepareInsertionAndInsertRelations();
 
 		$this->assertEquals(
-			'',
-			$this->fixture->prepareInsertionAndInsertRelations(
-				'pets',
-				REALTY_TABLE_PETS
+			0,
+			$this->testingFramework->countRecords(
+				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testPrepareInsertionAndInsertRelationsDoesNotCreateARecordForZeroPropertyFromTheDatabase() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testPrepareInsertionAndInsertRelationsDoesNotCreateARecordForZeroPropertyFromLoadedArray() {
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$objectNumber, 'city' => 0)
+		);
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testPrepareInsertionAndInsertRelationsReturnsZeroForEmptyPropertyFetchedFromLoadedArray() {
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$objectNumber, 'city' => '')
+		);
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testPrepareInsertionAndInsertRelationsReturnsZeroIfThePropertyNotExists() {
+		$this->fixture->loadRealtyObject(
+			array('object_number' => self::$objectNumber)
+		);
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
 			)
 		);
 	}

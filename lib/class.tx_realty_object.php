@@ -353,8 +353,7 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Checks whether a $key is an element of the currently loaded realty
-	 * object.
+	 * Checks whether $key is an element of the currently loaded realty object.
  	 *
 	 * @param	string		key of value to fetch from current realty object,
 	 * 						must not be empty
@@ -475,20 +474,22 @@ class tx_realty_object {
 	 * 						created
 	 */
 	private function insertPropertyToOwnTable($key, $table) {
-		if (!$this->hasProperty($key)) {
+		// If the property is not defined or the value is an empty string or
+		// zero, no record will be created.
+		if (!$this->hasProperty($key) || ($this->getProperty($key) == '')
+			|| ($this->getProperty($key) == '0')
+		) {
 			return 0;
 		}
+		// If the value is a non-zero integer, the relation has already been
+		// inserted.
+		if (intval($this->getProperty($key)) != 0) {
+			return $this->getProperty($key);
+		}
 
-		$result = 0;
 		$propertyArray = array('title' => $this->getProperty($key));
 
-		if ($this->recordExistsInDatabase($propertyArray, 'title', $table)) {
-			$this->ensureUid($propertyArray, 'title', $table);
-			$this->updateDatabaseEntry(
-				$propertyArray,
-				$table
-			);
-		} else {
+		if (!$this->recordExistsInDatabase($propertyArray, 'title', $table)) {
 			$this->createNewDatabaseEntry($propertyArray, $table);
 		}
 
@@ -497,14 +498,13 @@ class tx_realty_object {
 			$table,
 			'title="'.$propertyArray['title'].'"'
 		);
-		if ($dbResult &&
-			($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			if (isset($row['uid'])) {
-				$result = $row['uid'];
-			}
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
 		}
-		return $result;
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return $row ? $row['uid'] : 0;
 	}
 
 	/**
