@@ -1,6 +1,7 @@
 2008-03-16 Oliver Klee  <typo3-coding@oliverklee.de>
 
-	* [#1501] Change: Update the NL localization
+	* [#1751] Feature: Add a Turkish localization, patch by Murat Caglayan
+	* [#1501] Change: Update the NL localization, patch by Paul Effertz
 
 2008-03-15 Saskia Metzler <saskia@merlin.owl.de>
 
