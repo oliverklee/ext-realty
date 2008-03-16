@@ -382,7 +382,12 @@
 			<label index="realty.pi_flexform.favorites">Favorieten</label>
 			<label index="realty.pi_flexform.gallery">Galery</label>
 			<label index="realty.pi_flexform.city_selector">Stad keuze</label>
+			<label index="realty.pi_flexform.contact_form">Kontaktformulier</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statische SQL-Filter (word met &quot; AND &quot; aan de WHERE-Klausel gehangen):</label>
+			<label index="realty.pi_flexform.showAddressOfObjects">Toon het volledige adres in FE:</label>
+			<label index="realty.pi_flexform.showContactInformation">Toon de kontaktinformatie in FE:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail adres voor aanvragen</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Directe mail aan de aanbieder toestaan:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Veld, waar de zoekfilter checkboxen gegenereerd worden:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Velden, waarna de FE-User de lijst van resultaten sorteren kan:</label>
 			<label index="realty.pi_flexform.singlePID">Pagina voor de single aanzicht:</label>
@@ -418,6 +423,8 @@
 			<label index="label_object_number">Object Nr.</label>
 			<label index="label_address">Adres</label>
 			<label index="label_description">Beschrijving</label>
+			<label index="label_offerer">Aanbieder</label>
+			<label index="label_phone">Telefoonnummer:</label>
 			<label index="label_equipment">Uitvoering</label>
 			<label index="label_overview">Overzicht</label>
 			<label index="label_location">Ligging</label>
@@ -425,6 +432,7 @@
 			<label index="label_layout">Indeling</label>
 			<label index="label_living_area">Woonoppervlakte</label>
 			<label index="label_total_area">Bijruimtes</label>
+			<label index="label_estate_size">Kavelgrootte</label>
 			<label index="label_heating_included">Energiekosten incl verwarming</label>
 			<label index="label_deposit">Borg</label>
 			<label index="label_provision">Courtage</label>
@@ -454,8 +462,9 @@
 			<label index="label_back">Terug</label>
 			<label index="label_add_to_favorites">Op mijn favorietenlijst plaatsen</label>
 			<label index="label_remove_from_favorites">Van mijn favorietenlijst verwijderen</label>
+			<label index="label_on_favorites_list">Objecten op de favorietenlijst</label>
 			<label index="label_cityselector_head">Object zoeken</label>
-			<label index="label_cityselector_description_formal">Wij bieden U nieuwe objecten in de navolgende steden;#8230;</label>
+			<label index="label_cityselector_description_formal">Wij bieden U nieuwe objecten in de navolgende steden;</label>
 			<label index="label_cityselector_description_informal">Wij bieden jouw nieuwe objecten aan in de navolgende steden;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Aub uw stadskeuze aangeven;#8212;</label>
 			<label index="label_next_image">Volgende foto</label>
@@ -473,8 +482,43 @@
 			<label index="message_noResultsFound_realty_list_informal">Helaas zijn er geen resultaten die aan je criteria voldoen. Probeer het eens met minder zoekopties.</label>
 			<label index="message_noResultsFound_favorites_formal">Momenteel heeft U geen objecten op uw Favorietenlijst.</label>
 			<label index="message_noResultsFound_favorites_informal">Momenteel heb je geen objecten op jouw Favorietenlijst.</label>
+			<label index="message_noResultsFound_contact_form_formal">Het object wat u gekozen heeft bestaat niet (meer).</label>
+			<label index="message_noResultsFound_contact_form_informal">Het object wat u gekozen heeft bestaat niet (meer).</label>
 			<label index="message_invalidImage_formal">Deze foto is in onze Database niet beschikbaar. Controleerd U, of het adres in uw browser correct is. Indien U via een externe link op deze pagina terecht bent gekomen, is de link waarschijnlijk verouderd of deze bestaat niet meer.</label>
 			<label index="message_invalidImage_informal">Deze foto is in onze Database niet beschikbaar. Controleer of het adres in je browser correct is. Indien je via een externe link op deze pagina terecht bent gekomen, is de link waarschijnlijk verouderd of deze bestaat niet meer.</label>
+			<label index="message_please_login_formal">Logt u zich aub in om deze pagina te kunnen bekijken.</label>
+			<label index="message_please_login_informal">Logt u zich aub in om deze pagina te kunnen bekijken.</label>
+			<label index="label_salutation">Goedendag</label>
+			<label index="label_uid">Database ID</label>
+			<label index="label_user_text">schreef het volgende</label>
+			<label index="label_user_contact_information">Kontakt informatie</label>
+			<label index="label_email_subject_specialized">Aanvraag betreffende het object</label>
+			<label index="label_email_subject_general">Object aanvraag</label>
+			<label index="label_contact_form_description_formal">Hier kunt u uw vraag/opmerking aan de aanbieder stellen.</label>
+			<label index="label_contact_form_description_informal">Hier kunt u uw vraag/opmerking aan de aanbieder stellen.</label>
+			<label index="label_requested_object">Het aangevraagde object</label>
+			<label index="label_your_name_formal">Uw naam</label>
+			<label index="label_your_name_informal">Uw naam</label>
+			<label index="label_your_email_formal">Uw e-mail adres</label>
+			<label index="label_your_email_informal">Uw e-mail adres</label>
+			<label index="label_your_phone_formal">Uw telefoonnummer</label>
+			<label index="label_your_phone_informal">Uw telefoonnummer</label>
+			<label index="label_your_request_formal">Uw verzoek</label>
+			<label index="label_your_request_informal">Uw verzoek</label>
+			<label index="label_submit">Versturen</label>
+			<label index="label_no_contact_person">Uw aanvraag kon helaas niet verstuurd worden daar de aanbieder geen e-mail adres heeft achtergelaten, neemt U aub telefonisch contact met de aanbieder op.</label>
+			<label index="label_set_name_formal">Vul aub uw naam in.</label>
+			<label index="label_set_name_informal">Vul aub uw naam in.</label>
+			<label index="label_set_valid_email_address_formal">Vult u aub een geldig e-mail adres in.</label>
+			<label index="label_set_valid_email_address_informal">Vult u aub een geldig e-mail adres in.</label>
+			<label index="label_no_empty_textarea">Aub uw bericht invullen.</label>
+			<label index="label_thank_you_formal">Hartelijk dank voor uw aanvraag.</label>
+			<label index="label_thank_you_informal">Hartelijk dank voor uw aanvraag.</label>
+			<label index="label_message_sent_formal">Uw aanvraag is verstuurd</label>
+			<label index="label_message_sent_informal">Uw aanvraag is verstuurd.</label>
+			<label index="label_has_request">heeft de volgende opmerking:</label>
+			<label index="label_requester_phone">Telefoonnummer van de afzender is:</label>
+			<label index="label_summary_string_of_favorites">De navolgende objecten had de bezoeker op zijn Favorietenlijst:</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="realty.pi_flexform.sheet_general">Generelt</label>
@@ -970,6 +1014,50 @@
 			<label index="message_noResultsFound_favorites_informal" type="integer">84241814</label>
 			<label index="message_invalidImage_formal" type="integer">24179165</label>
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
+			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
+			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
+			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">117633312</label>
+			<label index="label_offerer" type="integer">172702595</label>
+			<label index="label_phone" type="integer">108244482</label>
+			<label index="label_estate_size" type="integer">133635012</label>
+			<label index="label_on_favorites_list" type="integer">104683823</label>
+			<label index="message_noResultsFound_contact_form_formal" type="integer">112812831</label>
+			<label index="message_noResultsFound_contact_form_informal" type="integer">112812831</label>
+			<label index="message_please_login_formal" type="integer">64977327</label>
+			<label index="message_please_login_informal" type="integer">64977327</label>
+			<label index="label_salutation" type="integer">145861013</label>
+			<label index="label_uid" type="integer">169261614</label>
+			<label index="label_user_text" type="integer">258596858</label>
+			<label index="label_user_contact_information" type="integer">98817744</label>
+			<label index="label_email_subject_specialized" type="integer">217444631</label>
+			<label index="label_email_subject_general" type="integer">88417728</label>
+			<label index="label_contact_form_description_formal" type="integer">76871856</label>
+			<label index="label_contact_form_description_informal" type="integer">76871856</label>
+			<label index="label_requested_object" type="integer">244291644</label>
+			<label index="label_your_name_formal" type="integer">35776261</label>
+			<label index="label_your_name_informal" type="integer">35776261</label>
+			<label index="label_your_email_formal" type="integer">197667972</label>
+			<label index="label_your_email_informal" type="integer">197667972</label>
+			<label index="label_your_phone_formal" type="integer">86104819</label>
+			<label index="label_your_phone_informal" type="integer">86104819</label>
+			<label index="label_your_request_formal" type="integer">84651870</label>
+			<label index="label_your_request_informal" type="integer">84651870</label>
+			<label index="label_submit" type="integer">155805401</label>
+			<label index="label_no_contact_person" type="integer">231672500</label>
+			<label index="label_set_name_formal" type="integer">49257832</label>
+			<label index="label_set_name_informal" type="integer">49257832</label>
+			<label index="label_set_valid_email_address_formal" type="integer">115392064</label>
+			<label index="label_set_valid_email_address_informal" type="integer">115392064</label>
+			<label index="label_no_empty_textarea" type="integer">151709982</label>
+			<label index="label_thank_you_formal" type="integer">231839047</label>
+			<label index="label_thank_you_informal" type="integer">231839047</label>
+			<label index="label_message_sent_formal" type="integer">162249641</label>
+			<label index="label_message_sent_informal" type="integer">162249641</label>
+			<label index="label_has_request" type="integer">233711688</label>
+			<label index="label_summary_string_of_favorites" type="integer">199641813</label>
+			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
+			<label index="label_requester_phone" type="integer">254665035</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -1465,6 +1553,50 @@
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
+			<label index="realty.pi_flexform.contact_form">Contact form</label>
+			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
+			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
+			<label index="label_offerer">Offerer</label>
+			<label index="label_phone">Phone:</label>
+			<label index="label_estate_size">Estate size</label>
+			<label index="label_on_favorites_list">Objects on the favorites list:</label>
+			<label index="message_noResultsFound_contact_form_formal">The object you requested contact for does not exist.</label>
+			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
+			<label index="message_please_login_formal">Please log in to view this page.</label>
+			<label index="message_please_login_informal">Please log in to view this page.</label>
+			<label index="label_salutation">Hello</label>
+			<label index="label_uid">Database ID</label>
+			<label index="label_user_text">wrote the following</label>
+			<label index="label_user_contact_information">Contact information</label>
+			<label index="label_email_subject_specialized">Request concerning object #</label>
+			<label index="label_email_subject_general">Realty request</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
+			<label index="label_requested_object">The requested object:</label>
+			<label index="label_your_name_formal">Your name</label>
+			<label index="label_your_name_informal">Your name</label>
+			<label index="label_your_email_formal">Your e-mail address</label>
+			<label index="label_your_email_informal">Your e-mail address</label>
+			<label index="label_your_phone_formal">Your phone number</label>
+			<label index="label_your_phone_informal">Your phone number</label>
+			<label index="label_your_request_formal">Your request</label>
+			<label index="label_your_request_informal">Your request</label>
+			<label index="label_submit">Send</label>
+			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
+			<label index="label_set_name_formal">Please provide your name.</label>
+			<label index="label_set_name_informal">Please provide your name.</label>
+			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
+			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
+			<label index="label_no_empty_textarea">Please enter a request.</label>
+			<label index="label_thank_you_formal">Thank you for your request.</label>
+			<label index="label_thank_you_informal">Thank you for your request.</label>
+			<label index="label_message_sent_formal">Your request was sent.</label>
+			<label index="label_message_sent_informal">Your request was sent.</label>
+			<label index="label_has_request">has written the following request:</label>
+			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
+			<label index="label_requester_phone">The sender's phone number:</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
