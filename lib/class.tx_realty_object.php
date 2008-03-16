@@ -78,6 +78,9 @@ class tx_realty_object {
 	/** instance of tx_oelb_templatehelper */
 	private $templateHelper;
 
+	/** whether hidden objects are loadable */
+	private $canLoadHiddenObjects = false;
+
 	/** whether a newly created record is for testing purposes only */
 	private $isDummyRecord = false;
 
@@ -106,10 +109,10 @@ class tx_realty_object {
 	 * @param	mixed		data for the realty object: an array, a database
 	 * 						result row, or a UID (of integer > 0) of an existing
 	 * 						record, an array must not contain the key 'uid'
-	 * @param	boolean		whether realty objects to be loaded by database ID
-	 * 						must be non-deleted and not hidden
+	 * @param	boolean		whether hidden objects are loadable
 	 */
-	public function loadRealtyObject($realtyData, $enabledObjectsOnly = false) {
+	public function loadRealtyObject($realtyData, $canLoadHiddenObjects = false) {
+		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
 				if (isset($realtyData['uid'])) {
@@ -121,8 +124,7 @@ class tx_realty_object {
 				break;
 			case 'uid' :
 				$this->realtyObjectData = $this->loadDatabaseEntry(
-					intval($realtyData),
-					$enabledObjectsOnly
+					intval($realtyData)
 				);
 				$this->loadImages();
 				break;
@@ -171,25 +173,19 @@ class tx_realty_object {
 	 * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
 	 *
 	 * @param	integer		UID of the database entry to load, must be > 0
-	 * @param	boolean		whether only non-deleted and non-hidden objects
-	 * 						should be loaded
 	 *
 	 * @return	array		contents of the database entry, empty if database
 	 * 						result could not be fetched
 	 */
-	protected function loadDatabaseEntry($uid, $enabledObjectsOnly) {
+	protected function loadDatabaseEntry($uid) {
 		$result = array();
-
-		$additionalWhereClause = '';
-		if ($enabledObjectsOnly) {
-			$additionalWhereClause =
-				$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS);
-		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			REALTY_TABLE_OBJECTS,
-			'uid='.$uid.$additionalWhereClause
+			'uid='.$uid.$this->templateHelper->enableFields(
+				REALTY_TABLE_OBJECTS, $this->canLoadHiddenObjects ? 1 : -1
+			)
 		);
 
 		if ($dbResult) {
@@ -281,8 +277,12 @@ class tx_realty_object {
 		if ($this->getProperty('deleted')) {
 			$this->deleteRelatedImageRecords();
 			$errorMessage = 'message_deleted_flag_set';
-		} elseif (($errorMessage == '') && !empty($this->images)) {
-			$this->insertImageEntries($this->getAllImageData(), $overridePid);
+		}
+
+		if (!empty($this->images)
+			&& (($errorMessage == '') || ($errorMessage == 'message_deleted_flag_set'))
+		) {
+			$this->insertImageEntries($overridePid);
 		}
 
 		return $errorMessage;
@@ -513,13 +513,11 @@ class tx_realty_object {
 	 * Images can only be linked with the current realty object if it has at
 	 * least an object number or a UID.
 	 *
-	 * @param	array		array with data for each image to insert, may be
-	 * 						empty
 	 * @param	integer		PID for new object and image records (omit this
 	 * 						parameter to use the PID set in the global
 	 * 						configuration)
 	 */
-	protected function insertImageEntries(array $imagesArray, $overridePid = 0) {
+	private function insertImageEntries($overridePid = 0) {
 		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
 			return;
 		}
@@ -528,22 +526,21 @@ class tx_realty_object {
 		$objectUid = $this->getProperty('uid');
 		$counter = 1;
 
-		foreach ($imagesArray as $imageData) {
+		foreach ($this->getAllImageData() as $imageData) {
 			if ($this->recordExistsInDatabase(
-				$imageData,
-				'image',
-				REALTY_TABLE_IMAGES
+				$imageData, 'image', REALTY_TABLE_IMAGES
 			)) {
 				$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
-				$this->updateDatabaseEntry(
-					$imageData,
-					REALTY_TABLE_IMAGES
-				);
-			} else {
+				$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
+				if ($imageData['deleted']) {
+					$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+						REALTY_TABLE_OBJECTS_IMAGES_MM,
+						'uid_foreign='.$imageData['uid']
+					);
+				}
+			} elseif (!$imageData['deleted']) {
 				$this->createNewDatabaseEntry(
-					$imageData,
-					REALTY_TABLE_IMAGES,
-					$overridePid
+					$imageData, REALTY_TABLE_IMAGES, $overridePid
 				);
 			}
 
@@ -551,18 +548,15 @@ class tx_realty_object {
 				'uid',
 				REALTY_TABLE_IMAGES,
 				'image='.$GLOBALS['TYPO3_DB']->fullQuoteStr(
-					$imageData['image'],
-					REALTY_TABLE_IMAGES
-				)
+					$imageData['image'], REALTY_TABLE_IMAGES
+				).$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
 			);
 			if ($dbResult
 				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 			) {
 				if (isset($row['uid'])) {
 					$this->linkImageWithObject(
-						$objectUid,
-						$row['uid'],
-						$counter
+						$objectUid, $row['uid'], $counter
 					);
 					$counter++;
 				}
@@ -575,26 +569,8 @@ class tx_realty_object {
 	 * object to delete.
 	 */
 	private function deleteRelatedImageRecords() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid_foreign',
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			'uid_local='.intval($this->getProperty('uid'))
-		);
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$imagesToDelete = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-			$imagesToDelete[] = $row['uid_foreign'];
-		}
-
-		if(!empty($imagesToDelete)) {
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-				REALTY_TABLE_IMAGES,
-				'uid IN('.implode(',', $imagesToDelete).')',
-				array('deleted' => 1)
-			);
+		foreach ($this->getAllImageData() as $imageKey => $imageData) {
+			$this->markImageRecordAsDeleted($imageKey);
 		}
 	}
 
@@ -924,11 +900,16 @@ class tx_realty_object {
 				$whereClauseParts[] = $key.'="'.$dataArray[$key].'"';
 			}
 
+			$showHidden = -1;
+			if (($table == REALTY_TABLE_OBJECTS) && $this->canLoadHiddenObjects) {
+				$showHidden = 1;
+			}
+
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				$whatToSelect,
 				$table,
 				implode(' AND ', $whereClauseParts)
-					.$this->templateHelper->enableFields($table)
+					.$this->templateHelper->enableFields($table, $showHidden)
 			);
 			if ($dbResult) {
 				$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);

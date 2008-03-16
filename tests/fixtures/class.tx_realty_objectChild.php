@@ -63,8 +63,8 @@ final class tx_realty_objectChild extends tx_realty_object {
 		return parent::checkMissingColumnNames();
 	}
 
-	public function loadDatabaseEntry($uid, $enabledObjectsOnly) {
-		return parent::loadDatabaseEntry($uid, $enabledObjectsOnly);
+	public function loadDatabaseEntry($uid) {
+		return parent::loadDatabaseEntry($uid);
 	}
 
 	public function deleteSurplusFields() {
@@ -77,10 +77,6 @@ final class tx_realty_objectChild extends tx_realty_object {
 
 	public function prepareInsertionAndInsertRelations() {
 		parent::prepareInsertionAndInsertRelations();
-	}
-
-	public function insertImageEntries($imagesArray, $overridePid = 0) {
-		parent::insertImageEntries($imagesArray, $overridePid);
 	}
 
 	public function fetchDomAttributes($nodeWithAttributes) {
