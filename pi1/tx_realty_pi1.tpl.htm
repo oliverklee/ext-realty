@@ -519,12 +519,6 @@
 
 <!-- ###CONTACT_FORM### -->
 <div class="tx-realty-pi1-contact-form">
-	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
-	<fieldset class="tx-realty-pi1-fieldset">
-		<h3>###LABEL_SORRY###</h3>
-		<p class="error">###ERROR_MESSAGE###</p>
-	</fieldset>
-	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
 	<p>###LABEL_CONTACT_FORM_DESCRIPTION###</p>
 	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
 	<fieldset class="tx-realty-pi1-fieldset">
@@ -534,14 +528,32 @@
 		###LABEL_TITLE###: <strong>###TITLE###</strong></p>
 	</fieldset>
 	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
+	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
+	<fieldset class="tx-realty-pi1-fieldset">
+		<h3>###LABEL_SORRY###</h3>
+		<p class="error">###ERROR_MESSAGE###</p>
+	</fieldset>
+	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
     <fieldset class="tx-realty-pi1-fieldset">
 		<form method="post" action="">
 			<!-- ###WRAPPER_REQUESTER_DATA### -->
- 			<div class="tx-realty-pi1-field"><label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterName">###LABEL_YOUR_NAME###:</label> <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterName]" id="tx_realty_pi1-requesterName" type="text" size="30" maxlength="50" /></div>
-			<div class="tx-realty-pi1-field"><label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterEmail">###LABEL_YOUR_EMAIL###:</label> <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterEmail]" id="tx_realty_pi1-requesterEmail" type="text" size="30" maxlength="50" /></div>
-			<div class="tx-realty-pi1-field"><label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterPhone">###LABEL_YOUR_PHONE###:</label> <input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterPhone]" id="tx_realty_pi1-requesterPhone" type="text" size="30" maxlength="50" /></div>
+ 			<div class="tx-realty-pi1-field">
+ 				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterName">###LABEL_YOUR_NAME###:</label>
+ 				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterName]" id="tx_realty_pi1-requesterName" value="###REQUESTER_NAME###" type="text" size="30" maxlength="50" />
+ 			</div>
+			<div class="tx-realty-pi1-field">
+				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterEmail">###LABEL_YOUR_EMAIL###:</label>
+				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterEmail]" id="tx_realty_pi1-requesterEmail" value="###REQUESTER_EMAIL###" type="text" size="30" maxlength="50" />
+			</div>
+			<div class="tx-realty-pi1-field">
+				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterPhone">###LABEL_YOUR_PHONE###:</label>
+				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterPhone]" id="tx_realty_pi1-requesterPhone" value="###REQUESTER_PHONE###" type="text" size="30" maxlength="50" />
+			</div>
 			<!-- ###WRAPPER_REQUESTER_DATA### -->
-			<div class="tx-realty-pi1-field"><label class="tx-realty-pi1-label" for="tx_realty_pi1-request">###LABEL_YOUR_REQUEST###:</label> <textarea class="tx-realty-pi1-textarea" name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10"></textarea></div>
+			<div class="tx-realty-pi1-field">
+				<label class="tx-realty-pi1-label" for="tx_realty_pi1-request">###LABEL_YOUR_REQUEST###:</label>
+				<textarea class="tx-realty-pi1-textarea" name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10">###REQUEST###</textarea>
+			</div>
 			<div>
 				<input type="hidden" name="tx_realty_pi1[isSubmitted]" value="1" />
 				<input type="submit" class="tx-realty-pi1-submit" name="###LABEL_SUBMIT###" value="###LABEL_SUBMIT###" />

@@ -1,5 +1,6 @@
 2008-03-16 Oliver Klee  <typo3-coding@oliverklee.de>
 
+	* [#1754] Fix: The monkey functionality is broken in the contact form
 	* [#1751] Feature: Add a Turkish localization, patch by Murat Caglayan
 	* [#1501] Change: Update the NL localization, patch by Paul Effertz
 
