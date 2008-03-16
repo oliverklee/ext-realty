@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_frontEndEditorChild.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
 
 class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/** FE editor object to be tested */
@@ -45,15 +45,15 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/** instance of tx_oelib_testingFramework */
 	private $testingFramework;
 
-	/** dummy FE user ID */
-	private $feUserId;
+	/** dummy FE user UID */
+	private $feUserUid;
 	/** UID of the dummy object */
 	private $dummyObjectUid = 0;
 	/** dummy string value */
 	private static $dummyStringValue = 'test value';
 
 	public function setUp() {
-		// Bolster up the fake front end.
+		// Bolsters up the fake front end.
 		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
@@ -69,7 +69,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm')
 		);
 
-		$this->fixture = new tx_realty_frontEndEditorChild($this->pi1, 0, true);
+		$this->fixture = new tx_realty_frontEndEditor($this->pi1, 0, '', true);
 	}
 
 	public function tearDown() {
@@ -90,7 +90,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	 * Creates dummy records in the DB.
 	 */
 	private function createDummyRecords() {
-		$this->feUserId = $this->testingFramework->createFrontEndUser(
+		$this->feUserUid = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array(
 				'username' => 'test_user',
@@ -133,102 +133,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////////////////
-	// Tests concerning access and authorization.
-	///////////////////////////////////////////////
-
-	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
-		$this->fixture->setRealtyObjectUid(0);
-
-		$this->assertContains(
-			$this->pi1->translate('message_please_login'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_please_login'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_access_denied'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsAnEmptyStringIfTheObjectExistsAndTheUserIsAuthorized() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->dummyObjectUid,
-			array('owner' => $this->feUserId)
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsAnEmptyStringIfTheObjectIsNewAndTheUserIsAuthorized() {
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
-		$this->fixture->setRealtyObjectUid(0);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->checkAccess()
-		);
-	}
-
-
 	/////////////////////////////////////
 	// Tests concerning deleteRecord().
 	/////////////////////////////////////
@@ -253,7 +157,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		// header. This is no error.
 		// The warning will go away once bug 1650 is fixed.
 		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
 
 		$this->assertContains(
@@ -300,7 +204,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsAnEmptyStringWhenUserAuthorizedAndUidZero() {
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertEquals(
@@ -313,9 +217,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->dummyObjectUid,
-			array('owner' => $this->feUserId)
+			array('owner' => $this->feUserUid)
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$this->fixture->deleteRecord();
 
@@ -333,9 +237,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->dummyObjectUid,
-			array('owner' => $this->feUserId)
+			array('owner' => $this->feUserUid)
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertEquals(
@@ -438,51 +342,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	////////////////////////////////////////
 	// * Functions called after insertion.
-	////////////////////////////////////////
-	// ** getRedirectUrl().
-	/////////////////////////
-
-	public function testGetRedirectUrlReturnsCompleteUrlIfConfiguredCorrectly() {
-		$fePageUid = $this->testingFramework->createFrontEndPage();
-		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
-
-		$this->assertContains(
-			'http://',
-			$this->fixture->getRedirectUrl()
-		);
-		$this->assertContains(
-			(string) $fePageUid,
-			$this->fixture->getRedirectUrl()
-		);
-	}
-
-	public function testGetRedirectUrlReturnsBaseUrlIfANonExistentPidIsSet() {
-		$this->pi1->setConfigurationValue('feEditorRedirectPid', '1234567');
-
-		$this->assertContains(
-			'http://',
-			$this->fixture->getRedirectUrl()
-		);
-		$this->assertNotContains(
-			'1234567',
-			$this->fixture->getRedirectUrl()
-		);
-	}
-
-	public function testGetRedirectUrlReturnsBaseUrlIfTheConfigurationIsMissing() {
-		$this->pi1->setConfigurationValue('feEditorRedirectPid', '0');
-
-		$this->assertContains(
-			'http://',
-			$this->fixture->getRedirectUrl()
-		);
-		$this->assertNotContains(
-			'0',
-			$this->fixture->getRedirectUrl()
-		);
-	}
-
-
 	/////////////////////////////////////////////////////
 	// ** sendEmailForNewObjectAndClearFrontEndCache().
 	/////////////////////////////////////////////////////
@@ -493,7 +352,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 		$this->assertEquals(
 			'recipient@valid-email.org',
@@ -507,7 +366,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$this->assertEquals(
@@ -522,7 +381,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$this->assertContains(
@@ -537,7 +396,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$this->assertContains(
@@ -552,7 +411,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$this->assertContains(
@@ -567,7 +426,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$this->assertContains(
@@ -586,7 +445,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
@@ -605,7 +464,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testNoEmailIsSentIfNoRecipientWasConfigured() {
 		$this->pi1->setConfigurationValue('feEditorNotifyEmail', '');
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$this->assertEquals(
@@ -619,7 +478,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
 		
 		$this->assertEquals(
@@ -1288,18 +1147,18 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsFrontEndUserIdForANewObject() {
-		$this->testingFramework->loginFrontEndUser($this->feUserId);
+	public function testAddAdministrativeDataAddsFrontEndUserUidForANewObject() {
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
 
 		$this->assertEquals(
-			$this->feUserId,
+			$this->feUserUid,
 			$result['owner']
 		);
 	}
 
-	public function testAddAdministrativeNotDataAddsFrontEndUserIdForAnObjectToUpdate() {
+	public function testAddAdministrativeNotDataAddsFrontEndUserUidForAnObjectToUpdate() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$result = $this->fixture->modifyDataToInsert(array());
 

@@ -30,104 +30,15 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(PATH_formidableapi);
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndForm.php');
 
 define('OBJECT_TYPE_SALE', 1);
 define('OBJECT_TYPE_RENT', 0);
 
-class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
-	/** the extension key (FORMidable expects this to be public) */
-	public $extKey = 'realty';
-
-	/** plugin in which the FE editor is used */
-	private $plugin = null;
-
-	/** formidable object that creates the form */
-	private $formCreator = null;
-
-	/** instance of tx_realty_object */
-	private $realtyObject = null;
-
-	/**
-	 * UID of the currently edited object, zero if the object is going to be a
-	 * new database record.
-	 */
-	private $realtyObjectUid = 0;
-
-	/** locale convention array */
-	private $localeConvention = array();
-
-	/** whether the constructor is called in test mode */
-	private $isTestMode = false;
-
-	/** this is used to fake form values for testing */
-	private $fakedFormValues = array();
-
-	/**
-	 * The constructor.
-	 *
-	 * @param	tx_oelib_templatehelper		plugin which uses this FE editor
-	 * @param	integer		UID of the object to edit, set to 0 to create a new
-	 * 						database record, must not be negative
-	 * @param	boolean		whether the FE editor is instanciated in test mode
-	 */
-	public function __construct(
-		tx_oelib_templatehelper $plugin, $uidOfObjectToEdit, $isTestMode = false
-	) {
-		$this->isTestMode = $isTestMode;
-		$this->realtyObjectUid = $uidOfObjectToEdit;
-
-		$objectClassName = t3lib_div::makeInstanceClassName('tx_realty_object');
-		$this->realtyObject = new $objectClassName($this->isTestMode);
-		$this->realtyObject->loadRealtyObject($this->realtyObjectUid);
-
-		$this->plugin = $plugin;
-		// For the templatehelper's functions about setting labels and filling
-		// markers, the plugin's templatehelper object is used as the inherited
-		// templatehelper does not have all configuration which would be
-		// necessary for this.
-		$this->plugin->getTemplateCode();
-		$this->plugin->setLabels();
-		// For configuration stuff the own inherited templatehelper can be used.
-		$this->init($this->plugin->getConfiguration());
-		$this->pi_initPIflexForm();
-
-		$this->formCreator = t3lib_div::makeInstance('tx_ameosformidable');
-		// FORMidable would produce an error message if it is initialized with
-		// a non-existing UID.
-		// The FORMidable object is never initialized for testing.
-		if ($this->realtyObjectExistsInDatabase() && !$this->isTestMode) {
-			$this->formCreator->init(
-				$this,
-				t3lib_extMgm::extPath('realty').'pi1/tx_realty_frontEndEditor.xml',
-				($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false
-			);
-		}
-	}
-
-	/**
-	 * Returns the FE editor in HTML if a user is logged in and authorized, and
-	 * if the object to edit actually exists in the database. Otherwise the
-	 * result will be an error view.
-	 *
-	 * @return	string		HTML for the FE editor or an error view if the
-	 * 						requested object is not editable for the current user
-	 */
-	public function render() {
-		$errorMessage = $this->checkAccess();
-		if ($errorMessage != '') {
-  			return $errorMessage;
-		}
-
-		return $this->formCreator->render();
-	}
-
+class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
 	 * Deletes a record if the current object UID is a valid UID that identifies
 	 * an object of an authorized FE user. Otherwise an error message will be
@@ -154,124 +65,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 
 		return '';
 	}
-
-
-	///////////////////////////////////////////////////
-	// Functions concerning access and authorization.
-	///////////////////////////////////////////////////
-
-	/**
-	 * Checks whether the current record actually exists and whether the current
-	 * FE user is logged in and authorized to change the record. Returns an error
-	 * message if these conditions are not given.
-	 *
-	 * @return	string		empty if the current record actually exists and if
-	 * 						the FE user is authorised, otherwise the HTML of a
-	 * 						message that tells which condition is not fulfilled
-	 */
-	protected function checkAccess() {
-		$result = '';
-		if (!$this->realtyObjectExistsInDatabase()) {
-			$result = $this->renderObjectDoesNotExistMessage();
-		} elseif (!$this->isLoggedIn()) {
-			$result = $this->renderPleaseLogInMessage();
-		} elseif (!$this->isFrontEndUserAuthorized()) {
-			$result = $this->renderNoAccessMessage();
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Returns the HTML for an error view. Therefore the plugin's
-	 * template is used.
-	 *
-	 * @param	string		content for the error view, must not be empty
-	 *
-	 * @return	string		HTML of the error message, will not be empty
-	 */
-	private function renderErrorMessage($rawErrorMessage) {
-		$this->plugin->setMarkerContent('error_message', $rawErrorMessage);
-
-		return $this->plugin->getSubpart('FRONT_END_EDITOR');
-	}
-
-	/**
-	 * Returns HTML for the object-does-not-exist error message.
-	 *
-	 * @return	string		HTML for the object-does-not-exist error message
-	 */
-	private function renderObjectDoesNotExistMessage() {
-		header('Status: 404 Not Found');
-
-		return $this->renderErrorMessage(
-			$this->plugin->translate('message_noResultsFound_fe_editor')
-		);
-	}
-
-	/**
-	 * Returns HTML for the please-login error message.
-	 *
-	 * @return	string		HTML for the please-login error message
-	 */
-	private function renderPleaseLogInMessage() {
-		$redirectUrl = t3lib_div::locationHeaderUrl(
-			$this->plugin->pi_linkTP_keepPIvars_url()
-		);
-		$link = $this->plugin->cObj->getTypoLink(
-			htmlspecialchars($this->plugin->translate('message_please_login')),
-			$this->plugin->getConfValueInteger('loginPID'),
-			array('redirect_url' => $redirectUrl)
-		);
-
-		return $this->renderErrorMessage($link);
-	}
-
-	/**
-	 * Returns HTML for the access-denied error message.
-	 *
-	 * @return	string		HTML for the access-denied error message
-	 */
-	private function renderNoAccessMessage() {
-		header('Status: 401 Unauthorized');
-
-		return $this->renderErrorMessage(
-			$this->plugin->translate('message_access_denied')
-		);
-	}
-
-	/**
-	 * Checks whether the reatly object exists in the database and is enabled.
-	 * For new objects, the result will always be true.
-	 *
-	 * @return	boolean		true if the realty object is available for editing,
-	 * 						false otherwise
-	 */
-	private function realtyObjectExistsInDatabase() {
-		if ($this->realtyObjectUid == 0) {
-			return true;
-		}
-
-		return !$this->realtyObject->isRealtyObjectDataEmpty();
-	}
-
-	/**
-	 * Checks whether the FE user is allowed to edit the object. New objects are
-	 * considered to be editable by every logged in user.
-	 *
-	 * Note: This function does not check on user group memberships.
-	 *
-	 * @return	boolean		true if the FE user is allowed to edit the object,
-	 * 						false otherwise
-	 */
-	private function isFrontEndUserAuthorized() {
-		if ($this->realtyObjectUid == 0) {
-			return true;
-		}
-
-		return $this->realtyObject->getProperty('owner') == $this->getFeUserUid();
-	}
-
 
 	////////////////////////////////
 	// Functions used by the form.
@@ -1024,18 +817,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	///////////////////////////////////
 
 	/**
-	 * Returns the URL where to redirect to after saving a record.
-	 *
-	 * @return	string		complete URL of the configured FE page, if none is
-	 * 						configured, the redirect will lead to the base URL
-	 */
-	public function getRedirectUrl() {
-		return t3lib_div::locationHeaderUrl($this->plugin->cObj->getTypoLink_URL(
-			$this->plugin->getConfValueInteger('feEditorRedirectPid')
-		));
-	}
-
-	/**
 	 * Adds administrative data and unifies numbers.
 	 *
 	 * @see	addAdministrativeData(), unifyNumbersToInsert()
@@ -1300,29 +1081,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns a form value from the FORMidable object.
-	 *
-	 * Note: In test mode, this function will return faked values.
-	 *
-	 * @param	string		column name of tx_realty_objects as key, must not
-	 * 						be empty
-	 *
-	 * @return	string		form value or an empty string if the value does not
-	 * 						exist
-	 */
-	private function getFormValue($key) {
-		if ($this->isTestMode) {
-			$result = isset($this->fakedFormValues[$key])
-				? $this->fakedFormValues[$key] : '';
-		} else {
-			$result = isset($this->formCreator->oDataHandler->__aFormData[$key])
-				? $this->formCreator->oDataHandler->__aFormData[$key] : '';
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Returns the current object type.
 	 *
 	 * @return	integer		one if the object is for sale, zero if it is for
@@ -1335,65 +1093,6 @@ class tx_realty_frontEndEditor extends tx_oelib_templatehelper {
 			OBJECT_TYPE_SALE,
 			OBJECT_TYPE_RENT
 		);
-	}
-
-
-	///////////////////////////////////
-	// Utility functions for testing.
-	///////////////////////////////////
-
-	/**
-	 * Fakes the setting of the current UID.
-	 *
-	 * This function is for testing purposes.
-	 *
-	 * @param	integer		UID of the currently edited realty object, for
-	 * 						creating a new database record, $uid must be zero,
-	 * 						provided values must not be negative
-	 */
-	public function setRealtyObjectUid($uid) {
-		$this->realtyObjectUid = $uid;
-		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
-	}
-
-	/**
-	 * Fakes a form data value that is usually provided by the FORMidable
-	 * object.
-	 *
-	 * This function is for testing purposes.
-	 *
-	 * @param	string		column name of tx_realty_objects as key, must not
-	 * 						be empty
-	 * @param	string		faked value
-	 */
-	public function setFakedFormValue($key, $value) {
-		$this->fakedFormValues[$key] = $value;
-	}
-
-	/**
-	 * Fakes that FORMidable has inserted a new record into the database.
-	 *
-	 * This function writes the array of faked form values to the database and
-	 * is for testing purposes.
-	 */
-	public function writeFakedFormDataToDatabase() {
-		// The faked record is marked as a dummy and no field are required to
-		// be set.
-		$this->setFakedFormValue('is_dummy_record', 1);
-		$this->realtyObject->setRequiredFields(array());
-		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
-		$this->realtyObject->writeToDatabase();
-	}
-
-	/**
-	 * Returns a WHERE clause part for the test mode, so only dummy records will
-	 * be received for testing.
-	 *
-	 * @return	string		WHERE clause part for testing if the test mode is
-	 * 						enabled, an empty string otherwise
-	 */
-	private function getWhereClauseForTesting() {
-		return $this->isTestMode ? ' AND is_dummy_record=1' : '';
 	}
 }
 

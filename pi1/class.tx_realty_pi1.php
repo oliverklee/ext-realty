@@ -218,7 +218,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'tx_realty_frontEndEditor'
 				);
 				$frontEndEditor = new $frontEndEditorClassName(
-					$this, $this->piVars['showUid']
+					$this,
+					$this->piVars['showUid'],
+					'pi1/tx_realty_frontEndEditor.xml'
 				);
 				$result = $frontEndEditor->render();
 				break;
@@ -230,7 +232,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'tx_realty_frontEndEditor'
 				);
 				$frontEndEditor = new $frontEndEditorClassName(
-					$this, $this->piVars['delete'], $this->isTestMode
+					$this,
+					$this->piVars['delete'],
+					'pi1/tx_realty_frontEndEditor.xml',
+					$this->isTestMode
 				);
 				$errorView = $frontEndEditor->deleteRecord();
 
