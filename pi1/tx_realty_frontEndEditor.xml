@@ -281,7 +281,9 @@
 		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
 		<renderlet:TEXT name="provision" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision"/>
 		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
-			<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true"/>
+			<data>
+				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true"/>
+			</data>
 		</renderlet:DATE>
 		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
 			<validators>
