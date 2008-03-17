@@ -1094,6 +1094,38 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			OBJECT_TYPE_RENT
 		);
 	}
+
+
+	///////////////////////////////////
+	// Utility functions for testing.
+	///////////////////////////////////
+
+	/**
+	 * Fakes that FORMidable has inserted a new record into the database.
+	 *
+	 * This function writes the array of faked form values to the database and
+	 * is for testing purposes.
+	 */
+	public function writeFakedFormDataToDatabase() {
+		// The faked record is marked as a test record and no fields are
+		// required to be set.
+		$this->setFakedFormValue('is_dummy_record', 1);
+		$this->realtyObject->setRequiredFields(array());
+		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
+		$this->realtyObject->writeToDatabase();
+	}
+
+	/**
+	 * Returns a WHERE clause part for the test mode. So only dummy records will
+	 * be received for testing.
+	 *
+	 * @return	string		WHERE clause part for testing starting with ' AND'
+	 * 						if the test mode is enabled, an empty string
+	 *						otherwise
+	 */
+	private function getWhereClauseForTesting() {
+		return $this->isTestMode ? ' AND is_dummy_record=1' : '';
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_frontEndEditor.php']) {

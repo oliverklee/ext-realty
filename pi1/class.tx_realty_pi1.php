@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php')
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndImageUpload.php');
 
 // field types for realty objects
 define('TYPE_NUMERIC', 0);
@@ -223,6 +224,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'pi1/tx_realty_frontEndEditor.xml'
 				);
 				$result = $frontEndEditor->render();
+				break;
+			case 'image_upload':
+				$imageUploadClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_frontEndImageUpload'
+				);
+				$imageUpload = new $imageUploadClassName(
+					$this,
+					$this->piVars['showUid'],
+					'pi1/tx_realty_frontEndImageUpload.xml'
+				);
+				$result = $imageUpload->render();
 				break;
 			case 'my_objects':
 				// The FE editor processes the deletion of an object.
@@ -530,7 +542,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
 		} else {
 			$this->setMarker(
-				'empty_editor_link', $this->createLinkToFeEditorPage(0)
+				'empty_editor_link', $this->createLinkToFePage('editorPID', 0)
 			);
 
 			$result = $this->createListView();
@@ -810,7 +822,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function setListRowContentsForMyObjectsView() {
 		$this->setMarker(
 			'editor_link',
-			$this->createLinkToFeEditorPage($this->internal['currentRow']['uid'])
+			$this->createLinkToFePage(
+				'editorPID', $this->internal['currentRow']['uid']
+			)
+		);
+		$this->setMarker(
+			'image_upload_link',
+			$this->createLinkToFePage(
+				'imageUploadPID', $this->internal['currentRow']['uid']
+			)
 		);
 		$this->setMarker(
 			'really_delete',
@@ -1929,9 +1949,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Returns the current view.
 	 *
 	 * @return	string		Name of the current view ('realty_list', 'contact_form',
-	 * 						'favorites', 'fe_editor', 'city_selector', 'gallery'
-	 * 						or 'my_objects'), will not be empty. If no view is set,
-	 * 						'realty_list' is returned as this is the fallback case.
+	 * 						'favorites', 'fe_editor', 'city_selector' or 'gallery'
+	 * 						'image_upload' or 'my_objects'), will not be empty. If
+	 						no view is set, 'realty_list' is returned as this is the
+	 						fallback case.
 	 */
 	private function getCurrentView() {
 		$whatToDisplay = $this->getConfValueString('what_to_display');
@@ -1942,6 +1963,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'favorites',
 			'fe_editor',
 			'gallery',
+			'image_upload',
 			'my_objects'
 		))) {
 			$result = $whatToDisplay;
@@ -2102,16 +2124,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates a link to the FE editor page.
 	 *
+	 * @param	string		key of the configuration value with the PID, must
+	 * 						not be empty
 	 * @param	integer		UID of the object to be loaded for editing, must be
 	 * 						integer >= 0 (Zero will open the FE editor for a new
 	 * 						record to insert.)
 	 *
 	 * @return	string		$linkText wrapped in link tags, will not be empty
 	 */
-	private function createLinkToFeEditorPage($uid) {
+	private function createLinkToFePage($pidKey, $uid) {
 		return t3lib_div::locationHeaderUrl(
 			$this->cObj->getTypoLink_URL(
-				$this->getConfValueInteger('editorPID'),
+				$this->getConfValueInteger($pidKey),
 				array('tx_realty_pi1[showUid]' => $uid)
 			)
 		);

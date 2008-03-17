@@ -44,6 +44,9 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/** plugin in which the FE editor is used */
 	protected $plugin = null;
 
+	/** formidable object that creates the form */
+	protected $formCreator = null;
+
 	/** instance of tx_realty_object */
 	protected $realtyObject = null;
 
@@ -53,14 +56,11 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 */
 	protected $realtyObjectUid = 0;
 
-	/** formidable object that creates the form */
-	private $formCreator = null;
-
 	/** whether the constructor is called in test mode */
-	private $isTestMode = false;
+	protected $isTestMode = false;
 
 	/** this is used to fake form values for testing */
-	private $fakedFormValues = array();
+	protected $fakedFormValues = array();
 
 	/**
 	 * The constructor.
@@ -68,7 +68,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * @param	tx_oelib_templatehelper		plugin which uses this FE editor
 	 * @param	integer		UID of the object to edit, set to 0 to create a new
 	 * 						database record, must not be negative
-	 * @param	string		path of the XML for the form, relative to this 
+	 * @param	string		path of the XML for the form, relative to this
 	 * 						extension, must not begin with a slash and must not
 	 * 						be empty
 	 * @param	boolean		whether the FE editor is instanciated in test mode
@@ -81,7 +81,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 
 		$objectClassName = t3lib_div::makeInstanceClassName('tx_realty_object');
 		$this->realtyObject = new $objectClassName($this->isTestMode);
-		$this->realtyObject->loadRealtyObject($this->realtyObjectUid);
+		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 
 		$this->plugin = $plugin;
 		// For the templatehelper's functions about setting labels and filling
@@ -276,7 +276,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * 						exist
 	 */
 	protected function getFormValue($key) {
-		$dataSource = ($this->isTestMode) 
+		$dataSource = ($this->isTestMode)
 			? $this->fakedFormValues
 			: $this->formCreator->oDataHandler->__aFormData;
 
@@ -303,21 +303,6 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Fakes that FORMidable has inserted a new record into the database.
-	 *
-	 * This function writes the array of faked form values to the database and
-	 * is for testing purposes.
-	 */
-	public function writeFakedFormDataToDatabase() {
-		// The faked record is marked as a test record and no fields are
-		// required to be set.
-		$this->setFakedFormValue('is_dummy_record', 1);
-		$this->realtyObject->setRequiredFields(array());
-		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
-		$this->realtyObject->writeToDatabase();
-	}
-
-	/**
 	 * Fakes a form data value that is usually provided by the FORMidable
 	 * object.
 	 *
@@ -329,18 +314,6 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;
-	}
-
-	/**
-	 * Returns a WHERE clause part for the test mode. So only dummy records will
-	 * be received for testing.
-	 *
-	 * @return	string		WHERE clause part for testing starting with ' AND'
-	 * 						if the test mode is enabled, an empty string
-	 *						otherwise
-	 */
-	protected function getWhereClauseForTesting() {
-		return $this->isTestMode ? ' AND is_dummy_record=1' : '';
 	}
 }
 

@@ -118,6 +118,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->check_tx_realty_pi1_realty_list();
 		$this->checkEditorPid();
 		$this->checkLoginPid();
+		$this->checkImageUploadPid();
 	}
 
 	/**
@@ -128,6 +129,16 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkSysFolderForFeCreatedRecords();
 		$this->checkFeEditorRedirectPid();
 		$this->checkFeEditorNotifyEmail();
+		$this->checkLoginPid();
+	}
+
+	/**
+	 * Checks the configuration for the FE editor of the realty manager.
+	 */
+	public function check_tx_realty_pi1_image_upload() {
+		$this->checkCommonFrontEndSettings();
+		$this->checkSysFolderForFeCreatedRecords();
+		$this->checkFeEditorRedirectPid();
 		$this->checkLoginPid();
 	}
 
@@ -165,6 +176,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'realty_list',
 				'contact_form',
 				'fe_editor',
+				'image_upload',
 				'my_objects'
 			)
 		);
@@ -559,6 +571,20 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the PID of the target page for the city '
 				.'selector. The city selector cannot be displayed if this value '
 				.'is invalid.'
+		);
+	}
+
+	/**
+	 * Checks the settings for the PID for the FE image upload.
+	 */
+	private function checkImageUploadPid() {
+		$this->checkIfSingleFePageNotEmpty(
+			'imageUploadPID',
+			true,
+			'sDEF',
+			'This value specifies the PID of the page with the image upload for '
+				.'the FE editor. The image upload cannot be displayed if this '
+				.'value is invalid.'
 		);
 	}
 

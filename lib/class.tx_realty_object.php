@@ -629,7 +629,8 @@ class tx_realty_object {
 			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM,
 			'uid_local='.intval($this->getProperty('uid'))
 				.' AND uid=uid_foreign'
-				.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
+				.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES),
+			'uid'
 		);
 		if (!$dbResult) {
 			throw new Exception('There was an error with the database query.');

@@ -91,6 +91,8 @@ plugin.tx_realty_pi1 {
 	citySelectorTargetPID =
 	# PID of the FE editor page
 	editorPID =
+	# PID of the page with the FE image upload
+	imageUploadPID =
 	# PID of the system folder for FE-created records
 	sysFolderForFeCreatedRecords =
 	# PID of the FE page to redirect to after saving a FE-created record

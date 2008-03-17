@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<formidable version="1.0.0">
+	<meta>
+		<name>FE editor form</name>
+		<description>This form is for appending images to FE-created realty records.</description>
+		<form>
+			<formid>tx_realty_frontEndImageUpload</formid>
+		</form>
+		<debug>false</debug>
+		<displaylabels>true</displaylabels>
+	</meta>
+	<control>
+		<datahandler:RAW>
+			<callback>
+				<userobj>
+					<extension>this</extension>
+					<method>processImageUpload</method>
+				</userobj>
+			</callback>
+		</datahandler:RAW>
+		<renderer:STANDARD/>
+		<actionlets>
+			<actionlet:REDIRECT>
+				<url>
+					<userobj>
+						<extension>this</extension>
+						<method>getRedirectUrl</method>
+					</userobj>
+				</url>
+			</actionlet:REDIRECT>
+		</actionlets>
+	</control>
+	<elements>
+		<renderlet:TEXT name="caption" label="LLL:EXT:realty/locallang_db.xml:tx_realty_images.caption"/>
+		<renderlet:FILE name="image" label="LLL:EXT:realty/locallang_db.xml:tx_realty_images.image">
+			<data>
+				<targetdir>uploads/tx_realty/</targetdir>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>checkFile</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getImageUploadErrorMessage</method>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:FILE>
+		<renderlet:CHECKBOX name="imagesToDelete" label="LLL:EXT:realty/pi1/locallang.xml:label_image_list_check_to_delete">
+			<data>
+				<userobj>
+					<extension>this</extension>
+					<method>populateImageList</method>
+				</userobj>
+			</data>
+		</renderlet:CHECKBOX>
+		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_submit"/>
+	</elements>
+</formidable>
