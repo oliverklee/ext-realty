@@ -563,20 +563,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createSingleView()	{
 		$result = '';
 
-		$uid = intval($this->piVars['showUid']);
-
 		if ($this->isAccessToSingleViewPageAllowed()) {
-			$this->internal['currentRow'] = $this->pi_getRecord(
-				$this->tableNames['objects'],
-				$uid
-			);
+			$this->internal['currentRow'] = $this->getRecordForSingleView();
 		} else {
 			$this->internal['currentRow'] = array();
 
 			$this->setMarkerContent(
 				'login_link',
 				$this->createLinkToSingleViewPage(
-					$this->pi_getLL('message_please_login'), $uid
+					$this->pi_getLL('message_please_login'),
+					$this->piVars['showUid']
 				)
 			);
 
@@ -642,6 +638,36 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns a list row for the single view.
+	 *
+	 * @return	array		record to display in the single view, will be empty
+	 * 						if the record to display does not exist
+	 */
+	private function getRecordForSingleView() {
+		if ($this->isLoggedIn()) {
+			$additionalWhereClause = ' AND owner='.$this->getFeUserUid()
+				.$this->enableFields(REALTY_TABLE_OBJECTS, 1);
+		} else {
+			$additionalWhereClause = $this->enableFields(REALTY_TABLE_OBJECTS);
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'*',
+			REALTY_TABLE_OBJECTS,
+			'uid='.$this->piVars['showUid'].$additionalWhereClause
+		);
+		if (!$dbResult) {
+			throw new Exception(
+				'There was an error with the database result.'
+			);
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return ($result !== false) ? $result : array();
 	}
 
 	/**

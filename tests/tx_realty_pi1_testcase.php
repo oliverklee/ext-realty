@@ -98,7 +98,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
-		// True enables the test mode which inhibits the FE editors FORMidable 
+		// True enables the test mode which inhibits the FE editors FORMidable
 		// object from being created.
 		$this->fixture = new tx_realty_pi1(true);
 		// This passed array with configuration values becomes part of
@@ -1371,6 +1371,59 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDetailViewDisplaysHiddenObjectForLoggedInOwner() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserUid);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserUid, 'hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewNotDisplaysHiddenObjectForNonOwner() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserUid);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => ($feUserUid + 1), 'hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewNotDisplaysHiddenObjectWithoutOwnerForNotLoggedInUser() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => 0, 'hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning external details pages.
@@ -1729,7 +1782,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			$this->fixture->translate('label_published'),
 			$this->fixture->main('', array())
-		);		
+		);
 	}
 
 	public function testMyObjectsViewDisplaysStatePending() {
@@ -1747,10 +1800,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			$this->fixture->translate('label_pending'),
 			$this->fixture->main('', array())
-		);		
+		);
 	}
 
-	
+
 	///////////////////////
 	// Utility functions.
 	///////////////////////
