@@ -30,6 +30,9 @@
  * @subpackage	tx_realty
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
+require_once(PATH_tslib.'class.tslib_fe.php');
+
 class tx_realty_cacheManager {
 	/**
 	 * Clears the FE cache for pages with a realty plugin.

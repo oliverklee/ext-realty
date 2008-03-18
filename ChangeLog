@@ -1,5 +1,9 @@
 2008-03-16 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [] Fix: Include tslib_fe in the cache manager
+
+2008-03-16 Saskia Metzler <saskia@merlin.owl.de>
+
 	* [#1759] Feature: Make hidden objects visible in the detail view for authorized users
 	* [#1750] Feature: Create a form for FE image upload
 
