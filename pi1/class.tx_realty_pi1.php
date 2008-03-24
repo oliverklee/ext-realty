@@ -285,9 +285,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$dbResult = $this->initListView();
 
-		$this->setSubpartContent('list_filter', $this->createCheckboxesFilter());
-		$this->setMarkerContent('self_url', $this->getSelfUrl());
-		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
+		$this->setSubpart('list_filter', $this->createCheckboxesFilter());
+		$this->setMarker('self_url', $this->getSelfUrl());
+		$this->setMarker('favorites_url', $this->getFavoritesUrl());
 
 		if (($this->internal['res_count'] > 0)
 			&& $dbResult
@@ -302,14 +302,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 
 			$listBody = implode('', $rows);
-			$this->setMarkerContent('realty_items', $listBody);
-			$this->setSubpartContent('pagination', $this->createPagination());
-			$this->setSubpartContent('wrapper_sorting', $this->createSorting());
+			$this->setMarker('realty_items', $listBody);
+			$this->setMarker('pagination', $this->createPagination());
+			$this->setSubpart('wrapper_sorting', $this->createSorting());
 		} else {
-			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getCurrentView()));
-			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
-			$this->setSubpartContent('favorites_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
-			$this->setSubpartContent('my_objects_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
+			$this->setMarker('message_noResultsFound', $this->translate('message_noResultsFound_'.$this->getCurrentView()));
+			$this->setSubpart('list_result', $this->getSubpart('EMPTY_LIST_RESULT'));
+			$this->setSubpart('favorites_result', $this->getSubpart('EMPTY_LIST_RESULT'));
+			$this->setSubpart('my_objects_result', $this->getSubpart('EMPTY_LIST_RESULT'));
 		}
 
 		switch ($this->getCurrentView()) {
@@ -1796,31 +1796,22 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML code for the page browser (may be empty)
 	 */
 	private function createPagination() {
-		$result = '';
-
-		if ($this->internal['lastPage'] > 0) {
-			$links = $this->createPaginationLink(
-				max(0, $this->piVars['pointer'] - 1),
-				'&lt;',
-				false
-			);
-			$links .= $this->createPageList();
-			$links .= $this->createPaginationLink(
-				min($this->internal['lastPage'], $this->piVars['pointer'] + 1),
-				'&gt;',
-				false
-			);
-
-			$this->setMarkerContent('links_to_result_pages', $links);
-			// The subpart PAGINATION appears more than once in the template:
-			// The first occurance is used as a the main data source while the
-			// other subparts contain design dummies that will be replaced.
-			// The behavior of substituteMarkerArrayCached() is to use the first
-			// occurance.
-			$result = $this->substituteMarkerArrayCached('PAGINATION');
+		if ($this->internal['lastPage'] <= 0) {
+			return '';
 		}
 
-		return $result;
+		$links = $this->createPaginationLink(
+			max(0, $this->piVars['pointer'] - 1), '&lt;', false
+		);
+		$links .= $this->createPageList();
+		$links .= $this->createPaginationLink(
+			min($this->internal['lastPage'], $this->piVars['pointer'] + 1),
+			'&gt;',
+			false
+		);
+		$this->setSubpart('links_to_result_pages', $links);
+
+		return $this->getSubpart('PAGINATION');
 	}
 
 	/**
@@ -1856,17 +1847,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createPaginationLink($pageNum, $linkText, $alsoShowNonLinks = true) {
 		$result = '';
-		$this->setMarkerContent('linktext', $linkText);
+		$this->setMarker('linktext', $linkText);
 
 		// Don't link to the current page (for usability reasons).
 		if ($pageNum == $this->piVars['pointer']) {
 			if ($alsoShowNonLinks) {
-				$result = $this->substituteMarkerArrayCached('NO_LINK_TO_CURRENT_PAGE');
+				$result = $this->getSubpart('NO_LINK_TO_CURRENT_PAGE');
 			}
 		} else {
 			$url = $this->pi_linkTP_keepPIvars_url(array('pointer' => $pageNum));
-			$this->setMarkerContent('url', $url);
-			$result = $this->substituteMarkerArrayCached('LINK_TO_OTHER_PAGE');
+			$this->setMarker('url', $url);
+			$result = $this->getSubpart('LINK_TO_OTHER_PAGE');
 		}
 
 		return $result;

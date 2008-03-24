@@ -36,14 +36,7 @@
 		<thead>
 			<tr>
 				<td>
-					<!-- ###PAGINATION### -->
-					<table class="pagination">
-						<tr>
-							<td class="label">###LABEL_PAGE###</td>
-							###LINKS_TO_RESULT_PAGES###
-						</tr>
-					</table>
-					<!-- ###PAGINATION### -->
+					###PAGINATION###
 					<h2>###LABEL_WEOFFERYOU###</h2>
 				</td>
 			</tr>
@@ -54,20 +47,7 @@
 		<tfoot>
 			<tr>
 				<td class="pagination">
-					<!-- ###PAGINATION### -->
-					<table class="pagination">
-						<tr>
-							<td class="label">###LABEL_PAGE###</td>
-							<!-- ###NO_LINK_TO_CURRENT_PAGE### -->
-							<td><span class="button pages act"><span>###LINKTEXT###</span></span></td>
-							<!-- ###NO_LINK_TO_CURRENT_PAGE### -->
-							<!-- ###LINK_TO_OTHER_PAGE### -->
-							<td><a href="###URL###" class="button pages"><span>###LINKTEXT###</span></a></td>
-							<!-- ###LINK_TO_OTHER_PAGE### -->
-							<td><a href="#" class="button pages"><span>&gt;</span></a></td>
-						</tr>
-					</table>
-					<!-- ###PAGINATION### -->
+					###PAGINATION###
 					<div class="favorites">
 						<a href="#" class="button addToFavorites" onclick="document.forms['tx_realty_pi1_addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
 					</div>
@@ -101,6 +81,26 @@
 <!-- ###LIST_RESULT### -->
 </div>
 <!-- ###LIST_VIEW### -->
+
+	<!-- ###PAGINATION### -->
+		<table class="pagination" summary="">
+			<tr>
+				<td class="label">###LABEL_PAGE###</td>
+				<!-- ###LINKS_TO_RESULT_PAGES### -->
+					<!-- ###NO_LINK_TO_CURRENT_PAGE### -->
+						<td>
+							<span class="button pages act"><span>###LINKTEXT###</span></span>
+						</td>
+					<!-- ###NO_LINK_TO_CURRENT_PAGE### -->
+					<!-- ###LINK_TO_OTHER_PAGE### -->
+						<td>
+							<a href="###URL###" class="button pages"><span>###LINKTEXT###</span></a>
+						</td>
+					<!-- ###LINK_TO_OTHER_PAGE### -->
+				<!-- ###LINKS_TO_RESULT_PAGES### -->
+			</tr>
+		</table>
+	<!-- ###PAGINATION### -->		
 
 	<!-- ###LIST_ITEM### -->
 		<tr class="###CLASS_POSITION_IN_LIST###">
@@ -172,16 +172,7 @@
 		<thead>
 			<tr>
 				<td>
-					<!-- ###PAGINATION### -->
-					<table class="pagination">
-						<tr>
-							<td class="label">###LABEL_PAGE###</td>
-							<td><a href="#" class="button pages act"><span>1</span></a></td>
-							<td><a href="#" class="button pages"><span>2</span></a></td>
-							<td><a href="#" class="button pages"><span>&gt;</span></a></td>
-						</tr>
-					</table>
-					<!-- ###PAGINATION### -->
+					###PAGINATION###
 					<h2>###LABEL_YOURFAVORITES###</h2>
 				</td>
 			</tr>
@@ -192,16 +183,7 @@
 		<tfoot>
 			<tr>
 				<td class="pagination">
-					<!-- ###PAGINATION### -->
-					<table class="pagination">
-						<tr>
-							<td class="label">###LABEL_PAGE###</td>
-							<td><a href="#" class="button pages act"><span>1</span></a></td>
-							<td><a href="#" class="button pages"><span>2</span></a></td>
-							<td><a href="#" class="button pages"><span>&gt;</span></a></td>
-						</tr>
-					</table>
-					<!-- ###PAGINATION### -->
+					###PAGINATION###
 					<div class="favorites">
 						<input type="hidden" name="tx_realty_pi1[remove]" value="1" />
 						<!-- ###WRAPPER_REMOVEFROMFAVORITES### --><a href="#" class="button removeFromFavorites" onclick="document.forms['tx_realty_pi1_favorites'].submit(); return false;"><span>###LABEL_REMOVE_FROM_FAVORITES###</span></a><!-- ###WRAPPER_REMOVEFROMFAVORITES### -->
@@ -253,7 +235,7 @@
 		<thead>
 			<tr>
 				<td>
-					<!-- ###PAGINATION### --><!-- ###PAGINATION### -->
+					###PAGINATION###
 					<h2>###LABEL_YOUR_OBJECTS###</h2>
 				</td>
 			</tr>
@@ -264,7 +246,7 @@
 		<tfoot>
 			<tr>
 				<td class="my-objects-pagination">
-					<!-- ###PAGINATION### --><!-- ###PAGINATION### -->
+					###PAGINATION###
 				</td>
 			</tr>
 		</tfoot>
