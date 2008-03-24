@@ -34,6 +34,7 @@ require_once(PATH_tslib.'class.tslib_feuserauth.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
@@ -126,11 +127,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 
 	public function testConfigurationCheckIsActiveWhenEnabled() {
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-			= serialize(array('enableConfigCheck' => 1));
-		// $this->fixture needs to be initialized again as the configuration is
-		// checked during initialization
+		// The configuration check is created during initialization, therefore
+		// the object to test is recreated for this test.
 		unset($this->fixture);
+		tx_oelib_configurationProxy::getInstance('realty')
+			->setConfigurationValueBoolean('enableConfigCheck', true);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
@@ -146,11 +147,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testConfigurationCheckIsNotActiveWhenDisabled() {
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-			= serialize(array('enableConfigCheck' => 0));
-		// $this->fixture needs to be initialized again as the configuration is
-		// checked during initialization
+		// The configuration check is created during initialization, therefore
+		// the object to test is recreated for this test.
 		unset($this->fixture);
+		tx_oelib_configurationProxy::getInstance('realty')
+			->setConfigurationValueBoolean('enableConfigCheck', false);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',

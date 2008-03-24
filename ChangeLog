@@ -1,3 +1,7 @@
+2008-03-24 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1457] Change: Use the configuration proxy in the template helper
+
 2008-03-16 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [] Fix: Include tslib_fe in the cache manager
