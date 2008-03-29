@@ -59,11 +59,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_realty_list() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkCheckboxesFilter();
-		$this->checkFieldsInSingleView();
 		$this->checkImageSizeValuesForListView();
 		$this->checkPagesToDisplay();
-		$this->checkGalleryLinkTarget();
-		$this->checkGalleryPid();
 		$this->checkRecursive();
 		$this->checkShowAddressOfObjects();
 		$this->checkSortCriteria();
@@ -100,6 +97,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkShowContactInformation();
 		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
+		$this->checkFieldsInSingleView();
 	}
 
 	/**
