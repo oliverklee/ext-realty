@@ -647,17 +647,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						if the record to display does not exist
 	 */
 	private function getRecordForSingleView() {
+		$showUid = 'uid='.$this->piVars['showUid'];
+		$whereClause = '('.$showUid.$this->enableFields(REALTY_TABLE_OBJECTS).')';
+		// Logged-in users may also see their hidden objects in the single view.
 		if ($this->isLoggedIn()) {
-			$additionalWhereClause = ' AND owner='.$this->getFeUserUid()
-				.$this->enableFields(REALTY_TABLE_OBJECTS, 1);
-		} else {
-			$additionalWhereClause = $this->enableFields(REALTY_TABLE_OBJECTS);
+			$whereClause .= ' OR ('.$showUid.' AND owner='.$this->getFeUserUid()
+				.$this->enableFields(REALTY_TABLE_OBJECTS, 1).')';
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			REALTY_TABLE_OBJECTS,
-			'uid='.$this->piVars['showUid'].$additionalWhereClause
+			$whereClause
 		);
 		if (!$dbResult) {
 			throw new Exception(

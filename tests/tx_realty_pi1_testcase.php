@@ -1389,6 +1389,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			self::$firstObjectTitle,
 			$this->fixture->main('', array())
 		);
+		// asserts this is not the list view
+		$this->assertContains(
+			$this->fixture->translate('label_overview'),
+			$this->fixture->main('', array())
+		);
 	}
 
 	public function testDetailViewNotDisplaysHiddenObjectForNonOwner() {
@@ -1421,6 +1426,55 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewDisplaysVisibleObjectForLoggedInNonOwner() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserUid);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => ($feUserUid + 1))
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+		// asserts this is not the list view
+		$this->assertContains(
+			$this->fixture->translate('label_overview'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewDisplaysVisibleObjectWithoutOwnerForLoggedInUser() {
+		$this->testingFramework->loginFrontEndUser(
+			$this->testingFramework->createFrontEndUser(
+				$this->testingFramework->createFrontEndUserGroup()
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => 0)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+		// asserts this is not the list view
+		$this->assertContains(
+			$this->fixture->translate('label_overview'),
 			$this->fixture->main('', array())
 		);
 	}
