@@ -89,7 +89,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfCities() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_CITIES);
+		return $this->populateList(REALTY_TABLE_CITIES);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfDistricts() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_DISTRICTS);
+		return $this->populateList(REALTY_TABLE_DISTRICTS);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfHouseTypes() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_HOUSE_TYPES);
+		return $this->populateList(REALTY_TABLE_HOUSE_TYPES);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfApartmentTypes() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_APARTMENT_TYPES);
+		return $this->populateList(REALTY_TABLE_APARTMENT_TYPES);
 	}
 
 	/**
@@ -129,7 +129,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfHeatingTypes() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_HEATING_TYPES);
+		return $this->populateList(REALTY_TABLE_HEATING_TYPES);
 	}
 
 	/**
@@ -139,7 +139,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfCarPlaces() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_CAR_PLACES);
+		return $this->populateList(REALTY_TABLE_CAR_PLACES);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfConditions() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_CONDITIONS);
+		return $this->populateList(REALTY_TABLE_CONDITIONS);
 	}
 
 	/**
@@ -159,19 +159,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						no matching records
 	 */
 	public function populateListOfPets() {
-		return $this->populateListByTitleAndUid(REALTY_TABLE_PETS);
-	}
-
-	/**
-	 * Fills the select box for languages.
-	 *
-	 * @return	array		items for the select box, will be empty if there are
-	 * 						no matching records
-	 */
-	public function populateListOfLanguages() {
-		return $this->populateList(
-			'static_languages', 'lg_name_en', 'lg_iso_2', false
-		);
+		return $this->populateList(REALTY_TABLE_PETS);
 	}
 
 	/**
@@ -181,58 +169,26 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * will be the value.
 	 *
 	 * @param	string		the table name to query, must not be empty
-	 * @param	boolean		whether the table has the column 'is_dummy_record'
-	 * 						for the test mode flag
 	 *
 	 * @return	array		items for the select box, will be empty if there are
 	 * 						no matching records
 	 */
-	private function populateListByTitleAndUid(
-		$tableName, $hasTestModeColumn = true
-	) {
-		return $this->populateList($tableName, 'title', 'uid', $hasTestModeColumn);
-	}
-
-	/**
-	 * Provides data items to fill select boxes. Returns caption-value pairs from
-	 * the database table named $tableName.
-	 *
-	 * @param	string		the table name to query, must not be empty
-	 * @param	string		name of the database column for the caption, must
-	 * 						not be empty
-	 * @param	string		name of the database column for the value, must not
-	 * 						be empty
-	 * @param	boolean		whether the table has the column 'is_dummy_record'
-	 * 						for the test mode flag
-	 *
-	 * @return	array		items for the select box, will be empty if there are
-	 * 						no matching records
-	 */
-	private function populateList(
-		$tableName, $keyForCaption, $keyForValue, $hasTestModeColumn = true
-	) {
+	private function populateList($tableName) {
 		$items = array();
-		$whereClause = '1=1';
-
-		if ($hasTestModeColumn) {
-			$whereClause .= $this->getWhereClauseForTesting();
-		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$keyForCaption.','.$keyForValue,
+			'title,uid',
 			$tableName,
-			$whereClause.$this->enableFields($tableName),
+			'1=1'.$this->enableFields($tableName).$this->getWhereClauseForTesting(),
 			'',
-			$keyForCaption
+			'title'
 		);
 		if (!$dbResult) {
 			throw new Exception('There was an error with the database query.');
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$items[] = array(
-				'caption' => $row[$keyForCaption], 'value' => $row[$keyForValue]
-			);
+			$items[] = array('caption' => $row['title'], 'value' => $row['uid']);
 		}
 
 		// Resets the array pointer as the populateList* functions expect
@@ -487,22 +443,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function isAllowedValueForPets(array $valueToCheck) {
 		return $this->isIdentifierOfRecord(
 			$valueToCheck['value'], REALTY_TABLE_PETS, true
-		);
-	}
-
-	/**
-	 * Checks whether the submitted value for 'language' is within the set of
-	 * allowed values.
-	 *
-	 * @param	array		array with one element named "value" that contains
-	 * 						the value which is checked to be allowed or empty
-	 *
-	 * @return	boolean		true if the provided value is valid or empty,
-	 * 						false otherwise
-	 */
-	public function isAllowedValueForLanguage(array $valueToCheck) {
-		return $this->isIdentifierOfRecord(
-			$valueToCheck['value'], 'static_languages', true, 'lg_iso_2'
 		);
 	}
 
@@ -766,10 +706,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						non-empty, otherwise only the message is returned
 	 */
 	private function getMessageForField($labelOfField, $labelOfMessage) {
-		$GLOBALS['LANG']->lang = $GLOBALS['TSFE']->lang;
-
 		$localizedFieldName = ($labelOfField != '')
-			? ($GLOBALS['LANG']->sL($labelOfField).': ')
+			? ($GLOBALS['TSFE']->sL($labelOfField).': ')
 			: '';
 
 		return $localizedFieldName.$this->plugin->translate($labelOfMessage);

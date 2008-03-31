@@ -666,7 +666,6 @@
 		<renderlet:TEXTAREA name="location" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.location"/>
 		<renderlet:TEXTAREA name="misc" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.misc"/>
 		<renderlet:TEXT name="employer" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer"/>
-		<renderlet:TEXT name="openimmo_obid" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.openimmo_obid"/>
 		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person"/>
 		<renderlet:TEXT name="contact_email" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email">
 			<validators>
@@ -683,37 +682,6 @@
 			</validators>
 		</renderlet:TEXT>
 		<renderlet:TEXT name="contact_phone" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_phone"/>
-		<renderlet:LISTBOX name="language" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.language">
-			<data>
-				<items>
-					<item>
-						<caption>&amp;nbsp;</caption>
-						<value>0</value>
-					</item>
-				</items>
-				<userobj>
-					<extension>this</extension>
-					<method>populateListOfLanguages</method>
-				</userobj>
-			</data>
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isAllowedValueForLanguage</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
-								<params>
-									<data name="fieldName" value="language"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:LISTBOX>
 		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save"/>
 	</elements>
 </formidable>

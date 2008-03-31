@@ -58,7 +58,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-		$GLOBALS['LANG']->lang = $GLOBALS['TSFE']->config['config']['language'];
+		$GLOBALS['TSFE']->initLLvars();
 
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
@@ -332,13 +332,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPopulateListOfLanguages() {
-		$this->assertGreaterThan(
-			1,
-			count($this->fixture->populateListOfLanguages())
-		);
-	}
-
 
 	////////////////////////////////////////
 	// * Functions called after insertion.
@@ -513,7 +506,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetNoValidNumberMessage() {
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
 				.$this->pi1->translate('message_no_valid_number'),
 			$this->fixture->getNoValidNumberMessage(array('fieldName' => 'floor'))
 		);
@@ -521,7 +514,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetNoValidPriceMessage() {
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
 				.$this->pi1->translate('message_no_valid_price'),
 			$this->fixture->getNoValidPriceMessage(array('fieldName' => 'floor'))
 		);
@@ -529,7 +522,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetValueNotAllowedMessage() {
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type').': '
 				.$this->pi1->translate('message_value_not_allowed'),
 			$this->fixture->getValueNotAllowedMessage(array('fieldName' => 'object_type'))
 		);
@@ -537,7 +530,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetRequiredFieldMessage() {
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title').': '
 				.$this->pi1->translate('message_required_field'),
 			$this->fixture->getRequiredFieldMessage(array('fieldName' => 'title'))
 		);
@@ -545,7 +538,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetNoValidYearMessage() {
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year').': '
 				.$this->pi1->translate('message_no_valid_year'),
 			$this->fixture->getNoValidYearMessage(array('fieldName' => 'construction_year'))
 		);
@@ -553,7 +546,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetNoValidEmailMessage() {
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email').': '
 				.$this->pi1->translate('label_set_valid_email_address'),
 			$this->fixture->getNoValidEmailMessage()
 		);
@@ -563,7 +556,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '1');
 
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
 				.$this->pi1->translate('message_enter_valid_non_empty_buying_price'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
 		);
@@ -573,7 +566,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '0');
 
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
 				.$this->pi1->translate('message_enter_valid_or_empty_buying_price'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
 		);
@@ -583,7 +576,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '0');
 
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
 				.$this->pi1->translate('message_enter_valid_non_empty_rent'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
 		);
@@ -593,7 +586,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '1');
 
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
 				.$this->pi1->translate('message_enter_valid_or_empty_rent'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
 		);
@@ -603,7 +596,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', '');
 
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
 				.$this->pi1->translate('message_required_field'),
 			$this->fixture->getInvalidObjectNumberMessage()
 		);
@@ -613,7 +606,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', 'foo');
 
 		$this->assertEquals(
-			$GLOBALS['LANG']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
 				.$this->pi1->translate('message_object_number_exists'),
 			$this->fixture->getInvalidObjectNumberMessage()
 		);
@@ -1053,22 +1046,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForPets(
 				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_PETS) + 1)
-			)
-		);
-	}
-
-	public function testIsAllowedValueForLanguageReturnsTrueForAllowedValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForLanguage(
-				array('value' => 'EN')
-			)
-		);
-	}
-
-	public function testIsAllowedValueForLanguageReturnsTrueForEmptyValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForLanguage(
-				array('value' => '')
 			)
 		);
 	}
