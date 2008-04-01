@@ -95,6 +95,8 @@ plugin.tx_realty_pi1 {
 	imageUploadPID =
 	# PID of the system folder for FE-created records
 	sysFolderForFeCreatedRecords =
+	# PID of the system folder for FE-created auxiliary records
+	sysFolderForFeCreatedAuxiliaryRecords =
 	# PID of the FE page to redirect to after saving a FE-created record
 	feEditorRedirectPid =
 	# e-mail address which receives a message if e new FE record was created

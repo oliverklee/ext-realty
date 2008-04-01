@@ -109,6 +109,12 @@
 		</renderlet:TEXT>
 		<renderlet:LISTBOX name="city" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city">
 			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
 				<userobj>
 					<extension>this</extension>
 					<method>populateListOfCities</method>
@@ -122,7 +128,23 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
+								<method>getInvalidOrEmptyCityMessage</method>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:LISTBOX>
+		<renderlet:TEXT name="new_city" label="LLL:EXT:realty/pi1/locallang.xml:label_new_city">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isAtMostOneValueForCityRecordProvided</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getEitherNewOrExistingRecordMessage</method>
 								<params>
 									<data name="fieldName" value="city"/>
 								</params>
@@ -131,7 +153,7 @@
 					</userobj>
 				</validator:STANDARD>
 			</validators>
-		</renderlet:LISTBOX>
+		</renderlet:TEXT>
 		<renderlet:LISTBOX name="district" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district">
 			<data>
 				<items>
@@ -163,6 +185,25 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
+		<renderlet:TEXT name="new_district" label="LLL:EXT:realty/pi1/locallang.xml:label_new_district">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isAtMostOneValueForDistrictRecordProvided</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getEitherNewOrExistingRecordMessage</method>
+								<params>
+									<data name="fieldName" value="district"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
 		<renderlet:TEXT name="number_of_rooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms">
 			<validators>
 				<validator:STANDARD>

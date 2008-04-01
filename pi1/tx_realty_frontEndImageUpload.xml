@@ -59,6 +59,6 @@
 				</userobj>
 			</data>
 		</renderlet:CHECKBOX>
-		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_submit"/>
+		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save"/>
 	</elements>
 </formidable>

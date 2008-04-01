@@ -248,6 +248,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
 	////////////////////////////////////////////////////
 	// Tests for the functions called in the XML form.
 	////////////////////////////////////////////////////
@@ -329,173 +330,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			self::$dummyStringValue,
 			$result[0]['caption']
-		);
-	}
-
-
-	////////////////////////////////////////
-	// * Functions called after insertion.
-	/////////////////////////////////////////////////////
-	// ** sendEmailForNewObjectAndClearFrontEndCache().
-	/////////////////////////////////////////////////////
-
-	public function testSendEmailForNewObjectSendsToTheConfiguredRecipient() {
-		// This will create an empty dummy record.
-		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
-		$this->assertEquals(
-			'recipient@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
-		);		
-	}
-
-	public function testSentEmailHasTheCurrentFeUserAsFrom() {
-		// This will create an empty dummy record.
-		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$this->assertEquals(
-			'From: "Mr. Test" <mr-test@valid-email.org>'.LF,
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
-		);		
-	}
-
-	public function testSentEmailContainsTheFeUsersName() {
-		// This will create an empty dummy record.
-		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$this->assertContains(
-			'Mr. Test',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
-		);				
-	}
-	
-	public function testSentEmailContainsTheFeUsersUsername() {
-		// This will create an empty dummy record.
-		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$this->assertContains(
-			'test_user',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
-		);						
-	}
-
-	public function testSentEmailContainsTheNewObjectsTitle() {
-		$this->fixture->setFakedFormValue('title', 'any title');
-		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$this->assertContains(
-			'any title',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
-		);								
-	}
-
-	public function testSentEmailContainsTheNewObjectsObjectNumber() {
-		$this->fixture->setFakedFormValue('object_number', '1234');
-		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$this->assertContains(
-			'1234',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
-		);								
-	}
-
-	public function testSentEmailContainsTheNewObjectsUid() {
-		// The UID is found with the help of the combination of object number
-		// and language.
-		$this->fixture->setFakedFormValue('object_number', '1234');
-		$this->fixture->setFakedFormValue('language', 'XY');
-		$this->fixture->writeFakedFormDataToDatabase();
-
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'uid',
-				REALTY_TABLE_OBJECTS,
-				'object_number="1234" AND language="XY"'
-			)
-		);
-
-		$this->assertContains(
-			$expectedResult['uid'],
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
-		);										
-	}
-
-	public function testNoEmailIsSentIfNoRecipientWasConfigured() {
-		$this->pi1->setConfigurationValue('feEditorNotifyEmail', '');
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$this->assertEquals(
-			array(),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
-		);								
-	}
-
-	public function testNoEmailIsSentForExistingObject() {
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-		$this->pi1->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();		
-		
-		$this->assertEquals(
-			array(),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
-		);								
-	}
-
-	public function testClearFrontEndCacheDeletesCachedPage() {
-		$pageUid = $this->testingFramework->createFrontEndPage();
-		$contentUid = $this->testingFramework->createContentElement(
-			$pageUid,
-			array('list_type' => 'tx_realty_pi1')
-		);
-		$this->testingFramework->createPageCacheEntry($contentUid);
-
-		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
-
-		$this->assertEquals(
-			0,
-			$this->testingFramework->countRecords(
-				'cache_pages',
-				'page_id='.$pageUid
-			)
 		);
 	}
 
@@ -616,6 +450,34 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$this->pi1->translate('message_required_field'),
 			$this->fixture->getRequiredFieldMessage(array('fieldName' => 'foo'))
+		);
+	}
+
+	public function testGetEitherNewOrExistingRecordMessage() {
+		$this->assertEquals(
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city').': '
+				.$this->pi1->translate('message_either_new_or_existing_record'),
+			$this->fixture->getEitherNewOrExistingRecordMessage(array('fieldName' => 'city'))
+		);
+	}
+
+	public function testGetInvalidOrEmptyCityMessageForEmptyCity() {
+		$this->fixture->setFakedFormValue('city', 0);
+
+		$this->assertEquals(
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city').': '
+				.$this->pi1->translate('message_required_field'),
+			$this->fixture->getInvalidOrEmptyCityMessage()
+		);
+	}
+
+	public function testGetInvalidOrEmptyCityMessageForNonEmptyCity() {
+		$this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord(REALTY_TABLE_CITIES) + 1);
+
+		$this->assertEquals(
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city').': '
+				.$this->pi1->translate('message_value_not_allowed'),
+			$this->fixture->getInvalidOrEmptyCityMessage()
 		);
 	}
 
@@ -866,7 +728,17 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsAllowedValueForCityReturnsFalseForZero() {
+	public function testIsAllowedValueForCityReturnsTrueForZeroIfANewRecordTitleIsProvided() {
+		$this->fixture->setFakedFormValue('new_city', 'new city');
+
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForCity(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCityReturnsFalseForZeroIfNoNewRecordTitleIsProvided() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForCity(
 				array('value' => '0')
@@ -1050,6 +922,62 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testIsAtMostOneValueForCityRecordProvidedReturnsTrueForEmptyNewTitle() {
+		$this->assertTrue(
+			$this->fixture->isAtMostOneValueForCityRecordProvided(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsAtMostOneValueForCityRecordProvidedReturnsTrueForNonEmptyNewTitleAndNoExistingRecord() {
+		$this->fixture->setFakedFormValue('city', 0);
+
+		$this->assertTrue(
+			$this->fixture->isAtMostOneValueForCityRecordProvided(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
+			)
+		);
+	}
+
+	public function testIsAtMostOneValueForCityRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord() {
+		$this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord(REALTY_TABLE_CITIES));
+
+		$this->assertFalse(
+			$this->fixture->isAtMostOneValueForCityRecordProvided(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
+			)
+		);
+	}
+
+	public function testIsAtMostOneValueForDistrictRecordProvidedReturnsTrueForEmptyNewTitle() {
+		$this->assertTrue(
+			$this->fixture->isAtMostOneValueForDistrictRecordProvided(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsAtMostOneValueForDistrictRecordProvidedReturnsTrueForNonEmptyNewTitleAndNoExistingRecord() {
+		$this->fixture->setFakedFormValue('district', 0);
+
+		$this->assertTrue(
+			$this->fixture->isAtMostOneValueForDistrictRecordProvided(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS))
+			)
+		);
+	}
+
+	public function testIsAtMostOneValueForDistrictRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord() {
+		$this->fixture->setFakedFormValue('district', $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS));
+
+		$this->assertFalse(
+			$this->fixture->isAtMostOneValueForDistrictRecordProvided(
+				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS))
+			)
+		);
+	}
+
 
 	///////////////////////////////////////////////
 	// * Functions called right before insertion.
@@ -1151,7 +1079,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$result['hidden']
-		);		
+		);
 	}
 
 	public function testExistingRecordIsNotMarkedAsHidden() {
@@ -1160,7 +1088,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 		$this->assertFalse(
 			isset($result['hidden'])
-		);		
+		);
 	}
 
 	public function testUnifyNumbersToInsertForNoElementsWithNumericValues() {
@@ -1190,6 +1118,304 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('garage_rent' => '123.45', 'garage_price' => '12345'),
 			$result
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsDeletesNonEmptyNewCityElement() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(
+			array('new_city' => 'foo',)
+		);
+
+		$this->assertFalse(
+			isset($result['new_city'])
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsDeletesEmptyNewCityElement() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(
+			array('new_city' => '')
+		);
+
+		$this->assertFalse(
+			isset($result['new_city'])
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsDeletesNonEmptyNewDistrictElement() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(
+			array('new_district' => 'foo',)
+		);
+
+		$this->assertFalse(
+			isset($result['new_district'])
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsDeletesEmptyNewDistrictElement() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(
+			array('new_district' => '')
+		);
+
+		$this->assertFalse(
+			isset($result['new_district'])
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsNotCreatesANewRecordForAnExistingTitle() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$this->fixture->modifyDataToInsert(
+			array('new_city' => self::$dummyStringValue)
+		);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_CITIES,
+				'title="'.self::$dummyStringValue.'" AND is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsCreatesANewRecordForANewTitle() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$this->fixture->modifyDataToInsert(array('new_city' => 'new city'));
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_CITIES, 'title="new city" AND is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsCreatesANewRecordWithCorrectPid() {
+		$pid = $this->testingFramework->createSystemFolder(1);
+		$this->pi1->setConfigurationValue(
+			'sysFolderForFeCreatedAuxiliaryRecords', $pid
+		);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$this->fixture->modifyDataToInsert(array('new_city' => 'new city'));
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_CITIES,
+				'title="new city" AND pid='.$pid.' AND is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsStoresNewUidToTheFormData() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(
+			array('new_city' => 'new city')
+		);
+
+		$this->assertTrue(
+			isset($result['city'])
+		);
+		$this->assertFalse(
+			$result['city'] == 0
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsCreatesnoNewRecordForAnEmptyTitle() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$this->fixture->modifyDataToInsert(array('new_city' => ''));
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_CITIES, 'is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testStoreNewAuxiliaryRecordsNotCreatesARecordIfAUidIsAlreadySet() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(
+			array('city' => 1, 'new_city' => 'new city')
+		);
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_CITIES, 'title="new city" AND is_dummy_record=1'
+			)
+		);
+		$this->assertTrue(
+			$result['city'] == 1
+		);
+	}
+
+
+	////////////////////////////////////////
+	// * Functions called after insertion.
+	/////////////////////////////////////////////////////
+	// ** sendEmailForNewObjectAndClearFrontEndCache().
+	/////////////////////////////////////////////////////
+
+	public function testSendEmailForNewObjectSendsToTheConfiguredRecipient() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+		$this->assertEquals(
+			'recipient@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testSentEmailHasTheCurrentFeUserAsFrom() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertEquals(
+			'From: "Mr. Test" <mr-test@valid-email.org>'.LF,
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
+		);
+	}
+
+	public function testSentEmailContainsTheFeUsersName() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertContains(
+			'Mr. Test',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailContainsTheFeUsersUsername() {
+		// This will create an empty dummy record.
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertContains(
+			'test_user',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailContainsTheNewObjectsTitle() {
+		$this->fixture->setFakedFormValue('title', 'any title');
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertContains(
+			'any title',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailContainsTheNewObjectsObjectNumber() {
+		$this->fixture->setFakedFormValue('object_number', '1234');
+		$this->fixture->writeFakedFormDataToDatabase();
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertContains(
+			'1234',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailContainsTheNewObjectsUid() {
+		// The UID is found with the help of the combination of object number
+		// and language.
+		$this->fixture->setFakedFormValue('object_number', '1234');
+		$this->fixture->setFakedFormValue('language', 'XY');
+		$this->fixture->writeFakedFormDataToDatabase();
+
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'uid',
+				REALTY_TABLE_OBJECTS,
+				'object_number="1234" AND language="XY"'
+			)
+		);
+
+		$this->assertContains(
+			$expectedResult['uid'],
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testNoEmailIsSentIfNoRecipientWasConfigured() {
+		$this->pi1->setConfigurationValue('feEditorNotifyEmail', '');
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertEquals(
+			array(),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
+		);
+	}
+
+	public function testNoEmailIsSentForExistingObject() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$this->pi1->setConfigurationValue(
+			'feEditorNotifyEmail', 'recipient@valid-email.org'
+		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertEquals(
+			array(),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
+		);
+	}
+
+	public function testClearFrontEndCacheDeletesCachedPage() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$contentUid = $this->testingFramework->createContentElement(
+			$pageUid,
+			array('list_type' => 'tx_realty_pi1')
+		);
+		$this->testingFramework->createPageCacheEntry($contentUid);
+
+		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				'cache_pages',
+				'page_id='.$pageUid
+			)
 		);
 	}
 }

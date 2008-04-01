@@ -33,6 +33,7 @@
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID">Target page for the city selector:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
 			<label index="label_title">Title</label>
@@ -188,6 +189,9 @@
 			<label index="message_enter_valid_or_empty_buying_price">Please enter a valid price or leave this field empty.</label>
 			<label index="message_enter_valid_non_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</label>
 			<label index="message_enter_valid_or_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</label>
+			<label index="message_either_new_or_existing_record">A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</label>
+			<label index="label_new_city">Create new city</label>
+			<label index="label_new_district">Create new district</label>
 			<label index="label_email_subject_fe_editor">A new realty record has been created in the FE.</label>
 			<label index="label_new_object_created">A new record has been added to the database.</label>
 			<label index="label_name">Name</label>
@@ -224,6 +228,7 @@
 			<label index="realty.pi_flexform.imageUploadPID">Seite zum Hochladen von Bildern:</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID">Zielseite für den Stadtwähler:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System-Ordner für im FE erstellte Objekte:</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System-Ordner für im FE erstellte Hilfsdatensätze:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">Angezeigte Seite nach dem Speichern im FE-Editor:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-Mail-Adresse, an die eine Nachricht über jeden neu erstellten FE-Datensatz geschickt wird:</label>
 			<label index="label_title">Titel</label>
@@ -379,6 +384,9 @@
 			<label index="message_enter_valid_or_empty_buying_price">Bitte geben Sie einen gültigen Preis an oder lassen Sie dieses Feld leer.</label>
 			<label index="message_enter_valid_non_empty_rent">Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an, da Sie ein Objekt zum Mieten anlegen.</label>
 			<label index="message_enter_valid_or_empty_rent">Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an oder lassen Sie dieses Feld leer.</label>
+			<label index="message_either_new_or_existing_record">Ein neuer und ein existierender Datensatz können nicht für dasselbe Objekt gespeichert werden. Bitte wählen Sie entweder einen der existierenden Datensätze oder geben Sie einen neuen Titel an.</label>
+			<label index="label_new_city">Neuen Ort anlegen</label>
+			<label index="label_new_district">Neuen Ortsteil anlegen</label>
 			<label index="label_email_subject_fe_editor">Ein neues Immobilienobjekt wurde im FE angelegt</label>
 			<label index="label_new_object_created">ein neues Objekt wurde zur Datenbank hinzugefügt.</label>
 			<label index="label_name">Name</label>
@@ -870,6 +878,7 @@
 			<label index="realty.pi_flexform.imageUploadPID" type="integer">221590091</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID" type="integer">12423386</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords" type="integer">3674712</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords" type="integer">143019398</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid" type="integer">1493962</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail" type="integer">147420665</label>
 			<label index="label_title" type="integer">192455458</label>
@@ -1025,7 +1034,9 @@
 			<label index="message_enter_valid_or_empty_buying_price" type="integer">130513175</label>
 			<label index="message_enter_valid_non_empty_rent" type="integer">164774428</label>
 			<label index="message_enter_valid_or_empty_rent" type="integer">122811280</label>
-			<label index="realty.pi_flexform.defaulContactEmail" type="integer">153078431</label>
+			<label index="message_either_new_or_existing_record" type="integer">106518866</label>
+			<label index="label_new_city" type="integer">129803662</label>
+			<label index="label_new_district" type="integer">155755436</label>
 			<label index="label_email_subject_fe_editor" type="integer">99521102</label>
 			<label index="label_new_object_created" type="integer">72866041</label>
 			<label index="label_name" type="integer">77521672</label>
@@ -1514,6 +1525,7 @@
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
 			<label index="realty.pi_flexform.citySelectorTargetPID">Target page for the city selector:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
 			<label index="label_title">Title</label>
@@ -1672,11 +1684,13 @@
 			<label index="message_enter_valid_or_empty_buying_price">Please enter a valid price or leave this field empty.</label>
 			<label index="message_enter_valid_non_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</label>
 			<label index="message_enter_valid_or_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</label>
+			<label index="message_either_new_or_existing_record">A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</label>
+			<label index="label_new_city">Create new city</label>
+			<label index="label_new_district">Create new district</label>
 			<label index="label_email_subject_fe_editor">A new realty record has been created in the FE.</label>
 			<label index="label_new_object_created">A new record has been added to the database.</label>
 			<label index="label_name">Name</label>
 			<label index="label_username">User name</label>
-			<label index="realty.pi_flexform.defaulContactEmail">Default e-mail address for contact requests:</label>
 			<label index="label_image_upload">Image upload</label>
 			<label index="label_image_list_check_to_delete">Currently appended images. Check images to delete.</label>
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>

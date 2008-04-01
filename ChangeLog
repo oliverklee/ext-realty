@@ -1,3 +1,7 @@
+2008-04-01 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1766] Feature: Provide a dialog for entering cities and districts in the FE editing
+
 2008-03-31 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1765] Change: Remove the fields "language" and "OBID" from the FE editing

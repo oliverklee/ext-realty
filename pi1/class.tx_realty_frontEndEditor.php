@@ -51,7 +51,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function deleteRecord() {
 		$errorMessage = $this->checkAccess();
 		if ($errorMessage != '') {
-			return $errorMessage;		
+			return $errorMessage;
 		}
 
 		if ($this->realtyObjectUid != 0) {
@@ -320,27 +320,30 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
-	 * Checks whether the submitted UID for 'city' is actually a database record.
+	 * Checks whether the submitted UID for 'city' is actually a database record
+	 * or zero. If the UID is zero, there must be a value provided in 'new_city'.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
-	 * @return	boolean		true if the provided UID is valid, false otherwise
+	 * @return	boolean		true if the provided UID is valid or if there is a
+	 * 						value in 'new_city', false otherwise
 	 */
 	public function isAllowedValueForCity(array $valueToCheck) {
+		$mayBeEmpty = ($this->getFormValue('new_city') == '') ? false : true;
 		return $this->isIdentifierOfRecord(
-			$valueToCheck['value'], REALTY_TABLE_CITIES, false
+			$valueToCheck['value'], REALTY_TABLE_CITIES, $mayBeEmpty
 		);
 	}
 
 	/**
 	 * Checks whether the submitted UID for 'district' is actually a database
-	 * record.
+	 * record or zero.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
 	 * @return	boolean		true if the provided UID is valid, false otherwise
 	 */
@@ -352,11 +355,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether the submitted UID for 'house_type' is actually a database
-	 * record.
+	 * record or zero.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
 	 * @return	boolean		true if the provided UID is valid, false otherwise
 	 */
@@ -368,11 +371,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether the submitted UID for 'apartment_type' is actually a
-	 * database record.
+	 * database record or zero.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
 	 * @return	boolean		true if the provided UID is valid, false otherwise
 	 */
@@ -384,11 +387,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether the submitted UID for 'heating_type' is actually a
-	 * database record.
+	 * database record or zero.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
 	 * @return	boolean		true if the provided UID is valid, false otherwise
 	 */
@@ -400,11 +403,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether the submitted UID for 'garage_type' is actually a database
-	 * record.
+	 * record or zero.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
 	 * @return	boolean		true if the provided UID is valid, false otherwise
 	 */
@@ -416,11 +419,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether the submitted UID for 'state' is actually a database
-	 * record.
+	 * record or zero.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
 	 * @return	boolean		true if the provided UID is valid, false otherwise
 	 */
@@ -432,17 +435,51 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether the submitted UID for 'pets' is actually a database
-	 * record.
+	 * record or zero.
 	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be integer > 0
+	 * 						existing record, this number must be an integer >= 0
 	 *
 	 * @return	boolean		true if the provided UID is valid, false otherwise
 	 */
 	public function isAllowedValueForPets(array $valueToCheck) {
 		return $this->isIdentifierOfRecord(
 			$valueToCheck['value'], REALTY_TABLE_PETS, true
+		);
+	}
+
+	/**
+	 * Checks whether there is no existing city record selected at the same time
+	 * a new one should be created.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the value which contains the string for the new city
+	 * 						record
+	 *
+	 * @return	boolean		true if no existing city record is selected or if
+	 * 						the string for the new city record is empty
+	 */
+	public function isAtMostOneValueForCityRecordProvided(array $valueToCheck) {
+		return $this->isAtMostOneValueForAuxiliaryRecordProvided(
+			$valueToCheck['value'], 'city'
+		);
+	}
+
+	/**
+	 * Checks whether there is no existing district record selected at the same
+	 * time a new one should be created.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the value which contains the string for the new
+	 * 						district record
+	 *
+	 * @return	boolean		true if no existing district record is selected or
+	 * 						if the string for the new district record is empty
+	 */
+	public function isAtMostOneValueForDistrictRecordProvided(array $valueToCheck) {
+		return $this->isAtMostOneValueForAuxiliaryRecordProvided(
+			$valueToCheck['value'], 'district'
 		);
 	}
 
@@ -497,7 +534,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether the provided number is actually an identifying value of a
-	 * record in $table.
+	 * record in $table or zero if this should be allowed.
 	 *
 	 * @param	string		value to check to be an identifying value of a
 	 * 						record in $table
@@ -528,6 +565,27 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		return (boolean) $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+	}
+
+	/**
+	 * Checks whether no existing record is selected if a new record title is
+	 * provided. Returns always true if no new record title is provided.
+	 *
+	 * @param	string		title of the new record, may be empty
+	 * @param	string		key used in tx_realty_objets for this record, must
+	 * 						not be empty
+	 *
+	 * @return	boolean		whether there is no other value selected if
+	 * 						$newRecordTitle is non-empty
+	 */
+	private function isAtMostOneValueForAuxiliaryRecordProvided(
+		$newRecordTitle, $key
+	) {
+		if ($newRecordTitle == '') {
+			return true;
+		}
+
+		return ($this->getFormValue($key) == 0);
 	}
 
 
@@ -678,17 +736,46 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
 	 * Returns a localized message that the entered e-mail is not valid.
 	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [invalid message]"
+	 */
+	public function getNoValidEmailMessage() {
+		return $this->getMessageForRealtyObjectField(
+			'contact_email', 'label_set_valid_email_address'
+		);
+	}
+
+	/**
+	 * Returns a localized message that a new auxiliary record can only be
+	 * entered if no existing record is selected.
+	 *
 	 * @param	array	 	form data, must contain the key 'fieldName', the
 	 * 						value of 'fieldName' must be a database column name
 	 * 						of 'tx_realty_objects' which concerns the message,
 	 * 						must not be empty
 	 *
 	 * @return	string		localized message following the pattern
-	 * 						"[field name]: [invalid price message]"
+	 * 						"[field name]: [invalid message]"
 	 */
-	public function getNoValidEmailMessage() {
+	public function getEitherNewOrExistingRecordMessage(array $formData) {
 		return $this->getMessageForRealtyObjectField(
-			'contact_email', 'label_set_valid_email_address'
+			$formData['fieldName'], 'message_either_new_or_existing_record'
+		);
+	}
+
+	/**
+	 * Returns a localized message that either the entered value for city is not
+	 * valid or that it must not be empty.
+	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [invalid message]"
+	 */
+	public function getInvalidOrEmptyCityMessage() {
+		return $this->getMessageForRealtyObjectField(
+			'city',
+			($this->getFormValue('city') == 0)
+				? 'message_required_field'
+				: 'message_value_not_allowed'
 		);
 	}
 
@@ -755,18 +842,22 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	///////////////////////////////////
 
 	/**
-	 * Adds administrative data and unifies numbers.
+	 * Adds administrative data, unifies numbers and stores new auxiliary
+	 * records if there are any.
 	 *
-	 * @see	addAdministrativeData(), unifyNumbersToInsert()
+	 * @see	addAdministrativeData(), unifyNumbersToInsert(),
+	 * 		storeNewAuxiliaryRecords()
 	 *
-	 * @param	array 		form data, may be empty
+	 * @param	array 		form data, must not be empty
 	 *
 	 * @return	array		form data with additional administrative data and
 	 * 						unified numbers
 	 */
 	public function modifyDataToInsert(array $formData) {
+		$modifiedFormData = $this->storeNewAuxiliaryRecords($formData);
+
 		return $this->addAdministrativeData(
-			$this->unifyNumbersToInsert($formData)
+			$this->unifyNumbersToInsert($modifiedFormData)
 		);
 	}
 
@@ -900,6 +991,98 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
+	 * Stores new auxiliary records in the database if there are any in the
+	 * provided form data and modifies the form data.
+	 * The UIDs of the new records are written to the form data and the
+	 * elements where the new auxiliary record's titles were stored are deleted.
+	 *
+	 * @param	array 		form data, must not be empty
+	 *
+	 * @return	array		modified form data
+	 */
+	private function storeNewAuxiliaryRecords(array $formData) {
+		$modifiedFormData = $formData;
+
+		foreach (array(
+			REALTY_TABLE_CITIES => 'city', REALTY_TABLE_DISTRICTS => 'district'
+		) as $table => $key) {
+			$title = trim($modifiedFormData['new_'.$key]);
+
+			if (($title != '') && ($modifiedFormData[$key] == 0)) {
+				$uid = $this->getUidIfAuxiliaryRecordExists($title, $table);
+
+				if ($uid == 0) {
+					$uid = $this->createNewAuxiliaryRecord($title, $table);
+				}
+
+				$modifiedFormData[$key] = $uid;
+			}
+
+			// The FORMidable datahandler expects the form data array to contain
+			// only elements named like collumns in tx_realty_objects.
+			unset($modifiedFormData['new_'.$key]);
+		}
+
+		return $modifiedFormData;
+	}
+
+	/**
+	 * Returns the UID of an auxiliary record's title or zero if it does not
+	 * exist.
+	 *
+	 * @param	string		title of an auxiliary record to search, must not
+	 * 						be empty
+	 * @param	string		table where to search this title, must not be empty
+	 *
+	 * @return	integer		UID of the record with the title to search or zero
+	 * 						if there is no record with this title
+	 */
+	private function getUidIfAuxiliaryRecordExists($title, $table) {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid',
+			$table,
+			'title="'.$GLOBALS['TYPO3_DB']->quoteStr($title, $table).'"'
+				.$this->getWhereClauseForTesting()
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return ($result !== false) ? $result['uid'] : 0;
+	}
+
+	/**
+	 * Inserts a new auxiliary record into the database.
+	 *
+	 * @param	string		title of an auxiliary record to create, must not
+	 * 						be empty
+	 * @param	string		table where to add this title, must not be empty
+	 *
+	 * @return	integer		UID of the new record, will be > 0
+	 */
+	private function createNewAuxiliaryRecord($title, $table) {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			$table,
+			array(
+				'title' => $title,
+				'pid' => $this->plugin->getConfValueInteger(
+					'sysFolderForFeCreatedAuxiliaryRecords'
+				),
+				'tstamp' => mktime(),
+				'crdate' => mktime(),
+				'is_dummy_record' => $this->isTestMode
+			)
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		return $GLOBALS['TYPO3_DB']->sql_insert_id();
+	}
+
+	/**
 	 * Unifies all numbers before they get inserted into the database.
 	 *
 	 * @param	array		data that will be inserted, may be empty
@@ -973,7 +1156,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * store records for the city defined by $cityUid.
 	 *
 	 * @param	integer		UID of the city record from which to get the system
-	 * 						folder ID, must be integer > 0
+	 * 						folder ID, must be an integer > 0
 	 *
 	 * @return	integer		UID of the system folder where to store this city's
 	 * 						records, will be zero if no folder was set
