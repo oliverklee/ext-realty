@@ -1,3 +1,7 @@
+2008-04-09 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1775] Change: Drop-down lists in the BE realty object editor should be shorted by title, Patch by Sven Braun
+
 2008-04-01 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1766] Feature: Provide a dialog for entering cities and districts in the FE editing

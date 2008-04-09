@@ -148,7 +148,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_realty_cities',
-				'foreign_table_where' => 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.uid',
+				'foreign_table_where' => 'AND tx_realty_cities.pid=###STORAGE_PID### ORDER BY tx_realty_cities.title',
 				'size' => 1,
 				'minitems' => 1,
 				'maxitems' => 1,
@@ -186,7 +186,7 @@ $TCA['tx_realty_objects'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_districts',
-				'foreign_table_where' => 'AND tx_realty_districts.pid=###STORAGE_PID### ORDER BY tx_realty_districts.uid',
+				'foreign_table_where' => 'AND tx_realty_districts.pid=###STORAGE_PID### ORDER BY tx_realty_districts.title',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -337,7 +337,7 @@ $TCA['tx_realty_objects'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_apartment_types',
-				'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.uid',
+				'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.title',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -375,7 +375,7 @@ $TCA['tx_realty_objects'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_house_types',
-				'foreign_table_where' => 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.uid',
+				'foreign_table_where' => 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.title',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -477,7 +477,7 @@ $TCA['tx_realty_objects'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_heating_types',
-				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###STORAGE_PID### ORDER BY tx_realty_heating_types.uid',
+				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###STORAGE_PID### ORDER BY tx_realty_heating_types.title',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -515,7 +515,7 @@ $TCA['tx_realty_objects'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_car_places',
-				'foreign_table_where' => 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.uid',
+				'foreign_table_where' => 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.title',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -571,7 +571,7 @@ $TCA['tx_realty_objects'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_pets',
-				'foreign_table_where' => 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.uid',
+				'foreign_table_where' => 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.title',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -637,7 +637,7 @@ $TCA['tx_realty_objects'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_conditions',
-				'foreign_table_where' => 'AND tx_realty_conditions.pid=###STORAGE_PID### ORDER BY tx_realty_conditions.uid',
+				'foreign_table_where' => 'AND tx_realty_conditions.pid=###STORAGE_PID### ORDER BY tx_realty_conditions.title',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
