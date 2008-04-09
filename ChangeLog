@@ -1,3 +1,7 @@
+2008-04-09 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1775] Change: Drop-down lists in the BE realty object editor should be shorted by title, Patch by Sven Braun
+
 2008-03-24 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1743] Fix: HTML validation errors
