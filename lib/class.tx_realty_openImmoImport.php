@@ -1023,10 +1023,16 @@ class tx_realty_openImmoImport {
 		}
 
 		$removedFiles = array();
+		$deleteImportedZips = $this->globalConfiguration->getConfigurationValueBoolean(
+			'deleteZipsAfterImport'
+		);
+
 		foreach ($this->getPathsOfZipsToExtract($importDirectory) as $currentPath) {
-			$removedZipArchive = $this->deleteFile($currentPath);
-			if ($removedZipArchive != '') {
-				$removedFiles[] = $removedZipArchive;
+			if ($deleteImportedZips) {
+				$removedZipArchive = $this->deleteFile($currentPath);
+				if ($removedZipArchive != '') {
+					$removedFiles[] = $removedZipArchive;
+				}
 			}
 			$this->deleteFile($this->getNameForExtractionFolder($currentPath));
 		}

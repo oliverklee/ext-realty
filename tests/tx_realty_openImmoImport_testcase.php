@@ -217,7 +217,21 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpRemovesZipWithOneXmlInIt() {
+	public function testCleanNotUpRemovesZipWithOneXmlInItIfDeletingZipsIsDisabled() {
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'deleteZipsAfterImport', false
+		);
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->getPathForXml(self::$importFolder.'foo.zip');
+		$this->fixture->cleanUp(self::$importFolder);
+
+		$this->assertTrue(
+			file_exists(self::$importFolder.'foo.zip')
+		);
+	}
+
+	public function testCleanUpRemovesZipWithOneXmlInItIfDeletingZipsIsEnabled() {
+		// 'deleteZipsAfterImport' is set to true during setUp()
 		$this->fixture->extractZip(self::$importFolder.'foo.zip');
 		$this->fixture->getPathForXml(self::$importFolder.'foo.zip');
 		$this->fixture->cleanUp(self::$importFolder);
@@ -1022,6 +1036,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 		$this->globalConfiguration->setConfigurationValueString(
 			'importFolder', self::$importFolder
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'deleteZipsAfterImport', true
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'notifyContactPersons', true

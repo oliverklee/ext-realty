@@ -2,6 +2,8 @@
 enableConfigCheck = 1
 # cat=basic; type=string; label=Import directory:Absolute path of the directory that contains the OpenImmo ZIP files to import.
 importFolder =
+# cat=basic; type=boolean; label=Delete imported ZIPs:If this option is set, ZIP archives will be deleted from the import folder after their contents have been written to the database.
+deleteZipsAfterImport = 1
 # cat=basic; type=integer; label=PID for realty records and images:Page ID of the system folder where new realty and image records will be stored.
 pidForRealtyObjectsAndImages =
 # cat=basic; type=integer; label=PID for auxiliary records:Page ID of the system folder where auxiliary records (like cities or house types) will be stored. Leave this field empty to store these records in the same system folder as realty records and images.
