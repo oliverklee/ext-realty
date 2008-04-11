@@ -194,7 +194,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testLoadRealtyObjectIfAnArrayWithZeroUidIsGiven() {
@@ -205,7 +205,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testLoadHiddenRealtyObjectIfHiddenObjectsAreNotAllowed() {
@@ -253,7 +253,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCreateNewDatabaseEntryIfAnArrayWithZeroUidIsGiven() {
@@ -264,7 +264,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testGetDataTypeWhenIntegerGiven() {
@@ -310,13 +310,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFetchDatabaseResultIfDbResultIsFalse() {
-		$dbResult = false;
-		$resultToCheck = $this->fixture->fetchDatabaseResult($dbResult);
+		try {
+			$this->fixture->fetchDatabaseResult(false);
+		} catch (Exception $expected) {
+			return;
+		}
 
-		$this->assertEquals(
-			array(),
-			$resultToCheck
-		);
+		// Fails the test if the expected exception was not raised above.
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
@@ -734,7 +735,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testIsRealtyObjectDataEmptyReturnsFalseIfObjectLoaded() {
@@ -1094,12 +1095,12 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 		);
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 		if (!$result) {
-			$this->fail('The database result was empty.');
+			$this->fail(DATABASE_RESULT_ERROR);
 		}
 
 		$this->assertEquals(
@@ -1308,7 +1309,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testMarkImageRecordAsDeleted() {
@@ -1335,7 +1336,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testMarkImageRecordAsDeletedForNonExistingRecord() {
@@ -1349,7 +1350,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testWriteToDatabaseMarksImageRecordToDeleteAsDeleted() {
@@ -1393,6 +1394,22 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
 				'image="foo.jpg" AND is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testWriteToDatabaseNotAddsImageRecordWithDeletedFlagSet() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->markImageRecordAsDeleted(
+			$this->fixture->addImageRecord('foo', 'foo.jpg')
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_IMAGES,
+				'is_dummy_record=1 AND deleted=1'
 			)
 		);
 	}

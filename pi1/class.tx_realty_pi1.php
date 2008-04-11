@@ -661,9 +661,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$whereClause
 		);
 		if (!$dbResult) {
-			throw new Exception(
-				'There was an error with the database result.'
-			);
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);

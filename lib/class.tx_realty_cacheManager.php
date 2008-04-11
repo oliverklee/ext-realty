@@ -33,6 +33,8 @@
 
 require_once(PATH_tslib.'class.tslib_fe.php');
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
+
 class tx_realty_cacheManager {
 	/**
 	 * Clears the FE cache for pages with a realty plugin.
@@ -42,7 +44,7 @@ class tx_realty_cacheManager {
 			'pid', 'tt_content', 'list_type="realty_pi1"'
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		$pageIds = array();

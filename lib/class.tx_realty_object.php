@@ -188,11 +188,7 @@ class tx_realty_object {
 			)
 		);
 
-		if ($dbResult) {
-			$result = $this->fetchDatabaseResult($dbResult);
-		}
-
-		return $result;
+		return $this->fetchDatabaseResult($dbResult);;
 	}
 
 	/**
@@ -260,17 +256,15 @@ class tx_realty_object {
 			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
 				$errorMessage = 'message_updating_failed';
 			}
-		} elseif (!$this->getProperty('deleted')) {
-			$requiredFields = $this->checkForRequiredFields();
-			if (empty($requiredFields)) {
-				$this->prepareInsertionAndInsertRelations();
-				if (!$this->createNewDatabaseEntry(
-					$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
-				)) {
-					$errorMessage = 'message_insertion_failed';
-				}
-			} else {
-				$errorMessage = 'message_fields_required';
+		} elseif (count($this->checkForRequiredFields()) > 0) {
+			$errorMessage = 'message_fields_required';
+		} else {
+			$this->prepareInsertionAndInsertRelations();
+			$newUid = $this->createNewDatabaseEntry(
+				$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
+			);
+			if ($newUid == 0) {
+				$errorMessage = 'message_insertion_failed';
 			}
 		}
 
@@ -378,6 +372,7 @@ class tx_realty_object {
 		$fieldsInDb = array_keys(
 			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
 		);
+
 		return array_diff($fieldsInDb, array_keys($this->getAllProperties()));
 	}
 
@@ -488,23 +483,13 @@ class tx_realty_object {
 		}
 
 		$propertyArray = array('title' => $this->getProperty($key));
+		$uidOfProperty = 0;
 
 		if (!$this->recordExistsInDatabase($propertyArray, 'title', $table)) {
-			$this->createNewDatabaseEntry($propertyArray, $table);
+			$uidOfProperty = $this->createNewDatabaseEntry($propertyArray, $table);
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			$table,
-			'title="'.$propertyArray['title'].'"'
-		);
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		return $row ? $row['uid'] : 0;
+		return $uidOfProperty;
 	}
 
 	/**
@@ -527,39 +512,33 @@ class tx_realty_object {
 		$counter = 1;
 
 		foreach ($this->getAllImageData() as $imageData) {
+			$imageUid = 0;
+
 			if ($this->recordExistsInDatabase(
 				$imageData, 'image', REALTY_TABLE_IMAGES
 			)) {
 				$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
+				// Updating will delete the image if the deleted flag is set.
 				$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
+
 				if ($imageData['deleted']) {
 					$GLOBALS['TYPO3_DB']->exec_DELETEquery(
 						REALTY_TABLE_OBJECTS_IMAGES_MM,
 						'uid_foreign='.$imageData['uid']
 					);
+				} else {
+					$imageUid = $imageData['uid'];
 				}
-			} elseif (!$imageData['deleted']) {
-				$this->createNewDatabaseEntry(
+			} else {
+				$imageUid = $this->createNewDatabaseEntry(
 					$imageData, REALTY_TABLE_IMAGES, $overridePid
 				);
 			}
 
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'uid',
-				REALTY_TABLE_IMAGES,
-				'image='.$GLOBALS['TYPO3_DB']->fullQuoteStr(
-					$imageData['image'], REALTY_TABLE_IMAGES
-				).$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
-			);
-			if ($dbResult
-				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-			) {
-				if (isset($row['uid'])) {
-					$this->linkImageWithObject(
-						$objectUid, $row['uid'], $counter
-					);
-					$counter++;
-				}
+			// $imageUid will be zero for deleted images.
+			if ($imageUid != 0) {
+				$this->linkImageWithObject($objectUid, $imageUid, $counter);
+				$counter++;
 			}
 		}
 	}
@@ -584,18 +563,16 @@ class tx_realty_object {
 	 * 						momentary related to the current realty record
 	 */
 	private function linkImageWithObject($objectUid, $imageUid, $counter = 0) {
-		$resultRow = false;
-
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid_local, uid_foreign',
 			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			'uid_local='.intval($objectUid).' AND uid_foreign='.intval($imageUid)
 		);
-		if ($dbResult) {
-			$resultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		if (!$resultRow) {
+		if (!$GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
 				REALTY_TABLE_OBJECTS_IMAGES_MM,
 				array(
@@ -633,7 +610,7 @@ class tx_realty_object {
 			'uid'
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
@@ -699,14 +676,15 @@ class tx_realty_object {
 	 * 						parameter to use the PID set in the global
 	 * 						configuration)
 	 *
-	 * @return 	boolean		true if the insert query was successful, false
-	 * 						otherwise
+	 * @return 	integer		UID of the new database entry, will be zero if no
+	 * 						new record was created, e.g. if the deleted flag
+	 * 						was set
 	 */
 	protected function createNewDatabaseEntry(
 		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
 	) {
-		if (empty($realtyData)) {
-			return false;
+		if (empty($realtyData) || $realtyData['deleted']) {
+			return 0;
 		}
 
 		if (isset($realtyData['uid'])) {
@@ -736,10 +714,9 @@ class tx_realty_object {
 		// allows an easy removal of records created during the unit tests
 		$dataToInsert['is_dummy_record'] = $this->isDummyRecord;
 
-		return (boolean) $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			$table,
-			$dataToInsert
-		);
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataToInsert);
+
+		return $GLOBALS['TYPO3_DB']->sql_insert_id();
 	}
 
 	/**
@@ -774,22 +751,21 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Fetches one database record and fits it to an array which is returned.
+	 * Fetches one database result row.
 	 *
 	 * @param	resource	database result of one record
 	 *
-	 * @return	array		contains the fetched data, may be empty
+	 * @return	array		database result row, will be empty if $dbResult
+	 * 						was false or empty
 	 */
 	protected function fetchDatabaseResult($dbResult) {
-		$result = array();
-
-		if ($dbResult
-			&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-        	$result = $row;
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		return $result;
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return is_array($result) ? $result : array();
 	}
 
 	/**
@@ -912,9 +888,11 @@ class tx_realty_object {
 				implode(' AND ', $whereClauseParts)
 					.$this->templateHelper->enableFields($table, $showHidden)
 			);
-			if ($dbResult) {
-				$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
 			}
+
+			$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 		}
 
 		return is_array($result) ? $result : array();

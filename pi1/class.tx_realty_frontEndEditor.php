@@ -184,7 +184,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'title'
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
@@ -313,7 +313,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			).'"'.$this->enableFields(REALTY_TABLE_OBJECTS)
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		return ($GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult) === false);
@@ -561,7 +561,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				.$this->enableFields($table)
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		return (boolean) $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -943,7 +943,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'uid='.$this->getFeUserUid()
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -977,7 +977,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			).'"'.$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -1045,7 +1045,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				.$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -1076,7 +1076,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			)
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		return $GLOBALS['TYPO3_DB']->sql_insert_id();
@@ -1168,7 +1168,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'uid='.$cityUid
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
