@@ -292,31 +292,48 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * Checks whether the object number is non-empty and whether the combination
 	 * of object number and language is unique in the database.
 	 *
+	 * Always returns true if an existing object is edited.
+	 *
 	 * @param	array		array with one element named "value" that contains
 	 * 						the entered object number, this number may be empty
 	 *
 	 * @return	boolean		true if the object number is non empty and unique
-	 * 						for the entered language
+	 * 						for the entered language, also true if the object
+	 * 						already exists in the database
 	 */
 	public function isObjectNumberUniqueForLanguage(array $valueToCheck) {
+		// FE users cannot change the object number of existing objects anyway.
+		if ($this->realtyObjectUid > 0) {
+			return true;
+		}
+
+		// Empty object numbers are not allowed.
 		if ($valueToCheck['value'] == '') {
 			return false;
 		}
 
+		$languages = array();
+
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'object_number, language',
+			'language',
 			REALTY_TABLE_OBJECTS,
-			'object_number="'.$GLOBALS['TYPO3_DB']->quoteStr(
-				$valueToCheck['value'], REALTY_TABLE_OBJECTS
-			).'" AND language="'.$GLOBALS['TYPO3_DB']->quoteStr(
-				$this->getFormValue('language'), REALTY_TABLE_OBJECTS
-			).'"'.$this->enableFields(REALTY_TABLE_OBJECTS)
+			'object_number="'
+				.$GLOBALS['TYPO3_DB']->quoteStr(
+					$valueToCheck['value'], REALTY_TABLE_OBJECTS
+				).'"'.$this->enableFields(REALTY_TABLE_OBJECTS, 1)
+				.$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		return ($GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult) === false);
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$languages[] = $row['language'];
+		}
+
+		// Initially, new objects will always have an empty language because
+		// FE users cannot set the language.
+		return !in_array('', $languages);
 	}
 
 	/**
@@ -895,6 +912,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * Returns the e-mail body formatted according to the template and filled
 	 * with the new object's summarized data.
 	 *
+	 * Note: The e-mail body will only contain the correct UID if the record
+	 * this e-mail is about is the last record that was added to the database.
+	 *
 	 * @return	string		body for the e-mail to send, will not be
 	 * 						empty
 	 */
@@ -905,7 +925,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'name' => $frontEndUserData['name'],
 			'object_number' => $this->getFormValue('object_number'),
 			'title' => $this->getFormValue('title'),
-			'uid' => $this->getUidOfNewObject(),
+			'uid' => $GLOBALS['TYPO3_DB']->sql_insert_id(),
 		) as $marker => $value) {
 			$this->plugin->setOrDeleteMarkerIfNotEmpty(
 				$marker, $value, '', 'wrapper'
@@ -955,39 +975,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Returns the UID of the realty object that has recently been added to the
-	 * database.
-	 *
-	 * Note: This function is to be used only if there is really a new database
-	 * record with the current form data.
-	 *
-	 * @return	integer		UID of the newly added database record, will be > 0
-	 */
-	private function getUidOfNewObject() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			REALTY_TABLE_OBJECTS,
-			'object_number="'.$GLOBALS['TYPO3_DB']->quoteStr(
-				$this->getFormValue('object_number'), REALTY_TABLE_OBJECTS
-			).'" AND language="'.$GLOBALS['TYPO3_DB']->quoteStr(
-				$this->getFormValue('language'), REALTY_TABLE_OBJECTS
-			).'"'.$this->getWhereClauseForTesting()
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if ($result === false) {
-			throw new Exception(
-				'There is no database record with the current form data.'
-			);
-		}
-
-		return $result['uid'];
 	}
 
 	/**

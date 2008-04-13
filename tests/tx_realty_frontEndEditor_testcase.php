@@ -693,7 +693,19 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsObjectNumberUniqueForLanguageForUniqueCombination() {
-		$this->fixture->setFakedFormValue('language', self::$dummyStringValue);
+		// The dummy record's language is not ''. A new record's language
+		// is always ''.
+		$this->assertTrue(
+			$this->fixture->isObjectNumberUniqueForLanguage(
+				array('value' => '1234')
+			)
+		);
+	}
+
+	public function testIsObjectNumberUniqueForLanguageForHiddenRecordWithDifferensObjectNumber() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->dummyObjectUid, array('hidden' => '1')
+		);
 
 		$this->assertTrue(
 			$this->fixture->isObjectNumberUniqueForLanguage(
@@ -703,7 +715,23 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsObjectNumberUniqueForLanguageForExistentCombination() {
-		$this->fixture->setFakedFormValue('language', self::$dummyStringValue);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->dummyObjectUid, array('language' => '')
+		);
+
+		$this->assertFalse(
+			$this->fixture->isObjectNumberUniqueForLanguage(
+				array('value' => self::$dummyStringValue)
+			)
+		);
+	}
+
+	public function testIsObjectNumberUniqueForLanguageForHiddenRecordWithSameObjectNumber() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->dummyObjectUid,
+			array('language' => '', 'hidden' => '1')
+		);
 
 		$this->assertFalse(
 			$this->fixture->isObjectNumberUniqueForLanguage(
@@ -1353,12 +1381,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		// and language.
 		$this->fixture->setFakedFormValue('object_number', '1234');
 		$this->fixture->setFakedFormValue('language', 'XY');
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->writeFakedFormDataToDatabase();
-
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
@@ -1370,7 +1397,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			$expectedResult['uid'],
+			(string) $expectedResult['uid'],
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
 		);
 	}
