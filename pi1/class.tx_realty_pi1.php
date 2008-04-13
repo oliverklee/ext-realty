@@ -30,6 +30,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
@@ -249,6 +250,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'pi1/tx_realty_frontEndEditor.xml',
 					$this->isTestMode
 				);
+				// The FE editor also checks the access here.
 				$errorView = $frontEndEditor->deleteRecord();
 
 				$result = ($errorView == '')
@@ -526,29 +528,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the HTML for the "my objects" list or an error message wrapped in
-	 * HTML if the user is not logged in or does not own objects.
+	 * Returns the HTML for the "my objects" list.
+	 *
+	 * This function does not check whether a user has access to this list.
 	 *
 	 * @return	string		HTML for the "my objects" view, will not be empty
 	 */
 	private function createMyObjectsView() {
-		if (!$this->isLoggedIn()) {
-			$this->setMarker(
-				'login_link', $this->createLoginPageLink(
-					htmlspecialchars($this->translate('message_please_login'))
-				)
-			);
-			header('Status: 401 Unauthorized');
-			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
-		} else {
-			$this->setMarker(
-				'empty_editor_link', $this->createLinkToFePage('editorPID', 0)
-			);
+		$this->setMarker(
+			'empty_editor_link', $this->createLinkToFePage('editorPID', 0)
+		);
 
-			$result = $this->createListView();
-		}
-
-		return $result;
+		return $this->createListView();;
 	}
 
 	/**
@@ -1429,7 +1420,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setMarkerContent('message_invalidImage', $this->pi_getLL('message_invalidImage'));
 			$result = $this->substituteMarkerArrayCached('GALLERY_ERROR');
 			// send a 404 to inform crawlers that this URL is invalid
-			header('Status: 404 Not Found');
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+				->addHeader('Status: 404 Not Found');
 		}
 
 		return $result;

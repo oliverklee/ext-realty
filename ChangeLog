@@ -1,5 +1,6 @@
 2008-04-13 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1650] Change: Use the header strategy in the Realty Manager
 	* [#1799] Fix: Saving a published object shows an error message about the object number
 
 2008-04-11 Saskia Metzler <saskia@merlin.owl.de>

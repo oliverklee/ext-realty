@@ -33,6 +33,7 @@
 require_once(PATH_formidableapi);
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
@@ -172,7 +173,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * @return	string		HTML for the object-does-not-exist error message
 	 */
 	private function renderObjectDoesNotExistMessage() {
-		header('Status: 404 Not Found');
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+			->addHeader('Status: 404 Not Found');
 
 		return $this->renderErrorMessage(
 			$this->plugin->translate('message_noResultsFound_fe_editor')
@@ -180,11 +182,13 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns HTML for the please-login error message.
+	 * Returns HTML for the please-login error message and sets a 403 header.
 	 *
 	 * @return	string		HTML for the please-login error message
 	 */
 	private function renderPleaseLogInMessage() {
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+			->addHeader('Status: 403 Forbidden');
 		$redirectUrl = t3lib_div::locationHeaderUrl(
 			$this->plugin->pi_linkTP_keepPIvars_url()
 		);
@@ -203,7 +207,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * @return	string		HTML for the access-denied error message
 	 */
 	private function renderNoAccessMessage() {
-		header('Status: 403 Forbidden');
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+			->addHeader('Status: 403 Forbidden');
 
 		return $this->renderErrorMessage(
 			$this->plugin->translate('message_access_denied')

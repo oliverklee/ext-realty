@@ -30,6 +30,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
@@ -61,6 +62,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->initLLvars();
 
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
+		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
@@ -75,6 +77,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->purgeCollectedHeaders();
+		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
 		tx_oelib_mailerFactory::getInstance()->getMailer()->cleanUpCollectedEmailData();
 		tx_oelib_mailerFactory::getInstance()->disableTestMode();
 
@@ -138,11 +142,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////
 
 	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
 
 		$this->assertContains(
@@ -152,17 +151,25 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
 			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testHeaderIsSentWhenDeleteRecordReturnsObjectDoesNotExistMessage() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+
+		$this->assertContains(
+			$this->pi1->translate('message_noResultsFound_fe_editor'),
+			$this->fixture->deleteRecord()
+		);
+		$this->assertEquals(
+			'Status: 404 Not Found',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
 	}
 
@@ -185,11 +192,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToDeleteAnObjectHeDoesNotOwn() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->testingFramework->loginFrontEndUser(
 			$this->testingFramework->createFrontEndUser(
 				$this->testingFramework->createFrontEndUserGroup()
@@ -200,6 +202,24 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			$this->pi1->translate('message_access_denied'),
 			$this->fixture->deleteRecord()
+		);
+	}
+
+	public function testHeaderIsSentWhenDeleteRecordReturnsAccessDeniedMessage() {
+		$this->testingFramework->loginFrontEndUser(
+			$this->testingFramework->createFrontEndUser(
+				$this->testingFramework->createFrontEndUserGroup()
+			)
+		);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertContains(
+			$this->pi1->translate('message_access_denied'),
+			$this->fixture->deleteRecord()
+		);
+		$this->assertEquals(
+			'Status: 403 Forbidden',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
 	}
 

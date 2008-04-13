@@ -34,6 +34,7 @@ require_once(PATH_tslib.'class.tslib_feuserauth.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
@@ -95,6 +96,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// Sets the current page ID to zero.
 		$this->setCurrentPage(0);
 
+		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyPages();
 		$this->createDummyObjects();
@@ -121,6 +123,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->purgeCollectedHeaders();
+		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
 		$this->testingFramework->cleanUp();
 		unset($this->fixture, $this->testingFramework);
 	}
@@ -1568,11 +1572,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testGalleryShowsWarningWithMissingShowUidParameter() {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
@@ -1583,14 +1582,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
+		);
+	}
+
+	public function testHeaderIsSendWhenGalleryShowsInvalidImageWarning() {
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+		$this->assertEquals(
+			'Status: 404 Not Found',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
 	}
 
@@ -1617,11 +1624,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////////
 
 	public function testAccessToMyObjectsViewIsForbiddenForNotLoggedInUser() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 
@@ -1636,11 +1638,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAccessToMyObjectsViewContainsRedirectUrlWithPidIfAccessDenied() {
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$myObjectsPid = $this->testingFramework->createFrontEndPage(0);
 		$this->setCurrentPage($myObjectsPid);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
@@ -1653,6 +1650,21 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			(string) $myObjectsPid,
 			$this->fixture->main('', array())
+		);
+	}
+
+	public function testHeaderIsSentWhenTheMyObjectsViewShowsPleaseLoginMessage() {
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
+		$this->assertContains(
+			$this->fixture->translate('message_please_login'),
+			$this->fixture->main('', array())
+		);
+
+		$this->assertEquals(
+			'Status: 403 Forbidden',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
 	}
 
