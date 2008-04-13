@@ -149,6 +149,8 @@
 			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
 			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
 			<label index="label_requested_object">The requested object:</label>
+			<label index="label_requester_data_is_uneditable_formal">We are using the contact data from your account here.</label>
+			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
 			<label index="label_your_name_formal">Your name</label>
 			<label index="label_your_name_informal">Your name</label>
 			<label index="label_your_email_formal">Your e-mail address</label>
@@ -344,6 +346,8 @@
 			<label index="label_contact_form_description_formal">Hier können Sie eine Nachricht an den Anbieter senden.</label>
 			<label index="label_contact_form_description_informal">Hier kannst du eine Nachricht an den Anbieter schicken.</label>
 			<label index="label_requested_object">Das betreffende Objekt:</label>
+			<label index="label_requester_data_is_uneditable_formal">Wir benutzen hier die Daten Ihres Accounts.</label>
+			<label index="label_requester_data_is_uneditable_informal">Wir benutzen hier die Daten deines Accounts.</label>
 			<label index="label_your_name_formal">Ihr Name</label>
 			<label index="label_your_name_informal">Dein Name</label>
 			<label index="label_your_email_formal">Ihre E-Mail-Adresse</label>
@@ -994,6 +998,8 @@
 			<label index="label_contact_form_description_formal" type="integer">76871856</label>
 			<label index="label_contact_form_description_informal" type="integer">76871856</label>
 			<label index="label_requested_object" type="integer">244291644</label>
+			<label index="label_requester_data_is_uneditable_formal" type="integer">127937111</label>
+			<label index="label_requester_data_is_uneditable_informal" type="integer">127937111</label>
 			<label index="label_your_name_formal" type="integer">35776261</label>
 			<label index="label_your_name_informal" type="integer">35776261</label>
 			<label index="label_your_email_formal" type="integer">197667972</label>
@@ -1637,6 +1643,8 @@
 			<label index="label_user_text">wrote the following</label>
 			<label index="label_user_contact_information">Contact information</label>
 			<label index="label_email_subject">Request concerning object #</label>
+			<label index="label_requester_data_is_uneditable_formal">We are using the contact data from your account here.</label>
+			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
 			<label index="label_your_name_formal">Your name</label>
 			<label index="label_your_name_informal">Your name</label>
 			<label index="label_your_email_formal">Your e-mail address</label>

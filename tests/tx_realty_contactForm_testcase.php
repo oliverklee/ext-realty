@@ -150,10 +150,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormHasFieldsForNameAndEmailAddressIfNotLoggedIn() {
-		$result = $this->fixture->render(
-			array('showUid' => $this->realtyUid)
-		);
+	public function testSpecializedContactFormHasWritableFieldsForNameAndEmailAddressIfNotLoggedIn() {
+		$result = $this->fixture->render(array('showUid' => $this->realtyUid));
 
 		$this->assertContains(
 			$this->pi1->translate('label_your_name'),
@@ -163,9 +161,13 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->pi1->translate('label_your_email'),
 			$result
 		);
+		$this->assertNotContains(
+			'disabled',
+			$result
+		);
 	}
 
-	public function testGeneralContactFormHasFieldsForNameAndEmailAddressIfNotLoggedIn() {
+	public function testGeneralContactFormHasWritableFieldsForNameAndEmailAddressIfNotLoggedIn() {
 		$result = $this->fixture->render(array());
 
 		$this->assertContains(
@@ -176,35 +178,77 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->pi1->translate('label_your_email'),
 			$result
 		);
+		$this->assertNotContains(
+			'disabled',
+			$result
+		);
 	}
 
-	public function testSpecializedContactFormDoesNotHaveFieldsForNameAndEmailAddressIfLoggedIn() {
+	public function testSpecializedContactHasDisabledFieldsForNameAndEmailAddressIfLoggedIn() {
 		$this->testingFramework->loginFrontendUser($this->feUserId);
-		$result = $this->fixture->render(
-			array('showUid' => $this->realtyUid)
-		);
+		$result = $this->fixture->render(array('showUid' => $this->realtyUid));
 
-		$this->assertNotContains(
-			$this->pi1->translate('label_your_name'),
+		$this->assertContains(
+			self::$feUserTitle,
 			$result
 		);
-		$this->assertNotContains(
-			$this->pi1->translate('label_your_email'),
+		$this->assertContains(
+			self::$feUserEmail,
+			$result
+		);
+		$this->assertContains(
+			'disabled',
 			$result
 		);
 	}
 
-	public function testGeneralContactFormDoesNotHaveFieldsForNameAndEmailAddressIfLoggedIn() {
+	public function testGeneralContactFormHasDisabledFieldsForNameAndEmailAddressIfLoggedIn() {
 		$this->testingFramework->loginFrontendUser($this->feUserId);
 		$result = $this->fixture->render(array());
 
-		$this->assertNotContains(
-			$this->pi1->translate('label_your_name'),
+		$this->assertContains(
+			self::$feUserTitle,
 			$result
 		);
-		$this->assertNotContains(
-			$this->pi1->translate('label_your_email'),
+		$this->assertContains(
+			self::$feUserEmail,
 			$result
+		);
+		$this->assertContains(
+			'disabled',
+			$result
+		);
+	}
+
+	public function testSpecializedContactHasNoDisabledInfomationIfNotLoggedIn() {
+		$this->assertNotContains(
+			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->render(array('showUid' => $this->realtyUid))
+		);
+	}
+
+	public function testGeneralContactHasNoDisabledInfomationIfNotLoggedIn() {
+		$this->assertNotContains(
+			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testSpecializedContactHasDisabledInfomationIfLoggedIn() {
+		$this->testingFramework->loginFrontendUser($this->feUserId);
+
+		$this->assertContains(
+			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->render(array('showUid' => $this->realtyUid))
+		);
+	}
+
+	public function testGeneralContactHasDisabledInfomationIfLoggedIn() {
+		$this->testingFramework->loginFrontendUser($this->feUserId);
+
+		$this->assertContains(
+			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->render(array())
 		);
 	}
 

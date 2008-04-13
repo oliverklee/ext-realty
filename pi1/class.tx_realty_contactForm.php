@@ -101,7 +101,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		$subpartName = 'CONTACT_FORM';
 		$errorMessages = array();
 
-		$this->checkToHideRequesterData();
+		$this->fillContactInformationFieldsForLoggedInUser();
 		$this->setFormValues();
 		if (!$this->setOrHideSpecializedView()) {
 			$errorMessages[] = 'message_noResultsFound_contact_form';
@@ -183,8 +183,6 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * 						empty
 	 */
 	private function getFilledEmailBody($contactPerson) {
-		$this->setDataForLoggedInUser();
-
 		foreach (array(
 			'request' => $this->contactFormData['request'],
 			'requester_name' => $this->contactFormData['requesterName'],
@@ -232,8 +230,6 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * 						will not be empty
 	 */
 	private function getEmailSender() {
-		$this->setDataForLoggedInUser();
-
 		return 'From: "'.$this->contactFormData['requesterName'].'" '
 			.'<'.$this->contactFormData['requesterEmail'].'>'.LF;
 	}
@@ -374,8 +370,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 
 		if ($this->isSpecializedView()) {
 			$this->plugin->hideSubparts(
-				'email_from_general_contact_form',
-				'wrapper'
+				'email_from_general_contact_form', 'wrapper'
 			);
 			$this->loadCurrentRealtyObject();
 
@@ -399,12 +394,18 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Hides the wrapper 'REQUESTERR_DATA' if a FE user is logged in.
+	 * Declares the fields for the requester's contact data as not editable and
+	 * fills them with the current FE user's data if a user is logged in.
 	 */
-	private function checkToHideRequesterData() {
+	private function fillContactInformationFieldsForLoggedInUser() {
+		$readonlyMarkerContent = '';
 		if ($this->isLoggedIn()) {
-			$this->plugin->hideSubparts('requester_data', 'wrapper');
+			$readonlyMarkerContent = 'disabled="disabled"';
+			$this->setDataForLoggedInUser();
+		} else {
+			$this->plugin->hideSubparts('requester_data_is_uneditable', 'wrapper');
 		}
+		$this->plugin->setMarker('declare_uneditable', $readonlyMarkerContent);
 	}
 
 	/**

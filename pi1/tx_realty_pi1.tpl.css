@@ -404,14 +404,24 @@ p.tx-realty-pi1-objekt-nr {
 	clear: both;
 }
 
+.tx-realty-pi1-information,
 .tx-realty-pi1-label {
-	width: 150px;
+	float: left;
 	display: block;
 	margin: 1px 0;
 	padding: 2px 5px;
 	line-height: 22px;
 	background: #d9e2e7;
-	float: left;
+	
+}
+
+.tx-realty-pi1-information {
+	font-size: 11px;
+	width: 430px;
+}
+
+.tx-realty-pi1-label {
+	width: 150px;
 }
 
 .tx-realty-pi1-input {
