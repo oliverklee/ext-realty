@@ -41,6 +41,31 @@
 		</actionlets>
 	</control>
 	<elements>
+		<renderlet:TEXT name="title" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title">
+			<validators>
+				<validator:STANDARD>
+					<required>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getRequiredFieldMessage</method>
+								<params>
+									<data name="fieldName" value="title"/>
+								</params>
+							</userobj>
+						</message>
+					</required>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:RADIOBUTTON name="object_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type">
+			<data defaultvalue="0">
+				<items>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.0" value="0"/>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1" value="1"/>
+				</items>
+			</data>
+		</renderlet:RADIOBUTTON>
 		<renderlet:TEXT name="object_number" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number">
 			<readonly>
 				<userobj>
@@ -63,32 +88,10 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:RADIOBUTTON name="object_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type">
-			<data defaultvalue="0">
-				<items>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.0" value="0"/>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1" value="1"/>
-				</items>
-			</data>
-		</renderlet:RADIOBUTTON>
-		<renderlet:TEXT name="title" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title">
-			<validators>
-				<validator:STANDARD>
-					<required>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getRequiredFieldMessage</method>
-								<params>
-									<data name="fieldName" value="title"/>
-								</params>
-							</userobj>
-						</message>
-					</required>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
 		<renderlet:CHECKSINGLE name="emphasized" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized"/>
+
+		<renderlet:TEXT name="spacer_01" label="&amp;nbsp;" readonly="true"/>
+
 		<renderlet:TEXT name="street" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.street"/>
 		<renderlet:TEXT name="zip" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip">
 			<validators>
@@ -204,7 +207,228 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="number_of_rooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms">
+
+		<renderlet:TEXT name="spacer_02" label="&amp;nbsp;" readonly="true"/>
+
+		<renderlet:TEXT name="employer" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer"/>
+		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person"/>
+		<renderlet:TEXT name="contact_email" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email">
+			<validators>
+				<validator:STANDARD>
+					<email>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidEmailMessage</method>
+							</userobj>
+						</message>
+					</email>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="contact_phone" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_phone"/>
+
+		<renderlet:TEXT name="spacer_03" label="&amp;nbsp;" readonly="true"/>
+
+		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isNonEmptyValidPriceForObjectForSale</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceOrEmptyMessage</method>
+								<params>
+									<data name="fieldName" value="buying_price"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="rent_excluding_bills" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isNonEmptyValidPriceForObjectForRent</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceOrEmptyMessage</method>
+								<params>
+									<data name="fieldName" value="rent_excluding_bills"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="provision" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision"/>
+		<renderlet:TEXT name="extra_charges" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.extra_charges">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="extra_charges"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:CHECKSINGLE name="heating_included" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included"/>
+		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
+		<renderlet:TEXT name="year_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_rent"/>
+		<renderlet:CHECKSINGLE name="rented" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented"/>
+		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
+			<data>
+				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true"/>
+			</data>
+		</renderlet:DATE>
+
+		<renderlet:TEXT name="spacer_04" label="&amp;nbsp;" readonly="true"/>
+
+		<renderlet:LISTBOX name="house_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.house_type">
+			<data>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfHouseTypes</method>
+				</userobj>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isAllowedValueForHouseType</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getValueNotAllowedMessage</method>
+								<params>
+									<data name="fieldName" value="house_type"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:LISTBOX>
+		<renderlet:LISTBOX name="apartment_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.apartment_type">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfApartmentTypes</method>
+				</userobj>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isAllowedValueForApartmentType</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getValueNotAllowedMessage</method>
+								<params>
+									<data name="fieldName" value="apartment_type"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:LISTBOX>
+		<renderlet:TEXT name="utilization" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.utilization"/>
+
+		<renderlet:TEXT name="spacer_05" label="&amp;nbsp;" readonly="true"/>
+
+		<renderlet:TEXT name="construction_year" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidYear</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidYearMessage</method>
+								<params>
+									<data name="fieldName" value="construction_year"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:LISTBOX name="old_or_new_building" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.1</caption>
+						<value>1</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.2</caption>
+						<value>2</value>
+					</item>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
+		<renderlet:LISTBOX name="state" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfConditions</method>
+				</userobj>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isAllowedValueForState</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getValueNotAllowedMessage</method>
+								<params>
+									<data name="fieldName" value="state"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:LISTBOX>
+		<renderlet:TEXT name="estate_size" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.estate_size">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -215,7 +439,7 @@
 								<extension>this</extension>
 								<method>getNoValidNumberMessage</method>
 								<params>
-									<data name="fieldName" value="number_of_rooms"/>
+									<data name="fieldName" value="estate_size"/>
 								</params>
 							</userobj>
 						</message>
@@ -261,148 +485,27 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="estate_size" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.estate_size">
+		<renderlet:TEXTAREA name="description" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.description">
 			<validators>
 				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isValidNumberWithDecimals</method>
+					<required>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getRequiredFieldMessage</method>
 								<params>
-									<data name="fieldName" value="estate_size"/>
+									<data name="fieldName" value="description"/>
 								</params>
 							</userobj>
 						</message>
-					</userobj>
+					</required>
 				</validator:STANDARD>
 			</validators>
-		</renderlet:TEXT>
-		<renderlet:TEXT name="rent_excluding_bills" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills">
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isNonEmptyValidPriceForObjectForRent</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getNoValidPriceOrEmptyMessage</method>
-								<params>
-									<data name="fieldName" value="rent_excluding_bills"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
-		<renderlet:TEXT name="extra_charges" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.extra_charges">
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isValidNumberWithDecimals</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getNoValidPriceMessage</method>
-								<params>
-									<data name="fieldName" value="extra_charges"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
-		<renderlet:CHECKSINGLE name="heating_included" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included"/>
-		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
-		<renderlet:TEXT name="provision" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision"/>
-		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
-			<data>
-				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true"/>
-			</data>
-		</renderlet:DATE>
-		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isNonEmptyValidPriceForObjectForSale</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getNoValidPriceOrEmptyMessage</method>
-								<params>
-									<data name="fieldName" value="buying_price"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
-		<renderlet:TEXT name="year_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_rent"/>
-		<renderlet:CHECKSINGLE name="rented" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented"/>
-		<renderlet:LISTBOX name="apartment_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.apartment_type">
-			<data>
-				<items>
-					<item>
-						<caption>&amp;nbsp;</caption>
-						<value>0</value>
-					</item>
-				</items>
-				<userobj>
-					<extension>this</extension>
-					<method>populateListOfApartmentTypes</method>
-				</userobj>
-			</data>
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isAllowedValueForApartmentType</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
-								<params>
-									<data name="fieldName" value="apartment_type"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:LISTBOX>
-		<renderlet:LISTBOX name="house_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.house_type">
-			<data>
-				<userobj>
-					<extension>this</extension>
-					<method>populateListOfHouseTypes</method>
-				</userobj>
-			</data>
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isAllowedValueForHouseType</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
-								<params>
-									<data name="fieldName" value="house_type"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:LISTBOX>
+		</renderlet:TEXTAREA>
+		<renderlet:TEXTAREA name="location" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.location"/>
+
+		<renderlet:TEXT name="spacer_06" label="&amp;nbsp;" readonly="true"/>
+
 		<renderlet:TEXT name="floor" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor">
 			<validators>
 				<validator:STANDARD>
@@ -434,6 +537,25 @@
 								<method>getNoValidNumberMessage</method>
 								<params>
 									<data name="fieldName" value="floors"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="number_of_rooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidNumberMessage</method>
+								<params>
+									<data name="fieldName" value="number_of_rooms"/>
 								</params>
 							</userobj>
 						</message>
@@ -479,37 +601,10 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:LISTBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
-			<data>
-				<items>
-					<item>
-						<caption>&amp;nbsp;</caption>
-						<value>0</value>
-					</item>
-				</items>
-				<userobj>
-					<extension>this</extension>
-					<method>populateListOfHeatingTypes</method>
-				</userobj>
-			</data>
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isAllowedValueForHeatingType</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
-								<params>
-									<data name="fieldName" value="heating_type"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:LISTBOX>
+		<renderlet:TEXTAREA name="layout" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.layout"/>
+
+		<renderlet:TEXT name="spacer_07" label="&amp;nbsp;" readonly="true"/>
+
 		<renderlet:LISTBOX name="garage_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type">
 			<data>
 				<items>
@@ -579,6 +674,41 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
+
+		<renderlet:TEXT name="spacer_08" label="&amp;nbsp;" readonly="true"/>
+
+		<renderlet:LISTBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfHeatingTypes</method>
+				</userobj>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isAllowedValueForHeatingType</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getValueNotAllowedMessage</method>
+								<params>
+									<data name="fieldName" value="heating_type"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:LISTBOX>
+		<renderlet:CHECKSINGLE name="fitted_kitchen" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen"/>
 		<renderlet:LISTBOX name="pets" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.pets">
 			<data>
 				<items>
@@ -610,119 +740,19 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:TEXT name="construction_year" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year">
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isValidYear</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getNoValidYearMessage</method>
-								<params>
-									<data name="fieldName" value="construction_year"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
-		<renderlet:LISTBOX name="old_or_new_building" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building">
-			<data>
-				<items>
-					<item>
-						<caption>&amp;nbsp;</caption>
-						<value>0</value>
-					</item>
-					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.1</caption>
-						<value>1</value>
-					</item>
-					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.2</caption>
-						<value>2</value>
-					</item>
-				</items>
-			</data>
-		</renderlet:LISTBOX>
-		<renderlet:LISTBOX name="state" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state">
-			<data>
-				<items>
-					<item>
-						<caption>&amp;nbsp;</caption>
-						<value>0</value>
-					</item>
-				</items>
-				<userobj>
-					<extension>this</extension>
-					<method>populateListOfConditions</method>
-				</userobj>
-			</data>
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isAllowedValueForState</method>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
-								<params>
-									<data name="fieldName" value="state"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:LISTBOX>
 		<renderlet:CHECKSINGLE name="balcony" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony"/>
 		<renderlet:CHECKSINGLE name="garden" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garden"/>
 		<renderlet:CHECKSINGLE name="elevator" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.elevator"/>
 		<renderlet:CHECKSINGLE name="accessible" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.accessible"/>
 		<renderlet:CHECKSINGLE name="assisted_living" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.assisted_living"/>
-		<renderlet:CHECKSINGLE name="fitted_kitchen" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen"/>
-		<renderlet:TEXT name="utilization" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.utilization"/>
-		<renderlet:TEXTAREA name="description" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.description">
-			<validators>
-				<validator:STANDARD>
-					<required>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getRequiredFieldMessage</method>
-								<params>
-									<data name="fieldName" value="description"/>
-								</params>
-							</userobj>
-						</message>
-					</required>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXTAREA>
 		<renderlet:TEXTAREA name="equipment" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.equipment"/>
-		<renderlet:TEXTAREA name="layout" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.layout"/>
-		<renderlet:TEXTAREA name="location" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.location"/>
+
+		<renderlet:TEXT name="spacer_09" label="&amp;nbsp;" readonly="true"/>
+
 		<renderlet:TEXTAREA name="misc" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.misc"/>
-		<renderlet:TEXT name="employer" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer"/>
-		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person"/>
-		<renderlet:TEXT name="contact_email" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email">
-			<validators>
-				<validator:STANDARD>
-					<email>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getNoValidEmailMessage</method>
-							</userobj>
-						</message>
-					</email>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
-		<renderlet:TEXT name="contact_phone" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_phone"/>
+
+		<renderlet:TEXT name="spacer_10" label="&amp;nbsp;" readonly="true"/>
+
 		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save"/>
 	</elements>
 </formidable>
