@@ -1,3 +1,7 @@
+2008-04-16 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1813] Change: Don't use addCssToPageHeader anymore
+
 2008-04-13 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1787] Change: When a FE user is logged in, show the FE user's data in the contact form
