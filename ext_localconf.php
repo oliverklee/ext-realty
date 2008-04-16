@@ -120,5 +120,4 @@ t3lib_extMgm::addTypoScript(
 ',
 	43
 );
-
 ?>

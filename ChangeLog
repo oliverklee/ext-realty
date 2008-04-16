@@ -1,3 +1,7 @@
+2008-04-16 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1818] Change: Comment and whitespace consistency cleanup
+
 2008-04-16 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1813] Change: Don't use addCssToPageHeader anymore

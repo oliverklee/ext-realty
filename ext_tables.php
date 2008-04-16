@@ -210,5 +210,4 @@ if (TYPO3_MODE == 'BE') {
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon']
 		= $extPath.'pi1/class.tx_realty_pi1_wizicon.php';
 }
-
 ?>

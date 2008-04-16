@@ -21,11 +21,13 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Testcase for the tx_realty_pi1 class in the 'realty' extension.
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
@@ -1397,5 +1399,4 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
-
 ?>

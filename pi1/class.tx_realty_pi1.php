@@ -21,11 +21,13 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Plugin 'Realty List' for the 'realty' extension.
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
@@ -1891,5 +1893,4 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php']);
 }
-
 ?>
