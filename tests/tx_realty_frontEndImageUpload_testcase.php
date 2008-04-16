@@ -27,6 +27,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -111,7 +112,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	private function createImageRecords() {
 		$realtyObject = new tx_realty_object(true);
 		$realtyObject->loadRealtyObject($this->dummyObjectUid);
-	
+
 		$realtyObject->addImageRecord(self::$firstImageTitle, self::$firstImageFileName);
 		$realtyObject->addImageRecord(self::$secondImageTitle, self::$secondImageFileName);
 		$realtyObject->writeToDatabase();
@@ -316,5 +317,4 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
-
 ?>

@@ -30,6 +30,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -100,5 +101,4 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openImmoImportChild.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_openImmoImportChild.php']);
 }
-
 ?>

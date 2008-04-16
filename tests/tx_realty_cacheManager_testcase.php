@@ -26,6 +26,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -70,5 +71,4 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
-
 ?>

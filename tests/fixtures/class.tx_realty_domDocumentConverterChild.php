@@ -30,6 +30,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -62,7 +63,7 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 
 	public function initializeLanguage() {
 		global $LANG;
-		
+
 		// the language class does not restore this value
 		$LANG->lang = 'default';
 		parent::initializeLanguage();
@@ -72,5 +73,4 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domDocumentConverterChild.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domDocumentConverterChild.php']);
 }
-
 ?>

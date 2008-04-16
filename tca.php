@@ -1489,5 +1489,4 @@ $TCA['tx_realty_districts'] = array(
 		'1' => array('showitem' => '')
 	)
 );
-
 ?>

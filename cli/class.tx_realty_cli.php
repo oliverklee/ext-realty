@@ -21,6 +21,7 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Class 'tx_realty_cli' for the 'realty' extension.
  *
@@ -31,8 +32,10 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
 if (!defined('TYPO3_cliMode')) {
 	die('You cannot run this script directly!');
 }
@@ -55,5 +58,4 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/
 }
 
 t3lib_div::makeInstance('tx_realty_cli')->main();
-
 ?>

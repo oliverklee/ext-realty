@@ -27,6 +27,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -167,7 +168,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 */
 	private function getFormidablesUniqueFileName($fileName) {
 		return ($this->isTestMode)
-			? $fileName 
+			? $fileName
 			: ($this->formCreator->aORenderlets['image']->sCoolFileName);
 	}
 }
@@ -175,5 +176,4 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_frontEndImageUpload.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_frontEndImageUpload.php']);
 }
-
 ?>

@@ -21,6 +21,7 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Class 'tx_realty_domDocumentConverter' for the 'realty' extension.
  * It converts DOMDocuments of OpenImmo data to arrays which have the columns of
@@ -28,6 +29,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -666,7 +668,7 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Fetches the value for 'old_or_new_building' and stores it in 
+	 * Fetches the value for 'old_or_new_building' and stores it in
 	 * $this->importedData.
 	 */
 	private function fetchValueForOldOrNewBuilding() {
@@ -956,5 +958,4 @@ class tx_realty_domDocumentConverter {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domDocumentConverter.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domDocumentConverter.php']);
 }
-
 ?>

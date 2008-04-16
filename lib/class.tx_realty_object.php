@@ -21,6 +21,7 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Class 'tx_realty_object' for the 'realty' extension.
  *
@@ -28,8 +29,10 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
 require_once(PATH_t3lib.'class.t3lib_refindex.php');
 require_once(PATH_t3lib.'class.t3lib_befunc.php');
 
@@ -902,5 +905,4 @@ class tx_realty_object {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php']);
 }
-
 ?>

@@ -27,6 +27,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -237,13 +238,13 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Returns a formatted header line for the BCC if a blind carbon copy
 	 * address is set in the TS setup.
-	 * 
+	 *
 	 * @return	string		formatted e-mail header for BCC ending with LF or an
 	 * 						empty string if no recipient was configured
 	 */
 	private function getBccAddress() {
 		$result = '';
-		
+
 		if ($this->plugin->hasConfValueString('blindCarbonCopyAddress')) {
 			$result = 'Bcc: '
 				.$this->plugin->getConfValueString('blindCarbonCopyAddress').LF;

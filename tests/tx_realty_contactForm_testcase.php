@@ -26,6 +26,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_realty
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -531,7 +532,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			'###',
 			$this->fixture->render(array('isSubmitted' => false))
-		);		
+		);
 	}
 
 	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForRequest() {
@@ -543,7 +544,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'request' => 'the request'
 				)
 			)
-		);		
+		);
 	}
 
 	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForName() {
@@ -603,7 +604,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'request' => '<fieldset />the request<script />'
 				)
 			)
-		);				
+		);
 	}
 
 
@@ -790,7 +791,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			'Bcc: bcc-address@valid-email.org',
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
-		);		
+		);
 	}
 
 	public function testTheHeaderContainsNoBccLineIfNoAddressWasConfigured() {
@@ -806,7 +807,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			'Bcc:',
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
-		);		
+		);
 	}
 
 	public function testNoEmailIsSentIfTheContactFormWasNotFilledCorrectly() {
@@ -972,5 +973,4 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
-
 ?>
