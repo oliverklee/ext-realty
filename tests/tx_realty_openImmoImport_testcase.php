@@ -36,6 +36,7 @@ require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.p
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_translator.php');
 require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openImmoImportChild.php');
 
 class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
@@ -43,6 +44,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 	private $globalConfiguration;
 	private $templateHelper;
+	private $translator;
 
 	/** the PID of the system folder where imported records will be stored */
 	private $systemFolderPid;
@@ -59,28 +61,95 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			.'tests/fixtures/tx_realty_fixtures/ /tmp/'
 		);
 
-		$this->fixture = new tx_realty_openImmoImportChild(true);
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
-		$this->globalConfiguration
-			= tx_oelib_configurationProxy::getInstance('realty');
-		$this->templateHelper
-			= t3lib_div::makeInstance('tx_oelib_templatehelper');
- 		$this->templateHelper->init();
-
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 
+		$this->globalConfiguration= tx_oelib_configurationProxy::getInstance('realty');
+
+		$this->templateHelper= t3lib_div::makeInstance('tx_oelib_templatehelper');
+		$this->templateHelper->init();
+
+		$this->translator= t3lib_div::makeInstance('tx_realty_translator');
+
+		$this->fixture = new tx_realty_openImmoImportChild(true);
 		$this->setupStaticConditions();
 	}
 
 	public function tearDown() {
 		$this->cleanUp();
-		unset($this->testingFramework);
-		unset($this->templateHelper);
-		unset($this->fixture);
+		unset(
+			$this->fixture,
+			$this->translator,
+			$this->templateHelper,
+			$this->testingFramework
+		);
 
 		// removes the test folder from /tmp/
 		exec('rm -rf '.self::$importFolder);
 	}
+
+
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Sets the global configuration values which need to be static during the
+	 * tests.
+	 */
+	private function setupStaticConditions() {
+		// avoids using the extension's real upload folder
+		$this->fixture->setUploadDirectory(self::$importFolder);
+		// avoids sending e-mails
+		$this->globalConfiguration->setConfigurationValueString(
+			'emailAddress', ''
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyErrors', false
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema', self::$importFolder.'schema.xsd'
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'importFolder', self::$importFolder
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'deleteZipsAfterImport', true
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'notifyContactPersons', true
+		);
+		$this->globalConfiguration->setConfigurationValueInteger(
+			'pidForRealtyObjectsAndImages', $this->systemFolderPid
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'pidsForRealtyObjectsAndImagesByFileName', ''
+		);
+	}
+
+	/**
+	 * Cleans up the tables in which dummy records are created during the tests.
+	 */
+	private function cleanUp() {
+		foreach (array(REALTY_TABLE_OBJECTS, REALTY_TABLE_HOUSE_TYPES) as $table) {
+			$this->testingFramework->markTableAsDirty($table);
+		}
+		$this->testingFramework->cleanUp();
+	}
+
+	/**
+	 * Disables the XML validation.
+	 */
+	private function disableValidation() {
+		$this->globalConfiguration->setConfigurationValueString(
+			'openImmoSchema', ''
+		);
+	}
+
+
+	/////////////////////////////////////////
+	// Tests concerning the ZIP extraction.
+	/////////////////////////////////////////
 
 	public function testGetPathsOfZipsToExtract() {
 		$this->assertEquals(
@@ -184,6 +253,25 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCopyImagesFromExtractedZip() {
+		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->copyImagesFromExtractedZip(
+			self::$importFolder.'foo.zip'
+		);
+
+		$this->assertTrue(
+			file_exists(self::$importFolder.'foo.jpg')
+		);
+		$this->assertTrue(
+			file_exists(self::$importFolder.'bar.jpg')
+		);
+	}
+
+
+	////////////////////////////////
+	// Tests concerning cleanUp().
+	////////////////////////////////
+
 	public function testCleanUpRemovesAFolderCreatedByTheImporter() {
 		$this->fixture->createExtractionFolder(self::$importFolder.'foo.zip');
 		$this->fixture->cleanUp(self::$importFolder);
@@ -263,19 +351,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCopyImagesFromExtractedZip() {
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-		$this->fixture->copyImagesFromExtractedZip(
-			self::$importFolder.'foo.zip'
-		);
 
-		$this->assertTrue(
-			file_exists(self::$importFolder.'foo.jpg')
-		);
-		$this->assertTrue(
-			file_exists(self::$importFolder.'bar.jpg')
-		);
-	}
+	////////////////////////////////////////////////////////
+	// Tests concering loading and importing the XML file.
+	////////////////////////////////////////////////////////
 
 	public function testLoadXmlFileIfFolderWithOneXmlExists() {
 		$this->fixture->extractZip(self::$importFolder.'foo.zip');
@@ -301,6 +380,47 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
+		);
+	}
+
+	public function testImportARecordAndImportItAgainAfterContentsHaveChanged() {
+		$this->disableValidation();
+		$this->fixture->importFromZip();
+		$result = $this->testingFramework->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'uid',
+				REALTY_TABLE_OBJECTS,
+				'object_number="bar1234567" AND zip="zip"'
+			)
+		);
+
+		// overwrites "same-name.zip"
+		exec('cp -f '
+			.self::$importFolder.'changed-copy-of-same-name/same-name.zip '
+			.self::$importFolder.'same-name.zip'
+		);
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'object_number="bar1234567" AND zip="changed zip" '
+					.'AND uid='.$result['uid']
+			)
+		);
+	}
+
+	public function testImportFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
+		mkdir(self::$importFolder.'foo/');
+		$result = $this->fixture->importFromZip();
+
+		$this->assertContains(
+			$this->translator->translate('message_surplus_folder'),
+			$result
+		);
+		$this->assertTrue(
+			is_dir(self::$importFolder.'foo/')
 		);
 	}
 
@@ -420,6 +540,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
 	}
+
+
+	////////////////////////////////////////////////////////////////////
+	// Tests concerning the preparation of e-mails containing the log.
+	////////////////////////////////////////////////////////////////////
 
 	public function testPrepareEmailsReturnsEmptyArrayWhenEmptyArrayGiven() {
 		$emailData = array();
@@ -688,6 +813,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	/////////////////////////////////
+	// Test for clearing the cache.
+	/////////////////////////////////
+
 	public function testFrontEndCacheIsClearedAfterImport() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$contentUid = $this->testingFramework->createContentElement(
@@ -707,102 +837,53 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportARecordAndImportItAgainAfterContentsHaveChanged() {
-		$this->disableValidation();
-		$this->fixture->importFromZip();
-		$result = $this->testingFramework->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'uid',
-				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" AND zip="zip"'
-			)
-		);
 
-		// overwrites "same-name.zip"
-		exec('cp -f '
-			.self::$importFolder.'changed-copy-of-same-name/same-name.zip '
-			.self::$importFolder.'same-name.zip'
-		);
-		$this->fixture->importFromZip();
-
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" AND zip="changed zip" '
-					.'AND uid='.$result['uid']
-			)
-		);
-	}
-
-	public function testImportFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
-		global $LANG;
-
-		mkdir(self::$importFolder.'foo/');
-		$result = $this->fixture->importFromZip();
-
-		$this->assertContains(
-			$LANG->getLL('message_surplus_folder'),
-			$result
-		);
-		$this->assertTrue(
-			is_dir(self::$importFolder.'foo/')
-		);
-	}
+	///////////////////////////////////////
+	// Tests concerning the log messages.
+	///////////////////////////////////////
 
 	public function testImportFromZipReturnsLogMessageNoSchemaFileIfTheSchemaFileWasNotSet() {
-		global $LANG;
-
 		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema',
-			''
+			'openImmoSchema', ''
 		);
 
 		$result = $this->fixture->importFromZip();
 		$this->assertContains(
-			$LANG->getLL('message_no_schema_file'),
+			$this->translator->translate('message_no_schema_file'),
 			$result
 		);
 	}
 
 	public function testImportFromZipReturnsLogMessageIncorrectSchemaFileIfTheSchemaFilePathWasIncorrect() {
-		global $LANG;
-
 		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema',
-			'/any/not/existing/path'
+			'openImmoSchema', '/any/not/existing/path'
 		);
 
 		$result = $this->fixture->importFromZip();
 		$this->assertContains(
-			$LANG->getLL('message_invalid_schema_file_path'),
+			$this->translator->translate('message_invalid_schema_file_path'),
 			$result
 		);
 	}
 
 	public function testImportFromZipReturnsLogMessageNoSchemaFileIfNoSchemaFileWasSet() {
-		global $LANG;
-
 		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema',
-			''
+			'openImmoSchema', ''
 		);
 
 		$result = $this->fixture->importFromZip();
 		$this->assertContains(
-			$LANG->getLL('message_no_schema_file'),
+			$this->translator->translate('message_no_schema_file'),
 			$result
 		);
 	}
 
 	public function testImportFromZipReturnsLogMessageMissingRequiredFields() {
-		global $LANG;
-
 		$this->disableValidation();
 
 		$result = $this->fixture->importFromZip();
 		$this->assertContains(
-			$LANG->getLL('message_fields_required'),
+			$this->translator->translate('message_fields_required'),
 			$result
 		);
 	}
@@ -1011,64 +1092,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 					.'AND pid='.$pid
 					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
-		);
-	}
-
-
-	///////////////////////
-	// Utility functions.
-	///////////////////////
-
-	/**
-	 * Sets the global configuration values which need to be static during the
-	 * tests.
-	 */
-	private function setupStaticConditions() {
-		// avoids using the extension's real upload folder
-		$this->fixture->setUploadDirectory(self::$importFolder);
-		// avoids sending e-mails
-		$this->globalConfiguration->setConfigurationValueString(
-			'emailAddress', ''
-		);
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'onlyErrors', false
-		);
-		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema', self::$importFolder.'schema.xsd'
-		);
-		$this->globalConfiguration->setConfigurationValueString(
-			'importFolder', self::$importFolder
-		);
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'deleteZipsAfterImport', true
-		);
-		$this->globalConfiguration->setConfigurationValueBoolean(
-			'notifyContactPersons', true
-		);
-		$this->globalConfiguration->setConfigurationValueInteger(
-			'pidForRealtyObjectsAndImages', $this->systemFolderPid
-		);
-		$this->globalConfiguration->setConfigurationValueString(
-			'pidsForRealtyObjectsAndImagesByFileName', ''
-		);
-	}
-
-	/**
-	 * Cleans up the tables in which dummy records are created during the tests.
-	 */
-	private function cleanUp() {
-		foreach (array(REALTY_TABLE_OBJECTS, REALTY_TABLE_HOUSE_TYPES) as $table) {
-			$this->testingFramework->markTableAsDirty($table);
-		}
-		$this->testingFramework->cleanUp();
-	}
-
-	/**
-	 * Disables the XML validation.
-	 */
-	private function disableValidation() {
-		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema', ''
 		);
 	}
 }

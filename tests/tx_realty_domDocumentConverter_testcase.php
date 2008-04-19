@@ -32,10 +32,15 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_domDocumentConverterChild.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_translator.php');
+require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_domDocumentConverterChild.php');
+
 class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
+	/** instance to be tested */
+	private $fixture;
+
 	public function setUp() {
 		$this->fixture = new tx_realty_domDocumentConverterChild();
 	}
@@ -307,9 +312,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataSetsPetsTitleIfValueIsStringTrue() {
-		global $LANG;
-
+	public function testGetConvertedDataSetsLocalizedPetsTitleIfValueIsStringTrue() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -324,14 +327,12 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$LANG->getLL('label_allowed'),
+			t3lib_div::makeInstance('tx_realty_translator')->translate('label_allowed'),
 			$result[0]['pets']
 		);
 	}
 
-	public function testGetConvertedDataSetsPetsTitleIfValueIsOne() {
-		global $LANG;
-
+	public function testGetConvertedDataSetsLocalizedPetsTitleIfValueIsOne() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -346,99 +347,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$LANG->getLL('label_allowed'),
-			$result[0]['pets']
-		);
-	}
-
-	public function testGetConvertedDataSetsPetsGermanTitleIfLanguageIsGerman() {
-		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueString('cliLanguage', 'de');
-
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<verwaltung_objekt>'
-							.'<haustiere>true</haustiere>'
-						.'</verwaltung_objekt>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
-			'Erlaubt',
-			$result[0]['pets']
-		);
-	}
-
-	public function testGetConvertedDataSetsPetsEnglishTitleIfLanguageIsEnglish() {
-		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueString('cliLanguage', 'en');
-
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<verwaltung_objekt>'
-							.'<haustiere>true</haustiere>'
-						.'</verwaltung_objekt>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
-			'Allowed',
-			$result[0]['pets']
-		);
-	}
-
-	public function testGetConvertedDataSetsPetsEnglishTitleIfLanguageKeyIsInvalid() {
-		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueString('cliLanguage', 'xy');
-
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<verwaltung_objekt>'
-							.'<haustiere>true</haustiere>'
-						.'</verwaltung_objekt>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
-			'Allowed',
-			$result[0]['pets']
-		);
-	}
-
-	public function testGetConvertedDataSetsPetsEnglishTitleIfLanguageKeyIsEmpty() {
-		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueString('cliLanguage', '');
-
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<verwaltung_objekt>'
-							.'<haustiere>true</haustiere>'
-						.'</verwaltung_objekt>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
-			'Allowed',
+			t3lib_div::makeInstance('tx_realty_translator')->translate('label_allowed'),
 			$result[0]['pets']
 		);
 	}

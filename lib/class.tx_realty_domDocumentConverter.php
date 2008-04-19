@@ -35,6 +35,8 @@
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
+require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_translator.php');
+
 class tx_realty_domDocumentConverter {
 	/**
 	 * Associates database column names with their correspondings used in
@@ -377,13 +379,13 @@ class tx_realty_domDocumentConverter {
 			return;
 		}
 
-		$this->initializeLanguage();
+		$translator = t3lib_div::makeInstance('tx_realty_translator');
 
 		$petsValue = strtolower($this->importedData['pets']);
 		if (($petsValue == 1) || $this->isBooleanLikeStringTrue($petsValue)) {
-			$this->importedData['pets'] = $GLOBALS['LANG']->getLL('label_allowed');
+			$this->importedData['pets'] = $translator->translate('label_allowed');
 		} else {
-			$this->importedData['pets'] = $GLOBALS['LANG']->getLL('label_not_allowed');
+			$this->importedData['pets'] = $translator->translate('label_not_allowed');
 		}
 	}
 
@@ -932,26 +934,6 @@ class tx_realty_domDocumentConverter {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Initializes the global variable $LANG needed for localized strings. Uses
-	 * the EM configuration to set the language.
-	 */
-	protected function initializeLanguage() {
-		if (!is_object($GLOBALS['LANG'])) {
-			$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
-		}
-
-		$cliLanguage = tx_oelib_configurationProxy::getInstance('realty')->
-			getConfigurationValueString('cliLanguage');
-		if ($cliLanguage == '') {
-			$GLOBALS['LANG']->init('default');
-		} else {
-			$GLOBALS['LANG']->init($cliLanguage);
-		}
-
-		$GLOBALS['LANG']->includeLLFile('EXT:realty/lib/locallang.xml');
 	}
 }
 

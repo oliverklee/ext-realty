@@ -1,5 +1,6 @@
 2008-04-19 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1788] Change: Remove "global" from the importer class
 	* [#1725] Feature: Check whether ZipArchive is available
 	* [#1827] Fix: FORMidable mayday when saving an object in the FE editor
 
