@@ -132,6 +132,14 @@ class tx_realty_openImmoImport {
 
 		$this->addToLogEntry(date('Y-m-d G:i:s').LF);
 
+		// Aborts the import if the class for ZIP extraction is not available.
+		if (!in_array('zip', get_loaded_extensions())) {
+			$this->addToErrorLog('message_zip_archive_not_installed');
+			$this->storeLogsAndClearTemporaryLog();
+
+			return $this->logEntry;
+		}
+
 		$emailData = array();
 		$checkedImportDirectory = $this->unifyPath(
 			$this->globalConfiguration->getConfigurationValueString('importFolder')
