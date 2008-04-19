@@ -1031,6 +1031,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	///////////////////////////////////////////////
 	// * Functions called right before insertion.
 	///////////////////////////////////////////////
+	// ** addAdministrativeData().
+	////////////////////////////////
 
 	public function testAddAdministrativeDataAddsTheTimeStampForAnExistingObject() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
@@ -1140,9 +1142,16 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnifyNumbersToInsertForNoElementsWithNumericValues() {
+
+	///////////////////////
+	// ** unifyNumbers().
+	///////////////////////
+
+	public function testUnifyNumbersToInsertForNonNumericValues() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-		$formData = array('foo' => '12,3.45', 'bar' => 'abc,de.fgh');
+		$formData = array(
+			'title' => '12,3.45', 'employer' => 'abc,de.fgh'
+		);
 		$result = $this->fixture->modifyDataToInsert($formData);
 		// PID, object type and time stamp will always be added,
 		// they are not needed here.
@@ -1169,6 +1178,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$result
 		);
 	}
+
+
+	///////////////////////////////////
+	// ** storeNewAuxiliaryRecords().
+	///////////////////////////////////
 
 	public function testStoreNewAuxiliaryRecordsDeletesNonEmptyNewCityElement() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
@@ -1298,6 +1312,29 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertTrue(
 			$result['city'] == 1
+		);
+	}
+
+
+	/////////////////////////////////////
+	// ** purgeNonRealtyObjectFields().
+	/////////////////////////////////////
+
+	public function testFieldThatDoesNotExistInTheRealtyObjectsTableIsPurged() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertNotContains(
+			'spacer_01',
+			$this->fixture->modifyDataToInsert(array('spacer_01'))
+		);
+	}
+
+	public function testFieldThatExitsInTheRealtyObjectsTableIsNotPurged() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+
+		$this->assertNotContains(
+			'title',
+			$this->fixture->modifyDataToInsert(array('title'))
 		);
 	}
 

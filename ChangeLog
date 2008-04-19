@@ -1,3 +1,7 @@
+2008-04-19 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1827] Fix: FORMidable mayday when saving an object in the FE editor
+
 2008-04-16 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1818] Change: Comment and whitespace consistency cleanup

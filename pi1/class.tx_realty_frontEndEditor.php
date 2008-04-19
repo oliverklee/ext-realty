@@ -40,6 +40,9 @@ define('OBJECT_TYPE_SALE', 1);
 define('OBJECT_TYPE_RENT', 0);
 
 class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
+	/** column names of tx_realty_objects */
+	private $realtObjectFieldNames = array();
+
 	/**
 	 * Deletes a record if the current object UID is a valid UID that identifies
 	 * an object of an authorized FE user. Otherwise an error message will be
@@ -838,22 +841,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		return $this->getMessageForField($labelOfField, $messageLabel);
 	}
 
-	/**
-	 * Checks whether a provided field name is actually the name of a database
-	 * column of tx_realty_objects.
-	 *
-	 * @param	string		field name to check, must not be empty
-	 *
-	 * @return	boolean		true if $fieldName is a databse colum name of
-	 * 						tx_realty_objects, false otherwise
-	 */
-	private function isValidFieldName($fieldName) {
-		$allowedFieldNames =
-			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS);
-
-		return isset($allowedFieldNames[$fieldName]);
-	}
-
 
 	///////////////////////////////////
 	// * Functions used after submit.
@@ -864,7 +851,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * records if there are any.
 	 *
 	 * @see	addAdministrativeData(), unifyNumbersToInsert(),
-	 * 		storeNewAuxiliaryRecords()
+	 * 		storeNewAuxiliaryRecords(), purgeNonRealtyObjectFields()
 	 *
 	 * @param	array 		form data, must not be empty
 	 *
@@ -873,6 +860,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	public function modifyDataToInsert(array $formData) {
 		$modifiedFormData = $this->storeNewAuxiliaryRecords($formData);
+		$modifiedFormData = $this->purgeNonRealtyObjectFields($modifiedFormData);
 
 		return $this->addAdministrativeData(
 			$this->unifyNumbersToInsert($modifiedFormData)
@@ -979,10 +967,31 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
+	 * Removes all form data elements that are not fields in the realty objects
+	 * table. E.g. spacers and the "new_*" used to add new auxiliary records.
+	 *
+	 * @param	array 		form data, must not be empty
+	 *
+	 * @return	array		modified form data
+	 */
+	private function purgeNonRealtyObjectFields(array $formData) {
+		$modifiedFormData = array();
+
+		foreach ($formData as $key => $value) {
+			// isValidFieldName() returns true for column names of the realty
+			// objects table.
+			if ($this->isValidFieldName($key)) {
+				$modifiedFormData[$key] = $value;
+			}
+		}
+
+		return $modifiedFormData;
+	}
+
+	/**
 	 * Stores new auxiliary records in the database if there are any in the
 	 * provided form data and modifies the form data.
-	 * The UIDs of the new records are written to the form data and the
-	 * elements where the new auxiliary record's titles were stored are deleted.
+	 * The UIDs of the new records are written to the form data.
 	 *
 	 * @param	array 		form data, must not be empty
 	 *
@@ -1005,10 +1014,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 				$modifiedFormData[$key] = $uid;
 			}
-
-			// The FORMidable datahandler expects the form data array to contain
-			// only elements named like collumns in tx_realty_objects.
-			unset($modifiedFormData['new_'.$key]);
 		}
 
 		return $modifiedFormData;
@@ -1202,6 +1207,30 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			OBJECT_TYPE_SALE,
 			OBJECT_TYPE_RENT
 		);
+	}
+
+	/**
+	 * Checks whether a provided field name is actually the name of a database
+	 * column of the realty objects table.
+	 *
+	 * @param	string		field name to check, must not be empty
+	 *
+	 * @return	boolean		true if $fieldName is a database colum name of the
+	 * 						realty objects table, false otherwise
+	 */
+	private function isValidFieldName($fieldName) {
+		if (trim($fieldName) == '') {
+			throw new Exception('$fieldName must not be empty.');
+		}
+
+		// To reduce database queries in order to improve performance, the
+		// column names stored in an member variable.
+		if (empty($this->realtObjectFieldNames)) {
+			$this->realtObjectFieldNames
+				= $GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS);
+		}
+
+		return isset($this->realtObjectFieldNames[$fieldName]);
 	}
 
 
