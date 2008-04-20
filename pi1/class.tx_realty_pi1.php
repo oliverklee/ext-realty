@@ -201,10 +201,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 			case 'single_view':
 				$result = $this->createSingleView();
-				// If the single view results in an error, use the list view instead.
-				if (empty($result)) {
-					$result = $this->createListView();
-				}
 				break;
 			case 'contact_form':
 				$contactFormClassName = t3lib_div::makeInstanceClassName(
@@ -309,10 +305,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setMarker('pagination', $this->createPagination());
 			$this->setSubpart('wrapper_sorting', $this->createSorting());
 		} else {
-			$this->setMarker('message_noResultsFound', $this->translate('message_noResultsFound_'.$this->getCurrentView()));
-			$this->setSubpart('list_result', $this->getSubpart('EMPTY_LIST_RESULT'));
-			$this->setSubpart('favorites_result', $this->getSubpart('EMPTY_LIST_RESULT'));
-			$this->setSubpart('my_objects_result', $this->getSubpart('EMPTY_LIST_RESULT'));
+			$this->setEmptyResultView();
 		}
 
 		switch ($this->getCurrentView()) {
@@ -544,34 +537,57 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Sets the view to an empty result message specific for the requested view.
+	 */
+	private function setEmptyResultView() {
+		$view = $this->getCurrentView();
+
+		$this->setMarker(
+			'message_noResultsFound',
+			$this->translate('message_noResultsFound_'.$view)
+		);
+
+		// All subparts to replace when the view is empty are named
+		// [current view]'_result', except for the list view. The subpart to
+		// replace when the list view is empty is called 'list_result'.
+		// Therefore the prefix 'realty_' needs to be removed from the current
+		// view's name.
+		$subpartName = str_replace('realty_', '', $view).'_result';
+		$this->setSubpart(
+			$subpartName, $this->getSubpart('EMPTY_RESULT_VIEW')
+		);
+	}
+
+	/**
 	 * Displays a single item from the database. If access to the single view
 	 * is denied, a message with a link to the login page will be displayed
-	 * instead.
+	 * instead. If the requested record is not availiable, e.g. if the UID is
+	 * invalid or the record is hidden, the result will be an error message.
 	 *
-	 * @return	string		HTML of a single database entry (will be an empty
-	 * 						string in the case of an error) or an error message
-	 * 						with a link to the login page if access is denied
+	 * @return	string		HTML of a single database entry or an error message
+	 * 						with a link to the login page if access is denied or
+	 * 						an empty result message if the requested record is
+	 * 						not availiable, will not be empty
 	 */
 	private function createSingleView()	{
-		$result = '';
+		if (!$this->isAccessToSingleViewPageAllowed()) {
+			$this->setMarker('login_link', $this->createLinkToSingleViewPage(
+				$this->translate('message_please_login'),
+				$this->piVars['showUid']
+			));
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+				->addHeader('Status: 403 Forbidden');
 
-		if ($this->isAccessToSingleViewPageAllowed()) {
-			$this->internal['currentRow'] = $this->getRecordForSingleView();
-		} else {
-			$this->internal['currentRow'] = array();
-
-			$this->setMarkerContent(
-				'login_link',
-				$this->createLinkToSingleViewPage(
-					$this->pi_getLL('message_please_login'),
-					$this->piVars['showUid']
-				)
-			);
-
-			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
+			return $this->getSubpart('ACCESS_DENIED_VIEW');
 		}
 
-		if (!empty($this->internal['currentRow'])) {
+		$this->internal['currentRow'] = $this->getRecordForSingleView();
+
+		if (empty($this->internal['currentRow'])) {
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+				->addHeader('Status: 404 Not Found');
+			$this->setEmptyResultView();
+		} else {
 			// This sets the title of the page for display and for use in indexed search results.
 			if (!empty($this->internal['currentRow']['title']))	{
 				$GLOBALS['TSFE']->page['title'] = $this->internal['currentRow']['title'];
@@ -579,12 +595,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 
 			// stuff that should always be visible
-			foreach (array(
-				'title',
-				'uid',
-				'city',
-			) as $key) {
-				$this->setMarkerContent($key, $this->getFieldContent($key));
+			foreach (array('title', 'uid', 'city') as $key) {
+				$this->setMarker($key, $this->getFieldContent($key));
 			}
 
 			// string stuff that should conditionally be visible
@@ -599,37 +611,35 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'misc'
 			) as $key) {
 				$this->setOrDeleteMarkerIfNotEmpty(
-					$key,
-					$this->getFieldContent($key),
-					'',
-					'field_wrapper'
+					$key, $this->getFieldContent($key), '', 'field_wrapper'
 				);
 			}
 
 			if (!$this->getConfValueBoolean('showAddressOfObjects')) {
-				$this->readSubpartsToHide('street', 'field_wrapper');
+				$this->hideSubparts('street', 'field_wrapper');
 			}
 
 			$this->fillOrHideOffererWrapper();
 
 			// marker for button
-			$this->setMarkerContent('back_url', $this->pi_linkTP_keepPIvars_url(array('showUid' => '')));
-			$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
+			$this->setMarker(
+				'back_url',
+				$this->pi_linkTP_keepPIvars_url(array('showUid' => ''))
+			);
+			$this->setMarker('favorites_url', $this->getFavoritesUrl());
 
 			if ($this->getCurrentView() == 'favorites') {
-				$this->readSubpartsToHide('add_to_favorites', 'wrapper');
+				$this->hideSubparts('add_to_favorites', 'wrapper');
 			} else {
-				$this->readSubpartsToHide('remove_from_favorites', 'wrapper');
+				$this->hideSubparts('remove_from_favorites', 'wrapper');
 			}
 
 			$this->fillOrHideContactWrapper();
 			$this->createOverviewTableInSingleView();
-			$this->setSubpartContent('images_list', $this->createImagesInSingleView());
-
-			$result = $this->substituteMarkerArrayCached('SINGLE_VIEW');
+			$this->setSubpart('images_list', $this->createImagesInSingleView());
 		}
 
-		return $result;
+		return $this->getSubpart('SINGLE_VIEW');
 	}
 
 	/**

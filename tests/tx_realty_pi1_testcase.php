@@ -1395,11 +1395,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			self::$firstObjectTitle,
 			$this->fixture->main('', array())
 		);
-		// asserts this is not the list view
-		$this->assertContains(
-			$this->fixture->translate('label_overview'),
-			$this->fixture->main('', array())
-		);
 	}
 
 	public function testDetailViewNotDisplaysHiddenObjectForNonOwner() {
@@ -1453,11 +1448,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			self::$firstObjectTitle,
 			$this->fixture->main('', array())
 		);
-		// asserts this is not the list view
-		$this->assertContains(
-			$this->fixture->translate('label_overview'),
-			$this->fixture->main('', array())
-		);
 	}
 
 	public function testDetailViewDisplaysVisibleObjectWithoutOwnerForLoggedInUser() {
@@ -1478,10 +1468,89 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			self::$firstObjectTitle,
 			$this->fixture->main('', array())
 		);
-		// asserts this is not the list view
+	}
+
+	public function testDetailViewDisplaysErrorMessageForNonExistentObject() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+
 		$this->assertContains(
-			$this->fixture->translate('label_overview'),
+			$this->fixture->translate('message_noResultsFound_single_view'),
 			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewDisplaysErrorMessageForHiddenObject() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_single_view'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewDisplaysErrorMessageForDeletedObject() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('deleted' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_single_view'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewDisplaysErrorMessageForLoggedInUserWhenObjectIsHiddenByForeignUser() {
+		$this->testingFramework->loginFrontEndUser(
+			$this->testingFramework->createFrontEndUser(
+				$this->testingFramework->createFrontEndUserGroup()
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'hidden' => 1,
+				'owner' =>$this->testingFramework->createFrontEndUser(
+					$this->testingFramework->createFrontEndUserGroup()
+				)
+			)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_single_view'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testHeaderIsSetIfDetailViewDisplaysNoResultsMessage() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'Status: 404 Not Found',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testHeaderIsSetIfDetailViewDisplaysAccessDeniedMessage() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->denyAccess();
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'Status: 403 Forbidden',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
 	}
 
