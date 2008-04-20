@@ -33,6 +33,7 @@
 			<label index="message_files_removed">The following files have been removed</label>
 			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
 			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
+			<label index="label_subject_openImmo_import">OpenImmo import</label>
 			<label index="label_object_number">Object Number</label>
 			<label index="label_allowed">Allowed</label>
 			<label index="label_not_allowed">Unwelcome</label>
@@ -63,6 +64,7 @@
 			<label index="message_files_removed">Folgende Dateien wurden gelöscht</label>
 			<label index="message_introduction">Hier ist das Ergebnis des letzen Imports Ihrer OpenImmo Datensätze.</label>
 			<label index="message_explanation">Sie erhalten diese E-Mail, weil Sie die Kotaktperson für die oben genannten Immobilien sind.</label>
+			<label index="label_subject_openImmo_import">OpenImmo-Import</label>
 			<label index="label_object_number">Objektnummer</label>
 			<label index="label_allowed">Erlaubt</label>
 			<label index="label_not_allowed">Unerwünscht</label>
@@ -95,6 +97,7 @@
 			<label index="message_files_removed" type="integer">180330163</label>
 			<label index="message_introduction" type="integer">254777339</label>
 			<label index="message_explanation" type="integer">205777286</label>
+			<label index="label_subject_openImmo_import" type="integer">191942723</label>
 			<label index="label_object_number" type="integer">180539649</label>
 			<label index="label_allowed" type="integer">196476508</label>
 			<label index="label_not_allowed" type="integer">95428607</label>
@@ -127,6 +130,7 @@
 			<label index="message_files_removed">The following files have been removed</label>
 			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
 			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
+			<label index="label_subject_openImmo_import">OpenImmo import</label>
 			<label index="label_object_number">Object Number</label>
 			<label index="label_allowed">Allowed</label>
 			<label index="label_not_allowed">Unwelcome</label>

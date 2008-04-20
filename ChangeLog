@@ -1,5 +1,6 @@
 2008-04-20 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1606] Feature: Add unit tests for the e-mail functions of the OpenImmo import
 	* [#1760] Change: Display an error message if the UID for the detail view is invalid
 
 2008-04-19 Saskia Metzler <saskia@merlin.owl.de>

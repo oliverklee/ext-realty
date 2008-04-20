@@ -35,6 +35,7 @@
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_translator.php');
@@ -209,6 +210,7 @@ class tx_realty_openImmoImport {
 			$emailData = $this->createWrappedEmailRawDataArray(
 				$this->findContactEmails($currentZip)
 			);
+			$this->storeLogsAndClearTemporaryLog();
 		}
 
 		return $emailData;
@@ -427,10 +429,18 @@ class tx_realty_openImmoImport {
 	 * 						'logEntry' and 'errorLog' as values of an outer
 	 * 						array, will not be empty
 	 */
-	private function createWrappedEmailRawDataArray(array $emails) {
+	private function createWrappedEmailRawDataArray(array $emailAddresses) {
 		$collectedRawData = array();
 
-		foreach ($emails as $address) {
+		if (empty($emailAddresses)) {
+			// This ensures that the foreach loop is passed at least one time,
+			// so the message can at least be sent to the default address.
+			$failureMessageRecipients = array('');
+		} else {
+			$failureMessageRecipients = $emailAddresses;
+		}
+
+		foreach ($failureMessageRecipients as $address) {
 			$collectedRawData[] = $this->createEmailRawDataArray($address, '');
 		}
 
@@ -635,9 +645,9 @@ class tx_realty_openImmoImport {
 		}
 
 		foreach ($addressesAndMessages as $address => $content) {
-			t3lib_div::plainMailEncoded(
+			tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
 				$address,
-				'OpenImmo import',
+				$this->translator->translate('label_subject_openImmo_import'),
 				$this->fillEmailTemplate($content)
 			);
 		}

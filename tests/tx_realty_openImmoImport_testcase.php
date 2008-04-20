@@ -33,6 +33,7 @@
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
@@ -66,6 +67,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->globalConfiguration= tx_oelib_configurationProxy::getInstance('realty');
 
+		tx_oelib_mailerFactory::getInstance()->enableTestMode();
+
 		$this->templateHelper= t3lib_div::makeInstance('tx_oelib_templatehelper');
 		$this->templateHelper->init();
 
@@ -77,6 +80,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->cleanUp();
+		tx_oelib_mailerFactory::getInstance()->getMailer()->cleanUpCollectedEmailData();
+		tx_oelib_mailerFactory::getInstance()->disableTestMode();
 		unset(
 			$this->fixture,
 			$this->translator,
@@ -100,9 +105,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private function setupStaticConditions() {
 		// avoids using the extension's real upload folder
 		$this->fixture->setUploadDirectory(self::$importFolder);
-		// avoids sending e-mails
 		$this->globalConfiguration->setConfigurationValueString(
-			'emailAddress', ''
+			'emailAddress', 'default-address@valid-email.org'
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'onlyErrors', false
@@ -1093,6 +1097,38 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
+	}
+
+
+	/////////////////////////////////
+	// Testing the e-mail contents.
+	/////////////////////////////////
+
+	public function testEmailSubjectIsSetCorrectly() {
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			$this->translator->translate('label_subject_openImmo_import'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastSubject()
+		);	
+	}
+
+	public function testEmailIsSentToDefaultAddressIfAtLeastForOneRecordNoContactEmailWasFound() {
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'default-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);	
+	}
+
+	public function testSentEmailContainsTheObjectNumberLabel() {
+		$this->fixture->importFromZip();
+
+		$this->assertContains(
+			$this->translator->translate('label_object_number'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);	
 	}
 }
 ?>
