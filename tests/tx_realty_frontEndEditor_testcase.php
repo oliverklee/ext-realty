@@ -80,8 +80,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->purgeCollectedHeaders();
 		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
-		tx_oelib_mailerFactory::getInstance()->getMailer()->cleanUpCollectedEmailData();
-		tx_oelib_mailerFactory::getInstance()->disableTestMode();
+		tx_oelib_mailerFactory::getInstance()->discardInstance();
 
 		unset($this->fixture, $this->pi1, $this->testingFramework);
 	}

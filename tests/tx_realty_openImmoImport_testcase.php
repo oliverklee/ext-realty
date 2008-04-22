@@ -80,8 +80,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->cleanUp();
-		tx_oelib_mailerFactory::getInstance()->getMailer()->cleanUpCollectedEmailData();
-		tx_oelib_mailerFactory::getInstance()->disableTestMode();
+		tx_oelib_mailerFactory::getInstance()->discardInstance();
 		unset(
 			$this->fixture,
 			$this->translator,
