@@ -71,8 +71,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->purgeCollectedHeaders();
-		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
+		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
 
