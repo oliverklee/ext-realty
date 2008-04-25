@@ -581,7 +581,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return $this->getSubpart('ACCESS_DENIED_VIEW');
 		}
 
-		$this->internal['currentRow'] = $this->getRecordForSingleView();
+		$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
 
 		if (empty($this->internal['currentRow'])) {
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
@@ -643,12 +643,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns a list row for the single view.
+	 * Returns a list row according to the current 'showUid'.
 	 *
 	 * @return	array		record to display in the single view, will be empty
 	 * 						if the record to display does not exist
 	 */
-	private function getRecordForSingleView() {
+	private function getCurrentRowForShowUid() {
 		$showUid = 'uid='.$this->piVars['showUid'];
 		$whereClause = '('.$showUid.$this->enableFields(REALTY_TABLE_OBJECTS).')';
 		// Logged-in users may also see their hidden objects in the single view.
@@ -1339,14 +1339,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	pointer		SQL result pointer (may be null)
 	 */
 	private function queryForImage($offset = 0) {
-		$where = 'AND '.$this->tableNames['objects'].'.uid='.$this->internal['currentRow']['uid'];
+		// The UID will not be set if a hidden or deleted record was requested.
+		if (!isset($this->internal['currentRow']['uid'])) {
+			return;
+		}
 
 		return $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
 			'image, caption',
-			$this->tableNames['objects'],
-			$this->tableNames['images_relation'],
-			$this->tableNames['images'],
-			$where,
+			REALTY_TABLE_OBJECTS,
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			REALTY_TABLE_IMAGES,
+			'AND '.REALTY_TABLE_OBJECTS.'.uid='.$this->internal['currentRow']['uid'],
 			'',
 			'sorting',
 			intval($offset).',1'
@@ -1356,23 +1359,27 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Counts the images that are associated with the current record.
 	 *
-	 * @return	integer		the number of images associated with the current record (may be zero)
+	 * @return	integer		the number of images associated with the current
+	 * 						record (may be zero)
 	 */
 	private function countImages() {
-		$result = 0;
-		$where = 'uid_local='.$this->internal['currentRow']['uid'];
+		// The UID will not be set if a hidden or deleted record was requested.
+		if (!isset($this->internal['currentRow']['uid'])) {
+			return 0;
+		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'COUNT(*) as number',
-			$this->tableNames['images_relation'],
-			$where
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			'uid_local='.$this->internal['currentRow']['uid']
 		);
-		if ($dbResult) {
-			$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			$result = $dbResultRow['number'];
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		return $result;
+		$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return $dbResultRow['number'];
 	}
 
 	/**
@@ -1405,7 +1412,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$isOkay = false;
 
 		if ($this->hasShowUidInUrl()) {
-			$this->internal['currentRow'] = $this->pi_getRecord($this->tableNames['objects'], $this->piVars['showUid']);
+			$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
 
 			// This sets the title of the page for display and for use in indexed search results.
 			if (!empty($this->internal['currentRow']['title']))	{

@@ -1688,6 +1688,100 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGalleryDisplaysNoWarningWithAllParameterForHiddenObjectWhenOwnerLoggedIn() {
+		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid, $imageUid
+		);
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId, 'hidden' => 1)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->piVars['image'] = 0;
+
+		$this->assertNotContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);		
+	}
+
+	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectWhenNoUserLoggedIn() {
+		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid, $imageUid
+		);
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId, 'hidden' => 1)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->piVars['image'] = 0;
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);		
+	}
+
+	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectForLoggedInNonOwner() {
+		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid, $imageUid
+		);
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId + 1, 'hidden' => 1)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->piVars['image'] = 0;
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);		
+	}
+
+	public function testGalleryDisplaysWarningForInvalidUid() {
+		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid, $imageUid
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+		$this->fixture->piVars['image'] = 0;
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concering the my objects list.
