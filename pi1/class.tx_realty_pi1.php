@@ -31,8 +31,8 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 
@@ -151,7 +151,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		HTML for the plugin
 	 */
-	public function main($content, array $conf)	{
+	public function main($content, array $conf) {
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
@@ -166,7 +166,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->internal['currentTable'] = $this->tableNames['objects'];
-		$this->securePiVars(array('city', 'image', 'remove', 'descFlag'));
+		$this->securePiVars(array('city', 'image', 'remove', 'descFlag', 'showUid'));
 
 		$result = '';
 
@@ -182,10 +182,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 			case 'single_view':
 				$result = $this->createSingleView();
-				// If the single view results in an error, use the list view instead.
-				if (empty($result)) {
-					$result = $this->createListView();
-				}
 				break;
 			case 'favorites':
 				// The fallthrough is intended because the favorites view is just
@@ -217,9 +213,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$dbResult = $this->initListView();
 
-		$this->setSubpartContent('list_filter', $this->createCheckboxesFilter());
-		$this->setMarkerContent('self_url', $this->getSelfUrl());
-		$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
+		$this->setSubpart('list_filter', $this->createCheckboxesFilter());
+		$this->setMarker('self_url', $this->getSelfUrl());
+		$this->setMarker('favorites_url', $this->getFavoritesUrl());
 
 		if (($this->internal['res_count'] > 0)
 			&& $dbResult
@@ -234,18 +230,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 
 			$listBody = implode('', $rows);
-			$this->setMarkerContent('realty_items', $listBody);
-			$this->setSubpartContent('pagination', $this->createPagination());
-			$this->setSubpartContent('wrapper_sorting', $this->createSorting());
+			$this->setMarker('realty_items', $listBody);
+			$this->setMarker('pagination', $this->createPagination());
+			$this->setSubpart('wrapper_sorting', $this->createSorting());
 		} else {
-			$this->setMarkerContent('message_noResultsFound', $this->pi_getLL('message_noResultsFound_'.$this->getCurrentView()));
-			$this->setSubpartContent('list_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
-			$this->setSubpartContent('favorites_result', $this->substituteMarkerArrayCached('EMPTY_LIST_RESULT'));
+			$this->setEmptyResultView();
 		}
 
 		if (($this->getCurrentView() == 'favorites')) {
 			$this->fillOrHideContactWrapper();
-			$result = $this->substituteMarkerArrayCached('FAVORITES_VIEW');
+			$result = $this->getSubpart('FAVORITES_VIEW');
 
 			if ($this->hasConfValueString('favoriteFieldsInSession')
 				&& isset($GLOBALS['TSFE']->fe_user)) {
@@ -253,7 +247,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$GLOBALS['TSFE']->fe_user->storeSessionData();
 			}
 		} else {
-			$result = $this->substituteMarkerArrayCached('LIST_VIEW');
+			$result = $this->getSubpart('LIST_VIEW');
 		}
 
 		return $result;
@@ -268,13 +262,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function initListView() {
 		// To ensure that sorting by cities actually sorts the titles and not
 		// the cities' UIDs, the join on the tx_realty_cities table is needed.
-		$table = $this->internal['currentTable'].' INNER JOIN '
-			.$this->tableNames['city'].' ON '.$this->internal['currentTable']
-			.'.city = '.$this->tableNames['city'].'.uid';
+		$table = REALTY_TABLE_OBJECTS.' INNER JOIN '.REALTY_TABLE_CITIES
+			.' ON '.REALTY_TABLE_OBJECTS.'.city = '.REALTY_TABLE_CITIES.'.uid';
 		$whereClause = $this->createWhereClause();
 
 		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$this->tableNames['objects'].'.*',
+			REALTY_TABLE_OBJECTS.'.*',
 			$table,
 			$whereClause,
 			'',
@@ -291,15 +284,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createWhereClause() {
 		// The result may only contain non-deleted and non-hidden records which
 		// are in the set of allowed pages.
-		$whereClause = '1=1'.$this->enableFields($this->tableNames['objects'])
-			.$this->enableFields($this->tableNames['city']);
+		$whereClause = '1=1'.$this->enableFields(REALTY_TABLE_OBJECTS)
+			.$this->enableFields(REALTY_TABLE_CITIES);
 		$pidList = $this->pi_getPidList(
 			$this->conf['pidList'], $this->conf['recursive']
 		);
 
 		if (!empty($pidList)) {
 			$whereClause .=
-				' AND '.$this->tableNames['objects'].'.pid IN ('.$pidList.')';
+				' AND '.REALTY_TABLE_OBJECTS.'.pid IN ('.$pidList.')';
 		}
 
 		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
@@ -307,7 +300,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// finds only cities that match the UID in piVars['city']
 		if (isset($this->piVars['city'])) {
-			$whereClause .=  ' AND '.$this->tableNames['objects'].'.city='
+			$whereClause .=  ' AND '.REALTY_TABLE_OBJECTS.'.city='
 				.intval($this->piVars['city']);
 		}
 
@@ -327,7 +320,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$searchSelection = implode(',', $this->getSearchSelection());
 		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$whereClause .=	' AND '.$this->tableNames['objects']
+			$whereClause .=	' AND '.REALTY_TABLE_OBJECTS
 				.'.'.$this->getConfValueString('checkboxesFilter')
 				.' IN ('.$searchSelection.')';
 		}
@@ -371,9 +364,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			// needs to be sorted by the cities' titles which are in a separate
 			// table.
 			if ($sortCriterion == 'city') {
-				$result = $this->tableNames['city'].'.title';
+				$result = REALTY_TABLE_CITIES.'.title';
 			} else {
-				$result = $this->tableNames['objects'].'.'.$sortCriterion;
+				$result = REALTY_TABLE_OBJECTS.'.'.$sortCriterion;
 			}
 
 			$result .= ($descendingFlag ? ' DESC' : ' ASC');
@@ -435,38 +428,57 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Sets the view to an empty result message specific for the requested view.
+	 */
+	private function setEmptyResultView() {
+		$view = $this->getCurrentView();
+
+		$this->setMarker(
+			'message_noResultsFound',
+			$this->translate('message_noResultsFound_'.$view)
+		);
+
+		// All subparts to replace when the view is empty are named
+		// [current view]'_result', except for the list view. The subpart to
+		// replace when the list view is empty is called 'list_result'.
+		// Therefore the prefix 'realty_' needs to be removed from the current
+		// view's name.
+		$subpartName = str_replace('realty_', '', $view).'_result';
+		$this->setSubpart(
+			$subpartName, $this->getSubpart('EMPTY_RESULT_VIEW')
+		);
+	}
+
+	/**
 	 * Displays a single item from the database. If access to the single view
 	 * is denied, a message with a link to the login page will be displayed
-	 * instead.
+	 * instead. If the requested record is not availiable, e.g. if the UID is
+	 * invalid or the record is hidden, the result will be an error message.
 	 *
-	 * @return	string		HTML of a single database entry (will be an empty
-	 * 						string in the case of an error) or an error message
-	 * 						with a link to the login page if access is denied
+	 * @return	string		HTML of a single database entry or an error message
+	 * 						with a link to the login page if access is denied or
+	 * 						an empty result message if the requested record is
+	 * 						not availiable, will not be empty
 	 */
 	private function createSingleView()	{
-		$result = '';
+		if (!$this->isAccessToSingleViewPageAllowed()) {
+			$this->setMarker('login_link', $this->createLinkToSingleViewPage(
+				$this->translate('message_please_login'),
+				$this->piVars['showUid']
+			));
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+				->addHeader('Status: 403 Forbidden');
 
-		$uid = intval($this->piVars['showUid']);
-
-		if ($this->isAccessToSingleViewPageAllowed()) {
-			$this->internal['currentRow'] = $this->pi_getRecord(
-				$this->tableNames['objects'],
-				$uid
-			);
-		} else {
-			$this->internal['currentRow'] = array();
-
-			$this->setMarkerContent(
-				'login_link',
-				$this->createLinkToSingleViewPage(
-					$this->pi_getLL('message_please_login'), $uid
-				)
-			);
-
-			$result = $this->substituteMarkerArrayCached('ACCESS_DENIED_VIEW');
+			return $this->getSubpart('ACCESS_DENIED_VIEW');
 		}
 
-		if (!empty($this->internal['currentRow'])) {
+		$this->internal['currentRow'] = $this->getRecordForSingleView();
+
+		if (empty($this->internal['currentRow'])) {
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+				->addHeader('Status: 404 Not Found');
+			$this->setEmptyResultView();
+		} else {
 			// This sets the title of the page for display and for use in indexed search results.
 			if (!empty($this->internal['currentRow']['title']))	{
 				$GLOBALS['TSFE']->page['title'] = $this->internal['currentRow']['title'];
@@ -474,12 +486,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 
 			// stuff that should always be visible
-			foreach (array(
-				'title',
-				'uid',
-				'city',
-			) as $key) {
-				$this->setMarkerContent($key, $this->getFieldContent($key));
+			foreach (array('title', 'uid', 'city') as $key) {
+				$this->setMarker($key, $this->getFieldContent($key));
 			}
 
 			// string stuff that should conditionally be visible
@@ -494,34 +502,57 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'misc'
 			) as $key) {
 				$this->setOrDeleteMarkerIfNotEmpty(
-					$key,
-					$this->getFieldContent($key),
-					'',
-					'field_wrapper'
+					$key, $this->getFieldContent($key), '', 'field_wrapper'
 				);
 			}
 
 			if (!$this->getConfValueBoolean('showAddressOfObjects')) {
-				$this->readSubpartsToHide('street', 'field_wrapper');
+				$this->hideSubparts('street', 'field_wrapper');
 			}
 
 			// marker for button
-			$this->setMarkerContent('back_url', $this->pi_linkTP_keepPIvars_url(array('showUid' => '')));
-			$this->setMarkerContent('favorites_url', $this->getFavoritesUrl());
+			$this->setMarker(
+				'back_url',
+				$this->pi_linkTP_keepPIvars_url(array('showUid' => ''))
+			);
+			$this->setMarker('favorites_url', $this->getFavoritesUrl());
 
 			if ($this->getCurrentView() == 'favorites') {
-				$this->readSubpartsToHide('add_to_favorites', 'wrapper');
+				$this->hideSubparts('add_to_favorites', 'wrapper');
 			} else {
-				$this->readSubpartsToHide('remove_from_favorites', 'wrapper');
+				$this->hideSubparts('remove_from_favorites', 'wrapper');
 			}
 
+			$this->fillOrHideContactWrapper();
 			$this->createOverviewTableInSingleView();
-			$this->setSubpartContent('images_list', $this->createImagesInSingleView());
-
-			$result = $this->substituteMarkerArrayCached('SINGLE_VIEW');
+			$this->setSubpart('images_list', $this->createImagesInSingleView());
 		}
 
-		return $result;
+		return $this->getSubpart('SINGLE_VIEW');
+	}
+
+	/**
+	 * Returns a list row for the single view.
+	 *
+	 * @return	array		record to display in the single view, will be empty
+	 * 						if the record to display does not exist
+	 */
+	private function getRecordForSingleView() {
+		$showUid = 'uid='.$this->piVars['showUid'];
+		$whereClause = '('.$showUid.$this->enableFields(REALTY_TABLE_OBJECTS).')';
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'*',
+			REALTY_TABLE_OBJECTS,
+			$whereClause
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return ($result !== false) ? $result : array();
 	}
 
 	/**
@@ -1181,7 +1212,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setMarkerContent('message_invalidImage', $this->pi_getLL('message_invalidImage'));
 			$result = $this->substituteMarkerArrayCached('GALLERY_ERROR');
 			// send a 404 to inform crawlers that this URL is invalid
-			header('Status: 404 Not Found');
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+				->addHeader('Status: 404 Not Found');
 		}
 
 		return $result;
@@ -1547,32 +1579,22 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML code for the page browser (may be empty)
 	 */
 	private function createPagination() {
-		$result = '';
-
-		if ($this->internal['lastPage'] > 0) {
-			$links = $this->createPaginationLink(
-				max(0, $this->piVars['pointer'] - 1),
-				'&lt;',
-				false
-			);
-			$links .= $this->createPageList();
-			$links .= $this->createPaginationLink(
-				min($this->internal['lastPage'],
-				$this->piVars['pointer'] + 1),
-				'&gt;',
-				false
-			);
-
-			$this->setMarkerContent('links_to_result_pages', $links);
-			// The subpart PAGINATION appears more than once in the template:
-			// The first occurance is used as a the main data source while the
-			// other subparts contain design dummies that will be replaced.
-			// The behavior of substituteMarkerArrayCached() is to use the first
-			// occurance.
-			$result = $this->substituteMarkerArrayCached('PAGINATION');
+		if ($this->internal['lastPage'] <= 0) {
+			return '';
 		}
 
-		return $result;
+		$links = $this->createPaginationLink(
+			max(0, $this->piVars['pointer'] - 1), '&lt;', false
+		);
+		$links .= $this->createPageList();
+		$links .= $this->createPaginationLink(
+			min($this->internal['lastPage'], $this->piVars['pointer'] + 1),
+			'&gt;',
+			false
+		);
+		$this->setSubpart('links_to_result_pages', $links);
+
+		return $this->getSubpart('PAGINATION');
 	}
 
 	/**
@@ -1608,17 +1630,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createPaginationLink($pageNum, $linkText, $alsoShowNonLinks = true) {
 		$result = '';
-		$this->setMarkerContent('linktext', $linkText);
+		$this->setMarker('linktext', $linkText);
 
 		// Don't link to the current page (for usability reasons).
 		if ($pageNum == $this->piVars['pointer']) {
 			if ($alsoShowNonLinks) {
-				$result = $this->substituteMarkerArrayCached('NO_LINK_TO_CURRENT_PAGE');
+				$result = $this->getSubpart('NO_LINK_TO_CURRENT_PAGE');
 			}
 		} else {
 			$url = $this->pi_linkTP_keepPIvars_url(array('pointer' => $pageNum));
-			$this->setMarkerContent('url', $url);
-			$result = $this->substituteMarkerArrayCached('LINK_TO_OTHER_PAGE');
+			$this->setMarker('url', $url);
+			$result = $this->getSubpart('LINK_TO_OTHER_PAGE');
 		}
 
 		return $result;
@@ -1834,42 +1856,62 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createLinkToSingleViewPageForAnyLinkText(
 		$linkText, $uid, $separateSingleViewPage = ''
 	) {
-		$result = '';
+		if (empty($linkText)) {
+			return '';
+		}
 
-		if (!empty($linkText)) {
-			// disables the caching if we are in the favorites list
-			$useCache = ($this->getCurrentView() != 'favorites');
+		$hasSeparateSingleViewPage = ($separateSingleViewPage != '');
+		// disables the caching if we are in the favorites list
+		$useCache = ($this->getCurrentView() != 'favorites');
 
-			if ($separateSingleViewPage != '') {
-				$completeLink = $this->cObj->getTypoLink(
-					$linkText, $separateSingleViewPage
-				);
-			} else {
-				$completeLink = $this->pi_list_linkSingle(
-					$linkText,
-					intval($uid),
-					$useCache,
-					array(),
-					false,
-					$this->getConfValueInteger('singlePID')
-				);
-			}
+		if ($hasSeparateSingleViewPage) {
+			$completeLink = $this->cObj->getTypoLink(
+				$linkText, $separateSingleViewPage
+			);
+		} else {
+			$completeLink = $this->pi_list_linkSingle(
+				$linkText,
+				intval($uid),
+				$useCache,
+				array(),
+				false,
+				$this->getConfValueInteger('singlePID')
+			);
+		}
 
-			if ($this->isAccessToSingleViewPageAllowed()) {
-				$result = $completeLink;
-			} else {
-				$redirectUrl = t3lib_div::locationHeaderUrl(
-					$this->cObj->lastTypoLinkUrl
-				);
-				$result = $this->cObj->getTypoLink(
-					$linkText,
-					$this->getConfValueInteger('loginPID'),
-					array('redirect_url' => $redirectUrl)
-				);
-			}
+		if ($this->isAccessToSingleViewPageAllowed()) {
+			$result = $completeLink;
+		} else {
+			$result = $this->createLoginPageLink(
+				$linkText, $hasSeparateSingleViewPage
+			);
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Creates a link to the login page. The link will contain a redirect URL to
+	 * the page which contains the link.
+	 *
+	 * @param	string		link text, HTML tags will not be replaced, must not
+	 * 						be empty
+	 * @param	boolean		whether the redirect link needs to be created for an
+	 * 						external single view page
+	 *
+	 * @return	string		link text wrapped by the link to the login page,
+	 * 						will not be empty
+	 */
+	private function createLoginPageLink($linkText, $hasExternalSingleViewPage = false) {
+		$redirectPage = ($hasExternalSingleViewPage)
+			? $this->cObj->lastTypoLinkUrl
+			: $this->cObj->getTypoLink_URL($GLOBALS['TSFE']->id);
+
+		return $this->cObj->getTypoLink(
+			$linkText,
+			$this->getConfValueInteger('loginPID'),
+			array('redirect_url' => t3lib_div::locationHeaderUrl($redirectPage))
+		);
 	}
 
 	/**

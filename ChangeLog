@@ -1,3 +1,7 @@
+2008-04-25 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1760] Change: Display an error message if the UID for the detail view is invalid
+	
 2008-04-16 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1818] Change: Comment and whitespace consistency cleanup

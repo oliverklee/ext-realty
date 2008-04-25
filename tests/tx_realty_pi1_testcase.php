@@ -36,6 +36,8 @@ require_once(PATH_tslib.'class.tslib_feuserauth.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
@@ -93,7 +95,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// This initialization ensures dummy system folders get recognized as
 		// "enabled". This affects the usage of sub-system folders in the tests.
 		$GLOBALS['TSFE']->initUserGroups();
+		// Sets the current page ID to zero.
+		$this->setCurrentPage(0);
 
+		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyPages();
 		$this->createDummyObjects();
@@ -118,16 +123,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->purgeCollectedHeaders();
+		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
 		$this->testingFramework->cleanUp();
 		unset($this->fixture, $this->testingFramework);
 	}
 
 
 	public function testConfigurationCheckIsActiveWhenEnabled() {
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-			= serialize(array('enableConfigCheck' => 1));
-		// $this->fixture needs to be initialized again as the configuration is
-		// checked during initialization
+		// The configuration check is created during initialization, therefore
+		// the object to test is recreated for this test.
 		unset($this->fixture);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
@@ -144,11 +149,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testConfigurationCheckIsNotActiveWhenDisabled() {
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realty']
-			= serialize(array('enableConfigCheck' => 0));
-		// $this->fixture needs to be initialized again as the configuration is
-		// checked during initialization
+		// The configuration check is created during initialization, therefore
+		// the object to test is recreated for this test.
 		unset($this->fixture);
+		tx_oelib_configurationProxy::getInstance('realty')
+			->setConfigurationValueBoolean('enableConfigCheck', false);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
@@ -258,6 +263,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLinkToSingleViewPageContainsSinglePidIfAccessDenied() {
+		$this->setCurrentPage($this->singlePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
@@ -1077,6 +1083,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessDenied() {
+		$this->setCurrentPage($this->otherSinglePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
@@ -1191,6 +1198,65 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDetailViewDisplaysErrorMessageForNonExistentObject() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_single_view'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewDisplaysErrorMessageForHiddenObject() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_single_view'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewDisplaysErrorMessageForDeletedObject() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('deleted' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_single_view'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testHeaderIsSetIfDetailViewDisplaysNoResultsMessage() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'Status: 404 Not Found',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testHeaderIsSetIfDetailViewDisplaysAccessDeniedMessage() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->denyAccess();
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'Status: 403 Forbidden',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning external details pages.
@@ -1280,11 +1346,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testGalleryShowsWarningWithMissingShowUidParameter() {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
@@ -1295,14 +1356,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
-		// This will create a "Cannot modify header information - headers
-		// already sent by" warning because the called function sets a HTTP
-		// header. This is no error.
-		// The warning will go away once bug 1650 is fixed.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=1650
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
+		);
+	}
+
+	public function testHeaderIsSendWhenGalleryShowsInvalidImageWarning() {
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+		$this->assertEquals(
+			'Status: 404 Not Found',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
 	}
 
@@ -1343,6 +1412,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 */
 	private function allowAccess() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+	}
+
+	/**
+	 * Fakes the current page ID.
+	 *
+	 * @param	integer		ID of the current page
+	 */
+	private function setCurrentPage($pid) {
+		$GLOBALS['TSFE']->id = $pid;
 	}
 
 	/**
