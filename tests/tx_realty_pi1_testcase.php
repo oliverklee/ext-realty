@@ -1392,6 +1392,23 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGalleryDisplaysWarningForInvalidUid() {
+		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRelation(
+			REALTY_TABLE_OBJECTS_IMAGES_MM,
+			$this->firstRealtyUid, $imageUid
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+		$this->fixture->piVars['image'] = 0;
+
+		$this->assertContains(
+			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+	}
+	
 
 	///////////////////////
 	// Utility functions.
