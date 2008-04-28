@@ -1,3 +1,7 @@
+2008-04-28 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1837] Change: Use the header proxy factory's discardInstance() function
+
 2008-04-25 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1835] Fix: Opening the gallery for an unpublished record causes mySQL error
