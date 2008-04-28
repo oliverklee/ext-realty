@@ -1,3 +1,7 @@
+2008-04-28 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1761] Fix: Remove the object summary and the form fields in the contact form if the UID is invalid
+
 2008-04-25 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1835] Fix: Opening the gallery for an unpublished record causes mySQL error

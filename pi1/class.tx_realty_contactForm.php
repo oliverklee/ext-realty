@@ -95,18 +95,25 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * @return	string		HTML of the contact form, will not be empty
 	 */
 	public function render(
-		array $contactFormData,
-		$summaryStringOfFavorites = ''
+		array $contactFormData, $summaryStringOfFavorites = ''
 	) {
 		$this->storeContactFormData($contactFormData, $summaryStringOfFavorites);
+
+		// setOrHideSpecializedView() will fail if the 'showUid' parameter is
+		// set to an invalid value.
+		if (!$this->setOrHideSpecializedView()) {
+			$this->plugin->setMarker(
+				'message_noResultsFound',
+				$this->plugin->translate('message_noResultsFound_contact_form')
+			);
+
+			return $this->plugin->getSubpart('EMPTY_RESULT_VIEW');
+		}
+
 		$subpartName = 'CONTACT_FORM';
 		$errorMessages = array();
-
 		$this->fillContactInformationFieldsForLoggedInUser();
 		$this->setFormValues();
-		if (!$this->setOrHideSpecializedView()) {
-			$errorMessages[] = 'message_noResultsFound_contact_form';
-		}
 
 		if ($this->contactFormData['isSubmitted']) {
 			if (!$this->isLoggedIn()) {
@@ -368,28 +375,27 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 */
 	private function setOrHideSpecializedView() {
 		$wasSuccessful = true;
+		$subpartsToHide = '';
 
 		if ($this->isSpecializedView()) {
-			$this->plugin->hideSubparts(
-				'email_from_general_contact_form', 'wrapper'
-			);
-			$this->loadCurrentRealtyObject();
+			$subpartsToHide = 'email_from_general_contact_form';
 
-			if (!$this->realtyObject->isRealtyObjectDataEmpty()) {
-				foreach (array('object_number', 'title', 'uid') as $key) {
-					$this->plugin->setMarker(
-						$key, $this->realtyObject->getProperty($key)
-					);
-				}
-			} else {
+			$this->loadCurrentRealtyObject();
+			if ($this->realtyObject->isRealtyObjectDataEmpty()) {
 				$wasSuccessful = false;
 			}
+
+			foreach (array('object_number', 'title', 'uid') as $key) {
+				$this->plugin->setMarker(
+					$key, $this->realtyObject->getProperty($key), '', 'wrapper'
+				);
+			}
 		} else {
-			$this->plugin->hideSubparts(
-				'specialized_contact_form, email_from_specialized_contact_form',
-				'wrapper'
-			);
+			$subpartsToHide = 'specialized_contact_form,'
+				.'email_from_specialized_contact_form';
 		}
+
+		$this->plugin->hideSubparts($subpartsToHide, 'wrapper');
 
 		return $wasSuccessful;
 	}

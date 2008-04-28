@@ -261,6 +261,51 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSpecializedContactFormNotDisplaysUnreplacedMarkersIfRealtyObjectDoesNotExist() {
+		$this->assertNotContains(
+			'###',
+			$this->fixture->render(
+				array('showUid' => ($this->realtyUid + 1))
+			)
+		);
+	}
+
+	public function testSpecializedContactFormNotDisplaysObjectNumberLabelIfRealtyObjectDoesNotExist() {
+		$this->assertNotContains(
+			$this->pi1->translate('label_object_number'),
+			$this->fixture->render(
+				array('showUid' => ($this->realtyUid + 1))
+			)
+		);
+	}
+
+	public function testSpecializedContactFormNotDisplaysTitleLabelIfRealtyObjectDoesNotExist() {
+		$this->assertNotContains(
+			$this->pi1->translate('label_title'),
+			$this->fixture->render(
+				array('showUid' => ($this->realtyUid + 1))
+			)
+		);
+	}
+
+	public function testSpecializedContactFormNotDisplaysSubmitLabelIfRealtyObjectDoesNotExist() {
+		$this->assertNotContains(
+			$this->pi1->translate('label_submit'),
+			$this->fixture->render(
+				array('showUid' => ($this->realtyUid + 1))
+			)
+		);
+	}
+
+	public function testSpecializedContactFormNotDisplaysYourNameLabelIfRealtyObjectDoesNotExist() {
+		$this->assertNotContains(
+			$this->pi1->translate('label_your_name'),
+			$this->fixture->render(
+				array('showUid' => ($this->realtyUid + 1))
+			)
+		);
+	}
+
 
 	///////////////////////////////////////
 	// Tests concerning (error) messages.
