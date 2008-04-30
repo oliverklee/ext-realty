@@ -210,11 +210,50 @@
 
 		<renderlet:TEXT name="spacer_02" label="&amp;nbsp;" readonly="true"/>
 
+		<renderlet:RADIOBUTTON name="contact_data_source" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source">
+			<data defaultvalue="0">
+				<items>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.0" value="0"/>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.1" value="1"/>
+				</items>
+			</data>
+		</renderlet:RADIOBUTTON>
 		<renderlet:TEXT name="employer" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer"/>
-		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person"/>
+		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isNonEmptyOrOwnerDataUsed</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getRequiredFieldMessage</method>
+								<params>
+									<data name="fieldName" value="contact_person"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
 		<renderlet:TEXT name="contact_email" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email">
 			<validators>
 				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isNonEmptyOrOwnerDataUsed</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getRequiredFieldMessage</method>
+								<params>
+									<data name="fieldName" value="contact_email"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
 					<email>
 						<message>
 							<userobj>

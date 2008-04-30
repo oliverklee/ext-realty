@@ -164,7 +164,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 */
 	private function sendRequest() {
 		$contactData = $this->getContactData();
-		if (empty($contactData) || !$this->setOrHideSpecializedView()) {
+		if (($contactData['email'] == '') || !$this->setOrHideSpecializedView()) {
 			return false;
 		}
 
@@ -297,42 +297,31 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the name and e-mail address of the owner of a realty object in an
-	 * associative array with the keys 'name' and 'email'. If the object has no
-	 * owner, the contact person's name and e-mail address are returned instead.
+	 * Returns the name and e-mail address of the contact person in an
+	 * associative array with the keys 'name' and 'email'.
+	 * According to 'contact_data_source', either the owner's account data or
+	 * the data from the realty object ('contact_email' and 'contact_person')
+	 * is used.
 	 *
-	 * If there is neither an owner nor a contact person or if the fetched
-	 * e-mail address is invalid, the configured default e-mail address is
-	 * returned instead. The result then does not contain a name.
+	 * If the fetched e-mail address is invalid, the configured default e-mail
+	 * address is returned instead. The result then will not contain a name.
 	 *
-	 * If neither an owner nor a contact person nor a default e-mail address can
-	 * be found, an empty array is returned.
+	 * If no contact person's data could be fetched and no default e-mail
+	 * address is configured, an empty array is returned.
 	 *
 	 * @return	array		owner or contact person and the corresponding
 	 * 						e-mail address in an array, contains the default
 	 * 						e-mail address if no valid address was found, empty
-	 * 						no contact data was found
+	 * 						if the expected contact data was not found
 	 *
 	 */
 	private function getContactData() {
-		$result = array();
+		$result = array('name' => '', 'email' => '');
 
-		$ownerData = array();
-		$this->loadCurrentRealtyObject();
-		$ownerUid = $this->realtyObject->getProperty('owner');
-		if ($ownerUid > 0) {
-			$ownerData = $this->getFeUserData($ownerUid);
-		} else {
-			$ownerData['email'] = $this->realtyObject->getProperty('contact_email');
-			$ownerData['name'] = $this->realtyObject->getProperty('contact_person');
-		}
+		$contactData = $this->fetchContactDataFromSource();
 
-		if ($this->isValidEmail($ownerData['email'])) {
-			$result['email'] = $ownerData['email'];
-		}
-
-		if ($result['email']) {
-			$result['name'] = $ownerData['name'];
+		if ($this->isValidEmail($contactData['email'])) {
+			$result = $contactData;
 		} elseif ($this->plugin->hasConfValueString('defaultContactEmail')) {
 			$result['email'] = $this->plugin->getConfValueString(
 				'defaultContactEmail'
@@ -343,27 +332,65 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the name, the e-mail address and the phone number of a FE user.
+	 * Fetches the contact data from the source defined in the realty record and
+	 * returns it in an array.
 	 *
-	 * @param	integer		UID of the FE user, must be > 0
+	 * @return	array		contact data array, will always contain the two
+	 * 						elements 'email' and 'name'
+	 */
+	private function fetchContactDataFromSource() {
+		$this->loadCurrentRealtyObject();
+
+		// Gets the contact data from the chosen source. No data is fetched if
+		// the 'contact_data_source' is set to an invalid value.
+		switch ($this->realtyObject->getProperty('contact_data_source')) {
+			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
+				$result = $this->getFeUserData(
+					$this->realtyObject->getProperty('owner')
+				);
+				break;
+			case REALTY_CONTACT_FROM_REALTY_OBJECT:
+				$result['email'] = $this->realtyObject->getProperty('contact_email');
+				$result['name'] = $this->realtyObject->getProperty('contact_person');
+				break;
+			default:
+				$result = array('email' => '', 'name' => '');
+				break;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns the name, the e-mail address and the phone number of a FE user or
+	 * an empty array if there is none.
+	 *
+	 * @param	integer		UID of the FE user (> 0) or zero which means
+	 * 						there is no FE user
 	 *
 	 * @return	array		associative array with the keys name, email,
-	 * 						telephone, will be empty if the database result
-	 * 						could not be fetched
+	 * 						telephone, will not be empty
 	 */
 	private function getFeUserData($uid) {
-		$result = array();
+		if ($uid == 0) {
+			return array('name' => '', 'email' => '', 'telephone' => '');
+		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'name, email, telephone',
 			'fe_users',
 			'uid='.$uid
+				.$this->plugin->enableFields('fe_users')
 		);
-		if ($dbResult && $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$result = $row;
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		return $result;
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return ($row)
+			? $row
+			: array('name' => '', 'email' => '', 'telephone' => '');
 	}
 
 	/**

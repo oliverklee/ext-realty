@@ -673,11 +673,12 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesTheContactPersonsEmailIfTheObjectHasNoOwner() {
+	public function testSpecializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToRealtyObject() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
 			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_REALTY_OBJECT,
 				'contact_person' => 'any contact person',
 				'contact_email' => 'any-valid@email-address.org'
 			)
@@ -706,7 +707,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
-			array('owner' => $ownerUid)
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $ownerUid
+			)
 		);
 		$this->fixture->render(
 			array(
@@ -724,7 +728,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesTheDefaultEmailAddressEmailIfNoOwnerIsSetAndTheContactPersonsAddressIsInvalid() {
+	public function testSpecializedContactFormUsesTheDefaultEmailAddressIfTheContactPersonsAddressIsInvalid() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -749,11 +753,14 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesTheOwnersEmailAddress() {
+	public function testSpecializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToOwner() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
-			array('owner' => $this->feUserId)
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $this->feUserId
+			)
 		);
 		$this->fixture->render(
 			array(
@@ -767,6 +774,68 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'frontend-user@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testSpecializedContactFormUsesDefaultEmailAddressWhenDataSourceIsDeletedOwner() {
+		$deletedUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'name' => 'deleted user',
+				'email' => 'deleted-user@valid-email.org',
+				'telephone' => '7654321',
+				'deleted' => 1
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->realtyUid,
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $deletedUserUid
+			)
+		);
+		$this->fixture->render(
+			array(
+				'showUid' => $this->realtyUid,
+				'isSubmitted' => true,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+				'request' => 'the request'
+			)
+		);
+
+		$this->assertEquals(
+			'any-default@email-address.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testSpecializedContactFormUsesDefaultEmailAddressForInvalidAddressFromOwnerAccount() {
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->feUserId, array('email' => 'invalid-email')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->realtyUid,
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $this->feUserId
+			)
+		);
+		$this->fixture->render(
+			array(
+				'showUid' => $this->realtyUid,
+				'isSubmitted' => true,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+				'request' => 'the request'
+			)
+		);
+
+		$this->assertEquals(
+			'any-default@email-address.org',
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
 		);
 	}

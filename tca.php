@@ -16,8 +16,8 @@ $TCA['tx_realty_objects'] = array(
 			.'construction_year,old_or_new_building,state,balcony,garden,elevator,'
 			.'accessible,assisted_living,fitted_kitchen,description,equipment,'
 			.'layout,location,misc,details_page,images,employer,openimmo_anid,'
-			.'openimmo_obid,utilization,contact_person,contact_email,contact_phone,'
-			.'owner,language'
+			.'openimmo_obid,utilization,contact_data_source,contact_person,'
+			.'contact_email,contact_phone,owner,language'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -827,6 +827,17 @@ $TCA['tx_realty_objects'] = array(
 				'eval' => 'trim'
 			)
 		),
+		'contact_data_source' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source',
+			'config' => array(
+				'type' => 'radio',
+				'items' => array(
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.0', '0'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.1', '1')
+				)
+			)
+		),
 		'contact_person' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person',
@@ -906,8 +917,8 @@ $TCA['tx_realty_objects'] = array(
 					.'unorderedlist|outdent|indent|link|table|image|line|'
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'details_page, images, employer, contact_person, contact_email, '
-				.'contact_phone, owner, language'
+				.'details_page, images, contact_data_source, employer, '
+				.'contact_person, contact_email, contact_phone, owner, language'
 		),
 		'1' => array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
@@ -937,8 +948,8 @@ $TCA['tx_realty_objects'] = array(
 					.'unorderedlist|outdent|indent|link|table|image|line|'
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'details_page, images, employer, contact_person, contact_email, '
-				.'contact_phone, owner, language'
+				.'details_page, images, contact_data_source, employer, '.
+				'contact_person, contact_email, contact_phone, owner, language'
 		)
 	),
 	'palettes' => array(

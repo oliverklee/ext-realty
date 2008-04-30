@@ -1016,12 +1016,45 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsAtMostOneValueForDistrictRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord() {
-		$this->fixture->setFakedFormValue('district', $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS));
+		$this->fixture->setFakedFormValue(
+			'district',
+			$this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS)
+		);
 
 		$this->assertFalse(
 			$this->fixture->isAtMostOneValueForDistrictRecordProvided(
 				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS))
 			)
+		);
+	}
+
+	public function testIsNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsOwner() {
+		$this->fixture->setFakedFormValue(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
+		);
+
+		$this->assertTrue(
+			$this->fixture->isNonEmptyOrOwnerDataUsed(array())
+		);
+	}
+
+	public function testIsNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsNonEmpty() {
+		$this->fixture->setFakedFormValue(
+			'contact_data_source', REALTY_CONTACT_FROM_REALTY_OBJECT
+		);
+
+		$this->assertTrue(
+			$this->fixture->isNonEmptyOrOwnerDataUsed(array('value' => 'foo'))
+		);
+	}
+
+	public function testIsNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsEmpty() {
+		$this->fixture->setFakedFormValue(
+			'contact_data_source', REALTY_CONTACT_FROM_REALTY_OBJECT
+		);
+
+		$this->assertFalse(
+			$this->fixture->isNonEmptyOrOwnerDataUsed(array())
 		);
 	}
 

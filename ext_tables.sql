@@ -90,6 +90,7 @@ CREATE TABLE tx_realty_objects (
 	openimmo_anid text NOT NULL,
 	openimmo_obid text NOT NULL,
 	utilization text NOT NULL,
+	contact_data_source tinyint(1) DEFAULT '0' NOT NULL,
 	contact_person text NOT NULL,
 	contact_email text NOT NULL,
 	contact_phone text NOT NULL,

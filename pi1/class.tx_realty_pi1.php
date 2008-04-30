@@ -892,14 +892,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function fillOrHideOffererWrapper() {
 		$atLeastOneMarkerSet = false;
+		$contactData = $this->fetchContactDataFromSource();
+
 		foreach (array('employer', 'contact_phone') as $key) {
 			if ($this->setOrDeleteMarkerIfNotEmpty(
-					$key,
-					$this->getFieldContent($key),
-					'',
-					'field_wrapper'
-				)
-			) {
+				$key, $contactData[$key], '', 'field_wrapper'
+			)) {
 				$atLeastOneMarkerSet = true;
 			}
 		}
@@ -909,6 +907,69 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		) {
 			$this->readSubpartsToHide('offerer', 'field_wrapper');
 		}
+	}
+
+	/**
+	 * Fetches the contact data from the source defined in the realty record and
+	 * returns it in an array.
+	 *
+	 * @return	array		contact data array, will always contain the two
+	 * 						elements 'employer' and 'contact_phone'
+	 */
+	private function fetchContactDataFromSource() {
+		// Gets the contact data from the chosen source. No data is fetched if
+		// the 'contact_data_source' is set to an invalid value.
+		switch ($this->getFieldContent('contact_data_source')) {
+			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
+				$result = $this->getContactDataFromOwner();
+				break;
+			case REALTY_CONTACT_FROM_REALTY_OBJECT:
+				$result['employer'] = $this->getFieldContent('employer');
+				$result['contact_phone'] = $this->getFieldContent('contact_phone');
+				break;
+			default:
+				$result = array('employer' => '', 'contact_phone' => '');
+				break;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns an array of contact data fetched from the current object's
+	 * owner. This data will be the employer and the telephone number.
+	 *
+	 * @return	array		Associative array with the keys 'employer' and
+	 * 						'contact_phone'. The array's values will be empty if
+	 * 						there is no owner or if these fields are not set for
+	 * 						the current owner.
+	 */
+	private function getContactDataFromOwner() {
+		if ($this->internal['currentRow']['owner'] == 0) {
+			return array('employer' => '', 'contact_phone' => '');
+		}
+
+		$result = array('employer' => '', 'contact_phone' => '');
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'telephone,company',
+			'fe_users',
+			'uid='.$this->internal['currentRow']['owner']
+				.$this->enableFields('fe_users')
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		// $row will be false if the owner is a FE user who has been deleted.
+		// This is like there is no owner at all.
+		if ($row) {
+			$result['employer'] = $row['company'];
+			$result['contact_phone'] = $row['telephone'];
+		}
+
+		return $result;
 	}
 
 	/**

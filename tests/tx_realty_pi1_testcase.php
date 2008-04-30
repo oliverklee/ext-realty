@@ -1263,14 +1263,31 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageContainsContactInformationIfOptionIsEnabled() {
+	public function testDetailPageContainsContactInformationWithPhoneNumberFromRecord() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array(
-				'employer' => 'test company',
-				'contact_phone' => '12345'
-			)
+			array('contact_phone' => '12345')
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			'12345',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageContainsContactInformationWithCompanyFromRecord() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('employer' => 'test company')
 		);
 		$this->fixture->setConfigurationValue('showContactInformation', true);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
@@ -1284,8 +1301,58 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'test company',
 			$this->fixture->main('', array())
 		);
+	}
+
+	public function testDetailPageContainsContactInformationWithPhoneNumberFromOwner() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('telephone' => '123123')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $ownerUid
+			)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
 		$this->assertContains(
-			'12345',
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			'123123',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageContainsContactInformationWithCompanyFromOwner() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('company' => 'any company')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $ownerUid
+			)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			'any company',
 			$this->fixture->main('', array())
 		);
 	}
@@ -1318,6 +1385,51 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDetailPageNotContainsContactInformationIfNoContactInformationAvailable() {
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageNotContainsContactInformationForEnabledOptionAndDeletedOwner() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('company' => 'any company', 'deleted' => 1)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $ownerUid
+			)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageNotContainsContactInformationForEnabledOptionAndOwnerWithoutData() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'owner' => $ownerUid
+			)
+		);
 		$this->fixture->setConfigurationValue('showContactInformation', true);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
@@ -1711,7 +1823,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
-		);		
+		);
 	}
 
 	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectWhenNoUserLoggedIn() {
@@ -1736,7 +1848,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
-		);		
+		);
 	}
 
 	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectForLoggedInNonOwner() {
@@ -1762,7 +1874,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
 			$this->fixture->main('', array())
-		);		
+		);
 	}
 
 	public function testGalleryDisplaysWarningForInvalidUid() {

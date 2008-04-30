@@ -505,6 +505,27 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
+	 * Checks whether the provided value is non-empty or the owner's data is
+	 * chosen as contact data source.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the value which contains the string to check
+	 *
+	 * @return	boolean		true if the provided value is non-empty or if
+	 * 						the contact data source is the owner's account,
+	 * 						false otherwise
+	 */
+	public function isNonEmptyOrOwnerDataUsed(array $valueToCheck) {
+		if ($this->getFormValue('contact_data_source')
+			== REALTY_CONTACT_FROM_OWNER_ACCOUNT
+		) {
+			return true;
+		}
+
+		return ($valueToCheck['value'] != '');
+	}
+
+	/**
 	 * Checks whether the a number is correctly formatted. The format must be
 	 * according to the current locale.
 	 *
