@@ -39,14 +39,22 @@ require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_objectChild.php');
 
 class tx_realty_object_testcase extends tx_phpunit_testcase {
+	/** instance to be tested */
 	private $fixture;
+	/** instance of tx_oelib_testingFramework */
 	private $testingFramework;
+	/** instance of tx_oelib_templatehelper */
 	private $templateHelper;
 
+	/** UID of a dummy realty object */
 	private $objectUid = 0;
-	private $pageId = 0;
-	private $otherPageId = 0;
+	/** page UID of a dummy FE page */
+	private $pageUid = 0;
+	/** page UID of another dummy FE page */
+	private $otherPageUid = 0;
+	/** object number of a dummy realty object */
 	private static $objectNumber = '100000';
+	/** object number of a dummy realty object */
 	private static $otherObjectNumber = '100001';
 
 	public function setUp() {
@@ -62,14 +70,58 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueInteger(
 				'pidForRealtyObjectsAndImages',
-				$this->pageId
+				$this->pageUid
 			);
 	}
 
 	public function tearDown() {
-		$this->cleanUp();
+		$this->cleanUpDatabase();
 		unset($this->fixture, $this->templateHelper, $this->testingFramework);
 	}
+
+
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Creates dummy system folders and realty objects in the DB.
+	 */
+	private function createDummyRecords() {
+		$this->pageUid = $this->testingFramework->createSystemFolder();
+		$this->otherPageUid = $this->testingFramework->createSystemFolder();
+		$this->objectUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => 'foo',
+				'object_number' => self::$objectNumber,
+				'pid' => $this->pageUid,
+				'language' => 'foo'
+			)
+		);
+	}
+
+	/**
+	 * Cleans up the tables in which dummy records are created during the tests.
+	 */
+	private function cleanUpDatabase() {
+		// Inserting images causes an entry to 'sys_refindex' which is currently
+		// not cleaned up automatically by the testing framework.
+		if (in_array(
+			REALTY_TABLE_IMAGES, $this->testingFramework->getListOfDirtyTables()
+		)) {
+			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+				'sys_refindex', 'ref_string = "uploads/tx_realty/bar"'
+			);
+		}
+
+		$this->testingFramework->cleanUp();
+	}
+
+
+	///////////////////////////////
+	// Testing the realty object.
+	///////////////////////////////
 
 	public function testRecordExistsInDatabaseIfNoExistingUidGiven() {
 		$this->assertFalse(
@@ -323,6 +375,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$imageUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
 		);
@@ -342,6 +397,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadRealtyObjectByDatabaseResultAlsoLoadsImages() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$imageUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
 		);
@@ -559,7 +617,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
-			array('pid' => $this->pageId),
+			array('pid' => $this->pageUid),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
@@ -602,16 +660,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'uid='.$this->objectUid
-				.' AND pid='.$this->pageId
+				.' AND pid='.$this->pageUid
 			)
 		);
 	}
 
 	public function testWriteToDatabaseCreatesNewCityRecordWithAuxiliaryRecordPid() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueInteger(
 				'pidForAuxiliaryRecords',
-				$this->otherPageId
+				$this->otherPageUid
 			);
 
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -619,7 +678,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
-			array('pid' => $this->otherPageId),
+			array('pid' => $this->otherPageUid),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
@@ -632,6 +691,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewCityRecordWithRealtyRecordPidIfAuxiliaryRecordPidNotSet() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueInteger('pidForAuxiliaryRecords', 0);
 
@@ -640,7 +700,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
-			array('pid' => $this->pageId),
+			array('pid' => $this->pageUid),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
@@ -852,6 +912,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPrepareInsertionAndInsertRelationsWritesUidOfInsertedPropertyToRealtyObjectData() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('city', 'foo');
 		$this->fixture->prepareInsertionAndInsertRelations();
@@ -865,6 +926,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPrepareInsertionAndInsertRelationsDoesNotCreateARecordForAnInteger() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('city', '12345');
 		$this->fixture->prepareInsertionAndInsertRelations();
@@ -878,6 +940,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPrepareInsertionAndInsertRelationsDoesNotCreateARecordForZeroPropertyFromTheDatabase() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->prepareInsertionAndInsertRelations();
 
@@ -890,6 +953,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPrepareInsertionAndInsertRelationsDoesNotCreateARecordForZeroPropertyFromLoadedArray() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$this->fixture->loadRealtyObject(
 			array('object_number' => self::$objectNumber, 'city' => 0)
 		);
@@ -904,6 +968,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPrepareInsertionAndInsertRelationsReturnsZeroForEmptyPropertyFetchedFromLoadedArray() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$this->fixture->loadRealtyObject(
 			array('object_number' => self::$objectNumber, 'city' => '')
 		);
@@ -918,6 +983,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPrepareInsertionAndInsertRelationsReturnsZeroIfThePropertyNotExists() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$this->fixture->loadRealtyObject(
 			array('object_number' => self::$objectNumber)
 		);
@@ -932,6 +998,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testInsertImageEntriesInsertsAndLinksNewEntry() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
@@ -950,6 +1019,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testInsertImageEntriesUpdatesExistingEntry() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
@@ -979,6 +1051,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteFromDatabaseRemovesRelatedImage() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
@@ -999,6 +1074,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteFromDatabaseRemovesSeveralRelatedImages() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo1', 'foo1.jpg');
 		$this->fixture->addImageRecord('foo2', 'foo2.jpg');
@@ -1020,14 +1098,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseInsertsCorrectPageIdForNewRecord() {
+	public function testWriteToDatabaseInsertsCorrectPageUidForNewRecord() {
 		$this->fixture->loadRealtyObject(
 			array('object_number' => self::$otherObjectNumber)
 		);
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
-			array('pid' => $this->pageId),
+			array('pid' => $this->pageUid),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
@@ -1039,14 +1117,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseInsertsCorrectPageIdForNewRecordIfOverridePidIsSet() {
+	public function testWriteToDatabaseInsertsCorrectPageUidForNewRecordIfOverridePidIsSet() {
 		$this->fixture->loadRealtyObject(
 			array('object_number' => self::$otherObjectNumber)
 		);
-		$this->fixture->writeToDatabase($this->otherPageId);
+		$this->fixture->writeToDatabase($this->otherPageUid);
 
 		$this->assertEquals(
-			array('pid' => $this->otherPageId),
+			array('pid' => $this->otherPageUid),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
@@ -1058,17 +1136,20 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImagesReceiveTheCorrectPageIdIfOverridePidIsSet() {
+	public function testImagesReceiveTheCorrectPageUidIfOverridePidIsSet() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$this->fixture->loadRealtyObject(
 			array(
 				'object_number' => self::$otherObjectNumber,
 				'images' => array(array('caption' => 'foo', 'image' => 'bar'))
 			)
 		);
-		$this->fixture->writeToDatabase($this->otherPageId);
+		$this->fixture->writeToDatabase($this->otherPageUid);
 
 		$this->assertEquals(
-			array('pid' => $this->otherPageId),
+			array('pid' => $this->otherPageUid),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
@@ -1079,14 +1160,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUpdatingAnExistingRecordDoesNotChangeThePageId() {
+	public function testUpdatingAnExistingRecordDoesNotChangeThePageUid() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('title', 'new title');
 
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueInteger(
 				'pidForRealtyObjectsAndImages',
-				$this->otherPageId
+				$this->otherPageUid
 			);
 		$message = $this->fixture->writeToDatabase();
 
@@ -1106,7 +1187,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		}
 
 		$this->assertEquals(
-			array('pid' => $this->pageId),
+			array('pid' => $this->pageUid),
 			$result
 		);
 		$this->assertEquals(
@@ -1205,6 +1286,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testInsertDeleteAndReinsertAnImageRecord() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
@@ -1245,6 +1329,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRecreateAnAuxiliaryRecord() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES,
 			array(
@@ -1268,6 +1353,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateAConditionsRecord() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CONDITIONS);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('state', 'foo');
 		$this->fixture->writeToDatabase();
@@ -1356,6 +1442,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseMarksImageRecordToDeleteAsDeleted() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$imageUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
 		);
@@ -1378,6 +1467,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewImageRecordIfTheSameRecordExistsButIsDeleted() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$imageUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('caption' => 'foo', 'image' => 'foo.jpg', 'deleted' => 1)
@@ -1401,6 +1493,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseNotAddsImageRecordWithDeletedFlagSet() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
+		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->markImageRecordAsDeleted(
 			$this->fixture->addImageRecord('foo', 'foo.jpg')
@@ -1413,51 +1508,6 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				REALTY_TABLE_IMAGES,
 				'is_dummy_record=1 AND deleted=1'
 			)
-		);
-	}
-
-
-	///////////////////////
-	// Utility functions.
-	///////////////////////
-
-	/**
-	 * Creates dummy system folders and realty objects in the DB.
-	 */
-	private function createDummyRecords() {
-		$this->pageId = $this->testingFramework->createSystemFolder();
-		$this->otherPageId = $this->testingFramework->createSystemFolder();
-		$this->objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array(
-				'title' => 'foo',
-				'object_number' => self::$objectNumber,
-				'pid' => $this->pageId,
-				'language' => 'foo'
-			)
-		);
-	}
-
-	/**
-	 * Cleans up the tables in which dummy records are created during the tests.
-	 */
-	private function cleanUp() {
-		foreach (array(
-			REALTY_TABLE_OBJECTS,
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			REALTY_TABLE_IMAGES,
-			REALTY_TABLE_CITIES,
-			REALTY_TABLE_CONDITIONS
-		) as $table) {
-			$this->testingFramework->markTableAsDirty($table);
-		}
-		$this->testingFramework->cleanUp();
-
-		// Inserting images causes an entry to 'sys_refindex' which is currently
-		// not cleaned up automatically by the testing framework.
-		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			'sys_refindex',
-			'ref_string = "uploads/tx_realty/bar"'
 		);
 	}
 }

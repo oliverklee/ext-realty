@@ -66,6 +66,9 @@ class tx_realty_object {
 		'contact_email'
 	);
 
+	/** allowed field names in the table for realty objects */
+	private $allowedFieldNames = array();
+
 	/** associates property names and their corresponding tables */
 	private $propertyTables = array(
 		REALTY_TABLE_CITIES => 'city',
@@ -372,11 +375,9 @@ class tx_realty_object {
 	 * 						object but exist in database
 	 */
 	protected function checkMissingColumnNames() {
-		$fieldsInDb = array_keys(
-			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
+		return array_diff(
+			$this->getAllowedFieldNames(), array_keys($this->getAllProperties())
 		);
-
-		return array_diff($fieldsInDb, array_keys($this->getAllProperties()));
 	}
 
 	/**
@@ -397,12 +398,9 @@ class tx_realty_object {
 	 * exception.
 	 */
 	protected function deleteSurplusFields() {
-		$fieldsInDb = array_keys(
-			$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
-		);
 		$surplusFieldsInRealtyObjectData = array_diff(
 			array_keys($this->getAllProperties()),
-			$fieldsInDb
+			$this->getAllowedFieldNames()
 		);
 
 		if (!empty($surplusFieldsInRealtyObjectData)) {
@@ -410,6 +408,23 @@ class tx_realty_object {
 				unset($this->realtyObjectData[$currentField]);
 			}
 		}
+	}
+
+	/**
+	 * Returns all allowed field names for the realty objects table in an array.
+	 *
+	 * @return	array		column name from the realty objects table
+	 */
+	private function getAllowedFieldNames() {
+		// In order to improve performance, the result of admin_get_fields()
+		// is cached.
+		if (empty($this->allowedFieldNames)) {
+			$this->allowedFieldNames = array_keys(
+				$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
+			);
+		}
+
+		return $this->allowedFieldNames;
 	}
 
 	/**

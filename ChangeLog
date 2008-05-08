@@ -1,5 +1,6 @@
 2008-05-08 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1858] Change: Speed up unit tests
 	* [#1789] Change: Remove the option for a target attribute for the gallery link
 	* [#1848] Feature: Add a plugin type for additional filters to the list view
 
