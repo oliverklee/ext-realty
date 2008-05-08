@@ -1009,8 +1009,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * with alt text and title text (the image caption as defined in the DB),
 	 * wrapped in a link pointing to the image gallery.
 	 *
-	 * The PID of the target page can be set using flexforms. The link target
-	 * can be set using the TS setup variable "galleryLinkTarget".
+	 * The PID of the target page can be set using flexforms.
 	 *
 	 * If galleryPopupParameters is set in TS setup, the link will have an
 	 * additional onclick handler to open the gallery in a pop-up window.
@@ -1021,13 +1020,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * $maxSizVariable with a "X" appended. The variable for the maximum height
 	 * works the same, just with a "Y" appended.
 	 *
-	 * Example: If $maxSizeVariable is set to "listImageMax", the maximum width and height should be stored
-	 * in the TS setup variables "listImageMaxX" and "listImageMaxY".
+	 * Example: If $maxSizeVariable is set to "listImageMax", the maximum width
+	 * and height should be stored in the TS setup variables "listImageMaxX" and
+	 * "listImageMaxY".
 	 *
 	 * If no image is found, an empty string is returned.
 	 *
-	 * @param	string		prefix to the TS setup variables that define the max size, will be prepended to "X" and "Y"
-	 * @param	integer		the number of the image to retrieve (zero-based, may be zero)
+	 * @param	string		prefix to the TS setup variables that define the
+	 * 						max size, will be prepended to "X" and "Y"
+	 * @param	integer		the number of the image to retrieve (zero-based,
+	 * 						may be zero)
 	 *
 	 * @return	string		IMG tag wrapped in a link (may be empty)
 	 */
@@ -1044,9 +1046,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				true,
 				$this->getConfValueInteger('galleryPID')
 			));
-			$linkTarget = $this->hasConfValueString('galleryLinkTarget')
-				? ' target="'.$this->getConfValueString('galleryLinkTarget').'"'
-				: '' ;
 			$onClick = '';
 			if ($this->hasConfValueString('galleryPopupParameters')) {
 				$onClick = ' onclick="window.open(\''
@@ -1055,7 +1054,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					.$this->getConfValueString('galleryPopupParameters')
 					.'\'); return false;"';
 			}
-			$result = '<a href="'.$galleryUrl.'"'.$linkTarget.$onClick.'>'.$result.'</a>';
+			$result = '<a href="'.$galleryUrl.'"'.$onClick.'>'.$result.'</a>';
 		}
 
 		return $result;

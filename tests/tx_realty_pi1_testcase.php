@@ -400,7 +400,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImagesInTheListViewDoNotContainTheGalleryLinkTarget() {
+	public function testImagesInTheListViewDoNotContainLinkToGallery() {
 		// This test asserts that linked images in the list view do no longer
 		// lead to the gallery.
 		$this->testingFramework->changeRecord(
@@ -416,11 +416,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				array('caption' => 'foo')
 			)
 		);
+		$galleryPid = $this->testingFramework->createFrontEndPage(0);
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('galleryLinkTaget', 'foo');
+		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
 		$this->assertNotContains(
-			'taget="foo"',
+			(string) $galleryPid,
 			$this->fixture->main('', array())
 		);
 	}

@@ -92,7 +92,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkRequireLoginForSingleViewPage();
-		$this->checkGalleryLinkTarget();
 		$this->checkGalleryPid();
 		$this->checkLoginPid();
 		$this->checkImageSizeValuesForSingleView();
@@ -266,13 +265,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'array.',
 			$this->getDbColumnNames(REALTY_TABLE_OBJECTS)
 		);
-	}
-
-	/**
-	 * Checks the setting for the gallery link target.
-	 */
-	private function checkGalleryLinkTarget() {
-		// The gallery link target can be a string or left empty.
 	}
 
 	/**

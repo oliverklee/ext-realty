@@ -34,9 +34,6 @@ plugin.tx_realty_pi1 {
 	# ordered, comma-separated list of field names that will be stored in the session when displaying the favorites list, leave empty to disable
 	favoriteFieldsInSession =
 
-	# link target for links to the gallery (leave empty to open in the same window)
-	# note: setting this will break XHTML 1.0 strict compatibility
-	galleryLinkTarget =
 	# name of the gallery pop-up window (in case the pop-up window is enabled)
 	galleryPopupWindowName =
 	# parameters for the gallery pop-up window (leave empty to disable pop-up windows),
