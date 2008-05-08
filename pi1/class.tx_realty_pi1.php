@@ -38,6 +38,7 @@ require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
 require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndImageUpload.php');
+require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_filterForm.php');
 
 // field types for realty objects
 define('TYPE_NUMERIC', 0);
@@ -198,6 +199,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 			case 'city_selector':
 				$result = $this->createCitySelector();
+				break;
+			case 'filter_form':
+				$filterFormClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_filterForm'
+				);
+				$filterForm = new $filterFormClassName($this);
+				$result = $filterForm->render();
 				break;
 			case 'single_view':
 				$result = $this->createSingleView();
@@ -1571,32 +1579,31 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML of the city selector (will not be empty)
 	 */
 	private function createCitySelector() {
-		// set marker for target page of form
-		$this->setMarkerContent('target_url', $this->pi_getPageLink($this->getConfValueInteger('citySelectorTargetPID')));
+		// sets marker for the target page of the form
+		$this->setMarker('target_url', $this->pi_getPageLink(
+			$this->getConfValueInteger('filterTargetPID')
+		));
 
-		// setup query
-		$localTable = $this->tableNames['objects'];
-		$foreignTable = $this->tableNames['city'];
-
-		$selectFields = $foreignTable.'.uid, '.$foreignTable.'.title';
-		$table = $localTable.','.$foreignTable;
-		$whereClause = $localTable.'.city='.$foreignTable.'.uid';
-		$whereClause .= tslib_cObj::enableFields($localTable);
-		$whereClause .= tslib_cObj::enableFields($foreignTable);
-		$groupBy = 'uid';
-		$orderBy = $foreignTable.'.title';
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $table, $whereClause, $groupBy, $orderBy);
-
-		// build array of cities from DB result
-		$cities = array();
-		if ($dbResult && $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$cities[] = $row;
-			}
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			REALTY_TABLE_CITIES.'.uid, '.REALTY_TABLE_CITIES.'.title',
+			REALTY_TABLE_OBJECTS.','.REALTY_TABLE_CITIES,
+			REALTY_TABLE_OBJECTS.'.city='.REALTY_TABLE_CITIES.'.uid'
+				.$this->enableFields(REALTY_TABLE_OBJECTS)
+				.$this->enableFields(REALTY_TABLE_CITIES),
+			'uid',
+			REALTY_TABLE_CITIES.'.title'
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		// create options for <select>
+		// builds an array of cities from DB result
+		$cities = array();
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+			$cities[] = $row;
+		}
+
+		// creates options for <select>
 		$options = '';
 		if (count($cities)) {
 			foreach ($cities as $city) {
@@ -1604,9 +1611,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					.$city['title'].'</option>'.LF;
 			}
 		}
-		$this->setOrDeleteMarkerIfNotEmpty('citySelector', $options, 'options', 'wrapper');
+		$this->setOrDeleteMarkerIfNotEmpty(
+			'citySelector', $options, 'options', 'wrapper'
+		);
 
-		return $this->substituteMarkerArrayCached('CITY_SELECTOR');
+		return $this->getSubpart('CITY_SELECTOR');
 	}
 
 	/**
@@ -2035,11 +2044,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns the current view.
 	 *
-	 * @return	string		Name of the current view ('realty_list', 'contact_form',
-	 * 						'favorites', 'fe_editor', 'city_selector' or 'gallery'
-	 * 						'image_upload' or 'my_objects'), will not be empty. If
-	 						no view is set, 'realty_list' is returned as this is the
-	 						fallback case.
+	 * @return	string		Name of the current view ('realty_list',
+	 * 						'contact_form', 'favorites', 'fe_editor',
+	 * 						'filter_form', 'city_selector' or 'gallery'
+	 * 						'image_upload' or 'my_objects'), will not be empty.
+	 * 						If no view is set, 'realty_list' is returned as this
+	 * 						is the fallback case.
 	 */
 	private function getCurrentView() {
 		$whatToDisplay = $this->getConfValueString('what_to_display');
@@ -2049,6 +2059,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'city_selector',
 			'favorites',
 			'fe_editor',
+			'filter_form',
 			'gallery',
 			'image_upload',
 			'my_objects'

@@ -87,8 +87,8 @@ plugin.tx_realty_pi1 {
 	galleryPID =
 	# PID of the page with the favorites list
 	favoritesPID =
-	# PID of the target page for the city selector
-	citySelectorTargetPID =
+	# PID of the target page for the filter form and the city selector
+	filterTargetPID =
 	# PID of the FE editor page
 	editorPID =
 	# PID of the page with the FE image upload

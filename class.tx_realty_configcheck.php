@@ -51,7 +51,15 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_city_selector() {
 		$this->checkCommonFrontEndSettings();
-		$this->checkCitySelectorPid();
+		$this->checkFilterTargetPid();
+	}
+
+	/**
+	 * Checks the configuration for the filter form of the realty manager.
+	 */
+	public function check_tx_realty_pi1_filter_form() {
+		$this->checkCommonFrontEndSettings();
+		$this->checkFilterTargetPid();
 	}
 
 	/**
@@ -172,12 +180,13 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			array(
 				'gallery',
 				'city_selector',
-				'favorites',
-				'realty_list',
 				'contact_form',
+				'favorites',
 				'fe_editor',
+				'filter_form',
 				'image_upload',
-				'my_objects'
+				'my_objects',
+				'realty_list',
 			)
 		);
 	}
@@ -561,16 +570,17 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the settings for the PID for the city selector.
+	 * Checks the settings for the target PID for the filter form and the
+	 * city selector.
 	 */
-	private function checkCitySelectorPid() {
+	private function checkFilterTargetPid() {
 		$this->checkIfSingleFePageNotEmpty(
-			'citySelectorTargetPID',
+			'filterTargetPID',
 			true,
 			'sDEF',
-			'This value specifies the PID of the target page for the city '
-				.'selector. The city selector cannot be displayed if this value '
-				.'is invalid.'
+			'This value specifies the PID of the target page for the filter '
+				.'form and the city selector. These forms will not direct to '
+				.'the correct page after submit if this value is invalid.'
 		);
 	}
 

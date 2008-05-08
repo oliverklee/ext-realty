@@ -32,6 +32,10 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.city_selector</numIndex>
 										<numIndex index="1">city_selector</numIndex>
 									</numIndex>
+									<numIndex index="8" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.filter_form</numIndex>
+										<numIndex index="1">filter_form</numIndex>
+									</numIndex>
 									<numIndex index="4" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.contact_form</numIndex>
 										<numIndex index="1">contact_form</numIndex>
@@ -320,10 +324,10 @@
 							</config>
 						</TCEforms>
 					</imageUploadPID>
-					<citySelectorTargetPID>
+					<filterTargetPID>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.citySelectorTargetPID</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.filterTargetPID</label>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
@@ -334,7 +338,7 @@
 								<show_thumbs>1</show_thumbs>
 							</config>
 						</TCEforms>
-					</citySelectorTargetPID>
+					</filterTargetPID>
 					<sysFolderForFeCreatedRecords>
 						<TCEforms>
 							<exclude>1</exclude>

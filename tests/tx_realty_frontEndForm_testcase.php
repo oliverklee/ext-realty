@@ -240,7 +240,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->getRedirectUrl()
 		);
 		$this->assertNotContains(
-			$nonExistingFePageUid,
+			(string) $nonExistingFePageUid,
 			$this->fixture->getRedirectUrl()
 		);
 	}

@@ -1,3 +1,7 @@
+2008-05-08 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1848] Feature: Add a plugin type for additional filters to the list view
+
 2008-04-30 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1749] Feature: Add a checkbox "use data from my account as contact data" to realty objects

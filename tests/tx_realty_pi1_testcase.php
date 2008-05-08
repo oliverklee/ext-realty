@@ -82,7 +82,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private static $secondCityTitle = 'bar city';
 
 	public function setUp() {
-		// Bolster up the fake front end.
+		// Bolsters up the fake front end.
 		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
