@@ -241,25 +241,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadRealtyObjectIfAnArrayWithNonZeroUidIsGiven() {
-		try {
-			$this->fixture->loadRealtyObject(array('uid' => 1234));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $realtyData.'
+		);
+		$this->fixture->loadRealtyObject(array('uid' => 1234));
 	}
 
 	public function testLoadRealtyObjectIfAnArrayWithZeroUidIsGiven() {
-		try {
-			$this->fixture->loadRealtyObject(array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $realtyData.'
+		);
+		$this->fixture->loadRealtyObject(array('uid' => 0));
 	}
 
 	public function testLoadHiddenRealtyObjectIfHiddenObjectsAreNotAllowed() {
@@ -300,25 +292,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateNewDatabaseEntryIfAnArrayWithNonZeroUidIsGiven() {
-		try {
-			$this->fixture->createNewDatabaseEntry(array('uid' => 1234));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $realtyData.'
+		);
+		$this->fixture->createNewDatabaseEntry(array('uid' => 1234));
 	}
 
 	public function testCreateNewDatabaseEntryIfAnArrayWithZeroUidIsGiven() {
-		try {
-			$this->fixture->createNewDatabaseEntry(array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $realtyData.'
+		);
+		$this->fixture->createNewDatabaseEntry(array('uid' => 0));
 	}
 
 	public function testGetDataTypeWhenIntegerGiven() {
@@ -364,14 +348,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFetchDatabaseResultIfDbResultIsFalse() {
-		try {
-			$this->fixture->fetchDatabaseResult(false);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', DATABASE_QUERY_ERROR);
+		$this->fixture->fetchDatabaseResult(false);
 	}
 
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
@@ -790,14 +768,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	public function testSetPropertyThrowsAnExeptionIfTheKeyToSetIsUid() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 
-		try {
-			$this->fixture->setProperty('uid', 12345);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', 'The key must not be "uid".');
+		$this->fixture->setProperty('uid', 12345);
 	}
 
 	public function testIsRealtyObjectDataEmptyReturnsFalseIfObjectLoaded() {
@@ -1390,14 +1362,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAddImageRecordIfNoObjectIsLoaded() {
-		try {
-			$this->fixture->addImageRecord('foo', 'foo.jpg');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'A realty record must be loaded before images can be appended.'
+		);
+		$this->fixture->addImageRecord('foo', 'foo.jpg');
 	}
 
 	public function testMarkImageRecordAsDeleted() {
@@ -1415,30 +1384,24 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMarkImageRecordAsDeletedIfNoObjectIsLoaded() {
-		try {
-			$this->fixture->markImageRecordAsDeleted(
-				$this->fixture->addImageRecord('foo', 'foo.jpg')
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'A realty record must be loaded before images can be appended.'
+		);
+		$this->fixture->markImageRecordAsDeleted(
+			$this->fixture->addImageRecord('foo', 'foo.jpg')
+		);
 	}
 
 	public function testMarkImageRecordAsDeletedForNonExistingRecord() {
 		$this->fixture->loadRealtyObject($this->objectUid);
-		try {
-			$this->fixture->markImageRecordAsDeleted(
-				$this->fixture->addImageRecord('foo', 'foo.jpg') + 1
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The image record does not exist.'
+		);
+		$this->fixture->markImageRecordAsDeleted(
+			$this->fixture->addImageRecord('foo', 'foo.jpg') + 1
+		);
 	}
 
 	public function testWriteToDatabaseMarksImageRecordToDeleteAsDeleted() {

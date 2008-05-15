@@ -98,14 +98,8 @@ class tx_realty_translator_testcase extends tx_phpunit_testcase {
 	public function testTranslatorThrowsAnExceptionForEmptyKey() {
 		$this->fixture = new tx_realty_translator();
 
-		try {
-			$this->fixture->translate('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$key must not be empty.');
+		$this->fixture->translate('');
 	}
 }
 ?>

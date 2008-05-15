@@ -1,3 +1,7 @@
+2008-05-15 Niels Pardon <mail@niels-pardon.de>
+
+	* [#1906] Change: Use $this->setExpectedException() instead of try-catch-block in the Realty Manager unit tests
+
 2008-05-08 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1858] Change: Speed up unit tests
