@@ -66,9 +66,6 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		// markers, the plugin's templatehelper object is used as the inherited
 		// templatehelper does not have all configuration which would be
 		// necessary for this.
-		$this->plugin->getTemplateCode();
-		$this->plugin->setLabels();
-		// For configuration stuff the own inherited templatehelper can be used.
 		$this->init($this->plugin->getConfiguration());
 		$this->pi_initPIflexForm();
 
@@ -523,10 +520,10 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		}
 
 		$this->contactFormData['isSubmitted']
-			= isset($this->contactFormData['isSubmitted'])
+			= isset($contactFormData['isSubmitted'])
 			? (boolean) $contactFormData['isSubmitted'] : false;
 		$this->contactFormData['showUid']
-			= isset($this->contactFormData['showUid'])
+			= isset($contactFormData['showUid'])
 			? intval($contactFormData['showUid']) : 0;
 		$this->contactFormData['summaryStringOfFavorites']
 			= $summaryStringOfFavorites;
