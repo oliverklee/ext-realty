@@ -1,3 +1,7 @@
+2008-05-20 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1887] Fix: The contact form must not reinitialize the templatehelper object
+
 2008-05-15 Niels Pardon <mail@niels-pardon.de>
 
 	* [#1906] Change: Use $this->setExpectedException() instead of try-catch-block in the Realty Manager unit tests
