@@ -60,6 +60,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_filter_form() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkFilterTargetPid();
+		$this->checkPriceRangesForFilterForm();
 	}
 
 	/**
@@ -369,6 +370,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the contact page which will be linked from '
 				.'the favorites list. An invalid link will be created if this '
 				.'value is invalid.'
+		);
+	}
+
+	/**
+	 * Checks the setting for the price ranges for the filter form.
+	 */
+	private function checkPriceRangesForFilterForm() {
+		$this->checkRegExp(
+			'priceRangesForFilterForm',
+			false,
+			'',
+			'This value defines the ranges to be displayed in the filter ' .
+				'form\'s selectbox for prices. With an invalid configuration, ' .
+				'price ranges will not be displayed correctly.',
+			'/^(((\d+-\d+|-\d+|\d+-), *)*(\d+-\d+|-\d+|\d+-))?$/'
 		);
 	}
 

@@ -115,6 +115,10 @@
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Filter criteria</label>
+			<label index="label_select_price_range">Please select a price range:</label>
+			<label index="label_less_than">less than</label>
+			<label index="label_greater_than">greater than</label>
+			<label index="label_to">to</label>
 			<label index="label_next_image">go to the next image</label>
 			<label index="label_sorry">Sorry!</label>
 			<label index="label_ascending">ascending</label>
@@ -316,6 +320,10 @@
 			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_filter_form">Filterkriterien</label>
+			<label index="label_select_price_range">Bitte Preisspanne auswählen:</label>
+			<label index="label_less_than">weniger als</label>
+			<label index="label_greater_than">über</label>
+			<label index="label_to">bis</label>
 			<label index="label_next_image">zum nächsten Bild</label>
 			<label index="label_sorry">Sorry!</label>
 			<label index="label_ascending">aufsteigend</label>
@@ -972,6 +980,10 @@
 			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_filter_form" type="integer">37359069</label>
+			<label index="label_select_price_range" type="integer">110123700</label>
+			<label index="label_less_than" type="integer">165614130</label>
+			<label index="label_greater_than" type="integer">199111175</label>
+			<label index="label_to" type="integer">1797664</label>
 			<label index="label_next_image" type="integer">141623968</label>
 			<label index="label_sorry" type="integer">175133333</label>
 			<label index="label_ascending" type="integer">164211554</label>
@@ -1625,6 +1637,10 @@
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Filter criteria</label>
+			<label index="label_select_price_range">Please select a price range:</label>
+			<label index="label_less_than">less than</label>
+			<label index="label_greater_than">greater than</label>
+			<label index="label_to">to</label>
 			<label index="label_next_image">go to the next image</label>
 			<label index="label_sorry">Sorry!</label>
 			<label index="label_ascending">ascending</label>

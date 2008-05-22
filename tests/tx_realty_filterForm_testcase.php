@@ -62,20 +62,34 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
 		unset($this->fixture, $this->pi1, $this->testingFramework);
 	}
 
 
-	////////////////////////////////////
-	// Testing the filter form object.
-	////////////////////////////////////
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Sets the configuration for price ranges.
+	 *
+	 * @param	string		price ranges, may be empty
+	 */
+	private function setPriceRangeConfiguration($ranges) {
+		$this->pi1->setConfigurationValue('priceRangesForFilterForm', $ranges);
+		$this->fixture->setupPriceRanges();
+	}
+
+
+	///////////////////////////
+	// Testing the rendering.
+	///////////////////////////
 
 	public function testFilterFormHasSubmitButton() {
 		$this->assertContains(
 			$this->pi1->translate('label_submit'),
-			$this->fixture->render()
+			$this->fixture->render(array())
 		);
 	}
 
@@ -85,7 +99,122 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			(string) $pageUid,
-			$this->fixture->render()
+			$this->fixture->render(array())
+		);
+	}
+
+
+	//////////////////////////////
+	// Testing the price filter.
+	//////////////////////////////
+
+	public function testFilterFormHasNoPricesSelectboxForUnconfiguredFilter() {
+		$this->assertNotContains(
+			'<select',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testFilterFormHasPricesSelectboxForConfiguredFilterOptions() {
+		$this->setPriceRangeConfiguration('1-100');
+
+		$this->assertContains(
+			'<select',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testPriceRangeIsDisplayedWithCurrency() {
+		$this->pi1->setConfigurationValue('currencyUnit', '&euro;');
+		$this->setPriceRangeConfiguration('1-100');
+
+		$this->assertContains(
+			'&euro;',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testOptionWithLowerAndUpperLimitCanBeDisplayed() {
+		$this->setPriceRangeConfiguration('1-100');
+
+		$this->assertContains(
+			'1 ' . $this->pi1->translate('label_to') . ' 100',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testOptionWithLowerLimitCanBeDisplayed() {
+		$this->setPriceRangeConfiguration('1-');
+
+		$this->assertContains(
+			$this->pi1->translate('label_greater_than') . ' 1',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testOptionWithUpperLimitCanBeDisplayed() {
+		$this->setPriceRangeConfiguration('-100');
+
+		$this->assertContains(
+			$this->pi1->translate('label_less_than') . ' 100',
+			$this->fixture->render(array())
+		);
+	}
+
+
+	///////////////////////////////////////////////////
+	// Testing the price filter's WHERE clause parts.
+	///////////////////////////////////////////////////
+
+	public function testWhereClauseOnlyForLowerLimitCanBeCreated() {
+		$this->setPriceRangeConfiguration('1-');
+
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1))',
+			$this->fixture->getWhereClausePart(array('priceRange' => 1))
+		);
+	}
+
+	public function testWhereClauseOnlyForUpperLimitCanBeCreated() {
+		$this->setPriceRangeConfiguration('-10');
+
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills > 0 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price > 0 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			$this->fixture->getWhereClausePart(array('priceRange' => 1))
+		);
+	}
+
+	public function testWhereClauseForUpperPlusLowerLimitCanBeCreated() {
+		$this->setPriceRangeConfiguration('1-10');
+
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			$this->fixture->getWhereClausePart(array('priceRange' => 1))
+		);
+	}
+
+	public function testWhereClauseIsEmptyForInvalidNumericKey() {
+		$this->setPriceRangeConfiguration('-100');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('priceRange' => 2))
+		);
+	}
+
+	public function testWhereClauseIsEmptyForInvalidStringKey() {
+		$this->setPriceRangeConfiguration('-100');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('priceRange' => 'foo'))
 		);
 	}
 }

@@ -540,6 +540,173 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	/////////////////////////////////
+	// Testing filtered list views.
+	/////////////////////////////////
+
+	public function testListViewFilteredByPriceDisplaysRealtyObjectWithBuyingPriceGreaterThanTheLowerLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 11)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceDisplaysRealtyObjectWithBuyingPriceLowerThanTheGreaterLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceNotDisplaysRealtyObjectWithZeroBuyingPriceAlthoughNoLowerLimitIsSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 0)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceDoesNotDisplayRealtyObjectBelowRangeLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('buying_price' => 9)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceDoesNotDisplayRealtyObjectSuperiorToRangeLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('buying_price' => 101)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceDisplaysRealtyObjectWithPriceOfLowerRangeLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 10)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-20');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceDisplaysRealtyObjectWithPriceOfUpperRangeLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 20)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-20');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceCanDisplayTwoRealtyObjectsWithABuyingPriceInRange() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 9)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('buying_price' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceCanDisplayTwoRealtyObjectsWithARentInRange() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('rent_excluding_bills' => 9)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('rent_excluding_bills' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
+		$this->fixture->piVars = array('priceRange' => 1);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	//////////////////////////////////
 	// Tests concerning the sorting.
 	//////////////////////////////////

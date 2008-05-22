@@ -149,6 +149,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	public $pi_checkCHash = true;
 
+	/** instance of tx_realty_filterForm */
+	private $filterForm = null;
+
 	/** whether this class is called in the test mode */
 	private $isTestMode = false;
 
@@ -188,12 +191,29 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			array('city', 'image', 'remove', 'descFlag', 'showUid', 'delete')
 		);
 
-		$result = '';
+		$filterFormClassName = t3lib_div::makeInstanceClassName(
+			'tx_realty_filterForm'
+		);
+		$this->filterForm = new $filterFormClassName($this);
 
-		$whatToDisplay = $this->getCurrentView();
-		$this->setFlavor($whatToDisplay);
+		// Checks the configuration and displays any errors.
+		// The direct return value from $this->checkConfiguration() is not used
+		// as this would ignore any previous error messages.
+		$this->setFlavor($this->getCurrentView());
+		$this->checkConfiguration();
 
-		switch ($whatToDisplay) {
+		return $this->pi_wrapInBaseClass(
+			$this->getHtmlForCurrentView() . $this->getWrappedConfigCheckMessage()
+		);
+	}
+
+	/**
+	 * Returns the HTML for the current view.
+	 *
+	 * @return	string		HTML for the current view, will not be empty
+	 */
+	private function getHtmlForCurrentView() {
+		switch ($this->getCurrentView()) {
 			case 'gallery':
 				$result = $this->createGallery();
 				break;
@@ -201,11 +221,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $this->createCitySelector();
 				break;
 			case 'filter_form':
-				$filterFormClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_filterForm'
-				);
-				$filterForm = new $filterFormClassName($this);
-				$result = $filterForm->render();
+				$result = $this->filterForm->render($this->piVars);
 				break;
 			case 'single_view':
 				$result = $this->createSingleView();
@@ -273,13 +289,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 		}
 
-		// Checks the configuration and display any errors.
-		// The direct return value from $this->checkConfiguration() is not used
-		// as this would ignore any previous error messages.
-		$this->checkConfiguration();
-		$result .= $this->getWrappedConfigCheckMessage();
-
-		return $this->pi_wrapInBaseClass($result);
+		return $result;
 	}
 
 	/**
@@ -426,6 +436,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				.'.'.$this->getConfValueString('checkboxesFilter')
 				.' IN ('.$searchSelection.')';
 		}
+
+		$whereClause .= $this->filterForm->getWhereClausePart($this->piVars);
 
 		return $whereClause;
 	}

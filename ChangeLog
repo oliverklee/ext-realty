@@ -1,3 +1,7 @@
+2008-05-22 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1850] Feature: Provide a list view filter for price ranges
+
 2008-05-20 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1887] Fix: The contact form must not reinitialize the templatehelper object

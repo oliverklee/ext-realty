@@ -50,6 +50,10 @@ plugin.tx_realty_pi1 {
 	# (leave empty to disable this link)
 	contactPID =
 
+	# price ranges for the filter form, leave empty to hide this field
+	# e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
+	priceRangesForFilterForm =
+
 
 	##########################################################################
 	# The following variable can also be set using flexforms. Non-empty values
