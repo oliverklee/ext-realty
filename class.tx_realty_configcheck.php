@@ -379,8 +379,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkPriceRangesForFilterForm() {
 		$this->checkRegExp(
 			'priceRangesForFilterForm',
-			false,
-			'',
+			true,
+			'sDEF',
 			'This value defines the ranges to be displayed in the filter ' .
 				'form\'s selectbox for prices. With an invalid configuration, ' .
 				'price ranges will not be displayed correctly.',

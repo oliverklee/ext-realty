@@ -50,10 +50,6 @@ plugin.tx_realty_pi1 {
 	# (leave empty to disable this link)
 	contactPID =
 
-	# price ranges for the filter form, leave empty to hide this field
-	# e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
-	priceRangesForFilterForm =
-
 
 	##########################################################################
 	# The following variable can also be set using flexforms. Non-empty values
@@ -66,6 +62,7 @@ plugin.tx_realty_pi1 {
 	recursive = 0
 	# static SQL Filter (will be appended to the WHERE clause using " AND ")
 	staticSqlFilter =
+
 	# whether the address of a realty object is shown in the FE
 	showAddressOfObjects = 0
 	# whether contact information should be displayed in the FE
@@ -78,10 +75,16 @@ plugin.tx_realty_pi1 {
 	# whether the contact form should send requests directly to the realty's 
 	# contact person
 	allowDirectRequestsForObjects = 0
+
 	# name of the DB field to create the search filter checkboxes from
 	checkboxesFilter =
 	# DB fields by which a FE user can sort the list view, stored in a bitfield (see tx_realty_pi1::sortCriteria)
 	sortCriteria =
+
+	# price ranges for the filter form, leave empty to hide this field
+	# e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
+	priceRangesForFilterForm =
+
 	# PID of the page for the single view (leave empty to use the same page as the list view)
 	singlePID =
 	# PID of the page with the gallery (leave empty to disable the gallery)
@@ -90,6 +93,7 @@ plugin.tx_realty_pi1 {
 	favoritesPID =
 	# PID of the target page for the filter form and the city selector
 	filterTargetPID =
+
 	# PID of the FE editor page
 	editorPID =
 	# PID of the page with the FE image upload
