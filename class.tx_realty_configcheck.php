@@ -63,7 +63,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkFieldsInSingleView();
 		$this->checkImageSizeValuesForListView();
 		$this->checkPagesToDisplay();
-		$this->checkGalleryLinkTarget();
 		$this->checkGalleryPid();
 		$this->checkRecursive();
 		$this->checkShowAddressOfObjects();

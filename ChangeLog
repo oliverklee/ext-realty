@@ -1,3 +1,7 @@
+2008-05-27 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1929] Fix: Failing unit test: testImagesInTheListViewDoNotContainLinkToGallery
+
 2008-05-08 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1789] Change: Remove the option for a target attribute for the gallery link
