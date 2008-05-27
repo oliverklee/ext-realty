@@ -55,18 +55,23 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 	public function testClearFrontEndCacheForRealtyPages() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$contentUid = $this->testingFramework->createContentElement(
-			$pageUid,
-			array('list_type' => 'tx_realty_pi1')
+			$pageUid, array('list_type' => 'realty_pi1')
 		);
-		$this->testingFramework->createPageCacheEntry($contentUid);
+		$this->testingFramework->createPageCacheEntry($pageUid);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'cache_pages', 'page_id=' . $pageUid
+			)
+		);
 
 		$this->fixture->clearFrontEndCacheForRealtyPages();
 
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				'cache_pages',
-				'page_id='.$pageUid
+				'cache_pages', 'page_id=' . $pageUid
 			)
 		);
 	}
