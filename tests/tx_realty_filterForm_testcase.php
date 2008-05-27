@@ -98,7 +98,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue('filterTargetPID', $pageUid);
 
 		$this->assertContains(
-			(string) $pageUid,
+			'id=' . $pageUid,
 			$this->fixture->render(array())
 		);
 	}

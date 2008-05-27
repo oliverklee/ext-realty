@@ -1,5 +1,6 @@
 2008-05-27 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1929] Fix: Failing unit test: testImagesInTheListViewDoNotContainLinkToGallery
 	* [#1928] Fix: Failing unit test: testClearFrontEndCacheDeletesCachedPage
 
 2008-05-22 Saskia Metzler <saskia@merlin.owl.de>

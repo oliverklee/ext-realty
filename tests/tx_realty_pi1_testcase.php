@@ -257,20 +257,20 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLinkToSingleViewPageContainsSinglePidIfAccessAllowed() {
+	public function testLinkToSingleViewPageHasSinglePidAsLinkTargetIfAccessAllowed() {
 		$this->allowAccess();
 		$this->assertContains(
-			(string) $this->singlePid,
+			'id=' . $this->singlePid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
 
-	public function testLinkToSingleViewPageContainsSinglePidIfAccessDenied() {
+	public function testLinkToSingleViewPageContainsSinglePidInRedirectUrlIfAccessDenied() {
 		$this->setCurrentPage($this->singlePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			(string) $this->singlePid,
+			urlencode('id=' . $this->singlePid),
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
@@ -308,7 +308,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			(string) $this->loginPid,
+			'id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
@@ -369,7 +369,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
-			(string) $this->singlePid,
+			'id=' . $this->singlePid,
 			$this->fixture->main('', array())
 		);
 	}
@@ -380,7 +380,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('images' => '1', 'title' => '')
+			array('images' => '1')
 		);
 		$this->testingFramework->createRelation(
 			REALTY_TABLE_OBJECTS_IMAGES_MM,
@@ -410,7 +410,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('images' => '1', 'title' => '')
+			array('images' => '1')
 		);
 		$this->testingFramework->createRelation(
 			REALTY_TABLE_OBJECTS_IMAGES_MM,
@@ -420,12 +420,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				array('caption' => 'foo')
 			)
 		);
-		$galleryPid = $this->testingFramework->createFrontEndPage(0);
+		$galleryPid = $this->testingFramework->createFrontEndPage();
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
 		$this->assertNotContains(
-			(string) $galleryPid,
+			'id=' . $galleryPid,
 			$this->fixture->main('', array())
 		);
 	}
@@ -1235,7 +1235,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$result = $this->fixture->main('', array());
 
 		$this->assertContains(
-			(string) $this->otherSinglePid,
+			'id=' . $this->otherSinglePid,
 			$result
 		);
 		$this->assertContains(
@@ -1275,7 +1275,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$result = $this->fixture->main('', array());
 
 		$this->assertContains(
-			(string) $this->otherSinglePid,
+			'id=' . $this->otherSinglePid,
 			$result
 		);
 		$this->assertContains(
@@ -1317,7 +1317,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$result
 		);
 		$this->assertContains(
-			(string) $this->otherSinglePid,
+			'id=' . $this->otherSinglePid,
 			$result
 		);
 		$this->assertContains(
@@ -1354,22 +1354,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests concerning separate details pages.
 	/////////////////////////////////////////////
 
-	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessAllowed() {
+	public function testLinkToSeparateSingleViewPageLinksToSeparateSinglePidIfAccessAllowed() {
 		$this->allowAccess();
 		$this->assertContains(
-			(string) $this->otherSinglePid,
+			'id=' . $this->otherSinglePid,
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, $this->otherSinglePid
 			)
 		);
 	}
 
-	public function testLinkToSeparateSingleViewPageContainsSeparateSinglePidIfAccessDenied() {
+	public function testLinkToSeparateSingleViewPageHasSeparateSinglePidInRedirectUrlIfAccessDenied() {
 		$this->setCurrentPage($this->otherSinglePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			(string) $this->otherSinglePid,
+			urlencode('id=' . $this->otherSinglePid),
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, $this->otherSinglePid
 			)
@@ -1391,7 +1391,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			(string) $this->loginPid,
+			'id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, $this->otherSinglePid
 			)
@@ -1413,7 +1413,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
-			(string) $this->loginPid,
+			'id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, $this->otherSinglePid
 			)
@@ -1874,7 +1874,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			(string) $this->loginPid,
+			'id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
 			)
@@ -1896,7 +1896,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
-			(string) $this->loginPid,
+			'id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
 				'foo', 0, TX_REALTY_EXTERNAL_SINGLE_PAGE
 			)
@@ -2076,7 +2076,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
-			(string) $this->loginPid,
+			'id=' . $this->loginPid,
 			$this->fixture->main('', array())
 		);
 	}
@@ -2092,7 +2092,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
-			(string) $myObjectsPid,
+			urlencode('id=' . $myObjectsPid),
 			$this->fixture->main('', array())
 		);
 	}
@@ -2159,7 +2159,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue(
-			'editorPID', $this->testingFramework->createFrontEndPage(0)
+			'editorPID', $this->testingFramework->createFrontEndPage()
 		);
 
 		$this->assertContains(
@@ -2178,12 +2178,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('owner' => $feUserId)
 		);
-		$editorPid = $this->testingFramework->createFrontEndPage(0);
+		$editorPid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('editorPID', $editorPid);
 
 		$this->assertContains(
-			(string) $editorPid,
+			'id=' . $editorPid,
 			$this->fixture->main('', array())
 		);
 	}
@@ -2200,7 +2200,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue(
-			'editorPID', $this->testingFramework->createFrontEndPage(0)
+			'editorPID', $this->testingFramework->createFrontEndPage()
 		);
 
 		// The title linked to the gallery will also contain this UID.
@@ -2254,7 +2254,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue(
 			'editorPID',
-			$this->testingFramework->createFrontEndPage(0)
+			$this->testingFramework->createFrontEndPage()
 		);
 
 		$this->assertContains(
@@ -2268,12 +2268,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->createFrontEndUserGroup()
 		);
 		$this->testingFramework->loginFrontEndUser($feUserId);
-		$editorPid = $this->testingFramework->createFrontEndPage(0);
+		$editorPid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('editorPID', $editorPid);
 
 		$this->assertContains(
-			(string) $editorPid,
+			'id=' . $editorPid,
 			$this->fixture->main('', array())
 		);
 	}
