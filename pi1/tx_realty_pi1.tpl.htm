@@ -461,14 +461,20 @@
 <div class="tx-realty-pi1-filter-form">
 	<h3>###LABEL_FILTER_FORM###</h3>
 	<form method="post" action="###TARGET_URL###">
+		<!-- ###WRAPPER_SITE_SEARCH### -->
 		<div class="tx-realty-pi1-field">
-			<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
+			<label class="tx-realty-pi1-label" for="tx_realty_pi1-site">###LABEL_ENTER_ZIP_OR_CITY###</label>
+ 			<input class="tx-realty-pi1-input" name="tx_realty_pi1[site]" id="tx_realty_pi1-site" value="###SITE###" type="text" size="30" maxlength="50" />
+ 		</div>
+		<!-- ###WRAPPER_SITE_SEARCH### -->
+		<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
+		<div class="tx-realty-pi1-field">
  			<label class="tx-realty-pi1-label" for="tx_realty_pi1-priceRange">###LABEL_SELECT_PRICE_RANGE###</label>
  			<select class="tx-realty-pi1-input" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange">
 				###PRICE_RANGE_OPTIONS###
  			</select>
- 			<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
  		</div>
+		<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
 		<div>
 			<input type="submit" class="tx-realty-pi1-submit" name="###LABEL_SUBMIT###" value="###LABEL_SUBMIT###" />
 		</div>

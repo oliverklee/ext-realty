@@ -60,6 +60,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_filter_form() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkFilterTargetPid();
+		$this->checkShowSiteSearchInFilterForm();
 		$this->checkPriceRangesForFilterForm();
 	}
 
@@ -370,6 +371,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the contact page which will be linked from '
 				.'the favorites list. An invalid link will be created if this '
 				.'value is invalid.'
+		);
+	}
+
+	/**
+	 * Checks the setting for whether to show the site search in the filter form.
+	 */
+	private function checkShowSiteSearchInFilterForm() {
+		$this->checkIfSingleInSetNotEmpty(
+			'showSiteSearchInFilterForm',
+			true,
+			'sDEF',
+			'This value specifies whether to show the input to search for ZIP ' .
+				'code or city in the filter form. It might be interpreted ' .
+				'incorrectly if a value out of range was set.',
+			array('show', 'hide')
 		);
 	}
 

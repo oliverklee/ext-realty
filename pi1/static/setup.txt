@@ -81,6 +81,8 @@ plugin.tx_realty_pi1 {
 	# DB fields by which a FE user can sort the list view, stored in a bitfield (see tx_realty_pi1::sortCriteria)
 	sortCriteria =
 
+	# whether to display the input for ZIP/city in the filter form, may either be "show" or "hide"
+	showSiteSearchInFilterForm = show
 	# price ranges for the filter form, leave empty to hide this field
 	# e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
 	priceRangesForFilterForm =

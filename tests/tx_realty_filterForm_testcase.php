@@ -57,6 +57,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->pi1->init(array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'));
 		$this->pi1->getTemplateCode();
 		$this->pi1->setLabels();
+		$this->pi1->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->fixture = new tx_realty_filterForm($this->pi1);
 	}
@@ -104,9 +105,32 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////
-	// Testing the price filter.
-	//////////////////////////////
+	//////////////////////////////////////////////
+	// Testing the rendering of the site search.
+	//////////////////////////////////////////////
+
+	public function testFilterFormHasSiteSearchInputIfEnabledByConfiguration() {
+		// "showSiteSearchInFilterForm" is set to "show" during setup().
+
+		$this->assertContains(
+			'id="tx_realty_pi1-site"',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testFilterFormHasNoSiteSearchInputIfDisabledByConfiguration() {
+		$this->pi1->setConfigurationValue('showSiteSearchInFilterForm', 'hide');
+
+		$this->assertNotContains(
+			'id="tx_realty_pi1-site"',
+			$this->fixture->render(array())
+		);
+	}
+
+
+	///////////////////////////////////////////////
+	// Testing the rendering of the price filter.
+	///////////////////////////////////////////////
 
 	public function testFilterFormHasNoPricesSelectboxForUnconfiguredFilter() {
 		$this->assertNotContains(
@@ -134,7 +158,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOptionWithLowerAndUpperLimitCanBeDisplayed() {
+	public function testOptionWithLowerAndUpperPriceLimitCanBeDisplayed() {
 		$this->setPriceRangeConfiguration('1-100');
 
 		$this->assertContains(
@@ -143,7 +167,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOptionWithLowerLimitCanBeDisplayed() {
+	public function testOptionWithLowerPriceLimitCanBeDisplayed() {
 		$this->setPriceRangeConfiguration('1-');
 
 		$this->assertContains(
@@ -152,7 +176,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOptionWithUpperLimitCanBeDisplayed() {
+	public function testOptionWithUpperPriceLimitCanBeDisplayed() {
 		$this->setPriceRangeConfiguration('-100');
 
 		$this->assertContains(
@@ -163,10 +187,10 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 
 	///////////////////////////////////////////////////
-	// Testing the price filter's WHERE clause parts.
+	// Testing the filter forms's WHERE clause parts.
 	///////////////////////////////////////////////////
 
-	public function testWhereClauseOnlyForLowerLimitCanBeCreated() {
+	public function testWhereClauseOnlyForLowerPriceLimitCanBeCreated() {
 		$this->setPriceRangeConfiguration('1-');
 
 		$this->assertEquals(
@@ -176,7 +200,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWhereClauseOnlyForUpperLimitCanBeCreated() {
+	public function testWhereClauseOnlyForUpperPriceLimitCanBeCreated() {
 		$this->setPriceRangeConfiguration('-10');
 
 		$this->assertEquals(
@@ -188,7 +212,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWhereClauseForUpperPlusLowerLimitCanBeCreated() {
+	public function testWhereClauseForUpperPlusLowerPriceLimitCanBeCreated() {
 		$this->setPriceRangeConfiguration('1-10');
 
 		$this->assertEquals(
@@ -200,7 +224,37 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWhereClauseIsEmptyForInvalidNumericKey() {
+	public function testSearchStringForZipIsNotLongerThanTwoCharacters() {
+		$this->assertContains(
+			REALTY_TABLE_OBJECTS . '.zip LIKE "fo%"',
+			$this->fixture->getWhereClausePart(array('site' => 'foo'))
+		);
+	}
+
+	public function testSearchStringForSiteIsEscapedForLike() {
+		$this->assertContains(
+			REALTY_TABLE_CITIES . '.title LIKE "%f\\\%oo%")',
+			$this->fixture->getWhereClausePart(array('site' => 'f%oo'))
+		);
+	}
+
+	public function testWhereClauseForSiteSearchIsCanBeAppendedToPriceRangeWhereClause() {
+		$this->setPriceRangeConfiguration('1-10');
+
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10)) ' .
+				'AND (' . REALTY_TABLE_OBJECTS . '.zip LIKE "fo%" ' .
+				'OR ' . REALTY_TABLE_CITIES . '.title LIKE "%foo%")',
+			$this->fixture->getWhereClausePart(
+				array('site' => 'foo', 'priceRange' => 1)
+			)
+		);
+	}
+
+	public function testWhereClauseIsEmptyForInvalidNumericKeyForPriceRange() {
 		$this->setPriceRangeConfiguration('-100');
 
 		$this->assertEquals(
@@ -209,12 +263,19 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWhereClauseIsEmptyForInvalidStringKey() {
+	public function testWhereClauseIsEmptyForInvalidStringKeyForPriceRange() {
 		$this->setPriceRangeConfiguration('-100');
 
 		$this->assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('priceRange' => 'foo'))
+		);
+	}
+
+	public function testWhereClauseIsEmptyForEmptySite() {
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('site' => ''))
 		);
 	}
 }

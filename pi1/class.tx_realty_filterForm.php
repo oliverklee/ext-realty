@@ -39,8 +39,12 @@ class tx_realty_filterForm {
 	/** plugin in which the filter form is used */
 	private $plugin = null;
 
-	/** filter form data array */
-	private $filterFormData = array('priceRange' => 0);
+	/**
+	 * Filter form data array with the elements 'priceRange' and 'site'.
+	 * 'priceRange' always has an integer value, 'site' holds a string that is
+	 * directly derived from the form data.
+	 */
+	private $filterFormData = array('priceRange' => 0, 'site' => '');
 
 	/**
 	 * Two-dimensional array for the possible price ranges. Each inner array
@@ -64,8 +68,8 @@ class tx_realty_filterForm {
 	/**
 	 * Returns the filter form in HTML.
 	 *
-	 * @param	array		current piVars, the element "priceRange" will be
-	 * 						used if it is available, may be empty
+	 * @param	array		current piVars, the elements "priceRange" and "site"
+	 * 						will be used if they are available, may be empty
 	 *
 	 * @return	string		HTML of the filter form, will not be empty
 	 */
@@ -73,6 +77,7 @@ class tx_realty_filterForm {
 		$this->extractValidFilterFormData($filterFormData);
 
 		$this->setTargetUrlMarker();
+		$this->fillOrHideSiteSearch();
 		$this->fillOrHidePriceRangeDropDown();
 
 		return $this->plugin->getSubpart('FILTER_FORM');
@@ -80,6 +85,10 @@ class tx_realty_filterForm {
 
 	/**
 	 * Returns a WHERE clause part derived from the provided form data.
+	 *
+	 * The table on which this WHERE clause part can be applied must be
+	 * "tx_realty_objects INNER JOIN tx_realty_cities
+	 * ON tx_realty_objects.city = tx_realty_cities.uid";
 	 *
 	 * @param	array		filter form data, may be empty
 	 *
@@ -89,7 +98,8 @@ class tx_realty_filterForm {
 	public function getWhereClausePart(array $filterFormData) {
 		$this->extractValidFilterFormData($filterFormData);
 
-		return $this->getPriceRangeWhereClausePart();
+		return $this->getPriceRangeWhereClausePart() .
+			$this->getSiteWhereClausePart();
 	}
 
 	/**
@@ -105,6 +115,12 @@ class tx_realty_filterForm {
 			$this->filterFormData['priceRange'] = intval($formData['priceRange']);
 		} else {
 			$this->filterFormData['priceRange'] = 0;
+		}
+
+		if ($this->isSiteSearchVisible() && isset($formData['site'])) {
+			$this->filterFormData['site'] = $formData['site'];
+		} else {
+			$this->filterFormData['site'] = '';
 		}
 	}
 
@@ -138,6 +154,18 @@ class tx_realty_filterForm {
 	}
 
 	/**
+	 * Returns whether the site search is configured to be visible in the filter
+	 * form.
+	 *
+	 * @return	boolean		true if the site search should be displayed, false
+	 * 						otherwise
+	 */
+	private function isSiteSearchVisible() {
+		return $this->plugin->getConfValueString('showSiteSearchInFilterForm')
+			== 'show';
+	}
+
+	/**
 	 * Sets the target URL marker.
 	 */
 	private function setTargetUrlMarker() {
@@ -149,6 +177,20 @@ class tx_realty_filterForm {
 				)
 			)
 		);
+	}
+
+	/**
+	 * Fills the input box for zip code or city if there is data for it. Hides
+	 * the input if it is disabled by configuration.
+	 */
+	private function fillOrHideSiteSearch() {
+		if ($this->isSiteSearchVisible()) {
+			$this->plugin->setMarker(
+				'site', htmlspecialchars($this->filterFormData['site'])
+			);
+		} else {
+			$this->plugin->hideSubparts('wrapper_site_search');
+		}
 	}
 
 	/**
@@ -216,7 +258,6 @@ class tx_realty_filterForm {
 
 	/**
 	 * Returns a WHERE clause part for one price range.
-	 * setupPriceRanges() must have been called before using this function.
 	 *
 	 * @return	string		WHERE clause part for the provided price range
 	 * 						starting with " AND", will be empty if the filter
@@ -254,6 +295,39 @@ class tx_realty_filterForm {
 
 		return ' AND ((' . $lowerLimitRent . $upperLimitRent .
 			') OR (' . $lowerLimitBuy . $upperLimitBuy . '))';
+	}
+
+	/**
+	 * Returns the WHERE clause part for one site.
+	 *
+	 * @return	string		WHERE clause part beginning with " AND", will be
+	 * 						empty if no filter form data was provided for
+	 * 						the site
+	 */
+	private function getSiteWhereClausePart() {
+		if ($this->filterFormData['site'] == '') {
+			return '';
+		}
+
+		// only the first two characters are used for a zip code search
+		$zipSearchString = $GLOBALS['TYPO3_DB']->quoteStr(
+			$GLOBALS['TYPO3_DB']->escapeStrForLike(
+				substr($this->filterFormData['site'], 0, 2),
+				REALTY_TABLE_OBJECTS
+			),
+			REALTY_TABLE_OBJECTS
+		);
+		$citySearchString = $GLOBALS['TYPO3_DB']->quoteStr(
+			$GLOBALS['TYPO3_DB']->escapeStrForLike(
+				$this->filterFormData['site'],
+				REALTY_TABLE_CITIES
+			),
+			REALTY_TABLE_CITIES
+		);
+
+		return ' AND (' . REALTY_TABLE_OBJECTS . '.zip LIKE "' .
+			$zipSearchString . '%" OR ' . REALTY_TABLE_CITIES .
+			'.title LIKE "%' . $citySearchString . '%")';
 	}
 }
 

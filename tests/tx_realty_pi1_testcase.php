@@ -706,6 +706,202 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testListViewFilteredBySiteDisplaysObjectWithMatchingZip() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('site' => '12345');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteDisplaysObjectWithMatchingCity() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('site' => self::$firstCityTitle);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteDisplaysObjectWithPartlyMatchingZip() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('site' => '12000');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteDisplaysObjectWithPartlyMatchingCity() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_CITIES, $this->firstCityUid, array('title' => 'foo-bar')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('site' => 'foo');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteNotDisplaysObjectWithNonMatchingZip() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('site' => '34');
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteNotDisplaysObjectWithNonMatchingCity() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('site' => self::$firstCityTitle . '-foo');
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteDisplaysAllObjectsForAnEmptyString() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('site' => '');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteAndPriceDisplaysObjectInPriceRangeWithMatchingCity() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 50)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1, 'site' => self::$firstCityTitle);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteAndPriceDisplaysObjectInPriceRangeWithMatchingZip() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 50, 'zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1, 'site' => '12345');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteAndPriceNotDisplaysObjectInPriceRangeWithNonMatchingCity() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 50)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1, 'site' => self::$firstCityTitle . '-foo'
+		);
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteAndPriceNotDisplaysObjectInPriceRangeWithNonMatchingZip() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 50, 'zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1, 'site' => '34');
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteAndPriceNotDisplaysObjectOutOfPriceRangeWithMatchingCity() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 150)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1, 'site' => self::$firstCityTitle);
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredBySiteAndPriceNotDisplaysObjectOutOfPriceRangeWithMatchingZip() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 150, 'zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
+		$this->fixture->piVars = array('priceRange' => 1, 'site' => '12345');
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	//////////////////////////////////
 	// Tests concerning the sorting.
