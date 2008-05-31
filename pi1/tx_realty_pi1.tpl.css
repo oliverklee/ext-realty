@@ -447,7 +447,7 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 .tx-realty-pi1-submit {
-	margin: 10px 0px 5px 154px;
+	margin: 10px 0 5px 154px;
 	font-weight: 700;
 	color: #fff;
 	width: 180px;
@@ -464,4 +464,18 @@ p.tx-realty-pi1-objekt-nr {
 	text-align: center;
 	letter-spacing: 0.1em;
 	cursor: pointer;
+}
+
+/***** FILTER FORM *****/
+.tx-realty-pi1-filter-form .tx-realty-pi1-label {
+	width: 250px;
+}
+
+.tx-realty-pi1-filter-form .tx-realty-pi1-input {
+	width: 200px;
+}
+
+.tx-realty-pi1-filter-form .tx-realty-pi1-submit {
+	width: 100px;
+	margin: 10px 0 5px 100px;
 }

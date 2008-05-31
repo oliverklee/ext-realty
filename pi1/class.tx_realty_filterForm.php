@@ -40,20 +40,11 @@ class tx_realty_filterForm {
 	private $plugin = null;
 
 	/**
-	 * Filter form data array with the elements 'priceRange' and 'site'.
-	 * 'priceRange' always has an integer value, 'site' holds a string that is
-	 * directly derived from the form data.
+	 * Filter form data array with the elements "priceRange" and "site".
+	 * "priceRange" keeps a string of the format "number-number" and "site" has
+	 * any string, directly derived from the form data.
 	 */
-	private $filterFormData = array('priceRange' => 0, 'site' => '');
-
-	/**
-	 * Two-dimensional array for the possible price ranges. Each inner array
-	 * consists of two elements with the keys "lowerLimit" and "upperLimit".
-	 * Note that the zero element will always be empty because the first option
-	 * in the selectbox remains empty.
-	 * If no price ranges are configured, this array will be empty.
-	 */
-	private $priceRanges = array();
+	private $filterFormData = array('priceRange' => '', 'site' => '');
 
 	/**
 	 * The constructor.
@@ -62,7 +53,6 @@ class tx_realty_filterForm {
 	 */
 	public function __construct(tx_oelib_templatehelper $plugin) {
 		$this->plugin = $plugin;
-		$this->setupPriceRanges();
 	}
 
 	/**
@@ -104,17 +94,17 @@ class tx_realty_filterForm {
 
 	/**
 	 * Stores the provided data derived from the form. In case invalid data was
-	 * provided, zero will be stored.
+	 * provided, an empty string will be stored.
 	 *
 	 * @param	array		filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
 		if (isset($formData['priceRange'])
-			&& isset($this->priceRanges[$formData['priceRange']])
+			&& preg_match('/^(\d+-\d+|-\d+|\d+-)$/', $formData['priceRange'])
 		) {
-			$this->filterFormData['priceRange'] = intval($formData['priceRange']);
+			$this->filterFormData['priceRange'] = $formData['priceRange'];
 		} else {
-			$this->filterFormData['priceRange'] = 0;
+			$this->filterFormData['priceRange'] = '';
 		}
 
 		if ($this->isSiteSearchVisible() && isset($formData['site'])) {
@@ -125,32 +115,29 @@ class tx_realty_filterForm {
 	}
 
 	/**
-	 * Stores the configured price ranges for further use in $this->priceRanges.
+	 * Formats one price range.
 	 *
-	 * This function is declared public for testing purposes.
+	 * @param	string		price range of the format "number-number", may be
+	 * 						empty
+	 *
+	 * @return	array		array with one price range, consists of the two
+	 * 						elements "upperLimit" and "lowerLimit", will be
+	 * 						empty if no price range was provided in the form
+	 * 						data
 	 */
-	public function setupPriceRanges() {
-		if (!$this->plugin->hasConfValueString('priceRangesForFilterForm')) {
-			return;
+	private function getFormattedPriceRange($priceRange) {
+		if ($priceRange == '') {
+			return array();
 		}
 
-		// The first element is empty because the first selectbox element should
-		// remain empty.
-		$this->priceRanges[] = '';
+		$rangeLimits = explode('-', $priceRange);
 
-		$priceRanges = t3lib_div::trimExplode(
-			',', $this->plugin->getConfValueString('priceRangesForFilterForm')
+		// intval() converts an empty string to 0. So for "-100" zero and 100
+		// will be stored as limits.
+		return array(
+			'lowerLimit' => intval($rangeLimits[0]),
+			'upperLimit' => intval($rangeLimits[1])
 		);
-
-		foreach ($priceRanges as $range) {
-			$rangeLimits = explode('-', $range);
-			// intval() converts an empty string to 0 if a range like "-100"
-			// was given.
-			$this->priceRanges[] = array(
-				'lowerLimit' => intval($rangeLimits[0]),
-				'upperLimit' => intval($rangeLimits[1])
-			);
-		}
 	}
 
 	/**
@@ -198,16 +185,22 @@ class tx_realty_filterForm {
 	 * none are configured.
 	 */
 	private function fillOrHidePriceRangeDropDown() {
-		if (!empty($this->priceRanges)) {
-			$optionTags = '';
-			foreach ($this->priceRanges as $key => $ranges) {
-				$label = $this->getPriceRangeLabel($key);
-				$selectedAttribute = ($this->filterFormData['priceRange'] == $key)
-					? ' selected="selected"'
-					: '';
+		$priceRanges = $this->getPriceRangesFromConfiguration();
 
-				$optionTags .= '<option value="' . $key . '" label="' . $label .
-					'" ' . $selectedAttribute . '>' . $label . '</option>';
+		if (!empty($priceRanges)) {
+			$optionTags = '';
+
+			foreach ($priceRanges as $key => $range) {
+				$priceRangeString = implode('-', $range);
+				$label = $this->getPriceRangeLabel($range);
+				$selectedAttribute
+					= ($this->filterFormData['priceRange'] == $priceRangeString)
+						? ' selected="selected"'
+						: '';
+
+				$optionTags .= '<option value="' . $priceRangeString .
+					'" label="' . $label . '" ' . $selectedAttribute . '>' .
+					$label . '</option>';
 			}
 			$this->plugin->setMarker('price_range_options', $optionTags);
 		} else {
@@ -216,30 +209,56 @@ class tx_realty_filterForm {
 	}
 
 	/**
+	 * Returns an array of configured price ranges.
+	 *
+	 * @return	array			Two-dimensional array of the possible price
+	 * 							ranges. Each inner array consists of two
+	 * 							elements with the keys "lowerLimit" and
+	 * 							"upperLimit". Note that the zero element will
+	 * 							always be empty because the first option in the
+	 * 							selectbox remains empty. If no price ranges are
+	 * 							configured, this array will be empty.
+	 */
+	private function getPriceRangesFromConfiguration() {
+		if (!$this->plugin->hasConfValueString('priceRangesForFilterForm')) {
+			return array();
+		}
+
+		// The first element is empty because the first selectbox element should
+		// remain empty.
+		$priceRanges = array(array());
+
+		$priceRangeConfiguration = t3lib_div::trimExplode(
+			',', $this->plugin->getConfValueString('priceRangesForFilterForm')
+		);
+
+		foreach ($priceRangeConfiguration as $range) {
+			$priceRanges[] = $this->getFormattedPriceRange($range);
+		}
+
+		return $priceRanges;
+	}
+
+	/**
 	 * Returns a formatted label for one price range according to the configured
 	 * currency unit.
 	 *
-	 * @param	integer		numeric key of the range for which to receive the
-	 * 						label, must be >= 0, for 0 the result will always
-	 * 						be "&nbsp;"
+	 * @param	array		range for which to receive the label, must have the
+	 * 						elements "upperLimit" and "lowerLimit", both must
+	 * 						have integers as values, only one of the elements'
+	 * 						values may be 0, for an empty array the result will
+	 * 						always be "&nbsp;"
 	 *
-	 * @return	string		formatted label for the price range defined by $key,
-	 * 						will be "&nbsp;" if $key is zero (an empty string
+	 * @return	string		formatted label for the price range, will be "&nbsp;"
+	 * 						if an empty array was provided (an empty string
 	 * 						would break the XHTML output's validity)
 	 */
-	private function getPriceRangeLabel($key) {
-		if ($key == 0) {
+	private function getPriceRangeLabel(array $range) {
+		if (empty($range)) {
 			return '&nbsp;';
 		}
 
-		if (!isset($this->priceRanges[$key])) {
-			throw new Exception(
-				'There is no price range for the key ' . $key . '. '
-			);
-		}
-
 		$currencySymbol = $this->plugin->getConfValueString('currencyUnit');
-		$range = $this->priceRanges[$key];
 
 		if ($range['lowerLimit'] == 0) {
 			$result = $this->plugin->translate('label_less_than') . ' ' .
@@ -264,18 +283,32 @@ class tx_realty_filterForm {
 	 * 						form data was zero
 	 */
 	private function getPriceRangeWhereClausePart() {
-		if ($this->filterFormData['priceRange'] == 0) {
+		if ($this->filterFormData['priceRange'] == '') {
 			return '';
 		}
 
-		$range = $this->priceRanges[$this->filterFormData['priceRange']];
+		$range = $this->getFormattedPriceRange(
+			$this->filterFormData['priceRange']
+		);
 
+		if ($range['lowerLimit'] == 0) {
+			// Zero as lower limit must be excluded of the range because each
+			// non-set price will be identified as zero. Many objects either
+			// have a buying price or a rent which would make searching for
+			// zero-prices futile.
+			$equalSign = '';
+			// Additionally to the objects that have at least one non-zero price
+			// inferior to the lower lower limit, objects which have no price at
+			// all need to be found.
+			$whereClauseForObjectsForFree = ' OR (' . REALTY_TABLE_OBJECTS .
+				'.rent_excluding_bills = 0 AND ' . REALTY_TABLE_OBJECTS .
+				'.buying_price = 0)';
+		} else {
+			$equalSign = '=';
+			$whereClauseForObjectsForFree = '';
+		}
 		// The WHERE clause part for the lower limit is always set, even if no
 		// lower limit was provided. The lower limit will just be zero then.
-		// For this case it is important to exclude the lower limit of the range
-		// because each non-set price will be identified as zero which makes
-		// searching for zero-prices futile.
-		$equalSign = ($range['lowerLimit'] != 0) ? '=' : '';
 		$lowerLimitRent = REALTY_TABLE_OBJECTS . '.rent_excluding_bills ' .
 			'>'.$equalSign.' ' . $range['lowerLimit'];
 		$lowerLimitBuy = REALTY_TABLE_OBJECTS . '.buying_price ' .
@@ -293,8 +326,9 @@ class tx_realty_filterForm {
 			$upperLimitBuy = '';
 		}
 
-		return ' AND ((' . $lowerLimitRent . $upperLimitRent .
-			') OR (' . $lowerLimitBuy . $upperLimitBuy . '))';
+		return ' AND ((' . $lowerLimitRent . $upperLimitRent . ') OR (' .
+			$lowerLimitBuy . $upperLimitBuy . ')' .
+			$whereClauseForObjectsForFree . ')';
 	}
 
 	/**

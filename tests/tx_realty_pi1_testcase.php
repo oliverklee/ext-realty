@@ -551,8 +551,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('buying_price' => 11)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '10-');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -567,8 +566,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('buying_price' => 1)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '-10');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -576,15 +574,29 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewFilteredByPriceNotDisplaysRealtyObjectWithZeroBuyingPriceAlthoughNoLowerLimitIsSet() {
+	public function testListViewFilteredByPriceDisplaysRealtyObjectWithZeroBuyingPriceAndZeroRentForNoLowerLimitSet() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => 0)
+			array('buying_price' => 0, 'rent_excluding_bills' => 0)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '-10');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewFilteredByPriceNotDisplaysRealtyObjectWithZeroBuyingPriceAndRentOutOfRangeForNoLowerLimitSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => 0, 'rent_excluding_bills' => 11)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('priceRange' => '-10');
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
@@ -599,8 +611,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('buying_price' => 9)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '10-100');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -615,8 +626,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('buying_price' => 101)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '10-100');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -631,8 +641,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('buying_price' => 10)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-20');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '10-20');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -647,8 +656,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('buying_price' => 20)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-20');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '10-20');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -668,8 +676,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('buying_price' => 1)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '-10');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -693,8 +700,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('rent_excluding_bills' => 1)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-10');
-		$this->fixture->piVars = array('priceRange' => 1);
+		$this->fixture->piVars = array('priceRange' => '-10');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -807,8 +813,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1, 'site' => self::$firstCityTitle);
+		$this->fixture->piVars = array('priceRange' => '10-100', 'site' => self::$firstCityTitle);
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -824,8 +829,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1, 'site' => '12345');
+		$this->fixture->piVars = array('priceRange' => '10-100', 'site' => '12345');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -841,8 +845,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1, 'site' => self::$firstCityTitle . '-foo'
+		$this->fixture->piVars = array('priceRange' => '10-100', 'site' => self::$firstCityTitle . '-foo'
 		);
 
 		$this->assertNotContains(
@@ -859,8 +862,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1, 'site' => '34');
+		$this->fixture->piVars = array('priceRange' => '10-100', 'site' => '34');
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
@@ -876,8 +878,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1, 'site' => self::$firstCityTitle);
+		$this->fixture->piVars = array('priceRange' => '10-100', 'site' => self::$firstCityTitle);
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
@@ -893,8 +894,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '10-100');
-		$this->fixture->piVars = array('priceRange' => 1, 'site' => '12345');
+		$this->fixture->piVars = array('priceRange' => '10-100', 'site' => '12345');
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
