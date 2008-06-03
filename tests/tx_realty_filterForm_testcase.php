@@ -74,7 +74,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function testFilterFormHasSubmitButton() {
 		$this->assertContains(
-			$this->pi1->translate('label_submit'),
+			$this->pi1->translate('label_search'),
 			$this->fixture->render(array())
 		);
 	}
