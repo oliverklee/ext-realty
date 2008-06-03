@@ -285,3 +285,11 @@ CREATE TABLE tx_realty_districts (
 	PRIMARY KEY (uid),
 	KEY parent (pid)
 );
+
+#
+# Table structure for table 'fe_users'
+#
+CREATE TABLE fe_users (
+	tx_realty_openimmo_anid tinytext NOT NULL,
+);
+
