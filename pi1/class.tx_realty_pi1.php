@@ -641,10 +641,26 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 			$this->fillOrHideOffererWrapper();
 
+			$piVars = $this->piVars;
+			unset($piVars['DATA']);
+
 			// marker for button
 			$this->setMarker(
 				'back_url',
-				$this->pi_linkTP_keepPIvars_url(array('showUid' => ''))
+				$this->cObj->typoLink_URL(
+					array(
+						'parameter' => $GLOBALS['TSFE']->id,
+						'additionalParams' => t3lib_div::implodeArrayForUrl(
+							'',
+							array(
+								$this->prefixId => t3lib_div::array_merge_recursive_overrule(
+									$piVars,
+									array('showUid' => '')
+								),
+							)
+						),
+					)
+				)
 			);
 			$this->setMarker('favorites_url', $this->getFavoritesUrl());
 
@@ -714,12 +730,31 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		if ($this->hasConfValueInteger('contactPID') && $showContactWrapper) {
-			$contactUrl = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
-				$piVarsArray,
-				false,
-				false,
-				$this->getConfValueInteger('contactPID')
-			));
+			$pageId = $this->getConfValueInteger('contactPID');
+
+			if (!$pageId) {
+				$pageId = $GLOBALS['TSFE']->id;
+			}
+
+			$piVars = $this->piVars;
+			unset($piVars['DATA']);
+
+			$contactUrl = htmlspecialchars(
+				$this->cObj->typoLink_URL(
+					array(
+						'parameter' => $pageId,
+						'additionalParams' => t3lib_div::implodeArrayForUrl(
+							'',
+							array(
+								$this->prefixId => t3lib_div::array_merge_recursive_overrule(
+									$piVars,
+									$piVarsArray
+								),
+							)
+						),
+					)
+				)
+			);
 			$this->setMarkerContent('contact_url', $contactUrl);
 		} else {
 			$this->readSubpartsToHide('contact', 'wrapper');
@@ -888,10 +923,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		);
 		$this->setMarker(
 			'delete_link',
-			$this->cObj->getTypoLink_URL(
-				$GLOBALS['TSFE']->id,
+			$this->cObj->typoLink_URL(
 				array(
-					'tx_realty_pi1[delete]' => $this->internal['currentRow']['uid']
+					'parameter' => $GLOBALS['TSFE']->id,
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						$this->prefixId,
+						array('delete' => $this->internal['currentRow']['uid'])
+					),
 				)
 			)
 		);
@@ -1337,15 +1375,20 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$result = $this->getImage($maxSizeVariable, $offset);
 
 		if (!empty($result) && $this->hasConfValueInteger('galleryPID')) {
-			$galleryUrl = htmlspecialchars($this->pi_linkTP_keepPIvars_url(
-				array(
-					'showUid' => $this->internal['currentRow']['uid'],
-					'image' => $offset
-				),
-				true,
-				true,
-				$this->getConfValueInteger('galleryPID')
-			));
+			$galleryUrl = htmlspecialchars(
+				$this->cObj->typoLink_URL(
+					array(
+						'parameter' => $this->getConfValueInteger('galleryPID'),
+						'additionalParams' => t3lib_div::implodeArrayForUrl(
+							$this->prefixId,
+							array(
+								'showUid' => $this->internal['currentRow']['uid'],
+								'image' => $offset,
+							)
+						),
+					)
+				)
+			);
 			$onClick = '';
 			if ($this->hasConfValueString('galleryPopupParameters')) {
 				$onClick = ' onclick="window.open(\''
@@ -1539,7 +1582,23 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$numberOfImages = $this->countImages();
 		if ($numberOfImages > 1) {
 			$nextImageNumber = ($this->piVars['image'] + 1) % $numberOfImages;
-			$url = htmlspecialchars($this->pi_linkTP_keepPIvars_url(array('image' => $nextImageNumber), true));
+
+			$piVars = $this->piVars;
+			unset($piVars['DATA']);
+
+			$url = htmlspecialchars(
+				$this->cObj->typoLink_URL(
+					array(
+						'parameter' => $GLOBALS['TSFE']->id,
+						'additionalParams' => t3lib_div::implodeArrayForUrl(
+							$this->prefixId,
+							t3lib_div::array_merge_recursive_overrule(
+								$piVars, array('image' => $nextImageNumber)
+							)
+						),
+					)
+				)
+			);
 			$imageTag = '<a href="'.$url.'" title="'.$this->pi_getLL('label_next_image').'">'.$imageTag.'</a>';
 		}
 
@@ -1591,9 +1650,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createCitySelector() {
 		// sets marker for the target page of the form
-		$this->setMarker('target_url', $this->pi_getPageLink(
-			$this->getConfValueInteger('filterTargetPID')
-		));
+		$this->setMarker(
+			'target_url',
+			$this->cObj->typoLink_URL(
+				array('parameter' => $this->getConfValueInteger('filterTargetPID'))
+			)
+		);
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			REALTY_TABLE_CITIES.'.uid, '.REALTY_TABLE_CITIES.'.title',
@@ -1844,16 +1906,20 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * The URL will already be htmlspecialchared.
 	 *
-	 * @return	string		htmlspecialchared URL of the page set in $this->getConfValueInteger('favoritesPID'), will not be empty
+	 * @return	string		htmlspecialchared URL of the page set in
+	 * 						$this->getConfValueInteger('favoritesPID'),
+	 * 						will not be empty
 	 */
 	private function getFavoritesUrl() {
-		// use "clear the variables anyway, don't cache"
-		return htmlspecialchars($this->pi_linkTP_keepPIvars_url(
-			array(),
-			false,
-			true,
-			$this->getConfValueInteger('favoritesPID')
-		));
+		$pageId = $this->getConfValueInteger('favoritesPID');
+
+		if (!$pageId) {
+			$pageId = $GLOBALS['TSFE']->id;
+		}
+
+		return htmlspecialchars(
+			$this->cObj->typoLink_URL(array('parameter' => $pageId))
+		);
 	}
 
 	/**
@@ -1864,15 +1930,27 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * The URL will already be htmlspecialchared.
 	 *
-	 * @return	string		htmlspecialchared URL of the current page, will not be empty
+	 * @return	string		htmlspecialchared URL of the current page,
+	 * 						will not be empty
 	 */
 	private function getSelfUrl() {
-		// use "don't clear the variables, don't cache"
-		return htmlspecialchars($this->pi_linkTP_keepPIvars_url(
-			array(),
-			false,
-			false
-		));
+		$piVars = $this->piVars;
+		unset($piVars['DATA']);
+
+		return htmlspecialchars(
+			$this->cObj->typoLink_URL(
+				array(
+					'parameter' => $GLOBALS['TSFE']->id,
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						'',
+						array($this->prefixId => $piVars),
+						'',
+						true,
+						true
+					),
+				)
+			)
+		);
 	}
 
 	/**
@@ -1945,7 +2023,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $this->getSubpart('NO_LINK_TO_CURRENT_PAGE');
 			}
 		} else {
-			$url = $this->pi_linkTP_keepPIvars_url(array('pointer' => $pageNum));
+			$piVars = $this->piVars;
+			unset($piVars['DATA']);
+
+			$url = $this->cObj->typoLink_URL(
+				array(
+					'parameter' => $GLOBALS['TSFE']->id,
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						$this->prefixId,
+						t3lib_div::array_merge_recursive_overrule(
+							$piVars, array('pointer' => $pageNum)
+						)
+					),
+				)
+			);
+
 			$this->setMarker('url', $url);
 			$result = $this->getSubpart('LINK_TO_OTHER_PAGE');
 		}
@@ -2181,8 +2273,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$useCache = ($this->getCurrentView() != 'favorites');
 
 		if ($hasSeparateSingleViewPage) {
-			$completeLink = $this->cObj->getTypoLink(
-				$linkText, $separateSingleViewPage
+			$completeLink = $this->cObj->typoLink(
+				$linkText,
+				array('parameter' => $separateSingleViewPage)
 			);
 		} else {
 			$completeLink = $this->pi_list_linkSingle(
@@ -2221,12 +2314,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createLoginPageLink($linkText, $hasExternalSingleViewPage = false) {
 		$redirectPage = ($hasExternalSingleViewPage)
 			? $this->cObj->lastTypoLinkUrl
-			: $this->cObj->getTypoLink_URL($GLOBALS['TSFE']->id);
+			: $this->cObj->typoLink_URL(array('parameter' => $GLOBALS['TSFE']->id));
 
-		return $this->cObj->getTypoLink(
+		return $this->cObj->typoLink(
 			$linkText,
-			$this->getConfValueInteger('loginPID'),
-			array('redirect_url' => t3lib_div::locationHeaderUrl($redirectPage))
+			array(
+				'parameter' => $this->getConfValueInteger('loginPID'),
+				'additionalParams' => t3lib_div::implodeArrayForUrl(
+					$this->prefixId,
+					array(
+						'redirect_url' => t3lib_div::locationHeaderUrl(
+							$redirectPage
+						),
+					)
+				),
+			)
 		);
 	}
 
@@ -2243,9 +2345,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createLinkToFePage($pidKey, $uid) {
 		return t3lib_div::locationHeaderUrl(
-			$this->cObj->getTypoLink_URL(
-				$this->getConfValueInteger($pidKey),
-				array('tx_realty_pi1[showUid]' => $uid)
+			$this->cObj->typoLink_URL(
+				array(
+					'parameter' => $this->getConfValueInteger($pidKey),
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						$this->prefixId, array('showUid' => $uid)
+					),
+				)
 			)
 		);
 	}

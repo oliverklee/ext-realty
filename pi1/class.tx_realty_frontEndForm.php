@@ -190,13 +190,33 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	private function renderPleaseLogInMessage() {
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 403 Forbidden');
+
+		$piVars = $this->piVars;
+		unset($piVars['DATA']);
+
 		$redirectUrl = t3lib_div::locationHeaderUrl(
-			$this->plugin->pi_linkTP_keepPIvars_url()
+			$this->plugin->cObj->typoLink_URL(
+				array(
+					'parameter' => $GLOBALS['TSFE']->id,
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						$this->prefixId,
+						$piVars,
+						'',
+						true,
+						true
+					),
+				)
+			)
 		);
-		$link = $this->plugin->cObj->getTypoLink(
+
+		$link = $this->plugin->cObj->typoLink(
 			htmlspecialchars($this->plugin->translate('message_please_login')),
-			$this->plugin->getConfValueInteger('loginPID'),
-			array('redirect_url' => $redirectUrl)
+			array(
+				'parameter' => $this->plugin->getConfValueInteger('loginPID'),
+				'additionalParams' => t3lib_div::implodeArrayForUrl(
+					'', array('redirect_url' => $redirectUrl)
+				),
+			)
 		);
 
 		return $this->renderErrorMessage($link);
@@ -260,9 +280,15 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * 						configured, the redirect will lead to the base URL
 	 */
 	public function getRedirectUrl() {
-		return t3lib_div::locationHeaderUrl($this->plugin->cObj->getTypoLink_URL(
-			$this->plugin->getConfValueInteger('feEditorRedirectPid')
-		));
+		return t3lib_div::locationHeaderUrl(
+			$this->plugin->cObj->typoLink_URL(
+				array(
+					'parameter' => $this->plugin->getConfValueInteger(
+						'feEditorRedirectPid'
+					),
+				)
+			)
+		);
 	}
 
 

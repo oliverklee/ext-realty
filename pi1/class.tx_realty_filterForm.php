@@ -159,8 +159,12 @@ class tx_realty_filterForm {
 		$this->plugin->setMarker(
 			'target_url',
 			t3lib_div::locationHeaderUrl(
-				$this->plugin->cObj->getTypoLink_URL(
-					$this->plugin->getConfValueInteger('filterTargetPID')
+				$this->plugin->cObj->typoLink_URL(
+					array(
+						'parameter' => $this->plugin->getConfValueInteger(
+							'filterTargetPID'
+						),
+					)
 				)
 			)
 		);
