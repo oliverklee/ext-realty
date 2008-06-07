@@ -1,3 +1,7 @@
+2008-06-07 Niels Pardon <mail@niels-pardon.de>
+
+	* [#1914] Change: Build all redirection links and links in e-mails using cObj->typoLink_URL
+
 2008-05-27 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1929] Fix: Failing unit test: testImagesInTheListViewDoNotContainLinkToGallery
@@ -14,7 +18,7 @@
 
 	* [#1835] Fix: Opening the gallery for an unpublished record causes mySQL error
 	* [#1760] Change: Display an error message if the UID for the detail view is invalid
-	
+
 2008-04-16 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1818] Change: Comment and whitespace consistency cleanup
