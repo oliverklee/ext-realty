@@ -1,3 +1,7 @@
+2008-06-07 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1959] Feature: During the OpenImmo import, also use the OBID as key field
+
 2008-06-04 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1961] Fix: Unit test failure: testFilterFormHasSubmitButton

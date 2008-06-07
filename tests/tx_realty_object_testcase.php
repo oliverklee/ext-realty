@@ -96,7 +96,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'title' => 'foo',
 				'object_number' => self::$objectNumber,
 				'pid' => $this->pageUid,
-				'language' => 'foo'
+				'language' => 'foo',
+				'openimmo_obid' => 'test-obid',
 			)
 		);
 	}
@@ -420,12 +421,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseUpdatesEntryIfObjectNumberAndLanguageExistInTheDb() {
+	public function testWriteToDatabaseUpdatesEntryIfObjectMatchesObjectNumberLanguageAndObidOfADbEntry() {
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'new title',
 				'object_number' => self::$objectNumber,
-				'language' => 'foo'
+				'language' => 'foo',
+				'openimmo_obid' => 'test-obid',
 			)
 		);
 		$this->fixture->writeToDatabase();
@@ -434,17 +436,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="'.self::$objectNumber.'" AND title="new title"'
+				'object_number="' . self::$objectNumber . '" AND title="new title"'
 			)
 		);
 	}
 
-	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberExistsInTheDbAndTheLanguageDoesNot() {
+	public function testWriteToDatabaseCreatesNewEntryIfObjectMatchesObjectNumberAndObidExistOfADbEntryButNotLanguage() {
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'new title',
 				'object_number' => self::$objectNumber,
-				'language' => 'bar'
+				'language' => 'bar',
+				'openimmo_obid' => 'test-obid',
 			)
 		);
 		$this->fixture->writeToDatabase();
@@ -453,17 +456,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			2,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number='.self::$objectNumber
+				'object_number=' . self::$objectNumber
 			)
 		);
 	}
 
-	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberExistsInTheDbAndTheLanguageIsEmpty() {
+	public function testWriteToDatabaseCreatesNewEntryIfObjectMatchesObjectNumberAndLanguageExistOfADbEntryButNotObid() {
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'new title',
 				'object_number' => self::$objectNumber,
-				'language' => ''
+				'language' => 'foo',
+				'openimmo_obid' => 'another-test-obid',
 			)
 		);
 		$this->fixture->writeToDatabase();
@@ -472,16 +476,36 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			2,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number='.self::$objectNumber
+				'object_number=' . self::$objectNumber
 			)
 		);
 	}
 
-	public function testWriteToDatabaseUpdatesEntryIfObjectNumberExistsInTheDbAndNoLanguageIsSet() {
+	public function testWriteToDatabaseCreatesNewEntryIfObjectMatchesObjectNumberAndObidOfADbEntryAndLanguageIsEmpty() {
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'new title',
-				'object_number' => self::$objectNumber
+				'object_number' => self::$objectNumber,
+				'language' => '',
+				'openimmo_obid' => 'test-obid',
+			)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'object_number=' . self::$objectNumber
+			)
+		);
+	}
+
+	public function testWriteToDatabaseUpdatesEntryIfObjectMatchesObjectNumberOfADbEntryAndNoLanguageAndNoObidAreSet() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => self::$objectNumber,
 			)
 		);
 		$message = $this->fixture->writeToDatabase();
@@ -490,7 +514,53 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'uid='.$this->objectUid.' AND title="new title"'
+				'uid=' . $this->objectUid . ' AND title="new title"'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$message
+		);
+	}
+
+	public function testWriteToDatabaseUpdatesEntryIfObjectMatchesObjectNumberAndObidOfADbEntryAndNoLanguageIsSet() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => self::$objectNumber,
+				'openimmo_obid' => 'test-obid',
+			)
+		);
+		$message = $this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid=' . $this->objectUid . ' AND title="new title"'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$message
+		);
+	}
+
+	public function testWriteToDatabaseUpdatesEntryIfObjectMatchesObjectNumberAndLanguageOfADbEntryAndNoObidIsSet() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'new title',
+				'object_number' => self::$objectNumber,
+				'language' => 'foo',
+			)
+		);
+		$message = $this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid=' . $this->objectUid . ' AND title="new title"'
 			)
 		);
 		$this->assertEquals(
@@ -504,14 +574,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => 'this is a title',
-				'object_number' => self::$objectNumber
+				'object_number' => self::$objectNumber,
 			)
 		);
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'this is a title',
 				'object_number' => self::$objectNumber,
-				'language' => 'bar'
+				'language' => 'bar',
 			)
 		);
 		$message = $this->fixture->writeToDatabase();
@@ -520,7 +590,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			2,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="'.self::$objectNumber.'" AND title="this is a title"'
+				'object_number="' . self::$objectNumber . '" AND title="this is a title"'
 			)
 		);
 		$this->assertEquals(
@@ -529,12 +599,73 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseCreatesNewEntryIfTheLanguageExistsInTheDbAndTheObjectNumberDoesNot() {
+	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberButNoObidExistsInTheDbAndObidIsSet() {
+		$uid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => 'this is a title',
+				'object_number' => self::$objectNumber,
+			)
+		);
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'this is a title',
+				'object_number' => self::$objectNumber,
+				'openimmo_obid' => 'another-test-obid',
+			)
+		);
+		$message = $this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'object_number="' . self::$objectNumber . '" AND title="this is a title"'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$message
+		);
+	}
+
+	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberButObidExistsInTheDbAndObidIsSet() {
+		$uid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => 'this is a title',
+				'object_number' => self::$objectNumber,
+			)
+		);
+		$this->fixture->loadRealtyObject(
+			array(
+				'title' => 'this is a title',
+				'object_number' => self::$objectNumber,
+				'openimmo_obid' => 'another-test-obid',
+			)
+		);
+		$message = $this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'object_number="' . self::$objectNumber . '" AND title="this is a title"'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$message
+		);
+	}
+
+	public function testWriteToDatabaseCreatesNewEntryIfObjectMatchesLanguageAndObidOfADbEntryButNotObjectNumber() {
 		$this->fixture->loadRealtyObject(
 			array(
 				'title' => 'new title',
 				'object_number' => self::$otherObjectNumber,
-				'language' => 'foo'
+				'openimmo_obid' => 'test-obid',
+				'language' => 'foo',
 			)
 		);
 		$this->fixture->writeToDatabase();
@@ -543,7 +674,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			2,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'language="foo"'
+				'language="foo" AND openimmo_obid="test-obid"'
 			)
 		);
 	}

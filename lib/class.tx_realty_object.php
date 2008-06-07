@@ -254,11 +254,15 @@ class tx_realty_object {
 
 		if (($this->hasProperty('uid') || $this->hasProperty('object_number'))
 			&& $this->recordExistsInDatabase(
-				$this->realtyObjectData, 'object_number, language'
+				$this->realtyObjectData,
+				'object_number, language, openimmo_obid'
 			)
 		) {
 			$this->prepareInsertionAndInsertRelations();
-			$this->ensureUid($this->realtyObjectData, 'object_number, language');
+			$this->ensureUid(
+				$this->realtyObjectData,
+				'object_number, language, openimmo_obid'
+			);
 			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
 				$errorMessage = 'message_updating_failed';
 			}
