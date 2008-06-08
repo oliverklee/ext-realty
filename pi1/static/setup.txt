@@ -67,12 +67,12 @@ plugin.tx_realty_pi1 {
 	showAddressOfObjects = 0
 	# whether contact information should be displayed in the FE
 	showContactInformation = 0
-	# default e-mail address for requests, used without validation if the record 
+	# default e-mail address for requests, used without validation if the record
 	# has no valid contact_email
 	defaultContactEmail =
 	# e-mail address where to send a BCC of each request, leave empty to disable
 	blindCarbonCopyAddress =
-	# whether the contact form should send requests directly to the realty's 
+	# whether the contact form should send requests directly to the realty's
 	# contact person
 	allowDirectRequestsForObjects = 0
 
