@@ -98,9 +98,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			array(
 				'username' => 'test_user',
 				'name' => 'Mr. Test',
-				'email' => 'mr-test@valid-email.org'
+				'email' => 'mr-test@valid-email.org',
+				'tx_realty_openimmo_anid' => 'test-user-anid',
 			)
 		);
+		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(
@@ -150,7 +152,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
 
 		$this->assertContains(
@@ -173,6 +174,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
+		$this->testingFramework->logoutFrontEndUser();
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertContains(
@@ -182,6 +184,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
+		$this->testingFramework->logoutFrontEndUser();
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertContains(
@@ -223,7 +226,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsAnEmptyStringWhenUserAuthorizedAndUidZero() {
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertEquals(
@@ -238,7 +240,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->dummyObjectUid,
 			array('owner' => $this->feUserUid)
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$this->fixture->deleteRecord();
 
@@ -258,7 +259,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->dummyObjectUid,
 			array('owner' => $this->feUserUid)
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertEquals(
@@ -1078,12 +1078,59 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsTimeStampDatePidHiddenObjectTypeAndOwnerForANewObject() {
+	public function testAddAdministrativeDataAddsTimeStampForANewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
-		$this->assertEquals(
-			array('object_type', 'tstamp', 'pid', 'crdate', 'owner', 'hidden'),
-			array_keys($this->fixture->modifyDataToInsert(array()))
+		$this->assertTrue(
+			in_array('tstamp', $this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsDateForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertTrue(
+			in_array('crdate', $this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsPidForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertTrue(
+			in_array('pid', $this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsHiddenFlagForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertTrue(
+			in_array('hidden', $this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsObjectTypeForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertTrue(
+			in_array('object_type', $this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsOwnerForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertTrue(
+			in_array('owner', $this->fixture->modifyDataToInsert(array()))
+		);
+	}
+
+	public function testAddAdministrativeDataAddsOpenImmoAnidForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertTrue(
+			in_array('openimmo_anid', $this->fixture->modifyDataToInsert(array()))
 		);
 	}
 
@@ -1135,7 +1182,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAddAdministrativeDataAddsFrontEndUserUidForANewObject() {
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
 
@@ -1145,12 +1191,46 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeNotDataAddsFrontEndUserUidForAnObjectToUpdate() {
+	public function testAddAdministrativeDataNotAddsFrontEndUserUidForAnObjectToUpdate() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$result = $this->fixture->modifyDataToInsert(array());
 
 		$this->assertFalse(
 			isset($result['owner'])
+		);
+	}
+
+	public function testAddAdministrativeDataAddsFrontEndUsersOpenImmoAnidForANewObject() {
+		$this->fixture->setRealtyObjectUid(0);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertEquals(
+			'test-user-anid',
+			$result['openimmo_anid']
+		);
+	}
+
+	public function testAddAdministrativeDataAddsEmptyOpenImmoAnidForANewObjectIfUserHasNoAnid() {
+		$this->testingFramework->loginFrontEndUser(
+			$this->testingFramework->createFrontEndUser(
+				$this->testingFramework->createFrontEndUserGroup()
+			)
+		);
+		$this->fixture->setRealtyObjectUid(0);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertEquals(
+			'',
+			$result['openimmo_anid']
+		);
+	}
+
+	public function testAddAdministrativeDataNotAddsFrontEndUsersOpenImmoAnidForAnObjectToUpdate() {
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertFalse(
+			isset($result['openimmo_anid'])
 		);
 	}
 
@@ -1382,7 +1462,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 		$this->assertEquals(
 			'recipient@valid-email.org',
@@ -1396,7 +1475,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertEquals(
@@ -1411,7 +1489,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
@@ -1426,7 +1503,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
@@ -1441,7 +1517,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
@@ -1456,7 +1531,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
@@ -1470,7 +1544,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		// and language.
 		$this->fixture->setFakedFormValue('object_number', '1234');
 		$this->fixture->setFakedFormValue('language', 'XY');
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
@@ -1493,7 +1566,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testNoEmailIsSentIfNoRecipientWasConfigured() {
 		$this->pi1->setConfigurationValue('feEditorNotifyEmail', '');
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertEquals(
@@ -1507,7 +1579,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertEquals(
