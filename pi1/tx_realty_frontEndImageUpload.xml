@@ -24,7 +24,7 @@
 				<url>
 					<userobj>
 						<extension>this</extension>
-						<method>getRedirectUrl</method>
+						<method>getSelfUrlWithShowUid</method>
 					</userobj>
 				</url>
 			</actionlet:REDIRECT>

@@ -146,6 +146,25 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 		return $this->plugin->translate($label);
 	}
 
+	/**
+	 * Returns the self-URL with the current "showUid" as link parameter.
+	 *
+	 * @return	string		self-URL of the image upload page, will not be empty
+	 */
+	public function getSelfUrlWithShowUid() {
+		return $this->plugin->cObj->typoLink_URL(
+			array(
+				'parameter' => $GLOBALS['TSFE']->id,
+				'additionalParams' => t3lib_div::implodeArrayForUrl(
+					$this->plugin->prefixId,
+					array('showUid' => $this->plugin->piVars['showUid']),
+					'',
+					true
+				),
+			)
+		);
+	}
+
 
 	////////////////////////////////////
 	// Miscellaneous helper functions.

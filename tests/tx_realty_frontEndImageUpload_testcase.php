@@ -316,5 +316,32 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			$this->fixture->getImageUploadErrorMessage()
 		);
 	}
+
+
+	/////////////////////////////////////////////////
+	// Tests concering functions used after submit.
+	/////////////////////////////////////////////////
+
+	public function testGetSelfUrlWithShowUidReturnsUrlWithCurrentPageIdAsTargetPage() {
+		$imageUploadPid = $this->testingFramework->createFrontEndPage();
+		// fakes the setting of the current FE page
+		$GLOBALS['TSFE']->id = $imageUploadPid;
+
+		$this->assertContains(
+			'id=' . $imageUploadPid,
+			$this->fixture->getSelfUrlWithShowUid()
+		);
+	}
+
+	public function testGetSelfUrlWithShowUidReturnsUrlWithCurrentShowUidAsLinkParameter() {
+		$this->pi1->piVars['showUid'] = $this->dummyObjectUid;
+		// fakes the setting of the current FE page
+		$GLOBALS['TSFE']->id = $this->testingFramework->createFrontEndPage();
+
+		$this->assertContains(
+			'tx_realty_pi1[showUid]=' . $this->dummyObjectUid,
+			$this->fixture->getSelfUrlWithShowUid()
+		);
+	}
 }
 ?>

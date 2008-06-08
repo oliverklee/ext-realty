@@ -1409,8 +1409,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 		$this->fixture->writeSummaryStringOfFavoritesToSession();
 		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
-				'ses',
-				'summaryStringOfFavorites'
+			'ses',
+			'summaryStringOfFavorites'
 		);
 		$this->assertContains(
 			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
@@ -2278,7 +2278,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAccessToMyObjectsViewContainsRedirectUrlWithPidIfAccessDenied() {
-		$myObjectsPid = $this->testingFramework->createFrontEndPage(0);
+		$myObjectsPid = $this->testingFramework->createFrontEndPage();
 		$this->setCurrentPage($myObjectsPid);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);

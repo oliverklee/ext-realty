@@ -1,3 +1,7 @@
+2008-06-08 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1972] Fix: Cannot upload several images in a row when the redirect target is the "images" page
+
 2008-06-07 Niels Pardon <mail@niels-pardon.de>
 
 	* [#1914] Change: Build all redirection links and links in e-mails using cObj->typoLink_URL

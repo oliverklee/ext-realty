@@ -215,41 +215,33 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	// * getRedirectUrl().
 	////////////////////////
 
-	public function testGetRedirectUrlReturnsCompleteUrlIfConfiguredCorrectly() {
+	public function testGetRedirectUrlReturnsUrlWithRedirectPidForConfiguredRedirectPid() {
 		$fePageUid = $this->testingFramework->createFrontEndPage();
 		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
 
-		$this->assertContains(
-			'http://',
-			$this->fixture->getRedirectUrl()
-		);
 		$this->assertContains(
 			'id=' . $fePageUid,
 			$this->fixture->getRedirectUrl()
 		);
 	}
 
-	public function testGetRedirectUrlReturnsBaseUrlIfANonExistentPidIsSet() {
+	public function testGetRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid() {
 		$nonExistingFePageUid = $this->testingFramework->createFrontEndPage() + 1;
 		$this->pi1->setConfigurationValue(
 			'feEditorRedirectPid', $nonExistingFePageUid
 		);
 
-		$this->assertContains(
-			'http://',
-			$this->fixture->getRedirectUrl()
-		);
 		$this->assertNotContains(
 			'id=' . $nonExistingFePageUid,
 			$this->fixture->getRedirectUrl()
 		);
 	}
 
-	public function testGetRedirectUrlReturnsBaseUrlIfTheConfigurationIsMissing() {
+	public function testGetRedirectUrlReturnsUrlWithoutRedirectPidForNonConfiguredRedirectPid() {
 		$this->pi1->setConfigurationValue('feEditorRedirectPid', '0');
 
-		$this->assertContains(
-			'http://',
+		$this->assertNotContains(
+			'id=0',
 			$this->fixture->getRedirectUrl()
 		);
 	}
