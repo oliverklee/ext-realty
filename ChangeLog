@@ -1,3 +1,7 @@
+2008-06-11 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1978] Change: Add "ca." to the German label for the living area, patch by Sven Braun
+
 2008-06-07 Niels Pardon <mail@niels-pardon.de>
 
 	* [#1914] Change: Build all redirection links and links in e-mails using cObj->typoLink_URL
