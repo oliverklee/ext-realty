@@ -111,7 +111,7 @@
 			<label index="tx_realty_objects.city">Ort</label>
 			<label index="tx_realty_objects.district">Ortsteil</label>
 			<label index="tx_realty_objects.number_of_rooms">Zimmeranzahl</label>
-			<label index="tx_realty_objects.living_area">Wohnfläche in m²</label>
+			<label index="tx_realty_objects.living_area">Wohnfläche ca. in m²</label>
 			<label index="tx_realty_objects.total_area">Nutzfläche in m²</label>
 			<label index="tx_realty_objects.estate_size">Grundstücksfläche in m²</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Kaltmiete</label>

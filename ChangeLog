@@ -1,3 +1,7 @@
+2008-06-11 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1978] Change: Add "ca." to the German label for the living area, patch by Sven Braun
+
 2008-06-08 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1658] Feature: When FE-creating an object, automatically copy the ANID from the FE user record
