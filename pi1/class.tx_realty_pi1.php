@@ -412,14 +412,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$whereClause .= $this->enableFields(REALTY_TABLE_OBJECTS, $showHiddenObjects)
 			.$this->enableFields(REALTY_TABLE_CITIES);
 
-		$pidList = $this->pi_getPidList(
-			$this->getConfValueString('pidList'),
-			$this->getConfValueInteger('recursive')
-		);
-		if (!empty($pidList)) {
-			$whereClause .=
-				' AND '.REALTY_TABLE_OBJECTS.'.pid IN ('.$pidList.')';
-		}
+		$whereClause .= $this->getWhereClausePartForPidList();
 
 		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
 			? ' AND '.$this->getConfValueString('staticSqlFilter') : '';
@@ -1880,23 +1873,30 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Gets the selected values of the search checkboxes from
 	 * $this->piVars['search'].
 	 *
-	 * @return	array		array of unique, int-safe values from $this->piVars['search'] (may be empty, but not null)
+	 * @return	array		array of unique, int-safe values from
+	 * 						$this->piVars['search'] (may be empty, but not null)
 	 */
 	private function getSearchSelection() {
 		$result = array();
 
-		if (isset($this->piVars['search'])) {
-			if (is_array($this->piVars['search'])) {
-				foreach ($this->piVars['search'] as $currentItem) {
-					$result[] = intval($currentItem);
-					$result = array_unique($result);
-				}
-			} else {
-				$this->piVars['search'] = array();
+		if ($this->searchSelectionExists()) {
+			foreach ($this->piVars['search'] as $currentItem) {
+				$result[] = intval($currentItem);
 			}
 		}
 
-		return $result;
+		return array_unique($result);
+	}
+
+	/**
+	 * Checks whether a search selection exists.
+	 *
+	 * @return	boolean		true if a search selection is provided in the
+	 * 						current piVars, false otherwise
+	 */
+	private function searchSelectionExists() {
+		return (isset($this->piVars['search'])
+			&& is_array($this->piVars['search']));
 	}
 
 	/**
@@ -1907,8 +1907,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @return	string		htmlspecialchared URL of the page set in
-	 * 						$this->getConfValueInteger('favoritesPID'),
-	 * 						will not be empty
+	 * 						$this->getConfValueInteger('favoritesPID'), will
+	 * 						not be empty
 	 */
 	private function getFavoritesUrl() {
 		$pageId = $this->getConfValueInteger('favoritesPID');
@@ -1926,15 +1926,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates the URL of the current page. The URL will contain a flag to
 	 * disable caching as this URL also is used for forms with method="post".
 	 *
-	 * The URL will contain the current piVars.
-	 *
+	 * The URL will contain the current piVars if $keepPiVars is set to true.
 	 * The URL will already be htmlspecialchared.
 	 *
-	 * @return	string		htmlspecialchared URL of the current page,
-	 * 						will not be empty
+	 * @param	boolean		whether the current piVars should be kept
+	 *
+	 * @return	string		htmlspecialchared URL of the current page, will not
+	 * 						be empty
 	 */
-	private function getSelfUrl() {
-		$piVars = $this->piVars;
+	private function getSelfUrl($keepPiVars = true) {
+		$piVars = $keepPiVars ? $this->piVars : array();
 		unset($piVars['DATA']);
 
 		return htmlspecialchars(
@@ -2071,21 +2072,23 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					} else {
 						$selected = '';
 					}
-					$this->setMarkerContent('sort_value', $sortCriterionName);
-					$this->setMarkerContent('sort_selected', $selected);
-					$this->setMarkerContent('sort_label', $this->pi_getLL('label_'.$sortCriterionName));
-					$options[] = $this->substituteMarkerArrayCached('SORT_OPTION');
+					$this->setMarker('sort_value', $sortCriterionName);
+					$this->setMarker('sort_selected', $selected);
+					$this->setMarker(
+						'sort_label', $this->translate('label_'.$sortCriterionName)
+					);
+					$options[] = $this->getSubpart('SORT_OPTION');
 				}
 			}
-			$this->setSubpartContent('sort_option', implode(LF, $options));
+			$this->setSubpart('sort_option', implode(LF, $options));
 			if (!$this->internal['descFlag']) {
-					$this->setMarkerContent('sort_checked_asc', ' checked="checked"');
-					$this->setMarkerContent('sort_checked_desc', '');
+					$this->setMarker('sort_checked_asc', ' checked="checked"');
+					$this->setMarker('sort_checked_desc', '');
 			} else {
-					$this->setMarkerContent('sort_checked_asc', '');
-					$this->setMarkerContent('sort_checked_desc', ' checked="checked"');
+					$this->setMarker('sort_checked_asc', '');
+					$this->setMarker('sort_checked_desc', ' checked="checked"');
 			}
-			$result = $this->substituteMarkerArrayCached('WRAPPER_SORTING');
+			$result = $this->getSubpart('WRAPPER_SORTING');
 		}
 		return $result;
 	}
@@ -2101,47 +2104,116 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML for the search bar (may be empty)
 	 */
 	private function createCheckboxesFilter() {
-		$result = '';
+		if (!$this->mayCheckboxesFilterBeCreated()) {
+			return '';
+		}
 
-		// Only have the sort form if at least one sort criteria is selected in the BE.
-		if ($this->hasConfValueString('checkboxesFilter')
-			&& !(($this->getConfValueString('checkboxesFilter') == 'city')
-				&& isset($this->piVars['city']))) {
-			$selectedFilterCriteria = $this->getConfValueString('checkboxesFilter');
+		$items = $this->getCheckboxItems();
 
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'uid, title',
-				$this->tableNames[$selectedFilterCriteria],
-				'EXISTS '
-					.'(SELECT * '
-					.'FROM '.$this->tableNames['objects'].' '
-					.'WHERE '.$this->tableNames['objects'].'.'.$selectedFilterCriteria
-						.'='.$this->tableNames[$selectedFilterCriteria].'.uid)'
+		if (!empty($items)) {
+			$this->setSubpart('search_item', implode(LF, $items));
+			$this->setMarker(
+				'self_url_without_pivars', $this->getSelfUrl(false)
 			);
 
-			if ($dbResult && $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
-				$items = array();
-				// Make sure we have an array to work on.
-				if (!isset($this->piVars['search']) || !is_array($this->piVars['search'])) {
-					$this->piVars['search'] = array();
-				}
-
-				while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-					if (in_array($dbResultRow['uid'], $this->piVars['search'])) {
-						$checked = ' checked="checked"';
-					} else {
-						$checked = '';
-					}
-					$this->setMarkerContent('search_value', $dbResultRow['uid']);
-					$this->setMarkerContent('search_checked', $checked);
-					$this->setMarkerContent('search_label', $dbResultRow['title']);
-					$items[] = $this->substituteMarkerArrayCached('SEARCH_ITEM');
-				}
-				$this->setSubpartContent('search_item', implode(LF, $items));
-				$result = $this->substituteMarkerArrayCached('LIST_FILTER');
-			}
+			$result = $this->getSubpart('LIST_FILTER');
+		} else {
+			$result = '';
 		}
+
 		return $result;
+	}
+
+	/**
+	 * Checks whether the checkboxes filter may be created. It should only be
+	 * displayed if there is a sort criterion configured and if the criterion is
+	 * not "city" while the city selector is active.
+	 */
+	private function mayCheckboxesFilterBeCreated() {
+		if (!$this->hasConfValueString('checkboxesFilter')) {
+			return false;
+		}
+
+		return (($this->getConfValueString('checkboxesFilter') != 'city')
+			|| !$this->isCitySelectorInUse()
+		);
+	}
+
+	/**
+	 * Returns an array of checkbox items for the list filter.
+	 *
+	 * @return	array		HTML for each checkbox item in an array, will be
+	 * 						empty if there are no entries found for the
+	 * 						configured filter
+	 */
+	private function getCheckboxItems() {
+		$result = array();
+
+		$filterCriterion = $this->getConfValueString('checkboxesFilter');
+		$currentTable = $this->tableNames[$filterCriterion];
+		$currentSearch = $this->searchSelectionExists()
+			? $this->piVars['search']
+			: array();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid, title',
+			$currentTable,
+			'EXISTS ' . '(' .
+				'SELECT * ' .
+				'FROM ' . REALTY_TABLE_OBJECTS . ' ' .
+				'WHERE ' . REALTY_TABLE_OBJECTS . '.' . $filterCriterion .
+					'=' . $currentTable . '.uid ' .
+					$this->getWhereClausePartForPidList() .
+					$this->enableFields(REALTY_TABLE_OBJECTS) .
+				')' . $this->enableFields($currentTable)
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			if (in_array($dbResultRow['uid'], $currentSearch)) {
+				$checked = ' checked="checked"';
+			} else {
+				$checked = '';
+			}
+			$this->setMarker('search_checked', $checked);
+			$this->setMarker('search_value', $dbResultRow['uid']);
+			$this->setMarker(
+				'search_label', htmlspecialchars($dbResultRow['title'])
+			);
+			$result[] = $this->getSubpart('SEARCH_ITEM');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Checks whether the current piVars contain a value for the city selector.
+	 *
+	 * @return	boolean		whether the city selector is currently used
+	 */
+	private function isCitySelectorInUse() {
+		return $this->piVars['city'] > 0;
+	}
+
+	/**
+	 * Returns the WHERE clause part for the list of allowed PIDs within the
+	 * realty objects table.
+	 *
+	 * @return	string		WHERE clause part starting with ' AND', containing a
+	 * 						comma-separated PID list, will be empty if no list
+	 * 						could be fetched
+	 */
+	private function getWhereClausePartForPidList() {
+		$pidList = $this->pi_getPidList(
+			$this->getConfValueString('pidList'),
+			$this->getConfValueInteger('recursive')
+		);
+
+		return !empty($pidList)
+			? ' AND '.REALTY_TABLE_OBJECTS.'.pid IN ('.$pidList.')'
+			: '';
 	}
 
 	/**
@@ -2314,7 +2386,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createLoginPageLink($linkText, $hasExternalSingleViewPage = false) {
 		$redirectPage = ($hasExternalSingleViewPage)
 			? $this->cObj->lastTypoLinkUrl
-			: $this->cObj->typoLink_URL(array('parameter' => $GLOBALS['TSFE']->id));
+			: $this->getSelfUrl(false);
 
 		return $this->cObj->typoLink(
 			$linkText,

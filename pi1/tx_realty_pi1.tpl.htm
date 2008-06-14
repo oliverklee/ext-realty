@@ -15,17 +15,18 @@
 <!-- ###LIST_VIEW### -->
 <div class="list-view">
 <!-- ###LIST_FILTER### -->
-<form id="tx_realty_pi1_search" method="post" action="###SELF_URL###">
+<form id="tx_realty_pi1_search" method="post" action="###SELF_URL_WITHOUT_PIVARS###">
 	<div class="filter">
 		<h3>###LABEL_SEARCHIN###</h3>
 		<div class="params">
 			<!-- ###SEARCH_ITEM### -->
-			<div class="param"><input type="checkbox" name="tx_realty_pi1[search][]" value="###SEARCH_VALUE###" id="tx_realty_pi1_search###SEARCH_VALUE###"###SEARCH_CHECKED### /><label for="tx_realty_pi1_search###SEARCH_VALUE###">###SEARCH_LABEL###</label></div>
+			<div class="param">
+				<input type="checkbox" name="tx_realty_pi1[search][]" value="###SEARCH_VALUE###" id="tx_realty_pi1_search_###SEARCH_VALUE###"###SEARCH_CHECKED### />
+				<label for="tx_realty_pi1_search_###SEARCH_VALUE###">###SEARCH_LABEL###</label>
+			</div>
 			<!-- ###SEARCH_ITEM### -->
 		</div>
-		<div class="submit">
-			<a href="#" class="button search" onclick="document.forms['tx_realty_pi1_search'].submit(); return false;"><span>###LABEL_SEARCH###</span></a>
-		</div>
+		<input type="submit" class="tx-realty-pi1-submit" name="###LABEL_SEARCH###" value="###LABEL_SEARCH###" />
 		<div class="clear"></div>
 	</div>
 </form>
