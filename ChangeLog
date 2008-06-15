@@ -1,3 +1,7 @@
+2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1980] Change: Remove the function to find contact e-mails for unsuccesfully validated XML
+
 2008-06-14 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1290] Fix: Checkboxes cannot be unchecked once they are checked

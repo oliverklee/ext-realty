@@ -77,10 +77,6 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 		return parent::prepareEmails($emailData);
 	}
 
-	public function findContactEmails($pathOfZip) {
-		return parent::findContactEmails($pathOfZip);
-	}
-
 	public function getContactEmailFromRealtyObject() {
 		return parent::getContactEmailFromRealtyObject();
 	}

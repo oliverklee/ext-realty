@@ -186,32 +186,29 @@ class tx_realty_openImmoImport {
 	 * 						are no records to insert.
 	 */
 	private function processRealtyRecordInsertion($currentZip) {
-		$recordsToInsert = $this->convertDomDocumentToArray(
-			$this->getImportedXml()
-		);
 		$emailData = array();
 
 		$overridePid = $this->getOverridePidForZip($currentZip);
+		$recordsToInsert = $this->convertDomDocumentToArray(
+			$this->getImportedXml()
+		);
+		// Ensures that the foreach-loop is passed at least once, so the log
+		// gets processed correctly.
+		if (empty($recordsToInsert)) {
+			$recordsToInsert = array(array());
+		}
 
-		if (!empty($recordsToInsert)) {
-			foreach ($recordsToInsert as $record) {
-				$this->writeToDatabase($record, $overridePid);
+		foreach ($recordsToInsert as $record) {
+			$this->writeToDatabase($record, $overridePid);
 
-				$emailData[] = $this->createEmailRawDataArray(
-					$this->getContactEmailFromRealtyObject(),
-					$this->getObjectNumberFromRealtyObject()
-				);
-
-				$this->storeLogsAndClearTemporaryLog();
-			}
-
-			$this->copyImagesFromExtractedZip($currentZip);
-		} else {
-			$emailData = $this->createWrappedEmailRawDataArray(
-				$this->findContactEmails($currentZip)
+			$emailData[] = $this->createEmailRawDataArray(
+				$this->getContactEmailFromRealtyObject(),
+				$this->getObjectNumberFromRealtyObject()
 			);
 			$this->storeLogsAndClearTemporaryLog();
 		}
+
+		$this->copyImagesFromExtractedZip($currentZip);
 
 		return $emailData;
 	}
@@ -416,38 +413,6 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Stores all information for an e-mail to an array with the keys
-	 * 'recipient', 'objectNumber', 'logEntry' and 'errorLog'.
-	 * This function is used, when the e-mail addresses were not fetched by the
-	 * regular way. So the element 'objectNumber' will stay empty and log entry
-	 * and error log will be the same for each recipient, as they are all
-	 * fetched from the same not insertable XML file.
-	 *
-	 * @param	array		e-mail addresses, may be empty
-	 *
-	 * @return	array		array with the elements 'recipient', 'objectNumber',
-	 * 						'logEntry' and 'errorLog' as values of an outer
-	 * 						array, will not be empty
-	 */
-	private function createWrappedEmailRawDataArray(array $emailAddresses) {
-		$collectedRawData = array();
-
-		if (empty($emailAddresses)) {
-			// This ensures that the foreach loop is passed at least one time,
-			// so the message can at least be sent to the default address.
-			$failureMessageRecipients = array('');
-		} else {
-			$failureMessageRecipients = $emailAddresses;
-		}
-
-		foreach ($failureMessageRecipients as $address) {
-			$collectedRawData[] = $this->createEmailRawDataArray($address, '');
-		}
-
-		return $collectedRawData;
-	}
-
-	/**
 	 * Prepares the sending of e-mails. Resorts $emailData. Sets the value for
 	 * 'recipient' to the default e-mail address wherever there is no e-mail
 	 * address given. Sets the value for 'objectNumber' to '------' if is not
@@ -614,13 +579,13 @@ class tx_realty_openImmoImport {
 
 		// fills the subpart 'EMAIL_BODY'
 		$templateHelper->setMarkerContent(
-			'header', $this->translator->translate('label_introduction')
+			'header', $this->translator->translate('message_introduction')
 		);
 		$templateHelper->setSubpartContent(
 			'CONTENT_ITEM', implode(LF, $contentItem)
 		);
 		$templateHelper->setMarkerContent(
-			'footer', $this->translator->translate('label_explanation')
+			'footer', $this->translator->translate('message_explanation')
 		);
 
 		return $templateHelper->getSubpart('EMAIL_BODY');
@@ -673,37 +638,6 @@ class tx_realty_openImmoImport {
 		if (!$isValid) {
 			$this->setContactEmailOfRealtyObject($this->getDefaultEmailAddress());
 		}
-	}
-
-	/**
-	 * Finds out the contact e-mail addresses independently, no matter whether a
-	 * record is loaded or not e. g. due to failed validation.
-	 *
-	 * @param	string		Path of ZIP archive which contains the XML file with
-	 * 						the e-mail address to fetch. This archive must have
-	 * 						been extracted before.
-	 *
-	 * @return	array		contact e-mails on success, an empty array otherwise
-	 */
-	protected function findContactEmails($pathOfZip) {
-		$xmlPath = $this->getPathForXml($pathOfZip, true);
-		if ($xmlPath == '') {
-			return array();
-		}
-
-		$domDocument = DOMDocument::load($xmlPath);
-		if (!$domDocument) {
-			return array();
-		}
-
-		$recordsArray = $this->convertDomDocumentToArray($domDocument);
-
-		$emails = array();
-		foreach ($recordsArray as $record) {
-			$emails[] = $record['contact_email'];
-		}
-
-		return $emails;
 	}
 
 	/**
@@ -1055,12 +989,12 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param	DOMDocument		which contains realty records, can be null
 	 *
-	 * @return	array		realty records in an array, may be empty if the data
-	 * 						was not convertible
+	 * @return	array		realty records in an array, will be empty if the
+	 * 						data was not convertible
 	 */
 	protected function convertDomDocumentToArray($realtyRecords) {
 		if (!$realtyRecords) {
-			return;
+			return array();
 		}
 
 		$domDocumentConverter = t3lib_div::makeInstance(

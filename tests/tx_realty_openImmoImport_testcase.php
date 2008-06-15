@@ -857,26 +857,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindContactEmailsIfEmailNotExists() {
-		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-
-		$this->assertEquals(
-			array(),
-			$this->fixture->findContactEmails(self::$importFolder.'foo.zip')
-		);
-	}
-
-	public function testFindContactEmailsIfEmailExists() {
-		$this->copyTestFileIntoImportFolder('email.zip');
-		$this->fixture->extractZip(self::$importFolder.'email.zip');
-
-		$this->assertEquals(
-			array('bar'),
-			$this->fixture->findContactEmails(self::$importFolder.'email.zip')
-		);
-	}
-
 
 	/////////////////////////////////
 	// Test for clearing the cache.
@@ -934,12 +914,31 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testImportFromZipReturnsLogMessageMissingRequiredFields() {
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->disableValidation();
 
 		$this->assertContains(
 			$this->translator->translate('message_fields_required'),
+			$this->fixture->importFromZip()
+		);
+	}
+
+	public function testImportFromZipReturnsLogMessageThatNoRecordWasLoadedForAZipWithNonOpenImmoXml() {
+		$this->copyTestFileIntoImportFolder('foo.zip');
+		$this->disableValidation();
+
+		$this->assertContains(
+			$this->translator->translate('message_object_not_loaded'),
+			$this->fixture->importFromZip()
+		);
+	}
+
+	public function testImportFromZipReturnsMessageThatTheLogWasSentToTheDefaultAddressIfNoRecordWasLoaded() {
+		$this->copyTestFileIntoImportFolder('foo.zip');
+		$this->disableValidation();
+
+		$this->assertContains(
+			'default-address@valid-email.org',
 			$this->fixture->importFromZip()
 		);
 	}
@@ -1175,7 +1174,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToDefaultAddressIfAtLeastForOneRecordNoContactEmailWasFound() {
+	public function testEmailIsSentToDefaultAddressIfARecordIsNotLoadable() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
@@ -1193,6 +1192,28 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->translator->translate('label_object_number'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailContainsTheIntroductionMessage() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('email.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertContains(
+			$this->translator->translate('message_introduction'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailContainsTheExplanationMessage() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('email.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertContains(
+			$this->translator->translate('message_explanation'),
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
 		);
 	}
