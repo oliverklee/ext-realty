@@ -163,8 +163,8 @@
 			<label index="label_location">Lage</label>
 			<label index="label_misc">Sonstiges</label>
 			<label index="label_layout">Aufteilung</label>
-			<label index="label_living_area">Wohnfläche ca. in m²</label>
-			<label index="label_total_area">Nutzfläche in m²</label>
+			<label index="label_living_area">Wohnfläche ca.</label>
+			<label index="label_total_area">Nutzfläche ca.</label>
 			<label index="label_heating_included">Nebenkosten inkl.&amp;nbsp;Heizung</label>
 			<label index="label_deposit">Kaution</label>
 			<label index="label_provision">Provision/Courtage</label>
