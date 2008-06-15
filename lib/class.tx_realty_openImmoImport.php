@@ -282,7 +282,8 @@ class tx_realty_openImmoImport {
 			);
 		}
 
-		$errorMessage = $this->realtyObject->writeToDatabase($overridePid);
+		// 'true' allows to add an owner to the realty record if it hasn't got one.
+		$errorMessage = $this->realtyObject->writeToDatabase($overridePid, true);
 
 		switch ($errorMessage) {
 			case '':
@@ -653,6 +654,7 @@ class tx_realty_openImmoImport {
 		if (strpos($checkedPath, '/', strlen($checkedPath) - 1) === false) {
 			$checkedPath .= '/';
 		}
+
 		return $checkedPath;
 	}
 
@@ -1034,18 +1036,46 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Returns the contact e-mail address of a realty object if it is set.
+	 * Returns the contact e-mail address of a realty object.
 	 *
-	 * @return	string		contact e-mail address, may be empty if no e-mail
-	 * 						address was found or if the realty object is not
-	 * 						initialized
+	 * The returned e-mail address depends on the configuration for
+	 * 'useFrontEndUserDataAsContactDataForImportedRecords'. If this option is
+	 * enabled and if there is an owner, the owner's e-mail address will be
+	 * fetched. Otherwise the contact e-mail address found in the realty record
+	 * will be returned.
+	 *
+	 * @return	string		e-mail address, depending on the configuration
+	 * 						either the field 'contact_email' from the realty
+	 * 						record or the owner's e-mail address,
+	 * 						will be empty if no e-mail address was found or if
+	 * 						the realty object is not initialized
 	 */
 	protected function getContactEmailFromRealtyObject() {
 		if (!is_object($this->realtyObject)) {
 			return '';
 		}
 
-		return $this->realtyObject->getProperty('contact_email');
+		$emailAddress = '';
+
+		if ($this->mayUseOwnerData()) {
+			$emailAddress = $this->realtyObject->getOwnerProperty('email');
+		}
+
+		return ($emailAddress != '')
+			? $emailAddress
+			: $this->realtyObject->getProperty('contact_email');
+	}
+
+	/**
+	 * Checks whether the owner's data may be used.
+	 *
+	 * @return	boolean		true it is allowed by configuration to use the
+	 * 						owner's data, false otherwise
+	 */
+	private function mayUseOwnerData() {
+		return $this->globalConfiguration->getConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords'
+		);
 	}
 
 	/**

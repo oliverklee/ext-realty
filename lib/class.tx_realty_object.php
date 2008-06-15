@@ -51,6 +51,9 @@ class tx_realty_object {
 	 */
 	private $images = array();
 
+	/** the owner record is cached in order to improve performance */
+	private $ownerData = array();
+
 	/** required fields for OpenImmo records */
 	private $requiredFields = array(
 		'zip',
@@ -142,6 +145,8 @@ class tx_realty_object {
 				$this->realtyObjectData = array();
 				break;
  		}
+
+		$this->loadOwnerRecord();
 	}
 
 	/**
@@ -240,36 +245,37 @@ class tx_realty_object {
 	 *
 	 * @param	integer		PID for new records (omit this parameter to use
 	 * 						the PID set in the global configuration)
+	 * @param	boolean		true if the owner may be set, false otherwise
 	 *
 	 * @return 	string		locallang key of an error message if the record was
 	 * 						not written to database, an empty string if it was
 	 * 						written successfully
 	 */
-	public function writeToDatabase($overridePid = 0) {
+	public function writeToDatabase($overridePid = 0, $setOwner = false) {
 		if ($this->isRealtyObjectDataEmpty()) {
 			return 'message_object_not_loaded';
 		}
+		if (count($this->checkForRequiredFields()) > 0) {
+			return 'message_fields_required';
+		}
 
 		$errorMessage = '';
+		$this->prepareInsertionAndInsertRelations();
+		if ($setOwner) {
+			$this->processOwnerData();
+		}
 
-		if (($this->hasProperty('uid') || $this->hasProperty('object_number'))
-			&& $this->recordExistsInDatabase(
-				$this->realtyObjectData,
-				'object_number, language, openimmo_obid'
+		if ($this->recordExistsInDatabase(
+			$this->realtyObjectData, 'object_number, language, openimmo_obid'
 			)
 		) {
-			$this->prepareInsertionAndInsertRelations();
 			$this->ensureUid(
-				$this->realtyObjectData,
-				'object_number, language, openimmo_obid'
+				$this->realtyObjectData, 'object_number, language, openimmo_obid'
 			);
 			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
 				$errorMessage = 'message_updating_failed';
 			}
-		} elseif (count($this->checkForRequiredFields()) > 0) {
-			$errorMessage = 'message_fields_required';
 		} else {
-			$this->prepareInsertionAndInsertRelations();
 			$newUid = $this->createNewDatabaseEntry(
 				$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
 			);
@@ -290,6 +296,101 @@ class tx_realty_object {
 		}
 
 		return $errorMessage;
+	}
+
+	/**
+	 * Loads the owner's database record into $this->ownerData.
+	 */
+	private function loadOwnerRecord() {
+		if ((intval($this->getProperty('owner')) == 0)
+			&& ($this->getProperty('openimmo_anid') == '')
+		) {
+			return;
+		}
+
+		if (intval($this->getProperty('owner')) != 0) {
+			$whereClause = 'uid=' . $this->getProperty('owner');
+		} else {
+			$whereClause = 'tx_realty_openimmo_anid="' .
+				$GLOBALS['TYPO3_DB']->quoteStr(
+					$this->getProperty('openimmo_anid'), REALTY_TABLE_OBJECTS
+				) . '" ';
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'*',
+			'fe_users',
+			$whereClause . $this->templateHelper->enableFields('fe_users')
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (is_array($row)) {
+			$this->ownerData = $row;
+		}
+	}
+
+	/**
+	 * Links the current realty object to the owner's FE user record if there is
+	 * one. The owner is identified by their OpenImmo ANID.
+	 * Sets whether to use the FE user's contact data or the data provided
+	 * within the realty record, according to the configuration.
+	 */
+	private function processOwnerData() {
+		$this->addRealtyRecordsOwner();
+		$this->addIsOwnerDataUsable();
+	}
+
+	/**
+	 * Adds the current realty record's owner. The owner is the FE user who has
+	 * the same OpenImmo ANID as provided in the current realty record.
+	 *
+	 * If the current record already has an owner or if no matching ANID was
+	 * found, no owner will be set.
+	 */
+	private function addRealtyRecordsOwner() {
+		// Saves an existing owner from being overwritten.
+		if (intval($this->getProperty('owner')) != 0) {
+			return;
+		}
+
+		$this->setProperty('owner', intval($this->getOwnerProperty('uid')));
+	}
+
+	/**
+	 * Adds information concerning whether the owner's data may be used in the
+	 * FE according to the current configuration.
+	 */
+	private function addIsOwnerDataUsable() {
+		if ((intval($this->getProperty('owner')) != 0)
+			&& tx_oelib_configurationProxy::getInstance('realty')->
+				getConfigurationValueBoolean(
+					'useFrontEndUserDataAsContactDataForImportedRecords'
+				)
+		) {
+			$this->setProperty('contact_data_source', 1);
+		}
+	}
+
+	/**
+	 * Returns a value for a given key from an owner of a loaded realty object.
+	 * If the key does not exist no owner is loaded, an empty string is returned.
+	 *
+	 * @param	string		key of value to fetch from current realty object's
+	 * 						owner, must not be empty
+	 *
+	 * @return	mixed		corresponding value or an empty string if the key
+	 * 						does not exist
+	 */
+	public function getOwnerProperty($key) {
+		if (empty($this->ownerData) || !isset($this->ownerData[$key])) {
+			return '';
+		}
+
+		return $this->ownerData[$key];
 	}
 
 	/**
@@ -323,6 +424,7 @@ class tx_realty_object {
 	 * Sets an existing key from a loaded realty object to a value. Does nothing
 	 * if the key does not exist in the current realty object or no object is
 	 * loaded.
+	 * Reloads the owner's data.
 	 *
 	 * @param	string		key of the value to set in current realty object,
 	 * 						must not be empty and must not be 'uid'
@@ -342,6 +444,11 @@ class tx_realty_object {
 		}
 
 		$this->realtyObjectData[$key] = $value;
+
+		// Ensures the owner's data becomes loaded if one was added.
+		if (($key == 'owner') || ($key == 'openimmo_anid')) {
+			$this->loadOwnerRecord();
+		}
 	}
 
 	/**

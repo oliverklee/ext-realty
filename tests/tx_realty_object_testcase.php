@@ -1604,5 +1604,156 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////////////
+	// Tests for processing owner data.
+	/////////////////////////////////////
+
+	public function testUidOfFeUserWithMatchingAnidIsAddedAsOwnerIfAddingTheOwnerIsAllowed() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid')
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('openimmo_anid', 'test anid');
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			$feUserUid,
+			$this->fixture->getProperty('owner')
+		);
+	}
+
+	public function testUidOfFeUserWithMatchingAnidIsNotAddedAsOwnerIfThisIsForbidden() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid')
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('openimmo_anid', 'test anid');
+		$this->fixture->writeToDatabase(0, false);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getProperty('owner')
+		);
+	}
+
+	public function testNoOwnerIsAddedForARealtyRecordWithoutOpenImmoAnid() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid')
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getProperty('owner')
+		);
+	}
+
+	public function testOwnerIsNotChangedAlthoughTheAnidOfARecordIsUpdatedAndDoesNotMatchAnymore() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid 1')
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('openimmo_anid', 'test anid 1');
+		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->setProperty('openimmo_anid', 'test anid 2');
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			$feUserUid,
+			$this->fixture->getProperty('owner')
+		);
+		$this->assertEquals(
+			'test anid 2',
+			$this->fixture->getProperty('openimmo_anid')
+		);
+	}
+
+	public function testOwnerIsNotChangedAlthoughTheAnidOfARecordIsUpdatedAndMatchesAnotherFeUser() {
+		$feUserGroup = $this->testingFramework->createFrontEndUserGroup();
+		$uidOfFeUserOne = $this->testingFramework->createFrontEndUser(
+			$feUserGroup, array('tx_realty_openimmo_anid' => 'test anid 1')
+		);
+		$uidOfFeUserTwo = $this->testingFramework->createFrontEndUser(
+			$feUserGroup, array('tx_realty_openimmo_anid' => 'test anid 2')
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('openimmo_anid', 'test anid 1');
+		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->setProperty('openimmo_anid', 'test anid 2');
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			$uidOfFeUserOne,
+			$this->fixture->getProperty('owner')
+		);
+		$this->assertEquals(
+			'test anid 2',
+			$this->fixture->getProperty('openimmo_anid')
+		);
+	}
+
+	public function testUseFeUserDataFlagIsSetIfThisOptionIsEnabledByConfiguration() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid')
+		);
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueBoolean(
+				'useFrontEndUserDataAsContactDataForImportedRecords', true
+			);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('openimmo_anid', 'test anid');
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getProperty('contact_data_source')
+		);
+	}
+
+	public function testUseFeUserDataFlagIsNotSetIfThisOptionIsDisabledByConfiguration() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid')
+		);
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueBoolean(
+				'useFrontEndUserDataAsContactDataForImportedRecords', false
+			);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('openimmo_anid', 'test anid');
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getProperty('contact_data_source')
+		);
+	}
+
+	public function testUseFeUserDataFlagIsNotSetIfNoOwerWasSetAlthoughOptionIsEnabledByConfiguration() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid')
+		);
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueBoolean(
+				'useFrontEndUserDataAsContactDataForImportedRecords', true
+			);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getProperty('contact_data_source')
+		);
+	}
 }
 ?>

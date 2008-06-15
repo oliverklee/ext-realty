@@ -125,6 +125,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->globalConfiguration->setConfigurationValueString(
 			'pidsForRealtyObjectsAndImagesByFileName', ''
 		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', false
+		);
 	}
 
 	/**
@@ -1162,6 +1165,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////
 	// Testing the e-mail contents.
 	/////////////////////////////////
+	// * Tests for the subject.
+	/////////////////////////////
 
 	public function testEmailSubjectIsSetCorrectly() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
@@ -1171,6 +1176,33 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$this->translator->translate('label_subject_openImmo_import'),
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastSubject()
+		);
+	}
+
+
+	//////////////////////////////////////
+	// * Tests concerning the recipient.
+	//////////////////////////////////////
+
+	public function testEmailIsSentToContactEmailForValidContactEmailAndObjectAsContactDataSource() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('valid-email.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'contact-email-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testEmailIsSentToDefaultEmailForInvalidContactEmailAndObjectAsContactDataSource() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('email.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'default-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
 		);
 	}
 
@@ -1184,6 +1216,137 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
 		);
 	}
+
+	public function testEmailIsSentToOwnersAddressForMatchingAnidAndNoContactEmailProvidedAndOwnerAsContactDataSource() {
+		$this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'tx_realty_openimmo_anid' => 'test-anid',
+				'email' => 'owner-address@valid-email.org'
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'owner-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testEmailIsSentToOwnersAddressForMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
+		$this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'tx_realty_openimmo_anid' => 'test-anid',
+				'email' => 'owner-address@valid-email.org'
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'owner-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testEmailIsSentToContactAddressForNonMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
+		$this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'tx_realty_openimmo_anid' => 'another-test-anid',
+				'email' => 'owner-address@valid-email.org'
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'contact-email-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testEmailIsSentToContactAddressForNoAnidAndSetContactEmailAndOwnerAsContactDataSource() {
+		$this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'tx_realty_openimmo_anid' => 'test-anid',
+				'email' => 'owner-address@valid-email.org'
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('valid-email.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'contact-email-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testEmailIsSentToDefaultAddressForNonMatchingAnidAndNoContactEmailAndOwnerContactDataSource() {
+		$this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'tx_realty_openimmo_anid' => 'another-test-anid',
+				'email' => 'owner-address@valid-email.org'
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'default-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+	public function testEmailIsSentToDefaultAddressForNeitherAnidNorContactEmailProvidedAndOwnerAsContactDataSource() {
+		$this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array(
+				'tx_realty_openimmo_anid' => 'test-anid',
+				'email' => 'owner-address@valid-email.org'
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('foo.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			'default-address@valid-email.org',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		);
+	}
+
+
+	///////////////////////////////////
+	// * Testing the e-mail contents.
+	///////////////////////////////////
 
 	public function testSentEmailContainsTheObjectNumberLabel() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
