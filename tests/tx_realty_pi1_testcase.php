@@ -538,6 +538,246 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////////
+	// Tests for the list filter checkboxes.
+	//////////////////////////////////////////
+
+	public function testListFilterIsVisibleIfCheckboxesFilterSetToDistrictAndCitySelectorIsInactive() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('district' => $this->testingFramework->createRecord(
+				REALTY_TABLE_DISTRICTS, array('title' => 'test district')
+			))
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+
+		$this->assertContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterIsVisibleIfCheckboxesFilterIsSetToDistrictAndCitySelectorIsActive() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('district' => $this->testingFramework->createRecord(
+				REALTY_TABLE_DISTRICTS, array('title' => 'test district')
+			))
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+		$this->fixture->piVars['city'] = $this->firstCityUid;
+
+		$this->assertContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterIsInvisibleIfCheckboxesFilterSetToDistrictAndNoRecordIsLinkedToADistrict() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'test district')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+
+		$this->assertNotContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterIsInvisibleIfCheckboxesFilterSetToDistrictAndNoDistrictsExists() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
+
+		$this->assertNotContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterIsVisibleIfCheckboxesFilterSetToCityAndCitySelectorIsInactive() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		$this->assertContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterIsInvisibleIfCheckboxesFilterIsSetToCityAndCitySelectorIsActive() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+		$this->fixture->piVars['city'] = $this->firstCityUid;
+
+		$this->assertNotContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterIsInvisibleIfCheckboxesFilterNotSet() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertNotContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterDoesNotDisplayUnlinkedCity() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('title' => 'unlinked city')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		$this->assertContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+		$this->assertNotContains(
+			'unlinked city',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListFilterDoesNotDisplayDeletedCity() {
+		$deletedCityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('title' => 'deleted city', 'deleted' => 1)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('city' => $deletedCityUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		$this->assertContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+		$this->assertNotContains(
+			'deleted city',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListIsFilteredForOneCriterion() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+		$piVars = array('search' => array($this->firstCityUid));
+
+		// The city's title will occur twice if it is within the list view and
+		// within the list filter. It will occur once if it is only a filter
+		// criterion.
+		// piVars would usually be set by each submit of the list filter.
+		$this->fixture->piVars = $piVars;
+		$this->assertEquals(
+			2,
+			substr_count($this->fixture->main('', array()), self::$firstCityTitle)
+		);
+		$this->fixture->piVars = $piVars;
+		$this->assertEquals(
+			1,
+			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+		);
+	}
+
+	public function testListIsFilteredForTwoCriteria() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+		$piVars = array('search' => array(
+			$this->firstCityUid, $this->secondCityUid
+		));
+
+		// The city's title will occur twice if it is within the list view and
+		// within the list filter. It will occur once if it is only a filter
+		// criterion.
+		// piVars would usually be set by each submit of the list filter.
+		$this->fixture->piVars = $piVars;
+		$this->assertEquals(
+			2,
+			substr_count($this->fixture->main('', array()), self::$firstCityTitle)
+		);
+		$this->fixture->piVars = $piVars;
+		$this->assertEquals(
+			2,
+			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+		);
+	}
+
+	public function testListIsFilteredForOneCriterionAfterOneCriterionHasBeenCheckedAndUnchecked() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		// The city's title will occur twice if it is within the list view and
+		// within the list filter. It will occur once if it is only a filter
+		// criterion.
+		// piVars would usually be set by each submit of the list filter.
+		$this->fixture->piVars['search'] = array(
+			$this->firstCityUid, $this->secondCityUid
+		);
+		$this->assertEquals(
+			2,
+			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+		);
+		$this->fixture->piVars['search'] = array($this->firstCityUid);
+		$this->assertEquals(
+			1,
+			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+		);
+	}
+
+	public function testListIsNotFilteredAfterCheckingCriteriaAndUncheckingAllAgain() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		// The city's title will occur twice if it is within the list view and
+		// within the list filter. It will occur once if it is only a filter
+		// criterion.
+		// piVars would usually be set by each submit of the list filter.
+		$this->fixture->piVars['search'] = array($this->firstCityUid);
+		$this->assertEquals(
+			1,
+			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+		);
+		$this->fixture->piVars['search'] = array();
+		$this->assertEquals(
+			2,
+			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+		);
+	}
+
+	public function testTheListFilterLinksToTheSelfUrl() {
+		$currentFrontEndPage = $this->testingFramework->createFrontEndPage();
+		$this->setCurrentPage($currentFrontEndPage);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		$this->assertContains(
+			'id=' . $currentFrontEndPage,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testTheListFiltersLinkDoesNoContainPiVars() {
+		$this->setCurrentPage($this->testingFramework->createFrontEndPage());
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+		$this->fixture->piVars['search'] = array($this->firstCityUid);
+
+		$this->assertNotContains(
+			'tx_realty_pi1[search][0]=' . $this->firstCityUid,
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	//////////////////////////////////
 	// Tests concerning the sorting.
 	//////////////////////////////////

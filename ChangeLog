@@ -1,3 +1,7 @@
+2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1290] Fix: Checkboxes cannot be unchecked once they are checked
+
 2008-06-11 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1978] Change: Add "ca." to the German label for the living area, patch by Sven Braun
