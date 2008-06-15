@@ -1,5 +1,6 @@
 2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1956] Feature: Automatically set the owner FE user during the import
 	* [#1980] Change: Remove the function to find contact e-mails for unsuccesfully validated XML
 
 2008-06-14 Saskia Metzler <saskia@merlin.owl.de>
