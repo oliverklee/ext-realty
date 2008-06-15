@@ -1610,13 +1610,27 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	// Tests for processing owner data.
 	/////////////////////////////////////
 
-	public function testUidOfFeUserWithMatchingAnidIsAddedAsOwnerIfAddingTheOwnerIsAllowed() {
+	public function testUidOfFeUserWithMatchingAnidIsAddedAsOwnerForExistingObjectIfAddingTheOwnerIsAllowed() {
 		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid');
+		$this->fixture->writeToDatabase(0, true);
+
+		$this->assertEquals(
+			$feUserUid,
+			$this->fixture->getProperty('owner')
+		);
+	}
+
+	public function testUidOfFeUserWithMatchingAnidIsAddedAsOwnerForNewObjectIfAddingTheOwnerIsAllowed() {
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'test anid')
+		);
+		$this->fixture->loadRealtyObject(array('openimmo_anid' => 'test anid'));
 		$this->fixture->writeToDatabase(0, true);
 
 		$this->assertEquals(

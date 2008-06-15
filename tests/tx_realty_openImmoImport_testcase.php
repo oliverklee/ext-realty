@@ -128,6 +128,12 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords', false
 		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', false
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', ''
+		);
 	}
 
 	/**
@@ -603,6 +609,96 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'default_address@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
+		);
+	}
+
+	//////////////////////////////////////////////////////////////////
+	// Tests concerning the restricted import for registered owners.
+	//////////////////////////////////////////////////////////////////
+
+	public function testRecordWithAnidThatMatchesAnExistingFeUserIsImportedForEnabledOwnerRestriction() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'foo')
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'openimmo_anid="foo" AND owner=' . $feUserUid
+			)
+		);
+	}
+
+	public function testRecordWithAnidThatDoesNotMatchAnExistingFeUserIsNotImportedForEnabledOwnerRestriction() {
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'openimmo_anid="foo"'
+			)
+		);
+	}
+
+	public function testRecordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'openimmo_anid="foo" AND owner=' . $feUserUid
+			)
+		);
+	}
+
+	public function testRecordWithAnidThatMatchesAnExistingFeUserInAForbiddenGroupIsNotImportedForEnabledOwnerAndGroupRestriction() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) ($feUserGroupUid + 1)
+		);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'openimmo_anid="foo" AND owner=' . $feUserUid
+			)
 		);
 	}
 
@@ -1377,6 +1473,19 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->translator->translate('message_explanation'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailContainsMessageThatARecordWasNotImportedForMismatchingAnidsAndEnabledOwnerRestriction() {
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertContains(
+			$this->translator->translate('message_openimmo_anid_not_matches_allowed_fe_user'),
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
 		);
 	}

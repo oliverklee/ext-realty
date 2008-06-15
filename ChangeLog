@@ -1,5 +1,6 @@
 2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#1957] Feature: Add a switch to only import objects if there is a FE user with the corresponding ANID and in a selectable FE user group
 	* [#1956] Feature: Automatically set the owner FE user during the import
 	* [#1980] Change: Remove the function to find contact e-mails for unsuccesfully validated XML
 

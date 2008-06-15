@@ -434,7 +434,7 @@ class tx_realty_object {
 	public function setProperty($key, $value) {
 		if ($this->isRealtyObjectDataEmpty()
 			|| !$this->isAllowedValue($value)
-			|| !$this->hasProperty($key)
+			|| !in_array($key, $this->getAllowedFieldNames())
 		) {
 			return;
 		}

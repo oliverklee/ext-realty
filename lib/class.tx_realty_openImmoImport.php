@@ -273,13 +273,14 @@ class tx_realty_openImmoImport {
 		$this->loadRealtyObject($realtyRecord);
 		$this->ensureContactEmail();
 
-		$pleaseValidateMessage = '';
-		if ($this->globalConfiguration->
-			getConfigurationValueString('openImmoSchema') != ''
-		) {
-			$pleaseValidateMessage = $this->translator->translate(
-				'message_please_validate'
+		if (!$this->hasValidOwnerForImport()) {
+			$this->addToErrorLog(
+				$this->translator->translate(
+					'message_openimmo_anid_not_matches_allowed_fe_user'
+				) . ' "' . $this->realtyObject->getProperty('openimmo_anid') .
+				'".' . LF
 			);
+			return;
 		}
 
 		// 'true' allows to add an owner to the realty record if it hasn't got one.
@@ -288,29 +289,96 @@ class tx_realty_openImmoImport {
 		switch ($errorMessage) {
 			case '':
 			$this->addToLogEntry(
-				$this->translator->translate('message_written_to_database').LF
+				$this->translator->translate('message_written_to_database') . LF
 			);
 			break;
 		case 'message_deleted_flag_set':
 			// A set deleted flag is no real error, so is not stored in the
 			// error log.
 			$this->addToLogEntry(
-				$this->translator->translate($errorMessage).LF
+				$this->translator->translate($errorMessage) . LF
 			);
 			break;
 		case 'message_fields_required':
-			$this->addToErrorLog($this->translator->translate($errorMessage)
-				.': '.implode(', ', $this->realtyObject->checkForRequiredFields())
-				.'. '.$pleaseValidateMessage.LF
+			$this->addToErrorLog(
+				$this->translator->translate($errorMessage) . ': ' .
+					implode(', ', $this->realtyObject->checkForRequiredFields()) .
+					'. ' . $this->getPleaseActivateValidationMessage() . LF
 			);
 			break;
 		default:
 			$this->addToErrorLog(
-				$this->translator->translate($errorMessage).' '
-					.$pleaseValidateMessage.LF
+				$this->translator->translate($errorMessage) . ' ' .
+				$this->getPleaseActivateValidationMessage() . LF
 			);
 			break;
 		}
+	}
+
+	/**
+	 * Returns a localized message that validation should be activated. Will be
+	 * empty if validation is active.
+	 *
+	 * @return	string		localized message that validation should be enabled,
+	 * 						an empty string if this is already enabled
+	 */
+	private function getPleaseActivateValidationMessage() {
+		return ($this->globalConfiguration
+				->getConfigurationValueString('openImmoSchema') != '')
+			? $this->translator->translate('message_please_validate')
+			: '' ;
+	}
+
+	/**
+	 * Checks whether the current realty object's supposed owner is in an
+	 * allowed FE user group.
+	 * Returns true if this check is disabled by configuration.
+	 *
+	 * @return	boolean		true if the current realty object's owner matches
+	 * 						an allowed FE user, also true if this check is
+	 * 						disabled by validation, false otherwise
+	 */
+	private function hasValidOwnerForImport() {
+		if (!$this->globalConfiguration->getConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers'
+		)) {
+			return true;
+		}
+		// In case this check is enabled, only objects for which an owner can be
+		// found will be imported.
+		if ($this->realtyObject->getOwnerProperty('uid') == 0) {
+			return false;
+		}
+
+		$allowedFrontEndUserGroups = $this->getAllowedFrontEndUserGroups();
+		// "empty" means all FE user groups are allowed. It was checked before
+		// that there actually is an owner.
+		if (empty($allowedFrontEndUserGroups)) {
+			$result = true;
+		} else {
+			$result = in_array(
+				$this->realtyObject->getOwnerProperty('usergroup'),
+				$allowedFrontEndUserGroups
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns the UIDs of the allowed FE user groups in an array.
+	 *
+	 * @return	array		allowed FE user group UIDs (not int-safe), will be
+	 * 						empty if all are allowed
+	 */
+	private function getAllowedFrontEndUserGroups() {
+		$frontEndUserGroupUids = $this->globalConfiguration
+			->getConfigurationValueString('allowedFrontEndUserGroups');
+		if ($frontEndUserGroupUids == '') {
+			return array();
+		}
+
+		return t3lib_div::trimExplode(',', $frontEndUserGroupUids);
 	}
 
 	/**

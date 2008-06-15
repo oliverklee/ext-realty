@@ -16,6 +16,7 @@
 			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
 			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user">The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</label>
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
@@ -47,6 +48,7 @@
 			<label index="message_deleted_flag_set">Der importierte Datensatz ist zum Löschen markiert. Wenn er in der Datenbank existiert, wird er nun gelöscht. Andernfalls wird dieser Datensatzes ignoriert.</label>
 			<label index="message_written_to_database">Der Datensatz wurde in die Datenbank eingefügt.</label>
 			<label index="message_fields_required">Der Datensatz wurde nicht importiert, weil die Pflichtfelder nicht gesetzt sind</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user">Der Datensatz wurde nicht importiert, weil in der Konfiguration eingestellt ist, dass Datensätze nur für registrierte FE-Benutzer importiert werden dürfen und dieser Datensatz keine OpenImmo-ANID enthält, die mit der eines FE-Benutzers in einer der erlaubten Gruppen übereinstimmt. Die OpenImmo-ANID des Datensatze war:</label>
 			<label index="message_log_sent_to">Das Protokoll wurde gesendet an</label>
 			<label index="message_extracted_successfully">Das ZIP-Archiv wurde erfolgreich entpackt.</label>
 			<label index="message_extraction_failed">Das Entpacken des ZIP-Archives ist fehlgeschlagen, da das Archiv nicht geöffnet werden konnte. Möglicherweise ist die Datei fehlerhaft.</label>
@@ -80,6 +82,7 @@
 			<label index="message_deleted_flag_set" type="integer">232865486</label>
 			<label index="message_written_to_database" type="integer">198437427</label>
 			<label index="message_fields_required" type="integer">127661848</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user" type="integer">182565751</label>
 			<label index="message_log_sent_to" type="integer">24096936</label>
 			<label index="message_extracted_successfully" type="integer">215773016</label>
 			<label index="message_extraction_failed" type="integer">256903313</label>
@@ -113,6 +116,7 @@
 			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
 			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user">The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</label>
 			<label index="message_log_sent_to">The log was sent to</label>
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
