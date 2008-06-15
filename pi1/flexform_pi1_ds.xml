@@ -153,7 +153,7 @@
 								<type>check</type>
 							</config>
 						</TCEforms>
-					</allowDirectRequestsForObjects>					
+					</allowDirectRequestsForObjects>
 					<showContactInformation>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showContactInformation</label>
@@ -272,7 +272,7 @@
 								<maxitems>1</maxitems>
 								<size>1</size>
 							</config>
-						</TCEforms>					
+						</TCEforms>
 					</showSiteSearchInFilterForm>
 					<priceRangesForFilterForm>
 						<TCEforms>
