@@ -192,9 +192,19 @@ class tx_realty_openImmoImport {
 		$recordsToInsert = $this->convertDomDocumentToArray(
 			$this->getImportedXml()
 		);
-		// Ensures that the foreach-loop is passed at least once, so the log
-		// gets processed correctly.
-		if (empty($recordsToInsert)) {
+
+		if (!empty($recordsToInsert)) {
+			$this->copyImagesFromExtractedZip($currentZip);
+			// Only ZIP archives that have a valid owner and therefore can be
+			// imported are marked as deletable.
+			// The owner is the same for each record within one ZIP archive.
+			$this->loadRealtyObject($recordsToInsert[0]);
+			if ($this->hasValidOwnerForImport()) {
+				$this->filesToDelete[] = $currentZip;
+			}
+		} else {
+			// Ensures that the foreach-loop is passed at least once, so the log
+			// gets processed correctly.
 			$recordsToInsert = array(array());
 		}
 
@@ -207,8 +217,6 @@ class tx_realty_openImmoImport {
 			);
 			$this->storeLogsAndClearTemporaryLog();
 		}
-
-		$this->copyImagesFromExtractedZip($currentZip);
 
 		return $emailData;
 	}
@@ -829,11 +837,10 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param	string		absolute path where to find the ZIP archive which
 	 * 						includes an XML file, must not be empty
-	 * @param	boolean		whether this function logs occurring errors or not
 	 *
 	 * @return	string		absolute path of the XML file, empty string on error
 	 */
-	protected function getPathForXml($pathOfZip, $processSilently = false) {
+	protected function getPathForXml($pathOfZip) {
 		$result = '';
 
 		$errorMessage = '';
@@ -845,7 +852,6 @@ class tx_realty_openImmoImport {
 
 			if (count($pathOfXml) == 1) {
 				$result = implode($pathOfXml);
-				$this->filesToDelete[] = $pathOfZip;
 			} else {
 				if (count($pathOfXml) > 1) {
 					$errorMessage = 'message_too_many_xml';
@@ -858,9 +864,7 @@ class tx_realty_openImmoImport {
 		}
 
 		// logs an error message if necessary
-		if ($errorMessage != '' && !$processSilently
-			&& in_array($folderWithXml, $this->filesToDelete)
-		) {
+		if (($errorMessage != '')) {
 			$this->addToErrorLog(
 				basename($pathOfZip).': '
 					.$this->translator->translate($errorMessage)

@@ -345,7 +345,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveContentsIfFileIsGiven() {
+	public function testCleanUpDoesNotRemoveZipThatIsNotMarkedAsDeletable() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->cleanUp(self::$importFolder.'foo.zip');
 
@@ -356,45 +356,42 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function testCleanUpRemovesCreatedFolderAlthoughTheExtractedArchiveContainsAFolder() {
 		$this->copyTestFileIntoImportFolder('contains-folder.zip');
-		$this->fixture->extractZip(self::$importFolder.'contains-folder.zip');
-		$this->fixture->cleanUp(self::$importFolder);
+		$this->fixture->importFromZip();
 
 		$this->assertFalse(
 			file_exists(self::$importFolder.'contains-folder/')
 		);
 	}
 
-	public function testCleanNotUpRemovesZipWithOneXmlInItIfDeletingZipsIsDisabled() {
+	public function testCleanUpDoesNotRemovesZipWithOneXmlInItIfDeletingZipsIsDisabled() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'deleteZipsAfterImport', false
 		);
-		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-		$this->fixture->getPathForXml(self::$importFolder.'foo.zip');
-		$this->fixture->cleanUp(self::$importFolder);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'foo.zip')
+			file_exists(self::$importFolder.'same-name.zip')
 		);
 	}
 
 	public function testCleanUpRemovesZipWithOneXmlInItIfDeletingZipsIsEnabled() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
 		// 'deleteZipsAfterImport' is set to true during setUp()
-		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-		$this->fixture->getPathForXml(self::$importFolder.'foo.zip');
-		$this->fixture->cleanUp(self::$importFolder);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
 
 		$this->assertFalse(
-			file_exists(self::$importFolder.'foo.zip')
+			file_exists(self::$importFolder.'same-name.zip')
 		);
 	}
 
 	public function testCleanUpDoesNotRemoveZipWithoutXmls() {
 		$this->copyTestFileIntoImportFolder('empty.zip');
-		$this->fixture->extractZip(self::$importFolder.'empty.zip');
-		$this->fixture->getPathForXml(self::$importFolder.'empty.zip');
-		$this->fixture->cleanUp(self::$importFolder);
+		$this->fixture->importFromZip();
 
 		$this->assertTrue(
 			file_exists(self::$importFolder.'empty.zip')
@@ -403,12 +400,44 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function testCleanUpDoesNotRemoveZipWithTwoXmls() {
 		$this->copyTestFileIntoImportFolder('bar-bar.zip');
-		$this->fixture->extractZip(self::$importFolder.'bar-bar.zip');
-		$this->fixture->getPathForXml(self::$importFolder.'bar-bar.zip');
-		$this->fixture->cleanUp(self::$importFolder);
+		$this->fixture->importFromZip();
 
 		$this->assertTrue(
 			file_exists(self::$importFolder.'bar-bar.zip')
+		);
+	}
+
+	public function testCleanUpDoesNotRemoveZipOfUnregisteredOwnerIfOwnerRestrictionIsEnabled() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		// 'deleteZipsAfterImport' is set to true during setUp()
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			file_exists(self::$importFolder.'same-name.zip')
+		);
+	}
+
+	public function testCleanUpRemovesZipOfRegisteredOwnerIfOwnerRestrictionIsEnabled() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		$this->testingFramework->createFrontendUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('tx_realty_openimmo_anid' => 'foo')
+		);
+		// 'deleteZipsAfterImport' is set to true during setUp()
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->copyTestFileIntoImportFolder('same-name.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertFalse(
+			file_exists(self::$importFolder.'same-name.zip')
 		);
 	}
 
