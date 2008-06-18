@@ -1,4 +1,4 @@
-2008-06-11 Oliver Klee  <typo3-coding@oliverklee.de>
+2008-06-18 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1783] Feature: Add flexforms/TS setup switches for enabling Google Maps, initial patch by Alexander Grein
 	* [#1782] Feature: Add a "country" field and a setting for a default country, initial patch by Alexander Grein
