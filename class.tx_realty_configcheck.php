@@ -80,6 +80,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
 		$this->checkDefaultCountry();
+		$this->checkShowGoogleMapsInListView();
 	}
 
 	/**
@@ -111,6 +112,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
 		$this->checkDefaultCountry();
+		$this->checkShowGoogleMapsInSingleView();
 	}
 
 	/**
@@ -696,6 +698,35 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the UID of the default country for realty ' .
 			'objects. If this value is not configured correctly, the objects ' .
 			'will be mislocated in Google Maps.'
+		);
+	}
+
+	/**
+	 * Checks the configuration value showGoogleMapsInListView
+	 */
+	private function checkShowGoogleMapsInListView() {
+		$this->checkIfBoolean(
+			'showGoogleMapsInListView',
+			true,
+			's_googlemaps',
+			'This value specifies whether Google Maps should be shown in the ' .
+			'list view. If this value is not set correctly, the map might ' .
+			'get shown although it should be shown (or vice versa).'
+		);
+	}
+
+	/**
+	 * Checks the configuration value showGoogleMapsInSingleView
+	 */
+	private function checkShowGoogleMapsInSingleView() {
+		$this->checkIfBoolean(
+			'showGoogleMapsInSingleView',
+			true,
+			's_googlemaps',
+			'This value specifies whether a Google Map of an object should be ' .
+			'shown in single view. If this value is not set correctly, the ' .
+			'map might not get shown although it should be shown (or vice ' .
+			'versa).'
 		);
 	}
 }

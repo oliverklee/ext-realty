@@ -449,5 +449,31 @@
 				</el>
 			</ROOT>
 		</sDEF>
+		<s_googlemaps>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sheet_googlemaps</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<showGoogleMapsInListView>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showGoogleMapsInListView</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</showGoogleMapsInListView>
+					<showGoogleMapsInSingleView>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showGoogleMapsInSingleView</label>
+							<config>
+								<type>check</type>
+							</config>
+						</TCEforms>
+					</showGoogleMapsInSingleView>
+				</el>
+			</ROOT>
+		</s_googlemaps>
 	</sheets>
 </T3DataStructure>
