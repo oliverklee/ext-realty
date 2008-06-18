@@ -304,6 +304,16 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testPopulateListOfCountriesContainsDeutschland() {
+		$this->assertContains(
+			array(
+				'caption' => 'Deutschland',
+				'value' => '54',
+			),
+			$this->fixture->populateListOfCountries()
+		);
+	}
+
 	public function testPopulateListOfApartmentTypes() {
 		$result = $this->fixture->populateListOfApartmentTypes();
 		$this->assertEquals(
@@ -821,6 +831,38 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForDistrict(
 				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS) + 1)
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCountryReturnsTrueFor54() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForCountry(
+				array('value' => '54')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCountryReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->isAllowedValueForCountry(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCountryReturnsFalseForAValueTooBig() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForCountry(
+				array('value' => '500')
+			)
+		);
+	}
+
+	public function testIsAllowedValueForCountryReturnsFalseForANegativeValue() {
+		$this->assertFalse(
+			$this->fixture->isAllowedValueForCountry(
+				array('value' => '-54')
 			)
 		);
 	}

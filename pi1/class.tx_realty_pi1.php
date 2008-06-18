@@ -59,6 +59,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'objects' => REALTY_TABLE_OBJECTS,
 		'city' => REALTY_TABLE_CITIES,
 		'district' => REALTY_TABLE_DISTRICTS,
+		'country' => STATIC_COUNTRIES,
 		'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
 		'house_type' => REALTY_TABLE_HOUSE_TYPES,
 		'heating_type' => REALTY_TABLE_HEATING_TYPES,
@@ -89,6 +90,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'zip' => TYPE_STRING,
 		'city' => TYPE_STRING,
 		'district' => TYPE_STRING,
+		'country' => TYPE_STRING,
 		'number_of_rooms' => TYPE_STRING,
 		'living_area' => TYPE_NUMERIC,
 		'total_area' => TYPE_NUMERIC,
@@ -618,6 +620,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'street',
 				'district',
 				'zip',
+				'country',
 				'description',
 				'location',
 				'equipment',
@@ -1028,9 +1031,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * In the case of the key "title", the result will be wrapped
 	 * in a link to the detail page of that particular item.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
+	 * @param	string		key of the field to retrieve (the name of a database
+	 * 						column), must not be empty
 	 *
-	 * @return	string		value of the field (may be empty)
+	 * @return	string		value of the field, may be empty
 	 */
 	public function getFieldContent($key)	{
 		$result = '';
@@ -1062,11 +1066,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $this->getForeignRecordTitle($key);
 				break;
 
+			case 'country':
+				$result = $this->getForeignRecordTitle($key, 'cn_short_local');
+				break;
+
 			case 'total_area':
 				// The fallthrough is intended.
 			case 'living_area':
-				$result = $this->getFormattedArea($key);
-				break;
+				// The fallthrough is intended.
 			case 'estate_size':
 				$result = $this->getFormattedArea($key);
 				break;
@@ -1129,33 +1136,44 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Retrieves a foreign key from the record field $key of the current record.
-	 * Then the corresponding record is looked up from $table, trimmed and returned.
+	 * Then the corresponding record is looked up from $table, trimmed and
+	 * returned.
 	 *
 	 * Returns an empty string if there is no such foreign key, the corresponding
 	 * foreign record does not exist or if it is an empty string.
 	 *
-	 * @param	string		key of the field that contains the foreign key of the table to retrieve.
+	 * @param	string		key of the field that contains the foreign key of
+	 * 						the table to retrieve, must not be empty
+	 * @param	string		the DB column name of the field that will be used as
+	 * 						the title, must not be empty
 	 *
-	 * @return	string		the title of the record with the given UID in the foreign table, may be empty
+	 * @return	string		the title of the record with the given UID in the
+	 * 						foreign table, will be empty if no or an invalid
+	 * 						UID is provided
 	 */
-	private function getForeignRecordTitle($key) {
-		$result = '';
-
-		/** this will be 0 if there is no record entered */
+	private function getForeignRecordTitle($key, $titleColumn = 'title') {
+		/** This will be 0 if there is no record entered. */
 		$foreignKey = intval($this->internal['currentRow'][$key]);
+		if ($foreignKey == 0) {
+			return '';
+		}
+
 		$tableName = $this->tableNames[$key];
 
-		if ($foreignKey) {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				$tableName,
-				'uid='.$foreignKey
-					.$this->enableFields($tableName)
-			);
-			if ($dbResult && $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
-				$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-				$result = $dbResultRow['title'];
-			}
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$titleColumn,
+			$tableName,
+			'uid=' . $foreignKey . $this->enableFields($tableName)
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if ($dbResultRow) {
+			$result = $dbResultRow[$titleColumn];
+		} else {
+			$result = '';
 		}
 
 		return $result;

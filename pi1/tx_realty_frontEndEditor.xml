@@ -207,6 +207,37 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
+		<renderlet:LISTBOX name="country" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.country">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+				</items>
+				<userobj>
+					<extension>this</extension>
+					<method>populateListOfCountries</method>
+				</userobj>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isAllowedValueForCountry</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getValueNotAllowedMessage</method>
+								<params>
+									<data name="fieldName" value="country"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:LISTBOX>
 
 		<renderlet:TEXT name="spacer_02" label="&amp;nbsp;" readonly="true"/>
 

@@ -32,6 +32,7 @@ require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 define('REALTY_TABLE_OBJECTS', 'tx_realty_objects');
 define('REALTY_TABLE_CITIES', 'tx_realty_cities');
 define('REALTY_TABLE_DISTRICTS', 'tx_realty_districts');
+define('STATIC_COUNTRIES', 'static_countries');
 define('REALTY_TABLE_APARTMENT_TYPES', 'tx_realty_apartment_types');
 define('REALTY_TABLE_HOUSE_TYPES', 'tx_realty_house_types');
 define('REALTY_TABLE_HEATING_TYPES', 'tx_realty_heating_types');

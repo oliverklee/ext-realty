@@ -2077,6 +2077,21 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDetailPageDisplaysTheCountry() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('country' => '54')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'Deutschland',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsDisabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,

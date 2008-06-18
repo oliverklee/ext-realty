@@ -1,3 +1,7 @@
+2008-06-11 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1782] Feature: Add a "country" field and a setting for a default country, initial patch by Alexander Grein
+
 2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1957] Feature: Add a switch to only import objects if there is a FE user with the corresponding ANID and in a selectable FE user group

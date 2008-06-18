@@ -20,6 +20,7 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
+			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
@@ -45,6 +46,7 @@
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
+			<label index="label_country">Country</label>
 			<label index="label_tstamp">Date of last change</label>
 			<label index="label_extra_charges">Extra charges</label>
 			<label index="label_extra_charges_short">Extra charges</label>
@@ -231,6 +233,7 @@
 			<label index="realty.pi_flexform.fe_editor">FE-Editor</label>
 			<label index="realty.pi_flexform.image_upload">Bilder hochladen</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
+			<label index="realty.pi_flexform.defaultCountry">Standard-Land der Objekte:</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Adressen der Objekte im FE anzeigen:</label>
 			<label index="realty.pi_flexform.showContactInformation">Kontaktdaten im FE anzeigen:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Standard E-Mail-Adresse für Kontaktanfragen:</label>
@@ -256,6 +259,7 @@
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
+			<label index="label_country">Land</label>
 			<label index="label_tstamp">Änderungsdatum</label>
 			<label index="label_extra_charges">Nebenkosten</label>
 			<label index="label_extra_charges_short">&lt;acronym title=&quot;Nebenkosten&quot;&gt;NK&lt;/acronym&gt;</label>
@@ -1094,6 +1098,8 @@
 			<label index="message_image_too_large" type="integer">183582394</label>
 			<label index="message_invalid_type" type="integer">48986434</label>
 			<label index="message_empty_caption" type="integer">1491457</label>
+			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
+			<label index="label_country" type="integer">93787849</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -1760,6 +1766,8 @@
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
 			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
+			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
+			<label index="label_country">Country</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

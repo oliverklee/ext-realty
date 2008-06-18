@@ -108,6 +108,16 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
+	 * Fills the select box for country records.
+	 *
+	 * @return	array		items for the select box, will be empty if there are
+	 * 						no matching records
+	 */
+	public function populateListOfCountries() {
+		return $this->populateList(STATIC_COUNTRIES, 'cn_short_local', false);
+	}
+
+	/**
 	 * Fills the select box for house type records.
 	 *
 	 * @return	array		items for the select box, will be empty if there are
@@ -174,26 +184,33 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * will be the value.
 	 *
 	 * @param	string		the table name to query, must not be empty
+	 * @param	string		the DB column name of the field that will be used as
+	 * 						the title, must not be empty
+	 * @param	boolean		whether the corresponding DB table has a
+	 * 						is_dummy_record column
 	 *
 	 * @return	array		items for the select box, will be empty if there are
 	 * 						no matching records
 	 */
-	private function populateList($tableName) {
+	private function populateList(
+		$tableName, $titleColumn = 'title', $hasDummyColumn = true
+	) {
 		$items = array();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title,uid',
+			$titleColumn . ',uid',
 			$tableName,
-			'1=1'.$this->enableFields($tableName).$this->getWhereClauseForTesting(),
+			'1=1' . $this->enableFields($tableName) .
+				($hasDummyColumn ? $this->getWhereClauseForTesting() : ''),
 			'',
-			'title'
+			$titleColumn
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$items[] = array('caption' => $row['title'], 'value' => $row['uid']);
+			$items[] = array('caption' => $row[$titleColumn], 'value' => $row['uid']);
 		}
 
 		// Resets the array pointer as the populateList* functions expect
@@ -372,6 +389,22 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function isAllowedValueForDistrict(array $valueToCheck) {
 		return $this->isIdentifierOfRecord(
 			$valueToCheck['value'], REALTY_TABLE_DISTRICTS, true
+		);
+	}
+
+ 	/**
+	 * Checks whether the submitted ID for 'country' is actually a
+	 * database record or zero.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the number which is checked to be the UID of an
+	 * 						existing record, this number must be an integer >= 0
+	 *
+	 * @return	boolean		true if the provided UID is valid, false otherwise
+	 */
+	public function isAllowedValueForCountry(array $valueToCheck) {
+		return $this->isIdentifierOfRecord(
+			$valueToCheck['value'], STATIC_COUNTRIES, true
 		);
 	}
 
@@ -1134,7 +1167,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$modifiedFormData['crdate'] = mktime();
 			$modifiedFormData['owner'] = $this->getFeUserUid();
 			$modifiedFormData['openimmo_anid']
-				= $frontEndUserAnid['tx_realty_openimmo_anid'];		
+				= $frontEndUserAnid['tx_realty_openimmo_anid'];
 		}
 
 		return $modifiedFormData;

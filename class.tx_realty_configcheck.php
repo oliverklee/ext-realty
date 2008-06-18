@@ -31,6 +31,7 @@
  * @subpackage	tx_realty
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configcheck.php');
@@ -78,6 +79,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
+		$this->checkDefaultCountry();
 	}
 
 	/**
@@ -108,6 +110,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
+		$this->checkDefaultCountry();
 	}
 
 	/**
@@ -666,6 +669,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'invalid.'
 		);
 	}
+
 	/**
 	 * Checks the setting for the FE editor's notification e-mail address.
 	 */
@@ -678,6 +682,20 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the recipient for a notification when a new '
 				.'record has been created in the FE. No e-mail will be send if '
 				.'this value is not configured correctly.'
+		);
+	}
+
+	/**
+	 * Checks the default country.
+	 */
+	private function checkDefaultCountry() {
+		$this->checkIfPositiveInteger(
+			'defaultCountryUID',
+			true,
+			'sDEF',
+			'This value specifies the UID of the default country for realty ' .
+			'objects. If this value is not configured correctly, the objects ' .
+			'will be mislocated in Google Maps.'
 		);
 	}
 }

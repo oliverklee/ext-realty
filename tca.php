@@ -8,7 +8,7 @@ $TCA['tx_realty_objects'] = array(
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,'
 			.'hidden,starttime,endtime,object_number,object_type,title,'
-			.'emphasized,street,zip,city,district,number_of_rooms,living_area,'
+			.'emphasized,street,zip,city,country,district,number_of_rooms,living_area,'
 			.'total_area,estate_size,rent_excluding_bills,extra_charges,'
 			.'heating_included,deposit,provision,usable_from,buying_price,'
 			.'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,'
@@ -213,6 +213,21 @@ $TCA['tx_realty_objects'] = array(
 						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
 					)
 				)
+			)
+		),
+		'country' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.country',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0)
+				),
+				'foreign_table' => 'static_countries',
+				'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1
 			)
 		),
 		'number_of_rooms' => array(
@@ -892,7 +907,7 @@ $TCA['tx_realty_objects'] = array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
 				.'object_number, openimmo_anid, openimmo_obid, object_type, '
 				.'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, '
-				.'street, zip, city, district, number_of_rooms, living_area, '
+				.'street, zip, city, district, country, number_of_rooms, living_area, '
 				.'total_area, estate_size, rent_excluding_bills, extra_charges, '
 				.'heating_included, deposit, provision, usable_from, '
 				.'apartment_type, house_type, floor, floors, bedrooms, '
@@ -924,7 +939,7 @@ $TCA['tx_realty_objects'] = array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
 				.'object_number, openimmo_anid, openimmo_obid, object_type, '
 				.'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, '
-				.'street, zip, city, district, number_of_rooms, living_area, '
+				.'street, zip, city, district, country, number_of_rooms, living_area, '
 				.'total_area, estate_size, provision, usable_from, buying_price, '
 				.'year_rent, rented, apartment_type, house_type, floor, floors, '
 				.'bedrooms, bathrooms, heating_type, garage_type, garage_price, '

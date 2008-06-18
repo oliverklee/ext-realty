@@ -63,6 +63,10 @@ plugin.tx_realty_pi1 {
 	# static SQL Filter (will be appended to the WHERE clause using " AND ")
 	staticSqlFilter =
 
+	# default country for objects that have no country set (a UID
+	# from the static_countries table, 54 = Germany)
+	defaultCountryUID = 54
+
 	# whether the address of a realty object is shown in the FE
 	showAddressOfObjects = 0
 	# whether contact information should be displayed in the FE
