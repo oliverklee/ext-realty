@@ -560,6 +560,65 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
+	 * Checks whether a longitute degree is correctly formatted and within
+	 * range.
+	 *
+	 * Empty values are considered valid.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the value which contains the string to check
+	 *
+	 * @return	boolean		true if $valueToCheck is valid, false otherwise
+	 */
+	public function isValidLongitudeDegree(array $valueToCheck) {
+		return $this->checkGeoCoordinate(
+			$valueToCheck['value'], -180.00, 180.00
+		);
+	}
+
+	/**
+	 * Checks whether a latitude degree is correctly formatted and within range.
+	 *
+	 * Empty values are considered valid.
+	 *
+	 * @param	array		array with one element named "value" that contains
+	 * 						the value which contains the string to check
+	 *
+	 * @return	boolean		true if $valueToCheck is valid, false otherwise
+	 */
+	public function isValidLatitudeDegree(array $valueToCheck) {
+		return $this->checkGeoCoordinate($valueToCheck['value'], -90.00, 90.00);
+	}
+
+	/**
+	 * Checks whether a geo coordinate is correctly formatted and within range.
+	 *
+	 * Empty values are considered valid.
+	 *
+	 * @param	string		the input data that should checked, may be empty
+	 * @param	float		mininum allowed value
+	 * @param	float		maximum allowed value
+	 *
+	 * @return	boolean		true if $valueToCheck is valid or empty, false
+	 * 						otherwise
+	 */
+	private function checkGeoCoordinate($valueToCheck, $minimum, $maximum) {
+		if ($valueToCheck == '') {
+			return true;
+		}
+
+		$unifiedValueToCheck = $this->unifyNumber($valueToCheck);
+
+		$valueContainsOnlyAllowedCharacters = (boolean) preg_match(
+			'/^[-]?[0-9]{1,2}+(?:\.[0-9]{1,14})?$/', $unifiedValueToCheck
+		);
+		$valueIsInAllowedRange = (floatval($unifiedValueToCheck) >= $minimum)
+			&& (floatval($unifiedValueToCheck) <= $maximum);
+
+		return ($valueContainsOnlyAllowedCharacters && $valueIsInAllowedRange);
+	}
+
+	/**
 	 * Checks whether the a number is correctly formatted. The format must be
 	 * according to the current locale.
 	 *
@@ -748,6 +807,44 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function getNoValidNumberMessage(array $formData) {
 		return $this->getMessageForRealtyObjectField(
 			$formData['fieldName'], 'message_no_valid_number'
+		);
+	}
+
+	/**
+	 * Returns a localized message that the longitude degree entered in the
+	 * provided field is not valid.
+	 *
+	 * @param	array	 	form data, must contain the key 'fieldName', the
+	 * 						value of 'fieldName' must be a database column name
+	 * 						of 'tx_realty_objects' which concerns the message,
+	 * 						must not be empty
+	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [message]" if $labelOfField was
+	 * 						non-empty, otherwise only the message is returned
+	 */
+	public function getNoValidLongitudeDegreeMessage(array $formData) {
+		return $this->getMessageForRealtyObjectField(
+			$formData['fieldName'], 'message_no_valid_longitude_degree'
+		);
+	}
+
+	/**
+	 * Returns a localized message that the latitude degree entered in the
+	 * provided field is not valid.
+	 *
+	 * @param	array	 	form data, must contain the key 'fieldName', the
+	 * 						value of 'fieldName' must be a database column name
+	 * 						of 'tx_realty_objects' which concerns the message,
+	 * 						must not be empty
+	 *
+	 * @return	string		localized message following the pattern
+	 * 						"[field name]: [message]" if $labelOfField was
+	 * 						non-empty, otherwise only the message is returned
+	 */
+	public function getNoValidLatitudeDegreeMessage(array $formData) {
+		return $this->getMessageForRealtyObjectField(
+			$formData['fieldName'], 'message_no_valid_latitude_degree'
 		);
 	}
 
@@ -1124,7 +1221,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'bathrooms',
 			'garage_rent',
 			'garage_price',
-			'construction_year'
+			'construction_year',
+			'exact_longitude',
+			'exact_latitude',
+			'rough_longitude',
+			'rough_latitude',
 		);
 
 		foreach ($numericFields as $key) {

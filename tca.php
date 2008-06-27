@@ -17,7 +17,9 @@ $TCA['tx_realty_objects'] = array(
 			.'accessible,assisted_living,fitted_kitchen,description,equipment,'
 			.'layout,location,misc,details_page,images,employer,openimmo_anid,'
 			.'openimmo_obid,utilization,contact_data_source,contact_person,'
-			.'contact_email,contact_phone,owner,language'
+			.'contact_email,contact_phone,owner,language,exact_coordinates_are_cached,' .
+			'exact_longitude,exact_latitude,rough_coordinates_are_cached,' .
+			'rough_longitude,rough_latitude'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -228,6 +230,56 @@ $TCA['tx_realty_objects'] = array(
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1
+			)
+		),
+		'exact_coordinates_are_cached' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_coordinates_are_cached',
+			'config' => array(
+				'type' => 'check',
+			)
+		),
+		'exact_longitude' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_longitude',
+			'config' => array(
+				'type' => 'input',
+				'size' => '19',
+				'eval' => 'trim'
+			)
+		),
+		'exact_latitude' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_latitude',
+			'config' => array(
+				'type' => 'input',
+				'size' => '19',
+				'eval' => 'trim'
+			)
+		),
+		'rough_coordinates_are_cached' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_coordinates_are_cached',
+			'config' => array(
+				'type' => 'check',
+			)
+		),
+		'rough_longitude' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_longitude',
+			'config' => array(
+				'type' => 'input',
+				'size' => '19',
+				'eval' => 'trim'
+			)
+		),
+		'rough_latitude' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_latitude',
+			'config' => array(
+				'type' => 'input',
+				'size' => '19',
+				'eval' => 'trim'
 			)
 		),
 		'number_of_rooms' => array(
@@ -933,7 +985,9 @@ $TCA['tx_realty_objects'] = array(
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
 				.'details_page, images, contact_data_source, employer, '
-				.'contact_person, contact_email, contact_phone, owner, language'
+				.'contact_person, contact_email, contact_phone, owner, language, ' .
+				'exact_coordinates_are_cached;;2, ' .
+				'rough_coordinates_are_cached;;3'
 		),
 		'1' => array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
@@ -964,11 +1018,15 @@ $TCA['tx_realty_objects'] = array(
 					.'chMode]'
 					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
 				.'details_page, images, contact_data_source, employer, '.
-				'contact_person, contact_email, contact_phone, owner, language'
+				'contact_person, contact_email, contact_phone, owner, language, ' .
+				'exact_coordinates_are_cached;;2, ' .
+				'rough_coordinates_are_cached;;3'
 		)
 	),
 	'palettes' => array(
-		'1' => array('showitem' => 'starttime, endtime')
+		'1' => array('showitem' => 'starttime, endtime'),
+		'2' => array('showitem' => 'exact_longitude, exact_latitude'),
+		'3' => array('showitem' => 'rough_longitude, rough_latitude'),
 	)
 );
 

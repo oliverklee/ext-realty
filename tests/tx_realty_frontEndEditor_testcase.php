@@ -510,6 +510,54 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetNoValidExactLongitudeDegreeMessageUsesStringFromLocallangAndCorrectLabel() {
+		$this->assertEquals(
+			$GLOBALS['TSFE']->sL(
+				'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_longitude'
+			) . ': ' .
+				$this->pi1->translate('message_no_valid_longitude_degree'),
+			$this->fixture->getNoValidLongitudeDegreeMessage(
+				array('fieldName' => 'exact_longitude')
+			)
+		);
+	}
+
+	public function testGetNoValidExactLatitudeDegreeMessageUsesStringFromLocallangAndCorrect() {
+		$this->assertEquals(
+			$GLOBALS['TSFE']->sL(
+				'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_latitude'
+			) . ': ' .
+				$this->pi1->translate('message_no_valid_latitude_degree'),
+			$this->fixture->getNoValidLatitudeDegreeMessage(
+				array('fieldName' => 'exact_latitude')
+			)
+		);
+	}
+
+	public function testGetNoValidRoughLongitudeDegreeMessageUsesStringFromLocallangAndCorrect() {
+		$this->assertEquals(
+			$GLOBALS['TSFE']->sL(
+				'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_longitude'
+			) . ': ' .
+				$this->pi1->translate('message_no_valid_longitude_degree'),
+			$this->fixture->getNoValidLongitudeDegreeMessage(
+				array('fieldName' => 'rough_longitude')
+			)
+		);
+	}
+
+	public function testGetNoValidRoughLatitudeDegreeMessageUsesStringFromLocallangAndCorrect() {
+		$this->assertEquals(
+			$GLOBALS['TSFE']->sL(
+				'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_latitude'
+			) . ': ' .
+				$this->pi1->translate('message_no_valid_latitude_degree'),
+			$this->fixture->getNoValidLatitudeDegreeMessage(
+				array('fieldName' => 'rough_latitude')
+			)
+		);
+	}
+
 
 	////////////////////////////
 	// * Validation functions.
@@ -863,6 +911,174 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForCountry(
 				array('value' => '-54')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueFor180WithoutDecimal() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '180')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueFor180WithOneDecimal() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '180.0')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueFor180WithTwoDecimals() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '180.00')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueForMinus180() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '-180.0')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsFalseForGreater180() {
+		$this->assertFalse(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '180.1')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsFalseForLowerMinus180() {
+		$this->assertFalse(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '-180.1')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueForValueInAllowedPositiveRangeWithManyDecimals() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '123.12345678901234')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueForValueInAllowedNegativeRangeWithDecimals() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '-123.12345678901234')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsTrueForEmptyString() {
+		$this->assertTrue(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsValidLongitudeDegreeReturnsFalseForAlphaChars() {
+		$this->assertFalse(
+			$this->fixture->IsValidLongitudeDegree(
+				array('value' => 'abc')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsTrueFor90WithNoDecimal() {
+		$this->assertTrue(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '90')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsTrueFor90WithOneDecimal() {
+		$this->assertTrue(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '90.0')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsTrueForMinus90() {
+		$this->assertTrue(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '-90.0')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsFalseForGreater90() {
+		$this->assertFalse(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '90.1')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsFalseForLowerMinus90() {
+		$this->assertFalse(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '-90.1')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsTrueForValueInAllowedPositiveRangeWithDecimals() {
+		$this->assertTrue(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '83.12345678901234')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsTrueForValueInAllowedNegativeRangeWithDecimals() {
+		$this->assertTrue(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '-83.12345678901234')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsTrueForEmptyString() {
+		$this->assertTrue(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsTrueForZero() {
+		$this->assertTrue(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => '0')
+			)
+		);
+	}
+
+	public function testIsValidLatitudeDegreeReturnsFalseForAlphaChars() {
+		$this->assertFalse(
+			$this->fixture->IsValidLatitudeDegree(
+				array('value' => 'abc')
 			)
 		);
 	}

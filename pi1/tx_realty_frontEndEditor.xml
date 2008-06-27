@@ -823,6 +823,90 @@
 
 		<renderlet:TEXT name="spacer_10" label="&amp;nbsp;" readonly="true"/>
 
+		<renderlet:CHECKSINGLE name="exact_coordinates_are_cached" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_coordinates_are_cached"/>
+		<renderlet:TEXT name="exact_longitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_longitude">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidLongitudeDegree</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidLongitudeDegreeMessage</method>
+								<params>
+									<data name="fieldName" value="exact_longitude"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="exact_latitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_latitude">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidLatitudeDegree</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidLatitudeDegreeMessage</method>
+								<params>
+									<data name="fieldName" value="exact_latitude"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+
+		<renderlet:TEXT name="spacer_11" label="&amp;nbsp;" readonly="true"/>
+
+		<renderlet:CHECKSINGLE name="rough_coordinates_are_cached" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_coordinates_are_cached"/>
+		<renderlet:TEXT name="rough_longitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_longitude">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidLongitudeDegree</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidLongitudeDegreeMessage</method>
+								<params>
+									<data name="fieldName" value="rough_longitude"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="rough_latitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_latitude">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidLatitudeDegree</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidLatitudeDegreeMessage</method>
+								<params>
+									<data name="fieldName" value="rough_latitude"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+
+		<renderlet:TEXT name="spacer_12" label="&amp;nbsp;" readonly="true"/>
+
 		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save"/>
 	</elements>
 </formidable>

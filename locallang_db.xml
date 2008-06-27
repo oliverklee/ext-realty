@@ -20,6 +20,12 @@
 			<label index="tx_realty_objects.city">City</label>
 			<label index="tx_realty_objects.district">District</label>
 			<label index="tx_realty_objects.country">Country</label>
+			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact geo coordinates are cached</label>
+			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
+			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
+			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are cached</label>
+			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
+			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
@@ -112,6 +118,12 @@
 			<label index="tx_realty_objects.city">Ort</label>
 			<label index="tx_realty_objects.district">Ortsteil</label>
 			<label index="tx_realty_objects.country">Land</label>
+			<label index="tx_realty_objects.exact_coordinates_are_cached">Exakte Geo-Koordinaten sind gecacht</label>
+			<label index="tx_realty_objects.exact_longitude">Exakter Längengrad</label>
+			<label index="tx_realty_objects.exact_latitude">Exakter Breitengrad</label>
+			<label index="tx_realty_objects.rough_coordinates_are_cached">Ungefähre Geo-Koordinaten sind gecacht</label>
+			<label index="tx_realty_objects.rough_longitude">Ungefährer Längengrad</label>
+			<label index="tx_realty_objects.rough_latitude">Ungefährer Breitengrad</label>
 			<label index="tx_realty_objects.number_of_rooms">Zimmeranzahl</label>
 			<label index="tx_realty_objects.living_area">Wohnfläche ca. in m²</label>
 			<label index="tx_realty_objects.total_area">Nutzfläche ca. in m²</label>
@@ -426,6 +438,12 @@
 			<label index="fe_users.tx_realty_openimmo_anid" type="integer">239911211</label>
 			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
 			<label index="tx_realty_objects.country" type="integer">93787849</label>
+			<label index="tx_realty_objects.exact_coordinates_are_cached" type="integer">367229</label>
+			<label index="tx_realty_objects.exact_longitude" type="integer">42601450</label>
+			<label index="tx_realty_objects.exact_latitude" type="integer">104119238</label>
+			<label index="tx_realty_objects.rough_coordinates_are_cached" type="integer">96246028</label>
+			<label index="tx_realty_objects.rough_longitude" type="integer">217428841</label>
+			<label index="tx_realty_objects.rough_latitude" type="integer">42609168</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -662,6 +680,12 @@
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo offerer ID</label>
 			<label index="tx_realty_cities.save_folder">Folder for objects in this city (only for FE-created records)</label>
 			<label index="tx_realty_objects.country">Country</label>
+			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact geo coordinates are cached</label>
+			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
+			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
+			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are cached</label>
+			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
+			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Realty object</label>

@@ -1,3 +1,7 @@
+2008-06-27 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1780] Feature: Add fields for the geo location of an object, initial patch by Alexander Grein
+
 2008-06-18 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1783] Feature: Add flexforms/TS setup switches for enabling Google Maps, initial patch by Alexander Grein
