@@ -610,7 +610,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$unifiedValueToCheck = $this->unifyNumber($valueToCheck);
 
 		$valueContainsOnlyAllowedCharacters = (boolean) preg_match(
-			'/^[-]?[0-9]{1,2}+(?:\.[0-9]{1,14})?$/', $unifiedValueToCheck
+			'/^-?\d{1,3}(\.\d{1,14})?$/', $unifiedValueToCheck
 		);
 		$valueIsInAllowedRange = (floatval($unifiedValueToCheck) >= $minimum)
 			&& (floatval($unifiedValueToCheck) <= $maximum);
