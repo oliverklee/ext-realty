@@ -113,6 +113,8 @@ plugin.tx_realty_pi1 {
 	# e-mail address which receives a message if e new FE record was created
 	feEditorNotifyEmail =
 
+	# Google Maps API key
+	googleMapsApiKey =
 	# whether Google Maps should be displayed in the FE list view
 	showGoogleMapsInListView = 0
 	# whether Google Maps should be displayed in the FE single view

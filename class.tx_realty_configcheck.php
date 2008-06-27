@@ -81,6 +81,11 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkSingleViewPid();
 		$this->checkDefaultCountry();
 		$this->checkShowGoogleMapsInListView();
+		if ($this->objectToCheck->getConfValueBoolean(
+			'showGoogleMapsInListView', 's_googlemaps'
+		)) {
+				$this->checkGoogleMapsApiKey();
+		}
 	}
 
 	/**
@@ -113,6 +118,11 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkFieldsInSingleView();
 		$this->checkDefaultCountry();
 		$this->checkShowGoogleMapsInSingleView();
+		if ($this->objectToCheck->getConfValueBoolean(
+			'showGoogleMapsInSingleView', 's_googlemaps'
+		)) {
+			$this->checkGoogleMapsApiKey();
+		}
 	}
 
 	/**
@@ -727,6 +737,19 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'shown in single view. If this value is not set correctly, the ' .
 			'map might not get shown although it should be shown (or vice ' .
 			'versa).'
+		);
+	}
+
+	/**
+	 * Checks the settings for the Google Maps API key.
+	 */
+	private function checkGoogleMapsApiKey() {
+		$this->checkForNonEmptyString(
+			'googleMapsApiKey',
+			true,
+			's_googlemaps',
+			'This determines the Google Maps API key. If this is not set ' .
+				'correctly, Google Maps will produce an error message.'
 		);
 	}
 }

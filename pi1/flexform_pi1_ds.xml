@@ -456,6 +456,17 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
+					<googleMapsApiKey>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMapsApiKey</label>
+							<config>
+								<type>input</type>
+								<size>256</size>
+								<checkbox></checkbox>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</googleMapsApiKey>
 					<showGoogleMapsInListView>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showGoogleMapsInListView</label>
