@@ -1,3 +1,7 @@
+2008-07-06 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1999] Change: Make the unit tests run on MAMP on OS X
+
 2008-06-27 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1817] Feature: Add a TS setup setting for the Google Maps API key, initial patch by Alexander Grein
