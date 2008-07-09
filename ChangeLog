@@ -1,3 +1,7 @@
+2008-07-09 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1603] Feature: Import the exact geo coordinates
+
 2008-07-09 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1894] Change: Only reset the auto_increment value if it is much higher than the highest UID

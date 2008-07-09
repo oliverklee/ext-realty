@@ -845,6 +845,69 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataImportsLongitudeAndLatitudeAndSetsFlagIfBothAreProvided() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<geokoordinaten laengengrad="foo" breitengrad="bar"/>' .
+						'</geo>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(
+				array(
+					'exact_longitude' => 'foo',
+					'exact_latitude' => 'bar',
+					'exact_coordinates_are_cached' => true,
+				)
+			),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataNotImportsTheCoordinatesIfOnlyOneIsProvided() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<geokoordinaten laengengrad="foo"/>' .
+						'</geo>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataNotImportsTheCoordinatesIfOneIsNonEmptyAndOneIsEmpty() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<geokoordinaten laengengrad="foo" breitengrad=""/>' .
+						'</geo>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedImportsTheValueForNewBuilding() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
