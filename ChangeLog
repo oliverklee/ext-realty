@@ -1,3 +1,7 @@
+2008-07-09 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1894] Change: Only reset the auto_increment value if it is much higher than the highest UID
+
 2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1290] Fix: Checkboxes cannot be unchecked once they are checked

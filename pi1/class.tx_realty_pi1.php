@@ -326,12 +326,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates the ORDER BY statement for initListView().
 	 *
-	 * @return	string		ORDER BY statement for initListView(), will be empty
+	 * @return	string		ORDER BY statement for initListView(), will be 'uid'
 	 * 						if 'orderBy' was empty or not within the set of
 	 * 						allowed sort criteria
 	 */
 	private function createOrderByStatement() {
-		$result = '';
+		$result = 'uid';
 
 		$sortCriterion = isset($this->piVars['orderBy'])
 			? $this->piVars['orderBy']

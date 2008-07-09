@@ -258,7 +258,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testLinkToSingleViewPageHasSinglePidAsLinkTargetIfAccessAllowed() {
 		$this->allowAccess();
 		$this->assertContains(
-			'id=' . $this->singlePid,
+			'?id=' . $this->singlePid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
@@ -306,7 +306,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
-			'id=' . $this->loginPid,
+			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
@@ -324,7 +324,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertNotContains(
-			$this->loginPid,
+			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
@@ -367,7 +367,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 		$this->assertContains(
-			'id=' . $this->singlePid,
+			'?id=' . $this->singlePid,
 			$this->fixture->main('', array())
 		);
 	}
@@ -423,7 +423,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
 		$this->assertNotContains(
-			'id=' . $galleryPid,
+			'?id=' . $galleryPid,
 			$this->fixture->main('', array())
 		);
 	}
@@ -760,7 +760,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$this->assertContains(
-			'id=' . $currentFrontEndPage,
+			'?id=' . $currentFrontEndPage,
 			$this->fixture->main('', array())
 		);
 	}
