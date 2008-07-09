@@ -402,7 +402,7 @@ class tx_realty_domDocumentConverter {
 			'kontaktperson',
 			'email_direkt'
 		);
-		$this->addImportedDataIfAvailable(
+		$this->addImportedDataIfValueIsNonEmpty(
 			'contact_email',
 			$contactEmailNode->nodeValue
 		);
@@ -421,7 +421,7 @@ class tx_realty_domDocumentConverter {
 			'kontaktperson',
 			'tel_privat'
 		);
-		$this->addImportedDataIfAvailable(
+		$this->addImportedDataIfValueIsNonEmpty(
 			'contact_phone',
 			$contactEmailNode->nodeValue
 		);
@@ -432,7 +432,7 @@ class tx_realty_domDocumentConverter {
 	 * and stores them as an inner array in $this->importedData.
 	 */
 	private function fetchImages() {
-		$this->addImportedDataIfAvailable(
+		$this->addImportedDataIfValueIsNonEmpty(
 			'images',
 			$this->createRecordsForImages()
 		);
@@ -504,52 +504,34 @@ class tx_realty_domDocumentConverter {
 			'heizungsart'
 		) as $grandchildName) {
 			$nodeWithAttributes = $this->findFirstGrandchild(
-				'ausstattung',
-				$grandchildName
+				'ausstattung', $grandchildName
 			);
 			$rawAttributes[$grandchildName] = $this->fetchLowercasedDomAttributes(
 				$nodeWithAttributes
 			);
 		}
 
-		if (!empty($rawAttributes['stellplatzart'])) {
-			$this->addImportedData(
-				'garage_type',
-				$this->getFormattedString(
-					array_keys($rawAttributes['stellplatzart'])
-				)
-			);
+		foreach (array(
+			'garage_type' => $rawAttributes['stellplatzart'],
+			'heating_type' => $rawAttributes['heizungsart'],
+		) as $key => $value) {
+			if (isset($value)) {
+				$this->addImportedDataIfValueIsNonEmpty(
+					$key, $this->getFormattedString(array_keys($value))
+				);
+			}
 		}
 
-		$this->addImportedDataIfAvailable(
-			'assisted_living',
-			$rawAttributes['serviceleistungen']['betreutes_wohnen']
-		);
-
-		$this->addImportedDataIfAvailable(
-			'fitted_kitchen',
-			$rawAttributes['kueche']['ebk']
-		);
-
-		if (isset($rawAttributes['fahrstuhl']['personen'])) {
-			$this->addImportedData(
-				'elevator',
-				$rawAttributes['fahrstuhl']['personen']
-			);
-		} else {
-			$this->addImportedDataIfAvailable(
-				'elevator',
-				$rawAttributes['fahrstuhl']['lasten']
-			);
-		}
-
-		if (!empty($rawAttributes['heizungsart'])) {
-			$this->addImportedData(
-				'heating_type',
-				$this->getFormattedString(
-					array_keys($rawAttributes['heizungsart'])
-				)
-			);
+		foreach (array(
+			'assisted_living' => $rawAttributes['serviceleistungen']['betreutes_wohnen'],
+			'fitted_kitchen' => $rawAttributes['kueche']['ebk'],
+			// For realty records, the type of elevator is not relevant.
+			'elevator' => $rawAttributes['fahrstuhl']['lasten'],
+			'elevator' => $rawAttributes['fahrstuhl']['personen'],
+		) as $key => $value) {
+			if (isset($value)) {
+				$this->addImportedDataIfValueIsNonEmpty($key, $value);
+			}
 		}
 	}
 
@@ -639,14 +621,16 @@ class tx_realty_domDocumentConverter {
 		);
 		$attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
 
-		$this->addImportedDataIfAvailable(
-			'garage_rent',
-			$attributes['stellplatzmiete']
-		);
-		$this->addImportedDataIfAvailable(
-			'garage_price',
-			$attributes['stellplatzkaufpreis']
-		);
+		if (isset($attributes['stellplatzmiete'])) {
+			$this->addImportedDataIfValueIsNonEmpty(
+				'garage_rent', $attributes['stellplatzmiete']
+			);
+		}
+		if (isset($attributes['stellplatzkaufpreis'])) {
+			$this->addImportedDataIfValueIsNonEmpty(
+				'garage_price', $attributes['stellplatzkaufpreis']
+			);
+		}
 	}
 
 	/**
@@ -877,14 +861,14 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Adds an element to $this->importedData if a non-empty value is provided.
+	 * Adds an element to $this->importedData if $value is non-empty.
 	 *
-	 * @param	string		key to insert, must not be empty
-	 * @param	mixed		value to insert, no element will be added if this
-	 * 						value is empty or null
+	 * @param	string		key for the element to add, must not be empty
+	 * @param	mixed		value for the element to add, will not be added if
+	 * 						it is empty
 	 */
-	private function addImportedDataIfAvailable($key, $value) {
-		if (!isset($value) || empty($value)) {
+	private function addImportedDataIfValueIsNonEmpty($key, $value) {
+		if (empty($value)) {
 			return;
 		}
 
