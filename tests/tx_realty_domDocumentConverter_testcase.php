@@ -799,7 +799,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedImportsAttributeValuesCorrectly() {
+	public function testGetConvertedDataImportsAttributeValuesCorrectly() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -824,7 +824,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedImportsTheLanguage() {
+	public function testGetConvertedDataImportsTheLanguage() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -845,7 +845,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedImportsTheValueForNewBuilding() {
+	public function testGetConvertedDataImportsTheValueForNewBuilding() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -864,7 +864,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedImportsTheValueForOldBuilding() {
+	public function testGetConvertedDataImportsTheValueForOldBuilding() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -883,7 +883,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testConvertedDoesNotContainTheKeyOldOrNewBuildingIfNoValueWasSet() {
+	public function testConvertedDataDoesNotContainTheKeyOldOrNewBuildingIfNoValueWasSet() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
