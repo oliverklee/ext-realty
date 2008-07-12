@@ -6,20 +6,20 @@ if (!defined('TYPO3_MODE')) {
 $TCA['tx_realty_objects'] = array(
 	'ctrl' => $TCA['tx_realty_objects']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,'
-			.'hidden,starttime,endtime,object_number,object_type,title,'
-			.'emphasized,street,zip,city,country,district,number_of_rooms,living_area,'
-			.'total_area,estate_size,rent_excluding_bills,extra_charges,'
-			.'heating_included,deposit,provision,usable_from,buying_price,'
-			.'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,'
-			.'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,'
-			.'construction_year,old_or_new_building,state,balcony,garden,elevator,'
-			.'accessible,assisted_living,fitted_kitchen,description,equipment,'
-			.'layout,location,misc,details_page,images,employer,openimmo_anid,'
-			.'openimmo_obid,utilization,contact_data_source,contact_person,'
-			.'contact_email,contact_phone,owner,language,exact_coordinates_are_cached,' .
-			'exact_longitude,exact_latitude,rough_coordinates_are_cached,' .
-			'rough_longitude,rough_latitude'
+		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .
+			'hidden,starttime,endtime,object_number,object_type,title,' .
+			'emphasized,street,zip,city,country,district,number_of_rooms,living_area,' .
+			'total_area,estate_size,rent_excluding_bills,extra_charges,' .
+			'heating_included,deposit,provision,usable_from,buying_price,' .
+			'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,' .
+			'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,' .
+			'construction_year,old_or_new_building,state,balcony,garden,elevator,' .
+			'accessible,assisted_living,fitted_kitchen,description,equipment,' .
+			'layout,location,misc,details_page,images,employer,openimmo_anid,' .
+			'openimmo_obid,utilization,contact_data_source,contact_person,' .
+			'contact_email,contact_phone,owner,language,currency,' .
+			'exact_coordinates_are_cached,exact_longitude,exact_latitude,' .
+			'rough_coordinates_are_cached,rough_longitude,rough_latitude'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -952,73 +952,84 @@ $TCA['tx_realty_objects'] = array(
 				'size' => 5,
 				'eval' => 'trim'
 			)
-		)
+		),
+		'currency' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.currency',
+			'config' => array(
+				'type' => 'input',
+				'size' => 10,
+				'eval' => 'trim',
+			)
+		),
 	),
 	'types' => array(
 		'0' => array(
-			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
-				.'object_number, openimmo_anid, openimmo_obid, object_type, '
-				.'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, '
-				.'street, zip, city, district, country, number_of_rooms, living_area, '
-				.'total_area, estate_size, rent_excluding_bills, extra_charges, '
-				.'heating_included, deposit, provision, usable_from, '
-				.'apartment_type, house_type, floor, floors, bedrooms, '
-				.'bathrooms, heating_type, garage_type, garage_rent, pets, '
-				.'construction_year, old_or_new_building, state, balcony, garden, '
-				.'elevator, accessible, assisted_living, fitted_kitchen, '
-				.'description;;;richtext[cut|copy|paste|formatblock|textcolor|'
-					.'bold|italic|underline|left|center|right|orderedlist|'
-					.'unorderedlist|outdent|indent|link|table|image|line|chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'equipment;;;richtext[cut|copy|paste|formatblock|textcolor|'
-					.'bold|italic|underline|left|center|right|orderedlist|'
-					.'unorderedlist|outdent|indent|link|table|image|line|chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'layout, location;;;richtext[cut|copy|paste|formatblock|'
-					.'textcolor|bold|italic|underline|left|center|right|'
-					.'orderedlist|unorderedlist|outdent|indent|link|table|image|'
-					.'line|chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|'
-					.'italic|underline|left|center|right|orderedlist|'
-					.'unorderedlist|outdent|indent|link|table|image|line|'
-					.'chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'details_page, images, contact_data_source, employer, '
-				.'contact_person, contact_email, contact_phone, owner, language, ' .
+			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
+				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
+				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
+				'street, zip, city, district, country, number_of_rooms, living_area, ' .
+				'total_area, estate_size, rent_excluding_bills, extra_charges, ' .
+				'heating_included, deposit, provision, usable_from, ' .
+				'apartment_type, house_type, floor, floors, bedrooms, ' .
+				'bathrooms, heating_type, garage_type, garage_rent, pets, ' .
+				'construction_year, old_or_new_building, state, balcony, garden, ' .
+				'elevator, accessible, assisted_living, fitted_kitchen, ' .
+				'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
+					'bold|italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'equipment;;;richtext[cut|copy|paste|formatblock|textcolor|' .
+					'bold|italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'layout, location;;;richtext[cut|copy|paste|formatblock|' .
+					'textcolor|bold|italic|underline|left|center|right|' .
+					'orderedlist|unorderedlist|outdent|indent|link|table|image|' .
+					'line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|' .
+					'italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|' .
+					'chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'details_page, images, contact_data_source, employer, ' .
+				'contact_person, contact_email, contact_phone, owner, language, ' .
+				'currency' .
 				'exact_coordinates_are_cached;;2, ' .
 				'rough_coordinates_are_cached;;3'
 		),
 		'1' => array(
-			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, '
-				.'object_number, openimmo_anid, openimmo_obid, object_type, '
-				.'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, '
-				.'street, zip, city, district, country, number_of_rooms, living_area, '
-				.'total_area, estate_size, provision, usable_from, buying_price, '
-				.'year_rent, rented, apartment_type, house_type, floor, floors, '
-				.'bedrooms, bathrooms, heating_type, garage_type, garage_price, '
-				.'construction_year, old_or_new_building, state, balcony, garden, '
-				.'elevator, accessible, fitted_kitchen, '
-				.'description;;;richtext[cut|copy|paste|formatblock|textcolor|'
-					.'bold|italic|underline|left|center|right|orderedlist|'
-					.'unorderedlist|outdent|indent|link|table|image|line|chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'equipment;;;richtext[cut|copy|paste|formatblock|textcolor|'
-					.'bold|italic|underline|left|center|right|orderedlist|'
-					.'unorderedlist|outdent|indent|link|table|image|line|chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'layout, location;;;richtext[cut|copy|paste|formatblock|'
-					.'textcolor|bold|italic|underline|left|center|right|'
-					.'orderedlist|unorderedlist|outdent|indent|link|table|image|'
-					.'line|chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|'
-					.'italic|underline|left|center|right|orderedlist|'
-					.'unorderedlist|outdent|indent|link|table|image|line|'
-					.'chMode]'
-					.':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], '
-				.'details_page, images, contact_data_source, employer, '.
+			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
+				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
+				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
+				'street, zip, city, district, country, number_of_rooms, living_area, ' .
+				'total_area, estate_size, provision, usable_from, buying_price, ' .
+				'year_rent, rented, apartment_type, house_type, floor, floors, ' .
+				'bedrooms, bathrooms, heating_type, garage_type, garage_price, ' .
+				'construction_year, old_or_new_building, state, balcony, garden, ' .
+				'elevator, accessible, fitted_kitchen, ' .
+				'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
+					'bold|italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'equipment;;;richtext[cut|copy|paste|formatblock|textcolor|' .
+					'bold|italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'layout, location;;;richtext[cut|copy|paste|formatblock|' .
+					'textcolor|bold|italic|underline|left|center|right|' .
+					'orderedlist|unorderedlist|outdent|indent|link|table|image|' .
+					'line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'misc;;;richtext[cut|copy|paste|formatblock|textcolor|bold|' .
+					'italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|' .
+					'chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
+				'details_page, images, contact_data_source, employer, '.
 				'contact_person, contact_email, contact_phone, owner, language, ' .
+				'currency' .
 				'exact_coordinates_are_cached;;2, ' .
 				'rough_coordinates_are_cached;;3'
 		)

@@ -300,6 +300,7 @@
 
 		<renderlet:TEXT name="spacer_03" label="&amp;nbsp;" readonly="true"/>
 
+		<renderlet:TEXT name="currency" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.currency"/>
 		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
 			<validators>
 				<validator:STANDARD>

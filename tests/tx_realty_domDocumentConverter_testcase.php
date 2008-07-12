@@ -908,6 +908,25 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataImportsTheCurrency() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<preise>' .
+							'<waehrung iso_waehrung="EUR"/>' .
+						'</preise>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('currency' => 'EUR')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedImportsTheValueForNewBuilding() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'

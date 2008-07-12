@@ -459,7 +459,36 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateListViewReturnsPricesWithTheCurrencyUnitSetInTsSetup() {
+	public function testCreateListViewReturnsPricesWithTheCurrencyProvidedByTheObjectIfNoCurrencyIsSetInTsSetup() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => '9', 'object_type' => '1', 'currency' => '&euro;',)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			'&euro;',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testCreateListViewReturnsPricesWithTheCurrencyProvidedByTheObjectAlthoughCurrencyIsSetInTsSetup() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => '9', 'object_type' => '1', 'currency' => '&euro;',)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('currencyUnit', 'foo');
+
+		$this->assertContains(
+			'&euro;',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testCreateListViewReturnsPricesWithTheCurrencyFromTsSetupIfTheObjectDoesNotProvideACurrency() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,

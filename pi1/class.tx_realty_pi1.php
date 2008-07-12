@@ -1193,7 +1193,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Returns the number found in the database column $key with a currency
-	 * symbol appended. This sybol is the value of 'currencyUnit' set in the TS
+	 * symbol appended. This symbol is the value of "currency" derived from
+	 * the same record or, if not availiable, "currencyUnit" set in the TS
 	 * setup.
 	 * If the value of $key is zero after applying intval, an empty string
 	 * will be returned.
@@ -1204,10 +1205,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						symbol appended, may be an empty string
 	 */
 	private function getFormattedPrice($key) {
-		return $this->getFormattedNumber(
-			$key,
-			$this->getConfValueString('currencyUnit')
-		);
+		$currencySymbol = $this->getConfValueString('currencyUnit');
+
+		if ($this->internal['currentRow']['currency'] != '') {
+			$currencySymbol = $this->internal['currentRow']['currency'];
+		}
+
+		return $this->getFormattedNumber($key, $currencySymbol);
 	}
 
 	/**

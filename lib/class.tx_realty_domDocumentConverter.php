@@ -89,7 +89,7 @@ class tx_realty_domDocumentConverter {
 		'openimmo_obid' => array('verwaltung_techn' => 'openimmo_obid'),
 		'contact_person' => array('kontaktperson' => 'name'),
 		'contact_email' => array('kontaktperson' => 'email_zentrale'),
-		'contact_phone' => array('kontaktperson' => 'tel_zentrale')
+		'contact_phone' => array('kontaktperson' => 'tel_zentrale'),
 	);
 
 	/** raw data of an OpenImmo record */
@@ -264,6 +264,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchValueForOldOrNewBuilding();
 		$this->fetchAction();
 		$this->fetchGaragePrice();
+		$this->fetchCurrency();
 		$this->fetchLanguage();
 		$this->fetchGeoCoordinates();
 
@@ -538,7 +539,7 @@ class tx_realty_domDocumentConverter {
 
 	/**
 	 * Fetches attributes about 'objektkategorie' and stores them with their
-	 * corresponding database column names as keys in this->importedData.
+	 * corresponding database column names as keys in $this->importedData.
 	 */
 	private function fetchCategoryAttributes() {
 		$this->fetchHouseType();
@@ -576,7 +577,7 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Fetches the 'Objektart' and stores it with the corresponding database
+	 * Fetches the 'objektart' and stores it with the corresponding database
 	 * column name 'house_type' as key in $this->importedData.
 	 */
 	private function fetchHouseType() {
@@ -611,8 +612,9 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Fetches the attribute for 'garage_price' and stores them with the
-	 * corresponding database column name as key in this->importedData.
+	 * Fetches the attribute for 'stellplatzmiete' and 'stellplatzkaufpreis' and
+	 * stores them with the corresponding database column name as key in
+	 * $this->importedData.
 	 */
 	private function fetchGaragePrice() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
@@ -635,8 +637,22 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Fetches the attributes for 'state' and stores them with the corresponding
-	 * database column name as key in this->importedData.
+	 * Fetches the attribute 'currency' and stores it in $this->importedData.
+	 */
+	private function fetchCurrency() {
+		$nodeWithAttributes = $this->findFirstGrandchild('preise', 'waehrung');
+		$attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
+
+		if (isset($attributes['iso_waehrung'])) {
+			$this->addImportedDataIfValueIsNonEmpty(
+				'currency', strtoupper($attributes['iso_waehrung'])
+			);
+		}
+	}
+
+	/**
+	 * Fetches the attributes for 'zustand' and stores them with the
+	 * corresponding database column name as key in $this->importedData.
 	 */
 	private function fetchState() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
@@ -672,7 +688,7 @@ class tx_realty_domDocumentConverter {
 
 	/**
 	 * Fetches the attribute 'aktion' and stores it with the corresponding
-	 * database column name as key in this->importedData.
+	 * database column name as key in $this->importedData.
 	 */
 	private function fetchAction() {
 		$nodeWithAttributes = $this->findFirstGrandchild(

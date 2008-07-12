@@ -102,7 +102,8 @@ CREATE TABLE tx_realty_objects (
 	contact_email text NOT NULL,
 	contact_phone text NOT NULL,
 	owner int(11) unsigned DEFAULT '0' NOT NULL,
-	language tinytext NOT NULL
+	language tinytext NOT NULL,
+	currency tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)
