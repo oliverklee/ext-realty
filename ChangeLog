@@ -1,5 +1,6 @@
 2008-07-12 Saskia Metzler <saskia@merlin.owl.de>
 
+	* [#2006] Feature: Add and import the field "HOA fee" ("Hausgeld")
 	* [#1633] Feature: Import the currency
 
 2008-07-09 Saskia Metzler <saskia@merlin.owl.de>

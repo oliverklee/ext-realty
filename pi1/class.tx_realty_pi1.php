@@ -98,6 +98,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'rent_excluding_bills' => TYPE_NUMERIC,
 		'extra_charges' => TYPE_NUMERIC,
 		'heating_included' => TYPE_BOOLEAN,
+		'hoa_fee' => TYPE_NUMERIC,
 		'deposit' => TYPE_STRING,
 		'provision' => TYPE_STRING,
 		'usable_from' => TYPE_STRING,

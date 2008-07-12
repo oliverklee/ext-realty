@@ -71,6 +71,7 @@ class tx_realty_domDocumentConverter {
 		// OpenImmo tag for 'usable_from' could possibly be 'abdatum'.
 		'usable_from' => array('verwaltung_objekt' => 'verfuegbar_ab'),
 		'buying_price' => array('preise' => 'kaufpreis'),
+		'hoa_fee' => array('preise' => 'hausgeld'),
 		'year_rent' => array('preise' => 'mieteinnahmen_ist'),
 		'rented' => array('verwaltung_objekt' => 'vermietet'),
 		'floor' => array('geo' => 'etage'),

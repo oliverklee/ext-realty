@@ -37,6 +37,7 @@
 			<label index="tx_realty_objects.provision">Provision/Broker's fee</label>
 			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
+			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
 			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
@@ -136,6 +137,7 @@
 			<label index="tx_realty_objects.provision">Provision/Courtage</label>
 			<label index="tx_realty_objects.usable_from">Bezugsfrei ab</label>
 			<label index="tx_realty_objects.buying_price">Kaufpreis</label>
+			<label index="tx_realty_objects.hoa_fee">Hausgeld</label>
 			<label index="tx_realty_objects.year_rent">Jahresnettomiete</label>
 			<label index="tx_realty_objects.rented">Vermietet</label>
 			<label index="tx_realty_objects.apartment_type">Wohnungstyp</label>
@@ -372,6 +374,7 @@
 			<label index="tx_realty_objects.provision" type="integer">168487236</label>
 			<label index="tx_realty_objects.usable_from" type="integer">250200731</label>
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
+			<label index="tx_realty_objects.hoa_fee" type="integer">111222682</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
 			<label index="tx_realty_objects.rented" type="integer">233415579</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
@@ -615,6 +618,7 @@
 			<label index="tx_realty_objects.provision">Provision/Broker's fee</label>
 			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
+			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
 			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>

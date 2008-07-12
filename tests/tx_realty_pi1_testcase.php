@@ -2091,12 +2091,46 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetFieldContentOfHoaFee() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('hoa_fee' => '12345')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		// $this->createListView() is called indirectly here. It sets the correct
+		// values for $this->internal.
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'12345',
+			$this->fixture->getFieldContent('hoa_fee')
+		);
+	}
+
 	public function testDetailPageDisplaysTheZip() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('zip' => '12345')
 		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'12345',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsDisabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('zip' => '12345')
+		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', false);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2117,22 +2151,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Deutschland',
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('zip' => '12345')
-		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', false);
-		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
-		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
-
-		$this->assertContains(
-			'12345',
 			$this->fixture->main('', array())
 		);
 	}

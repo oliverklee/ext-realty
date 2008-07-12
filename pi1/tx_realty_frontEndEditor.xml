@@ -320,6 +320,25 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
+		<renderlet:TEXT name="hoa_fee" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.hoa_fee">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getNoValidPriceMessage</method>
+								<params>
+									<data name="fieldName" value="hoa_fee"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
 		<renderlet:TEXT name="rent_excluding_bills" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills">
 			<validators>
 				<validator:STANDARD>

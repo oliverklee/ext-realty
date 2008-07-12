@@ -10,7 +10,7 @@ $TCA['tx_realty_objects'] = array(
 			'hidden,starttime,endtime,object_number,object_type,title,' .
 			'emphasized,street,zip,city,country,district,number_of_rooms,living_area,' .
 			'total_area,estate_size,rent_excluding_bills,extra_charges,' .
-			'heating_included,deposit,provision,usable_from,buying_price,' .
+			'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
 			'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,' .
 			'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,' .
 			'construction_year,old_or_new_building,state,balcony,garden,elevator,' .
@@ -377,6 +377,15 @@ $TCA['tx_realty_objects'] = array(
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'double2'
+			)
+		),
+		'hoa_fee' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.hoa_fee',
+			'config' => array(
+				'type' => 'input',
+				'size' => '7',
+				'eval' => 'double2',
 			)
 		),
 		'year_rent' => array(
@@ -1004,7 +1013,7 @@ $TCA['tx_realty_objects'] = array(
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
 				'street, zip, city, district, country, number_of_rooms, living_area, ' .
-				'total_area, estate_size, provision, usable_from, buying_price, ' .
+				'total_area, estate_size, provision, usable_from, buying_price, hoa_fee' .
 				'year_rent, rented, apartment_type, house_type, floor, floors, ' .
 				'bedrooms, bathrooms, heating_type, garage_type, garage_price, ' .
 				'construction_year, old_or_new_building, state, balcony, garden, ' .

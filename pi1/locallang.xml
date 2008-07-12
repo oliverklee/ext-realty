@@ -93,6 +93,7 @@
 			<label index="label_deposit">Security deposit</label>
 			<label index="label_provision">Provision/broker's fee</label>
 			<label index="label_buying_price">Price for buying</label>
+			<label index="label_hoa_fee">HOA fee</label>
 			<label index="label_year_rent">Net rent per year</label>
 			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
@@ -312,6 +313,7 @@
 			<label index="label_deposit">Kaution</label>
 			<label index="label_provision">Provision/Courtage</label>
 			<label index="label_buying_price">Kaufpreis</label>
+			<label index="label_hoa_fee">Hausgeld</label>
 			<label index="label_year_rent">Nettojahresmiete</label>
 			<label index="label_rented">Vermietet</label>
 			<label index="label_apartment_type">Wohnungstyp</label>
@@ -980,6 +982,7 @@
 			<label index="label_deposit" type="integer">254246076</label>
 			<label index="label_provision" type="integer">224380131</label>
 			<label index="label_buying_price" type="integer">1292258</label>
+			<label index="label_hoa_fee" type="integer">111222682</label>
 			<label index="label_year_rent" type="integer">196759698</label>
 			<label index="label_rented" type="integer">233415579</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
@@ -1651,6 +1654,7 @@
 			<label index="label_deposit">Security deposit</label>
 			<label index="label_provision">Provision/broker's fee</label>
 			<label index="label_buying_price">Price for buying</label>
+			<label index="label_hoa_fee">HOA fee</label>
 			<label index="label_year_rent">Net rent per year</label>
 			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
