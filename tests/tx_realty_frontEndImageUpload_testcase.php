@@ -118,7 +118,6 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$realtyObject->writeToDatabase();
 
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS_IMAGES_MM);
 	}
 
 
@@ -161,7 +160,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testProcessImageUploadWritesNewMmRelationForCurrentObjectAndImageToTheDatabase() {
+	public function testProcessImageUploadStoresCurrentObjectUidAsParentForTheImage() {
 		$this->fixture->processImageUpload(
 			array(
 				'caption' => 'test image',
@@ -169,12 +168,12 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		// There will be two relations created during setup().
 		$this->assertEquals(
-			3,
+			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS_IMAGES_MM,
-				'uid_local='.$this->dummyObjectUid.' AND is_dummy_record=1'
+				REALTY_TABLE_IMAGES,
+				'realty_object_uid=' . $this->dummyObjectUid .
+					' AND caption="test image" AND image="image.jpg"'
 			)
 		);
 	}

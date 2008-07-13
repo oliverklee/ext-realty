@@ -353,13 +353,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('images' => '1', 'title' => '')
 		);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid,
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_IMAGES,
-				array('caption' => 'foo')
-			)
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
 		);
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
@@ -382,13 +378,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('images' => '1')
 		);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid,
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_IMAGES,
-				array('caption' => 'foo')
-			)
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
 		);
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
@@ -412,13 +404,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('images' => '1')
 		);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid,
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_IMAGES,
-				array('caption' => 'foo')
-			)
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid, 'caption' => 'foo')
 		);
 		$galleryPid = $this->testingFramework->createFrontEndPage();
 		$this->allowAccess();
@@ -2388,12 +2376,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryShowsNoWarningWithAllParameter() {
-		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid, $imageUid
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid)
 		);
-
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 		$this->fixture->piVars['image'] = 0;
@@ -2405,10 +2391,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryDisplaysNoWarningWithAllParameterForHiddenObjectWhenOwnerLoggedIn() {
-		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid, $imageUid
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid)
 		);
 		$feUserId = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()
@@ -2431,10 +2416,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectWhenNoUserLoggedIn() {
-		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid, $imageUid
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid)
 		);
 		$feUserId = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()
@@ -2456,10 +2440,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectForLoggedInNonOwner() {
-		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid, $imageUid
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid)
 		);
 		$feUserId = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()
@@ -2482,12 +2465,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryDisplaysWarningForInvalidUid() {
-		$imageUid = $this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->firstRealtyUid, $imageUid
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid)
 		);
-
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
 		$this->fixture->piVars['image'] = 0;

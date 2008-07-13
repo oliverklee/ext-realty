@@ -354,16 +354,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
-		$imageUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
-		);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->objectUid,
-			$imageUid
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'image' => 'foo.jpg',
+				'realty_object_uid' => $this->objectUid
+			)
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 
@@ -376,22 +373,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadRealtyObjectByDatabaseResultAlsoLoadsImages() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
-		$imageUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
-		);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->objectUid,
-			$imageUid
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'image' => 'foo.jpg',
+				'realty_object_uid' => $this->objectUid
+			)
 		);
 		$this->fixture->loadRealtyObject(
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'*',
-				REALTY_TABLE_OBJECTS,
-				'uid='.$this->objectUid
+				'*', REALTY_TABLE_OBJECTS, 'uid=' . $this->objectUid
 			)
 		);
 
@@ -1176,36 +1168,31 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInsertImageEntriesInsertsAndLinksNewEntry() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
+	public function testInsertImageEntriesInsertsNewEntryWithParentUid() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
-			array('caption' => 'foo', 'image' => 'foo.jpg'),
+			array('image' => 'foo.jpg'),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					REALTY_TABLE_IMAGES.'.caption,'.REALTY_TABLE_IMAGES.'.image',
-					REALTY_TABLE_OBJECTS_IMAGES_MM.','.REALTY_TABLE_IMAGES,
-					REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_local='.$this->objectUid
-						.' AND '.REALTY_TABLE_IMAGES.'.uid='.REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_foreign'
+					'image',
+					REALTY_TABLE_IMAGES,
+					'realty_object_uid=' . $this->objectUid
 				)
 			)
 		);
 	}
 
 	public function testInsertImageEntriesUpdatesExistingEntry() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
-
-		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('new caption', 'foo.jpg');
 		$this->fixture->writeToDatabase();
 
@@ -1213,10 +1200,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			array('caption' => 'new caption', 'image' => 'foo.jpg'),
 			$this->testingFramework->getAssociativeDatabaseResult(
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					REALTY_TABLE_IMAGES.'.caption,'.REALTY_TABLE_IMAGES.'.image',
-					REALTY_TABLE_OBJECTS_IMAGES_MM.','.REALTY_TABLE_IMAGES,
-					REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_local='.$this->objectUid
-						.' AND '.REALTY_TABLE_IMAGES.'.uid='.REALTY_TABLE_OBJECTS_IMAGES_MM.'.uid_foreign'
+					'caption, image',
+					REALTY_TABLE_IMAGES,
+					'realty_object_uid=' . $this->objectUid
 				)
 			)
 		);
@@ -1230,9 +1216,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteFromDatabaseRemovesRelatedImage() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
@@ -1253,9 +1238,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteFromDatabaseRemovesSeveralRelatedImages() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo1', 'foo1.jpg');
 		$this->fixture->addImageRecord('foo2', 'foo2.jpg');
@@ -1316,9 +1300,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testImagesReceiveTheCorrectPageUidIfOverridePidIsSet() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject(
 			array(
 				'object_number' => self::$otherObjectNumber,
@@ -1439,74 +1422,6 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeletingAnImageAlsoRemovesMmRealation() {
-		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->addImageRecord('foo', 'foo.jpg');
-		$this->fixture->writeToDatabase();
-
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS_IMAGES_MM,
-				'uid_local='.$this->objectUid.' AND is_dummy_record=1'
-			)
-		);
-
-		$this->fixture->markImageRecordAsDeleted(0);
-		$this->fixture->writeToDatabase();
-
-		$this->assertEquals(
-			0,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS_IMAGES_MM,
-				'uid_local='.$this->objectUid.' AND is_dummy_record=1'
-			)
-		);
-	}
-
-	public function testInsertDeleteAndReinsertAnImageRecord() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
-		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->addImageRecord('foo', 'foo.jpg');
-		$this->fixture->writeToDatabase();
-
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'caption="foo" AND image="foo.jpg" AND is_dummy_record=1'
-					.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
-			)
-		);
-
-		$this->fixture->markImageRecordAsDeleted(0);
-		$this->fixture->writeToDatabase();
-
-		$this->assertEquals(
-			0,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'caption="foo" AND image="foo.jpg" AND is_dummy_record=1'
-					.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
-			)
-		);
-
-		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->addImageRecord('foo', 'foo.jpg');
-		$this->fixture->writeToDatabase();
-
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'caption="foo" AND image="foo.jpg" AND is_dummy_record=1'
-					.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES)
-			)
-		);
-	}
-
 	public function testRecreateAnAuxiliaryRecord() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		$cityUid = $this->testingFramework->createRecord(
@@ -1612,17 +1527,15 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseMarksImageRecordToDeleteAsDeleted() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
 		$imageUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES, array('caption' => 'foo', 'image' => 'foo.jpg')
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'image' => 'foo.jpg',
+				'realty_object_uid' => $this->objectUid
+			)
 		);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->objectUid,
-			$imageUid
-		);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->markImageRecordAsDeleted(0);
 		$this->fixture->writeToDatabase();
@@ -1637,17 +1550,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewImageRecordIfTheSameRecordExistsButIsDeleted() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
 		$imageUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('caption' => 'foo', 'image' => 'foo.jpg', 'deleted' => 1)
-		);
-		$this->testingFramework->createRelation(
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			$this->objectUid,
-			$imageUid
+			array(
+				'caption' => 'foo',
+				'image' => 'foo.jpg',
+				'realty_object_uid' => $this->objectUid,
+				'deleted' => 1,
+			)
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
@@ -1663,9 +1573,6 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseNotAddsImageRecordWithDeletedFlagSet() {
-		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM
-		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->markImageRecordAsDeleted(
 			$this->fixture->addImageRecord('foo', 'foo.jpg')

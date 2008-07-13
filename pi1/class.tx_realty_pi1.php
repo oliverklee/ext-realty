@@ -66,7 +66,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'pets' => REALTY_TABLE_PETS,
 		'state' => REALTY_TABLE_CONDITIONS,
 		'images' => REALTY_TABLE_IMAGES,
-		'images_relation' => REALTY_TABLE_OBJECTS_IMAGES_MM
 	);
 	/** session key for storing the favorites list */
 	private $favoritesSessionKey = 'tx_realty_favorites';
@@ -1460,15 +1459,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
-		return $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
+		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'image, caption',
-			REALTY_TABLE_OBJECTS,
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
 			REALTY_TABLE_IMAGES,
-			'AND '.REALTY_TABLE_OBJECTS.'.uid='.$this->internal['currentRow']['uid'],
+			'realty_object_uid=' . $this->internal['currentRow']['uid'],
 			'',
-			'sorting',
-			intval($offset).',1'
+			'uid',
+			intval($offset) . ',1'
 		);
 	}
 
@@ -1486,8 +1483,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'COUNT(*) as number',
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			'uid_local='.$this->internal['currentRow']['uid']
+			REALTY_TABLE_IMAGES,
+			'realty_object_uid=' . $this->internal['currentRow']['uid']
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);

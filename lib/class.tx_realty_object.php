@@ -639,38 +639,26 @@ class tx_realty_object {
 			return;
 		}
 
-		$this->ensureUid($this->realtyObjectData, 'object_number, language');
+		$this->ensureUid(
+			$this->realtyObjectData, 'object_number, language, openimmo_obid'
+		);
 		$objectUid = $this->getProperty('uid');
 		$counter = 1;
 
 		foreach ($this->getAllImageData() as $imageData) {
-			$imageUid = 0;
+			// Creates a relation to the parent realty object for each image.
+			$imageData['realty_object_uid'] = $objectUid;
 
 			if ($this->recordExistsInDatabase(
-				$imageData, 'image', REALTY_TABLE_IMAGES
+				$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
 			)) {
 				$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
 				// Updating will delete the image if the deleted flag is set.
 				$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
-
-				if ($imageData['deleted']) {
-					$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-						REALTY_TABLE_OBJECTS_IMAGES_MM,
-						'uid_foreign='.$imageData['uid']
-					);
-				} else {
-					$imageUid = $imageData['uid'];
-				}
 			} else {
-				$imageUid = $this->createNewDatabaseEntry(
+				$this->createNewDatabaseEntry(
 					$imageData, REALTY_TABLE_IMAGES, $overridePid
 				);
-			}
-
-			// $imageUid will be zero for deleted images.
-			if ($imageUid != 0) {
-				$this->linkImageWithObject($objectUid, $imageUid, $counter);
-				$counter++;
 			}
 		}
 	}
@@ -682,39 +670,6 @@ class tx_realty_object {
 	private function deleteRelatedImageRecords() {
 		foreach ($this->getAllImageData() as $imageKey => $imageData) {
 			$this->markImageRecordAsDeleted($imageKey);
-		}
-	}
-
-	/**
-	 * Creates a relation between an image and a realty record in the table
-	 * 'tx_realty_objects_images_mm' if the relation does not exist yet.
-	 *
-	 * @param	integer		UID of the current realty object, must be > 0
-	 * @param	integer		UID of the image to link, must be > 0
-	 * @param	integer		number of images (including the current) which are
-	 * 						momentary related to the current realty record
-	 */
-	private function linkImageWithObject($objectUid, $imageUid, $counter = 0) {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid_local, uid_foreign',
-			REALTY_TABLE_OBJECTS_IMAGES_MM,
-			'uid_local='.intval($objectUid).' AND uid_foreign='.intval($imageUid)
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		if (!$GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
-				REALTY_TABLE_OBJECTS_IMAGES_MM,
-				array(
-					'uid_local' => intval($objectUid),
-					'uid_foreign' => intval($imageUid),
-					'sorting' => intval($counter),
-					// allows an easy removal of records created during the unit tests
-					'is_dummy_record' => $this->isDummyRecord
-				)
-			);
 		}
 	}
 
@@ -731,14 +686,20 @@ class tx_realty_object {
 	 * Loads the images of the current realty object into the local images array.
 	 */
 	private function loadImages() {
+		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
+			return;
+		}
+
+		$this->ensureUid(
+			$this->realtyObjectData, 'object_number, language, openimmo_obid'
+		);
 		$this->images =array();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'caption,image',
-			REALTY_TABLE_IMAGES.','.REALTY_TABLE_OBJECTS_IMAGES_MM,
-			'uid_local='.intval($this->getProperty('uid'))
-				.' AND uid=uid_foreign'
-				.$this->templateHelper->enableFields(REALTY_TABLE_IMAGES),
+			'caption, image',
+			REALTY_TABLE_IMAGES,
+			'realty_object_uid=' . $this->getProperty('uid') .
+				$this->templateHelper->enableFields(REALTY_TABLE_IMAGES),
 			'uid'
 		);
 		if (!$dbResult) {
@@ -957,9 +918,7 @@ class tx_realty_object {
 	 * 						yet exists
 	 */
 	private function ensureUid(
-		array &$dataArray,
-		$keys,
-		$table = REALTY_TABLE_OBJECTS
+		array &$dataArray, $keys, $table = REALTY_TABLE_OBJECTS
 	) {
 		if (isset($dataArray['uid'])) {
 			return;
