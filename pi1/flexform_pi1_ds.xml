@@ -120,25 +120,6 @@
 							</config>
 						</TCEforms>
 					</staticSqlFilter>
-					<defaultCountryUID>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultCountry</label>
-							<config>
-								<type>select</type>
-								<items>
-									<numIndex index="0">
-										<numIndex index="0"></numIndex>
-										<numIndex index="1">0</numIndex>
-									</numIndex>
-								</items>
-								<foreign_table>static_countries</foreign_table>
-								<foreign_table_where>ORDER BY cn_short_en</foreign_table_where>
-								<minitems>0</minitems>
-								<maxitems>1</maxitems>
-								<size>1</size>
-							</config>
-						</TCEforms>
-					</defaultCountryUID>
 					<showAddressOfObjects>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showAddressOfObjects</label>
@@ -461,8 +442,7 @@
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMapsApiKey</label>
 							<config>
 								<type>input</type>
-								<size>256</size>
-								<checkbox></checkbox>
+								<size>100</size>
 								<eval>trim</eval>
 							</config>
 						</TCEforms>
@@ -483,6 +463,25 @@
 							</config>
 						</TCEforms>
 					</showGoogleMapsInSingleView>
+					<defaultCountryUID>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultCountry</label>
+							<config>
+								<type>select</type>
+								<items>
+									<numIndex index="0">
+										<numIndex index="0"></numIndex>
+										<numIndex index="1">0</numIndex>
+									</numIndex>
+								</items>
+								<foreign_table>static_countries</foreign_table>
+								<foreign_table_where>ORDER BY cn_short_en</foreign_table_where>
+								<minitems>0</minitems>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</defaultCountryUID>
 				</el>
 			</ROOT>
 		</s_googlemaps>

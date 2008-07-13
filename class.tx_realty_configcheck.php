@@ -79,12 +79,12 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
-		$this->checkDefaultCountry();
 		$this->checkShowGoogleMapsInListView();
 		if ($this->objectToCheck->getConfValueBoolean(
 			'showGoogleMapsInListView', 's_googlemaps'
 		)) {
-				$this->checkGoogleMapsApiKey();
+			$this->checkGoogleMapsApiKey();
+			$this->checkDefaultCountry();
 		}
 	}
 
@@ -116,12 +116,12 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
-		$this->checkDefaultCountry();
 		$this->checkShowGoogleMapsInSingleView();
 		if ($this->objectToCheck->getConfValueBoolean(
 			'showGoogleMapsInSingleView', 's_googlemaps'
 		)) {
 			$this->checkGoogleMapsApiKey();
+			$this->checkDefaultCountry();
 		}
 	}
 
@@ -704,7 +704,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfPositiveInteger(
 			'defaultCountryUID',
 			true,
-			'sDEF',
+			's_googlemaps',
 			'This value specifies the UID of the default country for realty ' .
 			'objects. If this value is not configured correctly, the objects ' .
 			'will be mislocated in Google Maps.'
