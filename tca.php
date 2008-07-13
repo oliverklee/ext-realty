@@ -749,6 +749,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type'=> 'inline',
 				'foreign_table' => 'tx_realty_images',
+				'foreign_field' => 'realty_object_uid',
 				'minitems' => 0,
 				'maxitems' => 99,
 				'appearance' => array(
@@ -757,7 +758,6 @@ $TCA['tx_realty_objects'] = array(
 					'newRecordLinkAddTitle' => 1,
 					'newRecordLinkPosition' => 'bottom',
 				),
-				'MM' => 'tx_realty_objects_images_mm'
 			)
 		)
 	),

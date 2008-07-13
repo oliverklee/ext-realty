@@ -25,6 +25,7 @@
  * This file defines extension-wide used constants (like table names) and
  * includes the oelib's definitions of common constans.
  */
+
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 
 // table names
@@ -38,5 +39,4 @@ define('REALTY_TABLE_CAR_PLACES', 'tx_realty_car_places');
 define('REALTY_TABLE_PETS', 'tx_realty_pets');
 define('REALTY_TABLE_CONDITIONS', 'tx_realty_conditions');
 define('REALTY_TABLE_IMAGES', 'tx_realty_images');
-define('REALTY_TABLE_OBJECTS_IMAGES_MM', 'tx_realty_objects_images_mm');
 ?>
