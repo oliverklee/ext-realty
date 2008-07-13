@@ -614,7 +614,10 @@ class tx_realty_object {
 		$propertyArray = array('title' => $this->getProperty($key));
 		$uidOfProperty = 0;
 
-		if (!$this->recordExistsInDatabase($propertyArray, 'title', $table)) {
+		if ($this->recordExistsInDatabase($propertyArray, 'title', $table)) {
+			$this->ensureUid($propertyArray, 'title', $table);
+			$uidOfProperty = $propertyArray['uid'];
+		} else {
 			$uidOfProperty = $this->createNewDatabaseEntry($propertyArray, $table);
 		}
 

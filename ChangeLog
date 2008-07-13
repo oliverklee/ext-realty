@@ -1,3 +1,7 @@
+2008-07-13 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#2007] Fix: An object is not linked to a city if the city existed before the import
+
 2008-07-12 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#2006] Feature: Add and import the field "HOA fee" ("Hausgeld")
