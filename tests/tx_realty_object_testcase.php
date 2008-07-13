@@ -1016,6 +1016,19 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testPrepareInsertionAndInsertRelationsWritesUidOfInsertedPropertyToRealtyObjectData() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', 'foo');
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertTrue(
+			$this->fixture->getProperty('city') > 0
+		);
+	}
+
+	public function testPrepareInsertionAndInsertRelationsInsertsPropertyIntoItsTable() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('city', 'foo');
 		$this->fixture->prepareInsertionAndInsertRelations();
@@ -1024,6 +1037,69 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testPrepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMatchingPid() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger(
+				'pidForAuxiliaryRecords', $this->otherPageUid
+			);
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => 'test city', 'pid' => $this->otherPageUid)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', 'test city');
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			$cityUid,
+			$this->fixture->getProperty('city')
+		);
+	}
+
+	public function testPrepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMismatchingPid() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger(
+				'pidForAuxiliaryRecords', ($this->otherPageUid +1)
+			);
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => 'test city', 'pid' => $this->otherPageUid)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', 'test city');
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			$cityUid,
+			$this->fixture->getProperty('city')
+		);
+	}
+
+	public function testPrepareInsertionAndInsertDoesNotUpdateThePidOfAnAlreadyExistingPropertyForMismatchingPids() {
+		tx_oelib_configurationProxy::getInstance('realty')->
+			setConfigurationValueInteger(
+				'pidForAuxiliaryRecords', ($this->otherPageUid +1)
+			);
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => 'test city', 'pid' => $this->otherPageUid)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', 'test city');
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				 REALTY_TABLE_CITIES,
+				'uid=' . $cityUid . ' AND pid='. $this->otherPageUid
 			)
 		);
 	}
