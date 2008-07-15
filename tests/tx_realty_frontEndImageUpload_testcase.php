@@ -68,6 +68,9 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
 		$GLOBALS['LANG']->lang = $GLOBALS['TSFE']->config['config']['language'];
+		// Ensures there is no cached data of linked FE pages.
+		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$GLOBALS['TSFE']->sys_page->init(false);
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
