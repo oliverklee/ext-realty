@@ -87,6 +87,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
+		// Ensures there is no cached data of linked FE pages.
+		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$GLOBALS['TSFE']->sys_page->init(false);
 		// This object is required to be initialized before
 		// $GLOBALS['TSFE']->initUserGroups() can be called.
 		if (!is_object($GLOBALS['TSFE']->fe_user)) {
@@ -2237,7 +2240,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testDetailViewDisplaysErrorMessageForNonExistentObject() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
-		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('deleted' => 1)
+		);
 
 		$this->assertContains(
 			$this->fixture->translate('message_noResultsFound_single_view'),
@@ -2298,7 +2303,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testHeaderIsSetIfDetailViewDisplaysNoResultsMessage() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
-		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('deleted' => 1)
+		);
 		$this->fixture->main('', array());
 
 		$this->assertEquals(
@@ -2526,13 +2533,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGalleryDisplaysWarningForInvalidUid() {
+	public function testGalleryDisplaysWarningForInvalidObjectUid() {
+		$deletedObjectUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('deleted' => 1)
+		);
 		$imageUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('realty_object_uid' => $this->firstRealtyUid)
+			array('realty_object_uid' => $deletedObjectUid)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
-		$this->fixture->piVars['showUid'] = $this->secondRealtyUid + 1;
+		$this->fixture->piVars['showUid'] = $deletedObjectUid;
 		$this->fixture->piVars['image'] = 0;
 
 		$this->assertContains(

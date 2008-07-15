@@ -57,6 +57,9 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
 		$GLOBALS['TSFE']->tmpl->init();
 		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
+		// Ensures there is no cached data of linked FE pages.
+		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$GLOBALS['TSFE']->sys_page->init(false);
 
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
@@ -101,7 +104,11 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	///////////////////////////////////////////////
 
 	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+		$this->fixture->setRealtyObjectUid(
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			)
+		);
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
@@ -111,7 +118,11 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 
 	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
 		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+		$this->fixture->setRealtyObjectUid(
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			)
+		);
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
@@ -121,7 +132,11 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 
 	public function testHeaderIsSentWhenCheckAccessReturnsObjectDoesNotExistMessage() {
 		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+		$this->fixture->setRealtyObjectUid(
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			)
+		);
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
@@ -226,7 +241,9 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid() {
-		$nonExistingFePageUid = $this->testingFramework->createFrontEndPage() + 1;
+		$nonExistingFePageUid = $this->testingFramework->createFrontEndPage(
+			0, array('deleted' => 1)
+		);
 		$this->pi1->setConfigurationValue(
 			'feEditorRedirectPid', $nonExistingFePageUid
 		);

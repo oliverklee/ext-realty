@@ -1,3 +1,7 @@
+2008-07-15 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#2009] Fix: Test failure: testGetRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid
+
 2008-07-13 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1976] Fix: Adding pictures to objects in the BE fails

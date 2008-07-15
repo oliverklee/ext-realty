@@ -143,7 +143,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////
 
 	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+		$this->fixture->setRealtyObjectUid(
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			)
+		);
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
@@ -152,7 +156,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+		$this->fixture->setRealtyObjectUid(
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			)
+		);
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
@@ -161,7 +169,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testHeaderIsSentWhenDeleteRecordReturnsObjectDoesNotExistMessage() {
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid + 1);
+		$this->fixture->setRealtyObjectUid(
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			)
+		);
 
 		$this->assertContains(
 			$this->pi1->translate('message_noResultsFound_fe_editor'),
@@ -501,7 +513,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetInvalidOrEmptyCityMessageForNonEmptyCity() {
-		$this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord(REALTY_TABLE_CITIES) + 1);
+		$this->fixture->setFakedFormValue(
+			'city', $this->testingFramework->createRecord(
+				REALTY_TABLE_CITIES, array('deleted' => 1)
+			)
+		);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city').': '
@@ -854,7 +870,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForCityReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForCity(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_CITIES, array('deleted' => 1)
+				))
 			)
 		);
 	}
@@ -878,7 +896,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForDistrictReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForDistrict(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_DISTRICTS, array('deleted' => 1)
+				))
 			)
 		);
 	}
@@ -1102,7 +1122,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForHouseTypeReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForHouseType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HOUSE_TYPES) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_HOUSE_TYPES, array('deleted' => 1)
+				))
 			)
 		);
 	}
@@ -1126,7 +1148,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForApartmentTypeReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForApartmentType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_APARTMENT_TYPES) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_APARTMENT_TYPES, array('deleted' => 1)
+				))
 			)
 		);
 	}
@@ -1150,7 +1174,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForHeatingTypeReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForHeatingType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HEATING_TYPES) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_HEATING_TYPES, array('deleted' => 1)
+				))
 			)
 		);
 	}
@@ -1174,7 +1200,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForGarageTypeReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForGarageType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CAR_PLACES) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_CAR_PLACES, array('deleted' => 1)
+				))
 			)
 		);
 	}
@@ -1198,7 +1226,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForStateReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForState(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CONDITIONS) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_CONDITIONS, array('deleted' => 1)
+				))
 			)
 		);
 	}
@@ -1222,7 +1252,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedValueForPetsReturnsFalseForInvalidValue() {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForPets(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_PETS) + 1)
+				array('value' => $this->testingFramework->createRecord(
+					REALTY_TABLE_PETS, array('deleted' => 1)
+				))
 			)
 		);
 	}
