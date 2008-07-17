@@ -1215,6 +1215,53 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testInsertImageEntriesDoesNotUpdateAnExistingEntryIfTheNewTitleIsEmpty() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg');
+		$this->fixture->writeToDatabase();
+		$this->fixture->addImageRecord('', 'foo.jpg');
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			array('caption' => 'foo', 'image' => 'foo.jpg'),
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'caption, image',
+					REALTY_TABLE_IMAGES,
+					'realty_object_uid=' . $this->objectUid
+				)
+			)
+		);
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_IMAGES,
+				'image="foo.jpg" AND is_dummy_record=1'
+			)
+		);
+	}
+
+	public function testInsertImageEntriesInsertsNewImageWithFileNameAsTitleIfNoTitleIsSet() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('', 'foo.jpg');
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			array('caption' => 'foo.jpg', 'image' => 'foo.jpg'),
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'caption, image',
+					REALTY_TABLE_IMAGES,
+					'realty_object_uid=' . $this->objectUid
+				)
+			)
+		);
+	}
+
 	public function testDeleteFromDatabaseRemovesRelatedImage() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 

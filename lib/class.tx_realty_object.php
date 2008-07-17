@@ -652,10 +652,19 @@ class tx_realty_object {
 			if ($this->recordExistsInDatabase(
 				$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
 			)) {
-				$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
-				// Updating will delete the image if the deleted flag is set.
-				$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
+				// For image records, only titles can be updated. Titles should
+				// not get emptied.
+				if ($imageData['caption'] != '') {
+					$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
+					// Updating will delete the image if the deleted flag is set.
+					$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
+				}
 			} else {
+				// If the title is empty, the file name also becomes the title
+				// to ensure the title is non-empty.
+				if ($imageData['caption'] == '') {
+					$imageData['caption'] = $imageData['image'];
+				}
 				$this->createNewDatabaseEntry(
 					$imageData, REALTY_TABLE_IMAGES, $overridePid
 				);
