@@ -1,18 +1,4 @@
 #
-# Table structure for table 'tx_realty_objects_images_mm'
-#
-CREATE TABLE tx_realty_objects_images_mm (
-	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
-	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
-	tablenames varchar(30) DEFAULT '' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign)
-);
-
-#
 # Table structure for table 'tx_realty_objects'
 #
 CREATE TABLE tx_realty_objects (
@@ -223,6 +209,7 @@ CREATE TABLE tx_realty_conditions (
 CREATE TABLE tx_realty_images (
 	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
+	realty_object_uid int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
 	cruser_id int(11) DEFAULT '0' NOT NULL,
