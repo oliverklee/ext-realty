@@ -1,9 +1,9 @@
 <?php
 
 ########################################################################
-# Extension Manager/Repository config file for ext: "extdeveval"
+# Extension Manager/Repository config file for ext: "realty"
 #
-# Auto generated 20-07-2006 18:50
+# Auto generated 20-07-2008 19:21
 #
 # Manual updates:
 # Only the data in the array - anything else is removed by next write.
@@ -11,38 +11,40 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Extension Development Evaluator',
-	'description' => 'A backend development module that offers features to help develop and evaluate various features of extensions under development',
-	'category' => 'module',
-	'shy' => 'false',
-	'version' => '3.0.0',
+	'title' => 'Realty Manager',
+	'description' => 'This extension provides a front-end plugin that displays realty objects/immovables (for sale as well as for renting), including a little image gallery for each object.',
+	'category' => 'plugin',
+	'shy' => 0,
+	'version' => '0.2.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
-	'module' => 'mod1',
-	'state' => 'stable',
-	'uploadfolder' => 'false',
-	'createDirs' => '',
+	'module' => '',
+	'state' => 'beta',
+	'uploadfolder' => 1,
+	'createDirs' => 'uploads/tx_realty/rte/',
 	'modify_tables' => '',
-	'clearCacheOnLoad' => 'false',
+	'clearcacheonload' => 1,
 	'lockType' => '',
-	'author' => 'Kasper SkÃ¥rhÃ¸j',
-	'author_email' => 'kasper@typo3.com',
-	'author_company' => 'Curby Soft Multimedia',
+	'author' => 'Oliver Klee',
+	'author_email' => 'typo3-coding@oliverklee.de',
+	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'php' => '3.0.0-',
-			'typo3' => '3.7.0-',
+			'php' => '5.1.0-0.0.0',
+			'typo3' => '4.1.2-0.0.0',
+			'cms' => '',
+			'oelib' => '0.4.1-',
 		),
 		'conflicts' => array(
 		),
 		'suggests' => array(
 		),
 	),
-	'_md5_values_when_last_written' => 'a:50:{s:8:".project";s:4:"7162";s:9:"ChangeLog";s:4:"1056";s:43:"class.tx_extdeveval_fetchContentTopMenu.php";s:4:"fde7";s:12:"ext_icon.gif";s:4:"1bdc";s:17:"ext_localconf.php";s:4:"d537";s:15:"ext_php_api.dat";s:4:"cf6e";s:14:"ext_tables.php";s:4:"34c2";s:11:"CVS/Entries";s:4:"22b5";s:14:"CVS/Repository";s:4:"ed80";s:8:"CVS/Root";s:4:"a97b";s:12:"doc/TODO.txt";s:4:"0a23";s:14:"doc/manual.sxw";s:4:"845c";s:15:"doc/CVS/Entries";s:4:"b429";s:18:"doc/CVS/Repository";s:4:"34ca";s:12:"doc/CVS/Root";s:4:"a97b";s:13:"mod1/PEAR.php";s:4:"d61d";s:39:"mod1/class.tx_extdeveval_apidisplay.php";s:4:"9772";s:39:"mod1/class.tx_extdeveval_cachefiles.php";s:4:"4b9b";s:33:"mod1/class.tx_extdeveval_calc.php";s:4:"b32a";s:40:"mod1/class.tx_extdeveval_cssanalyzer.php";s:4:"cf46";s:38:"mod1/class.tx_extdeveval_highlight.php";s:4:"1eb2";s:39:"mod1/class.tx_extdeveval_iconlister.php";s:4:"a0ee";s:35:"mod1/class.tx_extdeveval_ll2xml.php";s:4:"db9f";s:39:"mod1/class.tx_extdeveval_llxmlsplit.php";s:4:"3914";s:35:"mod1/class.tx_extdeveval_phpdoc.php";s:4:"27ab";s:40:"mod1/class.tx_extdeveval_submodgetll.php";s:4:"0308";s:33:"mod1/class.tx_extdeveval_tmpl.php";s:4:"a1c5";s:41:"mod1/class.tx_extdeveval_tunebeautify.php";s:4:"5c8c";s:37:"mod1/class.tx_extdeveval_tunecode.php";s:4:"d4a2";s:14:"mod1/clear.gif";s:4:"cc11";s:13:"mod1/conf.php";s:4:"5f02";s:19:"mod1/ext_emconf.php";s:4:"6ebe";s:14:"mod1/index.php";s:4:"7c4b";s:22:"mod1/locallang_mod.xml";s:4:"a6f2";s:19:"mod1/moduleicon.gif";s:4:"8074";s:16:"mod1/CVS/Entries";s:4:"b962";s:19:"mod1/CVS/Repository";s:4:"205d";s:13:"mod1/CVS/Root";s:4:"a97b";s:22:"apidocs/t3lib_api.html";s:4:"8116";s:25:"apidocs/t3lib_befunc.html";s:4:"33e1";s:21:"apidocs/t3lib_db.html";s:4:"9fb9";s:22:"apidocs/t3lib_div.html";s:4:"0b01";s:25:"apidocs/t3lib_extmgm.html";s:4:"149c";s:30:"apidocs/tslib_content_api.html";s:4:"c3d5";s:29:"apidocs/tslib_pibase_api.html";s:4:"d37a";s:23:"apidocs/typo3_lang.html";s:4:"eb26";s:27:"apidocs/typo3_template.html";s:4:"d160";s:19:"apidocs/CVS/Entries";s:4:"a7f6";s:22:"apidocs/CVS/Repository";s:4:"bf8e";s:16:"apidocs/CVS/Root";s:4:"a97b";}',
+	'_md5_values_when_last_written' => 'a:49:{s:9:"ChangeLog";s:4:"7af2";s:31:"class.tx_realty_configcheck.php";s:4:"ea00";s:21:"ext_conf_template.txt";s:4:"5d5d";s:12:"ext_icon.gif";s:4:"f073";s:17:"ext_localconf.php";s:4:"063e";s:14:"ext_tables.php";s:4:"10a3";s:14:"ext_tables.sql";s:4:"eca7";s:13:"locallang.xml";s:4:"91cd";s:16:"locallang_db.xml";s:4:"40fc";s:7:"tca.php";s:4:"0763";s:8:"todo.txt";s:4:"c7b3";s:27:"lib/tx_realty_constants.php";s:4:"a1ee";s:40:"icons/icon_tx_realty_apartment_types.gif";s:4:"d517";s:35:"icons/icon_tx_realty_car_places.gif";s:4:"bb75";s:31:"icons/icon_tx_realty_cities.gif";s:4:"bfc0";s:35:"icons/icon_tx_realty_conditions.gif";s:4:"c6d7";s:34:"icons/icon_tx_realty_districts.gif";s:4:"5fc7";s:38:"icons/icon_tx_realty_heating_types.gif";s:4:"e16f";s:36:"icons/icon_tx_realty_house_types.gif";s:4:"e878";s:31:"icons/icon_tx_realty_images.gif";s:4:"e1a6";s:34:"icons/icon_tx_realty_images__h.gif";s:4:"a067";s:30:"icons/icon_tx_realty_items.gif";s:4:"475a";s:32:"icons/icon_tx_realty_objects.gif";s:4:"f073";s:35:"icons/icon_tx_realty_objects__h.gif";s:4:"a523";s:29:"icons/icon_tx_realty_pets.gif";s:4:"57cd";s:32:"tests/tx_realty_pi1_testcase.php";s:4:"58d6";s:14:"doc/manual.sxw";s:4:"6e05";s:14:"pi1/ce_wiz.gif";s:4:"fe10";s:27:"pi1/class.tx_realty_pi1.php";s:4:"c77a";s:35:"pi1/class.tx_realty_pi1_wizicon.php";s:4:"003b";s:23:"pi1/flexform_pi1_ds.xml";s:4:"4245";s:17:"pi1/locallang.xml";s:4:"4d5a";s:25:"pi1/tx_realty_pi1.tpl.css";s:4:"051c";s:25:"pi1/tx_realty_pi1.tpl.htm";s:4:"286a";s:33:"pi1/images/button_act_bg_left.png";s:4:"576e";s:34:"pi1/images/button_act_bg_right.png";s:4:"b2d7";s:29:"pi1/images/button_bg_left.png";s:4:"43d8";s:30:"pi1/images/button_bg_right.png";s:4:"63f6";s:30:"pi1/images/cityselector_bg.png";s:4:"11bc";s:32:"pi1/images/cityselector_head.png";s:4:"4106";s:24:"pi1/images/fav_arrow.png";s:4:"de5e";s:25:"pi1/images/fav_button.png";s:4:"a879";s:23:"pi1/images/page_act.png";s:4:"02fe";s:22:"pi1/images/page_no.png";s:4:"a172";s:28:"pi1/images/search_button.png";s:4:"0f4c";s:26:"pi1/images/sort_button.png";s:4:"f8da";s:24:"pi1/static/constants.txt";s:4:"acd8";s:24:"pi1/static/editorcfg.txt";s:4:"7c17";s:20:"pi1/static/setup.txt";s:4:"e537";}',
 );
 
 ?>
