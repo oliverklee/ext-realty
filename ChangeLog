@@ -1,3 +1,11 @@
+2008-07-20 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* Released version 0.2.1
+
+2008-07-20 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1976] Fix: add some missing DB changes
+
 2008-07-14 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* Released version 0.2.0
