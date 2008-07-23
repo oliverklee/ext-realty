@@ -31,9 +31,9 @@ $TCA['tx_realty_objects'] = array(
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
 					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -42,24 +42,24 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_objects',
-				'foreign_table_where' => 'AND tx_realty_objects.pid=###CURRENT_PID### AND tx_realty_objects.sys_language_uid IN (-1,0)',
-			)
+				'foreign_table_where' => 'AND tx_realty_objects.pid=###CURRENT_PID### AND tx_realty_objects.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
-			)
+				'type' => 'passthrough',
+			),
 		),
 		'hidden' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
-				'default' => '0'
-			)
+				'default' => '0',
+			),
 		),
 		'starttime' => array(
 			'exclude' => 1,
@@ -70,8 +70,8 @@ $TCA['tx_realty_objects'] = array(
 				'max' => '20',
 				'eval' => 'date',
 				'default' => '0',
-				'checkbox' => '0'
-			)
+				'checkbox' => '0',
+			),
 		),
 		'endtime' => array(
 			'exclude' => 1,
@@ -85,9 +85,9 @@ $TCA['tx_realty_objects'] = array(
 				'default' => '0',
 				'range' => array(
 					'upper' => mktime(0, 0, 0, 12, 31, 2020),
-					'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'))
-				)
-			)
+					'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y')),
+				),
+			),
 		),
 		'object_number' => array(
 			'exclude' => 1,
@@ -95,8 +95,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'object_type' => array(
 			'exclude' => 1,
@@ -105,9 +105,9 @@ $TCA['tx_realty_objects'] = array(
 				'type' => 'radio',
 				'items' => array(
 					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.0', '0'),
-					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1', '1')
-				)
-			)
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1', '1'),
+				),
+			),
 		),
 		'title' => array(
 			'exclude' => 0,
@@ -115,15 +115,15 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required,trim'
-			)
+				'eval' => 'required,trim',
+			),
 		),
 		'emphasized' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'street' => array(
 			'exclude' => 0,
@@ -131,8 +131,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'zip' => array(
 			'exclude' => 0,
@@ -141,8 +141,8 @@ $TCA['tx_realty_objects'] = array(
 				'type' => 'input',
 				'size' => '5',
 				'max' => '5',
-				'eval' => 'num'
-			)
+				'eval' => 'num',
+			),
 		),
 		'city' => array(
 			'exclude' => 0,
@@ -164,9 +164,9 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_cities',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
-						'script' => 'wizard_add.php'
+						'script' => 'wizard_add.php',
 					),
 					'edit' => array(
 						'type' => 'popup',
@@ -174,10 +174,10 @@ $TCA['tx_realty_objects'] = array(
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'district' => array(
 			'exclude' => 0,
@@ -185,7 +185,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_districts',
 				'foreign_table_where' => 'AND tx_realty_districts.pid=###STORAGE_PID### ORDER BY tx_realty_districts.title',
@@ -202,7 +202,7 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_districts',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
 						'script' => 'wizard_add.php',
 					),
@@ -213,9 +213,9 @@ $TCA['tx_realty_objects'] = array(
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
 						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					)
-				)
-			)
+					),
+				),
+			),
 		),
 		'country' => array(
 			'exclude' => 1,
@@ -229,8 +229,8 @@ $TCA['tx_realty_objects'] = array(
 				'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
 				'size' => 1,
 				'minitems' => 0,
-				'maxitems' => 1
-			)
+				'maxitems' => 1,
+			),
 		),
 		'exact_coordinates_are_cached' => array(
 			'exclude' => 1,
@@ -245,8 +245,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '19',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'exact_latitude' => array(
 			'exclude' => 1,
@@ -254,15 +254,15 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '19',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'rough_coordinates_are_cached' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_coordinates_are_cached',
 			'config' => array(
 				'type' => 'check',
-			)
+			),
 		),
 		'rough_longitude' => array(
 			'exclude' => 1,
@@ -270,8 +270,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '19',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'rough_latitude' => array(
 			'exclude' => 1,
@@ -279,8 +279,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '19',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'number_of_rooms' => array(
 			'exclude' => 0,
@@ -288,8 +288,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'living_area' => array(
 			'exclude' => 0,
@@ -297,8 +297,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'total_area' => array(
 			'exclude' => 0,
@@ -306,8 +306,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'estate_size' => array(
 			'exclude' => 1,
@@ -315,8 +315,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'rent_excluding_bills' => array(
 			'exclude' => 0,
@@ -324,8 +324,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'extra_charges' => array(
 			'exclude' => 0,
@@ -333,15 +333,15 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'heating_included' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'deposit' => array(
 			'exclude' => 0,
@@ -349,8 +349,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'provision' => array(
 			'exclude' => 0,
@@ -358,8 +358,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'usable_from' => array(
 			'exclude' => 0,
@@ -367,8 +367,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'buying_price' => array(
 			'exclude' => 0,
@@ -376,8 +376,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'hoa_fee' => array(
 			'exclude' => 1,
@@ -386,7 +386,7 @@ $TCA['tx_realty_objects'] = array(
 				'type' => 'input',
 				'size' => '7',
 				'eval' => 'double2',
-			)
+			),
 		),
 		'year_rent' => array(
 			'exclude' => 1,
@@ -394,15 +394,15 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'rented' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'apartment_type' => array(
 			'exclude' => 1,
@@ -427,9 +427,9 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_apartment_types',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
-						'script' => 'wizard_add.php'
+						'script' => 'wizard_add.php',
 					),
 					'edit' => array(
 						'type' => 'popup',
@@ -437,10 +437,10 @@ $TCA['tx_realty_objects'] = array(
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'house_type' => array(
 			'exclude' => 1,
@@ -448,7 +448,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_house_types',
 				'foreign_table_where' => 'AND tx_realty_house_types.pid=###STORAGE_PID### ORDER BY tx_realty_house_types.title',
@@ -465,9 +465,9 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_house_types',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
-						'script' => 'wizard_add.php'
+						'script' => 'wizard_add.php',
 					),
 					'edit' => array(
 						'type' => 'popup',
@@ -475,10 +475,10 @@ $TCA['tx_realty_objects'] = array(
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'floor' => array(
 			'exclude' => 0,
@@ -491,10 +491,10 @@ $TCA['tx_realty_objects'] = array(
 				'checkbox' => '0',
 				'range' => array(
 					'upper' => '99',
-					'lower' => '0'
+					'lower' => '0',
 				),
-				'default' => 0
-			)
+				'default' => 0,
+			),
 		),
 		'floors' => array(
 			'exclude' => 0,
@@ -507,10 +507,10 @@ $TCA['tx_realty_objects'] = array(
 				'checkbox' => '0',
 				'range' => array(
 					'upper' => '99',
-					'lower' => '0'
+					'lower' => '0',
 				),
-				'default' => 0
-			)
+				'default' => 0,
+			),
 		),
 		'bedrooms' => array(
 			'exclude' => 1,
@@ -523,10 +523,10 @@ $TCA['tx_realty_objects'] = array(
 				'checkbox' => '0',
 				'range' => array(
 					'upper' => '99',
-					'lower' => '0'
+					'lower' => '0',
 				),
-				'default' => 0
-			)
+				'default' => 0,
+			),
 		),
 		'bathrooms' => array(
 			'exclude' => 1,
@@ -539,10 +539,10 @@ $TCA['tx_realty_objects'] = array(
 				'checkbox' => '0',
 				'range' => array(
 					'upper' => '99',
-					'lower' => '0'
+					'lower' => '0',
 				),
-				'default' => 0
-			)
+				'default' => 0,
+			),
 		),
 		'heating_type' => array(
 			'exclude' => 0,
@@ -550,7 +550,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_heating_types',
 				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###STORAGE_PID### ORDER BY tx_realty_heating_types.title',
@@ -567,9 +567,9 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_heating_types',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
-						'script' => 'wizard_add.php'
+						'script' => 'wizard_add.php',
 					),
 					'edit' => array(
 						'type' => 'popup',
@@ -577,10 +577,10 @@ $TCA['tx_realty_objects'] = array(
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'garage_type' => array(
 			'exclude' => 1,
@@ -588,7 +588,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_car_places',
 				'foreign_table_where' => 'AND tx_realty_car_places.pid=###STORAGE_PID### ORDER BY tx_realty_car_places.title',
@@ -605,9 +605,9 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_car_places',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
-						'script' => 'wizard_add.php'
+						'script' => 'wizard_add.php',
 					),
 					'edit' => array(
 						'type' => 'popup',
@@ -615,10 +615,10 @@ $TCA['tx_realty_objects'] = array(
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'garage_rent' => array(
 			'exclude' => 1,
@@ -626,8 +626,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '5',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'garage_price' => array(
 			'exclude' => 1,
@@ -635,8 +635,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '6',
-				'eval' => 'double2'
-			)
+				'eval' => 'double2',
+			),
 		),
 		'pets' => array(
 			'exclude' => 1,
@@ -644,7 +644,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_pets',
 				'foreign_table_where' => 'AND tx_realty_pets.pid=###STORAGE_PID### ORDER BY tx_realty_pets.title',
@@ -661,9 +661,9 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_pets',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
-						'script' => 'wizard_add.php'
+						'script' => 'wizard_add.php',
 					),
 					'edit' => array(
 						'type' => 'popup',
@@ -671,10 +671,10 @@ $TCA['tx_realty_objects'] = array(
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'construction_year' => array(
 			'exclude' => 1,
@@ -687,10 +687,10 @@ $TCA['tx_realty_objects'] = array(
 				'checkbox' => '0',
 				'range' => array(
 					'upper' => '2100',
-					'lower' => '1400'
+					'lower' => '1400',
 				),
-				'default' => 0
-			)
+				'default' => 0,
+			),
 		),
 		'old_or_new_building' => array(
 			'exclude' => 1,
@@ -700,9 +700,9 @@ $TCA['tx_realty_objects'] = array(
 				'items' => array(
 					array('', '0'),
 					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.1', '1'),
-					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.2', '2')
-				)
-			)
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.2', '2'),
+				),
+			),
 		),
 		'state' => array(
 			'exclude' => 1,
@@ -710,7 +710,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_conditions',
 				'foreign_table_where' => 'AND tx_realty_conditions.pid=###STORAGE_PID### ORDER BY tx_realty_conditions.title',
@@ -727,9 +727,9 @@ $TCA['tx_realty_objects'] = array(
 						'params' => array(
 							'table'=>'tx_realty_conditions',
 							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend'
+							'setValue' => 'prepend',
 						),
-						'script' => 'wizard_add.php'
+						'script' => 'wizard_add.php',
 					),
 					'edit' => array(
 						'type' => 'popup',
@@ -737,52 +737,52 @@ $TCA['tx_realty_objects'] = array(
 						'script' => 'wizard_edit.php',
 						'popup_onlyOpenIfSelected' => 1,
 						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'balcony' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'garden' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garden',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'elevator' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.elevator',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'accessible' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.accessible',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'assisted_living' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.assisted_living',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'fitted_kitchen' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen',
 			'config' => array(
-				'type' => 'check'
-			)
+				'type' => 'check',
+			),
 		),
 		'description' => array(
 			'exclude' => 0,
@@ -790,8 +790,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5'
-			)
+				'rows' => '5',
+			),
 		),
 		'equipment' => array(
 			'exclude' => 1,
@@ -799,8 +799,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5'
-			)
+				'rows' => '5',
+			),
 		),
 		'layout' => array(
 			'exclude' => 0,
@@ -808,8 +808,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '3'
-			)
+				'rows' => '3',
+			),
 		),
 		'location' => array(
 			'exclude' => 0,
@@ -817,8 +817,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5'
-			)
+				'rows' => '5',
+			),
 		),
 		'misc' => array(
 			'exclude' => 1,
@@ -826,8 +826,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
-				'rows' => '5'
-			)
+				'rows' => '5',
+			),
 		),
 		'details_page' => array(
 			'exclude' => 1,
@@ -845,10 +845,10 @@ $TCA['tx_realty_objects'] = array(
 						'title' => 'Link',
 						'icon' => 'link_popup.gif',
 						'script' => 'browse_links.php?mode=wizard',
-						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
+						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+					),
+				),
+			),
 		),
 		'images' => array(
 			'exclude' => 1,
@@ -865,7 +865,7 @@ $TCA['tx_realty_objects'] = array(
 					'newRecordLinkAddTitle' => 1,
 					'newRecordLinkPosition' => 'bottom',
 				),
-			)
+			),
 		),
 		'employer' => array (
 			'exclude' => 1,
@@ -873,8 +873,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'openimmo_anid' => array(
 			'exclude' => 1,
@@ -882,8 +882,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'openimmo_obid' => array(
 			'exclude' => 1,
@@ -891,8 +891,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'utilization' => array(
 			'exclude' => 1,
@@ -900,8 +900,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'contact_data_source' => array(
 			'exclude' => 1,
@@ -910,9 +910,9 @@ $TCA['tx_realty_objects'] = array(
 				'type' => 'radio',
 				'items' => array(
 					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.0', '0'),
-					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.1', '1')
-				)
-			)
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.1', '1'),
+				),
+			),
 		),
 		'contact_person' => array(
 			'exclude' => 1,
@@ -920,8 +920,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'contact_email' => array(
 			'exclude' => 1,
@@ -929,8 +929,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'contact_phone' => array(
 			'exclude' => 1,
@@ -938,8 +938,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'owner' => array(
 			'exclude' => 1,
@@ -950,8 +950,8 @@ $TCA['tx_realty_objects'] = array(
 				'allowed' => 'fe_users',
 				'size' => 1,
 				'minitems' => 0,
-				'maxitems' => 1
-			)
+				'maxitems' => 1,
+			),
 		),
 		'language' => array(
 			'exclude' => 1,
@@ -959,8 +959,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => 5,
-				'eval' => 'trim'
-			)
+				'eval' => 'trim',
+			),
 		),
 		'currency' => array(
 			'exclude' => 1,
@@ -969,7 +969,7 @@ $TCA['tx_realty_objects'] = array(
 				'type' => 'input',
 				'size' => 10,
 				'eval' => 'trim',
-			)
+			),
 		),
 	),
 	'types' => array(
@@ -1047,7 +1047,7 @@ $TCA['tx_realty_objects'] = array(
 		'1' => array('showitem' => 'starttime, endtime'),
 		'2' => array('showitem' => 'exact_longitude, exact_latitude'),
 		'3' => array('showitem' => 'rough_longitude, rough_latitude'),
-	)
+	),
 );
 
 
@@ -1066,10 +1066,10 @@ $TCA['tx_realty_apartment_types'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1078,15 +1078,15 @@ $TCA['tx_realty_apartment_types'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_apartment_types',
-				'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###CURRENT_PID### AND tx_realty_apartment_types.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###CURRENT_PID### AND tx_realty_apartment_types.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'title' => array(
@@ -1095,15 +1095,15 @@ $TCA['tx_realty_apartment_types'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
-		)
+				'eval' => 'required',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'1' => array('showitem' => ''),
 	)
 );
 
@@ -1123,10 +1123,10 @@ $TCA['tx_realty_house_types'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1135,15 +1135,15 @@ $TCA['tx_realty_house_types'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_house_types',
-				'foreign_table_where' => 'AND tx_realty_house_types.pid=###CURRENT_PID### AND tx_realty_house_types.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_house_types.pid=###CURRENT_PID### AND tx_realty_house_types.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'title' => array(
@@ -1152,15 +1152,15 @@ $TCA['tx_realty_house_types'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
-		)
+				'eval' => 'required',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'1' => array('showitem' => ''),
 	)
 );
 
@@ -1180,10 +1180,10 @@ $TCA['tx_realty_heating_types'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1192,15 +1192,15 @@ $TCA['tx_realty_heating_types'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_heating_types',
-				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###CURRENT_PID### AND tx_realty_heating_types.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###CURRENT_PID### AND tx_realty_heating_types.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'title' => array(
@@ -1209,15 +1209,15 @@ $TCA['tx_realty_heating_types'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
-		)
+				'eval' => 'required',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'1' => array('showitem' => ''),
 	)
 );
 
@@ -1236,10 +1236,10 @@ $TCA['tx_realty_car_places'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1251,12 +1251,12 @@ $TCA['tx_realty_car_places'] = array(
 					array('', 0)
 				),
 				'foreign_table' => 'tx_realty_car_places',
-				'foreign_table_where' => 'AND tx_realty_car_places.pid=###CURRENT_PID### AND tx_realty_car_places.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_car_places.pid=###CURRENT_PID### AND tx_realty_car_places.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'title' => array(
@@ -1265,15 +1265,15 @@ $TCA['tx_realty_car_places'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
-		)
+				'eval' => 'required',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'1' => array('showitem' => ''),
 	)
 );
 
@@ -1293,10 +1293,10 @@ $TCA['tx_realty_pets'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1305,15 +1305,15 @@ $TCA['tx_realty_pets'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_pets',
-				'foreign_table_where' => 'AND tx_realty_pets.pid=###CURRENT_PID### AND tx_realty_pets.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_pets.pid=###CURRENT_PID### AND tx_realty_pets.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'title' => array(
@@ -1322,15 +1322,15 @@ $TCA['tx_realty_pets'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
-		)
+				'eval' => 'required',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'1' => array('showitem' => ''),
 	)
 );
 
@@ -1350,10 +1350,10 @@ $TCA['tx_realty_conditions'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1362,15 +1362,15 @@ $TCA['tx_realty_conditions'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_conditions',
-				'foreign_table_where' => 'AND tx_realty_conditions.pid=###CURRENT_PID### AND tx_realty_conditions.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_conditions.pid=###CURRENT_PID### AND tx_realty_conditions.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'title' => array(
@@ -1379,15 +1379,15 @@ $TCA['tx_realty_conditions'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
-		)
+				'eval' => 'required',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'1' => array('showitem' => ''),
 	)
 );
 
@@ -1405,10 +1405,10 @@ $TCA['tx_realty_images'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1417,15 +1417,15 @@ $TCA['tx_realty_images'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_images',
-				'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### AND tx_realty_images.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_images.pid=###CURRENT_PID### AND tx_realty_images.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'hidden' => array(
@@ -1433,8 +1433,8 @@ $TCA['tx_realty_images'] = array(
 			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
-				'default' => '0'
-			)
+				'default' => '0',
+			),
 		),
 		'caption' => array(
 			'exclude' => 0,
@@ -1442,8 +1442,8 @@ $TCA['tx_realty_images'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
+				'eval' => 'required',
+			),
 		),
 		'image' => array(
 			'exclude' => 0,
@@ -1457,16 +1457,16 @@ $TCA['tx_realty_images'] = array(
 				'show_thumbs' => 1,
 				'size' => 1,
 				'minitems' => 0,
-				'maxitems' => 1
-			)
-		)
+				'maxitems' => 1,
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, caption, image')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, caption, image'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
-	)
+		'1' => array('showitem' => ''),
+	),
 );
 
 
@@ -1485,10 +1485,10 @@ $TCA['tx_realty_cities'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1497,16 +1497,16 @@ $TCA['tx_realty_cities'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_cities',
-				'foreign_table_where' => 'AND tx_realty_cities.pid=###CURRENT_PID### AND tx_realty_cities.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_cities.pid=###CURRENT_PID### AND tx_realty_cities.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
-			)
+				'type' => 'passthrough',
+			),
 		),
 		'title' => array(
 			'exclude' => 0,
@@ -1514,8 +1514,8 @@ $TCA['tx_realty_cities'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
+				'eval' => 'required',
+			),
 		),
 		'save_folder' => array(
 			'exclude' => 1,
@@ -1526,15 +1526,15 @@ $TCA['tx_realty_cities'] = array(
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-			)
-		)
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2, save_folder')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2, save_folder'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
-	)
+		'1' => array('showitem' => ''),
+	),
 );
 
 
@@ -1553,10 +1553,10 @@ $TCA['tx_realty_districts'] = array(
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
 				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages',-1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value',0)
-				)
-			)
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
 		),
 		'l18n_parent' => array(
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -1565,15 +1565,15 @@ $TCA['tx_realty_districts'] = array(
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0)
+					array('', 0),
 				),
 				'foreign_table' => 'tx_realty_districts',
-				'foreign_table_where' => 'AND tx_realty_districts.pid=###CURRENT_PID### AND tx_realty_districts.sys_language_uid IN (-1,0)'
-			)
+				'foreign_table_where' => 'AND tx_realty_districts.pid=###CURRENT_PID### AND tx_realty_districts.sys_language_uid IN (-1, 0)',
+			),
 		),
 		'l18n_diffsource' => array(
 			'config' => array(
-				'type' => 'passthrough'
+				'type' => 'passthrough',
 			)
 		),
 		'title' => array(
@@ -1582,15 +1582,15 @@ $TCA['tx_realty_districts'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required'
-			)
-		)
+				'eval' => 'required',
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2')
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
 	),
 	'palettes' => array(
-		'1' => array('showitem' => '')
+		'1' => array('showitem' => ''),
 	)
 );
 ?>
