@@ -200,7 +200,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			false,
 			'',
 			'This value specifies the currency of displayed prices. ' .
-				'If this value is empty, prices will be displayed without a '. 
+				'If this value is empty, prices will be displayed without a '.
 				'currency.'
 		);
 	}
