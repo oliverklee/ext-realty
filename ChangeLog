@@ -1,3 +1,7 @@
+2008-07-29 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* Released version 0.2.2
+
 2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
