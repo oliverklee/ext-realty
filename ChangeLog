@@ -1,6 +1,6 @@
 2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
 
-	* [#2024] Change: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
+	* [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
 
 2008-07-20 Oliver Klee  <typo3-coding@oliverklee.de>
 
