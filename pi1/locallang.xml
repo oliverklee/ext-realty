@@ -38,8 +38,8 @@
 			<label index="label_garden_short">Garden (usage)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">elevator</label>
-			<label index="label_accessible">Accessible</label>
-			<label index="label_accessible_short">accessible</label>
+			<label index="label_barrier_free">Accessible</label>
+			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
 			<label index="label_assisted_living_short">assisted living</label>
 			<label index="label_fitted_kitchen">Fitted kitchen</label>
@@ -145,8 +145,8 @@
 			<label index="label_garden_short">Garten</label>
 			<label index="label_elevator">Personenaufzug</label>
 			<label index="label_elevator_short">Personenaufzug</label>
-			<label index="label_accessible">Rollstuhlgerecht</label>
-			<label index="label_accessible_short">rollstuhlgerecht</label>
+			<label index="label_barrier_free">Rollstuhlgerecht</label>
+			<label index="label_barrier_free_short">rollstuhlgerecht</label>
 			<label index="label_assisted_living">Betreutes Wohnen</label>
 			<label index="label_assisted_living_short">betreutes Wohnen</label>
 			<label index="label_fitted_kitchen">Einbauküche</label>
@@ -251,8 +251,8 @@
 			<label index="label_garden_short">Tuin</label>
 			<label index="label_elevator">Lift</label>
 			<label index="label_elevator_short">Lift</label>
-			<label index="label_accessible">Rolstoelvoorzieningen</label>
-			<label index="label_accessible_short">rolstoelvoorzieningen</label>
+			<label index="label_barrier_free">Rolstoelvoorzieningen</label>
+			<label index="label_barrier_free_short">rolstoelvoorzieningen</label>
 			<label index="label_assisted_living">Aanleunwoning</label>
 			<label index="label_assisted_living_short">Aanleunwoning</label>
 			<label index="label_fitted_kitchen">Keuken</label>
@@ -352,8 +352,8 @@
 			<label index="label_garden_short">Have (udnyttet)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">Elevator</label>
-			<label index="label_accessible">Handicapvenligt</label>
-			<label index="label_accessible_short">handicapvenligt</label>
+			<label index="label_barrier_free">Handicapvenligt</label>
+			<label index="label_barrier_free_short">handicapvenligt</label>
 			<label index="label_assisted_living">Hjælpe ældre og handikappede i hjemmet (Assisted Living)</label>
 			<label index="label_assisted_living_short">Assisted Living</label>
 			<label index="label_fitted_kitchen">Køkken</label>
@@ -455,8 +455,8 @@
 			<label index="label_garden_short">Сад (общий)</label>
 			<label index="label_elevator">Лифт</label>
 			<label index="label_elevator_short">лифт</label>
-			<label index="label_accessible">Удобства</label>
-			<label index="label_accessible_short">удобства</label>
+			<label index="label_barrier_free">Удобства</label>
+			<label index="label_barrier_free_short">удобства</label>
 			<label index="label_assisted_living">С обслуживанием</label>
 			<label index="label_assisted_living_short">с обслуживанием</label>
 			<label index="label_fitted_kitchen">Совместная кухня</label>
@@ -562,8 +562,8 @@
 			<label index="label_garden_short" type="integer">237814086</label>
 			<label index="label_elevator" type="integer">157509981</label>
 			<label index="label_elevator_short" type="integer">93473220</label>
-			<label index="label_accessible" type="integer">184564619</label>
-			<label index="label_accessible_short" type="integer">79575979</label>
+			<label index="label_barrier_free" type="integer">184564619</label>
+			<label index="label_barrier_free_short" type="integer">79575979</label>
 			<label index="label_assisted_living" type="integer">208122748</label>
 			<label index="label_assisted_living_short" type="integer">119969606</label>
 			<label index="label_fitted_kitchen" type="integer">82838765</label>
@@ -668,8 +668,8 @@
 			<label index="label_garden_short" type="integer">237814086</label>
 			<label index="label_elevator" type="integer">157509981</label>
 			<label index="label_elevator_short" type="integer">93473220</label>
-			<label index="label_accessible" type="integer">184564619</label>
-			<label index="label_accessible_short" type="integer">79575979</label>
+			<label index="label_barrier_free" type="integer">184564619</label>
+			<label index="label_barrier_free_short" type="integer">79575979</label>
 			<label index="label_assisted_living" type="integer">208122748</label>
 			<label index="label_assisted_living_short" type="integer">119969606</label>
 			<label index="label_fitted_kitchen" type="integer">82838765</label>
@@ -769,8 +769,8 @@
 			<label index="label_garden_short" type="integer">237814086</label>
 			<label index="label_elevator" type="integer">157509981</label>
 			<label index="label_elevator_short" type="integer">93473220</label>
-			<label index="label_accessible" type="integer">184564619</label>
-			<label index="label_accessible_short" type="integer">79575979</label>
+			<label index="label_barrier_free" type="integer">184564619</label>
+			<label index="label_barrier_free_short" type="integer">79575979</label>
 			<label index="label_assisted_living" type="integer">208122748</label>
 			<label index="label_assisted_living_short" type="integer">119969606</label>
 			<label index="label_fitted_kitchen" type="integer">82838765</label>
@@ -872,8 +872,8 @@
 			<label index="label_garden_short" type="integer">237814086</label>
 			<label index="label_elevator" type="integer">157509981</label>
 			<label index="label_elevator_short" type="integer">93473220</label>
-			<label index="label_accessible" type="integer">184564619</label>
-			<label index="label_accessible_short" type="integer">79575979</label>
+			<label index="label_barrier_free" type="integer">184564619</label>
+			<label index="label_barrier_free_short" type="integer">79575979</label>
 			<label index="label_assisted_living" type="integer">208122748</label>
 			<label index="label_assisted_living_short" type="integer">119969606</label>
 			<label index="label_fitted_kitchen" type="integer">82838765</label>
@@ -976,8 +976,8 @@
 			<label index="label_garden_short">Garden (usage)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">elevator</label>
-			<label index="label_accessible">Accessible</label>
-			<label index="label_accessible_short">accessible</label>
+			<label index="label_barrier_free">Accessible</label>
+			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
 			<label index="label_assisted_living_short">assisted living</label>
 			<label index="label_fitted_kitchen">Fitted kitchen</label>
@@ -1082,8 +1082,8 @@
 			<label index="label_garden_short">Garden (usage)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">elevator</label>
-			<label index="label_accessible">Accessible</label>
-			<label index="label_accessible_short">accessible</label>
+			<label index="label_barrier_free">Accessible</label>
+			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
 			<label index="label_assisted_living_short">assisted living</label>
 			<label index="label_fitted_kitchen">Fitted kitchen</label>
@@ -1183,8 +1183,8 @@
 			<label index="label_garden_short">Garden (usage)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">elevator</label>
-			<label index="label_accessible">Accessible</label>
-			<label index="label_accessible_short">accessible</label>
+			<label index="label_barrier_free">Accessible</label>
+			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
 			<label index="label_assisted_living_short">assisted living</label>
 			<label index="label_fitted_kitchen">Fitted kitchen</label>
@@ -1286,8 +1286,8 @@
 			<label index="label_garden_short">Garden (usage)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">elevator</label>
-			<label index="label_accessible">Accessible</label>
-			<label index="label_accessible_short">accessible</label>
+			<label index="label_barrier_free">Accessible</label>
+			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
 			<label index="label_assisted_living_short">assisted living</label>
 			<label index="label_fitted_kitchen">Fitted kitchen</label>
