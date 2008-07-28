@@ -1,10 +1,10 @@
 2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
 
-	* [#2024] Change: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
+	* [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
 
 2008-07-17 Saskia Metzler <saskia@merlin.owl.de>
 
-	* [#1983] Change: Use the image's file name as title if no title is provided
+	* [#1983] Fix: Use the image's file name as title if no title is provided
 
 2008-07-15 Saskia Metzler <saskia@merlin.owl.de>
 
