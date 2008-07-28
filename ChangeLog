@@ -1,3 +1,7 @@
+2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#2024] Change: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
+
 2008-07-15 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#2009] Fix: Test failure: testGetRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid

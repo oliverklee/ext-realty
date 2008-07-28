@@ -118,7 +118,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'balcony' => TYPE_BOOLEAN,
 		'garden' => TYPE_BOOLEAN,
 		'elevator' => TYPE_BOOLEAN,
-		'accessible' => TYPE_BOOLEAN,
+		'barrier_free' => TYPE_BOOLEAN,
 		'assisted_living' => TYPE_BOOLEAN,
 		'fitted_kitchen' => TYPE_BOOLEAN,
 		'description' => TYPE_STRING,
@@ -1257,7 +1257,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Gets a comma-separated short list of important features of the current
 	 * realty object:
 	 * DB relations: apartment_type, house_type, heating_type, garage_type
-	 * boolean: balcony, garden, elevator, accessible, assisted_living, fitted_kitchen
+	 * boolean: balcony, garden, elevator, barrier_free, assisted_living,
+	 * fitted_kitchen
 	 * integer: year of construction, first possible usage date, object number
 	 *
 	 * @return	string		comma-separated list of features
@@ -1273,7 +1274,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		// get features set with (boolean) checkboxes
-		foreach (array('balcony', 'garden', 'elevator', 'accessible', 'assisted_living', 'fitted_kitchen') as $key) {
+		foreach (array(
+			'balcony', 'garden', 'elevator', 'barrier_free',
+			'assisted_living', 'fitted_kitchen',)
+		as $key) {
 			if ($this->internal['currentRow'][$key]) {
 				$features[] = ($this->pi_getLL('label_'.$key.'_short') != '')
 					? $this->pi_getLL('label_'.$key.'_short')

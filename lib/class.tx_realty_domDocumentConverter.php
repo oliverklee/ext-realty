@@ -81,7 +81,7 @@ class tx_realty_domDocumentConverter {
 		'construction_year' => array('zustand_angaben' => 'baujahr'),
 		'balcony' => array('flaechen' => 'anzahl_balkon_terrassen'),
 		'garden' => array('ausstattung' => 'gartennutzung'),
-		'accessible' => array('ausstattung' => 'rollstuhlgerecht'),
+		'barrier_free' => array('ausstattung' => 'rollstuhlgerecht'),
 		'description' => array('freitexte' => 'objektbeschreibung'),
 		'equipment' => array('freitexte' => 'ausstatt_beschr'),
 		'location' => array('freitexte' => 'lage'),

@@ -14,7 +14,7 @@ $TCA['tx_realty_objects'] = array(
 			'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,' .
 			'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,' .
 			'construction_year,old_or_new_building,state,balcony,garden,elevator,' .
-			'accessible,assisted_living,fitted_kitchen,description,equipment,' .
+			'barrier_free,assisted_living,fitted_kitchen,description,equipment,' .
 			'layout,location,misc,details_page,images,employer,openimmo_anid,' .
 			'openimmo_obid,utilization,contact_data_source,contact_person,' .
 			'contact_email,contact_phone,owner,language'
@@ -687,9 +687,9 @@ $TCA['tx_realty_objects'] = array(
 				'type' => 'check',
 			),
 		),
-		'accessible' => array(
+		'barrier_free' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.accessible',
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.barrier_free',
 			'config' => array(
 				'type' => 'check',
 			),
@@ -898,7 +898,7 @@ $TCA['tx_realty_objects'] = array(
 				'apartment_type, house_type, floor, floors, bedrooms, ' .
 				'bathrooms, heating_type, garage_type, garage_rent, pets, ' .
 				'construction_year, old_or_new_building, state, balcony, garden, ' .
-				'elevator, accessible, assisted_living, fitted_kitchen, ' .
+				'elevator, barrier_free, assisted_living, fitted_kitchen, ' .
 				'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
 					'bold|italic|underline|left|center|right|orderedlist|' .
 					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
@@ -929,7 +929,7 @@ $TCA['tx_realty_objects'] = array(
 				'year_rent, rented, apartment_type, house_type, floor, floors, ' .
 				'bedrooms, bathrooms, heating_type, garage_type, garage_price, ' .
 				'construction_year, old_or_new_building, state, balcony, garden, ' .
-				'elevator, accessible, fitted_kitchen, ' .
+				'elevator, barrier_free, fitted_kitchen, ' .
 				'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
 					'bold|italic|underline|left|center|right|orderedlist|' .
 					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .

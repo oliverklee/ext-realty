@@ -62,7 +62,7 @@ CREATE TABLE tx_realty_objects (
 	balcony tinyint(3) DEFAULT '0' NOT NULL,
 	garden tinyint(3) DEFAULT '0' NOT NULL,
 	elevator tinyint(3) DEFAULT '0' NOT NULL,
-	accessible tinyint(3) DEFAULT '0' NOT NULL,
+	barrier_free tinyint(3) DEFAULT '0' NOT NULL,
 	assisted_living tinyint(3) DEFAULT '0' NOT NULL,
 	fitted_kitchen tinyint(3) DEFAULT '0' NOT NULL,
 	description text NOT NULL,

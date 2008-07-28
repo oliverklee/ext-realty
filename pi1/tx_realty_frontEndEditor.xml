@@ -782,7 +782,7 @@
 		<renderlet:CHECKSINGLE name="balcony" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony"/>
 		<renderlet:CHECKSINGLE name="garden" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garden"/>
 		<renderlet:CHECKSINGLE name="elevator" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.elevator"/>
-		<renderlet:CHECKSINGLE name="accessible" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.accessible"/>
+		<renderlet:CHECKSINGLE name="barrier_free" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.barrier_free"/>
 		<renderlet:CHECKSINGLE name="assisted_living" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.assisted_living"/>
 		<renderlet:TEXTAREA name="equipment" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.equipment"/>
 

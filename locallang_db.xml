@@ -51,7 +51,7 @@
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
-			<label index="tx_realty_objects.accessible">Accessible</label>
+			<label index="tx_realty_objects.barrier_free">Accessible</label>
 			<label index="tx_realty_objects.assisted_living">Assisted living</label>
 			<label index="tx_realty_objects.fitted_kitchen">Fitted kitchen</label>
 			<label index="tx_realty_objects.description">Description</label>
@@ -142,7 +142,7 @@
 			<label index="tx_realty_objects.balcony">Balkon/Terrasse</label>
 			<label index="tx_realty_objects.garden">Garten(-mitbenutzung)</label>
 			<label index="tx_realty_objects.elevator">Personenaufzug</label>
-			<label index="tx_realty_objects.accessible">Rollstuhlgerecht</label>
+			<label index="tx_realty_objects.barrier_free">Rollstuhlgerecht</label>
 			<label index="tx_realty_objects.assisted_living">Betreutes Wohnen</label>
 			<label index="tx_realty_objects.fitted_kitchen">Einbauküche</label>
 			<label index="tx_realty_objects.description">Beschreibung</label>
@@ -229,7 +229,7 @@
 			<label index="tx_realty_objects.balcony">Балкон/лоджия</label>
 			<label index="tx_realty_objects.garden">Сад</label>
 			<label index="tx_realty_objects.elevator">Лифт</label>
-			<label index="tx_realty_objects.accessible">Удобное месторасположение</label>
+			<label index="tx_realty_objects.barrier_free">Удобное месторасположение</label>
 			<label index="tx_realty_objects.assisted_living">Совместное проживание</label>
 			<label index="tx_realty_objects.fitted_kitchen">Оборудованная кухня</label>
 			<label index="tx_realty_objects.description">Описание</label>
@@ -300,7 +300,7 @@
 			<label index="tx_realty_objects.balcony">Balkon/Teras</label>
 			<label index="tx_realty_objects.garden">Bahçe (kullanılabilir)</label>
 			<label index="tx_realty_objects.elevator">Asansör</label>
-			<label index="tx_realty_objects.accessible">Özürlüler için uygunluk</label>
+			<label index="tx_realty_objects.barrier_free">Özürlüler için uygunluk</label>
 			<label index="tx_realty_objects.assisted_living">Özürlüler /Yaşlılar için bakım</label>
 			<label index="tx_realty_objects.fitted_kitchen">Hazır Mutfak</label>
 			<label index="tx_realty_objects.description">Açıklama</label>
@@ -377,7 +377,7 @@
 			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
 			<label index="tx_realty_objects.garden" type="integer">237814086</label>
 			<label index="tx_realty_objects.elevator" type="integer">157509981</label>
-			<label index="tx_realty_objects.accessible" type="integer">184564619</label>
+			<label index="tx_realty_objects.barrier_free" type="integer">184564619</label>
 			<label index="tx_realty_objects.assisted_living" type="integer">208122748</label>
 			<label index="tx_realty_objects.fitted_kitchen" type="integer">82838765</label>
 			<label index="tx_realty_objects.description" type="integer">190479069</label>
@@ -464,7 +464,7 @@
 			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
 			<label index="tx_realty_objects.garden" type="integer">237814086</label>
 			<label index="tx_realty_objects.elevator" type="integer">157509981</label>
-			<label index="tx_realty_objects.accessible" type="integer">184564619</label>
+			<label index="tx_realty_objects.barrier_free" type="integer">184564619</label>
 			<label index="tx_realty_objects.assisted_living" type="integer">208122748</label>
 			<label index="tx_realty_objects.fitted_kitchen" type="integer">82838765</label>
 			<label index="tx_realty_objects.description" type="integer">190479069</label>
@@ -535,7 +535,7 @@
 			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
 			<label index="tx_realty_objects.garden" type="integer">237814086</label>
 			<label index="tx_realty_objects.elevator" type="integer">157509981</label>
-			<label index="tx_realty_objects.accessible" type="integer">184564619</label>
+			<label index="tx_realty_objects.barrier_free" type="integer">184564619</label>
 			<label index="tx_realty_objects.assisted_living" type="integer">208122748</label>
 			<label index="tx_realty_objects.fitted_kitchen" type="integer">82838765</label>
 			<label index="tx_realty_objects.description" type="integer">190479069</label>
@@ -612,7 +612,7 @@
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
-			<label index="tx_realty_objects.accessible">Accessible</label>
+			<label index="tx_realty_objects.barrier_free">Accessible</label>
 			<label index="tx_realty_objects.assisted_living">Assisted living</label>
 			<label index="tx_realty_objects.fitted_kitchen">Fitted kitchen</label>
 			<label index="tx_realty_objects.description">Description</label>
@@ -699,7 +699,7 @@
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
-			<label index="tx_realty_objects.accessible">Accessible</label>
+			<label index="tx_realty_objects.barrier_free">Accessible</label>
 			<label index="tx_realty_objects.assisted_living">Assisted living</label>
 			<label index="tx_realty_objects.fitted_kitchen">Fitted kitchen</label>
 			<label index="tx_realty_objects.description">Description</label>
@@ -770,7 +770,7 @@
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
-			<label index="tx_realty_objects.accessible">Accessible</label>
+			<label index="tx_realty_objects.barrier_free">Accessible</label>
 			<label index="tx_realty_objects.assisted_living">Assisted living</label>
 			<label index="tx_realty_objects.fitted_kitchen">Fitted kitchen</label>
 			<label index="tx_realty_objects.description">Description</label>
