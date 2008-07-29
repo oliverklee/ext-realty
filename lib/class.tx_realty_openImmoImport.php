@@ -816,7 +816,7 @@ class tx_realty_openImmoImport {
 
 		$folderForZipExtraction = $this->getNameForExtractionFolder($pathOfZip);
 		if (!is_dir($folderForZipExtraction)) {
-			mkdir($folderForZipExtraction);
+			t3lib_div::mkdir($folderForZipExtraction);
 			$this->filesToDelete[] = $folderForZipExtraction;
 		} else {
 			$this->addToErrorLog(
@@ -1051,7 +1051,7 @@ class tx_realty_openImmoImport {
 	private function deleteFile($pathOfFile) {
 		$removedFile = '';
 		if (in_array($pathOfFile, $this->filesToDelete)) {
-			exec('rm -rf '.$pathOfFile);
+			self::rmdir($pathOfFile, true);
 			$removedFile = basename($pathOfFile);
 		}
 
@@ -1176,6 +1176,46 @@ class tx_realty_openImmoImport {
 		}
 
 		return $this->realtyObject->getRequiredFields();
+	}
+
+	/**
+	 * Wrapper function for rmdir, allowing recursive deletion of folders and files.
+	 *
+	 * Note: This function is copied from the TYPO3 4.2 core because it does not
+	 * exist in TYPO3 4.1. Thus it is not unit-tested and can be removed when
+	 * bug #2049 is fixed.
+	 *
+	 * @param	string		Absolute path to folder, see PHP rmdir() function.
+	 * 						Removes trailing slash internally.
+	 * @param	boolean		allow deletion of non-empty directories
+	 *
+	 * @return	boolean		true if @rmdir went well!
+	 */
+	public static function rmdir($path,$removeNonEmpty=false)	{
+		$OK = false;
+		$path = preg_replace('|/$|','',$path);	// Remove trailing slash
+
+		if (file_exists($path))	{
+			$OK = true;
+
+			if (is_dir($path))	{
+				if ($removeNonEmpty==true && $handle = opendir($path))	{
+					while ($OK && false !== ($file = readdir($handle)))	{
+						if ($file=='.' || $file=='..') continue;
+						$OK = self::rmdir($path.'/'.$file,$removeNonEmpty);
+					}
+					closedir($handle);
+				}
+				if ($OK)	{ $OK = rmdir($path); }
+
+			} else {	// If $dirname is a file, simply remove it
+				$OK = unlink($path);
+			}
+
+			clearstatcache();
+		}
+
+		return $OK;
 	}
 }
 
