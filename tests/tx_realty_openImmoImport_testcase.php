@@ -56,7 +56,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/** PID of the system folder where imported records will be stored */
 	private $systemFolderPid;
 	/** path to the import folder */
-	private static $importFolder = '/tmp/tx_realty_fixtures/';
+	private $importFolder;
 
 	/** whether an import folder has been created */
 	private $testImportFolderExists = false;
@@ -64,6 +64,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
+		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
 
 		$this->globalConfiguration= tx_oelib_configurationProxy::getInstance('realty');
 
@@ -101,7 +102,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 */
 	private function setupStaticConditions() {
 		// avoids using the extension's real upload folder
-		$this->fixture->setUploadDirectory(self::$importFolder);
+		$this->fixture->setUploadDirectory($this->importFolder);
 		$this->globalConfiguration->setConfigurationValueString(
 			'emailAddress', 'default-address@valid-email.org'
 		);
@@ -109,10 +110,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			'onlyErrors', false
 		);
 		$this->globalConfiguration->setConfigurationValueString(
-			'openImmoSchema', self::$importFolder.'schema.xsd'
+			'openImmoSchema', $this->importFolder . 'schema.xsd'
 		);
 		$this->globalConfiguration->setConfigurationValueString(
-			'importFolder', self::$importFolder
+			'importFolder', $this->importFolder
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'deleteZipsAfterImport', true
@@ -152,21 +153,20 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 *
 	 * @param	string		File or folder to copy. Must be a relative path to
 	 * 						existent files within the tests/fixtures/ folder.
-	 * 						Use '*' to copy all files following one pattern
-	 * 						(e.g. '*.zip' will copy all ZIP archives).
 	 * 						Leave empty to create an empty import folder.
 	 */
 	private function copyTestFileIntoImportFolder($fileName) {
 		// creates an import folder if there is none
-		if (t3lib_div::get_dirs(self::$importFolder) == 'error') {
-			t3lib_div::mkdir(self::$importFolder);
+		if (!is_dir($this->importFolder)) {
+			t3lib_div::mkdir($this->importFolder);
 		}
 		$this->testImportFolderExists = true;
 
 		if ($fileName != '') {
-			exec('cp -rf '.t3lib_extMgm::extPath('realty')
-				.'tests/fixtures/tx_realty_fixtures/'.$fileName.' '
-				.self::$importFolder
+			copy(
+				t3lib_extMgm::extPath('realty') .
+					'tests/fixtures/tx_realty_fixtures/' . $fileName,
+				$this->importFolder . basename($fileName)
 			);
 		}
 	}
@@ -177,7 +177,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 */
 	private function deleteTestImportFolder() {
 		if ($this->testImportFolderExists) {
-			exec('rm -rf '.self::$importFolder);
+			tx_realty_openImmoImport::rmdir($this->importFolder, true);
 			$this->testImportFolderExists = false;
 		}
 	}
@@ -200,11 +200,12 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////////
 
 	public function testGetPathsOfZipsToExtract() {
-		$this->copyTestFileIntoImportFolder('*.zip');
+		$this->copyTestFileIntoImportFolder('foo.zip');
+		$this->copyTestFileIntoImportFolder('bar.zip');
 
 		$this->assertEquals(
-			glob(self::$importFolder.'*.zip'),
-			$this->fixture->getPathsOfZipsToExtract(self::$importFolder)
+			glob($this->importFolder . '*.zip'),
+			$this->fixture->getPathsOfZipsToExtract($this->importFolder)
 		);
 	}
 
@@ -234,14 +235,14 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	public function testCreateExtractionFolderForExistingZip() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$dirName = $this->fixture->createExtractionFolder(
-			self::$importFolder.'foo.zip'
+			$this->importFolder . 'foo.zip'
 		);
 
 		$this->assertTrue(
-			is_dir(self::$importFolder.'foo/')
+			is_dir($this->importFolder . 'foo/')
 		);
 		$this->assertEquals(
-			self::$importFolder.'foo/',
+			$this->importFolder . 'foo/',
 			$dirName
 		);
 	}
@@ -249,11 +250,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	public function testCreateExtractionFolderForNonExistingZip() {
 		$this->copyTestFileIntoImportFolder('');
 		$dirName = $this->fixture->createExtractionFolder(
-			self::$importFolder.'foobar.zip'
+			$this->importFolder . 'foobar.zip'
 		);
 
 		$this->assertFalse(
-			is_dir(self::$importFolder.'foobar/')
+			is_dir($this->importFolder . 'foobar/')
 		);
 		$this->assertEquals(
 			'',
@@ -265,19 +266,19 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 
 		$this->assertTrue(
-			is_dir(self::$importFolder.'foo/')
+			is_dir($this->importFolder . 'foo/')
 		);
 	}
 
 	public function testExtractZipIfZipDoesNotExist() {
 		$this->copyTestFileIntoImportFolder('');
-		$this->fixture->extractZip(self::$importFolder.'foobar.zip');
+		$this->fixture->extractZip($this->importFolder . 'foobar.zip');
 
 		$this->assertFalse(
-			is_dir(self::$importFolder.'foobar/')
+			is_dir($this->importFolder . 'foobar/')
 		);
 	}
 
@@ -285,11 +286,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 
 		$this->assertEquals(
-			self::$importFolder.'foo/foo.xml',
-			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
+			$this->importFolder . 'foo/foo.xml',
+			$this->fixture->getPathForXml($this->importFolder . 'foo.zip')
 		);
 	}
 
@@ -298,7 +299,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'',
-			$this->fixture->getPathForXml(self::$importFolder.'foo.zip')
+			$this->fixture->getPathForXml($this->importFolder . 'foo.zip')
 		);
 	}
 
@@ -306,11 +307,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('bar-bar.zip');
-		$this->fixture->extractZip(self::$importFolder.'bar-bar.zip');
+		$this->fixture->extractZip($this->importFolder . 'bar-bar.zip');
 
 		$this->assertEquals(
 			'',
-			$this->fixture->getPathForXml(self::$importFolder.'bar-bar.zip')
+			$this->fixture->getPathForXml($this->importFolder . 'bar-bar.zip')
 		);
 	}
 
@@ -318,11 +319,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('empty.zip');
-		$this->fixture->extractZip(self::$importFolder.'empty.zip');
+		$this->fixture->extractZip($this->importFolder . 'empty.zip');
 
 		$this->assertEquals(
 			'',
-			$this->fixture->getPathForXml(self::$importFolder.'empty.zip')
+			$this->fixture->getPathForXml($this->importFolder . 'empty.zip')
 		);
 	}
 
@@ -330,16 +331,16 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
+		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 		$this->fixture->copyImagesFromExtractedZip(
-			self::$importFolder.'foo.zip'
+			$this->importFolder . 'foo.zip'
 		);
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'foo.jpg')
+			file_exists($this->importFolder . 'foo.jpg')
 		);
 		$this->assertTrue(
-			file_exists(self::$importFolder.'bar.jpg')
+			file_exists($this->importFolder . 'bar.jpg')
 		);
 	}
 
@@ -350,30 +351,30 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function testCleanUpRemovesAFolderCreatedByTheImporter() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->createExtractionFolder(self::$importFolder.'foo.zip');
-		$this->fixture->cleanUp(self::$importFolder);
+		$this->fixture->createExtractionFolder($this->importFolder . 'foo.zip');
+		$this->fixture->cleanUp($this->importFolder);
 
 		$this->assertFalse(
-			file_exists(self::$importFolder.'foo/')
+			is_dir($this->importFolder . 'foo/')
 		);
 	}
 
 	public function testCleanUpDoesNotRemoveAForeignFolderAlthoughItIsNamedLikeAZipToImport() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		t3lib_div::mkdir(self::$importFolder.'foo/');
-		$this->fixture->cleanUp(self::$importFolder);
+		t3lib_div::mkdir($this->importFolder . 'foo/');
+		$this->fixture->cleanUp($this->importFolder);
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'foo/')
+			is_dir($this->importFolder . 'foo/')
 		);
 	}
 
 	public function testCleanUpDoesNotRemoveZipThatIsNotMarkedAsDeletable() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->cleanUp(self::$importFolder.'foo.zip');
+		$this->fixture->cleanUp($this->importFolder . 'foo.zip');
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'foo.zip')
+			file_exists($this->importFolder . 'foo.zip')
 		);
 	}
 
@@ -384,7 +385,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->importFromZip();
 
 		$this->assertFalse(
-			file_exists(self::$importFolder.'contains-folder/')
+			is_dir($this->importFolder . 'contains-folder/')
 		);
 	}
 
@@ -399,7 +400,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->importFromZip();
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'same-name.zip')
+			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
 
@@ -412,7 +413,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->importFromZip();
 
 		$this->assertFalse(
-			file_exists(self::$importFolder.'same-name.zip')
+			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
 
@@ -423,7 +424,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->importFromZip();
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'empty.zip')
+			file_exists($this->importFolder . 'empty.zip')
 		);
 	}
 
@@ -434,7 +435,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->importFromZip();
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'bar-bar.zip')
+			file_exists($this->importFolder . 'bar-bar.zip')
 		);
 	}
 
@@ -450,7 +451,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->importFromZip();
 
 		$this->assertTrue(
-			file_exists(self::$importFolder.'same-name.zip')
+			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
 
@@ -470,7 +471,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->importFromZip();
 
 		$this->assertFalse(
-			file_exists(self::$importFolder.'same-name.zip')
+			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
 
@@ -483,8 +484,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
+		$this->fixture->extractZip($this->importFolder . 'foo.zip');
+		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
 		$this->assertTrue(
 			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
@@ -495,8 +496,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
+		$this->fixture->extractZip($this->importFolder . 'foo.zip');
+		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
 		$this->assertTrue(
 			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
@@ -507,8 +508,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->fixture->extractZip(self::$importFolder.'foo.zip');
-		$this->fixture->loadXmlFile(self::$importFolder.'foo.zip');
+		$this->fixture->extractZip($this->importFolder . 'foo.zip');
+		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
 		$this->assertTrue(
 			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
@@ -549,7 +550,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		t3lib_div::mkdir(self::$importFolder.'foo/');
+		t3lib_div::mkdir($this->importFolder . 'foo/');
 		$result = $this->fixture->importFromZip();
 
 		$this->assertContains(
@@ -557,7 +558,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$result
 		);
 		$this->assertTrue(
-			is_dir(self::$importFolder.'foo/')
+			is_dir($this->importFolder . 'foo/')
 		);
 	}
 
