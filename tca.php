@@ -561,10 +561,11 @@ $TCA['tx_realty_objects'] = array(
 					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.9', '9'),
 					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.10', '10'),
 					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.11', '11'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.12', '12'),
 				),
 				'renderMode' => 'checkbox',
 				'minitems' => 0,
-				'maxitems' => 11,
+				'maxitems' => 12,
 			),
 		),
 		'garage_type' => array(
