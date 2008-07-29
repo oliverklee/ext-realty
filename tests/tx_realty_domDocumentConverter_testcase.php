@@ -641,6 +641,147 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataCanGetOneValidHeatingType() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<heizungsart ZENTRAL="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('heating_type' => 2)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataCanGetMultipleValidHeatingTypesFromHeatingTypeNode() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<heizungsart ZENTRAL="true" OFEN="true" ETAGE="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('heating_type' => '2,9,11')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataCanGetMultipleValidHeatingTypesFromFiringNode() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<befeuerung OEL="true" GAS="true" BLOCK="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('heating_type' => '5,8,12')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataCanGetHeatingTypesFromFiringNodeAndHeatingTypeNode() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<heizungsart OFEN="true" />' .
+							'<befeuerung BLOCK="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('heating_type' => '11,12')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataDoesNotGetInvalidHeatingTypeFromHeatingTypeNode() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<heizungsart BACKOFEN="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataDoesNotGetInvalidHeatingTypeFromFiringNode() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<befeuerung KERZE="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataOnlyGetsValidHeatingTypesIfValidAndInvalidTypesProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<heizungsart ZENTRAL="true" FUSSBODEN="true" BACKOFEN="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('heating_type' => '2,4')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testCreateRecordsForImagesIfOneImageAppendixWithoutAnImagePathIsGiven() {
 		$node = $this->setRawDataToConvert(
 			'<immobilie>'

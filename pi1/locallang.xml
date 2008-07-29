@@ -103,6 +103,18 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
+			<label index="label_heating_type.1">District heating</label>
+			<label index="label_heating_type.2">Central heating</label>
+			<label index="label_heating_type.3">Electric heating</label>
+			<label index="label_heating_type.4">Floor heating</label>
+			<label index="label_heating_type.5">Gas heating</label>
+			<label index="label_heating_type.6">Green fuel heating</label>
+			<label index="label_heating_type.7">Heat pump heating</label>
+			<label index="label_heating_type.8">Oil heating</label>
+			<label index="label_heating_type.9">Self-contained central heating</label>
+			<label index="label_heating_type.10">Solar heating</label>
+			<label index="label_heating_type.11">Heating by stove</label>
+			<label index="label_heating_type.12">Zone heating</label>
 			<label index="label_garage_type">Garage/parking space</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
@@ -323,6 +335,18 @@
 			<label index="label_bedrooms">Anzahl Schlafzimmer</label>
 			<label index="label_bathrooms">Anzahl Badezimmer</label>
 			<label index="label_heating_type">Heizungsart</label>
+			<label index="label_heating_type.1">Fernwärme</label>
+			<label index="label_heating_type.2">Zentralheizung</label>
+			<label index="label_heating_type.3">Elektroheizung</label>
+			<label index="label_heating_type.4">Fußbodenheizung</label>
+			<label index="label_heating_type.5">Gasheizung</label>
+			<label index="label_heating_type.6">Alternativheizung</label>
+			<label index="label_heating_type.7">Wärmepumpenheizung</label>
+			<label index="label_heating_type.8">Ölheizung</label>
+			<label index="label_heating_type.9">Etagenheizung</label>
+			<label index="label_heating_type.10">Solarheizung</label>
+			<label index="label_heating_type.11">Ofen</label>
+			<label index="label_heating_type.12">Blockheizung</label>
 			<label index="label_garage_type">Garage/Stellplatz</label>
 			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="label_garage_price">Kaufpreis für Garage/Stellplatz</label>
@@ -915,6 +939,7 @@
 			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
+			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
 			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
 			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
 			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
@@ -937,9 +962,14 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords" type="integer">143019398</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid" type="integer">1493962</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail" type="integer">147420665</label>
+			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">247013010</label>
+			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
+			<label index="realty.pi_flexform.showGoogleMapsInListView" type="integer">50874589</label>
+			<label index="realty.pi_flexform.showGoogleMapsInSingleView" type="integer">126112887</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
+			<label index="label_country" type="integer">93787849</label>
 			<label index="label_tstamp" type="integer">54326886</label>
 			<label index="label_extra_charges" type="integer">91504638</label>
 			<label index="label_extra_charges_short" type="integer">91504638</label>
@@ -992,6 +1022,18 @@
 			<label index="label_bedrooms" type="integer">265698466</label>
 			<label index="label_bathrooms" type="integer">187944950</label>
 			<label index="label_heating_type" type="integer">7498189</label>
+			<label index="label_heating_type.1" type="integer">117959181</label>
+			<label index="label_heating_type.2" type="integer">234933642</label>
+			<label index="label_heating_type.3" type="integer">200343832</label>
+			<label index="label_heating_type.4" type="integer">132728449</label>
+			<label index="label_heating_type.5" type="integer">116184525</label>
+			<label index="label_heating_type.6" type="integer">241471737</label>
+			<label index="label_heating_type.7" type="integer">127352587</label>
+			<label index="label_heating_type.8" type="integer">122691025</label>
+			<label index="label_heating_type.9" type="integer">151462848</label>
+			<label index="label_heating_type.10" type="integer">57612085</label>
+			<label index="label_heating_type.11" type="integer">32092617</label>
+			<label index="label_heating_type.12" type="integer">97209900</label>
 			<label index="label_garage_type" type="integer">97055949</label>
 			<label index="label_garage_rent" type="integer">32433980</label>
 			<label index="label_garage_price" type="integer">57868081</label>
@@ -1084,16 +1126,18 @@
 			<label index="label_has_request" type="integer">233711688</label>
 			<label index="label_requester_phone" type="integer">254665035</label>
 			<label index="label_summary_string_of_favorites" type="integer">199641813</label>
+			<label index="label_append_images" type="integer">260019087</label>
 			<label index="label_edit" type="integer">131916066</label>
 			<label index="label_new_record" type="integer">249043974</label>
 			<label index="label_delete" type="integer">254438473</label>
 			<label index="label_really_delete" type="integer">262411721</label>
 			<label index="label_published" type="integer">163174569</label>
 			<label index="label_pending" type="integer">47267318</label>
-			<label index="label_append_images" type="integer">260019087</label>
 			<label index="message_no_valid_number" type="integer">179177779</label>
 			<label index="message_no_valid_price" type="integer">19191144</label>
 			<label index="message_no_valid_year" type="integer">38026596</label>
+			<label index="message_no_valid_longitude_degree" type="integer">72814247</label>
+			<label index="message_no_valid_latitude_degree" type="integer">55186029</label>
 			<label index="message_object_number_exists" type="integer">184908158</label>
 			<label index="message_required_field" type="integer">28575007</label>
 			<label index="message_value_not_allowed" type="integer">32064893</label>
@@ -1113,14 +1157,6 @@
 			<label index="message_image_too_large" type="integer">183582394</label>
 			<label index="message_invalid_type" type="integer">48986434</label>
 			<label index="message_empty_caption" type="integer">1491457</label>
-			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">247013010</label>
-			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
-			<label index="label_country" type="integer">93787849</label>
-			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView" type="integer">50874589</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView" type="integer">126112887</label>
-			<label index="message_no_valid_longitude_degree" type="integer">72814247</label>
-			<label index="message_no_valid_latitude_degree" type="integer">55186029</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -1587,6 +1623,7 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
+			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
@@ -1609,9 +1646,14 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
+			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API Key</label>
+			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
+			<label index="realty.pi_flexform.showGoogleMapsInListView">Show Google Maps in the list view</label>
+			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
+			<label index="label_country">Country</label>
 			<label index="label_tstamp">Date of last change</label>
 			<label index="label_extra_charges">Extra charges</label>
 			<label index="label_extra_charges_short">Extra charges</label>
@@ -1664,6 +1706,18 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
+			<label index="label_heating_type.1">District heating</label>
+			<label index="label_heating_type.2">Central heating</label>
+			<label index="label_heating_type.3">Electric heating</label>
+			<label index="label_heating_type.4">Floor heating</label>
+			<label index="label_heating_type.5">Gas heating</label>
+			<label index="label_heating_type.6">Green fuel heating</label>
+			<label index="label_heating_type.7">Heat pump heating</label>
+			<label index="label_heating_type.8">Oil heating</label>
+			<label index="label_heating_type.9">Self-contained central heating</label>
+			<label index="label_heating_type.10">Solar heating</label>
+			<label index="label_heating_type.11">Heating by stove</label>
+			<label index="label_heating_type.12">Zone heating</label>
 			<label index="label_garage_type">Garage/parking space</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
@@ -1726,7 +1780,11 @@
 			<label index="label_uid">Database ID</label>
 			<label index="label_user_text">wrote the following</label>
 			<label index="label_user_contact_information">Contact information</label>
-			<label index="label_email_subject">Request concerning object #</label>
+			<label index="label_email_subject_specialized">Request concerning object #</label>
+			<label index="label_email_subject_general">Realty request</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
+			<label index="label_requested_object">The requested object:</label>
 			<label index="label_requester_data_is_uneditable_formal">We are using the contact data from your account here.</label>
 			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
 			<label index="label_your_name_formal">Your name</label>
@@ -1740,35 +1798,30 @@
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
-			<label index="label_thank_you">Thank you.</label>
-			<label index="label_message_sent">Your request was sent.</label>
 			<label index="label_set_name_formal">Please provide your name.</label>
 			<label index="label_set_name_informal">Please provide your name.</label>
 			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
 			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
 			<label index="label_no_empty_textarea">Please enter a request.</label>
-			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
-			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
-			<label index="label_requested_object">The requested object:</label>
-			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
-			<label index="label_email_subject_specialized">Request concerning object #</label>
-			<label index="label_email_subject_general">Realty request</label>
 			<label index="label_thank_you_formal">Thank you for your request.</label>
 			<label index="label_thank_you_informal">Thank you for your request.</label>
-			<label index="label_has_request">has written the following request:</label>
-			<label index="label_requester_phone">The sender's phone number:</label>
 			<label index="label_message_sent_formal">Your request was sent.</label>
 			<label index="label_message_sent_informal">Your request was sent.</label>
+			<label index="label_has_request">has written the following request:</label>
+			<label index="label_requester_phone">The sender's phone number:</label>
+			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
+			<label index="label_append_images">Append images</label>
 			<label index="label_edit">Edit</label>
 			<label index="label_new_record">Create new object</label>
 			<label index="label_delete">Delete</label>
 			<label index="label_really_delete">Do you really want to delete this record?</label>
 			<label index="label_published">Published</label>
 			<label index="label_pending">Pending</label>
-			<label index="label_append_images">Append images</label>
 			<label index="message_no_valid_number">Please enter a valid number.</label>
 			<label index="message_no_valid_price">Please enter a valid price.</label>
 			<label index="message_no_valid_year">Please enter a year that lies in the past.</label>
+			<label index="message_no_valid_longitude_degree">Please enter a valid longitude degree (-180 to 180).</label>
+			<label index="message_no_valid_latitude_degree">Please enter a valid latitude degree (-90 to 90).</label>
 			<label index="message_object_number_exists">The entered object number already exists in the database. Please enter a different object number.</label>
 			<label index="message_required_field">Please enter a value for this field.</label>
 			<label index="message_value_not_allowed">The provided value is not within the set of allowed values.</label>
@@ -1788,14 +1841,6 @@
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
 			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API Key</label>
-			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
-			<label index="label_country">Country</label>
-			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView">Show Google Maps in the list view</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view</label>
-			<label index="message_no_valid_longitude_degree">Please enter a valid longitude degree (-180 to 180).</label>
-			<label index="message_no_valid_latitude_degree">Please enter a valid latitude degree (-90 to 90).</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

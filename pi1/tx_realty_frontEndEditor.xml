@@ -486,6 +486,27 @@
 					</item>
 				</items>
 			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isIntegerInRange</method>
+						<params>
+							<data name="range" value="0-2"/>
+							<data name="multiple" value="0"/>
+						</params>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getValueNotAllowedMessage</method>
+								<params>
+									<data name="fieldName" value="old_or_new_building"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
 		</renderlet:LISTBOX>
 		<renderlet:LISTBOX name="state" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state">
 			<data>
@@ -767,24 +788,68 @@
 
 		<renderlet:TEXT name="spacer_08" label="&amp;nbsp;" readonly="true"/>
 
-		<renderlet:LISTBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
+		<renderlet:CHECKBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
 			<data>
 				<items>
 					<item>
-						<caption>&amp;nbsp;</caption>
-						<value>0</value>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.1</caption>
+						<value>1</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.2</caption>
+						<value>2</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.3</caption>
+						<value>3</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.4</caption>
+						<value>4</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.5</caption>
+						<value>5</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.6</caption>
+						<value>6</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.7</caption>
+						<value>7</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.8</caption>
+						<value>8</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.9</caption>
+						<value>9</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.10</caption>
+						<value>10</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.11</caption>
+						<value>11</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.12</caption>
+						<value>12</value>
 					</item>
 				</items>
-				<userobj>
-					<extension>this</extension>
-					<method>populateListOfHeatingTypes</method>
-				</userobj>
 			</data>
 			<validators>
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAllowedValueForHeatingType</method>
+						<method>isIntegerInRange</method>
+						<params>
+							<data name="range" value="1-12"/>
+							<data name="multiple" value="1"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
@@ -797,7 +862,7 @@
 					</userobj>
 				</validator:STANDARD>
 			</validators>
-		</renderlet:LISTBOX>
+		</renderlet:CHECKBOX>
 		<renderlet:CHECKSINGLE name="fitted_kitchen" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen"/>
 		<renderlet:LISTBOX name="pets" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.pets">
 			<data>

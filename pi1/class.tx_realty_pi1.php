@@ -62,7 +62,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'country' => STATIC_COUNTRIES,
 		'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
 		'house_type' => REALTY_TABLE_HOUSE_TYPES,
-		'heating_type' => REALTY_TABLE_HEATING_TYPES,
 		'garage_type' => REALTY_TABLE_CAR_PLACES,
 		'pets' => REALTY_TABLE_PETS,
 		'state' => REALTY_TABLE_CONDITIONS,
@@ -856,6 +855,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'extra_charges',
 			'number_of_rooms',
 			'features',
+			'heating_type',
 			'list_image_left',
 			'list_image_right',
 		) as $key) {
@@ -1048,13 +1048,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				break;
 
+			case 'heating_type':
+				$result = $this->getLabelForValidProperty($key, 12);
+				break;
 			case 'state':
 				// The fallthrough is intended.
 			case 'pets':
 				// The fallthrough is intended.
 			case 'garage_type':
-				// The fallthrough is intended.
-			case 'heating_type':
 				// The fallthrough is intended.
 			case 'house_type':
 				// The fallthrough is intended.
@@ -1179,16 +1180,55 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		return $result;
 	}
 
+ 	/**
+	 * Returns the label for "label_[$key].[value of $key]" or an empty string
+	 * if the value of $key is not an allowed suffixes. Suffixes must always be
+	 * integers. The lowest allowed suffix is always 1 and the highest is set in
+	 * $highestSuffix.
+	 * The value of $key may be a comma-separated list of suffixes. In this case,
+	 * a comma-separated list of the localized strings is returned.
+	 *
+	 * @param	string		key of the current record's field that contains the
+	 * 						suffix for the label to get, must not be empty
+	 * @param	integer		the highest allowed suffix, must be at least 1
+	 *
+	 * @return	string		localized string for the label
+	 * 						"label_[$key].[value of $key]", will be a 
+	 * 						comma-separated list of localized strings if
+	 * 						the value of $key was a comma-separated list of
+	 * 						suffixes, will be empty if no suffix is within the
+	 * 						range of allowed suffixes
+	 */
+	private function getLabelForValidProperty($key, $highestSuffix) {
+		$localizedStrings = array();
+
+		foreach (explode(',', $this->internal['currentRow'][$key]) as $suffix) {
+			if (($suffix >= 1) && ($suffix <= $highestSuffix)) {
+				$localizedStrings[] = $this->translate(
+					'label_' . $key . '.' . $suffix
+				);
+			}
+		}
+
+		return implode(', ', $localizedStrings);
+	}
+
 	/**
 	 * Retrieves the value of the record field $key formatted as an area.
-	 * If the field's value is empty or its intval is zero, an empty string will be returned.
+	 * If the field's value is empty or its intval is zero, an empty string will
+	 * be returned.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
+	 * @param	string		key of the field to retrieve (the name of a database
+	 * 						column), may not be empty
 	 *
-	 * @return	string		HTML for the number in the field formatted using decimalSeparator and areaUnit from the TS setup, may be an empty string
+	 * @return	string		HTML for the number in the field formatted using
+	 * 						decimalSeparator and areaUnit from the TS setup, may
+	 * 						be an empty string
 	 */
 	private function getFormattedArea($key) {
-		return $this->getFormattedNumber($key, $this->pi_getLL('label_squareMeters'));
+		return $this->getFormattedNumber(
+			$key, $this->translate('label_squareMeters')
+		);
 	}
 
 	/**
@@ -1279,7 +1319,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Gets a comma-separated short list of important features of the current
 	 * realty object:
-	 * DB relations: apartment_type, house_type, heating_type, garage_type
+	 * DB relations: apartment_type, house_type, garage_type
 	 * boolean: balcony, garden, elevator, barrier_free, assisted_living,
 	 * fitted_kitchen
 	 * integer: year of construction, first possible usage date, object number
@@ -1290,7 +1330,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$features = array();
 
 		// get features described by DB relations
-		foreach (array('apartment_type', 'house_type', 'heating_type', 'garage_type') as $key) {
+		foreach (array('apartment_type', 'house_type', 'garage_type') as $key) {
 			if ($this->getForeignRecordTitle($key) != '') {
 				$features[] = $this->getForeignRecordTitle($key);
 			}
