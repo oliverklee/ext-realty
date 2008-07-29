@@ -128,16 +128,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
-	 * Fills the select box for heating type records.
-	 *
-	 * @return	array		items for the select box, will be empty if there are
-	 * 						no matching records
-	 */
-	public function populateListOfHeatingTypes() {
-		return $this->populateList(REALTY_TABLE_HEATING_TYPES);
-	}
-
-	/**
 	 * Fills the select box for car place records.
 	 *
 	 * @return	array		items for the select box, will be empty if there are
@@ -230,6 +220,49 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	public function isValidNumberWithDecimals(array $valueToCheck) {
 		return $this->isValidNumber($valueToCheck['value'], true);
+	}
+
+	/**
+	 * Checks whether a form data value is within a range of allowed integers.
+	 * The provided form data array must contain the keys 'value', 'range' and
+	 * 'multiple'. 'range' must be two integers separated by '-'. If 'multiple',
+	 * which is supposed to be boolean, is set to true, multiple values are
+	 * allowed in 'value'. In this case, 'value' is expected to contain an inner
+	 * array.
+	 * 
+	 * @param	array		array with the elements 'value', 'range' and
+	 * 						'multiple', 'value' is the form data value to check
+	 * 						and can be empty, 'range' must be two integers
+	 * 						separated by '-' and 'multiple' must be boolean
+	 *
+	 * @return	boolean		true if the values to check are empty or in range,
+	 * 						false otherwise
+	 */
+	public function isIntegerInRange(array $formData) {
+		if ($formData['value'] === '') {
+			return true;
+		}
+
+		$result = true;
+
+		$range = explode('-', $formData['range']);
+		$valuesToCheck = $formData['multiple']
+			? $formData['value']
+			: array($formData['value']);
+
+		foreach ($valuesToCheck as $value) {
+			if (!$this->isValidIntegerNumber(array('value' => $value))) {
+				$result = false;
+			}
+		}
+
+		if ((min($valuesToCheck) < min($range))
+			|| (max($valuesToCheck) > max($range))
+		) {
+			$result = false;	
+		}
+
+		return $result;
 	}
 
 	/**
@@ -404,22 +437,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function isAllowedValueForApartmentType(array $valueToCheck) {
 		return $this->isIdentifierOfRecord(
 			$valueToCheck['value'], REALTY_TABLE_APARTMENT_TYPES, true
-		);
-	}
-
-	/**
-	 * Checks whether the submitted UID for 'heating_type' is actually a
-	 * database record or zero.
-	 *
-	 * @param	array		array with one element named "value" that contains
-	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be an integer >= 0
-	 *
-	 * @return	boolean		true if the provided UID is valid, false otherwise
-	 */
-	public function isAllowedValueForHeatingType(array $valueToCheck) {
-		return $this->isIdentifierOfRecord(
-			$valueToCheck['value'], REALTY_TABLE_HEATING_TYPES, true
 		);
 	}
 

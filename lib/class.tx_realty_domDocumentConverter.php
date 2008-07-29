@@ -263,6 +263,8 @@ class tx_realty_domDocumentConverter {
 		$this->fetchState();
 		$this->fetchValueForOldOrNewBuilding();
 		$this->fetchAction();
+		$this->fetchHeatingType();
+		$this->fetchGarageType();
 		$this->fetchGaragePrice();
 		$this->fetchLanguage();
 
@@ -497,11 +499,9 @@ class tx_realty_domDocumentConverter {
 		$rawAttributes = array();
 
 		foreach (array(
-			'stellplatzart',
 			'serviceleistungen',
 			'fahrstuhl',
 			'kueche',
-			'heizungsart'
 		) as $grandchildName) {
 			$nodeWithAttributes = $this->findFirstGrandchild(
 				'ausstattung', $grandchildName
@@ -509,17 +509,6 @@ class tx_realty_domDocumentConverter {
 			$rawAttributes[$grandchildName] = $this->fetchLowercasedDomAttributes(
 				$nodeWithAttributes
 			);
-		}
-
-		foreach (array(
-			'garage_type' => $rawAttributes['stellplatzart'],
-			'heating_type' => $rawAttributes['heizungsart'],
-		) as $key => $value) {
-			if (isset($value)) {
-				$this->addImportedDataIfValueIsNonEmpty(
-					$key, $this->getFormattedString(array_keys($value))
-				);
-			}
 		}
 
 		foreach (array(
@@ -607,6 +596,57 @@ class tx_realty_domDocumentConverter {
 				$this->getFormattedString(array($value))
 			);
 		}
+	}
+
+	/**
+	 * Fetches the 'heizungsart' and stores it with the corresponding database
+	 * column name 'heating_type' as key in $this->importedData.
+	 */
+	private function fetchHeatingType() {
+		$heatingTypeNode = $this->findFirstGrandchild('ausstattung', 'heizungsart');
+		$firingTypeNode = $this->findFirstGrandchild('ausstattung', 'befeuerung');
+		$attributes = array_merge(
+			array_keys($this->fetchLowercasedDomAttributes($heatingTypeNode)),
+			array_keys($this->fetchLowercasedDomAttributes($firingTypeNode))
+		);
+
+		// The fetched heating types are always German. In the database they
+		// are stored as a sorted list of keys which refer to localized strings.
+		$keys = array_keys(array_intersect(
+			array(
+				1 => 'fern',
+				2 => 'zentral',
+				3 => 'elektro',
+				4 => 'fussboden',
+				5 => 'gas',
+				6 => 'alternativ',
+				7 => 'erdwaerme',
+				8 => 'oel',
+				9 => 'etage',
+				10 => 'solar',
+				11 => 'ofen',
+				12 => 'block',
+			),
+			$attributes
+		));
+		$this->addImportedDataIfValueIsNonEmpty(
+			'heating_type', implode(',', $keys)
+		);
+	}
+
+	/**
+	 * Fetches the 'stellplatzart' and stores it with the corresponding database
+	 * column name 'garage_type' as key in $this->importedData.
+	 */
+	private function fetchGarageType() {
+		$nodeWithAttributes = $this->findFirstGrandchild(
+			'ausstattung', 'stellplatzart'
+		);
+		$attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
+
+		$this->addImportedDataIfValueIsNonEmpty(
+			'garage_type', $this->getFormattedString(array_keys($attributes))
+		);
 	}
 
 	/**

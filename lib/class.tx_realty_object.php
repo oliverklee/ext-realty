@@ -80,7 +80,6 @@ class tx_realty_object {
 		REALTY_TABLE_DISTRICTS => 'district',
 		REALTY_TABLE_PETS => 'pets',
 		REALTY_TABLE_CAR_PLACES => 'garage_type',
-		REALTY_TABLE_HEATING_TYPES => 'heating_type',
 		REALTY_TABLE_CONDITIONS => 'state'
 	);
 
@@ -560,8 +559,8 @@ class tx_realty_object {
 	 * Prepares the realty object for insertion and inserts records to
 	 * the related tables.
 	 * It writes the values of 'city', 'apartment_type', 'house_type',
-	 * 'district', 'pets', 'garage_type' and 'heating_type', in case they are
-	 * defined, as records to their own tables and stores the UID of the record
+	 * 'district', 'pets' and 'garage_type', in case they are defined, as
+	 * records to their own tables and stores the UID of the record
 	 * to '$this->realtyObjectData' instead of the value.
 	 */
 	protected function prepareInsertionAndInsertRelations() {

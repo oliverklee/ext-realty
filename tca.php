@@ -469,41 +469,26 @@ $TCA['tx_realty_objects'] = array(
 			),
 		),
 		'heating_type' => array(
-			'exclude' => 0,
+			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type',
 			'config' => array(
 				'type' => 'select',
 				'items' => array(
-					array('', 0),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.1', '1'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.2', '2'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.3', '3'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.4', '4'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.5', '5'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.6', '6'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.7', '7'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.8', '8'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.9', '9'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.10', '10'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.11', '11'),
 				),
-				'foreign_table' => 'tx_realty_heating_types',
-				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###STORAGE_PID### ORDER BY tx_realty_heating_types.title',
-				'size' => 1,
+				'renderMode' => 'checkbox',
 				'minitems' => 0,
-				'maxitems' => 1,
-				'wizards' => array(
-					'_PADDING' => 2,
-					'_VERTICAL' => 1,
-					'add' => array(
-						'type' => 'script',
-						'title' => 'Create new record',
-						'icon' => 'add.gif',
-						'params' => array(
-							'table'=>'tx_realty_heating_types',
-							'pid' => '###STORAGE_PID###',
-							'setValue' => 'prepend',
-						),
-						'script' => 'wizard_add.php',
-					),
-					'edit' => array(
-						'type' => 'popup',
-						'title' => 'Edit',
-						'script' => 'wizard_edit.php',
-						'popup_onlyOpenIfSelected' => 1,
-						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
+				'maxitems' => 11,
 			),
 		),
 		'garage_type' => array(
@@ -1071,62 +1056,6 @@ $TCA['tx_realty_house_types'] = array(
 	)
 );
 
-
-
-$TCA['tx_realty_heating_types'] = array(
-	'ctrl' => $TCA['tx_realty_heating_types']['ctrl'],
-	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
-	),
-	'columns' => array(
-		'sys_language_uid' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-			'config' => array(
-				'type' => 'select',
-				'foreign_table' => 'sys_language',
-				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
-				),
-			),
-		),
-		'l18n_parent' => array(
-			'displayCond' => 'FIELD:sys_language_uid:>:0',
-			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-			'config' => array(
-				'type' => 'select',
-				'items' => array(
-					array('', 0),
-				),
-				'foreign_table' => 'tx_realty_heating_types',
-				'foreign_table_where' => 'AND tx_realty_heating_types.pid=###CURRENT_PID### AND tx_realty_heating_types.sys_language_uid IN (-1, 0)',
-			),
-		),
-		'l18n_diffsource' => array(
-			'config' => array(
-				'type' => 'passthrough',
-			)
-		),
-		'title' => array(
-			'exclude' => 0,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_heating_types.title',
-			'config' => array(
-				'type' => 'input',
-				'size' => '30',
-				'eval' => 'required',
-			),
-		),
-	),
-	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
-	),
-	'palettes' => array(
-		'1' => array('showitem' => ''),
-	)
-);
 
 
 $TCA['tx_realty_car_places'] = array(

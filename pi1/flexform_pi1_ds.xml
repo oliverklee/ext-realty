@@ -189,18 +189,14 @@
 										<numIndex index="1">house_type</numIndex>
 									</numIndex>
 									<numIndex index="5" type="array">
-										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type</numIndex>
-										<numIndex index="1">heating_type</numIndex>
-									</numIndex>
-									<numIndex index="6" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type</numIndex>
 										<numIndex index="1">garage_type</numIndex>
 									</numIndex>
-									<numIndex index="7" type="array">
+									<numIndex index="6" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.pets</numIndex>
 										<numIndex index="1">pets</numIndex>
 									</numIndex>
-									<numIndex index="8" type="array">
+									<numIndex index="7" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state</numIndex>
 										<numIndex index="1">state</numIndex>
 									</numIndex>

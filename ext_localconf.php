@@ -77,9 +77,6 @@ t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_realty_house_types = 1
 ');
 t3lib_extMgm::addUserTSConfig('
-	options.saveDocNew.tx_realty_heating_types = 1
-');
-t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_realty_car_places = 1
 ');
 t3lib_extMgm::addUserTSConfig('

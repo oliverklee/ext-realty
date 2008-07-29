@@ -125,7 +125,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			'district' => REALTY_TABLE_DISTRICTS,
 			'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
 			'house_type' => REALTY_TABLE_HOUSE_TYPES,
-			'heating_type' => REALTY_TABLE_HEATING_TYPES,
 			'garage_type' => REALTY_TABLE_CAR_PLACES,
 			'pets' => REALTY_TABLE_PETS,
 			'state' => REALTY_TABLE_CONDITIONS
@@ -326,14 +325,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testPopulateListOfHouseTypes() {
 		$result = $this->fixture->populateListOfHouseTypes();
-		$this->assertEquals(
-			self::$dummyStringValue,
-			$result[0]['caption']
-		);
-	}
-
-	public function testPopulateListOfHeatingTypes() {
-		$result = $this->fixture->populateListOfHeatingTypes();
 		$this->assertEquals(
 			self::$dummyStringValue,
 			$result[0]['caption']
@@ -603,6 +594,70 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(
 			$this->fixture->isValidNumberWithDecimals(array('value' => 'string'))
 		);
+	}
+
+	public function testIsIntegerInRangeReturnsTrueForSingleAllowedInteger() {
+		$this->assertTrue(
+			$this->fixture->isIntegerInRange(
+				array('value' => '1', 'range' => '1-2', 'multiple' => '0')
+			)
+		);						
+	}
+
+	public function testIsIntegerInRangeReturnsFalseForSingleIntegerBelowTheRange() {
+		$this->assertFalse(
+			$this->fixture->isIntegerInRange(
+				array('value' => '0', 'range' => '1-2', 'multiple' => '0')
+			)
+		);				
+	}
+
+	public function testIsIntegerInRangeReturnsFalseForSingleIntegerHigherThanTheRange() {
+		$this->assertFalse(
+			$this->fixture->isIntegerInRange(
+				array('value' => '2', 'range' => '0-1', 'multiple' => '0')
+			)
+		);				
+	}
+
+	public function testIsIntegerInRangeReturnsFalseForNonIntegerValue() {
+		$this->assertFalse(
+			$this->fixture->isIntegerInRange(
+				array('value' => 'string', 'range' => '0-1', 'multiple' => '0')
+			)
+		);		
+	}
+
+	public function testIsIntegerInRangeReturnsTrueForMultipleAllowedIntegers() {
+		$this->assertTrue(
+			$this->fixture->isIntegerInRange(
+				array('value' => array(0, 1, 2), 'range' => '0-2', 'multiple' => '1')
+			)
+		);						
+	}
+
+	public function testIsIntegerInRangeReturnsFalseForMultipleIntegersIfOneIsBelowTheRange() {
+		$this->assertFalse(
+			$this->fixture->isIntegerInRange(
+				array('value' => array(0, 1, 2), 'range' => '1-2', 'multiple' => '1')
+			)
+		);				
+	}
+
+	public function testIsIntegerInRangeReturnsFalseForMultipleIntegersIfOneIsHigherThanTheRange() {
+		$this->assertFalse(
+			$this->fixture->isIntegerInRange(
+				array('value' => array(0, 1, 2), 'range' => '0-1', 'multiple' => '1')
+			)
+		);				
+	}
+
+	public function testIsIntegerInRangeReturnsTrueForEmptyValue() {
+		$this->assertTrue(
+			$this->fixture->isIntegerInRange(
+				array('value' => '', 'range' => '1-2', 'multiple' => '0')
+			)
+		);						
 	}
 
 	public function testIsValidYearReturnsTrueForTheCurrentYear() {
@@ -892,32 +947,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isAllowedValueForApartmentType(
 				array('value' => $this->testingFramework->createRecord(
 					REALTY_TABLE_APARTMENT_TYPES, array('deleted' => 1)
-				))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForHeatingTypeReturnsTrueForAllowedValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForHeatingType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HEATING_TYPES))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForHeatingTypeReturnsTrueForZero() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForHeatingType(
-				array('value' => '0')
-			)
-		);
-	}
-
-	public function testIsAllowedValueForHeatingTypeReturnsFalseForInvalidValue() {
-		$this->assertFalse(
-			$this->fixture->isAllowedValueForHeatingType(
-				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_HEATING_TYPES, array('deleted' => 1)
 				))
 			)
 		);

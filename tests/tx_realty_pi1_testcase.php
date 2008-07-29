@@ -2084,6 +2084,72 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDetailPageDisplaysTheLabelForHeatingTypeIfOneValidHeatingTypeIsSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('heating_type' => '1')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_heating_type'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysTheHeatingTypeIfOneValidHeatingTypeIsSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('heating_type' => '1')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_heating_type.1'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysAHeatingTypeListIfMultipleValidHeatingTypesAreSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('heating_type' => '1,3,4')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_heating_type.1') . ', ' .
+				$this->fixture->translate('label_heating_type.3') . ', ' .
+				$this->fixture->translate('label_heating_type.4'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDoesNotDisplayTheHeatingLabelTypeIfOnlyAnInvalidHeatingTypeIsSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('heating_type' => '100')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_heating_type'),
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testDetailViewDisplaysHiddenObjectForLoggedInOwner() {
 		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()

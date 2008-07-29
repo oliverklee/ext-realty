@@ -96,6 +96,18 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
+			<label index="label_heating_type.1">District heating</label>
+			<label index="label_heating_type.2">Central heating</label>
+			<label index="label_heating_type.3">Electric heating</label>
+			<label index="label_heating_type.4">Floor heating</label>
+			<label index="label_heating_type.5">Gas heating</label>
+			<label index="label_heating_type.6">Green fuel heating</label>
+			<label index="label_heating_type.7">Heat pump heating</label>
+			<label index="label_heating_type.8">Oil heating</label>
+			<label index="label_heating_type.9">Self-contained central heating</label>
+			<label index="label_heating_type.10">Solar heating</label>
+			<label index="label_heating_type.11">Heating by stove</label>
+			<label index="label_heating_type.12">Zone heating</label>
 			<label index="label_garage_type">Garage/parking space</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
@@ -307,6 +319,18 @@
 			<label index="label_bedrooms">Anzahl Schlafzimmer</label>
 			<label index="label_bathrooms">Anzahl Badezimmer</label>
 			<label index="label_heating_type">Heizungsart</label>
+			<label index="label_heating_type.1">Fernwärme</label>
+			<label index="label_heating_type.2">Zentralheizung</label>
+			<label index="label_heating_type.3">Elektroheizung</label>
+			<label index="label_heating_type.4">Fußbodenheizung</label>
+			<label index="label_heating_type.5">Gasheizung</label>
+			<label index="label_heating_type.6">Alternativheizung</label>
+			<label index="label_heating_type.7">Wärmepumpenheizung</label>
+			<label index="label_heating_type.8">Ölheizung</label>
+			<label index="label_heating_type.9">Etagenheizung</label>
+			<label index="label_heating_type.10">Solarheizung</label>
+			<label index="label_heating_type.11">Ofen</label>
+			<label index="label_heating_type.12">Blockheizung</label>
 			<label index="label_garage_type">Garage/Stellplatz</label>
 			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="label_garage_price">Kaufpreis für Garage/Stellplatz</label>
@@ -973,6 +997,18 @@
 			<label index="label_bedrooms" type="integer">265698466</label>
 			<label index="label_bathrooms" type="integer">187944950</label>
 			<label index="label_heating_type" type="integer">7498189</label>
+			<label index="label_heating_type.1" type="integer">117959181</label>
+			<label index="label_heating_type.2" type="integer">234933642</label>
+			<label index="label_heating_type.3" type="integer">200343832</label>
+			<label index="label_heating_type.4" type="integer">132728449</label>
+			<label index="label_heating_type.5" type="integer">116184525</label>
+			<label index="label_heating_type.6" type="integer">241471737</label>
+			<label index="label_heating_type.7" type="integer">127352587</label>
+			<label index="label_heating_type.8" type="integer">122691025</label>
+			<label index="label_heating_type.9" type="integer">151462848</label>
+			<label index="label_heating_type.10" type="integer">57612085</label>
+			<label index="label_heating_type.11" type="integer">32092617</label>
+			<label index="label_heating_type.12" type="integer">97209900</label>
 			<label index="label_garage_type" type="integer">97055949</label>
 			<label index="label_garage_rent" type="integer">32433980</label>
 			<label index="label_garage_price" type="integer">57868081</label>
@@ -1065,13 +1101,13 @@
 			<label index="label_has_request" type="integer">233711688</label>
 			<label index="label_requester_phone" type="integer">254665035</label>
 			<label index="label_summary_string_of_favorites" type="integer">199641813</label>
+			<label index="label_append_images" type="integer">260019087</label>
 			<label index="label_edit" type="integer">131916066</label>
 			<label index="label_new_record" type="integer">249043974</label>
 			<label index="label_delete" type="integer">254438473</label>
 			<label index="label_really_delete" type="integer">262411721</label>
 			<label index="label_published" type="integer">163174569</label>
 			<label index="label_pending" type="integer">47267318</label>
-			<label index="label_append_images" type="integer">260019087</label>
 			<label index="message_no_valid_number" type="integer">179177779</label>
 			<label index="message_no_valid_price" type="integer">19191144</label>
 			<label index="message_no_valid_year" type="integer">38026596</label>
@@ -1636,6 +1672,18 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
+			<label index="label_heating_type.1">District heating</label>
+			<label index="label_heating_type.2">Central heating</label>
+			<label index="label_heating_type.3">Electric heating</label>
+			<label index="label_heating_type.4">Floor heating</label>
+			<label index="label_heating_type.5">Gas heating</label>
+			<label index="label_heating_type.6">Green fuel heating</label>
+			<label index="label_heating_type.7">Heat pump heating</label>
+			<label index="label_heating_type.8">Oil heating</label>
+			<label index="label_heating_type.9">Self-contained central heating</label>
+			<label index="label_heating_type.10">Solar heating</label>
+			<label index="label_heating_type.11">Heating by stove</label>
+			<label index="label_heating_type.12">Zone heating</label>
 			<label index="label_garage_type">Garage/parking space</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
@@ -1698,7 +1746,11 @@
 			<label index="label_uid">Database ID</label>
 			<label index="label_user_text">wrote the following</label>
 			<label index="label_user_contact_information">Contact information</label>
-			<label index="label_email_subject">Request concerning object #</label>
+			<label index="label_email_subject_specialized">Request concerning object #</label>
+			<label index="label_email_subject_general">Realty request</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
+			<label index="label_requested_object">The requested object:</label>
 			<label index="label_requester_data_is_uneditable_formal">We are using the contact data from your account here.</label>
 			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
 			<label index="label_your_name_formal">Your name</label>
@@ -1712,32 +1764,25 @@
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
-			<label index="label_thank_you">Thank you.</label>
-			<label index="label_message_sent">Your request was sent.</label>
 			<label index="label_set_name_formal">Please provide your name.</label>
 			<label index="label_set_name_informal">Please provide your name.</label>
 			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
 			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
 			<label index="label_no_empty_textarea">Please enter a request.</label>
-			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
-			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
-			<label index="label_requested_object">The requested object:</label>
-			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
-			<label index="label_email_subject_specialized">Request concerning object #</label>
-			<label index="label_email_subject_general">Realty request</label>
 			<label index="label_thank_you_formal">Thank you for your request.</label>
 			<label index="label_thank_you_informal">Thank you for your request.</label>
-			<label index="label_has_request">has written the following request:</label>
-			<label index="label_requester_phone">The sender's phone number:</label>
 			<label index="label_message_sent_formal">Your request was sent.</label>
 			<label index="label_message_sent_informal">Your request was sent.</label>
+			<label index="label_has_request">has written the following request:</label>
+			<label index="label_requester_phone">The sender's phone number:</label>
+			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
+			<label index="label_append_images">Append images</label>
 			<label index="label_edit">Edit</label>
 			<label index="label_new_record">Create new object</label>
 			<label index="label_delete">Delete</label>
 			<label index="label_really_delete">Do you really want to delete this record?</label>
 			<label index="label_published">Published</label>
 			<label index="label_pending">Pending</label>
-			<label index="label_append_images">Append images</label>
 			<label index="message_no_valid_number">Please enter a valid number.</label>
 			<label index="message_no_valid_price">Please enter a valid price.</label>
 			<label index="message_no_valid_year">Please enter a year that lies in the past.</label>
