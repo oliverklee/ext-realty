@@ -127,7 +127,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			'house_type' => REALTY_TABLE_HOUSE_TYPES,
 			'garage_type' => REALTY_TABLE_CAR_PLACES,
 			'pets' => REALTY_TABLE_PETS,
-			'state' => REALTY_TABLE_CONDITIONS
 		) as $key => $table) {
 			$realtyObject->setProperty($key, self::$dummyStringValue);
 			$this->testingFramework->markTableAsDirty($table);
@@ -335,14 +334,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testPopulateListOfHouseTypes() {
 		$result = $this->fixture->populateListOfHouseTypes();
-		$this->assertEquals(
-			self::$dummyStringValue,
-			$result[0]['caption']
-		);
-	}
-
-	public function testPopulateListOfConditions() {
-		$result = $this->fixture->populateListOfConditions();
 		$this->assertEquals(
 			self::$dummyStringValue,
 			$result[0]['caption']
@@ -1231,32 +1222,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isAllowedValueForGarageType(
 				array('value' => $this->testingFramework->createRecord(
 					REALTY_TABLE_CAR_PLACES, array('deleted' => 1)
-				))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForStateReturnsTrueForAllowedValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForState(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CONDITIONS))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForStateReturnsTrueForZero() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForState(
-				array('value' => '0')
-			)
-		);
-	}
-
-	public function testIsAllowedValueForStateReturnsFalseForInvalidValue() {
-		$this->assertFalse(
-			$this->fixture->isAllowedValueForState(
-				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_CONDITIONS, array('deleted' => 1)
 				))
 			)
 		);

@@ -2146,6 +2146,70 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDetailPageDisplaysTheLabelForStateIfAValidStateIsSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('state' => 8)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_state'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysTheObjectsStateIfItIsValid() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('state' => 8)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_state.8'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageNotDisplaysTheLabelForStateIfTheStateIsNotSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('state' => 0)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_state'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageNotDisplaysTheLabelForStateIfItIsInvalid() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('state' => 1000000)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_state'),
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testDetailPageDisplaysTheLabelForHeatingTypeIfOneValidHeatingTypeIsSet() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,

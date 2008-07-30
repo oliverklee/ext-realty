@@ -148,16 +148,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
-	 * Fills the select box for state records.
-	 *
-	 * @return	array		items for the select box, will be empty if there are
-	 * 						no matching records
-	 */
-	public function populateListOfConditions() {
-		return $this->populateList(REALTY_TABLE_CONDITIONS);
-	}
-
-	/**
 	 * Fills the select box for pet records.
 	 *
 	 * @return	array		items for the select box, will be empty if there are
@@ -486,22 +476,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function isAllowedValueForGarageType(array $valueToCheck) {
 		return $this->isIdentifierOfRecord(
 			$valueToCheck['value'], REALTY_TABLE_CAR_PLACES, true
-		);
-	}
-
-	/**
-	 * Checks whether the submitted UID for 'state' is actually a database
-	 * record or zero.
-	 *
-	 * @param	array		array with one element named "value" that contains
-	 * 						the number which is checked to be the UID of an
-	 * 						existing record, this number must be an integer >= 0
-	 *
-	 * @return	boolean		true if the provided UID is valid, false otherwise
-	 */
-	public function isAllowedValueForState(array $valueToCheck) {
-		return $this->isIdentifierOfRecord(
-			$valueToCheck['value'], REALTY_TABLE_CONDITIONS, true
 		);
 	}
 

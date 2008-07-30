@@ -80,7 +80,6 @@ class tx_realty_object {
 		REALTY_TABLE_DISTRICTS => 'district',
 		REALTY_TABLE_PETS => 'pets',
 		REALTY_TABLE_CAR_PLACES => 'garage_type',
-		REALTY_TABLE_CONDITIONS => 'state'
 	);
 
 	/** instance of tx_oelb_templatehelper */

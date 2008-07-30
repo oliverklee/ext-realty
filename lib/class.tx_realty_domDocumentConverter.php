@@ -697,16 +697,30 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function fetchState() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
-			'zustand_angaben',
-			'zustand'
+			'zustand_angaben', 'zustand'
 		);
-		$attributes = $this->fetchDomAttributes(
-			$nodeWithAttributes
+		$attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
+		$possibleStates = array(
+			'rohbau' => 1,
+			'nach_vereinbarung' => 2,
+			'baufaellig' => 3,
+			'erstbezug' => 4,
+			'abrissobjekt' => 5,
+			'entkernt' => 6,
+			'modernisiert' => 7,
+			'gepflegt' => 8,
+			'teil_vollrenovierungsbed' => 9,
+			'neuwertig' => 10,
+			'teil_vollrenoviert' => 11,
+			'teil_vollsaniert' => 12,
+			'projektiert' => 13,
 		);
-		if (!empty($attributes)) {
+
+		if (isset($attributes['zustand_art'])
+			&& isset($possibleStates[$attributes['zustand_art']])
+		) {
 			$this->addImportedData(
-				'state',
-				$this->getFormattedString(array_values($attributes))
+				'state', $possibleStates[$attributes['zustand_art']]
 			);
 		}
 	}

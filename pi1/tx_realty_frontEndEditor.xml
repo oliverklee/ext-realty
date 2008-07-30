@@ -515,17 +515,69 @@
 						<caption>&amp;nbsp;</caption>
 						<value>0</value>
 					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.1</caption>
+						<value>1</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.2</caption>
+						<value>2</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.3</caption>
+						<value>3</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.4</caption>
+						<value>4</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.5</caption>
+						<value>5</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.6</caption>
+						<value>6</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.7</caption>
+						<value>7</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.8</caption>
+						<value>8</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.9</caption>
+						<value>9</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.10</caption>
+						<value>10</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.11</caption>
+						<value>11</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.12</caption>
+						<value>12</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.13</caption>
+						<value>13</value>
+					</item>
 				</items>
-				<userobj>
-					<extension>this</extension>
-					<method>populateListOfConditions</method>
-				</userobj>
 			</data>
 			<validators>
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAllowedValueForState</method>
+						<method>isIntegerInRange</method>
+						<params>
+							<data name="range" value="0-13"/>
+							<data name="multiple" value="0"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>

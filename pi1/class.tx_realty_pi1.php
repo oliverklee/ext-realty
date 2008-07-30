@@ -64,7 +64,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'house_type' => REALTY_TABLE_HOUSE_TYPES,
 		'garage_type' => REALTY_TABLE_CAR_PLACES,
 		'pets' => REALTY_TABLE_PETS,
-		'state' => REALTY_TABLE_CONDITIONS,
 		'images' => REALTY_TABLE_IMAGES,
 	);
 	/** session key for storing the favorites list */
@@ -1052,7 +1051,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $this->getLabelForValidProperty($key, 12);
 				break;
 			case 'state':
-				// The fallthrough is intended.
+				$result = $this->getLabelForValidProperty('state', 13);
+				break;
 			case 'pets':
 				// The fallthrough is intended.
 			case 'garage_type':
@@ -1180,7 +1180,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		return $result;
 	}
 
- 	/**
+	/**
 	 * Returns the label for "label_[$key].[value of $key]" or an empty string
 	 * if the value of $key is not an allowed suffixes. Suffixes must always be
 	 * integers. The lowest allowed suffix is always 1 and the highest is set in
