@@ -39,18 +39,18 @@
 			<label index="tx_realty_objects.bedrooms">Number of bedrooms</label>
 			<label index="tx_realty_objects.bathrooms">Number of bathrooms</label>
 			<label index="tx_realty_objects.heating_type">Type of heating</label>
-			<label index="tx_realty_objects.heating_type.1">District heating</label>
-			<label index="tx_realty_objects.heating_type.2">Central heating</label>
-			<label index="tx_realty_objects.heating_type.3">Electric heating</label>
-			<label index="tx_realty_objects.heating_type.4">Floor heating</label>
-			<label index="tx_realty_objects.heating_type.5">Gas heating</label>
-			<label index="tx_realty_objects.heating_type.6">Green fuel heating</label>
-			<label index="tx_realty_objects.heating_type.7">Heat pump heating</label>
-			<label index="tx_realty_objects.heating_type.8">Oil heating</label>
-			<label index="tx_realty_objects.heating_type.9">Self-contained central heating</label>
-			<label index="tx_realty_objects.heating_type.10">Solar heating</label>
-			<label index="tx_realty_objects.heating_type.11">Heating by stove</label>
-			<label index="tx_realty_objects.heating_type.12">Zone heating</label>
+			<label index="tx_realty_objects.heating_type.1">district heating</label>
+			<label index="tx_realty_objects.heating_type.2">central heating</label>
+			<label index="tx_realty_objects.heating_type.3">electric heating</label>
+			<label index="tx_realty_objects.heating_type.4">floor heating</label>
+			<label index="tx_realty_objects.heating_type.5">gas heating</label>
+			<label index="tx_realty_objects.heating_type.6">green fuel heating</label>
+			<label index="tx_realty_objects.heating_type.7">heat pump heating</label>
+			<label index="tx_realty_objects.heating_type.8">oil heating</label>
+			<label index="tx_realty_objects.heating_type.9">self-contained central heating</label>
+			<label index="tx_realty_objects.heating_type.10">solar heating</label>
+			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
+			<label index="tx_realty_objects.heating_type.12">zone heating</label>
 			<label index="tx_realty_objects.garage_type">Garage/parking space</label>
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
@@ -60,6 +60,19 @@
 			<label index="tx_realty_objects.old_or_new_building.I.1">new building</label>
 			<label index="tx_realty_objects.old_or_new_building.I.2">old building</label>
 			<label index="tx_realty_objects.state">Condition</label>
+			<label index="tx_realty_objects.state.1">bare brickwork</label>
+			<label index="tx_realty_objects.state.2">by arrangement</label>
+			<label index="tx_realty_objects.state.3">dilapidated</label>
+			<label index="tx_realty_objects.state.4">first occupancy</label>
+			<label index="tx_realty_objects.state.5">for demolition</label>
+			<label index="tx_realty_objects.state.6">gutted</label>
+			<label index="tx_realty_objects.state.7">modernized</label>
+			<label index="tx_realty_objects.state.8">neat</label>
+			<label index="tx_realty_objects.state.9">in need of renovation</label>
+			<label index="tx_realty_objects.state.10">reconditioned</label>
+			<label index="tx_realty_objects.state.11">renovated</label>
+			<label index="tx_realty_objects.state.12">sanitated</label>
+			<label index="tx_realty_objects.state.13">planned</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
@@ -94,8 +107,6 @@
 			<label index="tx_realty_car_places.title">Title</label>
 			<label index="tx_realty_pets">Pets</label>
 			<label index="tx_realty_pets.title">Title</label>
-			<label index="tx_realty_conditions">Condition</label>
-			<label index="tx_realty_conditions.title">Title</label>
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
@@ -161,6 +172,19 @@
 			<label index="tx_realty_objects.old_or_new_building.I.1">Neubau</label>
 			<label index="tx_realty_objects.old_or_new_building.I.2">Altbau</label>
 			<label index="tx_realty_objects.state">Zustand</label>
+			<label index="tx_realty_objects.state.1">Rohbau</label>
+			<label index="tx_realty_objects.state.2">nach Vereinbarung</label>
+			<label index="tx_realty_objects.state.3">baufällig</label>
+			<label index="tx_realty_objects.state.4">Erstbezug</label>
+			<label index="tx_realty_objects.state.5">Abrissobjekt</label>
+			<label index="tx_realty_objects.state.6">entkernt</label>
+			<label index="tx_realty_objects.state.7">modernisiert</label>
+			<label index="tx_realty_objects.state.8">gepflegt</label>
+			<label index="tx_realty_objects.state.9">renovierungsbedürftig</label>
+			<label index="tx_realty_objects.state.10">neuwertig</label>
+			<label index="tx_realty_objects.state.11">renoviert</label>
+			<label index="tx_realty_objects.state.12">saniert</label>
+			<label index="tx_realty_objects.state.13">geplant</label>
 			<label index="tx_realty_objects.balcony">Balkon/Terrasse</label>
 			<label index="tx_realty_objects.garden">Garten(-mitbenutzung)</label>
 			<label index="tx_realty_objects.elevator">Personenaufzug</label>
@@ -195,8 +219,6 @@
 			<label index="tx_realty_car_places.title">Titel</label>
 			<label index="tx_realty_pets">Haustiere</label>
 			<label index="tx_realty_pets.title">Titel</label>
-			<label index="tx_realty_conditions">Zustand</label>
-			<label index="tx_realty_conditions.title">Titel</label>
 			<label index="tx_realty_images">Bild</label>
 			<label index="tx_realty_images.caption">Bildunterschrift</label>
 			<label index="tx_realty_images.image">Bild</label>
@@ -267,8 +289,6 @@
 			<label index="tx_realty_car_places.title">Заголовок</label>
 			<label index="tx_realty_pets">Домашние животные</label>
 			<label index="tx_realty_pets.title">Заголовок</label>
-			<label index="tx_realty_conditions">Состояние</label>
-			<label index="tx_realty_conditions.title">Заголовок</label>
 			<label index="tx_realty_images">Изображения</label>
 			<label index="tx_realty_images.caption">Подпись</label>
 			<label index="tx_realty_images.image">Изображение</label>
@@ -336,8 +356,6 @@
 			<label index="tx_realty_car_places.title">Başlık</label>
 			<label index="tx_realty_pets">Evcil hayvanlar</label>
 			<label index="tx_realty_pets.title">Başlık</label>
-			<label index="tx_realty_conditions">Durumu</label>
-			<label index="tx_realty_conditions.title">Başlık</label>
 			<label index="tx_realty_images">Resim</label>
 			<label index="tx_realty_images.caption">Resim tanımı</label>
 			<label index="tx_realty_images.image">Resim</label>
@@ -381,18 +399,18 @@
 			<label index="tx_realty_objects.bedrooms" type="integer">265698466</label>
 			<label index="tx_realty_objects.bathrooms" type="integer">187944950</label>
 			<label index="tx_realty_objects.heating_type" type="integer">7498189</label>
-			<label index="tx_realty_objects.heating_type.1" type="integer">117959181</label>
-			<label index="tx_realty_objects.heating_type.2" type="integer">234933642</label>
-			<label index="tx_realty_objects.heating_type.3" type="integer">200343832</label>
-			<label index="tx_realty_objects.heating_type.4" type="integer">132728449</label>
-			<label index="tx_realty_objects.heating_type.5" type="integer">116184525</label>
-			<label index="tx_realty_objects.heating_type.6" type="integer">241471737</label>
-			<label index="tx_realty_objects.heating_type.7" type="integer">127352587</label>
-			<label index="tx_realty_objects.heating_type.8" type="integer">122691025</label>
-			<label index="tx_realty_objects.heating_type.9" type="integer">151462848</label>
-			<label index="tx_realty_objects.heating_type.10" type="integer">57612085</label>
-			<label index="tx_realty_objects.heating_type.11" type="integer">32092617</label>
-			<label index="tx_realty_objects.heating_type.12" type="integer">97209900</label>
+			<label index="tx_realty_objects.heating_type.1" type="integer">58692590</label>
+			<label index="tx_realty_objects.heating_type.2" type="integer">184452105</label>
+			<label index="tx_realty_objects.heating_type.3" type="integer">147311804</label>
+			<label index="tx_realty_objects.heating_type.4" type="integer">117557325</label>
+			<label index="tx_realty_objects.heating_type.5" type="integer">201138506</label>
+			<label index="tx_realty_objects.heating_type.6" type="integer">161522935</label>
+			<label index="tx_realty_objects.heating_type.7" type="integer">235360048</label>
+			<label index="tx_realty_objects.heating_type.8" type="integer">13139931</label>
+			<label index="tx_realty_objects.heating_type.9" type="integer">236775939</label>
+			<label index="tx_realty_objects.heating_type.10" type="integer">90902450</label>
+			<label index="tx_realty_objects.heating_type.11" type="integer">161251937</label>
+			<label index="tx_realty_objects.heating_type.12" type="integer">5073316</label>
 			<label index="tx_realty_objects.garage_type" type="integer">97055949</label>
 			<label index="tx_realty_objects.garage_rent" type="integer">32433980</label>
 			<label index="tx_realty_objects.garage_price" type="integer">57868081</label>
@@ -402,6 +420,19 @@
 			<label index="tx_realty_objects.old_or_new_building.I.1" type="integer">241425363</label>
 			<label index="tx_realty_objects.old_or_new_building.I.2" type="integer">97928723</label>
 			<label index="tx_realty_objects.state" type="integer">165843995</label>
+			<label index="tx_realty_objects.state.1" type="integer">540352</label>
+			<label index="tx_realty_objects.state.2" type="integer">93660376</label>
+			<label index="tx_realty_objects.state.3" type="integer">178520122</label>
+			<label index="tx_realty_objects.state.4" type="integer">116091427</label>
+			<label index="tx_realty_objects.state.5" type="integer">142785661</label>
+			<label index="tx_realty_objects.state.6" type="integer">202590932</label>
+			<label index="tx_realty_objects.state.7" type="integer">74796736</label>
+			<label index="tx_realty_objects.state.8" type="integer">48584873</label>
+			<label index="tx_realty_objects.state.9" type="integer">112726903</label>
+			<label index="tx_realty_objects.state.10" type="integer">125161683</label>
+			<label index="tx_realty_objects.state.11" type="integer">6435587</label>
+			<label index="tx_realty_objects.state.12" type="integer">149392355</label>
+			<label index="tx_realty_objects.state.13" type="integer">59756617</label>
 			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
 			<label index="tx_realty_objects.garden" type="integer">237814086</label>
 			<label index="tx_realty_objects.elevator" type="integer">157509981</label>
@@ -436,8 +467,6 @@
 			<label index="tx_realty_car_places.title" type="integer">192455458</label>
 			<label index="tx_realty_pets" type="integer">122743082</label>
 			<label index="tx_realty_pets.title" type="integer">192455458</label>
-			<label index="tx_realty_conditions" type="integer">165843995</label>
-			<label index="tx_realty_conditions.title" type="integer">192455458</label>
 			<label index="tx_realty_images" type="integer">199571973</label>
 			<label index="tx_realty_images.caption" type="integer">41073277</label>
 			<label index="tx_realty_images.image" type="integer">199571973</label>
@@ -508,8 +537,6 @@
 			<label index="tx_realty_car_places.title" type="integer">192455458</label>
 			<label index="tx_realty_pets" type="integer">122743082</label>
 			<label index="tx_realty_pets.title" type="integer">192455458</label>
-			<label index="tx_realty_conditions" type="integer">165843995</label>
-			<label index="tx_realty_conditions.title" type="integer">192455458</label>
 			<label index="tx_realty_images" type="integer">199571973</label>
 			<label index="tx_realty_images.caption" type="integer">41073277</label>
 			<label index="tx_realty_images.image" type="integer">199571973</label>
@@ -577,8 +604,6 @@
 			<label index="tx_realty_car_places.title" type="integer">192455458</label>
 			<label index="tx_realty_pets" type="integer">122743082</label>
 			<label index="tx_realty_pets.title" type="integer">192455458</label>
-			<label index="tx_realty_conditions" type="integer">165843995</label>
-			<label index="tx_realty_conditions.title" type="integer">192455458</label>
 			<label index="tx_realty_images" type="integer">199571973</label>
 			<label index="tx_realty_images.caption" type="integer">41073277</label>
 			<label index="tx_realty_images.image" type="integer">199571973</label>
@@ -622,18 +647,18 @@
 			<label index="tx_realty_objects.bedrooms">Number of bedrooms</label>
 			<label index="tx_realty_objects.bathrooms">Number of bathrooms</label>
 			<label index="tx_realty_objects.heating_type">Type of heating</label>
-			<label index="tx_realty_objects.heating_type.1">District heating</label>
-			<label index="tx_realty_objects.heating_type.2">Central heating</label>
-			<label index="tx_realty_objects.heating_type.3">Electric heating</label>
-			<label index="tx_realty_objects.heating_type.4">Floor heating</label>
-			<label index="tx_realty_objects.heating_type.5">Gas heating</label>
-			<label index="tx_realty_objects.heating_type.6">Green fuel heating</label>
-			<label index="tx_realty_objects.heating_type.7">Heat pump heating</label>
-			<label index="tx_realty_objects.heating_type.8">Oil heating</label>
-			<label index="tx_realty_objects.heating_type.9">Self-contained central heating</label>
-			<label index="tx_realty_objects.heating_type.10">Solar heating</label>
-			<label index="tx_realty_objects.heating_type.11">Heating by stove</label>
-			<label index="tx_realty_objects.heating_type.12">Zone heating</label>
+			<label index="tx_realty_objects.heating_type.1">district heating</label>
+			<label index="tx_realty_objects.heating_type.2">central heating</label>
+			<label index="tx_realty_objects.heating_type.3">electric heating</label>
+			<label index="tx_realty_objects.heating_type.4">floor heating</label>
+			<label index="tx_realty_objects.heating_type.5">gas heating</label>
+			<label index="tx_realty_objects.heating_type.6">green fuel heating</label>
+			<label index="tx_realty_objects.heating_type.7">heat pump heating</label>
+			<label index="tx_realty_objects.heating_type.8">oil heating</label>
+			<label index="tx_realty_objects.heating_type.9">self-contained central heating</label>
+			<label index="tx_realty_objects.heating_type.10">solar heating</label>
+			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
+			<label index="tx_realty_objects.heating_type.12">zone heating</label>
 			<label index="tx_realty_objects.garage_type">Garage/parking space</label>
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
@@ -643,6 +668,19 @@
 			<label index="tx_realty_objects.old_or_new_building.I.1">new building</label>
 			<label index="tx_realty_objects.old_or_new_building.I.2">old building</label>
 			<label index="tx_realty_objects.state">Condition</label>
+			<label index="tx_realty_objects.state.1">bare brickwork</label>
+			<label index="tx_realty_objects.state.2">by arrangement</label>
+			<label index="tx_realty_objects.state.3">dilapidated</label>
+			<label index="tx_realty_objects.state.4">first occupancy</label>
+			<label index="tx_realty_objects.state.5">for demolition</label>
+			<label index="tx_realty_objects.state.6">gutted</label>
+			<label index="tx_realty_objects.state.7">modernized</label>
+			<label index="tx_realty_objects.state.8">neat</label>
+			<label index="tx_realty_objects.state.9">in need of renovation</label>
+			<label index="tx_realty_objects.state.10">reconditioned</label>
+			<label index="tx_realty_objects.state.11">renovated</label>
+			<label index="tx_realty_objects.state.12">sanitated</label>
+			<label index="tx_realty_objects.state.13">planned</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
@@ -677,8 +715,6 @@
 			<label index="tx_realty_car_places.title">Title</label>
 			<label index="tx_realty_pets">Pets</label>
 			<label index="tx_realty_pets.title">Title</label>
-			<label index="tx_realty_conditions">Condition</label>
-			<label index="tx_realty_conditions.title">Title</label>
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
@@ -749,8 +785,6 @@
 			<label index="tx_realty_car_places.title">Title</label>
 			<label index="tx_realty_pets">Pets</label>
 			<label index="tx_realty_pets.title">Title</label>
-			<label index="tx_realty_conditions">Condition</label>
-			<label index="tx_realty_conditions.title">Title</label>
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
@@ -818,8 +852,6 @@
 			<label index="tx_realty_car_places.title">Title</label>
 			<label index="tx_realty_pets">Pets</label>
 			<label index="tx_realty_pets.title">Title</label>
-			<label index="tx_realty_conditions">Condition</label>
-			<label index="tx_realty_conditions.title">Title</label>
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>

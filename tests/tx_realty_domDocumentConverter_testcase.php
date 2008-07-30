@@ -641,6 +641,46 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataGetsStateIfValidStateProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<zustand_angaben>' .
+							'<zustand ZUSTAND_ART="gepflegt" />' .
+						'</zustand_angaben>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('state' => 8)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataDoesNotGetStateIfInvalidStateProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<zustand_angaben>' .
+							'<zustand ZUSTAND_ART="geputzt" />' .
+						'</zustand_angaben>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedDataCanGetOneValidHeatingType() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .

@@ -83,9 +83,6 @@ t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_realty_pets = 1
 ');
 t3lib_extMgm::addUserTSConfig('
-	options.saveDocNew.tx_realty_conditions = 1
-');
-t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_realty_images = 1
 ');
 t3lib_extMgm::addUserTSConfig('

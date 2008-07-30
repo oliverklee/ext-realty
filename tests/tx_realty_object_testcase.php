@@ -1493,22 +1493,6 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateAConditionsRecord() {
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CONDITIONS);
-		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->setProperty('state', 'foo');
-		$this->fixture->writeToDatabase();
-
-		$this->assertEquals(
-			1,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_CONDITIONS,
-				'title="foo" AND is_dummy_record=1'
-					.$this->templateHelper->enableFields(REALTY_TABLE_CONDITIONS)
-			)
-		);
-	}
-
 	public function testAddImageRecordForLoadedObject() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');

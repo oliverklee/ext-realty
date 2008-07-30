@@ -100,23 +100,6 @@ $TCA['tx_realty_pets'] = array(
 	)
 );
 
-$TCA['tx_realty_conditions'] = array(
-	'ctrl' => array(
-		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_conditions',
-		'label' => 'title',
-		'tstamp' => 'tstamp',
-		'crdate' => 'crdate',
-		'cruser_id' => 'cruser_id',
-		'languageField' => 'sys_language_uid',
-		'transOrigPointerField' => 'l18n_parent',
-		'transOrigDiffSourceField' => 'l18n_diffsource',
-		'default_sortby' => 'ORDER BY title',
-		'delete' => 'deleted',
-		'dynamicConfigFile' => $extPath.'tca.php',
-		'iconfile' => $extIconRelPath.'icon_tx_realty_conditions.gif'
-	)
-);
-
 $TCA['tx_realty_images'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images',
