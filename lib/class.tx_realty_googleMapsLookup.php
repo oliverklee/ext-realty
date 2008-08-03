@@ -94,28 +94,30 @@ class tx_realty_googleMapsLookup {
 	 * @param	string		the street of the address
 	 * @param	string		the ZIP code of the address
 	 * @param	string		the city of the address
-	 * @param	string		the ISO 3166-1 alpha2 code of the address, if this
-	 * 						is empty, the default country set in the
-	 * 						configuration will be used
+	 * @param	integer		the country of the address as a UID from
+	 * 						static_info_tables, if this is 0, the default
+	 * 						country set in the configuration will be used
 	 *
 	 * @return	array		an array with the geo coordinates using the keys
 	 * 						'longitude' and 'latitude' or an empty array if the
 	 * 						lookup failed
 	 */
-	function lookUp($street = '', $zip = '', $city = '', $countryCode = '') {
+	function lookUp($street = '', $zip = '', $city = '', $countryUid = 0) {
 		if (($zip . $city) == '') {
 			return array();
 		}
 
-		$nonEmptyCountryCode = ($countryCode != '')
-			? $countryCode : $this->getDefaultCountryCode();
+		$actualCountryUid = ($countryUid != 0)
+			? $countryUid : $this->configuration->getConfValueInteger(
+			'defaultCountryUID', 's_googlemaps'
+			);
 
 		$addressParts = array();
 		if ($street != '') {
 			$addressParts[] = $street;
 		}
 		$addressParts[] = $zip . ' ' . $city;
-		$addressParts[] = $nonEmptyCountryCode;
+		$addressParts[] = $this->getCountryCodeFromUid($actualCountryUid);
 
 		$fullAddress = implode(', ', $addressParts);
 		$delay = 0;
@@ -156,37 +158,33 @@ class tx_realty_googleMapsLookup {
 	}
 
 	/**
-	 * Reads the default ISO 3166-1 alpha2 country code from the configuration.
+	 * Reads the default ISO 3166-1 alpha2 country code for a UID from
+	 * static_info_tables.
 	 *
-	 * @return	string		the ISO 3166-1 alpha 2 code for the default country
-	 * 						from the configuration or an empty string if no
-	 * 						default country is defined
+	 * @param	integer		a country UID from static_info_tables, must be >= 0
+	 *
+	 * @return	string		the ISO 3166-1 alpha 2 code for the UID or an empty
+	 * 						string if the UID does not map to a country
 	 */
-	private function getDefaultCountryCode() {
-		if (!$this->configuration->hasConfValueInteger(
-			'defaultCountryUID', 's_googlemaps'
-		)) {
+	private function getCountryCodeFromUid($uid) {
+		if ($uid == 0) {
 			return '';
 		}
 
-		$uid = $this->configuration->getConfValueInteger(
-			'defaultCountryUID', 's_googlemaps'
-		);
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'cn_iso_2',
-			'static_countries',
-			'uid = ' . $uid
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			throw new Exception(DATABASE_RESULT_ERROR);
-		}
-
 		if (!isset(self::$countryCache[$uid])) {
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'cn_iso_2',
+				'static_countries',
+				'uid = ' . $uid
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			if (!$row) {
+				throw new Exception(DATABASE_RESULT_ERROR);
+			}
+
 			self::$countryCache[$uid] = $row['cn_iso_2'];
 		}
 
