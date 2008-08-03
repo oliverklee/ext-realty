@@ -22,6 +22,15 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+
+require_once(PATH_t3lib . 'class.t3lib_refindex.php');
+require_once(PATH_t3lib . 'class.t3lib_befunc.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+
 /**
  * Class 'tx_realty_object' for the 'realty' extension.
  *
@@ -32,15 +41,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(PATH_t3lib.'class.t3lib_refindex.php');
-require_once(PATH_t3lib.'class.t3lib_befunc.php');
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-
 class tx_realty_object {
 	/** contains the realty object's data */
 	private $realtyObjectData = array();
@@ -82,7 +82,7 @@ class tx_realty_object {
 		REALTY_TABLE_CAR_PLACES => 'garage_type',
 	);
 
-	/** instance of tx_oelb_templatehelper */
+	/** @var	tx_oelib_templatehelper */
 	private $templateHelper;
 
 	/** whether hidden objects are loadable */
@@ -102,7 +102,6 @@ class tx_realty_object {
 		$this->templateHelper = t3lib_div::makeInstance(
 			'tx_oelib_templatehelper'
 		);
- 		$this->templateHelper->init();
 	}
 
 	/**
@@ -118,7 +117,9 @@ class tx_realty_object {
 	 * 						record, an array must not contain the key 'uid'
 	 * @param	boolean		whether hidden objects are loadable
 	 */
-	public function loadRealtyObject($realtyData, $canLoadHiddenObjects = false) {
+	public function loadRealtyObject(
+		$realtyData, $canLoadHiddenObjects = false
+	) {
 		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
@@ -127,7 +128,8 @@ class tx_realty_object {
 						'The column "uid" must not be set in $realtyData.'
 					);
 				}
-				$this->realtyObjectData = $this->isolateImageRecords($realtyData);
+				$this->realtyObjectData
+					= $this->isolateImageRecords($realtyData);
 				break;
 			case 'uid' :
 				$this->realtyObjectData = $this->loadDatabaseEntry(
@@ -187,8 +189,6 @@ class tx_realty_object {
 	 * 						result could not be fetched
 	 */
 	protected function loadDatabaseEntry($uid) {
-		$result = array();
-
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			REALTY_TABLE_OBJECTS,
@@ -201,7 +201,7 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Stores the image records to $this->images and wirtes the number of images
+	 * Stores the image records to $this->images and writes the number of images
 	 * to the imported data array instead as this number is expected by the
 	 * database configuration.
 	 *
@@ -277,7 +277,9 @@ class tx_realty_object {
 			$newUid = $this->createNewDatabaseEntry(
 				$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
 			);
-			if ($newUid == 0) {
+			if ($newUid != 0) {
+				$this->realtyObjectData['uid'] = $newUid;
+			} else {
 				$errorMessage = 'message_insertion_failed';
 			}
 		}
@@ -641,7 +643,6 @@ class tx_realty_object {
 			$this->realtyObjectData, 'object_number, language, openimmo_obid'
 		);
 		$objectUid = $this->getProperty('uid');
-		$counter = 1;
 
 		foreach ($this->getAllImageData() as $imageData) {
 			// Creates a relation to the parent realty object for each image.
