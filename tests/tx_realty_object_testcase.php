@@ -22,6 +22,13 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_objectChild.php');
+
 /**
  * Unit tests for the tx_realty_object class in the 'realty' extension.
  *
@@ -30,20 +37,12 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_objectChild.php');
-
 class tx_realty_object_testcase extends tx_phpunit_testcase {
-	/** instance to be tested */
+	/** @var	tx_realty_objectChild */
 	private $fixture;
-	/** instance of tx_oelib_testingFramework */
+	/** @var	tx_oelib_testingFramework */
 	private $testingFramework;
-	/** instance of tx_oelib_templatehelper */
+	/** @var	tx_oelib_templatehelper */
 	private $templateHelper;
 
 	/** UID of a dummy realty object */
@@ -59,10 +58,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function setUp() {
 		$this->fixture = new tx_realty_objectChild(true);
-		$this->templateHelper = t3lib_div::makeInstance(
-			'tx_oelib_templatehelper'
-		);
- 		$this->templateHelper->init();
+		$this->templateHelper = new tx_oelib_templatehelper();
+
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
@@ -562,7 +559,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberButNoLanguageExistsInTheDbAndLanguageIsSet() {
-		$uid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => 'this is a title',
@@ -592,7 +589,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberButNoObidExistsInTheDbAndObidIsSet() {
-		$uid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => 'this is a title',
@@ -622,7 +619,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewEntryIfObjectNumberButObidExistsInTheDbAndObidIsSet() {
-		$uid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(
 				'title' => 'this is a title',
@@ -1581,7 +1578,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewImageRecordIfTheSameRecordExistsButIsDeleted() {
-		$imageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'foo',
@@ -1654,7 +1651,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testUidOfFeUserWithMatchingAnidIsNotAddedAsOwnerIfThisIsForbidden() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('tx_realty_openimmo_anid' => 'test anid')
 		);
@@ -1669,7 +1666,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testNoOwnerIsAddedForARealtyRecordWithoutOpenImmoAnid() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('tx_realty_openimmo_anid' => 'test anid')
 		);
@@ -1709,7 +1706,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$uidOfFeUserOne = $this->testingFramework->createFrontEndUser(
 			$feUserGroup, array('tx_realty_openimmo_anid' => 'test anid 1')
 		);
-		$uidOfFeUserTwo = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createFrontEndUser(
 			$feUserGroup, array('tx_realty_openimmo_anid' => 'test anid 2')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1729,7 +1726,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testUseFeUserDataFlagIsSetIfThisOptionIsEnabledByConfiguration() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('tx_realty_openimmo_anid' => 'test anid')
 		);
@@ -1748,7 +1745,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testUseFeUserDataFlagIsNotSetIfThisOptionIsDisabledByConfiguration() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('tx_realty_openimmo_anid' => 'test anid')
 		);
@@ -1767,7 +1764,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testUseFeUserDataFlagIsNotSetIfNoOwerWasSetAlthoughOptionIsEnabledByConfiguration() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('tx_realty_openimmo_anid' => 'test anid')
 		);

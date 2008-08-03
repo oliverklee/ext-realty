@@ -1,3 +1,7 @@
+2008-08-03 Oliver Klee <typo3-coding@oliverklee.de>
+
+	* [#1784] Change: Some code cleanup
+
 2008-07-30 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#2029] Change: Change the import of the condition to use localized strings
@@ -6,7 +10,7 @@
 
 	* [#1983] Fix: Use the image's file name as title if no title is provided
 	* [#1777] Change: Use the file functions from t3lib_div
-	* [#2030] Change: Change the import of the type of heating to use localized strings 
+	* [#2030] Change: Change the import of the type of heating to use localized strings
 
 2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
 
