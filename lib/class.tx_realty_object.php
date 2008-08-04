@@ -30,6 +30,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLookup.php');
 
 /**
  * Class 'tx_realty_object' for the 'realty' extension.
@@ -40,6 +41,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage	tx_realty
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_object {
 	/** contains the realty object's data */
@@ -91,6 +93,15 @@ class tx_realty_object {
 	/** whether a newly created record is for testing purposes only */
 	private $isDummyRecord = false;
 
+	/** @var	tx_realty_googleMapsLookup		a geo coordinate finder */
+	private static $geoFinder;
+
+	/**
+	 * @var	array		cached city names using the UID as numeric key and the
+	 * 					title as value
+	 */
+	private static $cityCache = array();
+
 	/**
 	 * Constructor.
 	 *
@@ -123,11 +134,6 @@ class tx_realty_object {
 		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
-				if (isset($realtyData['uid'])) {
-					throw new Exception(
-						'The column "uid" must not be set in $realtyData.'
-					);
-				}
 				$this->realtyObjectData
 					= $this->isolateImageRecords($realtyData);
 				break;
@@ -995,6 +1001,172 @@ class tx_realty_object {
 		}
 
 		return is_array($result) ? $result : array();
+	}
+
+	/**
+	 * Tries to retrieve the geo coordinates for this object's address.
+	 *
+	 * If retrieving the coordinates was successfull, the object will be written
+	 * to the database. (Usually, the object should already exist in the DB, but
+	 * creating a new object will work fine as well.)
+	 *
+	 * If this object already has cached geo coordinates, this function will do
+	 * nothing.
+	 *
+	 * @param	tx_oelib_templatehelper	object that contains the plugin
+	 * 									configuration
+	 *
+	 * @return	array		array with the keys "latitude" and "longitude" or
+	 * 						an empty array if no coordinates could be retrieved
+	 */
+	public function retrieveCoordinates(
+		tx_oelib_templatehelper $configuration
+	) {
+		if ($configuration->getConfValueBoolean('showAddressOfObjects')) {
+			$prefix = 'exact';
+			$street = $this->getProperty('street');
+		} else {
+			$prefix = 'rough';
+			$street = '';
+		}
+
+		if (!$this->hasCachedCoordinates($prefix)) {
+			$coordinates = $this->createGeoFinder($configuration)->lookUp(
+				$street,
+				$this->getProperty('zip'),
+				$this->getCityName(),
+				intval($this->getProperty('country'))
+			);
+
+			if (!empty($coordinates)) {
+				$this->setProperty(
+					$prefix . '_coordinates_are_cached', 1
+				);
+				$this->setProperty(
+					$prefix . '_latitude', $coordinates['latitude']
+				);
+				$this->setProperty(
+					$prefix . '_longitude', $coordinates['longitude']
+				);
+				$this->writeToDatabase();
+			}
+		}
+
+		return $this->getCachedCoordinates($prefix);
+	}
+
+	/**
+	 * Gets the shared geo coordinate finder.
+	 *
+	 * If it does not exist yet, it will be created first.
+	 *
+	 * @param	tx_oelib_templatehelper	object that contains the plugin
+	 * 									configuration
+	 *
+	 * @return	tx_realty_googleMapsLookup	our geo coordinate finder
+	 */
+	private function createGeoFinder(tx_oelib_templatehelper $configuration) {
+		if (!self::$geoFinder) {
+			$className = t3lib_div::makeInstanceClassName(
+				'tx_realty_googleMapsLookup'
+			);
+			self::$geoFinder = new $className($configuration);
+		}
+
+		return self::$geoFinder;
+	}
+
+	/**
+	 * Get this object's city name.
+	 *
+	 * @return	string		this object's city name or an empty string if this
+	 * 						object does not have a city set
+	 */
+	private function getCityName() {
+		$cityProperty = $this->getProperty('city');
+		if ($cityProperty === 0) {
+			return '';
+		}
+		if (is_string($cityProperty)) {
+			return $cityProperty;
+		}
+
+		$uid = intval($cityProperty);
+		if (!isset(self::$cityCache[$uid])) {
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				REALTY_TABLE_CITIES,
+				'uid = ' . $uid .
+					$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			if (!$row) {
+				throw new Exception(DATABASE_RESULT_ERROR);
+			}
+
+			self::$cityCache[$uid] = $row['title'];
+		}
+
+		return self::$cityCache[$uid];
+	}
+
+	/**
+	 * Clears the city cache.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 */
+	public function clearCityCache() {
+		self::$cityCache = array();
+	}
+
+	/**
+	 * Checks whether we already have cached geo coordinates.
+	 *
+	 * This function only checks whether the "has cached coordinates" flag is
+	 * set, but not for non-emptiness or validity of the coordinates.
+	 *
+	 * @param	string		either "exact" or "rough" to indicate which
+	 * 						coordinates to check
+	 *
+	 * @return	boolean		true if we have exact coordinates with the exactness
+	 * 						indicated by $prefix, false otherwise
+	 */
+	private function hasCachedCoordinates($prefix) {
+		return (boolean)
+			$this->getProperty($prefix . '_coordinates_are_cached');
+	}
+
+	/**
+	 * Gets this object's cached geo coordinates.
+	 *
+	 * @param	string		either "exact" or "rough" to indicate which
+	 * 						coordinates to get
+	 *
+	 * @param	array	the coordinates using the keys "latitude" and
+	 * 					"longitude" or an empty array if no non-empty cached
+	 * 					coordinates are available
+	 */
+	private function getCachedCoordinates($prefix) {
+		if (!$this->hasCachedCoordinates($prefix)) {
+			return array();
+		}
+
+		$latitude = $this->getProperty($prefix . '_latitude');
+		$longitude = $this->getProperty($prefix . '_longitude');
+
+		if ($longitude != '' && $latitude != '') {
+			$result = array(
+				'latitude' => $latitude,
+				'longitude' => $longitude,
+			);
+		} else {
+			$result = array();
+		}
+
+		return $result;
 	}
 }
 

@@ -1,3 +1,7 @@
+2008-08-04 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1784] Feature: Fetch the geo coordinates from Google when displaying an object
+
 2008-08-04 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1886] Feature: The config check should also check that the static template is included at all
@@ -9,7 +13,7 @@
 2008-07-29 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1777] Change: Use the file functions from t3lib_div
-	* [#2030] Change: Change the import of the type of heating to use localized strings 
+	* [#2030] Change: Change the import of the type of heating to use localized strings
 
 2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
 

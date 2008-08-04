@@ -36,6 +36,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_o
  * @subpackage	tx_realty
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_object_testcase extends tx_phpunit_testcase {
 	/** @var	tx_realty_objectChild */
@@ -56,13 +57,23 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	/** object number of a dummy realty object */
 	private static $otherObjectNumber = '100001';
 
+	/** @var	integer		static_info_tables UID of Germany */
+	const DE = 54;
+
+	/** @var	string		a valid Google Maps API key for localhost */
+	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
+
 	public function setUp() {
 		$this->fixture = new tx_realty_objectChild(true);
 		$this->templateHelper = new tx_oelib_templatehelper();
+		$this->templateHelper->setConfigurationValue(
+			'googleMapsApiKey', self::GOOGLE_MAPS_API_KEY
+		);
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
+		$this->fixture->clearCityCache();
 		$this->fixture->setRequiredFields(array());
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueInteger(
@@ -238,17 +249,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadRealtyObjectIfAnArrayWithNonZeroUidIsGiven() {
-		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $realtyData.'
-		);
+	public function testLoadRealtyObjectFromAnArrayWithNonZeroUidIsAllowed() {
 		$this->fixture->loadRealtyObject(array('uid' => 1234));
 	}
 
-	public function testLoadRealtyObjectIfAnArrayWithZeroUidIsGiven() {
-		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $realtyData.'
-		);
+	public function testLoadRealtyObjectFromArrayWithZeroUidIsAllowed() {
 		$this->fixture->loadRealtyObject(array('uid' => 0));
 	}
 
@@ -1778,6 +1783,524 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->getProperty('contact_data_source')
+		);
+	}
+
+
+	//////////////////////////////////
+	// Tests for retrieveCoordinates
+	//////////////////////////////////
+
+	public function testRetrieveCoordinatesForValidAddressWithCityStringWritesObjectToDb() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+		));
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertGreaterThan(
+			0,
+			intval($this->fixture->getProperty('uid'))
+		);
+	}
+
+	public function testRetrieveCoordinatesForValidAddressWithCityUidWritesObjectToDb() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => $this->testingFramework->createRecord(
+				REALTY_TABLE_CITIES, array('title' => 'Bonn')
+			),
+			'country' => self::DE,
+		));
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertGreaterThan(
+			0,
+			intval($this->fixture->getProperty('uid'))
+		);
+	}
+
+	public function testRetrieveCoordinatesForInvalidAddressDoesNotWriteObjectToDb() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'asgtqbt4q3 mkb 431',
+			'zip' => '12345',
+			'city' => 'Allk3q4öklbj',
+			'country' => self::DE,
+		));
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			0,
+			intval($this->fixture->getProperty('uid'))
+		);
+	}
+
+	public function testRetrieveCoordinatesForInvalidAddressWithoutCachedCoordinatesReturnsEmptyArray() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'asgtqbt4q3 mkb 431',
+			'zip' => '12345',
+			'city' => 'Allk3q4öklbj',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->retrieveCoordinates($this->templateHelper)
+		);
+	}
+
+	public function testRetrieveCoordinatesForInvalidAddressDoesNotChangeExistingCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'asgtqbt4q3 mkb 431',
+			'zip' => '12345',
+			'city' => 'Allk3q4öklbj',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+			'rough_coordinates_are_cached' => 0,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+		));
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			'foo exact latitude',
+			$this->fixture->getProperty('exact_latitude')
+		);
+		$this->assertEquals(
+			'foo exact longitude',
+			$this->fixture->getProperty('exact_longitude')
+		);
+		$this->assertEquals(
+			'foo rough latitude',
+			$this->fixture->getProperty('rough_latitude')
+		);
+		$this->assertEquals(
+			'foo rough longitude',
+			$this->fixture->getProperty('rough_longitude')
+		);
+	}
+
+	public function testRetrieveCoordinatesForInvalidAddressDoesNotMarkCoordinatesAsCached() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'asgtqbt4q3 mkb 431',
+			'zip' => '12345',
+			'city' => 'Allk3q4öklbj',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			0,
+			intval($this->fixture->getProperty('exact_coordinates_are_cached'))
+		);
+		$this->assertEquals(
+			0,
+			intval($this->fixture->getProperty('rough_coordinates_are_cached'))
+		);
+	}
+
+	public function testRetrieveCoordinatesForRoughAddressDoesNotSetNotCachedExactCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			'foo exact latitude',
+			$this->fixture->getProperty('exact_latitude')
+		);
+		$this->assertEquals(
+			'foo exact longitude',
+			$this->fixture->getProperty('exact_longitude')
+		);
+	}
+
+	public function testRetrieveCoordinatesForExactAddressDoesNotSetNotCachedRoughCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			'foo rough latitude',
+			$this->fixture->getProperty('rough_latitude')
+		);
+		$this->assertEquals(
+			'foo rough longitude',
+			$this->fixture->getProperty('rough_longitude')
+		);
+	}
+
+	public function testRetrieveCoordinatesForRoughAddressDoesNotOverwriteCachedExactCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 1,
+			'rough_coordinates_are_cached' => 0,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			'foo exact latitude',
+			$this->fixture->getProperty('exact_latitude')
+		);
+		$this->assertEquals(
+			'foo exact longitude',
+			$this->fixture->getProperty('exact_longitude')
+		);
+	}
+
+	public function testRetrieveCoordinatesForExactAddressDoesNotOverwriteCachedRoughCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 1,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			'foo rough latitude',
+			$this->fixture->getProperty('rough_latitude')
+		);
+		$this->assertEquals(
+			'foo rough longitude',
+			$this->fixture->getProperty('rough_longitude')
+		);
+	}
+
+	public function testRetrieveCoordinatesForRoughAddressOverwritesNotCachedRoughCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			50.740081,
+			(double) $this->fixture->getProperty('rough_latitude'),
+			'', 0.0001
+		);
+		$this->assertEquals(
+			7.098095,
+			(double) $this->fixture->getProperty('rough_longitude'),
+			'', 0.0001
+		);
+	}
+
+	public function testRetrieveCoordinatesForExactAddressOverwritesNotCachedExactCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			50.734343,
+			(double) $this->fixture->getProperty('exact_latitude'),
+			'', 0.0001
+		);
+		$this->assertEquals(
+			7.10211,
+			(double) $this->fixture->getProperty('exact_longitude'),
+			'', 0.0001
+		);
+	}
+
+	public function testRetrieveCoordinatesForValidRoughAddressMarksRoughCoordinatesAsCached() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			1,
+			intval($this->fixture->getProperty('rough_coordinates_are_cached'))
+		);
+	}
+
+	public function testRetrieveCoordinatesForValidExactAddressMarksExactCoordinatesAsCached() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			1,
+			intval($this->fixture->getProperty('exact_coordinates_are_cached'))
+		);
+	}
+
+	public function testRetrieveCoordinatesForValidRoughAddressDoesNotMarkExactCoordinatesAsCached() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			0,
+			intval($this->fixture->getProperty('exact_coordinates_are_cached'))
+		);
+	}
+
+	public function testRetrieveCoordinatesForValidExactAddressDoesNotMarkRoughtCoordinatesAsCached() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			0,
+			intval($this->fixture->getProperty('rough_coordinates_are_cached'))
+		);
+	}
+
+	public function testRetrieveCoordinatesReturnsExactCoordinatesForValidAddressIfNothingWasCached() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+
+		$this->assertEquals(
+			array(
+				'latitude' => '50.734343',
+				'longitude' => '7.10211',
+			),
+			$this->fixture->retrieveCoordinates($this->templateHelper)
+		);
+	}
+
+	public function testRetrieveCoordinatesReturnsRoughCoordinatesForValidAddressIfNothingWasCached() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+
+		$this->assertEquals(
+			array(
+				'latitude' => '50.740081',
+				'longitude' => '7.098095',
+			),
+			$this->fixture->retrieveCoordinates($this->templateHelper)
+		);
+	}
+
+	public function testRetrieveCoordinatesForExactValidAddressReturnsCachedCoordinatesIfTheyWereSet() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 1,
+			'rough_coordinates_are_cached' => 0,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+
+		$this->assertEquals(
+			array(
+				'latitude' => 'foo exact latitude',
+				'longitude' => 'foo exact longitude',
+			),
+			$this->fixture->retrieveCoordinates($this->templateHelper)
+		);
+	}
+
+	public function testRetrieveCoordinatesForRoughValidAddressReturnsCachedCoordinatesIfTheyWereSet() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 1,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+
+		$this->assertEquals(
+			array(
+				'latitude' => 'foo rough latitude',
+				'longitude' => 'foo rough longitude',
+			),
+			$this->fixture->retrieveCoordinates($this->templateHelper)
+		);
+	}
+
+	public function testRetrieveCoordinatesForExactInvalidAddressReturnsCachedCoordinatesIfTheyWereSet() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'asgtqbt4q3 mkb 431',
+			'zip' => '12345',
+			'city' => 'Allk3q4öklbj',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 1,
+			'rough_coordinates_are_cached' => 0,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+
+		$this->assertEquals(
+			array(
+				'latitude' => 'foo exact latitude',
+				'longitude' => 'foo exact longitude',
+			),
+			$this->fixture->retrieveCoordinates($this->templateHelper)
+		);
+	}
+
+	public function testRetrieveCoordinatesForRoughInvalidAddressReturnsCachedCoordinatesIfTheyWereSet() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'asgtqbt4q3 mkb 431',
+			'zip' => '12345',
+			'city' => 'Allk3q4öklbj',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 1,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+
+		$this->assertEquals(
+			array(
+				'latitude' => 'foo rough latitude',
+				'longitude' => 'foo rough longitude',
+			),
+			$this->fixture->retrieveCoordinates($this->templateHelper)
+		);
+	}
+
+	public function testRetrieveCoordinatesReturnsDifferentExactAndRoughNonCachedCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$exactResult = $this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$roughResult = $this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertNotEquals(
+			$exactResult,
+			$roughResult
+		);
+	}
+
+	public function testRetrieveCoordinatesCanReturnDifferentExactAndRoughCachedCoordinates() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 1,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+			'rough_coordinates_are_cached' => 1,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+		));
+
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$exactResult = $this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$roughResult = $this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertNotEquals(
+			$exactResult,
+			$roughResult
 		);
 	}
 }

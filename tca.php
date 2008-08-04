@@ -975,7 +975,7 @@ $TCA['tx_realty_objects'] = array(
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'details_page, images, contact_data_source, employer, ' .
 				'contact_person, contact_email, contact_phone, owner, language, ' .
-				'currency' .
+				'currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
 				'rough_coordinates_are_cached;;3'
 		),
@@ -1009,7 +1009,7 @@ $TCA['tx_realty_objects'] = array(
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'details_page, images, contact_data_source, employer, '.
 				'contact_person, contact_email, contact_phone, owner, language, ' .
-				'currency' .
+				'currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
 				'rough_coordinates_are_cached;;3'
 		)

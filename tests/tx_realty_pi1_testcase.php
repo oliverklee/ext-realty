@@ -75,12 +75,18 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	/** first dummy city UID */
 	private $firstCityUid = 0;
 	/** title for the first dummy city */
-	private static $firstCityTitle = 'foo city';
+	private static $firstCityTitle = 'Bonn';
 
 	/** second dummy city UID */
 	private $secondCityUid = 0;
 	/** title for the second dummy city */
 	private static $secondCityTitle = 'bar city';
+
+	/** @var	string		a valid Google Maps API key for localhost */
+	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
+
+	/** @var	integer		static_info_tables UID of Germany */
+	const DE = 54;
 
 	public function setUp() {
 		// Bolsters up the fake front end.
@@ -121,7 +127,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 			'singlePID' => $this->singlePid,
 			'favoritesPID' => $this->favoritesPid,
-			'pidList' => $this->systemFolderPid
+			'pidList' => $this->systemFolderPid,
+			'googleMapsApiKey' => self::GOOGLE_MAPS_API_KEY,
+			'showGoogleMapsInListView' => 0,
+			'showGoogleMapsInSingleView' => 0,
+			'defaultCountryUID' => self::DE,
 		));
 
 		// Ensures an empty favorites list.
@@ -3016,6 +3026,165 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'pid' => $this->systemFolderPid,
 				'city' => $this->secondCityUid
 			)
+		);
+	}
+
+
+	//////////////////////////////////////////
+	// Tests for the Google Maps integration
+	//////////////////////////////////////////
+
+	public function testSingleViewWithGoogleMapsDisabledDoesNotMarkAnyCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('street' => 'Am Hof 1', 'city' => $this->firstCityUid)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid = ' . $this->firstRealtyUid .
+					' AND exact_coordinates_are_cached = 0' .
+					' AND rough_coordinates_are_cached = 0'
+				)
+		);
+	}
+
+	public function testSingleViewWithGoogleMapsEnabledAndExactAddressMarksExactCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('street' => 'Am Hof 1', 'city' => $this->firstCityUid)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid = ' . $this->firstRealtyUid .
+					' AND exact_coordinates_are_cached = 1' .
+					' AND rough_coordinates_are_cached = 0'
+				)
+		);
+	}
+
+	public function testSingleViewWithGoogleMapsEnabledAndRoughAddressMarksRoughCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('street' => 'Am Hof 1', 'city' => $this->firstCityUid)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid = ' . $this->firstRealtyUid .
+					' AND exact_coordinates_are_cached = 0' .
+					' AND rough_coordinates_are_cached = 1'
+				)
+		);
+	}
+
+	public function testListViewWithGoogleMapsDisabledDoesNotMarkAnyCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$address = array(
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid IN(' . $this->firstRealtyUid . ',' .
+					$this->secondRealtyUid . ')' .
+					' AND exact_coordinates_are_cached = 0' .
+					' AND rough_coordinates_are_cached = 0'
+				)
+		);
+	}
+
+	public function testListViewWithGoogleMapsEnabledAndExactAddressMarksExactCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
+		$address = array(
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid IN(' . $this->firstRealtyUid . ',' .
+					$this->secondRealtyUid . ')' .
+					' AND exact_coordinates_are_cached = 1' .
+					' AND rough_coordinates_are_cached = 0'
+				)
+		);
+	}
+
+	public function testListViewWithGoogleMapsEnabledAndRoughAddressMarksRoughCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
+		$address = array(
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid IN(' . $this->firstRealtyUid . ',' .
+					$this->secondRealtyUid . ')' .
+					' AND exact_coordinates_are_cached = 0' .
+					' AND rough_coordinates_are_cached = 1'
+				)
 		);
 	}
 }

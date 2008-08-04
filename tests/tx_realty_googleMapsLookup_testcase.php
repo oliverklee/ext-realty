@@ -37,35 +37,19 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLo
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
-	/**
-	 * a valid Google Maps API key for localhost
-	 *
-	 * @var	string
-	 */
+	/** @var	string	a valid Google Maps API key for localhost */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
 	/** @var	tx_realty_googleMapsLookup */
 	private $fixture;
 
-	/**
-	 * static_info_tables UID of Germany
-	 *
-	 * @var	integer
-	 */
+	/** @var	integer		static_info_tables UID of Germany */
 	const DE = 54;
 
-	/**
-	 * static_info_tables UID of the US
-	 *
-	 * @var	integer
-	 */
+	/** @var	integer		static_info_tables UID of the US */
 	const US = 220;
 
-	/**
-	 * an object that contains the plugin configuration.
-	 *
-	 * @var	tx_oelib_templatehelper
-	 */
+	/** @var	tx_oelib_templatehelper		plugin configuration */
 	private $configuration;
 
 	public function setUp() {

@@ -35,41 +35,29 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_googleMapsLookup {
-	/**
-	 * the base URL of the Google Maps geo coding service
-	 *
-	 * @var	string
-	 */
+	/** @var	string		the base URL of the Google Maps geo coding service */
 	const BASE_URL = 'http://maps.google.com/maps/geo?output=csv&key=';
 
 	/**
-	 * the Google Maps geo coding base URL including the key and the "q"
-	 * variable name
-	 *
-	 * @var	string
+	 * @var	string		the Google Maps geo coding base URL including the key
+	 * 					and the "q" variable name
 	 */
 	private $baseUrlWithKey;
 
-	/**
-	 * plugin configuration
-	 *
-	 * @var	tx_oelib_templatehelper
-	 */
+	/** @var	tx_oelib_templatehelper		plugin configuration */
 	private $configuration;
 
 	/**
-	 * Cached country codes from static_info_tables using the UID as numeric key
-	 * and the ISO 3166-1 alpha2 code as value.
-	 *
-	 * @var	array
+	 * @var	array		cached country codes from static_info_tables using the
+	 * 					UID as numeric key and the ISO 3166-1 alpha2 code as
+	 * 					value
 	 */
 	private static $countryCache = array();
 
 	/**
 	 * The constructor.
 	 *
-	 * @param	tx_oelib_templatehelper	object that contains the plugin
-	 * 									configuration
+	 * @param	tx_oelib_templatehelper		the plugin configuration
 	 */
 	public function __construct(tx_oelib_templatehelper $configuration) {
 		if (!$configuration->hasConfValueString(

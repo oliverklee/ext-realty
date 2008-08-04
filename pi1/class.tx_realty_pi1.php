@@ -30,6 +30,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
 // field types for realty objects
 define('TYPE_NUMERIC', 0);
@@ -600,6 +601,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				->addHeader('Status: 404 Not Found');
 			$this->setEmptyResultView();
 		} else {
+			if ($this->getConfValueBoolean(
+				'showGoogleMapsInSingleView', 's_googlemaps'
+			)) {
+				$this->retrieveGeoCoordinates();
+			}
+
 			// This sets the title of the page for display and for use in indexed search results.
 			if (!empty($this->internal['currentRow']['title']))	{
 				$GLOBALS['TSFE']->page['title'] = $this->internal['currentRow']['title'];
@@ -838,6 +845,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML output, a table row with a class attribute set (alternative based on odd/even rows)
 	 */
 	private function createListRow($rowCounter = 0) {
+		if ($this->getConfValueBoolean(
+			'showGoogleMapsInListView', 's_googlemaps'
+		)) {
+			$this->retrieveGeoCoordinates();
+		}
+
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarkerContent('class_position_in_list', $position);
 		$this->hideSubparts('editor_specific_content', 'wrapper');
@@ -2506,6 +2519,32 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->internal['currentRow'] = $currentRow;
+	}
+
+	/**
+	 * Retrieves the geo coordinates for the current object.
+	 *
+	 * This function requires the current realty object data to be set in
+	 * $this->internal['currentRow'].
+	 */
+	private function retrieveGeoCoordinates() {
+		if (!isset($this->internal['currentRow'])
+			|| empty($this->internal['currentRow'])
+		) {
+			throw new Exception(
+				'$this->internal[\'currentRow\'] must not be empty.'
+			);
+		}
+
+		$realtyObject = t3lib_div::makeInstance('tx_realty_object');
+		$realtyObject->loadRealtyObject($this->internal['currentRow'], true);
+		try {
+			$realtyObject->retrieveCoordinates($this);
+		} catch (Exception $exception) {
+			// RetrieveCoordinates will throw an exception if the Google Maps
+			// API key is missing. As this is checked by the configuration
+			// check, we don't need to act on this exception here.
+		}
 	}
 }
 
