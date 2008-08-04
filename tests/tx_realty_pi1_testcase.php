@@ -22,6 +22,19 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_tslib . 'class.tslib_content.php');
+require_once(PATH_tslib . 'class.tslib_feuserauth.php');
+require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
+
+define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
+
 /**
  * Testcase for the tx_realty_pi1 class in the 'realty' extension.
  *
@@ -30,23 +43,11 @@
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(PATH_tslib.'class.tslib_content.php');
-require_once(PATH_tslib.'class.tslib_feuserauth.php');
-require_once(PATH_t3lib.'class.t3lib_timetrack.php');
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
-
-define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
-
 class tx_realty_pi1_testcase extends tx_phpunit_testcase {
+	/** @var	tx_realty_pi1 */
 	private $fixture;
 
+	/** @var	tx_oelib_testingFramework */
 	private $testingFramework;
 
 	private $loginPid = 0;
