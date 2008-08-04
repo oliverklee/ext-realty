@@ -123,11 +123,6 @@ class tx_realty_object {
 		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
-				if (isset($realtyData['uid'])) {
-					throw new Exception(
-						'The column "uid" must not be set in $realtyData.'
-					);
-				}
 				$this->realtyObjectData
 					= $this->isolateImageRecords($realtyData);
 				break;

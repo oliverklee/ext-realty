@@ -238,17 +238,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadRealtyObjectIfAnArrayWithNonZeroUidIsGiven() {
-		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $realtyData.'
-		);
-		$this->fixture->loadRealtyObject(array('uid' => 1234));
-	}
+	public function testLoadRealtyObjectFromAnArrayWithNonZeroUidIsAllowed() {
+ 		$this->fixture->loadRealtyObject(array('uid' => 1234));
+ 	}
 
-	public function testLoadRealtyObjectIfAnArrayWithZeroUidIsGiven() {
-		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $realtyData.'
-		);
+	public function testLoadRealtyObjectFromArrayWithZeroUidIsAllowed() {
 		$this->fixture->loadRealtyObject(array('uid' => 0));
 	}
 
