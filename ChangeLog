@@ -1,3 +1,7 @@
+2008-08-04 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#1886] Feature: The config check should also check that the static template is included at all
+
 2008-07-30 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#2029] Change: Change the import of the condition to use localized strings

@@ -179,6 +179,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkDateFormat();
 		$this->checkWhatToDisplay();
 		$this->checkLocale();
+		$this->checkStaticIncluded();
 	}
 
 	/**
