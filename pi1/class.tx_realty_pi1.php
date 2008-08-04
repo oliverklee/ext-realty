@@ -22,6 +22,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
+
+// field types for realty objects
+define('TYPE_NUMERIC', 0);
+define('TYPE_STRING', 1);
+define('TYPE_BOOLEAN', 2);
+
 /**
  * Plugin 'Realty List' for the 'realty' extension.
  *
@@ -30,21 +44,6 @@
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndEditor.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndImageUpload.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_filterForm.php');
-
-// field types for realty objects
-define('TYPE_NUMERIC', 0);
-define('TYPE_STRING', 1);
-define('TYPE_BOOLEAN', 2);
-
 class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** same as class name */
 	public $prefixId = 'tx_realty_pi1';
@@ -1174,7 +1173,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @param	integer		the highest allowed suffix, must be at least 1
 	 *
 	 * @return	string		localized string for the label
-	 * 						"label_[$key].[value of $key]", will be a 
+	 * 						"label_[$key].[value of $key]", will be a
 	 * 						comma-separated list of localized strings if
 	 * 						the value of $key was a comma-separated list of
 	 * 						suffixes, will be empty if no suffix is within the
