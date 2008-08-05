@@ -21,6 +21,14 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
+
 /**
  * Unit tests for the tx_realty_frontEndForm class in the 'realty' extension.
  *
@@ -29,15 +37,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndForm.php');
-
 class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	/** FE form object to be tested */
 	private $fixture;

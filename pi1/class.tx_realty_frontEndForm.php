@@ -21,6 +21,14 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_formidableapi);
+
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+
 /**
  * Class 'tx_realty_frontEndForm' for the 'realty' extension. This class
  * provides functions used in the realty plugin's forms.
@@ -30,15 +38,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(PATH_formidableapi);
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-
 class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/** the extension key (FORMidable expects this to be public) */
 	public $extKey = 'realty';
@@ -76,7 +75,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * @param	boolean		whether the FE editor is instanciated in test mode
 	 */
 	public function __construct(
-		tx_oelib_templatehelper $plugin, $uidOfObjectToEdit, $xmlPath, $isTestMode = false
+		tx_oelib_templatehelper $plugin, $uidOfObjectToEdit, $xmlPath,
+		$isTestMode = false
 	) {
 		$this->isTestMode = $isTestMode;
 		$this->realtyObjectUid = $uidOfObjectToEdit;
