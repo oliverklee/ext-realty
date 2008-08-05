@@ -1,3 +1,7 @@
+2008-08-05 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#2039] Change: Cleanup the FE editor
+
 2008-08-04 Oliver Klee  <typo3-coding@oliverklee.de>
 
 	* [#1784] Feature: Fetch the geo coordinates from Google when displaying an object
