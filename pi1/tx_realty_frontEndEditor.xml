@@ -48,9 +48,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getRequiredFieldMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="title"/>
+									<data name="label" value="message_required_field"/>
 								</params>
 							</userobj>
 						</message>
@@ -100,9 +101,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getRequiredFieldMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="zip"/>
+									<data name="label" value="message_required_field"/>
 								</params>
 							</userobj>
 						</message>
@@ -120,7 +122,10 @@
 				</items>
 				<userobj>
 					<extension>this</extension>
-					<method>populateListOfCities</method>
+					<method>populateList</method>
+					<params>
+						<data name="table" value="tx_realty_cities"/>
+					</params>
 				</userobj>
 			</data>
 			<validators>
@@ -143,13 +148,17 @@
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAtMostOneValueForCityRecordProvided</method>
+						<method>isAtMostOneValueForAuxiliaryRecordProvided</method>
+						<params>
+							<data name="fieldName" value="city"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getEitherNewOrExistingRecordMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="city"/>
+									<data name="label" value="message_either_new_or_existing_record"/>
 								</params>
 							</userobj>
 						</message>
@@ -167,20 +176,27 @@
 				</items>
 				<userobj>
 					<extension>this</extension>
-					<method>populateListOfDistricts</method>
+					<method>populateList</method>
+					<params>
+						<data name="table" value="tx_realty_districts"/>
+					</params>
 				</userobj>
 			</data>
 			<validators>
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAllowedValueForDistrict</method>
+						<method>checkKeyExistsInTable</method>
+						<params>
+							<data name="table" value="tx_realty_districts"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="district"/>
+									<data name="label" value="message_value_not_allowed"/>
 								</params>
 							</userobj>
 						</message>
@@ -193,13 +209,17 @@
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAtMostOneValueForDistrictRecordProvided</method>
+						<method>isAtMostOneValueForAuxiliaryRecordProvided</method>
+						<params>
+							<data name="fieldName" value="district"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getEitherNewOrExistingRecordMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="district"/>
+									<data name="label" value="message_either_new_or_existing_record"/>
 								</params>
 							</userobj>
 						</message>
@@ -228,9 +248,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getRequiredFieldMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="contact_person"/>
+									<data name="label" value="message_required_field"/>
 								</params>
 							</userobj>
 						</message>
@@ -247,9 +268,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getRequiredFieldMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="contact_email"/>
+									<data name="label" value="message_required_field"/>
 								</params>
 							</userobj>
 						</message>
@@ -258,7 +280,11 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidEmailMessage</method>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="contact_email"/>
+									<data name="label" value="label_set_valid_email_address"/>
+								</params>
 							</userobj>
 						</message>
 					</email>
@@ -269,6 +295,7 @@
 
 		<renderlet:TEXT name="spacer_03" label="&amp;nbsp;" readonly="true"/>
 
+		<renderlet:TEXT name="currency" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.currency"/>
 		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
 			<validators>
 				<validator:STANDARD>
@@ -317,9 +344,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidPriceMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="extra_charges"/>
+									<data name="label" value="message_no_valid_price"/>
 								</params>
 							</userobj>
 						</message>
@@ -343,20 +371,27 @@
 			<data>
 				<userobj>
 					<extension>this</extension>
-					<method>populateListOfHouseTypes</method>
+					<method>populateList</method>
+					<params>
+						<data name="table" value="tx_realty_house_types"/>
+					</params>
 				</userobj>
 			</data>
 			<validators>
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAllowedValueForHouseType</method>
+						<method>checkKeyExistsInTable</method>
+						<params>
+							<data name="table" value="tx_realty_house_types"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="house_type"/>
+									<data name="label" value="message_value_not_allowed"/>
 								</params>
 							</userobj>
 						</message>
@@ -374,20 +409,27 @@
 				</items>
 				<userobj>
 					<extension>this</extension>
-					<method>populateListOfApartmentTypes</method>
+					<method>populateList</method>
+					<params>
+						<data name="table" value="tx_realty_apartment_types"/>
+					</params>
 				</userobj>
 			</data>
 			<validators>
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAllowedValueForApartmentType</method>
+						<method>checkKeyExistsInTable</method>
+						<params>
+							<data name="table" value="tx_realty_apartment_types"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="apartment_type"/>
+									<data name="label" value="message_value_not_allowed"/>
 								</params>
 							</userobj>
 						</message>
@@ -408,9 +450,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidYearMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="construction_year"/>
+									<data name="label" value="message_no_valid_year"/>
 								</params>
 							</userobj>
 						</message>
@@ -549,9 +592,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="estate_size"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -568,9 +612,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="living_area"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -587,9 +632,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="total_area"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -604,9 +650,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getRequiredFieldMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="description"/>
+									<data name="label" value="message_required_field"/>
 								</params>
 							</userobj>
 						</message>
@@ -627,9 +674,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="floor"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -646,9 +694,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="floors"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -665,9 +714,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="number_of_rooms"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -684,9 +734,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="bedrooms"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -703,9 +754,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidNumberMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="bathrooms"/>
+									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
 						</message>
@@ -727,20 +779,27 @@
 				</items>
 				<userobj>
 					<extension>this</extension>
-					<method>populateListOfCarPlaces</method>
+					<method>populateList</method>
+					<params>
+						<data name="table" value="tx_realty_car_places"/>
+					</params>
 				</userobj>
 			</data>
 			<validators>
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAllowedValueForGarageType</method>
+						<method>checkKeyExistsInTable</method>
+						<params>
+							<data name="table" value="tx_realty_car_places"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="garage_type"/>
+									<data name="label" value="message_value_not_allowed"/>
 								</params>
 							</userobj>
 						</message>
@@ -757,9 +816,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidPriceMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="garage_rent"/>
+									<data name="label" value="message_no_valid_price"/>
 								</params>
 							</userobj>
 						</message>
@@ -776,9 +836,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getNoValidPriceMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="garage_price"/>
+									<data name="label" value="message_no_valid_price"/>
 								</params>
 							</userobj>
 						</message>
@@ -854,9 +915,10 @@
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="heating_type"/>
+									<data name="label" value="message_value_not_allowed"/>
 								</params>
 							</userobj>
 						</message>
@@ -875,20 +937,27 @@
 				</items>
 				<userobj>
 					<extension>this</extension>
-					<method>populateListOfPets</method>
+					<method>populateList</method>
+					<params>
+						<data name="table" value="tx_realty_pets"/>
+					</params>
 				</userobj>
 			</data>
 			<validators>
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isAllowedValueForPets</method>
+						<method>checkKeyExistsInTable</method>
+						<params>
+							<data name="table" value="tx_realty_pets"/>
+						</params>
 						<message>
 							<userobj>
 								<extension>this</extension>
-								<method>getValueNotAllowedMessage</method>
+								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="pets"/>
+									<data name="label" value="message_value_not_allowed"/>
 								</params>
 							</userobj>
 						</message>

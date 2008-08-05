@@ -1,3 +1,7 @@
+2008-08-05 Saskia Metzler <saskia@merlin.owl.de>
+
+	* [#2039] Change: Cleanup the FE editor
+
 2008-08-04 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#1886] Feature: The config check should also check that the static template is included at all

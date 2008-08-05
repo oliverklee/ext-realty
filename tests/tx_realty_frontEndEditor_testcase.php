@@ -123,10 +123,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		foreach (array(
 			'city' => REALTY_TABLE_CITIES,
 			'district' => REALTY_TABLE_DISTRICTS,
-			'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
-			'house_type' => REALTY_TABLE_HOUSE_TYPES,
-			'garage_type' => REALTY_TABLE_CAR_PLACES,
-			'pets' => REALTY_TABLE_PETS,
 		) as $key => $table) {
 			$realtyObject->setProperty($key, self::$dummyStringValue);
 			$this->testingFramework->markTableAsDirty($table);
@@ -298,51 +294,33 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPopulateListOfCities() {
-		$result = $this->fixture->populateListOfCities();
+	public function testPopulateListForValidTableReturnsARecordsTitleAsCaption() {
+		$result = $this->fixture->populateList(
+			array(), array('table' => REALTY_TABLE_CITIES)
+		);
+
 		$this->assertEquals(
 			self::$dummyStringValue,
 			$result[0]['caption']
 		);
 	}
 
-	public function testPopulateListOfDistricts() {
-		$result = $this->fixture->populateListOfDistricts();
-		$this->assertEquals(
-			self::$dummyStringValue,
-			$result[0]['caption']
+	public function testPopulateListForInvalidTableThrowsAnExeption() {
+		$this->setExpectedException(
+			'Exception', '"invalid_table" is not a valid table name.'
+		);
+		$this->fixture->populateList(
+			array(), array('table' => 'invalid_table')
 		);
 	}
 
-	public function testPopulateListOfApartmentTypes() {
-		$result = $this->fixture->populateListOfApartmentTypes();
-		$this->assertEquals(
-			self::$dummyStringValue,
-			$result[0]['caption']
+	public function testPopulateListForInvalidTitleColumnThrowsAnExeption() {
+		$this->setExpectedException(
+			'Exception',
+			'"foo" is not a valid column name for ' . REALTY_TABLE_CITIES . '.'
 		);
-	}
-
-	public function testPopulateListOfHouseTypes() {
-		$result = $this->fixture->populateListOfHouseTypes();
-		$this->assertEquals(
-			self::$dummyStringValue,
-			$result[0]['caption']
-		);
-	}
-
-	public function testPopulateListOfCarPlaces() {
-		$result = $this->fixture->populateListOfCarPlaces();
-		$this->assertEquals(
-			self::$dummyStringValue,
-			$result[0]['caption']
-		);
-	}
-
-	public function testPopulateListOfPets() {
-		$result = $this->fixture->populateListOfPets();
-		$this->assertEquals(
-			self::$dummyStringValue,
-			$result[0]['caption']
+		$this->fixture->populateList(
+			array(), array('title_column' => 'foo', 'table' => REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -351,52 +329,47 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	// * Message creation functions.
 	//////////////////////////////////
 
-	public function testGetNoValidNumberMessage() {
+	public function testGetMessageForRealtyObjectFieldCanReturnMessageForField() {
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
-				.$this->pi1->translate('message_no_valid_number'),
-			$this->fixture->getNoValidNumberMessage(array('fieldName' => 'floor'))
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor') . ': ' .
+				$this->pi1->translate('message_no_valid_number'),
+			$this->fixture->getMessageForRealtyObjectField(
+				array('fieldName' => 'floor', 'label' => 'message_no_valid_number')
+			)
 		);
 	}
 
-	public function testGetNoValidPriceMessage() {
+	public function testGetMessageForRealtyObjectFieldCanReturnMessageWithoutFieldName() {
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor').': '
-				.$this->pi1->translate('message_no_valid_price'),
-			$this->fixture->getNoValidPriceMessage(array('fieldName' => 'floor'))
+			$this->pi1->translate('message_no_valid_number'),
+			$this->fixture->getMessageForRealtyObjectField(
+				array('fieldName' => '', 'label' => 'message_no_valid_number')
+			)
 		);
 	}
 
-	public function testGetValueNotAllowedMessage() {
-		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type').': '
-				.$this->pi1->translate('message_value_not_allowed'),
-			$this->fixture->getValueNotAllowedMessage(array('fieldName' => 'object_type'))
+	public function testGetMessageForRealtyObjectThrowsAnExceptionForAnInvalidFieldName() {
+		$this->setExpectedException(
+			'Exception',
+			'"foo" is not a valid column name for ' . REALTY_TABLE_OBJECTS . '.'
+		);
+		$this->fixture->getMessageForRealtyObjectField(
+			array('fieldName' => 'foo', 'label' => 'message_no_valid_number')
 		);
 	}
 
-	public function testGetRequiredFieldMessage() {
-		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title').': '
-				.$this->pi1->translate('message_required_field'),
-			$this->fixture->getRequiredFieldMessage(array('fieldName' => 'title'))
+	public function testGetMessageForRealtyObjectFieldThrowsAnExceptionForInvalidLocallangKey() {
+		$this->setExpectedException(
+			'Exception', '"123" is not a valid locallang key.'
 		);
+		$this->fixture->getMessageForRealtyObjectField(array('label' => '123'));
 	}
 
-	public function testGetNoValidYearMessage() {
-		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year').': '
-				.$this->pi1->translate('message_no_valid_year'),
-			$this->fixture->getNoValidYearMessage(array('fieldName' => 'construction_year'))
+	public function testGetMessageForRealtyObjectFieldThrowsAnExceptionForEmptyLocallangKey() {
+		$this->setExpectedException(
+			'Exception', '"" is not a valid locallang key.'
 		);
-	}
-
-	public function testGetNoValidEmailMessage() {
-		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email').': '
-				.$this->pi1->translate('label_set_valid_email_address'),
-			$this->fixture->getNoValidEmailMessage()
-		);
+		$this->fixture->getMessageForRealtyObjectField(array('label' => ''));
 	}
 
 	public function testGetNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToBuy() {
@@ -456,21 +429,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
 				.$this->pi1->translate('message_object_number_exists'),
 			$this->fixture->getInvalidObjectNumberMessage()
-		);
-	}
-
-	public function testGetMessageNotReturnsLocalizedFieldNameForInvalidFieldName() {
-		$this->assertEquals(
-			$this->pi1->translate('message_required_field'),
-			$this->fixture->getRequiredFieldMessage(array('fieldName' => 'foo'))
-		);
-	}
-
-	public function testGetEitherNewOrExistingRecordMessage() {
-		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city').': '
-				.$this->pi1->translate('message_either_new_or_existing_record'),
-			$this->fixture->getEitherNewOrExistingRecordMessage(array('fieldName' => 'city'))
 		);
 	}
 
@@ -592,7 +550,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => '1', 'range' => '1-2', 'multiple' => '0')
 			)
-		);						
+		);
 	}
 
 	public function testIsIntegerInRangeReturnsFalseForSingleIntegerBelowTheRange() {
@@ -600,7 +558,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => '0', 'range' => '1-2', 'multiple' => '0')
 			)
-		);				
+		);
 	}
 
 	public function testIsIntegerInRangeReturnsFalseForSingleIntegerHigherThanTheRange() {
@@ -608,7 +566,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => '2', 'range' => '0-1', 'multiple' => '0')
 			)
-		);				
+		);
 	}
 
 	public function testIsIntegerInRangeReturnsFalseForNonIntegerValue() {
@@ -616,7 +574,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => 'string', 'range' => '0-1', 'multiple' => '0')
 			)
-		);		
+		);
 	}
 
 	public function testIsIntegerInRangeReturnsTrueForMultipleAllowedIntegers() {
@@ -624,7 +582,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => array(0, 1, 2), 'range' => '0-2', 'multiple' => '1')
 			)
-		);						
+		);
 	}
 
 	public function testIsIntegerInRangeReturnsFalseForMultipleIntegersIfOneIsBelowTheRange() {
@@ -632,7 +590,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => array(0, 1, 2), 'range' => '1-2', 'multiple' => '1')
 			)
-		);				
+		);
 	}
 
 	public function testIsIntegerInRangeReturnsFalseForMultipleIntegersIfOneIsHigherThanTheRange() {
@@ -640,7 +598,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => array(0, 1, 2), 'range' => '0-1', 'multiple' => '1')
 			)
-		);				
+		);
 	}
 
 	public function testIsIntegerInRangeReturnsTrueForEmptyValue() {
@@ -648,7 +606,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$this->fixture->isIntegerInRange(
 				array('value' => '', 'range' => '1-2', 'multiple' => '0')
 			)
-		);						
+		);
 	}
 
 	public function testIsValidYearReturnsTrueForTheCurrentYear() {
@@ -865,192 +823,66 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsAllowedValueForDistrictReturnsTrueForAllowedValue() {
+	public function testCheckKeyExistsInTableReturnsTrueForAllowedValue() {
 		$this->assertTrue(
-			$this->fixture->isAllowedValueForDistrict(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS))
+			$this->fixture->checkKeyExistsInTable(
+				array(
+					'value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS),
+					'table' => REALTY_TABLE_DISTRICTS,
+				)
 			)
 		);
 	}
 
-	public function testIsAllowedValueForDistrictReturnsTrueForZero() {
+	public function testCheckKeyExistsInTableReturnsTrueForZero() {
 		$this->assertTrue(
-			$this->fixture->isAllowedValueForDistrict(
-				array('value' => '0')
+			$this->fixture->checkKeyExistsInTable(
+				array('value' => '0', 'table' => REALTY_TABLE_DISTRICTS)
 			)
 		);
 	}
 
-	public function testIsAllowedValueForDistrictReturnsFalseForInvalidValue() {
+	public function testCheckKeyExistsInTableReturnsFalseForInvalidValue() {
 		$this->assertFalse(
-			$this->fixture->isAllowedValueForDistrict(
-				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_DISTRICTS, array('deleted' => 1)
-				))
+			$this->fixture->checkKeyExistsInTable(
+				array(
+					'value' => $this->testingFramework->createRecord(
+						REALTY_TABLE_DISTRICTS, array('deleted' => 1)
+					),
+					'table' => REALTY_TABLE_DISTRICTS
+				)
 			)
 		);
 	}
 
-	public function testIsAllowedValueForHouseTypeReturnsTrueForAllowedValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForHouseType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_HOUSE_TYPES))
-			)
+	public function testCheckKeyExistsInTableThrowsExceptionForInvalidTable() {
+		$this->setExpectedException(
+			'Exception', '"invalid_table" is not a valid table name.'
 		);
+		$this->fixture->checkKeyExistsInTable(array(
+			'value' => 1, 'table' => 'invalid_table'
+		));
 	}
 
-	public function testIsAllowedValueForHouseTypeReturnsTrueForZero() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForHouseType(
-				array('value' => '0')
-			)
-		);
-	}
-
-	public function testIsAllowedValueForHouseTypeReturnsFalseForInvalidValue() {
-		$this->assertFalse(
-			$this->fixture->isAllowedValueForHouseType(
-				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_HOUSE_TYPES, array('deleted' => 1)
-				))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForApartmentTypeReturnsTrueForAllowedValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForApartmentType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_APARTMENT_TYPES))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForApartmentTypeReturnsTrueForZero() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForApartmentType(
-				array('value' => '0')
-			)
-		);
-	}
-
-	public function testIsAllowedValueForApartmentTypeReturnsFalseForInvalidValue() {
-		$this->assertFalse(
-			$this->fixture->isAllowedValueForApartmentType(
-				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_APARTMENT_TYPES, array('deleted' => 1)
-				))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForGarageTypeReturnsTrueForAllowedValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForGarageType(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CAR_PLACES))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForGarageTypeReturnsTrueForZero() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForGarageType(
-				array('value' => '0')
-			)
-		);
-	}
-
-	public function testIsAllowedValueForGarageTypeReturnsFalseForInvalidValue() {
-		$this->assertFalse(
-			$this->fixture->isAllowedValueForGarageType(
-				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_CAR_PLACES, array('deleted' => 1)
-				))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForPetsReturnsTrueForAllowedValue() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForPets(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_PETS))
-			)
-		);
-	}
-
-	public function testIsAllowedValueForPetsReturnsTrueForZero() {
-		$this->assertTrue(
-			$this->fixture->isAllowedValueForPets(
-				array('value' => '0')
-			)
-		);
-	}
-
-	public function testIsAllowedValueForPetsReturnsFalseForInvalidValue() {
-		$this->assertFalse(
-			$this->fixture->isAllowedValueForPets(
-				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_PETS, array('deleted' => 1)
-				))
-			)
-		);
-	}
-
-	public function testIsAtMostOneValueForCityRecordProvidedReturnsTrueForEmptyNewTitle() {
-		$this->assertTrue(
-			$this->fixture->isAtMostOneValueForCityRecordProvided(
-				array('value' => '')
-			)
-		);
-	}
-
-	public function testIsAtMostOneValueForCityRecordProvidedReturnsTrueForNonEmptyNewTitleAndNoExistingRecord() {
+	public function testIsAtMostOneValueForAuxiliaryRecordProvidedReturnsTrueForNonEmptyNewTitleAndNoExistingRecord() {
 		$this->fixture->setFakedFormValue('city', 0);
 
 		$this->assertTrue(
-			$this->fixture->isAtMostOneValueForCityRecordProvided(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
-			)
+			$this->fixture->isAtMostOneValueForAuxiliaryRecordProvided(array(
+				'value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'fieldName' => 'city',
+			))
 		);
 	}
 
-	public function testIsAtMostOneValueForCityRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord() {
+	public function testIsAtMostOneValueForAuxiliaryRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord() {
 		$this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord(REALTY_TABLE_CITIES));
 
 		$this->assertFalse(
-			$this->fixture->isAtMostOneValueForCityRecordProvided(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
-			)
-		);
-	}
-
-	public function testIsAtMostOneValueForDistrictRecordProvidedReturnsTrueForEmptyNewTitle() {
-		$this->assertTrue(
-			$this->fixture->isAtMostOneValueForDistrictRecordProvided(
-				array('value' => '')
-			)
-		);
-	}
-
-	public function testIsAtMostOneValueForDistrictRecordProvidedReturnsTrueForNonEmptyNewTitleAndNoExistingRecord() {
-		$this->fixture->setFakedFormValue('district', 0);
-
-		$this->assertTrue(
-			$this->fixture->isAtMostOneValueForDistrictRecordProvided(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS))
-			)
-		);
-	}
-
-	public function testIsAtMostOneValueForDistrictRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord() {
-		$this->fixture->setFakedFormValue(
-			'district',
-			$this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS)
-		);
-
-		$this->assertFalse(
-			$this->fixture->isAtMostOneValueForDistrictRecordProvided(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS))
-			)
+			$this->fixture->isAtMostOneValueForAuxiliaryRecordProvided(array(
+				'value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'fieldName' => 'city'
+			))
 		);
 	}
 
