@@ -432,6 +432,35 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testImageInTheDetailViewUsesFullUrlForPopUp() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'realty_object_uid' => $this->firstRealtyUid,
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue(
+			'galleryPopupParameters', 'width=600,height=400'
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'window.open(\'http://',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testGetFieldContentCreatesLinkToSinglePageIfAccessDenied() {
 		$this->denyAccess();
 
@@ -2586,7 +2615,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryShowsNoWarningWithAllParameter() {
-		$imageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $this->firstRealtyUid)
 		);
@@ -2601,7 +2630,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryDisplaysNoWarningWithAllParameterForHiddenObjectWhenOwnerLoggedIn() {
-		$imageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $this->firstRealtyUid)
 		);
@@ -2626,7 +2655,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectWhenNoUserLoggedIn() {
-		$imageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $this->firstRealtyUid)
 		);
@@ -2650,7 +2679,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGalleryDisplaysWarningWithAllParameterForHiddenObjectForLoggedInNonOwner() {
-		$imageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $this->firstRealtyUid)
 		);
@@ -2678,7 +2707,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$deletedObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('deleted' => 1)
 		);
-		$imageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $deletedObjectUid)
 		);

@@ -167,12 +167,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Displays the Realty Manager HTML.
 	 *
-	 * @param	string		default content string, ignore
+	 * @param	string		(not used)
 	 * @param	array		TypoScript configuration for the plugin
 	 *
 	 * @return	string		HTML for the plugin
 	 */
-	public function main($content, array $conf) {
+	public function main($unused, array $conf) {
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
@@ -1447,8 +1447,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		if (!empty($result) && $this->hasConfValueInteger('galleryPID')) {
 			$galleryUrl = htmlspecialchars(
-				$this->cObj->typoLink_URL(
-					array(
+				t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(
+				array(
 						'parameter' => $this->getConfValueInteger('galleryPID'),
 						'additionalParams' => t3lib_div::implodeArrayForUrl(
 							$this->prefixId,
@@ -1458,7 +1458,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 							)
 						),
 					)
-				)
+				))
 			);
 			$onClick = '';
 			if ($this->hasConfValueString('galleryPopupParameters')) {
@@ -1530,12 +1530,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @param	integer		the number of the image to retrieve (zero-based, may be zero)
 	 *
-	 * @return	pointer		SQL result pointer (may be null)
+	 * @return	pointer		SQL result pointer or false if there is a problem
 	 */
 	private function queryForImage($offset = 0) {
 		// The UID will not be set if a hidden or deleted record was requested.
 		if (!isset($this->internal['currentRow']['uid'])) {
-			return;
+			return false;
 		}
 
 		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
