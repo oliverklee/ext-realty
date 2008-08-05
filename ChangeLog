@@ -1,3 +1,7 @@
+2008-08-05 Oliver Klee  <typo3-coding@oliverklee.de>
+
+	* [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
+
 2008-08-05 Saskia Metzler <saskia@merlin.owl.de>
 
 	* [#2039] Change: Cleanup the FE editor
