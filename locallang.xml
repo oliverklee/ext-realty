@@ -16,6 +16,12 @@
 		<languageKey index="ru" type="array">
 			<label index="pi1_title">Управление недвижимостью</label>
 		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="pi1_title">Emlak Yöneticisi</label>
+		</languageKey>
+		<languageKey index="dk" type="array">
+			<label index="pi1_title">Ejendomsmanager</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
@@ -24,12 +30,24 @@
 		<languageKey index="ru" type="array">
 			<label index="pi1_title" type="integer">56917018</label>
 		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="pi1_title" type="integer">56917018</label>
+		</languageKey>
+		<languageKey index="dk" type="array">
+			<label index="pi1_title" type="integer">56917018</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
 			<label index="pi1_title">Realty Manager</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
+			<label index="pi1_title">Realty Manager</label>
+		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="pi1_title">Realty Manager</label>
+		</languageKey>
+		<languageKey index="dk" type="array">
 			<label index="pi1_title">Realty Manager</label>
 		</languageKey>
 	</orig_text>

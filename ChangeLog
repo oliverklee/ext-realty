@@ -1,5 +1,6 @@
 0.2.3 - currently working on
-- [#1501] Change: Update the NL localization
+- [#1502] Change: Update the DK localization, thanks to Peter Hanstein
+- [#1501] Change: Update the NL localization, thanks to Paul Effertz
 - [#1989] Fix: The favorites PID needs to be configchecked in the details view
 - [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
 - [#1886] Feature: The config check should also check that the static template is included at all

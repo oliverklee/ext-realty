@@ -294,6 +294,78 @@
 			<label index="tx_realty_districts.title">Regio</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
 		</languageKey>
+		<languageKey index="dk" type="array">
+			<label index="tx_realty_objects">Bolig objekt</label>
+			<label index="tx_realty_objects.object_number">Objektnumber</label>
+			<label index="tx_realty_objects.object_type.I.0">udlejes</label>
+			<label index="tx_realty_objects.object_type.I.1">til salg</label>
+			<label index="tx_realty_objects.object_type">Objekttype</label>
+			<label index="tx_realty_objects.title">Titel</label>
+			<label index="tx_realty_objects.emphasized">Fremhævet</label>
+			<label index="tx_realty_objects.street">Gade</label>
+			<label index="tx_realty_objects.zip">Postnummer</label>
+			<label index="tx_realty_objects.city">By</label>
+			<label index="tx_realty_objects.district">Bydel</label>
+			<label index="tx_realty_objects.number_of_rooms">Antal værelser</label>
+			<label index="tx_realty_objects.living_area">Beboelsesareal i m²</label>
+			<label index="tx_realty_objects.total_area">Total areal i m²</label>
+			<label index="tx_realty_objects.rent_excluding_bills">Husleje før fællesudgifter</label>
+			<label index="tx_realty_objects.extra_charges">Fællesudgifter</label>
+			<label index="tx_realty_objects.heating_included">Fællesudgifter inkl. varme</label>
+			<label index="tx_realty_objects.deposit">Depositum</label>
+			<label index="tx_realty_objects.provision">Mæglersalær</label>
+			<label index="tx_realty_objects.usable_from">Indflytningsklar fra</label>
+			<label index="tx_realty_objects.buying_price">Købspris</label>
+			<label index="tx_realty_objects.year_rent">Årlig husleje</label>
+			<label index="tx_realty_objects.rented">Udlejet</label>
+			<label index="tx_realty_objects.apartment_type">Lejlighedstype</label>
+			<label index="tx_realty_objects.house_type">Ejendomstype</label>
+			<label index="tx_realty_objects.floor">Etage</label>
+			<label index="tx_realty_objects.floors">Antal etager</label>
+			<label index="tx_realty_objects.bedrooms">Antal værelser</label>
+			<label index="tx_realty_objects.bathrooms">Antal badeværelser</label>
+			<label index="tx_realty_objects.heating_type">Opvarmningstype</label>
+			<label index="tx_realty_objects.garage_type">Garage/parkering</label>
+			<label index="tx_realty_objects.garage_rent">Leje for garage/parkering</label>
+			<label index="tx_realty_objects.garage_price">Pris for garage/parkeringsbås</label>
+			<label index="tx_realty_objects.pets">Husdyr</label>
+			<label index="tx_realty_objects.construction_year">Bygningsår</label>
+			<label index="tx_realty_objects.state">Tilstand</label>
+			<label index="tx_realty_objects.balcony">Balkon/Altan</label>
+			<label index="tx_realty_objects.garden">Have</label>
+			<label index="tx_realty_objects.elevator">Elevator</label>
+			<label index="tx_realty_objects.barrier_free">Tilgængelig</label>
+			<label index="tx_realty_objects.assisted_living">Handikapvenlig</label>
+			<label index="tx_realty_objects.fitted_kitchen">Integreret køkken</label>
+			<label index="tx_realty_objects.description">Beskrivelse</label>
+			<label index="tx_realty_objects.equipment">Udstyr</label>
+			<label index="tx_realty_objects.layout">Layout</label>
+			<label index="tx_realty_objects.location">Beliggenhed</label>
+			<label index="tx_realty_objects.misc">Iøvrigt</label>
+			<label index="tx_realty_objects.details_page">Separat side for detaljeret objektbeskrivelse</label>
+			<label index="tx_realty_objects.images">Billeder</label>
+			<label index="tx_realty_objects.tstamp">Sidst ændret</label>
+			<label index="tx_realty_apartment_types">Lejlighedstype</label>
+			<label index="tx_realty_apartment_types.title">Titel</label>
+			<label index="tx_realty_house_types">Boligtype</label>
+			<label index="tx_realty_house_types.title">Titel</label>
+			<label index="tx_realty_heating_types">Opvarmningstype</label>
+			<label index="tx_realty_heating_types.title">Titel</label>
+			<label index="tx_realty_car_places">Parkering</label>
+			<label index="tx_realty_car_places.title">Titel</label>
+			<label index="tx_realty_pets">Husdyr</label>
+			<label index="tx_realty_pets.title">Titel</label>
+			<label index="tx_realty_conditions">Tilstand</label>
+			<label index="tx_realty_conditions.title">Titel</label>
+			<label index="tx_realty_images">Billede</label>
+			<label index="tx_realty_images.caption">Billedtekst</label>
+			<label index="tx_realty_images.image">Billede</label>
+			<label index="tx_realty_cities">By</label>
+			<label index="tx_realty_cities.title">Bynavn</label>
+			<label index="tx_realty_districts">Bydel</label>
+			<label index="tx_realty_districts.title">Bydelens navn</label>
+			<label index="tt_content.list_type_pi1">EjendomsManager</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
@@ -511,6 +583,78 @@
 			<label index="tx_realty_districts.title" type="integer">69265812</label>
 			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
 		</languageKey>
+		<languageKey index="dk" type="array">
+			<label index="tx_realty_objects" type="integer">245590068</label>
+			<label index="tx_realty_objects.object_number" type="integer">61076220</label>
+			<label index="tx_realty_objects.object_type.I.0" type="integer">184316074</label>
+			<label index="tx_realty_objects.object_type.I.1" type="integer">70955112</label>
+			<label index="tx_realty_objects.object_type" type="integer">6359995</label>
+			<label index="tx_realty_objects.title" type="integer">192455458</label>
+			<label index="tx_realty_objects.emphasized" type="integer">53757231</label>
+			<label index="tx_realty_objects.street" type="integer">224521181</label>
+			<label index="tx_realty_objects.zip" type="integer">164100864</label>
+			<label index="tx_realty_objects.city" type="integer">92079470</label>
+			<label index="tx_realty_objects.district" type="integer">235647734</label>
+			<label index="tx_realty_objects.number_of_rooms" type="integer">151522303</label>
+			<label index="tx_realty_objects.living_area" type="integer">191559076</label>
+			<label index="tx_realty_objects.total_area" type="integer">79620667</label>
+			<label index="tx_realty_objects.rent_excluding_bills" type="integer">255153687</label>
+			<label index="tx_realty_objects.extra_charges" type="integer">91504638</label>
+			<label index="tx_realty_objects.heating_included" type="integer">150189013</label>
+			<label index="tx_realty_objects.deposit" type="integer">254246076</label>
+			<label index="tx_realty_objects.provision" type="integer">168487236</label>
+			<label index="tx_realty_objects.usable_from" type="integer">250200731</label>
+			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
+			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
+			<label index="tx_realty_objects.rented" type="integer">233415579</label>
+			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
+			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
+			<label index="tx_realty_objects.floor" type="integer">255814915</label>
+			<label index="tx_realty_objects.floors" type="integer">228653042</label>
+			<label index="tx_realty_objects.bedrooms" type="integer">265698466</label>
+			<label index="tx_realty_objects.bathrooms" type="integer">187944950</label>
+			<label index="tx_realty_objects.heating_type" type="integer">7498189</label>
+			<label index="tx_realty_objects.garage_type" type="integer">97055949</label>
+			<label index="tx_realty_objects.garage_rent" type="integer">32433980</label>
+			<label index="tx_realty_objects.garage_price" type="integer">57868081</label>
+			<label index="tx_realty_objects.pets" type="integer">122743082</label>
+			<label index="tx_realty_objects.construction_year" type="integer">38900511</label>
+			<label index="tx_realty_objects.state" type="integer">165843995</label>
+			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
+			<label index="tx_realty_objects.garden" type="integer">237814086</label>
+			<label index="tx_realty_objects.elevator" type="integer">157509981</label>
+			<label index="tx_realty_objects.barrier_free" type="integer">184564619</label>
+			<label index="tx_realty_objects.assisted_living" type="integer">208122748</label>
+			<label index="tx_realty_objects.fitted_kitchen" type="integer">82838765</label>
+			<label index="tx_realty_objects.description" type="integer">190479069</label>
+			<label index="tx_realty_objects.equipment" type="integer">164420141</label>
+			<label index="tx_realty_objects.layout" type="integer">247307244</label>
+			<label index="tx_realty_objects.location" type="integer">216383317</label>
+			<label index="tx_realty_objects.misc" type="integer">59226864</label>
+			<label index="tx_realty_objects.details_page" type="integer">265680266</label>
+			<label index="tx_realty_objects.images" type="integer">268373344</label>
+			<label index="tx_realty_objects.tstamp" type="integer">68135228</label>
+			<label index="tx_realty_apartment_types" type="integer">220566396</label>
+			<label index="tx_realty_apartment_types.title" type="integer">192455458</label>
+			<label index="tx_realty_house_types" type="integer">11148572</label>
+			<label index="tx_realty_house_types.title" type="integer">192455458</label>
+			<label index="tx_realty_heating_types" type="integer">167653844</label>
+			<label index="tx_realty_heating_types.title" type="integer">192455458</label>
+			<label index="tx_realty_car_places" type="integer">254613051</label>
+			<label index="tx_realty_car_places.title" type="integer">192455458</label>
+			<label index="tx_realty_pets" type="integer">122743082</label>
+			<label index="tx_realty_pets.title" type="integer">192455458</label>
+			<label index="tx_realty_conditions" type="integer">165843995</label>
+			<label index="tx_realty_conditions.title" type="integer">192455458</label>
+			<label index="tx_realty_images" type="integer">199571973</label>
+			<label index="tx_realty_images.caption" type="integer">41073277</label>
+			<label index="tx_realty_images.image" type="integer">199571973</label>
+			<label index="tx_realty_cities" type="integer">92079470</label>
+			<label index="tx_realty_cities.title" type="integer">163522718</label>
+			<label index="tx_realty_districts" type="integer">235647734</label>
+			<label index="tx_realty_districts.title" type="integer">69265812</label>
+			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
@@ -657,6 +801,78 @@
 			<label index="tt_content.list_type_pi1">Realty List</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
+			<label index="tx_realty_objects">Realty object</label>
+			<label index="tx_realty_objects.object_number">Object number</label>
+			<label index="tx_realty_objects.object_type.I.0">for renting</label>
+			<label index="tx_realty_objects.object_type.I.1">for sale</label>
+			<label index="tx_realty_objects.object_type">Object type</label>
+			<label index="tx_realty_objects.title">Title</label>
+			<label index="tx_realty_objects.emphasized">Emphasized</label>
+			<label index="tx_realty_objects.street">Street</label>
+			<label index="tx_realty_objects.zip">ZIP code</label>
+			<label index="tx_realty_objects.city">City</label>
+			<label index="tx_realty_objects.district">District</label>
+			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
+			<label index="tx_realty_objects.living_area">Living area in m²</label>
+			<label index="tx_realty_objects.total_area">Total area in m²</label>
+			<label index="tx_realty_objects.rent_excluding_bills">Rent excluding bills</label>
+			<label index="tx_realty_objects.extra_charges">Extra charges</label>
+			<label index="tx_realty_objects.heating_included">Extra charges include heating</label>
+			<label index="tx_realty_objects.deposit">Security deposit</label>
+			<label index="tx_realty_objects.provision">Provision/Broker's fee</label>
+			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
+			<label index="tx_realty_objects.buying_price">Price for buying</label>
+			<label index="tx_realty_objects.year_rent">Net rent per year</label>
+			<label index="tx_realty_objects.rented">Rented</label>
+			<label index="tx_realty_objects.apartment_type">Apartment type</label>
+			<label index="tx_realty_objects.house_type">House type</label>
+			<label index="tx_realty_objects.floor">Floor</label>
+			<label index="tx_realty_objects.floors">Number of floors</label>
+			<label index="tx_realty_objects.bedrooms">Number of bedrooms</label>
+			<label index="tx_realty_objects.bathrooms">Number of bathrooms</label>
+			<label index="tx_realty_objects.heating_type">Type of heating</label>
+			<label index="tx_realty_objects.garage_type">Garage/parking space</label>
+			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
+			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
+			<label index="tx_realty_objects.pets">Pets</label>
+			<label index="tx_realty_objects.construction_year">Year of construction</label>
+			<label index="tx_realty_objects.state">Condition</label>
+			<label index="tx_realty_objects.balcony">Balcony/patio</label>
+			<label index="tx_realty_objects.garden">Garden (usage)</label>
+			<label index="tx_realty_objects.elevator">Elevator</label>
+			<label index="tx_realty_objects.barrier_free">Accessible</label>
+			<label index="tx_realty_objects.assisted_living">Assisted living</label>
+			<label index="tx_realty_objects.fitted_kitchen">Fitted kitchen</label>
+			<label index="tx_realty_objects.description">Description</label>
+			<label index="tx_realty_objects.equipment">Equipment</label>
+			<label index="tx_realty_objects.layout">Layout</label>
+			<label index="tx_realty_objects.location">Location</label>
+			<label index="tx_realty_objects.misc">Miscellaneous</label>
+			<label index="tx_realty_objects.details_page">Separate page for the details view for this object</label>
+			<label index="tx_realty_objects.images">Images</label>
+			<label index="tx_realty_objects.tstamp">Last changed</label>
+			<label index="tx_realty_apartment_types">Apartment type</label>
+			<label index="tx_realty_apartment_types.title">Title</label>
+			<label index="tx_realty_house_types">House type</label>
+			<label index="tx_realty_house_types.title">Title</label>
+			<label index="tx_realty_heating_types">Heating type</label>
+			<label index="tx_realty_heating_types.title">Title</label>
+			<label index="tx_realty_car_places">Car place</label>
+			<label index="tx_realty_car_places.title">Title</label>
+			<label index="tx_realty_pets">Pets</label>
+			<label index="tx_realty_pets.title">Title</label>
+			<label index="tx_realty_conditions">Condition</label>
+			<label index="tx_realty_conditions.title">Title</label>
+			<label index="tx_realty_images">Image</label>
+			<label index="tx_realty_images.caption">Caption</label>
+			<label index="tx_realty_images.image">Image</label>
+			<label index="tx_realty_cities">City</label>
+			<label index="tx_realty_cities.title">City name</label>
+			<label index="tx_realty_districts">District</label>
+			<label index="tx_realty_districts.title">The district's name</label>
+			<label index="tt_content.list_type_pi1">Realty Manager</label>
+		</languageKey>
+		<languageKey index="dk" type="array">
 			<label index="tx_realty_objects">Realty object</label>
 			<label index="tx_realty_objects.object_number">Object number</label>
 			<label index="tx_realty_objects.object_type.I.0">for renting</label>
