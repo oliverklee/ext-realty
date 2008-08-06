@@ -79,6 +79,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
+		$this->checkFavoritesPid();
 		$this->checkShowGoogleMapsInListView();
 		if ($this->objectToCheck->getConfValueBoolean(
 			'showGoogleMapsInListView', 's_googlemaps'
@@ -95,7 +96,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->check_tx_realty_pi1_realty_list();
 		$this->checkContactPid();
 		$this->checkFavoriteFieldsInSession();
-		$this->checkFavoritesPid();
 		$this->checkImageSizeValuesForListView();
 		$this->checkAllowDirectRequestsForObjects();
 	}
@@ -116,6 +116,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
+		$this->checkFavoritesPid();
 		$this->checkShowGoogleMapsInSingleView();
 		if ($this->objectToCheck->getConfValueBoolean(
 			'showGoogleMapsInSingleView', 's_googlemaps'

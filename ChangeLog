@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1989] Fix: The favorites PID needs to be configchecked in the details view
 - [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
 - [#2039] Change: Cleanup the FE editor
 - [#1784] Feature: Fetch the geo coordinates from Google when displaying an object
