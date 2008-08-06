@@ -1420,6 +1420,39 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testWriteToDatabaseDeletesAnExistingNonHiddenRealtyRecordIfTheDeletedFlagIsSet() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid=' . $this->objectUid .
+					$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+			)
+		);
+	}
+
+	public function testWriteToDatabaseDeletesAnExistingHiddenRealtyRecordIfTheDeletedFlagIsSet() {
+		$this->fixture->loadRealtyObject($this->objectUid, true);
+		$this->fixture->setProperty('hidden', 1);
+		$this->fixture->writeToDatabase();
+
+		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid=' . $this->objectUid .
+					$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS, 1)
+			)
+		);
+	}
+
 	public function testDeleteAnExistingRealtyRecordAndImportItAgainIfTheDeletedFlagIsSetExplicitly() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('deleted', 1);

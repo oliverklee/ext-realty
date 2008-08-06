@@ -1,4 +1,5 @@
 0.3.0 - currently working on
+- [#1859] Fix: Objects that are hidden in TYPO3 cannot be deleted via the OpenImmo import
 - [#1989] Fix: The favorites PID needs to be configchecked in the details view
 - [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
 - [#2039] Change: Cleanup the FE editor
