@@ -70,6 +70,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
+		$this->checkFavoritesPid();
 	}
 
 	/**
@@ -79,7 +80,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->check_tx_realty_pi1_realty_list();
 		$this->checkContactPid();
 		$this->checkFavoriteFieldsInSession();
-		$this->checkFavoritesPid();
 		$this->checkImageSizeValuesForListView();
 	}
 
@@ -95,6 +95,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkLoginPid();
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowAddressOfObjects();
+		$this->checkFavoritesPid();
 	}
 
 	/**
