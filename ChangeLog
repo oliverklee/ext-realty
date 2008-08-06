@@ -3,11 +3,9 @@
 - [#1886] Feature: The config check should also check that the static template is included at all
 
 0.2.2 - released 2008-07-29
-- Released version 0.2.2
 - [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
 
 0.2.1 - released 2008-07-20
-- Released version 0.2.1
 - [#1976] Fix: add some missing DB changes
 
 0.2.0 - released 2008-07-14
