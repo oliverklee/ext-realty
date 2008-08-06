@@ -1090,7 +1090,7 @@ class tx_realty_openImmoImport {
 	 */
 	protected function loadRealtyObject($data) {
 		$this->realtyObject = new tx_realty_object($this->isTestMode);
-		$this->realtyObject->loadRealtyObject($data);
+		$this->realtyObject->loadRealtyObject($data, true);
 	}
 
 	/**
