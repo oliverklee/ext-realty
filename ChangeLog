@@ -1,546 +1,188 @@
-2008-08-05 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
-
-2008-08-05 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#2039] Change: Cleanup the FE editor
-
-2008-08-04 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1784] Feature: Fetch the geo coordinates from Google when displaying an object
-
-2008-08-04 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1886] Feature: The config check should also check that the static template is included at all
-
-2008-07-30 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#2029] Change: Change the import of the condition to use localized strings
-
-2008-07-29 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1777] Change: Use the file functions from t3lib_div
-	* [#2030] Change: Change the import of the type of heating to use localized strings
-
-2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
-
-2008-07-17 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1983] Fix: Use the image's file name as title if no title is provided
-
-2008-07-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#2009] Fix: Test failure: testGetRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid
-
-2008-07-13 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1976] Fix: Adding pictures to objects in the BE fails
-	* [#2007] Fix: An object is not linked to a city if the city existed before the import
-
-2008-07-12 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#2006] Feature: Add and import the field "HOA fee" ("Hausgeld")
-	* [#1633] Feature: Import the currency
-
-2008-07-09 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1603] Feature: Import the exact geo coordinates
-
-2008-07-09 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1894] Change: Only reset the auto_increment value if it is much higher than the highest UID
-
-2008-07-06 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1999] Change: Make the unit tests run on MAMP on OS X
-
-2008-06-27 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1817] Feature: Add a TS setup setting for the Google Maps API key, initial patch by Alexander Grein
-	* [#1780] Feature: Add fields for the geo location of an object, initial patch by Alexander Grein
-
-2008-06-18 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1783] Feature: Add flexforms/TS setup switches for enabling Google Maps, initial patch by Alexander Grein
-	* [#1782] Feature: Add a "country" field and a setting for a default country, initial patch by Alexander Grein
-
-2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1957] Feature: Add a switch to only import objects if there is a FE user with the corresponding ANID and in a selectable FE user group
-	* [#1956] Feature: Automatically set the owner FE user during the import
-	* [#1980] Change: Remove the function to find contact e-mails for unsuccesfully validated XML
-
-2008-06-14 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1290] Fix: Checkboxes cannot be unchecked once they are checked
-
-2008-06-11 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1978] Change: Add "ca." to the German label for the living area, patch by Sven Braun
-
-2008-06-08 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1658] Feature: When FE-creating an object, automatically copy the ANID from the FE user record
-	* [#1972] Fix: Cannot upload several images in a row when the redirect target is the "images" page
-
-2008-06-07 Niels Pardon <mail@niels-pardon.de>
-
-	* [#1914] Change: Build all redirection links and links in e-mails using cObj->typoLink_URL
-
-2008-06-07 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1959] Feature: During the OpenImmo import, also use the OBID as key field
-
-2008-06-04 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1961] Fix: Unit test failure: testFilterFormHasSubmitButton
-
-2008-06-03 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1955] Feature: Add a field "OpenImmo offerer ID" to the FE users table
-
-2008-05-29 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1849] Feature: Add an input box for filtering by ZIP code or city
-
-2008-05-27 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1929] Fix: Failing unit test: testImagesInTheListViewDoNotContainLinkToGallery
-	* [#1928] Fix: Failing unit test: testClearFrontEndCacheDeletesCachedPage
-
-2008-05-22 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1850] Feature: Provide a list view filter for price ranges
-
-2008-05-20 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1887] Fix: The contact form must not reinitialize the templatehelper object
-
-2008-05-15 Niels Pardon <mail@niels-pardon.de>
-
-	* [#1906] Change: Use $this->setExpectedException() instead of try-catch-block in the Realty Manager unit tests
-
-2008-05-08 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1858] Change: Speed up unit tests
-	* [#1789] Change: Remove the option for a target attribute for the gallery link
-	* [#1848] Feature: Add a plugin type for additional filters to the list view
-
-2008-04-30 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1749] Feature: Add a checkbox "use data from my account as contact data" to realty objects
-
-2008-04-28 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1761] Fix: Remove the object summary and the form fields in the contact form if the UID is invalid
-
-2008-04-25 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1835] Fix: Opening the gallery for an unpublished record causes mySQL error
-
-2008-04-24 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1837] Change: Use the header proxy factory's discardInstance() function
-
-2008-04-22 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1797] Change: Use the mailer factory's discardInstance() function
-
-2008-04-20 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1606] Feature: Add unit tests for the e-mail functions of the OpenImmo import
-	* [#1760] Change: Display an error message if the UID for the detail view is invalid
-
-2008-04-19 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1788] Change: Remove "global" from the importer class
-	* [#1725] Feature: Check whether ZipArchive is available
-	* [#1827] Fix: FORMidable mayday when saving an object in the FE editor
-
-2008-04-16 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1818] Change: Comment and whitespace consistency cleanup
-
-2008-04-16 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1813] Change: Don't use addCssToPageHeader anymore
-
-2008-04-13 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1787] Change: When a FE user is logged in, show the FE user's data in the contact form
-	* [#1683] Change: Reorder the elements for better usability when editing a realty object in the FE table and BE editor
-	* [#1650] Change: Use the header strategy in the Realty Manager
-	* [#1799] Fix: Saving a published object shows an error message about the object number
-
-2008-04-11 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1772] Feature: Add constants for frequently used error messages
-
-2008-04-10 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1602] Feature: Add a switch for whether the ZIPs should be deleted after importing
-
-2008-04-09 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1775] Change: Drop-down lists in the BE realty object editor should be sorted by title, Patch by Sven Braun
-
-2008-04-01 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1766] Feature: Provide a dialog for entering cities and districts in the FE editing
-
-2008-03-31 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1765] Change: Remove the fields "language" and "OBID" from the FE editing
-	* [#1773] Fix: Detail view is broken when a FE user is logged in
-
-2008-03-24 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1743] Fix: HTML validation errors
-	* [#1457] Change: Use the configuration proxy in the template helper
-
-2008-03-18 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1764] Fix: Include tslib_fe in the cache manager
-
-2008-03-16 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1759] Feature: Make hidden objects visible in the detail view for authorized users
-	* [#1750] Feature: Create a form for FE image upload
-
-2008-03-16 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1754] Fix: The monkey functionality is broken in the contact form
-	* [#1751] Feature: Add a Turkish localization, patch by Murat Caglayan
-	* [#1501] Change: Update the NL localization, patch by Paul Effertz
-
-2008-03-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1262] Feature: Send an e-mail when a new object has been FE-created
-	* [#1265] Feature: Add states "pending"/"published" to the FE-entered objects
-	* [#1260] Feature: Add "delete" link to the "my records" list
-	* [#1748] Fix: The realty object must not create auxilary records with UIDs as titles
-	* [#1261] Feature: Make some fields required and add error messages
-
-2008-03-13 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1745] Fix: Redirect URL for the "my objects" page is broken
-
-2008-03-12 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1685] Feature: Clear the FE cache of pages with the Realty plugin after an object has been edited in the FE
-	* [#1259] Feature: Under the "my objects" list, add a button "create new object"
-
-2008-03-11 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1258] Feature: In the "my objects" list, add a link "edit"
-
-2008-03-10 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1728] Change: Update the realty FE editing to FORMidable 1.0.0
-	* [#1257] Feature: Add display type: "My realty objects"
-
-2008-03-09 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1735] Fix: Unit tests failure
-	* [#1254] Feature: Redirect after save
-
-2008-03-07 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1256] Feature: Add "save folder" field to city record
-
-2008-03-05 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1255] Feature: Fill drop-downs
-
-2008-03-03 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1717] Change: Make the city and title required in the BE realty object editor
-	* [#1709] Change: The thumbnails in the list view should lead to the detail view
-	* [#1253] Feature: Create form for FE editing
-
-2008-02-28 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1668] Feature: Create a new database column for old/new building and import the corresponding tag
-
-2008-02-27 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1627] Change: Use the file with common constants from oelib
-	* [#1675] Change: Move the table names to constants
-
-2008-02-26 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1548] Change: Move templating functions from realty_pi1 to the template helper
-
-2008-02-26 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1550] Feature: Allow to have a configurable address as BCC: in the contact form
-
-2008-02-25 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1504] Fix: Sorting by related records sorts by UID
-
-2008-02-20 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1631] Fix: Some auxiliary records do not get imported
-
-2008-02-19 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1632] Feature: Use the combined fields "object number" and "language" for identifying an object in the DB
-	* [#1665] Fix: When using the "choose sysfolder by filename" option, the image records will be put in the root page
-
-2008-02-18 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1651] Change: Move the currency unit from the locale back into the TS setup
-	* [#1657] Fix: xml-import of the dataset "elevator" failed
-
-2008-02-17 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1104] Change: Use type hinting for function parameters
-
-2008-02-16 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1250] Feature: Add configuration: sysfolder for new FE-created records
-	* [#1251] Feature: Add new content type "FE editor"
-	* [#1617] Change: Remove the ignoreValidation option and always proceed in case of validation errors
-
-2008-02-15 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1647] Fix: Gallery is broken
-
-2008-02-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1605] Change: The plugin and the content wizard should use the term "Realty Manager", not "Realty List"
-	* [#1508] Change: Remove the "country" configuration and use config.locale_all instead
-
-2008-02-13 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1264] Feature: Add contact form
-
-2008-02-07 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1487] Change: Use camelCase for the class and file names
-
-2008-02-05 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1465] Change: Change the way the CSS file is included
-	* [#1544] Feature: Show the ZIP code of an object in the detail view
-
-2008-02-04 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
-	* [#1607] Feature: Add a field in the EM: SysFolder to save the realty records to, depending on the ZIP file name
-
-2008-01-30 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1446] Change: Move the flexforms file to pi1
-
-2008-01-23 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1555] Change: Add a new content wizard icon
-
-2008-01-23 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1532] Feature: Import the estate size and display it in the detail view.
-
-2008-01-22 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1546] Change: Delete the ZIPs after import
-	* [#1438] Fix: Clean up the OpenImmo import (and related) unit tests
-	* [#1263] Feature: In the detail view, add a link to a contact page
-
-2008-01-21 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1523] Fix: The temporary directories should be removed using rm -rf so no cruft will be left
-
-2008-01-18 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1547] Feature: Add a test for importing a file with the same name twice
-	* [#1521] Fix: Deleted records break all sorts of stuff
-
-2008-01-17 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1541] Change: Remove the return; for functions that do not return anything
-
-2008-01-16 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1538] Change: Do not allow to set a UID in an array to load as a realty object
-
-2008-01-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1522] Fix: Importer needs to bail out if the temporary directory already exists.
-
-2008-01-14 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1229] Change: Sorting of prices should be numerical, not alphabetical
-	* [#1511] Change: Make the import messages more specific
-
-2008-01-11 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1505] Fix: The city selector doesn't use the target PID in the redirect link
-
-2008-01-11 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1510] Fix: EM configuration variable name for the XML Schema file not used consistently
-
-2008-01-10 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1469] Feature: Add an icon for the content wizard
-
-2008-01-10 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1492] Feature: Import and display the contact information
-
-2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1435] Change: Simplify the inclusion of the favorites list in an e-mail form
-	* [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
-	* [#1436] Feature: Allow to specify a sysfolder for the auxiliary records
-	* [#1437] Feature: Add an option to always use the e-mail address from the EM
-
-2008-01-06 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1447] Change: Use the EM configuration proxy in the Realty Manager
-	* [#1239] Feature: Add an automatic configuration check
-
-2008-01-04 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1463] Fix: Remove all call-time pass-by-reference
-
-2008-01-04 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1455] Change: Use typo3/cli_dispatch.php to launch the CLI importer class
-
-2008-01-03 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1434] Fix: Unit test failures
-
-2007-12-29 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1402] Feature: Delete the corresponding record from database if 'aktion'=DELETE instead of importing this value to database
-
-2007-12-28 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1322] Fix: In the unit tests, reset auto_increment for all tables that had test records
-
-2007-12-27 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1398] Fix: Unit test failures
-
-2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1245] Feature: Read the XML files and (re)write the corresponding records
-	* [#1275] Feature: Create a class (model) that represents a realty object
-	* [#155] Change: pi1: move createWhereClause to its own function
-	* [#1218] Change: Format the prices according to the current FE language
-
-2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1232] Fix: Make the Realty Manager work with oelib > 0.3.0
-	* [#1384] Change: Require PHP 5.1
-
-2007-12-18 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1249] Feature: Clear the FE cache after import
-
-2007-12-10 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1227] Change: replace entities for square meters
-
-2007-12-09 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#876] Feature: Use IRRE for managing image records within realty objects
-	* [#1227] Fix: Square meters is not displayed correctly in the string for living area's size
-
-2007-11-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1242] Feature: Unpack ZIPs
-
-2007-11-07 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1272] Change: Make use of PHP 5 capabilites (type hinting, real access modifiers)
-
-2007-11-05 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1241] Feature: Add a class/module that can be called via a cron job
-
-2007-11-03 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1238] Feature: Include the object numbers and titles of the objects on the favorites list in an e-mail form
-
-2007-11-02 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1240] Feature: Make it configurable whether to show the complete address of realty objects in the FE
-
-2007-10-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image
-
-2007-10-14 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1233] Fix: Don't call enableFields statically
-
-2007-10-11 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1222] Feature: Add a URL field "Separate details page" to the realty object records
-
-2007-10-08 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
-
-2007-10-06 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
-
-2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
-
-	* [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
-
-2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
-
-	* [#67] Fix: In the SQL schema, sanitize some types
-	* [#1220] Change: Require TYPO3 4.1.2
-
-2007-09-26 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1127] Change: Require TYPO3 4
-
-2007-09-25 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1154] Feature: Allow to restrict access to the single view page to logged-in users
-
-2007-09-09 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
-
-2007-08-31 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Documentation: Documented the city selector in the manual
-
-2007-08-26 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Released version 0.1.1
-
-2007-08-12 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Documentation: Add a reference and a tutorial to the manual
-
-2007-06-07 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Code cleanup and refactoring (#656)
-	* Fix: Cannot upload images (#695)
-	* Fix: Create hash values for all language labels (#69)
-	* Change: Provide icons for the Realty Manager (#176)
-	* Fix: Flexform is shown twice if a second BE language exists (#641)
-	* Fix: make the extension work with MySQL 5 (#694)
-	* Change: Removed the kickstarter files
-
-2007-03-08 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Code cleanup and refactoring (#643)
-
-2007-02-24 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* initial public release
+0.4.0 - currently working on
+- [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
+- [#2039] Change: Cleanup the FE editor
+- [#1784] Feature: Fetch the geo coordinates from Google when displaying an object
+- [#1886] Feature: The config check should also check that the static template is included at all
+- [#2029] Change: Change the import of the condition to use localized strings
+- [#1777] Change: Use the file functions from t3lib_div
+- [#2030] Change: Change the import of the type of heating to use localized strings
+- [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
+- [#1983] Fix: Use the image's file name as title if no title is provided
+- [#2009] Fix: Test failure: testGetRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid
+- [#1976] Fix: Adding pictures to objects in the BE fails
+- [#2007] Fix: An object is not linked to a city if the city existed before the import
+- [#2006] Feature: Add and import the field "HOA fee" ("Hausgeld")
+- [#1633] Feature: Import the currency
+- [#1603] Feature: Import the exact geo coordinates
+- [#1894] Change: Only reset the auto_increment value if it is much higher than the highest UID
+- [#1999] Change: Make the unit tests run on MAMP on OS X
+- [#1817] Feature: Add a TS setup setting for the Google Maps API key, initial patch by Alexander Grein
+- [#1780] Feature: Add fields for the geo location of an object, initial patch by Alexander Grein
+- [#1783] Feature: Add flexforms/TS setup switches for enabling Google Maps, initial patch by Alexander Grein
+- [#1782] Feature: Add a "country" field and a setting for a default country, initial patch by Alexander Grein
+
+0.3.0 - released ????-??-??
+- [#1957] Feature: Add a switch to only import objects if there is a FE user with the corresponding ANID and in a selectable FE user group
+- [#1956] Feature: Automatically set the owner FE user during the import
+- [#1980] Change: Remove the function to find contact e-mails for unsuccesfully validated XML
+- [#1290] Fix: Checkboxes cannot be unchecked once they are checked
+- [#1978] Change: Add "ca." to the German label for the living area, patch by Sven Braun
+- [#1658] Feature: When FE-creating an object, automatically copy the ANID from the FE user record
+- [#1972] Fix: Cannot upload several images in a row when the redirect target is the "images" page
+- [#1914] Change: Build all redirection links and links in e-mails using cObj->typoLink_URL
+- [#1959] Feature: During the OpenImmo import, also use the OBID as key field
+- [#1961] Fix: Unit test failure: testFilterFormHasSubmitButton
+- [#1955] Feature: Add a field "OpenImmo offerer ID" to the FE users table
+- [#1849] Feature: Add an input box for filtering by ZIP code or city
+- [#1929] Fix: Failing unit test: testImagesInTheListViewDoNotContainLinkToGallery
+- [#1928] Fix: Failing unit test: testClearFrontEndCacheDeletesCachedPage
+- [#1850] Feature: Provide a list view filter for price ranges
+- [#1887] Fix: The contact form must not reinitialize the templatehelper object
+- [#1906] Change: Use $this->setExpectedException() instead of try-catch-block in the Realty Manager unit tests
+- [#1858] Change: Speed up unit tests
+- [#1789] Change: Remove the option for a target attribute for the gallery link
+- [#1848] Feature: Add a plugin type for additional filters to the list view
+- [#1749] Feature: Add a checkbox "use data from my account as contact data" to realty objects
+- [#1761] Fix: Remove the object summary and the form fields in the contact form if the UID is invalid
+- [#1835] Fix: Opening the gallery for an unpublished record causes mySQL error
+- [#1837] Change: Use the header proxy factory's discardInstance() function
+- [#1797] Change: Use the mailer factory's discardInstance() function
+- [#1606] Feature: Add unit tests for the e-mail functions of the OpenImmo import
+- [#1760] Change: Display an error message if the UID for the detail view is invalid
+- [#1788] Change: Remove "global" from the importer class
+- [#1725] Feature: Check whether ZipArchive is available
+- [#1827] Fix: FORMidable mayday when saving an object in the FE editor
+- [#1818] Change: Comment and whitespace consistency cleanup
+- [#1813] Change: Don't use addCssToPageHeader anymore
+- [#1787] Change: When a FE user is logged in, show the FE user's data in the contact form
+- [#1683] Change: Reorder the elements for better usability when editing a realty object in the FE table and BE editor
+- [#1650] Change: Use the header strategy in the Realty Manager
+- [#1799] Fix: Saving a published object shows an error message about the object number
+- [#1772] Feature: Add constants for frequently used error messages
+- [#1602] Feature: Add a switch for whether the ZIPs should be deleted after importing
+- [#1775] Change: Drop-down lists in the BE realty object editor should be sorted by title, Patch by Sven Braun
+- [#1766] Feature: Provide a dialog for entering cities and districts in the FE editing
+- [#1765] Change: Remove the fields "language" and "OBID" from the FE editing
+- [#1773] Fix: Detail view is broken when a FE user is logged in
+- [#1743] Fix: HTML validation errors
+- [#1457] Change: Use the configuration proxy in the template helper
+- [#1764] Fix: Include tslib_fe in the cache manager
+- [#1759] Feature: Make hidden objects visible in the detail view for authorized users
+- [#1750] Feature: Create a form for FE image upload
+- [#1754] Fix: The monkey functionality is broken in the contact form
+- [#1751] Feature: Add a Turkish localization, patch by Murat Caglayan
+- [#1501] Change: Update the NL localization, patch by Paul Effertz
+- [#1262] Feature: Send an e-mail when a new object has been FE-created
+- [#1265] Feature: Add states "pending"/"published" to the FE-entered objects
+- [#1260] Feature: Add "delete" link to the "my records" list
+- [#1748] Fix: The realty object must not create auxilary records with UIDs as titles
+- [#1261] Feature: Make some fields required and add error messages
+- [#1745] Fix: Redirect URL for the "my objects" page is broken
+- [#1685] Feature: Clear the FE cache of pages with the Realty plugin after an object has been edited in the FE
+- [#1259] Feature: Under the "my objects" list, add a button "create new object"
+- [#1258] Feature: In the "my objects" list, add a link "edit"
+- [#1728] Change: Update the realty FE editing to FORMidable 1.0.0
+- [#1257] Feature: Add display type: "My realty objects"
+- [#1735] Fix: Unit tests failure
+- [#1254] Feature: Redirect after save
+- [#1256] Feature: Add "save folder" field to city record
+- [#1255] Feature: Fill drop-downs
+- [#1717] Change: Make the city and title required in the BE realty object editor
+- [#1709] Change: The thumbnails in the list view should lead to the detail view
+- [#1253] Feature: Create form for FE editing
+- [#1668] Feature: Create a new database column for old/new building and import the corresponding tag
+- [#1627] Change: Use the file with common constants from oelib
+- [#1675] Change: Move the table names to constants
+- [#1548] Change: Move templating functions from realty_pi1 to the template helper
+- [#1550] Feature: Allow to have a configurable address as BCC: in the contact form
+- [#1504] Fix: Sorting by related records sorts by UID
+- [#1631] Fix: Some auxiliary records do not get imported
+- [#1632] Feature: Use the combined fields "object number" and "language" for identifying an object in the DB
+- [#1665] Fix: When using the "choose sysfolder by filename" option, the image records will be put in the root page
+- [#1651] Change: Move the currency unit from the locale back into the TS setup
+- [#1657] Fix: xml-import of the dataset "elevator" failed
+- [#1104] Change: Use type hinting for function parameters
+- [#1250] Feature: Add configuration: sysfolder for new FE-created records
+- [#1251] Feature: Add new content type "FE editor"
+- [#1617] Change: Remove the ignoreValidation option and always proceed in case of validation errors
+- [#1647] Fix: Gallery is broken
+- [#1605] Change: The plugin and the content wizard should use the term "Realty Manager", not "Realty List"
+- [#1508] Change: Remove the "country" configuration and use config.locale_all instead
+- [#1264] Feature: Add contact form
+- [#1487] Change: Use camelCase for the class and file names
+- [#1465] Change: Change the way the CSS file is included
+- [#1544] Feature: Show the ZIP code of an object in the detail view
+- [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
+- [#1607] Feature: Add a field in the EM: SysFolder to save the realty records to, depending on the ZIP file name
+- [#1446] Change: Move the flexforms file to pi1
+- [#1555] Change: Add a new content wizard icon
+- [#1532] Feature: Import the estate size and display it in the detail view.
+- [#1546] Change: Delete the ZIPs after import
+- [#1438] Fix: Clean up the OpenImmo import (and related) unit tests
+- [#1263] Feature: In the detail view, add a link to a contact page
+- [#1523] Fix: The temporary directories should be removed using rm -rf so no cruft will be left
+- [#1547] Feature: Add a test for importing a file with the same name twice
+- [#1521] Fix: Deleted records break all sorts of stuff
+- [#1541] Change: Remove the return; for functions that do not return anything
+- [#1538] Change: Do not allow to set a UID in an array to load as a realty object
+- [#1522] Fix: Importer needs to bail out if the temporary directory already exists.
+- [#1229] Change: Sorting of prices should be numerical, not alphabetical
+- [#1511] Change: Make the import messages more specific
+- [#1505] Fix: The city selector doesn't use the target PID in the redirect link
+- [#1510] Fix: EM configuration variable name for the XML Schema file not used consistently
+- [#1469] Feature: Add an icon for the content wizard
+- [#1492] Feature: Import and display the contact information
+- [#1435] Change: Simplify the inclusion of the favorites list in an e-mail form
+- [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
+- [#1436] Feature: Allow to specify a sysfolder for the auxiliary records
+- [#1437] Feature: Add an option to always use the e-mail address from the EM
+- [#1447] Change: Use the EM configuration proxy in the Realty Manager
+- [#1239] Feature: Add an automatic configuration check
+- [#1463] Fix: Remove all call-time pass-by-reference
+- [#1455] Change: Use typo3/cli_dispatch.php to launch the CLI importer class
+- [#1434] Fix: Unit test failures
+- [#1402] Feature: Delete the corresponding record from database if 'aktion'=DELETE instead of importing this value to database
+- [#1322] Fix: In the unit tests, reset auto_increment for all tables that had test records
+- [#1398] Fix: Unit test failures
+- [#1245] Feature: Read the XML files and (re)write the corresponding records
+- [#1275] Feature: Create a class (model) that represents a realty object
+- [#155] Change: pi1: move createWhereClause to its own function
+- [#1218] Change: Format the prices according to the current FE language
+- [#1232] Fix: Make the Realty Manager work with oelib > 0.3.0
+- [#1384] Change: Require PHP 5.1
+- [#1249] Feature: Clear the FE cache after import
+- [#1227] Change: replace entities for square meters
+- [#876] Feature: Use IRRE for managing image records within realty objects
+- [#1227] Fix: Square meters is not displayed correctly in the string for living area's size
+- [#1242] Feature: Unpack ZIPs
+- [#1272] Change: Make use of PHP 5 capabilites (type hinting, real access modifiers)
+- [#1241] Feature: Add a class/module that can be called via a cron job
+
+0.2.0 - released 2008-07-14
+- [#1238] Feature: Include the object numbers and titles of the objects on the favorites list in an e-mail form
+- [#1240] Feature: Make it configurable whether to show the complete address of realty objects in the FE
+- [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image
+- [#1233] Fix: Don't call enableFields statically
+- [#1222] Feature: Add a URL field "Separate details page" to the realty object records
+- [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
+- [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
+- [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
+- [#67] Fix: In the SQL schema, sanitize some types
+- [#1220] Change: Require TYPO3 4.1.2
+- [#1127] Change: Require TYPO3 4
+- [#1154] Feature: Allow to restrict access to the single view page to logged-in users
+- [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
+- Documentation: Documented the city selector in the manual
+
+0.1.1 - released 2007-08-26
+- Documentation: Add a reference and a tutorial to the manual
+- [#656] Code cleanup and refactoring
+- [#695] Fix: Cannot upload images
+- [#69] Fix: Create hash values for all language labels
+- [#176] Change: Provide icons for the Realty Manager
+- [#641] Fix: Flexform is shown twice if a second BE language exists
+- [#694] Fix: make the extension work with MySQL 5
+- Change: Removed the kickstarter files
+- [#643] Code cleanup and refactoring
+
+0.1.0 - released 2007-02-24
