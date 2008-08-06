@@ -1,261 +1,87 @@
-2008-08-05 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
-
-2008-08-04 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1886] Feature: The config check should also check that the static template is included at all
-
-2008-07-29 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Released version 0.2.2
-
-2008-07-28 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
-
-2008-07-20 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Released version 0.2.1
-
-2008-07-20 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1976] Fix: add some missing DB changes
-
-2008-07-14 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Released version 0.2.0
-
-2008-07-13 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1976] Fix: Adding pictures to objects in the BE fails
-
-2008-07-09 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1894] Change: Only reset the auto_increment value if it is much higher than the highest UID
-
-2008-06-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1290] Fix: Checkboxes cannot be unchecked once they are checked
-
-2008-06-11 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1978] Change: Add "ca." to the German label for the living area, patch by Sven Braun
-
-2008-06-07 Niels Pardon <mail@niels-pardon.de>
-
-	* [#1914] Change: Build all redirection links and links in e-mails using cObj->typoLink_URL
-
-2008-05-27 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1929] Fix: Failing unit test: testImagesInTheListViewDoNotContainLinkToGallery
-
-2008-05-08 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1789] Change: Remove the option for a target attribute for the gallery link
-
-2008-04-28 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1837] Change: Use the header proxy factory's discardInstance() function
-
-2008-04-25 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1835] Fix: Opening the gallery for an unpublished record causes mySQL error
-	* [#1760] Change: Display an error message if the UID for the detail view is invalid
-
-2008-04-16 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1818] Change: Comment and whitespace consistency cleanup
-
-2008-04-16 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1813] Change: Don't use addCssToPageHeader anymore
-
-2008-04-09 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1775] Change: Drop-down lists in the BE realty object editor should be sorted by title, Patch by Sven Braun
-
-2008-03-24 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1743] Fix: HTML validation errors
-
-2008-03-03 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1709] Change: The thumbnails in the list view should lead to the detail view
-
-2008-02-27 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1504] Fix: Sorting by related records sorts by UID
-	* [#1627] Change: Use the file with common constants from oelib
-	* [#1675] Change: Move the table names to constants
-
-2008-02-26 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1548] Change: Move templating functions from realty_pi1 to the template helper
-
-2008-02-18 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1651] Change: Move the currency unit from the locale back into the TS setup
-
-2008-02-17 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1104] Change: Use type hinting for function parameters
-
-2008-02-17 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1465] Change: Change the way the CSS file is included
-
-2008-02-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1605] Change: The plugin and the content wizard should use the term "Realty Manager", not "Realty List"
-	* [#1508] Change: Remove the "country" configuration and use config.locale_all instead
-
-2008-02-05 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1544] Feature: Show the ZIP code of an object in the detail view
-
-2008-02-04 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
-
-2008-01-30 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1446] Change: Move the flexforms file to pi1
-
-2008-01-23 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1555] Change: Add a new content wizard icon
-
-2008-01-17 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1541] Change: Remove the return; for functions that do not return anything
-
-2008-01-14 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1229] Change: Sorting of prices should be numerical, not alphabetical
-
-2008-01-11 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1505] Fix: The city selector doesn't use the target PID in the redirect link
-
-2008-01-10 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1469] Feature: Add an icon for the content wizard
-
-2008-01-08 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
-	* [#1435] Change: Simplify the inclusion of the favorites list in an e-mail form
-	* [#1436] Feature: Allow to specify a sysfolder for the auxiliary records
-
-2008-01-06 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1447] Change: Use the EM configuration proxy in the Realty Manager
-	* [#1239] Feature: Add an automatic configuration check
-
-2007-12-29 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1402] Feature: Delete the corresponding record from database if 'aktion'=DELETE instead of importing this value to database
-
-2007-12-28 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1322] Fix: In the unit tests, reset auto_increment for all tables that had test records
-
-2007-12-23 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#155] Change: pi1: move createWhereClause to its own function
-	* [#1218] Change: Format the prices according to the current FE language
-
-2007-12-18 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1232] Fix: Make the Realty Manager work with oelib > 0.3.0
-	* [#1384] Change: Require PHP 5.1
-
-2007-12-10 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1227] Change: replace entities for square meters
-
-2007-12-09 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#876] Feature: Use IRRE for managing image records within realty objects
-	* [#1227] Fix: Square meters is not displayed correctly in the string for living area's size
-
-2007-11-07 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1272] Change: Make use of PHP 5 capabilites (type hinting, real access modifiers)
-
-2007-11-03 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1238] Feature: Include the object numbers and titles of the objects on the favorites list in an e-mail form
-
-2007-11-02 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1240] Feature: Make it configurable whether to show the complete address of realty objects in the FE
-
-2007-10-15 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image
-
-2007-10-14 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1233] Fix: Don't call enableFields statically
-
-2007-10-11 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1222] Feature: Add a URL field "Separate details page" to the realty object records
-
-2007-10-08 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
-
-2007-10-06 Saskia Metzler <saskia@merlin.owl.de>
-
-	* [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
-
-2007-10-04 Saskia Metzler  <saskia@merlin.owl.de>
-
-	* [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
-	* [#67] Fix: In the SQL schema, sanitize some types
-	* [#1220] Change: Require TYPO3 4.1.2
-
-2007-09-26 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1127] Change: Require TYPO3 4
-
-2007-09-25 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1154] Feature: Allow to restrict access to the single view page to logged-in users
-
-2007-09-09 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
-
-2007-08-31 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Documentation: Documented the city selector in the manual
-
-2007-08-26 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Released version 0.1.1
-
-2007-08-12 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Documentation: Add a reference and a tutorial to the manual
-
-2007-06-07 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Code cleanup and refactoring (#656)
-	* Fix: Cannot upload images (#695)
-	* Fix: Create hash values for all language labels (#69)
-	* Change: Provide icons for the Realty Manager (#176)
-	* Fix: Flexform is shown twice if a second BE language exists (#641)
-	* Fix: make the extension work with MySQL 5 (#694)
-	* Change: Removed the kickstarter files
-
-2007-03-08 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* Code cleanup and refactoring (#643)
-
-2007-02-24 Oliver Klee  <typo3-coding@oliverklee.de>
-
-	* initial public release
+0.2.3 - currently working on
+- [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
+- [#1886] Feature: The config check should also check that the static template is included at all
+
+0.2.2 - released 2008-07-29
+- Released version 0.2.2
+- [#2024] Fix: The DB tables use the column "accessible" which is a reserved word in MySQL 5.1
+
+0.2.1 - released 2008-07-20
+- Released version 0.2.1
+- [#1976] Fix: add some missing DB changes
+
+0.2.0 - released 2008-07-14
+- [#1976] Fix: Adding pictures to objects in the BE fails
+- [#1894] Change: Only reset the auto_increment value if it is much higher than the highest UID
+- [#1290] Fix: Checkboxes cannot be unchecked once they are checked
+- [#1978] Change: Add "ca." to the German label for the living area, patch by Sven Braun
+- [#1914] Change: Build all redirection links and links in e-mails using cObj->typoLink_URL
+- [#1929] Fix: Failing unit test: testImagesInTheListViewDoNotContainLinkToGallery
+- [#1789] Change: Remove the option for a target attribute for the gallery link
+- [#1837] Change: Use the header proxy factory's discardInstance() function
+- [#1835] Fix: Opening the gallery for an unpublished record causes mySQL error
+- [#1760] Change: Display an error message if the UID for the detail view is invalid
+- [#1818] Change: Comment and whitespace consistency cleanup
+- [#1813] Change: Don't use addCssToPageHeader anymore
+- [#1775] Change: Drop-down lists in the BE realty object editor should be sorted by title, Patch by Sven Braun
+- [#1743] Fix: HTML validation errors
+- [#1709] Change: The thumbnails in the list view should lead to the detail view
+- [#1504] Fix: Sorting by related records sorts by UID
+- [#1627] Change: Use the file with common constants from oelib
+- [#1675] Change: Move the table names to constants
+- [#1548] Change: Move templating functions from realty_pi1 to the template helper
+- [#1651] Change: Move the currency unit from the locale back into the TS setup
+- [#1104] Change: Use type hinting for function parameters
+- [#1465] Change: Change the way the CSS file is included
+- [#1605] Change: The plugin and the content wizard should use the term "Realty Manager", not "Realty List"
+- [#1508] Change: Remove the "country" configuration and use config.locale_all instead
+- [#1544] Feature: Show the ZIP code of an object in the detail view
+- [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
+- [#1446] Change: Move the flexforms file to pi1
+- [#1555] Change: Add a new content wizard icon
+- [#1541] Change: Remove the return; for functions that do not return anything
+- [#1229] Change: Sorting of prices should be numerical, not alphabetical
+- [#1505] Fix: The city selector doesn't use the target PID in the redirect link
+- [#1469] Feature: Add an icon for the content wizard
+- [#1323] Change: Make use of the oelib testing framework for creating tx_realty, page and tt_content dummy records
+- [#1435] Change: Simplify the inclusion of the favorites list in an e-mail form
+- [#1436] Feature: Allow to specify a sysfolder for the auxiliary records
+- [#1447] Change: Use the EM configuration proxy in the Realty Manager
+- [#1239] Feature: Add an automatic configuration check
+- [#1402] Feature: Delete the corresponding record from database if 'aktion'=DELETE instead of importing this value to database
+- [#1322] Fix: In the unit tests, reset auto_increment for all tables that had test records
+- [#155] Change: pi1: move createWhereClause to its own function
+- [#1218] Change: Format the prices according to the current FE language
+- [#1232] Fix: Make the Realty Manager work with oelib > 0.3.0
+- [#1384] Change: Require PHP 5.1
+- [#1227] Change: replace entities for square meters
+- [#876] Feature: Use IRRE for managing image records within realty objects
+- [#1227] Fix: Square meters is not displayed correctly in the string for living area's size
+- [#1272] Change: Make use of PHP 5 capabilites (type hinting, real access modifiers)
+- [#1238] Feature: Include the object numbers and titles of the objects on the favorites list in an e-mail form
+- [#1240] Feature: Make it configurable whether to show the complete address of realty objects in the FE
+- [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image
+- [#1233] Fix: Don't call enableFields statically
+- [#1222] Feature: Add a URL field "Separate details page" to the realty object records
+- [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
+- [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
+- [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
+- [#67] Fix: In the SQL schema, sanitize some types
+- [#1220] Change: Require TYPO3 4.1.2
+- [#1127] Change: Require TYPO3 4
+- [#1154] Feature: Allow to restrict access to the single view page to logged-in users
+- [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
+- Documentation: Documented the city selector in the manual
+
+0.1.1 - released 2007-08-26
+- Documentation: Add a reference and a tutorial to the manual
+- [#656] Code cleanup and refactoring
+- [#695] Fix: Cannot upload images
+- [#69] Fix: Create hash values for all language labels
+- [#176] Change: Provide icons for the Realty Manager
+- [#641] Fix: Flexform is shown twice if a second BE language exists
+- [#694] Fix: make the extension work with MySQL 5
+- Change: Removed the kickstarter files
+- [#643] Code cleanup and refactoring
+
+0.1.0 - released 2007-02-24
