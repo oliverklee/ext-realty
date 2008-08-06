@@ -229,6 +229,7 @@
 			<label index="realty.pi_flexform.gallery">Galery</label>
 			<label index="realty.pi_flexform.city_selector">Stad keuze</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statische SQL-Filter (word met &quot; AND &quot; aan de WHERE-Klausel gehangen):</label>
+			<label index="realty.pi_flexform.showAddressOfObjects">Toon het volledige adres in FE:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Veld, waar de zoekfilter checkboxen gegenereerd worden:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Velden, waarna de FE-User de lijst van resultaten sorteren kan:</label>
 			<label index="realty.pi_flexform.singlePID">Pagina voor de single aanzicht:</label>
@@ -300,10 +301,11 @@
 			<label index="label_back">Terug</label>
 			<label index="label_add_to_favorites">Op mijn favorietenlijst plaatsen</label>
 			<label index="label_remove_from_favorites">Van mijn favorietenlijst verwijderen</label>
+			<label index="label_on_favorites_list">Objecten op de favorietenlijst</label>
 			<label index="label_cityselector_head">Object zoeken</label>
-			<label index="label_cityselector_description_formal">Wij bieden U nieuwe objecten in de navolgende steden;#8230;</label>
-			<label index="label_cityselector_description_informal">Wij bieden jouw nieuwe objecten aan in de navolgende steden;#8230;</label>
-			<label index="label_pleaseselectcity">&amp;#8212; Aub uw stadskeuze aangeven;#8212;</label>
+			<label index="label_cityselector_description_formal">Wij bieden U nieuwe objecten in de navolgende steden;</label>
+			<label index="label_cityselector_description_informal">Wij bieden jouw nieuwe objecten aan in de navolgende steden;</label>
+			<label index="label_pleaseselectcity">Kies een plaatsnaam;</label>
 			<label index="label_next_image">Volgende foto</label>
 			<label index="label_sorry">Sorry!</label>
 			<label index="label_ascending">oplopend</label>
@@ -319,8 +321,12 @@
 			<label index="message_noResultsFound_realty_list_informal">Helaas zijn er geen resultaten die aan je criteria voldoen. Probeer het eens met minder zoekopties.</label>
 			<label index="message_noResultsFound_favorites_formal">Momenteel heeft U geen objecten op uw Favorietenlijst.</label>
 			<label index="message_noResultsFound_favorites_informal">Momenteel heb je geen objecten op jouw Favorietenlijst.</label>
+			<label index="message_noResultsFound_single_view_formal">De link is niet correct. Het gevraagde object kan niet getoond worden in de detail aanzicht. Neemt U aub contact op met de webmaster.</label>
+			<label index="message_noResultsFound_single_view_informal">De link is niet correct. Het gevraagde object kan niet getoond worden in de detail aanzicht. Neemt U aub contact op met de webmaster.</label>
 			<label index="message_invalidImage_formal">Deze foto is in onze Database niet beschikbaar. Controleerd U, of het adres in uw browser correct is. Indien U via een externe link op deze pagina terecht bent gekomen, is de link waarschijnlijk verouderd of deze bestaat niet meer.</label>
 			<label index="message_invalidImage_informal">Deze foto is in onze Database niet beschikbaar. Controleer of het adres in je browser correct is. Indien je via een externe link op deze pagina terecht bent gekomen, is de link waarschijnlijk verouderd of deze bestaat niet meer.</label>
+			<label index="message_please_login_formal">Logt u zich aub in om deze pagina te kunnen bekijken.</label>
+			<label index="message_please_login_informal">Logt u zich aub in om deze pagina te kunnen bekijken.</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="realty.pi_flexform.sheet_general">Generelt</label>
@@ -646,6 +652,7 @@
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
+			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
@@ -717,6 +724,7 @@
 			<label index="label_back" type="integer">8374236</label>
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
+			<label index="label_on_favorites_list" type="integer">104683823</label>
 			<label index="label_cityselector_head" type="integer">182629236</label>
 			<label index="label_cityselector_description_formal" type="integer">110211522</label>
 			<label index="label_cityselector_description_informal" type="integer">110211522</label>
@@ -736,8 +744,12 @@
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
 			<label index="message_noResultsFound_favorites_formal" type="integer">84241814</label>
 			<label index="message_noResultsFound_favorites_informal" type="integer">84241814</label>
+			<label index="message_noResultsFound_single_view_formal" type="integer">260520321</label>
+			<label index="message_noResultsFound_single_view_informal" type="integer">260520321</label>
 			<label index="message_invalidImage_formal" type="integer">24179165</label>
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
+			<label index="message_please_login_formal" type="integer">64977327</label>
+			<label index="message_please_login_informal" type="integer">64977327</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -1060,6 +1072,7 @@
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
+			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
@@ -1131,6 +1144,7 @@
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
+			<label index="label_on_favorites_list">Objects on the favorites list:</label>
 			<label index="label_cityselector_head">Search in city</label>
 			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
@@ -1150,8 +1164,12 @@
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_favorites_formal">Your favorites list currently is empty.</label>
 			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
+			<label index="message_noResultsFound_single_view_formal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
+			<label index="message_noResultsFound_single_view_informal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
+			<label index="message_please_login_formal">Please log in to view this page.</label>
+			<label index="message_please_login_informal">Please log in to view this page.</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
