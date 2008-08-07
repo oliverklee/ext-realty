@@ -64,8 +64,8 @@
 - [#1759] Feature: Make hidden objects visible in the detail view for authorized users
 - [#1750] Feature: Create a form for FE image upload
 - [#1754] Fix: The monkey functionality is broken in the contact form
-- [#1751] Feature: Add a Turkish localization, patch by Murat Caglayan
-- [#1501] Change: Update the NL localization, patch by Paul Effertz
+- [#1751] Localization: Add a Turkish localization, patch by Murat Caglayan
+- [#1501] Localization: Update the NL localization, patch by Paul Effertz
 - [#1262] Feature: Send an e-mail when a new object has been FE-created
 - [#1265] Feature: Add states "pending"/"published" to the FE-entered objects
 - [#1260] Feature: Add "delete" link to the "my records" list
@@ -106,7 +106,7 @@
 - [#1487] Change: Use camelCase for the class and file names
 - [#1465] Change: Change the way the CSS file is included
 - [#1544] Feature: Show the ZIP code of an object in the detail view
-- [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
+- [#1618] Localization: Add a RU localization (localization by Stas Kobzar)
 - [#1607] Feature: Add a field in the EM: SysFolder to save the realty records to, depending on the ZIP file name
 - [#1446] Change: Move the flexforms file to pi1
 - [#1555] Change: Add a new content wizard icon
@@ -158,14 +158,14 @@
 - [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image
 - [#1233] Fix: Don't call enableFields statically
 - [#1222] Feature: Add a URL field "Separate details page" to the realty object records
-- [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
+- [#1216] Localization: Provide a DK FE localization, patch by Sven Wolfermann
 - [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
 - [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
 - [#67] Fix: In the SQL schema, sanitize some types
 - [#1220] Change: Require TYPO3 4.1.2
 - [#1127] Change: Require TYPO3 4
 - [#1154] Feature: Allow to restrict access to the single view page to logged-in users
-- [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
+- [#1146] Localization: Add a Dutch FE localization, localization by Michael Zweigle
 - Documentation: Documented the city selector in the manual
 
 0.1.1 - released 2007-08-26
