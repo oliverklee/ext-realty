@@ -1,6 +1,6 @@
 0.2.3 - currently working on
-- [#1502] Change: Update the DK localization, thanks to Peter Hanstein
-- [#1501] Change: Update the NL localization, thanks to Paul Effertz
+- [#1502] Localization: Update the DK localization, thanks to Peter Hanstein
+- [#1501] Localization: Update the NL localization, thanks to Paul Effertz
 - [#1989] Fix: The favorites PID needs to be configchecked in the details view
 - [#1367] Fix: The gallery pop-up uses the wrong URL in IE when using realURL
 - [#1886] Feature: The config check should also check that the static template is included at all
@@ -37,7 +37,7 @@
 - [#1605] Change: The plugin and the content wizard should use the term "Realty Manager", not "Realty List"
 - [#1508] Change: Remove the "country" configuration and use config.locale_all instead
 - [#1544] Feature: Show the ZIP code of an object in the detail view
-- [#1618] Feature: Add a RU localization (localization by Stas Kobzar)
+- [#1618] Localization: Add a RU localization (localization by Stas Kobzar)
 - [#1446] Change: Move the flexforms file to pi1
 - [#1555] Change: Add a new content wizard icon
 - [#1541] Change: Remove the return; for functions that do not return anything
@@ -64,14 +64,14 @@
 - [#1221] Feature: Gallery: add a CSS class "current" to the TD of the thumbnail of the current image
 - [#1233] Fix: Don't call enableFields statically
 - [#1222] Feature: Add a URL field "Separate details page" to the realty object records
-- [#1216] Feature: Provide a DK FE localization, patch by Sven Wolfermann
+- [#1216] Localization: Provide a DK FE localization, patch by Sven Wolfermann
 - [#1223] Change: For objects that are for sale, the price should be shown in the list view instead of the rent
 - [#1168] Change: In the locallang files, convert the HTML entities for umlaut to real UTF-8 umlaut
 - [#67] Fix: In the SQL schema, sanitize some types
 - [#1220] Change: Require TYPO3 4.1.2
 - [#1127] Change: Require TYPO3 4
 - [#1154] Feature: Allow to restrict access to the single view page to logged-in users
-- [#1146] Feature: Add a Dutch FE localization, localization by Michael Zweigle
+- [#1146] Localization: Add a Dutch FE localization, localization by Michael Zweigle
 - Documentation: Documented the city selector in the manual
 
 0.1.1 - released 2007-08-26
