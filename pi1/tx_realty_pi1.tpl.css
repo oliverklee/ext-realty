@@ -479,3 +479,336 @@ p.tx-realty-pi1-objekt-nr {
 	width: 100px;
 	margin: 10px 0 5px 100px;
 }
+
+
+/***** FE EDITOR *****/
+.tx-realty-pi1 #tx_realty_frontEndEditor select {
+	width: 160px;
+	margin-left: 0;
+}
+
+.tx-realty-pi1 #tx_realty_frontEndEditor fieldset {
+	width: 100%;
+	max-height: 100%;
+	border: 1px solid #cccccc;
+	padding: 10px 10px 10px 10px;
+	color: #666666;
+	margin-bottom: 20px;
+}
+
+/*BOX 1 IN FIELDSET 1*/
+#tx_realty_frontEndEditor .column3-light {
+	clear: both;
+	padding: 10px;
+	background: #f0f0f0;
+	margin-bottom: 10px;
+}
+
+#tx_realty_frontEndEditor .column3-light dt {
+	width: 20%;
+	padding: 0;
+}
+
+#tx_realty_frontEndEditor .column3-light dd {
+	width: 80%;
+	padding: 0;
+}
+
+#tx_realty_frontEndEditor_title {
+	width: 97%;
+	margin: 0;
+	padding: 0;
+}
+
+/*BOX 2 IN FIELDSET 1 | BOX 3 IN FIELDSET 2 | BOX 6 IN FIELDSET 3*/
+#tx_realty_frontEndEditor .column1 {
+	display: table;
+	height: 100%;
+	width: 100%;
+	background: #e4e4e4;
+}
+
+#tx_realty_frontEndEditor .column1 .columnleft1-dark,
+#tx_realty_frontEndEditor .column1 .columnright1-dark {
+	width: 49%;
+	float: left;
+	padding: 10px 0 0 0;
+}
+
+/*BOX 3 IN FIELDSET 1 | BOX 2 IN FIELDSET 2* | BOX 1 IN FIELDSET 3 |
+  BOX 4 IN FIELDSET 3 | BOX 6 IN FIELDSET 3*/
+
+#tx_realty_frontEndEditor .columnlight {
+	display: table;
+	position: relative;
+	background: #f0f0f0;
+	height:100%;
+	width: 100%;
+}
+
+#tx_realty_frontEndEditor .columnlight .columnleft,
+#tx_realty_frontEndEditor .columnlight .columnright {
+	display: table;
+	width: 48%;
+	float: left;
+	padding: 10px 0 0 0;
+}
+
+#tx_realty_frontEndEditor .columnlight .columnleft {
+	padding-right: 2%;
+}
+
+#tx_realty_frontEndEditor .columndark {
+	display: table;
+	position: relative;
+	background: #e4e4e4;
+	height:100%;
+	width: 100%;
+}
+
+#tx_realty_frontEndEditor .columndark .columnleft,
+#tx_realty_frontEndEditor .columndark .columnright {
+	display: table;
+	width: 48%;
+	float: left;
+	padding: 10px 0 0 0;
+}
+
+#tx_realty_frontEndEditor .columndark .columnleft {
+	padding-right: 2%;
+}
+
+/*DESCRIPTION FIELDS*/
+#tx_realty_frontEndEditor .column-dark {
+	display: table;
+	background: #e4e4e4;
+	width: 100%;
+	clear: both;
+	padding: 10px 0 0 0 ;
+}
+#tx_realty_frontEndEditor .column-light {
+	display: table;
+	background: #f0f0f0;
+	width: 100%;
+	clear: both;
+	padding: 10px 0 0 0 ;
+}
+#tx_realty_frontEndEditor .description textarea {
+	height: 160px;
+	width: 160%;
+}
+#tx_realty_frontEndEditor .sourcecontact label {
+	font-size: 0.8em;
+}
+#tx_realty_frontEndEditor .sourcecontact2  {
+	display: block;
+	margin: 0 0 5px 10px;
+}
+
+/*DIVIDER*/
+#tx_realty_frontEndEditor .vertdivider {
+	width: 0%;
+	float: left;
+	height: 100%;
+	display: table;
+	border:5px solid #ffffff;
+}
+
+#tx_realty_frontEndEditor .divider {
+	display: block;
+	background: #ffffff;
+	height: 10px;
+	clear: both;
+}
+
+/*DD DL DT*/
+#tx_realty_frontEndEditor dl {
+	display: table;
+	margin: 0 0 10px 10px;
+	padding: 0;
+	clear: both;
+	width: 100%;
+	height: 100%;
+}
+
+#tx_realty_frontEndEditor dt {
+	width: 40%;
+	margin: 0;
+	padding: 0;
+	float: left;
+	height: 100%;
+}
+
+#tx_realty_frontEndEditor dd {
+	width: 60%;
+	float: left;
+	margin: 0;
+	padding: 0;
+	font-size: 0.8em;
+	height: 100%;
+}
+
+#tx_realty_frontEndEditor dd input {
+	width: 90%;
+}
+
+/*SUBMIT BUTTOM*/
+#tx_realty_frontEndEditor #submit {
+	text-align:right;
+	width: 100%;
+	margin: 0 0 10px 0;
+}
+
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit {
+	color: #ffffff;
+	margin-right: 10px;
+	background: transparent url(images/submit_button.png) no-repeat;
+	height: 24px;
+	width:  73px;
+	cursor: pointer;
+	border: 0;
+}
+
+/*SELECTFIELDS*/
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_country,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_district,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_city,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_old_or_new_building,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_house_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_apartment_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_state,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_garage_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_pets {
+	width: 93%;
+}
+
+/*CHECKBOXES HEATINGTYPE*/
+#tx_realty_frontEndEditor .heatingcheckbox {
+	margin: 0 0 10px 0;
+	line-height: 30px;
+}
+
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-1,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-2,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-3,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-4,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-5,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-6,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-7,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-8,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-9,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-10,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_type_item-11 {
+	position: relative;
+	top: 5px;
+	width: 15px;
+	float: left;
+	margin: 0 5px 0 0;
+}
+
+#tx_realty_frontEndEditor .checkbox input {
+	margin-right: 3px;
+	width: 15px;
+}
+
+/*CHECKBOXES*/
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_emphasized,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_included,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_rented {
+	width: 15px;
+	margin: 5px 5px 0 0;
+	padding: 0;
+}
+
+/*RADIOBUTTONS*/
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_object_type_item,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_object_type_item-1,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item-1,
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_contact_data_source_item-1 {
+	width: 15px;
+	margin: 0 5px 0 0;
+	padding: 0 0 2px 0;
+	height: auto;
+}
+
+
+/*------------------------------------------IMAGEUPLOAD------------------------------------------*/
+
+#uploadfield .column1,
+#uploadfield .column2 {
+	display: table;
+	margin: 0 0 10px 0;
+	padding: 5px 0 15px 0;
+	background: #f0f0f0;
+	clear: both;
+	width: 100%;
+	max-height: 100%;
+	color: #666666;
+}
+#uploadfield dl {
+	display: table;
+	margin: 0;
+	padding: 8px 0 0 10px;
+	clear: both;
+	width: 100%;
+	max-height: 100%;
+}
+
+#uploadfield .column1 dt {
+	width: 20%;
+	margin: 0;
+	padding: 0;
+	float: left;
+	height: 100%;
+	line-height: 20px;
+}
+#uploadfield .column1 dd {
+	width: 80%;
+	float: right;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	line-height: 20px;
+}
+
+#uploadfield .column2 dt {
+	width: 80%;
+	margin: 0;
+	padding: 0;
+	float: left;
+	height: 100%;
+	line-height: 20px;
+}
+#uploadfield .column2 dd {
+	width: 20%;
+	float: right;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	line-height: 20px;
+}
+
+#uploadfield .savebuttonposition {
+	display: block;
+	text-align: right;
+	max-width: 90%;
+}
+
+#uploadfield .sourcecontact {
+	font-size: 0.8em;
+	line-height: normal;
+}
+
+#uploadfield #tx_realty_frontEndImageUpload_button_submit {
+	color: #ffffff;
+	margin-right: 10px;
+	background: transparent url(images/submit_button.png) no-repeat;
+	height: 24px;
+	width:  73px;
+	cursor: pointer;
+	border: 0;
+	line-height: 30px;
+}

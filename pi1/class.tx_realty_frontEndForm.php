@@ -37,6 +37,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  * @subpackage	tx_realty
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/** the extension key (FORMidable expects this to be public) */
@@ -346,6 +347,23 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;
+	}
+
+	/**
+	 * Gets the path to the HTML template as set in the TS setup or flexforms.
+	 * The returned path will always be an absolute path in the file system;
+	 * EXT: references will automatically get resolved.
+	 *
+	 * @return	string		the path to the HTML template as an absolute path in
+	 * 						the file system, will not be empty in a correct
+	 * 						configuration
+	 */
+	public function getTemplatePath() {
+		return t3lib_div::getFileAbsFileName(
+			$this->plugin->getConfValueString(
+				'feEditorTemplateFile',	's_feeditor', true
+			)
+		);
 	}
 }
 

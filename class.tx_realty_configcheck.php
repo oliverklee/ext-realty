@@ -149,6 +149,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the configuration for the FE editor of the realty manager.
 	 */
 	public function check_tx_realty_pi1_fe_editor() {
+		// TODO: Check the FE editor template file once we can check other
+		// templates than the default template.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=2061
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
 		$this->checkSysFolderForFeCreatedAuxiliaryRecords();
@@ -161,6 +164,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the configuration for the FE editor of the realty manager.
 	 */
 	public function check_tx_realty_pi1_image_upload() {
+		// TODO: Check the FE editor template file once we can check other
+		// templates than the default template.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=2061
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
 		$this->checkLoginPid();

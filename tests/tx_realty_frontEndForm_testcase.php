@@ -65,9 +65,11 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$this->createDummyRecords();
 
 		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm')
-		);
+		$this->pi1->init(array(
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+			'feEditorTemplateFile'
+				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+		));
 
 		$this->fixture = new tx_realty_frontEndForm($this->pi1, 0, '', true);
 	}
@@ -259,6 +261,18 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			'id=0',
 			$this->fixture->getRedirectUrl()
+		);
+	}
+
+
+	///////////////////////////////////////
+	// Tests concerning the HTML template
+	///////////////////////////////////////
+
+	public function testGetTemplatePathReturnsAbsolutePathFromTheConfiguration() {
+		$this->assertRegExp(
+			'/\/typo3conf\/ext\/realty\/pi1\/tx_realty_frontEndEditor\.html$/',
+			$this->fixture->getTemplatePath()
 		);
 	}
 }

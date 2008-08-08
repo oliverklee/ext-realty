@@ -422,6 +422,30 @@
 				</el>
 			</ROOT>
 		</sDEF>
+		<s_feeditor>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sheet_feeditor</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<feEditorTemplateFile>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.templateFile</label>
+							<config>
+								<type>group</type>
+								<internal_type>file</internal_type>
+								<allowed>html,htm</allowed>
+								<max_size>100</max_size>
+								<uploadfolder>uploads/tx_realty</uploadfolder>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</feEditorTemplateFile>
+				</el>
+			</ROOT>
+		</s_feeditor>
 		<s_googlemaps>
 			<ROOT>
 				<TCEforms>
@@ -429,16 +453,6 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<googleMapsApiKey>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMapsApiKey</label>
-							<config>
-								<type>input</type>
-								<size>100</size>
-								<eval>trim</eval>
-							</config>
-						</TCEforms>
-					</googleMapsApiKey>
 					<showGoogleMapsInListView>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showGoogleMapsInListView</label>
@@ -455,6 +469,16 @@
 							</config>
 						</TCEforms>
 					</showGoogleMapsInSingleView>
+					<googleMapsApiKey>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMapsApiKey</label>
+							<config>
+								<type>input</type>
+								<size>100</size>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</googleMapsApiKey>
 					<defaultCountryUID>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultCountry</label>

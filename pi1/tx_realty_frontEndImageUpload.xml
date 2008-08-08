@@ -7,7 +7,7 @@
 			<formid>tx_realty_frontEndImageUpload</formid>
 		</form>
 		<debug>false</debug>
-		<displaylabels>true</displaylabels>
+		<displaylabels>false</displaylabels>
 	</meta>
 	<control>
 		<datahandler:RAW>
@@ -18,7 +18,18 @@
 				</userobj>
 			</callback>
 		</datahandler:RAW>
-		<renderer:STANDARD/>
+		<renderer:TEMPLATE>
+			<template>
+				<path>
+					<userobj>
+						<extension>this</extension>
+						<method>getTemplatePath</method>
+					</userobj>
+				</path>
+				<subpart>###IMAGE_UPLOAD###</subpart>
+				<errortag>errors</errortag>
+			</template>
+		</renderer:TEMPLATE>
 		<actionlets>
 			<actionlet:REDIRECT>
 				<url>

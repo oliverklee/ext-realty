@@ -67,9 +67,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->createDummyRecords();
 
 		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm')
-		);
+		$this->pi1->init(array(
+			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+			'feEditorTemplateFile'
+				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+		));
 
 		$this->fixture = new tx_realty_frontEndEditor($this->pi1, 0, '', true);
 	}

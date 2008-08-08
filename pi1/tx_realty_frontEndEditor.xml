@@ -7,7 +7,7 @@
 			<formid>tx_realty_frontEndEditor</formid>
 		</form>
 		<debug>false</debug>
-		<displaylabels>true</displaylabels>
+		<displaylabels>false</displaylabels>
 	</meta>
 	<control>
 		<datahandler:DB>
@@ -22,7 +22,18 @@
 				</beforeinsertion>
 			</process>
 		</datahandler:DB>
-		<renderer:STANDARD/>
+		<renderer:TEMPLATE>
+			<template>
+				<path>
+					<userobj>
+						<extension>this</extension>
+						<method>getTemplatePath</method>
+					</userobj>
+				</path>
+				<subpart>###FE_EDITOR###</subpart>
+				<errortag>errors</errortag>
+			</template>
+		</renderer:TEMPLATE>
 		<actionlets>
 			<actionlet:USEROBJ>
 				<userobj>
@@ -90,8 +101,6 @@
 			</validators>
 		</renderlet:TEXT>
 		<renderlet:CHECKSINGLE name="emphasized" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized"/>
-
-		<renderlet:TEXT name="spacer_01" label="&amp;nbsp;" readonly="true"/>
 
 		<renderlet:TEXT name="street" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.street"/>
 		<renderlet:TEXT name="zip" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip">
@@ -268,8 +277,6 @@
 			</validators>
 		</renderlet:LISTBOX>
 
-		<renderlet:TEXT name="spacer_02" label="&amp;nbsp;" readonly="true"/>
-
 		<renderlet:RADIOBUTTON name="contact_data_source" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source">
 			<data defaultvalue="0">
 				<items>
@@ -332,8 +339,6 @@
 			</validators>
 		</renderlet:TEXT>
 		<renderlet:TEXT name="contact_phone" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_phone"/>
-
-		<renderlet:TEXT name="spacer_03" label="&amp;nbsp;" readonly="true"/>
 
 		<renderlet:TEXT name="currency" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.currency"/>
 		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
@@ -425,8 +430,6 @@
 			</data>
 		</renderlet:DATE>
 
-		<renderlet:TEXT name="spacer_04" label="&amp;nbsp;" readonly="true"/>
-
 		<renderlet:LISTBOX name="house_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.house_type">
 			<data>
 				<userobj>
@@ -498,8 +501,6 @@
 			</validators>
 		</renderlet:LISTBOX>
 		<renderlet:TEXT name="utilization" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.utilization"/>
-
-		<renderlet:TEXT name="spacer_05" label="&amp;nbsp;" readonly="true"/>
 
 		<renderlet:TEXT name="construction_year" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year">
 			<validators>
@@ -723,8 +724,6 @@
 		</renderlet:TEXTAREA>
 		<renderlet:TEXTAREA name="location" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.location"/>
 
-		<renderlet:TEXT name="spacer_06" label="&amp;nbsp;" readonly="true"/>
-
 		<renderlet:TEXT name="floor" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor">
 			<validators>
 				<validator:STANDARD>
@@ -827,8 +826,6 @@
 		</renderlet:TEXT>
 		<renderlet:TEXTAREA name="layout" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.layout"/>
 
-		<renderlet:TEXT name="spacer_07" label="&amp;nbsp;" readonly="true"/>
-
 		<renderlet:LISTBOX name="garage_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type">
 			<data>
 				<items>
@@ -907,8 +904,6 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-
-		<renderlet:TEXT name="spacer_08" label="&amp;nbsp;" readonly="true"/>
 
 		<renderlet:CHECKBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
 			<data>
@@ -1032,11 +1027,7 @@
 		<renderlet:CHECKSINGLE name="assisted_living" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.assisted_living"/>
 		<renderlet:TEXTAREA name="equipment" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.equipment"/>
 
-		<renderlet:TEXT name="spacer_09" label="&amp;nbsp;" readonly="true"/>
-
 		<renderlet:TEXTAREA name="misc" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.misc"/>
-
-		<renderlet:TEXT name="spacer_10" label="&amp;nbsp;" readonly="true"/>
 
 		<renderlet:CHECKSINGLE name="exact_coordinates_are_cached" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_coordinates_are_cached"/>
 		<renderlet:TEXT name="exact_longitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_longitude">
@@ -1080,8 +1071,6 @@
 			</validators>
 		</renderlet:TEXT>
 
-		<renderlet:TEXT name="spacer_11" label="&amp;nbsp;" readonly="true"/>
-
 		<renderlet:CHECKSINGLE name="rough_coordinates_are_cached" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_coordinates_are_cached"/>
 		<renderlet:TEXT name="rough_longitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_longitude">
 			<validators>
@@ -1123,8 +1112,6 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-
-		<renderlet:TEXT name="spacer_12" label="&amp;nbsp;" readonly="true"/>
 
 		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save"/>
 	</elements>

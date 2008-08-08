@@ -112,12 +112,15 @@ plugin.tx_realty_pi1 {
 	# e-mail address which receives a message if e new FE record was created
 	feEditorNotifyEmail =
 
-	# Google Maps API key
-	googleMapsApiKey =
+	# location of the HTML template file for the FE editor and image upload
+	feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
+
 	# whether Google Maps should be displayed in the FE list view
 	showGoogleMapsInListView = 0
 	# whether Google Maps should be displayed in the FE single view
 	showGoogleMapsInSingleView = 0
+	# Google Maps API key
+	googleMapsApiKey =
 	# default country for objects that have no country set (a UID
 	# from the static_countries table, 54 = Germany)
 	defaultCountryUID = 54

@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="tx_realty_pi1.tpl.css" />
+		<link rel="stylesheet" type="text/css" href="../../ameos_formidable/api/base/rdt_date/res/lib/js_calendar/calendar-win2k-1.css" />
+		<link rel="stylesheet" type="text/css" href="../../ameos_formidable/api/base/rdr_std/res/css/style.css" />
+		<title>
+			HTML template for the Realty Manager FE editor
+		</title>
+	</head>
+	<body>
+		<h1>
+			HTML template for the Realty Manager FE editor
+		</h1>
+
+		<div class="tx-realty-pi1">
+			<h2>FE editor</h2>
+			<form enctype="multipart/form-data" id="tx_realty_frontEndEditor" action="" method="post">
+<!-- ###FE_EDITOR### -->
+<div>
+	<p class="error" style="display: {errors.cssdisplay};">{errors}</p>
+	<fieldset>
+		<div class="column3-light">
+			<dl>
+				<dt>{title.label.tag}</dt>
+				<dd>{title}</dd>
+			</dl>
+		</div>
+
+		<div class="column1">
+			<div class="columnleft1-dark">
+				<dl>
+					<dt>{object_type.label}</dt>
+				 	<dd>{object_type}</dd>
+				</dl>
+			</div>
+
+			<div class="vertdivider"><br /><br /><br /><br /></div>
+
+			<div class="columnright1-dark">
+				<dl>
+					<dt>{object_number.label.tag}</dt>
+					<dd>
+						{object_number}<br />
+						{emphasized}&nbsp;<span class="height">
+							{emphasized.label.tag}
+						</span>
+					</dd>
+				</dl>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="columnlight">
+			<div class="columnleft">
+				<dl>
+					<dt>{country.label.tag}</dt>
+					<dd>{country}</dd>
+				</dl>
+				<dl>
+					<dt>{street.label.tag}</dt>
+					<dd>{street}</dd>
+				</dl>
+				<dl>
+					<dt>{zip.label.tag}</dt>
+					<dd>{zip}</dd>
+				</dl>
+			</div>
+
+			<div class="columnright">
+				<dl>
+					<dt>{district.label.tag}</dt>
+					<dd>{district}</dd>
+				</dl>
+				<dl>
+					<dt>{new_district.label.tag}</dt>
+					<dd>{new_district}</dd>
+				</dl>
+			 	<dl>
+					<dt>{city.label.tag}</dt>
+					<dd>{city}</dd>
+				</dl>
+			 	<dl>
+					<dt>{new_city.label.tag}</dt>
+					<dd>{new_city}</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</fieldset>
+
+	<br />
+
+	<fieldset>
+		<div class="column-dark">
+			<span class="sourcecontact2">{contact_data_source.label}</span>
+			<dl>
+				<dt>
+					<span class="sourcecontact">{contact_data_source}</span>
+				</dt>
+			</dl>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="columnlight">
+			<div class="columnleft">
+				<dl>
+					<dt>{employer.label.tag}</dt>
+					<dd>{employer}</dd>
+				</dl>
+				<dl>
+					<dt>{contact_person.label.tag}</dt>
+					<dd>{contact_person}</dd>
+				</dl>
+			</div>
+			<div class="columnright">
+				<dl>
+					<dt>{contact_email.label.tag}</dt>
+					<dd>{contact_email}</dd>
+				</dl>
+				<dl>
+					<dt>{contact_phone.label.tag}</dt>
+					<dd>{contact_phone}</dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="column1">
+			<div class="columnleft1-dark">
+				<dl>
+					<dt>{buying_price.label.tag}</dt>
+					<dd>{buying_price}</dd>
+				</dl>
+				<dl>
+					<dt>{year_rent.label.tag}</dt>
+					<dd>{year_rent}</dd>
+				</dl>
+				<dl>
+					<dt>{rent_excluding_bills.label.tag}</dt>
+					<dd>{rent_excluding_bills}</dd>
+				</dl>
+				<dl>
+					<dt>{extra_charges.label.tag}</dt>
+					<dd>{extra_charges}</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">
+							{heating_included}&nbsp;{heating_included.label.tag}
+						</span>
+					</dd>
+				</dl>
+			</div>
+
+			<div class="vertdivider">
+				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			</div>
+
+			<div class="columnright1-dark">
+				<dl>
+					<dt>{deposit.label.tag}</dt>
+					<dd>{deposit}</dd>
+				</dl>
+				<dl>
+					<dt>{provision.label.tag}</dt>
+					<dd>{provision}</dd>
+				</dl>
+				<dl>
+					<dt>{hoa_fee.label.tag}</dt>
+					<dd>{hoa_fee}</dd>
+				</dl>
+				<dl>
+					<dt>{currency.label.tag}</dt>
+					<dd>{currency}</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">{rented}&nbsp;{rented.label.tag}</span>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{usable_from.label.tag}</dt>
+					<dd>{usable_from}</dd>
+				</dl>
+			</div>
+		</div>
+	</fieldset>
+
+	<br />
+
+	<fieldset>
+		<div class="columnlight">
+			<div class="columnleft">
+				<dl>
+					<dt>{construction_year.label.tag}</dt>
+					<dd>{construction_year}</dd>
+				</dl>
+				<dl>
+					<dt>{old_or_new_building.label.tag}</dt>
+					<dd>{old_or_new_building}</dd>
+				</dl>
+				<dl>
+					<dt>{state.label.tag}</dt>
+					<dd>{state}</dd>
+				</dl>
+			</div>
+
+			<div class="columnright">
+				<dl>
+					<dt>{house_type.label.tag}</dt>
+					<dd>{house_type}</dd>
+				</dl>
+				<dl>
+					<dt>{apartment_type.label.tag}</dt>
+					<dd>{apartment_type}</dd>
+				</dl>
+				<dl>
+					<dt>{utilization.label.tag}</dt>
+					<dd>{utilization}</dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="column1">
+			<div class="column-light">
+				<dl>
+					<dt>{description.label.tag}</dt>
+				</dl>
+				<dl>
+					<dd class="description">{description}</dd>
+				</dl>
+				<dl>
+					<dt>{location.label.tag}</dt>
+				</dl>
+				<dl>
+					<dd class="description">{location}</dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="columndark">
+			<div class="columnleft">
+				<dl>
+					<dt>{floor.label.tag}</dt>
+					<dd>{floor}</dd>
+				</dl>
+				<dl>
+					<dt>{floors.label.tag}</dt>
+					<dd>{floors}</dd>
+				</dl>
+				<dl>
+					<dt>{number_of_rooms.label.tag}</dt>
+					<dd>{number_of_rooms}</dd>
+				</dl>
+				<dl>
+					<dt>{bedrooms.label.tag}</dt>
+					<dd>{bedrooms}</dd>
+				</dl>
+				<dl>
+					<dt>{bathrooms.label.tag}</dt>
+					<dd>{bathrooms}</dd>
+				</dl>
+			</div>
+			<div class="columnright">
+				<dl>
+					<dt>{estate_size.label.tag}</dt>
+					<dd>{estate_size}</dd>
+				</dl>
+				<dl>
+					<dt>{living_area.label.tag}</dt>
+					<dd>{living_area}</dd>
+				</dl>
+				<dl>
+					<dt>{total_area.label.tag}</dt>
+					<dd>{total_area}</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="column-dark">
+			<dl>
+				<dt>{layout.label.tag}</dt>
+			</dl>
+			<dl>
+				<dd class="description">{layout}</dd>
+			</dl>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="columnlight">
+			<div class="columnleft">
+				<dl>
+					<dt>{garage_type.label.tag}</dt>
+					<dd>{garage_type}</dd>
+				</dl>
+			</div>
+
+			<div class="columnright">
+				<dl>
+					<dt>{garage_price.label.tag}</dt>
+					<dd>{garage_price}</dd>
+				</dl>
+				<dl>
+					<dt>{garage_rent.label.tag}</dt>
+					<dd>{garage_rent}</dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="columndark">
+			<div class="columnleft">
+				<dl>
+					<dt>{heating_type.label.tag}</dt>
+					<dd class="heatingcheckbox">{heating_type}</dd>
+				</dl>
+				<dl>
+					<dt>{pets.label.tag}</dt>
+					<dd>{pets}</dd>
+				</dl>
+			</div>
+
+			<div class="columnright">
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">{fitted_kitchen}</span>&nbsp;{fitted_kitchen.label.tag}
+					</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd><span class="checkbox">{balcony}</span>&nbsp;{balcony.label.tag}</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd><span class="checkbox">{garden}</span>&nbsp;{garden.label.tag}</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd><span class="checkbox">{elevator}</span>&nbsp;{elevator.label.tag}</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd><span class="checkbox">{barrier_free}</span>&nbsp;{barrier_free.label.tag}</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd><span class="checkbox">{assisted_living}</span>&nbsp;{assisted_living.label.tag}</dd>
+				</dl>
+			</div>
+
+			<div class="column-dark">
+				<dl>
+					<dt>{equipment.label.tag}</dt>
+				</dl>
+				<dl>
+					<dd class="description">{equipment}</dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="column-light">
+			<dl>
+				<dt>{misc.label.tag}</dt>
+			</dl>
+			<dl>
+				<dd class="description">{misc}</dd>
+			</dl>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+
+		<div class="column1">
+			<div class="columnleft1-dark">
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">{exact_coordinates_are_cached}&nbsp;{exact_coordinates_are_cached.label.tag}</span>
+					</dd>
+				</dl>
+				<dl>
+					<dt>{exact_longitude.label.tag}</dt>
+					<dd>{exact_longitude}</dd>
+				</dl>
+				<dl>
+					<dt>{exact_latitude.label.tag}</dt>
+					<dd>{exact_latitude}</dd>
+				</dl>
+			</div>
+
+			<div class="vertdivider">
+				<br /><br /><br /><br /><br /><br /><br /><br />
+			</div>
+
+			<div class="columnright1-dark">
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">{rough_coordinates_are_cached}</span>&nbsp;{rough_coordinates_are_cached.label.tag}
+					</dd>
+				</dl>
+				<dl>
+					<dt>{rough_longitude.label.tag}</dt>
+					<dd>{rough_longitude}</dd>
+				</dl>
+				<dl>
+					<dt>{rough_latitude.label.tag}</dt>
+					<dd>{rough_latitude}</dd>
+				</dl>
+			</div>
+		</div>
+
+		<div class="divider">&nbsp;</div>
+		<div class="column-light">
+			<dl id="submit">
+				<dt>&nbsp;</dt>
+				<dd>{button_submit}</dd>
+			</dl>
+		</div>
+	</fieldset>
+</div>
+<!-- ###FE_EDITOR### -->
+			</form>
+
+			<h2>Image upload dialog</h2>
+			<form enctype="multipart/form-data" id="tx_realty_frontEndImageUpload" action="" method="post">
+<!-- ###IMAGE_UPLOAD### -->
+<div id="uploadfield">
+	<p class="error" style="display: {errors.cssdisplay};">{errors}</p>
+
+	<div class="column1">
+		<dl>
+			<dt>{image.label.tag}</dt>
+			<dd>{image}</dd>
+		</dl>
+		<dl>
+			<dt>{caption.label.tag}</dt>
+			<dd>{caption}</dd>
+		</dl>
+	</div>
+
+	<div class="column2">
+		<dl>
+			<dt><span class="sourcecontact">{imagesToDelete.label}</span></dt>
+		</dl>
+		<dl>
+			<dt>{imagesToDelete} &nbsp; </dt>
+			<dd><span class="savebuttonposition">{button_submit}</span></dd>
+		</dl>
+	</div>
+</div>
+<!-- ###IMAGE_UPLOAD### -->
+			</form>
+		</div>
+	</body>
+</html>
+
