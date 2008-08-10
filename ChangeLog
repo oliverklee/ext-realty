@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2077] Localization: Add an ES localization, thanks to Miguel Pin
 - [#1985] Feature: Move the image upload dialog to HTML templates
 - [#1984] Feature: Move the FE editor to HTML templates
 - [#1502] Localization: Update the DK localization, thanks to Peter Hanstein
