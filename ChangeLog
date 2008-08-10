@@ -1,4 +1,5 @@
 0.2.3 - currently working on
+- [#1751] Localization: Add a Turkish localization, patch by Murat Caglayan
 - [#2077] Localization: Add an ES localization, thanks to Miguel Pin
 - [#1502] Localization: Update the DK localization, thanks to Peter Hanstein
 - [#1501] Localization: Update the NL localization, thanks to Paul Effertz

@@ -642,6 +642,107 @@
 			<label index="message_please_login_formal">Por favor, identifíquese para ver esta página</label>
 			<label index="message_please_login_informal">Por favor, identifícate para ver esta página</label>
 		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="realty.pi_flexform.sheet_general">Genel</label>
+			<label index="realty.pi_flexform.what_to_display">Ne gösterilsin:</label>
+			<label index="realty.pi_flexform.realty_list">Emlak Listesi</label>
+			<label index="realty.pi_flexform.favorites">Favoriler</label>
+			<label index="realty.pi_flexform.gallery">Galeri</label>
+			<label index="realty.pi_flexform.city_selector">Şehir seçimi</label>
+			<label index="realty.pi_flexform.staticSqlFilter">Statik SQL filitresi (&quot; AND &quot; ile birlikte  WHERE clause ile kullanılır ):</label>
+			<label index="realty.pi_flexform.checkboxesFilter">İçinden arama filitresi ve onay kutucuğu (checkbox) oluşturabilen veri bankası tablosu:</label>
+			<label index="realty.pi_flexform.sortCriteria">Kullanıcı tarafından liste görünümü düzenlenebilen Veri Bankası tabloları:</label>
+			<label index="realty.pi_flexform.singlePID">Sayfa Detaylı (tek)görünüşü</label>
+			<label index="realty.pi_flexform.galleryPID">Sayfa Galeri</label>
+			<label index="realty.pi_flexform.favoritesPID">Sayfa favoriler</label>
+			<label index="realty.pi_flexform.citySelectorTargetPID">Şehir seçicisi için Sayfa</label>
+			<label index="label_title">Başlık</label>
+			<label index="label_city">Şehir</label>
+			<label index="label_district">Semt</label>
+			<label index="label_tstamp">Son Değişim tarihi</label>
+			<label index="label_extra_charges">Ekstra ücretler</label>
+			<label index="label_extra_charges_short">&lt;acronym title=&quot;Ekstra ücretler&quot;&gt;NK&lt;/acronym&gt;</label>
+			<label index="label_rent_excluding_bills">Aidatsız/ ekstrasız kira</label>
+			<label index="label_rent_excluding_bills_short">&lt;acronym title=&quot;Aidatsız/ ekstrasız kira&quot;&gt;KM&lt;/acronym&gt;</label>
+			<label index="label_number_of_rooms">Oda sayısı</label>
+			<label index="label_number_of_rooms_short">Odalar</label>
+			<label index="label_balcony">Balkon/Teras</label>
+			<label index="label_balcony_short">Balkon/Teras</label>
+			<label index="label_garden">Bahçe</label>
+			<label index="label_garden_short">Bahçe (kullanım)</label>
+			<label index="label_elevator">Asansör</label>
+			<label index="label_elevator_short">asansör</label>
+			<label index="label_barrier_free">Özürlüler için uygunluk</label>
+			<label index="label_barrier_free_short">Özürlüler için uygunluk</label>
+			<label index="label_assisted_living">Özürlüler /Yaşlılar için bakım</label>
+			<label index="label_assisted_living_short">Özürlüler /Yaşlılar için bakım</label>
+			<label index="label_fitted_kitchen">Hazır Mutfak</label>
+			<label index="label_fitted_kitchen_short">Hazır Mutfak</label>
+			<label index="label_construction_year">Yapım yılı</label>
+			<label index="label_construction_year_short">Yapım yılı</label>
+			<label index="label_usable_from">şu tarihden itibaren kullanılabilir</label>
+			<label index="label_usable_from_short">şu tarihden itibaren kullanılabilir</label>
+			<label index="label_object_number">Yer No:</label>
+			<label index="label_address">Adres</label>
+			<label index="label_description">Açıklama</label>
+			<label index="label_equipment">Donanım</label>
+			<label index="label_overview">Özet</label>
+			<label index="label_location">Konum</label>
+			<label index="label_misc">Diğer</label>
+			<label index="label_layout">Plan</label>
+			<label index="label_living_area">kullanım alanı</label>
+			<label index="label_total_area">Toplam Alan</label>
+			<label index="label_heating_included">Extra masraflar ısınma içinde</label>
+			<label index="label_deposit">Provizyon</label>
+			<label index="label_provision">Emlak Provizyonu</label>
+			<label index="label_buying_price">Satış fiyatı</label>
+			<label index="label_year_rent">Yıllık Net Kira</label>
+			<label index="label_rented">Kiralandı</label>
+			<label index="label_apartment_type">Konut tipi</label>
+			<label index="label_house_type">Ev tipi</label>
+			<label index="label_floor">Kat</label>
+			<label index="label_floors">Kat adedi</label>
+			<label index="label_bedrooms">Yatak odası sayısı</label>
+			<label index="label_bathrooms">Banyo/WC sayısı</label>
+			<label index="label_heating_type">Isınma şekli</label>
+			<label index="label_garage_type">Garaj/park imkanı</label>
+			<label index="label_garage_rent">Garaj / park yeri kirası</label>
+			<label index="label_garage_price">Garaj/ park yeri satış fiyatı</label>
+			<label index="label_pets">Evcil Hayvanlar</label>
+			<label index="label_state">Durumu</label>
+			<label index="label_weofferyou_formal">Sizlere şu objeleri sunuyoruz:</label>
+			<label index="label_weofferyou_informal">Sana şu objeleri sunuyoruz:</label>
+			<label index="label_yourfavorites_formal">Şu objeler favori listenizde bulunmaktadır:</label>
+			<label index="label_yourfavorites_informal">Şu objeler favori listende bulunmaktadır:</label>
+			<label index="label_searchin">Aramayı daralt</label>
+			<label index="label_page">Sayfa</label>
+			<label index="label_approx">yaklaşık</label>
+			<label index="label_squareMeters">m&amp;sup2;</label>
+			<label index="label_back">geri dön</label>
+			<label index="label_add_to_favorites">Favori listesine ekle</label>
+			<label index="label_remove_from_favorites">Favori listesinden çıkar</label>
+			<label index="label_cityselector_head">Emlak Ara</label>
+			<label index="label_cityselector_description_formal">Size bu yerlerde emlak sunuyoruz &amp;#8230;</label>
+			<label index="label_cityselector_description_informal">Sana bu yerlerde emlak sunuyoruz &amp;#8230;</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Lütfen şehir seçiniz &amp;#8212;</label>
+			<label index="label_next_image">bir sonraki resim</label>
+			<label index="label_sorry">Pardon!</label>
+			<label index="label_ascending">yükselen</label>
+			<label index="label_descending">alçalan</label>
+			<label index="label_sort">Düzenle</label>
+			<label index="label_search">Arama</label>
+			<label index="label_sortby">Düzenli göster</label>
+			<label index="label_contact">Bize Ulaşın</label>
+			<label index="label_close_window">Penceryi kapat</label>
+			<label index="message_now">şimdi</label>
+			<label index="message_yes">evet</label>
+			<label index="message_noResultsFound_realty_list_formal">Maalaesef aradığınız kelime ile ilgili sonuç bulunamamıştır. Arama İşleminizi genelelleştirerek tekrar deneyiniz.</label>
+			<label index="message_noResultsFound_realty_list_informal">Maalaesef aradığın kelime ile ilgili sonuç bulunamamıştır. Arama İşlemini genelelleştirerek tekrar deneyin.</label>
+			<label index="message_noResultsFound_favorites_formal">Favori listeniz boş</label>
+			<label index="message_noResultsFound_favorites_informal">Favori listen boş</label>
+			<label index="message_invalidImage_formal">Bu resim veri bankamızda kullanıma açık değil. Lütfen yazdıgınız adresi kontrol ediniz. Eğer bu sayfaya bir linkı takip ederek geldiyseniz, link yanlış ya da eski olabilir</label>
+			<label index="message_invalidImage_informal">Bu resim veri bankamızda kullanıma açık değil. Lütfen yazdığın adresi kontrol et. Eğer bu sayfaya bir linkı takip ederek geldiysen, link yanlış ya da eski olabilir.</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
@@ -1169,6 +1270,107 @@
 			<label index="message_please_login_formal" type="integer">64977327</label>
 			<label index="message_please_login_informal" type="integer">64977327</label>
 		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
+			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
+			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
+			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
+			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
+			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
+			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
+			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
+			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
+			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
+			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
+			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
+			<label index="realty.pi_flexform.citySelectorTargetPID" type="integer">12423386</label>
+			<label index="label_title" type="integer">192455458</label>
+			<label index="label_city" type="integer">92079470</label>
+			<label index="label_district" type="integer">235647734</label>
+			<label index="label_tstamp" type="integer">54326886</label>
+			<label index="label_extra_charges" type="integer">91504638</label>
+			<label index="label_extra_charges_short" type="integer">91504638</label>
+			<label index="label_rent_excluding_bills" type="integer">255153687</label>
+			<label index="label_rent_excluding_bills_short" type="integer">255153687</label>
+			<label index="label_number_of_rooms" type="integer">151522303</label>
+			<label index="label_number_of_rooms_short" type="integer">214532891</label>
+			<label index="label_balcony" type="integer">143910655</label>
+			<label index="label_balcony_short" type="integer">91922626</label>
+			<label index="label_garden" type="integer">237438195</label>
+			<label index="label_garden_short" type="integer">237814086</label>
+			<label index="label_elevator" type="integer">157509981</label>
+			<label index="label_elevator_short" type="integer">93473220</label>
+			<label index="label_barrier_free" type="integer">184564619</label>
+			<label index="label_barrier_free_short" type="integer">79575979</label>
+			<label index="label_assisted_living" type="integer">208122748</label>
+			<label index="label_assisted_living_short" type="integer">119969606</label>
+			<label index="label_fitted_kitchen" type="integer">82838765</label>
+			<label index="label_fitted_kitchen_short" type="integer">246053483</label>
+			<label index="label_construction_year" type="integer">38900511</label>
+			<label index="label_construction_year_short" type="integer">6164852</label>
+			<label index="label_usable_from" type="integer">250200731</label>
+			<label index="label_usable_from_short" type="integer">90030952</label>
+			<label index="label_object_number" type="integer">120700088</label>
+			<label index="label_address" type="integer">232242979</label>
+			<label index="label_description" type="integer">190479069</label>
+			<label index="label_equipment" type="integer">164420141</label>
+			<label index="label_overview" type="integer">62421031</label>
+			<label index="label_location" type="integer">216383317</label>
+			<label index="label_misc" type="integer">59226864</label>
+			<label index="label_layout" type="integer">247307244</label>
+			<label index="label_living_area" type="integer">38494779</label>
+			<label index="label_total_area" type="integer">109266585</label>
+			<label index="label_heating_included" type="integer">150189013</label>
+			<label index="label_deposit" type="integer">254246076</label>
+			<label index="label_provision" type="integer">224380131</label>
+			<label index="label_buying_price" type="integer">1292258</label>
+			<label index="label_year_rent" type="integer">196759698</label>
+			<label index="label_rented" type="integer">233415579</label>
+			<label index="label_apartment_type" type="integer">220566396</label>
+			<label index="label_house_type" type="integer">11148572</label>
+			<label index="label_floor" type="integer">255814915</label>
+			<label index="label_floors" type="integer">228653042</label>
+			<label index="label_bedrooms" type="integer">265698466</label>
+			<label index="label_bathrooms" type="integer">187944950</label>
+			<label index="label_heating_type" type="integer">7498189</label>
+			<label index="label_garage_type" type="integer">97055949</label>
+			<label index="label_garage_rent" type="integer">32433980</label>
+			<label index="label_garage_price" type="integer">57868081</label>
+			<label index="label_pets" type="integer">122743082</label>
+			<label index="label_state" type="integer">165843995</label>
+			<label index="label_weofferyou_formal" type="integer">89755002</label>
+			<label index="label_weofferyou_informal" type="integer">89755002</label>
+			<label index="label_yourfavorites_formal" type="integer">210319328</label>
+			<label index="label_yourfavorites_informal" type="integer">210319328</label>
+			<label index="label_searchin" type="integer">144591287</label>
+			<label index="label_page" type="integer">26464201</label>
+			<label index="label_approx" type="integer">91206380</label>
+			<label index="label_squareMeters" type="integer">174340796</label>
+			<label index="label_back" type="integer">8374236</label>
+			<label index="label_add_to_favorites" type="integer">152078420</label>
+			<label index="label_remove_from_favorites" type="integer">119046790</label>
+			<label index="label_cityselector_head" type="integer">182629236</label>
+			<label index="label_cityselector_description_formal" type="integer">110211522</label>
+			<label index="label_cityselector_description_informal" type="integer">110211522</label>
+			<label index="label_pleaseselectcity" type="integer">199863136</label>
+			<label index="label_next_image" type="integer">141623968</label>
+			<label index="label_sorry" type="integer">175133333</label>
+			<label index="label_ascending" type="integer">164211554</label>
+			<label index="label_descending" type="integer">186247552</label>
+			<label index="label_sort" type="integer">212715720</label>
+			<label index="label_search" type="integer">6984764</label>
+			<label index="label_sortby" type="integer">188609045</label>
+			<label index="label_contact" type="integer">2966658</label>
+			<label index="label_close_window" type="integer">160116745</label>
+			<label index="message_now" type="integer">159106450</label>
+			<label index="message_yes" type="integer">174130624</label>
+			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
+			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
+			<label index="message_noResultsFound_favorites_formal" type="integer">84241814</label>
+			<label index="message_noResultsFound_favorites_informal" type="integer">84241814</label>
+			<label index="message_invalidImage_formal" type="integer">24179165</label>
+			<label index="message_invalidImage_informal" type="integer">24179165</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
@@ -1695,6 +1897,107 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
+		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="realty.pi_flexform.sheet_general">General</label>
+			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
+			<label index="realty.pi_flexform.realty_list">Realty List</label>
+			<label index="realty.pi_flexform.favorites">Favorites</label>
+			<label index="realty.pi_flexform.gallery">Gallery</label>
+			<label index="realty.pi_flexform.city_selector">City selector</label>
+			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
+			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
+			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
+			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
+			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
+			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
+			<label index="realty.pi_flexform.citySelectorTargetPID">Target page for the city selector:</label>
+			<label index="label_title">Title</label>
+			<label index="label_city">City</label>
+			<label index="label_district">District</label>
+			<label index="label_tstamp">Date of last change</label>
+			<label index="label_extra_charges">Extra charges</label>
+			<label index="label_extra_charges_short">Extra charges</label>
+			<label index="label_rent_excluding_bills">Rent excluding bills</label>
+			<label index="label_rent_excluding_bills_short">Rent excluding bills</label>
+			<label index="label_number_of_rooms">Number of rooms</label>
+			<label index="label_number_of_rooms_short">rooms</label>
+			<label index="label_balcony">Balcony/patio</label>
+			<label index="label_balcony_short">balcony/patio</label>
+			<label index="label_garden">garden</label>
+			<label index="label_garden_short">Garden (usage)</label>
+			<label index="label_elevator">Elevator</label>
+			<label index="label_elevator_short">elevator</label>
+			<label index="label_barrier_free">Accessible</label>
+			<label index="label_barrier_free_short">accessible</label>
+			<label index="label_assisted_living">Assisted living</label>
+			<label index="label_assisted_living_short">assisted living</label>
+			<label index="label_fitted_kitchen">Fitted kitchen</label>
+			<label index="label_fitted_kitchen_short">fitted kitchen</label>
+			<label index="label_construction_year">Year of construction</label>
+			<label index="label_construction_year_short">year of construction</label>
+			<label index="label_usable_from">Can be used starting at</label>
+			<label index="label_usable_from_short">can be used starting at</label>
+			<label index="label_object_number">Object #</label>
+			<label index="label_address">Address</label>
+			<label index="label_description">Description</label>
+			<label index="label_equipment">Equipment</label>
+			<label index="label_overview">Overview</label>
+			<label index="label_location">Location</label>
+			<label index="label_misc">Miscellaneous</label>
+			<label index="label_layout">Layout</label>
+			<label index="label_living_area">Size of the living area</label>
+			<label index="label_total_area">Total area</label>
+			<label index="label_heating_included">Extra charges include heating</label>
+			<label index="label_deposit">Security deposit</label>
+			<label index="label_provision">Provision/broker's fee</label>
+			<label index="label_buying_price">Price for buying</label>
+			<label index="label_year_rent">Net rent per year</label>
+			<label index="label_rented">Rented</label>
+			<label index="label_apartment_type">Apartment type</label>
+			<label index="label_house_type">House type</label>
+			<label index="label_floor">Floor</label>
+			<label index="label_floors">Number of floors</label>
+			<label index="label_bedrooms">Number of bedrooms</label>
+			<label index="label_bathrooms">Number of bathrooms</label>
+			<label index="label_heating_type">Type of heating</label>
+			<label index="label_garage_type">Garage/parking space</label>
+			<label index="label_garage_rent">Rent for garage/parking space</label>
+			<label index="label_garage_price">Price for buying the garage/parking space</label>
+			<label index="label_pets">Pets</label>
+			<label index="label_state">Condition</label>
+			<label index="label_weofferyou_formal">We offer you the following objects:</label>
+			<label index="label_weofferyou_informal">We offer you the following objects:</label>
+			<label index="label_yourfavorites_formal">You have the following objects on your favorites list:</label>
+			<label index="label_yourfavorites_informal">You have the following objects on your favorites list:</label>
+			<label index="label_searchin">Search in</label>
+			<label index="label_page">Page</label>
+			<label index="label_approx">approx.</label>
+			<label index="label_squareMeters">m²</label>
+			<label index="label_back">Back to the list</label>
+			<label index="label_add_to_favorites">Add to favorites</label>
+			<label index="label_remove_from_favorites">Remove from favorites</label>
+			<label index="label_cityselector_head">Search in city</label>
+			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
+			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
+			<label index="label_next_image">go to the next image</label>
+			<label index="label_sorry">Sorry!</label>
+			<label index="label_ascending">ascending</label>
+			<label index="label_descending">descending</label>
+			<label index="label_sort">sort</label>
+			<label index="label_search">search</label>
+			<label index="label_sortby">Display sorted by</label>
+			<label index="label_contact">Contact us</label>
+			<label index="label_close_window">Close window</label>
+			<label index="message_now">now</label>
+			<label index="message_yes">yes</label>
+			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
+			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
+			<label index="message_noResultsFound_favorites_formal">Your favorites list currently is empty.</label>
+			<label index="message_noResultsFound_favorites_informal">Your favorites list currently is empty.</label>
+			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
+			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 		</languageKey>
 	</orig_text>
 </T3locallang>
