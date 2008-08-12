@@ -1611,7 +1611,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 
 	/////////////////////////////////////////////////////
-	// Tests concerning the summary sting of favorites.
+	// Tests concerning the summary string of favorites
 	/////////////////////////////////////////////////////
 
 	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
@@ -1807,9 +1807,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////
-	// Tests concerning separate details pages.
-	/////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// Tests concerning links to separate details pages
+	/////////////////////////////////////////////////////
 
 	public function testLinkToSeparateSingleViewPageLinksToSeparateSinglePidIfAccessAllowed() {
 		$this->allowAccess();
@@ -1887,6 +1887,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////////////
+	// Tests concerning the detail view
+	/////////////////////////////////////
 
 	public function testDetailPageContainsContactInformationWithPhoneNumberFromRecord() {
 		$this->testingFramework->changeRecord(
@@ -2065,6 +2070,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	/////////////////////////////////////
+	// Tests concerning getFieldContent
+	/////////////////////////////////////
+
 	public function testGetFieldContentOfEstateSize() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2083,12 +2093,45 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageDisplaysTheZip() {
+	public function testDetailPageDisplaysTheStreetIfShowAddressOfObjectsIsEnabled() {
 		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('street' => 'Foo road 3')
+		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'Foo road 3',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageOmitsTheStreetIfShowAddressOfObjectsIsDisabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('street' => 'Foo road 3')
+		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			'Foo road 3',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsEnabled() {
+			$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('zip' => '12345')
 		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2104,7 +2147,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('zip' => '12345')
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', false);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2425,9 +2468,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////
-	// Tests concerning external details pages.
-	/////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// Tests concerning links to external details pages
+	/////////////////////////////////////////////////////
 
 	public function testLinkToExternalSingleViewPageContainsExternalUrlIfAccessAllowed() {
 		$this->allowAccess();

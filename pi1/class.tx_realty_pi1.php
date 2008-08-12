@@ -604,29 +604,20 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 
 			// stuff that should always be visible
-			foreach (array('title', 'uid', 'city') as $key) {
+			foreach (array('title', 'uid') as $key) {
 				$this->setMarker($key, $this->getFieldContent($key));
 			}
 
 			// string stuff that should conditionally be visible
 			foreach (array(
-				'object_number',
-				'street',
-				'district',
-				'zip',
-				'description',
-				'location',
-				'equipment',
-				'misc'
+				'object_number', 'description', 'location', 'equipment', 'misc'
 			) as $key) {
 				$this->setOrDeleteMarkerIfNotEmpty(
 					$key, $this->getFieldContent($key), '', 'field_wrapper'
 				);
 			}
 
-			if (!$this->getConfValueBoolean('showAddressOfObjects')) {
-				$this->hideSubparts('street', 'field_wrapper');
-			}
+			$this->setMarker('address', $this->getAddressAsHtml());
 
 			$this->fillOrHideOffererWrapper();
 
@@ -2484,6 +2475,32 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$this->internal['currentRow'] = $currentRow;
 	}
+
+	/**
+	 * Formats the current object's address as HTML (separated by <br />) with
+	 * the granularity defined in the configuration variable
+	 * "showAddressOfObjects".
+	 *
+	 * @return	string		the address of the current object, will not be empty
+	 */
+	private function getAddressAsHtml() {
+		$addressParts = array();
+
+		if ($this->getConfValueBoolean('showAddressOfObjects')
+			&& ($this->getFieldContent('street') != '')
+		) {
+			$addressParts[]
+				= htmlspecialchars($this->getFieldContent('street'));
+		}
+
+		$addressParts[] = htmlspecialchars(trim(
+			$this->getFieldContent('zip') . ' ' .
+				$this->getFieldContent('city') .
+				$this->getFieldContent('district')
+		));
+
+		return implode('<br />', $addressParts);
+ 	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php'])	{

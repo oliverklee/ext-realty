@@ -229,7 +229,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadRealtyObjectIfAValidArrayIsGiven() {
+	public function testLoadRealtyObjectWithValidArraySetDataForGetProperty() {
 		$this->fixture->loadRealtyObject(array('title' => 'foo'));
 
 		$this->assertEquals(
@@ -1805,6 +1805,54 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->getProperty('contact_data_source')
+		);
+	}
+
+
+	////////////////////////////
+	// Tests concerning getUid
+	////////////////////////////
+
+	public function testGetUidReturnsZeroForObjectWithoutUid() {
+		$realtyObject = new tx_realty_objectChild(true);
+
+		$this->assertEquals(
+			0,
+			$realtyObject->getUid()
+		);
+	}
+
+	public function testGetUidReturnsCurrentUidForObjectWithUid() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			$this->objectUid,
+			$this->fixture->getUid()
+		);
+	}
+
+
+	//////////////////////////////
+	// Tests concerning getTitle
+	//////////////////////////////
+
+	public function testGetTitleReturnsEmptyStringForObjectWithoutTitle() {
+		$realtyObject = new tx_realty_objectChild(true);
+
+		$this->assertEquals(
+			'',
+			$realtyObject->getTitle()
+		);
+	}
+
+	public function testGetTitleReturnsFullTitleForObjectWithTitle() {
+		$this->fixture->loadRealtyObject(
+			array('title' => 'foo title filltext-filltext-filltext-filltext')
+		);
+
+		$this->assertEquals(
+			'foo title filltext-filltext-filltext-filltext',
+			$this->fixture->getTitle()
 		);
 	}
 }

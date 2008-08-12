@@ -637,11 +637,10 @@ class tx_realty_object {
 		$this->ensureUid(
 			$this->realtyObjectData, 'object_number, language, openimmo_obid'
 		);
-		$objectUid = $this->getProperty('uid');
 
 		foreach ($this->getAllImageData() as $imageData) {
 			// Creates a relation to the parent realty object for each image.
-			$imageData['realty_object_uid'] = $objectUid;
+			$imageData['realty_object_uid'] = $this->getUid();
 
 			if ($this->recordExistsInDatabase(
 				$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
@@ -990,6 +989,26 @@ class tx_realty_object {
 		}
 
 		return is_array($result) ? $result : array();
+	}
+
+	/**
+	 * Gets this object's UID.
+	 *
+	 * @return	integer		this object's UID, will be 0 if this object does not
+	 * 						have a UID yet
+	 */
+	public function getUid() {
+		return intval($this->getProperty('uid'));
+	}
+
+	/**
+	 * Gets this object's title.
+	 *
+	 * @return	string		this object's title, will be empty if this object
+	 * 						does not have a title
+	 */
+	public function getTitle() {
+		return $this->getProperty('title');
 	}
 }
 
