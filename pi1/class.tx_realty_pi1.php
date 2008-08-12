@@ -155,6 +155,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** whether this class is called in the test mode */
 	private $isTestMode = false;
 
+	/** @var	tx_realty_object 	the current realty object */
+	private $cachedRealtyObject = null;
+
 	/**
 	 * The constructor.
 	 *
@@ -601,11 +604,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				->addHeader('Status: 404 Not Found');
 			$this->setEmptyResultView();
 		} else {
-			if ($this->getConfValueBoolean(
-				'showGoogleMapsInSingleView', 's_googlemaps'
-			)) {
-				$this->retrieveGeoCoordinates();
-			}
+			$this->createGoogleMapForSingleView();
 
 			// This sets the title of the page for display and for use in indexed search results.
 			if (!empty($this->internal['currentRow']['title']))	{
@@ -614,30 +613,20 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 
 			// stuff that should always be visible
-			foreach (array('title', 'uid', 'city') as $key) {
+			foreach (array('title', 'uid') as $key) {
 				$this->setMarker($key, $this->getFieldContent($key));
 			}
 
 			// string stuff that should conditionally be visible
 			foreach (array(
-				'object_number',
-				'street',
-				'district',
-				'zip',
-				'country',
-				'description',
-				'location',
-				'equipment',
-				'misc'
+				'object_number', 'description', 'location', 'equipment', 'misc'
 			) as $key) {
 				$this->setOrDeleteMarkerIfNotEmpty(
 					$key, $this->getFieldContent($key), '', 'field_wrapper'
 				);
 			}
 
-			if (!$this->getConfValueBoolean('showAddressOfObjects')) {
-				$this->hideSubparts('street', 'field_wrapper');
-			}
+			$this->setMarker('address', $this->getAddressAsHtml());
 
 			$this->fillOrHideOffererWrapper();
 
@@ -2526,6 +2515,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * This function requires the current realty object data to be set in
 	 * $this->internal['currentRow'].
+	 *
+	 * @return	array		the coordinates using the keys "latitude" and
+	 * 						"longitude" or an empty array if the coordinates
+	 * 						could not be retrieved
 	 */
 	private function retrieveGeoCoordinates() {
 		if (!isset($this->internal['currentRow'])
@@ -2536,15 +2529,132 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 		}
 
-		$realtyObject = t3lib_div::makeInstance('tx_realty_object');
-		$realtyObject->loadRealtyObject($this->internal['currentRow'], true);
 		try {
-			$realtyObject->retrieveCoordinates($this);
+			$coordinates
+				= $this->getObjectForCurrentRow()->retrieveCoordinates($this);
 		} catch (Exception $exception) {
 			// RetrieveCoordinates will throw an exception if the Google Maps
 			// API key is missing. As this is checked by the configuration
 			// check, we don't need to act on this exception here.
 		}
+
+		return $coordinates;
+	}
+
+	/**
+	 * Creates a realty object instance for the data in
+	 * $this->internal['currentRow'].
+	 *
+	 * @return	tx_realty_object		a realty object filled with the data
+	 * 									from $this->internal['currentRow']
+	 */
+	private function getObjectForCurrentRow() {
+		if (!isset($this->internal['currentRow'])
+			|| empty($this->internal['currentRow'])
+		) {
+			throw new Exception(
+				'$this->internal[\'currentRow\'] must not be empty.'
+			);
+		}
+
+		if (!$this->cachedRealtyObject
+			|| ($this->cachedRealtyObject->getUid()
+				!= $this->internal['currentRow']['uid'])
+		) {
+			$className = t3lib_div::makeInstanceClassName('tx_realty_object');
+			$this->cachedRealtyObject = new $className($this->isTestMode);
+			$this->cachedRealtyObject->loadRealtyObject(
+				$this->internal['currentRow'], true
+			);
+		}
+
+		return $this->cachedRealtyObject;
+	}
+
+	/**
+	 * Creates the Google Map for the single view.
+	 *
+	 * If Google Maps for the single view is disabled or the object does not
+	 * have coordinates, the map subpart will be removed.
+	 */
+	private function createGoogleMapForSingleView() {
+		if (!$this->getConfValueBoolean(
+			'showGoogleMapsInSingleView', 's_googlemaps'
+			) || (count($this->retrieveGeoCoordinates()) == 0)
+		) {
+			$this->hideSubparts('single_map');
+			return;
+		}
+
+		$coordinates = $this->retrieveGeoCoordinates();
+		$title = $this->getObjectForCurrentRow()->getTitle();
+		$croppedTitle = $this->getObjectForCurrentRow()->getCroppedTitle();
+		$address = $this->getAddressAsHtml();
+
+		$generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
+			'src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' .
+			$this->getConfValueString(
+				'googleMapsApiKey', 's_googlemaps'
+			) . '"></script>';
+		$createMapJavaScript = '<script type="text/javascript">' . LF .
+			'/*<![CDATA[*/' . LF .
+			'function initializeMap() {' . LF .
+			'	if (GBrowserIsCompatible()) {'. LF .
+			'		var coordinates = new GLatLng(' . $coordinates['latitude']  .
+				', ' . $coordinates['longitude'] . ');' . LF .
+			'		var map = new GMap2(document.getElementById("map"));' . LF .
+			'		map.setCenter(coordinates, 13);' . LF .
+			'		map.enableContinuousZoom();' . LF .
+			'		map.enableScrollWheelZoom();' . LF .
+			'		map.addControl(new GLargeMapControl());' . LF .
+			'		map.addControl(new GMapTypeControl());' . LF .
+			'		var marker = new GMarker(coordinates, {title: "' . $title .
+				'"});' . LF .
+			'		marker.bindInfoWindowHtml("<strong>' . $croppedTitle .
+				'</strong><br />' . $address . '");' . LF .
+			'		map.addOverlay(marker);' . LF .
+			'	}'. LF .
+			'}' . LF .
+			'/*]]>*/' . LF .
+			'</script>';
+
+		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			=  $generalGoogleMapsJavaScript . $createMapJavaScript;
+
+		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_maps']
+			= 'initializeMap();';
+		$GLOBALS['TSFE']->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
+			= 'GUnload();';
+	}
+
+	/**
+	 * Formats the current object's address as HTML (separated by <br />) with
+	 * the granularity defined in the configuration variable
+	 * "showAddressOfObjects".
+	 *
+	 * @return	string		the address of the current object, will not be empty
+	 */
+	private function getAddressAsHtml() {
+		$addressParts = array();
+
+		if ($this->getConfValueBoolean('showAddressOfObjects')
+			&& ($this->getFieldContent('street') != '')
+		) {
+			$addressParts[]
+				= htmlspecialchars($this->getFieldContent('street'));
+		}
+
+		$addressParts[] = htmlspecialchars(trim(
+			$this->getFieldContent('zip') . ' ' .
+				$this->getFieldContent('city') .
+				$this->getFieldContent('district')
+		));
+
+		$country = $this->getFieldContent('country');
+		if ($country != '') {
+			$addressParts[] = $country;
+		}
+		return implode('<br />', $addressParts);
 	}
 }
 

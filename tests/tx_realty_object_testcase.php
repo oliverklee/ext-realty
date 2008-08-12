@@ -240,7 +240,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadRealtyObjectIfAValidArrayIsGiven() {
+	public function testLoadRealtyObjectWithValidArraySetDataForGetProperty() {
 		$this->fixture->loadRealtyObject(array('title' => 'foo'));
 
 		$this->assertEquals(
@@ -1835,7 +1835,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertGreaterThan(
 			0,
-			intval($this->fixture->getProperty('uid'))
+			$this->fixture->getUid()
 		);
 	}
 
@@ -1852,7 +1852,24 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertGreaterThan(
 			0,
-			intval($this->fixture->getProperty('uid'))
+			$this->fixture->getUid()
+		);
+	}
+
+	public function testRetrieveCoordinatesForValidAddressWithCityUidAsStringWritesObjectToDb() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => (string) $this->testingFramework->createRecord(
+				REALTY_TABLE_CITIES, array('title' => 'Bonn')
+			),
+			'country' => self::DE,
+		));
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertGreaterThan(
+			0,
+			$this->fixture->getUid()
 		);
 	}
 
@@ -1867,7 +1884,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			0,
-			intval($this->fixture->getProperty('uid'))
+			$this->fixture->getUid()
 		);
 	}
 
@@ -2181,6 +2198,29 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testRetrieveCoordinatesSavesCoordinatesWithDecimalDot() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+		));
+		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid = ' . $this->fixture->getUid() .
+					' AND exact_latitude = "50.734343"' .
+					' AND exact_longitude = "7.102110"'
+			)
+		);
+	}
+
 	public function testRetrieveCoordinatesReturnsRoughCoordinatesForValidAddressIfNothingWasCached() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
@@ -2334,6 +2374,90 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertNotEquals(
 			$exactResult,
 			$roughResult
+		);
+	}
+
+
+	////////////////////////////
+	// Tests concerning getUid
+	////////////////////////////
+
+	public function testGetUidReturnsZeroForObjectWithoutUid() {
+		$realtyObject = new tx_realty_objectChild(true);
+
+		$this->assertEquals(
+			0,
+			$realtyObject->getUid()
+		);
+	}
+
+	public function testGetUidReturnsCurrentUidForObjectWithUid() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			$this->objectUid,
+			$this->fixture->getUid()
+		);
+	}
+
+
+	//////////////////////////////
+	// Tests concerning getTitle
+	//////////////////////////////
+
+	public function testGetTitleReturnsEmptyStringForObjectWithoutTitle() {
+		$realtyObject = new tx_realty_objectChild(true);
+
+		$this->assertEquals(
+			'',
+			$realtyObject->getTitle()
+		);
+	}
+
+	public function testGetTitleReturnsFullTitleForObjectWithTitle() {
+		$this->fixture->loadRealtyObject(
+			array('title' => 'foo title filltext-filltext-filltext-filltext')
+		);
+
+		$this->assertEquals(
+			'foo title filltext-filltext-filltext-filltext',
+			$this->fixture->getTitle()
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning getCroppedTitle
+	/////////////////////////////////////
+
+	public function testGetCroppedTitleReturnsEmptyStringForObjectWithoutTitle() {
+		$realtyObject = new tx_realty_objectChild(true);
+
+		$this->assertEquals(
+			'',
+			$realtyObject->getCroppedTitle()
+		);
+	}
+
+	public function testGetCroppedTitleReturnsFullShortTitleForObjectWithTitle() {
+		$this->fixture->loadRealtyObject(
+			array('title' => '12345678901234567890123456789012')
+		);
+
+		$this->assertEquals(
+			'12345678901234567890123456789012',
+			$this->fixture->getCroppedTitle()
+		);
+	}
+
+	public function testGetCroppedTitleReturnsLongTitleCroppedAtCropSize() {
+		$this->fixture->loadRealtyObject(
+			array('title' => '123456789012345678901234567890123')
+		);
+
+		$this->assertEquals(
+			'12345678901234567890123456789012…',
+			$this->fixture->getCroppedTitle()
 		);
 	}
 }

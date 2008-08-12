@@ -44,6 +44,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLo
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_object {
+	/** @var	integer		the length of cropped titles */
+	const CROP_SIZE = 32;
+
 	/** contains the realty object's data */
 	private $realtyObjectData = array();
 
@@ -648,11 +651,10 @@ class tx_realty_object {
 		$this->ensureUid(
 			$this->realtyObjectData, 'object_number, language, openimmo_obid'
 		);
-		$objectUid = $this->getProperty('uid');
 
 		foreach ($this->getAllImageData() as $imageData) {
 			// Creates a relation to the parent realty object for each image.
-			$imageData['realty_object_uid'] = $objectUid;
+			$imageData['realty_object_uid'] = $this->getUid();
 
 			if ($this->recordExistsInDatabase(
 				$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
@@ -1087,7 +1089,7 @@ class tx_realty_object {
 		if ($cityProperty === 0) {
 			return '';
 		}
-		if (is_string($cityProperty)) {
+		if (!is_numeric($cityProperty)) {
 			return $cityProperty;
 		}
 
@@ -1167,6 +1169,40 @@ class tx_realty_object {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets this object's UID.
+	 *
+	 * @return	integer		this object's UID, will be 0 if this object does not
+	 * 						have a UID yet
+	 */
+	public function getUid() {
+		return intval($this->getProperty('uid'));
+	}
+
+	/**
+	 * Gets this object's title.
+	 *
+	 * @return	string		this object's title, will be empty if this object
+	 * 						does not have a title
+	 */
+	public function getTitle() {
+		return $this->getProperty('title');
+	}
+
+	/**
+	 * Gets this object's title, cropped after CROP_SIZE characters, with an
+	 * ellipsis at the end if the full title was long enough to be cropped.
+	 *
+	 * @return	string		this object's cropped title, will be empty if this
+	 * 						object does not have a title
+	 */
+	public function getCroppedTitle() {
+		$fullTitle = $this->getTitle();
+
+		return ((mb_strlen($fullTitle) <= self::CROP_SIZE)
+			? $fullTitle : (mb_substr($fullTitle, 0, self::CROP_SIZE) . '…'));
 	}
 }
 

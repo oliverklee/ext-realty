@@ -106,8 +106,8 @@ class tx_realty_googleMapsLookup {
 		}
 		$addressParts[] = $zip . ' ' . $city;
 		$addressParts[] = $this->getCountryCodeFromUid($actualCountryUid);
-
 		$fullAddress = implode(', ', $addressParts);
+
 		$delay = 0;
 
 		do {
@@ -132,8 +132,8 @@ class tx_realty_googleMapsLookup {
 
 		if ($status == '200') {
 			// 200 = Okay
-			$latitude = (double) $resultParts[2];
-			$longitude = (double) $resultParts[3];
+			$latitude = $resultParts[2];
+			$longitude = $resultParts[3];
 			$result = array(
 				'latitude' => $latitude,
 				'longitude' => $longitude,

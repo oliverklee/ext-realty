@@ -97,6 +97,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// Ensures there is no cached data of linked FE pages.
 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 		$GLOBALS['TSFE']->sys_page->init(false);
+		$GLOBALS['TSFE']->additionalHeaderData = array();
+		$GLOBALS['TSFE']->JSeventFuncCalls = array(
+			'onload' => array(), 'onunload' => array()
+		);
 		// This object is required to be initialized before
 		// $GLOBALS['TSFE']->initUserGroups() can be called.
 		if (!is_object($GLOBALS['TSFE']->fe_user)) {
@@ -1650,7 +1654,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 
 	/////////////////////////////////////////////////////
-	// Tests concerning the summary sting of favorites.
+	// Tests concerning the summary string of favorites
 	/////////////////////////////////////////////////////
 
 	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
@@ -1846,9 +1850,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////
-	// Tests concerning separate details pages.
-	/////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// Tests concerning links to separate details pages
+	/////////////////////////////////////////////////////
 
 	public function testLinkToSeparateSingleViewPageLinksToSeparateSinglePidIfAccessAllowed() {
 		$this->allowAccess();
@@ -1926,6 +1930,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////////////
+	// Tests concerning the detail view
+	/////////////////////////////////////
 
 	public function testDetailPageContainsContactInformationWithPhoneNumberFromRecord() {
 		$this->testingFramework->changeRecord(
@@ -2104,6 +2113,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	/////////////////////////////////////
+	// Tests concerning getFieldContent
+	/////////////////////////////////////
+
 	public function testGetFieldContentOfEstateSize() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2140,12 +2154,45 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageDisplaysTheZip() {
+	public function testDetailPageDisplaysTheStreetIfShowAddressOfObjectsIsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('street' => 'Foo road 3')
+		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'Foo road 3',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageOmitsTheStreetIfShowAddressOfObjectsIsDisabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('street' => 'Foo road 3')
+		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			'Foo road 3',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDisplaysTheZipIfShowAddressOfObjectsIsEnabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('zip' => '12345')
 		);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2161,7 +2208,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('zip' => '12345')
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', false);
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2497,9 +2544,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////
-	// Tests concerning external details pages.
-	/////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// Tests concerning links to external details pages
+	/////////////////////////////////////////////////////
 
 	public function testLinkToExternalSingleViewPageContainsExternalUrlIfAccessAllowed() {
 		$this->allowAccess();
@@ -3214,6 +3261,396 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 					' AND exact_coordinates_are_cached = 0' .
 					' AND rough_coordinates_are_cached = 1'
 				)
+		);
+	}
+
+	public function testDetailPageContainsMapForObjectWithCachedAddressAndGoogleMapsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'<div id="tx_realty_map"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDoesNotContainMapForObjectWithEmptyCachedAddressAndGoogleMapsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => '',
+				'exact_longitude' => '',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			'<div id="tx_realty_map"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageDoesNotContainMapForObjectWithCachedAddressAndGoogleMapsDisabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			'<div id="tx_realty_map"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailPageAddsGoogleMapsJavaScriptForObjectWithCachedAddressAndGoogleMapsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			isset($GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'])
+		);
+	}
+
+	public function testDetailPageDoesNotAddGoogleMapsJavaScriptForObjectWithEmptyCachedAddressAndGoogleMapsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => '',
+				'exact_longitude' => '',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'])
+		);
+	}
+
+	public function testDetailPageDoesNotAddGoogleMapsJavaScriptForObjectWithCachedAddressAndGoogleMapsDisabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'])
+		);
+	}
+
+	public function testDetailPageAddsOnLoadForObjectWithCachedAddressAndGoogleMapsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			isset($GLOBALS['TSFE']
+				->JSeventFuncCalls['onload']['tx_realty_pi1_maps']
+			)
+		);
+	}
+
+	public function testDetailPageDoesNotAddOnLoadForObjectWithCachedAddressAndGoogleMapsDisabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']
+				->JSeventFuncCalls['onload']['tx_realty_pi1_maps']
+			)
+		);
+	}
+
+	public function testDetailPageAddsOnUnloadForObjectWithCachedAddressAndGoogleMapsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			isset($GLOBALS['TSFE']
+				->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
+			)
+		);
+	}
+
+	public function testDetailPageDoesNotAddOnUnloadForObjectWithCachedAddressAndGoogleMapsDisabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']
+				->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
+			)
+		);
+	}
+
+	public function testDetailPageContainsCoordinatesInJavaScriptForGoogleMapsEnabled() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'50.7343',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+		$this->assertContains(
+			'7.1021',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function testDetailPageContainsObjectFullTitleAsTitleForGoogleMaps() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'title' => 'A really long title that is not too short.',
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->fixture->main('', array());
+		$this->assertContains(
+			'title: "A really long title that is not too short."',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function testDetailPageContainsCroppedObjectTitleAsInfoWindowForGoogleMaps() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'title' => 'A really long title that is not too short.',
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->fixture->main('', array());
+		$this->assertRegExp(
+			'/bindInfoWindowHtml\("[^"]*A really long title that is not …/',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function testDetailPageContainsObjectCityAsInfoWindowForGoogleMaps() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->fixture->main('', array());
+		$this->assertRegExp(
+			'/bindInfoWindowHtml\("[^"]*' . self::$firstCityTitle . '/',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function testDetailPageContainsStreetAsInfoWindowForGoogleMapsForDetailedAddress() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+				'street' => 'Foo road',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->fixture->main('', array());
+		$this->assertRegExp(
+			'/bindInfoWindowHtml\("[^"]*Foo road/',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function testDetailPageOmitsStreetAsInfoWindowForGoogleMapsForRoughAddress() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+				'street' => 'Foo road',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->fixture->main('', array());
+		$this->assertNotRegExp(
+			'/bindInfoWindowHtml\("[^"]*Foo road/',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 }
