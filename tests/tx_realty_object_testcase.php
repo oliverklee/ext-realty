@@ -386,6 +386,34 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetAllImageDataReturnsArrayOfTheCurrentObjectsImagesOrderedByUid() {
+		$firstImageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'first',
+				'image' => 'first.jpg',
+				'realty_object_uid' => $this->objectUid,
+			)
+		);
+		$secondImageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'second',
+				'image' => 'second.jpg',
+				'realty_object_uid' => $this->objectUid,
+			)
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			array(
+				array('caption' => 'first', 'image' => 'first.jpg'),
+				array('caption' => 'second', 'image' => 'second.jpg'),
+			),
+			$this->fixture->getAllImageData()
+		);
+	}
+
 	public function testWriteToDatabaseUpdatesEntryIfUidExistsInDb() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('title', 'new title');

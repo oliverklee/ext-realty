@@ -702,6 +702,7 @@ class tx_realty_object {
 			REALTY_TABLE_IMAGES,
 			'realty_object_uid=' . $this->getProperty('uid') .
 				$this->templateHelper->enableFields(REALTY_TABLE_IMAGES),
+			'',
 			'uid'
 		);
 		if (!$dbResult) {
