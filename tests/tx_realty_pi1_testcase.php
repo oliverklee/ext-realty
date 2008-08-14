@@ -135,6 +135,95 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Denies access to the details page by requiring logon to display that page
+	 * and then logging out any logged-in FE users.
+	 */
+	private function denyAccess() {
+		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
+		$this->testingFramework->logoutFrontEndUser();
+	}
+
+	/**
+	 * Allows access to the details page by not requiring logon to display that
+	 * page.
+	 */
+	private function allowAccess() {
+		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+	}
+
+	/**
+	 * Fakes the current page ID.
+	 *
+	 * @param	integer		ID of the current page, must be > 0
+	 */
+	private function setCurrentPage($pid) {
+		$GLOBALS['TSFE']->id = $pid;
+	}
+
+	/**
+	 * Creates dummy FE pages (like login and single view).
+	 */
+	private function createDummyPages() {
+		$this->loginPid = $this->testingFramework->createFrontEndPage();
+		$this->listViewPid = $this->testingFramework->createFrontEndPage();
+		$this->singlePid = $this->testingFramework->createFrontEndPage();
+		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
+		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
+		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
+		$this->subSystemFolderPid = $this->testingFramework->createSystemFolder(
+			$this->systemFolderPid
+		);
+	}
+
+	/**
+	 * Creates dummy city records in the DB.
+	 */
+	private function createDummyCities() {
+		$this->firstCityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => self::$firstCityTitle)
+		);
+		$this->secondCityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => self::$secondCityTitle)
+		);
+	}
+
+	/**
+	 * Creates dummy realty objects in the DB.
+	 */
+	private function createDummyObjects() {
+		$this->createDummyCities();
+		$this->firstRealtyUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => self::$firstObjectTitle,
+				'object_number' => self::$firstObjectNumber,
+				'pid' => $this->systemFolderPid,
+				'city' => $this->firstCityUid,
+			)
+		);
+		$this->secondRealtyUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => self::$secondObjectTitle,
+				'object_number' => self::$secondObjectNumber,
+				'pid' => $this->systemFolderPid,
+				'city' => $this->secondCityUid,
+			)
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests for the configuration check
+	//////////////////////////////////////
+
 	public function testConfigurationCheckIsActiveWhenEnabled() {
 		// The configuration check is created during initialization, therefore
 		// the object to test is recreated for this test.
@@ -2941,91 +3030,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			$this->fixture->translate('label_pending'),
 			$this->fixture->main('', array())
-		);
-	}
-
-
-	///////////////////////
-	// Utility functions.
-	///////////////////////
-
-	/**
-	 * Denies access to the details page by requiring logon to display that page
-	 * and then logging out any logged-in FE users.
-	 */
-	private function denyAccess() {
-		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$this->testingFramework->logoutFrontEndUser();
-	}
-
-	/**
-	 * Allows access to the details page by not requiring logon to display that
-	 * page.
-	 */
-	private function allowAccess() {
-		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-	}
-
-	/**
-	 * Fakes the current page ID.
-	 *
-	 * @param	integer		ID of the current page
-	 */
-	private function setCurrentPage($pid) {
-		$GLOBALS['TSFE']->id = $pid;
-	}
-
-	/**
-	 * Creates dummy FE pages (like login and single view).
-	 */
-	private function createDummyPages() {
-		$this->loginPid = $this->testingFramework->createFrontEndPage();
-		$this->listViewPid = $this->testingFramework->createFrontEndPage();
-		$this->singlePid = $this->testingFramework->createFrontEndPage();
-		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
-		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
-		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
-		$this->subSystemFolderPid = $this->testingFramework->createSystemFolder(
-			$this->systemFolderPid
-		);
-	}
-
-	/**
-	 * Creates dummy city records in the DB.
-	 */
-	private function createDummyCities() {
-		$this->firstCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
-			array('title' => self::$firstCityTitle)
-		);
-		$this->secondCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
-			array('title' => self::$secondCityTitle)
-		);
-	}
-
-	/**
-	 * Creates dummy realty objects in the DB.
-	 */
-	private function createDummyObjects() {
-		$this->createDummyCities();
-		$this->firstRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array(
-				'title' => self::$firstObjectTitle,
-				'object_number' => self::$firstObjectNumber,
-				'pid' => $this->systemFolderPid,
-				'city' => $this->firstCityUid
-			)
-		);
-		$this->secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array(
-				'title' => self::$secondObjectTitle,
-				'object_number' => self::$secondObjectNumber,
-				'pid' => $this->systemFolderPid,
-				'city' => $this->secondCityUid
-			)
 		);
 	}
 }
