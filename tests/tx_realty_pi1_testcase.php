@@ -149,6 +149,95 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Denies access to the details page by requiring logon to display that page
+	 * and then logging out any logged-in FE users.
+	 */
+	private function denyAccess() {
+		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
+		$this->testingFramework->logoutFrontEndUser();
+	}
+
+	/**
+	 * Allows access to the details page by not requiring logon to display that
+	 * page.
+	 */
+	private function allowAccess() {
+		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+	}
+
+	/**
+	 * Fakes the current page ID.
+	 *
+	 * @param	integer		ID of the current page, must be > 0
+	 */
+	private function setCurrentPage($pid) {
+		$GLOBALS['TSFE']->id = $pid;
+	}
+
+	/**
+	 * Creates dummy FE pages (like login and single view).
+	 */
+	private function createDummyPages() {
+		$this->loginPid = $this->testingFramework->createFrontEndPage();
+		$this->listViewPid = $this->testingFramework->createFrontEndPage();
+		$this->singlePid = $this->testingFramework->createFrontEndPage();
+		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
+		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
+		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
+		$this->subSystemFolderPid = $this->testingFramework->createSystemFolder(
+			$this->systemFolderPid
+		);
+	}
+
+	/**
+	 * Creates dummy city records in the DB.
+	 */
+	private function createDummyCities() {
+		$this->firstCityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => self::$firstCityTitle)
+		);
+		$this->secondCityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => self::$secondCityTitle)
+		);
+	}
+
+	/**
+	 * Creates dummy realty objects in the DB.
+	 */
+	private function createDummyObjects() {
+		$this->createDummyCities();
+		$this->firstRealtyUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => self::$firstObjectTitle,
+				'object_number' => self::$firstObjectNumber,
+				'pid' => $this->systemFolderPid,
+				'city' => $this->firstCityUid,
+			)
+		);
+		$this->secondRealtyUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => self::$secondObjectTitle,
+				'object_number' => self::$secondObjectNumber,
+				'pid' => $this->systemFolderPid,
+				'city' => $this->secondCityUid,
+			)
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests for the configuration check
+	//////////////////////////////////////
+
 	public function testConfigurationCheckIsActiveWhenEnabled() {
 		// The configuration check is created during initialization, therefore
 		// the object to test is recreated for this test.
@@ -3021,94 +3110,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////
-	// Utility functions.
-	///////////////////////
-
-	/**
-	 * Denies access to the details page by requiring logon to display that page
-	 * and then logging out any logged-in FE users.
-	 */
-	private function denyAccess() {
-		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$this->testingFramework->logoutFrontEndUser();
-	}
-
-	/**
-	 * Allows access to the details page by not requiring logon to display that
-	 * page.
-	 */
-	private function allowAccess() {
-		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-	}
-
-	/**
-	 * Fakes the current page ID.
-	 *
-	 * @param	integer		ID of the current page
-	 */
-	private function setCurrentPage($pid) {
-		$GLOBALS['TSFE']->id = $pid;
-	}
-
-	/**
-	 * Creates dummy FE pages (like login and single view).
-	 */
-	private function createDummyPages() {
-		$this->loginPid = $this->testingFramework->createFrontEndPage();
-		$this->listViewPid = $this->testingFramework->createFrontEndPage();
-		$this->singlePid = $this->testingFramework->createFrontEndPage();
-		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
-		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
-		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
-		$this->subSystemFolderPid = $this->testingFramework->createSystemFolder(
-			$this->systemFolderPid
-		);
-	}
-
-	/**
-	 * Creates dummy city records in the DB.
-	 */
-	private function createDummyCities() {
-		$this->firstCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
-			array('title' => self::$firstCityTitle)
-		);
-		$this->secondCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
-			array('title' => self::$secondCityTitle)
-		);
-	}
-
-	/**
-	 * Creates dummy realty objects in the DB.
-	 */
-	private function createDummyObjects() {
-		$this->createDummyCities();
-		$this->firstRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array(
-				'title' => self::$firstObjectTitle,
-				'object_number' => self::$firstObjectNumber,
-				'pid' => $this->systemFolderPid,
-				'city' => $this->firstCityUid
-			)
-		);
-		$this->secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array(
-				'title' => self::$secondObjectTitle,
-				'object_number' => self::$secondObjectNumber,
-				'pid' => $this->systemFolderPid,
-				'city' => $this->secondCityUid
-			)
-		);
-	}
-
-
-	//////////////////////////////////////////
-	// Tests for the Google Maps integration
-	//////////////////////////////////////////
+	/////////////////////////////////////////////
+	// Tests for Google Maps in the single view
+	/////////////////////////////////////////////
 
 	public function testSingleViewWithGoogleMapsDisabledDoesNotMarkAnyCoordinatesAsCached() {
 		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
@@ -3175,89 +3179,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'uid = ' . $this->firstRealtyUid .
-					' AND exact_coordinates_are_cached = 0' .
-					' AND rough_coordinates_are_cached = 1'
-				)
-		);
-	}
-
-	public function testListViewWithGoogleMapsDisabledDoesNotMarkAnyCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
-		$address = array(
-			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
-		);
-
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->main('', array());
-
-		$this->assertEquals(
-			2,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
-				'uid IN(' . $this->firstRealtyUid . ',' .
-					$this->secondRealtyUid . ')' .
-					' AND exact_coordinates_are_cached = 0' .
-					' AND rough_coordinates_are_cached = 0'
-				)
-		);
-	}
-
-	public function testListViewWithGoogleMapsEnabledAndExactAddressMarksExactCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
-		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
-		$address = array(
-			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
-		);
-
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->main('', array());
-
-		$this->assertEquals(
-			2,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
-				'uid IN(' . $this->firstRealtyUid . ',' .
-					$this->secondRealtyUid . ')' .
-					' AND exact_coordinates_are_cached = 1' .
-					' AND rough_coordinates_are_cached = 0'
-				)
-		);
-	}
-
-	public function testListViewWithGoogleMapsEnabledAndRoughAddressMarksRoughCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
-		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
-		$address = array(
-			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
-		);
-
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->main('', array());
-
-		$this->assertEquals(
-			2,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
-				'uid IN(' . $this->firstRealtyUid . ',' .
-					$this->secondRealtyUid . ')' .
 					' AND exact_coordinates_are_cached = 0' .
 					' AND rough_coordinates_are_cached = 1'
 				)
@@ -3651,6 +3572,94 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertNotRegExp(
 			'/bindInfoWindowHtml\("[^"]*Foo road/',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+
+	///////////////////////////////////////////
+	// Tests for Google Maps in the list view
+	///////////////////////////////////////////
+
+	public function testListViewWithGoogleMapsDisabledDoesNotMarkAnyCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$address = array(
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid IN(' . $this->firstRealtyUid . ',' .
+					$this->secondRealtyUid . ')' .
+					' AND exact_coordinates_are_cached = 0' .
+					' AND rough_coordinates_are_cached = 0'
+				)
+		);
+	}
+
+	public function testListViewWithGoogleMapsEnabledAndExactAddressMarksExactCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
+		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
+		$address = array(
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid IN(' . $this->firstRealtyUid . ',' .
+					$this->secondRealtyUid . ')' .
+					' AND exact_coordinates_are_cached = 1' .
+					' AND rough_coordinates_are_cached = 0'
+				)
+		);
+	}
+
+	public function testListViewWithGoogleMapsEnabledAndRoughAddressMarksRoughCoordinatesAsCached() {
+		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
+		$address = array(
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $address
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'uid IN(' . $this->firstRealtyUid . ',' .
+					$this->secondRealtyUid . ')' .
+					' AND exact_coordinates_are_cached = 0' .
+					' AND rough_coordinates_are_cached = 1'
+				)
 		);
 	}
 }
