@@ -113,10 +113,15 @@ class tx_realty_mapMarker {
 	 * @param	string		info window HTML, may be empty
 	 */
 	public function setInfoWindowHtml($html) {
-		$preparsedHtml = trim(addslashes($html));
-
-		// </foo> needs to be escaped to <\/foo> within embedded JavaScript
-		$this->infoWindowHtml = str_replace('</', '<\/', $preparsedHtml);
+		// 1. escapes \ to \\
+		// 2. escapes ' to \'
+		// 3. escapes </ to <\/ (because this is embedded JavaScript)
+		// Note: We cannot use addslashes because " must not be escaped.
+		$this->infoWindowHtml = str_replace(
+			array('\\', '\'', '</'),
+			array('\\\\', '\\\'', '<\/'),
+			$html
+		);
 	}
 
 	/**
@@ -157,7 +162,7 @@ class tx_realty_mapMarker {
 		}
 
 		return
-			'marker.bindInfoWindowHtml("' . $this->infoWindowHtml . '");' . LF;
+			'marker.bindInfoWindowHtml(\'' . $this->infoWindowHtml . '\');' . LF;
 
 	}
 

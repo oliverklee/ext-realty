@@ -159,6 +159,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** @var	tx_realty_object 	the current realty object */
 	private $cachedRealtyObject = null;
 
+	/** @var	array		map markers for the current list view/single view */
+	private $mapMarkers = array();
+
+	/** @var	integer		the Google Maps zoom factor for a single marker */
+	const ZOOM_FOR_SINGLE_MARKER = 13;
+
 	/**
 	 * The constructor.
 	 *
@@ -329,6 +335,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		} else {
 			$this->setEmptyResultView();
 		}
+
+		$this->createGoogleMapForListView();
 
 		switch ($this->getCurrentView()) {
 			case 'favorites':
@@ -835,11 +843,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML output, a table row with a class attribute set (alternative based on odd/even rows)
 	 */
 	private function createListRow($rowCounter = 0) {
-		if ($this->getConfValueBoolean(
-			'showGoogleMapsInListView', 's_googlemaps'
-		)) {
-			$this->retrieveGeoCoordinates();
-		}
+		$this->createGoogleMapForListItem();
 
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarkerContent('class_position_in_list', $position);
@@ -2543,6 +2547,52 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Tries to retrieve the geo coordinates for the current realty object and
+	 * adds a map marker object to $this->mapMarkers.
+	 *
+	 * If the geo coordinates could not be retrieved, $this->mapMarkers will not
+	 * be changed.
+	 *
+	 * This functions does not check whether Google Maps are enabled for the
+	 * current view at all.
+	 *
+	 * @param	boolean		whether the detail page should be linked in the
+	 * 						object title
+	 *
+	 * @return	boolean		true if the marker was created, false otherwise
+	 */
+	private function createMarkerFromCoordinates($createLink = false) {
+		$coordinates = $this->retrieveGeoCoordinates();
+		if (empty($coordinates)) {
+			return false;
+		}
+
+		$mapMarker = t3lib_div::makeInstance('tx_realty_mapMarker');
+		$mapMarker->setCoordinates(
+			$coordinates['latitude'], $coordinates['longitude']
+		);
+		$mapMarker->setTitle($this->getObjectForCurrentRow()->getTitle());
+
+		$title = $this->getObjectForCurrentRow()->getCroppedTitle();
+
+		if ($createLink) {
+			$title = $this->createLinkToSingleViewPage(
+				$title,
+				$this->internal['currentRow']['uid'],
+				$this->internal['currentRow']['details_page']
+			);
+		}
+
+		$mapMarker->setInfoWindowHtml(
+			'<strong>' . $title .
+			'</strong><br />' . $this->getAddressAsHtml()
+		);
+		$this->mapMarkers[] = $mapMarker;
+
+		return true;
+	}
+
+	/**
 	 * Creates a realty object instance for the data in
 	 * $this->internal['currentRow'].
 	 *
@@ -2573,6 +2623,37 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Processes all Google Maps-related data for the current list view item.
+	 */
+	private function createGoogleMapForListItem() {
+		if (!$this->getConfValueBoolean(
+			'showGoogleMapsInListView', 's_googlemaps'
+		)) {
+			return;
+		}
+
+		$this->createMarkerFromCoordinates(true);
+	}
+
+	/**
+	 * Creates the Google Map for the list view.
+	 *
+	 * If Google Maps for the single view is disabled or if none of the objects
+	 * on the current page have coordinates, the map subpart will be removed.
+	 */
+	private function createGoogleMapForListView() {
+		if (!$this->getConfValueBoolean(
+			'showGoogleMapsInListView', 's_googlemaps'
+			) || (empty($this->mapMarkers))
+		) {
+			$this->hideSubparts('list_map');
+			return;
+		}
+
+		$this->addGoogleMapToHtmlHead();
+	}
+
+	/**
 	 * Creates the Google Map for the single view.
 	 *
 	 * If Google Maps for the single view is disabled or the object does not
@@ -2581,42 +2662,54 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createGoogleMapForSingleView() {
 		if (!$this->getConfValueBoolean(
 			'showGoogleMapsInSingleView', 's_googlemaps'
-			) || (count($this->retrieveGeoCoordinates()) == 0)
+			) || !$this->createMarkerFromCoordinates()
 		) {
 			$this->hideSubparts('single_map');
 			return;
 		}
 
-		$coordinates = $this->retrieveGeoCoordinates();
-		$mapMarker = t3lib_div::makeInstance('tx_realty_mapMarker');
-		$mapMarker->setCoordinates(
-			$coordinates['latitude'], $coordinates['longitude']
-		);
-		$mapMarker->setTitle($this->getObjectForCurrentRow()->getTitle());
-		$mapMarker->setInfoWindowHtml(
-			'<strong>' . $this->getObjectForCurrentRow()->getCroppedTitle() .
-			'</strong><br />' . $this->getAddressAsHtml()
-		);
+		$this->addGoogleMapToHtmlHead();
+	}
+
+	/**
+	 * Creates the necessary Google Map entries in the HTML head for all
+	 * map markers in $this->mapMarkers.
+	 */
+	private function addGoogleMapToHtmlHead() {
+		if (empty($this->mapMarkers)) {
+			return;
+		}
 
 		$generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
 			'src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' .
 			$this->getConfValueString(
 				'googleMapsApiKey', 's_googlemaps'
 			) . '"></script>' . LF;
-
 		$createMapJavaScript = '<script type="text/javascript">' . LF .
 			'/*<![CDATA[*/' . LF .
 			'function initializeMap() {' . LF .
 			'	if (GBrowserIsCompatible()) {'. LF .
 			'		var map = new GMap2(document.getElementById("tx_realty_map"));' . LF .
-			'		map.setCenter(' . $mapMarker->getCoordinates(). ', 13);' . LF .
+			'		map.setCenter(' . $this->mapMarkers[0]->getCoordinates() .
+				', ' . self::ZOOM_FOR_SINGLE_MARKER . ');' . LF .
 			'		map.enableContinuousZoom();' . LF .
 			'		map.enableScrollWheelZoom();' . LF .
 			'		map.addControl(new GLargeMapControl());' . LF .
 			'		map.addControl(new GMapTypeControl());' . LF .
-			'		var marker;' . LF .
-			'		' . $mapMarker->render() . LF .
-			'	}'. LF .
+			'		var bounds = new GLatLngBounds();' . LF .
+			'		var marker;' . LF;
+
+		foreach ($this->mapMarkers as $mapMarker) {
+			$createMapJavaScript .= $mapMarker->render() . LF .
+			'bounds.extend(' . $mapMarker->getCoordinates() . ');' . LF;
+		}
+
+		if (count($this->mapMarkers) > 1) {
+			$createMapJavaScript .=
+				'map.setZoom(map.getBoundsZoomLevel(bounds));' . LF .
+				'map.setCenter(bounds.getCenter());' . LF;
+		}
+		$createMapJavaScript .=  '	}'. LF .
 			'}' . LF .
 			'/*]]>*/' . LF .
 			'</script>';
@@ -2659,6 +2752,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 		return implode('<br />', $addressParts);
 	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php'])	{

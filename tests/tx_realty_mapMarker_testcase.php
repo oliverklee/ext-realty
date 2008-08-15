@@ -176,26 +176,57 @@ class tx_realty_mapMarker_testcase extends tx_phpunit_testcase {
 		$this->fixture->setInfoWindowHtml('foo');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml("foo")',
+			'.bindInfoWindowHtml(\'foo\')',
 			$this->fixture->render()
 		);
 	}
 
-	public function testGetInfoWindowQuotesTextFromSetInfoWindowHtml() {
+	public function testGetInfoWindowEscapesSingleQuotesFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates('50.734343', '7.10211');
+		$this->fixture->setInfoWindowHtml('foo\'bar');
+
+		$this->assertContains(
+			'.bindInfoWindowHtml(\'foo\\\'bar\')',
+			$this->fixture->render()
+		);
+	}
+
+	public function testGetInfoWindowEscapesBackslashesFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates('50.734343', '7.10211');
+		$this->fixture->setInfoWindowHtml('foo\\bar');
+
+		$this->assertContains(
+			'.bindInfoWindowHtml(\'foo\\\\bar\')',
+			$this->fixture->render()
+		);
+	}
+
+	public function testGetInfoWindowEscapesHtmlClosingTagsFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates('50.734343', '7.10211');
+		$this->fixture->setInfoWindowHtml('foo</bar');
+
+		$this->assertContains(
+			'.bindInfoWindowHtml(\'foo<\\/bar\')',
+			$this->fixture->render()
+		);
+	}
+
+	public function testGetInfoWindowDoesNotEscapeDoubleQuotesFromSetInfoWindowHtml() {
 		$this->fixture->setCoordinates('50.734343', '7.10211');
 		$this->fixture->setInfoWindowHtml('foo"bar');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml("foo\"bar")',
+			'.bindInfoWindowHtml(\'foo"bar\')',
 			$this->fixture->render()
 		);
 	}
+
 	public function testGetInfoWindowContainsTextWithHtmlFromSetInfoWindowHtml() {
 		$this->fixture->setCoordinates('50.734343', '7.10211');
 		$this->fixture->setInfoWindowHtml('<strong>foo</strong><br />bar');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml("<strong>foo<\/strong><br />bar")',
+			'.bindInfoWindowHtml(\'<strong>foo<\/strong><br />bar\')',
 			$this->fixture->render()
 		);
 	}
