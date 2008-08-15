@@ -2495,7 +2495,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$addressParts[] = htmlspecialchars(trim(
 			$this->getFieldContent('zip') . ' ' .
-				$this->getFieldContent('city') .
+				$this->getFieldContent('city') . ' ' .
 				$this->getFieldContent('district')
 		));
 
