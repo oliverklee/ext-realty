@@ -31,6 +31,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEdit
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_mapMarker.php');
 
 // field types for realty objects
 define('TYPE_NUMERIC', 0);
@@ -2587,32 +2588,34 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$coordinates = $this->retrieveGeoCoordinates();
-		$title = $this->getObjectForCurrentRow()->getTitle();
-		$croppedTitle = $this->getObjectForCurrentRow()->getCroppedTitle();
-		$address = $this->getAddressAsHtml();
+		$mapMarker = t3lib_div::makeInstance('tx_realty_mapMarker');
+		$mapMarker->setCoordinates(
+			$coordinates['latitude'], $coordinates['longitude']
+		);
+		$mapMarker->setTitle($this->getObjectForCurrentRow()->getTitle());
+		$mapMarker->setInfoWindowHtml(
+			'<strong>' . $this->getObjectForCurrentRow()->getCroppedTitle() .
+			'</strong><br />' . $this->getAddressAsHtml()
+		);
 
 		$generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
 			'src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' .
 			$this->getConfValueString(
 				'googleMapsApiKey', 's_googlemaps'
-			) . '"></script>';
+			) . '"></script>' . LF;
+
 		$createMapJavaScript = '<script type="text/javascript">' . LF .
 			'/*<![CDATA[*/' . LF .
 			'function initializeMap() {' . LF .
 			'	if (GBrowserIsCompatible()) {'. LF .
-			'		var coordinates = new GLatLng(' . $coordinates['latitude']  .
-				', ' . $coordinates['longitude'] . ');' . LF .
-			'		var map = new GMap2(document.getElementById("map"));' . LF .
-			'		map.setCenter(coordinates, 13);' . LF .
+			'		var map = new GMap2(document.getElementById("tx_realty_map"));' . LF .
+			'		map.setCenter(' . $mapMarker->getCoordinates(). ', 13);' . LF .
 			'		map.enableContinuousZoom();' . LF .
 			'		map.enableScrollWheelZoom();' . LF .
 			'		map.addControl(new GLargeMapControl());' . LF .
 			'		map.addControl(new GMapTypeControl());' . LF .
-			'		var marker = new GMarker(coordinates, {title: "' . $title .
-				'"});' . LF .
-			'		marker.bindInfoWindowHtml("<strong>' . $croppedTitle .
-				'</strong><br />' . $address . '");' . LF .
-			'		map.addOverlay(marker);' . LF .
+			'		var marker;' . LF .
+			'		' . $mapMarker->render() . LF .
 			'	}'. LF .
 			'}' . LF .
 			'/*]]>*/' . LF .
@@ -2646,7 +2649,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$addressParts[] = htmlspecialchars(trim(
 			$this->getFieldContent('zip') . ' ' .
-				$this->getFieldContent('city') .
+				$this->getFieldContent('city') . ' ' .
 				$this->getFieldContent('district')
 		));
 

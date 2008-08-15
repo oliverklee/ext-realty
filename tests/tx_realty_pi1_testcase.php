@@ -3501,7 +3501,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageContainsObjectCityAsInfoWindowForGoogleMaps() {
+	public function testDetailPageContainsObjectCityAndDistrictAsInfoWindowForGoogleMaps() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3509,6 +3509,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'district' => $this->testingFramework->createRecord(
+					REALTY_TABLE_DISTRICTS, array('title' => 'Beuel')
+				),
 			)
 		);
 
@@ -3520,7 +3523,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->main('', array());
 		$this->assertRegExp(
-			'/bindInfoWindowHtml\("[^"]*' . self::$firstCityTitle . '/',
+			'/bindInfoWindowHtml\("[^"]*' . self::$firstCityTitle . ' Beuel/',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
