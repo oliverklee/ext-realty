@@ -182,6 +182,24 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testProcessImageUploadDoesNotInsertAnImageIfOnlyACaptionProvided() {
+		$this->fixture->processImageUpload(
+			array(
+				'caption' => 'test image',
+				'image' => array('name' => '')
+			)
+		);
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_IMAGES,
+				'realty_object_uid=' . $this->dummyObjectUid .
+					' AND caption="test image"'
+			)
+		);
+	}
+
 	public function testProcessImageUploadDeletesImageRecordForCurrentObjectFromTheDatabase() {
 		$this->fixture->processImageUpload(
 			array('imagesToDelete' => array('0'))

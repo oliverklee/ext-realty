@@ -54,7 +54,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 * @param	array		form data, must not be empty
 	 */
 	public function processImageUpload(array $formData) {
-		if (($formData['caption'] != '') && ($formData['image']) != '') {
+		if (($formData['caption'] != '') && ($formData['image']['name'] != '')) {
 			$this->realtyObject->addImageRecord(
 				strip_tags($formData['caption']),
 				$this->getFormidablesUniqueFileName($formData['image']['name'])
