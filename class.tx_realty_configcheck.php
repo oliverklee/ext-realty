@@ -39,7 +39,7 @@ require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
 
 class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
-	 * Checks the configuration for the gallery of the realty manager.
+	 * Checks the configuration for the gallery of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_gallery() {
 		$this->checkCommonFrontEndSettings();
@@ -47,7 +47,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the city selector of the realty manager.
+	 * Checks the configuration for the city selector of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_city_selector() {
 		$this->checkCommonFrontEndSettings();
@@ -55,7 +55,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the filter form of the realty manager.
+	 * Checks the configuration for the filter form of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_filter_form() {
 		$this->checkCommonFrontEndSettings();
@@ -65,7 +65,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the list view of the realty manager.
+	 * Checks the configuration for the list view of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_realty_list() {
 		$this->checkCommonFrontEndSettings();
@@ -82,7 +82,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the favorites view of the realty manager.
+	 * Checks the configuration for the favorites view of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_favorites() {
 		$this->check_tx_realty_pi1_realty_list();
@@ -93,7 +93,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the single view of the realty manager.
+	 * Checks the configuration for the single view of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_single_view() {
 		$this->checkCommonFrontEndSettings();
@@ -112,7 +112,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the contact form of the realty manager.
+	 * Checks the configuration for the contact form of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_contact_form() {
 		$this->checkCommonFrontEndSettings();
@@ -121,7 +121,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the my objects view of the realty manager.
+	 * Checks the configuration for the my objects view of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_my_objects() {
 		$this->check_tx_realty_pi1_realty_list();
@@ -131,7 +131,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the FE editor of the realty manager.
+	 * Checks the configuration for the FE editor of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_fe_editor() {
 		$this->checkCommonFrontEndSettings();
@@ -143,7 +143,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the FE editor of the realty manager.
+	 * Checks the configuration for the FE editor of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_image_upload() {
 		$this->checkCommonFrontEndSettings();
