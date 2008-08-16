@@ -270,9 +270,9 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	}
 
 
-	///////////////////////////////////////////////////
-	// Functions to be used by the form after submit.
-	///////////////////////////////////////////////////
+	//////////////////////////////////////
+	// Functions to be used by the form.
+	//////////////////////////////////////
 
 	/**
 	 * Returns the URL where to redirect to after saving a record.
@@ -288,6 +288,23 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 						'feEditorRedirectPid'
 					),
 				)
+			)
+		);
+	}
+
+	/**
+	 * Gets the path to the HTML template as set in the TS setup or flexforms.
+	 * The returned path will always be an absolute path in the file system;
+	 * EXT: references will automatically get resolved.
+	 *
+	 * @return	string		the path to the HTML template as an absolute path in
+	 * 						the file system, will not be empty in a correct
+	 * 						configuration
+	 */
+	public function getTemplatePath() {
+		return t3lib_div::getFileAbsFileName(
+			$this->plugin->getConfValueString(
+				'feEditorTemplateFile',	's_feeditor', true
 			)
 		);
 	}
@@ -347,23 +364,6 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;
-	}
-
-	/**
-	 * Gets the path to the HTML template as set in the TS setup or flexforms.
-	 * The returned path will always be an absolute path in the file system;
-	 * EXT: references will automatically get resolved.
-	 *
-	 * @return	string		the path to the HTML template as an absolute path in
-	 * 						the file system, will not be empty in a correct
-	 * 						configuration
-	 */
-	public function getTemplatePath() {
-		return t3lib_div::getFileAbsFileName(
-			$this->plugin->getConfValueString(
-				'feEditorTemplateFile',	's_feeditor', true
-			)
-		);
 	}
 }
 

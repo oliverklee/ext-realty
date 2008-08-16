@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1973] Change: Hide the "images to delete" label in the image upload dialog if no images are available
 - [#1785] Feature: Display the object locations in the list view using Google Maps
 - [#2081] Fix: The list of images in the image upload dialog needs to be sorted
 - [#1604] Feature: Display the object location in the detail view using Google Maps

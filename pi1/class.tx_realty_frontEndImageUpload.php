@@ -46,6 +46,30 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	////////////////////////////////
 
 	/**
+	 * Returns the FE editor in HTML if a user is logged in and authorized, and
+	 * if the object to edit actually exists in the database. Otherwise the
+	 * result will be an error view.
+	 *
+	 * If there are no uploaded images for an object, the delete option will
+	 * be hidden.
+	 *
+	 * @return	string		HTML for the FE editor or an error view if the
+	 * 						requested object is not editable for the current user
+	 */
+	public function render() {
+		$result = parent::render();
+
+		$allImageData = $this->realtyObject->getAllImageData();
+		if (empty($allImageData)) {
+			$this->plugin->processTemplate($result);
+			$this->plugin->hideSubparts('images_to_delete', 'wrapper');
+			$result = $this->plugin->getSubpart();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Inserts the image record into the database if one has been provided in
 	 * $formData.
 	 * Deletes image records of the current record if images were checked to be
@@ -54,7 +78,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 * @param	array		form data, must not be empty
 	 */
 	public function processImageUpload(array $formData) {
-		if (($formData['caption'] != '') && ($formData['image']) != '') {
+		if (($formData['caption'] != '') && ($formData['image']['name'] != '')) {
 			$this->realtyObject->addImageRecord(
 				strip_tags($formData['caption']),
 				$this->getFormidablesUniqueFileName($formData['image']['name'])
