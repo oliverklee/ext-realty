@@ -308,8 +308,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML list of table entries
 	 */
 	private function createListView()	{
-		$result = '';
-
 		$dbResult = $this->initListView();
 
 		$this->setSubpart('list_filter', $this->createCheckboxesFilter());
@@ -318,7 +316,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		if (($this->internal['res_count'] > 0)
 			&& $dbResult
-			&& $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
+			&& $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)
+		) {
 			$rows = array();
 
 			$rowCounter = 0;
@@ -341,7 +340,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		switch ($this->getCurrentView()) {
 			case 'favorites':
 				$this->fillOrHideContactWrapper();
-				$result = $this->getSubpart('FAVORITES_VIEW');
+				$subpartName = 'FAVORITES_VIEW';
 
 				if ($this->hasConfValueString('favoriteFieldsInSession')
 					&& isset($GLOBALS['TSFE']->fe_user)) {
@@ -354,14 +353,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				break;
 			case 'my_objects':
-				$result = $this->getSubpart('MY_OBJECTS_VIEW');
+				$subpartName = 'MY_OBJECTS_VIEW';
 				break;
 			default:
-				$result = $this->getSubpart('LIST_VIEW');
+				$subpartName = 'LIST_VIEW';
 				break;
 		}
 
-		return $result;
+		return $this->getSubpart($subpartName);
 	}
 
 	/**
@@ -411,8 +410,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->favoritesDataVerbose = array();
 				break;
 			case 'my_objects':
-				$whereClause .= ' AND '.REALTY_TABLE_OBJECTS.'.owner'
-					.'='.$this->getFeUserUid();
+				$whereClause .= ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
+					'=' . $this->getFeUserUid();
 				$showHiddenObjects = 1;
 				break;
 			default:
@@ -431,8 +430,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// finds only cities that match the UID in piVars['city']
 		if (isset($this->piVars['city'])) {
-			$whereClause .=  ' AND '.REALTY_TABLE_OBJECTS.'.city='
-				.intval($this->piVars['city']);
+			$whereClause .=  ' AND '.REALTY_TABLE_OBJECTS . '.city' .
+				'=' . $this->piVars['city'];
 		}
 
 		$searchSelection = implode(',', $this->getSearchSelection());
@@ -558,7 +557,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'empty_editor_link', $this->createLinkToFePage('editorPID', 0)
 		);
 
-		return $this->createListView();;
+		return $this->createListView();
 	}
 
 	/**
