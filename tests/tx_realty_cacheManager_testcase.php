@@ -2,7 +2,8 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008 Saskia Metzler <saskia@merlin.owl.de> All rights reserved
+* (c) 2008 Saskia Metzler <saskia@merlin.owl.de>
+* All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
 * free software; you can redistribute it and/or modify
@@ -21,6 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
+
 /**
  * Unit tests for the tx_realty_cacheManager class in the 'realty' extension.
  *
@@ -29,15 +34,10 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
-
 class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
-	/** chache manager object to be tested */
+	/** @var	tx_realty_cacheManager */
 	private $fixture;
-	/** instance of tx_oelib_testingFramework */
+	/** @var	tx_oelib_testingFramework */
 	private $testingFramework;
 
 	public function setUp() {
@@ -46,7 +46,6 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
 		unset($this->fixture, $this->testingFramework);
 	}
@@ -54,7 +53,7 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 
 	public function testClearFrontEndCacheForRealtyPages() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
-		$contentUid = $this->testingFramework->createContentElement(
+		$this->testingFramework->createContentElement(
 			$pageUid, array('list_type' => 'realty_pi1')
 		);
 		$this->testingFramework->createPageCacheEntry($pageUid);

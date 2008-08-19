@@ -1,4 +1,5 @@
 0.3.0 - currently working on
+- [#1917] Change: Use the createFakeFrontEnd function from the testing framework in the Realty Manager
 - [#1973] Fix: Images with empty file names must not be uploaded
 - [#2081] Fix: The list of images in the image upload dialog needs to be sorted
 - [#1604] Change: Some code cleanup and refactoring

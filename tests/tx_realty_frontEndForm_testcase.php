@@ -51,17 +51,10 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	private $dummyObjectUid = 0;
 
 	public function setUp() {
-		// Bolsters up the fake front end.
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-		// Ensures there is no cached data of linked FE pages.
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		$GLOBALS['TSFE']->sys_page->init(false);
-
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework->createFakeFrontEnd();
+
 		$this->createDummyRecords();
 
 		$this->pi1 = new tx_realty_pi1();
