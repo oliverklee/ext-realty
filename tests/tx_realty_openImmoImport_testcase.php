@@ -22,6 +22,15 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
+require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_openImmoImportChild.php');
+
 /**
  * Unit tests for the tx_realty_openImmoImport class in the 'realty' extension.
  *
@@ -31,16 +40,6 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_translator.php');
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_openImmoImportChild.php');
-
 class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/** instance to be tested */
 	private $fixture;
@@ -679,7 +678,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 					'<openimmo_anid>foo</openimmo_anid>' .
 					'<firma>bar</firma>' .
 				'</anbieter>' .
-			'</openimmo>' 
+			'</openimmo>'
 		);
 
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
@@ -731,7 +730,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 					'<openimmo_anid>foo</openimmo_anid>' .
 					'<firma>bar</firma>' .
 				'</anbieter>' .
-			'</openimmo>' 
+			'</openimmo>'
 		);
 
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);

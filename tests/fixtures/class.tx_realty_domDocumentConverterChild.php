@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_domDocumentConverter.php');
+
 /**
  * Class 'tx_realty_domDocumentConverterChild' for the 'realty' extension.
  *
@@ -33,9 +35,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_domDocumentConverter.php');
-
 final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentConverter {
 	public function addElementToArray(&$arrayToExpand, $keyToInsert, $valueToInsert) {
 		parent::addElementToArray($arrayToExpand, $keyToInsert, $valueToInsert);

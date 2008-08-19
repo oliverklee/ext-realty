@@ -54,16 +54,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	private static $dummyStringValue = 'test value';
 
 	public function setUp() {
-		// Bolsters up the fake front end.
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-		$GLOBALS['TSFE']->initLLvars();
-
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework->createFakeFrontEnd();
+
 		$this->createDummyRecords();
 
 		$this->pi1 = new tx_realty_pi1();
@@ -1629,7 +1624,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testClearFrontEndCacheDeletesCachedPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
-		$contentUid = $this->testingFramework->createContentElement(
+		$this->testingFramework->createContentElement(
 			$pageUid, array('list_type' => 'realty_pi1')
 		);
 		$this->testingFramework->createPageCacheEntry($pageUid);

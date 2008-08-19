@@ -61,17 +61,9 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	private static $secondImageFileName = 'second.jpg';
 
 	public function setUp() {
-		// Bolsters up the fake front end.
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-		$GLOBALS['LANG']->lang = $GLOBALS['TSFE']->config['config']['language'];
-		// Ensures there is no cached data of linked FE pages.
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		$GLOBALS['TSFE']->sys_page->init(false);
-
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework->createFakeFrontEnd();
+
 		$this->createDummyRecords();
 		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 
@@ -341,25 +333,19 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////////
-	// Tests concering functions used after submit.
-	/////////////////////////////////////////////////
+	//////////////////////////////////////////////////
+	// Tests concerning functions used after submit.
+	//////////////////////////////////////////////////
 
 	public function testGetSelfUrlWithShowUidReturnsUrlWithCurrentPageIdAsTargetPage() {
-		$imageUploadPid = $this->testingFramework->createFrontEndPage();
-		// fakes the setting of the current FE page
-		$GLOBALS['TSFE']->id = $imageUploadPid;
-
 		$this->assertContains(
-			'id=' . $imageUploadPid,
+			'id=' . $GLOBALS['TSFE']->id,
 			$this->fixture->getSelfUrlWithShowUid()
 		);
 	}
 
 	public function testGetSelfUrlWithShowUidReturnsUrlWithCurrentShowUidAsLinkParameter() {
 		$this->pi1->piVars['showUid'] = $this->dummyObjectUid;
-		// fakes the setting of the current FE page
-		$GLOBALS['TSFE']->id = $this->testingFramework->createFrontEndPage();
 
 		$this->assertContains(
 			'tx_realty_pi1[showUid]=' . $this->dummyObjectUid,

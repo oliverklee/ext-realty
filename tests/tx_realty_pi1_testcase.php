@@ -89,31 +89,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	const DE = 54;
 
 	public function setUp() {
-		// Bolsters up the fake front end.
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-		// Ensures there is no cached data of linked FE pages.
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		$GLOBALS['TSFE']->sys_page->init(false);
-		$GLOBALS['TSFE']->additionalHeaderData = array();
-		$GLOBALS['TSFE']->JSeventFuncCalls = array(
-			'onload' => array(), 'onunload' => array()
-		);
-		// This object is required to be initialized before
-		// $GLOBALS['TSFE']->initUserGroups() can be called.
-		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
-		}
-		// This initialization ensures dummy system folders get recognized as
-		// "enabled". This affects the usage of sub-system folders in the tests.
-		$GLOBALS['TSFE']->initUserGroups();
-		// Sets the current page ID to zero.
-		$this->setCurrentPage(0);
-
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework->createFakeFrontEnd();
+
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
@@ -168,15 +147,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 */
 	private function allowAccess() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-	}
-
-	/**
-	 * Fakes the current page ID.
-	 *
-	 * @param	integer		ID of the current page, must be > 0
-	 */
-	private function setCurrentPage($pid) {
-		$GLOBALS['TSFE']->id = $pid;
 	}
 
 	/**
@@ -373,7 +343,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLinkToSingleViewPageContainsSinglePidInRedirectUrlIfAccessDenied() {
-		$this->setCurrentPage($this->singlePid);
+		$this->testingFramework->createFakeFrontEnd($this->singlePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
@@ -1272,19 +1242,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testTheListFilterLinksToTheSelfUrl() {
-		$currentFrontEndPage = $this->testingFramework->createFrontEndPage();
-		$this->setCurrentPage($currentFrontEndPage);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$this->assertContains(
-			'?id=' . $currentFrontEndPage,
+			'?id=' . $GLOBALS['TSFE']->id,
 			$this->fixture->main('', array())
 		);
 	}
 
 	public function testTheListFiltersLinkDoesNoContainPiVars() {
-		$this->setCurrentPage($this->testingFramework->createFrontEndPage());
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 		$this->fixture->piVars['search'] = array($this->firstCityUid);
@@ -1954,7 +1921,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLinkToSeparateSingleViewPageHasSeparateSinglePidInRedirectUrlIfAccessDenied() {
-		$this->setCurrentPage($this->otherSinglePid);
+		$this->testingFramework->createFakeFrontEnd($this->otherSinglePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 		$this->assertContains(
@@ -2878,7 +2845,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testAccessToMyObjectsViewContainsRedirectUrlWithPidIfAccessDenied() {
 		$myObjectsPid = $this->testingFramework->createFrontEndPage();
-		$this->setCurrentPage($myObjectsPid);
+		$this->testingFramework->createFakeFrontEnd($myObjectsPid);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 

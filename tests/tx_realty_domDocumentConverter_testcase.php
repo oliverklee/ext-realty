@@ -22,6 +22,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
+require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_domDocumentConverterChild.php');
+
 /**
  * Unit tests for the tx_realty_domDocumentConverter class in the 'realty'
  * extension.
@@ -31,12 +36,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_translator.php');
-require_once(t3lib_extMgm::extPath('realty').'tests/fixtures/class.tx_realty_domDocumentConverterChild.php');
-
 class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/** instance to be tested */
 	private $fixture;
@@ -823,7 +822,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateRecordsForImagesIfOneImageAppendixWithoutAnImagePathIsGiven() {
-		$node = $this->setRawDataToConvert(
+		$this->setRawDataToConvert(
 			'<immobilie>'
 				.'<anhang>'
 					.'<anhangtitel>foo</anhangtitel>'

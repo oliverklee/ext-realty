@@ -22,6 +22,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
+
 /**
  * Unit tests for the tx_realty_filterForm class in the 'realty' extension.
  *
@@ -30,31 +35,17 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
-
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_pi1.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_filterForm.php');
-
 class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
-	/** filter form object to be tested */
+	/** @var	tx_realty_filterForm */
 	private $fixture;
-	/** instance of tx_oelib_testingFramework */
+	/** @var	tx_oelib_testingFramework */
 	private $testingFramework;
-	/** instance of tx_realty_pi1 */
+	/** @var	tx_realty_pi1 */
 	private $pi1;
 
 	public function setUp() {
-		// Bolsters up the fake front end.
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-		// Ensures there is no cached data of linked FE pages.
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		$GLOBALS['TSFE']->sys_page->init(false);
-
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework->createFakeFrontEnd();
 
 		$this->pi1 = new tx_realty_pi1();
 		$this->pi1->init(array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'));

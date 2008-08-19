@@ -60,11 +60,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	private static $feUserEmail = 'frontend-user@valid-email.org';
 
 	public function setUp() {
-		// Bolster up the fake front end.
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
+		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework->createFakeFrontEnd();
 
 		$this->pi1 = new tx_realty_pi1();
 		$this->pi1->init(array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'));
@@ -72,7 +69,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->pi1->setLabels();
 
 		$this->fixture = new tx_realty_contactForm($this->pi1);
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 
 		$this->createDummyRecords();
 		$this->pi1->setConfigurationValue(
