@@ -2097,14 +2097,14 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
-			50.740081,
-			(double) $this->fixture->getProperty('rough_latitude'),
-			'', 0.0001
+			50.741551,
+			$this->fixture->getProperty('rough_latitude'),
+			'', 0.01
 		);
 		$this->assertEquals(
-			7.098095,
-			(double) $this->fixture->getProperty('rough_longitude'),
-			'', 0.0001
+			7.101499,
+			$this->fixture->getProperty('rough_longitude'),
+			'', 0.01
 		);
 	}
 
@@ -2124,13 +2124,13 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			50.734343,
-			(double) $this->fixture->getProperty('exact_latitude'),
-			'', 0.0001
+			$this->fixture->getProperty('exact_latitude'),
+			'', 0.001
 		);
 		$this->assertEquals(
 			7.10211,
-			(double) $this->fixture->getProperty('exact_longitude'),
-			'', 0.0001
+			$this->fixture->getProperty('exact_longitude'),
+			'', 0.001
 		);
 	}
 
@@ -2260,12 +2260,17 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		));
 		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 
+		$coordinates = $this->fixture->retrieveCoordinates($this->templateHelper);
+
 		$this->assertEquals(
-			array(
-				'latitude' => '50.740081',
-				'longitude' => '7.098095',
-			),
-			$this->fixture->retrieveCoordinates($this->templateHelper)
+			50.740081,
+			$coordinates['latitude'],
+			'', 0.01
+		);
+		$this->assertEquals(
+			7.098095,
+			$coordinates['longitude'],
+			'', 0.01
 		);
 	}
 
