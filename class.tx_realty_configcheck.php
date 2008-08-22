@@ -146,6 +146,14 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Checks the configuration for the Realty Manager's list view of objects by
+	 * a certain owner.
+	 */
+	public function check_tx_realty_pi1_objects_by_owner() {
+		$this->check_tx_realty_pi1_realty_list();
+	}
+
+	/**
 	 * Checks the configuration for the FE editor of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_fe_editor() {
@@ -201,15 +209,16 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'If it is not set correctly, it is ignored and the list view '
 				.'is displayed.',
 			array(
-				'gallery',
-				'city_selector',
-				'contact_form',
-				'favorites',
-				'fe_editor',
-				'filter_form',
-				'image_upload',
-				'my_objects',
 				'realty_list',
+				'gallery',
+				'favorites',
+				'city_selector',
+				'filter_form',
+				'contact_form',
+				'my_objects',
+				'objects_by_owner',
+				'fe_editor',
+				'image_upload',
 			)
 		);
 	}

@@ -18,6 +18,7 @@
 			<label index="realty.pi_flexform.filter_form">Filter form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
+			<label index="realty.pi_flexform.objects_by_owner">Objects by offerer</label>
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
@@ -182,6 +183,7 @@
 			<label index="message_noResultsFound_single_view_informal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_my_objects_formal">You do not have any objects.</label>
 			<label index="message_noResultsFound_my_objects_informal">You do not have any objects.</label>
+			<label index="message_noResultsFound_objects_by_owner">This offerer currently does not have any objects.</label>
 			<label index="message_access_denied_formal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_access_denied_informal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
@@ -253,6 +255,8 @@
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
 			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
+			<label index="label_offerings_by">Offerings by</label>
+			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="realty.pi_flexform.templateFile">HTML-Template</label>
@@ -265,6 +269,7 @@
 			<label index="realty.pi_flexform.filter_form">Filterformular</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformular</label>
 			<label index="realty.pi_flexform.my_objects">Meine Objekte</label>
+			<label index="realty.pi_flexform.objects_by_owner">Objekte eines Anbieters</label>
 			<label index="realty.pi_flexform.fe_editor">FE-Editor</label>
 			<label index="realty.pi_flexform.image_upload">Bilder hochladen</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
@@ -429,6 +434,7 @@
 			<label index="message_noResultsFound_single_view_informal">Diese URL ist ungültig. Das in der Detailansicht zu zeigende Objekt ist nicht verfügbar. Bitte kontaktiere den Webmaster.</label>
 			<label index="message_noResultsFound_my_objects_formal">Sie haben keine Datensätze.</label>
 			<label index="message_noResultsFound_my_objects_informal">Du hast keine Datensätze.</label>
+			<label index="message_noResultsFound_objects_by_owner">Dieser Anbieter hat zur Zeit keine Objekte.</label>
 			<label index="message_access_denied_formal">Sie haben keinen Zugriff auf diesen Datensatz. Nur der Besitzer darf diesen Datensatz bearbeiten.</label>
 			<label index="message_access_denied_informal">Du hast keinen Zugriff auf diesen Datensatz. Nur der Besitzer darf diesen Datensatz bearbeiten.</label>
 			<label index="message_invalidImage_formal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfen Sie, ob die Adresse in der Adresszeile Ihres Browsers korrekt ist. Falls Sie einem Link zu dieser Seite gefolgt sind, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
@@ -500,6 +506,8 @@
 			<label index="message_image_too_large">Das zum Hochladen gewählte Bild ist zu groß. Bitte wählen Sie ein kleineres Bild oder skalieren Sie dieses Bild und versuchen Sie es erneut.</label>
 			<label index="message_invalid_type">Der Typ des zum Hochladen gewählten Bildes is nicht erlaubt. Erlaubte Dateiendungen sind: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Bitte geben Sie eine Bildunterschrift an.</label>
+			<label index="label_offerings_by">Angebote von</label>
+			<label index="message_no_such_owner">Der gewählte Anbieter existiert leider nicht in der Datenbank.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">Algemene beschrijving</label>
@@ -1127,6 +1135,7 @@
 			<label index="realty.pi_flexform.filter_form" type="integer">175496361</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
+			<label index="realty.pi_flexform.objects_by_owner" type="integer">150515545</label>
 			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
@@ -1291,6 +1300,7 @@
 			<label index="message_noResultsFound_single_view_informal" type="integer">260520321</label>
 			<label index="message_noResultsFound_my_objects_formal" type="integer">231455062</label>
 			<label index="message_noResultsFound_my_objects_informal" type="integer">231455062</label>
+			<label index="message_noResultsFound_objects_by_owner" type="integer">164681102</label>
 			<label index="message_access_denied_formal" type="integer">155310287</label>
 			<label index="message_access_denied_informal" type="integer">155310287</label>
 			<label index="message_invalidImage_formal" type="integer">24179165</label>
@@ -1362,6 +1372,8 @@
 			<label index="message_image_too_large" type="integer">183582394</label>
 			<label index="message_invalid_type" type="integer">48986434</label>
 			<label index="message_empty_caption" type="integer">1491457</label>
+			<label index="label_offerings_by" type="integer">56224175</label>
+			<label index="message_no_such_owner" type="integer">71788074</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -1986,6 +1998,7 @@
 			<label index="realty.pi_flexform.filter_form">Filter form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
+			<label index="realty.pi_flexform.objects_by_owner">Objects by offerer</label>
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
@@ -2150,6 +2163,7 @@
 			<label index="message_noResultsFound_single_view_informal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_my_objects_formal">You do not have any objects.</label>
 			<label index="message_noResultsFound_my_objects_informal">You do not have any objects.</label>
+			<label index="message_noResultsFound_objects_by_owner">This offerer currently does not have any objects.</label>
 			<label index="message_access_denied_formal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_access_denied_informal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_invalidImage_formal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
@@ -2221,6 +2235,8 @@
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
 			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
+			<label index="label_offerings_by">Offerings by</label>
+			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

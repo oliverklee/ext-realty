@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2063] Feature: List of all (non-hidden) objects by a certain owner
 - [#2086] Change: Change the template to have the list view subpart only once
 - [#1219] Feature: Change the images in the gallery using JavaScript
 - [#2104] Fix: Unit test failure because the rough coordinates are checked with a too small delta

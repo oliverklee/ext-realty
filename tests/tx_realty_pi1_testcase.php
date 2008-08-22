@@ -3104,6 +3104,382 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////////////////
+	// Tests concerning the objects-by-owner list.
+	////////////////////////////////////////////////
+
+	public function testObjectsByOwnerListDisplaysLabelOfferingsBy() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_offerings_by'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysAddToFavoritesButton() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_add_to_favorites'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysCompanyNameIfProvided() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array(
+				'company' => 'realty test company',
+				'last_name' => 'last name',
+				'first_name' => 'first name',
+				'name' => 'test name',
+				'username' => 'test user',
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			'realty test company',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysFirstAndLastNameIfFirstAndLastNameAreSetAndNoCompanyIsSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array(
+				'last_name' => 'last name',
+				'first_name' => 'first name',
+				'name' => 'test name',
+				'username' => 'test user',
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			'first name last name',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysLastNameIfLastNameIsSetAndNeitherCompanyNorFirstNameAreSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array(
+				'last_name' => 'last name',
+				'name' => 'test name',
+				'username' => 'test user',
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			'last name',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysNameIfFirstNameIsSetAndNeitherCompanyNorLastNameAreSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array(
+				'first_name' => 'first name',
+				'name' => 'test name',
+				'username' => 'test user',
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			'test name',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysNameIfNeitherCompanyNorLastNameNorFirstNameAreSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array(
+				'name' => 'test name', 'username' => 'test user'
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			'test name',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysUsernameIfNeitherCompanyNorLastNameNorNameAreSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array(
+				'username' => 'test user'
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			'test user',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysTheTitleOfAnObjectBySelectedOwner() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListNotDisplaysTheTitleOfAnObjectByAnotherOwnerThanSelected() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('owner' => $this->testingFramework->createFrontEndUser(
+				$this->testingFramework->createFrontEndUserGroup()
+			))
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListNotDisplaysTheTitleOfAnObjectThatHasNoOwnerIfOwnerUidSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListNotDisplaysTheTitleOfAnObjectThatHasNoOwnerIfNoOwnerUidSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = 0;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListNotDisplaysAnOwnersHiddenObjectsTitle() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid, 'hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysNoSuchOwnerMessageForAZeroOwnerUid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = 0;
+
+		$this->assertContains(
+			$this->fixture->translate('message_no_such_owner'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysLabelSorryForAZeroOwnerUid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = 0;
+
+		$this->assertContains(
+			$this->fixture->translate('label_sorry'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListNotDisplaysLabelOfferingsByForAZeroOwnerUid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = 0;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_offerings_by'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysNoResultsViewForAFeUserWithoutObjects() {
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_objects_by_owner'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysNoResultsViewForAFeUserWhoOnlyHasAHiddenObject() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid, 'hidden' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_noResultsFound_objects_by_owner'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysNoSuchOwnerMessageForADeletedFeUserWithObject() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('deleted' => 1)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertContains(
+			$this->fixture->translate('message_no_such_owner'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListNotDisplaysADeletedFeUsersObject() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('deleted' => 1)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysLabelSorryForADeletedFeUserWithAnObject() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('deleted' => 1)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	/////////////////////////////////////////////
 	// Tests for Google Maps in the single view
 	/////////////////////////////////////////////

@@ -45,10 +45,14 @@
 										<numIndex index="1">my_objects</numIndex>
 									</numIndex>
 									<numIndex index="7" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.objects_by_owner</numIndex>
+										<numIndex index="1">objects_by_owner</numIndex>
+									</numIndex>
+									<numIndex index="8" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.fe_editor</numIndex>
 										<numIndex index="1">fe_editor</numIndex>
 									</numIndex>
-									<numIndex index="8" type="array">
+									<numIndex index="9" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.image_upload</numIndex>
 										<numIndex index="1">image_upload</numIndex>
 									</numIndex>

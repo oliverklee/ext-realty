@@ -167,6 +167,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	const ZOOM_FOR_SINGLE_MARKER = 13;
 
 	/**
+	 * @var	array		FE user record, will at least contain the element
+	 * 					'uid'
+	 */
+	private $cachedOwner = array('uid' => 0);
+
+	/**	@var	array		existing types of list views */
+	private static $listViews = array(
+		'favorites', 'my_objects', 'objects_by_owner', 'realty_list'
+	);
+
+	/**
 	 * The constructor.
 	 *
 	 * @param	boolean		whether this class is called in the test mode
@@ -198,9 +209,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->internal['currentTable'] = $this->tableNames['objects'];
-		$this->securePiVars(
-			array('city', 'image', 'remove', 'descFlag', 'showUid', 'delete')
-		);
+		$this->securePiVars(array(
+			'city', 'image', 'remove', 'descFlag', 'showUid', 'delete', 'owner'
+		));
+		$this->cacheSelectedOwner();
 
 		$filterFormClassName = t3lib_div::makeInstanceClassName(
 			'tx_realty_filterForm'
@@ -313,6 +325,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				$this->processDeletionAndCheckAccess();
 				break;
+			case 'objects_by_owner':
+				$listLabel = $this->getTitleForTheObjectsByOwnerList();
+				$this->unhideSubparts(
+					'favorites_url,add_to_favorites_button,wrapper_checkbox'
+				);
+				break;
 			case 'realty_list':
 				// intended fall-through
 			default:
@@ -322,11 +340,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'wrapper_checkbox'
 				);
 				$this->setSubpart('list_filter', $this->createCheckboxesFilter());
-				$this->setSubpart('favorites_url', $this->getFavoritesUrl());
 				break;
 		}
 
 		$this->setMarker('list_heading', $this->translate($listLabel));
+		$this->setSubpart('favorites_url', $this->getFavoritesUrl());
 		$this->fillListRows();
 		$this->createGoogleMapForListView();
 
@@ -455,6 +473,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$whereClause .= ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
 					'=' . $this->getFeUserUid();
 				$showHiddenObjects = 1;
+				break;
+			case 'objects_by_owner':
+				$whereClause .= ($this->cachedOwner['uid'] != 0)
+					? ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
+						'=' . $this->cachedOwner['uid']
+					: ' AND 0=1';
 				break;
 			default:
 				break;
@@ -597,20 +621,26 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function setEmptyResultView() {
 		$view = $this->getCurrentView();
+		$noResultsMessage = 'message_noResultsFound_' . $view;
+
+		// The objects-by-owner-view has two reasons for being empty.
+		if (($view == 'objects_by_owner') && ($this->cachedOwner['uid'] == 0)) {
+			$noResultsMessage = 'message_no_such_owner';
+		}
 
 		$this->setMarker(
-			'message_noResultsFound',
-			$this->translate('message_noResultsFound_' . $view)
+			'message_noResultsFound', $this->translate($noResultsMessage)
 		);
-		$emptyResultView = $this->getSubpart('EMPTY_RESULT_VIEW');
 
 		// If the current view is a list view, the subpart to fill will be
 		// 'list_result'. All non-list view's subparts to fill here are named
 		// '[type of view]_result'.
-		if (in_array($view, array('favorites', 'my_objects', 'realty_list'))) {
+		if (in_array($view, self::$listViews)) {
 			$view = 'list';
 		}
-		$this->setSubpart($view . '_result', $emptyResultView);
+		$this->setSubpart(
+			$view . '_result', $this->getSubpart('EMPTY_RESULT_VIEW')
+		);
 	}
 
 	/**
@@ -2373,6 +2403,69 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Returns the title for the list of objects by one owner. The title will
+	 * contain a localized string for 'label_offerings_by' plus the owner's
+	 * label.
+	 *
+	 * If there is no cached owner, the return value will be 'label_sorry'
+	 * as a localized string. (setEmptyResultView will add the corresponding
+	 * error message then.) An owner is cached through cacheSelectedOwner in
+	 * the main function if a valid UID was provided by $this->piVars.
+	 *
+	 * @return	string		localized string for 'label_offerings_by' plus the
+	 * 						owner's label or the string for 'label_sorry' if
+	 * 						there is no owner at all
+	 *
+	 * @see	getOwnerLabel()
+	 */
+	private function getTitleForTheObjectsByOwnerList() {
+		$result = $this->translate('label_sorry');
+
+		if ($this->cachedOwner['uid'] != 0) {
+			$result = $this->translate('label_offerings_by') . ' ' .
+				$this->getOwnerLabel();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns a FE user's company if set in $this->cachedOwner, else the first
+	 * name and last name if provided, else the name. If none of these is
+	 * provided, the user name will be returned. FE user records are expected
+	 * to have at least a user name.
+	 *
+	 * @return	string		label for the owner, will be empty if no owner
+	 * 						record was cached or if the cached record is an
+	 * 						invalid FE user record without a user name
+	 */
+	private function getOwnerLabel() {
+		$result = '';
+
+		// As sr_feuser_register might not be installed, each field needs to be
+		// checked to exist.
+		foreach (array('username', 'name', 'last_name', 'company') as $key) {
+			if (isset($this->cachedOwner[$key])
+				&& ($this->cachedOwner[$key] != '')
+			) {
+				$result = $this->cachedOwner[$key];
+
+				// tries to add a first name if there is a last name
+				if (($key == 'last_name')
+					&& (isset($this->cachedOwner['first_name']))
+				) {
+					$result = trim(
+						$this->cachedOwner['first_name'] . ' ' .
+						$this->cachedOwner[$key]
+					);
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Checks whether the current piVars contain a value for the city selector.
 	 *
 	 * @return	boolean		whether the city selector is currently used
@@ -2406,7 +2499,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		Name of the current view ('realty_list',
 	 * 						'contact_form', 'favorites', 'fe_editor',
 	 * 						'filter_form', 'city_selector' or 'gallery'
-	 * 						'image_upload' or 'my_objects'), will not be empty.
+	 * 						'image_upload', 'my_objects' or 'objects_by_owner'),
+	 * 						will not be empty.
 	 * 						If no view is set, 'realty_list' is returned as this
 	 * 						is the fallback case.
 	 */
@@ -2414,14 +2508,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$whatToDisplay = $this->getConfValueString('what_to_display');
 
 		if (in_array($whatToDisplay, array(
-			'contact_form',
-			'city_selector',
-			'favorites',
-			'fe_editor',
-			'filter_form',
+			'realty_list',
 			'gallery',
+			'favorites',
+			'city_selector',
+			'filter_form',
+			'contact_form',
+			'my_objects',
+			'objects_by_owner',
+			'fe_editor',
 			'image_upload',
-			'my_objects'
 		))) {
 			$result = $whatToDisplay;
 		} else {
@@ -2430,9 +2526,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// switches from the list view to the single view if a 'showUid'
 		// variable is set
-		if ((in_array($result, array('favorites', 'my_objects', 'realty_list')))
-			&& $this->hasShowUidInUrl()
-		) {
+		if ($this->hasShowUidInUrl() && in_array($result, self::$listViews)) {
 			$result = 'single_view';
 		}
 
@@ -2872,6 +2966,33 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		return implode('<br />', $addressParts);
 	}
 
+	/**
+	 * Caches the record of the currently selected owner.
+	 *
+	 * If no value is provided by piVars or if the provided value does not match
+	 * a valid owner (a FE user who is non-hidden and non-deleted),
+	 * $this->cachedOwner will only contain the element 'uid' which will be
+	 * zero then.
+	 */
+	private function cacheSelectedOwner() {
+		// If there is a piVars value, it will already be intvaled.
+		$ownerUid = isset($this->piVars['owner']) ? $this->piVars['owner'] : 0;
+		$row = false;
+
+		if ($ownerUid > 0) {
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'*',
+				'fe_users',
+				'uid=' . $ownerUid . $this->enableFields('fe_users')
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		}
+
+		$this->cachedOwner = $row ? $row : array('uid' => 0);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php'])	{
