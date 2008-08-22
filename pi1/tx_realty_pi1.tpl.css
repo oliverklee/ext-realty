@@ -51,10 +51,6 @@
 .tx-realty-pi1 a.close {
 	float: right;
 }
-.tx-realty-pi1 .favorites a.back,
-.tx-realty-pi1 .favorites a.contact {
-	margin-top: 1em;
-}
 
 .tx-realty-pi1 a.addToFavorites,
 .tx-realty-pi1 a.removeFromFavorites,
@@ -208,11 +204,16 @@
 }
 
 /* tfoot */
-.tx-realty-pi1 .list-view .result tfoot td.pagination {
+.tx-realty-pi1 .list-view .result tfoot td .favorites {
 	height: 44px;
 	background: url(images/fav_arrow.png) no-repeat 26px 0;
-	vertical-align: bottom;
-	border-bottom: 2px solid #FFA500;
+	margin-left: 0;
+}
+.tx-realty-pi1 .list-view .result tfoot .border {
+	width: 100%;
+	height: 2px;
+	background: #FFA500;
+	margin: 0 0 5px 0;;
 }
 .tx-realty-pi1 .list-view .result td.sorting {
 	background: #E0E8EB;
@@ -225,13 +226,14 @@
 	padding-left: 24px;
 	line-height: 20px;
 }
-.tx-realty-pi1 .list-view .result .favorites {
+.tx-realty-pi1 .list-view .result .favorites,
+.tx-realty-pi1 .list-view .result .favorites a {
+	margin-top: 22px;
 	margin-left: 36px;
 }
-.tx-realty-pi1 .list-view .result .favorites a {
-	margin-left: 0;
+.tx-realty-pi1 .list-view .result tfoot td .pagination {
+	margin-top: 42px;	
 }
-
 .tx-realty-pi1 .list-view #tx_realty_map {
 	clear: both;
 	width: 100%;

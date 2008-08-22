@@ -45,6 +45,7 @@ define('TYPE_BOOLEAN', 2);
  * @subpackage	tx_realty
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** same as class name */
@@ -268,33 +269,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				$result = $imageUpload->render();
 				break;
-			case 'my_objects':
-				// The FE editor processes the deletion of an object.
-				// For testing, the FE editors FORMidable object must not be
-				// created.
-				$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_frontEndEditor'
-				);
-				$frontEndEditor = new $frontEndEditorClassName(
-					$this,
-					$this->piVars['delete'],
-					'pi1/tx_realty_frontEndEditor.xml',
-					$this->isTestMode
-				);
-				// The FE editor also checks the access here.
-				$errorView = $frontEndEditor->deleteRecord();
-
-				$result = ($errorView == '')
-					? $this->createMyObjectsView()
-					: $errorView;
-				break;
-			case 'favorites':
-				// The fallthrough is intended because the favorites view is just
-				// a special realty list.
-			case 'realty_list':
-				// The fallthrough is intended because creating the realty list
-				// is the default case.
 			default:
+				// All other return values of getCurrentView stand for list views.
 				$result = $this->createListView();
 				break;
 		}
@@ -305,85 +281,151 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Shows a list of database entries.
 	 *
-	 * @return	string		HTML list of table entries
+	 * @return	string		HTML list of table entries or the HTML for an error
+	 * 						view if no items were found
 	 */
 	private function createListView()	{
-		$dbResult = $this->initListView();
-
-		$this->setSubpart('list_filter', $this->createCheckboxesFilter());
-		$this->setMarker('self_url', $this->getSelfUrl());
-		$this->setMarker('favorites_url', $this->getFavoritesUrl());
-
-		if (($this->internal['res_count'] > 0)
-			&& $dbResult
-			&& $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)
-		) {
-			$rows = array();
-
-			$rowCounter = 0;
-			while ($this->internal['currentRow'] = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
-				$this->resetSubpartsHiding();
-				$rows[] = $this->createListRow($rowCounter);
-				$rowCounter++;
-			}
-
-			$listBody = implode('', $rows);
-			$this->setMarker('realty_items', $listBody);
-			$this->setMarker('pagination', $this->createPagination());
-			$this->setSubpart('wrapper_sorting', $this->createSorting());
-		} else {
-			$this->setEmptyResultView();
-		}
-
-		$this->createGoogleMapForListView();
-
+		// Initially most subparts are hidden. Depending on the type of list
+		// view, they will be set to unhidden again.
+		$this->hideSubparts(
+			'list_filter,back_link,new_record_link,wrapper_contact,' .
+			'add_to_favorites_button,remove_from_favorites_button,list_map,' .
+			'wrapper_editor_specific_content,wrapper_checkbox,favorites_url'
+		);
 		switch ($this->getCurrentView()) {
 			case 'favorites':
+				$listLabel = 'label_yourfavorites';
+				$this->unhideSubparts(
+					'back_link,wrapper_contact,wrapper_checkbox,favorites_url,' .
+					'remove_from_favorites_button'
+				);
+				$this->setMarker('favorites_url', $this->getFavoritesUrl());
 				$this->fillOrHideContactWrapper();
-				$subpartName = 'FAVORITES_VIEW';
-
-				if ($this->hasConfValueString('favoriteFieldsInSession')
-					&& isset($GLOBALS['TSFE']->fe_user)) {
-					$GLOBALS['TSFE']->fe_user->setKey(
-						'ses',
-						$this->favoritesSessionKeyVerbose,
-						serialize($this->favoritesDataVerbose)
-					);
-					$GLOBALS['TSFE']->fe_user->storeSessionData();
-				}
+				$this->setFavoritesSessionData();
 				break;
 			case 'my_objects':
-				$subpartName = 'MY_OBJECTS_VIEW';
+				$listLabel = 'label_your_objects';
+				$this->unhideSubparts(
+					'wrapper_editor_specific_content,new_record_link'
+				);
+				$this->setMarker(
+					'empty_editor_link', $this->createLinkToFePage('editorPID', 0)
+				);
+				$this->processDeletionAndCheckAccess();
 				break;
+			case 'realty_list':
+				// intended fall-through
 			default:
-				$subpartName = 'LIST_VIEW';
+				$listLabel = 'label_weofferyou';
+				$this->unhideSubparts(
+					'favorites_url,list_filter,add_to_favorites_button,' .
+					'wrapper_checkbox'
+				);
+				$this->setSubpart('list_filter', $this->createCheckboxesFilter());
+				$this->setSubpart('favorites_url', $this->getFavoritesUrl());
 				break;
 		}
 
-		return $this->getSubpart($subpartName);
+		$this->setMarker('list_heading', $this->translate($listLabel));
+		$this->fillListRows();
+		$this->createGoogleMapForListView();
+
+		return $this->getSubpart('LIST_VIEW');
 	}
 
 	/**
+	 * Fills in the data for each list row.
+	 */
+	private function fillListRows() {
+		$dbResult = $this->initListView();
+		if ($this->internal['res_count'] == 0) {
+			$this->setEmptyResultView();
+			return;
+		}
+
+		$listItems = '';
+		$rowCounter = 0;
+
+		while ($this->internal['currentRow']
+			= $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)
+		) {
+			$listItems .= $this->createListRow($rowCounter);
+			$rowCounter++;
+		}
+
+		$this->setSubpart('list_item', $listItems);
+		$this->setSubpart('pagination', $this->createPagination());
+		$this->setSubpart('wrapper_sorting', $this->createSorting());
+	}
+
+	/**
+	 * Sets the current session data for the favorites.
+	 */
+	private function setFavoritesSessionData() {
+		if (!$this->hasConfValueString('favoriteFieldsInSession')) {
+			return;
+		}
+
+		$GLOBALS['TSFE']->fe_user->setKey(
+			'ses',
+			$this->favoritesSessionKeyVerbose,
+			serialize($this->favoritesDataVerbose)
+		);
+		$GLOBALS['TSFE']->fe_user->storeSessionData();
+	}
+
+	/**
+	 * Processes the deletion of a realty record and checks whether a user has
+	 * access to the my objects list. If access is denied, the list view's
+	 * subpart will be filled with an error view.
+	 */
+	private function processDeletionAndCheckAccess() {
+		// The FE editor processes the deletion of an object.
+		// For testing, the FE editors FORMidable object must not be created.
+		$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
+			'tx_realty_frontEndEditor'
+		);
+		$frontEndEditor = new $frontEndEditorClassName(
+			$this,
+			$this->piVars['delete'],
+			'pi1/tx_realty_frontEndEditor.xml',
+			$this->isTestMode
+		);
+		// The FE editor also checks the access here.
+		$errorView = $frontEndEditor->deleteRecord();
+		if ($errorView != '') {
+			$this->setSubpart('list_view', $errorView);
+		}
+	}
+	/**
 	 * Initializes the list view, but does not create any actual HTML output.
 	 *
-	 * @return	pointer		the result of a DB query for the realty objects to
-	 * 						list, may be null
+	 * @throws	Exception	if a database query error occurs
+	 *
+	 * @return	recource	the result of a DB query for the realty objects to
+	 * 						list
 	 */
 	private function initListView() {
 		// To ensure that sorting by cities actually sorts the titles and not
 		// the cities' UIDs, the join on the tx_realty_cities table is needed.
-		$table = REALTY_TABLE_OBJECTS.' INNER JOIN '.REALTY_TABLE_CITIES
-			.' ON '.REALTY_TABLE_OBJECTS.'.city = '.REALTY_TABLE_CITIES.'.uid';
+		$table = REALTY_TABLE_OBJECTS . ' INNER JOIN ' . REALTY_TABLE_CITIES .
+			' ON ' . REALTY_TABLE_OBJECTS . '.city = ' .
+			REALTY_TABLE_CITIES . '.uid';
 		$whereClause = $this->createWhereClause();
 
-		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			REALTY_TABLE_OBJECTS.'.*',
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			REALTY_TABLE_OBJECTS . '.*',
 			$table,
 			$whereClause,
 			'',
 			$this->createOrderByStatement(),
 			$this->createLimitStatement($table, $whereClause)
 		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		return $dbResult;
 	}
 
 	/**
@@ -496,6 +538,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates the LIMIT statement for initListView().
 	 *
+	 * @throws	Exception	if a database query error occurs
+	 *
 	 * @param	string		table for which to create the LIMIT statement, must
 	 * 						not be empty
 	 * @param	string		WHERE clause of the query for which the LIMIT
@@ -524,6 +568,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$table,
 			$whereClause
 		);
+		if (!$dbResultCounter) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
 
 		$counterRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($dbResultCounter);
 		$this->internal['res_count'] = $counterRow[0];
@@ -546,21 +593,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the HTML for the "my objects" list.
-	 *
-	 * This function does not check whether a user has access to this list.
-	 *
-	 * @return	string		HTML for the "my objects" view, will not be empty
-	 */
-	private function createMyObjectsView() {
-		$this->setMarker(
-			'empty_editor_link', $this->createLinkToFePage('editorPID', 0)
-		);
-
-		return $this->createListView();
-	}
-
-	/**
 	 * Sets the view to an empty result message specific for the requested view.
 	 */
 	private function setEmptyResultView() {
@@ -568,18 +600,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$this->setMarker(
 			'message_noResultsFound',
-			$this->translate('message_noResultsFound_'.$view)
+			$this->translate('message_noResultsFound_' . $view)
 		);
+		$emptyResultView = $this->getSubpart('EMPTY_RESULT_VIEW');
 
-		// All subparts to replace when the view is empty are named
-		// [current view]'_result', except for the list view. The subpart to
-		// replace when the list view is empty is called 'list_result'.
-		// Therefore the prefix 'realty_' needs to be removed from the current
-		// view's name.
-		$subpartName = str_replace('realty_', '', $view).'_result';
-		$this->setSubpart(
-			$subpartName, $this->getSubpart('EMPTY_RESULT_VIEW')
-		);
+		// If the current view is a list view, the subpart to fill will be
+		// 'list_result'. All non-list view's subparts to fill here are named
+		// '[type of view]_result'.
+		if (in_array($view, array('favorites', 'my_objects', 'realty_list'))) {
+			$view = 'list';
+		}
+		$this->setSubpart($view . '_result', $emptyResultView);
 	}
 
 	/**
@@ -678,6 +709,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns a list row according to the current 'showUid'.
 	 *
+	 * @throws	Exception	if a database query error occurs
+	 *
 	 * @return	array		record to display in the single view, will be empty
 	 * 						if the record to display does not exist
 	 */
@@ -754,7 +787,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 			$this->setMarkerContent('contact_url', $contactUrl);
 		} else {
-			$this->readSubpartsToHide('contact', 'wrapper');
+			$this->hideSubparts('contact', 'wrapper');
 		}
 	}
 
@@ -837,16 +870,23 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns a single table row for list view.
 	 *
-	 * @param	integer		Row counter. Starts at 0 (zero). Used for alternating class values in the output rows.
+	 * @param	integer		Row counter. Starts at 0 (zero). Used for
+	 * 						alternating class values in the output rows.
 	 *
-	 * @return	string		HTML output, a table row with a class attribute set (alternative based on odd/even rows)
+	 * @return	string		HTML output, a table row with a class attribute set
+	 * 						(alternative based on odd/even rows)
 	 */
 	private function createListRow($rowCounter = 0) {
+		// These subparts might be hidden and can only be set if they are
+		// unhidden, due to Bug #2102.
+		// @see https://bugs.oliverklee.com/show_bug.cgi?id=2102
+		$this->unhideSubparts(
+			'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
+		);
 		$this->createGoogleMapForListItem();
 
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarkerContent('class_position_in_list', $position);
-		$this->hideSubparts('editor_specific_content', 'wrapper');
 
 		foreach (array(
 			'uid',
@@ -863,16 +903,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'list_image_left',
 			'list_image_right',
 		) as $key) {
-			$this->setMarkerContent($key, $this->getFieldContent($key));
+			$this->setMarker($key, $this->getFieldContent($key));
 		}
 
 		switch ($this->getFieldContent('object_type')){
 			case 1:
-				$this->readSubpartsToHide('rent_excluding_bills', 'wrapper');
-				$this->readSubpartsToHide('extra_charges', 'wrapper');
+				$this->hideSubparts(
+					'rent_excluding_bills,extra_charges', 'wrapper'
+				);
 				break;
 			case 0:
-				$this->readSubpartsToHide('buying_price', 'wrapper');
+				$this->hideSubparts('buying_price', 'wrapper');
 				break;
 			default:
 				break;
@@ -885,7 +926,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
 				foreach (explode(',', $this->getConfValueString('favoriteFieldsInSession')) as $key) {
-					$this->favoritesDataVerbose[$this->getFieldContent('uid')][$key] = $this->getFieldContent($key);
+					$this->favoritesDataVerbose[$this->getFieldContent('uid')][$key]
+						= $this->getFieldContent($key);
 				}
 				break;
 			case 'my_objects':
@@ -895,7 +937,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 		}
 
-		return $this->substituteMarkerArrayCached('LIST_ITEM');
+		return $this->getSubpart('LIST_ITEM');
 	}
 
 	/**
@@ -939,8 +981,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				? 'label_pending' : 'label_published'
 			)
 		);
-		$this->hideSubparts('checkbox', 'wrapper');
-		$this->unhideSubparts('wrapper_editor_specific_content');
 	}
 
 	/**
@@ -963,7 +1003,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (!$this->getConfValueBoolean('showContactInformation')
 			|| !$atLeastOneMarkerSet
 		) {
-			$this->readSubpartsToHide('offerer', 'field_wrapper');
+			$this->hideSubparts('offerer', 'field_wrapper');
 		}
 	}
 
@@ -996,6 +1036,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns an array of contact data fetched from the current object's
 	 * owner. This data will be the employer and the telephone number.
+	 *
+	 * @throws	Exception	if a database query error occurs
 	 *
 	 * @return	array		Associative array with the keys 'employer' and
 	 * 						'contact_phone'. The array's values will be empty if
@@ -1148,6 +1190,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Returns an empty string if there is no such foreign key, the corresponding
 	 * foreign record does not exist or if it is an empty string.
 	 *
+	 * @throws	Exception	if a database query error occurs
+	 *
 	 * @param	string		key of the field that contains the foreign key of
 	 * 						the table to retrieve, must not be empty
 	 * @param	string		the DB column name of the field that will be used as
@@ -1294,14 +1338,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * if the record field $key intvals to zero.
 	 * For the subpart name, $key and $prefix will be automatically uppercased.
 	 *
-	 * If the record field intvals to a non-zero value, nothing happens.
+	 * If the record field intvals to a non-zero value, the subpart is set to
+	 * unhidden.
 	 *
-	 * @param	string		key of the label to retrieve (the name of a database column), may not be empty
-	 * @param	string		prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		key of the label to retrieve (the name of a database
+	 * 						column), may not be empty
+	 * @param	string		prefix to the subpart name (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 */
 	private function removeSubpartIfEmptyInteger($key, $prefix = '') {
 		if (intval($this->internal['currentRow'][$key]) == 0) {
-			$this->readSubpartsToHide($key, $prefix);
+			$this->hideSubparts($key, $prefix);
+		} else {
+			$this->unhideSubparts($key, $prefix);
 		}
 	}
 
@@ -1310,14 +1359,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * if the record field $key is an empty string.
 	 * For the subpart name, $key and $prefix will be automatically uppercased.
 	 *
-	 * If the record field is a non-empty-string, nothing happens.
+	 * If the record field is a non-empty-string, the subpart is set to unhidden.
 	 *
-	 * @param	string		key of the label to retrieve (the name of a database column), may not be empty
-	 * @param	string		prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		key of the label to retrieve (the name of a database
+	 * 						column), may not be empty
+	 * @param	string		prefix to the subpart name (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 */
 	private function removeSubpartIfEmptyString($key, $prefix = '') {
 		if (empty($this->internal['currentRow'][$key])) {
-			$this->readSubpartsToHide($key, $prefix);
+			$this->hideSubparts($key, $prefix);
+		} else {
+			$this->unhideSubparts($key, $prefix);
 		}
 	}
 
@@ -1536,6 +1589,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Counts the images that are associated with the current record.
+	 *
+	 * @throws	Exception	if a database query error occurs
 	 *
 	 * @return	integer		the number of images associated with the current
 	 * 						record (may be zero)
@@ -1759,6 +1814,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates a form for selecting a single city.
 	 *
+	 * @throws	Exception	if a database query error occurs
+	 *
 	 * @return	string		HTML of the city selector (will not be empty)
 	 */
 	private function createCitySelector() {
@@ -1947,6 +2004,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * the object numbers and titles of the objects on the current favorites list.
 	 * If there are no selected favorites, an empty string is returned.
 	 *
+	 * @throws	Exception	if a database query error occurs
+	 *
 	 * @return	string		formatted string to use in an e-mail form, may be empty
 	 */
 	 public function createSummaryStringOfFavorites() {
@@ -1961,15 +2020,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'uid IN ('.$currentFavorites.')'
 					.$this->enableFields($table)
 			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
 
-			if ($dbResult) {
-				$summaryStringOfFavorites = $this->pi_getLL('label_on_favorites_list').LF;
+			$summaryStringOfFavorites
+				= $this->translate('label_on_favorites_list') . LF;
 
-				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-					$objectNumber = $row['object_number'];
-					$objectTitle = $row['title'];
-					$summaryStringOfFavorites .= '* '.$objectNumber.' '.$objectTitle.LF;
-				}
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+				$objectNumber = $row['object_number'];
+				$objectTitle = $row['title'];
+				$summaryStringOfFavorites
+					.= '* ' . $objectNumber . ' ' . $objectTitle . LF;
 			}
 		}
 
@@ -2179,38 +2241,39 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML for the WRAPPER_SORTING subpart
 	 */
 	private function createSorting() {
-		$result = '';
-
 		// Only have the sort form if at least one sort criteria is selected in the BE.
-		if ($this->hasConfValueInteger('sortCriteria')) {
-			$selectedSortCriteria = $this->getConfValueInteger('sortCriteria');
-			$options = array();
-			foreach ($this->sortCriteria as $sortCriterionKey => $sortCriterionName) {
-				if ($selectedSortCriteria & $sortCriterionKey) {
-					if ($sortCriterionName == $this->internal['orderBy']) {
-						$selected = ' selected="selected"';
-					} else {
-						$selected = '';
-					}
-					$this->setMarker('sort_value', $sortCriterionName);
-					$this->setMarker('sort_selected', $selected);
-					$this->setMarker(
-						'sort_label', $this->translate('label_'.$sortCriterionName)
-					);
-					$options[] = $this->getSubpart('SORT_OPTION');
-				}
-			}
-			$this->setSubpart('sort_option', implode(LF, $options));
-			if (!$this->internal['descFlag']) {
-					$this->setMarker('sort_checked_asc', ' checked="checked"');
-					$this->setMarker('sort_checked_desc', '');
-			} else {
-					$this->setMarker('sort_checked_asc', '');
-					$this->setMarker('sort_checked_desc', ' checked="checked"');
-			}
-			$result = $this->getSubpart('WRAPPER_SORTING');
+		if (!$this->hasConfValueInteger('sortCriteria')) {
+			return '';
 		}
-		return $result;
+
+		$this->setMarker('self_url', $this->getSelfUrl());
+		$selectedSortCriteria = $this->getConfValueInteger('sortCriteria');
+		$options = array();
+		foreach ($this->sortCriteria as $sortCriterionKey => $sortCriterionName) {
+			if ($selectedSortCriteria & $sortCriterionKey) {
+				if ($sortCriterionName == $this->internal['orderBy']) {
+					$selected = ' selected="selected"';
+				} else {
+					$selected = '';
+				}
+				$this->setMarker('sort_value', $sortCriterionName);
+				$this->setMarker('sort_selected', $selected);
+				$this->setMarker(
+					'sort_label', $this->translate('label_' . $sortCriterionName)
+				);
+				$options[] = $this->getSubpart('SORT_OPTION');
+			}
+		}
+		$this->setSubpart('sort_option', implode(LF, $options));
+		if (!$this->internal['descFlag']) {
+				$this->setMarker('sort_checked_asc', ' checked="checked"');
+				$this->setMarker('sort_checked_desc', '');
+		} else {
+				$this->setMarker('sort_checked_asc', '');
+				$this->setMarker('sort_checked_desc', ' checked="checked"');
+		}
+
+		return $this->getSubpart('WRAPPER_SORTING');
 	}
 
 	/**
@@ -2229,7 +2292,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$items = $this->getCheckboxItems();
-
 		if (!empty($items)) {
 			$this->setSubpart('search_item', implode(LF, $items));
 			$this->setMarker(
@@ -2261,6 +2323,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Returns an array of checkbox items for the list filter.
+	 *
+	 * @throws	Exception	if a database query error occurs
 	 *
 	 * @return	array		HTML for each checkbox item in an array, will be
 	 * 						empty if there are no entries found for the
@@ -2332,7 +2396,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		);
 
 		return !empty($pidList)
-			? ' AND '.REALTY_TABLE_OBJECTS.'.pid IN ('.$pidList.')'
+			? ' AND ' . REALTY_TABLE_OBJECTS . '.pid IN (' . $pidList . ')'
 			: '';
 	}
 
@@ -2571,6 +2635,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * This function requires the current realty object data to be set in
 	 * $this->internal['currentRow'].
 	 *
+	 * @throws	Exception	if $this->internal['currentRow'] is not set or empty
+	 *
 	 * @return	array		the coordinates using the keys "latitude" and
 	 * 						"longitude" or an empty array if the coordinates
 	 * 						could not be retrieved
@@ -2646,6 +2712,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates a realty object instance for the data in
 	 * $this->internal['currentRow'].
 	 *
+	 * @throws	Exception	if $this->internal['currentRow'] is not set or empty
+	 *
 	 * @return	tx_realty_object		a realty object filled with the data
 	 * 									from $this->internal['currentRow']
 	 */
@@ -2689,17 +2757,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates the Google Map for the list view.
 	 *
 	 * If Google Maps for the single view is disabled or if none of the objects
-	 * on the current page have coordinates, the map subpart will be removed.
+	 * on the current page have coordinates, the map subpart will not be
+	 * displayed.
 	 */
 	private function createGoogleMapForListView() {
 		if (!$this->getConfValueBoolean(
 			'showGoogleMapsInListView', 's_googlemaps'
 			) || (empty($this->mapMarkers))
 		) {
-			$this->hideSubparts('list_map');
 			return;
 		}
 
+		$this->unhideSubparts('list_map');
 		$this->addGoogleMapToHtmlHead();
 	}
 
