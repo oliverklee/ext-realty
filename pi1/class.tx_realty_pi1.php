@@ -1344,24 +1344,28 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * $maxSizVariable with a "X" appended. The variable for the maximum height
 	 * works the same, just with a "Y" appended.
 	 *
-	 * Example: If $maxSizeVariable is set to "listImageMax", the maximum width and height should be stored
-	 * in the TS setup variables "listImageMaxX" and "listImageMaxY".
-	 *
-	 * If no image is found, an empty string is returned.
-	 *
-	 * @param	string		prefix to the TS setup variables that define the max size, will be prepended to "X" and "Y"
-	 * @param	integer		the number of the image to retrieve (zero-based, may be zero)
-	 *
-	 * @return	string		IMG tag
-	 */
-	private function getImage($maxSizeVariable, $offset = 0) {
-		$result = '';
+	 * Example: If $maxSizeVariable is set to "listImageMax", the maximum width
+	 * and height should be stored in the TS setup variables "listImageMaxX" and
+	 * "listImageMaxY".
+ 	 *
+ 	 * If no image is found, an empty string is returned.
+ 	 *
+	 * @param	string		prefix to the TS setup variables that define the
+	 * 						max size, will be prepended to "X" and "Y"
+	 * @param	integer		the number of the image to retrieve, zero-based,
+	 * 						may be zero
+ 	 *
+ 	 * @return	string		IMG tag, will be empty if there is no current realty
+ 	 * 						object or if the current object does not have images
+ 	 */
+	private function getImageTag($maxSizeVariable, $offset = 0) {
+ 		$result = '';
 
-		$dbResult = $this->queryForImage($offset);
-
-		if ($dbResult && $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
-			$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			$result = $this->createImageTag($dbResultRow['image'], $maxSizeVariable, $dbResultRow['caption']);
+		$image = $this->getImage($offset);
+		if (!empty($image)) {
+			$result = $this->createImageTag(
+				$image['image'], $maxSizeVariable, $image['caption']
+			);
 		}
 
 		return $result;
@@ -1397,7 +1401,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		IMG tag wrapped in a link (may be empty)
 	 */
 	private function getImageLinkedToGallery($maxSizeVariable, $offset = 0) {
-		$result = $this->getImage($maxSizeVariable, $offset);
+		$result = $this->getImageTag($maxSizeVariable, $offset);
 
 		if (!empty($result) && $this->hasConfValueInteger('galleryPID')) {
 			$galleryUrl = htmlspecialchars(
@@ -1449,50 +1453,31 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function getImageLinkedToSingleView($maxSizeVariable, $offset = 0) {
 		return $this->createLinkToSingleViewPageForAnyLinkText(
-			$this->getImage($maxSizeVariable, $offset),
+			$this->getImageTag($maxSizeVariable, $offset),
 			$this->internal['currentRow']['uid'],
 			$this->internal['currentRow']['details_page']
 		);
 	}
 
 	/**
-	 * Gets the caption of an image from the current record's image list.
+	 * Returns an image record that is associated with the current realty record.
 	 *
-	 * If no image is found (or the caption is empty), an empty string is returned.
+	 * @throws	Exception	if a database query error occurs
 	 *
-	 * @param	integer		the number of the image for which to retrieve the caption (zero-based, may be zero)
+	 * @param	integer		the number of the image to retrieve (zero-based,
+	 * 						may be zero)
 	 *
-	 * @return	string		image caption (may be empty)
+	 * @return	array		the image's caption and file name in an associative
+	 * 						array, will be empty if no current row was set or if
+	 * 						the queried image does not exist
 	 */
-	private function getImageCaption($offset = 0) {
-		$result = '';
-
-		$dbResult = $this->queryForImage($offset);
-
-		if ($dbResult && $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
-			$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			$result = $dbResultRow['caption'];
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Queries for an image that is associated with the current record.
-	 *
-	 * If no image is found or a DB error has occured, null is returned.
-	 *
-	 * @param	integer		the number of the image to retrieve (zero-based, may be zero)
-	 *
-	 * @return	pointer		SQL result pointer or false if there is a problem
-	 */
-	private function queryForImage($offset = 0) {
+	private function getImage($offset = 0) {
 		// The UID will not be set if a hidden or deleted record was requested.
 		if (!isset($this->internal['currentRow']['uid'])) {
-			return false;
+			return array();
 		}
 
-		return $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'image, caption',
 			REALTY_TABLE_IMAGES,
 			'realty_object_uid=' . $this->internal['currentRow']['uid'],
@@ -1500,6 +1485,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'uid',
 			intval($offset) . ',1'
 		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return $row ? $row : array();
 	}
 
 	/**
@@ -1532,18 +1524,23 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates an IMG tag for a resized image version of $filename in
 	 * this extension's upload directory.
 	 *
-	 * @param	string		filename of the original image relative to this extension's upload directory (may not be empty)
-	 * @param	string		prefix to the TS setup variables that define the max size, will be prepended to "X" and "Y"
-	 * @param	string		text used for the alt and title attributes (may be empty)
+	 * @param	string		filename of the original image relative to this
+	 * 						extension's upload directory, must not be empty
+	 * @param	string		prefix to the TS setup variables that define the
+	 * 						max size, will be prepended to "X" and "Y"
+	 * @param	string		text used for the alt and title attribute, may be
+	 * 						empty
 	 *
 	 * @return	string		IMG tag
 	 */
 	private function createImageTag($filename, $maxSizeVariable, $caption = '') {
-		$fullPath = $this->uploadDirectory.$filename;
+		$fullPath = $this->uploadDirectory . $filename;
 		$maxWidth = $this->getConfValueInteger($maxSizeVariable.'X');
 		$maxHeight = $this->getConfValueInteger($maxSizeVariable.'Y');
 
-		return $this->createRestrictedImage($fullPath, $caption, $maxWidth, $maxHeight, 0, $caption);
+		return $this->createRestrictedImage(
+			$fullPath, $caption, $maxWidth, $maxHeight, 0, $caption
+		);
 	}
 
 	/**
@@ -1569,21 +1566,25 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$numberOfImages = $this->countImages();
 			if ($numberOfImages
 				&& ($this->piVars['image'] >= 0)
-				&& ($this->piVars['image'] < $numberOfImages)) {
-				$this->setMarkerContent('title', $this->internal['currentRow']['title']);
-
-				$this->createGalleryFullSizeImage();
-
-				$this->setSubpartContent('thumbnail_item', $this->createGalleryThumbnails());
-				$result = $this->substituteMarkerArrayCached('GALLERY_VIEW');
-				$isOkay = true;
+				&& ($this->piVars['image'] < $numberOfImages)
+			) {
+				$this->setMarker(
+					'title',
+					htmlspecialchars($this->internal['currentRow']['title'])
+				);
+ 				$this->createGalleryFullSizeImage();
+				$this->setSubpart('thumbnail_item', $this->createGalleryThumbnails());
+				$result = $this->getSubpart('GALLERY_VIEW');
+ 				$isOkay = true;
 			}
 		}
 
 		if (!$isOkay) {
-			$this->setMarkerContent('message_invalidImage', $this->pi_getLL('message_invalidImage'));
-			$result = $this->substituteMarkerArrayCached('GALLERY_ERROR');
-			// send a 404 to inform crawlers that this URL is invalid
+			$this->setMarker(
+				'message_invalidImage', $this->translate('message_invalidImage')
+			);
+			$result = $this->getSubpart('GALLERY_ERROR');
+			// sends a 404 to inform crawlers that this URL is invalid
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 				->addHeader('Status: 404 Not Found');
 		}
@@ -1600,33 +1601,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * galleryFullSizeImageY in TS setup.
 	 */
 	private function createGalleryFullSizeImage() {
-		$imageTag = $this->getImage('galleryFullSizeImage', $this->piVars['image']);
+		$this->setMarker(
+			'image_fullsize',
+			$this->getImageTag('galleryFullSizeImage', $this->piVars['image'])
+		);
 
-		$numberOfImages = $this->countImages();
-		if ($numberOfImages > 1) {
-			$nextImageNumber = ($this->piVars['image'] + 1) % $numberOfImages;
-
-			$piVars = $this->piVars;
-			unset($piVars['DATA']);
-
-			$url = htmlspecialchars(
-				$this->cObj->typoLink_URL(
-					array(
-						'parameter' => $GLOBALS['TSFE']->id,
-						'additionalParams' => t3lib_div::implodeArrayForUrl(
-							$this->prefixId,
-							t3lib_div::array_merge_recursive_overrule(
-								$piVars, array('image' => $nextImageNumber)
-							)
-						),
-					)
-				)
-			);
-			$imageTag = '<a href="'.$url.'" title="'.$this->pi_getLL('label_next_image').'">'.$imageTag.'</a>';
-		}
-
-		$this->setMarkerContent('image_fullsize', $imageTag);
-		$this->setMarkerContent('caption_fullsize', $this->getImageCaption($this->piVars['image']));
+		$image = $this->getImage($this->piVars['image']);
+		$this->setMarker(
+			'caption_fullsize',
+			(!empty($image) ? $image['caption'] : '')
+		);
 	}
 
 	/**
@@ -1641,29 +1625,51 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createGalleryThumbnails() {
 		$result = '';
+		$totalNumberOfImages = $this->countImages();
 
-		$counter = 0;
-		$currentImageTag = $this->getImage('galleryThumbnail');
+		for ($imageNumber = 0; $imageNumber < $totalNumberOfImages; $imageNumber++) {
+			// the current image needs a unique class name
+			$suffixForCurrent
+				= ($imageNumber == $this->piVars['image']) ? '-current' : '';
 
-		while (!empty($currentImageTag)) {
-			// Creates a link for the full-size display of images except for the current image.
-			// Ensures the possibility to style the current thumbnail seperately in the CSS file.
-			if ($counter != $this->piVars['image']) {
-				$imageTag = $this->pi_linkTP_keepPIvars($currentImageTag, array('image' => $counter), true);
-				$this->setMarkerContent('is_current', '');
-			} else {
-				$imageTag = $currentImageTag;
-				$this->setMarkerContent('is_current', ' current');
-			}
+			$currentImageTag = $this->getImageTag('galleryThumbnail', $imageNumber);
 
-			$this->setMarkerContent('image_thumbnail', $imageTag);
-			$result .= $this->substituteMarkerArrayCached('THUMBNAIL_ITEM');
+			$this->setMarker(
+				'image_thumbnail',
+				'<a ' .
+					$this->getHrefAttribute($imageNumber) .
+					'id="tx_realty_imageLink_' . $imageNumber . '" ' .
+					'class="tx-realty-pi1-thumbnail' . $suffixForCurrent . '" ' .
+					'>' . $currentImageTag . '</a>'
+			);
 
-			$counter++;
-			$currentImageTag = $this->getImage('galleryThumbnail', $counter);
+			$result .= $this->getSubpart('THUMBNAIL_ITEM');
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns the href attribute for a thumbnail.
+	 *
+	 * @param	integer		number of the image for which to get the href
+	 * 						attribute, must be >= 0
+	 *
+	 * @return	string		href attribute, will not be empty
+	 */
+	private function getHrefAttribute($image) {
+		$piVars = $this->piVars;
+		unset($piVars['DATA']);
+
+		return 'href="' . htmlspecialchars($this->cObj->typoLink_URL(array(
+			'parameter' => $GLOBALS['TSFE']->id,
+			'additionalParams' => t3lib_div::implodeArrayForUrl(
+				$this->prefixId,
+				t3lib_div::array_merge_recursive_overrule(
+					$piVars, array('image' => $image)
+				)
+			),
+		))) . '" ';
 	}
 
 	/**
