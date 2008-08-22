@@ -2824,6 +2824,33 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGalleryHasOnclickHandlerForFullsizeImageIfAllParametersAreProvided() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->piVars['image'] = 0;
+
+		$this->assertContains(
+			'onclick="showFullsizeImage(',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testJavaScriptForGalleryGetsIncludedIfWhatToDisplayIsGallery() {
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'<script src="' . t3lib_extMgm::extRelPath('realty') .
+				'pi1/tx_realty_galleryImageDisplay.js" type="text/javascript">' .
+				'</script>',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_gallery']
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concering the my objects list.
