@@ -284,7 +284,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 			$this->plugin->cObj->typoLink_URL(
 				array(
 					'parameter' => $this->plugin->getConfValueInteger(
-						'feEditorRedirectPid'
+						'feEditorRedirectPid', 's_feeditor'
 					),
 				)
 			)

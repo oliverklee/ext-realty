@@ -42,6 +42,7 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
+			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -278,6 +279,7 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System-Ordner für im FE erstellte Hilfsdatensätze:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">Angezeigte Seite nach dem Speichern im FE-Editor:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-Mail-Adresse, an die eine Nachricht über jeden neu erstellten FE-Datensatz geschickt wird:</label>
+			<label index="realty.pi_flexform.sheet_feeditor">FE-Editor</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -969,6 +971,7 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords" type="integer">143019398</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid" type="integer">1493962</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail" type="integer">147420665</label>
+			<label index="realty.pi_flexform.sheet_feeditor" type="integer">18177806</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -1657,6 +1660,7 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
+			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>

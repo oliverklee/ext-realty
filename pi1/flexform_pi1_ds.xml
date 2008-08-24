@@ -365,6 +365,16 @@
 							</config>
 						</TCEforms>
 					</filterTargetPID>
+				</el>
+			</ROOT>
+		</sDEF>
+		<s_feeditor>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sheet_feeditor</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
 					<sysFolderForFeCreatedRecords>
 						<TCEforms>
 							<exclude>1</exclude>
@@ -421,6 +431,6 @@
 					</feEditorNotifyEmail>
 				</el>
 			</ROOT>
-		</sDEF>
+		</s_feeditor>
 	</sheets>
 </T3DataStructure>
