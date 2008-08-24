@@ -758,13 +758,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function sendEmailForNewObject() {
 		if (($this->realtyObjectUid > 0)
-			|| !$this->plugin->hasConfValueString('feEditorNotifyEmail')
+			|| !$this->plugin->hasConfValueString('feEditorNotifyEmail', 's_feeditor')
 		) {
 			return;
 		}
 
 		tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
-			$this->plugin->getConfValueString('feEditorNotifyEmail'),
+			$this->plugin->getConfValueString('feEditorNotifyEmail', 's_feeditor'),
 			$this->plugin->translate('label_email_subject_fe_editor'),
 			$this->getFilledEmailBody(),
 			$this->getFromLineForEmail(),
@@ -906,7 +906,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			array(
 				'title' => $title,
 				'pid' => $this->plugin->getConfValueInteger(
-					'sysFolderForFeCreatedAuxiliaryRecords'
+					'sysFolderForFeCreatedAuxiliaryRecords', 's_feeditor'
 				),
 				'tstamp' => mktime(),
 				'crdate' => mktime(),
@@ -982,7 +982,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// The PID might have changed if the city did.
 		$modifiedFormData['pid'] = ($pidFromCity != 0)
 			? $pidFromCity
-			: $this->plugin->getConfValueString('sysFolderForFeCreatedRecords');
+			: $this->plugin->getConfValueString(
+				'sysFolderForFeCreatedRecords', 's_feeditor'
+			);
 		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
 			$frontEndUserAnid = $this->getFrontEndUserData('tx_realty_openimmo_anid');

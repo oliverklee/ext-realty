@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2060] Change: Move the FE editor-related settings into the "FE editor" tab
 - [#2063] Feature: List of all (non-hidden) objects by a certain owner
 - [#2086] Change: Change the template to have the list view subpart only once
 - [#1219] Feature: Change the images in the gallery using JavaScript

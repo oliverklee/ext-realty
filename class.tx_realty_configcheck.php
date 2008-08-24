@@ -661,7 +661,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfSingleSysFolderNotEmpty(
 			'sysFolderForFeCreatedRecords',
 			true,
-			'sDEF',
+			's_feeditor',
 			'This value specifies the PID of the system folder for FE-created '
 				.'records. New records will be stored on the root page if this '
 				.'value is invalid.'
@@ -676,7 +676,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfSingleSysFolderNotEmpty(
 			'sysFolderForFeCreatedAuxiliaryRecords',
 			true,
-			'sDEF',
+			's_feeditor',
 			'This value specifies the PID of the system folder for FE-created '
 				.'auxiliary records. New cities and districts will be stored on'
 				.'the root page if this value is invalid.'
@@ -691,7 +691,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfSingleFePageNotEmpty(
 			'feEditorRedirectPid',
 			true,
-			'sDEF',
+			's_feeditor',
 			'This value specifies the PID of the FE page to which users will be '
 				.'redirected after a FE-created record was saved. This '
 				.'redirecting will not proceed correctly if this value is '
@@ -706,7 +706,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIsValidEmailNotEmpty(
 			'feEditorNotifyEmail',
 			true,
-			'sDEF',
+			's_feeditor',
 			true,
 			'This value specifies the recipient for a notification when a new '
 				.'record has been created in the FE. No e-mail will be send if '
