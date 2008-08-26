@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2128] Change: Move the list view Google Map from the bottom to the top
 - [#2129] Change: Allow FORMidable maintanance releases
 - [#2060] Change: Move the FE editor-related settings into the "FE editor" tab
 - [#2063] Feature: List of all (non-hidden) objects by a certain owner
