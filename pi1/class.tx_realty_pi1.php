@@ -1346,7 +1346,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setMarker(
 			'target_url',
 			$this->cObj->typoLink_URL(
-				array('parameter' => $this->getConfValueInteger('filterTargetPID'))
+				array('parameter' => $this->getConfValueInteger('citySelectorTargetPID'))
 			)
 		);
 
