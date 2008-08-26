@@ -82,24 +82,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private static $secondCityTitle = 'bar city';
 
 	public function setUp() {
-		// Bolsters up the fake front end.
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-		// This object is required to be initialized before
-		// $GLOBALS['TSFE']->initUserGroups() can be called.
-		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
-		}
-		// This initialization ensures dummy system folders get recognized as
-		// "enabled". This affects the usage of sub-system folders in the tests.
-		$GLOBALS['TSFE']->initUserGroups();
-		// Sets the current page ID to zero.
-		$this->setCurrentPage(0);
-
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework->createFakeFrontEnd();
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
@@ -1646,6 +1631,20 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	//////////////////////////////
+	// Testing the city selector
+	//////////////////////////////
+
+	public function testCitySelectorHasLinkToCitySelectorTargetPid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'city_selector');
+		$this->fixture->setConfigurationValue('citySelectorTargetPID', $this->listViewPid);
+
+		$this->assertContains(
+			'id=' . $this->listViewPid,
+			$this->fixture->main('', array())
+		);
+	}
 
 	///////////////////////
 	// Utility functions.
