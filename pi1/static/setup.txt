@@ -98,6 +98,8 @@ plugin.tx_realty_pi1 {
 	favoritesPID =
 	# PID of the target page for the filter form and the city selector
 	filterTargetPID =
+	# PID of the target page for the list of objects by one owner, leave empty to disable the link to this list in the detail view
+	objectsByOwnerPID =
 
 	# PID of the FE editor page
 	editorPID =
@@ -111,7 +113,6 @@ plugin.tx_realty_pi1 {
 	feEditorRedirectPid =
 	# e-mail address which receives a message if e new FE record was created
 	feEditorNotifyEmail =
-
 	# location of the HTML template file for the FE editor and image upload
 	feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
 

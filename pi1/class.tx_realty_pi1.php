@@ -321,14 +321,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'wrapper_editor_specific_content,new_record_link'
 				);
 				$this->setMarker(
-					'empty_editor_link', $this->createLinkToFePage('editorPID', 0)
+					'empty_editor_link',
+					$this->createLinkToFeEditorPage('editorPID', 0)
 				);
 				$this->processDeletionAndCheckAccess();
 				break;
 			case 'objects_by_owner':
 				$listLabel = $this->getTitleForTheObjectsByOwnerList();
 				$this->unhideSubparts(
-					'favorites_url,add_to_favorites_button,wrapper_checkbox'
+					'favorites_url,add_to_favorites_button,wrapper_checkbox,' .
+					'back_link'
 				);
 				break;
 			case 'realty_list':
@@ -703,30 +705,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			unset($piVars['DATA']);
 
 			// marker for button
-			$this->setMarker(
-				'back_url',
-				$this->cObj->typoLink_URL(
-					array(
-						'parameter' => $GLOBALS['TSFE']->id,
-						'additionalParams' => t3lib_div::implodeArrayForUrl(
-							'',
-							array(
-								$this->prefixId => t3lib_div::array_merge_recursive_overrule(
-									$piVars,
-									array('showUid' => '')
-								),
-							)
+			$this->setMarker('back_url', $this->cObj->typoLink_URL( array(
+				'parameter' => $GLOBALS['TSFE']->id,
+				'additionalParams' => t3lib_div::implodeArrayForUrl(
+					'', array(
+						$this->prefixId => t3lib_div::array_merge_recursive_overrule(
+							$piVars, array('showUid' => '')
 						),
 					)
-				)
-			);
+				),
+			)));
 			$this->setMarker('favorites_url', $this->getFavoritesUrl());
-
-			if ($this->getCurrentView() == 'favorites') {
-				$this->hideSubparts('add_to_favorites', 'wrapper');
-			} else {
-				$this->hideSubparts('remove_from_favorites', 'wrapper');
-			}
 
 			$this->fillOrHideContactWrapper();
 			$this->createOverviewTableInSingleView();
@@ -976,13 +965,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function setListRowContentsForMyObjectsView() {
 		$this->setMarker(
 			'editor_link',
-			$this->createLinkToFePage(
+			$this->createLinkToFeEditorPage(
 				'editorPID', $this->internal['currentRow']['uid']
 			)
 		);
 		$this->setMarker(
 			'image_upload_link',
-			$this->createLinkToFePage(
+			$this->createLinkToFeEditorPage(
 				'imageUploadPID', $this->internal['currentRow']['uid']
 			)
 		);
@@ -1030,11 +1019,47 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 		}
 
+		$atLeastOneMarkerSet = $this->fillOrHideLinkToObjectsByOwnerList()
+			|| $atLeastOneMarkerSet;
+
 		if (!$this->getConfValueBoolean('showContactInformation')
 			|| !$atLeastOneMarkerSet
 		) {
 			$this->hideSubparts('offerer', 'field_wrapper');
 		}
+	}
+
+	/**
+	 * Sets the link to the objects-by-owner list if a PID of this list is
+	 * provided by configuration and if the current object has an owner.
+	 * Otherwise, the subpart with this link will be hidden.
+	 *
+	 * @param	boolean		true if the marker for the link was set, else false
+	 */
+	private function fillOrHideLinkToObjectsByOwnerList() {
+		$markerIsSet = false;
+		$objectsByOwnerPid = $this->getConfValueInteger('objectsByOwnerPID');
+
+		if (($objectsByOwnerPid != 0)
+			&& ($this->internal['currentRow']['owner'] != 0)
+		) {
+			$this->setMarker(
+				'objects_by_owner_url',
+				t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
+					'parameter' => $objectsByOwnerPid,
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						$this->prefixId,
+						array('owner' => $this->internal['currentRow']['owner'])
+					),
+					'useCacheHash' => true,
+				)))
+			);
+			$markerIsSet = true;
+		} else {
+			$this->hideSubparts('objects_by_owner_link');
+		}
+
+		return $markerIsSet;
 	}
 
 	/**
@@ -2693,7 +2718,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		$linkText wrapped in link tags, will not be empty
 	 */
-	private function createLinkToFePage($pidKey, $uid) {
+	private function createLinkToFeEditorPage($pidKey, $uid) {
 		return t3lib_div::locationHeaderUrl(
 			$this->cObj->typoLink_URL(
 				array(

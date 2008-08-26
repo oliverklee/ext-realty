@@ -113,6 +113,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowAddressOfObjects();
 		$this->checkShowContactInformation();
+		$this->checkObjectsByOwnerPID();
 		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
@@ -210,6 +211,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'is displayed.',
 			array(
 				'realty_list',
+				'single_view',
 				'gallery',
 				'favorites',
 				'city_selector',
@@ -490,6 +492,20 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies whether the offerer and the contact phone '
 				.'number of a realty are shown in the FE. It might be '
 				.'interpreted incorrectly if no boolean value was set.'
+		);
+	}
+
+	/**
+	 * Checks the setting of the configuration value objectsByOwnerPID.
+	 */
+	private function checkObjectsByOwnerPID() {
+		$this->checkIfPositiveIntegerOrZero(
+			'objectsByOwnerPID',
+			true,
+			'sDEF',
+			'This value specifies the page ID of the list of objects by one ' .
+				'offerer. The link to this list might not work correctly if ' .
+				'this value is misconfigured.'
 		);
 	}
 

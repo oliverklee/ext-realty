@@ -1989,7 +1989,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 
 	/////////////////////////////////////
-	// Tests concerning the detail view
+	// Tests concerning the single view
 	/////////////////////////////////////
 
 	public function testDetailPageContainsContactInformationWithPhoneNumberFromRecord() {
@@ -2165,6 +2165,137 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewPageContainsLabelForLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $this->listViewPid);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_this_owners_objects'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewPageContainsLabelOffererIfTheLinkToTheObjectsByOwnerListIsEnabled() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $this->listViewPid);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			$this->fixture->translate('label_offerer'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewPageContainsLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $this->listViewPid);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'id=' . $this->listViewPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewPageContainsOwnerUidInLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $this->listViewPid);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'tx_realty_pi1[owner]=' . $ownerUid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewPageNotContainsLinkToTheObjectsByOwnerListForEnabledOptionAndNoOwnerSet() {
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $this->listViewPid);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_this_owners_objects'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewPageNotContainsLinkToTheObjectsByOwnerListForDisabledContactInformationAndOwnerAndPidSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $this->listViewPid);
+		$this->fixture->setConfigurationValue('showContactInformation', false);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_this_owners_objects'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewPageNotContainsLinkToTheObjectsByOwnerListForNoObjectsByOwnerListPidSetAndOwnerSet() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(), array()
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('showContactInformation', true);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_this_owners_objects'),
 			$this->fixture->main('', array())
 		);
 	}

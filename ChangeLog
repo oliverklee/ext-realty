@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2064] Feature: Link the list of objects by the owner from the detail page
 - [#2128] Change: Move the list view Google Map from the bottom to the top
 - [#2129] Change: Allow FORMidable maintanance releases
 - [#2060] Change: Move the FE editor-related settings into the "FE editor" tab
