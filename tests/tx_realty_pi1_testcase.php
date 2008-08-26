@@ -1950,7 +1950,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 
 	/////////////////////////////////////
-	// Tests concerning the detail view
+	// Tests concerning the single view
 	/////////////////////////////////////
 
 	public function testDetailPageContainsContactInformationWithPhoneNumberFromRecord() {

@@ -12,6 +12,7 @@
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
+			<label index="realty.pi_flexform.single_view">Single view</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.filter_form">Filter form</label>
@@ -249,6 +250,7 @@
 			<label index="realty.pi_flexform.what_to_display">Was soll angezeigt werden:</label>
 			<label index="realty.pi_flexform.realty_list">Immobilienliste</label>
 			<label index="realty.pi_flexform.favorites">Merkzettel</label>
+			<label index="realty.pi_flexform.single_view">Einzelansicht</label>
 			<label index="realty.pi_flexform.gallery">Galerie</label>
 			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
 			<label index="realty.pi_flexform.filter_form">Filterformular</label>
@@ -941,6 +943,7 @@
 			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
+			<label index="realty.pi_flexform.single_view" type="integer">260903848</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.filter_form" type="integer">175496361</label>
@@ -1630,6 +1633,7 @@
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
+			<label index="realty.pi_flexform.single_view">Single view</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.filter_form">Filter form</label>

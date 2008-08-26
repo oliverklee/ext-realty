@@ -189,6 +189,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'image_upload',
 				'my_objects',
 				'realty_list',
+				'single_view',
 			)
 		);
 	}
