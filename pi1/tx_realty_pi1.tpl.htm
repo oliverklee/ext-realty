@@ -1,17 +1,19 @@
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-<head>
-<title>Unbenanntes Dokument</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="tx_realty_pi1.tpl.css" rel="stylesheet" type="text/css">
-</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="tx_realty_pi1.tpl.css" />
+		<title>
+			HTML template for the Realty Manager
+		</title>
+	</head>
+	<body>
+		<h1>
+			HTML template for the Realty Manager
+		</h1>
 
-<body>
-
-<div class="tx-realty-pi1">
-
+		<div class="tx-realty-pi1">
+			<h2>List view</h2>
 <!-- ###LIST_VIEW### -->
 <div class="list-view">
 	<h2>###LIST_HEADING###</h2>
@@ -181,7 +183,7 @@
 <!-- ###LIST_VIEW### -->
 
 
-
+<h2>Single view</h2>
 <!-- ###SINGLE_VIEW### -->
 <div class="single-view">
 	<!-- ###SINGLE_VIEW_RESULT### -->
@@ -307,16 +309,21 @@
 
 
 
+<h2>Access denied &#8230;</h2>
 <!-- ###ACCESS_DENIED_VIEW### -->
 <p class="error">###LOGIN_LINK###</p>
 <!-- ###ACCESS_DENIED_VIEW### -->
 
+
+
+<h2>No results found &#8230;</h2>
 <!-- ###EMPTY_RESULT_VIEW### -->
 <p class="noresults">###MESSAGE_NORESULTSFOUND###</p>
 <!-- ###EMPTY_RESULT_VIEW### -->
 
 
 
+<h2>Gallery</h2>
 <!-- ###GALLERY_VIEW### -->
 <div class="gallery-view">
 	<div class="buttons">
@@ -348,6 +355,7 @@
 </div>
 <!-- ###GALLERY_VIEW### -->
 
+<h2>Gallery error</h2>
 <!-- ###GALLERY_ERROR### -->
 <div class="gallery-view">
 	<h3>###LABEL_SORRY###</h3>
@@ -356,7 +364,7 @@
 <!-- ###GALLERY_ERROR### -->
 
 
-
+<h2>Filter form</h2>
 <!-- ###FILTER_FORM### -->
 <div class="tx-realty-pi1-filter-form">
 	<h3>###LABEL_FILTER_FORM###</h3>
@@ -384,7 +392,7 @@
 <!-- ###FILTER_FORM### -->
 
 
-
+<h2>City selector</h2>
 <!-- ###CITY_SELECTOR### -->
 <!-- ###WRAPPER_CITYSELECTOR### -->
 <div class="city-selector">
@@ -407,10 +415,13 @@
 <!-- ###CITY_SELECTOR### -->
 
 
+<h2>Error message for the FE editor</h2>
 <!-- ###FRONT_END_EDITOR### -->
 <p class="error">###ERROR_MESSAGE###</p>
 <!-- ###FRONT_END_EDITOR### -->
 
+<h2>Front-end editor e-mail</h2>
+<pre>
 <!-- ###FRONT_END_EDITOR_EMAIL### -->
 ###LABEL_SALUTATION###,
 
@@ -423,8 +434,9 @@
 <!-- ###WRAPPER_TITLE### -->###LABEL_TITLE###: ###TITLE###<!-- ###WRAPPER_TITLE### -->
 <!-- ###WRAPPER_UID### -->###LABEL_UID###: ###UID###<!-- ###WRAPPER_UID### -->
 <!-- ###FRONT_END_EDITOR_EMAIL### -->
+</pre>
 
-
+<h2>Contact form</h2>
 <!-- ###CONTACT_FORM### -->
 <div class="tx-realty-pi1-contact-form">
 	<p>###LABEL_CONTACT_FORM_DESCRIPTION###</p>
@@ -477,6 +489,7 @@
 </div>
 <!-- ###CONTACT_FORM### -->
 
+<h2>Contact form has been submitted</h2>
 <!-- ###CONTACT_FORM_SUBMITTED### -->
 <div class="tx-realty-pi1-contact-form">
 	<h3>###LABEL_THANK_YOU###</h3>
@@ -484,6 +497,8 @@
 </div>
 <!-- ###CONTACT_FORM_SUBMITTED### -->
 
+<h2>E-mail from the contact form</h2>
+<pre>
 <!-- ###EMAIL_BODY### -->
 ###LABEL_SALUTATION###<!-- ###WRAPPER_CONTACT_PERSON### --> ###CONTACT_PERSON###<!-- ###WRAPPER_CONTACT_PERSON### -->,
 
@@ -503,9 +518,8 @@
 
 <!-- ###WRAPPER_REQUESTER_PHONE### -->###LABEL_REQUESTER_PHONE### ###REQUESTER_PHONE###<!-- ###WRAPPER_REQUESTER_PHONE### -->
 <!-- ###EMAIL_BODY### -->
+</pre>
 
-
-</div>
-
-</body>
+		</div>
+	</body>
 </html>
