@@ -102,6 +102,7 @@
 		</renderlet:TEXT>
 		<renderlet:CHECKSINGLE name="emphasized" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized"/>
 
+		<renderlet:CHECKSINGLE name="show_address" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.show_address"/>
 		<renderlet:TEXT name="street" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.street"/>
 		<renderlet:TEXT name="zip" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip">
 			<validators>

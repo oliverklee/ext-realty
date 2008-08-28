@@ -66,8 +66,6 @@ plugin.tx_realty_pi1 {
 	# static SQL Filter (will be appended to the WHERE clause using " AND ")
 	staticSqlFilter =
 
-	# whether the address of a realty object is shown in the FE
-	showAddressOfObjects = 0
 	# whether contact information should be displayed in the FE
 	showContactInformation = 0
 	# default e-mail address for requests, used without validation if the record

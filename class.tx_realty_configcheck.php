@@ -74,7 +74,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkImageSizeValuesForListView();
 		$this->checkPagesToDisplay();
 		$this->checkRecursive();
-		$this->checkShowAddressOfObjects();
 		$this->checkSortCriteria();
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
@@ -111,7 +110,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkGalleryPid();
 		$this->checkLoginPid();
 		$this->checkImageSizeValuesForSingleView();
-		$this->checkShowAddressOfObjects();
 		$this->checkShowContactInformation();
 		$this->checkObjectsByOwnerPID();
 		$this->checkAllowDirectRequestsForObjects();
@@ -468,20 +466,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the setting of the configuration value showAddressOfObjects.
-	 */
-	private function checkShowAddressOfObjects() {
-		$this->checkIfBoolean(
-			'showAddressOfObjects',
-			true,
-			'sDEF',
-			'This value specifies whether the address of a realty object is '
-				.'shown in the FE. It might be interpreted incorrectly if no '
-				.'logical value was set.'
-		);
-	}
-
-	/**
 	 * Checks the setting of the configuration value showContactInformation.
 	 */
 	private function checkShowContactInformation() {
@@ -499,7 +483,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting of the configuration value objectsByOwnerPID.
 	 */
 	private function checkObjectsByOwnerPID() {
-		$this->checkIfPositiveIntegerOrZero(
+		$this->checkIfInteger(
 			'objectsByOwnerPID',
 			true,
 			'sDEF',

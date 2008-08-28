@@ -23,7 +23,6 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
-			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
@@ -277,7 +276,6 @@
 			<label index="realty.pi_flexform.fe_editor">FE-Editor</label>
 			<label index="realty.pi_flexform.image_upload">Bilder hochladen</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
-			<label index="realty.pi_flexform.showAddressOfObjects">Adressen der Objekte im FE anzeigen:</label>
 			<label index="realty.pi_flexform.showContactInformation">Kontaktdaten im FE anzeigen:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Standard E-Mail-Adresse für Kontaktanfragen:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
@@ -529,7 +527,6 @@
 			<label index="realty.pi_flexform.image_upload">Foto - Upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statische SQL-Filter (word met &quot; AND &quot; aan de WHERE-Klausel gehangen):</label>
 			<label index="realty.pi_flexform.defaultCountry">Default land voor objecten</label>
-			<label index="realty.pi_flexform.showAddressOfObjects">Toon het volledige adres in FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Toon de kontaktinformatie in FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail adres voor aanvragen</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mailadres voor een blind copy van elke aanvraag</label>
@@ -1029,7 +1026,6 @@
 			<label index="realty.pi_flexform.gallery">Galeria</label>
 			<label index="realty.pi_flexform.city_selector">Selector de ciudades</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Consulta SQL</label>
-			<label index="realty.pi_flexform.showAddressOfObjects">Mostrar direcciones en panel frontal</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Campo de la base de datos para mostrar opciones de búsqueda</label>
 			<label index="realty.pi_flexform.sortCriteria">Campos de la Base da datos con los que el usuario podrá ordenar los resultados</label>
 			<label index="realty.pi_flexform.singlePID">Página para mostrar la ficha técnica</label>
@@ -1146,7 +1142,6 @@
 			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
-			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
 			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
 			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
@@ -1398,7 +1393,6 @@
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
-			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
 			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
 			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
@@ -1895,7 +1889,6 @@
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
-			<label index="realty.pi_flexform.showAddressOfObjects" type="integer">96674808</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
@@ -2012,7 +2005,6 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
-			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
@@ -2264,7 +2256,6 @@
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
-			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
@@ -2761,7 +2752,6 @@
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
-			<label index="realty.pi_flexform.showAddressOfObjects">Show the addresses of objects in the FE:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>

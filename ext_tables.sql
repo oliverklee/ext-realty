@@ -33,6 +33,7 @@ CREATE TABLE tx_realty_objects (
 	city int(11) DEFAULT '0' NOT NULL,
 	district int(11) DEFAULT '0' NOT NULL,
 	country int(11) DEFAULT '0' NOT NULL,
+	show_address tinyint(1) DEFAULT '0' NOT NULL,
 	exact_coordinates_are_cached tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	exact_longitude varchar(19) DEFAULT '' NOT NULL,
 	exact_latitude varchar(19) DEFAULT '' NOT NULL,

@@ -1996,8 +1996,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 0,
 			'exact_latitude' => 'foo exact latitude',
 			'exact_longitude' => 'foo exact longitude',
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2020,8 +2020,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 0,
 			'rough_latitude' => 'foo rough latitude',
 			'rough_longitude' => 'foo rough longitude',
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2044,8 +2044,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 0,
 			'exact_latitude' => 'foo exact latitude',
 			'exact_longitude' => 'foo exact longitude',
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2068,8 +2068,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 1,
 			'rough_latitude' => 'foo rough latitude',
 			'rough_longitude' => 'foo rough longitude',
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2092,8 +2092,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 0,
 			'rough_latitude' => 'foo rough latitude',
 			'rough_longitude' => 'foo rough longitude',
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2118,8 +2118,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 0,
 			'exact_latitude' => 'foo exact latitude',
 			'exact_longitude' => 'foo exact longitude',
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2142,8 +2142,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2160,8 +2160,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2178,8 +2178,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2196,8 +2196,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2214,8 +2214,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 
 		$this->assertEquals(
 			array(
@@ -2234,8 +2234,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
@@ -2257,8 +2257,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 
 		$coordinates = $this->fixture->retrieveCoordinates($this->templateHelper);
 
@@ -2284,8 +2284,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 0,
 			'exact_latitude' => 'foo exact latitude',
 			'exact_longitude' => 'foo exact longitude',
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 
 		$this->assertEquals(
 			array(
@@ -2306,8 +2306,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 1,
 			'rough_latitude' => 'foo rough latitude',
 			'rough_longitude' => 'foo rough longitude',
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 
 		$this->assertEquals(
 			array(
@@ -2328,8 +2328,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 0,
 			'exact_latitude' => 'foo exact latitude',
 			'exact_longitude' => 'foo exact longitude',
+			'show_address' => 1,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 
 		$this->assertEquals(
 			array(
@@ -2350,8 +2350,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 1,
 			'rough_latitude' => 'foo rough latitude',
 			'rough_longitude' => 'foo rough longitude',
+			'show_address' => 0,
 		));
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
 
 		$this->assertEquals(
 			array(
@@ -2370,12 +2370,19 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
 			'rough_coordinates_are_cached' => 0,
+			'show_address' => 1,
 		));
-
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$exactResult = $this->fixture->retrieveCoordinates($this->templateHelper);
 
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 0,
+			'rough_coordinates_are_cached' => 0,
+			'show_address' => 0,
+		));
 		$roughResult = $this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertNotEquals(
@@ -2396,12 +2403,23 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'rough_coordinates_are_cached' => 1,
 			'rough_latitude' => 'foo rough latitude',
 			'rough_longitude' => 'foo rough longitude',
+			'show_address' => 1,
 		));
-
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 1);
 		$exactResult = $this->fixture->retrieveCoordinates($this->templateHelper);
 
-		$this->templateHelper->setConfigurationValue('showAddressOfObjects', 0);
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 'Bonn',
+			'country' => self::DE,
+			'exact_coordinates_are_cached' => 1,
+			'exact_latitude' => 'foo exact latitude',
+			'exact_longitude' => 'foo exact longitude',
+			'rough_coordinates_are_cached' => 1,
+			'rough_latitude' => 'foo rough latitude',
+			'rough_longitude' => 'foo rough longitude',
+			'show_address' => 0,
+		));
 		$roughResult = $this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertNotEquals(

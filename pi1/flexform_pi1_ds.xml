@@ -128,14 +128,6 @@
 							</config>
 						</TCEforms>
 					</staticSqlFilter>
-					<showAddressOfObjects>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showAddressOfObjects</label>
-							<config>
-								<type>check</type>
-							</config>
-						</TCEforms>
-					</showAddressOfObjects>
 					<defaultContactEmail>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultContactEmail</label>

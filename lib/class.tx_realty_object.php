@@ -1025,7 +1025,7 @@ class tx_realty_object {
 	public function retrieveCoordinates(
 		tx_oelib_templatehelper $configuration
 	) {
-		if ($configuration->getConfValueBoolean('showAddressOfObjects')) {
+		if ($this->getProperty('show_address')) {
 			$prefix = 'exact';
 			$street = $this->getProperty('street');
 		} else {

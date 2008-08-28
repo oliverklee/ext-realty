@@ -896,9 +896,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						(alternative based on odd/even rows)
 	 */
 	private function createListRow($rowCounter = 0) {
-		// These subparts might be hidden and can only be set if they are
-		// unhidden, due to Bug #2102.
-		// @see https://bugs.oliverklee.com/show_bug.cgi?id=2102
 		$this->unhideSubparts(
 			'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
 		);
@@ -2963,15 +2960,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Formats the current object's address as HTML (separated by <br />) with
-	 * the granularity defined in the configuration variable
-	 * "showAddressOfObjects".
+	 * the granularity defined in the field "show_address".
 	 *
 	 * @return	string		the address of the current object, will not be empty
 	 */
 	private function getAddressAsHtml() {
 		$addressParts = array();
 
-		if ($this->getConfValueBoolean('showAddressOfObjects')
+		if ($this->getFieldContent('show_address')
 			&& ($this->getFieldContent('street') != '')
 		) {
 			$addressParts[]

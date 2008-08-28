@@ -2345,9 +2345,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('street' => 'Foo road 3')
+			array('street' => 'Foo road 3', 'show_address' => 1)
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2361,9 +2360,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('street' => 'Foo road 3')
+			array('street' => 'Foo road 3', 'show_address' => 0)
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2377,9 +2375,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('zip' => '12345')
+			array('zip' => '12345', 'show_address' => 1)
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2393,9 +2390,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('zip' => '12345')
+			array('zip' => '12345', 'show_address' => 0)
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -3616,11 +3612,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////////////
 
 	public function testSingleViewWithGoogleMapsDisabledDoesNotMarkAnyCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('street' => 'Am Hof 1', 'city' => $this->firstCityUid)
+			array(
+				'street' => 'Am Hof 1',
+				'city' => $this->firstCityUid,
+				'show_address' => 1,
+			)
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
@@ -3639,12 +3638,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewWithGoogleMapsEnabledAndExactAddressMarksExactCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('street' => 'Am Hof 1', 'city' => $this->firstCityUid)
+			array(
+				'street' => 'Am Hof 1',
+				'city' => $this->firstCityUid,
+				'show_address' => 1,
+			)
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
@@ -3663,12 +3665,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewWithGoogleMapsEnabledAndRoughAddressMarksRoughCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('street' => 'Am Hof 1', 'city' => $this->firstCityUid)
+			array(
+				'street' => 'Am Hof 1',
+				'city' => $this->firstCityUid,
+				'show_address' => 0,
+			)
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
@@ -3694,10 +3699,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3717,10 +3722,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => '',
 				'exact_longitude' => '',
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3740,10 +3745,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3763,10 +3768,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3786,10 +3791,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => '',
 				'exact_longitude' => '',
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3809,10 +3814,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3832,10 +3837,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3857,10 +3862,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3882,10 +3887,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3907,10 +3912,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3932,10 +3937,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3961,10 +3966,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -3986,10 +3991,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -4011,12 +4016,13 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
 				'district' => $this->testingFramework->createRecord(
-					REALTY_TABLE_DISTRICTS, array('title' => 'Beuel')
+					REALTY_TABLE_DISTRICTS,
+					array('title' => 'Beuel')
 				),
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -4038,10 +4044,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
 				'street' => 'Foo road',
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -4063,10 +4069,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
 				'street' => 'Foo road',
+				'show_address' => 1,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -4088,10 +4094,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
 				'street' => 'Foo road',
+				'show_address' => 0,
 			)
 		);
 
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
@@ -4110,9 +4116,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	///////////////////////////////////////////
 
 	public function testListViewWithGoogleMapsDisabledDoesNotMarkAnyCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$address = array(
-			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid, 'show_address' => 1
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
@@ -4137,10 +4142,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithGoogleMapsEnabledAndExactAddressMarksExactCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$address = array(
-			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid, 'show_address' => 1
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
@@ -4165,10 +4169,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithGoogleMapsEnabledAndRoughAddressMarksRoughCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$address = array(
-			'street' => 'Am Hof 1', 'city' => $this->firstCityUid
+			'street' => 'Am Hof 1', 'city' => $this->firstCityUid, 'show_address' => 0
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $address
@@ -4193,12 +4196,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewContainsMapForObjectsWithCachedCoordinatesAndGoogleMapsEnabled() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => 50.734343,
 			'exact_longitude' => 7.10211,
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -4216,12 +4219,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewDoesNotContainMapForObjectsWithCachedCoordinatesAndGoogleMapsDisabled() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 0);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => 50.734343,
 			'exact_longitude' => 7.10211,
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -4239,12 +4242,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewDoesNotContainMapIfAllObjectsHaveEmptyCachedCoordinates() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => '',
 			'exact_longitude' => '',
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -4262,12 +4265,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewAddsGoogleMapsJavaScriptForObjectWithCachedCoordinates() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => 50.734343,
 			'exact_longitude' => 7.10211,
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -4285,12 +4288,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewDoesNotAddGoogleMapsJavaScriptIfAllObjectsHaveEmptyCachedCoordinates() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => '',
 			'exact_longitude' => '',
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -4308,7 +4311,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewDoesNotContainMapIfObjectOnCurrentPageHasEmptyCachedCoordinatesAndObjectWithCoordinatesIsOnNextPage() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid,
@@ -4316,6 +4318,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => '',
 				'exact_longitude' => '',
+				'show_address' => 1,
 			)
 		);
 		$this->testingFramework->changeRecord(
@@ -4324,6 +4327,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
@@ -4344,7 +4348,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewCanContainExactCachedCoordinatesOfTwoObjectsInHeader() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid,
@@ -4352,6 +4355,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 52.123,
 				'exact_longitude' => 7.456,
+				'show_address' => 1,
 			)
 		);
 		$this->testingFramework->changeRecord(
@@ -4360,6 +4364,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
@@ -4377,7 +4382,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewCanContainRoughCachedCoordinatesOfTwoObjectsInHeader() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid,
@@ -4385,6 +4389,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'rough_coordinates_are_cached' => 1,
 				'rough_latitude' => 52.123,
 				'rough_longitude' => 7.456,
+				'show_address' => 0,
 			)
 		);
 		$this->testingFramework->changeRecord(
@@ -4393,6 +4398,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'rough_coordinates_are_cached' => 1,
 				'rough_latitude' => 50.734343,
 				'rough_longitude' => 7.10211,
+				'show_address' => 0,
 			)
 		);
 
@@ -4410,12 +4416,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewCanContainFullTitlesOfTwoObjectsInHeader() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => 50.734343,
 			'exact_longitude' => 7.10211,
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -4442,12 +4448,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewUsesAutoZoomForTwoObjectsWithCoordinates() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => 50.734343,
 			'exact_longitude' => 7.10211,
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -4466,7 +4472,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewDoesNotUseAutoZoomForOnlyOneObjectWithCoordinates() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid,
@@ -4474,6 +4479,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => '',
 				'exact_longitude' => '',
+				'show_address' => 1,
 			)
 		);
 		$this->testingFramework->changeRecord(
@@ -4482,6 +4488,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
+				'show_address' => 1,
 			)
 		);
 
@@ -4495,12 +4502,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewContainsLinkToSingleViewPageInHtmlHeader() {
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('showGoogleMapsInListView', 1);
 		$coordinates = array(
 			'exact_coordinates_are_cached' => 1,
 			'exact_latitude' => 50.734343,
 			'exact_longitude' => 7.10211,
+			'show_address' => 1,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates

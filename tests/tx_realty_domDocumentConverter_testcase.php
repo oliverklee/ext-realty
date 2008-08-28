@@ -1183,6 +1183,44 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataImportsTheValueForShowAddressIfThisIsEnabled() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<verwaltung_objekt>' .
+							'<objektadresse_freigeben>1</objektadresse_freigeben>' .
+						'</verwaltung_objekt>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('show_address' => 1)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataImportsTheValueForShowAddressIfThisIsDisabled() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<verwaltung_objekt>' .
+							'<objektadresse_freigeben>0</objektadresse_freigeben>' .
+						'</verwaltung_objekt>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('show_address' => 0)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testFetchDomAttributesIfValidNodeGiven() {
 		$node = new DOMDocument();
 		$element = $node->appendChild(
