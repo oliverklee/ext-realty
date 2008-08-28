@@ -32,6 +32,7 @@ CREATE TABLE tx_realty_objects (
 	zip tinytext NOT NULL,
 	city int(11) DEFAULT '0' NOT NULL,
 	district int(11) DEFAULT '0' NOT NULL,
+	show_address tinyint(1) DEFAULT '0' NOT NULL,
 	number_of_rooms tinytext NOT NULL,
 	living_area tinytext NOT NULL,
 	total_area tinytext NOT NULL,

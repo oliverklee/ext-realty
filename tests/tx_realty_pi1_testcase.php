@@ -2157,9 +2157,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('street' => 'Foo road 3')
+			array('street' => 'Foo road 3', 'show_address' => 1)
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 1);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2173,9 +2172,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('street' => 'Foo road 3')
+			array('street' => 'Foo road 3', 'show_address' => 0)
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2205,9 +2203,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('zip' => '12345')
+			array('zip' => '12345', 'show_address' => 0)
 		);
-		$this->fixture->setConfigurationValue('showAddressOfObjects', 0);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 

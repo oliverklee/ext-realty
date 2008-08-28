@@ -59,6 +59,7 @@ class tx_realty_domDocumentConverter {
 		'zip' => array('geo' => 'plz'),
 		'city' => array('geo' => 'ort'),
 		'district' => array('geo' => 'regionaler_zusatz'),
+		'show_address' => array('verwaltung_objekt' => 'objektadresse_freigeben'),
 		'number_of_rooms' => array('flaechen' => 'anzahl_zimmer'),
 		'living_area' => array('flaechen' => 'wohnflaeche'),
 		'total_area' => array('flaechen' => 'gesamtflaeche'),

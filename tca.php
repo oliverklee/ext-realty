@@ -8,8 +8,8 @@ $TCA['tx_realty_objects'] = array(
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .
 			'hidden,starttime,endtime,object_number,object_type,title,' .
-			'emphasized,street,zip,city,district,number_of_rooms,living_area,' .
-			'total_area,estate_size,rent_excluding_bills,extra_charges,' .
+			'emphasized,show_address,street,zip,city,district,number_of_rooms,' .
+			'living_area,total_area,estate_size,rent_excluding_bills,extra_charges,' .
 			'heating_included,deposit,provision,usable_from,buying_price,' .
 			'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,' .
 			'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,' .
@@ -122,6 +122,13 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'check',
 			),
+		),
+		'show_address' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.show_address',
+			'config' => array(
+				'type' => 'check',
+			)
 		),
 		'street' => array(
 			'exclude' => 0,
@@ -863,9 +870,9 @@ $TCA['tx_realty_objects'] = array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
-				'street, zip, city, district, number_of_rooms, living_area, ' .
-				'total_area, estate_size, rent_excluding_bills, extra_charges, ' .
-				'heating_included, deposit, provision, usable_from, ' .
+				'show_address, street, zip, city, district, number_of_rooms, ' .
+				'living_area, total_area, estate_size, rent_excluding_bills, ' .
+				'extra_charges, heating_included, deposit, provision, usable_from, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, ' .
 				'bathrooms, heating_type, garage_type, garage_rent, pets, ' .
 				'construction_year, old_or_new_building, state, balcony, garden, ' .
@@ -895,12 +902,12 @@ $TCA['tx_realty_objects'] = array(
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
-				'street, zip, city, district, number_of_rooms, living_area, ' .
-				'total_area, estate_size, provision, usable_from, buying_price, ' .
-				'year_rent, rented, apartment_type, house_type, floor, floors, ' .
-				'bedrooms, bathrooms, heating_type, garage_type, garage_price, ' .
-				'construction_year, old_or_new_building, state, balcony, garden, ' .
-				'elevator, barrier_free, fitted_kitchen, ' .
+				'show_address, street, zip, city, district, number_of_rooms, ' .
+				'living_area, total_area, estate_size, provision, usable_from, ' .
+				'buying_price, year_rent, rented, apartment_type, house_type, ' .
+				'floor, floors, bedrooms, bathrooms, heating_type, garage_type, ' .
+				'garage_price, construction_year, old_or_new_building, state, ' .
+				'balcony, garden, elevator, barrier_free, fitted_kitchen, ' .
 				'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
 					'bold|italic|underline|left|center|right|orderedlist|' .
 					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .

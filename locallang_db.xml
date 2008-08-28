@@ -19,6 +19,7 @@
 			<label index="tx_realty_objects.zip">ZIP code</label>
 			<label index="tx_realty_objects.city">City</label>
 			<label index="tx_realty_objects.district">District</label>
+			<label index="tx_realty_objects.show_address">Show exact address in front end</label>
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
@@ -131,6 +132,7 @@
 			<label index="tx_realty_objects.zip">Postleitzahl</label>
 			<label index="tx_realty_objects.city">Ort</label>
 			<label index="tx_realty_objects.district">Ortsteil</label>
+			<label index="tx_realty_objects.show_address">Exakte Adresse im Frontend anzeigen</label>
 			<label index="tx_realty_objects.number_of_rooms">Zimmeranzahl</label>
 			<label index="tx_realty_objects.living_area">Wohnfläche ca. in m²</label>
 			<label index="tx_realty_objects.total_area">Nutzfläche ca. in m²</label>
@@ -379,6 +381,7 @@
 			<label index="tx_realty_objects.zip" type="integer">164100864</label>
 			<label index="tx_realty_objects.city" type="integer">92079470</label>
 			<label index="tx_realty_objects.district" type="integer">235647734</label>
+			<label index="tx_realty_objects.show_address" type="integer">32202296</label>
 			<label index="tx_realty_objects.number_of_rooms" type="integer">151522303</label>
 			<label index="tx_realty_objects.living_area" type="integer">191559076</label>
 			<label index="tx_realty_objects.total_area" type="integer">79620667</label>
@@ -627,6 +630,7 @@
 			<label index="tx_realty_objects.zip">ZIP code</label>
 			<label index="tx_realty_objects.city">City</label>
 			<label index="tx_realty_objects.district">District</label>
+			<label index="tx_realty_objects.show_address">Show exact address in front end</label>
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>

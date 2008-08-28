@@ -73,7 +73,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkImageSizeValuesForListView();
 		$this->checkPagesToDisplay();
 		$this->checkRecursive();
-		$this->checkShowAddressOfObjects();
 		$this->checkSortCriteria();
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
@@ -105,7 +104,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowAddressOfObjects();
 		$this->checkShowContactInformation();
-		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
 		$this->checkFavoritesPid();
@@ -433,20 +431,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'recursion can only be set to include subfolders of the '
 				.'folders in "pages". It is impossible to access superior '
 				.'folders with this option.'
-		);
-	}
-
-	/**
-	 * Checks the setting of the configuration value showAddressOfObjects.
-	 */
-	private function checkShowAddressOfObjects() {
-		$this->checkIfBoolean(
-			'showAddressOfObjects',
-			true,
-			'sDEF',
-			'This value specifies whether the address of a realty object is '
-				.'shown in the FE. It might be interpreted incorrectly if no '
-				.'logical value was set.'
 		);
 	}
 
