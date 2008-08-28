@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2134] Fix: A timestamp is stored for "available_from" but should be a string
 - [#1506] Feature: Add a field "show object address" and use it
 - [#1287] Change: Clean up the HTML template
 - [#2125] Feature: Additional test for the city selector

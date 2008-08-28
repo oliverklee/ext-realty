@@ -519,13 +519,21 @@ p.tx-realty-pi1-objekt-nr {
 	background: #f0f0f0;
 	margin-bottom: 10px;
 }
+#tx_realty_frontEndEditor .column3-dark {
+	clear: both;
+	padding: 10px;
+	background: #e4e4e4;
+	margin-bottom: 10px;
+}
 
-#tx_realty_frontEndEditor .column3-light dt {
+#tx_realty_frontEndEditor .column3-light dt,
+#tx_realty_frontEndEditor .column3-dark dt {
 	width: 20%;
 	padding: 0;
 }
 
-#tx_realty_frontEndEditor .column3-light dd {
+#tx_realty_frontEndEditor .column3-light dd,
+#tx_realty_frontEndEditor .column3-dark dd {
 	width: 80%;
 	padding: 0;
 }
@@ -613,10 +621,10 @@ p.tx-realty-pi1-objekt-nr {
 	height: 160px;
 	width: 160%;
 }
-#tx_realty_frontEndEditor .sourcecontact label {
+#tx_realty_frontEndEditor .chooser label {
 	font-size: 0.8em;
 }
-#tx_realty_frontEndEditor .sourcecontact2  {
+#tx_realty_frontEndEditor .chooser2  {
 	display: block;
 	margin: 0 0 5px 10px;
 }
@@ -813,7 +821,7 @@ p.tx-realty-pi1-objekt-nr {
 	max-width: 90%;
 }
 
-#uploadfield .sourcecontact {
+#uploadfield .chooser {
 	font-size: 0.8em;
 	line-height: normal;
 }

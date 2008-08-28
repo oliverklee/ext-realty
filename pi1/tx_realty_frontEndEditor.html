@@ -21,30 +21,31 @@
 <div>
 	<p class="error" style="display: {errors.cssdisplay};">{errors}</p>
 	<fieldset>
-		<div class="column3-light">
+		<div class="column3-dark">
 			<dl>
 				<dt>{title.label.tag}</dt>
 				<dd>{title}</dd>
 			</dl>
 		</div>
 
-		<div class="column1">
-			<div class="columnleft1-dark">
-				<dl>
-					<dt>{object_type.label}</dt>
-				 	<dd>{object_type}</dd>
-				</dl>
-			</div>
-
-			<div class="vertdivider"><br /><br /><br /><br /></div>
-
-			<div class="columnright1-dark">
+		<div class="columnlight">
+			<div class="columnleft">
 				<dl>
 					<dt>{object_number.label.tag}</dt>
 					<dd>
-						{object_number}<br />
-						{emphasized}&nbsp;<span class="height">
-							{emphasized.label.tag}
+						{object_number}
+					</dd>
+				</dl>
+			</div>
+
+			<div class="vertdivider"><br /><br /></div>
+
+			<div class="columnright">
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">
+							{emphasized}&nbsp;{emphasized.label.tag}
 						</span>
 					</dd>
 				</dl>
@@ -54,7 +55,7 @@
 
 		<div class="divider">&nbsp;</div>
 
-		<div class="columnlight">
+		<div class="columndark">
 			<div class="columnleft">
 				<dl>
 					<dt>&nbsp;</dt>
@@ -101,18 +102,18 @@
 	<br />
 
 	<fieldset>
-		<div class="column-dark">
-			<span class="sourcecontact2">{contact_data_source.label}</span>
+		<div class="column-light">
+			<span class="chooser2">{contact_data_source.label}</span>
 			<dl>
 				<dt>
-					<span class="sourcecontact">{contact_data_source}</span>
+					<span class="chooser">{contact_data_source}</span>
 				</dt>
 			</dl>
 		</div>
 
 		<div class="divider">&nbsp;</div>
 
-		<div class="columnlight">
+		<div class="columndark">
 			<div class="columnleft">
 				<dl>
 					<dt>{employer.label.tag}</dt>
@@ -134,11 +135,28 @@
 				</dl>
 			</div>
 		</div>
+	</fieldset>
+
+	<br />
+
+	<fieldset>
+		<div class="column-light">
+			<span class="chooser2">{object_type.label}</span>
+			<dl>
+				<dt>
+					<span class="chooser">{object_type}</span>
+				</dt>
+			</dl>
+		</div>
 
 		<div class="divider">&nbsp;</div>
 
 		<div class="column1">
 			<div class="columnleft1-dark">
+				<dl>
+					<dt>{currency.label.tag}</dt>
+					<dd>{currency}</dd>
+				</dl>
 				<dl>
 					<dt>{buying_price.label.tag}</dt>
 					<dd>{buying_price}</dd>
@@ -148,8 +166,33 @@
 					<dd>{year_rent}</dd>
 				</dl>
 				<dl>
+					<dt>{hoa_fee.label.tag}</dt>
+					<dd>{hoa_fee}</dd>
+				</dl>
+				<dl>
+					<dt>{provision.label.tag}</dt>
+					<dd>{provision}</dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">{rented}&nbsp;{rented.label.tag}</span>
+					</dd>
+				</dl>
+			</div>
+
+			<div class="vertdivider">
+				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			</div>
+
+			<div class="columnright1-dark">
+				<dl>
 					<dt>{rent_excluding_bills.label.tag}</dt>
 					<dd>{rent_excluding_bills}</dd>
+				</dl>
+				<dl>
+					<dt>{deposit.label.tag}</dt>
+					<dd>{deposit}</dd>
 				</dl>
 				<dl>
 					<dt>{extra_charges.label.tag}</dt>
@@ -161,35 +204,6 @@
 						<span class="checkbox">
 							{heating_included}&nbsp;{heating_included.label.tag}
 						</span>
-					</dd>
-				</dl>
-			</div>
-
-			<div class="vertdivider">
-				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-			</div>
-
-			<div class="columnright1-dark">
-				<dl>
-					<dt>{deposit.label.tag}</dt>
-					<dd>{deposit}</dd>
-				</dl>
-				<dl>
-					<dt>{provision.label.tag}</dt>
-					<dd>{provision}</dd>
-				</dl>
-				<dl>
-					<dt>{hoa_fee.label.tag}</dt>
-					<dd>{hoa_fee}</dd>
-				</dl>
-				<dl>
-					<dt>{currency.label.tag}</dt>
-					<dd>{currency}</dd>
-				</dl>
-				<dl>
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">{rented}&nbsp;{rented.label.tag}</span>
 					</dd>
 				</dl>
 				<dl>
@@ -461,7 +475,7 @@
 
 	<div class="column2">
 		<dl>
-			<dt><span class="sourcecontact">{imagesToDelete.label}</span></dt>
+			<dt><span class="chooser">{imagesToDelete.label}</span></dt>
 		</dl>
 		<dl>
 			<dt>{imagesToDelete} &nbsp; </dt>

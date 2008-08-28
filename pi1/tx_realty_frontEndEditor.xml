@@ -427,7 +427,7 @@
 		<renderlet:CHECKSINGLE name="rented" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented"/>
 		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
 			<data>
-				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="true"/>
+				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="false" allowmanualedition="true"/>
 			</data>
 		</renderlet:DATE>
 
