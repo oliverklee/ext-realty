@@ -4,7 +4,7 @@
 - [#1287] Change: Clean up the HTML template
 - [#2125] Feature: Additional test for the city selector
 - [#2064] Feature: Add the detail view to the what-to-display options
-- [#2129] Change: Allow FORMidable maintanance releases
+- [#2129] Change: Allow FORMidable maintenance releases
 - [#2060] Change: Move the FE editor-related settings into the "FE editor" tab
 - [#2086] Change: Change the template to have the list view subpart only once
 - [#1219] Change: Some code cleanup
