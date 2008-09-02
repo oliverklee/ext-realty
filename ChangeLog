@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2144] Fix: Don't use translate('')
 - [#2130] Change: countRecords should only find dummy records
 - [#2134] Fix: A timestamp is stored for "available_from" but should be a string
 - [#1506] Feature: Add a field "show object address" and use it

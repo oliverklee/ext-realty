@@ -125,49 +125,44 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 * @return	boolean		whether the provided file is a valid image
 	 */
 	public function checkFile(array $valueToCheck) {
-		$maximumFileSizeInByte
-			= $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1000;
-
+		// nothing to check if there is no file
 		if ($valueToCheck['value']['name'] == '') {
-			$this->validationError = '';
-		} elseif ($this->getFormValue('caption') == '') {
-			$this->validationError = 'emptyCaption';
-		} elseif ($valueToCheck['value']['size'] > $maximumFileSizeInByte) {
-			$this->validationError = 'filesize';
-		} elseif (!preg_match(
-			'/^.+\.(jpg|jpeg|png|gif)$/i', $valueToCheck['value']['name']
-		)) {
-			$this->validationError = 'filetype';
+			return true;
 		}
 
-		return ($this->validationError == '');
+		$validationErrorLabel = '';
+		$maximumFileSizeInBytes
+			= $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024;
+		$validExtensions = '/^.+\.(' .
+			str_replace(
+				',', '|', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+			) . ')$/i';
+
+		if ($this->getFormValue('caption') == '') {
+			$validationErrorLabel = 'message_empty_caption';
+		} elseif ($valueToCheck['value']['size'] > $maximumFileSizeInBytes) {
+			$validationErrorLabel = 'message_image_too_large';
+		} elseif (!preg_match($validExtensions, $valueToCheck['value']['name'])) {
+			$validationErrorLabel = 'message_invalid_type';
+		}
+
+		$this->validationError = ($validationErrorLabel != '')
+			? $this->plugin->translate($validationErrorLabel)
+			: '';
+
+		return ($validationErrorLabel == '');
 	}
 
 	/**
-	 * Returns an error message if the provided file was invalid.
+	 * Returns an error message if the provided file was invalid. The result
+	 * will be empty if no error message was set before.
 	 *
-	 * Note: This function must only be called if there is an error message
-	 * to return.
-	 *
-	 * @return	string		localized validation error message, will not be empty
+	 * @return	string		localized validation error message, will be empty
+	 * 						if no error message was set
+	 * @see	checkFile()
 	 */
 	public function getImageUploadErrorMessage() {
-		switch ($this->validationError) {
-			case 'filesize':
-				$label = 'message_image_too_large';
-				break;
-			case 'filetype':
-				$label = 'message_invalid_type';
-				break;
-			case 'emptyCaption':
-				$label = 'message_empty_caption';
-				break;
-			default:
-				$label = '';
-				break;
-		}
-
-		return $this->plugin->translate($label);
+		return $this->validationError;
 	}
 
 	/**

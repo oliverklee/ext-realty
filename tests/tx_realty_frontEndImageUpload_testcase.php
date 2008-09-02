@@ -279,7 +279,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckFileReturnsFalseForTooLargeImage() {
-		$tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1000) + 1;
+		$tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024) + 1;
 		$this->fixture->setFakedFormValue('caption', 'foo');
 		$this->assertFalse(
 			$this->fixture->checkFile(
@@ -321,7 +321,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetImageUploadErrorMessageForTooLargeImage() {
-		$tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1000) + 1;
+		$tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024) + 1;
 		$this->fixture->setFakedFormValue('caption', 'foo');
 		$this->fixture->checkFile(
 			array('value' => array('name' => 'foo.jpg', 'size' => $tooLarge))
