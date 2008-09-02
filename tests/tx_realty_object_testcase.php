@@ -387,7 +387,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetAllImageDataReturnsArrayOfTheCurrentObjectsImagesOrderedByUid() {
-		$firstImageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'first',
@@ -395,7 +395,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				'realty_object_uid' => $this->objectUid,
 			)
 		);
-		$secondImageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'second',
@@ -1046,9 +1046,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			1,
-			$this->testingFramework->countRecords(
-				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
-			)
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -1123,9 +1121,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			0,
-			$this->testingFramework->countRecords(
-				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
-			)
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -1136,9 +1132,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			0,
-			$this->testingFramework->countRecords(
-				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
-			)
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -1151,9 +1145,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			0,
-			$this->testingFramework->countRecords(
-				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
-			)
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -1166,9 +1158,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			0,
-			$this->testingFramework->countRecords(
-				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
-			)
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -1181,9 +1171,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			0,
-			$this->testingFramework->countRecords(
-				 REALTY_TABLE_CITIES, 'is_dummy_record=1'
-			)
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -1228,8 +1216,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'image="foo.jpg" AND is_dummy_record=1'
+				REALTY_TABLE_IMAGES, 'image = "foo.jpg"'
 			)
 		);
 	}
@@ -1256,8 +1243,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'image="foo.jpg" AND is_dummy_record=1'
+				REALTY_TABLE_IMAGES, 'image = "foo.jpg"'
 			)
 		);
 	}
@@ -1293,8 +1279,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'deleted=1 AND is_dummy_record=1'
+				REALTY_TABLE_IMAGES, 'deleted = 1'
 			)
 		);
 		$this->assertEquals(
@@ -1317,8 +1302,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			3,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'deleted=1 AND is_dummy_record=1'
+				REALTY_TABLE_IMAGES, 'deleted = 1'
 			)
 		);
 		$this->assertEquals(
@@ -1649,8 +1633,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'image="foo.jpg" AND is_dummy_record=1'
+				REALTY_TABLE_IMAGES, 'image = "foo.jpg"'
 			)
 		);
 	}
@@ -1665,8 +1648,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'is_dummy_record=1 AND deleted=1'
+				REALTY_TABLE_IMAGES, 'deleted = 1'
 			)
 		);
 	}

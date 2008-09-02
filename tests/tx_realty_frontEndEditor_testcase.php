@@ -2,7 +2,8 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008 Saskia Metzler <saskia@merlin.owl.de> All rights reserved
+* (c) 2008 Saskia Metzler <saskia@merlin.owl.de>
+* All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
 * free software; you can redistribute it and/or modify
@@ -1201,7 +1202,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_CITIES,
-				'title="'.self::$dummyStringValue.'" AND is_dummy_record=1'
+				'title = "' . self::$dummyStringValue . '"'
 			)
 		);
 	}
@@ -1213,7 +1214,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_CITIES, 'title="new city" AND is_dummy_record=1'
+				REALTY_TABLE_CITIES, 'title = "new city"'
 			)
 		);
 	}
@@ -1230,7 +1231,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_CITIES,
-				'title="new city" AND pid='.$pid.' AND is_dummy_record=1'
+				'title = "new city" AND pid = ' . $pid
 			)
 		);
 	}
@@ -1255,9 +1256,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			1,
-			$this->testingFramework->countRecords(
-				REALTY_TABLE_CITIES, 'is_dummy_record=1'
-			)
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
 		);
 	}
 
@@ -1270,7 +1269,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_CITIES, 'title="new city" AND is_dummy_record=1'
+				REALTY_TABLE_CITIES, 'title = "new city"'
 			)
 		);
 		$this->assertTrue(
