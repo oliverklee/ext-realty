@@ -2,7 +2,8 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008 Saskia Metzler <saskia@merlin.owl.de> All rights reserved
+* (c) 2008 Saskia Metzler <saskia@merlin.owl.de>
+* All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
 * free software; you can redistribute it and/or modify
@@ -153,7 +154,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
-				'image="image.jpg" AND caption="test image" AND is_dummy_record=1'
+				'image = "image.jpg" AND caption = "test image"'
 			)
 		);
 	}
@@ -203,7 +204,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
-				'is_dummy_record=1'.$this->fixture->enableFields(REALTY_TABLE_IMAGES)
+				'1=1' . $this->fixture->enableFields(REALTY_TABLE_IMAGES)
 			)
 		);
 	}
@@ -217,7 +218,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			0,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
-				'is_dummy_record=1'.$this->fixture->enableFields(REALTY_TABLE_IMAGES)
+				'1=1' . $this->fixture->enableFields(REALTY_TABLE_IMAGES)
 			)
 		);
 	}
