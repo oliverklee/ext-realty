@@ -143,12 +143,12 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			50.734343,
 			$coordinates['latitude'],
-			'', 0.001
+			'', 0.01
 		);
 		$this->assertEquals(
 			7.10211,
 			$coordinates['longitude'],
-			'', 0.001
+			'', 0.01
 		);
 	}
 
@@ -158,14 +158,14 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			37.421972,
+			37.423088,
 			$coordinates['latitude'],
-			'', 0.001
+			'', 0.01
 		);
 		$this->assertEquals(
-			-122.084143,
+			-122.085121,
 			$coordinates['longitude'],
-			'', 0.001
+			'', 0.01
 		);
 	}
 
@@ -177,12 +177,12 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			50.733895,
 			$coordinates['latitude'],
-			'', 0.001
+			'', 0.01
 		);
 		$this->assertEquals(
 			7.099394,
 			$coordinates['longitude'],
-			'', 0.001
+			'', 0.01
 		);
 	}
 
@@ -194,12 +194,12 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			50.734343,
 			$coordinates['latitude'],
-			'', 0.001
+			'', 0.01
 		);
 		$this->assertEquals(
 			7.10211,
 			$coordinates['longitude'],
-			'', 0.001
+			'', 0.01
 		);
 	}
 
@@ -211,12 +211,12 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			50.734343,
 			$coordinates['latitude'],
-			'', 0.001
+			'', 0.01
 		);
 		$this->assertEquals(
 			7.10211,
 			$coordinates['longitude'],
-			'', 0.001
+			'', 0.01
 		);
 	}
 
@@ -228,12 +228,12 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			50.732704,
 			$coordinates['latitude'],
-			'', 0.001
+			'', 0.01
 		);
 		$this->assertEquals(
 			7.096311,
 			$coordinates['longitude'],
-			'', 0.001
+			'', 0.01
 		);
 	}
 
