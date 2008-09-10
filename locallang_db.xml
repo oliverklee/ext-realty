@@ -412,9 +412,10 @@
 			<label index="tx_realty_objects.extra_charges">Servicekosten</label>
 			<label index="tx_realty_objects.heating_included">Kosten verwarming</label>
 			<label index="tx_realty_objects.deposit">Borg</label>
-			<label index="tx_realty_objects.provision">Provisie</label>
+			<label index="tx_realty_objects.provision">Makelaars provisie</label>
 			<label index="tx_realty_objects.usable_from">Beschikbaar vanaf</label>
 			<label index="tx_realty_objects.buying_price">Koopprijs</label>
+			<label index="tx_realty_objects.hoa_fee">VVE bijdrage</label>
 			<label index="tx_realty_objects.year_rent">Netto huur per jaar</label>
 			<label index="tx_realty_objects.rented">Verhuurd</label>
 			<label index="tx_realty_objects.apartment_type">Type appartement</label>
@@ -424,6 +425,18 @@
 			<label index="tx_realty_objects.bedrooms">Aantal slaapkamers</label>
 			<label index="tx_realty_objects.bathrooms">Aantal badkamers</label>
 			<label index="tx_realty_objects.heating_type">Soort verwarming</label>
+			<label index="tx_realty_objects.heating_type.1">Stadverwarming</label>
+			<label index="tx_realty_objects.heating_type.2">Centrale verwarming</label>
+			<label index="tx_realty_objects.heating_type.3">Elektrische verwarming</label>
+			<label index="tx_realty_objects.heating_type.4">Vloerverwarming</label>
+			<label index="tx_realty_objects.heating_type.5">Gasverwarming</label>
+			<label index="tx_realty_objects.heating_type.6">Alternatieve verwarming</label>
+			<label index="tx_realty_objects.heating_type.7">Aardwarmtepomp</label>
+			<label index="tx_realty_objects.heating_type.8">Olie verwarming</label>
+			<label index="tx_realty_objects.heating_type.9">Etage verwarming</label>
+			<label index="tx_realty_objects.heating_type.10">Zonne energie</label>
+			<label index="tx_realty_objects.heating_type.11">Kachelverwarming</label>
+			<label index="tx_realty_objects.heating_type.12">Blok verwarming</label>
 			<label index="tx_realty_objects.garage_type">Garage</label>
 			<label index="tx_realty_objects.garage_rent">Huur voor een garage</label>
 			<label index="tx_realty_objects.garage_price">Koopprijs garage</label>
@@ -433,6 +446,19 @@
 			<label index="tx_realty_objects.old_or_new_building.I.1">Nieuwbouw</label>
 			<label index="tx_realty_objects.old_or_new_building.I.2">Bestaande bouw</label>
 			<label index="tx_realty_objects.state">Staat van onderhoud</label>
+			<label index="tx_realty_objects.state.1">Ruwbouw</label>
+			<label index="tx_realty_objects.state.2">Na afspraak</label>
+			<label index="tx_realty_objects.state.3">Bouwval</label>
+			<label index="tx_realty_objects.state.4">Nieuw</label>
+			<label index="tx_realty_objects.state.5">Afbraakpand</label>
+			<label index="tx_realty_objects.state.6">Gestript</label>
+			<label index="tx_realty_objects.state.7">Gemoderniseerd</label>
+			<label index="tx_realty_objects.state.8">Normaal</label>
+			<label index="tx_realty_objects.state.9">Dient gerenoveerd te worden</label>
+			<label index="tx_realty_objects.state.10">Zo goed als nieuw</label>
+			<label index="tx_realty_objects.state.11">Gerenoveerd</label>
+			<label index="tx_realty_objects.state.12">Gesaneerd</label>
+			<label index="tx_realty_objects.state.13">Bouwplannen aanwezig</label>
 			<label index="tx_realty_objects.balcony">Balkon</label>
 			<label index="tx_realty_objects.garden">Tuin</label>
 			<label index="tx_realty_objects.elevator">Lift</label>
@@ -447,7 +473,7 @@
 			<label index="tx_realty_objects.details_page">Pagina voor de details</label>
 			<label index="tx_realty_objects.images">Foto's</label>
 			<label index="tx_realty_objects.tstamp">Laatst gewijzigd</label>
-			<label index="tx_realty_objects.employer">Werknemer</label>
+			<label index="tx_realty_objects.employer">Firma</label>
 			<label index="tx_realty_objects.openimmo_anid">OpenImmo ANID</label>
 			<label index="tx_realty_objects.openimmo_obid">OpenImmo OBID</label>
 			<label index="tx_realty_objects.utilization">Benutting</label>
@@ -459,6 +485,7 @@
 			<label index="tx_realty_objects.contact_phone">Kontakt telefoonnummer</label>
 			<label index="tx_realty_objects.owner">FE gebruiker die dit objekt heeft aangelegd</label>
 			<label index="tx_realty_objects.language">Taal</label>
+			<label index="tx_realty_objects.currency">Muntsoort</label>
 			<label index="tx_realty_apartment_types">Type appartement</label>
 			<label index="tx_realty_apartment_types.title">Titel</label>
 			<label index="tx_realty_house_types">Type huis</label>
@@ -985,6 +1012,33 @@
 			<label index="fe_users.tx_realty_tab" type="integer">18908185</label>
 			<label index="fe_users.tx_realty_openimmo_anid" type="integer">239911211</label>
 			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
+			<label index="tx_realty_objects.hoa_fee" type="integer">111222682</label>
+			<label index="tx_realty_objects.heating_type.1" type="integer">58692590</label>
+			<label index="tx_realty_objects.heating_type.2" type="integer">184452105</label>
+			<label index="tx_realty_objects.heating_type.3" type="integer">147311804</label>
+			<label index="tx_realty_objects.heating_type.4" type="integer">117557325</label>
+			<label index="tx_realty_objects.heating_type.5" type="integer">201138506</label>
+			<label index="tx_realty_objects.heating_type.6" type="integer">161522935</label>
+			<label index="tx_realty_objects.heating_type.7" type="integer">235360048</label>
+			<label index="tx_realty_objects.heating_type.8" type="integer">13139931</label>
+			<label index="tx_realty_objects.heating_type.9" type="integer">236775939</label>
+			<label index="tx_realty_objects.heating_type.10" type="integer">90902450</label>
+			<label index="tx_realty_objects.heating_type.11" type="integer">161251937</label>
+			<label index="tx_realty_objects.heating_type.12" type="integer">5073316</label>
+			<label index="tx_realty_objects.state.1" type="integer">540352</label>
+			<label index="tx_realty_objects.state.2" type="integer">93660376</label>
+			<label index="tx_realty_objects.state.3" type="integer">178520122</label>
+			<label index="tx_realty_objects.state.4" type="integer">116091427</label>
+			<label index="tx_realty_objects.state.5" type="integer">142785661</label>
+			<label index="tx_realty_objects.state.6" type="integer">202590932</label>
+			<label index="tx_realty_objects.state.7" type="integer">74796736</label>
+			<label index="tx_realty_objects.state.8" type="integer">48584873</label>
+			<label index="tx_realty_objects.state.9" type="integer">112726903</label>
+			<label index="tx_realty_objects.state.10" type="integer">125161683</label>
+			<label index="tx_realty_objects.state.11" type="integer">6435587</label>
+			<label index="tx_realty_objects.state.12" type="integer">149392355</label>
+			<label index="tx_realty_objects.state.13" type="integer">59756617</label>
+			<label index="tx_realty_objects.currency" type="integer">59163449</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -1492,6 +1546,33 @@
 			<label index="fe_users.tx_realty_tab">Realty</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo offerer ID</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
+			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
+			<label index="tx_realty_objects.heating_type.1">district heating</label>
+			<label index="tx_realty_objects.heating_type.2">central heating</label>
+			<label index="tx_realty_objects.heating_type.3">electric heating</label>
+			<label index="tx_realty_objects.heating_type.4">floor heating</label>
+			<label index="tx_realty_objects.heating_type.5">gas heating</label>
+			<label index="tx_realty_objects.heating_type.6">green fuel heating</label>
+			<label index="tx_realty_objects.heating_type.7">heat pump heating</label>
+			<label index="tx_realty_objects.heating_type.8">oil heating</label>
+			<label index="tx_realty_objects.heating_type.9">self-contained central heating</label>
+			<label index="tx_realty_objects.heating_type.10">solar heating</label>
+			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
+			<label index="tx_realty_objects.heating_type.12">zone heating</label>
+			<label index="tx_realty_objects.state.1">bare brickwork</label>
+			<label index="tx_realty_objects.state.2">by arrangement</label>
+			<label index="tx_realty_objects.state.3">dilapidated</label>
+			<label index="tx_realty_objects.state.4">first occupancy</label>
+			<label index="tx_realty_objects.state.5">for demolition</label>
+			<label index="tx_realty_objects.state.6">gutted</label>
+			<label index="tx_realty_objects.state.7">modernized</label>
+			<label index="tx_realty_objects.state.8">neat</label>
+			<label index="tx_realty_objects.state.9">in need of renovation</label>
+			<label index="tx_realty_objects.state.10">reconditioned</label>
+			<label index="tx_realty_objects.state.11">renovated</label>
+			<label index="tx_realty_objects.state.12">sanitated</label>
+			<label index="tx_realty_objects.state.13">planned</label>
+			<label index="tx_realty_objects.currency">Currency</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="tx_realty_objects">Realty object</label>
