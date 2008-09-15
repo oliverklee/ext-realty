@@ -906,6 +906,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		foreach (array(
 			'uid',
+			'object_number',
 			'linked_title',
 			'city',
 			'district',
