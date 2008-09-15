@@ -238,6 +238,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	//////////////////////////////////////
+	// Tests for the basic functionality
+	//////////////////////////////////////
+
 	public function testPi1MustBeInitialized() {
 		$this->assertNotNull(
 			$this->fixture
@@ -246,6 +251,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->isInitialized()
 		);
 	}
+
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Tests for the access-restricted single view and links to the single view
+	/////////////////////////////////////////////////////////////////////////////
 
 	public function testAccessToSingleViewIsAllowedWithoutLoginPerDefault() {
 		$this->testingFramework->logoutFrontEndUser();
@@ -407,6 +417,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	//////////////////////////////////////////////////////////
+	// Tests for the images in the list view and detail view
+	//////////////////////////////////////////////////////////
+
 	public function testImagesInTheListViewAreLinkedToTheSingleView() {
 		// Titles are set to '' to ensure there are no other links to the
 		// single view page in the result.
@@ -514,32 +529,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetFieldContentCreatesLinkToSinglePageIfAccessDenied() {
-		$this->denyAccess();
 
-		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
-		$this->fixture->setCurrentRow(array(
-			'title' => 'foo',
-			'uid' => 0
-		));
+	////////////////////////////////////
+	// Tests for data in the list view
+	////////////////////////////////////
 
-		$this->assertEquals(
-			$this->fixture->createLinkToSingleViewPage('foo', 0),
-			$this->fixture->getFieldContent('linked_title')
+	public function testListViewFillsMarkerForObjectNumber() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue(
+			'listView.',
+			array('orderBy' => 'object_number', 'descFlag' => 0)
 		);
-	}
-
-	public function testGetFieldContentCreatesLinkToSinglePageIfAccessAllowed() {
-		$this->allowAccess();
-
-		$this->fixture->setCurrentRow(array(
-			'title' => 'foo',
-			'uid' => 0
-		));
+		$this->fixture->main('', array());
 
 		$this->assertEquals(
-			$this->fixture->createLinkToSingleViewPage('foo', 0),
-			$this->fixture->getFieldContent('linked_title')
+			self::$secondObjectNumber,
+			$this->fixture->getMarker('object_number')
 		);
 	}
 
@@ -1224,9 +1229,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////
-	// Tests concerning the sorting.
-	//////////////////////////////////
+	//////////////////////////////////////////////////
+	// Tests concerning the sorting in the list view
+	//////////////////////////////////////////////////
 
 	public function testCreateListViewShowsValueForOldOrNewBuilding() {
 		$this->testingFramework->changeRecord(
@@ -2153,6 +2158,36 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetFieldContentCreatesLinkToSinglePageIfAccessDenied() {
+		$this->denyAccess();
+
+		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+		$this->fixture->setCurrentRow(array(
+			'title' => 'foo',
+			'uid' => 0
+		));
+
+		$this->assertEquals(
+			$this->fixture->createLinkToSingleViewPage('foo', 0),
+			$this->fixture->getFieldContent('linked_title')
+		);
+	}
+
+	public function testGetFieldContentCreatesLinkToSinglePageIfAccessAllowed() {
+		$this->allowAccess();
+
+		$this->fixture->setCurrentRow(array(
+			'title' => 'foo',
+			'uid' => 0
+		));
+
+		$this->assertEquals(
+			$this->fixture->createLinkToSingleViewPage('foo', 0),
+			$this->fixture->getFieldContent('linked_title')
+		);
+	}
+
+
 	public function testDetailPageDisplaysTheStreetIfShowAddressOfObjectsIsEnabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2750,9 +2785,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////
-	// Tests concering the my objects list.
-	/////////////////////////////////////////
+	///////////////////////////////////////////
+	// Tests concering the "my objects" list.
+	///////////////////////////////////////////
 
 	public function testAccessToMyObjectsViewIsForbiddenForNotLoggedInUser() {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
