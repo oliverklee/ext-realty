@@ -817,12 +817,37 @@
 			<label index="label_floors">Antal etager</label>
 			<label index="label_bedrooms">Antal soveværelser</label>
 			<label index="label_bathrooms">Antal badeværelser</label>
-			<label index="label_heating_type">Boligopvarmning (type)</label>
+			<label index="label_heating_type">Opvarmningstype</label>
+			<label index="label_heating_type.1">Fjernvarme</label>
+			<label index="label_heating_type.2">Centralvarme</label>
+			<label index="label_heating_type.3">Elvarme</label>
+			<label index="label_heating_type.4">Gulvvarme</label>
+			<label index="label_heating_type.5">Gasvarmer</label>
+			<label index="label_heating_type.6">Alternativ varme</label>
+			<label index="label_heating_type.7">Varmepumpevarme</label>
+			<label index="label_heating_type.8">Oliefyr</label>
+			<label index="label_heating_type.9">Etageopvarmning</label>
+			<label index="label_heating_type.10">Solcelleopvarmning</label>
+			<label index="label_heating_type.11">Ovnopvarmning</label>
+			<label index="label_heating_type.12">Blokvarme</label>
 			<label index="label_garage_type">Garage/Parkeringsplads</label>
 			<label index="label_garage_rent">Lejepris for garage</label>
 			<label index="label_garage_price">Købspris for garage/pakeringsplads</label>
 			<label index="label_pets">Husdyr</label>
 			<label index="label_state">Tilstand</label>
+			<label index="label_state.1">Efter kundens ønsker</label>
+			<label index="label_state.2">Efter aftale</label>
+			<label index="label_state.3">Nedrivningsobjekt</label>
+			<label index="label_state.4">Nyopført</label>
+			<label index="label_state.5">Nedrivningsobjekt</label>
+			<label index="label_state.6">Kernefjernet</label>
+			<label index="label_state.7">Moderniseret</label>
+			<label index="label_state.8">Vedligeholdt</label>
+			<label index="label_state.9">Håndværkertilbud</label>
+			<label index="label_state.10">Nyistandsat</label>
+			<label index="label_state.11">Renoveret</label>
+			<label index="label_state.12">Saneret</label>
+			<label index="label_state.13">Planlagt</label>
 			<label index="label_weofferyou_formal">Vi kan tilbyde dem følgende projekter/ejendomme:</label>
 			<label index="label_weofferyou_informal">Vi kan tilbyde dem følgende projekter/ejendomme:</label>
 			<label index="label_yourfavorites_formal">Du har følgende projekter i din oversigt:</label>
@@ -1679,7 +1704,7 @@
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
 			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
-			<label index="realty.pi_flexform.filterTargetPID" type="integer">12423386</label>
+			<label index="realty.pi_flexform.filterTargetPID" type="integer">129983894</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -1768,6 +1793,31 @@
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
 			<label index="message_please_login_formal" type="integer">64977327</label>
 			<label index="message_please_login_informal" type="integer">64977327</label>
+			<label index="label_heating_type.1" type="integer">58692590</label>
+			<label index="label_heating_type.2" type="integer">184452105</label>
+			<label index="label_heating_type.3" type="integer">147311804</label>
+			<label index="label_heating_type.4" type="integer">117557325</label>
+			<label index="label_heating_type.5" type="integer">201138506</label>
+			<label index="label_heating_type.6" type="integer">161522935</label>
+			<label index="label_heating_type.7" type="integer">235360048</label>
+			<label index="label_heating_type.8" type="integer">13139931</label>
+			<label index="label_heating_type.9" type="integer">236775939</label>
+			<label index="label_heating_type.10" type="integer">90902450</label>
+			<label index="label_heating_type.11" type="integer">161251937</label>
+			<label index="label_heating_type.12" type="integer">5073316</label>
+			<label index="label_state.1" type="integer">540352</label>
+			<label index="label_state.2" type="integer">93660376</label>
+			<label index="label_state.3" type="integer">178520122</label>
+			<label index="label_state.4" type="integer">116091427</label>
+			<label index="label_state.5" type="integer">142785661</label>
+			<label index="label_state.6" type="integer">202590932</label>
+			<label index="label_state.7" type="integer">74796736</label>
+			<label index="label_state.8" type="integer">48584873</label>
+			<label index="label_state.9" type="integer">112726903</label>
+			<label index="label_state.10" type="integer">125161683</label>
+			<label index="label_state.11" type="integer">6435587</label>
+			<label index="label_state.12" type="integer">149392355</label>
+			<label index="label_state.13" type="integer">59756617</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2587,7 +2637,7 @@
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
 			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
-			<label index="realty.pi_flexform.filterTargetPID">Target page for the city selector:</label>
+			<label index="realty.pi_flexform.filterTargetPID">Target page for the filter form and the city selector:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -2676,6 +2726,31 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
+			<label index="label_heating_type.1">district heating</label>
+			<label index="label_heating_type.2">central heating</label>
+			<label index="label_heating_type.3">electric heating</label>
+			<label index="label_heating_type.4">floor heating</label>
+			<label index="label_heating_type.5">gas heating</label>
+			<label index="label_heating_type.6">green fuel heating</label>
+			<label index="label_heating_type.7">heat pump heating</label>
+			<label index="label_heating_type.8">oil heating</label>
+			<label index="label_heating_type.9">self-contained central heating</label>
+			<label index="label_heating_type.10">solar heating</label>
+			<label index="label_heating_type.11">heating by stove</label>
+			<label index="label_heating_type.12">zone heating</label>
+			<label index="label_state.1">bare brickwork</label>
+			<label index="label_state.2">by arrangement</label>
+			<label index="label_state.3">dilapidated</label>
+			<label index="label_state.4">first occupancy</label>
+			<label index="label_state.5">for demolition</label>
+			<label index="label_state.6">gutted</label>
+			<label index="label_state.7">modernized</label>
+			<label index="label_state.8">neat</label>
+			<label index="label_state.9">in need of renovation</label>
+			<label index="label_state.10">reconditioned</label>
+			<label index="label_state.11">renovated</label>
+			<label index="label_state.12">sanitated</label>
+			<label index="label_state.13">planned</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
