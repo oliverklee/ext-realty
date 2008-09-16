@@ -422,6 +422,56 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests for the images in the list view and detail view
 	//////////////////////////////////////////////////////////
 
+	public function testListViewContainsEnabledImage() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'test image',
+				'realty_object_uid' => $this->firstRealtyUid,
+			)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			'test image',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewDoesNotContainDeletedImage() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'test image',
+				'realty_object_uid' => $this->firstRealtyUid,
+				'deleted' => 1,
+			)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertNotContains(
+			'test image',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewDoesNotContainHiddenImage() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'test image',
+				'realty_object_uid' => $this->firstRealtyUid,
+				'hidden' => 1,
+			)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertNotContains(
+			'test image',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testImagesInTheListViewAreLinkedToTheSingleView() {
 		// Titles are set to '' to ensure there are no other links to the
 		// single view page in the result.
@@ -439,7 +489,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
 		);
-		$this->allowAccess();
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 
 		$this->assertContains(
@@ -464,7 +513,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
 		);
-		$this->allowAccess();
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		// this enables the gallery popup window
 		$this->fixture->setConfigurationValue(
@@ -491,7 +539,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('realty_object_uid' => $this->firstRealtyUid, 'caption' => 'foo')
 		);
 		$galleryPid = $this->testingFramework->createFrontEndPage();
-		$this->allowAccess();
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
 		$this->assertNotContains(

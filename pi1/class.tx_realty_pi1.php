@@ -1520,7 +1520,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'image, caption',
 			REALTY_TABLE_IMAGES,
-			'realty_object_uid=' . $this->internal['currentRow']['uid'],
+			'realty_object_uid=' . $this->internal['currentRow']['uid'] .
+				$this->enableFields(REALTY_TABLE_IMAGES),
 			'',
 			'uid',
 			intval($offset) . ',1'
