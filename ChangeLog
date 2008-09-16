@@ -1,4 +1,5 @@
 0.2.4 - released 2008-08-29
+- [#2088] Fix: Deleted images must not be displayed in the FE
 - [#2125] Fix: City selector stays on start page
 
 0.2.3 - released 2008-08-11
