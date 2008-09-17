@@ -1390,6 +1390,7 @@ $TCA['tx_realty_cities'] = array(
 			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'db',
+				'allowed' => 'pages',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
