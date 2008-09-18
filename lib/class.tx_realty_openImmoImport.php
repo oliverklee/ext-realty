@@ -129,19 +129,16 @@ class tx_realty_openImmoImport {
 	 */
 	public function importFromZip() {
 		$this->addToLogEntry(date('Y-m-d G:i:s').LF);
+		$checkedImportDirectory = $this->unifyPath(
+			$this->globalConfiguration->getConfigurationValueString('importFolder')
+		);
 
-		// Aborts the import if the class for ZIP extraction is not available.
-		if (!in_array('zip', get_loaded_extensions())) {
-			$this->addToErrorLog('message_zip_archive_not_installed');
+		if (!$this->canStartImport($checkedImportDirectory)) {
 			$this->storeLogsAndClearTemporaryLog();
-
 			return $this->logEntry;
 		}
 
 		$emailData = array();
-		$checkedImportDirectory = $this->unifyPath(
-			$this->globalConfiguration->getConfigurationValueString('importFolder')
-		);
 		$zipsToExtract = $this->getPathsOfZipsToExtract($checkedImportDirectory);
 
 		$this->storeLogsAndClearTemporaryLog();
@@ -421,6 +418,36 @@ class tx_realty_openImmoImport {
 
 		$this->logEntry .= $this->temporaryLogEntry;
 		$this->temporaryLogEntry = '';
+	}
+
+	/**
+	 * Checks whether the import may start. Will return true if the class for
+	 * ZIP extraction is available and if the import directory is writable.
+	 * Otherwise, the result will be false and the reason will be logged.
+	 *
+	 * @param	string		unified path of the import directory, must not be
+	 * 						empty
+	 *
+	 * @return	boolean		true if the requirements to start the import are
+	 * 						fullfilled, false otherwise
+	 */
+	private function canStartImport($importDirectory) {
+		$result = true;
+
+		if (!in_array('zip', get_loaded_extensions())) {
+			$this->addToErrorLog($this->translator->translate(
+				'message_zip_archive_not_installed')
+			);
+			$result = false;
+		}
+		if (!@is_writable($importDirectory)) {
+			$this->addToErrorLog($this->translator->translate(
+				'message_import_directory_not_writable')
+			);
+			$result = false;
+		}
+
+		return $result;
 	}
 
 	/**
