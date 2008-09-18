@@ -1,4 +1,5 @@
 0.3.0 - currently working on
+- [#1710] Feature: Test whether the import directory is writable
 - [#2206] Fix: Cannot select a page for object in a city
 - [#2088] Fix: Deleted images must not be displayed in the FE
 - [#2169] Feature: Populate the marker ###OBJECT_NUMBER### in the list view
