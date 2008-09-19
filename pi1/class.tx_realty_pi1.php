@@ -1189,6 +1189,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'garage_rent':
 				// The fallthrough is intended.
+			case 'hoa_fee':
+				// The fallthrough is intended.
 			case 'garage_price':
 				$this->removeSubpartIfEmptyInteger($key, 'wrapper');
 				$result = $this->getFormattedPrice($key);

@@ -2352,6 +2352,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSingleViewPageContainsHoaFeeWithTheCurrencyFromTsSetup() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('hoa_fee' => '9', 'object_type' => '1')
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'hoa_fee');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
+
+		$this->assertContains(
+			'&euro;',
+			$this->fixture->main('', array())
+		);
+	}
 
 	/////////////////////////////////////
 	// Tests concerning getFieldContent
