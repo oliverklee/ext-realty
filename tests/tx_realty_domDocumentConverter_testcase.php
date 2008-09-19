@@ -40,6 +40,9 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/** instance to be tested */
 	private $fixture;
 
+	/** @var	integer		static_info_tables UID of Germany */
+	const DE = 54;
+
 	public function setUp() {
 		$this->fixture = new tx_realty_domDocumentConverterChild();
 	}
@@ -47,6 +50,32 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		unset($this->fixture);
 	}
+
+
+	/////////////////////
+	// Utlity functions
+	/////////////////////
+
+	/**
+	 * Loads an XML string, sets the raw realty data and returns a DOMDocument
+	 * of the provided string.
+	 *
+	 * @param	string		XML string to set for converting, must contain
+	 * 						wellformed XML, must not be empty
+	 *
+	 * @return	DOMDocument		DOMDocument of the provided XML string
+	 */
+	private function setRawDataToConvert($xmlString) {
+		$loadedXml = DOMDocument::loadXML($xmlString);
+		$this->fixture->setRawRealtyData($loadedXml);
+
+		return $loadedXml;
+	}
+
+
+	/////////////////////////////////////
+	// Testing the domDocumentConverter
+	/////////////////////////////////////
 
 	public function testFindFirstGrandchildReturnsGrandchildIfItExists() {
 		$this->setRawDataToConvert(
@@ -1107,6 +1136,87 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCode() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<land iso_land="DEU"/>' .
+						'</geo>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('country' => self::DE)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCodeTwice() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<land iso_land="DEU"/>' .
+						'</geo>' .
+					'</immobilie>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<land iso_land="DEU"/>' .
+						'</geo>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('country' => self::DE), array('country' => self::DE)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataNotImportsTheCountryForInvalidCode() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<land iso_land="foo"/>' .
+						'</geo>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataNotImportsTheCountryForEmptyCode() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<land iso_land=""/>' .
+						'</geo>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedDataImportsTheCurrency() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
@@ -1244,27 +1354,6 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 			array(),
 			$this->fixture->fetchDomAttributes($element)
 		);
-	}
-
-
-	/////////////////////
-	// Utlity functions
-	/////////////////////
-
-	/**
-	 * Loads an XML string, sets the raw realty data and returns a DOMDocument
-	 * of the provided string.
-	 *
-	 * @param	string		XML string to set for converting, must contain
-	 * 						wellformed XML, must not be empty
-	 *
-	 * @return	DOMDocument		DOMDocument of the provided XML string
-	 */
-	private function setRawDataToConvert($xmlString) {
-		$loadedXml = DOMDocument::loadXML($xmlString);
-		$this->fixture->setRawRealtyData($loadedXml);
-
-		return $loadedXml;
 	}
 }
 ?>

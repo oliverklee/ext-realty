@@ -33,9 +33,10 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_translator.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
 
 class tx_realty_domDocumentConverter {
 	/**
@@ -108,6 +109,9 @@ class tx_realty_domDocumentConverter {
 	 * OpenImmo record.
 	 */
 	private $recordNumber = 0;
+
+	/** @var	array		cached countries */
+	private static $cachedCountries = array();
 
 	/**
 	 * Handles the conversion of a DOMDocument and returns the realty records
@@ -271,6 +275,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchCurrency();
 		$this->fetchLanguage();
 		$this->fetchGeoCoordinates();
+		$this->fetchCountry();
 
 		$this->replaceImportedBooleanLikeStrings();
 		$this->substitudeSurplusDecimals();
@@ -806,6 +811,43 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
+	 * Fetches the value for country, finds the corresponding UID in the static
+	 * countries table and stores it in $this->importedData.
+	 *
+	 * @throws	Exception		if the database query fails
+	 */
+	private function fetchCountry() {
+		$nodeWithAttributes = $this->findFirstGrandchild('geo', 'land');
+		$attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
+
+		if (!isset($attributes['iso_land']) || ($attributes['iso_land'] == '')) {
+			return;
+		}
+
+		$country = strtoupper($attributes['iso_land']);
+
+		if (isset(self::$cachedCountries[$country])) {
+			$uid = self::$cachedCountries[$country];
+		} else {
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'uid',
+				STATIC_COUNTRIES,
+				'cn_iso_3="' .
+					$GLOBALS['TYPO3_DB']->quoteStr($country, STATIC_COUNTRIES) .
+					'"'
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			$uid = $row ? $row['uid'] : 0;
+			$this->cacheCountry($country, $uid);
+		}
+
+		$this->addImportedDataIfValueIsNonEmpty('country', $uid);
+	}
+
+	/**
 	 * Returns a comma-separated list of an array. The first letter of each word
 	 * is uppercased.
 	 *
@@ -1025,6 +1067,18 @@ class tx_realty_domDocumentConverter {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Caches the fetched countries in order to reduce the the number of
+	 * database queries.
+	 *
+	 * @param	string		ISO3166 code for the country, must not be empty
+	 * @param	integer		UID of the country, must match the UID in the static
+	 * 						countries table, must be >= 0
+	 */
+	private function cacheCountry($key, $value) {
+		self::$cachedCountries[$key] = $value;
 	}
 }
 

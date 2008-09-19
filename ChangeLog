@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2132] Feature: Import the country
 - [#1710] Feature: Test whether the import directory is writable
 - [#2206] Fix: Cannot select a page for object in a city
 - [#2088] Fix: Deleted images must not be displayed in the FE
