@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1778] Change: Use the abstraction for session handling
 - [#2171] Fix: Test failure: testCreateListViewReturnsMainSysFolderRecordsAndSubFolderRecordsIfRecursionIsEnabled
 - [#2210] Fix: hoa_fee is displayed without the currency in the single view
 - [#2132] Feature: Import the country

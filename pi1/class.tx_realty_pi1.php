@@ -24,6 +24,7 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.php');
@@ -68,10 +69,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'pets' => REALTY_TABLE_PETS,
 		'images' => REALTY_TABLE_IMAGES,
 	);
-	/** session key for storing the favorites list */
-	private $favoritesSessionKey = 'tx_realty_favorites';
-	/** session key for storing data of all favorites that currently get displayed */
-	private $favoritesSessionKeyVerbose = 'tx_realty_favorites_verbose';
+	/**
+	 * @var	string		session key for storing the favorites list
+	 */
+	const FAVORITES_SESSION_KEY = 'tx_realty_favorites';
+	/**
+	 * @var	string		session key for storing data of all favorites that
+	 * 					currently get displayed
+	 */
+	const FAVORITES_SESSION_KEY_VERBOSE = 'tx_realty_favorites_verbose';
 
 	/** the data of the currently displayed favorites using the keys [uid][fieldname] */
 	private $favoritesDataVerbose;
@@ -386,12 +392,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
-		$GLOBALS['TSFE']->fe_user->setKey(
-			'ses',
-			$this->favoritesSessionKeyVerbose,
+		tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)->setAsString(
+			self::FAVORITES_SESSION_KEY_VERBOSE,
 			serialize($this->favoritesDataVerbose)
 		);
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
 	}
 
 	/**
@@ -1954,7 +1958,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			foreach ($itemsToAdd as $currentItem) {
 				$favorites[] = intval($currentItem);
 			}
-			$this->storeFavorites($favorites);
+			$this->storeFavorites(array_unique($favorites));
 		}
 	}
 
@@ -1998,13 +2002,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @see	storeFavorites
 	 */
 	private function getFavorites() {
-		$result = '';
-
-		if (isset($GLOBALS['TSFE']->fe_user)) {
-			$result = $GLOBALS['TSFE']->fe_user->getKey('ses', $this->favoritesSessionKey);
-		}
-
-		return $result;
+		return tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			->getAsString(self::FAVORITES_SESSION_KEY);
 	}
 
 	/**
@@ -2017,21 +2016,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the list is empty (or has not been created yet), an empty array will
 	 * be returned.
 	 *
-	 * @return	array		list of UIDs of the objects on the favorites list (may be empty, but will not be null)
+	 * @return	array		list of UIDs of the objects on the favorites list,
+	 * 						may be empty
 	 *
 	 * @see	getFavorites
 	 * @see	addToFavorites
 	 * @see	storeFavorites
 	 */
 	private function getFavoritesArray() {
-		$result = array();
-
-		$favorites = $this->getFavorites();
-		if (!empty($favorites)) {
-			$result = explode(',', $favorites);
-		}
-
-		return $result;
+		return tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			->getAsIntegerArray(self::FAVORITES_SESSION_KEY);
 	}
 
 	/**
@@ -2043,16 +2037,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						already be int-safe, may be empty
 	 */
 	public function storeFavorites(array $favorites) {
-		$favoritesString = implode(',', array_unique($favorites));
-
-		if (is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user->setKey(
-				'ses',
-				$this->favoritesSessionKey,
-				$favoritesString
-			);
-			$GLOBALS['TSFE']->fe_user->storeSessionData();
-		}
+		tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			->setAsArray(self::FAVORITES_SESSION_KEY, $favorites);
 	}
 
 	/**
@@ -2099,12 +2085,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * on the favorites list to session.
 	 */
 	 public function writeSummaryStringOfFavoritesToSession() {
-	 	$GLOBALS['TSFE']->fe_user->setKey(
-			'ses',
-			'summaryStringOfFavorites',
-			$this->createSummaryStringOfFavorites()
-		);
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+		tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			->setAsString(
+				'summaryStringOfFavorites',
+				$this->createSummaryStringOfFavorites()
+			);
 	 }
 
 	/**

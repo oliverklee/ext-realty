@@ -29,6 +29,8 @@ require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_fakeSession.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
@@ -82,6 +84,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	/** title for the second dummy city */
 	private static $secondCityTitle = 'bar city';
 
+	/**
+	 * @var	tx_oelib_fakeSession		a fake session
+	 */
+	private $session;
+
 	/** @var	string		a valid Google Maps API key for localhost */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
@@ -95,6 +102,13 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->createDummyPages();
 		$this->createDummyObjects();
+
+		$this->session = new tx_oelib_fakeSession();
+		// Ensures an empty favorites list.
+		$this->session->setAsString(tx_realty_pi1::FAVORITES_SESSION_KEY, '');
+		tx_oelib_session::setInstance(
+			tx_oelib_session::TYPE_TEMPORARY, $this->session
+		);
 
 		// True enables the test mode which inhibits the FE editors FORMidable
 		// object from being created.
@@ -116,9 +130,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'showGoogleMapsInSingleView' => 0,
 			'defaultCountryUID' => self::DE,
 		));
-
-		// Ensures an empty favorites list.
-		$this->fixture->storeFavorites(array());
 	}
 
 	public function tearDown() {
@@ -1761,72 +1772,145 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////////////
-	// Tests concerning the summary string of favorites
-	/////////////////////////////////////////////////////
+	////////////////////////////////////
+	// Tests concerning addToFavorites
+	////////////////////////////////////
 
-	public function testCreateSummaryStringOfFavoritesContainsDataFromOneObject() {
+	public function testAddToFavoritesWithNewItemCanAddItemToEmptySession() {
 		$this->fixture->addToFavorites(array($this->firstRealtyUid));
 
-		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
-		);
-		$this->assertNotContains(
-			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
+		$this->assertEquals(
+			array($this->firstRealtyUid),
+			$this->session->getAsIntegerArray(
+				tx_realty_pi1::FAVORITES_SESSION_KEY
+			)
 		);
 	}
 
-	public function testCreateSummaryStringOfFavoritesContainsDataFromTwoObjects() {
-		$this->fixture->addToFavorites(array($this->firstRealtyUid));
+	public function testAddToFavoritesWithTwoNewItemCanAddItemsToEmptySession() {
+		$this->fixture->addToFavorites(
+			array($this->firstRealtyUid, $this->secondRealtyUid)
+		);
+
+		$this->assertEquals(
+			array($this->firstRealtyUid, $this->secondRealtyUid),
+			$this->session->getAsIntegerArray(
+				tx_realty_pi1::FAVORITES_SESSION_KEY
+			)
+		);
+	}
+
+	public function testAddToFavoritesWithNewItemCanAddItemToNonEmptySession() {
+		$this->session->setAsInteger(
+			tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
+		);
+
 		$this->fixture->addToFavorites(array($this->secondRealtyUid));
 
-		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
-		);
-		$this->assertContains(
-			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
+		$this->assertEquals(
+			array($this->firstRealtyUid, $this->secondRealtyUid),
+			$this->session->getAsIntegerArray(
+				tx_realty_pi1::FAVORITES_SESSION_KEY
+			)
 		);
 	}
 
-	public function testCreateSummaryStringOfFavoritesIsEmptyWithoutData() {
+	public function testAddToFavoritesWithExistingItemDoesNotAddToSession() {
+		$this->session->setAsInteger(
+			tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
+		);
+
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
+
+		$this->assertEquals(
+			array($this->firstRealtyUid),
+			$this->session->getAsIntegerArray(
+				tx_realty_pi1::FAVORITES_SESSION_KEY
+			)
+		);
+	}
+
+	/////////////////////////////////////////////
+	// Tests for createSummaryStringOfFavorites
+	/////////////////////////////////////////////
+
+	public function testCreateSummaryStringOfFavoritesForNoDataReturnsEmptyString() {
 		$this->assertEquals(
 			'',
 			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
 
-	public function testWriteSummaryStringOfFavoritesToDatabase() {
-		$this->fixture->addToFavorites(array($this->firstRealtyUid));
-		$this->fixture->writeSummaryStringOfFavoritesToSession();
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
-				'ses',
-				'summaryStringOfFavorites'
+	public function testCreateSummaryStringOfFavoritesForOneItemsContainsItemData() {
+		$this->session->setAsInteger(
+			tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
 		);
+
 		$this->assertContains(
 			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
-			$sessionData
+			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
 
-	public function testWriteSummaryStringOfFavoritesToDatabaseIfFeUserIsLoggedIn() {
+	public function testCreateSummaryStringOfFavoritesForOneItemsNotContainsDataOfOtherItem() {
+		$this->session->setAsInteger(
+			tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
+		);
+
+		$this->assertNotContains(
+			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+	}
+
+	public function testCreateSummaryStringOfFavoritesForTwoItemsContainsDataFromBothObjects() {
+		$this->session->setAsArray(
+			tx_realty_pi1::FAVORITES_SESSION_KEY,
+			array($this->firstRealtyUid, $this->secondRealtyUid)
+		);
+
+		$this->assertContains(
+			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+		$this->assertContains(
+			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
+			$this->fixture->createSummaryStringOfFavorites()
+		);
+	}
+
+
+	/////////////////////////////////////////////////////
+	// Tests for writeSummaryStringOfFavoritesToSession
+	/////////////////////////////////////////////////////
+
+	public function testWriteSummaryStringOfFavoritesToSessionForOneItemWritesItemsNumberAndTitleToSession() {
+		$this->session->setAsInteger(
+			tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
+		);
+		$this->fixture->writeSummaryStringOfFavoritesToSession();
+
+		$this->assertContains(
+			'* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
+			$this->session->getAsString('summaryStringOfFavorites')
+		);
+	}
+
+	public function testWriteSummaryStringOfFavoritesToSessionForLoggedInFrontEndUserWritesDataToTemporarySession() {
 		$feUserId = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()
 		);
 		$this->testingFramework->loginFrontEndUser($feUserId);
 
-		$this->fixture->addToFavorites(array($this->firstRealtyUid));
-		$this->fixture->writeSummaryStringOfFavoritesToSession();
-		$sessionData = $GLOBALS['TSFE']->fe_user->getKey(
-			'ses',
-			'summaryStringOfFavorites'
+		$this->session->setAsInteger(
+			tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
 		);
+		$this->fixture->writeSummaryStringOfFavoritesToSession();
+
 		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
-			$sessionData
+			'* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
+			tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+				->getAsString('summaryStringOfFavorites')
 		);
 	}
 
