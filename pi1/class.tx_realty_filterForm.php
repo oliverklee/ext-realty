@@ -148,7 +148,8 @@ class tx_realty_filterForm {
 	 * 						otherwise
 	 */
 	private function isSiteSearchVisible() {
-		return $this->plugin->getConfValueString('showSiteSearchInFilterForm')
+		return $this->plugin->getConfValueString(
+			'showSiteSearchInFilterForm', 's_searchForm')
 			== 'show';
 	}
 
@@ -162,7 +163,8 @@ class tx_realty_filterForm {
 				$this->plugin->cObj->typoLink_URL(
 					array(
 						'parameter' => $this->plugin->getConfValueInteger(
-							'filterTargetPID'
+							'filterTargetPID',
+							's_searchForm'
 						),
 					)
 				)
@@ -224,7 +226,9 @@ class tx_realty_filterForm {
 	 * 							configured, this array will be empty.
 	 */
 	private function getPriceRangesFromConfiguration() {
-		if (!$this->plugin->hasConfValueString('priceRangesForFilterForm')) {
+		if (!$this->plugin->hasConfValueString(
+			'priceRangesForFilterForm', 's_searchForm')
+		) {
 			return array();
 		}
 
@@ -233,7 +237,9 @@ class tx_realty_filterForm {
 		$priceRanges = array(array());
 
 		$priceRangeConfiguration = t3lib_div::trimExplode(
-			',', $this->plugin->getConfValueString('priceRangesForFilterForm')
+			',', $this->plugin->getConfValueString(
+				'priceRangesForFilterForm',
+				's_searchForm')
 		);
 
 		foreach ($priceRangeConfiguration as $range) {

@@ -16,7 +16,7 @@
 			<label index="realty.pi_flexform.single_view">Single view</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
-			<label index="realty.pi_flexform.filter_form">Filter form</label>
+			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
 			<label index="realty.pi_flexform.objects_by_owner">Objects by offerer</label>
@@ -39,7 +39,7 @@
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
-			<label index="realty.pi_flexform.filterTargetPID">Target page for the filter form and the city selector:</label>
+			<label index="realty.pi_flexform.filterTargetPID">Target page for the search form and the city selector:</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID">Page with list of objects by one owner:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
@@ -51,6 +51,7 @@
 			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
+			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -155,7 +156,7 @@
 			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
-			<label index="label_filter_form">Filter criteria</label>
+			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">Please enter the name or ZIP code of a city:</label>
 			<label index="label_select_price_range">Please select a price range:</label>
 			<label index="label_less_than">less than</label>
@@ -269,7 +270,7 @@
 			<label index="realty.pi_flexform.single_view">Einzelansicht</label>
 			<label index="realty.pi_flexform.gallery">Galerie</label>
 			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
-			<label index="realty.pi_flexform.filter_form">Filterformular</label>
+			<label index="realty.pi_flexform.filter_form">Suchformular</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformular</label>
 			<label index="realty.pi_flexform.my_objects">Meine Objekte</label>
 			<label index="realty.pi_flexform.objects_by_owner">Objekte eines Anbieters</label>
@@ -292,7 +293,7 @@
 			<label index="realty.pi_flexform.favoritesPID">Seite mit dem Merkzettel:</label>
 			<label index="realty.pi_flexform.editorPID">Seite mit dem FE-Editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Seite zum Hochladen von Bildern:</label>
-			<label index="realty.pi_flexform.filterTargetPID">Zielseite für die Auswählbox und den Stadtwähler:</label>
+			<label index="realty.pi_flexform.filterTargetPID">Zielseite für die Auswahlbox und den Stadtwähler:</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID">Seite mit der Liste der Objekte eines Anbieters:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System-Ordner für im FE erstellte Objekte:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System-Ordner für im FE erstellte Hilfsdatensätze:</label>
@@ -304,6 +305,7 @@
 			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Zeige Google Maps in der Einzelansicht:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google-Maps-API-Schlüssel:</label>
 			<label index="realty.pi_flexform.defaultCountry">Standard-Land der Objekte:</label>
+			<label index="realty.pi_flexform.sheet_searchForm">Suchformular</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -408,7 +410,7 @@
 			<label index="label_cityselector_description_formal">Wir bieten Ihnen neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
-			<label index="label_filter_form">Filterkriterien</label>
+			<label index="label_filter_form">Suchkriterien</label>
 			<label index="label_enter_zip_or_city">Bitte Name oder Postleitzahl einer Stadt eingeben:</label>
 			<label index="label_select_price_range">Bitte Preisspanne auswählen:</label>
 			<label index="label_less_than">weniger als</label>
@@ -1205,7 +1207,7 @@
 			<label index="realty.pi_flexform.single_view" type="integer">260903848</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
-			<label index="realty.pi_flexform.filter_form" type="integer">175496361</label>
+			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
 			<label index="realty.pi_flexform.objects_by_owner" type="integer">150515545</label>
@@ -1228,7 +1230,7 @@
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.editorPID" type="integer">135203367</label>
 			<label index="realty.pi_flexform.imageUploadPID" type="integer">221590091</label>
-			<label index="realty.pi_flexform.filterTargetPID" type="integer">129983894</label>
+			<label index="realty.pi_flexform.filterTargetPID" type="integer">265563004</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID" type="integer">110151346</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords" type="integer">3674712</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords" type="integer">143019398</label>
@@ -1344,7 +1346,7 @@
 			<label index="label_cityselector_description_formal" type="integer">110211522</label>
 			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
-			<label index="label_filter_form" type="integer">37359069</label>
+			<label index="label_filter_form" type="integer">174419877</label>
 			<label index="label_enter_zip_or_city" type="integer">100951234</label>
 			<label index="label_select_price_range" type="integer">110123700</label>
 			<label index="label_less_than" type="integer">165614130</label>
@@ -1448,6 +1450,7 @@
 			<label index="label_offerings_by" type="integer">56224175</label>
 			<label index="message_no_such_owner" type="integer">71788074</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
+			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2138,7 +2141,7 @@
 			<label index="realty.pi_flexform.single_view">Single view</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.city_selector">City selector</label>
-			<label index="realty.pi_flexform.filter_form">Filter form</label>
+			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
 			<label index="realty.pi_flexform.objects_by_owner">Objects by offerer</label>
@@ -2161,7 +2164,7 @@
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
-			<label index="realty.pi_flexform.filterTargetPID">Target page for the filter form and the city selector:</label>
+			<label index="realty.pi_flexform.filterTargetPID">Target page for the search form and the city selector:</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID">Page with list of objects by one owner:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
@@ -2277,7 +2280,7 @@
 			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
-			<label index="label_filter_form">Filter criteria</label>
+			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">Please enter the name or ZIP code of a city:</label>
 			<label index="label_select_price_range">Please select a price range:</label>
 			<label index="label_less_than">less than</label>
@@ -2381,6 +2384,7 @@
 			<label index="label_offerings_by">Offerings by</label>
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
+			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
