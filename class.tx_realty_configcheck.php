@@ -381,7 +381,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfSingleInSetNotEmpty(
 			'showSiteSearchInFilterForm',
 			true,
-			'sDEF',
+			's_searchForm',
 			'This value specifies whether to show the input to search for ZIP ' .
 				'code or city in the filter form. It might be interpreted ' .
 				'incorrectly if a value out of range was set.',
@@ -396,7 +396,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkRegExp(
 			'priceRangesForFilterForm',
 			true,
-			'sDEF',
+			's_searchForm',
 			'This value defines the ranges to be displayed in the filter ' .
 				'form\'s selectbox for prices. With an invalid configuration, ' .
 				'price ranges will not be displayed correctly.',
@@ -501,7 +501,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfSingleInTableOrEmpty(
 			'checkboxesFilter',
 			true,
-			'sDEF',
+			's_searchForm',
 			'This value specifies the name of the DB field to create the search '
 				.'filter checkboxes from. Searching will not work properly if '
 				.'non-database fields are set.',
@@ -587,7 +587,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfSingleFePageNotEmpty(
 			'filterTargetPID',
 			true,
-			'sDEF',
+			's_searchForm',
 			'This value specifies the PID of the target page for the filter '
 				.'form and the city selector. These forms will not direct to '
 				.'the correct page after submit if this value is invalid.'

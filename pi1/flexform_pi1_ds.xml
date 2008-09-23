@@ -27,7 +27,7 @@
 									<numIndex index="2" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.single_view</numIndex>
 										<numIndex index="1">single_view</numIndex>
-									</numIndex>									
+									</numIndex>
 									<numIndex index="3" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.gallery</numIndex>
 										<numIndex index="1">gallery</numIndex>
@@ -237,40 +237,6 @@
 							</config>
 						</TCEforms>
 					</sortCriteria>
-					<showSiteSearchInFilterForm>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showSiteSearchInFilterForm</label>
-							<config>
-								<type>select</type>
-								<items type="array">
-									<numIndex index="0" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.fromTsSetup</numIndex>
-										<numIndex index="1"></numIndex>
-									</numIndex>
-									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.hide</numIndex>
-										<numIndex index="1">hide</numIndex>
-									</numIndex>
-									<numIndex index="2" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.show</numIndex>
-										<numIndex index="1">show</numIndex>
-									</numIndex>
-								</items>
-								<minitems>1</minitems>
-								<maxitems>1</maxitems>
-								<size>1</size>
-							</config>
-						</TCEforms>
-					</showSiteSearchInFilterForm>
-					<priceRangesForFilterForm>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.priceRangesForFilterForm</label>
-							<config>
-								<type>input</type>
-								<eval>trim</eval>
-							</config>
-						</TCEforms>
-					</priceRangesForFilterForm>
 					<singlePID>
 						<TCEforms>
 							<exclude>1</exclude>
@@ -346,21 +312,6 @@
 							</config>
 						</TCEforms>
 					</imageUploadPID>
-					<filterTargetPID>
-						<TCEforms>
-							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.filterTargetPID</label>
-							<config>
-								<type>group</type>
-								<internal_type>db</internal_type>
-								<allowed>pages</allowed>
-								<size>1</size>
-								<maxitems>1</maxitems>
-								<minitems>0</minitems>
-								<show_thumbs>1</show_thumbs>
-							</config>
-						</TCEforms>
-					</filterTargetPID>
 				</el>
 			</ROOT>
 		</sDEF>
@@ -428,5 +379,64 @@
 				</el>
 			</ROOT>
 		</s_feeditor>
+		<s_searchForm>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sheet_searchForm</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<showSiteSearchInFilterForm>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showSiteSearchInFilterForm</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.fromTsSetup</numIndex>
+										<numIndex index="1"></numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.hide</numIndex>
+										<numIndex index="1">hide</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.show</numIndex>
+										<numIndex index="1">show</numIndex>
+									</numIndex>
+								</items>
+								<minitems>1</minitems>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</showSiteSearchInFilterForm>
+					<filterTargetPID>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.filterTargetPID</label>
+							<config>
+								<type>group</type>
+								<internal_type>db</internal_type>
+								<allowed>pages</allowed>
+								<size>1</size>
+								<maxitems>1</maxitems>
+								<minitems>0</minitems>
+								<show_thumbs>1</show_thumbs>
+							</config>
+						</TCEforms>
+					</filterTargetPID>
+					<priceRangesForFilterForm>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.priceRangesForFilterForm</label>
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</priceRangesForFilterForm>
+				</el>
+			</ROOT>
+		</s_searchForm>
 	</sheets>
 </T3DataStructure>
