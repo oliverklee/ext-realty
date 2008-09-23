@@ -227,7 +227,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
 
 		$this->assertContains(
-			'id=' . $fePageUid,
+			'?id=' . $fePageUid,
 			$this->fixture->getRedirectUrl()
 		);
 	}
@@ -241,7 +241,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertNotContains(
-			'id=' . $nonExistingFePageUid,
+			'?id=' . $nonExistingFePageUid,
 			$this->fixture->getRedirectUrl()
 		);
 	}
@@ -250,7 +250,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue('feEditorRedirectPid', '0');
 
 		$this->assertNotContains(
-			'id=0',
+			'?id=0',
 			$this->fixture->getRedirectUrl()
 		);
 	}

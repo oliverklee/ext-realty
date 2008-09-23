@@ -338,7 +338,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 
 	public function testGetSelfUrlWithShowUidReturnsUrlWithCurrentPageIdAsTargetPage() {
 		$this->assertContains(
-			'id=' . $GLOBALS['TSFE']->id,
+			'?id=' . $GLOBALS['TSFE']->id,
 			$this->fixture->getSelfUrlWithShowUid()
 		);
 	}
