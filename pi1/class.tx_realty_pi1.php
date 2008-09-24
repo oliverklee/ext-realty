@@ -215,8 +215,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->internal['currentTable'] = $this->tableNames['objects'];
-		$this->securePiVars(array(
-			'city', 'image', 'remove', 'descFlag', 'showUid', 'delete', 'owner'
+		$this->ensureIntegerPiVars(array(
+			'city', 'image', 'remove', 'showUid', 'delete', 'owner'
 		));
 		$this->cacheSelectedOwner();
 
@@ -501,7 +501,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			? ' AND '.$this->getConfValueString('staticSqlFilter') : '';
 
 		// finds only cities that match the UID in piVars['city']
-		if (isset($this->piVars['city'])) {
+		if ($this->piVars['city'] != 0) {
 			$whereClause .=  ' AND '.REALTY_TABLE_OBJECTS . '.city' .
 				'=' . $this->piVars['city'];
 		}
@@ -532,7 +532,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			? $this->piVars['orderBy']
 			: $this->getListViewConfValueString('orderBy');
 		$descendingFlag = isset($this->piVars['descFlag'])
-			? $this->piVars['descFlag']
+			? (boolean) $this->piVars['descFlag']
 			: $this->getListViewConfValueBoolean('descFlag');
 
 		// checks whether the sort criterion is allowed
@@ -579,9 +579,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						empty
 	 */
 	private function createLimitStatement($table, $whereClause) {
-		if (!isset($this->piVars['pointer'])) {
-			$this->piVars['pointer'] = 0;
-		}
 		// number of results to show in a listing
 		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
 			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
@@ -613,13 +610,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1
 		);
 
-		$lowerLimit = intval($this->piVars['pointer'])
-			* intval($this->internal['results_at_a_time']);
-		$upperLimit = intval(t3lib_div::intInRange(
-			$this->internal['results_at_a_time'], 1, 1000)
+		$lowerLimit
+			= $this->piVars['pointer'] * intval($this->internal['results_at_a_time']);
+		$upperLimit = t3lib_div::intInRange(
+			$this->internal['results_at_a_time'], 1, 1000
 		);
 
-		return $lowerLimit.','.$upperLimit;
+		return $lowerLimit . ',' . $upperLimit;
 	}
 
 	/**
@@ -772,7 +769,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			&& $this->getConfValueBoolean('allowDirectRequestsForObjects')
 			&& ($this->getConfValueInteger('contactPID') != $this->getConfValueInteger('singlePID'))
 		) {
-			$piVarsArray = array('showUid' => intval($this->piVars['showUid']));
+			$piVarsArray = array('showUid' => $this->piVars['showUid']);
 			$showContactWrapper = true;
 		} elseif (($this->getCurrentView() == 'favorites')
 			&& !$this->getConfValueBoolean('allowDirectRequestsForObjects')
@@ -2216,7 +2213,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$surroundings = round(($this->internal['maxPages'] - 1) / 2);
 
 		$minPage = max(0, $this->piVars['pointer'] - $surroundings);
-		$maxPage = min($this->internal['lastPage'], $this->piVars['pointer'] + $surroundings);
+		$maxPage = min(
+			$this->internal['lastPage'],
+			$this->piVars['pointer'] + $surroundings
+		);
 
 		$pageLinks = array();
 		for ($i = $minPage; $i <= $maxPage; $i++) {
@@ -2552,8 +2552,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						false otherwise
 	 */
 	private function hasShowUidInUrl() {
-		return isset($this->piVars['showUid'])
-			&& (intval($this->piVars['showUid']) > 0);
+		return $this->piVars['showUid'] > 0;
 	}
 
 	/**
@@ -2985,15 +2984,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * zero then.
 	 */
 	private function cacheSelectedOwner() {
-		// If there is a piVars value, it will already be intvaled.
-		$ownerUid = isset($this->piVars['owner']) ? $this->piVars['owner'] : 0;
 		$row = false;
 
-		if ($ownerUid > 0) {
+		if ($this->piVars['owner'] > 0) {
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'*',
 				'fe_users',
-				'uid=' . $ownerUid . $this->enableFields('fe_users')
+				'uid=' . $this->piVars['owner'] . $this->enableFields('fe_users')
 			);
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);
