@@ -762,7 +762,8 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Gets an array of the paths of all ZIP archives in the import folder.
+	 * Gets an array of the paths of all ZIP archives in the import folder
+	 * and its subfolders.
 	 *
 	 * @param	string		absolute path of the directory which contains the
 	 * 						ZIPs, must not be empty
@@ -772,8 +773,11 @@ class tx_realty_openImmoImport {
 	 */
 	protected function getPathsOfZipsToExtract($importDirectory) {
 		$result = array();
+
 		if (is_dir($importDirectory)) {
-			$result = glob($importDirectory.'*.zip');
+			$result = t3lib_div::getAllFilesAndFoldersInPath(
+				array(), $importDirectory, 'zip'
+			);
 		}
 
 		return $result;

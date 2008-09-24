@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2207] Feature: The import should find ZIPs also in subdirectories of the specified directory
 - [#2131] Change: Use ensureIntegerPiVars instead of securePiVars
 - [#1911] Change: All tests for the target page of links can check for ?id=pageid
 - [#1778] Change: Use the abstraction for session handling

@@ -204,7 +204,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			glob($this->importFolder . '*.zip'),
-			$this->fixture->getPathsOfZipsToExtract($this->importFolder)
+			array_values(
+				$this->fixture->getPathsOfZipsToExtract($this->importFolder)
+			)
 		);
 	}
 
@@ -438,6 +440,27 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCleanUpRemovesZipFileInASubFolderOfTheImportFolder() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		// just to ensure the import folder exists
+		$this->copyTestFileIntoImportFolder('empty.zip');
+		// copyTestFileIntoImportFolder() cannot copy folders
+		t3lib_div::mkdir($this->importFolder . 'changed-copy-of-same-name/');
+		copy(
+			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
+				'changed-copy-of-same-name/same-name.zip',
+			$this->importFolder . 'changed-copy-of-same-name/same-name.zip'
+		);
+
+		$this->fixture->importFromZip();
+
+		$this->assertFalse(
+			file_exists($this->importFolder . 'changed-copy-of-same-name/same-name.zip')
+		);
+	}
+
 	public function testCleanUpDoesNotRemoveZipOfUnregisteredOwnerIfOwnerRestrictionIsEnabled() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
@@ -558,6 +581,31 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertTrue(
 			is_dir($this->importFolder . 'foo/')
+		);
+	}
+
+	public function testImportFromZipImportsFromZipFileInASubFolderOfTheImportFolder() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		// just to ensure the import folder exists
+		$this->copyTestFileIntoImportFolder('empty.zip');
+		// copyTestFileIntoImportFolder() cannot copy folders
+		t3lib_div::mkdir($this->importFolder . 'changed-copy-of-same-name/');
+		copy(
+			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
+				'changed-copy-of-same-name/same-name.zip',
+			$this->importFolder . 'changed-copy-of-same-name/same-name.zip'
+		);
+
+		$this->fixture->importFromZip();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'object_number="bar1234567" AND zip="changed zip" '
+			)
 		);
 	}
 
