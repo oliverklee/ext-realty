@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2192] Feature: Add a field for the object number to the search form
 - [#2065] Feature: Create a list of realty offerers
 - [#2207] Feature: The import should find ZIPs also in subdirectories of the specified directory
 - [#2131] Change: Use ensureIntegerPiVars instead of securePiVars

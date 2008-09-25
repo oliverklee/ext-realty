@@ -69,6 +69,7 @@ class tx_realty_filterForm {
 		$this->setTargetUrlMarker();
 		$this->fillOrHideSiteSearch();
 		$this->fillOrHidePriceRangeDropDown();
+		$this->fillOrHideIdSearch();
 
 		return $this->plugin->getSubpart('FILTER_FORM');
 	}
@@ -372,6 +373,30 @@ class tx_realty_filterForm {
 		return ' AND (' . REALTY_TABLE_OBJECTS . '.zip LIKE "' .
 			$zipSearchString . '%" OR ' . REALTY_TABLE_CITIES .
 			'.title LIKE "%' . $citySearchString . '%")';
+	}
+
+	/**
+	 * Fills the input box for the UID or the object number search if it is
+	 * configured to be displayed. Hides the form element if it is disabled by
+	 * configuration.
+	 */
+	private function fillOrHideIdSearch() {
+		$searchType = $this->plugin->getConfValueString(
+			'showIdSearchInFilterForm',
+			's_searchForm'
+		);
+		if ($searchType == '') {
+			$this->plugin->hideSubparts('wrapper_id_search');
+			return;
+		}
+
+		$this->plugin->setMarker(
+			'id_search_label',
+			$this->plugin->translate(
+				'label_enter_' . $searchType
+			)
+		);
+		$this->plugin->setMarker('id_search_type', $searchType);
 	}
 }
 

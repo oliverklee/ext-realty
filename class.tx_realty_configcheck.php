@@ -63,6 +63,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkFilterTargetPid();
 		$this->checkShowSiteSearchInFilterForm();
 		$this->checkPriceRangesForFilterForm();
+		$this->checkShowIdSearchInFilterForm();
 	}
 
 	/**
@@ -442,6 +443,22 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'form\'s selectbox for prices. With an invalid configuration, ' .
 				'price ranges will not be displayed correctly.',
 			'/^(((\d+-\d+|-\d+|\d+-), *)*(\d+-\d+|-\d+|\d+-))?$/'
+		);
+	}
+
+	/**
+	 * Checks the setting for whether to show the UID or object number search
+	 * in the search form.
+	 */
+	private function checkShowIdSearchInFilterForm() {
+		$this->checkIfSingleInSetOrEmpty(
+			'showIdSearchInFilterForm',
+			true,
+			's_searchForm',
+			'This value specifies which ID search to show in the search form. ' .
+			'If an incorrect value is set, the ID search form will be displayed ' .
+			'with an incorrect label and the search will not work.',
+			array('uid', 'objectNumber')
 		);
 	}
 

@@ -165,6 +165,64 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////////////////////
+	// Testing the rendering of the ID search
+	///////////////////////////////////////////
+
+	public function testSearchFormForUidSearchContainsUidSearchField() {
+		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+
+		$this->assertContains(
+			'name="tx_realty_pi1[uid]"',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testSearchFormForUidSearchDoesNotContainObjectNumberSearchField() {
+		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+
+		$this->assertNotContains(
+			'name="tx_realty_pi1[objectNumber]"',
+			$this->fixture->render(array())
+		);
+	}
+
+
+	public function testSearchFormForObjectNumberSearchContainsObjectNumberSearchField() {
+		$this->pi1->setConfigurationValue(
+			'showIdSearchInFilterForm',
+			'objectNumber'
+		);
+
+		$this->assertContains(
+			'name="tx_realty_pi1[objectNumber]"',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function testSearchFormForObjectNumberSearchDoesNotContainUidSearchField() {
+		$this->pi1->setConfigurationValue(
+			'showIdSearchInFilterForm',
+			'objectNumber'
+		);
+
+		$this->assertNotContains(
+			'name="tx_realty_pi1[uid]"',
+			$this->fixture->render(array())
+		);
+	}
+
+
+	public function testSearchFormForEmptyConfigValueIsHidden() {
+		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', '');
+
+		$this->assertNotContains(
+			'id="tx_realty_pi1-idsearch"',
+			$this->fixture->render(array())
+		);
+	}
+
+
 	///////////////////////////////////////////////////
 	// Testing the filter forms's WHERE clause parts.
 	///////////////////////////////////////////////////

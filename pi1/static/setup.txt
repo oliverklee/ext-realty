@@ -87,6 +87,9 @@ plugin.tx_realty_pi1 {
 	# price ranges for the filter form, leave empty to hide this field
 	# e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
 	priceRangesForFilterForm =
+	# whether to display the input for UID or object number search, allowed values are
+	# "uid" and "objectNumber", leave empty if the form field should be hidden
+	showIdSearchInFilterForm =
 
 	# PID of the page for the single view (leave empty to use the same page as the list view)
 	singlePID =
