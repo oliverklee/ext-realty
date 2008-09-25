@@ -96,6 +96,8 @@ plugin.tx_realty_pi1 {
 	favoritesPID =
 	# PID of the target page for the filter form and the city selector
 	filterTargetPID =
+	# comma-separated list of FE group UIDs for the offerer list
+	userGroupsForOffererList =
 	# PID of the target page for the list of objects by one owner, leave empty to disable the link to this list in the detail view
 	objectsByOwnerPID =
 

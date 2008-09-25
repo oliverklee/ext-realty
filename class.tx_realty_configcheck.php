@@ -111,7 +111,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkLoginPid();
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowContactInformation();
-		$this->checkObjectsByOwnerPID();
+		$this->checkObjectsByOwnerPid();
 		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
@@ -150,6 +150,15 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_objects_by_owner() {
 		$this->check_tx_realty_pi1_realty_list();
+	}
+
+	/**
+	 * Checks the configuration for the Realty Manager's offerer list.
+	 */
+	public function check_tx_realty_pi1_offerer_list() {
+		$this->checkCommonFrontEndSettings();
+		$this->checkObjectsByOwnerPid(false);
+		$this->checkUserGroupsForOffererList();
 	}
 
 	/**
@@ -216,6 +225,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'filter_form',
 				'contact_form',
 				'my_objects',
+				'offerer_list',
 				'objects_by_owner',
 				'fe_editor',
 				'image_upload',
@@ -481,15 +491,37 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting of the configuration value objectsByOwnerPID.
+	 *
+	 * @param	boolean		true if the configuration may be empty
 	 */
-	private function checkObjectsByOwnerPID() {
-		$this->checkIfInteger(
-			'objectsByOwnerPID',
+	private function checkObjectsByOwnerPid($mayBeEmpty = true) {
+		if ($mayBeEmpty) {
+			$checkFunction = checkIfSingleFePageOrEmpty;
+			$errorText = 'This value specifies the page ID of the list of ' .
+				'objects by one offerer. The link to this list might not work ' .
+				'correctly if this value is misconfigured.';
+		} else {
+			$checkFunction = checkIfSingleFePageNotEmpty;
+			$errorText = 'This value specifies the page ID of the list of ' .
+				'objects by one offerer. The link to this list will not be ' .
+				'displayed if this value is empty. The link might not work ' .
+				'correctly if this value is misconfigured.';
+		}
+
+		$this->$checkFunction('objectsByOwnerPID', true, 'sDEF', $errorText);
+	}
+
+	/**
+	 * Checks the setting of the configuration value userGroupsForOffererList.
+	 */
+	private function checkUserGroupsForOffererList() {
+		$this->checkIfPidListNotEmpty(
+			'userGroupsForOffererList',
 			true,
 			'sDEF',
-			'This value specifies the page ID of the list of objects by one ' .
-				'offerer. The link to this list might not work correctly if ' .
-				'this value is misconfigured.'
+			'This value specifies the group from which the users are displayed ' .
+				'in the offerer list. The list will be empty if this value is ' .
+				'empty or invalid.'
 		);
 	}
 

@@ -19,6 +19,7 @@
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
+			<label index="realty.pi_flexform.offerer_list">Offerer list</label>
 			<label index="realty.pi_flexform.objects_by_owner">Objects by offerer</label>
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
@@ -41,6 +42,7 @@
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search form and the city selector:</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID">Page with list of objects by one owner:</label>
+			<label index="realty.pi_flexform.userGroupsForOffererList">FE user groups for the offerer list:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
@@ -185,6 +187,7 @@
 			<label index="message_noResultsFound_single_view_informal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_my_objects_formal">You do not have any objects.</label>
 			<label index="message_noResultsFound_my_objects_informal">You do not have any objects.</label>
+			<label index="message_noResultsFound_offererList">There are no offerers to display.</label>
 			<label index="message_noResultsFound_objects_by_owner">This offerer currently does not have any objects.</label>
 			<label index="message_access_denied_formal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_access_denied_informal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
@@ -259,6 +262,7 @@
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
 			<label index="label_offerings_by">Offerings by</label>
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
+			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -273,6 +277,7 @@
 			<label index="realty.pi_flexform.filter_form">Suchformular</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformular</label>
 			<label index="realty.pi_flexform.my_objects">Meine Objekte</label>
+			<label index="realty.pi_flexform.offerer_list">Anbieterliste</label>
 			<label index="realty.pi_flexform.objects_by_owner">Objekte eines Anbieters</label>
 			<label index="realty.pi_flexform.fe_editor">FE-Editor</label>
 			<label index="realty.pi_flexform.image_upload">Bilder hochladen</label>
@@ -295,6 +300,7 @@
 			<label index="realty.pi_flexform.imageUploadPID">Seite zum Hochladen von Bildern:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Zielseite für die Auswahlbox und den Stadtwähler:</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID">Seite mit der Liste der Objekte eines Anbieters:</label>
+			<label index="realty.pi_flexform.userGroupsForOffererList">FE-Benutzergruppen für die Anbieterliste:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System-Ordner für im FE erstellte Objekte:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System-Ordner für im FE erstellte Hilfsdatensätze:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">Angezeigte Seite nach dem Speichern im FE-Editor:</label>
@@ -439,6 +445,7 @@
 			<label index="message_noResultsFound_single_view_informal">Diese URL ist ungültig. Das in der Detailansicht zu zeigende Objekt ist nicht verfügbar. Bitte kontaktiere den Webmaster.</label>
 			<label index="message_noResultsFound_my_objects_formal">Sie haben keine Datensätze.</label>
 			<label index="message_noResultsFound_my_objects_informal">Du hast keine Datensätze.</label>
+			<label index="message_noResultsFound_offererList">Zur Zeit gibt es keine Anbieter in der Datenbank.</label>
 			<label index="message_noResultsFound_objects_by_owner">Dieser Anbieter hat zur Zeit keine Objekte.</label>
 			<label index="message_access_denied_formal">Sie haben keinen Zugriff auf diesen Datensatz. Nur der Besitzer darf diesen Datensatz bearbeiten.</label>
 			<label index="message_access_denied_informal">Du hast keinen Zugriff auf diesen Datensatz. Nur der Besitzer darf diesen Datensatz bearbeiten.</label>
@@ -513,6 +520,7 @@
 			<label index="message_empty_caption">Bitte geben Sie eine Bildunterschrift an.</label>
 			<label index="label_offerings_by">Angebote von</label>
 			<label index="message_no_such_owner">Der gewählte Anbieter existiert leider nicht in der Datenbank.</label>
+			<label index="label_offerer_list">Anbieterliste</label>
 			<label index="label_this_owners_objects">Alle Objekte dieses Anbieters</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
@@ -1210,6 +1218,7 @@
 			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
+			<label index="realty.pi_flexform.offerer_list" type="integer">34082678</label>
 			<label index="realty.pi_flexform.objects_by_owner" type="integer">150515545</label>
 			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
@@ -1232,6 +1241,7 @@
 			<label index="realty.pi_flexform.imageUploadPID" type="integer">221590091</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">265563004</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID" type="integer">110151346</label>
+			<label index="realty.pi_flexform.userGroupsForOffererList" type="integer">26463750</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords" type="integer">3674712</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords" type="integer">143019398</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid" type="integer">1493962</label>
@@ -1242,6 +1252,7 @@
 			<label index="realty.pi_flexform.showGoogleMapsInSingleView" type="integer">82018867</label>
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
+			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -1375,6 +1386,7 @@
 			<label index="message_noResultsFound_single_view_informal" type="integer">260520321</label>
 			<label index="message_noResultsFound_my_objects_formal" type="integer">231455062</label>
 			<label index="message_noResultsFound_my_objects_informal" type="integer">231455062</label>
+			<label index="message_noResultsFound_offererList" type="integer">43641388</label>
 			<label index="message_noResultsFound_objects_by_owner" type="integer">164681102</label>
 			<label index="message_access_denied_formal" type="integer">155310287</label>
 			<label index="message_access_denied_informal" type="integer">155310287</label>
@@ -1449,8 +1461,8 @@
 			<label index="message_empty_caption" type="integer">1491457</label>
 			<label index="label_offerings_by" type="integer">56224175</label>
 			<label index="message_no_such_owner" type="integer">71788074</label>
+			<label index="label_offerer_list" type="integer">34082678</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
-			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2144,6 +2156,7 @@
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
+			<label index="realty.pi_flexform.offerer_list">Offerer list</label>
 			<label index="realty.pi_flexform.objects_by_owner">Objects by offerer</label>
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
@@ -2166,6 +2179,7 @@
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search form and the city selector:</label>
 			<label index="realty.pi_flexform.objectsByOwnerPID">Page with list of objects by one owner:</label>
+			<label index="realty.pi_flexform.userGroupsForOffererList">FE user groups for the offerer list:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="realty.pi_flexform.sysFolderForFeCreatedAuxiliaryRecords">System folder for FE-created auxiliary records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
@@ -2176,6 +2190,7 @@
 			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
+			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -2309,6 +2324,7 @@
 			<label index="message_noResultsFound_single_view_informal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_my_objects_formal">You do not have any objects.</label>
 			<label index="message_noResultsFound_my_objects_informal">You do not have any objects.</label>
+			<label index="message_noResultsFound_offererList">There are no offerers to display.</label>
 			<label index="message_noResultsFound_objects_by_owner">This offerer currently does not have any objects.</label>
 			<label index="message_access_denied_formal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
 			<label index="message_access_denied_informal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
@@ -2383,8 +2399,8 @@
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
 			<label index="label_offerings_by">Offerings by</label>
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
+			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
-			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

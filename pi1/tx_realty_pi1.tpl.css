@@ -46,6 +46,13 @@
 	font-weight: bold;
 }
 
+.tx-realty-pi1 .list-view .border {
+	width: 100%;
+	height: 2px;
+	background: #FFA500;
+	margin: 0 0 5px 0;;
+}
+
 /* Buttons */
 .tx-realty-pi1 a.back,
 .tx-realty-pi1 a.close,
@@ -209,12 +216,6 @@
 	height: 44px;
 	background: url(images/fav_arrow.png) no-repeat 26px 0;
 	margin-left: 0;
-}
-.tx-realty-pi1 .list-view .result tfoot .border {
-	width: 100%;
-	height: 2px;
-	background: #FFA500;
-	margin: 0 0 5px 0;;
 }
 .tx-realty-pi1 .list-view .result td.sorting {
 	background: #E0E8EB;
@@ -511,6 +512,37 @@ p.tx-realty-pi1-objekt-nr {
 	color: #666666;
 	margin-bottom: 20px;
 }
+
+
+/***** OFFERER LIST *****/
+.tx-realty-pi1 .offerer-list ul {
+	list-style-type: none;
+	border-top: 2px solid #FFA500;
+	margin-top: 10px;
+	padding: 10px 0 0 0;
+}
+.tx-realty-pi1 .offerer-list li {
+	border-bottom: 2px solid #FFA500;
+	margin: 5px 0;
+}
+.tx-realty-pi1 .offerer-list .result li {
+	position: relative;
+}
+.tx-realty-pi1 .offerer-list .result dl {
+	height: 3em;
+}
+.tx-realty-pi1 .offerer-list .result dt {
+	font-weight: bold;
+}
+.tx-realty-pi1 .offerer-list .result dd {
+	margin-left: 0;
+}
+.tx-realty-pi1 .offerer-list .result dl .link {
+	position: absolute;
+	top: 1.2em;
+	right: 0;
+}
+
 
 /*BOX 1 IN FIELDSET 1*/
 #tx_realty_frontEndEditor .column3-light {

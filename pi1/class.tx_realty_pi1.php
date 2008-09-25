@@ -27,12 +27,13 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_mapMarker.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_mapMarker.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_offererList.php');
 
 // field types for realty objects
 define('TYPE_NUMERIC', 0);
@@ -287,6 +288,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				$result = $imageUpload->render();
 				break;
+			case 'offerer_list':
+				$offererListClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_offererList'
+				);
+				$offererList = new $offererListClassName($this);
+				$result = $offererList->render();
+				break;
 			default:
 				// All other return values of getCurrentView stand for list views.
 				$result = $this->createListView();
@@ -421,6 +429,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->setSubpart('list_view', $errorView);
 		}
 	}
+
 	/**
 	 * Initializes the list view, but does not create any actual HTML output.
 	 *
@@ -2509,9 +2518,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		Name of the current view ('realty_list',
 	 * 						'contact_form', 'favorites', 'fe_editor',
-	 * 						'filter_form', 'city_selector' or 'gallery'
-	 * 						'image_upload', 'my_objects' or 'objects_by_owner'),
-	 * 						will not be empty.
+	 * 						'filter_form', 'city_selector', 'gallery'
+	 * 						'image_upload', 'my_objects', 'offerer_list' or
+	 * 						'objects_by_owner'), will not be empty.
 	 * 						If no view is set, 'realty_list' is returned as this
 	 * 						is the fallback case.
 	 */
@@ -2526,6 +2535,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'filter_form',
 			'contact_form',
 			'my_objects',
+			'offerer_list',
 			'objects_by_owner',
 			'fe_editor',
 			'image_upload',

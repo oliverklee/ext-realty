@@ -22,10 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_content.php');
-require_once(PATH_tslib . 'class.tslib_feuserauth.php');
-require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
-
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
@@ -3784,6 +3780,24 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+
+	/////////////////////////////
+	// Testing the offerer list
+	/////////////////////////////
+
+	public function testOffererListIsDisplayedIfWhatToDisplayIsOffererList() {
+		$groupId = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($groupId);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'offerer_list');
+		$this->fixture->setConfigurationValue('userGroupsForOffererList', $groupId);
+
+		$this->assertContains(
+			'offerer-list',
 			$this->fixture->main('', array())
 		);
 	}
