@@ -47,7 +47,7 @@
 			<label index="message_object_not_loaded">Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</label>
 			<label index="message_updating_failed">Während der Aktualisierung des Datensatzes trat ein Fehler auf. Der Datensatz konnte nicht aktualisiert werden.</label>
 			<label index="message_insertion_failed">Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</label>
-			<label index="message_deleted_flag_set">Der importierte Datensatz ist zum Löschen markiert. Wenn er in der Datenbank existiert, wird er nun gelöscht. Andernfalls wird dieser Datensatzes ignoriert.</label>
+			<label index="message_deleted_flag_set">Der importierte Datensatz ist zum Löschen markiert. Wenn er in der Datenbank existiert, wird er nun gelöscht. Andernfalls wird dieser Datensatz ignoriert.</label>
 			<label index="message_written_to_database">Der Datensatz wurde in die Datenbank eingefügt.</label>
 			<label index="message_fields_required">Der Datensatz wurde nicht importiert, weil die Pflichtfelder nicht gesetzt sind</label>
 			<label index="message_openimmo_anid_not_matches_allowed_fe_user">Der Datensatz wurde nicht importiert, weil in der Konfiguration eingestellt ist, dass Datensätze nur für registrierte FE-Benutzer importiert werden dürfen und dieser Datensatz keine OpenImmo-ANID enthält, die mit der eines FE-Benutzers in einer der erlaubten Gruppen übereinstimmt. Die OpenImmo-ANID des Datensatze war:</label>
