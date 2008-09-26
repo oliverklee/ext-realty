@@ -234,7 +234,7 @@
 	margin-left: 36px;
 }
 .tx-realty-pi1 .list-view .result tfoot td .pagination {
-	margin-top: 42px;	
+	margin-top: 42px;
 }
 .tx-realty-pi1 .list-view #tx_realty_map {
 	clear: both;
@@ -648,6 +648,10 @@ p.tx-realty-pi1-objekt-nr {
 	width: 100%;
 	clear: both;
 	padding: 10px 0 0 0 ;
+}
+#tx_realty_frontEndEditor .teaser textarea {
+	height: 80px;
+	width: 160%;
 }
 #tx_realty_frontEndEditor .description textarea {
 	height: 160px;

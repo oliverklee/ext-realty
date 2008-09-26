@@ -197,6 +197,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'object_number' => self::$firstObjectNumber,
 				'pid' => $this->systemFolderPid,
 				'city' => $this->firstCityUid,
+				'teaser' => '',
+				'has_air_conditioning' => '0',
+				'has_pool' => '0',
+				'has_community_pool' => '0',
 			)
 		);
 		$this->secondRealtyUid = $this->testingFramework->createRecord(
@@ -718,6 +722,29 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->fixture->internal['res_count']
+		);
+	}
+
+	public function testListViewForNonEmptyTeaserShowsTeaserText() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('teaser' => 'teaser text')
+		);
+
+		$this->assertContains(
+			'teaser text',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewForEmptyTeaserHidesTeaserSubpart() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertNotContains(
+			'###TEASER###',
+			$this->fixture->main('', array())
 		);
 	}
 
@@ -2448,6 +2475,106 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 	}
+
+	public function testSingleViewWithHasAirConditioningTrueShowsHasAirConditioningRow() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('has_air_conditioning' => '1')
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'has_air_conditioning'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_has_air_conditioning'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewWithHasAirConditioningFalseHidesHasAirConditioningRow() {
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'has_air_conditioning'
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_has_air_conditioning'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewWithHasPoolTrueShowsHasPoolRow() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('has_pool' => '1')
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'has_pool'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_has_pool'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewWithHasPoolFalseHidesHasPoolRow() {
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', '
+			has_pool'
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_has_pool'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewWithHasCommunityPoolTrueShowsHasCommunityPoolRow() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('has_community_pool' => '1')
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'has_community_pool'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_has_community_pool'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewWithHasCommunityPoolFalseHidesHasCommunityPoolRow() {
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'has_community_pool'
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_has_community_pool'),
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	/////////////////////////////////////
 	// Tests concerning getFieldContent

@@ -104,6 +104,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'rent_excluding_bills' => TYPE_NUMERIC,
 		'extra_charges' => TYPE_NUMERIC,
 		'heating_included' => TYPE_BOOLEAN,
+		'has_air_conditioning' => TYPE_BOOLEAN,
+		'has_pool' => TYPE_BOOLEAN,
+		'has_community_pool' => TYPE_BOOLEAN,
 		'hoa_fee' => TYPE_NUMERIC,
 		'deposit' => TYPE_STRING,
 		'provision' => TYPE_STRING,
@@ -131,6 +134,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'barrier_free' => TYPE_BOOLEAN,
 		'assisted_living' => TYPE_BOOLEAN,
 		'fitted_kitchen' => TYPE_BOOLEAN,
+		'teaser' => TYPE_STRING,
 		'description' => TYPE_STRING,
 		'equipment' => TYPE_STRING,
 		'layout' => TYPE_STRING,
@@ -929,10 +933,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'heating_type',
 			'list_image_left',
 			'list_image_right',
+			'teaser',
 		) as $key) {
 			$this->setMarker($key, $this->getFieldContent($key));
 		}
 
+		if ($this->getFieldContent('teaser') == '') {
+			$this->hideSubparts('wrapper_teaser');
+		}
 		switch ($this->getFieldContent('object_type')){
 			case 1:
 				$this->hideSubparts(

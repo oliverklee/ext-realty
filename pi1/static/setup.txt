@@ -33,7 +33,7 @@ plugin.tx_realty_pi1 {
 	galleryThumbnailY = 137
 
 	# ordered, comma-separated list of fields from tx_realty_objects that will be shown in the table in the single view
-	fieldsInSingleViewTable = construction_year,layout,number_of_rooms,living_area,total_area,estate_size,rent_excluding_bills,extra_charges,heating_included,deposit,provision,usable_from,buying_price,hoa_fee,year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,state,balcony,garden,elevator,barrier_free,assisted_living,fitted_kitchen
+	fieldsInSingleViewTable = construction_year,layout,number_of_rooms,living_area,total_area,estate_size,rent_excluding_bills,extra_charges,heating_included,deposit,provision,usable_from,buying_price,hoa_fee,year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,state,balcony,garden,elevator,barrier_free,assisted_living,fitted_kitchen,has_air_conditioning,has_pool,has_community_pool
 	# ordered, comma-separated list of field names that will be stored in the session when displaying the favorites list, leave empty to disable
 	favoriteFieldsInSession =
 

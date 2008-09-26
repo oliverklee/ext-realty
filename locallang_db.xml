@@ -60,6 +60,7 @@
 			<label index="tx_realty_objects.heating_type.10">solar heating</label>
 			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
 			<label index="tx_realty_objects.heating_type.12">zone heating</label>
+			<label index="tx_realty_objects.has_air_conditioning">Air conditioning</label>
 			<label index="tx_realty_objects.garage_type">Garage/parking space</label>
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
@@ -88,6 +89,9 @@
 			<label index="tx_realty_objects.barrier_free">Accessible</label>
 			<label index="tx_realty_objects.assisted_living">Assisted living</label>
 			<label index="tx_realty_objects.fitted_kitchen">Fitted kitchen</label>
+			<label index="tx_realty_objects.has_pool">Pool</label>
+			<label index="tx_realty_objects.has_community_pool">Community pool</label>
+			<label index="tx_realty_objects.teaser">Teaser</label>
 			<label index="tx_realty_objects.description">Description</label>
 			<label index="tx_realty_objects.equipment">Equipment</label>
 			<label index="tx_realty_objects.layout">Layout</label>
@@ -182,6 +186,7 @@
 			<label index="tx_realty_objects.heating_type.10">Solarheizung</label>
 			<label index="tx_realty_objects.heating_type.11">Ofen</label>
 			<label index="tx_realty_objects.heating_type.12">Blockheizung</label>
+			<label index="tx_realty_objects.has_air_conditioning">Klimaanlage</label>
 			<label index="tx_realty_objects.garage_type">Garage/Stellplatz</label>
 			<label index="tx_realty_objects.garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.garage_price">Kaufpreis für Garage/Stellplatz</label>
@@ -210,6 +215,9 @@
 			<label index="tx_realty_objects.barrier_free">Rollstuhlgerecht</label>
 			<label index="tx_realty_objects.assisted_living">Betreutes Wohnen</label>
 			<label index="tx_realty_objects.fitted_kitchen">Einbauküche</label>
+			<label index="tx_realty_objects.has_pool">Pool</label>
+			<label index="tx_realty_objects.has_community_pool">Gemeinschaftspool</label>
+			<label index="tx_realty_objects.teaser">Teaser</label>
 			<label index="tx_realty_objects.description">Beschreibung</label>
 			<label index="tx_realty_objects.equipment">Ausstattung</label>
 			<label index="tx_realty_objects.layout">Aufteilung</label>
@@ -784,6 +792,10 @@
 			<label index="fe_users.tx_realty_tab" type="integer">18908185</label>
 			<label index="fe_users.tx_realty_openimmo_anid" type="integer">239911211</label>
 			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
+			<label index="tx_realty_objects.has_air_conditioning" type="integer">108854663</label>
+			<label index="tx_realty_objects.has_pool" type="integer">233780919</label>
+			<label index="tx_realty_objects.has_community_pool" type="integer">7430612</label>
+			<label index="tx_realty_objects.teaser" type="integer">124178563</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -1318,6 +1330,10 @@
 			<label index="fe_users.tx_realty_tab">Realty</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo offerer ID</label>
 			<label index="tx_realty_cities.save_folder">Folder for objects in this city (only for FE-created records)</label>
+			<label index="tx_realty_objects.has_air_conditioning">Air conditioning</label>
+			<label index="tx_realty_objects.has_pool">Pool</label>
+			<label index="tx_realty_objects.has_community_pool">Community pool</label>
+			<label index="tx_realty_objects.teaser">Teaser</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Realty object</label>

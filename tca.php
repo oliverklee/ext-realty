@@ -12,12 +12,13 @@ $TCA['tx_realty_objects'] = array(
 			'living_area,total_area,estate_size,rent_excluding_bills,extra_charges,' .
 			'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
 			'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,' .
-			'bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,' .
-			'construction_year,old_or_new_building,state,balcony,garden,elevator,' .
-			'barrier_free,assisted_living,fitted_kitchen,description,equipment,' .
-			'layout,location,misc,details_page,images,employer,openimmo_anid,' .
-			'openimmo_obid,utilization,contact_data_source,contact_person,' .
-			'contact_email,contact_phone,owner,language,currency,' .
+			'bathrooms,heating_type,has_air_conditioning,garage_type,garage_rent,' .
+			'garage_price,pets,construction_year,old_or_new_building,state,' .
+			'balcony,garden,elevator,barrier_free,assisted_living,' .
+			'fitted_kitchen, has_pool,has_community_pool,teaser,description,' .
+			'equipment,layout,location,misc,details_page,images,employer,' .
+			'openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
+			'contact_person,contact_email,contact_phone,owner,language,currency,' .
 			'exact_coordinates_are_cached,exact_longitude,exact_latitude,' .
 			'rough_coordinates_are_cached,rough_longitude,rough_latitude'
 	),
@@ -575,6 +576,13 @@ $TCA['tx_realty_objects'] = array(
 				'maxitems' => 12,
 			),
 		),
+		'has_air_conditioning' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_air_conditioning',
+			'config' => array(
+				'type' => 'check',
+			)
+		),
 		'garage_type' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type',
@@ -761,6 +769,29 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'check',
 			),
+		),
+		'has_pool' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_pool',
+			'config' => array(
+				'type' => 'check',
+			)
+		),
+		'has_community_pool' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_community_pool',
+			'config' => array(
+				'type' => 'check',
+			)
+		),
+		'teaser' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.teaser',
+			'config' => array(
+				'type' => 'text',
+				'cols' => '20',
+				'rows' => '3',
+			)
 		),
 		'description' => array(
 			'exclude' => 0,
@@ -959,9 +990,14 @@ $TCA['tx_realty_objects'] = array(
 				'living_area, total_area, estate_size, rent_excluding_bills, ' .
 				'extra_charges, heating_included, deposit, provision, usable_from, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, ' .
-				'bathrooms, heating_type, garage_type, garage_rent, pets, ' .
-				'construction_year, old_or_new_building, state, balcony, garden, ' .
-				'elevator, barrier_free, assisted_living, fitted_kitchen, ' .
+				'bathrooms, heating_type, has_air_conditioning, garage_type, ' .
+				'garage_rent, pets, construction_year, old_or_new_building, ' .
+				'state, balcony, garden, elevator, barrier_free, ' .
+				'assisted_living, fitted_kitchen, has_pool, has_community_pool,' .
+				'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
+					'bold|italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
 					'bold|italic|underline|left|center|right|orderedlist|' .
 					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
@@ -994,8 +1030,13 @@ $TCA['tx_realty_objects'] = array(
 				'living_area, total_area, estate_size, provision, usable_from, ' .
 				'buying_price, hoa_fee, year_rent, rented, apartment_type, ' .
 				'house_type, floor, floors, bedrooms, bathrooms, heating_type, ' .
-				'garage_type, garage_price, construction_year, old_or_new_building, ' .
-				'state, balcony, garden, elevator, barrier_free, fitted_kitchen, ' .
+				'has_air_conditioning, garage_type, garage_price, construction_year, ' .
+				'old_or_new_building, state, balcony, garden, elevator, barrier_free, ' .
+				'fitted_kitchen, has_pool, has_community_pool, ' .
+				'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
+					'bold|italic|underline|left|center|right|orderedlist|' .
+					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
+					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'description;;;richtext[cut|copy|paste|formatblock|textcolor|' .
 					'bold|italic|underline|left|center|right|orderedlist|' .
 					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .

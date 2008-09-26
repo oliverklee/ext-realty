@@ -705,6 +705,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
+		<renderlet:TEXTAREA name="teaser" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.teaser"/>
 		<renderlet:TEXTAREA name="description" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.description">
 			<validators>
 				<validator:STANDARD>
@@ -983,6 +984,9 @@
 			</validators>
 		</renderlet:CHECKBOX>
 		<renderlet:CHECKSINGLE name="fitted_kitchen" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen"/>
+		<renderlet:CHECKSINGLE name="has_pool" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_pool"/>
+		<renderlet:CHECKSINGLE name="has_community_pool" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_community_pool"/>
+		<renderlet:CHECKSINGLE name="has_air_conditioning" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_air_conditioning"/>
 		<renderlet:LISTBOX name="pets" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.pets">
 			<data>
 				<items>
