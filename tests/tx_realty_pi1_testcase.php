@@ -762,6 +762,85 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testListViewWithOneRecordDueToTheAppliedUidFilterRedirectsToSingleView() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('uid' => $this->firstRealtyUid);
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'Location:',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleView() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'Location:',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectPid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'?id=' . $this->singlePid,
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+
+	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectShowUid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'tx_realty_pi1[showUid]=' . $this->firstRealtyUid,
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewAnProvidesAChash() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'cHash=',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testListViewWithOneRecordNotCausedByTheIdFilterNotRedirectsToSingleView() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_CITIES, $this->firstCityUid, array('title' => 'foo-bar')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('site' => 'foo');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testListViewWithTwoRecordsNotRedirectsToSingleView() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
 
 	/////////////////////////////////
 	// Testing filtered list views.
@@ -1127,7 +1206,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewContainsMatchingRecordWhenFilteredByObjectNumber() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
 
 		$this->assertContains(
@@ -1138,7 +1216,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewNotContainsMismatchingRecordWhenFilteredByObjectNumber() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
 
 		$this->assertNotContains(
@@ -1149,7 +1226,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewContainsMatchingRecordWhenFilteredByUid() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 		$this->fixture->piVars = array('uid' => $this->firstRealtyUid);
 
 		$this->assertContains(
@@ -1160,7 +1236,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewNotContainsMismatchingRecordWhenFilteredByUid() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 		$this->fixture->piVars = array('uid' => $this->firstRealtyUid);
 
 		$this->assertNotContains(

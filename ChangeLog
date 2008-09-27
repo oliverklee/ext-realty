@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2194] Feature: Automatically redirect to the single view if the filtered list view has only one result
 - [#2223] Change: Use spaces as thousands separator
 - [#2193] Feature: Filter the list view by the UID/object number provided from the filter form
 - [#2174] Feature: Integrate the fields from realty_steffek

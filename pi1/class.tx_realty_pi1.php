@@ -366,6 +366,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setMarker('list_heading', $this->translate($listLabel));
 		$this->setSubpart('favorites_url', $this->getFavoritesUrl());
 		$this->fillListRows();
+		$this->setRedirectHeaderForSingleResult();
 		$this->createGoogleMapForListView();
 
 		return $this->getSubpart('LIST_VIEW');
@@ -384,9 +385,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$listItems = '';
 		$rowCounter = 0;
 
-		while ($this->internal['currentRow']
-			= $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)
 		) {
+			$this->internal['currentRow'] = $row;
 			$listItems .= $this->createListRow($rowCounter);
 			$rowCounter++;
 		}
@@ -2631,7 +2632,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * created link will lead to the login page instead, including a
 	 * redirect_url parameter to the single view page.
 	 *
-	 * @param	string		$linkText, must not be empty
+	 * @param	string		$linkText, may be '|' but not empty
 	 * @param	integer		UID of the realty object to show
 	 * @param	string		PID or URL of the single view page, set to '' to use
 	 * 						the default single view page
@@ -2642,7 +2643,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createLinkToSingleViewPageForAnyLinkText(
 		$linkText, $uid, $separateSingleViewPage = ''
 	) {
-		if (empty($linkText)) {
+		if ($linkText == '') {
 			return '';
 		}
 
@@ -2656,13 +2657,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				array('parameter' => $separateSingleViewPage)
 			);
 		} else {
-			$completeLink = $this->pi_list_linkSingle(
+			$completeLink = $this->cObj->typoLink(
 				$linkText,
-				intval($uid),
-				$useCache,
-				array(),
-				false,
-				$this->getConfValueInteger('singlePID')
+				array(
+					'parameter' => $this->getConfValueInteger('singlePID'),
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						$this->prefixId, array('showUid' => $uid)
+					),
+					'useCacheHash' => $useCache,
+				)
 			);
 		}
 
@@ -2681,8 +2684,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates a link to the login page. The link will contain a redirect URL to
 	 * the page which contains the link.
 	 *
-	 * @param	string		link text, HTML tags will not be replaced, must not
-	 * 						be empty
+	 * @param	string		link text, HTML tags will not be replaced, may be '|'
+	 * 						but not empty
 	 * @param	boolean		whether the redirect link needs to be created for an
 	 * 						external single view page
 	 *
@@ -3017,6 +3020,26 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->cachedOwner = $row ? $row : array('uid' => 0);
+	}
+
+	/**
+	 * Sets a redirect header if there is only one record in the list and if
+	 * this is because an ID filter was applied in the search form.
+	 */
+	private function setRedirectHeaderForSingleResult() {
+		if (($this->internal['res_count'] != 1)
+			|| (($this->piVars['uid'] == 0) && ($this->piVars['objectNumber'] == 0))
+		) {
+			return;
+		}
+
+		$this->createLinkToSingleViewPageForAnyLinkText(
+			'|', $this->internal['currentRow']['uid']
+		);
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader(
+			'Location: ' .
+			t3lib_div::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
+		);
 	}
 }
 
