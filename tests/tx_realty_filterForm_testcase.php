@@ -305,5 +305,41 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->getWhereClausePart(array('site' => ''))
 		);
 	}
+
+	public function testWhereClauseForUidSearchWithNonZeroUidCanBeCreated() {
+		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+
+		$this->assertEquals(
+			' AND ' . REALTY_TABLE_OBJECTS . '.uid=1',
+			$this->fixture->getWhereClausePart(array('uid' => 1))
+		);
+	}
+
+	public function testWhereClauseForUidSearchWithZeroUidIsEmpty() {
+		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('uid' => 0))
+		);
+	}
+
+	public function testWhereClauseForObjectNumberSearchWithNonEmptyObjectNumberCanBeCreated() {
+		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
+
+		$this->assertEquals(
+			' AND ' . REALTY_TABLE_OBJECTS . '.object_number="foo"',
+			$this->fixture->getWhereClausePart(array('objectNumber' => 'foo'))
+		);
+	}
+
+	public function testWhereClauseForObjectNumberSearchWithEmptyObjectNumberIsEmpty() {
+		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('objectNumber' => ''))
+		);
+	}
 }
 ?>

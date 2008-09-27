@@ -40,11 +40,15 @@ class tx_realty_filterForm {
 	private $plugin = null;
 
 	/**
-	 * Filter form data array with the elements "priceRange" and "site".
-	 * "priceRange" keeps a string of the format "number-number" and "site" has
-	 * any string, directly derived from the form data.
+	 * @var	array		Filter form data array with the elements "priceRange",
+	 * 					"site", "objectNumber" and "uid".
+	 * 					"priceRange" keeps a string of the format
+	 * 					"number-number" and "site" has any string, directly
+	 * 					derived from the form data.
 	 */
-	private $filterFormData = array('priceRange' => '', 'site' => '');
+	private $filterFormData = array(
+		'priceRange' => '', 'site' => '', 'objectNumber' => '', 'uid' => 0
+	);
 
 	/**
 	 * The constructor.
@@ -90,7 +94,9 @@ class tx_realty_filterForm {
 		$this->extractValidFilterFormData($filterFormData);
 
 		return $this->getPriceRangeWhereClausePart() .
-			$this->getSiteWhereClausePart();
+			$this->getSiteWhereClausePart() .
+			$this->getObjectNumberWhereClausePart() .
+			$this->getUidWhereClausePart();
 	}
 
 	/**
@@ -100,18 +106,21 @@ class tx_realty_filterForm {
 	 * @param	array		filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
+		foreach (array('site', 'objectNumber', 'uid') as $key) {
+			if (isset($formData[$key])) {
+				$this->filterFormData[$key]
+					= ($key == 'uid') ? intval($formData[$key]) : $formData[$key];
+			} else {
+				$this->filterFormData[$key] = ($key == 'uid') ? 0 : '';
+			}
+		}
+
 		if (isset($formData['priceRange'])
 			&& preg_match('/^(\d+-\d+|-\d+|\d+-)$/', $formData['priceRange'])
 		) {
 			$this->filterFormData['priceRange'] = $formData['priceRange'];
 		} else {
 			$this->filterFormData['priceRange'] = '';
-		}
-
-		if ($this->isSiteSearchVisible() && isset($formData['site'])) {
-			$this->filterFormData['site'] = $formData['site'];
-		} else {
-			$this->filterFormData['site'] = '';
 		}
 	}
 
@@ -142,19 +151,6 @@ class tx_realty_filterForm {
 	}
 
 	/**
-	 * Returns whether the site search is configured to be visible in the filter
-	 * form.
-	 *
-	 * @return	boolean		true if the site search should be displayed, false
-	 * 						otherwise
-	 */
-	private function isSiteSearchVisible() {
-		return $this->plugin->getConfValueString(
-			'showSiteSearchInFilterForm', 's_searchForm')
-			== 'show';
-	}
-
-	/**
 	 * Sets the target URL marker.
 	 */
 	private function setTargetUrlMarker() {
@@ -164,8 +160,7 @@ class tx_realty_filterForm {
 				$this->plugin->cObj->typoLink_URL(
 					array(
 						'parameter' => $this->plugin->getConfValueInteger(
-							'filterTargetPID',
-							's_searchForm'
+							'filterTargetPID', 's_searchForm'
 						),
 					)
 				)
@@ -178,7 +173,9 @@ class tx_realty_filterForm {
 	 * the input if it is disabled by configuration.
 	 */
 	private function fillOrHideSiteSearch() {
-		if ($this->isSiteSearchVisible()) {
+		if ($this->plugin->getConfValueString(
+			'showSiteSearchInFilterForm', 's_searchForm'
+		) == 'show') {
 			$this->plugin->setMarker(
 				'site', htmlspecialchars($this->filterFormData['site'])
 			);
@@ -213,6 +210,36 @@ class tx_realty_filterForm {
 		} else {
 			$this->plugin->hideSubparts('wrapper_price_range_options');
 		}
+	}
+
+	/**
+	 * Fills the input box for the UID or the object number search if it is
+	 * configured to be displayed. Hides the form element if it is disabled by
+	 * configuration.
+	 */
+	private function fillOrHideIdSearch() {
+		$searchType = $this->plugin->getConfValueString(
+			'showIdSearchInFilterForm', 's_searchForm'
+		);
+
+		if ($searchType == '') {
+			$this->plugin->hideSubparts('wrapper_id_search');
+			return;
+		}
+
+		$this->plugin->setMarker(
+			'searched_id',
+			($this->filterFormData[$searchType] != 0)
+				 ? htmlspecialchars($this->filterFormData[$searchType])
+				 : ''
+		);
+		$this->plugin->setMarker(
+			'id_search_label',
+			$this->plugin->translate(
+				'label_enter_' . $searchType
+			)
+		);
+		$this->plugin->setMarker('id_search_type', $searchType);
 	}
 
 	/**
@@ -321,9 +348,9 @@ class tx_realty_filterForm {
 		// The WHERE clause part for the lower limit is always set, even if no
 		// lower limit was provided. The lower limit will just be zero then.
 		$lowerLimitRent = REALTY_TABLE_OBJECTS . '.rent_excluding_bills ' .
-			'>'.$equalSign.' ' . $range['lowerLimit'];
+			'>' . $equalSign . ' ' . $range['lowerLimit'];
 		$lowerLimitBuy = REALTY_TABLE_OBJECTS . '.buying_price ' .
-			'>'.$equalSign.' '.$range['lowerLimit'];
+			'>' . $equalSign . ' ' . $range['lowerLimit'];
 
 		// The upper limit will be zero if no upper limit was provided. So zero
 		// means infinite here.
@@ -376,27 +403,37 @@ class tx_realty_filterForm {
 	}
 
 	/**
-	 * Fills the input box for the UID or the object number search if it is
-	 * configured to be displayed. Hides the form element if it is disabled by
-	 * configuration.
+	 * Returns the WHERE clause part for the object number.
+	 *
+	 * @return	string		WHERE clause part beginning with " AND", will be
+	 * 						empty if no filter form data was provided for
+	 * 						the object number
 	 */
-	private function fillOrHideIdSearch() {
-		$searchType = $this->plugin->getConfValueString(
-			'showIdSearchInFilterForm',
-			's_searchForm'
-		);
-		if ($searchType == '') {
-			$this->plugin->hideSubparts('wrapper_id_search');
-			return;
+	private function getObjectNumberWhereClausePart() {
+		if ($this->filterFormData['objectNumber'] == '') {
+			return '';
 		}
 
-		$this->plugin->setMarker(
-			'id_search_label',
-			$this->plugin->translate(
-				'label_enter_' . $searchType
-			)
-		);
-		$this->plugin->setMarker('id_search_type', $searchType);
+		return ' AND ' . REALTY_TABLE_OBJECTS . '.object_number="' .
+			$GLOBALS['TYPO3_DB']->quoteStr(
+				$this->filterFormData['objectNumber'], REALTY_TABLE_OBJECTS
+			) . '"';
+	}
+
+	/**
+	 * Returns the WHERE clause part for the UID.
+	 *
+	 * @return	string		WHERE clause part beginning with " AND", will be
+	 * 						empty if no filter form data was provided for
+	 * 						the UID
+	 */
+	private function getUidWhereClausePart() {
+		if ($this->filterFormData['uid'] == 0) {
+			return '';
+		}
+
+		return ' AND ' . REALTY_TABLE_OBJECTS . '.uid=' .
+			$this->filterFormData['uid'];
 	}
 }
 

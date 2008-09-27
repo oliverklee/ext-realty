@@ -221,7 +221,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$this->internal['currentTable'] = $this->tableNames['objects'];
 		$this->ensureIntegerPiVars(array(
-			'city', 'image', 'remove', 'showUid', 'delete', 'owner'
+			'city', 'image', 'remove', 'showUid', 'delete', 'owner', 'uid'
 		));
 		$this->cacheSelectedOwner();
 

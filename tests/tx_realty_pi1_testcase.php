@@ -1111,6 +1111,50 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testListViewContainsMatchingRecordWhenFilteredByObjectNumber() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
+
+		$this->assertContains(
+			self::$firstObjectNumber,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewNotContainsMismatchingRecordWhenFilteredByObjectNumber() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewContainsMatchingRecordWhenFilteredByUid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('uid' => $this->firstRealtyUid);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewNotContainsMismatchingRecordWhenFilteredByUid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->piVars = array('uid' => $this->firstRealtyUid);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	//////////////////////////////////////////
 	// Tests for the list filter checkboxes.
@@ -1337,7 +1381,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTheListFiltersLinkDoesNoContainPiVars() {
+	public function testTheListFiltersLinkDoesNotContainSearchPiVars() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 		$this->fixture->piVars['search'] = array($this->firstCityUid);
