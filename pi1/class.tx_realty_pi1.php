@@ -1400,7 +1400,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$rawValue,
 			$decimals,
 			$localeConvention['decimal_point'],
-			$localeConvention['thousands_sep']
+			' '
 		);
 
 		return $formattedNumber.'&nbsp;'.$unit;;

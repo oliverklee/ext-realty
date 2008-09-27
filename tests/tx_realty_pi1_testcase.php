@@ -660,6 +660,20 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testListViewFormatsPriceUsingSpaceAsThousandsSeparator() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => '1234567', 'object_type' => '1')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			'1 234 567',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testCreateListViewReturnsListOfRecords() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 
@@ -2510,12 +2524,32 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('hoa_fee' => '9', 'object_type' => '1')
 		);
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
-		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'hoa_fee');
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'hoa_fee'
+		);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
 
 		$this->assertContains(
 			'&euro;',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewFormatsPriceUsingSpaceAsThousandsSeparator() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => '1234567', 'object_type' => '1')
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'buying_price'
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+
+		$this->assertContains(
+			'1 234 567',
 			$this->fixture->main('', array())
 		);
 	}
@@ -2637,7 +2671,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->main('', array());
 
 		$this->assertContains(
-			'12345',
+			'12 345',
 			$this->fixture->getFieldContent('estate_size')
 		);
 	}
@@ -2655,7 +2689,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->main('', array());
 
 		$this->assertContains(
-			'12345',
+			'12 345',
 			$this->fixture->getFieldContent('hoa_fee')
 		);
 	}
