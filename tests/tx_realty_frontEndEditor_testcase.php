@@ -78,6 +78,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
 
+		$this->fixture->__destruct();
+		$this->pi1->__destruct();
 		unset($this->fixture, $this->pi1, $this->testingFramework);
 	}
 

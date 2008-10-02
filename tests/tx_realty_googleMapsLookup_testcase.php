@@ -62,6 +62,9 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		$this->fixture->__destruct();
+		$this->configuration->__destruct();
+
 		unset($this->fixture, $this->configuration);
 	}
 

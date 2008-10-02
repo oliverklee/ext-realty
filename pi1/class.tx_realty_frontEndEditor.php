@@ -148,6 +148,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$items[] = array('caption' => $row[$titleColumn], 'value' => $row['uid']);
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		// Resets the array pointer as expected by FORMidable.
 		reset($items);
@@ -330,6 +331,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$languages[] = $row['language'];
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		// Initially, new objects will always have an empty language because
 		// FE users cannot set the language.
@@ -374,7 +376,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		return (boolean) $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$result = (boolean) $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		return $result;
 	}
 
 	/**
@@ -887,6 +892,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return ($result !== false) ? $result['uid'] : 0;
 	}
@@ -1020,6 +1026,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return intval($row['save_folder']);
 	}
@@ -1169,6 +1176,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				'a FE user to be logged in.'
 			);
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
 	}

@@ -63,7 +63,9 @@ class tx_realty_openImmoImport {
 	 */
 	private $temporaryErrorLog = '';
 
-	/** DOMDocments of XML files are written to this */
+	/**
+	 * @var	DOMDocument		the current imported XML
+	 */
 	private $importedXml = null;
 
 	/** instance of tx_oelib_configuration_proxy to access the EM configuration */
@@ -102,6 +104,20 @@ class tx_realty_openImmoImport {
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 		$this->setUploadDirectory(PATH_site.'uploads/tx_realty/');
 		$this->translator = t3lib_div::makeInstance('tx_realty_translator');
+	}
+
+	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		if ($this->realtyObject) {
+			$this->realtyObject->__destruct();
+		}
+
+		unset(
+			$this->globalConfiguration, $this->translator, $this->importedXml,
+			$this->realtyObject
+		);
 	}
 
 	/**
@@ -692,7 +708,12 @@ class tx_realty_openImmoImport {
 			'footer', $this->translator->translate('message_explanation')
 		);
 
-		return $templateHelper->getSubpart('EMAIL_BODY');
+		$result = $templateHelper->getSubpart('EMAIL_BODY');
+
+		$templateHelper->__destruct();
+		unset($templateHelper);
+
+		return $result;
 	}
 
 	/**
@@ -1106,7 +1127,12 @@ class tx_realty_openImmoImport {
 			'tx_realty_domDocumentConverter'
 		);
 
-		return $domDocumentConverter->getConvertedData($realtyRecords);
+		$result = $domDocumentConverter->getConvertedData($realtyRecords);
+
+		$domDocumentConverter->__destruct();
+		unset($domDocumentConverter);
+
+		return $result;
 	}
 
 	/**
@@ -1120,6 +1146,11 @@ class tx_realty_openImmoImport {
 	 * 						result row, or UID of an existing record
 	 */
 	protected function loadRealtyObject($data) {
+		if ($this->realtyObject) {
+			$this->realtyObject->__destruct();
+			unset($this->realtyObject);
+		}
+
 		$this->realtyObject = new tx_realty_object($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data, true);
 	}

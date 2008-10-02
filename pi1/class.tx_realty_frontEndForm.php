@@ -111,6 +111,15 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->formCreator, $this->plugin, $this->realtyObject);
+
+		parent::__destruct();
+	}
+
+	/**
 	 * Returns the FE editor in HTML if a user is logged in and authorized, and
 	 * if the object to edit actually exists in the database. Otherwise the
 	 * result will be an error view.

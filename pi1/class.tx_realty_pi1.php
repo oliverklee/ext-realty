@@ -198,6 +198,22 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		if ($this->filterForm) {
+			$this->filterForm->__destruct();
+		}
+		if ($this->cachedRealtyObject) {
+			$this->cachedRealtyObject->__destruct();
+		}
+
+		unset($this->filterForm, $this->cachedRealtyObject);
+
+		parent::__destruct();
+	}
+
+	/**
 	 * Displays the Realty Manager HTML.
 	 *
 	 * @param	string		(not used)

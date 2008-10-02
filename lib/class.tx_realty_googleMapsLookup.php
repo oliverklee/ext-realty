@@ -77,6 +77,13 @@ class tx_realty_googleMapsLookup {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->configuration);
+	}
+
+	/**
 	 * Looks up the geo coordinates of an address.
 	 *
 	 * @param	string		the street of the address

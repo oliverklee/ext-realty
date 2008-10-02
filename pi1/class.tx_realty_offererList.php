@@ -51,6 +51,13 @@ class tx_realty_offererList {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->plugin);
+	}
+
+	/**
 	 * Returns the offerer list in HTML.
 	 *
 	 * @return	string		HTML of the offerer list, will not be empty

@@ -48,6 +48,8 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		$this->fixture->__destruct();
+
 		unset($this->fixture);
 	}
 

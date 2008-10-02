@@ -114,6 +114,13 @@ class tx_realty_domDocumentConverter {
 	private static $cachedCountries = array();
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->rawRealtyData);
+	}
+
+	/**
 	 * Handles the conversion of a DOMDocument and returns the realty records
 	 * found in the DOMDocument as values of an array. Each of this values is an
 	 * array with column names like in the database table 'tx_realty_objects' as
@@ -840,6 +847,7 @@ class tx_realty_domDocumentConverter {
 				throw new Exception(DATABASE_QUERY_ERROR);
 			}
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 			$uid = $row ? $row['uid'] : 0;
 			$this->cacheCountry($country, $uid);
 		}

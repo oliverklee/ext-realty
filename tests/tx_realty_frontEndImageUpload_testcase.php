@@ -82,8 +82,10 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
+
+		$this->fixture->__destruct();
+		$this->pi1->__destruct();
 		unset($this->fixture, $this->pi1, $this->testingFramework);
 	}
 

@@ -69,10 +69,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 
-		$this->templateHelper= t3lib_div::makeInstance('tx_oelib_templatehelper');
+		$this->templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
 		$this->templateHelper->init();
 
-		$this->translator= t3lib_div::makeInstance('tx_realty_translator');
+		$this->translator = t3lib_div::makeInstance('tx_realty_translator');
 
 		$this->fixture = new tx_realty_openImmoImportChild(true);
 		$this->setupStaticConditions();
@@ -81,11 +81,16 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
+
+		$this->fixture->__destruct();
+		$this->templateHelper->__destruct();
+
 		unset(
 			$this->fixture,
 			$this->translator,
 			$this->templateHelper,
-			$this->testingFramework
+			$this->testingFramework,
+			$this->globalConfiguration
 		);
 		$this->deleteTestImportFolder();
 	}

@@ -119,6 +119,13 @@ class tx_realty_object {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->templateHelper);
+	}
+
+	/**
 	 * Receives the data for a new realty object, converts it to an array and
 	 * writes it to $this->realtyObjectData.
 	 * The received data can either be a database result row or an array which
@@ -336,6 +343,7 @@ class tx_realty_object {
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		if (is_array($row)) {
 			$this->ownerData = $row;
@@ -591,6 +599,7 @@ class tx_realty_object {
 				);
 			}
 		}
+		unset($referenceIndex);
 	}
 
 	/**
@@ -726,6 +735,7 @@ class tx_realty_object {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
 			$this->images[] = $row;
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 	}
 
 	/**
@@ -874,6 +884,7 @@ class tx_realty_object {
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return is_array($result) ? $result : array();
 	}
@@ -1001,6 +1012,7 @@ class tx_realty_object {
 			}
 
 			$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
 		return is_array($result) ? $result : array();
@@ -1109,6 +1121,7 @@ class tx_realty_object {
 			if (!$row) {
 				throw new Exception(DATABASE_RESULT_ERROR);
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 			self::$cityCache[$uid] = $row['title'];
 		}

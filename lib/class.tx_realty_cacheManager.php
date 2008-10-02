@@ -52,6 +52,7 @@ class tx_realty_cacheManager {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$pageIds[] = $row['pid'];
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		tslib_fe::clearPageCacheContent_pidList(implode(',', $pageIds));
 	}

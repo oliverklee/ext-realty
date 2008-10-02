@@ -60,6 +60,13 @@ class tx_realty_filterForm {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->plugin);
+	}
+
+	/**
 	 * Returns the filter form in HTML.
 	 *
 	 * @param	array		current piVars, the elements "priceRange" and "site"

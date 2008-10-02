@@ -82,6 +82,9 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
+
+		$this->fixture->__destruct();
+		$this->pi1->__destruct();
 		unset($this->fixture, $this->pi1, $this->testingFramework);
 	}
 
