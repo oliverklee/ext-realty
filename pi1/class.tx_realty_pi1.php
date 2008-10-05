@@ -2532,7 +2532,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						could be fetched
 	 */
 	private function getWhereClausePartForPidList() {
-		$pidList = $this->createRecursivePageList(
+		$pidList = tx_oelib_db::createRecursivePageList(
 			$this->getConfValueString('pidList'),
 			$this->getConfValueInteger('recursive')
 		);
