@@ -31,11 +31,12 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
 class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/** plugin in which the contact form is used */
@@ -389,8 +390,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'name, email, telephone',
 			'fe_users',
-			'uid='.$uid
-				.$this->plugin->enableFields('fe_users')
+			'uid=' . $uid . tx_oelib_db::enableFields('fe_users')
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);

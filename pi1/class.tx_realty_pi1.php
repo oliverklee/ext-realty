@@ -25,6 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
@@ -522,8 +523,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// The result may only contain non-deleted and non-hidden records except
 		// for the my objects view.
-		$whereClause .= $this->enableFields(REALTY_TABLE_OBJECTS, $showHiddenObjects)
-			.$this->enableFields(REALTY_TABLE_CITIES);
+		$whereClause .= tx_oelib_db::enableFields(
+			REALTY_TABLE_OBJECTS, $showHiddenObjects
+		) . tx_oelib_db::enableFields(REALTY_TABLE_CITIES);
 
 		$whereClause .= $this->getWhereClausePartForPidList();
 
@@ -766,11 +768,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function getCurrentRowForShowUid() {
 		$showUid = 'uid='.$this->piVars['showUid'];
-		$whereClause = '('.$showUid.$this->enableFields(REALTY_TABLE_OBJECTS).')';
+		$whereClause = '(' . $showUid .
+			tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) . ')';
 		// Logged-in users may also see their hidden objects in the single view.
 		if ($this->isLoggedIn()) {
-			$whereClause .= ' OR ('.$showUid.' AND owner='.$this->getFeUserUid()
-				.$this->enableFields(REALTY_TABLE_OBJECTS, 1).')';
+			$whereClause .= ' OR (' . $showUid .
+				' AND owner=' . $this->getFeUserUid() .
+				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1) . ')';
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -1142,8 +1146,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'telephone,company',
 			'fe_users',
-			'uid='.$this->internal['currentRow']['owner']
-				.$this->enableFields('fe_users')
+			'uid=' . $this->internal['currentRow']['owner'] .
+				tx_oelib_db::enableFields('fe_users')
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -1303,7 +1307,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			$titleColumn,
 			$tableName,
-			'uid=' . $foreignKey . $this->enableFields($tableName)
+			'uid=' . $foreignKey . tx_oelib_db::enableFields($tableName)
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -1664,7 +1668,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'image, caption',
 			REALTY_TABLE_IMAGES,
 			'realty_object_uid=' . $this->internal['currentRow']['uid'] .
-				$this->enableFields(REALTY_TABLE_IMAGES),
+				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 			'',
 			'uid',
 			intval($offset) . ',1'
@@ -1921,9 +1925,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			REALTY_TABLE_CITIES.'.uid, '.REALTY_TABLE_CITIES.'.title',
 			REALTY_TABLE_OBJECTS.','.REALTY_TABLE_CITIES,
-			REALTY_TABLE_OBJECTS.'.city='.REALTY_TABLE_CITIES.'.uid'
-				.$this->enableFields(REALTY_TABLE_OBJECTS)
-				.$this->enableFields(REALTY_TABLE_CITIES),
+			REALTY_TABLE_OBJECTS . '.city=' . REALTY_TABLE_CITIES . '.uid' .
+				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
+				tx_oelib_db::enableFields(REALTY_TABLE_CITIES),
 			'uid',
 			REALTY_TABLE_CITIES.'.title'
 		);
@@ -2090,8 +2094,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		 	$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'object_number, title',
 				$table,
-				'uid IN ('.$currentFavorites.')'
-					.$this->enableFields($table)
+				'uid IN (' . $currentFavorites . ')' .
+					tx_oelib_db::enableFields($table)
 			);
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);
@@ -2423,8 +2427,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'WHERE ' . REALTY_TABLE_OBJECTS . '.' . $filterCriterion .
 					'=' . $currentTable . '.uid ' .
 					$this->getWhereClausePartForPidList() .
-					$this->enableFields(REALTY_TABLE_OBJECTS) .
-				')' . $this->enableFields($currentTable)
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
+				')' . tx_oelib_db::enableFields($currentTable)
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -3027,7 +3031,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'*',
 				'fe_users',
-				'uid=' . $this->piVars['owner'] . $this->enableFields('fe_users')
+				'uid=' . $this->piVars['owner'] .
+					tx_oelib_db::enableFields('fe_users')
 			);
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);

@@ -21,6 +21,16 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
+
+define('OBJECT_TYPE_SALE', 1);
+define('OBJECT_TYPE_RENT', 0);
+
 /**
  * Class 'tx_realty_frontEndEditor' for the 'realty' extension. This class
  * provides a FE editor the realty plugin.
@@ -30,15 +40,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndForm.php');
-
-define('OBJECT_TYPE_SALE', 1);
-define('OBJECT_TYPE_RENT', 0);
-
 class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/** @var	array		cached column names of tables */
 	private $tablesAndFieldNames = array();
@@ -135,7 +136,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			$titleColumn . ',uid',
 			$formData['table'],
-			'1=1' . $this->enableFields($formData['table']) .
+			'1=1' . tx_oelib_db::enableFields($formData['table']) .
 				($hasDummyColumn ? $this->getWhereClauseForTesting() : ''),
 			'',
 			$titleColumn
@@ -318,11 +319,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'language',
 			REALTY_TABLE_OBJECTS,
-			'object_number="'
-				.$GLOBALS['TYPO3_DB']->quoteStr(
+			'object_number="' .
+				$GLOBALS['TYPO3_DB']->quoteStr(
 					$formData['value'], REALTY_TABLE_OBJECTS
-				).'"'.$this->enableFields(REALTY_TABLE_OBJECTS, 1)
-				.$this->getWhereClauseForTesting()
+				) . '"' . tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1) .
+				$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -370,7 +371,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'uid="' .
 				$GLOBALS['TYPO3_DB']->quoteStr(
 					$formData['value'], $formData['table']
-				) . '"' . $this->enableFields($formData['table'])
+				) . '"' . tx_oelib_db::enableFields($formData['table'])
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);

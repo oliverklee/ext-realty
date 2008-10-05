@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2097] Change: Use tx_oelib_db
 - [#2123] Fix: Huge memory consumption through createFakeFrontend()
 - [#2194] Feature: Automatically redirect to the single view if the filtered list view has only one result
 - [#2223] Change: Use spaces as thousands separator

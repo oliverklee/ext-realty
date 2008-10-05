@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
@@ -45,8 +45,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private $fixture;
 	/** instance of tx_oelib_testingFramework */
 	private $testingFramework;
-	/** instance of tx_oelib_templatehelper */
-	private $templateHelper;
 	/** instance of tx_oelib_configurationProxy */
 	private $globalConfiguration;
 	/** instance of tx_realty_translator */
@@ -69,9 +67,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 
-		$this->templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
-		$this->templateHelper->init();
-
 		$this->translator = t3lib_div::makeInstance('tx_realty_translator');
 
 		$this->fixture = new tx_realty_openImmoImportChild(true);
@@ -83,12 +78,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
 
 		$this->fixture->__destruct();
-		$this->templateHelper->__destruct();
 
 		unset(
 			$this->fixture,
 			$this->translator,
-			$this->templateHelper,
 			$this->testingFramework,
 			$this->globalConfiguration
 		);
@@ -646,8 +639,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			0,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="'.$objectNumber.'"'
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="' . $objectNumber . '"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -693,8 +686,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="'.$objectNumber.'"'
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="' . $objectNumber . '"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -742,7 +735,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'object_number="' . $objectNumber . '"' .
-					$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -794,7 +787,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'object_number="' . $objectNumber . '"' .
-					$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS, 1)
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1)
 			)
 		);
 	}
@@ -1304,9 +1297,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$this->systemFolderPid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $this->systemFolderPid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1328,9 +1321,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$this->systemFolderPid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $this->systemFolderPid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1353,9 +1346,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$pid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $pid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1378,9 +1371,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$pid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $pid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1403,9 +1396,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$pid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $pid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1430,9 +1423,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$pid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $pid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1457,9 +1450,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$pid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $pid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1485,9 +1478,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$pid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $pid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1512,9 +1505,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" '
-					.'AND pid='.$pid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="bar1234567" ' .
+					'AND pid=' . $pid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}

@@ -26,8 +26,8 @@
 require_once(PATH_t3lib . 'class.t3lib_refindex.php');
 require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLookup.php');
@@ -113,16 +113,12 @@ class tx_realty_object {
 	 */
 	public function __construct($createDummyRecords = false) {
 		$this->isDummyRecord = $createDummyRecords;
-		$this->templateHelper = t3lib_div::makeInstance(
-			'tx_oelib_templatehelper'
-		);
 	}
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		unset($this->templateHelper);
 	}
 
 	/**
@@ -208,7 +204,7 @@ class tx_realty_object {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			REALTY_TABLE_OBJECTS,
-			'uid='.$uid.$this->templateHelper->enableFields(
+			'uid=' . $uid . tx_oelib_db::enableFields(
 				REALTY_TABLE_OBJECTS, $this->canLoadHiddenObjects ? 1 : -1
 			)
 		);
@@ -336,7 +332,7 @@ class tx_realty_object {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			'fe_users',
-			$whereClause . $this->templateHelper->enableFields('fe_users')
+			$whereClause . tx_oelib_db::enableFields('fe_users')
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -724,7 +720,7 @@ class tx_realty_object {
 			'caption, image',
 			REALTY_TABLE_IMAGES,
 			'realty_object_uid=' . $this->getProperty('uid') .
-				$this->templateHelper->enableFields(REALTY_TABLE_IMAGES),
+				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 			'',
 			'uid'
 		);
@@ -1004,8 +1000,8 @@ class tx_realty_object {
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				$whatToSelect,
 				$table,
-				implode(' AND ', $whereClauseParts)
-					.$this->templateHelper->enableFields($table, $showHidden)
+				implode(' AND ', $whereClauseParts) .
+					tx_oelib_db::enableFields($table, $showHidden)
 			);
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);
@@ -1111,8 +1107,7 @@ class tx_realty_object {
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				REALTY_TABLE_CITIES,
-				'uid = ' . $uid .
-					$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
+				'uid = ' . $uid . tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
 			);
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);

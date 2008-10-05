@@ -25,6 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_objectChild.php');
@@ -291,8 +292,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="'.self::$otherObjectNumber.'"'
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="' . self::$otherObjectNumber . '"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -738,8 +739,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number="'.(self::$otherObjectNumber).'"'
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number="' . (self::$otherObjectNumber) . '"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -756,8 +757,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
 					REALTY_TABLE_OBJECTS,
-					'object_number='.self::$otherObjectNumber
-						.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+					'object_number=' . self::$otherObjectNumber .
+						tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 				)
 			)
 		);
@@ -775,9 +776,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number='.self::$otherObjectNumber
-				.' AND pid='.$systemFolderPid
-				.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number=' . self::$otherObjectNumber .
+					' AND pid=' . $systemFolderPid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -817,8 +818,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
 					REALTY_TABLE_CITIES,
-					'title="foo"'
-						.$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
+					'title="foo"' .
+						tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
 				)
 			)
 		);
@@ -839,8 +840,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
 					REALTY_TABLE_CITIES,
-					'title="foo"'
-						.$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
+					'title="foo"' .
+						tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
 				)
 			)
 		);
@@ -1337,8 +1338,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
 					REALTY_TABLE_OBJECTS,
-					'object_number="'.self::$otherObjectNumber.'"'
-						.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+					'object_number="' . self::$otherObjectNumber . '"' .
+						tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 				)
 			)
 		);
@@ -1356,8 +1357,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
 					REALTY_TABLE_OBJECTS,
-					'object_number="'.self::$otherObjectNumber.'"'
-						.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+					'object_number="' . self::$otherObjectNumber . '"' .
+						tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 				)
 			)
 		);
@@ -1400,8 +1401,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'pid',
 			REALTY_TABLE_OBJECTS,
-			'object_number="'.self::$objectNumber.'"'
-				.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+			'object_number="' . self::$objectNumber . '"' .
+				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 		);
 		if (!$dbResult) {
 			$this->fail(DATABASE_QUERY_ERROR);
@@ -1440,8 +1441,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number='.self::$otherObjectNumber.' AND uid!='.$uid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number=' . self::$otherObjectNumber .
+					' AND uid!=' . $uid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1456,7 +1458,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'uid=' . $this->objectUid .
-					$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1474,7 +1476,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'uid=' . $this->objectUid .
-					$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS, 1)
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1)
 			)
 		);
 	}
@@ -1493,8 +1495,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number='.self::$objectNumber.' AND uid!='.$this->objectUid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number=' . self::$objectNumber .
+					' AND uid!=' . $this->objectUid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1513,8 +1516,9 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'object_number='.self::$objectNumber.' AND uid!='.$this->objectUid
-					.$this->templateHelper->enableFields(REALTY_TABLE_OBJECTS)
+				'object_number=' . self::$objectNumber .
+					' AND uid!=' . $this->objectUid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1537,8 +1541,8 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_CITIES,
-				'title="foo" AND uid!='.$cityUid
-					.$this->templateHelper->enableFields(REALTY_TABLE_CITIES)
+				'title="foo" AND uid!=' . $cityUid .
+					tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
 			)
 		);
 	}

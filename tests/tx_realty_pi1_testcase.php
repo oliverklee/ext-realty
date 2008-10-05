@@ -27,6 +27,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_fakeSession.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
@@ -3616,8 +3617,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			0,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
-				'uid='.$this->firstRealtyUid
-					.$this->fixture->enableFields(REALTY_TABLE_OBJECTS)
+				'uid=' . $this->firstRealtyUid .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}

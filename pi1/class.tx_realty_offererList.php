@@ -183,7 +183,7 @@ class tx_realty_offererList {
 			)
 		));
 
-		// No enableFields is used here, as the FE user records fetched in
+		// No enableFields is used here as the FE user records fetched in
 		// getListItems are not checked to be in enabled groups, either.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'title', 'fe_groups', 'uid=' . $matchingGroups[0]

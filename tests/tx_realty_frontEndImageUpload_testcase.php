@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
@@ -206,7 +207,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
-				'1=1' . $this->fixture->enableFields(REALTY_TABLE_IMAGES)
+				'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_IMAGES)
 			)
 		);
 	}
@@ -220,7 +221,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			0,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
-				'1=1' . $this->fixture->enableFields(REALTY_TABLE_IMAGES)
+				'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_IMAGES)
 			)
 		);
 	}
