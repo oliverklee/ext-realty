@@ -205,9 +205,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if ($this->filterForm) {
 			$this->filterForm->__destruct();
 		}
-		if ($this->cachedRealtyObject) {
-			$this->cachedRealtyObject->__destruct();
-		}
 
 		unset($this->filterForm, $this->cachedRealtyObject);
 

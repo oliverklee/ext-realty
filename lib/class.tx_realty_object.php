@@ -116,12 +116,6 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	public function __destruct() {
-	}
-
-	/**
 	 * Receives the data for a new realty object, converts it to an array and
 	 * writes it to $this->realtyObjectData.
 	 * The received data can either be a database result row or an array which

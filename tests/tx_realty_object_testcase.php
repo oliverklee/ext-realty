@@ -86,7 +86,6 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->cleanUpDatabase();
 
-		$this->fixture->__destruct();
 		$this->templateHelper->__destruct();
 		unset($this->fixture, $this->templateHelper, $this->testingFramework);
 	}

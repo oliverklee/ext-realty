@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2248] Fix: Fix the order of __destruct and unset calls
 - [#2243] Change: Use tx_oelib_db::createRecursivePageList
 - [#2097] Change: Use tx_oelib_db::enableFields
 - [#2123] Fix: Huge memory consumption through createFakeFrontend()

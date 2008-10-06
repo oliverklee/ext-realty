@@ -110,10 +110,6 @@ class tx_realty_openImmoImport {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		if ($this->realtyObject) {
-			$this->realtyObject->__destruct();
-		}
-
 		unset(
 			$this->globalConfiguration, $this->translator, $this->importedXml,
 			$this->realtyObject
@@ -1146,11 +1142,6 @@ class tx_realty_openImmoImport {
 	 * 						result row, or UID of an existing record
 	 */
 	protected function loadRealtyObject($data) {
-		if ($this->realtyObject) {
-			$this->realtyObject->__destruct();
-			unset($this->realtyObject);
-		}
-
 		$this->realtyObject = new tx_realty_object($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data, true);
 	}

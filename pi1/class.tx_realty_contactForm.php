@@ -77,10 +77,6 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		if ($this->realtyObject) {
-			$this->realtyObject->__destruct();
-		}
-
 		unset($this->formCreator, $this->plugin, $this->realtyObject);
 
 		parent::__destruct();
