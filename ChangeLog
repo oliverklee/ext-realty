@@ -1,4 +1,5 @@
 0.3.0 - currently working on
+- [#2258] Fix: The city selector doesn't use the target PID from flexforms in the link
 - [#2223] Change: Use spaces as thousands separator
 - [#1752, #1501, 1502] Localization: Before the release, copy the current localizations from the trunk
 - [#1911] Change: All tests for the target page of links can check for ?id=pageid

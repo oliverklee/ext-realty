@@ -1723,22 +1723,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		HTML of the city selector (will not be empty)
 	 */
 	private function createCitySelector() {
-		// sets marker for the target page of the form
-		$this->setMarker(
-			'target_url',
-			$this->cObj->typoLink_URL(
-				array('parameter' => $this->getConfValueInteger('filterTargetPID'))
-			)
+		$targetListViewUrl = $this->cObj->typoLink_URL(
+			array('parameter' => $this->getConfValueInteger(
+				'filterTargetPID', 's_searchForm'
+			))
 		);
+		$this->setMarker('target_url', $targetListViewUrl);
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			REALTY_TABLE_CITIES.'.uid, '.REALTY_TABLE_CITIES.'.title',
-			REALTY_TABLE_OBJECTS.','.REALTY_TABLE_CITIES,
-			REALTY_TABLE_OBJECTS.'.city='.REALTY_TABLE_CITIES.'.uid'
-				.$this->enableFields(REALTY_TABLE_OBJECTS)
-				.$this->enableFields(REALTY_TABLE_CITIES),
+			REALTY_TABLE_CITIES . '.uid, ' . REALTY_TABLE_CITIES . '.title',
+			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_CITIES,
+			REALTY_TABLE_OBJECTS . '.city=' . REALTY_TABLE_CITIES . '.uid' .
+				$this->enableFields(REALTY_TABLE_OBJECTS) .
+				$this->enableFields(REALTY_TABLE_CITIES),
 			'uid',
-			REALTY_TABLE_CITIES.'.title'
+			REALTY_TABLE_CITIES . '.title'
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -1754,8 +1753,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$options = '';
 		if (count($cities)) {
 			foreach ($cities as $city) {
-				$options .= '<option value="'.$city['uid'].'">'
-					.$city['title'].'</option>'.LF;
+				$options .= '<option value="' . $city['uid'] . '">' .
+					$city['title'] . '</option>' . LF;
 			}
 		}
 		$this->setOrDeleteMarkerIfNotEmpty(
