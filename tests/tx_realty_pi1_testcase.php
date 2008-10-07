@@ -776,9 +776,25 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleView() {
+	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNumericObjectNumber() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->piVars = array('objectNumber' => self::$firstObjectNumber);
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'Location:',
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
+		);
+	}
+
+	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNonNumericObjectNumber() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('object_number' => 'object number')
+		);
+		$this->fixture->piVars = array('objectNumber' => 'object number');
 		$this->fixture->main('', array());
 
 		$this->assertContains(

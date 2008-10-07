@@ -3046,7 +3046,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function setRedirectHeaderForSingleResult() {
 		if (($this->internal['res_count'] != 1)
-			|| (($this->piVars['uid'] == 0) && ($this->piVars['objectNumber'] == 0))
+			|| (($this->piVars['uid'] == 0) && empty($this->piVars['objectNumber']))
 		) {
 			return;
 		}
