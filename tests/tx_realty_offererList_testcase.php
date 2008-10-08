@@ -72,7 +72,8 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			'userGroupsForOffererList', $this->feUserGroupUid
 		);
 
-		$this->fixture = new tx_realty_offererList($this->pi1);
+		// "true" enables the test mode
+		$this->fixture = new tx_realty_offererList($this->pi1, true);
 	}
 
 	public function tearDown() {
@@ -207,6 +208,37 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOffererListDisplaysFeUserRecordIfNoUserGroupRestrictionIsConfigured() {
+		$this->pi1->setConfigurationValue('userGroupsForOffererList', '');
+		$this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup(),
+			array('username' => 'other user')
+		);
+
+		$this->assertContains(
+			self::FE_USER_NAME,
+			$this->fixture->render()
+		);
+		$this->assertContains(
+			'other user',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererDisplaysGrouplessFeUserRecordIfNoUserGroupRestrictionIsConfigured() {
+		// This test is to document that there is no crash if there is such a
+		// record in the database.
+		$this->pi1->setConfigurationValue('userGroupsForOffererList', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('usergroup' => '')
+		);
+
+		$this->assertContains(
+			self::FE_USER_NAME,
+			$this->fixture->render()
+		);
+	}
+
 	public function testOffererListDisplaysTwoOfferersWhoAreInDifferentConfiguredGroupsOrderedByGroupUid() {
 		$secondFeUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->pi1->setConfigurationValue(
@@ -241,15 +273,6 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			'userGroupsForOffererList',
 			$this->testingFramework->createFrontEndUserGroup()
 		);
-
-		$this->assertContains(
-			'noresults',
-			$this->fixture->render()
-		);
-	}
-
-	public function testOffererListDisplaysNoResultViewForConfiguredGroup() {
-		$this->pi1->setConfigurationValue('userGroupsForOffererList', '');
 
 		$this->assertContains(
 			'noresults',
@@ -465,6 +488,17 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'other group',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsNoBranchesIfTheOfferersFirstUserGroupIsNameless() {
+		$this->testingFramework->changeRecord(
+			'fe_groups', $this->feUserGroupUid, array('title' => '')
+		);
+
+		$this->assertNotContains(
+			'()',
 			$this->fixture->render()
 		);
 	}

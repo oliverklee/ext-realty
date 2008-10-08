@@ -532,13 +532,13 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting of the configuration value userGroupsForOffererList.
 	 */
 	private function checkUserGroupsForOffererList() {
-		$this->checkIfPidListNotEmpty(
+		$this->checkIfPidListOrEmpty(
 			'userGroupsForOffererList',
 			true,
 			'sDEF',
 			'This value specifies the group from which the users are displayed ' .
 				'in the offerer list. The list will be empty if this value is ' .
-				'empty or invalid.'
+				'invalid.'
 		);
 	}
 

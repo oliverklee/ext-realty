@@ -40,14 +40,18 @@ class tx_realty_offererList {
 	 */
 	private $plugin = null;
 
+	/** @var boolean whether this class is instantiated for testing */
+	private $isTestMode = false;
+
 	/**
 	 * The constructor.
 	 *
-	 * @param	tx_realty_pi1		plugin that contains the offerer
-	 * 								list
+	 * @param tx_realty_pi1 plugin that contains the offerer list
+	 * @param boolean true if this class is instantiated for testing, else false
 	 */
-	public function __construct(tx_realty_pi1 $plugin) {
+	public function __construct(tx_realty_pi1 $plugin, $isTestMode = false) {
 		$this->plugin = $plugin;
+		$this->isTestMode = $isTestMode;
 	}
 
 	/**
@@ -88,20 +92,23 @@ class tx_realty_offererList {
 	 * 						no offerers
 	 */
 	private function getListItems() {
-		if (!$this->plugin->hasConfValueString('userGroupsForOffererList')) {
-			return '';
+		if ($this->plugin->hasConfValueString('userGroupsForOffererList')) {
+			$userGroups = str_replace(
+				',',
+				'|',
+				$this->plugin->getConfValueString('userGroupsForOffererList')
+			);
+			$userGroupRestriction = 'usergroup ' .
+				'REGEXP "(^|,)(' . $userGroups . ')(,|$)"' .
+				tx_oelib_db::enableFields('fe_users');
+		} else {
+			$userGroupRestriction = '1=1';			
 		}
 
-		$userGroups = str_replace(
-			',',
-			'|',
-			$this->plugin->getConfValueString('userGroupsForOffererList')
-		);
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			'fe_users',
-			'usergroup REGEXP "(^|,)(' . $userGroups . ')(,|$)"' .
-				tx_oelib_db::enableFields('fe_users'),
+			$userGroupRestriction . $this->getWhereClauseForTesting(),
 			'',
 			'usergroup,company,last_name,name,username'
 		);
@@ -172,32 +179,43 @@ class tx_realty_offererList {
 	 * 						must not be empty
 	 *
 	 * @return	string		title of the first allowed user group of the given
-	 * 						FE user, will be non-empty
+	 * 						FE user, will be empty if the user has no group
 	 */
 	private function getFirstUserGroup(array $userRecord) {
-		$matchingGroups = array_values(array_intersect(
-			explode(',', $userRecord['usergroup']),
-			explode(
-				',',
-				$this->plugin->getConfValueString('userGroupsForOffererList')
-			)
-		));
-
-		// No enableFields is used here as the FE user records fetched in
-		// getListItems are not checked to be in enabled groups, either.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title', 'fe_groups', 'uid=' . $matchingGroups[0]
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+		$result = '';
+		$matchingGroups = explode(',', $userRecord['usergroup']);
+		
+		if ($this->plugin->hasConfValueString('userGroupsForOffererList')) {
+			$matchingGroups = array_values(array_intersect(
+				$matchingGroups,
+				explode(
+					',',
+					$this->plugin->getConfValueString('userGroupsForOffererList')
+				)
+			));
 		}
 
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			throw new Exception(DATABASE_RESULT_ERROR);
+		if (intval($matchingGroups[0]) != 0) {
+			// No enableFields is used here as the FE user records fetched in
+			// getListItems are not checked to be in enabled groups, either.
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				'fe_groups',
+				'uid=' . $matchingGroups[0] . $this->getWhereClauseForTesting()
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+	
+			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			if (!$row) {
+				throw new Exception(DATABASE_RESULT_ERROR);
+			}
+
+			$result = $row['title'];
 		}
 
-		return $row['title'];
+		return $result;
 	}
 
 	/**
@@ -224,6 +242,17 @@ class tx_realty_offererList {
 				'useCacheHash' => true,
 			)
 		));
+	}
+
+	/**
+	 * Returns a WHERE clause part for the test mode. So only dummy records will
+	 * be retrieved for testing.
+	 *
+	 * @return string WHERE clause part for testing starting with ' AND'
+	 *                if the test mode is enabled, an empty string otherwise
+	 */
+	private function getWhereClauseForTesting() {
+		return $this->isTestMode ? ' AND tx_oelib_is_dummy_record=1' : '';
 	}
 }
 
