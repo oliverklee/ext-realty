@@ -1001,6 +1001,20 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testAddAdministrativeDataNotAddsDefaultPidForAnExistingObject() {
+		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
+		$this->pi1->setConfigurationValue(
+			'sysFolderForFeCreatedRecords', $systemFolderPid
+		);
+		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
+		$result = $this->fixture->modifyDataToInsert(array());
+
+		$this->assertNotEquals(
+			$systemFolderPid,
+			$result['pid']
+		);
+	}
+
 	public function testAddAdministrativeDataAddsPidDerivedFromCityRecordForANewObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$cityUid = $this->testingFramework->createRecord(
