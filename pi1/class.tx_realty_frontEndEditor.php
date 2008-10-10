@@ -741,12 +741,14 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * 						unified numbers
 	 */
 	public function modifyDataToInsert(array $formData) {
-		$modifiedFormData = $this->storeNewAuxiliaryRecords($formData);
-		$modifiedFormData = $this->purgeNonRealtyObjectFields($modifiedFormData);
+		$modifiedFormData = $formData;
+		
+		$this->storeNewAuxiliaryRecords($modifiedFormData);
+		$this->purgeNonRealtyObjectFields($modifiedFormData);
+		$this->unifyNumbersToInsert($modifiedFormData);
+		$this->addAdministrativeData($modifiedFormData);
 
-		return $this->addAdministrativeData(
-			$this->unifyNumbersToInsert($modifiedFormData)
-		);
+		return $modifiedFormData;
 	}
 
 	/**
@@ -814,29 +816,25 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function getFromLineForEmail() {
 		$frontEndUserData = $this->getFrontEndUserData('name, email');
-		return 'From: "'.$frontEndUserData['name'].'" '
-			.'<'.$frontEndUserData['email'].'>'.LF;
+		return 'From: "' . $frontEndUserData['name'].'" ' .
+			'<' . $frontEndUserData['email'] . '>' . LF;
 	}
 
 	/**
 	 * Removes all form data elements that are not fields in the realty objects
-	 * table. E.g. spacers and the "new_*" used to add new auxiliary records.
+	 * table, for example the fields named "new_*" which are used to add new
+	 * auxiliary records.
 	 *
-	 * @param	array 		form data, must not be empty
-	 *
-	 * @return	array		modified form data
+	 * @param array form data, will be modified, must not be empty
 	 */
-	private function purgeNonRealtyObjectFields(array $formData) {
-		$modifiedFormData = array();
+	private function purgeNonRealtyObjectFields(array &$formData) {
 		$this->loadFieldNames(REALTY_TABLE_OBJECTS);
 
 		foreach ($formData as $key => $value) {
-			if ($this->tablesAndFieldNames[REALTY_TABLE_OBJECTS][$key]) {
-				$modifiedFormData[$key] = $value;
+			if (!isset($this->tablesAndFieldNames[REALTY_TABLE_OBJECTS][$key])) {
+				unset($formData[$key]);
 			}
 		}
-
-		return $modifiedFormData;
 	}
 
 	/**
@@ -844,30 +842,24 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * provided form data and modifies the form data.
 	 * The UIDs of the new records are written to the form data.
 	 *
-	 * @param	array 		form data, must not be empty
-	 *
-	 * @return	array		modified form data
+	 * @param array form data, will be modified, must not be empty
 	 */
-	private function storeNewAuxiliaryRecords(array $formData) {
-		$modifiedFormData = $formData;
-
+	private function storeNewAuxiliaryRecords(array &$formData) {
 		foreach (array(
 			REALTY_TABLE_CITIES => 'city', REALTY_TABLE_DISTRICTS => 'district'
 		) as $table => $key) {
-			$title = trim($modifiedFormData['new_'.$key]);
+			$title = trim($formData['new_' . $key]);
 
-			if (($title != '') && ($modifiedFormData[$key] == 0)) {
+			if (($title != '') && ($formData[$key] == 0)) {
 				$uid = $this->getUidIfAuxiliaryRecordExists($title, $table);
 
 				if ($uid == 0) {
 					$uid = $this->createNewAuxiliaryRecord($title, $table);
 				}
 
-				$modifiedFormData[$key] = $uid;
+				$formData[$key] = $uid;
 			}
 		}
-
-		return $modifiedFormData;
 	}
 
 	/**
@@ -885,8 +877,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid',
 			$table,
-			'title="'.$GLOBALS['TYPO3_DB']->quoteStr($title, $table).'"'
-				.$this->getWhereClauseForTesting()
+			'title="' . $GLOBALS['TYPO3_DB']->quoteStr($title, $table) . '"' .
+				$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -930,13 +922,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
 	 * Unifies all numbers before they get inserted into the database.
 	 *
-	 * @param	array		data that will be inserted, may be empty
-	 *
-	 * @return	array		data that will be inserted with unified numbers,
-	 * 						will be empty if an empty array was provided
+	 * @param array form data, will be modified, must not be empty
 	 */
-	private function unifyNumbersToInsert(array $formData) {
-		$modifiedFormData = $formData;
+	private function unifyNumbersToInsert(array &$formData) {
 		$numericFields = array(
 			'number_of_rooms',
 			'living_area',
@@ -959,14 +947,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		);
 
 		foreach ($numericFields as $key) {
-			if (isset($modifiedFormData[$key])) {
-				$modifiedFormData[$key] = $this->unifyNumber($modifiedFormData[$key]);
+			if (isset($formData[$key])) {
+				$formData[$key] = $this->unifyNumber($formData[$key]);
 			}
 		}
 		// ensures the object type is always 'rent' or 'sale'
-		$modifiedFormData['object_type'] = $this->getObjectType();
-
-		return $modifiedFormData;
+		$formData['object_type'] = $this->getObjectType();
 	}
 
 	/**
@@ -975,35 +961,31 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * In addition they become marked as 'hidden'.
 	 * For objects to update, just the 'tstamp' will be refreshed.
 	 *
-	 * @param	array		form data, may be empty
-	 *
-	 * @return	array		form data with additional elements: always 'tstamp',
-	 * 						for new objects also 'hidden', 'crdate', 'pid' and
-	 * 						'owner'
+	 * @param array form data, will be modified, must not be empty
 	 */
-	private function addAdministrativeData(array $formData) {
-		$pidFromCity = $this->getPidFromCityRecord(intval($formData['city']));
-		$modifiedFormData = $formData;
+	private function addAdministrativeData(array &$formData) {
+		$formData['tstamp'] = mktime();
 
-		$modifiedFormData['tstamp'] = mktime();
-		// The PID might have changed if the city did.
-		$modifiedFormData['pid'] = ($pidFromCity != 0)
-			? $pidFromCity
-			: $this->plugin->getConfValueString(
-				'sysFolderForFeCreatedRecords', 's_feeditor'
-			);
 		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
 			$frontEndUserAnid = $this->getFrontEndUserData('tx_realty_openimmo_anid');
 
-			$modifiedFormData['hidden'] = 1;
-			$modifiedFormData['crdate'] = mktime();
-			$modifiedFormData['owner'] = $this->getFeUserUid();
-			$modifiedFormData['openimmo_anid']
+			$formData['hidden'] = 1;
+			$formData['crdate'] = mktime();
+			$formData['owner'] = $this->getFeUserUid();
+			$formData['openimmo_anid']
 				= $frontEndUserAnid['tx_realty_openimmo_anid'];
+			$formData['pid'] = $this->plugin->getConfValueString(
+				'sysFolderForFeCreatedRecords', 's_feeditor'
+			);
 		}
 
-		return $modifiedFormData;
+		// The PID might change also for existing records if the city changes
+		// and 'save_folder' is defined in the city record.
+		$pidFromCity = $this->getPidFromCityRecord(intval($formData['city']));
+		if ($pidFromCity != 0) {
+			$formData['pid'] = $pidFromCity;
+		}
 	}
 
 	/**
