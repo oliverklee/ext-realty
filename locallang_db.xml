@@ -607,72 +607,125 @@
 			<label index="tt_content.list_type_pi1">EjendomsManager</label>
 		</languageKey>
 		<languageKey index="es" type="array">
-			<label index="tx_realty_objects">Objeto Inmobiliário</label>
-			<label index="tx_realty_objects.object_number">Objeto número</label>
-			<label index="tx_realty_objects.object_type.I.0">En Alquiler</label>
+			<label index="tx_realty_objects">Objeto inmobiliario</label>
+			<label index="tx_realty_objects.object_number">Referencia núm:</label>
+			<label index="tx_realty_objects.object_type.I.0">En alquiler</label>
 			<label index="tx_realty_objects.object_type.I.1">En venta</label>
-			<label index="tx_realty_objects.object_type">Tipo de Objeto</label>
+			<label index="tx_realty_objects.object_type">Tipo de objeto</label>
 			<label index="tx_realty_objects.title">Título</label>
 			<label index="tx_realty_objects.emphasized">Destacado</label>
 			<label index="tx_realty_objects.street">Calle</label>
 			<label index="tx_realty_objects.zip">Código postal</label>
 			<label index="tx_realty_objects.city">Ciudad</label>
-			<label index="tx_realty_objects.district">Provincia</label>
+			<label index="tx_realty_objects.district">Distrito</label>
+			<label index="tx_realty_objects.country">País</label>
+			<label index="tx_realty_objects.exact_coordinates_are_cached">Coordenadas exactas se sincronizan con el servidor</label>
+			<label index="tx_realty_objects.exact_longitude">Longitud exacta</label>
+			<label index="tx_realty_objects.exact_latitude">Latitud exacta</label>
+			<label index="tx_realty_objects.rough_coordinates_are_cached">Coordenadas geo aproximadas se sincronizan con el servidor</label>
+			<label index="tx_realty_objects.rough_longitude">Longitud aproximada</label>
+			<label index="tx_realty_objects.rough_latitude">Latitud aproximada</label>
 			<label index="tx_realty_objects.number_of_rooms">Número de habitaciones</label>
-			<label index="tx_realty_objects.living_area">Área del comedor en m²</label>
-			<label index="tx_realty_objects.total_area">Área total en m²</label>
-			<label index="tx_realty_objects.rent_excluding_bills">Alquiler sin gastos</label>
+			<label index="tx_realty_objects.living_area">Superficie habitable en m²</label>
+			<label index="tx_realty_objects.total_area">Superficie total construida en m²</label>
+			<label index="tx_realty_objects.estate_size">Superficie total de la propiedad en m²</label>
+			<label index="tx_realty_objects.rent_excluding_bills">Alquiler con gastos excluidos</label>
 			<label index="tx_realty_objects.extra_charges">Cargas adicionales</label>
 			<label index="tx_realty_objects.heating_included">Las cargas adicionales incluyen la calefacción</label>
-			<label index="tx_realty_objects.deposit">Déposito de garantía</label>
-			<label index="tx_realty_objects.provision">Provisiones / Comisiones</label>
+			<label index="tx_realty_objects.deposit">Fianza</label>
+			<label index="tx_realty_objects.provision">Gastos y comisiones</label>
 			<label index="tx_realty_objects.usable_from">Habitable a partir de</label>
 			<label index="tx_realty_objects.buying_price">Precio de venta</label>
+			<label index="tx_realty_objects.hoa_fee">Impuesto I.V.A</label>
 			<label index="tx_realty_objects.year_rent">Renta neta anual</label>
 			<label index="tx_realty_objects.rented">Alquilado</label>
-			<label index="tx_realty_objects.apartment_type">Tipo de Apartamento</label>
-			<label index="tx_realty_objects.house_type">Tipo de Casa</label>
+			<label index="tx_realty_objects.apartment_type">Tipo de apartamento</label>
+			<label index="tx_realty_objects.house_type">Tipo de casa</label>
 			<label index="tx_realty_objects.floor">Planta</label>
 			<label index="tx_realty_objects.floors">Número de plantas</label>
 			<label index="tx_realty_objects.bedrooms">Número de dormitorios</label>
-			<label index="tx_realty_objects.bathrooms">Número de baños</label>
+			<label index="tx_realty_objects.bathrooms">Número de lavabos</label>
 			<label index="tx_realty_objects.heating_type">Tipo de calefacción</label>
-			<label index="tx_realty_objects.garage_type">Garage / Plaza(s) de parking</label>
-			<label index="tx_realty_objects.garage_rent">Precio de alquiler del garage/plaza(s) de parking</label>
-			<label index="tx_realty_objects.garage_price">Precio de venta del garage/plaza(s) de parking</label>
-			<label index="tx_realty_objects.pets">Animales domésticos</label>
+			<label index="tx_realty_objects.heating_type.1">gas ciudad</label>
+			<label index="tx_realty_objects.heating_type.2">calefacción central</label>
+			<label index="tx_realty_objects.heating_type.3">calefacción eléctrica</label>
+			<label index="tx_realty_objects.heating_type.4">calefacción por planta</label>
+			<label index="tx_realty_objects.heating_type.5">calefacción a gas</label>
+			<label index="tx_realty_objects.heating_type.6">calefacción de gasoleo</label>
+			<label index="tx_realty_objects.heating_type.7">calefacción de bomba de calor</label>
+			<label index="tx_realty_objects.heating_type.8">calefacción de aceite</label>
+			<label index="tx_realty_objects.heating_type.9">calefacción centralizada</label>
+			<label index="tx_realty_objects.heating_type.10">calefacción solar</label>
+			<label index="tx_realty_objects.heating_type.11">calefacción por estufa</label>
+			<label index="tx_realty_objects.heating_type.12">calefacción de zona</label>
+			<label index="tx_realty_objects.garage_type">Garage/Plaza de parking</label>
+			<label index="tx_realty_objects.garage_rent">Alquiler del garaje/plaza de parking</label>
+			<label index="tx_realty_objects.garage_price">Precio de venta del garaje/plaza de parking</label>
+			<label index="tx_realty_objects.pets">Animales</label>
 			<label index="tx_realty_objects.construction_year">Año de construcción</label>
-			<label index="tx_realty_objects.state">Estado</label>
-			<label index="tx_realty_objects.balcony">Balcón/terraza</label>
-			<label index="tx_realty_objects.garden">Jardín/Jardín comunitario</label>
+			<label index="tx_realty_objects.old_or_new_building">antigua o nueva construcción</label>
+			<label index="tx_realty_objects.old_or_new_building.I.1">nueva construcción</label>
+			<label index="tx_realty_objects.old_or_new_building.I.2">construcción antigua</label>
+			<label index="tx_realty_objects.state">Condición</label>
+			<label index="tx_realty_objects.state.1">obra nueva</label>
+			<label index="tx_realty_objects.state.2">buen estado</label>
+			<label index="tx_realty_objects.state.3">en mal estado</label>
+			<label index="tx_realty_objects.state.4">primera ocupación</label>
+			<label index="tx_realty_objects.state.5">para demolición</label>
+			<label index="tx_realty_objects.state.6">eviscerado</label>
+			<label index="tx_realty_objects.state.7">modernizado</label>
+			<label index="tx_realty_objects.state.8">aseado</label>
+			<label index="tx_realty_objects.state.9">necesita renovación</label>
+			<label index="tx_realty_objects.state.10">reacondicionado</label>
+			<label index="tx_realty_objects.state.11">renovado</label>
+			<label index="tx_realty_objects.state.12">saneado</label>
+			<label index="tx_realty_objects.state.13">previsto</label>
+			<label index="tx_realty_objects.balcony">Balcon/terraza</label>
+			<label index="tx_realty_objects.garden">Jardín (uso)</label>
 			<label index="tx_realty_objects.elevator">Ascensor</label>
-			<label index="tx_realty_objects.barrier_free">Acceso discapacitados</label>
+			<label index="tx_realty_objects.barrier_free">Accesible</label>
 			<label index="tx_realty_objects.assisted_living">Portero automático</label>
 			<label index="tx_realty_objects.fitted_kitchen">Cocina equipada</label>
 			<label index="tx_realty_objects.description">Descripción</label>
 			<label index="tx_realty_objects.equipment">Equipamiento</label>
-			<label index="tx_realty_objects.layout">Plantilla</label>
+			<label index="tx_realty_objects.layout">Diseño</label>
 			<label index="tx_realty_objects.location">Ubicación</label>
 			<label index="tx_realty_objects.misc">Miscelánea</label>
-			<label index="tx_realty_objects.details_page">Pagina para detalles</label>
+			<label index="tx_realty_objects.details_page">Página de detalles diferente para este objeto</label>
 			<label index="tx_realty_objects.images">Imágenes</label>
-			<label index="tx_realty_objects.tstamp">Último actualización</label>
-			<label index="tx_realty_apartment_types">Tipo de Apartamento</label>
+			<label index="tx_realty_objects.tstamp">Última actualización</label>
+			<label index="tx_realty_objects.employer">Empresa</label>
+			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
+			<label index="tx_realty_objects.openimmo_obid">&quot;OpenImmo-OBID&quot;</label>
+			<label index="tx_realty_objects.utilization">Utilización</label>
+			<label index="tx_realty_objects.contact_data_source">Fuente de datos de contacto (para formulario de contacto y vista detallada)</label>
+			<label index="tx_realty_objects.contact_data_source.I.0">Esta propiedad inmobiliária</label>
+			<label index="tx_realty_objects.contact_data_source.I.1">Mi cuenta</label>
+			<label index="tx_realty_objects.contact_person">Persona de contacto</label>
+			<label index="tx_realty_objects.contact_email">E-Mail de contacto</label>
+			<label index="tx_realty_objects.contact_phone">Número de teléfono de contacto</label>
+			<label index="tx_realty_objects.owner">Usuario FE que ha creado este objeto</label>
+			<label index="tx_realty_objects.language">Idioma elegido</label>
+			<label index="tx_realty_objects.currency">Divisa</label>
+			<label index="tx_realty_apartment_types">Tipo de apartamento</label>
 			<label index="tx_realty_apartment_types.title">Título</label>
-			<label index="tx_realty_house_types">Tipo de Casa</label>
+			<label index="tx_realty_house_types">Tipo de casa</label>
 			<label index="tx_realty_house_types.title">Título</label>
-			<label index="tx_realty_car_places">Garage/Plaza(s) de parking</label>
+			<label index="tx_realty_car_places">Espacio para el automóvil</label>
 			<label index="tx_realty_car_places.title">Título</label>
-			<label index="tx_realty_pets">Animales domésticos</label>
+			<label index="tx_realty_pets">Animales</label>
 			<label index="tx_realty_pets.title">Título</label>
-			<label index="tx_realty_images">Imágenes</label>
+			<label index="tx_realty_images">Imagen</label>
 			<label index="tx_realty_images.caption">Leyenda</label>
-			<label index="tx_realty_images.image">Imágen</label>
+			<label index="tx_realty_images.image">Imagen</label>
 			<label index="tx_realty_cities">Ciudad</label>
 			<label index="tx_realty_cities.title">Nombre de la ciudad</label>
-			<label index="tx_realty_districts">Provincia</label>
-			<label index="tx_realty_districts.title">Nombre de la provincia</label>
-			<label index="tt_content.list_type_pi1">Gestión Inmobiliária</label>
+			<label index="tx_realty_cities.save_folder">Carpeta para los objetos en esta ciudad (solo para los objetos creados en el FE)</label>
+			<label index="tx_realty_districts">Distrito</label>
+			<label index="tx_realty_districts.title">Nombre del distrito</label>
+			<label index="fe_users.tx_realty_tab">inmobiliario</label>
+			<label index="fe_users.tx_realty_openimmo_anid">Identificación del ofertante OpenImmo</label>
+			<label index="tt_content.list_type_pi1">Manager inmobiliario</label>
 		</languageKey>
 	</data>
 	<orig_hash type="array">
@@ -1216,6 +1269,59 @@
 			<label index="tx_realty_districts" type="integer">235647734</label>
 			<label index="tx_realty_districts.title" type="integer">69265812</label>
 			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
+			<label index="tx_realty_objects.country" type="integer">93787849</label>
+			<label index="tx_realty_objects.exact_coordinates_are_cached" type="integer">144712181</label>
+			<label index="tx_realty_objects.exact_longitude" type="integer">42601450</label>
+			<label index="tx_realty_objects.exact_latitude" type="integer">104119238</label>
+			<label index="tx_realty_objects.rough_coordinates_are_cached" type="integer">32174182</label>
+			<label index="tx_realty_objects.rough_longitude" type="integer">217428841</label>
+			<label index="tx_realty_objects.rough_latitude" type="integer">42609168</label>
+			<label index="tx_realty_objects.estate_size" type="integer">85968249</label>
+			<label index="tx_realty_objects.hoa_fee" type="integer">111222682</label>
+			<label index="tx_realty_objects.heating_type.1" type="integer">58692590</label>
+			<label index="tx_realty_objects.heating_type.2" type="integer">184452105</label>
+			<label index="tx_realty_objects.heating_type.3" type="integer">147311804</label>
+			<label index="tx_realty_objects.heating_type.4" type="integer">117557325</label>
+			<label index="tx_realty_objects.heating_type.5" type="integer">201138506</label>
+			<label index="tx_realty_objects.heating_type.6" type="integer">161522935</label>
+			<label index="tx_realty_objects.heating_type.7" type="integer">235360048</label>
+			<label index="tx_realty_objects.heating_type.8" type="integer">13139931</label>
+			<label index="tx_realty_objects.heating_type.9" type="integer">236775939</label>
+			<label index="tx_realty_objects.heating_type.10" type="integer">90902450</label>
+			<label index="tx_realty_objects.heating_type.11" type="integer">161251937</label>
+			<label index="tx_realty_objects.heating_type.12" type="integer">5073316</label>
+			<label index="tx_realty_objects.old_or_new_building" type="integer">81900542</label>
+			<label index="tx_realty_objects.old_or_new_building.I.1" type="integer">241425363</label>
+			<label index="tx_realty_objects.old_or_new_building.I.2" type="integer">97928723</label>
+			<label index="tx_realty_objects.state.1" type="integer">540352</label>
+			<label index="tx_realty_objects.state.2" type="integer">93660376</label>
+			<label index="tx_realty_objects.state.3" type="integer">178520122</label>
+			<label index="tx_realty_objects.state.4" type="integer">116091427</label>
+			<label index="tx_realty_objects.state.5" type="integer">142785661</label>
+			<label index="tx_realty_objects.state.6" type="integer">202590932</label>
+			<label index="tx_realty_objects.state.7" type="integer">74796736</label>
+			<label index="tx_realty_objects.state.8" type="integer">48584873</label>
+			<label index="tx_realty_objects.state.9" type="integer">112726903</label>
+			<label index="tx_realty_objects.state.10" type="integer">125161683</label>
+			<label index="tx_realty_objects.state.11" type="integer">6435587</label>
+			<label index="tx_realty_objects.state.12" type="integer">149392355</label>
+			<label index="tx_realty_objects.state.13" type="integer">59756617</label>
+			<label index="tx_realty_objects.employer" type="integer">158221070</label>
+			<label index="tx_realty_objects.openimmo_anid" type="integer">252752095</label>
+			<label index="tx_realty_objects.openimmo_obid" type="integer">56450947</label>
+			<label index="tx_realty_objects.utilization" type="integer">175992354</label>
+			<label index="tx_realty_objects.contact_data_source" type="integer">6600173</label>
+			<label index="tx_realty_objects.contact_data_source.I.0" type="integer">164766987</label>
+			<label index="tx_realty_objects.contact_data_source.I.1" type="integer">227921738</label>
+			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
+			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
+			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
+			<label index="tx_realty_objects.owner" type="integer">181513656</label>
+			<label index="tx_realty_objects.language" type="integer">243141894</label>
+			<label index="tx_realty_objects.currency" type="integer">59163449</label>
+			<label index="tx_realty_cities.save_folder" type="integer">80265519</label>
+			<label index="fe_users.tx_realty_tab" type="integer">18908185</label>
+			<label index="fe_users.tx_realty_openimmo_anid" type="integer">239911211</label>
 		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
@@ -1759,6 +1865,59 @@
 			<label index="tx_realty_districts">District</label>
 			<label index="tx_realty_districts.title">The district's name</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
+			<label index="tx_realty_objects.country">Country</label>
+			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact coordinates are synced with server</label>
+			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
+			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
+			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are synced with server</label>
+			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
+			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
+			<label index="tx_realty_objects.estate_size">Estate size in m²</label>
+			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
+			<label index="tx_realty_objects.heating_type.1">district heating</label>
+			<label index="tx_realty_objects.heating_type.2">central heating</label>
+			<label index="tx_realty_objects.heating_type.3">electric heating</label>
+			<label index="tx_realty_objects.heating_type.4">floor heating</label>
+			<label index="tx_realty_objects.heating_type.5">gas heating</label>
+			<label index="tx_realty_objects.heating_type.6">green fuel heating</label>
+			<label index="tx_realty_objects.heating_type.7">heat pump heating</label>
+			<label index="tx_realty_objects.heating_type.8">oil heating</label>
+			<label index="tx_realty_objects.heating_type.9">self-contained central heating</label>
+			<label index="tx_realty_objects.heating_type.10">solar heating</label>
+			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
+			<label index="tx_realty_objects.heating_type.12">zone heating</label>
+			<label index="tx_realty_objects.old_or_new_building">Old or new building</label>
+			<label index="tx_realty_objects.old_or_new_building.I.1">new building</label>
+			<label index="tx_realty_objects.old_or_new_building.I.2">old building</label>
+			<label index="tx_realty_objects.state.1">bare brickwork</label>
+			<label index="tx_realty_objects.state.2">by arrangement</label>
+			<label index="tx_realty_objects.state.3">dilapidated</label>
+			<label index="tx_realty_objects.state.4">first occupancy</label>
+			<label index="tx_realty_objects.state.5">for demolition</label>
+			<label index="tx_realty_objects.state.6">gutted</label>
+			<label index="tx_realty_objects.state.7">modernized</label>
+			<label index="tx_realty_objects.state.8">neat</label>
+			<label index="tx_realty_objects.state.9">in need of renovation</label>
+			<label index="tx_realty_objects.state.10">reconditioned</label>
+			<label index="tx_realty_objects.state.11">renovated</label>
+			<label index="tx_realty_objects.state.12">sanitated</label>
+			<label index="tx_realty_objects.state.13">planned</label>
+			<label index="tx_realty_objects.employer">Employer</label>
+			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
+			<label index="tx_realty_objects.openimmo_obid">&quot;OpenImmo-OBID&quot;</label>
+			<label index="tx_realty_objects.utilization">Utilization</label>
+			<label index="tx_realty_objects.contact_data_source">Contact data source (for contact form and detail view)</label>
+			<label index="tx_realty_objects.contact_data_source.I.0">This realty object</label>
+			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
+			<label index="tx_realty_objects.contact_person">Contact person</label>
+			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
+			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
+			<label index="tx_realty_objects.owner">FE user who has created this object</label>
+			<label index="tx_realty_objects.language">Language of the record</label>
+			<label index="tx_realty_objects.currency">Currency</label>
+			<label index="tx_realty_cities.save_folder">Folder for objects in this city (only for FE-created records)</label>
+			<label index="fe_users.tx_realty_tab">Realty</label>
+			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo offerer ID</label>
 		</languageKey>
 	</orig_text>
 </T3locallang>

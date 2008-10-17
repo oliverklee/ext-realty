@@ -105,6 +105,38 @@
 			<label index="label_allowed">Tilladt</label>
 			<label index="label_not_allowed">Uvelkommen</label>
 		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="message_zip_archive_not_installed">La importación fue abortada debido a que su instalación de PHP no adminte las funciones de archivos ZIP. Por favor, compilar PHP con soporte ZIP usando la opción de configuración &quot;- enable-zip&quot; . En un sistema SUSE los paquetes &quot;php5-zlib&quot; y &quot;dietzlib&quot; deben estar instalados.</label>
+			<label index="message_no_zips">No existern archivos ZIPs a extraer. La carpeta configurada para la importación no contiene archivos ZIP. Por favor compruebe la ruta configurada en el administrador de extensiones y el econtenido de la carpeta.</label>
+			<label index="message_object_not_loaded">El registro no ha podido ser cargado. Debido a contenido inválido, el registro no ha sido cargado completamente.</label>
+			<label index="message_updating_failed">Un error ha ocurrido en el intento de actualización de este registro. El registro de la base de datos no ha sido actualizado.</label>
+			<label index="message_insertion_failed">Un error ha ocurrido en el intento de creación de un nuevo registro en la base de datos. Este registro no ha sido insertado en la base de datos.</label>
+			<label index="message_deleted_flag_set">Este registro esta seleccionado para su eliminación. Si existe en la base de datos, será eliminado. Si no es así, el registro será ignorado.</label>
+			<label index="message_written_to_database">The record was written to the database.</label>
+			<label index="message_fields_required">El registro no ha sido importado porque no se han definido los campos requeridos</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user">El registro no ha sido importado porque la opción de restricción de importación para usuarios registrados esta activada y este registro OpenImmo ANID no es una OpenImmo ANID o el usuario FE no pertenece a ningun grupo permitido. El registro OpenImmo ANID es:</label>
+			<label index="message_log_sent_to">el registro ha sido enviado a</label>
+			<label index="message_extracted_successfully">El archivo ZIP ha sido extraido satisfactoriamente.</label>
+			<label index="message_extraction_failed">La extracción de este fichero ZIP ha fallado. El archivo ZIP no puede abrirse. Es posible que el archivo este corrupto.</label>
+			<label index="message_surplus_folder">La carpeta que debe crearse para la importación ya existe en su directorio de importación. El registro no puede er importado mientras esta capeta exista. Por favor elimine esta carpeta.</label>
+			<label index="message_invalid_xml_path">La ruta del fichero XML no es válida. No se encuentra la carpeta de extracción.	Existe un problema de permisos. Por favor comprueba si dispones de permisos de escritura en el directório de importación.</label>
+			<label index="message_too_many_xml">No tiene que haber mas que un fichero XML en el archivo ZIP. Por favor elimine los ficheros XML sobrantes del archivo ZIP.</label>
+			<label index="message_no_xml">No se ha encontrado el fichero XML en el archivo ZIP. Si existe algun fichero XML, por favor asegurate que el nombre termina en '.xml'.</label>
+			<label index="message_successful_validation">La validación ha sido procesada satistactoriaménte.</label>
+			<label index="message_no_schema_file">No se ha encontrado el archivo de esquema definido para validación.</label>
+			<label index="message_invalid_schema_file_path">La ruta del archivo de esquema es inválido. Por favor comprueba tu configuración en el administrador de extensiones.</label>
+			<label index="message_import_without_validation">La importación a sido realizada sin validación.</label>
+			<label index="message_please_validate">Por favor asegurate de la validez de los datos a importar.</label>
+			<label index="message_validation_impossible">La validación no es posible. Es posible que haya un error de síntaxis en el fichero XML a cargar.</label>
+			<label index="message_line">Linea</label>
+			<label index="message_files_removed">Los siguientes archivos han sido eliminados</label>
+			<label index="message_introduction">Este es el resultado de la última importación de referéncias OpenImmo.</label>
+			<label index="message_explanation">Está recibiendo este e-mail puesto que es Ud. la persona de contacto de las referéncias OpenImmo siguientes.</label>
+			<label index="label_subject_openImmo_import">Importar OpenImmo</label>
+			<label index="label_object_number">Objecto Número</label>
+			<label index="label_allowed">Permitido</label>
+			<label index="label_not_allowed">No permitido</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
@@ -172,6 +204,38 @@
 			<label index="label_allowed" type="integer">196476508</label>
 			<label index="label_not_allowed" type="integer">95428607</label>
 		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="message_zip_archive_not_installed" type="integer">185868903</label>
+			<label index="message_no_zips" type="integer">105518736</label>
+			<label index="message_object_not_loaded" type="integer">56779241</label>
+			<label index="message_updating_failed" type="integer">109345992</label>
+			<label index="message_insertion_failed" type="integer">50157132</label>
+			<label index="message_deleted_flag_set" type="integer">232865486</label>
+			<label index="message_written_to_database" type="integer">198437427</label>
+			<label index="message_fields_required" type="integer">127661848</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user" type="integer">182565751</label>
+			<label index="message_log_sent_to" type="integer">24096936</label>
+			<label index="message_extracted_successfully" type="integer">215773016</label>
+			<label index="message_extraction_failed" type="integer">256903313</label>
+			<label index="message_surplus_folder" type="integer">135193776</label>
+			<label index="message_invalid_xml_path" type="integer">103030008</label>
+			<label index="message_too_many_xml" type="integer">238269320</label>
+			<label index="message_no_xml" type="integer">206769090</label>
+			<label index="message_successful_validation" type="integer">224591219</label>
+			<label index="message_no_schema_file" type="integer">90705624</label>
+			<label index="message_invalid_schema_file_path" type="integer">201826895</label>
+			<label index="message_import_without_validation" type="integer">211192423</label>
+			<label index="message_please_validate" type="integer">164447491</label>
+			<label index="message_validation_impossible" type="integer">100672002</label>
+			<label index="message_line" type="integer">75513451</label>
+			<label index="message_files_removed" type="integer">180330163</label>
+			<label index="message_introduction" type="integer">254777339</label>
+			<label index="message_explanation" type="integer">205777286</label>
+			<label index="label_subject_openImmo_import" type="integer">191942723</label>
+			<label index="label_object_number" type="integer">180539649</label>
+			<label index="label_allowed" type="integer">196476508</label>
+			<label index="label_not_allowed" type="integer">95428607</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
@@ -209,6 +273,38 @@
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="message_zip_archive_not_installed">The import was aborted because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php5-zlib&quot; and &quot;dietzlib&quot; must be installed for this.</label>
+			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
+			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
+			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
+			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
+			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
+			<label index="message_written_to_database">The record was written to the database.</label>
+			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user">The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</label>
+			<label index="message_log_sent_to">The log was sent to</label>
+			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
+			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
+			<label index="message_surplus_folder">The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</label>
+			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
+			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
+			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>
+			<label index="message_successful_validation">The validation proceeded successfully.</label>
+			<label index="message_no_schema_file">There is no schema file set for validation.</label>
+			<label index="message_invalid_schema_file_path">The path of the schema file is invalid. Please check your configuration in the extension manager.</label>
+			<label index="message_import_without_validation">The import is done without validation.</label>
+			<label index="message_please_validate">Please ensure the validity of the data to import.</label>
+			<label index="message_validation_impossible">The validation is not possible. There might be a syntax error in the XML file to load.</label>
+			<label index="message_line">Line</label>
+			<label index="message_files_removed">The following files have been removed</label>
+			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
+			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
+			<label index="label_subject_openImmo_import">OpenImmo import</label>
+			<label index="label_object_number">Object Number</label>
+			<label index="label_allowed">Allowed</label>
+			<label index="label_not_allowed">Unwelcome</label>
+		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php5-zlib&quot; and &quot;dietzlib&quot; must be installed for this.</label>
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
 			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
