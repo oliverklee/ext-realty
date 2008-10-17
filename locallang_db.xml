@@ -406,6 +406,7 @@
 			<label index="tx_realty_objects.city">Plaats</label>
 			<label index="tx_realty_objects.district">Regio</label>
 			<label index="tx_realty_objects.country">Land</label>
+			<label index="tx_realty_objects.show_address">Toon adres in FE</label>
 			<label index="tx_realty_objects.exact_coordinates_are_cached">Exacte Geo-coordinaten zijn gecahed</label>
 			<label index="tx_realty_objects.exact_longitude">Exacte lengtegraad</label>
 			<label index="tx_realty_objects.exact_latitude">Exacte breedtegraad</label>
@@ -445,6 +446,7 @@
 			<label index="tx_realty_objects.heating_type.10">Zonne energie</label>
 			<label index="tx_realty_objects.heating_type.11">Kachelverwarming</label>
 			<label index="tx_realty_objects.heating_type.12">Blok verwarming</label>
+			<label index="tx_realty_objects.has_air_conditioning">Airconditioning</label>
 			<label index="tx_realty_objects.garage_type">Garage</label>
 			<label index="tx_realty_objects.garage_rent">Huur voor een garage</label>
 			<label index="tx_realty_objects.garage_price">Koopprijs garage</label>
@@ -473,6 +475,9 @@
 			<label index="tx_realty_objects.barrier_free">Toegankelijkheid</label>
 			<label index="tx_realty_objects.assisted_living">Aanleunwoning</label>
 			<label index="tx_realty_objects.fitted_kitchen">Keuken</label>
+			<label index="tx_realty_objects.has_pool">Zwembad</label>
+			<label index="tx_realty_objects.has_community_pool">Gemeenschappelijk zwembad</label>
+			<label index="tx_realty_objects.teaser">Teaser</label>
 			<label index="tx_realty_objects.description">Beschrijving</label>
 			<label index="tx_realty_objects.equipment">Apparatuur</label>
 			<label index="tx_realty_objects.layout">Indeling</label>
@@ -510,7 +515,7 @@
 			<label index="tx_realty_cities.save_folder">Folder voor plaatsnamen</label>
 			<label index="tx_realty_districts">Regio</label>
 			<label index="tx_realty_districts.title">Regio</label>
-			<label index="fe_users.tx_realty_tab">Realty</label>
+			<label index="fe_users.tx_realty_tab">Onroerend goed</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo aanbieder ID</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
 		</languageKey>
@@ -1051,6 +1056,11 @@
 			<label index="tx_realty_objects.state.12" type="integer">149392355</label>
 			<label index="tx_realty_objects.state.13" type="integer">59756617</label>
 			<label index="tx_realty_objects.currency" type="integer">59163449</label>
+			<label index="tx_realty_objects.show_address" type="integer">32202296</label>
+			<label index="tx_realty_objects.has_air_conditioning" type="integer">108854663</label>
+			<label index="tx_realty_objects.has_pool" type="integer">233780919</label>
+			<label index="tx_realty_objects.has_community_pool" type="integer">7430612</label>
+			<label index="tx_realty_objects.teaser" type="integer">124178563</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -1589,6 +1599,11 @@
 			<label index="tx_realty_objects.state.12">sanitated</label>
 			<label index="tx_realty_objects.state.13">planned</label>
 			<label index="tx_realty_objects.currency">Currency</label>
+			<label index="tx_realty_objects.show_address">Show exact address in front end</label>
+			<label index="tx_realty_objects.has_air_conditioning">Air conditioning</label>
+			<label index="tx_realty_objects.has_pool">Pool</label>
+			<label index="tx_realty_objects.has_community_pool">Community pool</label>
+			<label index="tx_realty_objects.teaser">Teaser</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="tx_realty_objects">Realty object</label>
