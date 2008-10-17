@@ -311,6 +311,14 @@
 }
 
 
+/* Lightbox Images */
+#prevLink:hover, #prevLink:visited:hover {
+	background: url(images/prevlabel.gif) left 15% no-repeat !important;
+}
+
+#nextLink:hover, #nextLink:visited:hover {
+	background: url(images/nextlabel.gif) right 15% no-repeat !important;
+}\ No newline at end of file
 
 
 

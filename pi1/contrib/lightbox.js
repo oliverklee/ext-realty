@@ -45,6 +45,12 @@
 //
 //  Configurationl
 //
+
+///////////////////////////////////////////////////////////////////////////
+// Start of editing for the Realty Manager extension.
+// The configuration is now added dynamically by the realty_pi1.php file.
+///////////////////////////////////////////////////////////////////////////
+/*
 LightboxOptions = Object.extend({
     fileLoadingImage:        'images/loading.gif',
     fileBottomNavCloseImage: 'images/closelabel.gif',
@@ -61,6 +67,10 @@ LightboxOptions = Object.extend({
 	labelImage: "Image",
 	labelOf: "of"
 }, window.LightboxOptions || {});
+*/
+///////////////////////////////////////////////////////////////////////////
+// End of editing for realty extension.
+///////////////////////////////////////////////////////////////////////////
 
 // -----------------------------------------------------------------------------------
 

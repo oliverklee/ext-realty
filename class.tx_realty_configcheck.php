@@ -108,7 +108,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkRequireLoginForSingleViewPage();
-		$this->checkGalleryPid();
+		$this->checkGalleryType();
+		if ($this->objectToCheck->getConfValueString('galleryType') != 'lightbox') {
+			$this->checkGalleryPid();
+		}
 		$this->checkLoginPid();
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowContactInformation();
@@ -816,6 +819,24 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			's_googlemaps',
 			'This determines the Google Maps API key. If this is not set ' .
 				'correctly, Google Maps will produce an error message.'
+		);
+	}
+
+	/**
+	 * Checks the settings for the gallery/Lightbox display.
+	 */
+	private function checkGalleryType() {
+		$this->checkIfSingleInSetNotEmpty(
+			'galleryType',
+			true,
+			'sDEF',
+			'This setting determines wether the gallery makes use of Lightbox. ' .
+				'If this is not set correctly, the gallery will fall back to ' .
+				'the old gallery and will not use the Lightbox.',
+			array(
+				'lightbox',
+				'classic',
+			)
 		);
 	}
 }

@@ -698,6 +698,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return $this->getSubpart('ACCESS_DENIED_VIEW');
 		}
 
+		if ($this->getConfValueString('galleryType') == 'lightbox') {
+			$this->includeLightboxFiles();
+		}
+
 		$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
 
 		if (empty($this->internal['currentRow'])) {
@@ -753,6 +757,36 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $this->getSubpart('SINGLE_VIEW');
+	}
+
+	/**
+	 * Includes the files needed for the Lightbox.
+	 */
+	private function includeLightboxFiles() {
+		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_lightboxcss']
+			= '<link rel="stylesheet" type="text/css" href="' .
+			t3lib_extMgm::extRelPath($this->extKey) .
+			'pi1/contrib/lightbox.css" />';
+
+		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_prototype']
+			= '<script type="text/javascript" ' .
+			'src="' . t3lib_extMgm::extRelPath($this->extKey) .
+			'pi1/contrib/prototype.js">' .
+			'</script>';
+
+		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_scriptaculous']
+			= '<script type="text/javascript"' .
+			'src="' . t3lib_extMgm::extRelPath($this->extKey) .
+			'pi1/contrib/scriptaculous.js?load=effects,builder">' .
+			'</script>';
+
+		$this->addLightboxConfigurationToHeader();
+
+		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_lightbox']
+			= '<script type="text/javascript" ' .
+			'src="' . t3lib_extMgm::extRelPath($this->extKey) .
+			'pi1/contrib/lightbox.js" >' .
+			'</script>';
 	}
 
 	/**
@@ -904,15 +938,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createImagesInSingleView() {
 		$result = '';
-
 		$counter = 0;
-		$currentImageTag = $this->getImageLinkedToGallery('singleImageMax');
+		$currentImage = '';
 
-		while (!empty($currentImageTag)) {
-			$this->setMarkerContent('one_image_tag', $currentImageTag);
-			$result .= $this->substituteMarkerArrayCached('ONE_IMAGE_CONTAINER');
+		// Tries to get an image complete with a tag and image tag, if an empty
+		// string is returned the current object has no images.
+		$currentImage = $this->getLinkedImage('singleImageMax');
+
+		while (!empty($currentImage)) {
 			$counter++;
-			$currentImageTag = $this->getImageLinkedToGallery('singleImageMax', $counter);
+			$this->setMarkerContent('one_image_tag', $currentImage);
+			$result .= $this->substituteMarkerArrayCached('ONE_IMAGE_CONTAINER');
+			$currentImage = $this->getLinkedImage(
+				'singleImageMax',
+				$counter
+			);
 		}
 
 		return $result;
@@ -1565,6 +1605,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If galleryPopupParameters is set in TS setup, the link will have an
 	 * additional onclick handler to open the gallery in a pop-up window.
 	 *
+	 * If the gallery type "lightbox" is set in TS setup, the lightbox "rel"
+	 * attribute will be added to the a tag and the URL will link to the
+	 * full-size picture.
+	 *
 	 * The image's size can be limited by two TS setup variables.
 	 * Their names need to begin with the string defined as $maxSizeVariable.
 	 * The variable for the maximum width will then have the name set in
@@ -1577,43 +1621,86 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * If no image is found, an empty string is returned.
 	 *
-	 * @param	string		prefix to the TS setup variables that define the
-	 * 						max size, will be prepended to "X" and "Y"
-	 * @param	integer		the number of the image to retrieve (zero-based,
-	 * 						may be zero)
+	 * @param string prefix to the TS setup variables that define the max size,
+	 * 				will be prepended to "X" and "Y"
+	 * @param integer the number of the image to retrieve, must be >= 0
 	 *
-	 * @return	string		IMG tag wrapped in a link (may be empty)
+	 * @return string image tag wrapped in a link, may be empty
 	 */
-	private function getImageLinkedToGallery($maxSizeVariable, $offset = 0) {
-		$result = $this->getImageTag($maxSizeVariable, $offset);
+	private function getLinkedImage($maxSizeVariable, $offset = 0) {
+		$imageTag = $this->getImageTag($maxSizeVariable, $offset);
+		$imageRecord = $this->getImage($offset);
+		$useLightbox = 	($this->getConfValueString('galleryType') == 'lightbox');
+		$linkAttribute = '';
+		$result = '';
 
-		if (!empty($result) && $this->hasConfValueInteger('galleryPID')) {
-			$galleryUrl = htmlspecialchars(
-				t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(
-				array(
-						'parameter' => $this->getConfValueInteger('galleryPID'),
-						'additionalParams' => t3lib_div::implodeArrayForUrl(
-							$this->prefixId,
-							array(
-								'showUid' => $this->internal['currentRow']['uid'],
-								'image' => $offset,
-							)
-						),
-					)
-				))
-			);
-			$onClick = '';
-			if ($this->hasConfValueString('galleryPopupParameters')) {
-				$onClick = ' onclick="window.open(\''
-					.$galleryUrl.'\', \''
-					.$this->getConfValueString('galleryPopupWindowName').'\', \''
-					.$this->getConfValueString('galleryPopupParameters')
-					.'\'); return false;"';
+		if (($imageTag != '') &&
+			($this->hasConfValueInteger('galleryPID') || $useLightbox)
+		) {
+			if ($useLightbox) {
+				$imageLinkDestination = $this->uploadDirectory .
+					$imageRecord['image'];
+				$linkAttribute =
+					' rel="lightbox[objectGallery]" ' .
+					'title="' . $imageRecord['caption'] . '"'
+					;
+			} else {
+				$imageLinkDestination = $this->getConfValueInteger('galleryPID');
 			}
-			$result = '<a href="'.$galleryUrl.'"'.$onClick.'>'.$result.'</a>';
+			$galleryUrl = $this->createGalleryUrl(
+				$imageLinkDestination,
+				$offset
+			);
+
+			if (($linkAttribute == '') &&
+				$this->hasConfValueString('galleryPopupParameters')
+			) {
+				$linkAttribute =
+					' onclick="window.open(' .
+					'\'' . $galleryUrl . '\', ' .
+					'\'' . $this->getConfValueString('galleryPopupWindowName') . '\', ' .
+					'\'' . $this->getConfValueString('galleryPopupParameters') . '\' ' .
+					'); ' .	'return false;"';
+			}
+			$result = '<a href="' . $galleryUrl . '"' . $linkAttribute . '>'
+				. $imageTag . '</a>';
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Creates the URL of a gallery image.
+	 *
+	 * @param string the destination of the image link, must not be empty.
+	 * @param integer the number of the image to retrieve, must be >= 0
+	 *
+	 * @return string the URL to the current gallery image, will not be empty
+	 */
+	private function createGalleryUrl($linkDestination, $offset = 0) {
+		if ($linkDestination == '') {
+			throw new Exception(
+				'The destination for the image URL was empty.'
+			);
+		}
+
+		$urlParameters = array(
+			'showUid' => $this->internal['currentRow']['uid'],
+			'image' => $offset,
+		);
+
+		return htmlspecialchars(
+			t3lib_div::locationHeaderUrl(
+				$this->cObj->typoLink_URL(
+					array(
+						'parameter' => $linkDestination,
+						'additionalParams' => t3lib_div::implodeArrayForUrl(
+							$this->prefixId, $urlParameters
+						),
+					)
+				)
+			)
+		);
 	}
 
 	/**
@@ -3057,6 +3144,37 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'Location: ' .
 			t3lib_div::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
 		);
+	}
+
+	/**
+	 * Adds the configuration for the Lightbox to the header. This function
+	 * must be called before the lightbox.js file ist added to the header.
+	 */
+	private function addLightboxConfigurationToHeader() {
+		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_lightbox_config']
+			= '<script type="text/javascript">' .
+			'LightboxOptions = Object.extend({' .
+				'fileLoadingImage: \''.
+					t3lib_extMgm::extRelPath($this->extKey) .
+					'pi1/images/loading.gif\',' .
+				'fileBottomNavCloseImage: \'' .
+					t3lib_extMgm::extRelPath($this->extKey) .
+					'pi1/images/closelabel.gif\',' .
+				// controls transparency of shadow overlay
+				'overlayOpacity: 0.8,' .
+				// toggles resizing animations
+				'animate: true,' .
+   				// controls the speed of the image resizing animations
+   				// (1=slowest and 10=fastest)
+				'resizeSpeed: 7,' .
+				// if you adjust the padding in the CSS, you will need to
+				// update this variable
+				'borderSize: 10,' .
+				// When grouping images this is used to write: Image # of #.
+				'labelImage: "' . $this->translate('label_lightbox_image') . '",' .
+				'labelOf: "'. $this->translate('label_lightbox_of') .'"' .
+			'}, window.LightboxOptions || {});' .
+		'</script>';
 	}
 }
 

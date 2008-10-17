@@ -585,6 +585,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			)
 		);
 
+		$this->fixture->setConfigurationValue('galleryType', 'classic');
 		$this->fixture->setConfigurationValue(
 			'galleryPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -597,6 +598,243 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			'window.open(\'http://',
 			$this->fixture->main('', array())
+		);
+	}
+
+
+	//////////////////////////////////////////
+	// Tests for the Lightbox styled gallery
+	//////////////////////////////////////////
+
+	public function testImageInDetailViewForActivatedLightboxHasRelAttribute() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'realty_object_uid' => $this->firstRealtyUid,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('galleryType', 'lightbox');
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'rel="lightbox[objectGallery]"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testImageInDetailViewForDeactivatedLightboxDoesNotHaveRelAttribute() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'realty_object_uid' => $this->firstRealtyUid,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('galleryType', 'classic');
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			'rel="lightbox[objectGallery]"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testDetailViewForActivatedLightboxIncludesLightboxConfiguration() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'lightbox');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			array_key_exists(
+				'tx_realty_pi1_lightbox_config',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForActivatedLightboxIncludesLightboxJsFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'lightbox');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			in_array(
+				'<script type="text/javascript" src="../typo3conf/ext/realty' .
+					'/pi1/contrib/lightbox.js" ></script>',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForActivatedLightboxIncludesLightboxCssFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'lightbox');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			in_array(
+				'<link rel="stylesheet" type="text/css" href="..' .
+					'/typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForActivatedLightboxIncludesPrototypeJsFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'lightbox');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			in_array(
+				'<script type="text/javascript" src="../typo3conf/ext/realty' .
+					'/pi1/contrib/prototype.js"></script>',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForActivatedLightboxIncludesScriptaculousJsFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'lightbox');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			in_array(
+				'<script type="text/javascript"src="../typo3conf/ext/realty/pi1' .
+					'/contrib/scriptaculous.js?load=effects,builder"></script>',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForDeactivatedLightboxDoesNotIncludeLightboxConfiguration() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'classic');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			array_key_exists(
+				'tx_realty_pi1_lightbox_config',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForDeactivatedLightboxDoesNotIncludeLightboxJsFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'classic');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			in_array(
+				'<script type="text/javascript" src="../typo3conf/ext/realty' .
+					'/pi1/contrib/lightbox.js" ></script>',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForDeactivatedLightboxDoesNotIncludeLightboxCssFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'classic');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			in_array(
+				'<link rel="stylesheet" type="text/css" href="..' .
+					'/typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForDeactivatedLightboxDoesNotIncludePrototypeJsFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'classic');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			in_array(
+				'<script type="text/javascript" src="../typo3conf/ext/realty' .
+					'/pi1/contrib/prototype.js"></script>',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	public function testDetailViewForDeactivatedLightboxDoesNotIncludeScriptaculousJsFile() {
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('galleryType', 'classic');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertFalse(
+			in_array(
+				'<script type="text/javascript"src="../typo3conf/ext/realty/pi1' .
+					'/contrib/scriptaculous.js?load=effects,builder"></script>',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
 		);
 	}
 

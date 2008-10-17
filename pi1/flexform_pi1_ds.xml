@@ -348,8 +348,30 @@
 								<minitems>0</minitems>
 								<show_thumbs>1</show_thumbs>
 							</config>
-						</TCEforms>					
+						</TCEforms>
 					</userGroupsForOffererList>
+					<galleryType>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.galleryType</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.galleryByTS</numIndex>
+										<numIndex index="1"></numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.lightbox</numIndex>
+										<numIndex index="1">lightbox</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.classic</numIndex>
+										<numIndex index="1">classic</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</galleryType>
 				</el>
 			</ROOT>
 		</sDEF>

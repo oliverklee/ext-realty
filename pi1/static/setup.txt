@@ -42,6 +42,11 @@ plugin.tx_realty_pi1 {
 	# parameters for the gallery pop-up window (leave empty to disable pop-up windows),
 	# e.g. width=600,height=400,resizable=no,toolbar=no,location=no,directories=no,status=no,menubar=no
 	galleryPopupParameters =
+	# type of the gallery to determine what kind of gallery should be shown,
+	# the classic gallery or the lightbox,
+	# classic enables the classic gallery,
+	# lightbox enables the Lightbox-styled gallery
+	galleryType = lightbox
 
 	# whether the single view page may only be viewed by logged-in FE users
 	requireLoginForSingleViewPage = 0
