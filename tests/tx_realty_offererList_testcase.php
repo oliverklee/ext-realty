@@ -71,6 +71,9 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		$this->pi1->setConfigurationValue(
 			'userGroupsForOffererList', $this->feUserGroupUid
 		);
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'usergroup,offerer_label'
+		);
 
 		// "true" enables the test mode
 		$this->fixture = new tx_realty_offererList($this->pi1, true);
@@ -504,11 +507,141 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////
-	// Testing further displayed information
-	//////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////
+	// Testing conditionally displayed information for normal offerers
+	////////////////////////////////////////////////////////////////////
 
-	public function testOffererListItemContainsTheOfferersPhoneNumber() {
+	public function testOffererListItemNotContainsTheOfferersUserNameIfTheConfigurationIsEmpty() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+
+		$this->assertNotContains(
+			self::FE_USER_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersUserGroupIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'usergroup'
+		);
+
+		$this->assertContains(
+			self::FE_USER_GROUP_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersUserGroupIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+
+		$this->assertNotContains(
+			self::FE_USER_GROUP_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersLabelIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label'
+		);
+
+		$this->assertContains(
+			self::FE_USER_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersLabelIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+
+		$this->assertNotContains(
+			self::FE_USER_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersStreetIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'street'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('address' => 'Main Street')
+		);
+
+		$this->assertContains(
+			'Main Street',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersStreetIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('address' => 'Main Street')
+		);
+
+		$this->assertNotContains(
+			'Main Street',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersZipIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'zip'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('zip' => '99999')
+		);
+
+		$this->assertContains(
+			'99999',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersZipIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('zip' => '99999')
+		);
+
+		$this->assertNotContains(
+			'99999',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersCityIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'city'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('city' => 'City Title')
+		);
+
+		$this->assertContains(
+			'City Title',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersCityIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('city' => 'City Title')
+		);
+
+		$this->assertNotContains(
+			'City Title',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersPhoneNumberIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'telephone'
+		);
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('telephone' => '1234-56789')
 		);
@@ -519,7 +652,22 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOffererListItemNotContainsTheOfferersPhoneNumberIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+		);
+
+		$this->assertNotContains(
+			'1234-56789',
+			$this->fixture->render()
+		);
+	}
+
 	public function testOffererListItemContainsHtmlSpecialCharedPhoneNumber() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'telephone'
+		);
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('telephone' => '<123>3455')
 		);
@@ -529,6 +677,104 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			$this->fixture->render()
 		);
 	}
+
+	public function testOffererListItemContainsTheOfferersEmailIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'email'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('email' => 'offerer@company.org')
+		);
+
+		$this->assertContains(
+			'offerer@company.org',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersEmailIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('email' => 'offerer@company.org')
+		);
+
+		$this->assertNotContains(
+			'offerer@company.org',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersLinkedWebsiteIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'www'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('www' => 'http://www.company.org')
+		);
+
+		$this->assertContains(
+			'<a href="http://www.company.org">http://www.company.org</a>',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersWebsiteIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('www' => 'http://www.company.org')
+		);
+
+		$this->assertNotContains(
+			'http://www.company.org',
+			$this->fixture->render()
+		);
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	// Testing the configuration to display special contact data for some groups
+	//////////////////////////////////////////////////////////////////////////////
+
+	public function testOffererListItemContainsTheSpecialOfferersPhoneNumberIfConfiguredAndOffererIsInSpecialGroup() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->pi1->setConfigurationValue('displayedContactInformationSpecial', 'telephone');
+		$this->pi1->setConfigurationValue('groupsWithSpeciallyDisplayedContactInformation', $this->feUserGroupUid);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+		);
+
+		$this->assertContains(
+			'1234-56789',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersPhoneNumberIfConfiguredForSpecialOfferersAndOffererIsNormal() {
+		$this->pi1->setConfigurationValue('displayedContactInformationSpecial', 'telephone');
+
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+		);
+
+		$this->assertNotContains(
+			'1234-56789',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheSpecialOfferersPhoneNumberIfNotConfiguredAndOffererIsInSpecialGroup() {
+		$this->pi1->setConfigurationValue('displayedContactInformationSpecial', '');
+		$this->pi1->setConfigurationValue('groupsWithSpeciallyDisplayedContactInformation', $this->feUserGroupUid);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+		);
+
+		$this->assertNotContains(
+			'1234-56789',
+			$this->fixture->render()
+		);
+	}
+
 
 	//////////////////////////////////////////////////////
 	// Testing the link to the "objects by offerer" list
@@ -562,6 +808,62 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			'tx_realty_pi1[owner]=' . $this->offererUid,
 			$this->fixture->render()
+		);
+	}
+
+
+	/////////////////////////////////////////////
+	// Testing to get only one list item by UID
+	/////////////////////////////////////////////
+
+	public function testRenderOneItemReturnsHtmlForTheOffererWithTheProvidedUid() {
+		$this->assertContains(
+			self::FE_USER_NAME,
+			$this->fixture->renderOneItem($this->offererUid)
+		);
+	}
+
+	public function testRenderOneItemReturnsAnEmptyStringForAUidOfADisabledOfferer() {
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('deleted' => 1)
+		);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->renderOneItem($this->offererUid)
+		);
+	}
+
+
+	/////////////////////////////////////////////////////////////////
+	// Testing to get only one list item with a data array provided
+	/////////////////////////////////////////////////////////////////
+
+	public function testRenderOneItemWithTheDataProvidedReturnsHtmlForTheListItemForValidData() {
+		$this->assertContains(
+			'test offerer',
+			$this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
+		);
+	}
+
+	public function testRenderOneItemWithTheDataProvidedReturnsAnEmptyStringForEmptyData() {
+		$this->assertEquals(
+			'',
+			$this->fixture->renderOneItemWithTheDataProvided(array())
+		);
+	}
+
+	public function testRenderOneItemWithTheDataProvidedReturnsAnEmptyStringForInvalidData() {
+		$this->assertEquals(
+			'',
+			$this->fixture->renderOneItemWithTheDataProvided(array('foo' => 'bar'))
+		);
+	}
+
+	public function testRenderOneItemWithTheDataProvidedReturnsHtmlWithoutTheLinkToTheObjectsByOwnerList() {
+		$this->assertNotContains(
+			'class="button objectsByOwner"',
+			$this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
 		);
 	}
 }

@@ -116,6 +116,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowContactInformation();
 		$this->checkObjectsByOwnerPid();
+		$this->checkUserGroupsForOffererList();
+		$this->checkDisplayedContactInformation();
+		$this->checkDisplayedContactInformationSpecial();
+		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
 		$this->checkAllowDirectRequestsForObjects();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
@@ -163,6 +167,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCommonFrontEndSettings();
 		$this->checkObjectsByOwnerPid(false);
 		$this->checkUserGroupsForOffererList();
+		$this->checkDisplayedContactInformation(false);
+		$this->checkDisplayedContactInformationSpecial();
+		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
 	}
 
 	/**
@@ -528,7 +535,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'correctly if this value is misconfigured.';
 		}
 
-		$this->$checkFunction('objectsByOwnerPID', true, 'sDEF', $errorText);
+		$this->$checkFunction(
+			'objectsByOwnerPID', true, 's_offererInformation', $errorText
+		);
 	}
 
 	/**
@@ -538,10 +547,78 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIfPidListOrEmpty(
 			'userGroupsForOffererList',
 			true,
-			'sDEF',
+			's_offererInformation',
 			'This value specifies the group from which the users are displayed ' .
 				'in the offerer list. The list will be empty if this value is ' .
-				'invalid.'
+				'invalid. All front-end user will be displayed if this value is ' .
+				'empty.'
+		);
+	}
+
+	/**
+	 * Checks the setting for displayedContactInformation.
+	 *
+	 * @param boolean true if the configuration may be empty
+	 */
+	private function checkDisplayedContactInformation($mayBeEmpty = true) {
+		if ($mayBeEmpty) {
+			$checkFunction = checkIfMultiInSetOrEmpty;
+		} else {
+			$checkFunction = checkIfMultiInSetNotEmpty;
+		}
+
+		$this->$checkFunction(
+			'displayedContactInformation',
+			true,
+			's_offererInformation',
+			'This value specifies which contact data to display in the front-end. ' .
+				'The contact data will not be displayed at all if this value is ' .
+				'empty or contains only invalid keys.',
+			array(
+				'offerer_label', 'usergroup', 'street', 'zip', 'city',
+				'telephone', 'email', 'www', 'objects_by_owner_link'
+			)
+		);
+	}
+
+	/**
+	 * Checks the setting for displayedContactInformationSpecial.
+	 */
+	private function checkDisplayedContactInformationSpecial() {
+		$this->checkIfMultiInSetOrEmpty(
+			'displayedContactInformationSpecial',
+			true,
+			's_offererInformation',
+			'This value specifies which contact data to display in the front-end. ' .
+				'This value only defines which contact data to display of ' .
+				'offerers which are members in the front-end user groups for ' .
+				'which to display special contact data. The contact data will ' .
+				'not be displayed at all if this value is empty or contains only' .
+				'invalid keys.',
+			array(
+				'offerer_label', 'usergroup', 'street', 'zip', 'city',
+				'telephone', 'email', 'www', 'objects_by_owner_link'
+			)
+		);
+	}
+
+	/**
+	 * Checks the setting for displayedContactInformationSpecial.
+	 */
+	private function checkGroupsWithSpeciallyDisplayedContactInformation() {
+		// checkIfPidListOrEmpty checks for a comma separated list of integers
+		$this->checkIfPidListOrEmpty(
+			'groupsWithSpeciallyDisplayedContactInformation',
+			true,
+			's_offererInformation',
+			'This value specifies of which front-end user group\'s offerers ' .
+				'special contact data should be displayed. If this value is ' .
+				'empty or invalid, the special contact data will not be displayed ' .
+				'for any owner.',
+			array(
+				'offerer_label', 'usergroup', 'street', 'zip', 'city',
+				'telephone', 'email', 'www', 'objects_by_owner_link'
+			)
 		);
 	}
 

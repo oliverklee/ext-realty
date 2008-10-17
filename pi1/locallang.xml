@@ -24,7 +24,6 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
-			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
@@ -61,6 +60,18 @@
 			<label index="realty.pi_flexform.showIdSearchInFilterForm">Show ID search</label>
 			<label index="realty.pi_flexform.objectNumber">Object number</label>
 			<label index="realty.pi_flexform.uid">Immo ID</label>
+			<label index="realty.pi_flexform.sheet_offererInformation">Offerer information</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Contact data to show by default:</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with specially displayed contact data:</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Special contact data to show:</label>
+			<label index="realty.pi_flexform.firstUserGroup">first user group</label>
+			<label index="realty.pi_flexform.offererLabel">offerer label</label>
+			<label index="realty.pi_flexform.street">street</label>
+			<label index="realty.pi_flexform.zip">ZIP</label>
+			<label index="realty.pi_flexform.city">city</label>
+			<label index="realty.pi_flexform.telephone">telephone</label>
+			<label index="realty.pi_flexform.email">e-mail address</label>
+			<label index="realty.pi_flexform.homepage">homepage</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -299,7 +310,6 @@
 			<label index="realty.pi_flexform.fe_editor">FE-Editor</label>
 			<label index="realty.pi_flexform.image_upload">Bilder hochladen</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
-			<label index="realty.pi_flexform.showContactInformation">Kontaktdaten im FE anzeigen:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Standard E-Mail-Adresse für Kontaktanfragen:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Kontaktanfragen direkt an die Kontaktperson der jeweiligen Immobilie senden:</label>
@@ -336,6 +346,18 @@
 			<label index="realty.pi_flexform.showIdSearchInFilterForm">Zeige Objekt-ID-Suche</label>
 			<label index="realty.pi_flexform.objectNumber">Objektnummer</label>
 			<label index="realty.pi_flexform.uid">Immo-ID</label>
+			<label index="realty.pi_flexform.sheet_offererInformation">Anbieter-Informationen</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Angezeigte Kontaktdaten:</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE-Benutzergruppen mit speziell angezeigten Kontaktdaten:</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Angezeigte spezielle Kontaktdaten:</label>
+			<label index="realty.pi_flexform.firstUserGroup">erste Benutzergruppe</label>
+			<label index="realty.pi_flexform.offererLabel">Titel des Anbieters</label>
+			<label index="realty.pi_flexform.street">Straße</label>
+			<label index="realty.pi_flexform.zip">Postleitzahl</label>
+			<label index="realty.pi_flexform.city">Stadt</label>
+			<label index="realty.pi_flexform.telephone">Telefonnummer</label>
+			<label index="realty.pi_flexform.email">E-mail</label>
+			<label index="realty.pi_flexform.homepage">Homepage</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -574,7 +596,6 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Foto - Upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statische SQL-Filter (word met &quot; AND &quot; aan de WHERE-Klausel gehangen):</label>
-			<label index="realty.pi_flexform.showContactInformation">Toon de kontaktinformatie in FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail adres voor aanvragen</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mailadres voor een blind copy van elke aanvraag</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Directe mail aan de aanbieder toestaan:</label>
@@ -1284,7 +1305,6 @@
 			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">87716999</label>
-			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
 			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">117633312</label>
@@ -1314,6 +1334,21 @@
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
+			<label index="realty.pi_flexform.showIdSearchInFilterForm" type="integer">98267040</label>
+			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
+			<label index="realty.pi_flexform.uid" type="integer">68380357</label>
+			<label index="realty.pi_flexform.sheet_offererInformation" type="integer">18133343</label>
+			<label index="realty.pi_flexform.displayedContactInformation" type="integer">1645725</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation" type="integer">186480308</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial" type="integer">185499519</label>
+			<label index="realty.pi_flexform.firstUserGroup" type="integer">231779503</label>
+			<label index="realty.pi_flexform.offererLabel" type="integer">65230102</label>
+			<label index="realty.pi_flexform.street" type="integer">32811368</label>
+			<label index="realty.pi_flexform.zip" type="integer">70553491</label>
+			<label index="realty.pi_flexform.city" type="integer">82664750</label>
+			<label index="realty.pi_flexform.telephone" type="integer">194754535</label>
+			<label index="realty.pi_flexform.email" type="integer">59414938</label>
+			<label index="realty.pi_flexform.homepage" type="integer">195270797</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -1524,9 +1559,6 @@
 			<label index="message_no_such_owner" type="integer">71788074</label>
 			<label index="label_offerer_list" type="integer">34082678</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
-			<label index="realty.pi_flexform.showIdSearchInFilterForm" type="integer">98267040</label>
-			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
-			<label index="realty.pi_flexform.uid" type="integer">68380357</label>
 			<label index="label_enter_objectNumber" type="integer">259116881</label>
 			<label index="label_enter_uid" type="integer">190081148</label>
 			<label index="label_has_air_conditioning" type="integer">108854663</label>
@@ -1556,7 +1588,6 @@
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">87716999</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
-			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
 			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">117633312</label>
@@ -2266,7 +2297,6 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
-			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
@@ -2296,6 +2326,21 @@
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
+			<label index="realty.pi_flexform.showIdSearchInFilterForm">Show ID search</label>
+			<label index="realty.pi_flexform.objectNumber">Object number</label>
+			<label index="realty.pi_flexform.uid">Immo ID</label>
+			<label index="realty.pi_flexform.sheet_offererInformation">Offerer information</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Contact data to show by default:</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with specially displayed contact data:</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Special contact data to show:</label>
+			<label index="realty.pi_flexform.firstUserGroup">first user group</label>
+			<label index="realty.pi_flexform.offererLabel">offerer label</label>
+			<label index="realty.pi_flexform.street">street</label>
+			<label index="realty.pi_flexform.zip">ZIP</label>
+			<label index="realty.pi_flexform.city">city</label>
+			<label index="realty.pi_flexform.telephone">telephone</label>
+			<label index="realty.pi_flexform.email">e-mail address</label>
+			<label index="realty.pi_flexform.homepage">homepage</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -2506,9 +2551,6 @@
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
-			<label index="realty.pi_flexform.showIdSearchInFilterForm">Show ID search</label>
-			<label index="realty.pi_flexform.objectNumber">Object number</label>
-			<label index="realty.pi_flexform.uid">Immo ID</label>
 			<label index="label_enter_objectNumber">Please enter the object number:</label>
 			<label index="label_enter_uid">Please enter the Immo ID:</label>
 			<label index="label_has_air_conditioning">Air conditioning</label>
@@ -2538,7 +2580,6 @@
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
-			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
 			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>

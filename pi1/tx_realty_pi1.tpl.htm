@@ -215,16 +215,8 @@
 		</table>
 		<!-- ###FIELD_WRAPPER_OFFERER### -->
 		<div class="tx-realty-pi1-offerer">
-			<!-- ###OBJECTS_BY_OWNER_LINK### -->
-			<a href="###OBJECTS_BY_OWNER_URL###" class="button objectsByOwner"><span>###LABEL_THIS_OWNERS_OBJECTS###</span></a>
-			<!-- ###OBJECTS_BY_OWNER_LINK### -->
 			<h4>###LABEL_OFFERER###</h4>
-			<!-- ###FIELD_WRAPPER_EMPLOYER### -->
-			<p>###EMPLOYER###</p>
-			<!-- ###FIELD_WRAPPER_EMPLOYER### -->
-			<!-- ###FIELD_WRAPPER_CONTACT_PHONE### -->
-			<p>###LABEL_PHONE### ###CONTACT_PHONE###</p>
-			<!-- ###FIELD_WRAPPER_CONTACT_PHONE### -->
+			<dl>###OFFERER_INFORMATION###</dl>
 		</div>
 		<!-- ###FIELD_WRAPPER_OFFERER### -->
 		<!-- ###SINGLE_MAP### -->
@@ -538,17 +530,23 @@
 		<!-- ###OFFERER_LIST_ITEM### -->
 		<li>
 			<dl>
-				<dt>
-					###OFFERER_LABEL###<!-- ###WRAPPER_USERGROUP### --> (###USERGROUP###)<!-- ###WRAPPER_USERGROUP### -->
-				</dt>
+				<!-- ###WRAPPER_OFFERER_LABEL### --><dt>###OFFERER_LABEL###</dt><!-- ###WRAPPER_OFFERER_LABEL### -->
+				<!-- ###WRAPPER_USERGROUP### --><dt>(###USERGROUP###)</dt><!-- ###WRAPPER_USERGROUP### -->
+				<!-- ###WRAPPER_STREET### --><dd>###STREET###</dd><!-- ###WRAPPER_STREET### -->
+				<!-- ###WRAPPER_ZIP### --><dd>###ZIP###</dd><!-- ###WRAPPER_ZIP### -->
+				<!-- ###WRAPPER_CITY### --><dd>###CITY###</dd><!-- ###WRAPPER_CITY### -->
+				<!-- ###WRAPPER_TELEPHONE### --><dd>###LABEL_PHONE### ###TELEPHONE###</dd><!-- ###WRAPPER_TELEPHONE### -->
+				<!-- ###WRAPPER_EMAIL### --><dd>###EMAIL###</dd><!-- ###WRAPPER_EMAIL### -->
+				<!-- ###WRAPPER_WWW### --><dd><a href="###WWW###">###WWW###</a></dd><!-- ###WRAPPER_WWW### -->
+				<!-- ###WRAPPER_OBJECTS_BY_OWNER_LINK### -->
 				<dd>
-					<!-- ###WRAPPER_TELEPHONE### -->
-					###LABEL_PHONE### ###TELEPHONE###
-					<!-- ###WRAPPER_TELEPHONE### -->
 					<div class="link">
-						<a href="###OBJECTS_BY_OWNER_LINK###" class="button objectsByOwner"><span>###LABEL_THIS_OWNERS_OBJECTS###</span></a>
+						<a href="###OBJECTS_BY_OWNER_LINK###" class="button objectsByOwner">
+							<span>###LABEL_THIS_OWNERS_OBJECTS###</span>
+						</a>
 					</div>
 				</dd>
+				<!-- ###WRAPPER_OBJECTS_BY_OWNER_LINK### -->
 			</dl>
 		</li>
 		<!-- ###OFFERER_LIST_ITEM### -->

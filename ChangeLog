@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2062] Feature: Add checkboxes which contact data to display and allow to restrict this setting on certain user groups
 - [#2101] Feature: Provide Lightbox 2 for the gallery
 - [#2222] Fix: The PID of an existing object must not be changed by editing it in the FE editor
 - [#2258] Fix: The city selector doesn't use the target PID from flexforms in the link

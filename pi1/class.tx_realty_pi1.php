@@ -205,8 +205,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if ($this->filterForm) {
 			$this->filterForm->__destruct();
 		}
+		if ($this->offererList) {
+			$this->offererList->__destruct();
+		}
 
-		unset($this->filterForm, $this->cachedRealtyObject);
+		unset($this->filterForm, $this->offererList, $this->cachedRealtyObject);
 
 		parent::__destruct();
 	}
@@ -243,6 +246,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'tx_realty_filterForm'
 		);
 		$this->filterForm = new $filterFormClassName($this);
+		$offererListClassName = t3lib_div::makeInstanceClassName(
+			'tx_realty_offererList'
+		);
+		$this->offererList = new $offererListClassName($this);
 
 		// Checks the configuration and displays any errors.
 		// The direct return value from $this->checkConfiguration() is not used
@@ -307,11 +314,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $imageUpload->render();
 				break;
 			case 'offerer_list':
-				$offererListClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_offererList'
-				);
-				$offererList = new $offererListClassName($this);
-				$result = $offererList->render();
+				$result = $this->offererList->render();
 				break;
 			default:
 				// All other return values of getCurrentView stand for list views.
@@ -969,7 +972,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createListRow($rowCounter = 0) {
 		$this->unhideSubparts(
-			'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
+			'rent_excluding_bills,extra_charges,buying_price', '', 'wrapper'
 		);
 		$this->createGoogleMapForListItem();
 
@@ -1085,117 +1088,40 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$atLeastOneMarkerSet = false;
 		$contactData = $this->fetchContactDataFromSource();
 
-		foreach (array('employer', 'contact_phone') as $key) {
-			if ($this->setOrDeleteMarkerIfNotEmpty(
-				$key, $contactData[$key], '', 'field_wrapper'
-			)) {
-				$atLeastOneMarkerSet = true;
-			}
-		}
-
-		$atLeastOneMarkerSet = $this->fillOrHideLinkToObjectsByOwnerList()
-			|| $atLeastOneMarkerSet;
-
-		if (!$this->getConfValueBoolean('showContactInformation')
-			|| !$atLeastOneMarkerSet
-		) {
+		if ($contactData != '') {
+			$this->setMarker('OFFERER_INFORMATION', $contactData);
+		} else {
 			$this->hideSubparts('offerer', 'field_wrapper');
 		}
-	}
-
-	/**
-	 * Sets the link to the objects-by-owner list if a PID of this list is
-	 * provided by configuration and if the current object has an owner.
-	 * Otherwise, the subpart with this link will be hidden.
-	 *
-	 * @param	boolean		true if the marker for the link was set, else false
-	 */
-	private function fillOrHideLinkToObjectsByOwnerList() {
-		$markerIsSet = false;
-		$objectsByOwnerPid = $this->getConfValueInteger('objectsByOwnerPID');
-
-		if (($objectsByOwnerPid != 0)
-			&& ($this->internal['currentRow']['owner'] != 0)
-		) {
-			$this->setMarker(
-				'objects_by_owner_url',
-				t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
-					'parameter' => $objectsByOwnerPid,
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
-						$this->prefixId,
-						array('owner' => $this->internal['currentRow']['owner'])
-					),
-					'useCacheHash' => true,
-				)))
-			);
-			$markerIsSet = true;
-		} else {
-			$this->hideSubparts('objects_by_owner_link');
-		}
-
-		return $markerIsSet;
 	}
 
 	/**
 	 * Fetches the contact data from the source defined in the realty record and
 	 * returns it in an array.
 	 *
-	 * @return	array		contact data array, will always contain the two
-	 * 						elements 'employer' and 'contact_phone'
+	 * @return string HTML with the contact data, will be empty if none was
+	 *                found
 	 */
 	private function fetchContactDataFromSource() {
-		// Gets the contact data from the chosen source. No data is fetched if
-		// the 'contact_data_source' is set to an invalid value.
 		switch ($this->getFieldContent('contact_data_source')) {
 			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
-				$result = $this->getContactDataFromOwner();
+				$result = $this->offererList->renderOneItem(
+					$this->getFieldContent('owner')
+				);
 				break;
 			case REALTY_CONTACT_FROM_REALTY_OBJECT:
-				$result['employer'] = $this->getFieldContent('employer');
-				$result['contact_phone'] = $this->getFieldContent('contact_phone');
+				$result = $this->offererList->renderOneItemWithTheDataProvided(
+					array(
+						'email' => $this->getFieldContent('contact_email'),
+						'company' => $this->getFieldContent('employer'),
+						'telephone' => $this->getFieldContent('contact_phone'),
+						'name' => $this->getFieldContent('contact_person'),
+					)
+				);
 				break;
 			default:
-				$result = array('employer' => '', 'contact_phone' => '');
+				$result = '';
 				break;
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Returns an array of contact data fetched from the current object's
-	 * owner. This data will be the employer and the telephone number.
-	 *
-	 * @throws	Exception	if a database query error occurs
-	 *
-	 * @return	array		Associative array with the keys 'employer' and
-	 * 						'contact_phone'. The array's values will be empty if
-	 * 						there is no owner or if these fields are not set for
-	 * 						the current owner.
-	 */
-	private function getContactDataFromOwner() {
-		if ($this->internal['currentRow']['owner'] == 0) {
-			return array('employer' => '', 'contact_phone' => '');
-		}
-
-		$result = array('employer' => '', 'contact_phone' => '');
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'telephone,company',
-			'fe_users',
-			'uid=' . $this->internal['currentRow']['owner'] .
-				tx_oelib_db::enableFields('fe_users')
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		// $row will be false if the owner is a FE user who has been deleted.
-		// This is like there is no owner at all.
-		if ($row) {
-			$result['employer'] = $row['company'];
-			$result['contact_phone'] = $row['telephone'];
 		}
 
 		return $result;
@@ -1481,7 +1407,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (intval($this->internal['currentRow'][$key]) == 0) {
 			$this->hideSubparts($key, $prefix);
 		} else {
-			$this->unhideSubparts($key, $prefix);
+			$this->unhideSubparts($key, '', $prefix);
 		}
 	}
 
@@ -1501,7 +1427,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (empty($this->internal['currentRow'][$key])) {
 			$this->hideSubparts($key, $prefix);
 		} else {
-			$this->unhideSubparts($key, $prefix);
+			$this->unhideSubparts($key, '', $prefix);
 		}
 	}
 

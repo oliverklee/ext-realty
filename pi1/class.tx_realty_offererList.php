@@ -86,29 +86,73 @@ class tx_realty_offererList {
 	}
 
 	/**
+	 * Returns the HTML for one list item.
+	 *
+	 * @param integer UID of the FE user record for which to get the contact
+	 *                information, must be > 0
+	 *
+	 * @return string HTML for one contact data item, will be empty if
+	 *                $offererUid is not a UID of an enabled user
+	 */
+	public function renderOneItem($offererUid) {
+		return $this->listItemQuery('uid=' . $offererUid);
+	}
+
+	/**
+	 * Returns the HTML for one list item.
+	 *
+	 * @param array owner data array, the keys 'company', 'usergroup', 'name',
+	 *              'first_name', 'last_name', 'address', 'zip', 'city', 'email',
+	 *              'www' and 'telephone' will be used for the HTML
+	 *
+	 * @return string HTML for one contact data item, will be empty if
+	 *                $ownerData did not contain data to use
+	 */
+	public function renderOneItemWithTheDataProvided(array $ownerData) {
+		return $this->createListRow($ownerData);
+	}
+
+	/**
 	 * Returns the HTML for the list items.
 	 *
 	 * @return	string		HTML for the list items, will be empty if there are
 	 * 						no offerers
 	 */
 	private function getListItems() {
-		if ($this->plugin->hasConfValueString('userGroupsForOffererList')) {
+		if ($this->plugin->hasConfValueString(
+			'userGroupsForOffererList', 's_offererInformation'
+		)) {
 			$userGroups = str_replace(
 				',',
 				'|',
-				$this->plugin->getConfValueString('userGroupsForOffererList')
+				$this->plugin->getConfValueString(
+					'userGroupsForOffererList', 's_offererInformation'
+				)
 			);
 			$userGroupRestriction = 'usergroup ' .
-				'REGEXP "(^|,)(' . $userGroups . ')(,|$)"' .
-				tx_oelib_db::enableFields('fe_users');
+				'REGEXP "(^|,)(' . $userGroups . ')(,|$)"';
 		} else {
-			$userGroupRestriction = '1=1';			
+			$userGroupRestriction = '1=1';
 		}
 
+		return $this->listItemQuery($userGroupRestriction);
+	}
+
+	/**
+	 * Gets the offerer records in an array.
+	 *
+	 * @param string WHERE clause for the query, must not be empty
+	 *
+	 * @return string HTML for each fetched offerer record, will be empty if
+	 *                none were found
+	 */
+	private function listItemQuery($whereClause) {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			'fe_users',
-			$userGroupRestriction . $this->getWhereClauseForTesting(),
+			$whereClause .
+				tx_oelib_db::enableFields('fe_users') .
+				$this->getWhereClauseForTesting(),
 			'',
 			'usergroup,company,last_name,name,username'
 		);
@@ -118,7 +162,6 @@ class tx_realty_offererList {
 
 		$listItems = '';
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$this->plugin->resetSubpartsHiding();
 			$listItems .= $this->createListRow($row);
 		}
 
@@ -134,16 +177,99 @@ class tx_realty_offererList {
 	 * @return	string		HTML for one list row, will not be empty
 	 */
 	private function createListRow(array $userRecord) {
+		$subpartHasContent = false;
+		// resetSubpartsHiding cannot be used as this also affects the subparts
+		// hidden in the pi1 class.
+		$this->plugin->unhideSubparts(
+			'offerer_label,usergroup,street,zip,city,telephone,email,www,' .
+				'objects_by_owner_link',
+			'',
+			'wrapper'
+		);
+
 		foreach (array(
-			'offerer_label' => htmlspecialchars($this->getOffererLabel($userRecord)),
-			'usergroup' => htmlspecialchars($this->getFirstUserGroup($userRecord)),
-			'telephone' => htmlspecialchars($userRecord['telephone']),
-			'objects_by_owner_link' => $this->getObjectsByOwnerUrl($userRecord),
+			'offerer_label' => $this->getOffererLabel($userRecord),
+			'usergroup' => $this->getFirstUserGroup($userRecord),
+			'street' => $userRecord['address'],
+			'zip' => $userRecord['zip'],
+			'city' => $userRecord['city'],
+			'telephone' => $userRecord['telephone'],
+			'email' => $userRecord['email'],
+			'www' => $userRecord['www'],
 		) as $key => $value) {
-			$this->plugin->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper');
+			if ($this->mayDisplayInformation($userRecord, $key)
+				&& $this->plugin->setOrDeleteMarkerIfNotEmpty(
+					$key, htmlspecialchars($value), '', 'wrapper'
+				)
+			) {
+				$subpartHasContent = true;
+			} else {
+				$this->plugin->hideSubparts($key, 'wrapper');
+			}
 		}
 
-		return $this->plugin->getSubpart('OFFERER_LIST_ITEM');
+		$this->plugin->setOrDeleteMarkerIfNotEmpty(
+			'objects_by_owner_link',
+			$this->getObjectsByOwnerUrl($userRecord),
+			'',
+			'wrapper'
+		);
+
+		return ($subpartHasContent
+			? $this->plugin->getSubpart('OFFERER_LIST_ITEM')
+			: ''
+		);
+	}
+
+	/**
+	 * Checks wether an item of offerer information may be displayed.
+	 *
+	 * @param array offerer record, must not be empty
+	 *
+	 * @return boolean true if it is configured to display the information for
+	 *                 the provided user, false otherwise
+	 */
+	private function mayDisplayInformation($userRecord, $keyOfInformation) {
+		$configurationKey = 'displayedContactInformation' . (
+			$this->containsSpecialGroup($userRecord['usergroup']) ? 'Special' : ''
+		);
+
+		return in_array(
+			$keyOfInformation,
+			explode(',', $this->plugin->getConfValueString(
+				$configurationKey, 's_offererInformation'
+			))
+		);
+	}
+
+	/**
+	 * Checks whether a list of user groups contains at least one of the
+	 * configured special groups.
+	 *
+	 * @param string comma-separated list of FE user group UIDs to check, must
+	 *               not be empty
+	 *
+	 * @return boolean true if the provided string contains at least one of the
+	 *                 configured special user groups
+	 */
+	private function containsSpecialGroup($groupList) {
+		if (!$this->plugin->hasConfValueString(
+				'groupsWithSpeciallyDisplayedContactInformation',
+				's_offererInformation'
+			)
+		) {
+			return false;
+		}
+
+		$specialGroups = array_values(array_intersect(
+			explode(',', $groupList),
+			explode(',', $this->plugin->getConfValueString(
+				'groupsWithSpeciallyDisplayedContactInformation',
+				's_offererInformation'
+			))
+		));
+
+		return !empty($specialGroups);
 	}
 
 	/**
@@ -184,13 +310,17 @@ class tx_realty_offererList {
 	private function getFirstUserGroup(array $userRecord) {
 		$result = '';
 		$matchingGroups = explode(',', $userRecord['usergroup']);
-		
-		if ($this->plugin->hasConfValueString('userGroupsForOffererList')) {
+
+		if ($this->plugin->hasConfValueString(
+			'userGroupsForOffererList', 's_offererInformation'
+		)) {
 			$matchingGroups = array_values(array_intersect(
 				$matchingGroups,
 				explode(
 					',',
-					$this->plugin->getConfValueString('userGroupsForOffererList')
+					$this->plugin->getConfValueString(
+						'userGroupsForOffererList', 's_offererInformation'
+					)
 				)
 			));
 		}
@@ -206,7 +336,7 @@ class tx_realty_offererList {
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);
 			}
-	
+
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 			if (!$row) {
 				throw new Exception(DATABASE_RESULT_ERROR);
@@ -229,13 +359,19 @@ class tx_realty_offererList {
 	 * 						the configuration for 'objectsByOwnerPID' is zero
 	 */
 	private function getObjectsByOwnerUrl(array $userRecord) {
-		if (!$this->plugin->hasConfValueInteger('objectsByOwnerPID')) {
+		// There might be no UID if the data to render as offerer information
+		// was initially provided in an array.
+		if (!$this->plugin->hasConfValueInteger(
+			'objectsByOwnerPID', 's_offererInformation'
+		) || !isset($userRecord['uid'])) {
 			return '';
 		}
 
 		return t3lib_div::locationHeaderUrl($this->plugin->cObj->typoLink_URL(
 			array(
-				'parameter' => $this->plugin->getConfValueInteger('objectsByOwnerPID'),
+				'parameter' => $this->plugin->getConfValueInteger(
+					'objectsByOwnerPID', 's_offererInformation'
+				),
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					$this->plugin->prefixId, array('owner' => $userRecord['uid'])
 				),

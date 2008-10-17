@@ -71,8 +71,19 @@ plugin.tx_realty_pi1 {
 	# static SQL filter (will be appended to the WHERE clause using " AND ")
 	staticSqlFilter =
 
-	# whether contact information should be displayed in the FE
-	showContactInformation = 0
+	# which contact information should be displayed in the FE
+	displayedContactInformation = offerer_label,telephone
+	# which contact information of offerers in the special offerers groups
+	# should be displayed in the FE
+	displayedContactInformationSpecial = offerer_label,telephone
+	# FE user groups with offerers with special displayed contact information
+	groupsWithSpeciallyDisplayedContactInformation = 
+	# comma-separated list of FE group UIDs for the offerer list
+	userGroupsForOffererList =
+	# PID of the target page for the list of objects by one owner, leave empty
+	# to disable the link to this list in the detail view
+	objectsByOwnerPID =
+
 	# default e-mail address for requests, used without validation if the record
 	# has no valid contact_email
 	defaultContactEmail =
@@ -104,10 +115,6 @@ plugin.tx_realty_pi1 {
 	favoritesPID =
 	# PID of the target page for the search form and the city selector
 	filterTargetPID =
-	# comma-separated list of FE group UIDs for the offerer list
-	userGroupsForOffererList =
-	# PID of the target page for the list of objects by one owner, leave empty to disable the link to this list in the detail view
-	objectsByOwnerPID =
 
 	# PID of the FE editor page
 	editorPID =

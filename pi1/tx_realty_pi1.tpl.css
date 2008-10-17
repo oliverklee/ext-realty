@@ -265,7 +265,7 @@
 }
 .tx-realty-pi1 .single-view .text-pane .overview {
 	border-collapse: collapse;
-	margin: 1.5em 0 0.5em;
+	margin: 1.5em 0 .5em;
 	padding: 0;
 	width: 100%;
 }
@@ -300,6 +300,24 @@
 	margin: 20px 0;
 }
 
+.tx-realty-pi1 .tx-realty-pi1-offerer dl {
+	list-style-type: none;
+	margin-top: .5px;
+}
+.tx-realty-pi1 .tx-realty-pi1-offerer li {
+	position: relative;
+}
+.tx-realty-pi1 .tx-realty-pi1-offerer dt {
+	display: inline;
+}
+.tx-realty-pi1 .tx-realty-pi1-offerer dd {
+	margin-left: 0;
+}
+.tx-realty-pi1 .tx-realty-pi1-offerer dl .link {
+	position: absolute;
+	bottom: -.1em;
+	right: 0;
+}
 
 /* Images */
 .tx-realty-pi1 .single-view .images .item {
@@ -531,23 +549,21 @@ p.tx-realty-pi1-objekt-nr {
 }
 .tx-realty-pi1 .offerer-list li {
 	border-bottom: 2px solid #FFA500;
-	margin: 5px 0;
+	padding: .5em 0;
 }
 .tx-realty-pi1 .offerer-list .result li {
 	position: relative;
 }
-.tx-realty-pi1 .offerer-list .result dl {
-	height: 3em;
-}
 .tx-realty-pi1 .offerer-list .result dt {
 	font-weight: bold;
+	display: inline;
 }
 .tx-realty-pi1 .offerer-list .result dd {
 	margin-left: 0;
 }
 .tx-realty-pi1 .offerer-list .result dl .link {
 	position: absolute;
-	top: 1.2em;
+	bottom: .4em;
 	right: 0;
 }
 
