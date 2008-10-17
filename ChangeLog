@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2101] Feature: Provide Lightbox 2 for the gallery | Added the Original unchanged Lightbox 2 files.
 - [#2222] Fix: The PID of an existing object must not be changed by editing it in the FE editor
 - [#2258] Fix: The city selector doesn't use the target PID from flexforms in the link
 - [#2248] Fix: Fix the order of __destruct and unset calls
