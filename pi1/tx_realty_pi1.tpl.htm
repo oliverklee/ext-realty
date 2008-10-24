@@ -182,7 +182,9 @@
 	<a href="###EMPTY_EDITOR_LINK###" class="button newRecord"><span>###LABEL_NEW_RECORD###</span></a>
 	<!-- ###NEW_RECORD_LINK### -->
 	<!-- ###WRAPPER_CONTACT### -->
-	<a href="###CONTACT_URL###" class="button contact"><span>###LABEL_CONTACT###</span></a>
+	<div class="buttons">
+		<a href="###CONTACT_URL###" class="button contact"><span>###LABEL_CONTACT###</span></a>
+	</div>
 	<!-- ###WRAPPER_CONTACT### -->
 	<div class="clear"></div>
 </div>
@@ -218,9 +220,14 @@
 		<!-- ###FIELD_WRAPPER_OFFERER### -->
 		<div class="tx-realty-pi1-offerer">
 			<h4>###LABEL_OFFERER###</h4>
-			<dl>###OFFERER_INFORMATION###</dl>
+			###OFFERER_INFORMATION###
 		</div>
 		<!-- ###FIELD_WRAPPER_OFFERER### -->
+		<!-- ###WRAPPER_CONTACT### -->
+		<div class="buttons">
+			<a href="###CONTACT_URL###" class="button contact"><span>###LABEL_CONTACT###</span></a>
+		</div>
+		<!-- ###WRAPPER_CONTACT### -->
 		<!-- ###SINGLE_MAP### -->
 		<div id="tx_realty_map"></div>
 		<!-- ###SINGLE_MAP### -->
@@ -233,9 +240,6 @@
 			</div>
 		</form>
 		<!-- ###WRAPPER_ADD_TO_FAVORITES### -->
-		<!-- ###WRAPPER_CONTACT### -->
-			<a href="###CONTACT_URL###" class="button contact"><span>###LABEL_CONTACT###</span></a>
-		<!-- ###WRAPPER_CONTACT### -->
 		<div class="further-description">
 			<!-- ###FIELD_WRAPPER_EQUIPMENT### --><h4>###LABEL_EQUIPMENT###</h4>
 			###EQUIPMENT###<!-- ###FIELD_WRAPPER_EQUIPMENT### -->
@@ -533,8 +537,8 @@
 	<h2>###LABEL_OFFERER_LIST###</h2>
 	<!-- ###OFFERER_LIST_RESULT### -->
 	<ul class="result">
-		<!-- ###OFFERER_LIST_ITEM### -->
 		<li>
+			<!-- ###OFFERER_LIST_ITEM### -->
 			<dl>
 				<!-- ###WRAPPER_OFFERER_LABEL### --><dt>###OFFERER_LABEL###</dt><!-- ###WRAPPER_OFFERER_LABEL### -->
 				<!-- ###WRAPPER_USERGROUP### --><dt>(###USERGROUP###)</dt><!-- ###WRAPPER_USERGROUP### -->
@@ -554,8 +558,8 @@
 				</dd>
 				<!-- ###WRAPPER_OBJECTS_BY_OWNER_LINK### -->
 			</dl>
-		</li>
 		<!-- ###OFFERER_LIST_ITEM### -->
+		</li>
 	</ul>
 	<!-- ###OFFERER_LIST_RESULT### -->
 </div>

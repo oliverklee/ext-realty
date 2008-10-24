@@ -316,11 +316,9 @@
 }
 
 .tx-realty-pi1 .tx-realty-pi1-offerer dl {
+	position: relative;
 	list-style-type: none;
 	margin-top: .5px;
-}
-.tx-realty-pi1 .tx-realty-pi1-offerer li {
-	position: relative;
 }
 .tx-realty-pi1 .tx-realty-pi1-offerer dt {
 	display: inline;
@@ -550,12 +548,10 @@ p.tx-realty-pi1-objekt-nr {
 	margin-top: 10px;
 	padding: 10px 0 0 0;
 }
-.tx-realty-pi1 .offerer-list li {
+.tx-realty-pi1 .offerer-list .result dl {
+	position: relative;
 	border-bottom: 2px solid #FFA500;
 	padding: .5em 0;
-}
-.tx-realty-pi1 .offerer-list .result li {
-	position: relative;
 }
 .tx-realty-pi1 .offerer-list .result dt {
 	font-weight: bold;
