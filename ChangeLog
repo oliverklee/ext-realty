@@ -1,4 +1,5 @@
 0.3.0 - currently working on
+- [#2296] Fix: ZIPs starting with 0 not working
 - [#2173] Change: Drop the square image for the button in the contact form
 - [#2222] Fix: The PID of an existing object must not be changed by editing it in the FE editor
 - [#2258] Fix: The city selector doesn't use the target PID from flexforms in the link
