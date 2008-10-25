@@ -182,7 +182,7 @@ class tx_realty_offererList {
 		// hidden in the pi1 class.
 		$this->plugin->unhideSubparts(
 			'offerer_label,usergroup,street,zip,city,telephone,email,www,' .
-				'objects_by_owner_link',
+				'objects_by_owner_link,address',
 			'',
 			'wrapper'
 		);
@@ -208,6 +208,9 @@ class tx_realty_offererList {
 			}
 		}
 
+		if (empty($userRecord['zip']) && empty($userRecord['city'])) {
+			$this->plugin->hideSubparts('address', 'wrappper');
+		}
 		$this->plugin->setOrDeleteMarkerIfNotEmpty(
 			'objects_by_owner_link',
 			$this->getObjectsByOwnerUrl($userRecord),
