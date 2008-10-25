@@ -333,11 +333,16 @@ class tx_realty_domDocumentConverter {
 
 
 	/**
-	 * Substitudes decimals from the currently imported data if they are zero.
+	 * Substitutes decimals from the currently imported data if they are zero.
+	 *
+	 * Handles the "zip" column as a special case since here leading zeros are
+	 * allowed. So the ZIP will not be intvaled.
 	 */
 	private function substitudeSurplusDecimals() {
 		foreach ($this->importedData as $key => $value) {
-			if (is_numeric($value) && ((int) $value) == $value) {
+			if (is_numeric($value) && ((int) $value) == $value
+				&& ($key != 'zip')
+			) {
 				$this->importedData[$key] = intval($value);
 			}
 		}
