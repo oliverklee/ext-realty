@@ -61,9 +61,9 @@
 			<label index="realty.pi_flexform.objectNumber">Object number</label>
 			<label index="realty.pi_flexform.uid">Immo ID</label>
 			<label index="realty.pi_flexform.sheet_offererInformation">Offerer information</label>
-			<label index="realty.pi_flexform.displayedContactInformation">Contact data to show by default:</label>
-			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with specially displayed contact data:</label>
-			<label index="realty.pi_flexform.displayedContactInformationSpecial">Special contact data to show:</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Contact data to show for all FE user groups:</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with different contact data:</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Contact data to show for these FE user groups:</label>
 			<label index="realty.pi_flexform.firstUserGroup">first user group</label>
 			<label index="realty.pi_flexform.offererLabel">offerer label</label>
 			<label index="realty.pi_flexform.street">street</label>
@@ -347,9 +347,9 @@
 			<label index="realty.pi_flexform.objectNumber">Objektnummer</label>
 			<label index="realty.pi_flexform.uid">Immo-ID</label>
 			<label index="realty.pi_flexform.sheet_offererInformation">Anbieter-Informationen</label>
-			<label index="realty.pi_flexform.displayedContactInformation">Angezeigte Kontaktdaten:</label>
-			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE-Benutzergruppen mit speziell angezeigten Kontaktdaten:</label>
-			<label index="realty.pi_flexform.displayedContactInformationSpecial">Angezeigte spezielle Kontaktdaten:</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Kontaktdaten, die für alle FE-Benutzergruppen angezeigt werden:</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE-Benutzergruppen mit anderen Kontaktdaten:</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Kontaktdaten, die für diese FE-Benutzergruppen angezeigt werden:</label>
 			<label index="realty.pi_flexform.firstUserGroup">erste Benutzergruppe</label>
 			<label index="realty.pi_flexform.offererLabel">Titel des Anbieters</label>
 			<label index="realty.pi_flexform.street">Straße</label>
@@ -1338,9 +1338,9 @@
 			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
 			<label index="realty.pi_flexform.uid" type="integer">68380357</label>
 			<label index="realty.pi_flexform.sheet_offererInformation" type="integer">18133343</label>
-			<label index="realty.pi_flexform.displayedContactInformation" type="integer">1645725</label>
-			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation" type="integer">186480308</label>
-			<label index="realty.pi_flexform.displayedContactInformationSpecial" type="integer">185499519</label>
+			<label index="realty.pi_flexform.displayedContactInformation" type="integer">239504017</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation" type="integer">105139586</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial" type="integer">77650611</label>
 			<label index="realty.pi_flexform.firstUserGroup" type="integer">231779503</label>
 			<label index="realty.pi_flexform.offererLabel" type="integer">65230102</label>
 			<label index="realty.pi_flexform.street" type="integer">32811368</label>
@@ -2330,9 +2330,9 @@
 			<label index="realty.pi_flexform.objectNumber">Object number</label>
 			<label index="realty.pi_flexform.uid">Immo ID</label>
 			<label index="realty.pi_flexform.sheet_offererInformation">Offerer information</label>
-			<label index="realty.pi_flexform.displayedContactInformation">Contact data to show by default:</label>
-			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with specially displayed contact data:</label>
-			<label index="realty.pi_flexform.displayedContactInformationSpecial">Special contact data to show:</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Contact data to show for all FE user groups:</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with different contact data:</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Contact data to show for these FE user groups:</label>
 			<label index="realty.pi_flexform.firstUserGroup">first user group</label>
 			<label index="realty.pi_flexform.offererLabel">offerer label</label>
 			<label index="realty.pi_flexform.street">street</label>
