@@ -22,22 +22,21 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configcheck.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+
 /**
  * Class 'tx_realty_configcheck' for the 'realty' extension.
  *
  * This class checks the Realty Manager configuration for basic sanity.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configcheck.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-
 class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the configuration for the gallery of the Realty Manager.
@@ -519,7 +518,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting of the configuration value objectsByOwnerPID.
 	 *
-	 * @param	boolean		true if the configuration may be empty
+	 * @param boolean true if the configuration may be empty
 	 */
 	private function checkObjectsByOwnerPid($mayBeEmpty = true) {
 		if ($mayBeEmpty) {

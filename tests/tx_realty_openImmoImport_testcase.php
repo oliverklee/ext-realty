@@ -34,11 +34,11 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_o
 /**
  * Unit tests for the tx_realty_openImmoImport class in the 'realty' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/** instance to be tested */
@@ -148,9 +148,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 * Copies a file or a folder from the extension's tests/fixtures/ folder
 	 * into the temporary test import folder.
 	 *
-	 * @param	string		File or folder to copy. Must be a relative path to
-	 * 						existent files within the tests/fixtures/ folder.
-	 * 						Leave empty to create an empty import folder.
+	 * @param string File or folder to copy. Must be a relative path to
+	 *               existent files within the tests/fixtures/ folder.
+	 *               Leave empty to create an empty import folder.
 	 */
 	private function copyTestFileIntoImportFolder($fileName) {
 		// creates an import folder if there is none

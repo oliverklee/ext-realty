@@ -31,16 +31,16 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_d
  * Unit tests for the tx_realty_domDocumentConverter class in the 'realty'
  * extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/** instance to be tested */
 	private $fixture;
 
-	/** @var	integer		static_info_tables UID of Germany */
+	/** @var integer static_info_tables UID of Germany */
 	const DE = 54;
 
 	public function setUp() {
@@ -62,10 +62,10 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 * Loads an XML string, sets the raw realty data and returns a DOMDocument
 	 * of the provided string.
 	 *
-	 * @param	string		XML string to set for converting, must contain
-	 * 						wellformed XML, must not be empty
+	 * @param string XML string to set for converting, must contain
+	 *               wellformed XML, must not be empty
 	 *
-	 * @return	DOMDocument		DOMDocument of the provided XML string
+	 * @return DOMDocument DOMDocument of the provided XML string
 	 */
 	private function setRawDataToConvert($xmlString) {
 		$loadedXml = DOMDocument::loadXML($xmlString);

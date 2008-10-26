@@ -31,10 +31,10 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
  * Unit tests for the tx_realty_translator class in the 'realty'
  * extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_translator_testcase extends tx_phpunit_testcase {
 	/** instance to be tested */

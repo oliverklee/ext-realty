@@ -31,27 +31,27 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
  * Unit tests for the tx_realty_offererList class in the 'realty'
  * extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_offererList_testcase extends tx_phpunit_testcase {
-	/** @var	tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
 
-	/** @var	tx_realty_offererList */
+	/** @var tx_realty_offererList */
 	private $fixture;
-	/** @var	tx_realty_pi1		plugin that uses the offerer list */
+	/** @var tx_realty_pi1 plugin that uses the offerer list */
 	private $pi1;
 
-	/** @var	integer		FE user group UID */
+	/** @var integer FE user group UID */
 	private $feUserGroupUid;
-	/** @var	string		FE user group name */
+	/** @var string FE user group name */
 	const FE_USER_GROUP_NAME = 'test offerers';
-	/** @var	integer		FE user UID */
+	/** @var integer FE user UID */
 	private $offererUid;
-	/** @var	string		FE user name */
+	/** @var string FE user name */
 	const FE_USER_NAME = 'test_offerer';
 
 

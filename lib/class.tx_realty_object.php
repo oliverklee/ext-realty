@@ -37,14 +37,14 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLo
  *
  * This class represents a realty object.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_object {
-	/** @var	integer		the length of cropped titles */
+	/** @var integer the length of cropped titles */
 	const CROP_SIZE = 32;
 
 	/** contains the realty object's data */
@@ -87,7 +87,7 @@ class tx_realty_object {
 		REALTY_TABLE_CAR_PLACES => 'garage_type',
 	);
 
-	/** @var	tx_oelib_templatehelper */
+	/** @var tx_oelib_templatehelper */
 	private $templateHelper;
 
 	/** whether hidden objects are loadable */
@@ -96,20 +96,20 @@ class tx_realty_object {
 	/** whether a newly created record is for testing purposes only */
 	private $isDummyRecord = false;
 
-	/** @var	tx_realty_googleMapsLookup		a geo coordinate finder */
+	/** @var tx_realty_googleMapsLookup a geo coordinate finder */
 	private static $geoFinder;
 
 	/**
-	 * @var	array		cached city names using the UID as numeric key and the
-	 * 					title as value
+	 * @var array cached city names using the UID as numeric key and the
+	 *            title as value
 	 */
 	private static $cityCache = array();
 
 	/**
 	 * Constructor.
 	 *
-	 * @param	boolean		whether the database records to create are for
-	 * 						testing purposes only
+	 * @param boolean whether the database records to create are for
+	 *                testing purposes only
 	 */
 	public function __construct($createDummyRecords = false) {
 		$this->isDummyRecord = $createDummyRecords;
@@ -123,10 +123,10 @@ class tx_realty_object {
 	 * UID of an existent realty object to load from the database. If the data
 	 * is of an invalid type, $this->realtyObjectData stays empty.
 	 *
-	 * @param	mixed		data for the realty object: an array, a database
-	 * 						result row, or a UID (of integer > 0) of an existing
-	 * 						record, an array must not contain the key 'uid'
-	 * @param	boolean		whether hidden objects are loadable
+	 * @param mixed data for the realty object: an array, a database
+	 *              result row, or a UID (of integer > 0) of an existing
+	 *              record, an array must not contain the key 'uid'
+	 * @param boolean whether hidden objects are loadable
 	 */
 	public function loadRealtyObject(
 		$realtyData, $canLoadHiddenObjects = false
@@ -159,11 +159,11 @@ class tx_realty_object {
 	 * Checks the type of data input. Returns the type if it is valid, else
 	 * returns an empty string.
 	 *
-	 * @param	mixed		data for the realty object, an array, a UID (of
-	 * 						integer > 0) or a database result row
+	 * @param mixed data for the realty object, an array, a UID (of
+	 *              integer > 0) or a database result row
 	 *
-	 * @return	string		type of data: 'array', 'uid', 'dbResult' or empty in
-	 * 						case of any other type
+	 * @return string type of data: 'array', 'uid', 'dbResult' or empty in
+	 *                 case of any other type
 	 */
 	protected function getDataType($realtyData) {
 		if ($realtyData == null) {
@@ -189,10 +189,10 @@ class tx_realty_object {
 	 * Loads an existing realty object entry from the database. If
 	 * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
 	 *
-	 * @param	integer		UID of the database entry to load, must be > 0
+	 * @param integer UID of the database entry to load, must be > 0
 	 *
-	 * @return	array		contents of the database entry, empty if database
-	 * 						result could not be fetched
+	 * @return array contents of the database entry, empty if database
+	 *               result could not be fetched
 	 */
 	protected function loadDatabaseEntry($uid) {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -211,11 +211,10 @@ class tx_realty_object {
 	 * to the imported data array instead as this number is expected by the
 	 * database configuration.
 	 *
-	 * @param	array		realty record to be loaded as a realty object, may
-	 * 						be empty
+	 * @param array realty record to be loaded as a realty object, may be empty
 	 *
-	 * @return	array		realty record ready to load, image records got
-	 * 						separated, empty if the given array was empty
+	 * @return array realty record ready to load, image records got
+	 *               separated, empty if the given array was empty
 	 */
 	private function isolateImageRecords(array $realtyDataArray) {
 		$result = $realtyDataArray;
@@ -232,8 +231,8 @@ class tx_realty_object {
 	 * Checks '$this->realtyObjectData' for emptiness. Returns true if
 	 * '$this->realtyObjectData' is empty.
 	 *
-	 * @return	boolean		true if '$this->realtyObjectData' is empty, false
-	 * 						otherwise
+	 * @return boolean true if '$this->realtyObjectData' is empty, false
+	 *                 otherwise
 	 */
 	public function isRealtyObjectDataEmpty() {
 		$data = $this->getAllProperties();
@@ -247,13 +246,13 @@ class tx_realty_object {
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
 	 *
-	 * @param	integer		PID for new records (omit this parameter to use
-	 * 						the PID set in the global configuration)
-	 * @param	boolean		true if the owner may be set, false otherwise
+	 * @param integer PID for new records (omit this parameter to use
+	 *                the PID set in the global configuration)
+	 * @param boolean true if the owner may be set, false otherwise
 	 *
-	 * @return 	string		locallang key of an error message if the record was
-	 * 						not written to database, an empty string if it was
-	 * 						written successfully
+	 * @return string locallang key of an error message if the record was
+	 *                not written to database, an empty string if it was
+	 *                written successfully
 	 */
 	public function writeToDatabase($overridePid = 0, $setOwner = false) {
 		if ($this->isRealtyObjectDataEmpty()) {
@@ -386,11 +385,11 @@ class tx_realty_object {
 	 * Returns a value for a given key from an owner of a loaded realty object.
 	 * If the key does not exist no owner is loaded, an empty string is returned.
 	 *
-	 * @param	string		key of value to fetch from current realty object's
-	 * 						owner, must not be empty
+	 * @param string key of value to fetch from current realty object's
+	 *               owner, must not be empty
 	 *
-	 * @return	mixed		corresponding value or an empty string if the key
-	 * 						does not exist
+	 * @return mixed corresponding value or an empty string if the key
+	 *               does not exist
 	 */
 	public function getOwnerProperty($key) {
 		if (empty($this->ownerData) || !isset($this->ownerData[$key])) {
@@ -404,11 +403,11 @@ class tx_realty_object {
 	 * Returns a value for a given key from a loaded realty object. If the key
 	 * does not exist or no object is loaded, an empty string is returned.
 	 *
-	 * @param	string		key of value to fetch from current realty object,
-	 * 						must not be empty
+	 * @param string key of value to fetch from current realty object,
+	 *               must not be empty
 	 *
-	 * @return	mixed		corresponding value or an empty string if the key
-	 * 						does not exist
+	 * @return mixed corresponding value or an empty string if the key
+	 *               does not exist
 	 */
 	public function getProperty($key) {
 		if ($this->isRealtyObjectDataEmpty() || !$this->hasProperty($key)) {
@@ -421,7 +420,7 @@ class tx_realty_object {
 	/**
 	 * Returns all data from a realty object as an array.
 	 *
-	 * @return	array		current realty object data, may be empty
+	 * @return array current realty object data, may be empty
 	 */
 	protected function getAllProperties() {
 		return $this->realtyObjectData;
@@ -433,10 +432,10 @@ class tx_realty_object {
 	 * loaded.
 	 * Reloads the owner's data.
 	 *
-	 * @param	string		key of the value to set in current realty object,
-	 * 						must not be empty and must not be 'uid'
-	 * @param	mixed		value to set, must be either numeric or a string
-	 * 						(also empty) or of boolean, may not be null
+	 * @param string key of the value to set in current realty object,
+	 *               must not be empty and must not be 'uid'
+	 * @param mixed value to set, must be either numeric or a string
+	 *              (also empty) or of boolean, may not be null
 	 */
 	public function setProperty($key, $value) {
 		if ($this->isRealtyObjectDataEmpty()
@@ -461,10 +460,10 @@ class tx_realty_object {
 	/**
 	 * Checks whether a value is either numeric or a string or of boolean.
 	 *
-	 * @param	mixed		value to check
+	 * @param mixed value to check
 	 *
-	 * @return	boolean		true if the value is either numeric or a string
-	 * 						or of boolean, false otherwise
+	 * @return boolean true if the value is either numeric or a string
+	 *                 or of boolean, false otherwise
 	 */
 	private function isAllowedValue($value) {
 		return (is_numeric($value) || is_string($value) || is_bool($value));
@@ -473,11 +472,11 @@ class tx_realty_object {
 	/**
 	 * Checks whether $key is an element of the currently loaded realty object.
  	 *
-	 * @param	string		key of value to fetch from current realty object,
-	 * 						must not be empty
+	 * @param string key of value to fetch from current realty object,
+	 *               must not be empty
  	 *
-	 * @return	boolean		true if $key exists in the currently loaded realty
-	 * 						object, false otherwise
+	 * @return boolean true if $key exists in the currently loaded realty
+	 *                 object, false otherwise
 	 */
 	private function hasProperty($key) {
 		return isset($this->realtyObjectData[$key]);
@@ -489,8 +488,8 @@ class tx_realty_object {
 	 * object but in the database is returned. An empty array will be returned
 	 * if all column names occur in the realty object.
 	 *
-	 * @return	array		names of columns which are not set in the realty
-	 * 						object but exist in database
+	 * @return array names of columns which are not set in the realty
+	 *               object but exist in database
 	 */
 	protected function checkMissingColumnNames() {
 		return array_diff(
@@ -502,8 +501,8 @@ class tx_realty_object {
 	 * Checks wether all required fields are set in the realty object.
 	 * $this->requiredFields must have already been loaded.
 	 *
-	 * @return	array		array of missing required fields, empty if all
-	 * 						required fields are set
+	 * @return array array of missing required fields, empty if all
+	 *               required fields are set
 	 */
 	public function checkForRequiredFields() {
 		$allMissingFields = $this->checkMissingColumnNames();
@@ -531,7 +530,7 @@ class tx_realty_object {
 	/**
 	 * Returns all allowed field names for the realty objects table in an array.
 	 *
-	 * @return	array		column name from the realty objects table
+	 * @return array column name from the realty objects table
 	 */
 	private function getAllowedFieldNames() {
 		// In order to improve performance, the result of admin_get_fields()
@@ -548,7 +547,7 @@ class tx_realty_object {
 	/**
 	 * Sets the required fields for $this->realtyObjectData.
 	 *
-	 * @param	array		required fields, may be empty
+	 * @param array required fields, may be empty
 	 */
 	public function setRequiredFields(array $fields) {
 		$this->requiredFields = $fields;
@@ -557,7 +556,7 @@ class tx_realty_object {
 	/**
 	 * Gets the required fields for '$this->realtyObjectData'.
 	 *
-	 * @return	array		required fields, may be empty
+	 * @return array required fields, may be empty
 	 */
 	public function getRequiredFields() {
 		return $this->requiredFields;
@@ -597,13 +596,13 @@ class tx_realty_object {
 	 * UID of the newly created record or an empty string if the value to insert
 	 * is not set.
 	 *
-	 * @param	string		key of property to insert from current realty
-	 * 						object, must not be empty
-	 * @param	string		name of a table where to insert the property, must
-	 * 						not be empty
+	 * @param string key of property to insert from current realty
+	 *               object, must not be empty
+	 * @param string name of a table where to insert the property, must
+	 *               not be empty
 	 *
-	 * @return	integer		UID of the newly created record, 0 if no record was
-	 * 						created
+	 * @return integer UID of the newly created record, 0 if no record was
+	 *                 created
 	 */
 	private function insertPropertyToOwnTable($key, $table) {
 		// If the property is not defined or the value is an empty string or
@@ -638,9 +637,9 @@ class tx_realty_object {
 	 * Images can only be linked with the current realty object if it has at
 	 * least an object number or a UID.
 	 *
-	 * @param	integer		PID for new object and image records (omit this
-	 * 						parameter to use the PID set in the global
-	 * 						configuration)
+	 * @param integer PID for new object and image records (omit this
+	 *                parameter to use the PID set in the global
+	 *                configuration)
 	 */
 	private function insertImageEntries($overridePid = 0) {
 		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
@@ -691,14 +690,15 @@ class tx_realty_object {
 	/**
 	 * Returns an array of data for each image.
 	 *
-	 * @return	array		images data, may be empty
+	 * @return array images data, may be empty
 	 */
 	public function getAllImageData() {
 		return $this->images;
 	}
 
 	/**
-	 * Loads the images of the current realty object into the local images array.
+	 * Loads the images of the current realty object into the local images
+	 * array.
 	 */
 	private function loadImages() {
 		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
@@ -722,7 +722,7 @@ class tx_realty_object {
 			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$this->images[] = $row;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
@@ -733,11 +733,11 @@ class tx_realty_object {
 	 *
 	 * Note: This function does not check whether $fileName points to a file.
 	 *
-	 * @param	string		caption for the new image record, must not be empty
-	 * @param	string		name of the image in the upload directory, must not
-	 * 						be empty
+	 * @param string caption for the new image record, must not be empty
+	 * @param string name of the image in the upload directory, must not be
+	 *               empty
 	 *
-	 * @return	integer		key of the newly created record, will be >= 0
+	 * @return integer key of the newly created record, will be >= 0
 	 */
 	public function addImageRecord($caption, $fileName) {
 		if ($this->isRealtyObjectDataEmpty()) {
@@ -756,8 +756,8 @@ class tx_realty_object {
 	 * record will be marked as deleted in the database when the object is
 	 * written to the database.
 	 *
-	 * @param	integer		key of the image record to mark as deleted, must be
-	 * 						a key of the image data array and must be >= 0
+	 * @param integer key of the image record to mark as deleted, must be
+	 *                a key of the image data array and must be >= 0
 	 */
 	public function markImageRecordAsDeleted($imageKey) {
 		if ($this->isRealtyObjectDataEmpty()) {
@@ -779,16 +779,14 @@ class tx_realty_object {
 	 * the database.
 	 * The values for PID, 'tstamp' and 'crdate' are provided by this function.
 	 *
-	 * @param	array		database column names as keys, must not be empty and
-	 * 						must not contain the key 'uid'
-	 * @param	string		name of the database table, must not be empty
-	 * @param	integer		PID for new realty and image records (omit this
-	 * 						parameter to use the PID set in the global
-	 * 						configuration)
+	 * @param array database column names as keys, must not be empty and
+	 *              must not contain the key 'uid'
+	 * @param string name of the database table, must not be empty
+	 * @param integer PID for new realty and image records (omit this parameter
+	 *                to use the PID set in the global configuration)
 	 *
-	 * @return 	integer		UID of the new database entry, will be zero if no
-	 * 						new record was created, e.g. if the deleted flag
-	 * 						was set
+	 * @return integer UID of the new database entry, will be zero if no new
+	 *                 record was created, e.g. if the deleted flag was set
 	 */
 	protected function createNewDatabaseEntry(
 		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
@@ -834,13 +832,11 @@ class tx_realty_object {
 	 * element 'uid'.
 	 * The value for 'tstamp' is set automatically
 	 *
-	 * @param	array		database column names as keys to update an already
-	 * 						existing entry, must at least contain an element
-	 * 						with the key 'uid'
-	 * @param	string		name of the database table, must not be empty
+	 * @param array database column names as keys to update an already existing
+	 *              entry, must at least contain an element with the key 'uid'
+	 * @param string name of the database table, must not be empty
 	 *
-	 * @return	boolean		true if the update query was succesful, false
-	 * 						otherwise
+	 * @return boolean true if the update query was succesful, false otherwise
 	 */
 	protected function updateDatabaseEntry(
 		array $realtyData,
@@ -863,10 +859,10 @@ class tx_realty_object {
 	/**
 	 * Fetches one database result row.
 	 *
-	 * @param	resource	database result of one record
+	 * @param resource database result of one record
 	 *
-	 * @return	array		database result row, will be empty if $dbResult
-	 * 						was false or empty
+	 * @return array database result row, will be empty if $dbResult
+	 *               was false or empty
 	 */
 	protected function fetchDatabaseResult($dbResult) {
 		if (!$dbResult) {
@@ -888,21 +884,19 @@ class tx_realty_object {
 	 * of $dataArray which correspond to the list of alternative keys match the
 	 * a database record.
 	 *
-	 * @param	array		array of realty data, must not be empty
-	 * @param	string		Comma-separated list of database column names which
-	 * 						also occur in the data array as keys. The database
-	 * 						match is searched by all these keys' values in case
-	 * 						there is no key 'uid' in $dataArray. The list may
-	 * 						contain spaces.
-	 * @param	string		Name of table where to find out whether an entry yet
-	 * 						exists. Must not be empty.
+	 * @param array array of realty data, must not be empty
+	 * @param string Comma-separated list of database column names which also
+	 *               occur in the data array as keys. The database match is
+	 *               searched by all these keys' values in case there is no key
+	 *               'uid' in $dataArray. The list may contain spaces.
+	 * @param string name of table where to find out whether an entry yet
+	 *               exists, must not be empty
 	 *
-	 * @return	boolean		True if the UID in the data array equals an existing
-	 * 						entry or if the value of the alternative key was found
-	 * 						in the database. False in any other case, also if
-	 * 						the database result could not be fetched or if
-	 * 						neither 'uid' nor $alternativeKey were elements of
-	 * 						$dataArray.
+	 * @return boolean True if the UID in the data array equals an existing
+	 *                 entry or if the value of the alternative key was found in
+	 *                 the database. False in any other case, also if the
+	 *                 database result could not be fetched or if neither 'uid'
+	 *                 nor $alternativeKey were elements of $dataArray.
 	 */
 	protected function recordExistsInDatabase(
 		array $dataArray,
@@ -926,14 +920,14 @@ class tx_realty_object {
 	 * Adds the UID from a database record to $dataArray if all keys mentioned
 	 * in $keys match the values of $dataArray and the database entry.
 	 *
-	 * @param	array		data of an entry which already exists in database,
-	 * 						must not be empty
-	 * @param	string		comma-separated list of all the keys by which the
-	 * 						existance of a database entry will be proven, must
-	 * 						be keys of $dataArray and of $table, may contain
-	 * 						spaces, must not be empty
-	 * @param	string		name of the table where to find out whether an entry
-	 * 						yet exists
+	 * @param array data of an entry which already exists in database,
+	 * m            ust not be empty
+	 * @param string comma-separated list of all the keys by which the existence
+	 *               of a database entry will be proven, must be keys of
+	 *               $dataArray and of $table, may contain spaces, must not be
+	 *               empty
+	 * @param string name of the table where to find out whether an entry
+	 *               already exists
 	 */
 	private function ensureUid(
 		array &$dataArray, $keys, $table = REALTY_TABLE_OBJECTS
@@ -956,18 +950,17 @@ class tx_realty_object {
 	 * $keys. $keys is a comma-separated list of the database collumns which
 	 * should be compared with the corresponding values in $dataArray.
 	 *
-	 * @param	string		list of fields to select from the database table
-	 * 						(part of the sql-query right after SELECT), must not
-	 * 						be empty
-	 * @param	array		data from which to take elements for the database
-	 * 						comparison, must not be empty
-	 * @param	string		comma-separated list of keys whose values in
-	 * 						$dataArray and in the database should be compared,
-	 * 						may contain spaces, must not be empty
-	 * @param	string		table name, must not be empty
+	 * @param string list of fields to select from the database table (part of
+	 *               the sql-query right after SELECT), must not be empty
+	 * @param array data from which to take elements for the database
+	 *               comparison, must not be empty
+	 * @param string comma-separated list of keys whose values in
+	 *               $dataArray and in the database should be compared,
+	 *               may contain spaces, must not be empty
+	 * @param string table name, must not be empty
 	 *
-	 * @return	array		database result row in an array, will be empty if
-	 * 						no matching record was found
+	 * @return array database result row in an array, will be empty if
+	 *               no matching record was found
 	 */
 	private function compareWithDatabase($whatToSelect, $dataArray, $keys, $table) {
 		$result = false;
@@ -1018,11 +1011,11 @@ class tx_realty_object {
 	 * If this object already has cached geo coordinates, this function will do
 	 * nothing.
 	 *
-	 * @param	tx_oelib_templatehelper	object that contains the plugin
-	 * 									configuration
+	 * @param tx_oelib_templatehelper object that contains the plugin
+	 *                                configuration
 	 *
-	 * @return	array		array with the keys "latitude" and "longitude" or
-	 * 						an empty array if no coordinates could be retrieved
+	 * @return array array with the keys "latitude" and "longitude" or
+	 *               an empty array if no coordinates could be retrieved
 	 */
 	public function retrieveCoordinates(
 		tx_oelib_templatehelper $configuration
@@ -1065,10 +1058,10 @@ class tx_realty_object {
 	 *
 	 * If it does not exist yet, it will be created first.
 	 *
-	 * @param	tx_oelib_templatehelper	object that contains the plugin
-	 * 									configuration
+	 * @param tx_oelib_templatehelper object that contains the plugin
+	 *                                configuration
 	 *
-	 * @return	tx_realty_googleMapsLookup	our geo coordinate finder
+	 * @return tx_realty_googleMapsLookup our geo coordinate finder
 	 */
 	private function createGeoFinder(tx_oelib_templatehelper $configuration) {
 		if (!self::$geoFinder) {
@@ -1084,8 +1077,8 @@ class tx_realty_object {
 	/**
 	 * Get this object's city name.
 	 *
-	 * @return	string		this object's city name or an empty string if this
-	 * 						object does not have a city set
+	 * @return string this object's city name or an empty string if this
+	 *                object does not have a city set
 	 */
 	private function getCityName() {
 		$cityProperty = $this->getProperty('city');
@@ -1133,11 +1126,11 @@ class tx_realty_object {
 	 * This function only checks whether the "has cached coordinates" flag is
 	 * set, but not for non-emptiness or validity of the coordinates.
 	 *
-	 * @param	string		either "exact" or "rough" to indicate which
-	 * 						coordinates to check
+	 * @param string either "exact" or "rough" to indicate which
+	 *               coordinates to check
 	 *
-	 * @return	boolean		true if we have exact coordinates with the exactness
-	 * 						indicated by $prefix, false otherwise
+	 * @return boolean true if we have exact coordinates with the exactness
+	 *                 indicated by $prefix, false otherwise
 	 */
 	private function hasCachedCoordinates($prefix) {
 		return (boolean)
@@ -1147,12 +1140,12 @@ class tx_realty_object {
 	/**
 	 * Gets this object's cached geo coordinates.
 	 *
-	 * @param	string		either "exact" or "rough" to indicate which
-	 * 						coordinates to get
+	 * @param string either "exact" or "rough" to indicate which
+	 *               coordinates to get
 	 *
-	 * @param	array	the coordinates using the keys "latitude" and
-	 * 					"longitude" or an empty array if no non-empty cached
-	 * 					coordinates are available
+	 * @return array the coordinates using the keys "latitude" and
+	 *               "longitude" or an empty array if no non-empty cached
+	 *               coordinates are available
 	 */
 	private function getCachedCoordinates($prefix) {
 		if (!$this->hasCachedCoordinates($prefix)) {
@@ -1177,8 +1170,8 @@ class tx_realty_object {
 	/**
 	 * Gets this object's UID.
 	 *
-	 * @return	integer		this object's UID, will be 0 if this object does not
-	 * 						have a UID yet
+	 * @return integer this object's UID, will be 0 if this object does not
+	 *                 have a UID yet
 	 */
 	public function getUid() {
 		return intval($this->getProperty('uid'));
@@ -1187,8 +1180,8 @@ class tx_realty_object {
 	/**
 	 * Gets this object's title.
 	 *
-	 * @return	string		this object's title, will be empty if this object
-	 * 						does not have a title
+	 * @return string this object's title, will be empty if this object
+	 *                does not have a title
 	 */
 	public function getTitle() {
 		return $this->getProperty('title');
@@ -1198,8 +1191,8 @@ class tx_realty_object {
 	 * Gets this object's title, cropped after CROP_SIZE characters, with an
 	 * ellipsis at the end if the full title was long enough to be cropped.
 	 *
-	 * @return	string		this object's cropped title, will be empty if this
-	 * 						object does not have a title
+	 * @return string this object's cropped title, will be empty if this
+	 *                object does not have a title
 	 */
 	public function getCroppedTitle() {
 		$fullTitle = $this->getTitle();
@@ -1209,7 +1202,7 @@ class tx_realty_object {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php']);
 }
 ?>

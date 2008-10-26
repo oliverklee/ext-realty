@@ -30,10 +30,10 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_domDocumentC
  * This is mere a class used for unit tests of the 'realty' extension. Don't
  * use it for any other purpose.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentConverter {
 	public function addElementToArray(&$arrayToExpand, $keyToInsert, $valueToInsert) {

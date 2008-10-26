@@ -24,10 +24,10 @@
 /**
  * Unit tests for the tx_realty_contactForm class in the 'realty' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');

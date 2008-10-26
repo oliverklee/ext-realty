@@ -22,22 +22,21 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * Class 'tx_realty_domDocumentConverter' for the 'realty' extension.
- * It converts DOMDocuments of OpenImmo data to arrays which have the columns of
- * the database table 'tx_realty_objects' as keys.
- *
- * @package		TYPO3
- * @subpackage	tx_realty
- *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- */
-
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
 
+/**
+ * Class 'tx_realty_domDocumentConverter' for the 'realty' extension.
+ * It converts DOMDocuments of OpenImmo data to arrays which have the columns of
+ * the database table 'tx_realty_objects' as keys.
+ *
+ * @package TYPO3
+ * @subpackage tx_realty
+ *
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ */
 class tx_realty_domDocumentConverter {
 	/**
 	 * Associates database column names with their correspondings used in
@@ -110,7 +109,7 @@ class tx_realty_domDocumentConverter {
 	 */
 	private $recordNumber = 0;
 
-	/** @var	array		cached countries */
+	/** @var array cached countries */
 	private static $cachedCountries = array();
 
 	/**
@@ -130,10 +129,10 @@ class tx_realty_domDocumentConverter {
 	 * The returned array is empty if the given DOMDocument could not be
 	 * converted.
 	 *
-	 * @param	DOMDocument		data to convert, must not be null
+	 * @param DOMDocument data to convert, must not be null
 	 *
-	 * @return	array		data of each realty record, will be empty if the
-	 * 						passed DOMDocument could not be converted
+	 * @return array data of each realty record, will be empty if the
+	 *               passed DOMDocument could not be converted
 	 */
 	public function getConvertedData(DOMDocument $domDocument) {
 		$this->setRawRealtyData($domDocument);
@@ -164,7 +163,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Loads the raw data from a DOMDocument.
 	 *
-	 * @param	DOMDocument		raw data to load, must not be null
+	 * @param DOMDocument raw data to load, must not be null
 	 */
 	protected function setRawRealtyData(DOMDocument $rawRealtyData) {
 		$this->rawRealtyData = new DOMXPath($rawRealtyData);
@@ -182,7 +181,7 @@ class tx_realty_domDocumentConverter {
 	 * array. This data is the same for all realty records in one DOMDocument
 	 * and is fetched by $this->fetchUniversalData().
 	 *
-	 * @param	array		realty data, may be empty
+	 * @param array realty data, may be empty
 	 */
 	private function addUniversalData(array &$realtyDataArray) {
 		$realtyDataArray = array_merge(
@@ -204,9 +203,8 @@ class tx_realty_domDocumentConverter {
 	 * returns them in an array. These nodes must only occur once in an OpenImmo
 	 * record.
 	 *
-	 * @return	array		contains the elements 'employer' and
-	 * 						'openimmo_anid', will be empty if the nodes were not
-	 * 						found
+	 * @return array contains the elements 'employer' and 'openimmo_anid', will
+	 *               be empty if the nodes were not found
 	 */
 	private function fetchEmployerAndAnid() {
 		$result = array();
@@ -229,9 +227,9 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Substitutes XML namespaces from a node name and returns the name.
 	 *
-	 * @param	DOMNode		node, may be null
+	 * @param DOMNode node, may be null
 	 *
-	 * @return	string		node name without namespaces, may be empty
+	 * @return string node name without namespaces, may be empty
 	 */
 	protected function getNodeName($domNode) {
 		if (!is_a($domNode, 'DOMNode')) {
@@ -244,8 +242,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Gets the number of realties included in the current OpenImmo record.
 	 *
-	 * @return	integer		number of realties in the current OpenImmo record, 0
-	 * 						if no realty data was found
+	 * @return integer number of realties in the current OpenImmo record, 0
+	 *                 if no realty data was found
 	 */
 	private function getNumberOfRecords() {
 		$nodeList = $this->getListedRealties();
@@ -265,8 +263,8 @@ class tx_realty_domDocumentConverter {
 	 * the database table 'tx_realty_objects'. The result is an empty array if
 	 * the given data is of an invalid format.
 	 *
-	 * @return	array		data of the realty object, empty if the DOMNode is
-	 * 						not convertible
+	 * @return array data of the realty object, empty if the DOMNode is
+	 *               not convertible
 	 */
 	private function getRealtyArray() {
 		$this->fetchNodeValues();
@@ -309,10 +307,10 @@ class tx_realty_domDocumentConverter {
 	 * Returns true if a string equals 'true'. In any other case false is
 	 * returned.
 	 *
-	 * @param	string		string to compare with 'true', may also be also
-	 * 						uppercased, surrounded by quotes or empty
-	 * @return	boolean		true if the input value was the string 'true', false
-	 * 						otherwise
+	 * @param string string to compare with 'true', may also be also
+	 *               uppercased, surrounded by quotes or empty
+	 * @return boolean true if the input value was the string 'true', false
+	 *                 otherwise
 	 */
 	private function isBooleanLikeStringTrue($booleanLikeString) {
 		return strtolower(trim($booleanLikeString, '"')) == 'true';
@@ -322,10 +320,11 @@ class tx_realty_domDocumentConverter {
 	 * Returns true if a string equals 'false'. In any other case false is
 	 * returned.
 	 *
-	 * @param	string		string to compare with 'false', may also be also
-	 * 						uppercased, surrounded by quotes or empty
-	 * @return	boolean		true if the input value was the string 'true', false
-	 * 						otherwise
+	 * @param string string to compare with 'false', may also be also
+	 *               uppercased, surrounded by quotes or empty
+	 *
+	 * @return boolean true if the input value was the string 'true', false
+	 *                 otherwise
 	 */
 	private function isBooleanLikeStringFalse($booleanLikeString) {
 		return strtolower(trim($booleanLikeString, '"')) == 'false';
@@ -464,7 +463,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Creates an array of image records for one realty record.
 	 *
-	 * @return	array		image records, may be empty
+	 * @return array image records, may be empty
 	 */
 	protected function createRecordsForImages() {
 		$images = array();
@@ -826,7 +825,7 @@ class tx_realty_domDocumentConverter {
 	 * Fetches the value for country, finds the corresponding UID in the static
 	 * countries table and stores it in $this->importedData.
 	 *
-	 * @throws	Exception		if the database query fails
+	 * @throws Exception if the database query fails
 	 */
 	private function fetchCountry() {
 		$nodeWithAttributes = $this->findFirstGrandchild('geo', 'land');
@@ -864,9 +863,9 @@ class tx_realty_domDocumentConverter {
 	 * Returns a comma-separated list of an array. The first letter of each word
 	 * is uppercased.
 	 *
-	 * @param	array		data to format, must not be empty
+	 * @param array data to format, must not be empty
 	 *
-	 * @return	string		formatted string
+	 * @return string formatted string
 	 */
 	private function getFormattedString(array $dataToFormat) {
 		return ucwords(strtolower(implode(', ', $dataToFormat)));
@@ -880,16 +879,16 @@ class tx_realty_domDocumentConverter {
 	 * If $contextNode is set, the elements are fetched relatively from this
 	 * node.
 	 *
-	 * @param	string		node name, must not be empty
-	 * @param	string		child node name, may be empty, the elements are taken
-	 * 						from the node named $nodeName then
-	 * @param 	DOMNode		subnode to fetch a relative result, may be null, the
-	 * 						query is made on the root node then
+	 * @param string node name, must not be empty
+	 * @param string child node name, may be empty, the elements are taken
+	 *               from the node named $nodeName then
+	 * @param DOMNode subnode to fetch a relative result, may be null, the
+	 *                query is made on the root node then
 	 *
 	 *
-	 * @return	DOMNodeList		all nodes which are named $childNodeName,
-	 * 						$nodeName if $childNodeName is not set, can be
-	 * 						empty if these names do not exist
+	 * @return DOMNodeList all nodes which are named $childNodeName, $nodeName
+	 *                     if $childNodeName is not set, can be empty if these
+	 *                     names do not exist
 	 */
 	private function getNodeListFromRawData(
 		$nodeName,
@@ -923,11 +922,11 @@ class tx_realty_domDocumentConverter {
 	 * grandchild's name. If one of these names can not be found or there are no
 	 * realty records, null is returned.
 	 *
-	 * @param	string		name of child, must not be empty
-	 * @param	string		name of grandchild, must not be empty
+	 * @param string name of child, must not be empty
+	 * @param string name of grandchild, must not be empty
 	 *
-	 * @return	DOMNode		first grandchild with this name, null if it does not
-	 * 						exist
+	 * @return DOMNode first grandchild with this name, null if it does not
+	 *                 exist
 	 */
 	protected function findFirstGrandchild(
 		$nameOfChild,
@@ -960,8 +959,8 @@ class tx_realty_domDocumentConverter {
 	 * Checks whether the OpenImmo record has a valid root node. The node must
 	 * be named 'openimmo' or 'immoxml'.
 	 *
-	 * @return	boolean		true if the root node is named 'openimmo' or
-	 * 						'immoxml', false otherwise
+	 * @return boolean true if the root node is named 'openimmo' or
+	 *                 'immoxml', false otherwise
 	 */
 	private function hasValidRootNode() {
 		$rootNode = $this->rawRealtyData->query(
@@ -975,8 +974,8 @@ class tx_realty_domDocumentConverter {
 	 * Returns a DOMNodeList of the realty records found in $realtyData or null
 	 * if there are none.
 	 *
-	 * @return   	DOMNodeList		list of nodes named 'immobilie', null if
-	 * 							none were found
+	 * @return DOMNodeList list of nodes named 'immobilie', null if none were
+	 *                     found
 	 */
 	private function getListedRealties() {
 		return $this->getNodeListFromRawData('immobilie');
@@ -986,10 +985,9 @@ class tx_realty_domDocumentConverter {
 	 * Adds a new element $value to the array $arrayExpand, using the key $key.
 	 * The element will not be added if is null.
 	 *
-	 * @param	array		into which the new element should be inserted, may
-	 *						be empty
-	 * @param	string		key to insert
-	 * @param	mixed		value to insert
+	 * @param array into which the new element should be inserted, may be empty
+	 * @param string key to insert
+	 * @param mixed value to insert
 	 */
 	protected function addElementToArray(array &$arrayToExpand, $key, $value) {
 		if (!is_null($value)) {
@@ -1000,8 +998,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Adds an element to $this->importedData.
 	 *
-	 * @param	string		key to insert, must not be empty
-	 * @param	mixed		value to insert
+	 * @param string key to insert, must not be empty
+	 * @param mixed value to insert
 	 */
 	private function addImportedData($key, $value) {
 		$this->addElementToArray($this->importedData, $key, $value);
@@ -1010,9 +1008,9 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Adds an element to $this->importedData if $value is non-empty.
 	 *
-	 * @param	string		key for the element to add, must not be empty
-	 * @param	mixed		value for the element to add, will not be added if
-	 * 						it is empty
+	 * @param string key for the element to add, must not be empty
+	 * @param mixed value for the element to add, will not be added if it is
+	 *              empty
 	 */
 	private function addImportedDataIfValueIsNonEmpty($key, $value) {
 		if (empty($value)) {
@@ -1025,13 +1023,13 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Checks whether an element exists in an array and is non-empty.
 	 *
-	 * @param	string		key of the element that should be checked to exist
-	 * 						and being non-empty, must not be empty
-	 * @param	array		array in which the existance of an element should be
-	 * 						checked, may be empty
+	 * @param string key of the element that should be checked to exist
+	 *               and being non-empty, must not be empty
+	 * @param array array in which the existance of an element should be
+	 *              checked, may be empty
 	 *
-	 * @return	boolean		true if the the element exists and is non-empty,
-	 * 						false otherwise
+	 * @return boolean true if the the element exists and is non-empty,
+	 *                 false otherwise
 	 */
 	private function isElementSetAndNonEmpty($key, array $array) {
 		return (isset($array[$key]) && !empty($array[$key]));
@@ -1041,10 +1039,10 @@ class tx_realty_domDocumentConverter {
 	 * Fetches an attribute from a given node and returns name/value pairs as an
 	 * array. If there are no attributes, the returned array will be empty.
 	 *
-	 * @param	DOMNode		node from where to fetch the attribute, may be null
+	 * @param DOMNode node from where to fetch the attribute, may be null
 	 *
-	 * @return	array		attributes and attribute values, empty if there are
-	 * 						no attributes
+	 * @return array attributes and attribute values, empty if there are
+	 *               no attributes
 	 */
 	protected function fetchDomAttributes($nodeWithAttributes) {
 		if (!$nodeWithAttributes) {
@@ -1067,10 +1065,10 @@ class tx_realty_domDocumentConverter {
 	 * pairs as an array. If there are no attributes, the returned array will be
 	 * empty.
 	 *
-	 * @param	DOMNode		node from where to fetch the attribute, may be null
+	 * @param DOMNode node from where to fetch the attribute, may be null
 	 *
-	 * @return	array		lowercased attributes and attribute values, empty if
-	 * 						there are no attributes
+	 * @return array lowercased attributes and attribute values, empty if
+	 *               there are no attributes
 	 */
 	private function fetchLowercasedDomAttributes($nodeWithAttributes) {
 		$result = array();
@@ -1086,16 +1084,16 @@ class tx_realty_domDocumentConverter {
 	 * Caches the fetched countries in order to reduce the the number of
 	 * database queries.
 	 *
-	 * @param	string		ISO3166 code for the country, must not be empty
-	 * @param	integer		UID of the country, must match the UID in the static
-	 * 						countries table, must be >= 0
+	 * @param string ISO3166 code for the country, must not be empty
+	 * @param integer UID of the country, must match the UID in the static
+	 *                countries table, must be >= 0
 	 */
 	private function cacheCountry($key, $value) {
 		self::$cachedCountries[$key] = $value;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domDocumentConverter.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domDocumentConverter.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_domDocumentConverter.php']);
 }
 ?>

@@ -37,16 +37,16 @@ define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
 /**
  * Testcase for the tx_realty_pi1 class in the 'realty' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_testcase extends tx_phpunit_testcase {
-	/** @var	tx_realty_pi1 */
+	/** @var tx_realty_pi1 */
 	private $fixture;
 
-	/** @var	tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
 
 	private $loginPid = 0;
@@ -82,14 +82,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private static $secondCityTitle = 'bar city';
 
 	/**
-	 * @var	tx_oelib_fakeSession		a fake session
+	 * @var tx_oelib_fakeSession a fake session
 	 */
 	private $session;
 
-	/** @var	string		a valid Google Maps API key for localhost */
+	/** @var string a valid Google Maps API key for localhost */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
-	/** @var	integer		static_info_tables UID of Germany */
+	/** @var integer static_info_tables UID of Germany */
 	const DE = 54;
 
 	public function setUp() {

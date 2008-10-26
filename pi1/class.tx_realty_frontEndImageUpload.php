@@ -21,21 +21,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
+
 /**
  * Class 'tx_realty_frontEndImageUpload' for the 'realty' extension. This class
  * assumes the image upload for the FE editor in the realty plugin.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndForm.php');
-
 class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	/** stores the type of validation error if there was one */
 	private $validationError = '';
@@ -53,8 +52,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 * If there are no uploaded images for an object, the delete option will
 	 * be hidden.
 	 *
-	 * @return	string		HTML for the FE editor or an error view if the
-	 * 						requested object is not editable for the current user
+	 * @return string HTML for the FE editor or an error view if the
+	 *                  requested object is not editable for the current user
 	 */
 	public function render() {
 		$result = parent::render();
@@ -75,7 +74,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 * Deletes image records of the current record if images were checked to be
 	 * deleted in the form .
 	 *
-	 * @param	array		form data, must not be empty
+	 * @param array form data, must not be empty
 	 */
 	public function processImageUpload(array $formData) {
 		if (($formData['caption'] != '') && ($formData['image']['name'] != '')) {
@@ -101,8 +100,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	/**
 	 * Returns an array of caption-value pairs of currently appended images.
 	 *
-	 * @return	array		caption-value pairs to fill the images checkbox, will
-	 * 						be empty if the current record does not have images
+	 * @return array caption-value pairs to fill the images checkbox, will
+	 *               be empty if the current record does not have images
 	 */
 	public function populateImageList() {
 		$result = array();
@@ -120,9 +119,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	/**
 	 * Checks whether the provided file is valid.
 	 *
-	 * @param	array		form data to check, must not be empty
+	 * @param array form data to check, must not be empty
 	 *
-	 * @return	boolean		whether the provided file is a valid image
+	 * @return boolean whether the provided file is a valid image
 	 */
 	public function checkFile(array $valueToCheck) {
 		// nothing to check if there is no file
@@ -157,9 +156,10 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 * Returns an error message if the provided file was invalid. The result
 	 * will be empty if no error message was set before.
 	 *
-	 * @return	string		localized validation error message, will be empty
-	 * 						if no error message was set
-	 * @see	checkFile()
+	 * @return string localized validation error message, will be empty
+	 *                if no error message was set
+	 *
+	 * @see checkFile()
 	 */
 	public function getImageUploadErrorMessage() {
 		return $this->validationError;
@@ -168,7 +168,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	/**
 	 * Returns the self-URL with the current "showUid" as link parameter.
 	 *
-	 * @return	string		self-URL of the image upload page, will not be empty
+	 * @return string self-URL of the image upload page, will not be empty
 	 */
 	public function getSelfUrlWithShowUid() {
 		return $this->plugin->cObj->typoLink_URL(
@@ -198,11 +198,10 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 *
 	 * Note: In the test mode, just the input string will be returned.
 	 *
-	 * @param	string		file name derived from the form data, must not be
-	 * 						empty
+	 * @param string file name derived from the form data, must not be empty
 	 *
-	 * @return	string		unique file name used under wich this file is stored
-	 * 						in the upload directory, will not be empty
+	 * @return string unique file name used under wich this file is stored
+	 *                in the upload directory, will not be empty
 	 */
 	private function getFormidablesUniqueFileName($fileName) {
 		return ($this->isTestMode)

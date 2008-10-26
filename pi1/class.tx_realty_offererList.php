@@ -29,14 +29,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
  * Class 'tx_realty_offererList' for the 'realty' extension.
  * This class provides a list of offerers for the realty plugin.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_offererList {
 	/**
-	 * @var	tx_realty_pi1		plugin that contains the offerer list
+	 * @var tx_realty_pi1 plugin that contains the offerer list
 	 */
 	private $plugin = null;
 
@@ -64,7 +64,7 @@ class tx_realty_offererList {
 	/**
 	 * Returns the offerer list in HTML.
 	 *
-	 * @return	string		HTML of the offerer list, will not be empty
+	 * @return string HTML of the offerer list, will not be empty
 	 */
 	public function render() {
 		$listItems = $this->getListItems();
@@ -102,8 +102,8 @@ class tx_realty_offererList {
 	 * Returns the HTML for one list item.
 	 *
 	 * @param array owner data array, the keys 'company', 'usergroup', 'name',
-	 *              'first_name', 'last_name', 'address', 'zip', 'city', 'email',
-	 *              'www' and 'telephone' will be used for the HTML
+	 *              'first_name', 'last_name', 'address', 'zip', 'city',
+	 *              'email', 'www' and 'telephone' will be used for the HTML
 	 *
 	 * @return string HTML for one contact data item, will be empty if
 	 *                $ownerData did not contain data to use
@@ -115,8 +115,8 @@ class tx_realty_offererList {
 	/**
 	 * Returns the HTML for the list items.
 	 *
-	 * @return	string		HTML for the list items, will be empty if there are
-	 * 						no offerers
+	 * @return string HTML for the list items, will be empty if there are
+	 *                no offerers
 	 */
 	private function getListItems() {
 		if ($this->plugin->hasConfValueString(
@@ -171,10 +171,10 @@ class tx_realty_offererList {
 	/**
 	 * Returns a single table row for the offerer list.
 	 *
-	 * @param	array		the FE user record for which to create the row, must
-	 * 						not be empty
+	 * @param array the FE user record for which to create the row, must
+	 *              not be empty
 	 *
-	 * @return	string		HTML for one list row, will not be empty
+	 * @return string HTML for one list row, will not be empty
 	 */
 	private function createListRow(array $userRecord) {
 		$subpartHasContent = false;
@@ -281,12 +281,11 @@ class tx_realty_offererList {
 	 * provided, the user name will be returned.
 	 * FE user records are expected to have at least a user name.
 	 *
-	 * @param	array		the user record of which to get the label, must not
-	 * 						be empty
+	 * @param array the user record of which to get the label, must not be empty
 	 *
-	 * @return	string		label for the owner, will be empty if no owner
-	 * 						record was cached or if the cached record is an
-	 * 						invalid FE user record without a user name
+	 * @return string label for the owner, will be empty if no owner
+	 *                  record was cached or if the cached record is an
+	 *                  invalid FE user record without a user name
 	 */
 	private function getOffererLabel(array $userRecord) {
 		$company = $userRecord['company'];
@@ -303,12 +302,12 @@ class tx_realty_offererList {
 	 * Returns the first user group a user belongs to which is within the list
 	 * of allowed user groups.
 	 *
-	 * @param	array		the user record of which to get the first user group
-	 * 						which is within the list of allowed user groups,
-	 * 						must not be empty
+	 * @param array the user record of which to get the first user group
+	 *              which is within the list of allowed user groups,
+	 *              must not be empty
 	 *
-	 * @return	string		title of the first allowed user group of the given
-	 * 						FE user, will be empty if the user has no group
+	 * @return string title of the first allowed user group of the given
+	 *                FE user, will be empty if the user has no group
 	 */
 	private function getFirstUserGroup(array $userRecord) {
 		$result = '';
@@ -355,11 +354,10 @@ class tx_realty_offererList {
 	 * Returns the URL to the list of objects by the owner provided in
 	 * $userRecord.
 	 *
-	 * @param	array		user record for which to create the URL, must not be
-	 * 						empty
+	 * @param array user record for which to create the URL, must not be empty
 	 *
-	 * @return	string		URL to the objects-by-owner list, will be empty if
-	 * 						the configuration for 'objectsByOwnerPID' is zero
+	 * @return string URL to the objects-by-owner list, will be empty if
+	 *                the configuration for 'objectsByOwnerPID' is zero
 	 */
 	private function getObjectsByOwnerUrl(array $userRecord) {
 		// There might be no UID if the data to render as offerer information

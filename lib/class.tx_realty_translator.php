@@ -22,22 +22,21 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_typo3 . 'sysext/lang/lang.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+
 /**
  * Class 'tx_realty_translator' for the 'realty' extension.
  *
  * This class translates localized strings used in this extenstion's lib/
  * directory.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once (PATH_typo3.'sysext/lang/lang.php');
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-
 class tx_realty_translator {
 	/**
 	 * Constructor.
@@ -63,11 +62,11 @@ class tx_realty_translator {
 	/**
  	 * Retrieves the localized string for the local language key $key.
  	 *
-	 * @param	string		the local language key for which to return the value,
-	 * 						must not be empty
+	 * @param string the local language key for which to return the value,
+	 *               must not be empty
 	 *
-	 * @return	string		the localized string for $key or just the key if
-	 * 						there is no localized string for the requested key
+	 * @return string the localized string for $key or just the key if
+	 *                there is no localized string for the requested key
 	 */
 	public function translate($key) {
 		if ($key == '') {
@@ -80,7 +79,7 @@ class tx_realty_translator {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_translator.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_translator.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_translator.php']);
 }
 ?>

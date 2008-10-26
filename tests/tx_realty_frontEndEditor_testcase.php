@@ -35,10 +35,10 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEdit
 /**
  * Unit tests for the tx_realty_frontEndEditor class in the 'realty' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/** FE editor object to be tested */
@@ -500,7 +500,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testIsValidIntegerNumberReturnsFalseForANumberWithACommaAsDecimalSeparator() {
 		$this->assertFalse(
-			$this->fixture->isValidIntegerNumber(array('value' => '123,45')	)
+			$this->fixture->isValidIntegerNumber(array('value' => '123,45') )
 		);
 	}
 

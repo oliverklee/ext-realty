@@ -33,11 +33,11 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  * Class 'tx_realty_frontEndForm' for the 'realty' extension. This class
  * provides functions used in the realty plugin's forms.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/** the extension key (FORMidable expects this to be public) */
@@ -67,13 +67,12 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param	tx_oelib_templatehelper		plugin which uses this FE editor
-	 * @param	integer		UID of the object to edit, set to 0 to create a new
-	 * 						database record, must not be negative
-	 * @param	string		path of the XML for the form, relative to this
-	 * 						extension, must not begin with a slash and must not
-	 * 						be empty
-	 * @param	boolean		whether the FE editor is instanciated in test mode
+	 * @param tx_oelib_templatehelper plugin which uses this FE editor
+	 * @param integer UID of the object to edit, set to 0 to create a new
+	 *                database record, must not be negative
+	 * @param string path of the XML for the form, relative to this extension,
+	 *               must not begin with a slash and must not be empty
+	 * @param boolean whether the FE editor is instanciated in test mode
 	 */
 	public function __construct(
 		tx_oelib_templatehelper $plugin, $uidOfObjectToEdit, $xmlPath,
@@ -124,8 +123,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * if the object to edit actually exists in the database. Otherwise the
 	 * result will be an error view.
 	 *
-	 * @return	string		HTML for the FE editor or an error view if the
-	 * 						requested object is not editable for the current user
+	 * @return string HTML for the FE editor or an error view if the
+	 *                requested object is not editable for the current user
 	 */
 	public function render() {
 		$errorMessage = $this->checkAccess();
@@ -146,9 +145,9 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * FE user is logged in and authorized to change the record. Returns an error
 	 * message if these conditions are not given.
 	 *
-	 * @return	string		empty if the current record actually exists and if
-	 * 						the FE user is authorised, otherwise the HTML of a
-	 * 						message that tells which condition is not fulfilled
+	 * @return string empty if the current record actually exists and if
+	 *                the FE user is authorised, otherwise the HTML of a
+	 *                message that tells which condition is not fulfilled
 	 */
 	public function checkAccess() {
 		$result = '';
@@ -167,9 +166,9 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * Returns the HTML for an error view. Therefore the plugin's
 	 * template is used.
 	 *
-	 * @param	string		content for the error view, must not be empty
+	 * @param string content for the error view, must not be empty
 	 *
-	 * @return	string		HTML of the error message, will not be empty
+	 * @return string HTML of the error message, will not be empty
 	 */
 	private function renderErrorMessage($rawErrorMessage) {
 		$this->plugin->setMarker('error_message', $rawErrorMessage);
@@ -181,7 +180,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * Returns HTML for the object-does-not-exist error message and sets a 404
 	 * header.
 	 *
-	 * @return	string		HTML for the object-does-not-exist error message
+	 * @return string HTML for the object-does-not-exist error message
 	 */
 	private function renderObjectDoesNotExistMessage() {
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
@@ -195,7 +194,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/**
 	 * Returns HTML for the please-login error message and sets a 403 header.
 	 *
-	 * @return	string		HTML for the please-login error message
+	 * @return string HTML for the please-login error message
 	 */
 	private function renderPleaseLogInMessage() {
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
@@ -235,7 +234,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/**
 	 * Returns HTML for the access-denied error message and sets a 403 header.
 	 *
-	 * @return	string		HTML for the access-denied error message
+	 * @return string HTML for the access-denied error message
 	 */
 	private function renderNoAccessMessage() {
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
@@ -250,8 +249,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * Checks whether the realty object exists in the database and is enabled.
 	 * For new objects, the result will always be true.
 	 *
-	 * @return	boolean		true if the realty object is available for editing,
-	 * 						false otherwise
+	 * @return boolean true if the realty object is available for editing,
+	 *                 false otherwise
 	 */
 	private function realtyObjectExistsInDatabase() {
 		if ($this->realtyObjectUid == 0) {
@@ -267,8 +266,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 *
 	 * Note: This function does not check on user group memberships.
 	 *
-	 * @return	boolean		true if the FE user is allowed to edit the object,
-	 * 						false otherwise
+	 * @return boolean true if the FE user is allowed to edit the object,
+	 *                 false otherwise
 	 */
 	private function isFrontEndUserAuthorized() {
 		if ($this->realtyObjectUid == 0) {
@@ -286,8 +285,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/**
 	 * Returns the URL where to redirect to after saving a record.
 	 *
-	 * @return	string		complete URL of the configured FE page, if none is
-	 * 						configured, the redirect will lead to the base URL
+	 * @return string complete URL of the configured FE page, if none is
+	 *                configured, the redirect will lead to the base URL
 	 */
 	public function getRedirectUrl() {
 		return t3lib_div::locationHeaderUrl(
@@ -306,14 +305,13 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * The returned path will always be an absolute path in the file system;
 	 * EXT: references will automatically get resolved.
 	 *
-	 * @return	string		the path to the HTML template as an absolute path in
-	 * 						the file system, will not be empty in a correct
-	 * 						configuration
+	 * @return string the path to the HTML template as an absolute path in the
+	 *                file system, will not be empty in a correct configuration
 	 */
 	public function getTemplatePath() {
 		return t3lib_div::getFileAbsFileName(
 			$this->plugin->getConfValueString(
-				'feEditorTemplateFile',	's_feeditor', true
+				'feEditorTemplateFile', 's_feeditor', true
 			)
 		);
 	}
@@ -328,11 +326,9 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 *
 	 * Note: In test mode, this function will return faked values.
 	 *
-	 * @param	string		column name of tx_realty_objects as key, must not
-	 * 						be empty
+	 * @param string column name of tx_realty_objects as key, must not be empty
 	 *
-	 * @return	string		form value or an empty string if the value does not
-	 * 						exist
+	 * @return string form value or an empty string if the value does not exist
 	 */
 	protected function getFormValue($key) {
 		$dataSource = ($this->isTestMode)
@@ -352,9 +348,9 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 *
 	 * This function is for testing purposes.
 	 *
-	 * @param	integer		UID of the currently edited realty object. For
-	 * 						creating a new database record, $uid must be zero.
-	 * 						Provided values must not be negative.
+	 * @param integer UID of the currently edited realty object. For
+	 *                creating a new database record, $uid must be zero.
+	 *                Provided values must not be negative.
 	 */
 	public function setRealtyObjectUid($uid) {
 		$this->realtyObjectUid = $uid;
@@ -367,9 +363,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 *
 	 * This function is for testing purposes.
 	 *
-	 * @param	string		column name of tx_realty_objects as key, must not
-	 * 						be empty
-	 * @param	string		faked value
+	 * @param string column name of tx_realty_objects as key, must not be empty
+	 * @param string faked value
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;

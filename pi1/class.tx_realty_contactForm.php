@@ -21,16 +21,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * Class 'tx_realty_contactForm' for the 'realty' extension.
- * This class provides a contact form for the realty plugin.
- *
- * @package		TYPO3
- * @subpackage	tx_realty
- *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- */
-
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php');
@@ -38,6 +28,15 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
+/**
+ * Class 'tx_realty_contactForm' for the 'realty' extension.
+ * This class provides a contact form for the realty plugin.
+ *
+ * @package TYPO3
+ * @subpackage tx_realty
+ *
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ */
 class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/** plugin in which the contact form is used */
 	private $plugin = null;
@@ -59,7 +58,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param	tx_oelib_templatehelper		plugin which uses this contact form
+	 * @param tx_oelib_templatehelper plugin which uses this contact form
 	 */
 	public function __construct(tx_oelib_templatehelper $plugin) {
 		$this->plugin = $plugin;
@@ -95,11 +94,10 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * If the request has been successfully sent, the HTML string will contain
 	 * a message about this, otherwise a specific error message.
 	 *
-	 * @param	array		contact form data, may be empty
-	 * @param	string		summary string of the current favorites list, may be
-	 * 						empty
+	 * @param array contact form data, may be empty
+	 * @param string summary string of the current favorites list, may be empty
 	 *
-	 * @return	string		HTML of the contact form, will not be empty
+	 * @return string HTML of the contact form, will not be empty
 	 */
 	public function render(
 		array $contactFormData, $summaryStringOfFavorites = ''
@@ -163,11 +161,11 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * sendEmail() should be returned instead of just returning true after
 	 * sending an e-mail.
 	 *
-	 * @return	boolean		true if the contact data for sending an e-mail could
-	 * 						be fetched and the send e-mail function was called,
-	 * 						false otherwise
+	 * @return boolean true if the contact data for sending an e-mail could be
+	 *                 fetched and the send e-mail function was called,
+	 *                 false otherwise
 	 *
-	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=961
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=961
 	 */
 	private function sendRequest() {
 		$contactData = $this->getContactData();
@@ -191,11 +189,10 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Returns the e-mail body. It contains the request and the requester's
 	 * contact data.
 	 *
-	 * @param	string		name of the contact person, must not be empty
+	 * @param string name of the contact person, must not be empty
 	 *
-	 * @return	string		the body of the e-mail to send, contains the request
-	 * 						and the contact data of the requester, will not be
-	 * 						empty
+	 * @return string the body of the e-mail to send, contains the request and
+	 *                the contact data of the requester, will not be empty
 	 */
 	private function getFilledEmailBody($contactPerson) {
 		foreach (array(
@@ -222,7 +219,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Returns the subject for the e-mail to send. It depends on the type of
 	 * contact form whether the object number will be included.
 	 *
-	 * @return	string		the e-mail's subject, will not be empy
+	 * @return string the e-mail's subject, will not be empy
 	 */
 	private function getEmailSubject() {
 		if ($this->isSpecializedView()) {
@@ -241,8 +238,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * The validity of the requester's name and e-mail address is not checked by
 	 * this function.
 	 *
-	 * @return	string		formatted e-mail header line containing the sender,
-	 * 						will not be empty
+	 * @return string formatted e-mail header line containing the sender,
+	 *                will not be empty
 	 */
 	private function getEmailSender() {
 		return 'From: "'.$this->contactFormData['requesterName'].'" '
@@ -253,8 +250,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Returns a formatted header line for the BCC if a blind carbon copy
 	 * address is set in the TS setup.
 	 *
-	 * @return	string		formatted e-mail header for BCC ending with LF or an
-	 * 						empty string if no recipient was configured
+	 * @return string formatted e-mail header for BCC ending with LF or an
+	 *                empty string if no recipient was configured
 	 */
 	private function getBccAddress() {
 		$result = '';
@@ -272,9 +269,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Replaces single linefeeds with carriage return plus linefeed and strips
 	 * surplus blank lines.
 	 *
-	 * @param	string		raw e-mail body, must not be empty
+	 * @param string raw e-mail body, must not be empty
 	 *
-	 * @return	string		formatted e-mail body, will not be empty
+	 * @return string formatted e-mail body, will not be empty
 	 */
 	private function formatEmailBody($rawEmailBody) {
 		$body = trim(preg_replace('/\n|\r/', CRLF, $rawEmailBody));
@@ -316,11 +313,10 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * If no contact person's data could be fetched and no default e-mail
 	 * address is configured, an empty array is returned.
 	 *
-	 * @return	array		owner or contact person and the corresponding
-	 * 						e-mail address in an array, contains the default
-	 * 						e-mail address if no valid address was found, empty
-	 * 						if the expected contact data was not found
-	 *
+	 * @return array owner or contact person and the corresponding
+	 *               e-mail address in an array, contains the default
+	 *               e-mail address if no valid address was found, empty
+	 *               if the expected contact data was not found
 	 */
 	private function getContactData() {
 		$result = array('name' => '', 'email' => '');
@@ -342,8 +338,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Fetches the contact data from the source defined in the realty record and
 	 * returns it in an array.
 	 *
-	 * @return	array		contact data array, will always contain the two
-	 * 						elements 'email' and 'name'
+	 * @return array contact data array, will always contain the two
+	 *               elements 'email' and 'name'
 	 */
 	private function fetchContactDataFromSource() {
 		$this->loadCurrentRealtyObject();
@@ -372,11 +368,11 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Returns the name, the e-mail address and the phone number of a FE user or
 	 * an empty array if there is none.
 	 *
-	 * @param	integer		UID of the FE user (> 0) or zero which means
-	 * 						there is no FE user
+	 * @param integer UID of the FE user (> 0) or zero which means
+	 *                there is no FE user
 	 *
-	 * @return	array		associative array with the keys name, email,
-	 * 						telephone, will not be empty
+	 * @return array associative array with the keys name, email,
+	 * t              elephone, will not be empty
 	 */
 	private function getFeUserData($uid) {
 		if ($uid == 0) {
@@ -402,9 +398,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Sets or hides the specialized contact form.
 	 *
-	 * @return	boolean		false if the specialized contact form is supposed to
-	 * 						be set but no object data could be fetched, true
-	 * 						otherwise
+	 * @return boolean false if the specialized contact form is supposed to
+	 *                 be set but no object data could be fetched, true
+	 *                 otherwise
 	 */
 	private function setOrHideSpecializedView() {
 		$wasSuccessful = true;
@@ -451,7 +447,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Sets an error message to the marker 'ERROR_MESSAGE'.
 	 *
-	 * @param	array		keys of the error messages to set, may be empy
+	 * @param array keys of the error messages to set, may be empy
 	 */
 	private function setErrorMessageContent(array $keys) {
 		$errorMessage = '';
@@ -464,8 +460,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Checks whether the specialized view should be set.
 	 *
-	 * @return	boolean		true if the view should be specialized, false
-	 * 						otherwise
+	 * @return boolean true if the view should be specialized, false otherwise
 	 */
 	private function isSpecializedView() {
 		return ($this->contactFormData['showUid'] > 0);
@@ -474,9 +469,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Checks whether an e-mail address is valid.
 	 *
-	 * @param	string		e-mail address to check, may be empty
+	 * @param string e-mail address to check, may be empty
 	 *
-	 * @return	boolean		true if the e-mail address is valid, false otherwise
+	 * @return boolean true if the e-mail address is valid, false otherwise
 	 */
 	private function isValidEmail($emailAddress) {
 		return (($emailAddress != '') && t3lib_div::validEmail($emailAddress));
@@ -485,10 +480,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Checks whether a name is non-empty and valid.
 	 *
-	 * @param	string		the name to check, may be empty
+	 * @param string the name to check, may be empty
 	 *
-	 * @return	boolean		true if the name is non-empty and valid, false
-	 * 						otherwise
+	 * @return boolean true if the name is non-empty and valid, false otherwise
 	 */
 	private function isValidName($name) {
 		return (boolean) preg_match('/^[\S ]+$/s', $name);
@@ -512,9 +506,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/**
 	 * Stores the submitted contact form data locally.
 	 *
-	 * @param	array		contact form data, may be empty
-	 * @param	string		summary string of the current favorites list, may be
-	 * 						empty
+	 * @param array contact form data, may be empty
+	 * @param string summary string of the current favorites list, may be empty
 	 */
 	private function storeContactFormData(
 		array $contactFormData, $summaryStringOfFavorites

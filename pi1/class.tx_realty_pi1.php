@@ -44,11 +44,11 @@ define('TYPE_BOOLEAN', 2);
 /**
  * Plugin 'Realty List' for the 'realty' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** same as class name */
@@ -72,16 +72,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'images' => REALTY_TABLE_IMAGES,
 	);
 	/**
-	 * @var	string		session key for storing the favorites list
+	 * @var string session key for storing the favorites list
 	 */
 	const FAVORITES_SESSION_KEY = 'tx_realty_favorites';
 	/**
-	 * @var	string		session key for storing data of all favorites that
-	 * 					currently get displayed
+	 * @var string session key for storing data of all favorites that
+	 *                     currently get displayed
 	 */
 	const FAVORITES_SESSION_KEY_VERBOSE = 'tx_realty_favorites_verbose';
 
-	/** the data of the currently displayed favorites using the keys [uid][fieldname] */
+	/**
+	 * @var array the data of the currently displayed favorites using the keys
+     *            [uid][fieldname]
+     */
 	private $favoritesDataVerbose;
 
 	/**
@@ -169,22 +172,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** whether this class is called in the test mode */
 	private $isTestMode = false;
 
-	/** @var	tx_realty_object 	the current realty object */
+	/** @var tx_realty_object the current realty object */
 	private $cachedRealtyObject = null;
 
-	/** @var	array		map markers for the current list view/single view */
+	/** @var array map markers for the current list view/single view */
 	private $mapMarkers = array();
 
-	/** @var	integer		the Google Maps zoom factor for a single marker */
+	/** @var integer the Google Maps zoom factor for a single marker */
 	const ZOOM_FOR_SINGLE_MARKER = 13;
 
 	/**
-	 * @var	array		FE user record, will at least contain the element
-	 * 					'uid'
+	 * @var array FE user record, will at least contain the element 'uid'
 	 */
 	private $cachedOwner = array('uid' => 0);
 
-	/**	@var	array		existing types of list views */
+	/** @var array existing types of list views */
 	private static $listViews = array(
 		'favorites', 'my_objects', 'objects_by_owner', 'realty_list'
 	);
@@ -192,7 +194,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param	boolean		whether this class is called in the test mode
+	 * @param boolean whether this class is called in the test mode
 	 */
 	public function __construct($isTestMode = false) {
 		$this->isTestMode = $isTestMode;
@@ -217,10 +219,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Displays the Realty Manager HTML.
 	 *
-	 * @param	string		(not used)
-	 * @param	array		TypoScript configuration for the plugin
+	 * @param string (not used)
+	 * @param array TypoScript configuration for the plugin
 	 *
-	 * @return	string		HTML for the plugin
+	 * @return string HTML for the plugin
 	 */
 	public function main($unused, array $conf) {
 		$this->init($conf);
@@ -265,7 +267,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns the HTML for the current view.
 	 *
-	 * @return	string		HTML for the current view, will not be empty
+	 * @return string HTML for the current view, will not be empty
 	 */
 	private function getHtmlForCurrentView() {
 		switch ($this->getCurrentView()) {
@@ -328,10 +330,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Shows a list of database entries.
 	 *
-	 * @return	string		HTML list of table entries or the HTML for an error
-	 * 						view if no items were found
+	 * @return string HTML list of table entries or the HTML for an error
+	 *                view if no items were found
 	 */
-	private function createListView()	{
+	private function createListView() {
 		// Initially most subparts are hidden. Depending on the type of list
 		// view, they will be set to unhidden again.
 		$this->hideSubparts(
@@ -455,10 +457,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Initializes the list view, but does not create any actual HTML output.
 	 *
-	 * @throws	Exception	if a database query error occurs
+	 * @throws Exception if a database query error occurs
 	 *
-	 * @return	recource	the result of a DB query for the realty objects to
-	 * 						list
+	 * @return recource the result of a DB query for the realty objects to list
 	 */
 	private function initListView() {
 		// To ensure that sorting by cities actually sorts the titles and not
@@ -486,7 +487,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates the WHERE clause for initListView().
 	 *
-	 * @return	string		WHERE clause for initListView(), will not be empty
+	 * @return string WHERE clause for initListView(), will not be empty
 	 */
 	private function createWhereClause() {
 		$whereClause = '1=1';
@@ -540,7 +541,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$searchSelection = implode(',', $this->getSearchSelection());
 		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$whereClause .=	' AND '.REALTY_TABLE_OBJECTS
+			$whereClause .= ' AND '.REALTY_TABLE_OBJECTS
 				.'.'.$this->getConfValueString('checkboxesFilter')
 				.' IN ('.$searchSelection.')';
 		}
@@ -553,9 +554,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates the ORDER BY statement for initListView().
 	 *
-	 * @return	string		ORDER BY statement for initListView(), will be 'uid'
-	 * 						if 'orderBy' was empty or not within the set of
-	 * 						allowed sort criteria
+	 * @return string ORDER BY statement for initListView(), will be 'uid'
+	 *                if 'orderBy' was empty or not within the set of
+	 *                allowed sort criteria
 	 */
 	private function createOrderByStatement() {
 		$result = 'uid';
@@ -600,15 +601,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates the LIMIT statement for initListView().
 	 *
-	 * @throws	Exception	if a database query error occurs
+	 * @throws Exception if a database query error occurs
 	 *
-	 * @param	string		table for which to create the LIMIT statement, must
-	 * 						not be empty
-	 * @param	string		WHERE clause of the query for which the LIMIT
-	 * 						statement will be, may be empty
+	 * @param string table for which to create the LIMIT statement, must
+	 *               not be empty
+	 * @param string WHERE clause of the query for which the LIMIT
+	 *               statement will be, may be empty
 	 *
-	 * @return	string		LIMIT statement for initListView(), will not be
-	 * 						empty
+	 * @return string LIMIT statement for initListView(), will not be empty
 	 */
 	private function createLimitStatement($table, $whereClause) {
 		// number of results to show in a listing
@@ -684,12 +684,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * instead. If the requested record is not availiable, e.g. if the UID is
 	 * invalid or the record is hidden, the result will be an error message.
 	 *
-	 * @return	string		HTML of a single database entry or an error message
-	 * 						with a link to the login page if access is denied or
-	 * 						an empty result message if the requested record is
-	 * 						not availiable, will not be empty
+	 * @return string HTML of a single database entry or an error message
+	 *                with a link to the login page if access is denied or
+	 *                an empty result message if the requested record is
+	 *                not availiable, will not be empty
 	 */
-	private function createSingleView()	{
+	private function createSingleView() {
 		if (!$this->isAccessToSingleViewPageAllowed()) {
 			$this->setMarker('login_link', $this->createLinkToSingleViewPage(
 				$this->translate('message_please_login'),
@@ -715,7 +715,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->createGoogleMapForSingleView();
 
 			// This sets the title of the page for display and for use in indexed search results.
-			if (!empty($this->internal['currentRow']['title']))	{
+			if (!empty($this->internal['currentRow']['title'])) {
 				$GLOBALS['TSFE']->page['title'] = $this->internal['currentRow']['title'];
 				$GLOBALS['TSFE']->indexedDocTitle = $this->internal['currentRow']['title'];
 			}
@@ -795,10 +795,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns a list row according to the current 'showUid'.
 	 *
-	 * @throws	Exception	if a database query error occurs
-	 *
-	 * @return	array		record to display in the single view, will be empty
-	 * 						if the record to display does not exist
+	 * @return array record to display in the single view, will be empty
+	 *               if the record to display does not exist
 	 */
 	private function getCurrentRowForShowUid() {
 		$showUid = 'uid='.$this->piVars['showUid'];
@@ -880,10 +878,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Fills the subpart ###OVERVIEW_TABLE### with the contents of the current record's
-	 * DB fields specified via the TS setup variable "fieldsInSingleViewTable"".
+	 * Fills the subpart ###OVERVIEW_TABLE### with the contents of the current
+	 * record's DB fields specified via the TS setup variable
+	 * "fieldsInSingleViewTable"".
 	 *
-	 * @return	boolean		true if at least one row has been filled, false otherwise
+	 * @return boolean true if at least one row has been filled, false otherwise
 	 */
 	private function createOverviewTableInSingleView() {
 		$result = false;
@@ -937,7 +936,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Each image's size is limited by singleImageMaxX and singleImageMaxY
 	 * in TS setup.
 	 *
-	 * @return	string		HTML for the images
+	 * @return string HTML for the images
 	 */
 	private function createImagesInSingleView() {
 		$result = '';
@@ -964,11 +963,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns a single table row for list view.
 	 *
-	 * @param	integer		Row counter. Starts at 0 (zero). Used for
-	 * 						alternating class values in the output rows.
+	 * @param integer Row counter. Starts at 0 (zero). Used for
+	 *                alternating class values in the output rows.
 	 *
-	 * @return	string		HTML output, a table row with a class attribute set
-	 * 						(alternative based on odd/even rows)
+	 * @return string HTML output, a table row with a class attribute set
+	 *                (alternative based on odd/even rows)
 	 */
 	private function createListRow($rowCounter = 0) {
 		$this->unhideSubparts(
@@ -1132,12 +1131,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * In the case of the key "title", the result will be wrapped
 	 * in a link to the detail page of that particular item.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database
-	 * 						column), must not be empty
+	 * @param string key of the field to retrieve (the name of a database
+	 *               column), must not be empty
 	 *
-	 * @return	string		value of the field, may be empty
+	 * @return string value of the field, may be empty
 	 */
-	public function getFieldContent($key)	{
+	public function getFieldContent($key) {
 		$result = '';
 
 		switch($key) {
@@ -1247,16 +1246,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Returns an empty string if there is no such foreign key, the corresponding
 	 * foreign record does not exist or if it is an empty string.
 	 *
-	 * @throws	Exception	if a database query error occurs
+	 * @throws Exception if a database query error occurs
 	 *
-	 * @param	string		key of the field that contains the foreign key of
-	 * 						the table to retrieve, must not be empty
-	 * @param	string		the DB column name of the field that will be used as
-	 * 						the title, must not be empty
+	 * @param string key of the field that contains the foreign key of
+	 *               the table to retrieve, must not be empty
+	 * @param string the DB column name of the field that will be used as
+	 *               the title, must not be empty
 	 *
-	 * @return	string		the title of the record with the given UID in the
-	 * 						foreign table, will be empty if no or an invalid
-	 * 						UID is provided
+	 * @return string the title of the record with the given UID in the foreign
+	 *                table, will be empty if no or an invalid UID is provided
 	 */
 	private function getForeignRecordTitle($key, $titleColumn = 'title') {
 		/** This will be 0 if there is no record entered. */
@@ -1294,16 +1292,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * The value of $key may be a comma-separated list of suffixes. In this case,
 	 * a comma-separated list of the localized strings is returned.
 	 *
-	 * @param	string		key of the current record's field that contains the
-	 * 						suffix for the label to get, must not be empty
-	 * @param	integer		the highest allowed suffix, must be at least 1
+	 * @param string key of the current record's field that contains the
+	 *               suffix for the label to get, must not be empty
+	 * @param integer the highest allowed suffix, must be at least 1
 	 *
-	 * @return	string		localized string for the label
-	 * 						"label_[$key].[value of $key]", will be a
-	 * 						comma-separated list of localized strings if
-	 * 						the value of $key was a comma-separated list of
-	 * 						suffixes, will be empty if no suffix is within the
-	 * 						range of allowed suffixes
+	 * @return string localized string for the label
+	 *                "label_[$key].[value of $key]", will be a
+	 *                comma-separated list of localized strings if
+	 *                the value of $key was a comma-separated list of
+	 *                suffixes, will be empty if no suffix is within the
+	 *                range of allowed suffixes
 	 */
 	private function getLabelForValidProperty($key, $highestSuffix) {
 		$localizedStrings = array();
@@ -1324,12 +1322,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the field's value is empty or its intval is zero, an empty string will
 	 * be returned.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database
-	 * 						column), may not be empty
+	 * @param string key of the field to retrieve (the name of a database
+	 *               column), may not be empty
 	 *
-	 * @return	string		HTML for the number in the field formatted using
-	 * 						decimalSeparator and areaUnit from the TS setup, may
-	 * 						be an empty string
+	 * @return string HTML for the number in the field formatted using
+	 *                decimalSeparator and areaUnit from the TS setup, may
+	 *                be an empty string
 	 */
 	private function getFormattedArea($key) {
 		return $this->getFormattedNumber(
@@ -1345,10 +1343,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the value of $key is zero after applying intval, an empty string
 	 * will be returned.
 	 *
-	 * @param	string		name of a database column, may not be empty
+	 * @param string name of a database column, may not be empty
 	 *
-	 * @return	string		HTML for the number in the field with a currency
-	 * 						symbol appended, may be an empty string
+	 * @return string HTML for the number in the field with a currency
+	 *                symbol appended, may be an empty string
 	 */
 	private function getFormattedPrice($key) {
 		$currencySymbol = $this->getConfValueString('currencyUnit');
@@ -1365,11 +1363,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * using the system's locale and appending $unit. If the field's value is
 	 * empty or its intval is zero, an empty string will be returned.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database
-	 * 						column), may not be empty
-	 * @return	string		HTML for the number in the field formatted using the
-	 * 						system's locale with $unit appended, may be an empty
-	 * 						string
+	 * @param string key of the field to retrieve (the name of a database
+	 *               column), may not be empty
+	 * @return string HTML for the number in the field formatted using the
+	 *                system's locale with $unit appended, may be an empty
+	 *                string
 	 */
 	private function getFormattedNumber($key, $unit) {
 		$rawValue = $this->internal['currentRow'][$key];
@@ -1398,10 +1396,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the record field intvals to a non-zero value, the subpart is set to
 	 * unhidden.
 	 *
-	 * @param	string		key of the label to retrieve (the name of a database
-	 * 						column), may not be empty
-	 * @param	string		prefix to the subpart name (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string key of the label to retrieve (the name of a database
+	 *               column), may not be empty
+	 * @param string prefix to the subpart name (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 */
 	private function removeSubpartIfEmptyInteger($key, $prefix = '') {
 		if (intval($this->internal['currentRow'][$key]) == 0) {
@@ -1418,10 +1416,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * If the record field is a non-empty-string, the subpart is set to unhidden.
 	 *
-	 * @param	string		key of the label to retrieve (the name of a database
-	 * 						column), may not be empty
-	 * @param	string		prefix to the subpart name (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string key of the label to retrieve (the name of a database
+	 *               column), may not be empty
+	 * @param string prefix to the subpart name (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 */
 	private function removeSubpartIfEmptyString($key, $prefix = '') {
 		if (empty($this->internal['currentRow'][$key])) {
@@ -1439,7 +1437,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * fitted_kitchen
 	 * integer: year of construction, first possible usage date, object number
 	 *
-	 * @return	string		comma-separated list of features
+	 * @return string comma-separated list of features
 	 */
 	private function getFeatureList() {
 		$features = array();
@@ -1499,14 +1497,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
  	 *
  	 * If no image is found, an empty string is returned.
  	 *
-	 * @param	string		prefix to the TS setup variables that define the
-	 * 						max size, will be prepended to "X" and "Y"
-	 * @param	integer		the number of the image to retrieve, zero-based,
-	 * 						may be zero
-	 * @param	string		the id attribute, may be empty
+	 * @param string prefix to the TS setup variables that define the
+	 *               max size, will be prepended to "X" and "Y"
+	 * @param integer the number of the image to retrieve, zero-based,
+	 *                may be zero
+	 * @param string the id attribute, may be empty
  	 *
- 	 * @return	string		IMG tag, will be empty if there is no current realty
- 	 * 						object or if the current object does not have images
+ 	 * @return string IMG tag, will be empty if there is no current realty
+ 	 *                object or if the current object does not have images
  	 */
 	private function getImageTag($maxSizeVariable, $offset = 0, $id = '') {
  		$result = '';
@@ -1548,7 +1546,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If no image is found, an empty string is returned.
 	 *
 	 * @param string prefix to the TS setup variables that define the max size,
-	 * 				will be prepended to "X" and "Y"
+	 *               will be prepended to "X" and "Y"
 	 * @param integer the number of the image to retrieve, must be >= 0
 	 *
 	 * @return string image tag wrapped in a link, may be empty
@@ -1556,7 +1554,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function getLinkedImage($maxSizeVariable, $offset = 0) {
 		$imageTag = $this->getImageTag($maxSizeVariable, $offset);
 		$imageRecord = $this->getImage($offset);
-		$useLightbox = 	($this->getConfValueString('galleryType') == 'lightbox');
+		$useLightbox = ($this->getConfValueString('galleryType') == 'lightbox');
 		$linkAttribute = '';
 		$result = '';
 
@@ -1586,7 +1584,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'\'' . $galleryUrl . '\', ' .
 					'\'' . $this->getConfValueString('galleryPopupWindowName') . '\', ' .
 					'\'' . $this->getConfValueString('galleryPopupParameters') . '\' ' .
-					'); ' .	'return false;"';
+					'); ' . 'return false;"';
 			}
 			$result = '<a href="' . $galleryUrl . '"' . $linkAttribute . '>'
 				. $imageTag . '</a>';
@@ -1639,14 +1637,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * for the maximum width will then have the name set in $maxSizVariable with
 	 * a "X" appended, the variable for the maximum height with a "Y" appended.
 	 *
-	 * @param	string		prefix to the TS setup variables that define the max
-	 * 						size, will be prepended to "X" and "Y", must not be
-	 * 						empty
-	 * @param	integer		the number of the image to retrieve, zero-based,
-	 * 						may be zero
+	 * @param string prefix to the TS setup variables that define the max size,
+	 *               will be prepended to "X" and "Y", must not be empty
+	 * @param integer the number of the image to retrieve, zero-based, may be
+	 *                zero
 	 *
-	 * @return	string		IMG tag wrapped in a link, will be empty if no image
-	 * 						is found
+	 * @return string IMG tag wrapped in a link, will be empty if no image
+	 *                is found
 	 */
 	private function getImageLinkedToSingleView($maxSizeVariable, $offset = 0) {
 		return $this->createLinkToSingleViewPageForAnyLinkText(
@@ -1659,14 +1656,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns an image record that is associated with the current realty record.
 	 *
-	 * @throws	Exception	if a database query error occurs
+	 * @throws Exception if a database query error occurs
 	 *
-	 * @param	integer		the number of the image to retrieve (zero-based,
-	 * 						may be zero)
+	 * @param integer the number of the image to retrieve (zero-based,
+	 *                may be zero)
 	 *
-	 * @return	array		the image's caption and file name in an associative
-	 * 						array, will be empty if no current row was set or if
-	 * 						the queried image does not exist
+	 * @return array the image's caption and file name in an associative
+	 *               array, will be empty if no current row was set or if
+	 *               the queried image does not exist
 	 */
 	private function getImage($offset = 0) {
 		// The UID will not be set if a hidden or deleted record was requested.
@@ -1695,10 +1692,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Counts the images that are associated with the current record.
 	 *
-	 * @throws	Exception	if a database query error occurs
-	 *
-	 * @return	integer		the number of images associated with the current
-	 * 						record (may be zero)
+	 * @return integer the number of images associated with the current
+	 *                 record, may be zero
 	 */
 	private function countImages() {
 		// The UID will not be set if a hidden or deleted record was requested.
@@ -1724,15 +1719,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates an IMG tag for a resized image version of $filename in
 	 * this extension's upload directory.
 	 *
-	 * @param	string		filename of the original image relative to this
-	 * 						extension's upload directory, must not be empty
-	 * @param	string		prefix to the TS setup variables that define the
-	 * 						max size, will be prepended to "X" and "Y"
-	 * @param	string		text used for the alt and title attribute, may be
-	 * 						empty
-	 * @param	string		the id attribute, may be empty
+	 * @param string filename of the original image relative to this
+	 *               extension's upload directory, must not be empty
+	 * @param string prefix to the TS setup variables that define the
+	 *               max size, will be prepended to "X" and "Y"
+	 * @param string text used for the alt and title attribute, may be empty
+	 * @param string the id attribute, may be empty
 	 *
-	 * @return	string		IMG tag
+	 * @return string IMG tag
 	 */
 	private function createImageTag(
 		$filename, $maxSizeVariable, $caption = '', $id = ''
@@ -1751,7 +1745,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If that item contains no images or the image number is invalid, an error
 	 * message will be displayed instead.
 	 *
-	 * @return	string		HTML of the gallery (will not be empty)
+	 * @return string HTML of the gallery (will not be empty)
 	 */
 	private function createGallery() {
 		$result = '';
@@ -1763,7 +1757,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
 
 			// This sets the title of the page for display and for use in indexed search results.
-			if (!empty($this->internal['currentRow']['title']))	{
+			if (!empty($this->internal['currentRow']['title'])) {
 				$GLOBALS['TSFE']->page['title'] = $this->internal['currentRow']['title'];
 				$GLOBALS['TSFE']->indexedDocTitle = $this->internal['currentRow']['title'];
 			}
@@ -1840,7 +1834,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Each image's size is limited by galleryThumbnailX and galleryThumbnailY
 	 * in TS setup.
 	 *
-	 * @return	string		HTML for all thumbnails
+	 * @return string HTML for all thumbnails
 	 */
 	private function createGalleryThumbnails() {
 		$result = '';
@@ -1874,10 +1868,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns the href attribute for a thumbnail.
 	 *
-	 * @param	integer		number of the image for which to get the href
-	 * 						attribute, must be >= 0
+	 * @param integer number of the image for which to get the href
+	 *                attribute, must be >= 0
 	 *
-	 * @return	string		href attribute, will not be empty
+	 * @return string href attribute, will not be empty
 	 */
 	private function getHrefAttribute($image) {
 		$piVars = $this->piVars;
@@ -1897,10 +1891,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns the onclick attribute for a thumbnail.
 	 *
-	 * @param	integer		number of the image for which to get the onclick
-	 * 						attribute, must be >= 0
+	 * @param integer number of the image for which to get the onclick
+	 *                attribute, must be >= 0
 	 *
-	 * @return	string		onclick attribute, will not be empty
+	 * @return string onclick attribute, will not be empty
 	 */
 	private function getOnclickAttribute($image) {
 		$imageTag = $this->getImageTag('galleryFullSizeImage', $image);
@@ -1919,9 +1913,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates a form for selecting a single city.
 	 *
-	 * @throws	Exception	if a database query error occurs
-	 *
-	 * @return	string		HTML of the city selector (will not be empty)
+	 * @return string HTML of the city selector (will not be empty)
 	 */
 	private function createCitySelector() {
 		$targetListViewUrl = $this->cObj->typoLink_URL(
@@ -1946,7 +1938,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// builds an array of cities from DB result
 		$cities = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))	{
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$cities[] = $row;
 		}
 
@@ -1973,7 +1965,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * removed from the list of favorites.
 	 * Otherwise, these items will get added to the list of favorites.
 	 *
-	 * Please note that $this->piVars['remove'] is expected to already be int-safe.
+	 * Please note that $this->piVars['remove'] is expected to already be
+	 * int-safe.
 	 */
 	private function processSubmittedFavorites() {
 		if (isset($this->piVars['favorites']) && !empty($this->piVars['favorites'])) {
@@ -1993,7 +1986,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * there actually are objects with those UIDs. That case is harmless
 	 * because the favorites list serves as a filter merely.
 	 *
-	 * @param	array		list of realty object UIDs to add (will be intvaled by this function), may be empty or even null
+	 * @param array list of realty object UIDs to add (will be intvaled by this
+	 *              function), may be empty or even null
 	 */
 	public function addToFavorites(array $itemsToAdd) {
 		if ($itemsToAdd) {
@@ -2011,7 +2005,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * session). If some of the UIDs in $itemsToRemove are not in the favorites
 	 * list, they will silently being ignored (no harm done here).
 	 *
-	 * @param	array		list of realty object UIDs to to remove (will be intvaled by this function), may be empty or even null
+	 * @param array list of realty object UIDs to to remove (will be intvaled by
+	 *              this function), may be empty
 	 */
 	private function removeFromFavorites(array $itemsToRemove) {
 		if ($itemsToRemove) {
@@ -2039,11 +2034,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the list is empty (or has not been created yet), an empty string will
 	 * be returned.
 	 *
-	 * @return	string		comma-separated list of UIDs of the objects on the favorites list (may be empty)
+	 * @return string comma-separated list of UIDs of the objects on the
+	 *                favorites list (may be empty)
 	 *
-	 * @see	getFavoritesArray
-	 * @see	addToFavorites
-	 * @see	storeFavorites
+	 * @see getFavoritesArray
+	 * @see addToFavorites
+	 * @see storeFavorites
 	 */
 	private function getFavorites() {
 		return tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
@@ -2060,12 +2056,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the list is empty (or has not been created yet), an empty array will
 	 * be returned.
 	 *
-	 * @return	array		list of UIDs of the objects on the favorites list,
-	 * 						may be empty
+	 * @return array list of UIDs of the objects on the favorites list,
+	 *               may be empty
 	 *
-	 * @see	getFavorites
-	 * @see	addToFavorites
-	 * @see	storeFavorites
+	 * @see getFavorites
+	 * @see addToFavorites
+	 * @see storeFavorites
 	 */
 	private function getFavoritesArray() {
 		return tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
@@ -2077,8 +2073,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * Before storing, the list of favorites is clear of duplicates.
 	 *
-	 * @param	array		list of UIDs in the favorites list to store, must
-	 * 						already be int-safe, may be empty
+	 * @param array list of UIDs in the favorites list to store, must
+	 *              already be int-safe, may be empty
 	 */
 	public function storeFavorites(array $favorites) {
 		tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
@@ -2090,9 +2086,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * the object numbers and titles of the objects on the current favorites list.
 	 * If there are no selected favorites, an empty string is returned.
 	 *
-	 * @throws	Exception	if a database query error occurs
-	 *
-	 * @return	string		formatted string to use in an e-mail form, may be empty
+	 * @return string formatted string to use in an e-mail form, may be empty
 	 */
 	 public function createSummaryStringOfFavorites() {
 	 	$summaryStringOfFavorites = '';
@@ -2140,8 +2134,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Gets the selected values of the search checkboxes from
 	 * $this->piVars['search'].
 	 *
-	 * @return	array		array of unique, int-safe values from
-	 * 						$this->piVars['search'] (may be empty, but not null)
+	 * @return array array of unique, int-safe values from
+	 *               $this->piVars['search'] (may be empty, but not null)
 	 */
 	private function getSearchSelection() {
 		$result = array();
@@ -2158,8 +2152,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Checks whether a search selection exists.
 	 *
-	 * @return	boolean		true if a search selection is provided in the
-	 * 						current piVars, false otherwise
+	 * @return boolean true if a search selection is provided in the
+	 *                 current piVars, false otherwise
 	 */
 	private function searchSelectionExists() {
 		return (isset($this->piVars['search'])
@@ -2173,9 +2167,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * The URL will already be htmlspecialchared.
 	 *
-	 * @return	string		htmlspecialchared URL of the page set in
-	 * 						$this->getConfValueInteger('favoritesPID'), will
-	 * 						not be empty
+	 * @return string htmlspecialchared URL of the page set in
+	 *                $this->getConfValueInteger('favoritesPID'), will
+	 *                not be empty
 	 */
 	private function getFavoritesUrl() {
 		$pageId = $this->getConfValueInteger('favoritesPID');
@@ -2196,10 +2190,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * The URL will contain the current piVars if $keepPiVars is set to true.
 	 * The URL will already be htmlspecialchared.
 	 *
-	 * @param	boolean		whether the current piVars should be kept
+	 * @param boolean whether the current piVars should be kept
 	 *
-	 * @return	string		htmlspecialchared URL of the current page, will not
-	 * 						be empty
+	 * @return string htmlspecialchared URL of the current page, will not
+	 *                be empty
 	 */
 	private function getSelfUrl($keepPiVars = true) {
 		$piVars = $keepPiVars ? $this->piVars : array();
@@ -2229,7 +2223,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * This function will return an empty string if there is only 1 page of
 	 * results.
 	 *
-	 * @return	string		HTML code for the page browser (may be empty)
+	 * @return string HTML code for the page browser (may be empty)
 	 */
 	private function createPagination() {
 		if ($this->internal['lastPage'] <= 0) {
@@ -2253,7 +2247,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates HTML for a list of links to result pages.
 	 *
-	 * @return	string		HTML for the pages list (will not be empty)
+	 * @return string HTML for the pages list (will not be empty)
 	 */
 	private function createPageList() {
 		/** how many links to the left and right we want to have at most */
@@ -2278,13 +2272,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * with $linkText as link text. If $pageNum is the current page,
 	 * the text is not linked.
 	 *
-	 * @param	integer		the page number to link to
-	 * @param	string		link text (may not be empty)
-	 * @param	boolean		whether to output the link text nonetheless if $pageNum is the current page
+	 * @param integer the page number to link to
+	 * @param string link text (may not be empty)
+	 * @param boolean whether to output the link text nonetheless if $pageNum is
+	 *                the current page
 	 *
-	 * @return	string		HTML code of the link (will be empty if $alsoShowNonLinks is false and the $pageNum is the current page)
+	 * @return string HTML code of the link (will be empty if $alsoShowNonLinks
+	 *                is false and the $pageNum is the current page)
 	 */
-	private function createPaginationLink($pageNum, $linkText, $alsoShowNonLinks = true) {
+	private function createPaginationLink(
+		$pageNum, $linkText, $alsoShowNonLinks = true
+	) {
 		$result = '';
 		$this->setMarker('linktext', $linkText);
 
@@ -2326,10 +2324,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If there are no search criteria selected in the BE, this function will
 	 * return an empty string.
 	 *
-	 * @return	string		HTML for the WRAPPER_SORTING subpart
+	 * @return string HTML for the WRAPPER_SORTING subpart
 	 */
 	private function createSorting() {
-		// Only have the sort form if at least one sort criteria is selected in the BE.
+		// Only have the sort form if at least one sort criteria is selected in
+		// the BE.
 		if (!$this->hasConfValueInteger('sortCriteria')) {
 			return '';
 		}
@@ -2372,7 +2371,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * This function will also return an empty string if "city" is selected in
 	 * the BE and $this->piVars['city'] is set (by the city selector).
 	 *
-	 * @return	string		HTML for the search bar (may be empty)
+	 * @return string HTML for the search bar (may be empty)
 	 */
 	private function createCheckboxesFilter() {
 		if (!$this->mayCheckboxesFilterBeCreated()) {
@@ -2412,11 +2411,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns an array of checkbox items for the list filter.
 	 *
-	 * @throws	Exception	if a database query error occurs
-	 *
-	 * @return	array		HTML for each checkbox item in an array, will be
-	 * 						empty if there are no entries found for the
-	 * 						configured filter
+	 * @return array HTML for each checkbox item in an array, will be
+	 *               empty if there are no entries found for the
+	 *               configured filter
 	 */
 	private function getCheckboxItems() {
 		$result = array();
@@ -2470,11 +2467,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * error message then.) An owner is cached through cacheSelectedOwner in
 	 * the main function if a valid UID was provided by $this->piVars.
 	 *
-	 * @return	string		localized string for 'label_offerings_by' plus the
-	 * 						owner's label or the string for 'label_sorry' if
-	 * 						there is no owner at all
+	 * @return string localized string for 'label_offerings_by' plus the
+	 *                owner's label or the string for 'label_sorry' if
+	 *                there is no owner at all
 	 *
-	 * @see	getOwnerLabel()
+	 * @see getOwnerLabel()
 	 */
 	private function getTitleForTheObjectsByOwnerList() {
 		$result = $this->translate('label_sorry');
@@ -2493,9 +2490,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * provided, the user name will be returned. FE user records are expected
 	 * to have at least a user name.
 	 *
-	 * @return	string		label for the owner, will be empty if no owner
-	 * 						record was cached or if the cached record is an
-	 * 						invalid FE user record without a user name
+	 * @return string label for the owner, will be empty if no owner
+	 *                record was cached or if the cached record is an
+	 *                invalid FE user record without a user name
 	 */
 	private function getOwnerLabel() {
 		$result = '';
@@ -2526,7 +2523,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Checks whether the current piVars contain a value for the city selector.
 	 *
-	 * @return	boolean		whether the city selector is currently used
+	 * @return boolean whether the city selector is currently used
 	 */
 	private function isCitySelectorInUse() {
 		return $this->piVars['city'] > 0;
@@ -2536,9 +2533,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Returns the WHERE clause part for the list of allowed PIDs within the
 	 * realty objects table.
 	 *
-	 * @return	string		WHERE clause part starting with ' AND', containing a
-	 * 						comma-separated PID list, will be empty if no list
-	 * 						could be fetched
+	 * @return string WHERE clause part starting with ' AND', containing a
+	 *                comma-separated PID list, will be empty if no list
+	 *                could be fetched
 	 */
 	private function getWhereClausePartForPidList() {
 		$pidList = tx_oelib_db::createRecursivePageList(
@@ -2554,13 +2551,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns the current view.
 	 *
-	 * @return	string		Name of the current view ('realty_list',
-	 * 						'contact_form', 'favorites', 'fe_editor',
-	 * 						'filter_form', 'city_selector', 'gallery'
-	 * 						'image_upload', 'my_objects', 'offerer_list' or
-	 * 						'objects_by_owner'), will not be empty.
-	 * 						If no view is set, 'realty_list' is returned as this
-	 * 						is the fallback case.
+	 * @return string Name of the current view ('realty_list',
+	 *                'contact_form', 'favorites', 'fe_editor',
+	 *                'filter_form', 'city_selector', 'gallery'
+	 *                'image_upload', 'my_objects', 'offerer_list' or
+	 *                'objects_by_owner'), will not be empty.
+	 *                If no view is set, 'realty_list' is returned as this
+	 *                is the fallback case.
 	 */
 	private function getCurrentView() {
 		$whatToDisplay = $this->getConfValueString('what_to_display');
@@ -2596,8 +2593,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Checks whether the showUid parameter is set and contains a positive
 	 * number.
 	 *
-	 * @return	boolean		true if showUid is set and is a positive integer,
-	 * 						false otherwise
+	 * @return boolean true if showUid is set and is a positive integer,
+	 *                 false otherwise
 	 */
 	private function hasShowUidInUrl() {
 		return $this->piVars['showUid'] > 0;
@@ -2606,7 +2603,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Checks that we are properly initialized.
 	 *
-	 * @return	boolean		true if we are properly initialized, false otherwise
+	 * @return boolean true if we are properly initialized, false otherwise
 	 */
 	public function isInitialized() {
 		return $this->isInitialized;
@@ -2618,8 +2615,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * configuration, access to the details page is allowed even when no user is
 	 * logged in.
 	 *
-	 * @return	boolean		true if the details page is allowed to be viewed,
-	 * 						false otherwise
+	 * @return boolean true if the details page is allowed to be viewed,
+	 *                 false otherwise
 	 */
 	public function isAccessToSingleViewPageAllowed() {
 		return ($this->isLoggedIn()
@@ -2636,13 +2633,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * created link will lead to the login page instead, including a
 	 * redirect_url parameter to the single view page.
 	 *
-	 * @param	string		$linkText, must not be empty
-	 * @param	integer		UID of the realty object to show
-	 * @param	string		PID or URL of the single view page, set to '' to use
-	 * 						the default single view page
+	 * @param string $linkText, must not be empty
+	 * @param integer UID of the realty object to show
+	 * @param string PID or URL of the single view page, set to '' to use
+	 *               the default single view page
 	 *
-	 * @return	string		link tag, either to the single view page or to the
-	 *						login page
+	 * @return string link tag, either to the single view page or to the
+	 *                login page
 	 */
 	public function createLinkToSingleViewPage(
 		$linkText, $uid, $separateSingleViewPage = ''
@@ -2661,13 +2658,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * created link will lead to the login page instead, including a
 	 * redirect_url parameter to the single view page.
 	 *
-	 * @param	string		$linkText, may be '|' but not empty
-	 * @param	integer		UID of the realty object to show
-	 * @param	string		PID or URL of the single view page, set to '' to use
-	 * 						the default single view page
+	 * @param string $linkText, may be '|' but not empty
+	 * @param integer UID of the realty object to show
+	 * @param string PID or URL of the single view page, set to '' to use
+	 *               the default single view page
 	 *
-	 * @return	string		link tag, either to the single view page or to the
-	 *						login page
+	 * @return string link tag, either to the single view page or to the
+	 *                login page
 	 */
 	private function createLinkToSingleViewPageForAnyLinkText(
 		$linkText, $uid, $separateSingleViewPage = ''
@@ -2713,13 +2710,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates a link to the login page. The link will contain a redirect URL to
 	 * the page which contains the link.
 	 *
-	 * @param	string		link text, HTML tags will not be replaced, may be '|'
-	 * 						but not empty
-	 * @param	boolean		whether the redirect link needs to be created for an
-	 * 						external single view page
+	 * @param string link text, HTML tags will not be replaced, may be '|'
+	 *               but not empty
+	 * @param boolean whether the redirect link needs to be created for an
+	 *                external single view page
 	 *
-	 * @return	string		link text wrapped by the link to the login page,
-	 * 						will not be empty
+	 * @return string link text wrapped by the link to the login page,
+	 *                will not be empty
 	 */
 	private function createLoginPageLink($linkText, $hasExternalSingleViewPage = false) {
 		$redirectPage = ($hasExternalSingleViewPage)
@@ -2745,13 +2742,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Creates a link to the FE editor page.
 	 *
-	 * @param	string		key of the configuration value with the PID, must
-	 * 						not be empty
-	 * @param	integer		UID of the object to be loaded for editing, must be
-	 * 						integer >= 0 (Zero will open the FE editor for a new
-	 * 						record to insert.)
+	 * @param string key of the configuration value with the PID, must
+	 *               not be empty
+	 * @param integer UID of the object to be loaded for editing, must be
+	 *                integer >= 0 (Zero will open the FE editor for a new
+	 *                record to insert.)
 	 *
-	 * @return	string		$linkText wrapped in link tags, will not be empty
+	 * @return string $linkText wrapped in link tags, will not be empty
 	 */
 	private function createLinkToFeEditorPage($pidKey, $uid) {
 		return t3lib_div::locationHeaderUrl(
@@ -2771,9 +2768,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * This function is intended to be used for testing purposes only.
 	 *
-	 * @param	array		associative array with the data for the current
-	 * 						row like it could have been retrieved from the DB,
-	 * 						must be neither empty nor null
+	 * @param array associative array with the data for the current
+	 *              row like it could have been retrieved from the DB,
+	 *              must be neither empty nor null
 	 */
 	public function setCurrentRow(array $currentRow) {
 		if (!is_array($this->internal)) {
@@ -2789,11 +2786,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * This function requires the current realty object data to be set in
 	 * $this->internal['currentRow'].
 	 *
-	 * @throws	Exception	if $this->internal['currentRow'] is not set or empty
+	 * @throws Exception if $this->internal['currentRow'] is not set or empty
 	 *
-	 * @return	array		the coordinates using the keys "latitude" and
-	 * 						"longitude" or an empty array if the coordinates
-	 * 						could not be retrieved
+	 * @return array the coordinates using the keys "latitude" and
+	 *               "longitude" or an empty array if the coordinates
+	 *               could not be retrieved
 	 */
 	private function retrieveGeoCoordinates() {
 		if (!isset($this->internal['currentRow'])
@@ -2826,10 +2823,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * This functions does not check whether Google Maps are enabled for the
 	 * current view at all.
 	 *
-	 * @param	boolean		whether the detail page should be linked in the
-	 * 						object title
+	 * @param boolean whether the detail page should be linked in the
+	 *                object title
 	 *
-	 * @return	boolean		true if the marker was created, false otherwise
+	 * @return boolean true if the marker was created, false otherwise
 	 */
 	private function createMarkerFromCoordinates($createLink = false) {
 		$coordinates = $this->retrieveGeoCoordinates();
@@ -2866,10 +2863,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Creates a realty object instance for the data in
 	 * $this->internal['currentRow'].
 	 *
-	 * @throws	Exception	if $this->internal['currentRow'] is not set or empty
+	 * @throws Exception if $this->internal['currentRow'] is not set or empty
 	 *
-	 * @return	tx_realty_object		a realty object filled with the data
-	 * 									from $this->internal['currentRow']
+	 * @return tx_realty_object a realty object filled with the data
+	 *                          from $this->internal['currentRow']
 	 */
 	private function getObjectForCurrentRow() {
 		if (!isset($this->internal['currentRow'])
@@ -2961,16 +2958,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$createMapJavaScript = '<script type="text/javascript">' . LF .
 			'/*<![CDATA[*/' . LF .
 			'function initializeMap() {' . LF .
-			'	if (GBrowserIsCompatible()) {'. LF .
-			'		var map = new GMap2(document.getElementById("tx_realty_map"));' . LF .
-			'		map.setCenter(' . $this->mapMarkers[0]->getCoordinates() .
+			' if (GBrowserIsCompatible()) {'. LF .
+			' var map = new GMap2(document.getElementById("tx_realty_map"));' . LF .
+			' map.setCenter(' . $this->mapMarkers[0]->getCoordinates() .
 				', ' . self::ZOOM_FOR_SINGLE_MARKER . ');' . LF .
-			'		map.enableContinuousZoom();' . LF .
-			'		map.enableScrollWheelZoom();' . LF .
-			'		map.addControl(new GLargeMapControl());' . LF .
-			'		map.addControl(new GMapTypeControl());' . LF .
-			'		var bounds = new GLatLngBounds();' . LF .
-			'		var marker;' . LF;
+			' map.enableContinuousZoom();' . LF .
+			' map.enableScrollWheelZoom();' . LF .
+			' map.addControl(new GLargeMapControl());' . LF .
+			' map.addControl(new GMapTypeControl());' . LF .
+			' var bounds = new GLatLngBounds();' . LF .
+			' var marker;' . LF;
 
 		foreach ($this->mapMarkers as $mapMarker) {
 			$createMapJavaScript .= $mapMarker->render() . LF .
@@ -2982,7 +2979,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'map.setZoom(map.getBoundsZoomLevel(bounds));' . LF .
 				'map.setCenter(bounds.getCenter());' . LF;
 		}
-		$createMapJavaScript .=  '	}'. LF .
+		$createMapJavaScript .=  ' }'. LF .
 			'}' . LF .
 			'/*]]>*/' . LF .
 			'</script>';
@@ -3000,7 +2997,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Formats the current object's address as HTML (separated by <br />) with
 	 * the granularity defined in the field "show_address".
 	 *
-	 * @return	string		the address of the current object, will not be empty
+	 * @return string the address of the current object, will not be empty
 	 */
 	private function getAddressAsHtml() {
 		$addressParts = array();
@@ -3104,7 +3101,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1.php']);
 }
 ?>

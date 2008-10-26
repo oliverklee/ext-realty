@@ -22,6 +22,13 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+if (!defined('TYPO3_cliMode')) {
+	die('You cannot run this script directly!');
+}
+
+require_once(PATH_t3lib . 'class.t3lib_cli.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_openImmoImport.php');
+
 /**
  * Class 'tx_realty_cli' for the 'realty' extension.
  *
@@ -30,19 +37,11 @@
  * To run this script, use the following command in a console: '/[absolute path
  * of the TYPO3 installation]/typo3/cli_dispatch.phpsh openImmoImport'.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-if (!defined('TYPO3_cliMode')) {
-	die('You cannot run this script directly!');
-}
-
-require_once(PATH_t3lib.'class.t3lib_cli.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_openImmoImport.php');
-
 class tx_realty_cli {
 	/**
 	 * Calls the OpenImmo importer.

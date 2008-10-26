@@ -33,18 +33,18 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_o
 /**
  * Unit tests for the tx_realty_object class in the 'realty' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_object_testcase extends tx_phpunit_testcase {
-	/** @var	tx_realty_objectChild */
+	/** @var tx_realty_objectChild */
 	private $fixture;
-	/** @var	tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
-	/** @var	tx_oelib_templatehelper */
+	/** @var tx_oelib_templatehelper */
 	private $templateHelper;
 
 	/** UID of a dummy realty object */
@@ -58,10 +58,10 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	/** object number of a dummy realty object */
 	private static $otherObjectNumber = '100001';
 
-	/** @var	integer		static_info_tables UID of Germany */
+	/** @var integer static_info_tables UID of Germany */
 	const DE = 54;
 
-	/** @var	string		a valid Google Maps API key for localhost */
+	/** @var string a valid Google Maps API key for localhost */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
 	public function setUp() {

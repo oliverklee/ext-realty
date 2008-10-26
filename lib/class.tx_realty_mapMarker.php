@@ -27,30 +27,30 @@
  *
  * This class represents a marker on a Google Map.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_mapMarker {
-	/** @var	string		this marker's latitude */
+	/** @var string this marker's latitude */
 	private $latitude = '';
 
-	/** @var	string		this marker's longitude */
+	/** @var string this marker's longitude */
 	private $longitude = '';
 
-	/** @var	string		this marker's title, quote- and tag-safe */
+	/** @var string this marker's title, quote- and tag-safe */
 	private $title = '';
 
-	/** @var	string		this marker's info window HTML */
+	/** @var string this marker's info window HTML */
 	private $infoWindowHtml = '';
 
 	/**
 	 * Renders the JavaScript for creating this marker and adding it to an
 	 * object 'map'.
 	 *
-	 * @return	string		JavaScript snippet for the this marker, will be
-	 * 						empty if this marker has no coordinates
+	 * @return string JavaScript snippet for the this marker, will be
+	 *                empty if this marker has no coordinates
 	 */
 	public function render() {
 		if (!$this->hasCoordinates()) {
@@ -68,8 +68,8 @@ class tx_realty_mapMarker {
 	/**
 	 * Sets this marker's coordinates.
 	 *
-	 * @param	string		latitude, must not be empty
-	 * @param	string		longitude, must not empty
+	 * @param string latitude, must not be empty
+	 * @param string longitude, must not empty
 	 */
 	public function setCoordinates($latitude, $longitude) {
 		if ($latitude == '') {
@@ -86,22 +86,22 @@ class tx_realty_mapMarker {
 	/**
 	 * Gets this marker's coordinates as a JavaScript GLatLng instantiation.
 	 *
-	 * @return	string		this marker's coordinates as a GLatLng instantiation
-	 * 						JavaScript code snippet, an empty string if this
-	 * 						marker has no coordinates.
+	 * @return string this marker's coordinates as a GLatLng instantiation
+	 *                JavaScript code snippet, an empty string if this
+	 *                marker has no coordinates.
 	 */
 	public function getCoordinates() {
 		if (!$this->hasCoordinates()) {
 			return '';
 		}
 
-		return 	'new GLatLng(' . $this->latitude . ',' . $this->longitude . ')';
+		return 'new GLatLng(' . $this->latitude . ',' . $this->longitude . ')';
 	}
 
 	/**
 	 * Sets this marker's title.
 	 *
-	 * @param	string		title, may be empty, must not be HTML-safe
+	 * @param string title, may be empty, must not be HTML-safe
 	 */
 	public function setTitle($title) {
 		$this->title = trim(addslashes(strip_tags($title)));
@@ -110,7 +110,7 @@ class tx_realty_mapMarker {
 	/**
 	 * Sets this marker's info window HTML
 	 *
-	 * @param	string		info window HTML, may be empty
+	 * @param string info window HTML, may be empty
 	 */
 	public function setInfoWindowHtml($html) {
 		// 1. escapes \ to \\
@@ -127,8 +127,8 @@ class tx_realty_mapMarker {
 	/**
 	 * Checks whether this marker has both latitude and longitude.
 	 *
-	 * @return	boolean		true if this markes has both latitude and longitude,
-	 * 						false otherwise
+	 * @return boolean true if this markes has both latitude and longitude,
+	 *                 false otherwise
 	 */
 	private function hasCoordinates() {
 		return ($this->latitude != '') && ($this->longitude != '');
@@ -138,9 +138,9 @@ class tx_realty_mapMarker {
 	 * Returns this object's title as a JavaScript object declaration, starting
 	 * with a comma.
 	 *
-	 * @return	string		a JavaScript object declaration for this marker's
-	 * 						title starting with a comma, an empty string if this
-	 * 						marker has no title
+	 * @return string a JavaScript object declaration for this marker's
+	 *                title starting with a comma, an empty string if this
+	 *                marker has no title
 	 */
 	private function getTitle() {
 		if ($this->title == '') {
@@ -153,8 +153,8 @@ class tx_realty_mapMarker {
 	/**
 	 * Creates a JavaScript snippet for adding the info window HTML.
 	 *
-	 * @return	string		info window creation JavaScript with trailing LF,
-	 * 						will be empty if this marker has no info window HTML
+	 * @return string info window creation JavaScript with trailing LF,
+	 *                will be empty if this marker has no info window HTML
 	 */
 	private function getInfoWindow() {
 		if ($this->infoWindowHtml == '') {
@@ -163,12 +163,10 @@ class tx_realty_mapMarker {
 
 		return
 			'marker.bindInfoWindowHtml(\'' . $this->infoWindowHtml . '\');' . LF;
-
 	}
-
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_mapMarker.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_mapMarker.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_mapMarker.php']);
 }
 ?>

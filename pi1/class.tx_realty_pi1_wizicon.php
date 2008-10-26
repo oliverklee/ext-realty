@@ -25,16 +25,15 @@
 /**
  * Class that adds the wizard icon.
  *
- * @author	Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-
 class tx_realty_pi1_wizicon {
 	/**
 	 * Processing the wizard items array
 	 *
-	 * @param	array		the wizard items, may be empty
+	 * @param array the wizard items, may be empty
 	 *
-	 * @return	array		modified array with wizard items
+	 * @return array modified array with wizard items
 	 */
 	public function proc(array $wizardItems) {
 		global $LANG;
@@ -55,7 +54,7 @@ class tx_realty_pi1_wizicon {
 	 * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found
 	 * in that file.
 	 *
-	 * @return	The array with language labels
+	 * @return The array with language labels
 	 */
 	public function includeLocalLang() {
 		$llFile = t3lib_extMgm::extPath('realty').'locallang.xml';
@@ -65,7 +64,7 @@ class tx_realty_pi1_wizicon {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_wizicon.php'])	{
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_wizicon.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_wizicon.php']);
 }
 ?>

@@ -22,29 +22,28 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+
 /**
  * Class 'tx_realty_filterForm' for the 'realty' extension. This class
  * provides a form to enter filter criteria for the realty list in the realty
  * plugin.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 class tx_realty_filterForm {
 	/** plugin in which the filter form is used */
 	private $plugin = null;
 
 	/**
-	 * @var	array		Filter form data array with the elements "priceRange",
-	 * 					"site", "objectNumber" and "uid".
-	 * 					"priceRange" keeps a string of the format
-	 * 					"number-number" and "site" has any string, directly
-	 * 					derived from the form data.
+	 * @var array Filter form data array with the elements "priceRange",
+	 *            "site", "objectNumber" and "uid".
+	 *            "priceRange" keeps a string of the format
+	 *            "number-number" and "site" has any string, directly
+	 *            derived from the form data.
 	 */
 	private $filterFormData = array(
 		'priceRange' => '', 'site' => '', 'objectNumber' => '', 'uid' => 0
@@ -53,7 +52,7 @@ class tx_realty_filterForm {
 	/**
 	 * The constructor.
 	 *
-	 * @param	tx_oelib_templatehelper		plugin which uses this class
+	 * @param tx_oelib_templatehelper plugin which uses this class
 	 */
 	public function __construct(tx_oelib_templatehelper $plugin) {
 		$this->plugin = $plugin;
@@ -69,10 +68,10 @@ class tx_realty_filterForm {
 	/**
 	 * Returns the filter form in HTML.
 	 *
-	 * @param	array		current piVars, the elements "priceRange" and "site"
-	 * 						will be used if they are available, may be empty
+	 * @param array current piVars, the elements "priceRange" and "site"
+	 *              will be used if they are available, may be empty
 	 *
-	 * @return	string		HTML of the filter form, will not be empty
+	 * @return string HTML of the filter form, will not be empty
 	 */
 	public function render(array $filterFormData) {
 		$this->extractValidFilterFormData($filterFormData);
@@ -92,10 +91,10 @@ class tx_realty_filterForm {
 	 * "tx_realty_objects INNER JOIN tx_realty_cities
 	 * ON tx_realty_objects.city = tx_realty_cities.uid";
 	 *
-	 * @param	array		filter form data, may be empty
+	 * @param array filter form data, may be empty
 	 *
-	 * @return	string		WHERE clause part for the current filters beginning
-	 * 						with " AND", will be empty if none were provided
+	 * @return string WHERE clause part for the current filters beginning
+	 *                with " AND", will be empty if none were provided
 	 */
 	public function getWhereClausePart(array $filterFormData) {
 		$this->extractValidFilterFormData($filterFormData);
@@ -110,7 +109,7 @@ class tx_realty_filterForm {
 	 * Stores the provided data derived from the form. In case invalid data was
 	 * provided, an empty string will be stored.
 	 *
-	 * @param	array		filter form data, may be empty
+	 * @param array filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
 		foreach (array('site', 'objectNumber', 'uid') as $key) {
@@ -134,13 +133,11 @@ class tx_realty_filterForm {
 	/**
 	 * Formats one price range.
 	 *
-	 * @param	string		price range of the format "number-number", may be
-	 * 						empty
+	 * @param string price range of the format "number-number", may be empty
 	 *
-	 * @return	array		array with one price range, consists of the two
-	 * 						elements "upperLimit" and "lowerLimit", will be
-	 * 						empty if no price range was provided in the form
-	 * 						data
+	 * @return array array with one price range, consists of the two elements
+	 *               "upperLimit" and "lowerLimit", will be empty if no price
+	 *               range was provided in the form data
 	 */
 	private function getFormattedPriceRange($priceRange) {
 		if ($priceRange == '') {
@@ -252,13 +249,12 @@ class tx_realty_filterForm {
 	/**
 	 * Returns an array of configured price ranges.
 	 *
-	 * @return	array			Two-dimensional array of the possible price
-	 * 							ranges. Each inner array consists of two
-	 * 							elements with the keys "lowerLimit" and
-	 * 							"upperLimit". Note that the zero element will
-	 * 							always be empty because the first option in the
-	 * 							selectbox remains empty. If no price ranges are
-	 * 							configured, this array will be empty.
+	 * @return array Two-dimensional array of the possible price ranges. Each
+	 *               inner array consists of two elements with the keys
+	 *               "lowerLimit" and "upperLimit". Note that the zero element
+	 *               will always be empty because the first option in the
+	 *               selectbox remains empty. If no price ranges are configured,
+	 *               this array will be empty.
 	 */
 	private function getPriceRangesFromConfiguration() {
 		if (!$this->plugin->hasConfValueString(
@@ -288,15 +284,14 @@ class tx_realty_filterForm {
 	 * Returns a formatted label for one price range according to the configured
 	 * currency unit.
 	 *
-	 * @param	array		range for which to receive the label, must have the
-	 * 						elements "upperLimit" and "lowerLimit", both must
-	 * 						have integers as values, only one of the elements'
-	 * 						values may be 0, for an empty array the result will
-	 * 						always be "&nbsp;"
+	 * @param array range for which to receive the label, must have the elements
+	 *              "upperLimit" and "lowerLimit", both must have integers as
+	 *               values, only one of the elements' values may be 0, for an
+	 *               empty array the result will always be "&nbsp;"
 	 *
-	 * @return	string		formatted label for the price range, will be "&nbsp;"
-	 * 						if an empty array was provided (an empty string
-	 * 						would break the XHTML output's validity)
+	 * @return string formatted label for the price range, will be "&nbsp;"
+	 *                if an empty array was provided (an empty string
+	 *                would break the XHTML output's validity)
 	 */
 	private function getPriceRangeLabel(array $range) {
 		if (empty($range)) {
@@ -323,9 +318,9 @@ class tx_realty_filterForm {
 	/**
 	 * Returns a WHERE clause part for one price range.
 	 *
-	 * @return	string		WHERE clause part for the provided price range
-	 * 						starting with " AND", will be empty if the filter
-	 * 						form data was zero
+	 * @return string WHERE clause part for the provided price range
+	 *                starting with " AND", will be empty if the filter
+	 *                form data was zero
 	 */
 	private function getPriceRangeWhereClausePart() {
 		if ($this->filterFormData['priceRange'] == '') {
@@ -379,9 +374,8 @@ class tx_realty_filterForm {
 	/**
 	 * Returns the WHERE clause part for one site.
 	 *
-	 * @return	string		WHERE clause part beginning with " AND", will be
-	 * 						empty if no filter form data was provided for
-	 * 						the site
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the site
 	 */
 	private function getSiteWhereClausePart() {
 		if ($this->filterFormData['site'] == '') {
@@ -412,9 +406,8 @@ class tx_realty_filterForm {
 	/**
 	 * Returns the WHERE clause part for the object number.
 	 *
-	 * @return	string		WHERE clause part beginning with " AND", will be
-	 * 						empty if no filter form data was provided for
-	 * 						the object number
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the object number
 	 */
 	private function getObjectNumberWhereClausePart() {
 		if ($this->filterFormData['objectNumber'] == '') {
@@ -430,9 +423,8 @@ class tx_realty_filterForm {
 	/**
 	 * Returns the WHERE clause part for the UID.
 	 *
-	 * @return	string		WHERE clause part beginning with " AND", will be
-	 * 						empty if no filter form data was provided for
-	 * 						the UID
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the UID
 	 */
 	private function getUidWhereClausePart() {
 		if ($this->filterFormData['uid'] == 0) {
