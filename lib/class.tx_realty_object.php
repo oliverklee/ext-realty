@@ -22,7 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 require_once(PATH_t3lib . 'class.t3lib_refindex.php');
 require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 
@@ -36,10 +35,10 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  *
  * This class represents a realty object.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_object {
 	/** contains the realty object's data */

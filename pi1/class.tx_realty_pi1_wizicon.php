@@ -25,9 +25,8 @@
 /**
  * Class that adds the wizard icon.
  *
- * @author	Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-
 class tx_realty_pi1_wizicon {
 	/**
 	 * Processing the wizard items array

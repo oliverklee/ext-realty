@@ -21,22 +21,21 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+
 /**
  * Class 'tx_realty_contactForm' for the 'realty' extension.
  * This class provides a contact form for the realty plugin.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-
 class tx_realty_contactForm extends tx_oelib_templatehelper {
 	/** plugin in which the contact form is used */
 	private $plugin = null;

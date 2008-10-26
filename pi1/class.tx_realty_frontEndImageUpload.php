@@ -21,21 +21,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
+
 /**
  * Class 'tx_realty_frontEndImageUpload' for the 'realty' extension. This class
  * assumes the image upload for the FE editor in the realty plugin.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndForm.php');
-
 class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	/** stores the type of validation error if there was one */
 	private $validationError = '';

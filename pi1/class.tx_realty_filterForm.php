@@ -22,19 +22,18 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+
 /**
  * Class 'tx_realty_filterForm' for the 'realty' extension. This class
  * provides a form to enter filter criteria for the realty list in the realty
  * plugin.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 class tx_realty_filterForm {
 	/** plugin in which the filter form is used */
 	private $plugin = null;

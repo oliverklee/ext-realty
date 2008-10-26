@@ -22,22 +22,21 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_typo3 . 'sysext/lang/lang.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+
 /**
  * Class 'tx_realty_translator' for the 'realty' extension.
  *
  * This class translates localized strings used in this extenstion's lib/
  * directory.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once (PATH_typo3.'sysext/lang/lang.php');
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-
 class tx_realty_translator {
 	/**
 	 * Constructor.

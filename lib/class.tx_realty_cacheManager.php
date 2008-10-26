@@ -21,21 +21,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_tslib . 'class.tslib_fe.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+
 /**
  * Class 'tx_realty_cacheManager' for the 'realty' extension.
  * This class provides a function to clear the FE cache for pages with the
  * realty plugin.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(PATH_tslib.'class.tslib_fe.php');
-
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-
 class tx_realty_cacheManager {
 	/**
 	 * Clears the FE cache for pages with a realty plugin.

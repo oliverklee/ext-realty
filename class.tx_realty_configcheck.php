@@ -22,6 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configcheck.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+
 /**
  * Class 'tx_realty_configcheck' for the 'realty' extension.
  *
@@ -32,11 +36,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configcheck.php');
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-
 class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the configuration for the gallery of the Realty Manager.

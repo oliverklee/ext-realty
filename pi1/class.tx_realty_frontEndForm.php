@@ -33,10 +33,10 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  * Class 'tx_realty_frontEndForm' for the 'realty' extension. This class
  * provides functions used in the realty plugin's forms.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/** the extension key (FORMidable expects this to be public) */

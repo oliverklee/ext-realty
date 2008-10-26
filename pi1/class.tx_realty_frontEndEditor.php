@@ -21,24 +21,23 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * Class 'tx_realty_frontEndEditor' for the 'realty' extension. This class
- * provides a FE editor the realty plugin.
- *
- * @package		TYPO3
- * @subpackage	tx_realty
- *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- */
-
-require_once(t3lib_extMgm::extPath('realty').'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty').'lib/class.tx_realty_cacheManager.php');
-require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_frontEndForm.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
 
 define('OBJECT_TYPE_SALE', 1);
 define('OBJECT_TYPE_RENT', 0);
 
+/**
+ * Class 'tx_realty_frontEndEditor' for the 'realty' extension. This class
+ * provides a FE editor the realty plugin.
+ *
+ * @package TYPO3
+ * @subpackage tx_realty
+ *
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ */
 class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/** @var	array		cached column names of tables */
 	private $tablesAndFieldNames = array();
@@ -676,7 +675,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	public function modifyDataToInsert(array $formData) {
 		$modifiedFormData = $formData;
-		
+
 		$this->storeNewAuxiliaryRecords($modifiedFormData);
 		$this->purgeNonRealtyObjectFields($modifiedFormData);
 		$this->unifyNumbersToInsert($modifiedFormData);

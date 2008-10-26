@@ -39,11 +39,11 @@ define('TYPE_BOOLEAN', 2);
 /**
  * Plugin 'Realty List' for the 'realty' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** same as class name */
