@@ -107,6 +107,27 @@ class tx_realty_domDocumentConverter {
 	 */
 	private $recordNumber = 0;
 
+	/** @var tx_realty_fileNameMapper gets the unique names tor the images*/
+	private $fileNameMapper = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param tx_realty_fileNameMapper mapper to receive unique file names for
+	 *                                 the image records, must not be null
+	 *
+	 */
+	public function __construct(tx_realty_fileNameMapper $fileNameMapper) {
+		$this->fileNameMapper = $fileNameMapper;
+	}
+
+	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->rawRealtyData, $this->fileNameMapper);
+	}
+
 	/**
 	 * Handles the conversion of a DOMDocument and returns the realty records
 	 * found in the DOMDocument as values of an array. Each of this values is an
@@ -448,7 +469,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Creates an array of image records for one realty record.
 	 *
-	 * @return	array		image records, may be empty
+	 * @return array image records, will be empty if there were none
 	 */
 	protected function createRecordsForImages() {
 		$images = array();
@@ -482,7 +503,9 @@ class tx_realty_domDocumentConverter {
 			);
 
 			if ($fileNameNodeList->item(0)) {
-				$fileName = basename($fileNameNodeList->item(0)->nodeValue);
+				$fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(
+					basename($fileNameNodeList->item(0)->nodeValue)
+				);
 			}
 
 			if ($fileName != '') {

@@ -31,6 +31,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_domDocumentConverter.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_fileNameMapper.php');
 
 /**
  * Class 'tx_realty_openImmoImport' for the 'realty' extension.
@@ -74,6 +75,9 @@ class tx_realty_openImmoImport {
 	/** instance of 'tx_realty_translator' */
 	private $translator = null;
 
+	/** @var tx_realty_fileNameMapper gets the unique names tor the images*/
+	private $fileNameMapper = null;
+
 	/** the upload directory for images */
 	private $uploadDirectory = '';
 
@@ -99,8 +103,22 @@ class tx_realty_openImmoImport {
 		$this->isTestMode = $isTestMode;
 		libxml_use_internal_errors(true);
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
-		$this->setUploadDirectory(PATH_site.'uploads/tx_realty/');
 		$this->translator = t3lib_div::makeInstance('tx_realty_translator');
+		$this->fileNameMapper = t3lib_div::makeInstance('tx_realty_fileNameMapper');
+		$this->setUploadDirectory(PATH_site . 'uploads/tx_realty/');
+	}
+
+	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		if (is_object($this->fileNameMapper)) {
+			$this->fileNameMapper->__destruct();
+		}
+		unset(
+			$this->globalConfiguration, $this->translator, $this->importedXml,
+			$this->realtyObject, $this->fileNameMapper
+		);
 	}
 
 	/**
@@ -450,14 +468,16 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Sets the path for the upload directory. This path must be valid and
-	 * absolute and may end with a trailing slash.
+	 * Sets the path for the upload directory and updated the fileNameMapper's
+	 * destination path accordingly. This path must be valid and absolute and
+	 * may end with a trailing slash.
 	 *
 	 * @param	string		absolute path of the upload directory, must not be
 	 * 						empty
 	 */
 	protected function setUploadDirectory($path) {
 		$this->uploadDirectory = $this->unifyPath($path);
+		$this->fileNameMapper->setDestinationFolder($this->uploadDirectory);
 	}
 
 	/**
@@ -1019,12 +1039,15 @@ class tx_realty_openImmoImport {
 		foreach (array('jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF')
 			as $pattern
 		) {
-			$images = glob($folderWithImages.'*.'.$pattern);
+			$images = glob($folderWithImages . '*.' . $pattern);
 			foreach ($images as $image) {
-				copy(
-					$image,
-					$this->uploadDirectory.basename($image)
+				$uniqueFileNames = $this->fileNameMapper->releaseMappedFileNames(
+					basename($image)
 				);
+
+				foreach ($uniqueFileNames as $uniqueName) {
+					copy($image, $this->uploadDirectory . $uniqueName);
+				}
 			}
 		}
 	}
@@ -1097,9 +1120,11 @@ class tx_realty_openImmoImport {
 			return array();
 		}
 
-		$domDocumentConverter = t3lib_div::makeInstance(
+		$domDocumentConverterClassName = t3lib_div::makeInstanceClassName(
 			'tx_realty_domDocumentConverter'
 		);
+		$domDocumentConverter
+			= new $domDocumentConverterClassName($this->fileNameMapper);
 
 		return $domDocumentConverter->getConvertedData($realtyRecords);
 	}
