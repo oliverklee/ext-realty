@@ -99,7 +99,11 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCurrencyUnit();
 		$this->checkRequireLoginForSingleViewPage();
 		$this->checkGalleryPid();
-		$this->checkLoginPid();
+		if ($this->objectToCheck->getConfValueBoolean(
+			'requireLoginForSingleViewPage', 's_template_special'
+		)) {
+			$this->checkLoginPid();
+		}
 		$this->checkImageSizeValuesForSingleView();
 		$this->checkShowAddressOfObjects();
 		$this->checkShowContactInformation();
@@ -343,20 +347,14 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting for the login PID.
 	 */
 	private function checkLoginPid() {
-		if ($this->objectToCheck->getConfValueBoolean(
-				'requireLoginForSingleViewPage',
-				's_template_special'
-			)
-		) {
-			$this->checkIfSingleFePageNotEmpty(
-				'loginPID',
-				false,
-				'',
-				'This value specifies the login page and is needed if a login '
-					.'is required. Users could not be directed to the login '
-					.'page if this value is invalid.'
-			);
-		}
+		$this->checkIfSingleFePageNotEmpty(
+			'loginPID',
+			false,
+			'',
+			'This value specifies the login page and is needed if a login ' .
+				'is required. Users could not be directed to the login ' .
+				'page if this value is invalid.'
+		);
 	}
 
 	/**
