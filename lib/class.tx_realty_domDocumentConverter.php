@@ -112,11 +112,25 @@ class tx_realty_domDocumentConverter {
 	/** @var array cached countries */
 	private static $cachedCountries = array();
 
+	/** @var tx_realty_fileNameMapper gets the unique names tor the images*/
+	private $fileNameMapper = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param tx_realty_fileNameMapper mapper to receive unique file names for
+	 *                                 the image records, must not be null
+	 *
+	 */
+	public function __construct(tx_realty_fileNameMapper $fileNameMapper) {
+		$this->fileNameMapper = $fileNameMapper;
+	}
+
 	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		unset($this->rawRealtyData);
+		unset($this->rawRealtyData, $this->fileNameMapper);
 	}
 
 	/**
@@ -463,7 +477,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Creates an array of image records for one realty record.
 	 *
-	 * @return array image records, may be empty
+	 * @return array image records, will be empty if there were none
 	 */
 	protected function createRecordsForImages() {
 		$images = array();
@@ -497,7 +511,9 @@ class tx_realty_domDocumentConverter {
 			);
 
 			if ($fileNameNodeList->item(0)) {
-				$fileName = basename($fileNameNodeList->item(0)->nodeValue);
+				$fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(
+					basename($fileNameNodeList->item(0)->nodeValue)
+				);
 			}
 
 			if ($fileName != '') {

@@ -25,6 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_fileNameMapper.php');
 require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_domDocumentConverterChild.php');
 
 /**
@@ -44,7 +45,9 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	const DE = 54;
 
 	public function setUp() {
-		$this->fixture = new tx_realty_domDocumentConverterChild();
+		$this->fixture = new tx_realty_domDocumentConverterChild(
+			new tx_realty_fileNameMapper()
+		);
 	}
 
 	public function tearDown() {
@@ -873,7 +876,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 				.'<anhang>'
 					.'<anhangtitel>bar</anhangtitel>'
 					.'<daten>'
-						.'<pfad>foo.jpg</pfad>'
+						.'<pfad>tx_realty_image_test.jpg</pfad>'
 					.'</daten>'
 				.'</anhang>'
 			.'</immobilie>'
@@ -883,7 +886,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 			array(
 				array(
 					'caption' => 'bar',
-					'image' => 'foo.jpg'
+					'image' => 'tx_realty_image_test.jpg'
 				)
 			),
 			$this->fixture->createRecordsForImages()
@@ -896,7 +899,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 				.'<anhang>'
 					.'<anhangtitel/>'
 					.'<daten>'
-						.'<pfad>foo.jpg</pfad>'
+						.'<pfad>tx_realty_image_test.jpg</pfad>'
 					.'</daten>'
 				.'</anhang>'
 			.'</immobilie>'
@@ -906,7 +909,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 			array(
 				array(
 					'caption' => '',
-					'image' => 'foo.jpg'
+					'image' => 'tx_realty_image_test.jpg'
 				)
 			),
 			$this->fixture->createRecordsForImages()
@@ -919,13 +922,13 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 				.'<anhang>'
 					.'<anhangtitel>bar</anhangtitel>'
 					.'<daten>'
-						.'<pfad>bar.jpg</pfad>'
+						.'<pfad>tx_realty_image_test2.jpg</pfad>'
 					.'</daten>'
 				.'</anhang>'
 				.' <anhang>'
 					.'<anhangtitel>foo</anhangtitel>'
 					.'<daten>'
-						.'<pfad>foo.jpg</pfad>'
+						.'<pfad>tx_realty_image_test.jpg</pfad>'
 					.'</daten>'
 				.'</anhang>'
 			.'</immobilie>'
@@ -935,14 +938,14 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(
 				'caption' => 'bar',
-				'image' => 'bar.jpg'
+				'image' => 'tx_realty_image_test2.jpg'
 			),
 			$images[0]
 		);
 		$this->assertEquals(
 			array(
 				'caption' => 'foo',
-				'image' => 'foo.jpg'
+				'image' => 'tx_realty_image_test.jpg'
 			),
 			$images[1]
 		);
@@ -954,13 +957,13 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 				.'<anhang>'
 					.'<anhangtitel>bar</anhangtitel>'
 					.'<daten>'
-						.'<pfad>bar.jpg</pfad>'
+						.'<pfad>tx_realty_image_test2.jpg</pfad>'
 					.'</daten>'
 				.'</anhang>'
 				.' <anhang>'
 					.'<anhangtitel>bar</anhangtitel>'
 					.'<daten>'
-						.'<pfad>foo.jpg</pfad>'
+						.'<pfad>tx_realty_image_test.jpg</pfad>'
 					.'</daten>'
 				.'</anhang>'
 			.'</immobilie>'
@@ -970,27 +973,27 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(
 				'caption' => 'bar',
-				'image' => 'bar.jpg'
+				'image' => 'tx_realty_image_test2.jpg'
 			),
 			$images[0]
 		);
 		$this->assertEquals(
 			array(
 				'caption' => 'bar',
-				'image' => 'foo.jpg'
+				'image' => 'tx_realty_image_test.jpg'
 			),
 			$images[1]
 		);
 	}
 
-	public function testCreateRecordsForImagesOfTwoRealtyObjectsInOneFile() {
+	public function testCreateRecordsForImagesOfTwoRealtyObjectsWithOneImageEachCreatesOneImageRecordPerImage() {
 		$this->setRawDataToConvert(
 			'<openimmo>'
 				.'<immobilie>'
 					.'<anhang>'
 						.'<anhangtitel>bar</anhangtitel>'
 						.'<daten>'
-							.'<pfad>bar.jpg</pfad>'
+							.'<pfad>tx_realty_image_test2.jpg</pfad>'
 						.'</daten>'
 					.'</anhang>'
 				.'</immobilie>'
@@ -998,7 +1001,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 					.' <anhang>'
 						.'<anhangtitel>foo</anhangtitel>'
 						.'<daten>'
-							.'<pfad>foo.jpg</pfad>'
+							.'<pfad>tx_realty_image_test.jpg</pfad>'
 						.'</daten>'
 					.'</anhang>'
 				.'</immobilie>'
@@ -1007,6 +1010,45 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			count($this->fixture->createRecordsForImages()) == 1
+		);
+	}
+
+	public function testCreateRecordsForImagesOfTwoRealtyObjectsInOneFileWithAnIdenticallyNamedImage() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<immobilie>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</immobilie>' .
+				'<immobilie>' .
+					'<anhang>' .
+						'<anhangtitel>foo</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</immobilie>' .
+			'</openimmo>'
+		);
+		$result = $this->fixture->getConvertedData($node);
+
+		$this->assertEquals(
+			array(
+				'caption' => 'bar',
+				'image' => 'tx_realty_image_test.jpg'
+			),
+			$result[0]['images'][0]
+		);
+		$this->assertEquals(
+			array(
+				'caption' => 'foo',
+				'image' => 'tx_realty_image_test_00.jpg'
+			),
+			$result[1]['images'][0]
 		);
 	}
 
