@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2272] Fix: loginPID needs to be config-checked on the "my objects" page
 - [#2120] Change: Use tabs for indentation only at the beginning of lines
 - [#2296] Fix: ZIPs starting with 0 not working
 - [#2298] Change: The contact information data ZIP and city should be in one row in the single view.
