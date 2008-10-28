@@ -141,11 +141,11 @@ class tx_realty_object {
 				$this->realtyObjectData = $this->loadDatabaseEntry(
 					intval($realtyData)
 				);
-				$this->loadImages();
+				$this->images = $this->getAttachedImages();
 				break;
 			case 'dbResult' :
 				$this->realtyObjectData = $this->fetchDatabaseResult($realtyData);
-				$this->loadImages();
+				$this->images = $this->getAttachedImages();
 				break;
 			default :
 				$this->realtyObjectData = array();
@@ -294,10 +294,10 @@ class tx_realty_object {
 			$errorMessage = 'message_deleted_flag_set';
 		}
 
-		if (!empty($this->images)
-			&& (($errorMessage == '') || ($errorMessage == 'message_deleted_flag_set'))
+		if (($errorMessage == '')
+			|| ($errorMessage == 'message_deleted_flag_set')
 		) {
-			$this->insertImageEntries($overridePid);
+			$this->refreshImageEntries($overridePid);
 		}
 
 		return $errorMessage;
@@ -633,7 +633,7 @@ class tx_realty_object {
 
 	/**
 	 * Inserts entries for images of the current realty object to the database
-	 * table 'tx_realty_images'. Does nothing if no image records are given.
+	 * table 'tx_realty_images' and deletes all former image entries.
 	 * Images can only be linked with the current realty object if it has at
 	 * least an object number or a UID.
 	 *
@@ -641,7 +641,7 @@ class tx_realty_object {
 	 *                parameter to use the PID set in the global
 	 *                configuration)
 	 */
-	private function insertImageEntries($overridePid = 0) {
+	private function refreshImageEntries($overridePid = 0) {
 		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
 			return;
 		}
@@ -650,20 +650,33 @@ class tx_realty_object {
 			$this->realtyObjectData, 'object_number, language, openimmo_obid'
 		);
 
+		// Marks all currently appended images in the database as obsolete.
+		// Those which are still supposed to be this record's images will be
+		// recreated later.
+		foreach ($this->getAttachedImages('realty_object_uid') as $obsoleteImage) {
+			$obsoleteImage['deleted'] = 1;
+			$this->ensureUid(
+				$obsoleteImage, 'image, realty_object_uid', REALTY_TABLE_IMAGES
+			);
+			$this->updateDatabaseEntry(
+				$obsoleteImage, REALTY_TABLE_IMAGES
+			);
+		}
+
 		foreach ($this->getAllImageData() as $imageData) {
 			// Creates a relation to the parent realty object for each image.
 			$imageData['realty_object_uid'] = $this->getUid();
 
-			if ($this->recordExistsInDatabase(
-				$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
-			)) {
-				// For image records, only titles can be updated. Titles should
-				// not get emptied.
-				if ($imageData['caption'] != '') {
-					$this->ensureUid($imageData, 'image', REALTY_TABLE_IMAGES);
-					// Updating will delete the image if the deleted flag is set.
-					$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
-				}
+			// Image deletions are done by updating the deleted-flag.
+			if (isset($imageData['deleted']) && ($imageData['deleted'] != 0)
+				&& $this->recordExistsInDatabase(
+					$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
+				)
+			) {
+				$this->ensureUid(
+					$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
+				);
+				$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
 			} else {
 				// If the title is empty, the file name also becomes the title
 				// to ensure the title is non-empty.
@@ -697,21 +710,30 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Loads the images of the current realty object into the local images
-	 * array.
+	 * Returns the images of the current realty object in an array.
+	 *
+	 * @param string comma-separated list of additional database fields to
+	 *               retrieve of each image entry, must be the name of an
+	 *               exiting field in the images table but 'uid', the values of
+	 *               'caption' and 'image' will be returned anyway
+	 *
+	 * @return array appended images in a two-dimensional array, each inner
+	 *               element will contain the keys 'caption' and 'image', will
+	 *               be empty if there are no images
 	 */
-	private function loadImages() {
+	private function getAttachedImages($additionalFields = '') {
 		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
-			return;
+			return array();
 		}
 
 		$this->ensureUid(
 			$this->realtyObjectData, 'object_number, language, openimmo_obid'
 		);
-		$this->images =array();
+		$result = array();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'caption, image',
+			'caption, image' .
+				(($additionalFields == '') ? '' : ',' . $additionalFields),
 			REALTY_TABLE_IMAGES,
 			'realty_object_uid=' . $this->getProperty('uid') .
 				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
@@ -723,9 +745,11 @@ class tx_realty_object {
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$this->images[] = $row;
+			$result[] = $row;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		return $result;
 	}
 
 	/**
@@ -747,6 +771,7 @@ class tx_realty_object {
 		}
 
 		$this->images[] = array('caption' => $caption, 'image' => $fileName);
+		$this->realtyObjectData['images']++;
 
 		return count($this->images) - 1;
 	}
@@ -762,8 +787,8 @@ class tx_realty_object {
 	public function markImageRecordAsDeleted($imageKey) {
 		if ($this->isRealtyObjectDataEmpty()) {
 			throw new Exception(
-				'A realty record must be loaded before images can be marked '
-					.'as deleted.'
+				'A realty record must be loaded before images can be marked ' .
+					'as deleted.'
 			);
 		}
 		if (!isset($this->images[$imageKey])) {
@@ -771,6 +796,7 @@ class tx_realty_object {
 		}
 
 		$this->images[$imageKey]['deleted'] = 1;
+		$this->realtyObjectData['images']--;
 	}
 
 	/**
@@ -851,7 +877,7 @@ class tx_realty_object {
 
 		return (boolean) $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 			$table,
-			'uid='.intval($dataForUpdate['uid']),
+			'uid=' . intval($dataForUpdate['uid']),
 			$dataForUpdate
 		);
 	}
