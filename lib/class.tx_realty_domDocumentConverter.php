@@ -63,7 +63,7 @@ class tx_realty_domDocumentConverter {
 		'living_area' => array('flaechen' => 'wohnflaeche'),
 		'total_area' => array('flaechen' => 'gesamtflaeche'),
 		'estate_size' => array('flaechen' => 'grundstuecksflaeche'),
-		'rent_excluding_bills' => array('preise' => 'kaltmiete'),
+		'rent_excluding_bills' => array('preise' => 'nettokaltmiete'),
 		'extra_charges' => array('preise' => 'nebenkosten'),
 		'heating_included' => array('preise' => 'heizkosten_enthalten'),
 		'deposit' => array('preise' => 'kaution'),
