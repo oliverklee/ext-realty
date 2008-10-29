@@ -198,7 +198,7 @@ class tx_realty_filterForm {
 		if (!empty($priceRanges)) {
 			$optionTags = '';
 
-			foreach ($priceRanges as $key => $range) {
+			foreach ($priceRanges as $range) {
 				$priceRangeString = implode('-', $range);
 				$label = $this->getPriceRangeLabel($range);
 				$selectedAttribute

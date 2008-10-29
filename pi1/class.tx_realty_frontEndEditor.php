@@ -115,7 +115,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return array items for the select box, will be empty if there are no
 	 *               matching records or if the provided table name was invalid
 	 */
-	public function populateList(array $notUsed, array $formData) {
+	public function populateList(array $unused, array $formData) {
 		$this->checkForValidTableName($formData['table']);
 
 		$titleColumn = (isset($formData['title_column'])
@@ -814,7 +814,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	private function purgeNonRealtyObjectFields(array &$formData) {
 		$this->loadFieldNames(REALTY_TABLE_OBJECTS);
 
-		foreach ($formData as $key => $value) {
+		foreach (array_keys($formData) as $key) {
 			if (!isset($this->tablesAndFieldNames[REALTY_TABLE_OBJECTS][$key])) {
 				unset($formData[$key]);
 			}

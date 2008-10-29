@@ -695,7 +695,7 @@ class tx_realty_object {
 	 * object to delete.
 	 */
 	private function deleteRelatedImageRecords() {
-		foreach ($this->getAllImageData() as $imageKey => $imageData) {
+		foreach (array_keys($this->getAllImageData()) as $imageKey) {
 			$this->markImageRecordAsDeleted($imageKey);
 		}
 	}

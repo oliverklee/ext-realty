@@ -117,7 +117,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testOffererListNotDisplaysDeletedOffererAlthoughHeIsInTheConfiguredGroup() {
-		$otherGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->changeRecord(
 			'fe_users',
 			$this->offererUid,
