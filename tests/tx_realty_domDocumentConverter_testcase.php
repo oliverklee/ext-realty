@@ -1167,7 +1167,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$element = $node->appendChild(
 			$node->createElement('foo')
 		);
-		$attribute = $element->setAttributeNode(new DOMAttr('foo', 'bar'));
+		$element->setAttributeNode(new DOMAttr('foo', 'bar'));
 
 		$this->assertEquals(
 			array('foo' => 'bar'),

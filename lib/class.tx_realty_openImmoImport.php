@@ -568,7 +568,7 @@ class tx_realty_openImmoImport {
 			$log = 'logEntry';
 		}
 
-		foreach ($emailDataToPrepare as $recordNumber => $record) {
+		foreach ($emailDataToPrepare as $record) {
 			if (!$this->isNotifyContactPersonsEnabled()
 				|| ($record['recipient'] == '')
 			) {
@@ -614,7 +614,7 @@ class tx_realty_openImmoImport {
 			'errorLog'
 		);
 
-		foreach ($emailData as $key => $dataArray) {
+		foreach ($emailData as $dataArray) {
 			if (!is_array($dataArray)) {
 				$isValidDataArray = false;
 				break;
@@ -693,7 +693,7 @@ class tx_realty_openImmoImport {
 			'label_object_number',
 			$this->translator->translate('label_object_number')
 		);
-		foreach ($recordsForOneEmail as $recordNumber => $record) {
+		foreach ($recordsForOneEmail as $record) {
 			// $record is an array of the object number associated with the log
 			$templateHelper->setMarkerContent('object_number', key($record));
 			$templateHelper->setMarkerContent('log', implode($record));

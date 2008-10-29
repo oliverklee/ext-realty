@@ -1,4 +1,5 @@
 0.3.0 - currently working on
+- [#2307] Fix: Drop unused variables
 - [#2286] Fix: Use unique file names for images to avoid deletions
 - [#2216] Change: When updating a realty record, delete all image records which are not mentioned in the XML
 - [#2272] Fix: loginPID needs to be config-checked on the "my objects" page

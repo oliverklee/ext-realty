@@ -619,7 +619,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	public function testExistingNonHiddenRecordCanBeSetToDeletedInTheDatabase() {
 		$objectNumber = 'bar1234567';
 		$objectId = 'foo';
-		$objectUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array('object_number' => $objectNumber, 'openimmo_obid' => $objectId)
 		);
@@ -667,7 +667,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	public function testExistingHiddenRecordCanBeSetToDeletedInTheDatabase() {
 		$objectNumber = 'bar1234567';
 		$objectId = 'foo';
-		$objectUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(
 				'object_number' => $objectNumber,
