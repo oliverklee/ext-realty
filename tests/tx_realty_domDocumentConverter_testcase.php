@@ -1096,6 +1096,25 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataImportsRentExcludingBillsFromNettokaltmiete() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<preise>' .
+							'<nettokaltmiete>12345</nettokaltmiete>' .
+						'</preise>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('rent_excluding_bills' => '12345')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedDataImportsTheLanguage() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
