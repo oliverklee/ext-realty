@@ -69,6 +69,14 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the configuration for the list view of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_realty_list() {
+		$this->checkListViewRelatedConfiguration();
+		$this->checkFavoritesPid();
+	}
+
+	/**
+	 * Checks all list view related configuration of the Realty Manager.
+	 */
+	public function checkListViewRelatedConfiguration() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkCheckboxesFilter();
 		$this->checkImageSizeValuesForListView();
@@ -78,7 +86,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
-		$this->checkFavoritesPid();
 		$this->checkShowGoogleMapsInListView();
 		if ($this->objectToCheck->getConfValueBoolean(
 			'showGoogleMapsInListView', 's_googlemaps'
@@ -149,7 +156,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the configuration for the my objects view of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_my_objects() {
-		$this->check_tx_realty_pi1_realty_list();
+		$this->checkListViewRelatedConfiguration();
 		$this->checkEditorPid();
 		$this->checkLoginPid();
 		$this->checkImageUploadPid();
