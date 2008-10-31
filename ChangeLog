@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2259] Change: Only show the country in the single view if it differs from the default country from the Setup
 - [#2184] Fix: "my objects" list shouldn't config check for the favoritesPID
 - [#2310] Fix: Import "rent_excluding_bills" from "nettokaltmiete", not from "kaltmiete"
 - [#2307] Fix: Drop unused variables

@@ -3067,6 +3067,42 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetFieldContentForObjectCountryIdSameAsDefaultCountryUidReturnsEmptyString() {
+		$defaultCountryId = $this->fixture->getConfValueInteger(
+			'defaultCountryUid'
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('country' => $defaultCountryId)
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getFieldContent('country')
+		);
+	}
+
+	public function testGetFieldContentForObjectCountryIdDifferentAsDefaultCountryUidReturnsCountry() {
+		$defaultCountryId = $this->fixture->setConfigurationValue(
+			'defaultCountryUid', DE
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			// chosen randomly the country ID of Australia
+			array('country' => '14')
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertContains(
+			'Australia',
+			$this->fixture->getFieldContent('country')
+		);
+	}
 
 	public function testDetailPageDisplaysTheStreetIfShowAddressOfObjectsIsEnabled() {
 		$this->testingFramework->changeRecord(
@@ -3132,13 +3168,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('country' => '54')
+			// chosen randomly the country ID of Australia, must be different
+			// from defaultCountryUid, otherwise the country would be hidden
+			array('country' => '14')
 		);
-		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('what_to_display','single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
 		$this->assertContains(
-			'Deutschland',
+			'Australia',
 			$this->fixture->main('', array())
 		);
 	}

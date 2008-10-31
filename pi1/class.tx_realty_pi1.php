@@ -1169,7 +1169,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 
 			case 'country':
-				$result = $this->getForeignRecordTitle($key, 'cn_short_local');
+				$defaultCountry
+					= $this->getConfValueInteger('defaultCountryUID');
+				if ($this->internal['currentRow'][$key] != $defaultCountry) {
+					$result = $this->getForeignRecordTitle(
+						$key, 'cn_short_local'
+					);
+				}
 				break;
 
 			case 'total_area':
