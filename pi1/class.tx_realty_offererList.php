@@ -154,7 +154,7 @@ class tx_realty_offererList {
 				tx_oelib_db::enableFields('fe_users') .
 				$this->getWhereClauseForTesting(),
 			'',
-			'usergroup,company,last_name,name,username'
+			'usergroup,city,company,last_name,name,username'
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);

@@ -866,5 +866,31 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			$this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
 		);
 	}
+
+
+	/////////////////////////////////////////////////////
+	// tests concerning the sorting of the offerer list
+	/////////////////////////////////////////////////////
+
+	public function testOffererListIsSortedByCity() {
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('city' => 'City A')
+		);
+		$secondOfferer = $this->testingFramework->createFrontEndUser(
+			$this->feUserGroupUid,
+			array(
+				'username' => 'Testuser 2',
+				'city' => 'City B',
+			)
+		);
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'city'
+		);
+
+		$this->assertRegExp(
+			'/City A.*City B/s',
+			$this->fixture->render()
+		);
+	}
 }
 ?>
