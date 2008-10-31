@@ -3067,14 +3067,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetFieldContentForObjectCountryIdSameAsDefaultCountryUidReturnsEmptyString() {
-		$defaultCountryId = $this->fixture->getConfValueInteger(
+	public function testGetFieldContentForCountrySameAsDefaultCountryReturnsEmptyString() {
+		$defaultCountryUid = $this->fixture->getConfValueInteger(
 			'defaultCountryUid'
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('country' => $defaultCountryId)
+			array('country' => $defaultCountryUid)
 		);
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 		$this->fixture->main('', array());
@@ -3085,10 +3085,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetFieldContentForObjectCountryIdDifferentAsDefaultCountryUidReturnsCountry() {
-		$defaultCountryId = $this->fixture->setConfigurationValue(
-			'defaultCountryUid', DE
-		);
+	public function testGetFieldContentForCountryDifferentFromDefaultCountryReturnsCountry() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3172,7 +3169,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			// from defaultCountryUid, otherwise the country would be hidden
 			array('country' => '14')
 		);
-		$this->fixture->setConfigurationValue('what_to_display','single_view');
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
 		$this->assertContains(
