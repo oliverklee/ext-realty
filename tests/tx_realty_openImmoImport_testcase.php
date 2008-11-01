@@ -321,8 +321,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCopyImagesFromExtractedZipTwiceCopiesImagesUniquelyNamedIntoTheUploadFolder() {
-		$this->checkForZipArchive();
-
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->copyTestFileIntoImportFolder('foo.zip', 'foo2.zip');
 		$this->fixture->importFromZip();
