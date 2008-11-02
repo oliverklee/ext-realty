@@ -208,9 +208,14 @@ class tx_realty_offererList {
 			}
 		}
 
-		if (empty($userRecord['zip']) && empty($userRecord['city'])) {
-			$this->plugin->hideSubparts('address', 'wrappper');
+		if ((($userRecord['zip'] == '')
+				|| !$this->mayDisplayInformation($userRecord, 'zip'))
+			&& (($userRecord['city'] == '')
+				|| !$this->mayDisplayInformation($userRecord, 'city'))
+		) {
+			$this->plugin->hideSubparts('address', 'wrapper');
 		}
+
 		$this->plugin->setOrDeleteMarkerIfNotEmpty(
 			'objects_by_owner_link',
 			$this->getObjectsByOwnerUrl($userRecord),

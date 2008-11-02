@@ -638,6 +638,30 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOffererListItemNotContainsAddressWrapperContentIfNeitherCityNorZipConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', 'offerer_label');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid,
+			array('city' => 'City Title', 'zip' => '99999')
+		);
+
+		$this->assertNotContains(
+			'<dd>',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsAddressWrapperContentIfCityAndZipAreConfiguredButEmpty() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label,zip,city'
+		);
+
+		$this->assertNotContains(
+			'<dd>',
+			$this->fixture->render()
+		);
+	}
+
 	public function testOffererListItemContainsTheOfferersPhoneNumberIfConfigured() {
 		$this->pi1->setConfigurationValue(
 			'displayedContactInformation', 'telephone'
