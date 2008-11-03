@@ -1842,7 +1842,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUseFeUserDataFlagIsNotSetIfNoOwerWasSetAlthoughOptionIsEnabledByConfiguration() {
+	public function testUseFeUserDataFlagIsNotSetIfNoOwnerWasSetAlthoughOptionIsEnabledByConfiguration() {
 		$this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('tx_realty_openimmo_anid' => 'test anid')
