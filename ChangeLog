@@ -1,3 +1,5 @@
+0.3.1 - currently working on
+
 0.3.0 - released 2008-11-04
 - [#2184] Fix: "my objects" list shouldn't config check for the favoritesPID
 - [#2310] Fix: Import "rent_excluding_bills" from "nettokaltmiete", not from "kaltmiete"
