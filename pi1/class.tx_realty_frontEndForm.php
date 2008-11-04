@@ -132,7 +132,16 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
   			return $errorMessage;
 		}
 
+		$this->addOnLoadHandler();
 		return $this->formCreator->render();
+	}
+
+	/**
+	 * Adds an onload handler to the page header.
+	 *
+	 * This function is intended to be overriden by subclasses if needed.
+	 */
+	public function addOnLoadHandler() {
 	}
 
 

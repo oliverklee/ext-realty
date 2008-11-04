@@ -1654,5 +1654,20 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	//////////////////////////////////////
+	// Tests concerning addOnloadHandler
+	//////////////////////////////////////
+
+	public function testAddOnLoadHandlerAddsOnLoadHandler() {
+		$this->fixture->addOnLoadHandler();
+
+		$this->assertTrue(
+			isset($GLOBALS['TSFE']
+				->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
+			)
+		);
+	}
 }
 ?>

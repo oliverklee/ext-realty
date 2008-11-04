@@ -983,6 +983,7 @@ $TCA['tx_realty_objects'] = array(
 	),
 	'types' => array(
 		'0' => array(
+			// for rent
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
@@ -1023,12 +1024,13 @@ $TCA['tx_realty_objects'] = array(
 				'rough_coordinates_are_cached;;3'
 		),
 		'1' => array(
+			// for sale
 			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
-				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
+				'title;;;;2-2-2, emphasized;;;;3-3-3, ' .
 				'show_address, street, zip, city, district, country, number_of_rooms, ' .
 				'living_area, total_area, estate_size, provision, usable_from, ' .
-				'buying_price, hoa_fee, year_rent, rented, apartment_type, ' .
+				'buying_price, extra_charges, year_rent, rented, apartment_type, ' .
 				'house_type, floor, floors, bedrooms, bathrooms, heating_type, ' .
 				'has_air_conditioning, garage_type, garage_price, construction_year, ' .
 				'old_or_new_building, state, balcony, garden, elevator, barrier_free, ' .

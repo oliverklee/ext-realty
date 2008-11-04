@@ -21,6 +21,16 @@
 <div>
 	<p class="error" style="display: {errors.cssdisplay};">{errors}</p>
 	<fieldset>
+		<div class="column-light">
+			<span class="chooser2">{object_type.label}</span>
+			<dl>
+				<dt>
+					<span class="chooser">{object_type}</span>
+				</dt>
+			</dl>
+		</div>
+	</fieldset>
+	<fieldset>
 		<div class="column3-dark">
 			<dl>
 				<dt>{title.label.tag}</dt>
@@ -113,7 +123,7 @@
 
 		<div class="divider">&nbsp;</div>
 
-		<div class="columndark">
+		<div id="contact-data" class="columndark">
 			<div class="columnleft">
 				<dl>
 					<dt>{employer.label.tag}</dt>
@@ -140,32 +150,21 @@
 	<br />
 
 	<fieldset>
-		<div class="column-light">
-			<span class="chooser2">{object_type.label}</span>
-			<dl>
-				<dt>
-					<span class="chooser">{object_type}</span>
-				</dt>
-			</dl>
-		</div>
-
-		<div class="divider">&nbsp;</div>
-
 		<div class="column1">
 			<div class="columnleft1-dark">
 				<dl>
 					<dt>{currency.label.tag}</dt>
 					<dd>{currency}</dd>
 				</dl>
-				<dl>
+				<dl class="sale">
 					<dt>{buying_price.label.tag}</dt>
 					<dd>{buying_price}</dd>
 				</dl>
-				<dl>
+				<dl class="sale">
 					<dt>{year_rent.label.tag}</dt>
 					<dd>{year_rent}</dd>
 				</dl>
-				<dl>
+				<dl class="rent">
 					<dt>{hoa_fee.label.tag}</dt>
 					<dd>{hoa_fee}</dd>
 				</dl>
@@ -173,7 +172,7 @@
 					<dt>{provision.label.tag}</dt>
 					<dd>{provision}</dd>
 				</dl>
-				<dl>
+				<dl class="sale">
 					<dt>&nbsp;</dt>
 					<dd>
 						<span class="checkbox">{rented}&nbsp;{rented.label.tag}</span>
@@ -186,19 +185,19 @@
 			</div>
 
 			<div class="columnright1-dark">
-				<dl>
+				<dl class="rent">
 					<dt>{rent_excluding_bills.label.tag}</dt>
 					<dd>{rent_excluding_bills}</dd>
 				</dl>
-				<dl>
+				<dl class="rent">
 					<dt>{deposit.label.tag}</dt>
 					<dd>{deposit}</dd>
 				</dl>
-				<dl>
+				<dl class="rent">
 					<dt>{extra_charges.label.tag}</dt>
 					<dd>{extra_charges}</dd>
 				</dl>
-				<dl>
+				<dl class="rent">
 					<dt>&nbsp;</dt>
 					<dd>
 						<span class="checkbox">
@@ -242,7 +241,7 @@
 					<dt>{apartment_type.label.tag}</dt>
 					<dd>{apartment_type}</dd>
 				</dl>
-				<dl>
+				<dl class="rent">
 					<dt>{utilization.label.tag}</dt>
 					<dd>{utilization}</dd>
 				</dl>
@@ -332,11 +331,11 @@
 			</div>
 
 			<div class="columnright">
-				<dl>
+				<dl class="sale">
 					<dt>{garage_price.label.tag}</dt>
 					<dd>{garage_price}</dd>
 				</dl>
-				<dl>
+				<dl class="rent">
 					<dt>{garage_rent.label.tag}</dt>
 					<dd>{garage_rent}</dd>
 				</dl>
@@ -385,7 +384,7 @@
 					<dt>&nbsp;</dt>
 					<dd><span class="checkbox">{assisted_living}</span>&nbsp;{assisted_living.label.tag}</dd>
 				</dl>
-				<dl>
+				<dl class="rent">
 					<dt>{pets.label.tag}</dt>
 					<dd>{pets}</dd>
 				</dl>
@@ -423,17 +422,17 @@
 
 		<div class="column1">
 			<div class="columnleft1-dark">
-				<dl>
+				<dl class="exact-address">
 					<dt>&nbsp;</dt>
 					<dd>
 						<span class="checkbox">{exact_coordinates_are_cached}&nbsp;{exact_coordinates_are_cached.label.tag}</span>
 					</dd>
 				</dl>
-				<dl>
+				<dl class="exact-address">
 					<dt>{exact_longitude.label.tag}</dt>
 					<dd>{exact_longitude}</dd>
 				</dl>
-				<dl>
+				<dl class="exact-address">
 					<dt>{exact_latitude.label.tag}</dt>
 					<dd>{exact_latitude}</dd>
 				</dl>
@@ -444,17 +443,17 @@
 			</div>
 
 			<div class="columnright1-dark">
-				<dl>
+				<dl class="rough-address">
 					<dt>&nbsp;</dt>
 					<dd>
 						<span class="checkbox">{rough_coordinates_are_cached}</span>&nbsp;{rough_coordinates_are_cached.label.tag}
 					</dd>
 				</dl>
-				<dl>
+				<dl class="rough-address">
 					<dt>{rough_longitude.label.tag}</dt>
 					<dd>{rough_longitude}</dd>
 				</dl>
-				<dl>
+				<dl class="rough-address">
 					<dt>{rough_latitude.label.tag}</dt>
 					<dd>{rough_latitude}</dd>
 				</dl>
@@ -470,6 +469,30 @@
 		</div>
 	</fieldset>
 </div>
+<script type="text/javascript">/*<![CDATA[*/
+function updateHideAndShow() {
+	if ($("tx_realty_frontEndEditor_object_type_item").checked) {
+		$$(".rent").invoke("show");
+		$$(".sale").invoke("hide");
+	} else {
+		$$(".rent").invoke("hide");
+		$$(".sale").invoke("show");
+	}
+
+	if ($("tx_realty_frontEndEditor_contact_data_source_item").checked) {
+		$("contact-data").show();
+	} else {
+		$("contact-data").hide();
+	}
+	if ($("tx_realty_frontEndEditor_show_address").checked) {
+		$$(".exact-address").invoke("show");
+		$$(".rough-address").invoke("hide");
+	} else {
+		$$(".exact-address").invoke("hide");
+		$$(".rough-address").invoke("show");
+	}
+}
+/*]]>*/</script>
 <!-- ###FE_EDITOR### -->
 			</form>
 

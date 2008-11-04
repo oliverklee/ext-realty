@@ -8,6 +8,7 @@
 		</form>
 		<debug>false</debug>
 		<displaylabels>false</displaylabels>
+		<minify enabled="1"/>
 	</meta>
 	<control>
 		<datahandler:DB>
@@ -77,6 +78,7 @@
 					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1" value="1"/>
 				</items>
 			</data>
+			<onclick>updateHideAndShow();</onclick>
 		</renderlet:RADIOBUTTON>
 		<renderlet:TEXT name="object_number" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number">
 			<readonly>
@@ -102,7 +104,9 @@
 		</renderlet:TEXT>
 		<renderlet:CHECKSINGLE name="emphasized" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized"/>
 
-		<renderlet:CHECKSINGLE name="show_address" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.show_address"/>
+		<renderlet:CHECKSINGLE name="show_address" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.show_address">
+			<onclick>updateHideAndShow();</onclick>
+		</renderlet:CHECKSINGLE>
 		<renderlet:TEXT name="street" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.street"/>
 		<renderlet:TEXT name="zip" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip">
 			<validators>
@@ -285,6 +289,7 @@
 					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.1" value="1"/>
 				</items>
 			</data>
+			<onclick>updateHideAndShow();</onclick>
 		</renderlet:RADIOBUTTON>
 		<renderlet:TEXT name="employer" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer"/>
 		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person">
