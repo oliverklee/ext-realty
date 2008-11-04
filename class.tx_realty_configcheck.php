@@ -112,7 +112,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			$this->checkLoginPid();
 		}
 		$this->checkImageSizeValuesForSingleView();
-		$this->checkShowAddressOfObjects();
 		$this->checkShowContactInformation();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
