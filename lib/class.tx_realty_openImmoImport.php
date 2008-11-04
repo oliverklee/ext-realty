@@ -689,25 +689,25 @@ class tx_realty_openImmoImport {
 		$contentItem = array();
 
 		// collects data for the subpart 'CONTENT_ITEM'
-		$templateHelper->setMarkerContent(
+		$templateHelper->setMarker(
 			'label_object_number',
 			$this->translator->translate('label_object_number')
 		);
 		foreach ($recordsForOneEmail as $record) {
 			// $record is an array of the object number associated with the log
-			$templateHelper->setMarkerContent('object_number', key($record));
-			$templateHelper->setMarkerContent('log', implode($record));
+			$templateHelper->setMarker('object_number', key($record));
+			$templateHelper->setMarker('log', implode($record));
 			$contentItem[] = $templateHelper->getSubpart('CONTENT_ITEM');
 		}
 
 		// fills the subpart 'EMAIL_BODY'
-		$templateHelper->setMarkerContent(
+		$templateHelper->setMarker(
 			'header', $this->translator->translate('message_introduction')
 		);
-		$templateHelper->setSubpartContent(
+		$templateHelper->setSubpart(
 			'CONTENT_ITEM', implode(LF, $contentItem)
 		);
-		$templateHelper->setMarkerContent(
+		$templateHelper->setMarker(
 			'footer', $this->translator->translate('message_explanation')
 		);
 
