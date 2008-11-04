@@ -756,7 +756,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					)
 				)
 			);
-			$this->setMarkerContent('contact_url', $contactUrl);
+			$this->setMarker('contact_url', $contactUrl);
 		} else {
 			$this->hideSubparts('contact', 'wrapper');
 		}
@@ -791,7 +791,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 						break;
 					case TYPE_BOOLEAN:
 						if ($this->internal['currentRow'][$trimmedFieldName]) {
-							$this->setMarkerContent('data_current_row', $this->pi_getLL('message_yes'));
+							$this->setMarker('data_current_row', $this->pi_getLL('message_yes'));
 							$isRowSet = true;
 						}
 						break;
@@ -800,16 +800,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				if ($isRowSet) {
 					$position = ($rowCounter % 2) ? 'odd' : 'even';
-					$this->setMarkerContent('class_position_in_list', $position);
-					$this->setMarkerContent('label_current_row', $this->pi_getLL('label_'.$trimmedFieldName));
-					$rows[] = $this->substituteMarkerArrayCached('OVERVIEW_ROW');
+					$this->setMarker('class_position_in_list', $position);
+					$this->setMarker('label_current_row', $this->pi_getLL('label_'.$trimmedFieldName));
+					$rows[] = $this->getSubpart('OVERVIEW_ROW');
 					$rowCounter++;
 					$result = true;
 				}
 			}
 		}
 
-		$this->setSubpartContent('overview_table', implode(LF, $rows));
+		$this->setSubpart('overview_table', implode(LF, $rows));
 
 		return $result;
 	}
@@ -829,8 +829,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$currentImageTag = $this->getImageLinkedToGallery('singleImageMax');
 
 		while (!empty($currentImageTag)) {
-			$this->setMarkerContent('one_image_tag', $currentImageTag);
-			$result .= $this->substituteMarkerArrayCached('ONE_IMAGE_CONTAINER');
+			$this->setMarker('one_image_tag', $currentImageTag);
+			$result .= $this->getSubpart('ONE_IMAGE_CONTAINER');
 			$counter++;
 			$currentImageTag = $this->getImageLinkedToGallery('singleImageMax', $counter);
 		}
@@ -852,7 +852,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
 		);
 		$position = ($rowCounter == 0) ? 'first' : '';
-		$this->setMarkerContent('class_position_in_list', $position);
+		$this->setMarker('class_position_in_list', $position);
 
 		foreach (array(
 			'uid',
@@ -1387,17 +1387,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Example: If $maxSizeVariable is set to "listImageMax", the maximum width
 	 * and height should be stored in the TS setup variables "listImageMaxX" and
 	 * "listImageMaxY".
- 	 *
- 	 * If no image is found, an empty string is returned.
- 	 *
+	 *
+	 * If no image is found, an empty string is returned.
+	 *
 	 * @param	string		prefix to the TS setup variables that define the
 	 * 						max size, will be prepended to "X" and "Y"
 	 * @param	integer		the number of the image to retrieve, zero-based,
 	 * 						may be zero
- 	 *
- 	 * @return	string		IMG tag, will be empty if there is no current realty
- 	 * 						object or if the current object does not have images
- 	 */
+	 *
+	 * @return	string		IMG tag, will be empty if there is no current realty
+	 * 						object or if the current object does not have images
+	 */
 	private function getImageTag($maxSizeVariable, $offset = 0) {
  		$result = '';
 
