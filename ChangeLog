@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2285] Fix: Importing images with commas in the file names cause error messages in the BE
 - [#1100] Change: Use the new function names from oelib
 - [#2314] Feature: Dynamically hide/show the fields in the FE editor depending on the object type (rent/sale)
 - [#2336] Fix: Text "\ No newline at end of file" in two files
