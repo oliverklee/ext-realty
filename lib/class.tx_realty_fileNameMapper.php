@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
+
 /**
  * Class 'tx_realty_fileNameMapper' for the 'realty' extension.
  *
@@ -41,6 +43,9 @@ class tx_realty_fileNameMapper {
 
 	/** @var string path of the folder in which to check whether a file exists */
 	private $destinationPath = '';
+
+	/** @var t3lib_basicFileFunctions */
+	private static $fileFunctions = null;
 
 	/**
 	 * Constructor.
@@ -74,7 +79,8 @@ class tx_realty_fileNameMapper {
 	/**
 	 * Returns the unique file name for a provided file name by checking that
 	 * the name neither occurs in the destination folder nor in the internal
-	 * array yet.
+	 * array yet. Also replaces any character not matching [.a-zA-Z0-9_-] by '_'
+	 * within the file name.
 	 *
 	 * t3lib's basic file functions class is not used to create the unique name
 	 * as it only can produce unique names for files which already exist in the
@@ -82,11 +88,15 @@ class tx_realty_fileNameMapper {
 	 *
 	 * @param string original file name, must not be empty
 	 *
-	 * @return string original file name extended with a unique suffix, will not
-	 *                be empty
+	 * @return string cleaned original file name extended with a unique suffix,
+	 *                will not be empty
 	 */
 	private function getUniqueFileName($originalFileName) {
-		$newFileName = $originalFileName;
+		$splittedFileName = t3lib_div::split_fileref($originalFileName);
+		$newFileName = $this->getCleanedFileNameBody(
+				$splittedFileName['filebody']
+			) . '.' . $splittedFileName['realFileext'];
+
 
 		while (isset($this->fileNames[$newFileName])
 			|| file_exists($this->destinationPath . $newFileName)
@@ -95,6 +105,24 @@ class tx_realty_fileNameMapper {
 		}
 
 		return $newFileName;
+	}
+
+	/**
+	 * Returns the given file name body with any character not matching
+	 * [.a-zA-Z0-9_-] replaced by '_'.
+	 *
+	 * @param string file name body, must not be empty
+	 *
+	 * @return string cleaned file name body, will not be empty
+	 */
+	private function getCleanedFileNameBody($fileNameBody) {
+		if (!self::$fileFunctions) {
+			self::$fileFunctions = t3lib_div::makeInstance(
+				't3lib_basicFileFunctions'
+			);
+		}
+
+		return self::$fileFunctions->cleanFileName($fileNameBody);
 	}
 
 	/**

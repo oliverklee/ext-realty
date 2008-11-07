@@ -86,6 +86,22 @@ class tx_realty_fileNameMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfNoFileWithThisNameExists() {
+		$this->assertEquals(
+			'test_foo.txt',
+			$this->fixture->getUniqueFileNameAndMapIt('test,foo.txt')
+		);
+	}
+
+	public function testGetUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfAFileWithTheOriginalNameIsAlreadyMapped() {
+		$this->fixture->getUniqueFileNameAndMapIt('test,foo.txt');
+
+		$this->assertEquals(
+			'test_foo_00.txt',
+			$this->fixture->getUniqueFileNameAndMapIt('test,foo.txt')
+		);
+	}
+
 	public function testGetUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyMapped() {
 		$this->fixture->getUniqueFileNameAndMapIt('test.txt');
 		$this->fixture->getUniqueFileNameAndMapIt('test_00.txt');
