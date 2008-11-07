@@ -2531,7 +2531,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCroppedTitleReturnsLongTitleCroppedAtCropSize() {
+	public function testGetCroppedTitleReturnsLongTitleCroppedAtDefaultCropSize() {
 		$this->fixture->loadRealtyObject(
 			array('title' => '123456789012345678901234567890123')
 		);
@@ -2539,6 +2539,39 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'12345678901234567890123456789012…',
 			$this->fixture->getCroppedTitle()
+		);
+	}
+
+	public function testGetCroppedTitleReturnsLongTitleCroppedAtGivenCropSize() {
+		$this->fixture->loadRealtyObject(
+			array('title' => '123456789012345678901234567890123')
+		);
+
+		$this->assertEquals(
+			'1234567890…',
+			$this->fixture->getCroppedTitle(10)
+		);
+	}
+
+	public function testGetCroppedTitleWithZeroGivenReturnsLongTitleCroppedAtDefaultLength() {
+		$this->fixture->loadRealtyObject(
+			array('title' => '123456789012345678901234567890123')
+		);
+
+		$this->assertEquals(
+			'12345678901234567890123456789012…',
+			$this->fixture->getCroppedTitle(0)
+		);
+	}
+
+	public function testGetCroppedTitleWithStringGivenReturnsLongTitleCroppedAtDefaultLength() {
+		$this->fixture->loadRealtyObject(
+			array('title' => '123456789012345678901234567890123')
+		);
+
+		$this->assertEquals(
+			'12345678901234567890123456789012…',
+			$this->fixture->getCroppedTitle('foo')
 		);
 	}
 }

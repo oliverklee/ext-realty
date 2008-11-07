@@ -1214,17 +1214,23 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Gets this object's title, cropped after CROP_SIZE characters, with an
-	 * ellipsis at the end if the full title was long enough to be cropped.
+	 * Gets this object's title, cropped after cropSize characters. If no
+	 * cropSize is given or if it is 0 the title will be cropped after CROP_SIZE
+	 * characters. The title will get an ellipsis at the end if the full title
+	 * was long enough to be cropped.
+	 *
+	 * @param integer the number of characters after which the title should be
+	 *                cropped, must be >= 0
 	 *
 	 * @return string this object's cropped title, will be empty if this
 	 *                object does not have a title
 	 */
-	public function getCroppedTitle() {
+	public function getCroppedTitle($cropSize = 0) {
 		$fullTitle = $this->getTitle();
+		$interceptPoint = ($cropSize > 0) ? $cropSize : self::CROP_SIZE;
 
-		return ((mb_strlen($fullTitle) <= self::CROP_SIZE)
-			? $fullTitle : (mb_substr($fullTitle, 0, self::CROP_SIZE) . '…'));
+		return ((mb_strlen($fullTitle) <= $interceptPoint)
+			? $fullTitle : (mb_substr($fullTitle, 0, $interceptPoint) . '…'));
 	}
 }
 

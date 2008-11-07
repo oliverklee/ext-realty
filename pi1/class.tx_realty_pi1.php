@@ -82,6 +82,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	const FAVORITES_SESSION_KEY_VERBOSE = 'tx_realty_favorites_verbose';
 
 	/**
+	 * @var integer character length at which the title in the list view is
+	 *              cropped
+	 */
+	const CROP_SIZE = 74;
+
+	/**
 	 * @var array the data of the currently displayed favorites using the keys
 	 *            [uid][fieldname]
 	 */
@@ -1142,7 +1148,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		switch($key) {
 			case 'linked_title':
 				$result = $this->createLinkToSingleViewPage(
-					$this->internal['currentRow']['title'],
+					$this->getObjectForCurrentRow()->getCroppedTitle(
+						self::CROP_SIZE
+					),
 					$this->internal['currentRow']['uid'],
 					$this->internal['currentRow']['details_page']
 				);

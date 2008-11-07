@@ -1100,6 +1100,25 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testListViewCropsObjectTitleLongerThan75Characters() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'title' => 'This title is longer than 75 Characters, so the' .
+					' rest should be cropped and be replaced with dots'
+			)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			'This title is longer than 75 Characters, so the rest should be' .
+				' cropped and…',
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	/////////////////////////////////
 	// Testing filtered list views.
 	/////////////////////////////////
