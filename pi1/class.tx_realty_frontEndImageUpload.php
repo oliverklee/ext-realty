@@ -107,8 +107,17 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 		$result = array();
 
 		foreach ($this->realtyObject->getAllImageData() as $key => $imageRecord) {
+			$imageTag = $this->createRestrictedImage(
+				'uploads/tx_realty/' . $imageRecord['image'],
+				'',
+				$this->getConfValueInteger('imageUploadThumbnailWidth'),
+				$this->getConfValueInteger('imageUploadThumbnailHeight'),
+				0,
+				$imageRecord['caption']
+			);
+
 			$result[] = array(
-				'caption' => $imageRecord['caption'].' ('.$imageRecord['image'].')',
+				'caption' => $imageTag . ' ' . $imageRecord['caption'],
 				'value' => $key
 			);
 		}

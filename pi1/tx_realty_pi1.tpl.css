@@ -888,3 +888,8 @@ p.tx-realty-pi1-objekt-nr {
 #uploadfield #tx_realty_frontEndImageUpload_button_submit {
 	line-height: 30px;
 }
+
+#uploadfield img {
+	vertical-align: middle;
+	margin: 2px 0;
+}

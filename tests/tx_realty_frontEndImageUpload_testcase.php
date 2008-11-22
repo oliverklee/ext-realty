@@ -127,21 +127,19 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	// Tests for the functions called in the XML form.
 	////////////////////////////////////////////////////
 
-	public function testPopulateImageListReturnsListedImages() {
-		$this->assertEquals(
-			array(
-				array(
-					'caption' => self::$firstImageTitle
-						.' ('.self::$firstImageFileName.')',
-					'value' => 0
-				),
-				array(
-					'caption' => self::$secondImageTitle
-						.' ('.self::$secondImageFileName.')',
-					'value' => 1
-					)
-			),
-			$this->fixture->populateImageList()
+	public function testPopulateImageListReturnsTitle() {
+		$imageList = $this->fixture->populateImageList();
+		$this->assertContains(
+			self::$firstImageTitle,
+			$imageList[0]['caption']
+		);
+	}
+
+	public function testPopulateImageListDoesNotReturnFilename() {
+		$imageList = $this->fixture->populateImageList();
+		$this->assertNotContains(
+			self::$firstImageFileName,
+			$imageList[0]['caption']
 		);
 	}
 

@@ -206,6 +206,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
 		$this->checkLoginPid();
+		$this->checkImageUploadThumbnailConfiguration();
 	}
 
 	/**
@@ -903,6 +904,45 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'lightbox',
 				'classic',
 			)
+		);
+	}
+
+	/**
+	 * Checks the settings for the thumbnail images in the front-end image
+	 * upload.
+	 */
+	private function checkImageUploadThumbnailConfiguration() {
+		$this->checkImageUploadThumbnailWidth();
+		$this->checkImageUploadThumbnailHeight();
+	}
+
+	/**
+	 * Checks the settings of the maximum width of the thumbnail images at the
+	 * front-end image upload.
+	 */
+	private function checkImageUploadThumbnailWidth() {
+		$this->checkIfPositiveInteger(
+			'imageUploadThumbnailWidth',
+			false,
+			'',
+			'This value specifies the width of the thumbnails in the image ' .
+				'upload. If it is not configured properly, the image will be ' .
+				'shown at original size.'
+		);
+	}
+
+	/**
+	 * Checks the settings of the maximum height of the thumbnail images at the
+	 * front-end image upload.
+	 */
+	private function checkImageUploadThumbnailHeight() {
+		$this->checkIfPositiveInteger(
+			'imageUploadThumbnailHeight',
+			false,
+			'',
+			'This value specifies the height of the thumbnails in the image ' .
+				'upload. If it is not configured properly, the image will be ' .
+				'shown at original size.'
 		);
 	}
 }
