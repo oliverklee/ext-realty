@@ -35,7 +35,7 @@
 				<url>
 					<userobj>
 						<extension>this</extension>
-						<method>getSelfUrlWithShowUid</method>
+						<method>getRedirectUrl</method>
 					</userobj>
 				</url>
 			</actionlet:REDIRECT>
@@ -62,14 +62,15 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:FILE>
-		<renderlet:CHECKBOX name="imagesToDelete" label="LLL:EXT:realty/pi1/locallang.xml:label_image_list_check_to_delete">
-			<data>
-				<userobj>
-					<extension>this</extension>
-					<method>populateImageList</method>
-				</userobj>
-			</data>
-		</renderlet:CHECKBOX>
-		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save"/>
+		<renderlet:HIDDEN name="imagesToDelete">
+			<data defaultvalue="" />
+		</renderlet:HIDDEN>
+		<renderlet:SUBMIT name="button_submit_and_stay" label="LLL:EXT:realty/pi1/locallang.xml:label_save">
+			<onclick>
+				document.getElementById("tx_realty_frontEndImageUpload_proceed_image_upload").value = 1
+			</onclick>
+		</renderlet:SUBMIT>
+		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save_and_close"/>
+		<renderlet:HIDDEN name="proceed_image_upload" />
 	</elements>
 </formidable>

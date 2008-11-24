@@ -242,6 +242,7 @@
 			<label index="label_your_request_informal">Your request</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
+			<label index="label_save_and_close">Save and close</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
 			<label index="label_set_name_formal">Please provide your name.</label>
 			<label index="label_set_name_informal">Please provide your name.</label>
@@ -282,7 +283,7 @@
 			<label index="label_name">Name</label>
 			<label index="label_username">User name</label>
 			<label index="label_image_upload">Image upload</label>
-			<label index="label_image_list_check_to_delete">Currently appended images. Check images to delete.</label>
+			<label index="label_image_list">Currently appended images</label>
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
 			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
@@ -528,6 +529,7 @@
 			<label index="label_your_request_informal">Deine Anfrage</label>
 			<label index="label_submit">Abschicken</label>
 			<label index="label_save">Speichern</label>
+			<label index="label_save_and_close">Speichern und schließen</label>
 			<label index="label_no_contact_person">Die Anfrage kann nicht gesendet werden, weil für dieses Objekt keine Kontaktperson angegeben wurde.</label>
 			<label index="label_set_name_formal">Bitte geben Sie Ihren Namen ein.</label>
 			<label index="label_set_name_informal">Bitte gib deinen Namen ein.</label>
@@ -568,7 +570,7 @@
 			<label index="label_name">Name</label>
 			<label index="label_username">Benutzername</label>
 			<label index="label_image_upload">Bilder hochladen</label>
-			<label index="label_image_list_check_to_delete">Aktuell angehängte Bilder. Markieren Sie Bilder zum Löschen.</label>
+			<label index="label_image_list">Aktuell angehängte Bilder</label>
 			<label index="message_image_too_large">Das zum Hochladen gewählte Bild ist zu groß. Bitte wählen Sie ein kleineres Bild oder skalieren Sie dieses Bild und versuchen Sie es erneut.</label>
 			<label index="message_invalid_type">Der Typ des zum Hochladen gewählten Bildes is nicht erlaubt. Erlaubte Dateiendungen sind: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Bitte geben Sie eine Bildunterschrift an.</label>
@@ -1511,6 +1513,7 @@
 			<label index="label_your_request_informal" type="integer">84651870</label>
 			<label index="label_submit" type="integer">155805401</label>
 			<label index="label_save" type="integer">211601612</label>
+			<label index="label_save_and_close" type="integer">125326617</label>
 			<label index="label_no_contact_person" type="integer">231672500</label>
 			<label index="label_set_name_formal" type="integer">49257832</label>
 			<label index="label_set_name_informal" type="integer">49257832</label>
@@ -1551,7 +1554,7 @@
 			<label index="label_name" type="integer">77521672</label>
 			<label index="label_username" type="integer">159898854</label>
 			<label index="label_image_upload" type="integer">134278786</label>
-			<label index="label_image_list_check_to_delete" type="integer">144451596</label>
+			<label index="label_image_list" type="integer">256801546</label>
 			<label index="message_image_too_large" type="integer">183582394</label>
 			<label index="message_invalid_type" type="integer">48986434</label>
 			<label index="message_empty_caption" type="integer">1491457</label>
@@ -1810,7 +1813,7 @@
 			<label index="label_name" type="integer">77521672</label>
 			<label index="label_username" type="integer">159898854</label>
 			<label index="label_image_upload" type="integer">134278786</label>
-			<label index="label_image_list_check_to_delete" type="integer">144451596</label>
+			<label index="label_image_list" type="integer">144451596</label>
 			<label index="message_image_too_large" type="integer">183582394</label>
 			<label index="message_invalid_type" type="integer">48986434</label>
 			<label index="message_empty_caption" type="integer">1491457</label>
@@ -2503,6 +2506,7 @@
 			<label index="label_your_request_informal">Your request</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
+			<label index="label_save_and_close">Save and close</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
 			<label index="label_set_name_formal">Please provide your name.</label>
 			<label index="label_set_name_informal">Please provide your name.</label>
@@ -2543,7 +2547,7 @@
 			<label index="label_name">Name</label>
 			<label index="label_username">User name</label>
 			<label index="label_image_upload">Image upload</label>
-			<label index="label_image_list_check_to_delete">Currently appended images. Check images to delete.</label>
+			<label index="label_image_list">Currently appended images</label>
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
 			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Please provide a caption for the image.</label>
@@ -2802,7 +2806,7 @@
 			<label index="label_name">Name</label>
 			<label index="label_username">User name</label>
 			<label index="label_image_upload">Image upload</label>
-			<label index="label_image_list_check_to_delete">Currently appended images. Check images to delete.</label>
+			<label index="label_image_list">Currently appended images. Check images to delete.</label>
 			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
 			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
 			<label index="message_empty_caption">Please provide a caption for the image.</label>

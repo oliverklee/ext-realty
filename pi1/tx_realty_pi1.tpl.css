@@ -740,9 +740,10 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit,
-#uploadfield #tx_realty_frontEndImageUpload_button_submit {
+#uploadfield #tx_realty_frontEndImageUpload_button_submit_and_stay,
+#uploadfield dt input {
 	color: #ffffff;
-	margin-right: 10px;
+	margin-right: 50px;
 	font-weight: bold;
 	font-size: 11px;
 	background: transparent url(images/submit_button.png) no-repeat;
@@ -750,6 +751,7 @@ p.tx-realty-pi1-objekt-nr {
 	width:  115px;
 	cursor: pointer;
 	border: 0;
+	float: right;
 }
 
 /*SELECTFIELDS*/
@@ -821,10 +823,11 @@ p.tx-realty-pi1-objekt-nr {
 /*------------------------------------------IMAGEUPLOAD------------------------------------------*/
 
 #uploadfield .column1,
-#uploadfield .column2 {
+#uploadfield .column2,
+#uploadfield .column3 {
 	display: table;
 	margin: 0 0 10px 0;
-	padding: 5px 0 15px 0;
+	padding: 5px 0 35px 0;
 	background: #f0f0f0;
 	clear: both;
 	width: 100%;
@@ -834,7 +837,7 @@ p.tx-realty-pi1-objekt-nr {
 #uploadfield dl {
 	display: table;
 	margin: 0;
-	padding: 8px 0 0 10px;
+	padding: 8px 0 10px 10px;
 	clear: both;
 	width: 100%;
 	max-height: 100%;
@@ -858,17 +861,14 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 #uploadfield .column2 dt {
-	width: 80%;
-	margin: 0;
-	padding: 0;
+	width: 100%;
 	float: left;
 	height: 100%;
 	line-height: 20px;
 }
 #uploadfield .column2 dd {
-	width: 20%;
-	float: right;
-	margin: 0;
+	width: 80%;
+	margin-left: -10px;
 	padding: 0;
 	height: 100%;
 	line-height: 20px;
@@ -877,7 +877,6 @@ p.tx-realty-pi1-objekt-nr {
 #uploadfield .savebuttonposition {
 	display: block;
 	text-align: right;
-	max-width: 90%;
 }
 
 #uploadfield .chooser {
@@ -885,8 +884,67 @@ p.tx-realty-pi1-objekt-nr {
 	line-height: normal;
 }
 
+#uploadfield #tx_realty_frontEndImageUpload_button_submit_and_stay {
+	position: absolute;
+	left: 73px;
+	margin: 15px 10px 0 10px;
+}
+
+#uploadfield span.button {
+	position: absolute;
+	left: 273px;
+	margin: 15px 0 0 -20px;
+	height: 18px;
+	width:  200px;
+	cursor: pointer;
+	border: 0;
+	float: left;
+}
+
 #uploadfield #tx_realty_frontEndImageUpload_button_submit {
-	line-height: 30px;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 11px;
+	background: transparent url(images/button_bg_right.png) no-repeat right;
+	height: 18px;
+	width:  200px;
+	cursor: pointer;
+	border: 0;
+	float: left;
+}
+
+#uploadfield .column2 dl dl {
+	width: 550px;
+}
+
+#uploadfield .column2 dl dl dt {
+	position: relative;
+}
+
+#uploadfield .column2 dl dl dt:hover {
+	background: #e4e4e4;
+}
+
+#uploadfield .column2 dl dl dt span {
+	display: block;
+	margin-right: 120px;
+}
+
+#uploadfield .column2 dl dl dt input {
+	position: absolute;
+	right: 0;
+	top: 43px;
+	margin-right: 0;
+}
+
+#uploadfield .deleted {
+	text-decoration: line-through;
+	color: lightgrey;
+}
+
+#uploadfield input.deleted {
+	color: #ffffff;
+	background: transparent url(images/submit_button_inactive.png) no-repeat;
 }
 
 #uploadfield img {

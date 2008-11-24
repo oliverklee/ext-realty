@@ -205,6 +205,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		// @see https://bugs.oliverklee.com/show_bug.cgi?id=2061
 		$this->checkCommonFrontEndSettings();
 		$this->checkSysFolderForFeCreatedRecords();
+		$this->checkFeEditorRedirectPid();
 		$this->checkLoginPid();
 		$this->checkImageUploadThumbnailConfiguration();
 	}
@@ -811,10 +812,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'feEditorRedirectPid',
 			true,
 			's_feeditor',
-			'This value specifies the PID of the FE page to which users will be '
-				.'redirected after a FE-created record was saved. This '
-				.'redirecting will not proceed correctly if this value is '
-				.'invalid.'
+			'This value specifies the PID of the FE page to which users will ' .
+				'be redirected after a FE-created record or an image was saved. ' .
+				'This redirecting will not proceed correctly if this value is ' .
+				'invalid or empty.'
 		);
 	}
 

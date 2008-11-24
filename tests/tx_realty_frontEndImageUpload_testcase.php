@@ -127,22 +127,6 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	// Tests for the functions called in the XML form.
 	////////////////////////////////////////////////////
 
-	public function testPopulateImageListReturnsTitle() {
-		$imageList = $this->fixture->populateImageList();
-		$this->assertContains(
-			self::$firstImageTitle,
-			$imageList[0]['caption']
-		);
-	}
-
-	public function testPopulateImageListDoesNotReturnFilename() {
-		$imageList = $this->fixture->populateImageList();
-		$this->assertNotContains(
-			self::$firstImageFileName,
-			$imageList[0]['caption']
-		);
-	}
-
 	public function testProcessImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase() {
 		$this->fixture->processImageUpload(
 			array(
@@ -198,7 +182,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 
 	public function testProcessImageUploadDeletesImageRecordForCurrentObjectFromTheDatabase() {
 		$this->fixture->processImageUpload(
-			array('imagesToDelete' => array('0'))
+			array('imagesToDelete' => 'attached_image_0,')
 		);
 
 		$this->assertEquals(
@@ -212,7 +196,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 
 	public function testProcessImageUploadDeletesImageTwoRecordsForCurrentObjectFromTheDatabase() {
 		$this->fixture->processImageUpload(
-			array('imagesToDelete' => array('0', '1'))
+			array('imagesToDelete' => 'attached_image_0,attached_image_1,')
 		);
 
 		$this->assertEquals(
@@ -339,19 +323,25 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	// Tests concerning functions used after submit.
 	//////////////////////////////////////////////////
 
-	public function testGetSelfUrlWithShowUidReturnsUrlWithCurrentPageIdAsTargetPage() {
+	public function testGetRedirectUrlReturnsUrlWithCurrentPageIdAsTargetPageIfProceedUploadWasTrue() {
+		$fePageUid = $this->testingFramework->createFrontEndPage();
+		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
+
 		$this->assertContains(
 			'?id=' . $GLOBALS['TSFE']->id,
-			$this->fixture->getSelfUrlWithShowUid()
+			$this->fixture->getRedirectUrl()
 		);
 	}
 
-	public function testGetSelfUrlWithShowUidReturnsUrlWithCurrentShowUidAsLinkParameter() {
-		$this->pi1->piVars['showUid'] = $this->dummyObjectUid;
+	public function testGetRedirectUrlReturnsUrlWithCurrentConfiguredRedirectPageIdAsTargetPageIfProceedUploadWasFalse() {
+		$fePageUid = $this->testingFramework->createFrontEndPage();
+		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$this->fixture->setFakedFormValue('proceed_image_upload', 0);
 
 		$this->assertContains(
-			'tx_realty_pi1[showUid]=' . $this->dummyObjectUid,
-			$this->fixture->getSelfUrlWithShowUid()
+			'?id=' . $fePageUid,
+			$this->fixture->getRedirectUrl()
 		);
 	}
 }

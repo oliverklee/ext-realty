@@ -510,19 +510,35 @@ function updateHideAndShow() {
 		<dl>
 			<dt>{caption.label.tag}</dt>
 			<dd>{caption}</dd>
-<!-- ###WRAPPER_IMAGES_TO_DELETE### -->
 		</dl>
 	</div>
-
+	<!-- ###WRAPPER_IMAGES_TO_DELETE### -->
 	<div class="column2">
+		{imagesToDelete}
 		<dl>
-			<dt><span class="chooser">{imagesToDelete.label}</span></dt>
+			<dt>###LABEL_IMAGE_LIST###:</dt>
+			<dd>
+				<dl>
+					<!--###SINGLE_ATTACHED_IMAGE### -->
+					<dt id="###SINGLE_ATTACHED_IMAGE_ID###">
+						<span>###SINGLE_IMAGE_ITEM###</span>
+						<input type="button" name="tx_realty_pi1_delete" value="###LABEL_DELETE###"
+							onclick="markAttachmentAsDeleted('###SINGLE_ATTACHED_IMAGE_ID###', '###LABEL_REALLY_DELETE###\n###IMAGE_LABEL###');" />
+					</dt>
+					<!--###SINGLE_ATTACHED_IMAGE### -->
+				</dl>
+			</dd>
 		</dl>
+	</div>
+	<!-- ###WRAPPER_IMAGES_TO_DELETE### -->
+	<div class="column3">
 		<dl>
-			<dt>{imagesToDelete} &nbsp; </dt>
-<!-- ###WRAPPER_IMAGES_TO_DELETE### -->
-			<dd><span class="savebuttonposition">{button_submit}</span></dd>
+			<dd>
+				<span class="savebuttonposition">{button_submit_and_stay}</span>
+				<span class="button">{button_submit}</span>
+			</dd>
 		</dl>
+		{proceed_image_upload}
 	</div>
 </div>
 <!-- ###IMAGE_UPLOAD### -->

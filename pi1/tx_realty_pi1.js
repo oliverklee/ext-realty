@@ -22,23 +22,22 @@
 ***************************************************************/
 
 /**
- * This file provides a JavaScript function to display full-size images in the
- * gallery.
+ * This file provides a JavaScript functions for the Realty Manager.
  *
- * @package		TYPO3
- * @subpackage	tx_realty
+ * @package TYPO3
+ * @subpackage tx_realty
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 
 /**
  * Sets the current full-size image to the current thumbnail and sets the class
  * attribute of the thumbnail accordingly.
  *
- * @param	string		ID of the link tag that wraps the current image tag,
- *						must not be empty
- * @param	string		link to the full-size version of the current image,
- *						must not be empty
+ * @param string ID of the link tag that wraps the current image tag, must not
+ *               be empty
+ * @param string link to the full-size version of the current image, must not
+ *               be empty
  */
 function showFullsizeImage(id, linkToFullsizeImage) {
 	var fullsizeImage = document.getElementById("tx_realty_fullsizeImage");
@@ -55,4 +54,26 @@ function showFullsizeImage(id, linkToFullsizeImage) {
 	};
 	document.getElementById(id).className += "-current";
 	document.getElementById("tx_realty_fullsizeImageCaption").firstChild.nodeValue = currentImage.title;
+}
+
+/**
+ * Marks the current attachment as deleted if the confirm becomes submitted.
+ * 
+ * @param string ID of the list item with the attachment to delete, must not be
+ *               empty
+ * @param string localized confirm message for whether really to mark an
+ *               attachment for deletion
+ */
+function markAttachmentAsDeleted(listItemId, confirmMessage) {
+	var listItem = document.getElementById(listItemId);
+	var fileNameDiv = listItem.getElementsByTagName("span")[0];
+	var deleteButton = listItem.getElementsByTagName("input")[0];
+	
+	if (confirm(confirmMessage)) {
+		document.getElementById("tx_realty_frontEndImageUpload_imagesToDelete").value
+			+= "," + listItemId;
+		fileNameDiv.setAttribute("class", "deleted");
+		deleteButton.className += " deleted";
+		deleteButton.disabled = true;
+	}
 }

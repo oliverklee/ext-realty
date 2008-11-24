@@ -1811,7 +1811,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function includeJavaScriptForGallery() {
 		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_gallery']
 			= '<script src="' . t3lib_extMgm::extRelPath($this->extKey) .
-				'pi1/tx_realty_galleryImageDisplay.js" type="text/javascript">' .
+				'pi1/tx_realty_pi1.js" type="text/javascript">' .
 				'</script>';
 	}
 

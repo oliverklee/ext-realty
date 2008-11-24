@@ -57,15 +57,36 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 */
 	public function render() {
 		$result = parent::render();
+		$this->includeJavaScript();
+		$this->plugin->processTemplate($result);
+		$this->plugin->setLabels();
 
 		$allImageData = $this->realtyObject->getAllImageData();
-		if (empty($allImageData)) {
-			$this->plugin->processTemplate($result);
+		if (!empty($allImageData)) {
+			$this->plugin->setSubpart(
+				'single_attached_image',
+				$this->getRenderedImageList($allImageData)
+			);
+		} else {
 			$this->plugin->hideSubparts('images_to_delete', 'wrapper');
-			$result = $this->plugin->getSubpart();
 		}
 
-		return $result;
+		return $this->plugin->getSubpart();
+	}
+
+	/**
+	 * Gets the URL of the page that should be displayed when an image has been
+	 * uploaded.
+	 * An URL of the image upload page is returned if "submit_and_stay" was
+	 * clicked.
+	 *
+	 * @return string complete URL of the FE page where to redirect to or of the
+	 *                current page, if "submit_and_stay" was clicked
+	 */
+	public function getRedirectUrl() {
+		return $this->getFormValue('proceed_image_upload')
+			? $this->getUrlOfCurrentPage()
+			: parent::getRedirectUrl();
 	}
 
 	/**
@@ -83,9 +104,17 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 				$this->getFormidablesUniqueFileName($formData['image']['name'])
 			);
 		}
-		if (is_array($formData['imagesToDelete'])) {
-			foreach ($formData['imagesToDelete'] as $key) {
-				$this->realtyObject->markImageRecordAsDeleted($key);
+
+		$idsOfImagesToDelete = explode(',', $formData['imagesToDelete']);
+		foreach ($idsOfImagesToDelete as $imageId) {
+			if ($imageId != '') {
+				try {
+					// The ID-prefix is "attached_image_" which are 15 charachters.
+					$this->realtyObject->markImageRecordAsDeleted(
+						substr($imageId, 15)
+					);
+				} catch (Exception $noSuchImageRecord) {
+				}
 			}
 		}
 
@@ -95,34 +124,6 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 			$this->realtyObject->getProperty('pid')
 		);
 		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
-	}
-
-	/**
-	 * Returns an array of caption-value pairs of currently appended images.
-	 *
-	 * @return array caption-value pairs to fill the images checkbox, will
-	 *               be empty if the current record does not have images
-	 */
-	public function populateImageList() {
-		$result = array();
-
-		foreach ($this->realtyObject->getAllImageData() as $key => $imageRecord) {
-			$imageTag = $this->createRestrictedImage(
-				'uploads/tx_realty/' . $imageRecord['image'],
-				'',
-				$this->getConfValueInteger('imageUploadThumbnailWidth'),
-				$this->getConfValueInteger('imageUploadThumbnailHeight'),
-				0,
-				$imageRecord['caption']
-			);
-
-			$result[] = array(
-				'caption' => $imageTag . ' ' . $imageRecord['caption'],
-				'value' => $key
-			);
-		}
-
-		return $result;
 	}
 
 	/**
@@ -174,25 +175,6 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 		return $this->validationError;
 	}
 
-	/**
-	 * Returns the self-URL with the current "showUid" as link parameter.
-	 *
-	 * @return string self-URL of the image upload page, will not be empty
-	 */
-	public function getSelfUrlWithShowUid() {
-		return $this->plugin->cObj->typoLink_URL(
-			array(
-				'parameter' => $GLOBALS['TSFE']->id,
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					$this->plugin->prefixId,
-					array('showUid' => $this->plugin->piVars['showUid']),
-					'',
-					true
-				),
-			)
-		);
-	}
-
 
 	////////////////////////////////////
 	// Miscellaneous helper functions.
@@ -216,6 +198,73 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 		return ($this->isTestMode)
 			? $fileName
 			: ($this->formCreator->aORenderlets['image']->sCoolFileName);
+	}
+
+	/**
+	 * Includes additional JavaScript.
+	 */
+	private function includeJavaScript() {
+		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId]
+			= '<script src="' . t3lib_extMgm::extRelPath($this->extKey) .
+				'pi1/tx_realty_pi1.js" type="text/javascript">' .
+				'</script>';
+	}
+
+	/**
+	 * Returns the URL to the current page.
+	 * 
+	 * @return string URL of the current page, will not be empty
+	 */
+	private function getUrlOfCurrentPage() {
+		$piVars = $this->plugin->piVars;
+		unset($piVars['DATA']);
+
+		return t3lib_div::locationHeaderUrl(
+			$this->plugin->cObj->typoLink_URL(array(
+				'parameter' => $GLOBALS['TSFE']->id,
+				'additionalParams' => t3lib_div::implodeArrayForUrl(
+					$this->plugin->prefixId, $piVars
+				),
+			))
+		);		
+	}
+
+	/**
+	 * Returns HTML for the images as list items with their thumbnails.
+	 * 
+	 * @param array two-dimensional array of image records, each inner array
+	 *              represents one image record and is an associative array with
+	 *              the keys 'caption' and 'image', must not be empty
+	 * 
+	 * @return string listed images with thumbnails in HTML, will not be empty 
+	 */
+	private function getRenderedImageList(array $imageData) {
+		$result = '';
+		foreach ($imageData as $key => $imageRecord) {
+			$imageTag = $this->createRestrictedImage(
+				'uploads/tx_realty/' . $imageRecord['image'],
+				'',
+				$this->getConfValueInteger('imageUploadThumbnailWidth'),
+				$this->getConfValueInteger('imageUploadThumbnailHeight'),
+				0,
+				$imageRecord['caption']
+			);
+
+			$this->plugin->setMarker(
+				'single_image_item',
+				$imageTag . ' ' . htmlspecialchars($imageRecord['caption'])
+			);
+			$this->plugin->setMarker(
+				'image_label',
+				htmlspecialchars(addslashes($imageRecord['caption']))
+			);
+			$this->plugin->setMarker(
+				'single_attached_image_id', 'attached_image_' . $key
+			);
+			$result .= $this->plugin->getSubpart('SINGLE_ATTACHED_IMAGE');
+		}
+		
+		return $result;
 	}
 }
 
