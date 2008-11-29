@@ -945,6 +945,7 @@ p.tx-realty-pi1-objekt-nr {
 #uploadfield input.deleted {
 	color: #ffffff;
 	background: transparent url(images/submit_button_inactive.png) no-repeat;
+	cursor: default;
 }
 
 #uploadfield img {
