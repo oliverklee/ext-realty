@@ -166,10 +166,26 @@ t3lib_extMgm::addTCAcolumns(
 				'eval' => 'trim',
 			)
 		),
+		'tx_realty_maxmium_objects' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:fe_users.tx_realty_maxmium_objects',
+			'config' => array(
+				'type' => 'input',
+				'size' => '4',
+				'max' => '4',
+				'eval' => 'int',
+				'checkbox' => '0',
+				'range' => array(
+					'upper' => '9999',
+					'lower' => '0',
+				),
+				'default' => 0,
+			),
+		),
 		1
 	)
 );
-t3lib_extMgm::addToAllTCAtypes('fe_users','--div--;LLL:EXT:realty/locallang_db.xml:fe_users.tx_realty_tab,tx_realty_openimmo_anid;;;;1-1-1,');
+t3lib_extMgm::addToAllTCAtypes('fe_users','--div--;LLL:EXT:realty/locallang_db.xml:fe_users.tx_realty_tab,tx_realty_openimmo_anid,tx_realty_maxmium_objects;;;;1-1-1,');
 
 t3lib_div::loadTCA('tt_content');
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']

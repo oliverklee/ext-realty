@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2368] Feature: Add a field "maximum number of realty objects" to the FE user table
 - [#2387] Change: Require FORMidable 1.1.0
 - [#2267] Feature: Add a "delete" button after each attached image in the image upload dialog
 - [#2265] Feature: In the list of attached images, show thumbnails of the images

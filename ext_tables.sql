@@ -250,4 +250,5 @@ CREATE TABLE tx_realty_districts (
 #
 CREATE TABLE fe_users (
 	tx_realty_openimmo_anid tinytext NOT NULL,
+	tx_realty_maxmium_objects tinyint(4) DEFAULT '0' NOT NULL,
 );
