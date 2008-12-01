@@ -949,6 +949,6 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 #uploadfield img {
-	vertical-align: middle;
-	margin: 2px 0;
+	margin: 2px;
+	float:left;
 }
