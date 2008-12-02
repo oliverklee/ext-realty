@@ -937,7 +937,7 @@ p.tx-realty-pi1-objekt-nr {
 	margin-right: 0;
 }
 
-#uploadfield .deleted {
+#uploadfield span.deleted {
 	text-decoration: line-through;
 	color: lightgrey;
 }
