@@ -278,24 +278,28 @@ class tx_realty_object {
 			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
 				$errorMessage = 'message_updating_failed';
 			}
+			if ($this->getProperty('deleted') && ($errorMessage == '')) {
+				$this->deleteRelatedImageRecords();
+				$errorMessage = 'message_deleted_flag_causes_deletion';
+			}
 		} else {
 			$newUid = $this->createNewDatabaseEntry(
 				$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
 			);
-			if ($newUid != 0) {
-				$this->realtyObjectData['uid'] = $newUid;
-			} else {
-				$errorMessage = 'message_insertion_failed';
+			switch ($newUid) {
+				case -1:
+					$errorMessage = 'message_deleted_flag_set';
+					break;
+				case 0:
+					$errorMessage = 'message_insertion_failed';
+				default:
+					$this->realtyObjectData['uid'] = $newUid;
+					break;
 			}
 		}
 
-		if ($this->getProperty('deleted')) {
-			$this->deleteRelatedImageRecords();
-			$errorMessage = 'message_deleted_flag_set';
-		}
-
 		if (($errorMessage == '')
-			|| ($errorMessage == 'message_deleted_flag_set')
+			|| ($errorMessage == 'message_deleted_flag_causes_deletion')
 		) {
 			$this->refreshImageEntries($overridePid);
 		}
@@ -580,7 +584,7 @@ class tx_realty_object {
 				$currentTable
 			);
 
-			if ($uidOfProperty != 0) {
+			if ($uidOfProperty > 0) {
 				$this->setProperty($currentProperty, $uidOfProperty);
 				$referenceIndex->updateRefIndexTable(
 					$currentTable,
@@ -812,13 +816,17 @@ class tx_realty_object {
 	 *                to use the PID set in the global configuration)
 	 *
 	 * @return integer UID of the new database entry, will be zero if no new
-	 *                 record was created, e.g. if the deleted flag was set
+	 *                 record could be created, will be -1 if the deleted flag
+	 *                 was set
 	 */
 	protected function createNewDatabaseEntry(
 		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
 	) {
-		if (empty($realtyData) || $realtyData['deleted']) {
+		if (empty($realtyData)) {
 			return 0;
+		}
+		if ($realtyData['deleted']) {
+			return -1;
 		}
 
 		if (isset($realtyData['uid'])) {

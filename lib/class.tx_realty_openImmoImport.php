@@ -317,6 +317,8 @@ class tx_realty_openImmoImport {
 			);
 			break;
 		case 'message_deleted_flag_set':
+			// The fall-through is intended.
+		case 'message_deleted_flag_causes_deletion':
 			// A set deleted flag is no real error, so is not stored in the
 			// error log.
 			$this->addToLogEntry(
