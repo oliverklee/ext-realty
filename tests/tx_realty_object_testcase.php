@@ -1229,7 +1229,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->assertEquals(
-			'message_deleted_flag_set',
+			'message_deleted_flag_causes_deletion',
 			$message
 		);
 	}
@@ -1252,7 +1252,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->assertEquals(
-			'message_deleted_flag_set',
+			'message_deleted_flag_causes_deletion',
 			$message
 		);
 	}
@@ -1692,6 +1692,18 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES, 'deleted = 1'
 			)
+		);
+	}
+
+	public function testImportANewRecordWithImagesAndTheDeletedFlagBeingSetReturnsMarkedAsDeletedMessage() {
+		$this->fixture->loadRealtyObject(
+			array('object_number' => 'foo-bar', 'deleted' => 1)
+		);
+		$this->fixture->addImageRecord('foo', 'foo.jpg');
+
+		$this->assertEquals(
+			'message_deleted_flag_set',
+			$this->fixture->writeToDatabase()
 		);
 	}
 

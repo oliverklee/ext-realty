@@ -14,7 +14,8 @@
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
 			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
-			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
+			<label index="message_deleted_flag_causes_deletion">Updating this record deletes the record.</label>
+			<label index="message_deleted_flag_set">This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
 			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
 			<label index="message_openimmo_anid_not_matches_allowed_fe_user">The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</label>
@@ -47,7 +48,8 @@
 			<label index="message_object_not_loaded">Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</label>
 			<label index="message_updating_failed">Während der Aktualisierung des Datensatzes trat ein Fehler auf. Der Datensatz konnte nicht aktualisiert werden.</label>
 			<label index="message_insertion_failed">Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</label>
-			<label index="message_deleted_flag_set">Der importierte Datensatz ist zum Löschen markiert. Wenn er in der Datenbank existiert, wird er nun gelöscht. Andernfalls wird dieser Datensatz ignoriert.</label>
+			<label index="message_deleted_flag_causes_deletion">Dieser Datensatz wird durch die Aktualisierung gelöscht.</label>
+			<label index="message_deleted_flag_set">Dieser Datensatz ist zum Löschen markiert. Da er noch nicht in der Datenbank existiert, wird er beim Importieren ignoriert.</label>
 			<label index="message_written_to_database">Der Datensatz wurde in die Datenbank eingefügt.</label>
 			<label index="message_fields_required">Der Datensatz wurde nicht importiert, weil die Pflichtfelder nicht gesetzt sind</label>
 			<label index="message_openimmo_anid_not_matches_allowed_fe_user">Der Datensatz wurde nicht importiert, weil in der Konfiguration eingestellt ist, dass Datensätze nur für registrierte FE-Benutzer importiert werden dürfen und dieser Datensatz keine OpenImmo-ANID enthält, die mit der eines FE-Benutzers in einer der erlaubten Gruppen übereinstimmt. Die OpenImmo-ANID des Datensatze war:</label>
@@ -146,7 +148,8 @@
 			<label index="message_object_not_loaded" type="integer">56779241</label>
 			<label index="message_updating_failed" type="integer">109345992</label>
 			<label index="message_insertion_failed" type="integer">50157132</label>
-			<label index="message_deleted_flag_set" type="integer">232865486</label>
+			<label index="message_deleted_flag_causes_deletion" type="integer">253725718</label>
+			<label index="message_deleted_flag_set" type="integer">46487773</label>
 			<label index="message_written_to_database" type="integer">198437427</label>
 			<label index="message_fields_required" type="integer">127661848</label>
 			<label index="message_openimmo_anid_not_matches_allowed_fe_user" type="integer">182565751</label>
@@ -245,7 +248,8 @@
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
 			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
-			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
+			<label index="message_deleted_flag_causes_deletion">Updating this record deletes the record.</label>
+			<label index="message_deleted_flag_set">This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
 			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
 			<label index="message_openimmo_anid_not_matches_allowed_fe_user">The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</label>
