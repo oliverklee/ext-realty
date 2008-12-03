@@ -2470,6 +2470,26 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testRetrieveCoordinatesDoesNotChangeImagesPidWhenAddingCoordinatesToTheDatabase() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => $this->testingFramework->createRecord(
+				REALTY_TABLE_CITIES, array('title' => 'Bonn')
+			),
+			'country' => self::DE,
+		));
+		$this->fixture->addImageRecord('foo', 'foo.jpg');
+		$this->fixture->writeToDatabase($this->otherPageUid);
+		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				REALTY_TABLE_IMAGES,
+				'image="foo.jpg" AND pid=' . $this->otherPageUid
+			)
+		);
+	}
 
 	////////////////////////////
 	// Tests concerning getUid

@@ -2898,7 +2898,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$className = t3lib_div::makeInstanceClassName('tx_realty_object');
 			$this->cachedRealtyObject = new $className($this->isTestMode);
 			$this->cachedRealtyObject->loadRealtyObject(
-				$this->internal['currentRow'], true
+				$this->internal['currentRow']['uid'], true
 			);
 		}
 

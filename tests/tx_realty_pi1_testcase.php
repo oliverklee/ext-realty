@@ -3061,13 +3061,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->denyAccess();
 
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
-		$this->fixture->setCurrentRow(array(
-			'title' => 'foo',
-			'uid' => 0
-		));
+		$this->fixture->setCurrentRow(array('uid' => $this->firstRealtyUid));
 
 		$this->assertEquals(
-			$this->fixture->createLinkToSingleViewPage('foo', 0),
+			$this->fixture->createLinkToSingleViewPage(
+				self::$firstObjectTitle, $this->firstRealtyUid
+			),
 			$this->fixture->getFieldContent('linked_title')
 		);
 	}
@@ -3075,13 +3074,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testGetFieldContentCreatesLinkToSinglePageIfAccessAllowed() {
 		$this->allowAccess();
 
-		$this->fixture->setCurrentRow(array(
-			'title' => 'foo',
-			'uid' => 0
-		));
+		$this->fixture->setCurrentRow(array('uid' => $this->firstRealtyUid));
 
 		$this->assertEquals(
-			$this->fixture->createLinkToSingleViewPage('foo', 0),
+			$this->fixture->createLinkToSingleViewPage(
+				self::$firstObjectTitle, $this->firstRealtyUid
+			),
 			$this->fixture->getFieldContent('linked_title')
 		);
 	}
@@ -4906,6 +4904,39 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertNotRegExp(
 			'/bindInfoWindowHtml\(\'[^\']*Foo road/',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function testRetrievingGeoCoordinatesDoesNotDeleteAppendedImage() {
+		$imageUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption'=>'foo.jpg',
+				'image' => 'foo.jpg',
+				'realty_object_uid' => $this->firstRealtyUid,
+			)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'street' => 'Am Hof 1',
+				'city' => $this->firstCityUid,
+				'show_address' => 1,
+				'images' => 1,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('showGoogleMapsInSingleView', 1);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->main('', array());
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				REALTY_TABLE_IMAGES,
+				'caption="foo.jpg" AND image="foo.jpg" AND deleted=0'
+			)
 		);
 	}
 

@@ -1080,7 +1080,8 @@ class tx_realty_object {
 				$this->setProperty(
 					$prefix . '_longitude', $coordinates['longitude']
 				);
-				$this->writeToDatabase();
+				// The PID is provided so records do not change the location.
+				$this->writeToDatabase($this->getProperty('pid'));
 			}
 		}
 
