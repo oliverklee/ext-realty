@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2219] Feature: Add a field "sorting" to realty objects
 - [#2375] Fix: Images are deleted when using Google Maps in the single view
 - [#2389] Fix: Crash during the import
 - [#2368] Feature: Add a field "maximum number of realty objects" to the FE user table

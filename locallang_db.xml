@@ -113,6 +113,7 @@
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_objects.currency">Currency</label>
+			<label index="tx_realty_objects.sorting">Positioning in the list view</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
 			<label index="tx_realty_apartment_types.title">Title</label>
 			<label index="tx_realty_house_types">House type</label>
@@ -240,6 +241,7 @@
 			<label index="tx_realty_objects.owner">FE-Benutzer, der dieses Objekt erstellt hat</label>
 			<label index="tx_realty_objects.language">Sprache dieses Datensatzes</label>
 			<label index="tx_realty_objects.currency">Währung</label>
+			<label index="tx_realty_objects.sorting">Positionierung in der Listenansicht</label>
 			<label index="tx_realty_apartment_types">Wohnungstyp</label>
 			<label index="tx_realty_apartment_types.title">Titel</label>
 			<label index="tx_realty_house_types">Haustyp</label>
@@ -833,6 +835,7 @@
 			<label index="tx_realty_objects.owner" type="integer">181513656</label>
 			<label index="tx_realty_objects.language" type="integer">243141894</label>
 			<label index="tx_realty_objects.currency" type="integer">59163449</label>
+			<label index="tx_realty_objects.sorting" type="integer">193306316</label>
 			<label index="tx_realty_apartment_types" type="integer">220566396</label>
 			<label index="tx_realty_apartment_types.title" type="integer">192455458</label>
 			<label index="tx_realty_house_types" type="integer">11148572</label>
@@ -1430,6 +1433,7 @@
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_objects.currency">Currency</label>
+			<label index="tx_realty_objects.sorting">Positioning in the list view</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
 			<label index="tx_realty_apartment_types.title">Title</label>
 			<label index="tx_realty_house_types">House type</label>

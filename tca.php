@@ -7,7 +7,7 @@ $TCA['tx_realty_objects'] = array(
 	'ctrl' => $TCA['tx_realty_objects']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .
-			'hidden,starttime,endtime,object_number,object_type,title,' .
+			'hidden,starttime,endtime,object_number,object_type,title,sorting,' .
 			'emphasized,show_address,street,zip,city,district,country,number_of_rooms,' .
 			'living_area,total_area,estate_size,rent_excluding_bills,extra_charges,' .
 			'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
@@ -124,6 +124,21 @@ $TCA['tx_realty_objects'] = array(
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized',
 			'config' => array(
 				'type' => 'check',
+			),
+		),
+		'sorting' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.sorting',
+			'config' => array(
+				'type' => 'input',
+				'size' => '4',
+				'max' => '4',
+				'default' => '0',
+				'range' => array(
+					'upper' => '9999',
+					'lower' => '0',
+				),
+				'eval' => 'num',
 			),
 		),
 		'show_address' => array(
@@ -984,9 +999,10 @@ $TCA['tx_realty_objects'] = array(
 	'types' => array(
 		'0' => array(
 			// for rent
-			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
+			'showitem' => 'sys_language_uid;;;;1-1-1, ' .
+				'l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
-				'utilization, title;;;;2-2-2, emphasized;;;;3-3-3, ' .
+				'utilization, title;;;;2-2-2, emphasized, sorting;;;;3-3-3, ' .
 				'show_address, street, zip, city, district, country, number_of_rooms, ' .
 				'living_area, total_area, estate_size, rent_excluding_bills, ' .
 				'extra_charges, heating_included, deposit, provision, usable_from, ' .
@@ -1025,9 +1041,10 @@ $TCA['tx_realty_objects'] = array(
 		),
 		'1' => array(
 			// for sale
-			'showitem' => 'sys_language_uid;;;;1-1-1,l18n_parent, l18n_diffsource, hidden;;1, ' .
+			'showitem' => 'sys_language_uid;;;;1-1-1, ' .
+				'l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
-				'title;;;;2-2-2, emphasized;;;;3-3-3, ' .
+				'title;;;;2-2-2, emphasized, sorting;;;;3-3-3, ' .
 				'show_address, street, zip, city, district, country, number_of_rooms, ' .
 				'living_area, total_area, estate_size, provision, usable_from, ' .
 				'buying_price, extra_charges, year_rent, rented, apartment_type, ' .

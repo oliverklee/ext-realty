@@ -461,27 +461,40 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Initializes the list view, but does not create any actual HTML output.
+	 * Returns the database query result for the realty records to list.
+	 * The result will be limited according to the configuration of
+	 * "results_at_a_time" and the current page number. It will also be sorted
+	 * according to the current value of "orderBy" (or by UID if there is none)
+	 * and the value of "descFlag". The very first records will always be those
+	 * with a value for "sorting" set within the record itself.
 	 *
-	 * @throws Exception if a database query error occurs
-	 *
-	 * @return recource the result of a DB query for the realty objects to list
+	 * @return resource the result of a DB query for the realty objects to list
 	 */
 	private function initListView() {
 		// To ensure that sorting by cities actually sorts the titles and not
-		// the cities' UIDs, the join on the tx_realty_cities table is needed.
+		// the cities' UIDs, the JOIN on the cities table is needed.
 		$table = REALTY_TABLE_OBJECTS . ' INNER JOIN ' . REALTY_TABLE_CITIES .
 			' ON ' . REALTY_TABLE_OBJECTS . '.city = ' .
 			REALTY_TABLE_CITIES . '.uid';
 		$whereClause = $this->createWhereClause();
+		$sortingColumn = REALTY_TABLE_OBJECTS . '.sorting';
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			REALTY_TABLE_OBJECTS . '.*',
-			$table,
-			$whereClause,
-			'',
-			$this->createOrderByStatement(),
-			$this->createLimitStatement($table, $whereClause)
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+			'(' .
+				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
+				' FROM ' . $table .
+				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '>0' .
+				' ORDER BY ' . $sortingColumn .
+				// ORDER BY within the SELECT call of a UNION requires a LIMIT.
+				' LIMIT 10000000000000' .
+			') UNION (' .
+				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
+				' FROM ' . $table .
+				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '<1' .
+				' ORDER BY ' . $this->createOrderByStatement() .
+				' LIMIT 10000000000000' .
+			')' .
+			' LIMIT ' . $this->createLimitStatement($table, $whereClause)
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -509,7 +522,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				// If the favorites list is empty, make sure to create a valid query
 				// that will produce zero results.
 				$whereClause .= ($this->getFavorites() != '')
-					? ' AND '.REALTY_TABLE_OBJECTS.'.uid IN('.$this->getFavorites().')'
+					? ' AND ' . REALTY_TABLE_OBJECTS . '.uid ' .
+						'IN(' . $this->getFavorites() . ')'
 					: ' AND 0=1';
 				$this->favoritesDataVerbose = array();
 				break;
@@ -537,7 +551,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$whereClause .= $this->getWhereClausePartForPidList();
 
 		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
-			? ' AND '.$this->getConfValueString('staticSqlFilter') : '';
+			? ' AND ' . $this->getConfValueString('staticSqlFilter')
+			: '';
 
 		// finds only cities that match the UID in piVars['city']
 		if ($this->piVars['city'] != 0) {
@@ -547,9 +562,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$searchSelection = implode(',', $this->getSearchSelection());
 		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$whereClause .= ' AND '.REALTY_TABLE_OBJECTS
-				.'.'.$this->getConfValueString('checkboxesFilter')
-				.' IN ('.$searchSelection.')';
+			$whereClause .= ' AND ' . REALTY_TABLE_OBJECTS .
+				'.' . $this->getConfValueString('checkboxesFilter') .
+				' IN (' . $searchSelection . ')';
 		}
 
 		$whereClause .= $this->filterForm->getWhereClausePart($this->piVars);
@@ -565,7 +580,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *                allowed sort criteria
 	 */
 	private function createOrderByStatement() {
-		$result = 'uid';
+		$result = REALTY_TABLE_OBJECTS . '.uid';
 
 		$sortCriterion = isset($this->piVars['orderBy'])
 			? $this->piVars['orderBy']
@@ -584,7 +599,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'number_of_rooms',
 				'object_number',
 				'rent_excluding_bills',
-				'living_area'
+				'living_area',
 			))) {
 				$sortCriterion .= ' +0';
 			}
@@ -593,9 +608,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			// needs to be sorted by the cities' titles which are in a separate
 			// table.
 			if ($sortCriterion == 'city') {
-				$result = REALTY_TABLE_CITIES.'.title';
+				$result = REALTY_TABLE_CITIES . '.title';
 			} else {
-				$result = REALTY_TABLE_OBJECTS.'.'.$sortCriterion;
+				$result = REALTY_TABLE_OBJECTS . '.' . $sortCriterion;
 			}
 
 			$result .= ($descendingFlag ? ' DESC' : ' ASC');

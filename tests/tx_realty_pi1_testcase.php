@@ -1118,6 +1118,20 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateListViewShowsValueForOldOrNewBuilding() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects',
+			$this->firstRealtyUid,
+			array('old_or_new_building' => '1')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->assertContains(
+			$this->fixture->translate('label_old_or_new_building_1'),
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	/////////////////////////////////
 	// Testing filtered list views.
@@ -1763,20 +1777,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests concerning the sorting in the list view
 	//////////////////////////////////////////////////
 
-	public function testCreateListViewShowsValueForOldOrNewBuilding() {
-		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
-			$this->firstRealtyUid,
-			array('old_or_new_building' => '1')
-		);
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-
-		$this->assertContains(
-			$this->fixture->translate('label_old_or_new_building_1'),
-			$this->fixture->main('', array())
-		);
-	}
-
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue(
@@ -2140,12 +2140,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('orderBy' => 'city', 'descFlag' => 0)
 		);
 
-		// The result would be inverted if cities are sorted by their UID because
-		// the following can be asserted:
-		$this->assertTrue(
-			$this->firstCityUid < $this->secondCityUid
-		);
-
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
@@ -2162,12 +2156,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('orderBy' => 'city', 'descFlag' => 1)
 		);
 
-		// The result would be inverted if cities are sorted by their UID because
-		// the following can be asserted:
-		$this->assertTrue(
-			$this->firstCityUid < $this->secondCityUid
-		);
-
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->main('', array()));
@@ -2179,14 +2167,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testListViewIsSortedByUidIfAnInvalidSortCriterionWasSet() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('street' => '11')
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('street' => '11')
 		);
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->secondRealtyUid,
-			array('street' => '9')
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('street' => '9')
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
@@ -2201,6 +2185,93 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertGreaterThan(
 			strpos($result, self::$firstCityTitle),
 			strpos($result, self::$secondCityTitle)
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyBySortingFieldForNonZeroSortingFields() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('sorting' => '11')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('sorting' => '9')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
+
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertGreaterThan(
+			strpos($result, self::$secondCityTitle),
+			strpos($result, self::$firstCityTitle)
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyBySortingFieldWithTheZeroEntryBeingAfterTheNonZeroEntry() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('sorting' => '0')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('sorting' => '9')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
+
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertGreaterThan(
+			strpos($result, self::$secondCityTitle),
+			strpos($result, self::$firstCityTitle)
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyBySortingFieldAlthoughAnotherOrderByOptionWasSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('sorting' => '11', 'living_area' => '9')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('sorting' => '9', 'living_area' => '11')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue(
+			'listView.',
+			array('orderBy' => 'living_area', 'descFlag' => 0)
+		);
+
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertGreaterThan(
+			strpos($result, self::$secondCityTitle),
+			strpos($result, self::$firstCityTitle)
+		);
+	}
+
+	public function testListViewIsSortedAscendinglyBySortingFieldAlthoughTheDescendingFlagWasSet() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('sorting' => '11')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('sorting' => '9')
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
+
+		// Links inside the tags might contain numbers which could influence the
+		// result. Therefore the tags are stripped.
+		$result = strip_tags($this->fixture->main('', array()));
+		$this->assertGreaterThan(
+			strpos($result, self::$secondCityTitle),
+			strpos($result, self::$firstCityTitle)
 		);
 	}
 
