@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2266] Feature: Link the image thumbnails (in the list of attached images) to Lightbox
 - [#2357] Fix: testRetrieveCoordinatesReturnsExactCoordinatesForValidAddressIfNothingWasCached and testRetrieveCoordinatesSavesCoordinatesWithDecimalDot fail
 - [#2317] Change: Change the display of the contact data in the offerer list and on the single view page
 - [#2390] Change: Allow having the single view and the list view on the same page
