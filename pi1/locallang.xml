@@ -291,8 +291,6 @@
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
-			<label index="label_lightbox_image">Image</label>
-			<label index="label_lightbox_of">of</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="realty.pi_flexform.templateFile">HTML-Template</label>
@@ -578,8 +576,6 @@
 			<label index="message_no_such_owner">Der gewählte Anbieter existiert leider nicht in der Datenbank.</label>
 			<label index="label_offerer_list">Anbieterliste</label>
 			<label index="label_this_owners_objects">Alle Objekte dieses Anbieters</label>
-			<label index="label_lightbox_image">Bild</label>
-			<label index="label_lightbox_of">von</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.templateFile">HTML Template</label>
@@ -1574,8 +1570,6 @@
 			<label index="realty.pi_flexform.galleryByTS" type="integer">136988657</label>
 			<label index="realty.pi_flexform.lightbox" type="integer">249597613</label>
 			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
-			<label index="label_lightbox_image" type="integer">199571973</label>
-			<label index="label_lightbox_of" type="integer">146770004</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2567,8 +2561,6 @@
 			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
 			<label index="realty.pi_flexform.lightbox">Lightbox</label>
 			<label index="realty.pi_flexform.classic">classic</label>
-			<label index="label_lightbox_image">Image</label>
-			<label index="label_lightbox_of">of</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

@@ -30,6 +30,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_mapMarker.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncluder.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
@@ -723,7 +724,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		if ($this->getConfValueString('galleryType') == 'lightbox') {
-			$this->includeLightboxFiles();
+			tx_realty_lightboxIncluder::includeLightboxFiles(
+				$this->prefixId, $this->extKey
+			);
 		}
 
 		$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
@@ -781,36 +784,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $this->getSubpart('SINGLE_VIEW');
-	}
-
-	/**
-	 * Includes the files needed for the Lightbox.
-	 */
-	private function includeLightboxFiles() {
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_lightboxcss']
-			= '<link rel="stylesheet" type="text/css" href="' .
-			t3lib_extMgm::extRelPath($this->extKey) .
-			'pi1/contrib/lightbox.css" />';
-
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_prototype']
-			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath($this->extKey) .
-			'pi1/contrib/prototype.js">' .
-			'</script>';
-
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_scriptaculous']
-			= '<script type="text/javascript"' .
-			'src="' . t3lib_extMgm::extRelPath($this->extKey) .
-			'pi1/contrib/scriptaculous.js?load=effects,builder">' .
-			'</script>';
-
-		$this->addLightboxConfigurationToHeader();
-
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_lightbox']
-			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath($this->extKey) .
-			'pi1/contrib/lightbox.js" >' .
-			'</script>';
 	}
 
 	/**
@@ -1761,8 +1734,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$filename, $maxSizeVariable, $caption = '', $id = ''
 	) {
 		$fullPath = $this->uploadDirectory . $filename;
-		$maxWidth = $this->getConfValueInteger($maxSizeVariable.'X');
-		$maxHeight = $this->getConfValueInteger($maxSizeVariable.'Y');
+		$maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
+		$maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
 
 		return $this->createRestrictedImage(
 			$fullPath, $caption, $maxWidth, $maxHeight, 0, $caption, $id
@@ -3091,37 +3064,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'Location: ' .
 			t3lib_div::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
 		);
-	}
-
-	/**
-	 * Adds the configuration for the Lightbox to the header. This function
-	 * must be called before the lightbox.js file ist added to the header.
-	 */
-	private function addLightboxConfigurationToHeader() {
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_lightbox_config']
-			= '<script type="text/javascript">' .
-			'LightboxOptions = Object.extend({' .
-				'fileLoadingImage: \''.
-					t3lib_extMgm::extRelPath($this->extKey) .
-					'pi1/images/loading.gif\',' .
-				'fileBottomNavCloseImage: \'' .
-					t3lib_extMgm::extRelPath($this->extKey) .
-					'pi1/images/closelabel.gif\',' .
-				// controls transparency of shadow overlay
-				'overlayOpacity: 0.8,' .
-				// toggles resizing animations
-				'animate: true,' .
-				// controls the speed of the image resizing animations
-				// (1=slowest and 10=fastest)
-				'resizeSpeed: 7,' .
-				// if you adjust the padding in the CSS, you will need to
-				// update this variable
-				'borderSize: 10,' .
-				// When grouping images this is used to write: Image # of #.
-				'labelImage: "' . $this->translate('label_lightbox_image') . '",' .
-				'labelOf: "'. $this->translate('label_lightbox_of') .'"' .
-			'}, window.LightboxOptions || {});' .
-		'</script>';
 	}
 }
 

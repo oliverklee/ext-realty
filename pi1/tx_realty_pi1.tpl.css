@@ -924,7 +924,7 @@ p.tx-realty-pi1-objekt-nr {
 
 #uploadfield .column2 dl dl dt span {
 	display: block;
-	margin-right: 120px;
+	margin: 5px 120px 5px 0;
 }
 
 #uploadfield .column2 dl dl dt input {
@@ -946,6 +946,7 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 #uploadfield img {
-	margin: 2px;
+	margin: 0 15px 5px 5px;
 	float:left;
+	border: none;
 }

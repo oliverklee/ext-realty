@@ -2,7 +2,8 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008 Saskia Metzler <saskia@merlin.owl.de> All rights reserved
+* (c) 2008 Saskia Metzler <saskia@merlin.owl.de>
+* All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
 * free software; you can redistribute it and/or modify
@@ -24,6 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncluder.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
 
 /**
@@ -35,7 +37,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
+class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	/** stores the type of validation error if there was one */
 	private $validationError = '';
 
@@ -57,6 +59,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 */
 	public function render() {
 		$result = parent::render();
+		tx_realty_lightboxIncluder::includeLightboxFiles(
+			$this->plugin->prefixId, $this->plugin->extKey
+		);
 		$this->includeJavaScript();
 		$this->plugin->processTemplate($result);
 		$this->plugin->setLabels();
@@ -204,7 +209,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 	 * Includes additional JavaScript.
 	 */
 	private function includeJavaScript() {
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId]
+		$GLOBALS['TSFE']->additionalHeaderData[$this->plugin->prefixId]
 			= '<script src="' . t3lib_extMgm::extRelPath($this->extKey) .
 				'pi1/tx_realty_pi1.js" type="text/javascript">' .
 				'</script>';
@@ -212,7 +217,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 
 	/**
 	 * Returns the URL to the current page.
-	 * 
+	 *
 	 * @return string URL of the current page, will not be empty
 	 */
 	private function getUrlOfCurrentPage() {
@@ -226,33 +231,39 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 					$this->plugin->prefixId, $piVars
 				),
 			))
-		);		
+		);
 	}
 
 	/**
 	 * Returns HTML for the images as list items with their thumbnails.
-	 * 
+	 *
 	 * @param array two-dimensional array of image records, each inner array
 	 *              represents one image record and is an associative array with
 	 *              the keys 'caption' and 'image', must not be empty
-	 * 
-	 * @return string listed images with thumbnails in HTML, will not be empty 
+	 *
+	 * @return string listed images with thumbnails in HTML, will not be empty
 	 */
 	private function getRenderedImageList(array $imageData) {
 		$result = '';
 		foreach ($imageData as $key => $imageRecord) {
-			$imageTag = $this->createRestrictedImage(
-				'uploads/tx_realty/' . $imageRecord['image'],
+			$imagePath = 'uploads/tx_realty/' . $imageRecord['image'];
+			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
+					$this->cObj->typoLink_URL(array('parameter' => $imagePath))
+			));
+			$imageTag = $this->plugin->createRestrictedImage(
+				$imagePath,
 				'',
-				$this->getConfValueInteger('imageUploadThumbnailWidth'),
-				$this->getConfValueInteger('imageUploadThumbnailHeight'),
+				$this->plugin->getConfValueInteger('imageUploadThumbnailWidth'),
+				$this->plugin->getConfValueInteger('imageUploadThumbnailHeight'),
 				0,
 				$imageRecord['caption']
 			);
 
 			$this->plugin->setMarker(
 				'single_image_item',
-				$imageTag . ' ' . htmlspecialchars($imageRecord['caption'])
+				'<a href="' . $imageUrl . '" rel="lightbox[objectGallery]" ' .
+					'title="' . $imageRecord['caption'] . '"' . '>' . $imageTag .
+					'</a>' . ' ' . htmlspecialchars($imageRecord['caption'])
 			);
 			$this->plugin->setMarker(
 				'image_label',
@@ -263,7 +274,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
 			);
 			$result .= $this->plugin->getSubpart('SINGLE_ATTACHED_IMAGE');
 		}
-		
+
 		return $result;
 	}
 }

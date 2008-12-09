@@ -2,7 +2,8 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008 Saskia Metzler <saskia@merlin.owl.de> All rights reserved
+* (c) 2008 Saskia Metzler <saskia@merlin.owl.de>
+* All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
 * free software; you can redistribute it and/or modify
