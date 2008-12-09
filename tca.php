@@ -134,6 +134,7 @@ $TCA['tx_realty_objects'] = array(
 				'size' => '4',
 				'max' => '4',
 				'default' => '0',
+				'checkbox' => '0',
 				'range' => array(
 					'upper' => '9999',
 					'lower' => '0',
