@@ -97,6 +97,7 @@ CREATE TABLE tx_realty_objects (
 	owner int(11) unsigned DEFAULT '0' NOT NULL,
 	language tinytext NOT NULL,
 	currency tinytext NOT NULL,
+	advertised_date int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid)

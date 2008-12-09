@@ -20,7 +20,8 @@ $TCA['tx_realty_objects'] = array(
 			'openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
 			'contact_person,contact_email,contact_phone,owner,language,currency,' .
 			'exact_coordinates_are_cached,exact_longitude,exact_latitude,' .
-			'rough_coordinates_are_cached,rough_longitude,rough_latitude'
+			'rough_coordinates_are_cached,rough_longitude,rough_latitude,' .
+			'advertised_date'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -996,6 +997,18 @@ $TCA['tx_realty_objects'] = array(
 				'eval' => 'trim',
 			),
 		),
+		'advertised_date' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.advertised_date',
+			'config' => array(
+				'type' => 'input',
+				'size' => '10',
+				'max' => '10',
+				'eval' => 'date',
+				'checkbox' => '0',
+				'default' => '0',
+			),
+		),
 	),
 	'types' => array(
 		'0' => array(
@@ -1003,8 +1016,8 @@ $TCA['tx_realty_objects'] = array(
 			'showitem' => 'sys_language_uid;;;;1-1-1, ' .
 				'l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
-				'utilization, title;;;;2-2-2, emphasized, sorting;;;;3-3-3, ' .
-				'show_address, street, zip, city, district, country, number_of_rooms, ' .
+				'utilization, title;;;;2-2-2, emphasized, sorting, ' .
+				'show_address;;;;2-2-2, street, zip, city, district, country, number_of_rooms, ' .
 				'living_area, total_area, estate_size, rent_excluding_bills, ' .
 				'extra_charges, heating_included, deposit, provision, usable_from, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, ' .
@@ -1038,15 +1051,15 @@ $TCA['tx_realty_objects'] = array(
 				'contact_person, contact_email, contact_phone, owner, language, ' .
 				'currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
-				'rough_coordinates_are_cached;;3'
+				'rough_coordinates_are_cached;;3, advertised_date;;;;2-2-2'
 		),
 		'1' => array(
 			// for sale
 			'showitem' => 'sys_language_uid;;;;1-1-1, ' .
 				'l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
-				'title;;;;2-2-2, emphasized, sorting;;;;3-3-3, ' .
-				'show_address, street, zip, city, district, country, number_of_rooms, ' .
+				'title;;;;2-2-2, emphasized, sorting, ' .
+				'show_address;;;;2-2-2, street, zip, city, district, country, number_of_rooms, ' .
 				'living_area, total_area, estate_size, provision, usable_from, ' .
 				'buying_price, extra_charges, year_rent, rented, apartment_type, ' .
 				'house_type, floor, floors, bedrooms, bathrooms, heating_type, ' .
@@ -1079,7 +1092,7 @@ $TCA['tx_realty_objects'] = array(
 				'contact_person, contact_email, contact_phone, owner, language, ' .
 				'currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
-				'rough_coordinates_are_cached;;3'
+				'rough_coordinates_are_cached;;3, advertised_date;;;;2-2-2'
 		)
 	),
 	'palettes' => array(
