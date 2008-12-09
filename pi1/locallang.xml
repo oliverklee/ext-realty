@@ -65,9 +65,9 @@
 			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with different contact data:</label>
 			<label index="realty.pi_flexform.displayedContactInformationSpecial">Contact data to show for these FE user groups:</label>
 			<label index="realty.pi_flexform.firstUserGroup">first user group</label>
-			<label index="realty.pi_flexform.offererLabel">offerer label</label>
+			<label index="realty.pi_flexform.company">company</label>
+			<label index="realty.pi_flexform.offererLabel">name</label>
 			<label index="realty.pi_flexform.street">street</label>
-			<label index="realty.pi_flexform.zip">ZIP</label>
 			<label index="realty.pi_flexform.city">city</label>
 			<label index="realty.pi_flexform.telephone">telephone</label>
 			<label index="realty.pi_flexform.email">e-mail address</label>
@@ -352,9 +352,9 @@
 			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE-Benutzergruppen mit anderen Kontaktdaten:</label>
 			<label index="realty.pi_flexform.displayedContactInformationSpecial">Kontaktdaten, die für diese FE-Benutzergruppen angezeigt werden:</label>
 			<label index="realty.pi_flexform.firstUserGroup">erste Benutzergruppe</label>
-			<label index="realty.pi_flexform.offererLabel">Titel des Anbieters</label>
+			<label index="realty.pi_flexform.company">Firma</label>
+			<label index="realty.pi_flexform.offererLabel">Name</label>
 			<label index="realty.pi_flexform.street">Straße</label>
-			<label index="realty.pi_flexform.zip">Postleitzahl</label>
 			<label index="realty.pi_flexform.city">Stadt</label>
 			<label index="realty.pi_flexform.telephone">Telefonnummer</label>
 			<label index="realty.pi_flexform.email">E-mail</label>
@@ -1344,9 +1344,9 @@
 			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation" type="integer">105139586</label>
 			<label index="realty.pi_flexform.displayedContactInformationSpecial" type="integer">77650611</label>
 			<label index="realty.pi_flexform.firstUserGroup" type="integer">231779503</label>
-			<label index="realty.pi_flexform.offererLabel" type="integer">65230102</label>
+			<label index="realty.pi_flexform.company" type="integer">154956575</label>
+			<label index="realty.pi_flexform.offererLabel" type="integer">184977713</label>
 			<label index="realty.pi_flexform.street" type="integer">32811368</label>
-			<label index="realty.pi_flexform.zip" type="integer">70553491</label>
 			<label index="realty.pi_flexform.city" type="integer">82664750</label>
 			<label index="realty.pi_flexform.telephone" type="integer">194754535</label>
 			<label index="realty.pi_flexform.email" type="integer">59414938</label>
@@ -2337,9 +2337,9 @@
 			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with different contact data:</label>
 			<label index="realty.pi_flexform.displayedContactInformationSpecial">Contact data to show for these FE user groups:</label>
 			<label index="realty.pi_flexform.firstUserGroup">first user group</label>
-			<label index="realty.pi_flexform.offererLabel">offerer label</label>
+			<label index="realty.pi_flexform.company">company</label>
+			<label index="realty.pi_flexform.offererLabel">name</label>
 			<label index="realty.pi_flexform.street">street</label>
-			<label index="realty.pi_flexform.zip">ZIP</label>
 			<label index="realty.pi_flexform.city">city</label>
 			<label index="realty.pi_flexform.telephone">telephone</label>
 			<label index="realty.pi_flexform.email">e-mail address</label>

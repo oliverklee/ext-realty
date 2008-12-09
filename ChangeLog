@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2317] Change: Change the display of the contact data in the offerer list and on the single view page
 - [#2390] Change: Allow having the single view and the list view on the same page
 - [#2219] Feature: Add a field "sorting" to realty objects
 - [#2375] Fix: Images are deleted when using Google Maps in the single view

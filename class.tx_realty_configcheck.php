@@ -566,7 +566,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'The contact data will not be displayed at all if this value is ' .
 				'empty or contains only invalid keys.',
 			array(
-				'offerer_label', 'usergroup', 'street', 'zip', 'city',
+				'company', 'offerer_label', 'usergroup', 'street', 'city',
 				'telephone', 'email', 'www', 'objects_by_owner_link'
 			)
 		);
@@ -587,7 +587,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'not be displayed at all if this value is empty or contains only' .
 				'invalid keys.',
 			array(
-				'offerer_label', 'usergroup', 'street', 'zip', 'city',
+				'company', 'offerer_label', 'usergroup', 'street', 'city',
 				'telephone', 'email', 'www', 'objects_by_owner_link'
 			)
 		);
@@ -605,11 +605,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies of which front-end user group\'s offerers ' .
 				'special contact data should be displayed. If this value is ' .
 				'empty or invalid, the special contact data will not be displayed ' .
-				'for any owner.',
-			array(
-				'offerer_label', 'usergroup', 'street', 'zip', 'city',
-				'telephone', 'email', 'www', 'objects_by_owner_link'
-			)
+				'for any owner.'
 		);
 	}
 

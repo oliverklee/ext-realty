@@ -174,46 +174,47 @@ class tx_realty_offererList {
 	 * @param array the FE user record for which to create the row, must
 	 *              not be empty
 	 *
-	 * @return string HTML for one list row, will not be empty
+	 * @return string HTML for one list row, will be empty if there is no
+	 *                no content (or only the user group) for the row
 	 */
 	private function createListRow(array $userRecord) {
 		$subpartHasContent = false;
 		// resetSubpartsHiding cannot be used as this also affects the subparts
 		// hidden in the pi1 class.
 		$this->plugin->unhideSubparts(
-			'offerer_label,usergroup,street,zip,city,telephone,email,www,' .
-				'objects_by_owner_link,address',
+			'company,offerer_label,usergroup,street,city,telephone,email,www,' .
+				'objects_by_owner_link,address,single_view_usergroup',
 			'',
 			'wrapper'
 		);
 
 		foreach (array(
-			'offerer_label' => $this->getOffererLabel($userRecord),
-			'usergroup' => $this->getFirstUserGroup($userRecord),
-			'street' => $userRecord['address'],
-			'zip' => $userRecord['zip'],
-			'city' => $userRecord['city'],
-			'telephone' => $userRecord['telephone'],
-			'email' => $userRecord['email'],
-			'www' => $userRecord['www'],
+			'usergroup' => htmlspecialchars($this->getFirstUserGroup($userRecord)),
+			'company' => htmlspecialchars($this->getCompany($userRecord)),
+			'offerer_label' => htmlspecialchars($this->getOffererLabel($userRecord)),
+			'street' => htmlspecialchars($userRecord['address']),
+			'city' => htmlspecialchars($userRecord['zip'] . ' ' . $userRecord['city']),
+			'telephone' => htmlspecialchars($userRecord['telephone']),
+			'email' => htmlspecialchars($userRecord['email']),
+			'www' => $this->plugin->cObj->typoLink(
+				htmlspecialchars($userRecord['www']),
+				array('parameter' => htmlspecialchars($userRecord['www']))
+			),
 		) as $key => $value) {
+			$this->plugin->setMarker(
+				'emphasized_' . $key,
+				(!$subpartHasContent && (trim($value) != '')) ? 'emphasized' : ''
+			);
+
 			if ($this->mayDisplayInformation($userRecord, $key)
 				&& $this->plugin->setOrDeleteMarkerIfNotEmpty(
-					$key, htmlspecialchars($value), '', 'wrapper'
+					$key, trim($value), '', 'wrapper'
 				)
 			) {
-				$subpartHasContent = true;
+				$subpartHasContent = ($key != 'usergroup');
 			} else {
 				$this->plugin->hideSubparts($key, 'wrapper');
 			}
-		}
-
-		if ((($userRecord['zip'] == '')
-				|| !$this->mayDisplayInformation($userRecord, 'zip'))
-			&& (($userRecord['city'] == '')
-				|| !$this->mayDisplayInformation($userRecord, 'city'))
-		) {
-			$this->plugin->hideSubparts('address', 'wrapper');
 		}
 
 		$this->plugin->setOrDeleteMarkerIfNotEmpty(
@@ -222,6 +223,12 @@ class tx_realty_offererList {
 			'',
 			'wrapper'
 		);
+
+		// apart form the single view the user group is appended to the company
+		// if displayed or else the offerer_label
+		if ($this->plugin->getConfValueString('what_to_display') != 'single_view') {
+			$this->plugin->hideSubparts('usergroup', 'wrapper');
+		}
 
 		return ($subpartHasContent
 			? $this->plugin->getSubpart('OFFERER_LIST_ITEM')
@@ -281,26 +288,60 @@ class tx_realty_offererList {
 	}
 
 	/**
-	 * Returns a FE user's company if set in $userRecord and the first
-	 * name and last name if provided, else the name. If none of these is
-	 * provided, the user name will be returned.
+	 * Returns a FE user's first name and last name if provided, else the name.
+	 * If none of these is provided, the user name will be returned.
 	 * FE user records are expected to have at least a user name.
+	 *
+	 * Note: This function requires the user group subpart to be filled.
 	 *
 	 * @param array the user record of which to get the label, must not be empty
 	 *
-	 * @return string label for the owner, will be empty if no owner
-	 *                  record was cached or if the cached record is an
-	 *                  invalid FE user record without a user name
+	 * @return string label for the owner with the first user group appended if
+	 *                no company will be displayed (which usually has the user
+	 *                group appended) and if the offerer list is not used in the
+	 *                single view, will be empty if no owner record was cached
+	 *                or if the cached record is an invalid FE user record
+	 *                without a user name
 	 */
 	private function getOffererLabel(array $userRecord) {
-		$company = $userRecord['company'];
 		$name = ($userRecord['last_name'] != '')
 			? trim($userRecord['first_name'] . ' ' . $userRecord['last_name'])
-			: $userRecord['name'];
+			: trim($userRecord['name']);
 
-		$result = trim($company . ', ' . $name, ', ');
+		$result = ($name != '') ? $name : $userRecord['username'];
 
-		return ($result != '') ? $result : $userRecord['username'];
+		if (((!isset($userRecord['company']) || $userRecord['company'] == ''))
+			&& ($result != '')
+			&& ($this->plugin->getConfValueString('what_to_display') != 'single_view')
+		) {
+			$result .= ' ' . $this->plugin->getSubpart('WRAPPER_USERGROUP');
+		}
+
+		return trim($result);
+	}
+
+	/**
+	 * Returns the company with the user group appended.
+	 *
+	 * Note: This function requires the user group subpart to be filled.
+	 *
+	 * @param array the user record of which to get the company, must not be
+	 *              empty
+	 *
+	 * @return string the company with the user group appended if the offerer
+	 *                list is not used in the single view, will be empty if
+	 *                there is no company
+	 */
+	private function getCompany(array $userRecord) {
+		$result = $userRecord['company'];
+
+		if (($result != '')
+			&& ($this->plugin->getConfValueString('what_to_display') != 'single_view')
+		) {
+			$result .= ' ' . $this->plugin->getSubpart('WRAPPER_USERGROUP');
+		}
+
+		return trim($result);
 	}
 
 	/**

@@ -69,6 +69,9 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		$this->createDummyRecords();
 
 		$this->pi1->setConfigurationValue(
+			'what_to_display', 'offerer_list'
+		);
+		$this->pi1->setConfigurationValue(
 			'userGroupsForOffererList', $this->feUserGroupUid
 		);
 		$this->pi1->setConfigurationValue(
@@ -376,65 +379,6 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersCompany() {
-		$this->testingFramework->changeRecord(
-			'fe_users', $this->offererUid, array('company' => 'test company')
-		);
-
-		$this->assertContains(
-			'test company',
-			$this->fixture->render()
-		);
-	}
-
-	public function testOffererListItemContainsNoTrailingCommaAfterTheOfferersCompanyIfNoNameIsSet() {
-		$this->testingFramework->changeRecord(
-			'fe_users', $this->offererUid, array('company' => 'test company')
-		);
-
-		$this->assertNotContains(
-			'test company,',
-			$this->fixture->render()
-		);
-	}
-
-	public function testOffererListItemContainsTheOfferersLastNameIfCompanyIsSetAndDisplayed() {
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$this->offererUid,
-			array('company' => 'test company', 'last_name' => 'User')
-		);
-
-		$this->assertContains(
-			'test company, User',
-			$this->fixture->render()
-		);
-	}
-
-	public function testOffererListItemContainsTheOfferersNameIfIsCompanySetAndDisplayed() {
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$this->offererUid,
-			array('company' => 'test company', 'name' => 'Mr. Test')
-		);
-
-		$this->assertContains(
-			'test company, Mr. Test',
-			$this->fixture->render()
-		);
-	}
-
-	public function testOffererListItemNotContainsTheOfferersUserNameIfCompanyIsSet() {
-		$this->testingFramework->changeRecord(
-			'fe_users', $this->offererUid, array('company' => 'test company')
-		);
-
-		$this->assertNotContains(
-			self::FE_USER_NAME,
-			$this->fixture->render()
-		);
-	}
-
 
 	//////////////////////////////////////
 	// Testing the displayed user groups
@@ -506,6 +450,24 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOffererListItemContainsOfferersFirstUserGroupBeforeTitleIfWhatToDisplayIsSingleView() {
+		$this->pi1->setConfigurationValue('what_to_display', 'single_view');
+
+		$result = $this->fixture->render();
+		$this->assertGreaterThan(
+			strpos($result, self::FE_USER_GROUP_NAME),
+			strpos($result, self::FE_USER_NAME)
+		);
+	}
+
+	public function testOffererListItemContainsOfferersFirstUserGroupAfterTitleIfWhatToDisplayIsOffererList() {
+		$result = $this->fixture->render();
+		$this->assertGreaterThan(
+			strpos($result, self::FE_USER_NAME),
+			strpos($result, self::FE_USER_GROUP_NAME)
+		);
+	}
+
 
 	////////////////////////////////////////////////////////////////////
 	// Testing conditionally displayed information for normal offerers
@@ -520,9 +482,20 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersUserGroupIfConfigured() {
+	public function testOffererListItemNotContainsTheOfferersUserGroupIfConfiguredButNeitherNameNorCompanyEnabled() {
 		$this->pi1->setConfigurationValue(
 			'displayedContactInformation', 'usergroup'
+		);
+
+		$this->assertNotContains(
+			self::FE_USER_GROUP_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersUserGroupIfUserGroupAndNameAreEnabledByConfiguration() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'usergroup,offerer_label'
 		);
 
 		$this->assertContains(
@@ -536,6 +509,46 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			self::FE_USER_GROUP_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsTheOfferersCompanyIfConfigured() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'company'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('company' => 'Test Company')
+		);
+
+		$this->assertContains(
+			'Test Company',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemNotContainsTheOfferersCompanyIfNotConfigured() {
+		$this->pi1->setConfigurationValue('displayedContactInformation', '');
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('company' => 'Test Company')
+		);
+
+		$this->assertNotContains(
+			'Test Company',
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsCompanyWithClassEmphasizedForEnabledCompany() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'company'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('company' => 'Test Company')
+		);
+
+		$this->assertContains(
+			'class="emphasized">Test Company',
 			$this->fixture->render()
 		);
 	}
@@ -556,6 +569,48 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			self::FE_USER_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsOffererTitleWithoutClassEmphasizedForEnabledCompany() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'company,offerer_label'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('company' => 'Test Company')
+		);
+
+		$this->assertNotContains(
+			'class="emphasized">' . self::FE_USER_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsFirstUserGroupWithoutClassEmphasizedForEnabledCompany() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'company,offerer_label,usergroup'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('company' => 'Test Company')
+		);
+
+		$this->assertNotContains(
+			'class="emphasized">(' . self::FE_USER_GROUP_NAME,
+			$this->fixture->render()
+		);
+	}
+
+	public function testOffererListItemContainsOffererTitleWithClassEmphasizedForDisabledCompany() {
+		$this->pi1->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('company' => 'Test Company')
+		);
+
+		$this->assertContains(
+			'class="emphasized">' . self::FE_USER_NAME,
 			$this->fixture->render()
 		);
 	}
@@ -586,42 +641,17 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersZipIfConfigured() {
-		$this->pi1->setConfigurationValue(
-			'displayedContactInformation', 'zip'
-		);
-		$this->testingFramework->changeRecord(
-			'fe_users', $this->offererUid, array('zip' => '99999')
-		);
-
-		$this->assertContains(
-			'99999',
-			$this->fixture->render()
-		);
-	}
-
-	public function testOffererListItemNotContainsTheOfferersZipIfNotConfigured() {
-		$this->pi1->setConfigurationValue('displayedContactInformation', '');
-		$this->testingFramework->changeRecord(
-			'fe_users', $this->offererUid, array('zip' => '99999')
-		);
-
-		$this->assertNotContains(
-			'99999',
-			$this->fixture->render()
-		);
-	}
-
-	public function testOffererListItemContainsTheOfferersCityIfConfigured() {
+	public function testOffererListItemContainsTheOfferersCityAndZipIfConfigured() {
 		$this->pi1->setConfigurationValue(
 			'displayedContactInformation', 'city'
 		);
 		$this->testingFramework->changeRecord(
-			'fe_users', $this->offererUid, array('city' => 'City Title')
+			'fe_users', $this->offererUid,
+			array('city' => 'City Title', 'zip' => '12345')
 		);
 
 		$this->assertContains(
-			'City Title',
+			'12345 City Title',
 			$this->fixture->render()
 		);
 	}
@@ -638,7 +668,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsAddressWrapperContentIfNeitherCityNorZipConfigured() {
+	public function testOffererListItemNotContainsCityWrapperContentIfCityNotConfigured() {
 		$this->pi1->setConfigurationValue('displayedContactInformation', 'offerer_label');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid,
@@ -651,9 +681,9 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsAddressWrapperContentIfCityAndZipAreConfiguredButEmpty() {
+	public function testOffererListItemNotContainsCityWrapperContentIfCityIsConfiguredButEmpty() {
 		$this->pi1->setConfigurationValue(
-			'displayedContactInformation', 'offerer_label,zip,city'
+			'displayedContactInformation', 'offerer_label,city'
 		);
 
 		$this->assertNotContains(
@@ -737,7 +767,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'<a href="http://www.company.org">http://www.company.org</a>',
+			'<a href="http://www.company.org"',
 			$this->fixture->render()
 		);
 	}
@@ -893,7 +923,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 
 
 	/////////////////////////////////////////////////////
-	// tests concerning the sorting of the offerer list
+	// Tests concerning the sorting of the offerer list
 	/////////////////////////////////////////////////////
 
 	public function testOffererListIsSortedByCity() {

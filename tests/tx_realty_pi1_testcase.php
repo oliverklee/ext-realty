@@ -126,7 +126,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'showGoogleMapsInListView' => 0,
 			'showGoogleMapsInSingleView' => 0,
 			'defaultCountryUID' => self::DE,
-			'displayedContactInformation' => 'offerer_label,telephone',
+			'displayedContactInformation' => 'company,offerer_label,telephone',
 		));
 	}
 
