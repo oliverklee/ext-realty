@@ -99,7 +99,9 @@ plugin.tx_realty_pi1 {
 
 	# name of the DB field to create the search filter checkboxes from
 	checkboxesFilter =
-	# DB fields by which a FE user can sort the list view, stored in a bitfield (see tx_realty_pi1::sortCriteria)
+	# DB field, by which the list view should be sorted initially, set to "random" for random sorting
+	orderBy = tstamp
+	# DB fields by which a FE user can sort the list view, also "random" is allowed
 	sortCriteria =
 
 	# whether to display the input for ZIP/city in the search form, may either be "show" or "hide"
@@ -149,7 +151,6 @@ plugin.tx_realty_pi1 {
 plugin.tx_realty_pi1.listView {
 	results_at_a_time = 10
 	maxPages = 5
-	orderBy = tstamp
 	descFlag = 1
 }
 
