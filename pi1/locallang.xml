@@ -28,7 +28,9 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
+			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
+			<label index="realty.pi_flexform.random">random</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm">Site search visibility in the search form:</label>
 			<label index="realty.pi_flexform.fromTsSetup">(from TS setup)</label>
 			<label index="realty.pi_flexform.hide">hide</label>
@@ -197,6 +199,7 @@
 			<label index="label_sort">sort</label>
 			<label index="label_search">search</label>
 			<label index="label_sortby">Display sorted by</label>
+			<label index="label_random">random</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
 			<label index="message_now">now</label>
@@ -313,7 +316,9 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Kontaktanfragen direkt an die Kontaktperson der jeweiligen Immobilie senden:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
+			<label index="realty.pi_flexform.orderBy">Listenansicht zu Anfang sortieren nach:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
+			<label index="realty.pi_flexform.random">zufällig</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm">Sichtbarkeit der Ortssuche im Suchformular:</label>
 			<label index="realty.pi_flexform.fromTsSetup">(aus dem TS-Setup)</label>
 			<label index="realty.pi_flexform.hide">verstecken</label>
@@ -482,6 +487,7 @@
 			<label index="label_sort">Sortieren</label>
 			<label index="label_search">Suchen</label>
 			<label index="label_sortby">Anzeigen nach</label>
+			<label index="label_random">zufällig</label>
 			<label index="label_contact">Kontakt aufnehmen</label>
 			<label index="label_close_window">Fenster schließen</label>
 			<label index="message_now">sofort</label>
@@ -1307,7 +1313,9 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">117633312</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
+			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
+			<label index="realty.pi_flexform.random" type="integer">131986222</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm" type="integer">154279350</label>
 			<label index="realty.pi_flexform.fromTsSetup" type="integer">136988657</label>
 			<label index="realty.pi_flexform.hide" type="integer">176746587</label>
@@ -1464,6 +1472,7 @@
 			<label index="label_sort" type="integer">212715720</label>
 			<label index="label_search" type="integer">6984764</label>
 			<label index="label_sortby" type="integer">188609045</label>
+			<label index="label_random" type="integer">131986222</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
 			<label index="message_now" type="integer">159106450</label>
@@ -2298,7 +2307,9 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
+			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
+			<label index="realty.pi_flexform.random">random</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm">Site search visibility in the search form:</label>
 			<label index="realty.pi_flexform.fromTsSetup">(from TS setup)</label>
 			<label index="realty.pi_flexform.hide">hide</label>
@@ -2455,6 +2466,7 @@
 			<label index="label_sort">sort</label>
 			<label index="label_search">search</label>
 			<label index="label_sortby">Display sorted by</label>
+			<label index="label_random">random</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
 			<label index="message_now">now</label>

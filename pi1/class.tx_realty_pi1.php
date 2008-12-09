@@ -154,21 +154,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	);
 
 	/**
-	 * Sort criteria that can be selected in the BE flexforms.
-	 * Flexforms stores all the flags in one word with a bit for each checkbox,
-	 * starting with the lowest bit for the first checkbox.
-	 * We can have up to 10 checkboxes.
+	 * @var array sort criteria that can be selected in the BE flexforms.
 	 */
-	private $sortCriteria = array(
-		0x0001 => 'object_number',
-		0x0002 => 'title',
-		0x0004 => 'city',
-		0x0008 => 'district',
-		0x0010 => 'buying_price',
-		0x0020 => 'rent_excluding_bills',
-		0x0040 => 'number_of_rooms',
-		0x0080 => 'living_area',
-		0x0100 => 'tstamp',
+	private static $sortCriteria = array(
+		'object_number',
+		'title',
+		'city',
+		'district',
+		'buying_price',
+		'rent_excluding_bills',
+		'number_of_rooms',
+		'living_area',
+		'tstamp',
+		'random',
 	);
 
 	public $pi_checkCHash = true;
@@ -585,35 +583,41 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$sortCriterion = isset($this->piVars['orderBy'])
 			? $this->piVars['orderBy']
-			: $this->getListViewConfValueString('orderBy');
+			: $this->getConfValueString('orderBy');
 		$descendingFlag = isset($this->piVars['descFlag'])
 			? (boolean) $this->piVars['descFlag']
 			: $this->getListViewConfValueBoolean('descFlag');
 
 		// checks whether the sort criterion is allowed
-		if (in_array($sortCriterion, $this->sortCriteria)) {
-			// '+0' converts the database column's type to NUMERIC as the
-			// columns in the array below are regularly used for numeric
-			// values but also might need to contain strings.
-			if (in_array($sortCriterion, array(
-				'buying_price',
-				'number_of_rooms',
-				'object_number',
-				'rent_excluding_bills',
-				'living_area',
-			))) {
-				$sortCriterion .= ' +0';
+		if (in_array($sortCriterion, self::$sortCriteria)) {
+			switch ($sortCriterion) {
+				// '+0' converts the database column's type to NUMERIC as the
+				// columns in the array below are regularly used for numeric
+				// values but also might need to contain strings.
+				case 'buying_price':
+					// intended fall-through
+				case 'number_of_rooms':
+					// intended fall-through
+				case 'object_number':
+					// intended fall-through
+				case 'rent_excluding_bills':
+					// intended fall-through
+				case 'living_area':
+					$result = REALTY_TABLE_OBJECTS . '.' . $sortCriterion . ' +0';
+					break;
+				// The objects' table only contains the cities' UIDs. The result
+				// needs to be sorted by the cities' titles which are in a
+				// separate table.
+				case 'city':
+					$result = REALTY_TABLE_CITIES . '.title';
+					break;
+				case 'random':
+					$result = 'RAND()';
+					break;
+				default:
+					$result = REALTY_TABLE_OBJECTS . '.' . $sortCriterion;
+					break;
 			}
-
-			// The objects' table only contains the cities' UIDs. The result
-			// needs to be sorted by the cities' titles which are in a separate
-			// table.
-			if ($sortCriterion == 'city') {
-				$result = REALTY_TABLE_CITIES . '.title';
-			} else {
-				$result = REALTY_TABLE_OBJECTS . '.' . $sortCriterion;
-			}
-
 			$result .= ($descendingFlag ? ' DESC' : ' ASC');
 		}
 
@@ -2331,24 +2335,27 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createSorting() {
 		// Only have the sort form if at least one sort criteria is selected in
 		// the BE.
-		if (!$this->hasConfValueInteger('sortCriteria')) {
+		if (!$this->hasConfValueString('sortCriteria')) {
 			return '';
 		}
 
 		$this->setMarker('self_url', $this->getSelfUrl());
-		$selectedSortCriteria = $this->getConfValueInteger('sortCriteria');
+		$selectedSortCriteria = explode(
+			',', $this->getConfValueString('sortCriteria')
+		);
 		$options = array();
-		foreach ($this->sortCriteria as $sortCriterionKey => $sortCriterionName) {
-			if ($selectedSortCriteria & $sortCriterionKey) {
-				if ($sortCriterionName == $this->internal['orderBy']) {
+		foreach ($selectedSortCriteria as $selectedSortCriterion) {
+			if (in_array($selectedSortCriterion, self::$sortCriteria)) {
+				if ($selectedSortCriterion == $this->internal['orderBy']) {
 					$selected = ' selected="selected"';
 				} else {
 					$selected = '';
 				}
-				$this->setMarker('sort_value', $sortCriterionName);
+				$this->setMarker('sort_value', $selectedSortCriterion);
 				$this->setMarker('sort_selected', $selected);
 				$this->setMarker(
-					'sort_label', $this->translate('label_' . $sortCriterionName)
+					'sort_label',
+					$this->translate('label_' . $selectedSortCriterion)
 				);
 				$options[] = $this->getSubpart('SORT_OPTION');
 			}

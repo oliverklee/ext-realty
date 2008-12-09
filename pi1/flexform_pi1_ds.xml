@@ -199,41 +199,114 @@
 							</config>
 						</TCEforms>
 					</checkboxesFilter>
+					<orderBy>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.orderBy</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.fromTsSetup</numIndex>
+										<numIndex index="1"></numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number</numIndex>
+										<numIndex index="1">object_number</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title</numIndex>
+										<numIndex index="1">title</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city</numIndex>
+										<numIndex index="1">city</numIndex>
+									</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district</numIndex>
+										<numIndex index="1">district</numIndex>
+									</numIndex>
+									<numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price</numIndex>
+										<numIndex index="1">buying_price</numIndex>
+									</numIndex>
+									<numIndex index="6" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills</numIndex>
+										<numIndex index="1">rent_excluding_bills</numIndex>
+									</numIndex>
+									<numIndex index="7" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms</numIndex>
+										<numIndex index="1">number_of_rooms</numIndex>
+									</numIndex>
+									<numIndex index="8" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.living_area</numIndex>
+										<numIndex index="1">living_area</numIndex>
+									</numIndex>
+									<numIndex index="9" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.tstamp</numIndex>
+										<numIndex index="1">tstamp</numIndex>
+									</numIndex>
+									<numIndex index="10" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.random</numIndex>
+										<numIndex index="1">random</numIndex>
+									</numIndex>
+								</items>
+								<maxitems>1</maxitems>
+								<minitems>0</minitems>
+							</config>
+						</TCEforms>							
+					</orderBy>
 					<sortCriteria>
 						<TCEforms>
 							<exclude>1</exclude>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sortCriteria</label>
 							<config>
-								<type>check</type>
-								<items>
+								<type>select</type>
+								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number</numIndex>
+										<numIndex index="1">object_number</numIndex>
 									</numIndex>
 									<numIndex index="1" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title</numIndex>
+										<numIndex index="1">title</numIndex>
 									</numIndex>
 									<numIndex index="2" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city</numIndex>
+										<numIndex index="1">city</numIndex>
 									</numIndex>
 									<numIndex index="3" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district</numIndex>
+										<numIndex index="1">district</numIndex>
 									</numIndex>
 									<numIndex index="4" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price</numIndex>
+										<numIndex index="1">buying_price</numIndex>
 									</numIndex>
 									<numIndex index="5" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills</numIndex>
+										<numIndex index="1">rent_excluding_bills</numIndex>
 									</numIndex>
 									<numIndex index="6" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms</numIndex>
+										<numIndex index="1">number_of_rooms</numIndex>
 									</numIndex>
 									<numIndex index="7" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.living_area</numIndex>
+										<numIndex index="1">living_area</numIndex>
 									</numIndex>
 									<numIndex index="8" type="array">
 										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.tstamp</numIndex>
+										<numIndex index="1">tstamp</numIndex>
+									</numIndex>
+									<numIndex index="9" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.random</numIndex>
+										<numIndex index="1">random</numIndex>
 									</numIndex>
 								</items>
+								<maxitems>10</maxitems>
+								<minitems>0</minitems>
+								<renderMode>checkbox</renderMode>
 							</config>
 						</TCEforms>
 					</sortCriteria>

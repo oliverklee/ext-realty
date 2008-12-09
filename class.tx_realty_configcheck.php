@@ -82,6 +82,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkImageSizeValuesForListView();
 		$this->checkPagesToDisplay();
 		$this->checkRecursive();
+		$this->checkOrderBy();
 		$this->checkSortCriteria();
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
@@ -671,20 +672,55 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Checks the setting for orderBy.
+	 */
+	private function checkOrderBy() {
+		$this->checkIfSingleInSetOrEmpty(
+			'orderBy',
+			true,
+			'sDEF',
+			'This value specifies the database field name by which the list view ' .
+				'should be sorted initially. Displaying the list view might not ' .
+				'work properly if this value is misconfigured.',
+			array(
+				'object_number',
+				'title',
+				'city',
+				'district',
+				'buying_price',
+				'rent_excluding_bills',
+				'number_of_rooms',
+				'living_area',
+				'tstamp',
+				'random',
+			)
+		);		
+	}
+
+	/**
 	 * Checks the settings for the sort criteria.
 	 */
 	private function checkSortCriteria() {
-		// checks whether the value is non-empty
-		if ($this->objectToCheck->hasConfValueString('sortCriteria')) {
-			$this->checkIfPositiveIntegerOrZero(
-				'sortCriteria',
-				true,
-				'sDEF',
-				'This value specifies the database field names by which a FE user '
-					.'can sort the list view. This value is usually set via '
-					.'flexforms.'
-			);
-		}
+		$this->checkIfMultiInSetOrEmpty(
+			'sortCriteria',
+			true,
+			'sDEF',
+			'This value specifies the database field names by which a FE user ' .
+				'can sort the list view. This value is usually set via ' .
+				'flexforms.',
+			array(
+				'object_number',
+				'title',
+				'city',
+				'district',
+				'buying_price',
+				'rent_excluding_bills',
+				'number_of_rooms',
+				'living_area',
+				'tstamp',
+				'random',
+			)
+		);
 	}
 
 	/**
