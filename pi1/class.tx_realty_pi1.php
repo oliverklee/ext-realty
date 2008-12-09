@@ -820,7 +820,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *               if the record to display does not exist
 	 */
 	private function getCurrentRowForShowUid() {
-		$showUid = 'uid='.$this->piVars['showUid'];
+		$showUid = 'uid=' . $this->piVars['showUid'];
 		$whereClause = '(' . $showUid .
 			tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) . ')';
 		// Logged-in users may also see their hidden objects in the single view.
@@ -2593,6 +2593,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		if (in_array($whatToDisplay, array(
 			'realty_list',
+			'single_view',
 			'gallery',
 			'favorites',
 			'city_selector',
@@ -2607,12 +2608,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$result = $whatToDisplay;
 		} else {
 			$result = 'realty_list';
-		}
-
-		// switches from the list view to the single view if a 'showUid'
-		// variable is set
-		if ($this->hasShowUidInUrl() && in_array($result, self::$listViews)) {
-			$result = 'single_view';
 		}
 
 		return $result;

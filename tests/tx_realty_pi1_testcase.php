@@ -2423,8 +2423,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests concerning the contact link.
 	///////////////////////////////////////
 
-	public function testContactLinkIsDisplayedInTheDetailViewIfDirectRequestsAreAllowedAndTheContactPidIsSet() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+	public function testContactLinkIsDisplayedInTheSingleViewIfDirectRequestsAreAllowedAndTheContactPidIsSet() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
@@ -2440,8 +2440,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactLinkIsNotDisplayedInTheDetailViewIfDirectRequestsAreNotAllowedAndTheContactPidIsSet() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+	public function testContactLinkIsNotDisplayedInTheSingleViewIfDirectRequestsAreNotAllowedAndTheContactPidIsSet() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 0);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
@@ -2452,8 +2452,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactLinkIsNotDisplayedInTheDetailViewIfDirectRequestsAreAllowedAndTheContactPidIsNotSet() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+	public function testContactLinkIsNotDisplayedInTheSingleViewIfDirectRequestsAreAllowedAndTheContactPidIsNotSet() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
 		$this->fixture->setConfigurationValue('contactPID', '');
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
@@ -2502,8 +2502,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactLinkIsDisplayedInTheDetailViewAndContainsTheObjectUid() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+	public function testContactLinkIsDisplayedInTheSingleViewAndContainsTheObjectUid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
@@ -2522,8 +2522,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactLinkIsNotDisplayedInTheDetailViewIfTheContactFormHasTheSamePid() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+	public function testContactLinkIsNotDisplayedInTheSingleViewIfTheContactFormHasTheSamePid() {
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
 		$this->fixture->setConfigurationValue('contactPID', $this->singlePid);
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
@@ -2632,7 +2632,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests concerning the single view
 	/////////////////////////////////////
 
-	public function testDetailPageContainsContactInformationWithPhoneNumberFromRecord() {
+	public function testSingleViewPageContainsContactInformationWithPhoneNumberFromRecord() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2651,7 +2651,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageContainsContactInformationWithCompanyFromRecord() {
+	public function testSingleViewPageContainsContactInformationWithCompanyFromRecord() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2670,7 +2670,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageContainsContactInformationWithPhoneNumberFromOwner() {
+	public function testSingleViewPageContainsContactInformationWithPhoneNumberFromOwner() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('telephone' => '123123')
@@ -2696,7 +2696,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageContainsContactInformationWithCompanyFromOwner() {
+	public function testSingleViewPageContainsContactInformationWithCompanyFromOwner() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('company' => 'any company')
@@ -2722,7 +2722,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageNotContainsContactInformationIfOptionIsDisabled() {
+	public function testSingleViewPageNotContainsContactInformationIfOptionIsDisabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2749,7 +2749,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageNotContainsContactInformationIfNoContactInformationAvailable() {
+	public function testSingleViewPageNotContainsContactInformationIfNoContactInformationAvailable() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -2759,7 +2759,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageNotContainsContactInformationForEnabledOptionAndDeletedOwner() {
+	public function testSingleViewPageNotContainsContactInformationForEnabledOptionAndDeletedOwner() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup(),
 			array('company' => 'any company', 'deleted' => 1)
@@ -2781,7 +2781,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDetailPageNotContainsContactInformationForEnabledOptionAndOwnerWithoutData() {
+	public function testSingleViewPageNotContainsContactInformationForEnabledOptionAndOwnerWithoutData() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()
 		);
@@ -3164,6 +3164,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('country' => $defaultCountryUid)
 		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 		$this->fixture->main('', array());
 
@@ -3180,6 +3181,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			// chosen randomly the country ID of Australia
 			array('country' => '14')
 		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 		$this->fixture->main('', array());
 
