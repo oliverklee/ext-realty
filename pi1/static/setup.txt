@@ -146,6 +146,16 @@ plugin.tx_realty_pi1 {
 	# default country for objects that have no country set (a UID
 	# from the static_countries table, 54 = Germany)
 	defaultCountryUID = 54
+
+	# the page ID with an advertisement form for realty objects, leave empty
+	# to disable the link
+	advertisementPID =
+	# the GET parameter name that will contain the UID of realty object for the
+	# "advertise" link, e.g. "tx_foo[uid]"
+	advertisementParameterForObjectUid =
+	# the number of days after which an advertisement expires, set to 0 to have
+	# no expiration
+	advertisementExpirationInDays = 0
 }
 
 plugin.tx_realty_pi1.listView {

@@ -160,6 +160,13 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkEditorPid();
 		$this->checkLoginPid();
 		$this->checkImageUploadPid();
+		$this->checkAdvertisementPid();
+		if ($this->objectToCheck->hasConfValueInteger(
+			'advertisementPID', 's_advertisements'
+		)) {
+			$this->checkAdvertisementParameterForObjectUid();
+			$this->checkAdvertisementExpirationInDays();
+		}
 	}
 
 	/**
@@ -694,7 +701,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'tstamp',
 				'random',
 			)
-		);		
+		);
 	}
 
 	/**
@@ -976,6 +983,41 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the height of the thumbnails in the image ' .
 				'upload. If it is not configured properly, the image will be ' .
 				'shown at original size.'
+		);
+	}
+
+	/**
+	 * Checks the configuration value advertisementPID.
+	 */
+	private function checkAdvertisementPid() {
+		$this->checkIfSingleFePageOrEmpty(
+			'advertisementPID',
+			true,
+			's_advertisements',
+			'This value specifies the page that contains the advertisement ' .
+				'form. If this value is incorrect, the link to the form ' .
+				'will not work.'
+		);
+	}
+
+	/**
+	 * Checks the configuration value advertisementParameterForObjectUid.
+	 */
+	private function checkAdvertisementParameterForObjectUid() {
+		// Nothing to do - every string is allowed.
+	}
+
+	/**
+	 * Checks the configuration value advertisementExpirationInDays.
+	 */
+	private function checkAdvertisementExpirationInDays() {
+		$this->checkIfPositiveIntegerOrZero(
+			'advertisementExpirationInDays',
+			true,
+			's_advertisements',
+			'This value specifies the period after which an advertisement ' .
+				'expires. If this value is invalid, advertisements will ' .
+				'not expire at all.'
 		);
 	}
 }

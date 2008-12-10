@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2396, #2397] Feature: Add configurations for the duration of an advertisement, the page ID and the link parameters
 - [#2395] Feature: Add a field "advertised" (date) to realty records
 - [#2391] Feature: Add a checkbox "random sorting" to the list view flexforms
 - [#2266] Feature: Link the image thumbnails (in the list of attached images) to Lightbox
