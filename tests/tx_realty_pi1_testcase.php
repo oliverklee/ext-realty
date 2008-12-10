@@ -148,7 +148,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 * and then logging out any logged-in FE users.
 	 */
 	private function denyAccess() {
-		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
+		$this->fixture->setConfigurationValue(
+			'requireLoginForSingleViewPage', 1
+		);
 		$this->testingFramework->logoutFrontEndUser();
 	}
 
@@ -157,7 +159,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 * page.
 	 */
 	private function allowAccess() {
-		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
+		$this->fixture->setConfigurationValue(
+			'requireLoginForSingleViewPage', 0
+		);
 	}
 
 	/**
@@ -214,6 +218,85 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'object_number' => self::$secondObjectNumber,
 				'pid' => $this->systemFolderPid,
 				'city' => $this->secondCityUid,
+			)
+		);
+	}
+
+	/**
+	 * Prepares the "my objects" list: Creates and logs in a front-end user and
+	 * sets what_to_display to "my_objects".
+	 *
+	 * If $makeOwner is true, the user will be set as the owner of the first
+	 * realty object.
+	 *
+	 * @param boolean whether the front-end user should be set as the owner of
+	 *                the first realty object
+	 *
+	 * @return integer the UID of the created and logged-in FE user, will be > 0
+	 */
+	private function prepareMyObjects($makeOwner = false) {
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+
+		$uid = $this->testingFramework->createAndLoginFrontEndUser();
+
+		if ($makeOwner) {
+			$this->testingFramework->changeRecord(
+				REALTY_TABLE_OBJECTS,
+				$this->firstRealtyUid,
+				array('owner' => $uid)
+			);
+		}
+
+		return $uid;
+	}
+
+
+	////////////////////////////////////
+	// Tests for the utility functions
+	////////////////////////////////////
+
+	public function testPrepareMyObjectsLogsInFrontEndUser() {
+		$this->prepareMyObjects();
+
+		$this->assertTrue(
+			$this->testingFramework->isLoggedIn()
+		);
+	}
+
+	public function testPrepareMyObjectsReturnsUidOfLoggedInUser() {
+		$uid = $this->prepareMyObjects();
+
+		$this->assertEquals(
+			$GLOBALS['TSFE']->fe_user->user['uid'],
+			$uid
+		);
+	}
+
+	public function testPrepareMyObjectsSetsWhatToDisplayToMyObjects() {
+		$this->prepareMyObjects();
+
+		$this->assertEquals(
+			'my_objects',
+			$this->fixture->getConfValueString('what_to_display')
+		);
+	}
+
+	public function testPrepareMyObjectsWithoutMakeOwnerMakesUserOwnerOfNoObjects() {
+		$uid = $this->prepareMyObjects(false);
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				REALTY_TABLE_OBJECTS, 'owner = ' . $uid
+			)
+		);
+	}
+
+	public function testPrepareMyObjectsWithMakeOwnerMakesUserOwnerOfOneObject() {
+		$uid = $this->prepareMyObjects(true);
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				REALTY_TABLE_OBJECTS, 'owner = ' . $uid
 			)
 		);
 	}
@@ -3843,11 +3926,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testNoResultsFoundMessageIsDisplayedForLoggedInUserWhoHasNoObjects() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->prepareMyObjects(false);
 
 		$this->assertContains(
 			$this->fixture->translate('message_noResultsFound_my_objects'),
@@ -3856,16 +3935,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testOnlyObjectsTheLoggedInUserOwnsAreDisplayed() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('owner' => $feUserId)
-		);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->prepareMyObjects(true);
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -3878,16 +3948,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewContainsEditButton() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('owner' => $feUserId)
-		);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->prepareMyObjects(true);
+
 		$this->fixture->setConfigurationValue(
 			'editorPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -3899,17 +3961,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testEditButtonInTheMyObjectsViewIsLinkedToTheFeEditor() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('owner' => $feUserId)
-		);
+		$this->prepareMyObjects(true);
+
 		$editorPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('editorPID', $editorPid);
 
 		$this->assertContains(
@@ -3919,16 +3973,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testEditButtonInTheMyObjectsViewContainsTheRecordUid() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('owner' => $feUserId)
-		);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->prepareMyObjects(true);
+
 		$this->fixture->setConfigurationValue(
 			'editorPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -3944,16 +3990,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteObjectFromMyObjectsList() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('owner' => $feUserId)
-		);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->prepareMyObjects(true);
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -3977,14 +4014,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewContainsCreateNewObjectLink() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->prepareMyObjects(false);
+
 		$this->fixture->setConfigurationValue(
-			'editorPID',
-			$this->testingFramework->createFrontEndPage()
+			'editorPID', $this->testingFramework->createFrontEndPage()
 		);
 
 		$this->assertContains(
@@ -3994,12 +4027,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateNewObjectLinkInTheMyObjectsViewContainsTheEditorPid() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->prepareMyObjects(false);
+
 		$editorPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('editorPID', $editorPid);
 
 		$this->assertContains(
@@ -4009,16 +4039,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewDisplaysStatePublished() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('owner' => $feUserId)
-		);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->prepareMyObjects(true);
 
 		$this->assertContains(
 			$this->fixture->translate('label_published'),
@@ -4027,16 +4048,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewDisplaysStatePending() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$feUserId = $this->prepareMyObjects(false);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('owner' => $feUserId, 'hidden' => 1)
 		);
-		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 
 		$this->assertContains(
 			$this->fixture->translate('label_pending'),
