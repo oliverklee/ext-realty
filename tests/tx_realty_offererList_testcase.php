@@ -930,7 +930,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('city' => 'City A')
 		);
-		$secondOfferer = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createFrontEndUser(
 			$this->feUserGroupUid,
 			array(
 				'username' => 'Testuser 2',

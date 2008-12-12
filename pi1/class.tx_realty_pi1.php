@@ -409,8 +409,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$listItems = '';
 		$rowCounter = 0;
 
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)
-		) {
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$this->internal['currentRow'] = $row;
 			$listItems .= $this->createListRow($rowCounter);
 			$rowCounter++;
@@ -939,7 +938,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function createImagesInSingleView() {
 		$result = '';
 		$counter = 0;
-		$currentImage = '';
 
 		// Tries to get an image complete with a tag and image tag, if an empty
 		// string is returned the current object has no images.
@@ -1159,7 +1157,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * wrapper is hidden.
 	 */
 	private function fillOrHideOffererWrapper() {
-		$atLeastOneMarkerSet = false;
 		$contactData = $this->fetchContactDataFromSource();
 
 		if ($contactData != '') {

@@ -4960,7 +4960,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrievingGeoCoordinatesDoesNotDeleteAppendedImage() {
-		$imageUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption'=>'foo.jpg',
