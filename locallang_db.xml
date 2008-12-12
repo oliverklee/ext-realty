@@ -133,7 +133,7 @@
 			<label index="tx_realty_districts.title">The district's name</label>
 			<label index="fe_users.tx_realty_tab">Realty</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo offerer ID</label>
-			<label index="fe_users.tx_realty_maxmium_objects">Maximum number of objects</label>
+			<label index="fe_users.tx_realty_maximum_objects">Maximum number of objects</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -262,7 +262,7 @@
 			<label index="tx_realty_districts.title">Name des Ortsteils</label>
 			<label index="fe_users.tx_realty_tab">Immobilien</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo-Anbieter-ID</label>
-			<label index="fe_users.tx_realty_maxmium_objects">Maximale Anzahl an Objekten</label>
+			<label index="fe_users.tx_realty_maximum_objects">Maximale Anzahl an Objekten</label>
 			<label index="tt_content.list_type_pi1">Immobilienmanager</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
@@ -862,7 +862,7 @@
 			<label index="tx_realty_objects.has_pool" type="integer">233780919</label>
 			<label index="tx_realty_objects.has_community_pool" type="integer">7430612</label>
 			<label index="tx_realty_objects.teaser" type="integer">124178563</label>
-			<label index="fe_users.tx_realty_maxmium_objects" type="integer">97532292</label>
+			<label index="fe_users.tx_realty_maximum_objects" type="integer">97532292</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -1461,7 +1461,7 @@
 			<label index="tx_realty_objects.has_pool">Pool</label>
 			<label index="tx_realty_objects.has_community_pool">Community pool</label>
 			<label index="tx_realty_objects.teaser">Teaser</label>
-			<label index="fe_users.tx_realty_maxmium_objects">Maximum number of objects</label>
+			<label index="fe_users.tx_realty_maximum_objects">Maximum number of objects</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Realty object</label>
