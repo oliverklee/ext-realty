@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2404] Fix: Make sure that main and render is called only once per test
 - [#2405] Fix: Drop unused variables
 - [#2398] Feature: Add a button "advertise"
 - [#2396, #2397] Feature: Add configurations for the duration of an advertisement, the page ID and the link parameters

@@ -599,13 +599,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			'tx_realty_pi1[showUid]='.$this->firstRealtyUid,
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			'?id=' . $this->singlePid,
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1000,13 +1001,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testCreateListViewReturnsListOfRecords() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			self::$firstObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			self::$secondObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1020,14 +1022,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('pid' => $this->subSystemFolderPid)
 		);
 
-		$result = $this->fixture->main('', array());
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			self::$firstObjectTitle,
-			$result
+			$output
 		);
 		$this->assertContains(
 			self::$secondObjectTitle,
-			$result
+			$output
 		);
 	}
 
@@ -1041,14 +1043,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('pid' => $this->subSystemFolderPid)
 		);
 
-		$result = $this->fixture->main('', array());
+		$output = $this->fixture->main('', array());
 		$this->assertNotContains(
 			self::$firstObjectTitle,
-			$result
+			$output
 		);
 		$this->assertContains(
 			self::$secondObjectTitle,
-			$result
+			$output
 		);
 	}
 
@@ -1352,13 +1354,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->piVars = array('priceRange' => '-10');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			self::$firstObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			self::$secondObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1376,13 +1379,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->piVars = array('priceRange' => '-10');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			self::$firstObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			self::$secondObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1469,13 +1473,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 		$this->fixture->piVars = array('site' => '');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			self::$firstObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			self::$secondObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1716,13 +1721,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			'id="tx_realty_pi1_search"',
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertNotContains(
 			'unlinked city',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1736,13 +1742,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			'id="tx_realty_pi1_search"',
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertNotContains(
 			'deleted city',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1756,14 +1763,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// criterion.
 		// piVars would usually be set by each submit of the list filter.
 		$this->fixture->piVars = $piVars;
+
+		$output = $this->fixture->main('', array());
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$firstCityTitle)
+			substr_count($output, self::$firstCityTitle)
 		);
-		$this->fixture->piVars = $piVars;
 		$this->assertEquals(
 			1,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count($output, self::$secondCityTitle)
 		);
 	}
 
@@ -1779,14 +1787,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// criterion.
 		// piVars would usually be set by each submit of the list filter.
 		$this->fixture->piVars = $piVars;
+		$output = $this->fixture->main('', array());
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$firstCityTitle)
+			substr_count($output, self::$firstCityTitle)
 		);
-		$this->fixture->piVars = $piVars;
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count($output, self::$secondCityTitle)
 		);
 	}
 
@@ -1803,12 +1811,19 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count(
+				$this->fixture->main('', array()),
+				self::$secondCityTitle
+			)
 		);
+
 		$this->fixture->piVars['search'] = array($this->firstCityUid);
 		$this->assertEquals(
 			1,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count(
+				$this->fixture->main('', array()),
+				self::$secondCityTitle
+			)
 		);
 	}
 
@@ -1823,12 +1838,19 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->piVars['search'] = array($this->firstCityUid);
 		$this->assertEquals(
 			1,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count(
+				$this->fixture->main('', array()),
+				self::$secondCityTitle
+			)
 		);
+
 		$this->fixture->piVars['search'] = array();
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count(
+				$this->fixture->main('', array()),
+				self::$secondCityTitle
+			)
 		);
 	}
 
@@ -2686,13 +2708,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			$this->fixture->translate('label_offerer'),
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			'12345',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -2705,13 +2728,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			$this->fixture->translate('label_offerer'),
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			'test company',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -2731,13 +2755,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			$this->fixture->translate('label_offerer'),
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			'123123',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -2757,13 +2782,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			$this->fixture->translate('label_offerer'),
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			'any company',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -2780,17 +2806,18 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
+		$output = $this->fixture->main('', array());
 		$this->assertNotContains(
 			$this->fixture->translate('label_offerer'),
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertNotContains(
 			'test company',
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertNotContains(
 			'12345',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -3884,13 +3911,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			$this->fixture->translate('message_please_login'),
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			'?id=' . $this->loginPid,
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -3900,13 +3928,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			'redirect_url',
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertContains(
 			urlencode('?id=' . $myObjectsPid),
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -3937,13 +3966,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testOnlyObjectsTheLoggedInUserOwnsAreDisplayed() {
 		$this->prepareMyObjects(true);
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			self::$firstObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertNotContains(
 			self::$secondObjectTitle,
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 

@@ -184,13 +184,14 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			$this->feUserGroupUid, array('username' => 'other user')
 		);
 
+		$output = $this->fixture->render();
 		$this->assertContains(
 			self::FE_USER_NAME,
-			$this->fixture->render()
+			$output
 		);
 		$this->assertContains(
 			'other user',
-			$this->fixture->render()
+			$output
 		);
 	}
 
@@ -204,13 +205,14 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			$secondFeUserGroupUid, array('username' => 'other user')
 		);
 
+		$output = $this->fixture->render();
 		$this->assertContains(
 			self::FE_USER_NAME,
-			$this->fixture->render()
+			$output
 		);
 		$this->assertContains(
 			'other user',
-			$this->fixture->render()
+			$output
 		);
 	}
 
@@ -221,13 +223,14 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			array('username' => 'other user')
 		);
 
+		$output = $this->fixture->render();
 		$this->assertContains(
 			self::FE_USER_NAME,
-			$this->fixture->render()
+			$output
 		);
 		$this->assertContains(
 			'other user',
-			$this->fixture->render()
+			$output
 		);
 	}
 
