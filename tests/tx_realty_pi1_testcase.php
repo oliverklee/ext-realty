@@ -5417,5 +5417,138 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 	}
+
+
+	////////////////////////////////////////////
+	// Tests concerning the "advertise" button
+	////////////////////////////////////////////
+
+	public function testMyItemWithAdvertisePidAndNoAdvertisementDateHasAdvertiseButton() {
+		$this->prepareMyObjects(true);
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $this->testingFramework->createFrontEndPage()
+		);
+
+		$this->assertContains(
+			'class="button advertise"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithoutAdvertisePidNotHasAdvertiseButton() {
+		$this->prepareMyObjects(true);
+
+		$this->assertNotContains(
+			'class="button advertise"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithAdvertisePidLinksToAdvertisePid() {
+		$this->prepareMyObjects(true);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithAdvertiseParameterUsesParameterWithObjectUid() {
+		$this->prepareMyObjects(true);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+		$this->fixture->setConfigurationValue(
+			'advertisementParameterForObjectUid', 'foo'
+		);
+
+		$this->assertContains(
+			'foo=' . $this->firstRealtyUid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithPastAdvertisementDateAndZeroExpiryNotHasLinkToAdvertisePid() {
+		$ownerUid = $this->prepareMyObjects(false);
+
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'owner' => $ownerUid,
+				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - ONE_DAY,
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'advertisementExpirationInDays', 0
+		);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertNotContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithPastAdvertisementDateAndNonZeroSmallEnoughExpiryHasLinkToAdvertisePid() {
+		$ownerUid = $this->prepareMyObjects(false);
+
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'owner' => $ownerUid,
+				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 10,
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'advertisementExpirationInDays', 1
+		);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithPastAdvertisementDateAndNonZeroTooBigExpiryNotHasLinkToAdvertisePid() {
+		$ownerUid = $this->prepareMyObjects(false);
+
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'owner' => $ownerUid,
+				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * ONE_DAY,
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'advertisementExpirationInDays', 1
+		);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertNotContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
 }
 ?>

@@ -1074,6 +1074,83 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				? 'label_pending' : 'label_published'
 			)
 		);
+
+		$this->setAdvertisementMarkers();
+	}
+
+	/**
+	 * Sets the markers for the "advertise" link for one row.
+	 */
+	private function setAdvertisementMarkers() {
+		if (!$this->hasConfValueInteger(
+			'advertisementPID', 's_advertisements'
+		)) {
+			$this->hideSubparts('wrapper_advertising');
+			return;
+		}
+
+		if ($this->isCurrentObjectAdvertised()) {
+			$this->hideSubparts('wrapper_advertise_button');
+			$this->unhideSubparts('wrapper_advertised_status');
+			return;
+		}
+
+		$this->unhideSubparts('wrapper_advertise_button');
+		$this->hideSubparts('wrapper_advertised_status');
+
+		if ($this->hasConfValueString(
+			'advertisementParameterForObjectUid', 's_advertisements'
+		)) {
+			$linkParameters = t3lib_div::implodeArrayForUrl(
+				'',
+				array(
+					$this->getConfValueString(
+						'advertisementParameterForObjectUid',
+						's_advertisements'
+					) => $this->internal['currentRow']['uid']
+				)
+			);
+		} else {
+			$linkParameters = '';
+		}
+
+		$this->setMarker(
+			'advertise_link',
+			$this->cObj->typoLink_URL(
+				array(
+					'parameter' => $this->getConfValueInteger(
+						'advertisementPID', 's_advertisements'
+					),
+					'additionalParams' => $linkParameters,
+				)
+			)
+		);
+	}
+
+	/**
+	 * Checks whether the current object is advertised and the advertisement
+	 * has not expired yet.
+	 *
+	 * @return boolean true if the current object is advertised and the
+	 *                 advertisement has not expired yet, false otherwise
+	 */
+	private function isCurrentObjectAdvertised() {
+		$advertisementDate = $this->internal['currentRow']['advertised_date'];
+		if ($advertisementDate == 0) {
+			return false;
+		}
+
+		$expiryInDays = $this->getConfValueInteger(
+			'advertisementExpirationInDays', 's_advertisements'
+		);
+		if ($expiryInDays == 0) {
+			return true;
+		}
+
+		return (
+			($advertisementDate + $expiryInDays * ONE_DAY)
+				< $GLOBALS['SIM_ACCESS_TIME']
+		);
 	}
 
 	/**
