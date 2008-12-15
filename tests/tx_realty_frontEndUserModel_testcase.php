@@ -296,5 +296,94 @@ class tx_realty_frontEndUserModel_testcase extends tx_phpunit_testcase {
 			$this->fixture->getObjectsLeftToEnter()
 		);
 	}
+
+
+	//////////////////////////////////////
+	// Tests concerning canAddNewObjects
+	//////////////////////////////////////
+
+	public function testCanAddNewObjectsForUserWithMaximumObjectsSetToZeroReturnsTrue() {
+		$this->fixture->setData(
+			array(
+				'uid' => $this->testingFramework->createFrontEndUser(
+					$this->testingFramework->createFrontEndUserGroup()
+					),
+				'tx_realty_maximum_objects' => 0,
+			)
+		);
+
+		$this->assertTrue(
+			$this->fixture->canAddNewObjects()
+		);
+	}
+
+	public function testCanAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToZeroReturnsTrue() {
+		$userUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->fixture->setData(
+			array(
+				'uid' => $userUid,
+				'tx_realty_maximum_objects' => 0,
+			)
+		);
+		$this->createObject($userUid);
+
+		$this->assertTrue(
+			$this->fixture->canAddNewObjects()
+		);
+	}
+
+	public function testCanAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToTwoReturnsTrue() {
+		$userUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->fixture->setData(
+			array(
+				'uid' => $userUid,
+				'tx_realty_maximum_objects' => 2,
+			)
+		);
+		$this->createObject($userUid);
+
+		$this->assertTrue(
+			$this->fixture->canAddNewObjects()
+		);
+	}
+
+	public function testCanAddNewObjectsForUserWithTwoObjectsAndMaximumObjectsSetToOneReturnsFalse() {
+		$userUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->fixture->setData(
+			array(
+				'uid' => $userUid,
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+		$this->createObject($userUid);
+		$this->createObject($userUid);
+
+		$this->assertFalse(
+			$this->fixture->canAddNewObjects()
+		);
+	}
+
+	public function testCanAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToOneReturnsFalse() {
+		$userUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->fixture->setData(
+			array(
+				'uid' => $userUid,
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+		$this->createObject($userUid);
+
+		$this->assertFalse(
+			$this->fixture->canAddNewObjects()
+		);
+	}
 }
 ?>

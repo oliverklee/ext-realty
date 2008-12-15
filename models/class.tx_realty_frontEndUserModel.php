@@ -101,6 +101,17 @@ class tx_realty_frontEndUserModel extends tx_oelib_frontEndUser {
 			0
 		);
 	}
+
+	/**
+	 * Checks whether the user is allowed to enter any objects.
+	 *
+	 * @return boolean true if the user is allowed to enter objects, false
+	 *                 otherwise
+	 */
+	public function canAddNewObjects() {
+		return (($this->getTotalNumberOfAllowedObjects() == 0)
+			|| ($this->getObjectsLeftToEnter() > 0));
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/models/class.tx_realty_frontEndUserModel.php']) {
