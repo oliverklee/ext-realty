@@ -4091,6 +4091,35 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testMyObjectsViewHidesLimitHeadingForUserWithMaximumObjectsSetToZero() {
+		$feUserUid = $this->prepareMyObjects(true);
+
+		$this->testingFramework->changeRecord(
+			'fe_users',
+			$feUserUid,
+			array('tx_realty_maximum_objects' => 0)
+		);
+		$this->assertNotContains(
+			$this->fixture->translate('label_objects_limit'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyObjectsViewShowsLimitHeadingForUserWithMaximumObjectsSetToOne() {
+		$feUserUid = $this->prepareMyObjects(true);
+
+		$this->testingFramework->changeRecord(
+			'fe_users',
+			$feUserUid,
+			array('tx_realty_maximum_objects' => 1)
+		);
+
+		$this->assertContains(
+			sprintf($this->fixture->translate('label_objects_limit'), 1, 1, 0),
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	////////////////////////////////////////////////
 	// Tests concerning the objects-by-owner list.

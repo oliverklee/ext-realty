@@ -26,6 +26,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mapperRegistry.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
@@ -344,7 +345,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->hideSubparts(
 			'list_filter,back_link,new_record_link,wrapper_contact,' .
 			'add_to_favorites_button,remove_from_favorites_button,list_map,' .
-			'wrapper_editor_specific_content,wrapper_checkbox,favorites_url'
+			'wrapper_editor_specific_content,wrapper_checkbox,favorites_url,' .
+			'limit_heading'
 		);
 		switch ($this->getCurrentView()) {
 			case 'favorites':
@@ -362,6 +364,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->unhideSubparts(
 					'wrapper_editor_specific_content,new_record_link'
 				);
+				if ($this->isLoggedIn()) {
+					$this->setLimitHeading();
+				}
 				$this->setMarker(
 					'empty_editor_link',
 					$this->createLinkToFeEditorPage('editorPID', 0)
@@ -3144,6 +3149,34 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader(
 			'Location: ' .
 			t3lib_div::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
+		);
+	}
+
+	/**
+	 * Sets the message how many objects the currently logged-in front-end user
+	 * still can enter.
+	 *
+	 * This function should only be called when a user is logged-in at the front
+	 * end.
+	 */
+	private function setLimitHeading() {
+		$owner = tx_oelib_mapperRegistry::get('tx_realty_frontEndUserMapper')
+			->find($this->getFeUserUid());
+
+		if ($owner->getTotalNumberOfAllowedObjects() == 0) {
+			$this->hideSubparts('limit_heading');
+			return;
+		}
+
+		$this->unhideSubparts('limit_heading');
+		$this->setMarker(
+			'objects_limit_heading',
+			sprintf(
+				$this->translate('label_objects_limit'),
+				$owner->getNumberOfObjects(),
+				$owner->getTotalNumberOfAllowedObjects(),
+				$owner->getObjectsLeftToEnter()
+			)
 		);
 	}
 }
