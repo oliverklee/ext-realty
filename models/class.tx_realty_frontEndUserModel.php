@@ -1,0 +1,109 @@
+<?php
+/***************************************************************
+* Copyright notice
+*
+* (c) 2008 Bernd Schönbach <bernd@oliverklee.de>
+* All rights reserved
+*
+* This script is part of the TYPO3 project. The TYPO3 project is
+* free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* The GNU General Public License can be found at
+* http://www.gnu.org/copyleft/gpl.html.
+*
+* This script is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+
+require_once(t3lib_extMgm::extPath('oelib') . 'models/class.tx_oelib_frontEndUser.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
+
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+
+/**
+ * Class 'tx_realty_frontEndUserModel' for the 'realty' extension.
+ *
+ * This class represents a front-end user and adds functions to check the number
+ * of objects a user has or can enter.
+ *
+ * @package TYPO3
+ * @subpackage tx_realty
+ *
+ * @author Bernd Schönbach <bernd@oliverklee.de>
+ */
+class tx_realty_frontEndUserModel extends tx_oelib_frontEndUser {
+	/** @var integer the number of objects belonging to the current user */
+	private $numberOfObjects = 0;
+
+	/**
+	 * @var boolean whether the number of objects has already been calculated
+	 */
+	private $objectsHaveBeenCalulated = false;
+
+	/**
+	 * Returns the maximum number of objects the user is allowed to enter.
+	 *
+	 * @return integer the maximum number of objects the user is allowed to
+	 *                 enter, will be >= 0
+	 */
+	public function getTotalNumberOfAllowedObjects() {
+		return $this->getAsInteger('tx_realty_maximum_objects');
+	}
+
+	/**
+	 * Returns the number of objects the user owns, including the hidden
+	 * ones.
+	 *
+	 * @return integer the number of objects belonging to this user, will be zero
+	 *                 if the user has no objects
+	 */
+	public function getNumberOfObjects() {
+		if (!$this->objectsHaveBeenCalulated) {
+			$whereClause = REALTY_TABLE_OBJECTS . '.owner=' . $this->getUid() .
+				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1);
+
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'COUNT(*) AS number',
+				REALTY_TABLE_OBJECTS,
+				$whereClause
+			);
+
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+
+			$dbData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			$this->numberOfObjects = $dbData['number'];
+			$this->objectsHaveBeenCalulated = true;
+		}
+
+		return $this->numberOfObjects;
+	}
+
+	/**
+	 * Returns the number of objects a user still can enter, depending on the
+	 * maximum number set and the number of objects a user already has stored in
+	 * the DB.
+	 *
+	 * @return integer the number of objects a user can enter, will be >= 0
+	 */
+	public function getObjectsLeftToEnter() {
+		return max(
+			($this->getTotalNumberOfAllowedObjects()
+				- $this->getNumberOfObjects()),
+			0
+		);
+	}
+}
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/models/class.tx_realty_frontEndUserModel.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/models/class.tx_realty_frontEndUserModel.php']);
+}
+?>
