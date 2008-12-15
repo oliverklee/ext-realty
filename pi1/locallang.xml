@@ -190,8 +190,8 @@
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">Please enter the name or ZIP code of a city:</label>
-			<label index="label_enter_objectNumber">Please enter the object number:</label>
-			<label index="label_enter_uid">Please enter the Immo ID:</label>
+			<label index="label_enter_objectNumber">Object number:</label>
+			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_price_range">Please select a price range:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
@@ -484,8 +484,8 @@
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_filter_form">Suchkriterien</label>
 			<label index="label_enter_zip_or_city">Bitte Name oder Postleitzahl einer Stadt eingeben:</label>
-			<label index="label_enter_objectNumber">Bitte die Objektnummer eingeben:</label>
-			<label index="label_enter_uid">Bitte die Immo-ID eingeben:</label>
+			<label index="label_enter_objectNumber">Objektnummer:</label>
+			<label index="label_enter_uid">Immo-ID:</label>
 			<label index="label_select_price_range">Bitte Preisspanne auswählen:</label>
 			<label index="label_less_than">weniger als</label>
 			<label index="label_greater_than">über</label>
@@ -1585,8 +1585,8 @@
 			<label index="message_no_such_owner" type="integer">71788074</label>
 			<label index="label_offerer_list" type="integer">34082678</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
-			<label index="label_enter_objectNumber" type="integer">259116881</label>
-			<label index="label_enter_uid" type="integer">190081148</label>
+			<label index="label_enter_objectNumber" type="integer">68185886</label>
+			<label index="label_enter_uid" type="integer">34884428</label>
 			<label index="label_has_air_conditioning" type="integer">108854663</label>
 			<label index="label_has_air_conditioning_short" type="integer">121370947</label>
 			<label index="label_has_pool" type="integer">233780919</label>
@@ -2585,8 +2585,8 @@
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
-			<label index="label_enter_objectNumber">Please enter the object number:</label>
-			<label index="label_enter_uid">Please enter the Immo ID:</label>
+			<label index="label_enter_objectNumber">Object number:</label>
+			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_has_air_conditioning">Air conditioning</label>
 			<label index="label_has_air_conditioning_short">air conditioning</label>
 			<label index="label_has_pool">Pool</label>
