@@ -67,6 +67,10 @@
 	float: left;
 }
 
+.tx-realty-pi1 p.object_limits {
+	clear: both;
+}
+
 .tx-realty-pi1-submit {
 	background: url(images/button_bg_right.png) no-repeat top right;
 	height: 18px;

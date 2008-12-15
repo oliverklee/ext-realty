@@ -176,7 +176,10 @@
 			<label index="label_yourfavorites_informal">You have the following objects on your favorites list:</label>
 			<label index="label_your_objects_formal">Your objects:</label>
 			<label index="label_your_objects_informal">Your objects:</label>
-			<label index="label_objects_limit">You have already entered %u of %u objects. You can still enter %u objects.</label>
+			<label index="label_objects_already_entered">You have already entered %u of %u objects.</label>
+			<label index="label_no_objects_left">You cannot enter any more objects.</label>
+			<label index="label_one_object_left">You can enter one more object.</label>
+			<label index="label_multiple_objects_left">You can enter %u more objects.</label>
 			<label index="label_searchin">Search in</label>
 			<label index="label_page">Page</label>
 			<label index="label_approx">approx.</label>
@@ -471,7 +474,10 @@
 			<label index="label_yourfavorites_informal">Du hast die folgenden Objekte auf deinem Merkzettel:</label>
 			<label index="label_your_objects_formal">Ihre Objekte:</label>
 			<label index="label_your_objects_informal">Deine Objekte:</label>
-			<label index="label_objects_limit">Sie haben bereits %u von %u Objekten eingetragen. Sie können noch %u Objekte eintragen.</label>
+			<label index="label_objects_already_entered">Sie haben bereits %u von %u Objekten eingetragen.</label>
+			<label index="label_no_objects_left">Sie können keine weiteren Objekte eintragen.</label>
+			<label index="label_one_object_left">Sie können noch ein Objekt eintragen.</label>
+			<label index="label_multiple_objects_left">Sie können noch %u Objekte eintragen.</label>
 			<label index="label_searchin">Ergebnis weiter einschränken</label>
 			<label index="label_page">Seite</label>
 			<label index="label_approx">ca.</label>
@@ -1599,7 +1605,10 @@
 			<label index="realty.pi_flexform.galleryByTS" type="integer">136988657</label>
 			<label index="realty.pi_flexform.lightbox" type="integer">249597613</label>
 			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
-			<label index="label_objects_limit" type="integer">139979047</label>
+			<label index="label_objects_already_entered" type="integer">163866602</label>
+			<label index="label_no_objects_left" type="integer">95559120</label>
+			<label index="label_one_object_left" type="integer">255809018</label>
+			<label index="label_multiple_objects_left" type="integer">109683844</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2600,7 +2609,10 @@
 			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
 			<label index="realty.pi_flexform.lightbox">Lightbox</label>
 			<label index="realty.pi_flexform.classic">classic</label>
-			<label index="label_objects_limit">You have already entered %u of %u objects. You can still enter %u objects.</label>
+			<label index="label_objects_already_entered">You have already entered %u of %u objects.</label>
+			<label index="label_no_objects_left">You cannot enter any more objects.</label>
+			<label index="label_one_object_left">You can enter one more object.</label>
+			<label index="label_multiple_objects_left">You can enter %u more objects.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

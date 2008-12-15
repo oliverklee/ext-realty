@@ -4100,7 +4100,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			array('tx_realty_maximum_objects' => 0)
 		);
 		$this->assertNotContains(
-			$this->fixture->translate('label_objects_limit'),
+			$this->fixture->translate('label_objects_already_entered'),
 			$this->fixture->main('', array())
 		);
 	}
@@ -4115,7 +4115,74 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			sprintf($this->fixture->translate('label_objects_limit'), 1, 1, 0),
+			sprintf($this->fixture->translate('label_objects_already_entered'), 1, 1),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyObjectsViewForUserWithOneObjectAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel() {
+		$feUserUid = $this->prepareMyObjects(true);
+
+		$this->testingFramework->changeRecord(
+			'fe_users',
+			$feUserUid,
+			array('tx_realty_maximum_objects' => 1)
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_no_objects_left'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyObjectsViewForUserWithTwoObjectsAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel() {
+		$feUserUid = $this->prepareMyObjects(true);
+
+		$this->testingFramework->changeRecord(
+			'fe_users',
+			$feUserUid,
+			array('tx_realty_maximum_objects' => 1)
+		);
+
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('owner' => $feUserUid)
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_no_objects_left'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyObjectsViewForUserWithOneObjectAndMaximumObjectsSetToTwoShowsOneObjectLeftLabel() {
+		$feUserUid = $this->prepareMyObjects(true);
+
+		$this->testingFramework->changeRecord(
+			'fe_users',
+			$feUserUid,
+			array('tx_realty_maximum_objects' => 2)
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_one_object_left'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyObjectsViewForUserWithNoObjectAndMaximumObjectsSetToTwoShowsMultipleObjectsLeftLabel() {
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$feUserUid = $this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->testingFramework->changeRecord(
+			'fe_users',
+			$feUserUid,
+			array('tx_realty_maximum_objects' => 2)
+		);
+
+		$this->assertContains(
+			sprintf($this->fixture->translate('label_multiple_objects_left'), 2),
 			$this->fixture->main('', array())
 		);
 	}

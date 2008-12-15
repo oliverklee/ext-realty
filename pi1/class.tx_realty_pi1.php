@@ -3168,15 +3168,34 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
+		$objectsLeftToEnter = $owner->getObjectsLeftToEnter();
 		$this->unhideSubparts('limit_heading');
 		$this->setMarker(
 			'objects_limit_heading',
 			sprintf(
-				$this->translate('label_objects_limit'),
+				$this->translate('label_objects_already_entered'),
 				$owner->getNumberOfObjects(),
-				$owner->getTotalNumberOfAllowedObjects(),
-				$owner->getObjectsLeftToEnter()
+				$owner->getTotalNumberOfAllowedObjects()
 			)
+		);
+		switch ($objectsLeftToEnter) {
+			case 0:
+				$labelLeftToEnter = $this->translate('label_no_objects_left');
+				break;
+			case 1:
+				$labelLeftToEnter = $this->translate('label_one_object_left');
+				break;
+			default:
+				$labelLeftToEnter = sprintf(
+					$this->translate('label_multiple_objects_left'),
+					$objectsLeftToEnter
+				);
+				break;
+		}
+
+		$this->setMarker(
+			'objects_left_to_enter',
+			$labelLeftToEnter
 		);
 	}
 }
