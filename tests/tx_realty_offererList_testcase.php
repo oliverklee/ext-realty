@@ -450,6 +450,23 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOffererListItemContainsTheOfferersFirstUserGroupNameWhenACompanyIsSetButHiddenByConfiguration() {
+		$otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
+			array('title' => 'other group')
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array(
+				'usergroup' => $this->feUserGroupUid . ',' . $otherGroupUid,
+				'company' => 'Test Company',
+			)
+		);
+
+		$this->assertContains(
+			self::FE_USER_GROUP_NAME,
+			$this->fixture->render()
+		);
+	}
+
 	public function testOffererListItemContainsOfferersFirstUserGroupBeforeTitleIfWhatToDisplayIsSingleView() {
 		$this->pi1->setConfigurationValue('what_to_display', 'single_view');
 

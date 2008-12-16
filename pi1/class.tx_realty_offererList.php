@@ -244,7 +244,7 @@ class tx_realty_offererList {
 	 * @return boolean true if it is configured to display the information for
 	 *                 the provided user, false otherwise
 	 */
-	private function mayDisplayInformation($userRecord, $keyOfInformation) {
+	private function mayDisplayInformation(array $userRecord, $keyOfInformation) {
 		$configurationKey = 'displayedContactInformation' . (
 			$this->containsSpecialGroup($userRecord['usergroup']) ? 'Special' : ''
 		);
@@ -292,8 +292,6 @@ class tx_realty_offererList {
 	 * If none of these is provided, the user name will be returned.
 	 * FE user records are expected to have at least a user name.
 	 *
-	 * Note: This function requires the user group subpart to be filled.
-	 *
 	 * @param array the user record of which to get the label, must not be empty
 	 *
 	 * @return string label for the owner with the first user group appended if
@@ -310,11 +308,10 @@ class tx_realty_offererList {
 
 		$result = ($name != '') ? $name : $userRecord['username'];
 
-		if (((!isset($userRecord['company']) || $userRecord['company'] == ''))
-			&& ($result != '')
-			&& ($this->plugin->getConfValueString('what_to_display') != 'single_view')
+		if (!isset($userRecord['company']) || ($userRecord['company'] == '')
+			|| !$this->mayDisplayInformation($userRecord, 'company')
 		) {
-			$result .= ' ' . $this->plugin->getSubpart('WRAPPER_USERGROUP');
+			$this->appendUserGroup($result, $userRecord);
 		}
 
 		return trim($result);
@@ -322,8 +319,6 @@ class tx_realty_offererList {
 
 	/**
 	 * Returns the company with the user group appended.
-	 *
-	 * Note: This function requires the user group subpart to be filled.
 	 *
 	 * @param array the user record of which to get the company, must not be
 	 *              empty
@@ -334,14 +329,28 @@ class tx_realty_offererList {
 	 */
 	private function getCompany(array $userRecord) {
 		$result = $userRecord['company'];
-
-		if (($result != '')
-			&& ($this->plugin->getConfValueString('what_to_display') != 'single_view')
-		) {
-			$result .= ' ' . $this->plugin->getSubpart('WRAPPER_USERGROUP');
-		}
+		$this->appendUserGroup($result, $userRecord);
 
 		return trim($result);
+	}
+
+	/**
+	 * Appends the user group if $information is non-empty and if the current
+	 * view is not single view and if the user group may be displayed and is
+	 * non-empty.
+	 *
+	 * @param string information to which the user group should be appended, may
+	 *               be empty, will be modified
+	 * @param array the user record of which to append the user group, must not
+	 *              be empty
+	 */
+	private function appendUserGroup(&$information, array $userRecord) {
+		if (($this->plugin->getConfValueString('what_to_display') != 'single_view')
+			&& $this->mayDisplayInformation($userRecord, 'usergroup')
+			&& ($information != '')
+		) {
+			$information .= ' ' . $this->getFirstUserGroup($userRecord);
+		}
 	}
 
 	/**
@@ -390,7 +399,7 @@ class tx_realty_offererList {
 				throw new Exception(DATABASE_RESULT_ERROR);
 			}
 
-			$result = $row['title'];
+			$result = ($row['title'] != '') ? ' (' . $row['title'] . ')' : '';
 		}
 
 		return $result;
