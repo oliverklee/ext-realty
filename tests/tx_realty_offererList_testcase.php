@@ -120,7 +120,6 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testOffererListNotDisplaysDeletedOffererAlthoughHeIsInTheConfiguredGroup() {
-		$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->changeRecord(
 			'fe_users',
 			$this->offererUid,
@@ -219,8 +218,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 	public function testOffererListDisplaysFeUserRecordIfNoUserGroupRestrictionIsConfigured() {
 		$this->pi1->setConfigurationValue('userGroupsForOffererList', '');
 		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'other user')
+			'', array('username' => 'other user')
 		);
 
 		$output = $this->fixture->render();
@@ -267,8 +265,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 
 	public function testOffererListNotDisplaysOffererWhoIsOnlyInANonConfiguredGroup() {
 		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'other user')
+			'', array('username' => 'other user')
 		);
 
 		$this->assertNotContains(

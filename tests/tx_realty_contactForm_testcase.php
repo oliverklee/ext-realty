@@ -106,7 +106,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'name' => self::$feUserTitle,
 				'email' => self::$feUserEmail,
@@ -715,8 +715,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormUsesTheDefaultEmailAddressEmailIfTheOwnersAddressWasNotValid() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('email' => 'invalid-address')
+			'', array('email' => 'invalid-address')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -794,7 +793,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormUsesDefaultEmailAddressWhenDataSourceIsDeletedOwner() {
 		$deletedUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'name' => 'deleted user',
 				'email' => 'deleted-user@valid-email.org',

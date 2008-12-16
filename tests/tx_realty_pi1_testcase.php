@@ -374,10 +374,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAccessToSingleViewIsAllowedWithLoginPerDefault() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -395,10 +392,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -416,10 +410,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -2468,10 +2459,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteSummaryStringOfFavoritesToSessionForLoggedInFrontEndUserWritesDataToTemporarySession() {
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->session->setAsInteger(
 			tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
@@ -2741,8 +2729,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageContainsContactInformationWithPhoneNumberFromOwner() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('telephone' => '123123')
+			'', array('telephone' => '123123')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2768,8 +2755,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageContainsContactInformationWithCompanyFromOwner() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('company' => 'any company')
+			'', array('company' => 'any company')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2833,8 +2819,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageNotContainsContactInformationForEnabledOptionAndDeletedOwner() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('company' => 'any company', 'deleted' => 1)
+			'', array('company' => 'any company', 'deleted' => 1)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2854,9 +2839,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewPageNotContainsContactInformationForEnabledOptionAndOwnerWithoutData() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2876,8 +2859,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageContainsLabelForLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'foo')
+			'', array('username' => 'foo')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2899,8 +2881,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageContainsLabelOffererIfTheLinkToTheObjectsByOwnerListIsEnabled() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'foo')
+			'', array('username' => 'foo')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2922,8 +2903,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageContainsLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'foo')
+			'', array('username' => 'foo')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2945,8 +2925,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageContainsOwnerUidInLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'foo')
+			'',	array('username' => 'foo')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2979,8 +2958,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageNotContainsLinkToTheObjectsByOwnerListForDisabledContactInformationAndOwnerAndPidSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'foo')
+			'', array('username' => 'foo')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -3003,8 +2981,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewPageNotContainsLinkToTheObjectsByOwnerListForNoObjectsByOwnerListPidSetAndOwnerSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('username' => 'foo')
+			'', array('username' => 'foo')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -3471,10 +3448,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDetailViewDisplaysHiddenObjectForLoggedInOwner() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserUid);
+		$feUserUid = $this->testingFramework->createAndLoginFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3490,10 +3464,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDetailViewNotDisplaysHiddenObjectForNonOwner() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserUid);
+		$feUserUid = $this->testingFramework->createAndLoginFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3524,10 +3495,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDetailViewDisplaysVisibleObjectForLoggedInNonOwner() {
-		$feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserUid);
+		$feUserUid = $this->testingFramework->createAndLoginFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3543,11 +3511,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDetailViewDisplaysVisibleObjectWithoutOwnerForLoggedInUser() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
+		$this->testingFramework->createAndLoginFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3601,19 +3565,13 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDetailViewDisplaysErrorMessageForLoggedInUserWhenObjectIsHiddenByForeignUser() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
+		$this->testingFramework->createAndLoginFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array(
 				'hidden' => 1,
-				'owner' =>$this->testingFramework->createFrontEndUser(
-					$this->testingFramework->createFrontEndUserGroup()
-				)
+				'owner' => $this->testingFramework->createFrontEndUser(),
 			)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
@@ -3788,10 +3746,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $this->firstRealtyUid)
 		);
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$feUserId = $this->testingFramework->createAndLoginFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3813,9 +3768,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $this->firstRealtyUid)
 		);
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$feUserId = $this->testingFramework->createFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -3837,10 +3790,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array('realty_object_uid' => $this->firstRealtyUid)
 		);
-		$feUserId = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
-		$this->testingFramework->loginFrontEndUser($feUserId);
+		$feUserId = $this->testingFramework->createAndLoginFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -4193,9 +4143,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	////////////////////////////////////////////////
 
 	public function testObjectsByOwnerListDisplaysLabelOfferingsBy() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -4211,9 +4159,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testObjectsByOwnerListDisplaysAddToFavoritesButton() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -4230,7 +4176,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysCompanyNameIfProvided() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(), array(
+			'',
+			array(
 				'company' => 'realty test company',
 				'last_name' => 'last name',
 				'first_name' => 'first name',
@@ -4254,7 +4201,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysFirstAndLastNameIfFirstAndLastNameAreSetAndNoCompanyIsSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(), array(
+			'',
+			array(
 				'last_name' => 'last name',
 				'first_name' => 'first name',
 				'name' => 'test name',
@@ -4277,7 +4225,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysLastNameIfLastNameIsSetAndNeitherCompanyNorFirstNameAreSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(), array(
+			'',
+			array(
 				'last_name' => 'last name',
 				'name' => 'test name',
 				'username' => 'test user',
@@ -4299,7 +4248,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysNameIfFirstNameIsSetAndNeitherCompanyNorLastNameAreSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(), array(
+			'',
+			array(
 				'first_name' => 'first name',
 				'name' => 'test name',
 				'username' => 'test user',
@@ -4321,9 +4271,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysNameIfNeitherCompanyNorLastNameNorFirstNameAreSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(), array(
-				'name' => 'test name', 'username' => 'test user'
-			)
+			'', array('name' => 'test name', 'username' => 'test user')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -4341,9 +4289,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysUsernameIfNeitherCompanyNorLastNameNorNameAreSet() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(), array(
-				'username' => 'test user'
-			)
+			'', array('username' => 'test user')
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -4360,9 +4306,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testObjectsByOwnerListDisplaysTheTitleOfAnObjectBySelectedOwner() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -4378,9 +4322,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testObjectsByOwnerListNotDisplaysTheTitleOfAnObjectByAnotherOwnerThanSelected() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$groupUid = $this->testingFramework->createFrontEndUserGroup();
+		$ownerUid = $this->testingFramework->createFrontEndUser($groupUid);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -4390,7 +4333,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
 			array('owner' => $this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
+				$groupUid
 			))
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
@@ -4403,9 +4346,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testObjectsByOwnerListNotDisplaysTheTitleOfAnObjectThatHasNoOwnerIfOwnerUidSet() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
 		$this->fixture->piVars['owner'] = $ownerUid;
 
@@ -4416,9 +4357,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testObjectsByOwnerListNotDisplaysTheTitleOfAnObjectThatHasNoOwnerIfNoOwnerUidSet() {
-		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$this->testingFramework->createFrontEndUser();
 		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
 		$this->fixture->piVars['owner'] = 0;
 
@@ -4429,9 +4368,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testObjectsByOwnerListNotDisplaysAnOwnersHiddenObjectsTitle() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -4478,9 +4415,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysNoResultsViewForAFeUserWithoutObjects() {
 		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
-		$this->fixture->piVars['owner'] = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$this->fixture->piVars['owner']
+			= $this->testingFramework->createFrontEndUser();
 
 		$this->assertContains(
 			$this->fixture->translate('message_noResultsFound_objects_by_owner'),
@@ -4489,9 +4425,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testObjectsByOwnerListDisplaysNoResultsViewForAFeUserWhoOnlyHasAHiddenObject() {
-		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -4508,8 +4442,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysNoSuchOwnerMessageForADeletedFeUserWithObject() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('deleted' => 1)
+			'', array('deleted' => 1)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -4527,8 +4460,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListNotDisplaysADeletedFeUsersObject() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('deleted' => 1)
+			'', array('deleted' => 1)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -4546,8 +4478,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testObjectsByOwnerListDisplaysLabelSorryForADeletedFeUserWithAnObject() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('deleted' => 1)
+			'', array('deleted' => 1)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,

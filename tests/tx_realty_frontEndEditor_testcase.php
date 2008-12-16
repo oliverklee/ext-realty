@@ -95,7 +95,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	 */
 	private function createDummyRecords() {
 		$this->feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'username' => 'test_user',
 				'name' => 'Mr. Test',
@@ -201,11 +201,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToDeleteAnObjectHeDoesNotOwn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
+		$this->testingFramework->createAndLoginFrontEndUser();
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertContains(
@@ -215,11 +211,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testHeaderIsSentWhenDeleteRecordReturnsAccessDeniedMessage() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
+		$this->testingFramework->createAndLoginFrontEndUser();
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertContains(
@@ -1265,11 +1257,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAddAdministrativeDataAddsEmptyOpenImmoAnidForANewObjectIfUserHasNoAnid() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
+		$this->testingFramework->createAndLoginFrontEndUser();
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
 

@@ -495,8 +495,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
 		$this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'foo')
+			'', array('tx_realty_openimmo_anid' => 'foo')
 		);
 		// 'deleteZipsAfterImport' is set to true during setUp()
 		$this->globalConfiguration->setConfigurationValueBoolean(
@@ -906,8 +905,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
 		$feUserUid = $this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'foo')
+			'',	array('tx_realty_openimmo_anid' => 'foo')
 		);
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'onlyImportForRegisteredFrontEndUsers', true
@@ -1645,7 +1643,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
 				'email' => 'owner-address@valid-email.org'
@@ -1668,7 +1666,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
 				'email' => 'owner-address@valid-email.org'
@@ -1691,7 +1689,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'tx_realty_openimmo_anid' => 'another-test-anid',
 				'email' => 'owner-address@valid-email.org'
@@ -1714,7 +1712,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
 				'email' => 'owner-address@valid-email.org'
@@ -1737,7 +1735,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'tx_realty_openimmo_anid' => 'another-test-anid',
 				'email' => 'owner-address@valid-email.org'
@@ -1760,7 +1758,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
-			$this->testingFramework->createFrontEndUserGroup(),
+			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
 				'email' => 'owner-address@valid-email.org'

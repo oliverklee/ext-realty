@@ -1731,8 +1731,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testUidOfFeUserWithMatchingAnidIsAddedAsOwnerForExistingObjectIfAddingTheOwnerIsAllowed() {
 		$feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid')
+			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid');
@@ -1746,8 +1745,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testUidOfFeUserWithMatchingAnidIsAddedAsOwnerForNewObjectIfAddingTheOwnerIsAllowed() {
 		$feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid')
+			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		$this->fixture->loadRealtyObject(array('openimmo_anid' => 'test anid'));
 		$this->fixture->writeToDatabase(0, true);
@@ -1760,8 +1758,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testUidOfFeUserWithMatchingAnidIsNotAddedAsOwnerIfThisIsForbidden() {
 		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid')
+			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid');
@@ -1775,8 +1772,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testNoOwnerIsAddedForARealtyRecordWithoutOpenImmoAnid() {
 		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid')
+			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->writeToDatabase(0, true);
@@ -1789,8 +1785,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testOwnerIsNotChangedAlthoughTheAnidOfARecordIsUpdatedAndDoesNotMatchAnymore() {
 		$feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid 1')
+			'', array('tx_realty_openimmo_anid' => 'test anid 1')
 		);
 
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1835,8 +1830,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testUseFeUserDataFlagIsSetIfThisOptionIsEnabledByConfiguration() {
 		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid')
+			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueBoolean(
@@ -1854,8 +1848,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testUseFeUserDataFlagIsNotSetIfThisOptionIsDisabledByConfiguration() {
 		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid')
+			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueBoolean(
@@ -1873,8 +1866,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 	public function testUseFeUserDataFlagIsNotSetIfNoOwnerWasSetAlthoughOptionIsEnabledByConfiguration() {
 		$this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup(),
-			array('tx_realty_openimmo_anid' => 'test anid')
+			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueBoolean(

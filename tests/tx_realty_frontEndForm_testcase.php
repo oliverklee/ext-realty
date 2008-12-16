@@ -88,9 +88,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	 * Creates dummy records in the DB.
 	 */
 	private function createDummyRecords() {
-		$this->feUserUid = $this->testingFramework->createFrontEndUser(
-			$this->testingFramework->createFrontEndUserGroup()
-		);
+		$this->feUserUid = $this->testingFramework->createFrontEndUser();
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS
 		);
@@ -165,11 +163,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
+		$this->testingFramework->createAndLoginFrontEndUser();
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertContains(
@@ -179,11 +173,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testHeaderIsSentWhenCheckAccessReturnsAccessDeniedMessage() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				$this->testingFramework->createFrontEndUserGroup()
-			)
-		);
+		$this->testingFramework->createAndLoginFrontEndUser();
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$this->assertContains(
