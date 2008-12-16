@@ -66,6 +66,11 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	protected $fakedFormValues = array();
 
 	/**
+	 * @var string the path to the FORMidable XML file
+	 */
+	private $xmlPath;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param tx_oelib_templatehelper plugin which uses this FE editor
@@ -81,6 +86,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	) {
 		$this->isTestMode = $isTestMode;
 		$this->realtyObjectUid = $uidOfObjectToEdit;
+		$this->xmlPath = $xmlPath;
 
 		$objectClassName = t3lib_div::makeInstanceClassName('tx_realty_object');
 		$this->realtyObject = new $objectClassName($this->isTestMode);
@@ -90,18 +96,6 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 		// For configuration stuff the own inherited templatehelper can be used.
 		$this->init($this->plugin->getConfiguration());
 		$this->pi_initPIflexForm();
-
-		$this->formCreator = t3lib_div::makeInstance('tx_ameosformidable');
-		// FORMidable would produce an error message if it is initialized with
-		// a non-existing UID.
-		// The FORMidable object is never initialized for testing.
-		if ($this->realtyObjectExistsInDatabase() && !$this->isTestMode) {
-			$this->formCreator->init(
-				$this,
-				t3lib_extMgm::extPath('realty').$xmlPath,
-				($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false
-			);
-		}
 	}
 
 	/**
@@ -111,6 +105,29 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 		unset($this->formCreator, $this->plugin, $this->realtyObject);
 
 		parent::__destruct();
+	}
+
+	/**
+	 * Instantiates $this->formCreator (if it hasn't been created yet).
+	 *
+	 * This function does nothing if this object is running in test mode.
+	 */
+	protected function makeFormCreator() {
+		if ($this->formCreator || $this->isTestMode) {
+			return;
+		}
+
+		$this->formCreator = t3lib_div::makeInstance('tx_ameosformidable');
+		// FORMidable would produce an error message if it is initialized with
+		// a non-existing UID.
+		// The FORMidable object is never initialized for testing.
+		if ($this->realtyObjectExistsInDatabase()) {
+			$this->formCreator->init(
+				$this,
+				t3lib_extMgm::extPath('realty') . $this->xmlPath,
+				($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false
+			);
+		}
 	}
 
 	/**
@@ -128,6 +145,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 		}
 
 		$this->addOnLoadHandler();
+		$this->makeFormCreator();
 		return $this->formCreator->render();
 	}
 
@@ -335,6 +353,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * @return string form value or an empty string if the value does not exist
 	 */
 	protected function getFormValue($key) {
+		$this->makeFormCreator();
+
 		$dataSource = ($this->isTestMode)
 			? $this->fakedFormValues
 			: $this->formCreator->oDataHandler->__aFormData;

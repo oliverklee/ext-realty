@@ -200,6 +200,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 *                in the upload directory, will not be empty
 	 */
 	private function getFormidablesUniqueFileName($fileName) {
+		$this->makeFormCreator();
+
 		return ($this->isTestMode)
 			? $fileName
 			: ($this->formCreator->aORenderlets['image']->sCoolFileName);

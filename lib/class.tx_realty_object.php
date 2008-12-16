@@ -87,9 +87,6 @@ class tx_realty_object {
 		REALTY_TABLE_CAR_PLACES => 'garage_type',
 	);
 
-	/** @var tx_oelib_templatehelper */
-	private $templateHelper;
-
 	/** whether hidden objects are loadable */
 	private $canLoadHiddenObjects = false;
 
