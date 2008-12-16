@@ -164,6 +164,7 @@ class tx_realty_offererList {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$listItems .= $this->createListRow($row);
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $listItems;
 	}
@@ -398,6 +399,7 @@ class tx_realty_offererList {
 			if (!$row) {
 				throw new Exception(DATABASE_RESULT_ERROR);
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 			$result = ($row['title'] != '') ? ' (' . $row['title'] . ')' : '';
 		}

@@ -419,6 +419,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$listItems .= $this->createListRow($rowCounter);
 			$rowCounter++;
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		$this->setSubpart('list_item', $listItems);
 		$this->setSubpart('pagination', $this->createPagination());
@@ -662,6 +663,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$counterRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($dbResultCounter);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResultCounter);
 		$this->internal['res_count'] = $counterRow[0];
 
 		// The number of the last possible page in a listing
@@ -821,6 +823,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return ($result !== false) ? $result : array();
 	}
@@ -1365,6 +1368,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		} else {
 			$result = '';
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
 	}
@@ -1770,6 +1774,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $row ? $row : array();
 	}
@@ -1796,6 +1801,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $dbResultRow['number'];
 	}
@@ -2026,6 +2032,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$cities[] = $row;
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		// creates options for <select>
 		$options = '';
@@ -2198,6 +2205,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$summaryStringOfFavorites
 					.= '* ' . $objectNumber . ' ' . $objectTitle . LF;
 			}
+
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
 	 	return $summaryStringOfFavorites;
@@ -2541,6 +2550,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 			$result[] = $this->getSubpart('SEARCH_ITEM');
 		}
+
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
 	}
@@ -3127,6 +3138,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				throw new Exception(DATABASE_QUERY_ERROR);
 			}
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
 		$this->cachedOwner = $row ? $row : array('uid' => 0);

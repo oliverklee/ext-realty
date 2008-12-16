@@ -178,6 +178,7 @@ class tx_realty_googleMapsLookup {
 			if (!$row) {
 				throw new Exception(DATABASE_RESULT_ERROR);
 			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 			self::$countryCache[$uid] = $row['cn_iso_2'];
 		}

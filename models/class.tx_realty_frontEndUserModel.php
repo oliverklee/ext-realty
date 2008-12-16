@@ -82,6 +82,7 @@ class tx_realty_frontEndUserModel extends tx_oelib_frontEndUser {
 			$dbData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 			$this->numberOfObjects = $dbData['number'];
 			$this->objectsHaveBeenCalulated = true;
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
 		return $this->numberOfObjects;

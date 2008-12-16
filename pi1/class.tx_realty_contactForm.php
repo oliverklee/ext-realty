@@ -390,6 +390,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return ($row)
 			? $row

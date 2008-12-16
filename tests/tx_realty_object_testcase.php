@@ -325,9 +325,12 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			'uid='.$this->objectUid
 		);
 
+		$result = $this->fixture->getDataType($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
 		$this->assertEquals(
 			'dbResult',
-			$this->fixture->getDataType($dbResult)
+			$result
 		);
 	}
 
@@ -1357,6 +1360,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		if (!$result) {
 			$this->fail(DATABASE_RESULT_ERROR);
 		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		$this->assertEquals(
 			array('pid' => $this->pageUid),
