@@ -1,4 +1,5 @@
 0.3.1 - currently working on
+- [#2420] Fix: With the current oelib trunk, some subparts in the "my objects" view are not hidden
 - [#2385] Change: Shorten the label for the object number/UID search
 - [#2389] Fix: Crash during the import
 - [#2387] Change: Require FORMidable 1.1.0

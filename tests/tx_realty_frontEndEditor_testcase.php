@@ -66,6 +66,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->pi1->init(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm')
 		);
+		$this->pi1->getTemplateCode();
 
 		$this->fixture = new tx_realty_frontEndEditor($this->pi1, 0, '', true);
 	}

@@ -86,12 +86,6 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 
 		$this->plugin = $plugin;
-		// For the templatehelper's functions about setting labels and filling
-		// markers, the plugin's templatehelper object is used as the inherited
-		// templatehelper does not have all configuration which would be
-		// necessary for this.
-		$this->plugin->getTemplateCode();
-		$this->plugin->setLabels();
 		// For configuration stuff the own inherited templatehelper can be used.
 		$this->init($this->plugin->getConfiguration());
 		$this->pi_initPIflexForm();
