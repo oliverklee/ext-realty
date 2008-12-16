@@ -1061,11 +1061,12 @@ $TCA['tx_realty_objects'] = array(
 				'title;;;;2-2-2, emphasized, sorting, ' .
 				'show_address;;;;2-2-2, street, zip, city, district, country, number_of_rooms, ' .
 				'living_area, total_area, estate_size, provision, usable_from, ' .
-				'buying_price, extra_charges, year_rent, rented, apartment_type, ' .
-				'house_type, floor, floors, bedrooms, bathrooms, heating_type, ' .
-				'has_air_conditioning, garage_type, garage_price, construction_year, ' .
-				'old_or_new_building, state, balcony, garden, elevator, barrier_free, ' .
-				'fitted_kitchen, has_pool, has_community_pool, ' .
+				'buying_price, hoa_fee, extra_charges, year_rent, rented, ' .
+				'apartment_type, house_type, floor, floors, bedrooms, bathrooms, ' .
+				'heating_type, has_air_conditioning, garage_type, garage_price, ' .
+				'construction_year, old_or_new_building, state, balcony, garden, ' .
+				'elevator, barrier_free, fitted_kitchen, has_pool, ' .
+				'has_community_pool, ' .
 				'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
 					'bold|italic|underline|left|center|right|orderedlist|' .
 					'unorderedlist|outdent|indent|link|table|image|line|chMode]' .

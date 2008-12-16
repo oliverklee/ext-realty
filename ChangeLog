@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2406] Fix: hoa_fee should be visible in sale objects and hidden in rent objects in the FE editor and in the BE
 - [#2236] Change: Use mysql_free in realty
 - [#2417] Feature: CreateFrontEndUser should automatically create a group if needed
 - [#2422] Change: The FE form should only create the FORMidable object when it actually is needed
