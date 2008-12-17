@@ -24,11 +24,11 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 
-require_once(t3lib_extMgm::extPath('realty') . 'models/class.tx_realty_frontEndUserModel.php');
+require_once(t3lib_extMgm::extPath('realty') . 'Model/class.tx_realty_Model_FrontEndUser.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Unit tests for the tx_realty_frontEndUserModel class in the 'realty'
+ * Unit tests for the tx_realty_Model_FrontEndUser class in the 'realty'
  * extension.
  *
  * @package TYPO3
@@ -36,7 +36,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_frontEndUserModel_testcase extends tx_phpunit_testcase {
+class tx_realty_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 	/** @var frontEndUserModel */
 	private $fixture;
 
@@ -45,7 +45,7 @@ class tx_realty_frontEndUserModel_testcase extends tx_phpunit_testcase {
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
-		$this->fixture = new tx_realty_frontEndUserModel();
+		$this->fixture = new tx_realty_Model_FrontEndUser();
 	}
 
 	public function tearDown() {
@@ -57,7 +57,7 @@ class tx_realty_frontEndUserModel_testcase extends tx_phpunit_testcase {
 
 	public function testFixtureIsInstanceOfOelibFrontEndUser() {
 		$this->assertTrue(
-			$this->fixture instanceof tx_oelib_frontEndUser
+			$this->fixture instanceof tx_oelib_Model_FrontEndUser
 		);
 	}
 

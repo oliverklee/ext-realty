@@ -24,10 +24,10 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 
-require_once(t3lib_extMgm::extPath('realty') . 'mappers/class.tx_realty_frontEndUserMapper.php');
+require_once(t3lib_extMgm::extPath('realty') . 'Mapper/class.tx_realty_Mapper_FrontEndUser.php');
 
 /**
- * Unit tests for the tx_realty_frontEndUserMapper class in the 'realty'
+ * Unit tests for the tx_realty_Mapper_FrontEndUser class in the 'realty'
  * extension.
  *
  * @package TYPO3
@@ -35,8 +35,8 @@ require_once(t3lib_extMgm::extPath('realty') . 'mappers/class.tx_realty_frontEnd
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_frontEndUserMapper_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_frontEndUserMapper */
+class tx_realty_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
+	/** @var tx_realty_Mapper_FrontEndUser */
 	private $fixture;
 
 	/** @var tx_oelib_testingFramework */
@@ -44,7 +44,7 @@ class tx_realty_frontEndUserMapper_testcase extends tx_phpunit_testcase {
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
-		$this->fixture = new tx_realty_frontEndUserMapper();
+		$this->fixture = new tx_realty_Mapper_FrontEndUser();
 	}
 
 	public function tearDown() {
@@ -64,7 +64,7 @@ class tx_realty_frontEndUserMapper_testcase extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createFrontEndUser();
 
 		$this->assertTrue(
-			$this->fixture->find($uid) instanceof tx_realty_frontEndUserModel
+			$this->fixture->find($uid) instanceof tx_realty_Model_FrontEndUser
 		);
 	}
 }

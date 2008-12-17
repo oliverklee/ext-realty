@@ -22,13 +22,13 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'models/class.tx_oelib_frontEndUser.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_FrontEndUser.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_frontEndUserModel' for the 'realty' extension.
+ * Class 'tx_realty_Model_FrontEndUser' for the 'realty' extension.
  *
  * This class represents a front-end user and adds functions to check the number
  * of objects a user has or can enter.
@@ -38,7 +38,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_frontEndUserModel extends tx_oelib_frontEndUser {
+class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	/** @var integer the number of objects belonging to the current user */
 	private $numberOfObjects = 0;
 
@@ -115,7 +115,7 @@ class tx_realty_frontEndUserModel extends tx_oelib_frontEndUser {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/models/class.tx_realty_frontEndUserModel.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/models/class.tx_realty_frontEndUserModel.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_FrontEndUser.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_FrontEndUser.php']);
 }
 ?>

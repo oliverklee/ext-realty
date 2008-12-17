@@ -3172,7 +3172,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * end.
 	 */
 	private function setLimitHeading() {
-		$owner = tx_oelib_mapperRegistry::get('tx_realty_frontEndUserMapper')
+		$owner = tx_oelib_mapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->find($this->getFeUserUid());
 
 		if ($owner->getTotalNumberOfAllowedObjects() == 0) {

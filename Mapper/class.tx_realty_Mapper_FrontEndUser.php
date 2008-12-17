@@ -22,12 +22,12 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('realty') . 'models/class.tx_realty_frontEndUserModel.php');
+require_once(t3lib_extMgm::extPath('realty') . 'Model/class.tx_realty_Model_FrontEndUser.php');
 
-require_once(t3lib_extMgm::extPath('oelib') . 'mappers/class.tx_oelib_frontEndUserMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Mapper/class.tx_oelib_Mapper_FrontEndUser.php');
 
 /**
- * Class 'tx_realty_frontEndUserMapper' for the 'realty' extension.
+ * Class 'tx_realty_Mapper_FrontEndUser' for the 'realty' extension.
  *
  * This class represents a mapper for front-end users.
  *
@@ -36,23 +36,23 @@ require_once(t3lib_extMgm::extPath('oelib') . 'mappers/class.tx_oelib_frontEndUs
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_frontEndUserMapper extends tx_oelib_frontEndUserMapper {
+class tx_realty_Mapper_FrontEndUser extends tx_oelib_Mapper_FrontEndUser {
 	/**
 	 * Creates a realty front-end user model and fills it with the provided data.
 	 *
 	 * @param array the data with which the model should be filled, may be empty
 	 *
-	 * @return tx_realty_frontEndUserModel the filled user model
+	 * @return tx_realty_Model_FrontEndUser the filled user model
  	 */
 	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_realty_frontEndUserModel');
+		$model = t3lib_div::makeInstance('tx_realty_Model_FrontEndUser');
 		$model->setData($data);
 
 		return $model;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/mappers/class.tx_realty_frontEndUserMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/mappers/class.tx_realty_frontEndUserMapper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_FrontEndUser.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_FrontEndUser.php']);
 }
 ?>
