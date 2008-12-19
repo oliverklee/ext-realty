@@ -25,8 +25,8 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_fakeSession.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Session.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_FakeSession.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
@@ -82,7 +82,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private static $secondCityTitle = 'bar city';
 
 	/**
-	 * @var tx_oelib_fakeSession a fake session
+	 * @var tx_oelib_FakeSession a fake session
 	 */
 	private $session;
 
@@ -100,11 +100,11 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
-		$this->session = new tx_oelib_fakeSession();
+		$this->session = new tx_oelib_FakeSession();
 		// Ensures an empty favorites list.
 		$this->session->setAsString(tx_realty_pi1::FAVORITES_SESSION_KEY, '');
-		tx_oelib_session::setInstance(
-			tx_oelib_session::TYPE_TEMPORARY, $this->session
+		tx_oelib_Session::setInstance(
+			tx_oelib_Session::TYPE_TEMPORARY, $this->session
 		);
 
 		// True enables the test mode which inhibits the FE editors FORMidable
@@ -2468,7 +2468,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 				->getAsString('summaryStringOfFavorites')
 		);
 	}

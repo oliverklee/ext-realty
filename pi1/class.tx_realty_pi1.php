@@ -24,9 +24,9 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Session.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mapperRegistry.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_MapperRegistry.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
@@ -434,7 +434,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
-		tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)->setAsString(
+		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)->setAsString(
 			self::FAVORITES_SESSION_KEY_VERBOSE,
 			serialize($this->favoritesDataVerbose)
 		);
@@ -2134,7 +2134,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @see storeFavorites
 	 */
 	private function getFavorites() {
-		return tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+		return tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 			->getAsString(self::FAVORITES_SESSION_KEY);
 	}
 
@@ -2156,7 +2156,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @see storeFavorites
 	 */
 	private function getFavoritesArray() {
-		return tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+		return tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 			->getAsIntegerArray(self::FAVORITES_SESSION_KEY);
 	}
 
@@ -2169,7 +2169,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *              already be int-safe, may be empty
 	 */
 	public function storeFavorites(array $favorites) {
-		tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 			->setAsArray(self::FAVORITES_SESSION_KEY, $favorites);
 	}
 
@@ -2217,7 +2217,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * on the favorites list to session.
 	 */
 	 public function writeSummaryStringOfFavoritesToSession() {
-		tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 			->setAsString(
 				'summaryStringOfFavorites',
 				$this->createSummaryStringOfFavorites()
@@ -3172,7 +3172,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * end.
 	 */
 	private function setLimitHeading() {
-		$owner = tx_oelib_mapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+		$owner = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->find($this->getFeUserUid());
 
 		if ($owner->getTotalNumberOfAllowedObjects() == 0) {
