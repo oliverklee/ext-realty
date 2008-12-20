@@ -1172,13 +1172,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
+		$output = $this->fixture->main('', array());
 		$this->assertContains(
 			'id="tx_realty_pi1_search"',
-			$this->fixture->main('', array())
+			$output
 		);
 		$this->assertNotContains(
 			'deleted city',
-			$this->fixture->main('', array())
+			$output
 		);
 	}
 
@@ -1192,14 +1193,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// criterion.
 		// piVars would usually be set by each submit of the list filter.
 		$this->fixture->piVars = $piVars;
+
+		$output = $this->fixture->main('', array());
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$firstCityTitle)
+			substr_count($output, self::$firstCityTitle)
 		);
-		$this->fixture->piVars = $piVars;
 		$this->assertEquals(
 			1,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count($output, self::$secondCityTitle)
 		);
 	}
 
@@ -1215,56 +1217,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// criterion.
 		// piVars would usually be set by each submit of the list filter.
 		$this->fixture->piVars = $piVars;
+		$output = $this->fixture->main('', array());
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$firstCityTitle)
-		);
-		$this->fixture->piVars = $piVars;
-		$this->assertEquals(
-			2,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
-		);
-	}
-
-	public function testListIsFilteredForOneCriterionAfterOneCriterionHasBeenCheckedAndUnchecked() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-
-		// The city's title will occur twice if it is within the list view and
-		// within the list filter. It will occur once if it is only a filter
-		// criterion.
-		// piVars would usually be set by each submit of the list filter.
-		$this->fixture->piVars['search'] = array(
-			$this->firstCityUid, $this->secondCityUid
+			substr_count($output, self::$firstCityTitle)
 		);
 		$this->assertEquals(
 			2,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
-		);
-		$this->fixture->piVars['search'] = array($this->firstCityUid);
-		$this->assertEquals(
-			1,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
-		);
-	}
-
-	public function testListIsNotFilteredAfterCheckingCriteriaAndUncheckingAllAgain() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-
-		// The city's title will occur twice if it is within the list view and
-		// within the list filter. It will occur once if it is only a filter
-		// criterion.
-		// piVars would usually be set by each submit of the list filter.
-		$this->fixture->piVars['search'] = array($this->firstCityUid);
-		$this->assertEquals(
-			1,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
-		);
-		$this->fixture->piVars['search'] = array();
-		$this->assertEquals(
-			2,
-			substr_count($this->fixture->main('', array()), self::$secondCityTitle)
+			substr_count($output, self::$secondCityTitle)
 		);
 	}
 

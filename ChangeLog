@@ -1,4 +1,5 @@
 0.3.1 - currently working on
+- [#2435] Change: Allow having non-identical template objects for the same template file
 - [#2420] Fix: With the current oelib trunk, some subparts in the "my objects" view are not hidden
 - [#2385] Change: Shorten the label for the object number/UID search
 - [#2389] Fix: Crash during the import
