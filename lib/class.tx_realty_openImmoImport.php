@@ -80,6 +80,9 @@ class tx_realty_openImmoImport {
 	/** the upload directory for images */
 	private $uploadDirectory = '';
 
+	/** @var boolean whether the current zip file should be deleted */
+	private $deleteCurrentZipFile = true;
+
 	/**
 	 * ZIP archives which are deleted at the end of import and folders which
 	 * were created during the import.
@@ -231,6 +234,13 @@ class tx_realty_openImmoImport {
 			$this->storeLogsAndClearTemporaryLog();
 		}
 
+		if (!$this->deleteCurrentZipFile) {
+			$this->filesToDelete = array_diff(
+				$this->filesToDelete, array($currentZip)
+			);
+			$this->deleteCurrentZipFile = true;
+		}
+
 		return $emailData;
 	}
 
@@ -327,6 +337,20 @@ class tx_realty_openImmoImport {
 				$this->translator->translate($errorMessage) . ': ' .
 					implode(', ', $this->realtyObject->checkForRequiredFields()) .
 					'. ' . $this->getPleaseActivateValidationMessage() . LF
+			);
+			break;
+		case 'message_object_limit_reached':
+			$this->deleteCurrentZipFile = false;
+			$ownerUid = $this->realtyObject->getProperty('owner');
+			$owner
+				= tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+					->find($ownerUid);
+			$this->addToErrorLog(
+				sprintf(
+					$this->translator->translate($errorMessage),
+					$owner->getName(), $ownerUid,
+					$owner->getTotalNumberOfAllowedObjects()
+				) . LF
 			);
 			break;
 		default:

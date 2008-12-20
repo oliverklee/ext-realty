@@ -42,7 +42,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	/**
 	 * @var boolean whether the number of objects has already been calculated
 	 */
-	private $objectsHaveBeenCalulated = false;
+	private $numberOfObjectsHasBeenCalculated = false;
 
 	/**
 	 * Returns the maximum number of objects the user is allowed to enter.
@@ -62,7 +62,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	 *                 if the user has no objects
 	 */
 	public function getNumberOfObjects() {
-		if (!$this->objectsHaveBeenCalulated) {
+		if (!$this->numberOfObjectsHasBeenCalculated) {
 			$whereClause = REALTY_TABLE_OBJECTS . '.owner=' . $this->getUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1);
 
@@ -78,7 +78,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 
 			$dbData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 			$this->numberOfObjects = $dbData['number'];
-			$this->objectsHaveBeenCalulated = true;
+			$this->numberOfObjectsHasBeenCalculated = true;
 			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
@@ -109,6 +109,14 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	public function canAddNewObjects() {
 		return (($this->getTotalNumberOfAllowedObjects() == 0)
 			|| ($this->getObjectsLeftToEnter() > 0));
+	}
+
+	/**
+	 * Forces the function getNumberOfObjects to recalculate the number of
+	 * objects.
+	 */
+	public function resetObjectsHaveBeenCalculated() {
+		$this->numberOfObjectsHasBeenCalculated = false;
 	}
 }
 

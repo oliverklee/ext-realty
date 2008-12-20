@@ -262,6 +262,22 @@ class tx_realty_object {
 			$this->processOwnerData();
 		}
 
+		if (($this->realtyObjectData['owner'] > 0)
+			&& (tx_oelib_configurationProxy::getInstance('realty')->
+				getConfigurationValueBoolean(
+					'useFrontEndUserDataAsContactDataForImportedRecords'
+				)
+			)
+		) {
+			$owner
+				= tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+					->find($this->realtyObjectData['owner']);
+			$owner->resetObjectsHaveBeenCalculated();
+			$ownerCanAddObjects = $owner->canAddNewObjects();
+		} else {
+			$ownerCanAddObjects = true;
+		}
+
 		if ($this->recordExistsInDatabase(
 			$this->realtyObjectData, 'object_number, language, openimmo_obid'
 			)
@@ -276,6 +292,8 @@ class tx_realty_object {
 				$this->deleteRelatedImageRecords();
 				$errorMessage = 'message_deleted_flag_causes_deletion';
 			}
+		} elseif (!$ownerCanAddObjects) {
+			$errorMessage = 'message_object_limit_reached';
 		} else {
 			$newUid = $this->createNewDatabaseEntry(
 				$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid

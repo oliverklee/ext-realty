@@ -36,6 +36,7 @@
 			<label index="message_files_removed">The following files have been removed</label>
 			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
 			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
+			<label index="message_object_limit_reached">The record for the user %s (UID: %u) was not imported because the user's object limit of %u has been reached.</label>
 			<label index="label_subject_openImmo_import">OpenImmo import</label>
 			<label index="label_object_number">Object Number</label>
 			<label index="label_allowed">Allowed</label>
@@ -72,6 +73,7 @@
 			<label index="message_files_removed">Folgende Dateien wurden gelöscht</label>
 			<label index="message_introduction">Hier ist das Ergebnis des letzen Imports Ihrer OpenImmo Datensätze.</label>
 			<label index="message_explanation">Sie erhalten diese E-Mail, weil Sie die Kotaktperson für die oben genannten Immobilien sind.</label>
+			<label index="message_object_limit_reached">Der Datensatz des Benutzers %s (UID: %u) konnte nicht importiert werden, da die maximale Objektanzahl von %u Objekten für diesen Benutzer erreicht wurde.</label>
 			<label index="label_subject_openImmo_import">OpenImmo-Import</label>
 			<label index="label_object_number">Objektnummer</label>
 			<label index="label_allowed">Erlaubt</label>
@@ -180,6 +182,7 @@
 			<label index="label_not_allowed" type="integer">95428607</label>
 			<label index="label_lightbox_image" type="integer">199571973</label>
 			<label index="label_lightbox_of" type="integer">146770004</label>
+			<label index="message_object_limit_reached" type="integer">206506953</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="message_zip_archive_not_installed" type="integer">197362181</label>
@@ -282,6 +285,7 @@
 			<label index="label_not_allowed">Unwelcome</label>
 			<label index="label_lightbox_image">Image</label>
 			<label index="label_lightbox_of">of</label>
+			<label index="message_object_limit_reached">The record for the user %s (UID: %u) was not imported because the user's object limit of %u has been reached.</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="message_zip_archive_not_installed">The import was aborted because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php5-zlib&quot; and &quot;dietzlib&quot; must be installed for this.</label>

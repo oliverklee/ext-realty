@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2370] Feature: During the OpenImmo import, only import objects up the the FE user's limit
 - [#2402] Feature: Add and use a view class
 - [#2371] Feature: Only allow entering new objects in the FE editor if the user's limit has not been reached or exceeded yet
 - [#2322] Feature: Create an autoloader for models and other classes

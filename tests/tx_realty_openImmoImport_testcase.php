@@ -56,6 +56,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private $testImportFolderExists = false;
 
 	public function setUp() {
+		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
@@ -503,6 +504,69 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->assertFalse(
 			file_exists($this->importFolder . 'same-name.zip')
+		);
+	}
+
+	public function testCleanUpDoesNotRemoveZipIfOwnerWhichHasReachedObjectLimitDuringImport() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontendUser(
+			$feUserGroupUid,
+			array(
+				'tx_realty_openimmo_anid' => 'foo',
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+
+		$this->copyTestFileIntoImportFolder('two-objects.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			file_exists($this->importFolder . 'two-objects.zip')
+		);
+	}
+
+	public function testCleanUpDoesNotRemoveIfZipOwnerWhichHasNoObjectsLeftToEnter() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid,
+			array(
+				'tx_realty_openimmo_anid' => 'foo',
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array('owner' => $feUserUid)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->copyTestFileIntoImportFolder('two-objects.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			file_exists($this->importFolder . 'two-objects.zip')
 		);
 	}
 
@@ -985,6 +1049,315 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 				REALTY_TABLE_OBJECTS,
 				'openimmo_anid="foo" AND owner=' . $feUserUid
 			)
+		);
+	}
+
+
+	////////////////////////////////////////////////
+	// Tests concerning the object limit for users
+	////////////////////////////////////////////////
+
+	public function testWriteToDatabaseForUserWithObjectLimitReachedDoesNotImportAnyFurtherRecords() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+		);
+
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid,
+			array(
+				'tx_realty_openimmo_anid' => 'foo',
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array('owner' => $feUserUid)
+		);
+
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+
+		$singleObject = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1"/>' .
+							'<vermarktungsart KAUF="1"/>' .
+							'<objektart><zimmer/></objektart>' .
+						'</objektkategorie>' .
+						'<geo>' .
+							'<plz>bar</plz>' .
+						'</geo>' .
+						'<kontaktperson>' .
+							'<name>bar</name>' .
+						'</kontaktperson>' .
+						'<verwaltung_techn>' .
+							'<openimmo_obid>foo</openimmo_obid>' .
+							'<objektnr_extern>bar1234567</objektnr_extern>' .
+						'</verwaltung_techn>' .
+					'</immobilie>' .
+					'<openimmo_anid>foo</openimmo_anid>' .
+					'<firma>bar</firma>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($singleObject);
+		$this->fixture->writeToDatabase($records[0]);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'owner =' . $feUserUid
+			)
+		);
+	}
+
+	public function testWriteToDatabaseForUserWithObjectLimitNotReachedDoesImportRecords() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+		);
+
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid,
+			array(
+				'tx_realty_openimmo_anid' => 'foo',
+				'tx_realty_maximum_objects' => 42,
+			)
+		);
+
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+
+		$multipleRecords = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1"/>' .
+							'<vermarktungsart KAUF="1"/>' .
+							'<objektart><zimmer/></objektart>' .
+						'</objektkategorie>' .
+						'<geo>' .
+							'<plz>bar</plz>' .
+						'</geo>' .
+						'<kontaktperson>' .
+							'<name>bar</name>' .
+						'</kontaktperson>' .
+						'<verwaltung_techn>' .
+							'<openimmo_obid>foo</openimmo_obid>' .
+							'<objektnr_extern>bar1234567</objektnr_extern>' .
+						'</verwaltung_techn>' .
+					'</immobilie>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1"/>' .
+							'<vermarktungsart KAUF="1"/>' .
+							'<objektart><zimmer/></objektart>' .
+						'</objektkategorie>' .
+						'<geo>' .
+							'<plz>bar</plz>' .
+						'</geo>' .
+						'<kontaktperson>' .
+							'<name>bar</name>' .
+						'</kontaktperson>' .
+						'<verwaltung_techn>' .
+							'<openimmo_obid>foo</openimmo_obid>' .
+							'<objektnr_extern>bar2345678</objektnr_extern>' .
+						'</verwaltung_techn>' .
+					'</immobilie>' .
+					'<openimmo_anid>foo</openimmo_anid>' .
+					'<firma>bar</firma>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($multipleRecords);
+		$this->fixture->writeToDatabase($records[0]);
+		$this->fixture->writeToDatabase($records[1]);
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'owner =' . $feUserUid
+			)
+		);
+	}
+
+	public function testWriteToDatabaseForUserWithoutObjectLimitDoesImportRecord() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+		);
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+
+		$singleObject = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1"/>' .
+							'<vermarktungsart KAUF="1"/>' .
+							'<objektart><zimmer/></objektart>' .
+						'</objektkategorie>' .
+						'<geo>' .
+							'<plz>bar</plz>' .
+						'</geo>' .
+						'<kontaktperson>' .
+							'<name>bar</name>' .
+						'</kontaktperson>' .
+						'<verwaltung_techn>' .
+							'<openimmo_obid>foo</openimmo_obid>' .
+							'<objektnr_extern>bar1234567</objektnr_extern>' .
+						'</verwaltung_techn>' .
+					'</immobilie>' .
+					'<openimmo_anid>foo</openimmo_anid>' .
+					'<firma>bar</firma>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($singleObject);
+		$this->fixture->writeToDatabase($records[0]);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'owner =' . $feUserUid
+			)
+		);
+	}
+
+	public function testWriteToDatabaseForUserWithOneObjectLeftToLimitImportsOnlyOneRecord() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+		);
+
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid,
+			array(
+				'tx_realty_openimmo_anid' => 'foo',
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+
+		$multipleRecords = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1"/>' .
+							'<vermarktungsart KAUF="1"/>' .
+							'<objektart><zimmer/></objektart>' .
+						'</objektkategorie>' .
+						'<geo>' .
+							'<plz>bar</plz>' .
+						'</geo>' .
+						'<kontaktperson>' .
+							'<name>bar</name>' .
+						'</kontaktperson>' .
+						'<verwaltung_techn>' .
+							'<openimmo_obid>foo</openimmo_obid>' .
+							'<objektnr_extern>bar1234567</objektnr_extern>' .
+						'</verwaltung_techn>' .
+					'</immobilie>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1"/>' .
+							'<vermarktungsart KAUF="1"/>' .
+							'<objektart><zimmer/></objektart>' .
+						'</objektkategorie>' .
+						'<geo>' .
+							'<plz>bar</plz>' .
+						'</geo>' .
+						'<kontaktperson>' .
+							'<name>bar</name>' .
+						'</kontaktperson>' .
+						'<verwaltung_techn>' .
+							'<openimmo_obid>foo</openimmo_obid>' .
+							'<objektnr_extern>bar2345678</objektnr_extern>' .
+						'</verwaltung_techn>' .
+					'</immobilie>' .
+					'<openimmo_anid>foo</openimmo_anid>' .
+					'<firma>bar</firma>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($multipleRecords);
+		$this->fixture->writeToDatabase($records[0]);
+		$this->fixture->writeToDatabase($records[1]);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'owner =' . $feUserUid
+			)
+		);
+	}
+
+	public function testImportFromZipForUserWithObjectLimitReachedReturnsObjectLimitReachedErrorMessage() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid,
+			array(
+				'tx_realty_openimmo_anid' => 'foo',
+				'tx_realty_maximum_objects' => 1,
+				'username' => 'fooBar',
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->copyTestFileIntoImportFolder('two-objects.zip');
+
+		$this->assertContains(
+			sprintf(
+				$this->translator->translate('message_object_limit_reached'),
+				'fooBar', $feUserUid, 1
+			),
+			$this->fixture->importFromZip()
 		);
 	}
 
@@ -1829,6 +2202,39 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->translator->translate('message_openimmo_anid_not_matches_allowed_fe_user'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	public function testSentEmailForUserWhoReachedHisObjectLimitContainsMessageThatRecordWasNotImported() {
+		$this->checkForZipArchive();
+
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$feUserUid = $this->testingFramework->createFrontendUser(
+			$feUserGroupUid, array(
+				'tx_realty_openimmo_anid' => 'foo',
+				'tx_realty_maximum_objects' => 1,
+				'username' => 'fooBar',
+			)
+		);
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'useFrontEndUserDataAsContactDataForImportedRecords', true
+		);
+		$this->globalConfiguration->setConfigurationValueString(
+			'allowedFrontEndUserGroups', (string) $feUserGroupUid
+		);
+
+		$this->globalConfiguration->setConfigurationValueBoolean(
+			'onlyImportForRegisteredFrontEndUsers', true
+		);
+		$this->copyTestFileIntoImportFolder('two-objects.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertContains(
+			sprintf(
+				$this->translator->translate('message_object_limit_reached'),
+				'fooBar', $feUserUid, 1
+			),
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
 		);
 	}

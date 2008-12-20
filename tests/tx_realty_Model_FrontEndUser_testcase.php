@@ -356,5 +356,43 @@ class tx_realty_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->canAddNewObjects()
 		);
 	}
+
+
+	//////////////////////////////////////////////////////////////
+	// Tests concerning the calculation of the number of objects
+	//////////////////////////////////////////////////////////////
+
+	public function testCanAddNewObjectsDoesNotRecalculateObjectLimit() {
+		$userUid = $this->testingFramework->createFrontEndUser();
+		$this->fixture->setData(
+			array(
+				'uid' => $userUid,
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+		$this->fixture->canAddNewObjects();
+		$this->createObject($userUid);
+
+		$this->assertTrue(
+			$this->fixture->canAddNewObjects()
+		);
+	}
+
+	public function testCanAddNewObjectsAfterResetObjectsHaveBeenCalculatedIsCalledRecalculatesObjectLimit() {
+		$userUid = $this->testingFramework->createFrontEndUser();
+		$this->fixture->setData(
+			array(
+				'uid' => $userUid,
+				'tx_realty_maximum_objects' => 1,
+			)
+		);
+		$this->fixture->canAddNewObjects();
+		$this->createObject($userUid);
+		$this->fixture->resetObjectsHaveBeenCalculated();
+
+		$this->assertFalse(
+			$this->fixture->canAddNewObjects()
+		);
+	}
 }
 ?>
