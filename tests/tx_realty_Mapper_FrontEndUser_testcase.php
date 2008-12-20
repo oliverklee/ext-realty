@@ -22,9 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
-
-require_once(t3lib_extMgm::extPath('realty') . 'Mapper/class.tx_realty_Mapper_FrontEndUser.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
  * Unit tests for the tx_realty_Mapper_FrontEndUser class in the 'realty'

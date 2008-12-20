@@ -24,8 +24,6 @@
 
 require_once(PATH_typo3 . 'sysext/lang/lang.php');
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
-
 /**
  * Class 'tx_realty_translator' for the 'realty' extension.
  *

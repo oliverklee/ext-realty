@@ -23,9 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');

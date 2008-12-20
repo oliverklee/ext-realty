@@ -22,12 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Session.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_FakeSession.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');

@@ -22,10 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('realty') . 'Model/class.tx_realty_Model_FrontEndUser.php');
-
-require_once(t3lib_extMgm::extPath('oelib') . 'Mapper/class.tx_oelib_Mapper_FrontEndUser.php');
-
 /**
  * Class 'tx_realty_Mapper_FrontEndUser' for the 'realty' extension.
  *
