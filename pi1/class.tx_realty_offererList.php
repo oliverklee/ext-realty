@@ -171,14 +171,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 */
 	private function createListRow(array $userRecord) {
 		$subpartHasContent = false;
-		// resetSubpartsHiding cannot be used as this also affects the subparts
-		// hidden in the pi1 class.
-		$this->unhideSubparts(
-			'company,offerer_label,usergroup,street,city,telephone,email,www,' .
-				'objects_by_owner_link,address,single_view_usergroup',
-			'',
-			'wrapper'
-		);
+		$this->resetSubpartsHiding();
 
 		foreach (array(
 			'usergroup' => htmlspecialchars($this->getFirstUserGroup($userRecord)),
@@ -216,8 +209,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			'wrapper'
 		);
 
-		// apart form the single view the user group is appended to the company
-		// if displayed or else the offerer_label
+		// Apart from in the single view, the user group is appended to the
+		// company (if displayed) or to else the offerer name.
 		if ($this->getConfValueString('what_to_display') != 'single_view') {
 			$this->hideSubparts('usergroup', 'wrapper');
 		}

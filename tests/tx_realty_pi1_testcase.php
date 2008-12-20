@@ -1798,62 +1798,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListIsFilteredForOneCriterionAfterOneCriterionHasBeenCheckedAndUnchecked() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-
-		// The city's title will occur twice if it is within the list view and
-		// within the list filter. It will occur once if it is only a filter
-		// criterion.
-		// piVars would usually be set by each submit of the list filter.
-		$this->fixture->piVars['search'] = array(
-			$this->firstCityUid, $this->secondCityUid
-		);
-		$this->assertEquals(
-			2,
-			substr_count(
-				$this->fixture->main('', array()),
-				self::$secondCityTitle
-			)
-		);
-
-		$this->fixture->piVars['search'] = array($this->firstCityUid);
-		$this->assertEquals(
-			1,
-			substr_count(
-				$this->fixture->main('', array()),
-				self::$secondCityTitle
-			)
-		);
-	}
-
-	public function testListIsNotFilteredAfterCheckingCriteriaAndUncheckingAllAgain() {
-		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
-		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-
-		// The city's title will occur twice if it is within the list view and
-		// within the list filter. It will occur once if it is only a filter
-		// criterion.
-		// piVars would usually be set by each submit of the list filter.
-		$this->fixture->piVars['search'] = array($this->firstCityUid);
-		$this->assertEquals(
-			1,
-			substr_count(
-				$this->fixture->main('', array()),
-				self::$secondCityTitle
-			)
-		);
-
-		$this->fixture->piVars['search'] = array();
-		$this->assertEquals(
-			2,
-			substr_count(
-				$this->fixture->main('', array()),
-				self::$secondCityTitle
-			)
-		);
-	}
-
 	public function testTheListFilterLinksToTheSelfUrl() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
