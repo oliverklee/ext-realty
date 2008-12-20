@@ -24,7 +24,6 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
-require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
 
 /**
@@ -40,28 +39,25 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	private $fixture;
 	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
-	/** @var tx_realty_pi1 */
-	private $pi1;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'));
-		$this->pi1->getTemplateCode();
-		$this->pi1->setLabels();
-		$this->pi1->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-
-		$this->fixture = new tx_realty_filterForm($this->pi1);
+		$this->fixture = new tx_realty_filterForm(
+			array(
+				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'showSiteSearchInFilterForm' => 'show',
+			),
+			$GLOBALS['TSFE']->cObj
+		);
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
-		$this->pi1->__destruct();
-		unset($this->fixture, $this->pi1, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -71,14 +67,14 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function testFilterFormHasSubmitButton() {
 		$this->assertContains(
-			$this->pi1->translate('label_search'),
+			$this->fixture->translate('label_search'),
 			$this->fixture->render(array())
 		);
 	}
 
 	public function testFilterFormLinksToConfiguredTargetPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
-		$this->pi1->setConfigurationValue('filterTargetPID', $pageUid);
+		$this->fixture->setConfigurationValue('filterTargetPID', $pageUid);
 
 		$this->assertContains(
 			'?id=' . $pageUid,
@@ -101,7 +97,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFilterFormHasNoSiteSearchInputIfDisabledByConfiguration() {
-		$this->pi1->setConfigurationValue('showSiteSearchInFilterForm', 'hide');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'hide');
 
 		$this->assertNotContains(
 			'id="tx_realty_pi1-site"',
@@ -122,7 +118,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFilterFormHasPricesSelectboxForConfiguredFilterOptions() {
-		$this->pi1->setConfigurationValue('priceRangesForFilterForm', '1-100');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
 		$this->assertContains(
 			'<select',
@@ -131,8 +127,8 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPriceRangeIsDisplayedWithCurrency() {
-		$this->pi1->setConfigurationValue('currencyUnit', '&euro;');
-		$this->pi1->setConfigurationValue('priceRangesForFilterForm', '1-100');
+		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
 		$this->assertContains(
 			'&euro;',
@@ -141,28 +137,28 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testOptionWithLowerAndUpperPriceLimitCanBeDisplayed() {
-		$this->pi1->setConfigurationValue('priceRangesForFilterForm', '1-100');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
 		$this->assertContains(
-			'1 ' . $this->pi1->translate('label_to') . ' 100',
+			'1 ' . $this->fixture->translate('label_to') . ' 100',
 			$this->fixture->render(array())
 		);
 	}
 
 	public function testOptionWithLowerPriceLimitCanBeDisplayed() {
-		$this->pi1->setConfigurationValue('priceRangesForFilterForm', '1-');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-');
 
 		$this->assertContains(
-			$this->pi1->translate('label_greater_than') . ' 1',
+			$this->fixture->translate('label_greater_than') . ' 1',
 			$this->fixture->render(array())
 		);
 	}
 
 	public function testOptionWithUpperPriceLimitCanBeDisplayed() {
-		$this->pi1->setConfigurationValue('priceRangesForFilterForm', '-100');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '-100');
 
 		$this->assertContains(
-			$this->pi1->translate('label_less_than') . ' 100',
+			$this->fixture->translate('label_less_than') . ' 100',
 			$this->fixture->render(array())
 		);
 	}
@@ -173,7 +169,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	///////////////////////////////////////////
 
 	public function testSearchFormForUidSearchContainsUidSearchField() {
-		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'uid');
 
 		$this->assertContains(
 			'name="tx_realty_pi1[uid]"',
@@ -182,7 +178,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSearchFormForUidSearchDoesNotContainObjectNumberSearchField() {
-		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'uid');
 
 		$this->assertNotContains(
 			'name="tx_realty_pi1[objectNumber]"',
@@ -192,7 +188,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 
 	public function testSearchFormForObjectNumberSearchContainsObjectNumberSearchField() {
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'showIdSearchInFilterForm',
 			'objectNumber'
 		);
@@ -204,7 +200,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSearchFormForObjectNumberSearchDoesNotContainUidSearchField() {
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'showIdSearchInFilterForm',
 			'objectNumber'
 		);
@@ -217,7 +213,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 
 	public function testSearchFormForEmptyConfigValueIsHidden() {
-		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', '');
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', '');
 
 		$this->assertNotContains(
 			'id="tx_realty_pi1-idsearch"',
@@ -310,7 +306,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWhereClauseForUidSearchWithNonZeroUidCanBeCreated() {
-		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'uid');
 
 		$this->assertEquals(
 			' AND ' . REALTY_TABLE_OBJECTS . '.uid=1',
@@ -319,7 +315,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWhereClauseForUidSearchWithZeroUidIsEmpty() {
-		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'uid');
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'uid');
 
 		$this->assertEquals(
 			'',
@@ -328,7 +324,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWhereClauseForObjectNumberSearchWithNonEmptyObjectNumberCanBeCreated() {
-		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
 
 		$this->assertEquals(
 			' AND ' . REALTY_TABLE_OBJECTS . '.object_number="foo"',
@@ -337,7 +333,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWhereClauseForObjectNumberSearchWithEmptyObjectNumberIsEmpty() {
-		$this->pi1->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
 
 		$this->assertEquals(
 			'',

@@ -49,15 +49,15 @@ define('TYPE_BOOLEAN', 2);
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_pi1 extends tx_oelib_templatehelper {
-	/** same as class name */
+	/** @var string same as class name */
 	public $prefixId = 'tx_realty_pi1';
-	/** path to this script relative to the extension dir */
+	/** @var string path to this script relative to the extension dir */
 	public $scriptRelPath = 'pi1/class.tx_realty_pi1.php';
-	/** the extension key */
+	/** @var string the extension key */
 	public $extKey = 'realty';
-	/** the upload directory for images */
+	/** @var string the upload directory for images */
 	private $uploadDirectory = 'uploads/tx_realty/';
-	/** the names of the DB tables for foreign keys */
+	/** @var array the names of the DB tables for foreign keys */
 	private $tableNames = array(
 		'objects' => REALTY_TABLE_OBJECTS,
 		'city' => REALTY_TABLE_CITIES,
@@ -168,10 +168,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	public $pi_checkCHash = true;
 
-	/** instance of tx_realty_filterForm */
+	/** @var tx_realty_filterForm */
 	private $filterForm = null;
 
-	/** whether this class is called in the test mode */
+	/** @var boolean whether this class is called in the test mode */
 	private $isTestMode = false;
 
 	/** @var tx_realty_object the current realty object */
@@ -249,11 +249,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$filterFormClassName = t3lib_div::makeInstanceClassName(
 			'tx_realty_filterForm'
 		);
-		$this->filterForm = new $filterFormClassName($this);
+		$this->filterForm = new $filterFormClassName($this->conf, $this->cObj);
 		$offererListClassName = t3lib_div::makeInstanceClassName(
 			'tx_realty_offererList'
 		);
-		$this->offererList = new $offererListClassName($this);
+		$this->offererList = new $offererListClassName($this->conf, $this->cObj);
 
 		// Checks the configuration and displays any errors.
 		// The direct return value from $this->checkConfiguration() is not used
@@ -289,11 +289,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$contactFormClassName = t3lib_div::makeInstanceClassName(
 					'tx_realty_contactForm'
 				);
-				$contactForm = new $contactFormClassName($this);
-				$result = $contactForm->render(
-					$this->piVars,
-					$this->createSummaryStringOfFavorites()
-				);
+				$contactForm = new $contactFormClassName($this->conf, $this->cObj);
+				$formData = $this->piVars;
+				$formData['summaryStringOfFavorites']
+					= $this->createSummaryStringOfFavorites();
+				$result = $contactForm->render($formData);
 				break;
 			case 'fe_editor':
 				$frontEndEditorClassName = t3lib_div::makeInstanceClassName(

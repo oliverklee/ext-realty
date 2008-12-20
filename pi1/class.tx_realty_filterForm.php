@@ -34,10 +34,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_filterForm {
-	/** plugin in which the filter form is used */
-	private $plugin = null;
-
+class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var array Filter form data array with the elements "priceRange",
 	 *            "site", "objectNumber" and "uid".
@@ -50,22 +47,6 @@ class tx_realty_filterForm {
 	);
 
 	/**
-	 * The constructor.
-	 *
-	 * @param tx_oelib_templatehelper plugin which uses this class
-	 */
-	public function __construct(tx_oelib_templatehelper $plugin) {
-		$this->plugin = $plugin;
-	}
-
-	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	public function __destruct() {
-		unset($this->plugin);
-	}
-
-	/**
 	 * Returns the filter form in HTML.
 	 *
 	 * @param array current piVars, the elements "priceRange" and "site"
@@ -73,7 +54,7 @@ class tx_realty_filterForm {
 	 *
 	 * @return string HTML of the filter form, will not be empty
 	 */
-	public function render(array $filterFormData) {
+	public function render(array $filterFormData = array()) {
 		$this->extractValidFilterFormData($filterFormData);
 
 		$this->setTargetUrlMarker();
@@ -81,7 +62,7 @@ class tx_realty_filterForm {
 		$this->fillOrHidePriceRangeDropDown();
 		$this->fillOrHideIdSearch();
 
-		return $this->plugin->getSubpart('FILTER_FORM');
+		return $this->getSubpart('FILTER_FORM');
 	}
 
 	/**
@@ -114,8 +95,9 @@ class tx_realty_filterForm {
 	private function extractValidFilterFormData(array $formData) {
 		foreach (array('site', 'objectNumber', 'uid') as $key) {
 			if (isset($formData[$key])) {
-				$this->filterFormData[$key]
-					= ($key == 'uid') ? intval($formData[$key]) : $formData[$key];
+				$this->filterFormData[$key] = ($key == 'uid')
+					? intval($formData[$key])
+					: $formData[$key];
 			} else {
 				$this->filterFormData[$key] = ($key == 'uid') ? 0 : '';
 			}
@@ -158,17 +140,13 @@ class tx_realty_filterForm {
 	 * Sets the target URL marker.
 	 */
 	private function setTargetUrlMarker() {
-		$this->plugin->setMarker(
+		$this->setMarker(
 			'target_url',
-			t3lib_div::locationHeaderUrl(
-				$this->plugin->cObj->typoLink_URL(
-					array(
-						'parameter' => $this->plugin->getConfValueInteger(
-							'filterTargetPID', 's_searchForm'
-						),
-					)
-				)
-			)
+			t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
+				'parameter' => $this->getConfValueInteger(
+					'filterTargetPID', 's_searchForm'
+				),
+			)))
 		);
 	}
 
@@ -177,14 +155,14 @@ class tx_realty_filterForm {
 	 * the input if it is disabled by configuration.
 	 */
 	private function fillOrHideSiteSearch() {
-		if ($this->plugin->getConfValueString(
+		if ($this->getConfValueString(
 			'showSiteSearchInFilterForm', 's_searchForm'
 		) == 'show') {
-			$this->plugin->setMarker(
+			$this->setMarker(
 				'site', htmlspecialchars($this->filterFormData['site'])
 			);
 		} else {
-			$this->plugin->hideSubparts('wrapper_site_search');
+			$this->hideSubparts('wrapper_site_search');
 		}
 	}
 
@@ -210,9 +188,9 @@ class tx_realty_filterForm {
 					'" label="' . $label . '" ' . $selectedAttribute . '>' .
 					$label . '</option>';
 			}
-			$this->plugin->setMarker('price_range_options', $optionTags);
+			$this->setMarker('price_range_options', $optionTags);
 		} else {
-			$this->plugin->hideSubparts('wrapper_price_range_options');
+			$this->hideSubparts('wrapper_price_range_options');
 		}
 	}
 
@@ -222,28 +200,28 @@ class tx_realty_filterForm {
 	 * configuration.
 	 */
 	private function fillOrHideIdSearch() {
-		$searchType = $this->plugin->getConfValueString(
+		$searchType = $this->getConfValueString(
 			'showIdSearchInFilterForm', 's_searchForm'
 		);
 
 		if ($searchType == '') {
-			$this->plugin->hideSubparts('wrapper_id_search');
+			$this->hideSubparts('wrapper_id_search');
 			return;
 		}
 
-		$this->plugin->setMarker(
+		$this->setMarker(
 			'searched_id',
 			($this->filterFormData[$searchType] != 0)
 				 ? htmlspecialchars($this->filterFormData[$searchType])
 				 : ''
 		);
-		$this->plugin->setMarker(
+		$this->setMarker(
 			'id_search_label',
-			$this->plugin->translate(
+			$this->translate(
 				'label_enter_' . $searchType
 			)
 		);
-		$this->plugin->setMarker('id_search_type', $searchType);
+		$this->setMarker('id_search_type', $searchType);
 	}
 
 	/**
@@ -257,7 +235,7 @@ class tx_realty_filterForm {
 	 *               this array will be empty.
 	 */
 	private function getPriceRangesFromConfiguration() {
-		if (!$this->plugin->hasConfValueString(
+		if (!$this->hasConfValueString(
 			'priceRangesForFilterForm', 's_searchForm')
 		) {
 			return array();
@@ -268,9 +246,8 @@ class tx_realty_filterForm {
 		$priceRanges = array(array());
 
 		$priceRangeConfiguration = t3lib_div::trimExplode(
-			',', $this->plugin->getConfValueString(
-				'priceRangesForFilterForm',
-				's_searchForm')
+			',',
+			$this->getConfValueString('priceRangesForFilterForm','s_searchForm')
 		);
 
 		foreach ($priceRangeConfiguration as $range) {
@@ -298,17 +275,17 @@ class tx_realty_filterForm {
 			return '&nbsp;';
 		}
 
-		$currencySymbol = $this->plugin->getConfValueString('currencyUnit');
+		$currencySymbol = $this->getConfValueString('currencyUnit');
 
 		if ($range['lowerLimit'] == 0) {
-			$result = $this->plugin->translate('label_less_than') . ' ' .
+			$result = $this->translate('label_less_than') . ' ' .
 				$range['upperLimit'] . $currencySymbol;
 		} elseif ($range['upperLimit'] == 0) {
-			$result = $this->plugin->translate('label_greater_than') . ' ' .
+			$result = $this->translate('label_greater_than') . ' ' .
 				$range['lowerLimit'] . $currencySymbol;
 		} else {
 			$result = $range['lowerLimit'] . $currencySymbol . ' ' .
-				$this->plugin->translate('label_to') . ' ' .
+				$this->translate('label_to') . ' ' .
 				$range['upperLimit'] . $currencySymbol;
 		}
 

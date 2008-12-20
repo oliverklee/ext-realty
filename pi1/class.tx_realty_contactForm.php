@@ -35,11 +35,8 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_contactForm extends tx_oelib_templatehelper {
-	/** plugin in which the contact form is used */
-	private $plugin = null;
-
-	/** data for the contact form */
+class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
+	/** @var array data for the contact form */
 	private $contactFormData = array(
 		'isSubmitted' => false,
 		'showUid' => 0,
@@ -50,31 +47,26 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		'summaryStringOfFavorites' => ''
 	);
 
-	/** instance of the realty object */
+	/** @var tx_realty_object */
 	private $realtyObject = null;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param tx_oelib_templatehelper plugin which uses this contact form
+	 * @param array TypoScript configuration for the plugin
+	 * @param tslib_cObj the parent cObj content, needed for the flexforms
 	 */
-	public function __construct(tx_oelib_templatehelper $plugin) {
-		$this->plugin = $plugin;
-		// For the templatehelper's functions about setting labels and filling
-		// markers, the plugin's templatehelper object is used as the inherited
-		// templatehelper does not have all configuration which would be
-		// necessary for this.
-		$this->init($this->plugin->getConfiguration());
-		$this->pi_initPIflexForm();
-
+	public function __construct(array $configuration, tslib_cObj $cObj) {
 		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
+
+		parent::__construct($configuration, $cObj);
 	}
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		unset($this->formCreator, $this->plugin, $this->realtyObject);
+		unset($this->realtyObject);
 
 		parent::__destruct();
 	}
@@ -93,24 +85,21 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * a message about this, otherwise a specific error message.
 	 *
 	 * @param array contact form data, may be empty
-	 * @param string summary string of the current favorites list, may be empty
 	 *
 	 * @return string HTML of the contact form, will not be empty
 	 */
-	public function render(
-		array $contactFormData, $summaryStringOfFavorites = ''
-	) {
-		$this->storeContactFormData($contactFormData, $summaryStringOfFavorites);
+	public function render(array $contactFormData = array()) {
+		$this->storeContactFormData($contactFormData);
 
 		// setOrHideSpecializedView() will fail if the 'showUid' parameter is
 		// set to an invalid value.
 		if (!$this->setOrHideSpecializedView()) {
-			$this->plugin->setMarker(
+			$this->setMarker(
 				'message_noResultsFound',
-				$this->plugin->translate('message_noResultsFound_contact_form')
+				$this->translate('message_noResultsFound_contact_form')
 			);
 
-			return $this->plugin->getSubpart('EMPTY_RESULT_VIEW');
+			return $this->getSubpart('EMPTY_RESULT_VIEW');
 		}
 
 		$subpartName = 'CONTACT_FORM';
@@ -141,12 +130,12 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		}
 
 		if (empty($errorMessages)) {
-			$this->plugin->hideSubparts('contact_form_error', 'wrapper');
+			$this->hideSubparts('contact_form_error', 'wrapper');
 		} else {
 			$this->setErrorMessageContent($errorMessages);
 		}
 
-		return $this->plugin->getSubpart($subpartName);
+		return $this->getSubpart($subpartName);
 	}
 
 	/**
@@ -196,21 +185,17 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 		foreach (array(
 			'request' => $this->contactFormData['request'],
 			'requester_name' => $this->contactFormData['requesterName'],
-			'requester_email' => '('.$this->contactFormData['requesterEmail'].')',
+			'requester_email'
+				=> '(' . $this->contactFormData['requesterEmail'] . ')',
 			'requester_phone' => $this->contactFormData['requesterPhone'],
 			'summary_string_of_favorites'
 				=> $this->contactFormData['summaryStringOfFavorites'],
 			'contact_person' => $contactPerson
 		) as $marker => $value) {
-			$this->plugin->setOrDeleteMarkerIfNotEmpty(
-				$marker,
-				$value,
-				'',
-				'wrapper'
-			);
+			$this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
 		}
 
-		return $this->formatEmailBody($this->plugin->getSubpart('EMAIL_BODY'));
+		return $this->formatEmailBody($this->getSubpart('EMAIL_BODY'));
 	}
 
 	/**
@@ -222,10 +207,10 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	private function getEmailSubject() {
 		if ($this->isSpecializedView()) {
 			$this->loadCurrentRealtyObject();
-			$result = $this->plugin->translate('label_email_subject_specialized')
-				.' '.$this->realtyObject->getProperty('object_number');
+			$result = $this->translate('label_email_subject_specialized') .
+				' ' . $this->realtyObject->getProperty('object_number');
 		} else {
-			$result = $this->plugin->translate('label_email_subject_general');
+			$result = $this->translate('label_email_subject_general');
 		}
 
 		return $result;
@@ -240,8 +225,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 *                will not be empty
 	 */
 	private function getEmailSender() {
-		return 'From: "'.$this->contactFormData['requesterName'].'" '
-			.'<'.$this->contactFormData['requesterEmail'].'>'.LF;
+		return 'From: "' . $this->contactFormData['requesterName'] . '" ' .
+			'<' . $this->contactFormData['requesterEmail'] . '>' . LF;
 	}
 
 	/**
@@ -254,9 +239,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	private function getBccAddress() {
 		$result = '';
 
-		if ($this->plugin->hasConfValueString('blindCarbonCopyAddress')) {
-			$result = 'Bcc: '
-				.$this->plugin->getConfValueString('blindCarbonCopyAddress').LF;
+		if ($this->hasConfValueString('blindCarbonCopyAddress')) {
+			$result = 'Bcc: ' .
+				$this->getConfValueString('blindCarbonCopyAddress') . LF;
 		}
 
 		return $result;
@@ -273,9 +258,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 */
 	private function formatEmailBody($rawEmailBody) {
 		$body = trim(preg_replace('/\n|\r/', CRLF, $rawEmailBody));
-		return preg_replace(
-			'/(\r\n){2,}/', CRLF.CRLF, $body
-		);
+
+		return preg_replace('/(\r\n){2,}/', CRLF . CRLF, $body);
 	}
 
 	/**
@@ -318,15 +302,12 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 */
 	private function getContactData() {
 		$result = array('name' => '', 'email' => '');
-
 		$contactData = $this->fetchContactDataFromSource();
 
 		if ($this->isValidEmail($contactData['email'])) {
 			$result = $contactData;
-		} elseif ($this->plugin->hasConfValueString('defaultContactEmail')) {
-			$result['email'] = $this->plugin->getConfValueString(
-				'defaultContactEmail'
-			);
+		} elseif ($this->hasConfValueString('defaultContactEmail')) {
+			$result['email'] = $this->getConfValueString('defaultContactEmail');
 		}
 
 		return $result;
@@ -414,16 +395,16 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			}
 
 			foreach (array('object_number', 'title', 'uid') as $key) {
-				$this->plugin->setMarker(
+				$this->setMarker(
 					$key, $this->realtyObject->getProperty($key), '', 'wrapper'
 				);
 			}
 		} else {
-			$subpartsToHide = 'specialized_contact_form,'
-				.'email_from_specialized_contact_form';
+			$subpartsToHide = 'specialized_contact_form,' .
+				'email_from_specialized_contact_form';
 		}
 
-		$this->plugin->hideSubparts($subpartsToHide, 'wrapper');
+		$this->hideSubparts($subpartsToHide, 'wrapper');
 
 		return $wasSuccessful;
 	}
@@ -438,9 +419,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			$readonlyMarkerContent = 'disabled="disabled"';
 			$this->setDataForLoggedInUser();
 		} else {
-			$this->plugin->hideSubparts('requester_data_is_uneditable', 'wrapper');
+			$this->hideSubparts('requester_data_is_uneditable', 'wrapper');
 		}
-		$this->plugin->setMarker('declare_uneditable', $readonlyMarkerContent);
+		$this->setMarker('declare_uneditable', $readonlyMarkerContent);
 	}
 
 	/**
@@ -451,9 +432,9 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	private function setErrorMessageContent(array $keys) {
 		$errorMessage = '';
 		foreach ($keys as $key) {
-			$errorMessage .= $this->plugin->translate($key).'<br />';
+			$errorMessage .= $this->translate($key) . '<br />';
 		}
-		$this->plugin->setMarker('ERROR_MESSAGE', $errorMessage);
+		$this->setMarker('ERROR_MESSAGE', $errorMessage);
 	}
 
 	/**
@@ -498,7 +479,7 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			'requester_email' => $this->contactFormData['requesterEmail'],
 			'requester_phone' => $this->contactFormData['requesterPhone'],
 		) as $marker => $value) {
-			$this->plugin->setMarker($marker, htmlspecialchars($value));
+			$this->setMarker($marker, htmlspecialchars($value));
 		}
 	}
 
@@ -506,11 +487,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 	 * Stores the submitted contact form data locally.
 	 *
 	 * @param array contact form data, may be empty
-	 * @param string summary string of the current favorites list, may be empty
 	 */
-	private function storeContactFormData(
-		array $contactFormData, $summaryStringOfFavorites
-	) {
+	private function storeContactFormData(array $contactFormData) {
 		foreach (
 			array(
 				'requesterName', 'requesterEmail', 'requesterPhone', 'request'
@@ -527,7 +505,8 @@ class tx_realty_contactForm extends tx_oelib_templatehelper {
 			= isset($contactFormData['showUid'])
 			? intval($contactFormData['showUid']) : 0;
 		$this->contactFormData['summaryStringOfFavorites']
-			= $summaryStringOfFavorites;
+			= isset($contactFormData['summaryStringOfFavorites'])
+			? $contactFormData['summaryStringOfFavorites'] : '';
 	}
 
 	/**

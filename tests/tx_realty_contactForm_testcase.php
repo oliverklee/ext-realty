@@ -37,43 +37,39 @@ require_once(t3lib_extMgm::extPath('realty').'pi1/class.tx_realty_contactForm.ph
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
-	/** contact form object to be tested */
+	/** @var tx_realty_contactform */
 	private $fixture;
-	/** instance of tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
-	/** instance of tx_realty_pi1 */
-	private $pi1;
 
-	/** dummy realty object ID */
+	/** @var integer dummy realty object ID */
 	private $realtyUid;
-	/** title for the dummy realty object */
+	/** @var string title for the dummy realty object */
 	private static $realtyTitle = 'test title';
-	/** object number for the dummy realty object */
+	/** @var string object number for the dummy realty object */
 	private static $realtyObjectNumber = '1234567';
 
-	/** dummy FE user ID */
+	/** @var integer dummy FE user ID */
 	private $feUserId;
-	/** title for the dummy FE user */
+	/** @var string title for the dummy FE user */
 	private static $feUserTitle ='any frontend user';
-	/** e-mail address for the dummy FE user */
+	/** @var string e-mail address for the dummy FE user */
 	private static $feUserEmail = 'frontend-user@valid-email.org';
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'));
-		$this->pi1->getTemplateCode();
-		$this->pi1->setLabels();
-
-		$this->fixture = new tx_realty_contactForm($this->pi1);
+		$this->fixture = new tx_realty_contactForm(
+			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+			$GLOBALS['TSFE']->cObj
+		);
 
 		$this->createDummyRecords();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'defaultContactEmail', 'any-default@email-address.org'
 		);
-		$this->pi1->setConfigurationValue('blindCarbonCopyAddress', '');
+		$this->fixture->setConfigurationValue('blindCarbonCopyAddress', '');
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 	}
 
@@ -83,8 +79,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
 
 		$this->fixture->__destruct();
-		$this->pi1->__destruct();
-		unset($this->fixture, $this->pi1, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -138,14 +133,14 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testGeneralContactFormDoesNotContainTitleLabelWithoutRealtySet() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_title'),
+			$this->fixture->translate('label_title'),
 			$this->fixture->render(array())
 		);
 	}
 
 	public function testGeneralContactFormDoesNotContainObjectNumberLabelWithoutRealtySet() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_object_number'),
+			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(array())
 		);
 	}
@@ -154,11 +149,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$result = $this->fixture->render(array('showUid' => $this->realtyUid));
 
 		$this->assertContains(
-			$this->pi1->translate('label_your_name'),
+			$this->fixture->translate('label_your_name'),
 			$result
 		);
 		$this->assertContains(
-			$this->pi1->translate('label_your_email'),
+			$this->fixture->translate('label_your_email'),
 			$result
 		);
 		$this->assertNotContains(
@@ -171,11 +166,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$result = $this->fixture->render(array());
 
 		$this->assertContains(
-			$this->pi1->translate('label_your_name'),
+			$this->fixture->translate('label_your_name'),
 			$result
 		);
 		$this->assertContains(
-			$this->pi1->translate('label_your_email'),
+			$this->fixture->translate('label_your_email'),
 			$result
 		);
 		$this->assertNotContains(
@@ -222,14 +217,14 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactHasNoDisabledInfomationIfNotLoggedIn() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render(array('showUid' => $this->realtyUid))
 		);
 	}
 
 	public function testGeneralContactHasNoDisabledInfomationIfNotLoggedIn() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render(array())
 		);
 	}
@@ -238,7 +233,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->loginFrontendUser($this->feUserId);
 
 		$this->assertContains(
-			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render(array('showUid' => $this->realtyUid))
 		);
 	}
@@ -247,14 +242,14 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->loginFrontendUser($this->feUserId);
 
 		$this->assertContains(
-			$this->pi1->translate('label_requester_data_is_uneditable'),
+			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render(array())
 		);
 	}
 
 	public function testContactFormDisplaysGeneralViewIfTheRealtyObjectUidWasNotNumeric() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_object_number'),
+			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(
 				array('showUid' => 'foo')
 			)
@@ -274,7 +269,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormNotDisplaysObjectNumberLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_object_number'),
+			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
 					REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -285,7 +280,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormNotDisplaysTitleLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_title'),
+			$this->fixture->translate('label_title'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
 					REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -296,7 +291,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormNotDisplaysSubmitLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_submit'),
+			$this->fixture->translate('label_submit'),
 			$this->fixture->render(array(
 				'showUid' => $this->testingFramework->createRecord(
 					REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -307,7 +302,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormNotDisplaysYourNameLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
-			$this->pi1->translate('label_your_name'),
+			$this->fixture->translate('label_your_name'),
 			$this->fixture->render(array(
 				'showUid' => $this->testingFramework->createRecord(
 					REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -323,7 +318,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormDisplaysAnErrorIfRealtyObjectDoesNotExist() {
 		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_contact_form'),
+			$this->fixture->translate('message_noResultsFound_contact_form'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
 					REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -334,7 +329,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
 		$this->assertContains(
-			$this->pi1->translate('label_set_valid_email_address'),
+			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -350,7 +345,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
 		$this->assertContains(
-			$this->pi1->translate('label_set_valid_email_address'),
+			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -364,7 +359,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheEmailField() {
 		$this->assertContains(
-			$this->pi1->translate('label_set_valid_email_address'),
+			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -380,7 +375,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheNameField() {
 		$this->assertContains(
-			$this->pi1->translate('label_set_name'),
+			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -396,7 +391,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvided() {
 		$this->assertContains(
-			$this->pi1->translate('label_set_name'),
+			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -411,7 +406,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvided() {
 		$this->assertContains(
-			$this->pi1->translate('label_set_name'),
+			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -425,7 +420,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
 		$this->assertContains(
-			$this->pi1->translate('label_no_empty_textarea'),
+			$this->fixture->translate('label_no_empty_textarea'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -440,7 +435,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
 		$this->assertContains(
-			$this->pi1->translate('label_no_empty_textarea'),
+			$this->fixture->translate('label_no_empty_textarea'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -453,10 +448,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet() {
-		$this->pi1->setConfigurationValue('defaultContactEmail', '');
+		$this->fixture->setConfigurationValue('defaultContactEmail', '');
 
 		$this->assertContains(
-			$this->pi1->translate('label_no_contact_person'),
+			$this->fixture->translate('label_no_contact_person'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -470,10 +465,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGeneralContactFormDisplaysAnErrorAfterSubmittingIfNoDefaultEmailAddressWasSet() {
-		$this->pi1->setConfigurationValue('defaultContactEmail', '');
+		$this->fixture->setConfigurationValue('defaultContactEmail', '');
 
 		$this->assertContains(
-			$this->pi1->translate('label_no_contact_person'),
+			$this->fixture->translate('label_no_contact_person'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -487,9 +482,9 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testContactFormDisplaysSeveralErrorMessagesIfNoNameNoEmailAndNorRequestAreProvided() {
 		$this->assertContains(
-			$this->pi1->translate('label_set_name').'<br />'
-				.$this->pi1->translate('label_set_valid_email_address').'<br />'
-				.$this->pi1->translate('label_no_empty_textarea'),
+			$this->fixture->translate('label_set_name') . '<br />' .
+				$this->fixture->translate('label_set_valid_email_address') .
+				'<br />' . $this->fixture->translate('label_no_empty_textarea'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -513,7 +508,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			$this->pi1->translate('label_no_empty_textarea'),
+			$this->fixture->translate('label_no_empty_textarea'),
 			$result
 		);
 		$this->assertContains(
@@ -521,7 +516,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$result
 		);
 		$this->assertContains(
-			$this->pi1->translate('label_your_request'),
+			$this->fixture->translate('label_your_request'),
 			$result
 		);
 	}
@@ -537,7 +532,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			$this->pi1->translate('label_no_empty_textarea'),
+			$this->fixture->translate('label_no_empty_textarea'),
 			$result
 		);
 		$this->assertNotContains(
@@ -545,14 +540,14 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$result
 		);
 		$this->assertContains(
-			$this->pi1->translate('label_your_request'),
+			$this->fixture->translate('label_your_request'),
 			$result
 		);
 	}
 
 	public function testSpecializedContactFormShowsSubmittedMessageIfAllContentIsValid() {
 		$this->assertContains(
-			$this->pi1->translate('label_message_sent'),
+			$this->fixture->translate('label_message_sent'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -567,7 +562,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 	public function testGeneralContactFormShowsSubmittedMessageIfAllContentIsValid() {
 		$this->assertContains(
-			$this->pi1->translate('label_message_sent'),
+			$this->fixture->translate('label_message_sent'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -900,7 +895,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testTheHeaderContainsABccAddressIfThisWasConfigured() {
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'blindCarbonCopyAddress', 'bcc-address@valid-email.org'
 		);
 		$this->fixture->render(
@@ -988,9 +983,9 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 				'isSubmitted' => true,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
-				'request' => 'the request'
-			),
-			'summary of favorites'
+				'request' => 'the request',
+				'summaryStringOfFavorites' => 'summary of favorites'
+			)
 		);
 
 		$this->assertContains(
@@ -1059,7 +1054,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertNotContains(
-			$this->pi1->translate('label_requester_phone'),
+			$this->fixture->translate('label_requester_phone'),
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
 		);
 	}
@@ -1075,7 +1070,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			$this->pi1->translate('label_email_subject_general'),
+			$this->fixture->translate('label_email_subject_general'),
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastSubject()
 		);
 	}

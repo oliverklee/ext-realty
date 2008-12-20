@@ -33,55 +33,47 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_offererList {
-	/**
-	 * @var tx_realty_pi1 plugin that contains the offerer list
-	 */
-	private $plugin = null;
-
+class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/** @var boolean whether this class is instantiated for testing */
 	private $isTestMode = false;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param tx_realty_pi1 plugin that contains the offerer list
+	 * @param array TypoScript configuration for the plugin
+	 * @param tslib_cObj the parent cObj content, needed for the flexforms
 	 * @param boolean true if this class is instantiated for testing, else false
 	 */
-	public function __construct(tx_realty_pi1 $plugin, $isTestMode = false) {
-		$this->plugin = $plugin;
+	public function __construct(
+		array $configuration, tslib_cObj $cObj, $isTestMode = false
+	) {
 		$this->isTestMode = $isTestMode;
-	}
-
-	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	public function __destruct() {
-		unset($this->plugin);
+		parent::__construct($configuration, $cObj);
 	}
 
 	/**
 	 * Returns the offerer list in HTML.
 	 *
+	 * @param array unused
+	 *
 	 * @return string HTML of the offerer list, will not be empty
 	 */
-	public function render() {
+	public function render(array $unused = array()) {
 		$listItems = $this->getListItems();
 
 		if ($listItems != '') {
-			$this->plugin->setSubpart('offerer_list_item', $listItems);
+			$this->setSubpart('offerer_list_item', $listItems);
 		} else {
-			$this->plugin->setMarker(
+			$this->setMarker(
 				'message_noResultsFound',
-				$this->plugin->translate('message_noResultsFound_offererList')
+				$this->translate('message_noResultsFound_offererList')
 			);
-			$this->plugin->setSubpart(
-				'offerer_list_result',
-				$this->plugin->getSubpart('EMPTY_RESULT_VIEW')
+			$this->setSubpart(
+				'offerer_list_result', $this->getSubpart('EMPTY_RESULT_VIEW')
 			);
 		}
 
-		return $this->plugin->getSubpart('OFFERER_LIST');
+		return $this->getSubpart('OFFERER_LIST');
 	}
 
 	/**
@@ -118,13 +110,13 @@ class tx_realty_offererList {
 	 *                no offerers
 	 */
 	private function getListItems() {
-		if ($this->plugin->hasConfValueString(
+		if ($this->hasConfValueString(
 			'userGroupsForOffererList', 's_offererInformation'
 		)) {
 			$userGroups = str_replace(
 				',',
 				'|',
-				$this->plugin->getConfValueString(
+				$this->getConfValueString(
 					'userGroupsForOffererList', 's_offererInformation'
 				)
 			);
@@ -181,7 +173,7 @@ class tx_realty_offererList {
 		$subpartHasContent = false;
 		// resetSubpartsHiding cannot be used as this also affects the subparts
 		// hidden in the pi1 class.
-		$this->plugin->unhideSubparts(
+		$this->unhideSubparts(
 			'company,offerer_label,usergroup,street,city,telephone,email,www,' .
 				'objects_by_owner_link,address,single_view_usergroup',
 			'',
@@ -196,28 +188,28 @@ class tx_realty_offererList {
 			'city' => htmlspecialchars($userRecord['zip'] . ' ' . $userRecord['city']),
 			'telephone' => htmlspecialchars($userRecord['telephone']),
 			'email' => htmlspecialchars($userRecord['email']),
-			'www' => $this->plugin->cObj->typoLink(
+			'www' => $this->cObj->typoLink(
 				htmlspecialchars($userRecord['www']),
 				array('parameter' => htmlspecialchars($userRecord['www']))
 			),
 		) as $key => $value) {
-			$this->plugin->setMarker(
+			$this->setMarker(
 				'emphasized_' . $key,
 				(!$subpartHasContent && (trim($value) != '')) ? 'emphasized' : ''
 			);
 
 			if ($this->mayDisplayInformation($userRecord, $key)
-				&& $this->plugin->setOrDeleteMarkerIfNotEmpty(
+				&& $this->setOrDeleteMarkerIfNotEmpty(
 					$key, trim($value), '', 'wrapper'
 				)
 			) {
 				$subpartHasContent = ($key != 'usergroup');
 			} else {
-				$this->plugin->hideSubparts($key, 'wrapper');
+				$this->hideSubparts($key, 'wrapper');
 			}
 		}
 
-		$this->plugin->setOrDeleteMarkerIfNotEmpty(
+		$this->setOrDeleteMarkerIfNotEmpty(
 			'objects_by_owner_link',
 			$this->getObjectsByOwnerUrl($userRecord),
 			'',
@@ -226,12 +218,12 @@ class tx_realty_offererList {
 
 		// apart form the single view the user group is appended to the company
 		// if displayed or else the offerer_label
-		if ($this->plugin->getConfValueString('what_to_display') != 'single_view') {
-			$this->plugin->hideSubparts('usergroup', 'wrapper');
+		if ($this->getConfValueString('what_to_display') != 'single_view') {
+			$this->hideSubparts('usergroup', 'wrapper');
 		}
 
 		return ($subpartHasContent
-			? $this->plugin->getSubpart('OFFERER_LIST_ITEM')
+			? $this->getSubpart('OFFERER_LIST_ITEM')
 			: ''
 		);
 	}
@@ -251,7 +243,7 @@ class tx_realty_offererList {
 
 		return in_array(
 			$keyOfInformation,
-			explode(',', $this->plugin->getConfValueString(
+			explode(',', $this->getConfValueString(
 				$configurationKey, 's_offererInformation'
 			))
 		);
@@ -268,17 +260,16 @@ class tx_realty_offererList {
 	 *                 configured special user groups
 	 */
 	private function containsSpecialGroup($groupList) {
-		if (!$this->plugin->hasConfValueString(
-				'groupsWithSpeciallyDisplayedContactInformation',
-				's_offererInformation'
-			)
-		) {
+		if (!$this->hasConfValueString(
+			'groupsWithSpeciallyDisplayedContactInformation',
+			's_offererInformation'
+		)) {
 			return false;
 		}
 
 		$specialGroups = array_values(array_intersect(
 			explode(',', $groupList),
-			explode(',', $this->plugin->getConfValueString(
+			explode(',', $this->getConfValueString(
 				'groupsWithSpeciallyDisplayedContactInformation',
 				's_offererInformation'
 			))
@@ -345,7 +336,7 @@ class tx_realty_offererList {
 	 *              be empty
 	 */
 	private function appendUserGroup(&$information, array $userRecord) {
-		if (($this->plugin->getConfValueString('what_to_display') != 'single_view')
+		if (($this->getConfValueString('what_to_display') != 'single_view')
 			&& $this->mayDisplayInformation($userRecord, 'usergroup')
 			&& ($information != '')
 		) {
@@ -368,14 +359,14 @@ class tx_realty_offererList {
 		$result = '';
 		$matchingGroups = explode(',', $userRecord['usergroup']);
 
-		if ($this->plugin->hasConfValueString(
+		if ($this->hasConfValueString(
 			'userGroupsForOffererList', 's_offererInformation'
 		)) {
 			$matchingGroups = array_values(array_intersect(
 				$matchingGroups,
 				explode(
 					',',
-					$this->plugin->getConfValueString(
+					$this->getConfValueString(
 						'userGroupsForOffererList', 's_offererInformation'
 					)
 				)
@@ -418,19 +409,19 @@ class tx_realty_offererList {
 	private function getObjectsByOwnerUrl(array $userRecord) {
 		// There might be no UID if the data to render as offerer information
 		// was initially provided in an array.
-		if (!$this->plugin->hasConfValueInteger(
+		if (!$this->hasConfValueInteger(
 			'objectsByOwnerPID', 's_offererInformation'
 		) || !isset($userRecord['uid'])) {
 			return '';
 		}
 
-		return t3lib_div::locationHeaderUrl($this->plugin->cObj->typoLink_URL(
+		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(
 			array(
-				'parameter' => $this->plugin->getConfValueInteger(
+				'parameter' => $this->getConfValueInteger(
 					'objectsByOwnerPID', 's_offererInformation'
 				),
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					$this->plugin->prefixId, array('owner' => $userRecord['uid'])
+					$this->prefixId, array('owner' => $userRecord['uid'])
 				),
 				'useCacheHash' => true,
 			)
