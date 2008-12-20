@@ -232,6 +232,7 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
+			<label index="message_no_objects_left">You have reached the number of objects you are allowed to enter and cannot enter any more objects.</label>
 			<label index="label_salutation">Hello</label>
 			<label index="label_uid">Database ID</label>
 			<label index="label_user_text">wrote the following</label>
@@ -530,6 +531,7 @@
 			<label index="message_invalidImage_informal">Dieses Bild ist in unseren Datenbanken leider nicht verfügbar. Bitte überprüfe, ob die Adresse in der Adresszeile deines Browsers korrekt ist. Falls du einem Link zu dieser Seite gefolgt bist, ist der Link möglicherweise fehlerhaft oder veraltet.</label>
 			<label index="message_please_login_formal">Bitte loggen Sie sich ein, um diese Seite anzuzeigen.</label>
 			<label index="message_please_login_informal">Bitte logge dich ein, um diese Seite anzuzeigen.</label>
+			<label index="message_no_objects_left">Sie können keine weiteren Objekte eintragen, da Sie bereits die maximale Anzahl an Objekten eingetragen haben.</label>
 			<label index="label_salutation">Guten Tag</label>
 			<label index="label_uid">Datenbank ID</label>
 			<label index="label_user_text">hat folgende Anfrage</label>
@@ -1609,6 +1611,7 @@
 			<label index="label_no_objects_left" type="integer">95559120</label>
 			<label index="label_one_object_left" type="integer">255809018</label>
 			<label index="label_multiple_objects_left" type="integer">109683844</label>
+			<label index="message_no_objects_left" type="integer">263673405</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2613,6 +2616,7 @@
 			<label index="label_no_objects_left">You cannot enter any more objects.</label>
 			<label index="label_one_object_left">You can enter one more object.</label>
 			<label index="label_multiple_objects_left">You can enter %u more objects.</label>
+			<label index="message_no_objects_left">You have reached the number of objects you are allowed to enter and cannot enter any more objects.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

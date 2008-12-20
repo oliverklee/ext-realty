@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2371] Feature: Only allow entering new objects in the FE editor if the user's limit has not been reached or exceeded yet
 - [#2322] Feature: Create an autoloader for models and other classes
 - [#2406] Fix: hoa_fee should be visible in sale objects and hidden in rent objects in the FE editor and in the BE
 - [#2236] Change: Use mysql_free in realty

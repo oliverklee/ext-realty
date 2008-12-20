@@ -55,6 +55,23 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	);
 
 	/**
+	 * Checks if the current logged-in front-end user is allowed to edit or
+	 * create a new object and returns an error message if not.
+	 *
+	 * @return string empty if the user can edit or create an object, HTML of an
+	 *                error message otherwise
+	 */
+	public function checkAccess() {
+		$result = parent::checkAccess();
+
+		if (($result == '') && $this->userWantsToCreateNewObjectInEditor()) {
+			$result = $this->checkObjectLimit();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Deletes a record if the current object UID is a valid UID that identifies
 	 * an object of an authorized FE user. Otherwise an error message will be
 	 * returned.
@@ -1182,6 +1199,35 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function getWhereClauseForTesting() {
 		return $this->isTestMode ? ' AND is_dummy_record=1' : '';
+	}
+
+	/**
+	 * Checks if the logged-in front-end user is allowed to enter new objects.
+	 *
+	 * @return string empty if the user is allowed to enter new objects,
+	 *                an error message otherwise
+	 */
+	private function checkObjectLimit() {
+		return (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+					->getLoggedInUser()->canAddNewObjects()
+				)
+				? $this->renderErrorMessage($this->plugin->translate(
+					'message_no_objects_left'))
+				: '';
+	}
+
+	/**
+	 * Checks if the user is about to create a new object with the fe_editor.
+	 *
+	 * @return boolean true if the user is about to create a new object in the
+	 *                 fe_editor, false otherwise
+	 */
+	private function userWantsToCreateNewObjectInEditor() {
+		return (($this->realtyObjectUid == 0)
+			&& ($this->plugin->getConfValueString('what_to_display')
+				== 'fe_editor'
+			)
+		);
 	}
 }
 

@@ -1657,5 +1657,40 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////////
+	// Tests concerning checkAccess
+	/////////////////////////////////
+
+	public function testCheckAccessForLoggedInUserWithNoObjectsLeftToEnterReturnsNoObjectsLeftMessage() {
+		$userUid = $this->testingFramework->createFrontEndUser(
+			'', array('tx_realty_maximum_objects' => 1)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array('owner' => $userUid)
+		);
+		$this->testingFramework->loginFrontEndUser($userUid);
+		$this->pi1->setConfigurationValue('what_to_display', 'fe_editor');
+
+		$this->assertContains(
+			$this->pi1->translate('message_no_objects_left'),
+			$this->fixture->checkAccess()
+		);
+	}
+
+	public function testCheckAccessForLoggedInUserWithObjectsLeftToEnterReturnsNoErrorMessage() {
+		$userUid = $this->testingFramework->createFrontEndUser(
+			'', array('tx_realty_maximum_objects' => 1)
+		);
+		$this->testingFramework->loginFrontEndUser($userUid);
+		$this->pi1->setConfigurationValue('what_to_display', 'fe_editor');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->checkAccess()
+		);
+	}
 }
 ?>

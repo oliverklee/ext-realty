@@ -89,6 +89,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
+		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -226,13 +227,17 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 *
 	 * @param boolean whether the front-end user should be set as the owner of
 	 *                the first realty object
+	 * @param array data with which the user should be created, may be empty
 	 *
 	 * @return integer the UID of the created and logged-in FE user, will be > 0
 	 */
-	private function prepareMyObjects($makeOwner = false) {
+	private function prepareMyObjects(
+		$makeOwner = false, array $userData = array()
+	) {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 
-		$uid = $this->testingFramework->createAndLoginFrontEndUser();
+		$uid = $this->testingFramework->createFrontEndUser('', $userData);
+		$this->testingFramework->loginFrontEndUser($uid);
 
 		if ($makeOwner) {
 			$this->testingFramework->changeRecord(
@@ -293,6 +298,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->existsExactlyOneRecord(
 				REALTY_TABLE_OBJECTS, 'owner = ' . $uid
 			)
+		);
+	}
+
+	public function testPrepareMyObjectsCanStoreUsernameForUser() {
+		$this->prepareMyObjects(false, array('username' => 'foo'));
+
+		$this->assertEquals(
+			'foo',
+			$GLOBALS['TSFE']->fe_user->user['username']
 		);
 	}
 
@@ -3988,14 +4002,40 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMyObjectsViewContainsCreateNewObjectLink() {
-		$this->prepareMyObjects(false);
+	public function testMyObjectsViewForLoggedInUserWithoutLimitContainsCreateNewObjectLink() {
+		$this->prepareMyObjects(true);
 
 		$this->fixture->setConfigurationValue(
 			'editorPID', $this->testingFramework->createFrontEndPage()
 		);
 
 		$this->assertContains(
+			'button newRecord',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyObjectsViewForLoggedInUserWithLimitButLessObjectsThanLimitContainsCreateNewObjectLink() {
+		$this->prepareMyObjects(true, array('tx_realty_maximum_objects' => 2));
+
+		$this->fixture->setConfigurationValue(
+			'editorPID', $this->testingFramework->createFrontEndPage()
+		);
+
+		$this->assertContains(
+			'button newRecord',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyObjectsViewForLoggedInUserNoObjectsLeftToEnterHidesCreateNewObjectLink() {
+		$this->prepareMyObjects(true, array('tx_realty_maximum_objects' => 1));
+
+		$this->fixture->setConfigurationValue(
+			'editorPID', $this->testingFramework->createFrontEndPage()
+		);
+
+		$this->assertNotContains(
 			'button newRecord',
 			$this->fixture->main('', array())
 		);
@@ -4037,13 +4077,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewHidesLimitHeadingForUserWithMaximumObjectsSetToZero() {
-		$feUserUid = $this->prepareMyObjects(true);
+		$this->prepareMyObjects(true, array('tx_realty_maximum_objects' => 0));
 
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$feUserUid,
-			array('tx_realty_maximum_objects' => 0)
-		);
 		$this->assertNotContains(
 			$this->fixture->translate('label_objects_already_entered'),
 			$this->fixture->main('', array())
@@ -4051,13 +4086,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewShowsLimitHeadingForUserWithMaximumObjectsSetToOne() {
-		$feUserUid = $this->prepareMyObjects(true);
-
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$feUserUid,
-			array('tx_realty_maximum_objects' => 1)
-		);
+		$this->prepareMyObjects(true, array('tx_realty_maximum_objects' => 1));
 
 		$this->assertContains(
 			sprintf($this->fixture->translate('label_objects_already_entered'), 1, 1),
@@ -4066,13 +4095,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewForUserWithOneObjectAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel() {
-		$feUserUid = $this->prepareMyObjects(true);
-
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$feUserUid,
-			array('tx_realty_maximum_objects' => 1)
-		);
+		$this->prepareMyObjects(true, array('tx_realty_maximum_objects' => 1));
 
 		$this->assertContains(
 			$this->fixture->translate('label_no_objects_left'),
@@ -4081,12 +4104,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewForUserWithTwoObjectsAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel() {
-		$feUserUid = $this->prepareMyObjects(true);
-
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$feUserUid,
-			array('tx_realty_maximum_objects' => 1)
+		$feUserUid = $this->prepareMyObjects(
+			true, array('tx_realty_maximum_objects' => 1)
 		);
 
 		$this->testingFramework->changeRecord(
@@ -4102,13 +4121,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMyObjectsViewForUserWithOneObjectAndMaximumObjectsSetToTwoShowsOneObjectLeftLabel() {
-		$feUserUid = $this->prepareMyObjects(true);
-
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$feUserUid,
-			array('tx_realty_maximum_objects' => 2)
-		);
+		$this->prepareMyObjects(true, array('tx_realty_maximum_objects' => 2));
 
 		$this->assertContains(
 			$this->fixture->translate('label_one_object_left'),
@@ -4118,13 +4131,10 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testMyObjectsViewForUserWithNoObjectAndMaximumObjectsSetToTwoShowsMultipleObjectsLeftLabel() {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-		$feUserUid = $this->testingFramework->createAndLoginFrontEndUser();
-
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$feUserUid,
-			array('tx_realty_maximum_objects' => 2)
+		$feUserUid = $this->testingFramework->createFrontEndUser(
+			'', array('tx_realty_maximum_objects' => 2)
 		);
+		$this->testingFramework->loginFrontEndUser($feUserUid);
 
 		$this->assertContains(
 			sprintf($this->fixture->translate('label_multiple_objects_left'), 2),

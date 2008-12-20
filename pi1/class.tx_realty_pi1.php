@@ -362,6 +362,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				if ($this->isLoggedIn()) {
 					$this->setLimitHeading();
+					$this->setEditorLinkMarker();
 				}
 				$this->setMarker(
 					'empty_editor_link',
@@ -3168,22 +3169,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * end.
 	 */
 	private function setLimitHeading() {
-		$owner = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->find($this->getFeUserUid());
-
-		if ($owner->getTotalNumberOfAllowedObjects() == 0) {
+		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+			->getLoggedInUser();
+		if ($user->getTotalNumberOfAllowedObjects() == 0) {
 			$this->hideSubparts('limit_heading');
 			return;
 		}
 
-		$objectsLeftToEnter = $owner->getObjectsLeftToEnter();
+		$objectsLeftToEnter = $user->getObjectsLeftToEnter();
 		$this->unhideSubparts('limit_heading');
 		$this->setMarker(
 			'objects_limit_heading',
 			sprintf(
 				$this->translate('label_objects_already_entered'),
-				$owner->getNumberOfObjects(),
-				$owner->getTotalNumberOfAllowedObjects()
+				$user->getNumberOfObjects(),
+				$user->getTotalNumberOfAllowedObjects()
 			)
 		);
 		switch ($objectsLeftToEnter) {
@@ -3205,6 +3205,26 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'objects_left_to_enter',
 			$labelLeftToEnter
 		);
+	}
+
+	/**
+	 * Sets the link to the new record button of the my objects view and hides
+	 * it if the user cannot enter any more objects.
+	 *
+	 * This function should only be called when a user is logged in at the front
+	 * end.
+	 */
+	private function setEditorLinkMarker() {
+		if (tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+			->getLoggedInUser()->canAddNewObjects()
+		) {
+			$this->setMarker(
+				'empty_editor_link',
+				$this->createLinkToFeEditorPage('editorPID', 0)
+			);
+		} else {
+			$this->hideSubparts('new_record_link');
+		}
 	}
 }
 
