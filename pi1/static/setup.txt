@@ -166,4 +166,11 @@ plugin.tx_realty_pi1.listView {
 
 page.includeCSS {
 	tx_realty_pi1 = {$plugin.tx_realty_pi1.cssFile}
+	tx_realty_pi1.media = all
+
+	tx_realty_pi1_screen = {$plugin.tx_realty_pi1.cssFileScreen}
+	tx_realty_pi1_screen.media = screen
+
+	tx_realty_pi1_print = {$plugin.tx_realty_pi1.cssFilePrint}
+	tx_realty_pi1_print.media = print
 }

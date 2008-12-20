@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2392] Feature: Add a print stylesheet to the single view
 - [#2435] Change: Allow having non-identical template objects for the same template file
 - [#2370] Feature: During the OpenImmo import, only import objects up the the FE user's limit
 - [#2402] Feature: Add and use a view class

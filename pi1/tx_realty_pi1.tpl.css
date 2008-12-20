@@ -1,41 +1,5 @@
 /***** General styles *****/
 
-.tx-realty-pi1 a.button,
-.tx-realty-pi1 span.button {
-	display: block;
-	height: 18px;
-	line-height: 18px;
-	margin: 1px;
-	text-align: center;
-	font-weight: bold;
-	font-size: 11px;
-	color: white;
-	text-decoration: none;
-	border: none;
-	background: url(images/button_bg_left.png) no-repeat top left #FF6600;
-	padding-left: 0.5em;
-}
-.tx-realty-pi1 a.button span,
-.tx-realty-pi1 span.button span {
-	display: block;
-	background: url(images/button_bg_right.png) no-repeat top right #FF6600;
-	padding-right: 0.5em;
-}
-.tx-realty-pi1 span.button span {
-	cursor: default; /* for disabled buttons, don't use the "I" text cursor */
-}
-.tx-realty-pi1 a.button span {
-	cursor: pointer; /* IE hack */
-}
-.tx-realty-pi1 span.act,
-.tx-realty-pi1 a.act {
-	background: url(images/button_act_bg_left.png) no-repeat top left #B3C5D3;
-}
-.tx-realty-pi1 span.act span,
-.tx-realty-pi1 a.act span {
-	background: url(images/button_act_bg_right.png) no-repeat top right #B3C5D3;
-}
-
 .clear {
 	height: 1px;
 	clear: both;
@@ -85,9 +49,8 @@
 	padding-right: 10px;
 }
 
-/* Images in result list and single-view */
+/* Images in result list and single view */
 .tx-realty-pi1 .image {
-	border: 1px solid #B3C5D3;
 	vertical-align: middle;
 	text-align: center;
 	padding: 1px;
@@ -264,8 +227,8 @@
 
 .tx-realty-pi1 .single-view .text-pane {
 	float: left;
-	margin: 0 1em 1em 0;
-	width: 450px;
+	margin: 0 1% 1em 0;
+	width: 38%;
 }
 .tx-realty-pi1 .single-view .text-pane h4 {
 	margin: 1.5em 0 0;
@@ -331,22 +294,16 @@
 }
 
 /* Images */
+.tx-realty-pi1 .single-view .images {
+	width: 58%;
+	float: right;
+}
 .tx-realty-pi1 .single-view .images .item {
 	float: left;
 }
 .tx-realty-pi1 .single-view .images .item .image {
 	width: 137px;
 	height: 137px;
-}
-
-
-/* Lightbox Images */
-#prevLink:hover, #prevLink:visited:hover {
-	background: url(images/prevlabel.gif) left 15% no-repeat !important;
-}
-
-#nextLink:hover, #nextLink:visited:hover {
-	background: url(images/nextlabel.gif) right 15% no-repeat !important;
 }
 
 
