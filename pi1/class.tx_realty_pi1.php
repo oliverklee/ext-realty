@@ -1455,6 +1455,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 								'image' => $offset,
 							)
 						),
+						'useCacheHash' => true,
 					)
 				))
 			);
@@ -1713,6 +1714,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$piVars, array('image' => $image)
 				)
 			),
+			'useCacheHash' => true,
 		))) . '" ';
 	}
 

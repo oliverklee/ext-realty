@@ -2174,6 +2174,85 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSingleViewHasLinkedImage() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+				'caption' => 'foo',
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'tx_realty_pi1[image]=0',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewHasLinkedImageWithGalleryPid() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+				'caption' => 'foo',
+			)
+		);
+		$galleryPid = $this->testingFramework->createFrontEndPage();
+
+		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'?id=' . $galleryPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewHasLinkedImageWithCacheHashInTheLink() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('images' => '1')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+				'caption' => 'foo',
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'cHash=',
+			$this->fixture->main('', array())
+		);
+	}
 
 	/////////////////////////////////////
 	// Tests concerning getFieldContent
@@ -2819,6 +2898,20 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('message_invalidImage'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testGalleryHasThumbnailLinkWithCacheHash() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array('realty_object_uid' => $this->firstRealtyUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertContains(
+			'cHash=',
 			$this->fixture->main('', array())
 		);
 	}
