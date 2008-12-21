@@ -1707,6 +1707,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 						'additionalParams' => t3lib_div::implodeArrayForUrl(
 							$this->prefixId, $urlParameters
 						),
+						'useCacheHash' => true,
 					)
 				)
 			)
@@ -1974,6 +1975,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$piVars, array('image' => $image)
 				)
 			),
+			'useCacheHash' => true,
 		))) . '" ';
 	}
 
