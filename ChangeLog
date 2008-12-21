@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2100] Feature: Create a separate class for access check in the FE
 - [#2442] Fix: Links to the gallery (from the single view thumbnails and the gallery thumbnail) don't have a cHash anymore
 - [#2443] Fix: Empty image frames in the classic gallery for objects with deleted images
 - [#2392] Feature: Add a print stylesheet to the single view

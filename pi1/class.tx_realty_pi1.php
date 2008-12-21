@@ -261,8 +261,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setFlavor($this->getCurrentView());
 		$this->checkConfiguration();
 
+		$errorViewHtml = $this->checkAccessAndGetHtmlOfErrorView();
+
 		return $this->pi_wrapInBaseClass(
-			$this->getHtmlForCurrentView() . $this->getWrappedConfigCheckMessage()
+			(($errorViewHtml == '')
+				? $this->getHtmlForCurrentView()
+				: $errorViewHtml
+			) . $this->getWrappedConfigCheckMessage()
 		);
 	}
 
@@ -330,6 +335,39 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Checks whether a user has access to the current view and returns the HTML
+	 * of an error view if not.
+	 *
+	 * @return string HTML for the error view, will be empty if a user has
+	 *                access
+	 */
+	private function checkAccessAndGetHtmlOfErrorView() {
+		// This will be moved to the access check when Bug #1480 is fixed.
+		if (!$this->getConfValueBoolean('requireLoginForSingleViewPage')
+			&& in_array($this->getCurrentView(), array('gallery', 'single_view'))
+		) {
+			return '';
+		}
+
+		try {
+			t3lib_div::makeInstance('tx_realty_pi1_AccessCheck')->checkAccess(
+				$this->getCurrentView(), $this->piVars
+			);
+			$result = '';
+		} catch (tx_oelib_Exception_AccessDenied $exception) {
+			$errorViewClassName = t3lib_div::makeInstanceClassName(
+				'tx_realty_pi1_ErrorView'
+			);
+			$errorView = new $errorViewClassName($this->conf, $this->cObj);
+			$result = $errorView->render(array($exception->getMessage()));
+			$errorView->__destruct();
+			unset($errorView);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Shows a list of database entries.
 	 *
 	 * @return string HTML list of table entries or the HTML for an error
@@ -368,7 +406,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'empty_editor_link',
 					$this->createLinkToFeEditorPage('editorPID', 0)
 				);
-				$this->processDeletionAndCheckAccess();
+				$this->processDeletion();
 				break;
 			case 'objects_by_owner':
 				$listLabel = $this->getTitleForTheObjectsByOwnerList();
@@ -438,13 +476,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Processes the deletion of a realty record and checks whether a user has
-	 * access to the my objects list. If access is denied, the list view's
-	 * subpart will be filled with an error view.
+	 * Processes the deletion of a realty record.
 	 */
-	private function processDeletionAndCheckAccess() {
-		// The FE editor processes the deletion of an object.
-		// For testing, the FE editors FORMidable object must not be created.
+	private function processDeletion() {
+		// no need for a front-end editor if there is nothing to delete
+		if ($this->piVars['delete'] == 0) {
+			return;
+		}
+
+		// For testing, the FE editor's FORMidable object must not be created.
 		$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
 			'tx_realty_frontEndEditor'
 		);
@@ -454,11 +494,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'pi1/tx_realty_frontEndEditor.xml',
 			$this->isTestMode
 		);
-		// The FE editor also checks the access here.
-		$errorView = $frontEndEditor->deleteRecord();
-		if ($errorView != '') {
-			$this->setSubpart('list_view', $errorView);
-		}
+		$frontEndEditor->deleteRecord();
 	}
 
 	/**

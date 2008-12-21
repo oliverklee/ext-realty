@@ -136,11 +136,6 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 *                requested object is not editable for the current user
 	 */
 	public function render() {
-		$errorMessage = $this->checkAccess();
-		if ($errorMessage != '') {
-  			return $errorMessage;
-		}
-
 		$this->addOnLoadHandler();
 		$this->makeFormCreator();
 		return $this->formCreator->render();
@@ -152,148 +147,6 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * This function is intended to be overriden by subclasses if needed.
 	 */
 	public function addOnLoadHandler() {
-	}
-
-
-	///////////////////////////////////////////////////
-	// Functions concerning access and authorization.
-	///////////////////////////////////////////////////
-
-	/**
-	 * Checks whether the current record actually exists and whether the current
-	 * FE user is logged in and authorized to change the record. Returns an error
-	 * message if these conditions are not given.
-	 *
-	 * @return string empty if the current record actually exists and if
-	 *                the FE user is authorised, otherwise the HTML of a
-	 *                message that tells which condition is not fulfilled
-	 */
-	public function checkAccess() {
-		$result = '';
-		if (!$this->realtyObjectExistsInDatabase()) {
-			$result = $this->renderObjectDoesNotExistMessage();
-		} elseif (!$this->isLoggedIn()) {
-			$result = $this->renderPleaseLogInMessage();
-		} elseif (!$this->isFrontEndUserAuthorized()) {
-			$result = $this->renderNoAccessMessage();
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Returns the HTML for an error view. Therefore the plugin's
-	 * template is used.
-	 *
-	 * @param string content for the error view, must not be empty
-	 *
-	 * @return string HTML of the error message, will not be empty
-	 */
-	protected function renderErrorMessage($rawErrorMessage) {
-		$this->plugin->setMarker('error_message', $rawErrorMessage);
-
-		return $this->plugin->getSubpart('FRONT_END_EDITOR');
-	}
-
-	/**
-	 * Returns HTML for the object-does-not-exist error message and sets a 404
-	 * header.
-	 *
-	 * @return string HTML for the object-does-not-exist error message
-	 */
-	private function renderObjectDoesNotExistMessage() {
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-			->addHeader('Status: 404 Not Found');
-
-		return $this->renderErrorMessage(
-			$this->plugin->translate('message_noResultsFound_fe_editor')
-		);
-	}
-
-	/**
-	 * Returns HTML for the please-login error message and sets a 403 header.
-	 *
-	 * @return string HTML for the please-login error message
-	 */
-	private function renderPleaseLogInMessage() {
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-			->addHeader('Status: 403 Forbidden');
-
-		$piVars = $this->piVars;
-		unset($piVars['DATA']);
-
-		$redirectUrl = t3lib_div::locationHeaderUrl(
-			$this->plugin->cObj->typoLink_URL(
-				array(
-					'parameter' => $GLOBALS['TSFE']->id,
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
-						$this->prefixId,
-						$piVars,
-						'',
-						true,
-						true
-					),
-				)
-			)
-		);
-
-		$link = $this->plugin->cObj->typoLink(
-			htmlspecialchars($this->plugin->translate('message_please_login')),
-			array(
-				'parameter' => $this->plugin->getConfValueInteger('loginPID'),
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					'', array('redirect_url' => $redirectUrl)
-				),
-			)
-		);
-
-		return $this->renderErrorMessage($link);
-	}
-
-	/**
-	 * Returns HTML for the access-denied error message and sets a 403 header.
-	 *
-	 * @return string HTML for the access-denied error message
-	 */
-	private function renderNoAccessMessage() {
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-			->addHeader('Status: 403 Forbidden');
-
-		return $this->renderErrorMessage(
-			$this->plugin->translate('message_access_denied')
-		);
-	}
-
-	/**
-	 * Checks whether the realty object exists in the database and is enabled.
-	 * For new objects, the result will always be true.
-	 *
-	 * @return boolean true if the realty object is available for editing,
-	 *                 false otherwise
-	 */
-	private function realtyObjectExistsInDatabase() {
-		if ($this->realtyObjectUid == 0) {
-			return true;
-		}
-
-		return !$this->realtyObject->isRealtyObjectDataEmpty();
-	}
-
-	/**
-	 * Checks whether the FE user is allowed to edit the object. New objects are
-	 * considered to be editable by every logged in user.
-	 *
-	 * Note: This function does not check on user group memberships.
-	 *
-	 * @return boolean true if the FE user is allowed to edit the object,
-	 *                 false otherwise
-	 */
-	private function isFrontEndUserAuthorized() {
-		if ($this->realtyObjectUid == 0) {
-			return true;
-		}
-
-		return ($this->realtyObject->getProperty('owner') == $this->getFeUserUid());
 	}
 
 
@@ -357,6 +210,21 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 			: $this->formCreator->oDataHandler->__aFormData;
 
 		return isset($dataSource[$key]) ? $dataSource[$key] : '';
+	}
+
+	/**
+	 * Checks whether the realty object exists in the database and is enabled.
+	 * For new objects, the result will always be true.
+	 *
+	 * @return boolean true if the realty object is available for editing,
+	 *                 false otherwise
+	 */
+	private function realtyObjectExistsInDatabase() {
+		if ($this->realtyObjectUid == 0) {
+			return true;
+		}
+
+		return !$this->realtyObject->isRealtyObjectDataEmpty();
 	}
 
 

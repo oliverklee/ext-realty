@@ -134,102 +134,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	// Tests concerning deleteRecord().
 	/////////////////////////////////////
 
-	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
-		$this->fixture->setRealtyObjectUid(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->deleteRecord()
-		);
-	}
-
-	public function testDeleteRecordReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
-		$this->fixture->setRealtyObjectUid(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->deleteRecord()
-		);
-	}
-
-	public function testHeaderIsSentWhenDeleteRecordReturnsObjectDoesNotExistMessage() {
-		$this->fixture->setRealtyObjectUid(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->deleteRecord()
-		);
-		$this->assertEquals(
-			'Status: 404 Not Found',
-			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
-		);
-	}
-
-	public function testDeleteRecordReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
-		$this->testingFramework->logoutFrontEndUser();
-		$this->fixture->setRealtyObjectUid(0);
-
-		$this->assertContains(
-			$this->pi1->translate('message_please_login'),
-			$this->fixture->deleteRecord()
-		);
-	}
-
-	public function testDeleteRecordReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
-		$this->testingFramework->logoutFrontEndUser();
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_please_login'),
-			$this->fixture->deleteRecord()
-		);
-	}
-
-	public function testDeleteRecordReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToDeleteAnObjectHeDoesNotOwn() {
-		$this->testingFramework->createAndLoginFrontEndUser();
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_access_denied'),
-			$this->fixture->deleteRecord()
-		);
-	}
-
-	public function testHeaderIsSentWhenDeleteRecordReturnsAccessDeniedMessage() {
-		$this->testingFramework->createAndLoginFrontEndUser();
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_access_denied'),
-			$this->fixture->deleteRecord()
-		);
-		$this->assertEquals(
-			'Status: 403 Forbidden',
-			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
-		);
-	}
-
-	public function testDeleteRecordReturnsAnEmptyStringWhenUserAuthorizedAndUidZero() {
-		$this->fixture->setRealtyObjectUid(0);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->deleteRecord()
-		);
-	}
-
 	public function testDeleteRecordFromTheDatabase() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -246,20 +150,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 				'uid=' . $this->dummyObjectUid .
 					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
-		);
-	}
-
-	public function testDeleteRecordReturnsAnEmptyStringWhenUserAuthorizedAndRecordWasDeleted() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->dummyObjectUid,
-			array('owner' => $this->feUserUid)
-		);
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->deleteRecord()
 		);
 	}
 
@@ -1655,41 +1545,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			isset($GLOBALS['TSFE']
 				->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
 			)
-		);
-	}
-
-
-	/////////////////////////////////
-	// Tests concerning checkAccess
-	/////////////////////////////////
-
-	public function testCheckAccessForLoggedInUserWithNoObjectsLeftToEnterReturnsNoObjectsLeftMessage() {
-		$userUid = $this->testingFramework->createFrontEndUser(
-			'', array('tx_realty_maximum_objects' => 1)
-		);
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array('owner' => $userUid)
-		);
-		$this->testingFramework->loginFrontEndUser($userUid);
-		$this->pi1->setConfigurationValue('what_to_display', 'fe_editor');
-
-		$this->assertContains(
-			$this->pi1->translate('message_no_objects_left'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessForLoggedInUserWithObjectsLeftToEnterReturnsNoErrorMessage() {
-		$userUid = $this->testingFramework->createFrontEndUser(
-			'', array('tx_realty_maximum_objects' => 1)
-		);
-		$this->testingFramework->loginFrontEndUser($userUid);
-		$this->pi1->setConfigurationValue('what_to_display', 'fe_editor');
-
-		$this->assertEquals(
-			'',
-			$this->fixture->checkAccess()
 		);
 	}
 }

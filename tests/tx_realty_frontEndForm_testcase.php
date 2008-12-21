@@ -70,7 +70,6 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
-		$this->testingFramework->logoutFrontEndUser();
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
@@ -90,123 +89,6 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$this->feUserUid = $this->testingFramework->createFrontEndUser();
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS
-		);
-	}
-
-
-	///////////////////////////////////////////////
-	// Tests concerning access and authorization.
-	///////////////////////////////////////////////
-
-	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndNoUserLoggedIn() {
-		$this->fixture->setRealtyObjectUid(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->setRealtyObjectUid(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testHeaderIsSentWhenCheckAccessReturnsObjectDoesNotExistMessage() {
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->setRealtyObjectUid(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		);
-
-		$this->assertContains(
-			$this->pi1->translate('message_noResultsFound_fe_editor'),
-			$this->fixture->checkAccess()
-		);
-		$this->assertEquals(
-			'Status: 404 Not Found',
-			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
-		);
-	}
-
-	public function testCheckAccessReturnsPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
-		$this->fixture->setRealtyObjectUid(0);
-
-		$this->assertContains(
-			$this->pi1->translate('message_please_login'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_please_login'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
-		$this->testingFramework->createAndLoginFrontEndUser();
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_access_denied'),
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testHeaderIsSentWhenCheckAccessReturnsAccessDeniedMessage() {
-		$this->testingFramework->createAndLoginFrontEndUser();
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertContains(
-			$this->pi1->translate('message_access_denied'),
-			$this->fixture->checkAccess()
-		);
-		$this->assertEquals(
-			'Status: 403 Forbidden',
-			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
-		);
-	}
-
-	public function testCheckAccessReturnsAnEmptyStringIfTheObjectExistsAndTheUserIsAuthorized() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->dummyObjectUid,
-			array('owner' => $this->feUserUid)
-		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->checkAccess()
-		);
-	}
-
-	public function testCheckAccessReturnsAnEmptyStringIfTheObjectIsNewAndTheUserIsAuthorized() {
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
-		$this->fixture->setRealtyObjectUid(0);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->checkAccess()
 		);
 	}
 
