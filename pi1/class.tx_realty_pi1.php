@@ -1791,7 +1791,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'COUNT(*) as number',
 			REALTY_TABLE_IMAGES,
-			'realty_object_uid=' . $this->internal['currentRow']['uid']
+			'realty_object_uid=' . $this->internal['currentRow']['uid'] .
+				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES)
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);

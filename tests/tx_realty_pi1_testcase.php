@@ -3793,6 +3793,53 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGalleryDisplaysOnlyTwoImageContainerForTwoImages() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'bar.jpg',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertEquals(
+			2,
+			substr_count($this->fixture->main('', array()), '<td class="image">')
+		);
+	}
+
+	public function testGalleryDisplaysOnlyOneImageContainerForTwoImagesWhenOneIsDeleted() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'bar.jpg',
+				'deleted' => 1,
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertEquals(
+			1,
+			substr_count($this->fixture->main('', array()), '<td class="image">')
+		);
+	}
+
 	public function testJavaScriptForGalleryGetsIncludedIfWhatToDisplayIsGallery() {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 		$this->fixture->main('', array());
