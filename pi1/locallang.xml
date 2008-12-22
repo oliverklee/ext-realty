@@ -194,6 +194,7 @@
 			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
 			<label index="message_noResultsFound_fe_editor_formal">The object does not exist in the database. Please choose another object or enter a new one.</label>
 			<label index="message_noResultsFound_fe_editor_informal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_noResultsFound_image_upload">You can only upload images for a specified realty object. Click the image upload button in the &quot;my objects&quot; list.</label>
 			<label index="message_noResultsFound_single_view_formal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_single_view_informal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_my_objects_formal">You do not have any objects.</label>
@@ -463,6 +464,7 @@
 			<label index="message_noResultsFound_contact_form_informal">Das von dir für die Kontaktanfrage gewählte Objekt existiert nicht.</label>
 			<label index="message_noResultsFound_fe_editor_formal">Das Objekt existiert nicht in der Datenbank. Bitte wählen Sie ein anderes oder legen Sie einen neuen Datensatz an.</label>
 			<label index="message_noResultsFound_fe_editor_informal">Das Objekt existiert nicht in der Datenbank. Bitte wähle ein anderes oder lege einen neuen Datensatz an.</label>
+			<label index="message_noResultsFound_image_upload">Bilder können nur für eine bestimmte Immobilie hochgeladen werden. Klicken Sie auf den &quot;Bilder hochladen&quot;-Link in der &quot;Meine Objekte&quot;-Liste.</label>
 			<label index="message_noResultsFound_single_view_formal">Diese URL ist ungültig. Das in der Detailansicht zu zeigende Objekt ist nicht verfügbar. Bitte kontaktieren Sie den Webmaster.</label>
 			<label index="message_noResultsFound_single_view_informal">Diese URL ist ungültig. Das in der Detailansicht zu zeigende Objekt ist nicht verfügbar. Bitte kontaktiere den Webmaster.</label>
 			<label index="message_noResultsFound_my_objects_formal">Sie haben keine Datensätze.</label>
@@ -1431,6 +1433,7 @@
 			<label index="message_noResultsFound_contact_form_informal" type="integer">112812831</label>
 			<label index="message_noResultsFound_fe_editor_formal" type="integer">36101137</label>
 			<label index="message_noResultsFound_fe_editor_informal" type="integer">36101137</label>
+			<label index="message_noResultsFound_image_upload" type="integer">116529898</label>
 			<label index="message_noResultsFound_single_view_formal" type="integer">260520321</label>
 			<label index="message_noResultsFound_single_view_informal" type="integer">260520321</label>
 			<label index="message_noResultsFound_my_objects_formal" type="integer">231455062</label>
@@ -2408,6 +2411,7 @@
 			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
 			<label index="message_noResultsFound_fe_editor_formal">The object does not exist in the database. Please choose another object or enter a new one.</label>
 			<label index="message_noResultsFound_fe_editor_informal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_noResultsFound_image_upload">You can only upload images for a specified realty object. Click the image upload button in the &quot;my objects&quot; list.</label>
 			<label index="message_noResultsFound_single_view_formal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_single_view_informal">This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</label>
 			<label index="message_noResultsFound_my_objects_formal">You do not have any objects.</label>

@@ -1,4 +1,5 @@
 0.3.1 - currently working on
+- [#2423] Fix: Image upload crashes when uploading an image for no realty record
 - [#2442] Fix: Links to the gallery (from the single view thumbnails and the gallery thumbnail) don't have a cHash anymore
 - [#2443] Fix: Empty image frames in the classic gallery for objects with deleted images
 - [#2435] Change: Allow having non-identical template objects for the same template file

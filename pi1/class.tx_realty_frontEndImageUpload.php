@@ -35,9 +35,27 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm{
+class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	/** stores the type of validation error if there was one */
 	private $validationError = '';
+
+	/**
+	 * Returns the FE image upload in HTML if a user is logged in and
+	 * authorized, and if there is an object specified of which to change
+	 * the images. Otherwise the result will be an error view.
+	 *
+	 * @return string HTML for the FE image upload or an error view if the
+	 *                requested object is not editable for the current user
+	 */
+	public function render() {
+		if ($this->realtyObjectUid == 0) {
+			return $this->renderErrorMessage($this->plugin->translate(
+				'message_noResultsFound_image_upload'
+			));
+		}
+
+		return parent::render();
+	}
 
 
 	////////////////////////////////

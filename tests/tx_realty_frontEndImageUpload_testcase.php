@@ -72,6 +72,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$this->pi1->init(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm')
 		);
+		$this->pi1->getTemplateCode();
 
 		$this->fixture = new tx_realty_frontEndImageUpload(
 			$this->pi1, 0, '', true
@@ -115,6 +116,20 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$realtyObject->writeToDatabase();
 
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+	}
+
+
+	//////////////////////////////////////////
+	// Tests for rendering the image upload.
+	//////////////////////////////////////////
+
+	public function testImageUploadDisplaysEmptyResultMessageIfAZeroObjectUidWasProvided() {
+		$this->fixture->setRealtyObjectUid(0);
+
+		$this->assertContains(
+			$this->pi1->translate('message_noResultsFound_image_upload'),
+			$this->fixture->render()
+		);
 	}
 
 

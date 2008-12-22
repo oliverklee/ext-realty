@@ -155,7 +155,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 *
 	 * @return	string		HTML of the error message, will not be empty
 	 */
-	private function renderErrorMessage($rawErrorMessage) {
+	protected function renderErrorMessage($rawErrorMessage) {
 		$this->plugin->setMarker('error_message', $rawErrorMessage);
 
 		return $this->plugin->getSubpart('FRONT_END_EDITOR');
