@@ -26,7 +26,6 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
 
 /**
@@ -38,16 +37,14 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
-	/** FE form object to be tested */
+	/** @var tx_realty_frontEndForm object to be tested */
 	private $fixture;
-	/** instance of tx_realty_pi1 */
-	private $pi1;
-	/** instance of tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
 
-	/** dummy FE user UID */
+	/** @var integer dummy FE user UID */
 	private $feUserUid;
-	/** UID of the dummy object */
+	/** @var integer UID of the dummy object */
 	private $dummyObjectUid = 0;
 
 	public function setUp() {
@@ -57,15 +54,16 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 
 		$this->createDummyRecords();
 
-		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(array(
-			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-			'feEditorTemplateFile'
-				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
-		));
-		$this->pi1->getTemplateCode();
 
-		$this->fixture = new tx_realty_frontEndForm($this->pi1, 0, '', true);
+		$this->fixture = new tx_realty_frontEndEditor(
+			array('feEditorTemplateFile'
+				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html'
+			),
+			$GLOBALS['TSFE']->cObj,
+			0,
+			'',
+			true
+		);
 	}
 
 	public function tearDown() {
@@ -73,8 +71,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
-		$this->pi1->__destruct();
-		unset($this->fixture, $this->pi1, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -101,7 +98,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 
 	public function testGetRedirectUrlReturnsUrlWithRedirectPidForConfiguredRedirectPid() {
 		$fePageUid = $this->testingFramework->createFrontEndPage();
-		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
 
 		$this->assertContains(
 			'?id=' . $fePageUid,
@@ -113,7 +110,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$nonExistingFePageUid = $this->testingFramework->createFrontEndPage(
 			0, array('deleted' => 1)
 		);
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorRedirectPid', $nonExistingFePageUid
 		);
 
@@ -124,7 +121,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetRedirectUrlReturnsUrlWithoutRedirectPidForNonConfiguredRedirectPid() {
-		$this->pi1->setConfigurationValue('feEditorRedirectPid', '0');
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', '0');
 
 		$this->assertNotContains(
 			'?id=0',

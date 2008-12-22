@@ -679,7 +679,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			? ($GLOBALS['TSFE']->sL($labelOfField) . ': ')
 			: '';
 
-		return $localizedFieldName . $this->plugin->translate($labelOfMessage);
+		return $localizedFieldName . $this->translate($labelOfMessage);
 	}
 
 	/**
@@ -742,14 +742,14 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function sendEmailForNewObject() {
 		if (($this->realtyObjectUid > 0)
-			|| !$this->plugin->hasConfValueString('feEditorNotifyEmail', 's_feeditor')
+			|| !$this->hasConfValueString('feEditorNotifyEmail', 's_feeditor')
 		) {
 			return;
 		}
 
 		tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
-			$this->plugin->getConfValueString('feEditorNotifyEmail', 's_feeditor'),
-			$this->plugin->translate('label_email_subject_fe_editor'),
+			$this->getConfValueString('feEditorNotifyEmail', 's_feeditor'),
+			$this->translate('label_email_subject_fe_editor'),
 			$this->getFilledEmailBody(),
 			$this->getFromLineForEmail(),
 			'',
@@ -775,12 +775,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'title' => $this->getFormValue('title'),
 			'uid' => $GLOBALS['TYPO3_DB']->sql_insert_id(),
 		) as $marker => $value) {
-			$this->plugin->setOrDeleteMarkerIfNotEmpty(
-				$marker, $value, '', 'wrapper'
-			);
+			$this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
 		}
 
-		return $this->plugin->getSubpart('FRONT_END_EDITOR_EMAIL');
+		return $this->getSubpart('FRONT_END_EDITOR_EMAIL');
 	}
 
 	/**
@@ -877,7 +875,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$table,
 			array(
 				'title' => $title,
-				'pid' => $this->plugin->getConfValueInteger(
+				'pid' => $this->getConfValueInteger(
 					'sysFolderForFeCreatedAuxiliaryRecords', 's_feeditor'
 				),
 				'tstamp' => mktime(),
@@ -948,7 +946,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$formData['owner'] = $this->getFeUserUid();
 			$formData['openimmo_anid']
 				= $frontEndUserAnid['tx_realty_openimmo_anid'];
-			$formData['pid'] = $this->plugin->getConfValueString(
+			$formData['pid'] = $this->getConfValueString(
 				'sysFolderForFeCreatedRecords', 's_feeditor'
 			);
 		}

@@ -26,7 +26,6 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 
 /**
@@ -38,18 +37,16 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEdit
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
-	/** FE editor object to be tested */
+	/** @var tx_realty_frontEndEditor object to be tested */
 	private $fixture;
-	/** instance of tx_realty_pi1 */
-	private $pi1;
-	/** instance of tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
 
-	/** dummy FE user UID */
+	/** @var integer dummy FE user UID */
 	private $feUserUid;
-	/** UID of the dummy object */
+	/** @var integer UID of the dummy object */
 	private $dummyObjectUid = 0;
-	/** dummy string value */
+	/** @var string dummy string value */
 	private static $dummyStringValue = 'test value';
 
 	public function setUp() {
@@ -60,15 +57,17 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 		$this->createDummyRecords();
 
-		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(array(
-			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-			'feEditorTemplateFile'
-				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
-		));
-		$this->pi1->getTemplateCode();
-
-		$this->fixture = new tx_realty_frontEndEditor($this->pi1, 0, '', true);
+		$this->fixture = new tx_realty_frontEndEditor(
+			array(
+				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'feEditorTemplateFile'
+					=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+			),
+			$GLOBALS['TSFE']->cObj,
+			0,
+			'',
+			true
+		);
 	}
 
 	public function tearDown() {
@@ -78,8 +77,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
 
 		$this->fixture->__destruct();
-		$this->pi1->__destruct();
-		unset($this->fixture, $this->pi1, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -225,7 +223,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testGetMessageForRealtyObjectFieldCanReturnMessageForField() {
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor') . ': ' .
-				$this->pi1->translate('message_no_valid_number'),
+				$this->fixture->translate('message_no_valid_number'),
 			$this->fixture->getMessageForRealtyObjectField(
 				array('fieldName' => 'floor', 'label' => 'message_no_valid_number')
 			)
@@ -234,7 +232,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetMessageForRealtyObjectFieldCanReturnMessageWithoutFieldName() {
 		$this->assertEquals(
-			$this->pi1->translate('message_no_valid_number'),
+			$this->fixture->translate('message_no_valid_number'),
 			$this->fixture->getMessageForRealtyObjectField(
 				array('fieldName' => '', 'label' => 'message_no_valid_number')
 			)
@@ -269,8 +267,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '1');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
-				.$this->pi1->translate('message_enter_valid_non_empty_buying_price'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
+				$this->fixture->translate('message_enter_valid_non_empty_buying_price'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
 		);
 	}
@@ -279,8 +277,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '0');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price').': '
-				.$this->pi1->translate('message_enter_valid_or_empty_buying_price'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
+				$this->fixture->translate('message_enter_valid_or_empty_buying_price'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
 		);
 	}
@@ -289,8 +287,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '0');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
-				.$this->pi1->translate('message_enter_valid_non_empty_rent'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
+				$this->fixture->translate('message_enter_valid_non_empty_rent'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
 		);
 	}
@@ -299,8 +297,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', '1');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills').': '
-				.$this->pi1->translate('message_enter_valid_or_empty_rent'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
+				$this->fixture->translate('message_enter_valid_or_empty_rent'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
 		);
 	}
@@ -309,8 +307,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', '');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
-				.$this->pi1->translate('message_required_field'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number') . ': ' .
+				$this->fixture->translate('message_required_field'),
 			$this->fixture->getInvalidObjectNumberMessage()
 		);
 	}
@@ -319,8 +317,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', 'foo');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number').': '
-				.$this->pi1->translate('message_object_number_exists'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number') . ': ' .
+				$this->fixture->translate('message_object_number_exists'),
 			$this->fixture->getInvalidObjectNumberMessage()
 		);
 	}
@@ -329,8 +327,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('city', 0);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city').': '
-				.$this->pi1->translate('message_required_field'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city') . ': ' .
+				$this->fixture->translate('message_required_field'),
 			$this->fixture->getInvalidOrEmptyCityMessage()
 		);
 	}
@@ -343,8 +341,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city').': '
-				.$this->pi1->translate('message_value_not_allowed'),
+			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city') . ': ' .
+				$this->fixture->translate('message_value_not_allowed'),
 			$this->fixture->getInvalidOrEmptyCityMessage()
 		);
 	}
@@ -1055,7 +1053,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testAddAdministrativeDataAddsDefaultPidForANewObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'sysFolderForFeCreatedRecords', $systemFolderPid
 		);
 		$this->fixture->setRealtyObjectUid(0);
@@ -1069,7 +1067,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testAddAdministrativeDataNotAddsDefaultPidForAnExistingObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'sysFolderForFeCreatedRecords', $systemFolderPid
 		);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
@@ -1297,7 +1295,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testStoreNewAuxiliaryRecordsCreatesANewRecordWithCorrectPid() {
 		$pid = $this->testingFramework->createSystemFolder(1);
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'sysFolderForFeCreatedAuxiliaryRecords', $pid
 		);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
@@ -1386,7 +1384,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testSendEmailForNewObjectSendsToTheConfiguredRecipient() {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
@@ -1399,7 +1397,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testSentEmailHasTheCurrentFeUserAsFrom() {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
@@ -1413,7 +1411,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testSentEmailContainsTheFeUsersName() {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
@@ -1427,7 +1425,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testSentEmailContainsTheFeUsersUsername() {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
@@ -1441,7 +1439,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testSentEmailContainsTheNewObjectsTitle() {
 		$this->fixture->setFakedFormValue('title', 'any title');
 		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
@@ -1455,7 +1453,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testSentEmailContainsTheNewObjectsObjectNumber() {
 		$this->fixture->setFakedFormValue('object_number', '1234');
 		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
@@ -1472,7 +1470,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', '1234');
 		$this->fixture->setFakedFormValue('language', 'XY');
 		$this->fixture->writeFakedFormDataToDatabase();
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
@@ -1494,7 +1492,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testNoEmailIsSentIfNoRecipientWasConfigured() {
-		$this->pi1->setConfigurationValue('feEditorNotifyEmail', '');
+		$this->fixture->setConfigurationValue('feEditorNotifyEmail', '');
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertEquals(
@@ -1505,7 +1503,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testNoEmailIsSentForExistingObject() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-		$this->pi1->setConfigurationValue(
+		$this->fixture->setConfigurationValue(
 			'feEditorNotifyEmail', 'recipient@valid-email.org'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();

@@ -26,7 +26,6 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
 
 /**
@@ -39,26 +38,24 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImag
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
-	/** FE editor object to be tested */
+	/** @var tx_realty_frontEndImageUpload object to be tested */
 	private $fixture;
-	/** instance of tx_realty_pi1 */
-	private $pi1;
-	/** instance of tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $testingFramework;
 
-	/** dummy FE user UID */
+	/** @var integer dummy FE user UID */
 	private $feUserUid;
-	/** UID of the dummy object */
+	/** @var integer UID of the dummy object */
 	private $dummyObjectUid = 0;
 
-	/** title for the first dummy image */
+	/** @var string title for the first dummy image */
 	private static $firstImageTitle = 'first test image';
-	/** file name for the first dummy image */
+	/** @var string file name for the first dummy image */
 	private static $firstImageFileName = 'first.jpg';
 
-	/** title for the second dummy image */
+	/** @var string title for the second dummy image */
 	private static $secondImageTitle = 'second test image';
-	/** file name for the second dummy image */
+	/** @var string file name for the second dummy image */
 	private static $secondImageFileName = 'second.jpg';
 
 	public function setUp() {
@@ -68,15 +65,14 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$this->createDummyRecords();
 		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 
-		$this->pi1 = new tx_realty_pi1();
-		$this->pi1->init(array(
-			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-			'feEditorTemplateFile'
-				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
-		));
-
-		$this->fixture = new tx_realty_frontEndImageUpload(
-			$this->pi1, 0, '', true
+		$this->fixture = new tx_realty_frontEndImageUpload (
+			array('feEditorTemplateFile'
+				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html'
+			),
+			$GLOBALS['TSFE']->cObj,
+			0,
+			'',
+			true
 		);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 	}
@@ -85,8 +81,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
-		$this->pi1->__destruct();
-		unset($this->fixture, $this->pi1, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -285,7 +280,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->pi1->translate('message_empty_caption'),
+			$this->fixture->translate('message_empty_caption'),
 			$this->fixture->getImageUploadErrorMessage()
 		);
 	}
@@ -297,7 +292,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->pi1->translate('message_invalid_type'),
+			$this->fixture->translate('message_invalid_type'),
 			$this->fixture->getImageUploadErrorMessage()
 		);
 	}
@@ -310,7 +305,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$this->pi1->translate('message_image_too_large'),
+			$this->fixture->translate('message_image_too_large'),
 			$this->fixture->getImageUploadErrorMessage()
 		);
 	}
@@ -322,7 +317,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 
 	public function testGetRedirectUrlReturnsUrlWithCurrentPageIdAsTargetPageIfProceedUploadWasTrue() {
 		$fePageUid = $this->testingFramework->createFrontEndPage();
-		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
 
 		$this->assertContains(
@@ -333,7 +328,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 
 	public function testGetRedirectUrlReturnsUrlWithCurrentConfiguredRedirectPageIdAsTargetPageIfProceedUploadWasFalse() {
 		$fePageUid = $this->testingFramework->createFrontEndPage();
-		$this->pi1->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 0);
 
 		$this->assertContains(

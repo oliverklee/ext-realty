@@ -37,29 +37,23 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_frontEndForm extends tx_oelib_templatehelper {
-	/** the extension key (FORMidable expects this to be public) */
-	public $extKey = 'realty';
-
-	/** plugin in which the FE editor is used */
-	protected $plugin = null;
-
-	/** formidable object that creates the form */
+class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
+	/** @var tx_ameosformidable object that creates the form */
 	protected $formCreator = null;
 
-	/** instance of tx_realty_object */
+	/** @var tx_realty_object */
 	protected $realtyObject = null;
 
 	/**
-	 * UID of the currently edited object, zero if the object is going to be a
-	 * new database record.
+	 * @var integer UID of the currently edited object, zero if the object is
+	 *              going to be a new database record.
 	 */
 	protected $realtyObjectUid = 0;
 
-	/** whether the constructor is called in test mode */
+	/** @var boolean whether the constructor is called in test mode */
 	protected $isTestMode = false;
 
-	/** this is used to fake form values for testing */
+	/** @var  array this is used to fake form values for testing */
 	protected $fakedFormValues = array();
 
 	/**
@@ -70,7 +64,8 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param tx_oelib_templatehelper plugin which uses this FE editor
+	 * @param array TypoScript configuration for the plugin
+	 * @param tslib_cObj the parent cObj content, needed for the flexforms
 	 * @param integer UID of the object to edit, set to 0 to create a new
 	 *                database record, must not be negative
 	 * @param string path of the XML for the form, relative to this extension,
@@ -78,7 +73,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * @param boolean whether the FE editor is instanciated in test mode
 	 */
 	public function __construct(
-		tx_oelib_templatehelper $plugin, $uidOfObjectToEdit, $xmlPath,
+		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,
 		$isTestMode = false
 	) {
 		$this->isTestMode = $isTestMode;
@@ -89,17 +84,14 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 		$this->realtyObject = new $objectClassName($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 
-		$this->plugin = $plugin;
-		// For configuration stuff the own inherited templatehelper can be used.
-		$this->init($this->plugin->getConfiguration());
-		$this->pi_initPIflexForm();
+		parent::__construct($configuration, $cObj);
 	}
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		unset($this->formCreator, $this->plugin, $this->realtyObject);
+		unset($this->formCreator, $this->realtyObject);
 
 		parent::__destruct();
 	}
@@ -132,10 +124,12 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 * if the object to edit actually exists in the database. Otherwise the
 	 * result will be an error view.
 	 *
+	 * @param array unused
+	 *
 	 * @return string HTML for the FE editor or an error view if the
 	 *                requested object is not editable for the current user
 	 */
-	public function render() {
+	public function render(array $unused = array()) {
 		$this->addOnLoadHandler();
 		$this->makeFormCreator();
 		return $this->formCreator->render();
@@ -161,15 +155,11 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 *                configured, the redirect will lead to the base URL
 	 */
 	public function getRedirectUrl() {
-		return t3lib_div::locationHeaderUrl(
-			$this->plugin->cObj->typoLink_URL(
-				array(
-					'parameter' => $this->plugin->getConfValueInteger(
-						'feEditorRedirectPid', 's_feeditor'
-					),
-				)
-			)
-		);
+		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
+			'parameter' => $this->getConfValueInteger(
+				'feEditorRedirectPid', 's_feeditor'
+			),
+		)));
 	}
 
 	/**
@@ -182,9 +172,7 @@ class tx_realty_frontEndForm extends tx_oelib_templatehelper {
 	 */
 	public function getTemplatePath() {
 		return t3lib_div::getFileAbsFileName(
-			$this->plugin->getConfValueString(
-				'feEditorTemplateFile', 's_feeditor', true
-			)
+			$this->getConfValueString('feEditorTemplateFile', 's_feeditor', true)
 		);
 	}
 

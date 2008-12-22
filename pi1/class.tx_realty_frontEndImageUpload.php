@@ -38,7 +38,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
-	/** stores the type of validation error if there was one */
+	/** @var string stores the type of validation error if there was one */
 	private $validationError = '';
 
 
@@ -54,29 +54,31 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * If there are no uploaded images for an object, the delete option will
 	 * be hidden.
 	 *
+	 * @param array unused
+	 *
 	 * @return string HTML for the FE editor or an error view if the
 	 *                  requested object is not editable for the current user
 	 */
-	public function render() {
-		$result = parent::render();
+	public function render(array $unused = array()) {
+		$result = parent::render($unused);
 		tx_realty_lightboxIncluder::includeLightboxFiles(
-			$this->plugin->prefixId, $this->plugin->extKey
+			$this->prefixId, $this->extKey
 		);
 		$this->includeJavaScript();
-		$this->plugin->processTemplate($result);
-		$this->plugin->setLabels();
+		$this->processTemplate($result);
+		$this->setLabels();
 
 		$allImageData = $this->realtyObject->getAllImageData();
 		if (!empty($allImageData)) {
-			$this->plugin->setSubpart(
+			$this->setSubpart(
 				'single_attached_image',
 				$this->getRenderedImageList($allImageData)
 			);
 		} else {
-			$this->plugin->hideSubparts('images_to_delete', 'wrapper');
+			$this->hideSubparts('images_to_delete', 'wrapper');
 		}
 
-		return $this->plugin->getSubpart();
+		return $this->getSubpart();
 	}
 
 	/**
@@ -161,7 +163,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		}
 
 		$this->validationError = ($validationErrorLabel != '')
-			? $this->plugin->translate($validationErrorLabel)
+			? $this->translate($validationErrorLabel)
 			: '';
 
 		return ($validationErrorLabel == '');
@@ -211,10 +213,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * Includes additional JavaScript.
 	 */
 	private function includeJavaScript() {
-		$GLOBALS['TSFE']->additionalHeaderData[$this->plugin->prefixId]
+		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId]
 			= '<script src="' . t3lib_extMgm::extRelPath($this->extKey) .
-				'pi1/tx_realty_pi1.js" type="text/javascript">' .
-				'</script>';
+				'pi1/tx_realty_pi1.js" type="text/javascript"></script>';
 	}
 
 	/**
@@ -223,17 +224,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * @return string URL of the current page, will not be empty
 	 */
 	private function getUrlOfCurrentPage() {
-		$piVars = $this->plugin->piVars;
-		unset($piVars['DATA']);
-
-		return t3lib_div::locationHeaderUrl(
-			$this->plugin->cObj->typoLink_URL(array(
-				'parameter' => $GLOBALS['TSFE']->id,
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					$this->plugin->prefixId, $piVars
-				),
-			))
-		);
+		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(
+			array('parameter' => $GLOBALS['TSFE']->id)
+		));
 	}
 
 	/**
@@ -252,29 +245,29 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
 					$this->cObj->typoLink_URL(array('parameter' => $imagePath))
 			));
-			$imageTag = $this->plugin->createRestrictedImage(
+			$imageTag = $this->createRestrictedImage(
 				$imagePath,
 				'',
-				$this->plugin->getConfValueInteger('imageUploadThumbnailWidth'),
-				$this->plugin->getConfValueInteger('imageUploadThumbnailHeight'),
+				$this->getConfValueInteger('imageUploadThumbnailWidth'),
+				$this->getConfValueInteger('imageUploadThumbnailHeight'),
 				0,
 				$imageRecord['caption']
 			);
 
-			$this->plugin->setMarker(
+			$this->setMarker(
 				'single_image_item',
 				'<a href="' . $imageUrl . '" rel="lightbox[objectGallery]" ' .
 					'title="' . $imageRecord['caption'] . '"' . '>' . $imageTag .
 					'</a>' . ' ' . htmlspecialchars($imageRecord['caption'])
 			);
-			$this->plugin->setMarker(
+			$this->setMarker(
 				'image_label',
 				htmlspecialchars(addslashes($imageRecord['caption']))
 			);
-			$this->plugin->setMarker(
+			$this->setMarker(
 				'single_attached_image_id', 'attached_image_' . $key
 			);
-			$result .= $this->plugin->getSubpart('SINGLE_ATTACHED_IMAGE');
+			$result .= $this->getSubpart('SINGLE_ATTACHED_IMAGE');
 		}
 
 		return $result;

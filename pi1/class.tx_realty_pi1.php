@@ -305,7 +305,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'tx_realty_frontEndEditor'
 				);
 				$frontEndEditor = new $frontEndEditorClassName(
-					$this,
+					$this->conf,
+					$this->cObj,
 					$this->piVars['showUid'],
 					'pi1/tx_realty_frontEndEditor.xml'
 				);
@@ -316,7 +317,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'tx_realty_frontEndImageUpload'
 				);
 				$imageUpload = new $imageUploadClassName(
-					$this,
+					$this->conf,
+					$this->cObj,
 					$this->piVars['showUid'],
 					'pi1/tx_realty_frontEndImageUpload.xml'
 				);
@@ -489,7 +491,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'tx_realty_frontEndEditor'
 		);
 		$frontEndEditor = new $frontEndEditorClassName(
-			$this,
+			$this->conf,
+			$this->cObj,
 			$this->piVars['delete'],
 			'pi1/tx_realty_frontEndEditor.xml',
 			$this->isTestMode
