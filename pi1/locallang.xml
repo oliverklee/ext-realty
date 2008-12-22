@@ -3325,10 +3325,6 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
-			<label index="realty.pi_flexform.galleryType">How to display the Gallery:</label>
-			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">Open Gallery</label>
 		</languageKey>
 	</orig_text>
 </T3locallang>
