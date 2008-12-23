@@ -24,9 +24,9 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
-			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Provide contact form with the current realty object's information and send requests directly to an object's owner:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -324,9 +324,9 @@
 			<label index="realty.pi_flexform.fe_editor">FE-Editor</label>
 			<label index="realty.pi_flexform.image_upload">Bilder hochladen</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
-			<label index="realty.pi_flexform.defaultContactEmail">Standard E-Mail-Adresse für Kontaktanfragen:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">E-Mail-Adresse für Kontaktanfragen, wenn keine Kontaktdaten des Immobilienobjekts zu Verfügung stehen:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Kontaktanfragen direkt an die Kontaktperson der jeweiligen Immobilie senden:</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Kontaktformular mit den Daten des aktuellen Immobilienobjekts füllen und Kontaktanfragen direkt an den Besitzer des Objekts senden:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.orderBy">Listenansicht zu Anfang sortieren nach:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
@@ -1333,9 +1333,9 @@
 			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">87716999</label>
-			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
+			<label index="realty.pi_flexform.defaultContactEmail" type="integer">182509551</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">117633312</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">105680891</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
@@ -1363,6 +1363,10 @@
 			<label index="realty.pi_flexform.showGoogleMapsInSingleView" type="integer">82018867</label>
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
+			<label index="realty.pi_flexform.galleryType" type="integer">192312547</label>
+			<label index="realty.pi_flexform.galleryByTS" type="integer">136988657</label>
+			<label index="realty.pi_flexform.lightbox" type="integer">249597613</label>
+			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.showIdSearchInFilterForm" type="integer">98267040</label>
 			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
@@ -1400,6 +1404,12 @@
 			<label index="label_garden_short" type="integer">237814086</label>
 			<label index="label_elevator" type="integer">157509981</label>
 			<label index="label_elevator_short" type="integer">93473220</label>
+			<label index="label_has_air_conditioning" type="integer">108854663</label>
+			<label index="label_has_air_conditioning_short" type="integer">121370947</label>
+			<label index="label_has_pool" type="integer">233780919</label>
+			<label index="label_has_pool_short" type="integer">185641152</label>
+			<label index="label_has_community_pool" type="integer">7430612</label>
+			<label index="label_has_community_pool_short" type="integer">163260767</label>
 			<label index="label_barrier_free" type="integer">184564619</label>
 			<label index="label_barrier_free_short" type="integer">79575979</label>
 			<label index="label_assisted_living" type="integer">208122748</label>
@@ -1475,6 +1485,10 @@
 			<label index="label_yourfavorites_informal" type="integer">210319328</label>
 			<label index="label_your_objects_formal" type="integer">174688664</label>
 			<label index="label_your_objects_informal" type="integer">174688664</label>
+			<label index="label_objects_already_entered" type="integer">163866602</label>
+			<label index="label_no_objects_left" type="integer">95559120</label>
+			<label index="label_one_object_left" type="integer">255809018</label>
+			<label index="label_multiple_objects_left" type="integer">109683844</label>
 			<label index="label_searchin" type="integer">144591287</label>
 			<label index="label_page" type="integer">26464201</label>
 			<label index="label_approx" type="integer">91206380</label>
@@ -1489,6 +1503,8 @@
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_filter_form" type="integer">174419877</label>
 			<label index="label_enter_zip_or_city" type="integer">100951234</label>
+			<label index="label_enter_objectNumber" type="integer">68185886</label>
+			<label index="label_enter_uid" type="integer">34884428</label>
 			<label index="label_select_price_range" type="integer">110123700</label>
 			<label index="label_less_than" type="integer">165614130</label>
 			<label index="label_greater_than" type="integer">199111175</label>
@@ -1526,6 +1542,7 @@
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
 			<label index="message_please_login_formal" type="integer">64977327</label>
 			<label index="message_please_login_informal" type="integer">64977327</label>
+			<label index="message_no_objects_left" type="integer">263673405</label>
 			<label index="label_salutation" type="integer">145861013</label>
 			<label index="label_uid" type="integer">169261614</label>
 			<label index="label_user_text" type="integer">258596858</label>
@@ -1598,23 +1615,6 @@
 			<label index="message_no_such_owner" type="integer">71788074</label>
 			<label index="label_offerer_list" type="integer">34082678</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
-			<label index="label_enter_objectNumber" type="integer">68185886</label>
-			<label index="label_enter_uid" type="integer">34884428</label>
-			<label index="label_has_air_conditioning" type="integer">108854663</label>
-			<label index="label_has_air_conditioning_short" type="integer">121370947</label>
-			<label index="label_has_pool" type="integer">233780919</label>
-			<label index="label_has_pool_short" type="integer">185641152</label>
-			<label index="label_has_community_pool" type="integer">7430612</label>
-			<label index="label_has_community_pool_short" type="integer">163260767</label>
-			<label index="realty.pi_flexform.galleryType" type="integer">192312547</label>
-			<label index="realty.pi_flexform.galleryByTS" type="integer">136988657</label>
-			<label index="realty.pi_flexform.lightbox" type="integer">249597613</label>
-			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
-			<label index="label_objects_already_entered" type="integer">163866602</label>
-			<label index="label_no_objects_left" type="integer">95559120</label>
-			<label index="label_one_object_left" type="integer">255809018</label>
-			<label index="label_multiple_objects_left" type="integer">109683844</label>
-			<label index="message_no_objects_left" type="integer">263673405</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2339,9 +2339,9 @@
 			<label index="realty.pi_flexform.fe_editor">FE editor</label>
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
-			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Provide contact form with the current realty object's information and send requests directly to an object's owner:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -2369,6 +2369,10 @@
 			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
+			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
+			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
+			<label index="realty.pi_flexform.lightbox">Lightbox</label>
+			<label index="realty.pi_flexform.classic">classic</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.showIdSearchInFilterForm">Show ID search</label>
 			<label index="realty.pi_flexform.objectNumber">Object number</label>
@@ -2406,6 +2410,12 @@
 			<label index="label_garden_short">Garden (usage)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">elevator</label>
+			<label index="label_has_air_conditioning">Air conditioning</label>
+			<label index="label_has_air_conditioning_short">air conditioning</label>
+			<label index="label_has_pool">Pool</label>
+			<label index="label_has_pool_short">pool</label>
+			<label index="label_has_community_pool">Community pool</label>
+			<label index="label_has_community_pool_short">community pool</label>
 			<label index="label_barrier_free">Accessible</label>
 			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
@@ -2481,6 +2491,10 @@
 			<label index="label_yourfavorites_informal">You have the following objects on your favorites list:</label>
 			<label index="label_your_objects_formal">Your objects:</label>
 			<label index="label_your_objects_informal">Your objects:</label>
+			<label index="label_objects_already_entered">You have already entered %u of %u objects.</label>
+			<label index="label_no_objects_left">You cannot enter any more objects.</label>
+			<label index="label_one_object_left">You can enter one more object.</label>
+			<label index="label_multiple_objects_left">You can enter %u more objects.</label>
 			<label index="label_searchin">Search in</label>
 			<label index="label_page">Page</label>
 			<label index="label_approx">approx.</label>
@@ -2495,6 +2509,8 @@
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">Please enter the name or ZIP code of a city:</label>
+			<label index="label_enter_objectNumber">Object number:</label>
+			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_price_range">Please select a price range:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
@@ -2532,6 +2548,7 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
+			<label index="message_no_objects_left">You have reached the number of objects you are allowed to enter and cannot enter any more objects.</label>
 			<label index="label_salutation">Hello</label>
 			<label index="label_uid">Database ID</label>
 			<label index="label_user_text">wrote the following</label>
@@ -2604,23 +2621,6 @@
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
-			<label index="label_enter_objectNumber">Object number:</label>
-			<label index="label_enter_uid">Immo ID:</label>
-			<label index="label_has_air_conditioning">Air conditioning</label>
-			<label index="label_has_air_conditioning_short">air conditioning</label>
-			<label index="label_has_pool">Pool</label>
-			<label index="label_has_pool_short">pool</label>
-			<label index="label_has_community_pool">Community pool</label>
-			<label index="label_has_community_pool_short">community pool</label>
-			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
-			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">classic</label>
-			<label index="label_objects_already_entered">You have already entered %u of %u objects.</label>
-			<label index="label_no_objects_left">You cannot enter any more objects.</label>
-			<label index="label_one_object_left">You can enter one more object.</label>
-			<label index="label_multiple_objects_left">You can enter %u more objects.</label>
-			<label index="message_no_objects_left">You have reached the number of objects you are allowed to enter and cannot enter any more objects.</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
