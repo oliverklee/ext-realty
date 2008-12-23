@@ -168,10 +168,10 @@
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
-			<label index="label_enter_zip_or_city">Please enter the name or ZIP code of a city:</label>
+			<label index="label_enter_zip_or_city">City or ZIP code:</label>
 			<label index="label_enter_objectNumber">Object number:</label>
 			<label index="label_enter_uid">Immo ID:</label>
-			<label index="label_select_price_range">Please select a price range:</label>
+			<label index="label_select_price_range">Price range:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
 			<label index="label_to">to</label>
@@ -438,10 +438,10 @@
 			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_filter_form">Suchkriterien</label>
-			<label index="label_enter_zip_or_city">Bitte Name oder Postleitzahl einer Stadt eingeben:</label>
+			<label index="label_enter_zip_or_city">Stadt oder Postleitzahl:</label>
 			<label index="label_enter_objectNumber">Objektnummer:</label>
 			<label index="label_enter_uid">Immo-ID:</label>
-			<label index="label_select_price_range">Bitte Preisspanne auswählen:</label>
+			<label index="label_select_price_range">Preisspanne:</label>
 			<label index="label_less_than">weniger als</label>
 			<label index="label_greater_than">über</label>
 			<label index="label_to">bis</label>
@@ -1304,6 +1304,9 @@
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
+			<label index="realty.pi_flexform.showIdSearchInFilterForm" type="integer">98267040</label>
+			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
+			<label index="realty.pi_flexform.uid" type="integer">68380357</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -1321,6 +1324,12 @@
 			<label index="label_garden_short" type="integer">237814086</label>
 			<label index="label_elevator" type="integer">157509981</label>
 			<label index="label_elevator_short" type="integer">93473220</label>
+			<label index="label_has_air_conditioning" type="integer">108854663</label>
+			<label index="label_has_air_conditioning_short" type="integer">121370947</label>
+			<label index="label_has_pool" type="integer">233780919</label>
+			<label index="label_has_pool_short" type="integer">185641152</label>
+			<label index="label_has_community_pool" type="integer">7430612</label>
+			<label index="label_has_community_pool_short" type="integer">163260767</label>
 			<label index="label_barrier_free" type="integer">184564619</label>
 			<label index="label_barrier_free_short" type="integer">79575979</label>
 			<label index="label_assisted_living" type="integer">208122748</label>
@@ -1409,8 +1418,10 @@
 			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_filter_form" type="integer">174419877</label>
-			<label index="label_enter_zip_or_city" type="integer">100951234</label>
-			<label index="label_select_price_range" type="integer">110123700</label>
+			<label index="label_enter_zip_or_city" type="integer">209168872</label>
+			<label index="label_enter_objectNumber" type="integer">68185886</label>
+			<label index="label_enter_uid" type="integer">34884428</label>
+			<label index="label_select_price_range" type="integer">255812538</label>
 			<label index="label_less_than" type="integer">165614130</label>
 			<label index="label_greater_than" type="integer">199111175</label>
 			<label index="label_to" type="integer">1797664</label>
@@ -1515,18 +1526,6 @@
 			<label index="message_no_such_owner" type="integer">71788074</label>
 			<label index="label_offerer_list" type="integer">34082678</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
-			<label index="realty.pi_flexform.showIdSearchInFilterForm" type="integer">98267040</label>
-			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
-			<label index="realty.pi_flexform.uid" type="integer">68380357</label>
-			<label index="label_enter_objectNumber" type="integer">68185886</label>
-			<label index="label_enter_uid" type="integer">34884428</label>
-			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
-			<label index="label_has_air_conditioning" type="integer">62987286</label>
-			<label index="label_has_air_conditioning_short" type="integer">96771797</label>
-			<label index="label_has_pool" type="integer">233780919</label>
-			<label index="label_has_pool_short" type="integer">185641152</label>
-			<label index="label_has_community_pool" type="integer">7430612</label>
-			<label index="label_has_community_pool_short" type="integer">163260767</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2282,6 +2281,9 @@
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
+			<label index="realty.pi_flexform.showIdSearchInFilterForm">Show ID search</label>
+			<label index="realty.pi_flexform.objectNumber">Object number</label>
+			<label index="realty.pi_flexform.uid">Immo ID</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -2299,6 +2301,12 @@
 			<label index="label_garden_short">Garden (usage)</label>
 			<label index="label_elevator">Elevator</label>
 			<label index="label_elevator_short">elevator</label>
+			<label index="label_has_air_conditioning">Air conditioning</label>
+			<label index="label_has_air_conditioning_short">air conditioning</label>
+			<label index="label_has_pool">Pool</label>
+			<label index="label_has_pool_short">pool</label>
+			<label index="label_has_community_pool">Community pool</label>
+			<label index="label_has_community_pool_short">community pool</label>
 			<label index="label_barrier_free">Accessible</label>
 			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
@@ -2387,8 +2395,10 @@
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
-			<label index="label_enter_zip_or_city">Please enter the name or ZIP code of a city:</label>
-			<label index="label_select_price_range">Please select a price range:</label>
+			<label index="label_enter_zip_or_city">City or ZIP code:</label>
+			<label index="label_enter_objectNumber">Object number:</label>
+			<label index="label_enter_uid">Immo ID:</label>
+			<label index="label_select_price_range">Price range:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
 			<label index="label_to">to</label>
@@ -2493,18 +2503,6 @@
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
-			<label index="realty.pi_flexform.showIdSearchInFilterForm">Show ID search</label>
-			<label index="realty.pi_flexform.objectNumber">Object number</label>
-			<label index="realty.pi_flexform.uid">Immo ID</label>
-			<label index="label_enter_objectNumber">Please enter the object number:</label>
-			<label index="label_enter_uid">Please enter the Immo ID:</label>
-			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
-			<label index="label_has_air_conditioning">Air conditioning</label>
-			<label index="label_has_air_conditioning_short">air conditioning</label>
-			<label index="label_has_pool">Pool</label>
-			<label index="label_has_pool_short">pool</label>
-			<label index="label_has_community_pool">Community pool</label>
-			<label index="label_has_community_pool_short">community pool</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
