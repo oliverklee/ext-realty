@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2455] Change: Shorten some search widget labels
 - [#2410] Change: Make some labels clearer
 - [#2446] Fix: Remove locallang labels from pi1/locallang.xml
 - [#2100] Feature: Create a separate class for access check in the FE
