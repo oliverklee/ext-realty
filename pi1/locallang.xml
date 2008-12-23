@@ -25,9 +25,9 @@
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
-			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Provide contact form with the current realty object's information and send requests directly to an object's owner:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm">Site search visibility in the search form:</label>
@@ -295,9 +295,9 @@
 			<label index="realty.pi_flexform.image_upload">Bilder hochladen</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statischer SQL-Filter (wird mit &quot; AND &quot; an die WHERE-Klausel angehängt):</label>
 			<label index="realty.pi_flexform.showContactInformation">Kontaktdaten im FE anzeigen:</label>
-			<label index="realty.pi_flexform.defaultContactEmail">Standard E-Mail-Adresse für Kontaktanfragen:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">E-Mail-Adresse für Kontaktanfragen, wenn keine Kontaktdaten des Immobilienobjekts zu Verfügung stehen:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Kontaktanfragen direkt an die Kontaktperson der jeweiligen Immobilie senden:</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Kontaktformular mit den Daten des aktuellen Immobilienobjekts füllen und Kontaktanfragen direkt an den Besitzer des Objekts senden:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm">Sichtbarkeit der Ortssuche im Suchformular:</label>
@@ -1275,9 +1275,9 @@
 			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">87716999</label>
 			<label index="realty.pi_flexform.showContactInformation" type="integer">241925791</label>
-			<label index="realty.pi_flexform.defaultContactEmail" type="integer">153078431</label>
+			<label index="realty.pi_flexform.defaultContactEmail" type="integer">182509551</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">117633312</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects" type="integer">105680891</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm" type="integer">154279350</label>
@@ -2253,9 +2253,9 @@
 			<label index="realty.pi_flexform.image_upload">Image upload</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.showContactInformation">Show contact information in the FE:</label>
-			<label index="realty.pi_flexform.defaultContactEmail">Default e-mail address for contact requests:</label>
+			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
-			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Allow to send contact requests directly to the realty's contact person:</label>
+			<label index="realty.pi_flexform.allowDirectRequestsForObjects">Provide contact form with the current realty object's information and send requests directly to an object's owner:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.showSiteSearchInFilterForm">Site search visibility in the search form:</label>
