@@ -94,12 +94,6 @@ class tx_realty_object {
 	private static $geoFinder;
 
 	/**
-	 * @var array cached city names using the UID as numeric key and the
-	 *            title as value
-	 */
-	private static $cityCache = array();
-
-	/**
 	 * Constructor.
 	 *
 	 * @param boolean whether the database records to create are for
@@ -1078,7 +1072,7 @@ class tx_realty_object {
 			$coordinates = $this->createGeoFinder($configuration)->lookUp(
 				$street,
 				$this->getProperty('zip'),
-				$this->getCityName(),
+				$this->getForeignPropertyField('city'),
 				intval($this->getProperty('country'))
 			);
 
@@ -1122,49 +1116,54 @@ class tx_realty_object {
 	}
 
 	/**
-	 * Get this object's city name.
+	 * Gets a field of a related property of the object.
 	 *
-	 * @return string this object's city name or an empty string if this
-	 *                object does not have a city set
+	 * @throws Exception if $key is not within "city", "apartment_type",
+	 *                   "house_type", "district", "pets", "garage_type" and
+	 *                   "country"
+	 *
+	 * @param string key of this object's property, must not be empty
+	 * @param string key of the property's field to get, must not be empty
+	 *
+	 * @return string the title of the related property with the UID found in
+	 *                in this object's field $key or an empty string if this
+	 *                object does not have the property set
 	 */
-	private function getCityName() {
-		$cityProperty = $this->getProperty('city');
-		if ($cityProperty === 0) {
+	public function getForeignPropertyField($key, $titleField = 'title') {
+		$tableName = ($key == 'country')
+			? STATIC_COUNTRIES : array_search($key, $this->propertyTables);
+
+		if ($tableName === false) {
+			throw new Exception('$key must be within "city", ' .
+				'"apartment_type", "house_type", "district", "pets", ' .
+				'"garage_type", "country", but actually is "' . $key . '".'
+			);
+		}
+
+		$property = $this->getProperty($key);
+		if ($property === 0) {
 			return '';
 		}
-		if (!is_numeric($cityProperty)) {
-			return $cityProperty;
+
+		// In case property is an integer, it is expected to be a UID, else
+		// the foreign property's title is assumed to be directly provided.
+		if (!preg_match('/^\d+$/', $property)) {
+			return $property;
 		}
 
-		$uid = intval($cityProperty);
-		if (!isset(self::$cityCache[$uid])) {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				REALTY_TABLE_CITIES,
-				'uid = ' . $uid . tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			if (!$row) {
-				throw new Exception(DATABASE_RESULT_ERROR);
-			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-			self::$cityCache[$uid] = $row['title'];
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$titleField,
+			$tableName,
+			'uid = ' . $property . tx_oelib_db::enableFields($tableName)
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 
-		return self::$cityCache[$uid];
-	}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
-	/**
-	 * Clears the city cache.
-	 *
-	 * This function is intended to be used for testing purposes only.
-	 */
-	public function clearCityCache() {
-		self::$cityCache = array();
+		return ($row) ? $row[$titleField] : '';
 	}
 
 	/**
@@ -1252,6 +1251,35 @@ class tx_realty_object {
 
 		return ((mb_strlen($fullTitle) <= $interceptPoint)
 			? $fullTitle : (mb_substr($fullTitle, 0, $interceptPoint) . '…'));
+	}
+
+	/**
+	 * Returns the current object's address as HTML (separated by <br />) with
+	 * the granularity defined in the field "show_address".
+	 *
+	 * @return string the address of the current object, will not be empty
+	 */
+	public function getAddressAsHtml() {
+		$addressParts = array();
+
+		if ($this->getProperty('show_address')
+			&& ($this->getProperty('street') != '')
+		) {
+			$addressParts[] = htmlspecialchars($this->getProperty('street'));
+		}
+
+		$addressParts[] = htmlspecialchars(trim(
+			$this->getProperty('zip') . ' ' .
+				$this->getForeignPropertyField('city') . ' ' .
+				$this->getForeignPropertyField('district')
+		));
+
+		$country = $this->getForeignPropertyField('country', 'cn_short_local');
+		if ($country != '') {
+			$addressParts[] = $country;
+		}
+
+		return implode('<br />', $addressParts);
 	}
 }
 

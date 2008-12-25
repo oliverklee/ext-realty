@@ -804,7 +804,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 			}
 
-			$this->setMarker('address', $this->getAddressAsHtml());
+			$this->setMarker(
+				'address', $this->getObjectForCurrentRow()->getAddressAsHtml()
+			);
 
 			$this->fillOrHideOffererWrapper();
 
@@ -1283,16 +1285,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			case 'city':
 				// The fallthrough is intended.
 			case 'district':
-				$result = $this->getForeignRecordTitle($key);
+				$result = $this->getObjectForCurrentRow()
+					->getForeignPropertyField($key);
 				break;
 
 			case 'country':
 				$defaultCountry
 					= $this->getConfValueInteger('defaultCountryUID');
 				if ($this->internal['currentRow'][$key] != $defaultCountry) {
-					$result = $this->getForeignRecordTitle(
-						$key, 'cn_short_local'
-					);
+					$result = $this->getObjectForCurrentRow()
+						->getForeignPropertyField($key, 'cn_short_local');
 				}
 				break;
 
@@ -1360,53 +1362,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return trim($result);
-	}
-
-	/**
-	 * Retrieves a foreign key from the record field $key of the current record.
-	 * Then the corresponding record is looked up from $table, trimmed and
-	 * returned.
-	 *
-	 * Returns an empty string if there is no such foreign key, the corresponding
-	 * foreign record does not exist or if it is an empty string.
-	 *
-	 * @throws Exception if a database query error occurs
-	 *
-	 * @param string key of the field that contains the foreign key of
-	 *               the table to retrieve, must not be empty
-	 * @param string the DB column name of the field that will be used as
-	 *               the title, must not be empty
-	 *
-	 * @return string the title of the record with the given UID in the foreign
-	 *                table, will be empty if no or an invalid UID is provided
-	 */
-	private function getForeignRecordTitle($key, $titleColumn = 'title') {
-		/** This will be 0 if there is no record entered. */
-		$foreignKey = intval($this->internal['currentRow'][$key]);
-		if ($foreignKey == 0) {
-			return '';
-		}
-
-		$tableName = $this->tableNames[$key];
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$titleColumn,
-			$tableName,
-			'uid=' . $foreignKey . tx_oelib_db::enableFields($tableName)
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if ($dbResultRow) {
-			$result = $dbResultRow[$titleColumn];
-		} else {
-			$result = '';
-		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return $result;
 	}
 
 	/**
@@ -1569,8 +1524,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// get features described by DB relations
 		foreach (array('apartment_type', 'house_type', 'garage_type') as $key) {
-			if ($this->getForeignRecordTitle($key) != '') {
-				$features[] = $this->getForeignRecordTitle($key);
+			$propertyTitle = $this->getObjectForCurrentRow()
+				->getForeignPropertyField($key);
+			if ($propertyTitle != '') {
+				$features[] = $propertyTitle;
 			}
 		}
 
@@ -2985,7 +2942,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$mapMarker->setInfoWindowHtml(
 			'<strong>' . $title .
-			'</strong><br />' . $this->getAddressAsHtml()
+			'</strong><br />' .
+			$this->getObjectForCurrentRow()->getAddressAsHtml()
 		);
 		$this->mapMarkers[] = $mapMarker;
 
@@ -3124,35 +3082,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			= 'initializeMap();';
 		$GLOBALS['TSFE']->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
 			= 'GUnload();';
-	}
-
-	/**
-	 * Formats the current object's address as HTML (separated by <br />) with
-	 * the granularity defined in the field "show_address".
-	 *
-	 * @return string the address of the current object, will not be empty
-	 */
-	private function getAddressAsHtml() {
-		$addressParts = array();
-
-		if ($this->getFieldContent('show_address')
-			&& ($this->getFieldContent('street') != '')
-		) {
-			$addressParts[]
-				= htmlspecialchars($this->getFieldContent('street'));
-		}
-
-		$addressParts[] = htmlspecialchars(trim(
-			$this->getFieldContent('zip') . ' ' .
-				$this->getFieldContent('city') . ' ' .
-				$this->getFieldContent('district')
-		));
-
-		$country = $this->getFieldContent('country');
-		if ($country != '') {
-			$addressParts[] = $country;
-		}
-		return implode('<br />', $addressParts);
 	}
 
 	/**
