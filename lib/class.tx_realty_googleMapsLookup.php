@@ -96,7 +96,7 @@ class tx_realty_googleMapsLookup {
 	 *               'longitude' and 'latitude' or an empty array if the
 	 *               lookup failed
 	 */
-	function lookUp($street = '', $zip = '', $city = '', $countryUid = 0) {
+	public function lookUp($street = '', $zip = '', $city = '', $countryUid = 0) {
 		if (($zip . $city) == '') {
 			return array();
 		}

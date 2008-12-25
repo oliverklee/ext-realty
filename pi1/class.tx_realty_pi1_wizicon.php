@@ -41,10 +41,11 @@ class tx_realty_pi1_wizicon {
 		$LL = $this->includeLocalLang();
 
 		$wizardItems['plugins_tx_realty_pi1'] = array(
-			'icon'=>t3lib_extMgm::extRelPath('realty').'pi1/ce_wiz.gif',
-			'title'=>$LANG->getLLL('pi1_title',$LL),
-			'description'=>$LANG->getLLL('pi1_plus_wiz_description',$LL),
-			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=realty_pi1'
+			'icon' => t3lib_extMgm::extRelPath('realty') . 'pi1/ce_wiz.gif',
+			'title' => $LANG->getLLL('pi1_title', $LL),
+			'description' => $LANG->getLLL('pi1_plus_wiz_description', $LL),
+			'params' => '&defVals[tt_content][CType]=list&' .
+				'defVals[tt_content][list_type]=realty_pi1'
 		);
 
 		return $wizardItems;
@@ -57,7 +58,7 @@ class tx_realty_pi1_wizicon {
 	 * @return The array with language labels
 	 */
 	public function includeLocalLang() {
-		$llFile = t3lib_extMgm::extPath('realty').'locallang.xml';
+		$llFile = t3lib_extMgm::extPath('realty') . 'locallang.xml';
 		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 
 		return $LOCAL_LANG;
