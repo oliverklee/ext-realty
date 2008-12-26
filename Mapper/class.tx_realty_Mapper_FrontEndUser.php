@@ -34,18 +34,9 @@
  */
 class tx_realty_Mapper_FrontEndUser extends tx_oelib_Mapper_FrontEndUser {
 	/**
-	 * Creates a realty front-end user model and fills it with the provided data.
-	 *
-	 * @param array the data with which the model should be filled, may be empty
-	 *
-	 * @return tx_realty_Model_FrontEndUser the filled user model
- 	 */
-	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_realty_Model_FrontEndUser');
-		$model->setData($data);
-
-		return $model;
-	}
+	 * @var string the model class name for this mapper, must not be empty
+	 */
+	protected $modelClassName = 'tx_realty_Model_FrontEndUser';
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_FrontEndUser.php']) {
