@@ -176,7 +176,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setLocaleConvention();
 		$this->getTemplateCode();
 		$this->setLabels();
-		$this->setCSS();
 
 		if (strstr($this->cObj->currentRecord, 'tt_content')) {
 			$this->conf['pidList'] = $this->getConfValueString('pages');
