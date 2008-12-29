@@ -495,22 +495,14 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<showGoogleMapsInListView>
+					<showGoogleMaps>
 						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showGoogleMapsInListView</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showGoogleMaps</label>
 							<config>
 								<type>check</type>
 							</config>
 						</TCEforms>
-					</showGoogleMapsInListView>
-					<showGoogleMapsInSingleView>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showGoogleMapsInSingleView</label>
-							<config>
-								<type>check</type>
-							</config>
-						</TCEforms>
-					</showGoogleMapsInSingleView>
+					</showGoogleMaps>
 					<googleMapsApiKey>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMapsApiKey</label>

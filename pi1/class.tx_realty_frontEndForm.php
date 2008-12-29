@@ -70,7 +70,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *                database record, must not be negative
 	 * @param string path of the XML for the form, relative to this extension,
 	 *               must not begin with a slash and must not be empty
-	 * @param boolean whether the FE editor is instanciated in test mode
+	 * @param boolean whether the FE editor is instantiated in test mode
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,

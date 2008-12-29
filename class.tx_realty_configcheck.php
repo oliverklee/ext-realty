@@ -85,13 +85,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
-		$this->checkShowGoogleMapsInListView();
-		if ($this->objectToCheck->getConfValueBoolean(
-			'showGoogleMapsInListView', 's_googlemaps'
-		)) {
-			$this->checkGoogleMapsApiKey();
-			$this->checkDefaultCountry();
-		}
+		$this->checkGoogleMaps();
 	}
 
 	/**
@@ -132,13 +126,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
 		$this->checkFavoritesPid();
-		$this->checkShowGoogleMapsInSingleView();
-		if ($this->objectToCheck->getConfValueBoolean(
-			'showGoogleMapsInSingleView', 's_googlemaps'
-		)) {
-			$this->checkGoogleMapsApiKey();
-			$this->checkDefaultCountry();
-		}
+		$this->checkGoogleMaps();
 	}
 
 	/**
@@ -231,6 +219,19 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkDateFormat();
 		$this->checkWhatToDisplay();
 		$this->checkLocale();
+	}
+
+	/**
+	 * Checks the settings for Google Maps.
+	 */
+	private function checkGoogleMaps() {
+		$this->checkShowGoogleMaps();
+		if ($this->objectToCheck->getConfValueBoolean(
+			'showGoogleMaps', 's_googlemaps'
+		)) {
+			$this->checkGoogleMapsApiKey();
+			$this->checkDefaultCountry();
+		}
 	}
 
 	/**
@@ -880,37 +881,22 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			true,
 			's_googlemaps',
 			'This value specifies the UID of the default country for realty ' .
-			'objects. If this value is not configured correctly, the objects ' .
-			'will be mislocated in Google Maps.'
+				'objects. If this value is not configured correctly, the ' .
+				'objects will be mislocated in Google Maps.'
 		);
 	}
 
 	/**
-	 * Checks the configuration value showGoogleMapsInListView
+	 * Checks the configuration value showGoogleMaps.
 	 */
-	private function checkShowGoogleMapsInListView() {
+	private function checkShowGoogleMaps() {
 		$this->checkIfBoolean(
-			'showGoogleMapsInListView',
-			true,
-			's_googlemaps',
-			'This value specifies whether Google Maps should be shown in the ' .
-			'list view. If this value is not set correctly, the map might ' .
-			'get shown although it should be shown (or vice versa).'
-		);
-	}
-
-	/**
-	 * Checks the configuration value showGoogleMapsInSingleView
-	 */
-	private function checkShowGoogleMapsInSingleView() {
-		$this->checkIfBoolean(
-			'showGoogleMapsInSingleView',
+			'showGoogleMaps',
 			true,
 			's_googlemaps',
 			'This value specifies whether a Google Map of an object should be ' .
-			'shown in single view. If this value is not set correctly, the ' .
-			'map might not get shown although it should be shown (or vice ' .
-			'versa).'
+				'shown. If this value is not set correctly, the map might not ' .
+				'get shown although it should be shown (or vice versa).'
 		);
 	}
 

@@ -137,10 +137,8 @@ plugin.tx_realty_pi1 {
 	# location of the HTML template file for the FE editor and image upload
 	feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
 
-	# whether Google Maps should be displayed in the FE list view
-	showGoogleMapsInListView = 0
-	# whether Google Maps should be displayed in the FE single view
-	showGoogleMapsInSingleView = 0
+	# whether Google Maps should be displayed in the FE
+	showGoogleMaps = 0
 	# Google Maps API key
 	googleMapsApiKey =
 	# default country for objects that have no country set (a UID

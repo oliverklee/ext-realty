@@ -26,7 +26,6 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_mapMarker.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncluder.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
@@ -168,20 +167,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	public $pi_checkCHash = true;
 
-	/** @var tx_realty_filterForm */
-	private $filterForm = null;
-
 	/** @var boolean whether this class is called in the test mode */
 	private $isTestMode = false;
 
 	/** @var tx_realty_object the current realty object */
 	private $cachedRealtyObject = null;
-
-	/** @var array map markers for the current list view/single view */
-	private $mapMarkers = array();
-
-	/** @var integer the Google Maps zoom factor for a single marker */
-	const ZOOM_FOR_SINGLE_MARKER = 13;
 
 	/**
 	 * @var array FE user record, will at least contain the element 'uid'
@@ -206,15 +196,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		if ($this->filterForm) {
-			$this->filterForm->__destruct();
-		}
-		if ($this->offererList) {
-			$this->offererList->__destruct();
-		}
-
-		unset($this->filterForm, $this->offererList, $this->cachedRealtyObject);
-
+		unset($this->cachedRealtyObject);
 		parent::__destruct();
 	}
 
@@ -246,15 +228,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		));
 		$this->cacheSelectedOwner();
 
-		$filterFormClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_filterForm'
-		);
-		$this->filterForm = new $filterFormClassName($this->conf, $this->cObj);
-		$offererListClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_offererList'
-		);
-		$this->offererList = new $offererListClassName($this->conf, $this->cObj);
-
 		// Checks the configuration and displays any errors.
 		// The direct return value from $this->checkConfiguration() is not used
 		// as this would ignore any previous error messages.
@@ -285,7 +258,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $this->createCitySelector();
 				break;
 			case 'filter_form':
-				$result = $this->filterForm->render($this->piVars);
+				$filterFormClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_filterForm'
+				);
+				$filterForm = new $filterFormClassName($this->conf, $this->cObj);
+				$result = $filterForm->render($this->piVars);
+				$filterForm->__destruct();
 				break;
 			case 'single_view':
 				$result = $this->createSingleView();
@@ -299,6 +277,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$formData['summaryStringOfFavorites']
 					= $this->createSummaryStringOfFavorites();
 				$result = $contactForm->render($formData);
+				$contactForm->__destruct();
 				break;
 			case 'fe_editor':
 				$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
@@ -311,6 +290,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'pi1/tx_realty_frontEndEditor.xml'
 				);
 				$result = $frontEndEditor->render();
+				$frontEndEditor->__destruct();
 				break;
 			case 'image_upload':
 				$imageUploadClassName = t3lib_div::makeInstanceClassName(
@@ -323,9 +303,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'pi1/tx_realty_frontEndImageUpload.xml'
 				);
 				$result = $imageUpload->render();
+				$imageUpload->__destruct();
 				break;
 			case 'offerer_list':
-				$result = $this->offererList->render();
+				$offererListClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_offererList'
+				);
+				$offererList = new $offererListClassName($this->conf, $this->cObj);
+				$result = $offererList->render();
+				$offererList->__destruct();
 				break;
 			default:
 				// All other return values of getCurrentView stand for list views.
@@ -363,7 +349,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$errorView = new $errorViewClassName($this->conf, $this->cObj);
 			$result = $errorView->render(array($exception->getMessage()));
 			$errorView->__destruct();
-			unset($errorView);
 		}
 
 		return $result;
@@ -380,7 +365,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		// view, they will be set to unhidden again.
 		$this->hideSubparts(
 			'list_filter,back_link,new_record_link,wrapper_contact,' .
-			'add_to_favorites_button,remove_from_favorites_button,list_map,' .
+			'add_to_favorites_button,remove_from_favorites_button,' .
 			'wrapper_editor_specific_content,wrapper_checkbox,favorites_url,' .
 			'limit_heading'
 		);
@@ -433,7 +418,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setSubpart('favorites_url', $this->getFavoritesUrl());
 		$this->fillListRows();
 		$this->setRedirectHeaderForSingleResult();
-		$this->createGoogleMapForListView();
 
 		return $this->getSubpart('LIST_VIEW');
 	}
@@ -448,12 +432,20 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
+		$googleMapsClassName = t3lib_div::makeInstanceClassName(
+			'tx_realty_pi1_GoogleMapsView'
+		);
+		$googleMapsView = new $googleMapsClassName(
+			$this->conf, $this->cObj, $this->isTestMode
+		);
+
 		$listItems = '';
 		$rowCounter = 0;
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$this->internal['currentRow'] = $row;
 			$listItems .= $this->createListRow($rowCounter);
+			$googleMapsView->setMapMarker($this->getFieldContent('uid'), true);
 			$rowCounter++;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
@@ -461,6 +453,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setSubpart('list_item', $listItems);
 		$this->setSubpart('pagination', $this->createPagination());
 		$this->setSubpart('wrapper_sorting', $this->createSorting());
+		$this->setSubpart('google_map', $googleMapsView->render());
+
+		$googleMapsView->__destruct();
 	}
 
 	/**
@@ -498,6 +493,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->isTestMode
 		);
 		$frontEndEditor->deleteRecord();
+		$frontEndEditor->__destruct();
 	}
 
 	/**
@@ -607,7 +603,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				' IN (' . $searchSelection . ')';
 		}
 
-		$whereClause .= $this->filterForm->getWhereClausePart($this->piVars);
+		$filterFormClassName = t3lib_div::makeInstanceClassName(
+			'tx_realty_filterForm'
+		);
+		$filterForm = new $filterFormClassName($this->conf, $this->cObj);
+		$whereClause .= $filterForm->getWhereClausePart($this->piVars);
+		$filterForm->__destruct();
 
 		return $whereClause;
 	}
@@ -769,12 +770,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return $this->getSubpart('ACCESS_DENIED_VIEW');
 		}
 
-		if ($this->getConfValueString('galleryType') == 'lightbox') {
-			tx_realty_lightboxIncluder::includeLightboxFiles(
-				$this->prefixId, $this->extKey
-			);
-		}
-
 		$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
 
 		if (empty($this->internal['currentRow'])) {
@@ -782,12 +777,29 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				->addHeader('Status: 404 Not Found');
 			$this->setEmptyResultView();
 		} else {
-			$this->createGoogleMapForSingleView();
+			if ($this->getConfValueString('galleryType') == 'lightbox') {
+				tx_realty_lightboxIncluder::includeLightboxFiles(
+					$this->prefixId, $this->extKey
+				);
+			}
 
-			// This sets the title of the page for display and for use in indexed search results.
+			$googleMapsClassName = t3lib_div::makeInstanceClassName(
+				'tx_realty_pi1_GoogleMapsView'
+			);
+			$googleMapsView = new $googleMapsClassName(
+				$this->conf, $this->cObj, $this->isTestMode
+			);
+			$googleMapsView->setMapMarker($this->piVars['showUid']);
+			$this->setSubpart('google_map', $googleMapsView->render());
+			$googleMapsView->__destruct();
+
+			// This sets the title of the page for display and for use in
+			// indexed search results.
 			if (!empty($this->internal['currentRow']['title'])) {
-				$GLOBALS['TSFE']->page['title'] = $this->internal['currentRow']['title'];
-				$GLOBALS['TSFE']->indexedDocTitle = $this->internal['currentRow']['title'];
+				$GLOBALS['TSFE']->page['title']
+					= $this->internal['currentRow']['title'];
+				$GLOBALS['TSFE']->indexedDocTitle
+					= $this->internal['currentRow']['title'];
 			}
 
 			// stuff that should always be visible
@@ -1015,7 +1027,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->unhideSubparts(
 			'rent_excluding_bills,extra_charges,buying_price', '', 'wrapper'
 		);
-		$this->createGoogleMapForListItem();
 
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarker('class_position_in_list', $position);
@@ -1220,14 +1231,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *                found
 	 */
 	private function fetchContactDataFromSource() {
+		$offererListClassName = t3lib_div::makeInstanceClassName(
+			'tx_realty_offererList'
+		);
+		$offererList = new $offererListClassName($this->conf, $this->cObj);
+
 		switch ($this->getFieldContent('contact_data_source')) {
 			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
-				$result = $this->offererList->renderOneItem(
+				$result = $offererList->renderOneItem(
 					$this->getFieldContent('owner')
 				);
 				break;
 			case REALTY_CONTACT_FROM_REALTY_OBJECT:
-				$result = $this->offererList->renderOneItemWithTheDataProvided(
+				$result = $offererList->renderOneItemWithTheDataProvided(
 					array(
 						'email' => $this->getFieldContent('contact_email'),
 						'company' => $this->getFieldContent('employer'),
@@ -1240,6 +1256,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = '';
 				break;
 		}
+		$offererList->__destruct();
 
 		return $result;
 	}
@@ -2723,13 +2740,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * created link will lead to the login page instead, including a
 	 * redirect_url parameter to the single view page.
 	 *
-	 * @param string $linkText, must not be empty
+	 * @param string link text, must not be empty
 	 * @param integer UID of the realty object to show
 	 * @param string PID or URL of the single view page, set to '' to use
 	 *               the default single view page
 	 *
 	 * @return string link tag, either to the single view page or to the
-	 *                login page
+	 *                login page, will be empty if no link text was provided
 	 */
 	public function createLinkToSingleViewPage(
 		$linkText, $uid, $separateSingleViewPage = ''
@@ -2748,13 +2765,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * created link will lead to the login page instead, including a
 	 * redirect_url parameter to the single view page.
 	 *
-	 * @param string $linkText, may be '|' but not empty
+	 * @param string link text, may be '|' but not empty
 	 * @param integer UID of the realty object to show
 	 * @param string PID or URL of the single view page, set to '' to use
 	 *               the default single view page
 	 *
 	 * @return string link tag, either to the single view page or to the
-	 *                login page
+	 *                login page, will be empty if no link text was provided
 	 */
 	private function createLinkToSingleViewPageForAnyLinkText(
 		$linkText, $uid, $separateSingleViewPage = ''
@@ -2871,86 +2888,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Retrieves the geo coordinates for the current object.
-	 *
-	 * This function requires the current realty object data to be set in
-	 * $this->internal['currentRow'].
-	 *
-	 * @throws Exception if $this->internal['currentRow'] is not set or empty
-	 *
-	 * @return array the coordinates using the keys "latitude" and
-	 *               "longitude" or an empty array if the coordinates
-	 *               could not be retrieved
-	 */
-	private function retrieveGeoCoordinates() {
-		if (!isset($this->internal['currentRow'])
-			|| empty($this->internal['currentRow'])
-		) {
-			throw new Exception(
-				'$this->internal[\'currentRow\'] must not be empty.'
-			);
-		}
-
-		try {
-			$coordinates
-				= $this->getObjectForCurrentRow()->retrieveCoordinates($this);
-		} catch (Exception $exception) {
-			// RetrieveCoordinates will throw an exception if the Google Maps
-			// API key is missing. As this is checked by the configuration
-			// check, we don't need to act on this exception here.
-		}
-
-		return $coordinates;
-	}
-
-	/**
-	 * Tries to retrieve the geo coordinates for the current realty object and
-	 * adds a map marker object to $this->mapMarkers.
-	 *
-	 * If the geo coordinates could not be retrieved, $this->mapMarkers will not
-	 * be changed.
-	 *
-	 * This functions does not check whether Google Maps are enabled for the
-	 * current view at all.
-	 *
-	 * @param boolean whether the detail page should be linked in the
-	 *                object title
-	 *
-	 * @return boolean true if the marker was created, false otherwise
-	 */
-	private function createMarkerFromCoordinates($createLink = false) {
-		$coordinates = $this->retrieveGeoCoordinates();
-		if (empty($coordinates)) {
-			return false;
-		}
-
-		$mapMarker = t3lib_div::makeInstance('tx_realty_mapMarker');
-		$mapMarker->setCoordinates(
-			$coordinates['latitude'], $coordinates['longitude']
-		);
-		$mapMarker->setTitle($this->getObjectForCurrentRow()->getTitle());
-
-		$title = $this->getObjectForCurrentRow()->getCroppedTitle();
-
-		if ($createLink) {
-			$title = $this->createLinkToSingleViewPage(
-				$title,
-				$this->internal['currentRow']['uid'],
-				$this->internal['currentRow']['details_page']
-			);
-		}
-
-		$mapMarker->setInfoWindowHtml(
-			'<strong>' . $title .
-			'</strong><br />' .
-			$this->getObjectForCurrentRow()->getAddressAsHtml()
-		);
-		$this->mapMarkers[] = $mapMarker;
-
-		return true;
-	}
-
-	/**
 	 * Creates a realty object instance for the data in
 	 * $this->internal['currentRow'].
 	 *
@@ -2980,108 +2917,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $this->cachedRealtyObject;
-	}
-
-	/**
-	 * Processes all Google Maps-related data for the current list view item.
-	 */
-	private function createGoogleMapForListItem() {
-		if (!$this->getConfValueBoolean(
-			'showGoogleMapsInListView', 's_googlemaps'
-		)) {
-			return;
-		}
-
-		$this->createMarkerFromCoordinates(true);
-	}
-
-	/**
-	 * Creates the Google Map for the list view.
-	 *
-	 * If Google Maps for the single view is disabled or if none of the objects
-	 * on the current page have coordinates, the map subpart will not be
-	 * displayed.
-	 */
-	private function createGoogleMapForListView() {
-		if (!$this->getConfValueBoolean(
-			'showGoogleMapsInListView', 's_googlemaps'
-			) || (empty($this->mapMarkers))
-		) {
-			return;
-		}
-
-		$this->unhideSubparts('list_map');
-		$this->addGoogleMapToHtmlHead();
-	}
-
-	/**
-	 * Creates the Google Map for the single view.
-	 *
-	 * If Google Maps for the single view is disabled or the object does not
-	 * have coordinates, the map subpart will be removed.
-	 */
-	private function createGoogleMapForSingleView() {
-		if (!$this->getConfValueBoolean(
-			'showGoogleMapsInSingleView', 's_googlemaps'
-			) || !$this->createMarkerFromCoordinates()
-		) {
-			$this->hideSubparts('single_map');
-			return;
-		}
-
-		$this->addGoogleMapToHtmlHead();
-	}
-
-	/**
-	 * Creates the necessary Google Map entries in the HTML head for all
-	 * map markers in $this->mapMarkers.
-	 */
-	private function addGoogleMapToHtmlHead() {
-		if (empty($this->mapMarkers)) {
-			return;
-		}
-
-		$generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
-			'src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' .
-			$this->getConfValueString(
-				'googleMapsApiKey', 's_googlemaps'
-			) . '"></script>' . LF;
-		$createMapJavaScript = '<script type="text/javascript">' . LF .
-			'/*<![CDATA[*/' . LF .
-			'function initializeMap() {' . LF .
-			' if (GBrowserIsCompatible()) {'. LF .
-			' var map = new GMap2(document.getElementById("tx_realty_map"));' . LF .
-			' map.setCenter(' . $this->mapMarkers[0]->getCoordinates() .
-				', ' . self::ZOOM_FOR_SINGLE_MARKER . ');' . LF .
-			' map.enableContinuousZoom();' . LF .
-			' map.enableScrollWheelZoom();' . LF .
-			' map.addControl(new GLargeMapControl());' . LF .
-			' map.addControl(new GMapTypeControl());' . LF .
-			' var bounds = new GLatLngBounds();' . LF .
-			' var marker;' . LF;
-
-		foreach ($this->mapMarkers as $mapMarker) {
-			$createMapJavaScript .= $mapMarker->render() . LF .
-			'bounds.extend(' . $mapMarker->getCoordinates() . ');' . LF;
-		}
-
-		if (count($this->mapMarkers) > 1) {
-			$createMapJavaScript .=
-				'map.setZoom(map.getBoundsZoomLevel(bounds));' . LF .
-				'map.setCenter(bounds.getCenter());' . LF;
-		}
-		$createMapJavaScript .=  ' }'. LF .
-			'}' . LF .
-			'/*]]>*/' . LF .
-			'</script>';
-
-		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-			=  $generalGoogleMapsJavaScript . $createMapJavaScript;
-
-		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_maps']
-			= 'initializeMap();';
-		$GLOBALS['TSFE']->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
-			= 'GUnload();';
 	}
 
 	/**

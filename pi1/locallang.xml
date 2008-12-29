@@ -50,8 +50,7 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView">Show Google Maps in the list view:</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view:</label>
+			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
@@ -350,8 +349,7 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-Mail-Adresse, an die eine Nachricht über jeden neu erstellten FE-Datensatz geschickt wird:</label>
 			<label index="realty.pi_flexform.sheet_feeditor">FE-Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView">Zeige Google Maps in der Listenansicht:</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Zeige Google Maps in der Einzelansicht:</label>
+			<label index="realty.pi_flexform.showGoogleMaps">Zeige Google Maps:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google-Maps-API-Schlüssel:</label>
 			<label index="realty.pi_flexform.defaultCountry">Standard-Land der Objekte:</label>
 			<label index="realty.pi_flexform.galleryType">Galerietyp</label>
@@ -648,8 +646,7 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail">Welk e-mailadres ontvangt een bevestiging als er een nieuw object is aangelegd</label>
 			<label index="realty.pi_flexform.sheet_feeditor">FE-Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView">Toon Google Maps in de lijst aanzicht</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Toon Google Maps in de detail aanzicht</label>
+			<label index="realty.pi_flexform.showGoogleMaps">Toon Google Maps:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key</label>
 			<label index="realty.pi_flexform.defaultCountry">Default land voor objecten</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Zoekformulier</label>
@@ -1359,8 +1356,7 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail" type="integer">147420665</label>
 			<label index="realty.pi_flexform.sheet_feeditor" type="integer">18177806</label>
 			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView" type="integer">106651010</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView" type="integer">82018867</label>
+			<label index="realty.pi_flexform.showGoogleMaps" type="integer">83129911</label>
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
 			<label index="realty.pi_flexform.galleryType" type="integer">192312547</label>
@@ -1652,8 +1648,7 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail" type="integer">147420665</label>
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView" type="integer">106651010</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView" type="integer">82018867</label>
+			<label index="realty.pi_flexform.showGoogleMaps" type="integer">83129911</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -2365,8 +2360,7 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView">Show Google Maps in the list view:</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view:</label>
+			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
@@ -2658,8 +2652,7 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
-			<label index="realty.pi_flexform.showGoogleMapsInListView">Show Google Maps in the list view:</label>
-			<label index="realty.pi_flexform.showGoogleMapsInSingleView">Show Google Maps in the single view:</label>
+			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
