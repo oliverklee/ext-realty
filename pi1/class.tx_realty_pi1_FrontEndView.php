@@ -58,7 +58,6 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 		$this->init($configuration);
 		$this->getTemplateCode();
 		$this->setLabels();
-		$this->setCss();
 	}
 
 	/**
