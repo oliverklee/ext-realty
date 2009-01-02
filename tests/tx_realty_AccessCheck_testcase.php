@@ -198,6 +198,17 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
 	}
 
+	public function testCheckAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterAndEditingAnExistingObjectDoesNotThrowException() {
+		$userUid = $this->testingFramework->createAndLoginFrontEndUser(
+			'', array('tx_realty_maximum_objects' => 1)
+		);
+		$objectUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('owner' => $userUid)
+		);
+
+		$this->fixture->checkAccess('fe_editor', array('showUid' => $objectUid));
+	}
+
 	public function testCheckAccessForFeEditorForLoggedInUserWithObjectsLeftToEnterThrowsNoException() {
 		$userUid = $this->testingFramework->createFrontEndUser(
 			'', array('tx_realty_maximum_objects' => 1)

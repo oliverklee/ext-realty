@@ -67,7 +67,7 @@ class tx_realty_pi1_AccessCheck {
 				$this->isFrontEndUserLoggedIn();
 				$this->realtyObjectExistsInDatabase($piVars['showUid']);
 				$this->frontEndUserOwnsObject($piVars['showUid']);
-				$this->checkObjectLimit();
+				$this->checkObjectLimit($piVars['showUid']);
 				break;
 			case 'image_upload':
 				$this->isFrontEndUserLoggedIn();
@@ -184,9 +184,14 @@ class tx_realty_pi1_AccessCheck {
 	 * Checks if the logged-in front-end user is allowed to enter new objects.
 	 *
 	 * @throws tx_oelib_Exception_AccessDenied if the front-end user is not
-	 *                                         allowed to enter more objects
+	 *                                         allowed to enter a new object
+	 *
+	 * @param integer UID of the object, must be >= 0
 	 */
-	private function checkObjectLimit() {
+	private function checkObjectLimit($realtyObjectUid) {
+		if ($realtyObjectUid > 0) {
+			return;
+		}
 		if (tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getLoggedInUser()->canAddNewObjects()
 		) {
