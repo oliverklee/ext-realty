@@ -79,6 +79,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	const FAVORITES_SESSION_KEY_VERBOSE = 'tx_realty_favorites_verbose';
 
 	/**
+	 * @var integer character length at which the title in the list view is
+	 *              cropped
+	 */
+	const CROP_SIZE = 74;
+
+	/**
 	 * @var array the data of the currently displayed favorites using the keys
 	 *            [uid][fieldname]
 	 */
@@ -164,8 +170,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** @var boolean whether this class is called in the test mode */
 	private $isTestMode = false;
 
-	/** @var tx_realty_pi1_Formatter formatter for prices, areas etc. */
-	private $formatter = null;
+	/** @var tx_realty_object the current realty object */
+	private $cachedRealtyObject = null;
 
 	/**
 	 * @var array FE user record, will at least contain the element 'uid'
@@ -438,9 +444,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$this->internal['currentRow'] = $row;
 			$listItems .= $this->createListRow($rowCounter);
-			$googleMapsView->setMapMarker(
-				$this->internal['currentRow']['uid'], true
-			);
+			$googleMapsView->setMapMarker($this->getFieldContent('uid'), true);
 			$rowCounter++;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
@@ -799,7 +803,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 			// stuff that should always be visible
 			foreach (array('title', 'uid') as $key) {
-				$this->setMarker($key, $this->internal['currentRow'][$key]);
+				$this->setMarker($key, $this->getFieldContent($key));
 			}
 
 			// string stuff that should conditionally be visible
@@ -807,15 +811,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'object_number', 'description', 'location', 'equipment', 'misc'
 			) as $key) {
 				$this->setOrDeleteMarkerIfNotEmpty(
-					$key,
-					$this->getFormatter()->getProperty($key),
-					'',
-					'field_wrapper'
+					$key, $this->getFieldContent($key), '', 'field_wrapper'
 				);
 			}
 
 			$this->setMarker(
-				'address', $this->getFormatter()->getProperty('address')
+				'address', $this->getObjectForCurrentRow()->getAddressAsHtml()
 			);
 
 			$this->fillOrHideOffererWrapper();
@@ -952,15 +953,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				switch($this->fieldTypes[$trimmedFieldName]) {
 					case TYPE_NUMERIC:
 						$isRowSet = $this->setMarkerIfNotZero('data_current_row',
-							$this->getFormatter()->getProperty($trimmedFieldName));
+							$this->getFieldContent($trimmedFieldName));
 						break;
 					case TYPE_STRING:
 						$isRowSet = $this->setMarkerIfNotEmpty('data_current_row',
-							$this->getFormatter()->getProperty($trimmedFieldName));
+							$this->getFieldContent($trimmedFieldName));
 						break;
 					case TYPE_BOOLEAN:
 						if ($this->internal['currentRow'][$trimmedFieldName]) {
-							$this->setMarker('data_current_row', $this->translate('message_yes'));
+							$this->setMarker('data_current_row', $this->pi_getLL('message_yes'));
 							$isRowSet = true;
 						}
 						break;
@@ -1023,37 +1024,36 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function createListRow($rowCounter = 0) {
 		$this->unhideSubparts(
-			'rent_excluding_bills,extra_charges,buying_price,extra_charges,' .
-				'number_of_rooms,teaser',
-			'',
-			'wrapper'
+			'rent_excluding_bills,extra_charges,buying_price', '', 'wrapper'
 		);
 
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarker('class_position_in_list', $position);
 
 		foreach (array(
-			'uid' => $this->internal['currentRow']['uid'],
-			'object_number' => $this->internal['currentRow']['object_number'],
-			'teaser' => $this->internal['currentRow']['teaser'],
-			'linked_title' => $this->getLinkedTitle(),
-			'features' => $this->getFeatureList(),
-			'list_image_right' => $this->getImageLinkedToSingleView('listImageMax'),
-			'list_image_left' => $this->getImageLinkedToSingleView('listImageMax', 1),
-		) as $key => $value) {
-			$this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper');
-		}
-
-		foreach (array(
-			'city', 'district', 'living_area', 'number_of_rooms', 'heating_type',
-			'buying_price', 'extra_charges', 'rent_excluding_bills',
+			'uid',
+			'object_number',
+			'linked_title',
+			'city',
+			'district',
+			'living_area',
+			'buying_price',
+			'rent_excluding_bills',
+			'extra_charges',
+			'number_of_rooms',
+			'features',
+			'heating_type',
+			'list_image_left',
+			'list_image_right',
+			'teaser',
 		) as $key) {
-			$this->setOrDeleteMarkerIfNotEmpty(
-				$key, $this->getFormatter()->getProperty($key), '', 'wrapper'
-			);
+			$this->setMarker($key, $this->getFieldContent($key));
 		}
 
-		switch ($this->internal['currentRow']['object_type']) {
+		if ($this->getFieldContent('teaser') == '') {
+			$this->hideSubparts('wrapper_teaser');
+		}
+		switch ($this->getFieldContent('object_type')){
 			case 1:
 				$this->hideSubparts(
 					'rent_excluding_bills,extra_charges', 'wrapper'
@@ -1071,13 +1071,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				if (!$this->hasConfValueString('favoriteFieldsInSession')) {
 					break;
 				}
-				$uid = $this->internal['currentRow']['uid'];
-				$this->favoritesDataVerbose[$uid] = array();
-				foreach (explode(
-					',', $this->getConfValueString('favoriteFieldsInSession')
-				) as $key) {
-					$this->favoritesDataVerbose[$uid][$key]
-						= $this->getFormatter()->getProperty($key);
+				$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
+				foreach (explode(',', $this->getConfValueString('favoriteFieldsInSession')) as $key) {
+					$this->favoritesDataVerbose[$this->getFieldContent('uid')][$key]
+						= $this->getFieldContent($key);
 				}
 				break;
 			case 'my_objects':
@@ -1108,10 +1105,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		);
 		$this->setMarker(
 			'really_delete',
-			$this->translate('label_really_delete') . '\n' .
-				$this->translate('label_object_number') . ' ' .
-				$this->internal['currentRow']['object_number'] . ': ' .
-				$this->internal['currentRow']['title']
+			$this->translate('label_really_delete').'\n'
+				.$this->translate('label_object_number').' '
+				.$this->internal['currentRow']['object_number'].': '
+				.$this->internal['currentRow']['title']
 		);
 		$this->setMarker(
 			'delete_link',
@@ -1238,19 +1235,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		);
 		$offererList = new $offererListClassName($this->conf, $this->cObj);
 
-		switch ($this->getFormatter()->getProperty('contact_data_source')) {
+		switch ($this->getFieldContent('contact_data_source')) {
 			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
 				$result = $offererList->renderOneItem(
-					$this->internal['currentRow']['owner']
+					$this->getFieldContent('owner')
 				);
 				break;
 			case REALTY_CONTACT_FROM_REALTY_OBJECT:
 				$result = $offererList->renderOneItemWithTheDataProvided(
 					array(
-						'email' => $this->internal['currentRow']['contact_email'],
-						'company' => $this->internal['currentRow']['employer'],
-						'telephone' => $this->internal['currentRow']['contact_phone'],
-						'name' => $this->internal['currentRow']['contact_person'],
+						'email' => $this->getFieldContent('contact_email'),
+						'company' => $this->getFieldContent('employer'),
+						'telephone' => $this->getFieldContent('contact_phone'),
+						'name' => $this->getFieldContent('contact_person'),
 					)
 				);
 				break;
@@ -1264,14 +1261,268 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the title of the current object linked to the single view page.
+	 * Returns the trimmed content of a given field for the list view.
+	 * In the case of the key "title", the result will be wrapped
+	 * in a link to the detail page of that particular item.
+	 *
+	 * @param string key of the field to retrieve (the name of a database
+	 *               column), must not be empty
+	 *
+	 * @return string value of the field, may be empty
 	 */
-	private function getLinkedTitle() {
-		return $this->createLinkToSingleViewPage(
-			$this->getFormatter()->getProperty('cropped_title'),
-			$this->internal['currentRow']['uid'],
-			$this->internal['currentRow']['details_page']
+	public function getFieldContent($key) {
+		$result = '';
+
+		switch($key) {
+			case 'linked_title':
+				$result = $this->createLinkToSingleViewPage(
+					$this->getObjectForCurrentRow()->getCroppedTitle(
+						self::CROP_SIZE
+					),
+					$this->internal['currentRow']['uid'],
+					$this->internal['currentRow']['details_page']
+				);
+				break;
+
+			case 'heating_type':
+				$result = $this->getLabelForValidProperty($key, 12);
+				break;
+			case 'state':
+				$result = $this->getLabelForValidProperty('state', 13);
+				break;
+			case 'pets':
+				// The fallthrough is intended.
+			case 'garage_type':
+				// The fallthrough is intended.
+			case 'house_type':
+				// The fallthrough is intended.
+			case 'apartment_type':
+				// The fallthrough is intended.
+			case 'city':
+				// The fallthrough is intended.
+			case 'district':
+				$result = $this->getObjectForCurrentRow()
+					->getForeignPropertyField($key);
+				break;
+
+			case 'country':
+				$defaultCountry
+					= $this->getConfValueInteger('defaultCountryUID');
+				if ($this->internal['currentRow'][$key] != $defaultCountry) {
+					$result = $this->getObjectForCurrentRow()
+						->getForeignPropertyField($key, 'cn_short_local');
+				}
+				break;
+
+			case 'total_area':
+				// The fallthrough is intended.
+			case 'living_area':
+				// The fallthrough is intended.
+			case 'estate_size':
+				$result = $this->getFormattedArea($key);
+				break;
+
+			case 'rent_excluding_bills':
+				// The fallthrough is intended.
+			case 'extra_charges':
+				// The fallthrough is intended.
+			case 'buying_price':
+				// The fallthrough is intended.
+			case 'year_rent':
+				// The fallthrough is intended.
+			case 'garage_rent':
+				// The fallthrough is intended.
+			case 'hoa_fee':
+				// The fallthrough is intended.
+			case 'garage_price':
+				$this->removeSubpartIfEmptyInteger($key, 'wrapper');
+				$result = $this->getFormattedPrice($key);
+				break;
+
+			case 'number_of_rooms':
+				$this->removeSubpartIfEmptyString($key, 'wrapper');
+				$result = $this->internal['currentRow'][$key];
+				break;
+			case 'features':
+				$result = $this->getFeatureList();
+				break;
+			case 'usable_from':
+				// If no date is set, assume "now".
+				$result = (!empty($this->internal['currentRow']['usable_from'])) ?
+					$this->internal['currentRow']['usable_from'] :
+					$this->pi_getLL('message_now');
+				break;
+
+			case 'list_image_right':
+				// If there is only one image, the right image will be filled.
+				$result = $this->getImageLinkedToSingleView('listImageMax');
+				break;
+			case 'list_image_left':
+				// If there is only one image, the left image will be empty.
+				$result = $this->getImageLinkedToSingleView('listImageMax', 1);
+				break;
+
+			case 'description':
+				// The fallthrough is intended.
+			case 'equipment':
+				// The fallthrough is intended.
+			case 'location':
+				// The fallthrough is intended.
+			case 'misc':
+				$result = $this->pi_RTEcssText($this->internal['currentRow'][$key]);
+				break;
+
+			default:
+				$result = $this->internal['currentRow'][$key];
+				break;
+		}
+
+		return trim($result);
+	}
+
+	/**
+	 * Returns the label for "label_[$key].[value of $key]" or an empty string
+	 * if the value of $key is not an allowed suffixes. Suffixes must always be
+	 * integers. The lowest allowed suffix is always 1 and the highest is set in
+	 * $highestSuffix.
+	 * The value of $key may be a comma-separated list of suffixes. In this case,
+	 * a comma-separated list of the localized strings is returned.
+	 *
+	 * @param string key of the current record's field that contains the
+	 *               suffix for the label to get, must not be empty
+	 * @param integer the highest allowed suffix, must be at least 1
+	 *
+	 * @return string localized string for the label
+	 *                "label_[$key].[value of $key]", will be a
+	 *                comma-separated list of localized strings if
+	 *                the value of $key was a comma-separated list of
+	 *                suffixes, will be empty if no suffix is within the
+	 *                range of allowed suffixes
+	 */
+	private function getLabelForValidProperty($key, $highestSuffix) {
+		$localizedStrings = array();
+
+		foreach (explode(',', $this->internal['currentRow'][$key]) as $suffix) {
+			if (($suffix >= 1) && ($suffix <= $highestSuffix)) {
+				$localizedStrings[] = $this->translate(
+					'label_' . $key . '.' . $suffix
+				);
+			}
+		}
+
+		return implode(', ', $localizedStrings);
+	}
+
+	/**
+	 * Retrieves the value of the record field $key formatted as an area.
+	 * If the field's value is empty or its intval is zero, an empty string will
+	 * be returned.
+	 *
+	 * @param string key of the field to retrieve (the name of a database
+	 *               column), may not be empty
+	 *
+	 * @return string HTML for the number in the field formatted using
+	 *                decimalSeparator and areaUnit from the TS setup, may
+	 *                be an empty string
+	 */
+	private function getFormattedArea($key) {
+		return $this->getFormattedNumber(
+			$key, $this->translate('label_squareMeters')
 		);
+	}
+
+	/**
+	 * Returns the number found in the database column $key with a currency
+	 * symbol appended. This symbol is the value of "currency" derived from
+	 * the same record or, if not availiable, "currencyUnit" set in the TS
+	 * setup.
+	 * If the value of $key is zero after applying intval, an empty string
+	 * will be returned.
+	 *
+	 * @param string name of a database column, may not be empty
+	 *
+	 * @return string HTML for the number in the field with a currency
+	 *                symbol appended, may be an empty string
+	 */
+	private function getFormattedPrice($key) {
+		$currencySymbol = $this->getConfValueString('currencyUnit');
+
+		if ($this->internal['currentRow']['currency'] != '') {
+			$currencySymbol = $this->internal['currentRow']['currency'];
+		}
+
+		return $this->getFormattedNumber($key, $currencySymbol);
+	}
+
+	/**
+	 * Retrieves the value of the record field $key and formats,
+	 * using the system's locale and appending $unit. If the field's value is
+	 * empty or its intval is zero, an empty string will be returned.
+	 *
+	 * @param string key of the field to retrieve (the name of a database
+	 *               column), may not be empty
+	 * @return string HTML for the number in the field formatted using the
+	 *                system's locale with $unit appended, may be an empty
+	 *                string
+	 */
+	private function getFormattedNumber($key, $unit) {
+		$rawValue = $this->internal['currentRow'][$key];
+		if (empty($rawValue) || (intval($rawValue) == 0)) {
+			return '';
+		}
+
+		$localeConvention = localeconv();
+		$decimals = intval($this->getConfValueString('numberOfDecimals'));
+
+		$formattedNumber = number_format(
+			$rawValue,
+			$decimals,
+			$localeConvention['decimal_point'],
+			' '
+		);
+
+		return $formattedNumber.'&nbsp;'.$unit;;
+	}
+
+	/**
+	 * Removes a subpart ###PREFIX_KEY### (or ###KEY### if the prefix is empty)
+	 * if the record field $key intvals to zero.
+	 * For the subpart name, $key and $prefix will be automatically uppercased.
+	 *
+	 * If the record field intvals to a non-zero value, the subpart is set to
+	 * unhidden.
+	 *
+	 * @param string key of the label to retrieve (the name of a database
+	 *               column), may not be empty
+	 * @param string prefix to the subpart name (may be empty,
+	 *               case-insensitive, will get uppercased)
+	 */
+	private function removeSubpartIfEmptyInteger($key, $prefix = '') {
+		if (intval($this->internal['currentRow'][$key]) == 0) {
+			$this->hideSubparts($key, $prefix);
+		} else {
+			$this->unhideSubparts($key, '', $prefix);
+		}
+	}
+
+	/**
+	 * Removes a subpart ###PREFIX_KEY### (or ###KEY### if the prefix is empty)
+	 * if the record field $key is an empty string.
+	 * For the subpart name, $key and $prefix will be automatically uppercased.
+	 *
+	 * If the record field is a non-empty-string, the subpart is set to unhidden.
+	 *
+	 * @param string key of the label to retrieve (the name of a database
+	 *               column), may not be empty
+	 * @param string prefix to the subpart name (may be empty,
+	 *               case-insensitive, will get uppercased)
+	 */
+	private function removeSubpartIfEmptyString($key, $prefix = '') {
+		if (empty($this->internal['currentRow'][$key])) {
+			$this->hideSubparts($key, $prefix);
+		} else {
+			$this->unhideSubparts($key, '', $prefix);
+		}
 	}
 
 	/**
@@ -1289,7 +1540,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// get features described by DB relations
 		foreach (array('apartment_type', 'house_type', 'garage_type') as $key) {
-			$propertyTitle = $this->getFormatter()->getProperty($key);
+			$propertyTitle = $this->getObjectForCurrentRow()
+				->getForeignPropertyField($key);
 			if ($propertyTitle != '') {
 				$features[] = $propertyTitle;
 			}
@@ -1301,28 +1553,28 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'assisted_living', 'fitted_kitchen',)
 		as $key) {
 			if ($this->internal['currentRow'][$key]) {
-				$features[] = ($this->translate('label_' . $key . '_short') != '')
-					? $this->translate('label_' . $key . '_short')
-					: $this->translate('label_' . $key);
+				$features[] = ($this->pi_getLL('label_'.$key.'_short') != '')
+					? $this->pi_getLL('label_'.$key.'_short')
+					: $this->pi_getLL('label_'.$key);
 			}
 		}
 
 		if ($this->internal['currentRow']['old_or_new_building'] > 0) {
-			$features[] = $this->translate('label_old_or_new_building_' .
-				$this->internal['currentRow']['old_or_new_building']
+			$features[] = $this->pi_getLL('label_old_or_new_building_'
+				.$this->internal['currentRow']['old_or_new_building']
 			);
 		}
 		if ($this->internal['currentRow']['construction_year'] > 0) {
-			$features[] = $this->translate('label_construction_year') . ' ' .
-				$this->internal['currentRow']['construction_year'];
+			$features[] = $this->pi_getLL('label_construction_year').' '
+				.$this->internal['currentRow']['construction_year'];
 		}
 
-		$features[] = $this->translate('label_usable_from_short') . ' ' .
-			$this->getFormatter()->getProperty('usable_from');
+		$features[] = $this->pi_getLL('label_usable_from_short').' '
+			.$this->getFieldContent('usable_from');
 
 		if (!empty($this->internal['currentRow']['object_number'])) {
-			$features[] = $this->translate('label_object_number') . ' ' .
-				$this->internal['currentRow']['object_number'];
+			$features[] = $this->pi_getLL('label_object_number').' '
+				.$this->internal['currentRow']['object_number'];
 		}
 
 		return implode(', ', $features);
@@ -2635,13 +2887,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Creates a formatter instance for $this->internal['currentRow']['uid'].
+	 * Creates a realty object instance for the data in
+	 * $this->internal['currentRow'].
 	 *
 	 * @throws Exception if $this->internal['currentRow'] is not set or empty
 	 *
-	 * @return tx_realty_pi1_Formatter a formatter for the current row
+	 * @return tx_realty_object a realty object filled with the data
+	 *                          from $this->internal['currentRow']
 	 */
-	private function getFormatter() {
+	private function getObjectForCurrentRow() {
 		if (!isset($this->internal['currentRow'])
 			|| empty($this->internal['currentRow'])
 		) {
@@ -2650,15 +2904,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 		}
 
-		$currentUid = $this->internal['currentRow']['uid'];
-		if (!$this->formatter
-			|| ($this->formatter->getProperty('uid') != $currentUid)
+		if (!$this->cachedRealtyObject
+			|| ($this->cachedRealtyObject->getUid()
+				!= $this->internal['currentRow']['uid'])
 		) {
-			$className = t3lib_div::makeInstanceClassName('tx_realty_pi1_Formatter');
-			$this->formatter = new $className($currentUid, $this->conf, $this->cObj);
+			$className = t3lib_div::makeInstanceClassName('tx_realty_object');
+			$this->cachedRealtyObject = new $className($this->isTestMode);
+			$this->cachedRealtyObject->loadRealtyObject(
+				$this->internal['currentRow']['uid'], true
+			);
 		}
 
-		return $this->formatter;
+		return $this->cachedRealtyObject;
 	}
 
 	/**
