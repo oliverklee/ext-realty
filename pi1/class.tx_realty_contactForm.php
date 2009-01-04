@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
 /**

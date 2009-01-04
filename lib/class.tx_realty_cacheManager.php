@@ -24,8 +24,6 @@
 
 require_once(PATH_tslib . 'class.tslib_fe.php');
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-
 /**
  * Class 'tx_realty_cacheManager' for the 'realty' extension.
  * This class provides a function to clear the FE cache for pages with the

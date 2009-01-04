@@ -27,8 +27,6 @@
  * includes the oelib's definitions of common constans.
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-
 // table names
 define('REALTY_TABLE_OBJECTS', 'tx_realty_objects');
 define('REALTY_TABLE_CITIES', 'tx_realty_cities');

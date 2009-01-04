@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-
 /**
  * Class 'tx_realty_offererList' for the 'realty' extension.
  * This class provides a list of offerers for the realty plugin.
