@@ -288,6 +288,42 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetPropertyReturnsNonZeroValueOfFloor() {
+		$this->changeAndReloadRealtyObject(array('floor' => 3));
+
+		$this->assertEquals(
+			'3',
+			$this->fixture->getProperty('floor')
+		);
+	}
+
+	public function testGetPropertyReturnsEmptyStringForZeroValueOfFloor() {
+		$this->changeAndReloadRealtyObject(array('floor' => 0));
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getProperty('floor')
+		);
+	}
+
+	public function testGetPropertyReturnsMessageYesForRentedIfRentedIsSet() {
+		$this->changeAndReloadRealtyObject(array('rented' => 1));
+
+		$this->assertEquals(
+			$this->fixture->translate('message_yes'),
+			$this->fixture->getProperty('rented')
+		);
+	}
+
+	public function testGetPropertyReturnsAnEmptyStringForRentedIfRentedIsNotSet() {
+		$this->changeAndReloadRealtyObject(array('rented' => 0));
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getProperty('rented')
+		);
+	}
+
 	public function testGetPropertyReturnsAddress() {
 		$this->changeAndReloadRealtyObject(array(
 			'show_address' => 1,

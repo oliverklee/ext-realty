@@ -175,6 +175,45 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 					? $usableFrom
 					: $this->translate('message_now');
 				break;
+			case 'number_of_rooms':
+				// The fallthrough is intended.
+			case 'floor':
+				// The fallthrough is intended.
+			case 'floors':
+				// The fallthrough is intended.
+			case 'bedrooms':
+				// The fallthrough is intended.
+			case 'bathrooms':
+				// The fallthrough is intended.
+			case 'construction_year':
+				$number = $this->realtyObject->getProperty($key);
+				$result = ($number != 0) ? ((string) $number) : '';
+				break;
+			case 'heating_included':
+				// The fallthrough is intended.
+			case 'has_air_conditioning':
+				// The fallthrough is intended.
+			case 'has_pool':
+				// The fallthrough is intended.
+			case 'has_community_pool':
+				// The fallthrough is intended.
+			case 'rented':
+				// The fallthrough is intended.
+			case 'balcony':
+				// The fallthrough is intended.
+			case 'garden':
+				// The fallthrough is intended.
+			case 'elevator':
+				// The fallthrough is intended.
+			case 'barrier_free':
+				// The fallthrough is intended.
+			case 'assisted_living':
+				// The fallthrough is intended.
+			case 'fitted_kitchen':
+				$result = ($this->realtyObject->getProperty($key) == 1)
+					? $this->translate('message_yes')
+					: '';
+				break;
 			case 'description':
 				// The fallthrough is intended.
 			case 'equipment':
