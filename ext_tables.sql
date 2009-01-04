@@ -100,7 +100,9 @@ CREATE TABLE tx_realty_objects (
 	advertised_date int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record),
+	KEY owner (owner)
 );
 
 #
@@ -120,7 +122,8 @@ CREATE TABLE tx_realty_apartment_types (
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record)
 );
 
 #
@@ -140,7 +143,8 @@ CREATE TABLE tx_realty_house_types (
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record)
 );
 
 #
@@ -160,7 +164,8 @@ CREATE TABLE tx_realty_car_places (
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record)
 );
 
 #
@@ -180,7 +185,8 @@ CREATE TABLE tx_realty_pets (
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record)
 );
 
 #
@@ -203,7 +209,9 @@ CREATE TABLE tx_realty_images (
 	image tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record),
+	KEY container (realty_object_uid)
 );
 
 #
@@ -224,7 +232,8 @@ CREATE TABLE tx_realty_cities (
 	save_folder int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record)
 );
 
 #
@@ -244,7 +253,8 @@ CREATE TABLE tx_realty_districts (
 	title tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record)
 );
 
 #

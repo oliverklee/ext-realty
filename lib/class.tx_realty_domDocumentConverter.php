@@ -47,7 +47,7 @@ class tx_realty_domDocumentConverter {
 	 * The database column names are the keys of the outer array, their values
 	 * are arrays which have the category as key and the property as value.
 	 */
-	private $propertyArray = array(
+	private static $propertyArray = array(
 		// OpenImmo tag for 'starttime' could possibly be 'beginn_bietzeit'.
 		'starttime' => array('bieterverfahren' => 'beginn_angebotsphase'),
 		'endtime' => array('bieterverfahren' => 'ende_bietzeit'),
@@ -112,6 +112,11 @@ class tx_realty_domDocumentConverter {
 
 	/** @var tx_realty_fileNameMapper gets the unique names tor the images*/
 	private $fileNameMapper = null;
+
+	/**
+	 * @var tx_realty_translator a translator for localized strings
+	 */
+	private static $translator = null;
 
 	/**
 	 * Constructor.
@@ -364,7 +369,7 @@ class tx_realty_domDocumentConverter {
 	 * column names as keys in $this->importedData.
 	 */
 	private function fetchNodeValues() {
-		foreach ($this->propertyArray as $databaseColumnName => $openImmoNames) {
+		foreach (self::$propertyArray as $databaseColumnName => $openImmoNames) {
 			$currentDomNode = $this->findFirstGrandchild(
 				key($openImmoNames),
 				implode($openImmoNames)
@@ -413,14 +418,27 @@ class tx_realty_domDocumentConverter {
 			return;
 		}
 
-		$translator = t3lib_div::makeInstance('tx_realty_translator');
-
 		$petsValue = strtolower($this->importedData['pets']);
 		if (($petsValue == 1) || $this->isBooleanLikeStringTrue($petsValue)) {
-			$this->importedData['pets'] = $translator->translate('label_allowed');
+			$this->importedData['pets']
+				= $this->getTranslator()->translate('label_allowed');
 		} else {
-			$this->importedData['pets'] = $translator->translate('label_not_allowed');
+			$this->importedData['pets']
+				= $this->getTranslator()->translate('label_not_allowed');
 		}
+	}
+
+	/**
+	 * Gets a cached translator object (and creates it first, if necessary).
+	 *
+	 * @return tx_realty_translator the cached translator object
+	 */
+	private function getTranslator() {
+		if (!self::$translator) {
+			self::$translator = t3lib_div::makeInstance('tx_realty_translator');
+		}
+
+		return self::$translator;
 	}
 
 	/**

@@ -78,9 +78,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->__destruct();
 
 		unset(
-			$this->fixture,
-			$this->translator,
-			$this->testingFramework,
+			$this->fixture, $this->translator, $this->testingFramework,
 			$this->globalConfiguration
 		);
 		$this->deleteTestImportFolder();

@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1858] Change: Speed up the unit tests
 - [#2494] Change: The autoloader should include the constants
 - [#2521] Fix: Check for objectsLeftToEnter is performed on editing an object in FE editor
 - [#2502] Change: Update copyrights to 2009

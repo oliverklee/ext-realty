@@ -75,7 +75,7 @@ class tx_realty_object {
 	private $allowedFieldNames = array();
 
 	/** associates property names and their corresponding tables */
-	private $propertyTables = array(
+	private static $propertyTables = array(
 		REALTY_TABLE_CITIES => 'city',
 		REALTY_TABLE_APARTMENT_TYPES => 'apartment_type',
 		REALTY_TABLE_HOUSE_TYPES => 'house_type',
@@ -91,7 +91,12 @@ class tx_realty_object {
 	private $isDummyRecord = false;
 
 	/** @var tx_realty_googleMapsLookup a geo coordinate finder */
-	private static $geoFinder;
+	private static $geoFinder = null;
+
+	/**
+	 * @var t3lib_refindex a cached reference index instance
+	 */
+	private static $referenceIndex = null;
 
 	/**
 	 * Constructor.
@@ -230,7 +235,7 @@ class tx_realty_object {
 	/**
 	 * Writes a realty object to the database. Deletes keys which do not exist
 	 * in the database and inserts certain values to separate tables, as
-	 * associated in $this->propertyTables.
+	 * associated in self::$propertyTables.
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
 	 *
@@ -530,10 +535,8 @@ class tx_realty_object {
 			$this->getAllowedFieldNames()
 		);
 
-		if (!empty($surplusFieldsInRealtyObjectData)) {
-			foreach ($surplusFieldsInRealtyObjectData as $currentField) {
-				unset($this->realtyObjectData[$currentField]);
-			}
+		foreach ($surplusFieldsInRealtyObjectData as $currentField) {
+			unset($this->realtyObjectData[$currentField]);
 		}
 	}
 
@@ -583,8 +586,7 @@ class tx_realty_object {
 	protected function prepareInsertionAndInsertRelations() {
 		$this->deleteSurplusFields();
 
-		$referenceIndex = t3lib_div::makeInstance('t3lib_refindex');
-		foreach ($this->propertyTables as $currentTable => $currentProperty) {
+		foreach (self::$propertyTables as $currentTable => $currentProperty) {
 			$uidOfProperty = $this->insertPropertyToOwnTable(
 				$currentProperty,
 				$currentTable
@@ -592,13 +594,26 @@ class tx_realty_object {
 
 			if ($uidOfProperty > 0) {
 				$this->setProperty($currentProperty, $uidOfProperty);
-				$referenceIndex->updateRefIndexTable(
+				$this->getReferenceIndex()->updateRefIndexTable(
 					$currentTable,
 					$uidOfProperty
 				);
 			}
 		}
-		unset($referenceIndex);
+	}
+
+	/**
+	 * Gets a cached instance of the reference index (and creates it, if
+	 * necessary).
+	 *
+	 * @return t3lib_refindex a cached reference index instance
+	 */
+	private function getReferenceIndex() {
+		if (!self::$referenceIndex) {
+			self::$referenceIndex = t3lib_div::makeInstance('t3lib_refindex');
+		}
+
+		return self::$referenceIndex;
 	}
 
 	/**
@@ -901,8 +916,7 @@ class tx_realty_object {
 	 *
 	 * @param resource database result of one record
 	 *
-	 * @return array database result row, will be empty if $dbResult
-	 *               was false or empty
+	 * @return array database result row, will be empty if $dbResult was false
 	 */
 	protected function fetchDatabaseResult($dbResult) {
 		if (!$dbResult) {
@@ -953,7 +967,7 @@ class tx_realty_object {
 			'COUNT(*) AS number', $dataArray, $keys, $table
 		);
 
-		return empty($databaseResult) ? false : ($databaseResult['number'] >= 1);
+		return ($databaseResult['number'] >= 1);
 	}
 
 	/**
@@ -1131,7 +1145,7 @@ class tx_realty_object {
 	 */
 	public function getForeignPropertyField($key, $titleField = 'title') {
 		$tableName = ($key == 'country')
-			? STATIC_COUNTRIES : array_search($key, $this->propertyTables);
+			? STATIC_COUNTRIES : array_search($key, self::$propertyTables);
 
 		if ($tableName === false) {
 			throw new Exception('$key must be within "city", ' .

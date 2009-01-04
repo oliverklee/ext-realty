@@ -69,8 +69,10 @@ class tx_realty_openImmoImport {
 	/** instance of 'tx_realty_object' which inserts OpenImmo records to database */
 	private $realtyObject = null;
 
-	/** instance of 'tx_realty_translator' */
-	private $translator = null;
+	/**
+	 * @var tx_realty_translator a cached translator instance
+	 */
+	private static $translator = null;
 
 	/** @var tx_realty_fileNameMapper gets the unique names tor the images*/
 	private $fileNameMapper = null;
@@ -103,7 +105,6 @@ class tx_realty_openImmoImport {
 		$this->isTestMode = $isTestMode;
 		libxml_use_internal_errors(true);
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
-		$this->translator = t3lib_div::makeInstance('tx_realty_translator');
 		$this->fileNameMapper = t3lib_div::makeInstance('tx_realty_fileNameMapper');
 		$this->setUploadDirectory(PATH_site . 'uploads/tx_realty/');
 	}
@@ -116,7 +117,7 @@ class tx_realty_openImmoImport {
 			$this->fileNameMapper->__destruct();
 		}
 		unset(
-			$this->globalConfiguration, $this->translator, $this->importedXml,
+			$this->globalConfiguration, $this->importedXml,
 			$this->realtyObject, $this->fileNameMapper
 		);
 	}
@@ -172,7 +173,7 @@ class tx_realty_openImmoImport {
 			$this->sendEmails($this->prepareEmails($emailData));
 		} else {
 			$this->addToErrorLog(
-				$this->translator->translate('message_no_zips')
+				$this->getTranslator()->translate('message_no_zips')
 			);
 		}
 
@@ -182,6 +183,19 @@ class tx_realty_openImmoImport {
 		$this->storeLogsAndClearTemporaryLog();
 
 		return $this->logEntry;
+	}
+
+	/**
+	 * Gets a cached translator object (and creates it first, if necessary).
+	 *
+	 * @return tx_realty_translator the cached translator object
+	 */
+	private function getTranslator() {
+		if (!self::$translator) {
+			self::$translator = t3lib_div::makeInstance('tx_realty_translator');
+		}
+
+		return self::$translator;
 	}
 
 	/**
@@ -304,7 +318,7 @@ class tx_realty_openImmoImport {
 
 		if (!$this->hasValidOwnerForImport()) {
 			$this->addToErrorLog(
-				$this->translator->translate(
+				$this->getTranslator()->translate(
 					'message_openimmo_anid_not_matches_allowed_fe_user'
 				) . ' "' . $this->realtyObject->getProperty('openimmo_anid') .
 				'".' . LF
@@ -318,7 +332,9 @@ class tx_realty_openImmoImport {
 		switch ($errorMessage) {
 			case '':
 			$this->addToLogEntry(
-				$this->translator->translate('message_written_to_database') . LF
+				$this->getTranslator()->translate(
+					'message_written_to_database'
+				) . LF
 			);
 			break;
 		case 'message_deleted_flag_set':
@@ -327,12 +343,12 @@ class tx_realty_openImmoImport {
 			// A set deleted flag is no real error, so is not stored in the
 			// error log.
 			$this->addToLogEntry(
-				$this->translator->translate($errorMessage) . LF
+				$this->getTranslator()->translate($errorMessage) . LF
 			);
 			break;
 		case 'message_fields_required':
 			$this->addToErrorLog(
-				$this->translator->translate($errorMessage) . ': ' .
+				$this->getTranslator()->translate($errorMessage) . ': ' .
 					implode(', ', $this->realtyObject->checkForRequiredFields()) .
 					'. ' . $this->getPleaseActivateValidationMessage() . LF
 			);
@@ -345,7 +361,7 @@ class tx_realty_openImmoImport {
 					->find($ownerUid);
 			$this->addToErrorLog(
 				sprintf(
-					$this->translator->translate($errorMessage),
+					$this->getTranslator()->translate($errorMessage),
 					$owner->getName(), $ownerUid,
 					$owner->getTotalNumberOfAllowedObjects()
 				) . LF
@@ -353,7 +369,7 @@ class tx_realty_openImmoImport {
 			break;
 		default:
 			$this->addToErrorLog(
-				$this->translator->translate($errorMessage) . ' ' .
+				$this->getTranslator()->translate($errorMessage) . ' ' .
 				$this->getPleaseActivateValidationMessage() . LF
 			);
 			break;
@@ -370,7 +386,7 @@ class tx_realty_openImmoImport {
 	private function getPleaseActivateValidationMessage() {
 		return ($this->globalConfiguration
 				->getConfigurationValueString('openImmoSchema') != '')
-			? $this->translator->translate('message_please_validate')
+			? $this->getTranslator()->translate('message_please_validate')
 			: '' ;
 	}
 
@@ -474,13 +490,13 @@ class tx_realty_openImmoImport {
 		$result = true;
 
 		if (!in_array('zip', get_loaded_extensions())) {
-			$this->addToErrorLog($this->translator->translate(
+			$this->addToErrorLog($this->getTranslator()->translate(
 				'message_zip_archive_not_installed')
 			);
 			$result = false;
 		}
 		if (!@is_writable($importDirectory)) {
-			$this->addToErrorLog($this->translator->translate(
+			$this->addToErrorLog($this->getTranslator()->translate(
 				'message_import_directory_not_writable')
 			);
 			$result = false;
@@ -712,7 +728,7 @@ class tx_realty_openImmoImport {
 		// collects data for the subpart 'CONTENT_ITEM'
 		$templateHelper->setMarker(
 			'label_object_number',
-			$this->translator->translate('label_object_number')
+			$this->getTranslator()->translate('label_object_number')
 		);
 		foreach ($recordsForOneEmail as $record) {
 			// $record is an array of the object number associated with the log
@@ -723,19 +739,18 @@ class tx_realty_openImmoImport {
 
 		// fills the subpart 'EMAIL_BODY'
 		$templateHelper->setMarker(
-			'header', $this->translator->translate('message_introduction')
+			'header', $this->getTranslator()->translate('message_introduction')
 		);
 		$templateHelper->setSubpart(
 			'CONTENT_ITEM', implode(LF, $contentItem)
 		);
 		$templateHelper->setMarker(
-			'footer', $this->translator->translate('message_explanation')
+			'footer', $this->getTranslator()->translate('message_explanation')
 		);
 
 		$result = $templateHelper->getSubpart('EMAIL_BODY');
 
 		$templateHelper->__destruct();
-		unset($templateHelper);
 
 		return $result;
 	}
@@ -761,15 +776,15 @@ class tx_realty_openImmoImport {
 		foreach ($addressesAndMessages as $address => $content) {
 			tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
 				$address,
-				$this->translator->translate('label_subject_openImmo_import'),
+				$this->getTranslator()->translate('label_subject_openImmo_import'),
 				$this->fillEmailTemplate($content)
 			);
 		}
 
 		if (!empty($addressesAndMessages)) {
 			$this->addToLogEntry(
-				$this->translator->translate('message_log_sent_to').': '
-					.implode(', ', array_keys($addressesAndMessages))
+				$this->getTranslator()->translate('message_log_sent_to') .
+					': ' . implode(', ', array_keys($addressesAndMessages))
 			);
 		}
 	}
@@ -846,7 +861,7 @@ class tx_realty_openImmoImport {
 			if ($extractionDirectory != '') {
 				$zip->extractTo($extractionDirectory);
 				$this->addToLogEntry(
-					$zipToExtract.': '.$this->translator->translate(
+					$zipToExtract . ': ' . $this->getTranslator()->translate(
 						'message_extracted_successfully'
 					)
 				);
@@ -854,7 +869,7 @@ class tx_realty_openImmoImport {
 			$zip->close();
 		} else {
 			$this->addToErrorLog(
-				$zipToExtract.': '.$this->translator->translate(
+				$zipToExtract . ': ' . $this->getTranslator()->translate(
 					'message_extraction_failed'
 				)
 			);
@@ -895,8 +910,8 @@ class tx_realty_openImmoImport {
 			$this->filesToDelete[] = $folderForZipExtraction;
 		} else {
 			$this->addToErrorLog(
-				$folderForZipExtraction.': '
-					.$this->translator->translate('message_surplus_folder')
+				$folderForZipExtraction . ': ' .
+					$this->getTranslator()->translate('message_surplus_folder')
 			);
 			$folderForZipExtraction = '';
 		}
@@ -941,8 +956,8 @@ class tx_realty_openImmoImport {
 		// logs an error message if necessary
 		if (($errorMessage != '')) {
 			$this->addToErrorLog(
-				basename($pathOfZip).': '
-					.$this->translator->translate($errorMessage)
+				basename($pathOfZip) . ': ' .
+					$this->getTranslator()->translate($errorMessage)
 			);
 		}
 
@@ -1003,8 +1018,8 @@ class tx_realty_openImmoImport {
 			$errors = libxml_get_errors();
 			foreach ($errors as $error) {
 				$validationResult
-					.= $this->translator->translate('message_line')
-						.' '.$error->line.': '.$error->message;
+					.= $this->getTranslator()->translate('message_line') .
+						' ' . $error->line . ': ' . $error->message;
 			}
 		}
 
@@ -1025,30 +1040,30 @@ class tx_realty_openImmoImport {
 		switch ($validationResult) {
 			case '':
 				$this->addToLogEntry(
-					$this->translator->translate(
+					$this->getTranslator()->translate(
 						'message_successful_validation'
-					).LF
+					) . LF
 				);
 				break;
 			case 'message_no_schema_file':
 				$this->addToLogEntry(
-					$this->translator->translate($validationResult).' '
-						.$this->translator->translate(
+					$this->getTranslator()->translate($validationResult) . ' ' .
+						$this->getTranslator()->translate(
 							'message_import_without_validation'
 						)
 				);
 				break;
 			case 'message_invalid_schema_file_path':
 				$this->addToErrorLog(
-					$this->translator->translate($validationResult).' '
-						.$this->translator->translate(
+					$this->getTranslator()->translate($validationResult) . ' ' .
+						$this->getTranslator()->translate(
 							'message_import_without_validation'
 						)
 				);
 				break;
 			case 'message_validation_impossible':
 				$this->addToErrorLog(
-					$this->translator->translate($validationResult)
+					$this->getTranslator()->translate($validationResult)
 				);
 				break;
 			default:
@@ -1111,8 +1126,8 @@ class tx_realty_openImmoImport {
 
 		if (!empty($removedFiles)) {
 			$this->addToLogEntry(
-				$this->translator->translate('message_files_removed')
-					.': '.implode(', ', $removedFiles)
+				$this->getTranslator()->translate('message_files_removed') .
+					': ' . implode(', ', $removedFiles)
 			);
 		}
 	}
@@ -1174,7 +1189,9 @@ class tx_realty_openImmoImport {
 	 *              result row, or UID of an existing record
 	 */
 	protected function loadRealtyObject($data) {
-		$this->realtyObject = new tx_realty_object($this->isTestMode);
+		$className = t3lib_div::makeInstanceClassName('tx_realty_object');
+
+		$this->realtyObject = new $className($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data, true);
 	}
 

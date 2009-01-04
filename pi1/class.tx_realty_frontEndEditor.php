@@ -40,10 +40,14 @@ define('OBJECT_TYPE_RENT', 0);
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
-	/** @var array cached column names of tables */
-	private $tablesAndFieldNames = array();
+	/**
+	 * @var array cached column names of tables
+	 */
+	private static $tablesAndFieldNames = array();
 
-	/** @var array table names which are allowed as form values */
+	/**
+	 * @var array table names which are allowed as form values
+	 */
 	private static $allowedTables = array(
 		REALTY_TABLE_CITIES,
 		REALTY_TABLE_DISTRICTS,
@@ -52,6 +56,17 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		REALTY_TABLE_CAR_PLACES,
 		REALTY_TABLE_PETS,
 		STATIC_COUNTRIES,
+	);
+
+	/**
+	 * @var array field keys that are numeric
+	 */
+	private static $numericFields = array(
+		'number_of_rooms', 'living_area', 'total_area', 'estate_size',
+		'rent_excluding_bills', 'extra_charges', 'year_rent', 'floor', 'floors',
+		'bedrooms', 'bathrooms', 'garage_rent', 'garage_price',
+		'construction_year', 'exact_longitude', 'exact_latitude',
+		'rough_longitude', 'rough_latitude',
 	);
 
 	/**
@@ -117,7 +132,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$this->loadFieldNames($formData['table']);
 		$hasDummyColumn = isset(
-			$this->tablesAndFieldNames[$formData['table']]['is_dummy_record']
+			self::$tablesAndFieldNames[$formData['table']]['is_dummy_record']
 		);
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -804,7 +819,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$this->loadFieldNames(REALTY_TABLE_OBJECTS);
 
 		foreach (array_keys($formData) as $key) {
-			if (!isset($this->tablesAndFieldNames[REALTY_TABLE_OBJECTS][$key])) {
+			if (!isset(self::$tablesAndFieldNames[REALTY_TABLE_OBJECTS][$key])) {
 				unset($formData[$key]);
 			}
 		}
@@ -896,28 +911,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array form data, will be modified, must not be empty
 	 */
 	private function unifyNumbersToInsert(array &$formData) {
-		$numericFields = array(
-			'number_of_rooms',
-			'living_area',
-			'total_area',
-			'estate_size',
-			'rent_excluding_bills',
-			'extra_charges',
-			'year_rent',
-			'floor',
-			'floors',
-			'bedrooms',
-			'bathrooms',
-			'garage_rent',
-			'garage_price',
-			'construction_year',
-			'exact_longitude',
-			'exact_latitude',
-			'rough_longitude',
-			'rough_latitude',
-		);
-
-		foreach ($numericFields as $key) {
+		foreach (self::$numericFields as $key) {
 			if (isset($formData[$key])) {
 				$formData[$key] = $this->unifyNumber($formData[$key]);
 			}
@@ -1047,7 +1041,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		$this->loadFieldNames($tableName);
-		if (!isset($this->tablesAndFieldNames[$tableName][$fieldName])) {
+		if (!isset(self::$tablesAndFieldNames[$tableName][$fieldName])) {
 			throw new Exception(
 				'"' . $fieldName . '" is not a valid column name for ' .
 				$tableName . '.'
@@ -1058,7 +1052,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
-	 * Writes the column names of $table to $this->tablesAndFieldNames if they
+	 * Writes the column names of $table to self::$tablesAndFieldNames if they
 	 * are not cached yet.
 	 *
 	 * @param string table name, must not be empty
@@ -1066,13 +1060,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	private function loadFieldNames($table) {
 		// To reduce database queries in order to improve performance, the
 		// column names stored in an member variable.
-		if (isset($this->tablesAndFieldNames[$table])
-			&& !empty($this->tablesAndFieldNames[$table])
+		if (isset(self::$tablesAndFieldNames[$table])
+			&& !empty(self::$tablesAndFieldNames[$table])
 		) {
 			return;
 		}
 
-		$this->tablesAndFieldNames[$table]
+		self::$tablesAndFieldNames[$table]
 			= $GLOBALS['TYPO3_DB']->admin_get_fields($table);
 	}
 
