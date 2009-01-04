@@ -33,18 +33,24 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
-	/** @var path to this script relative to the extension dir */
-	public $scriptRelPath = 'pi1/class.tx_realty_frontEndView.php';
+	/**
+	 * @var string path to this script relative to the extension dir
+	 */
+	public $scriptRelPath = 'pi1/class.tx_realty_pi1_FrontEndView.php';
 
-	/** @var string same as plugin name */
+	/**
+	 * @var string same as plugin name
+	 */
 	public $prefixId = 'tx_realty_pi1';
 
-	/** @var string the extension key */
+	/**
+	 * @var string the extension key
+	 */
 	public $extKey = 'realty';
 
 	/**
 	 * The constructor. Initializes the TypoScript configuration, initializes
-	 * the flex forms, gets the template HTML code, sets the localized labels
+	 * the flexforms, gets the template HTML code, sets the localized labels
 	 * and set the CSS classes from TypoScript.
 	 *
 	 * @param array TypoScript configuration for the plugin
