@@ -87,6 +87,29 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	///////////////////////////////
 
 	/**
+	 * Renders the form and removes the "for" attribute for the object number
+	 * label if this field is read-only and the for attribute label for the
+	 * spacers.
+	 *
+	 * @param array unused
+	 *
+	 * @return string the HTML output for the FE editor, will not be empty
+	 */
+	public function render(array $unused = array()) {
+		$result = parent::render();
+
+		if ($this->isObjectNumberReadonly()) {
+			$result = str_replace(
+				' for=\'tx_realty_frontEndEditor_object_number\'', '', $result
+			);
+		}
+
+		return preg_replace(
+			'/ for=\'tx_realty_frontEndEditor_spacer_\d{2}\'/', '', $result
+		);
+	}
+
+	/**
 	 * Checks whether the object number is readonly.
 	 *
 	 * @return	boolean		true if the object number is readonly, false
