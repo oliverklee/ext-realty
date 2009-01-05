@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2315] Fix: Invalid HTML when editing an existing object
 - [#2540] Feature: Add and use class tx_realty_pi1_Formatter
 - [#1858] Change: Speed up the unit tests
 - [#2494] Change: The autoloader should include the constants
