@@ -26,17 +26,11 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncluder.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_offererList.php');
-
-// field types for realty objects
-define('TYPE_NUMERIC', 0);
-define('TYPE_STRING', 1);
-define('TYPE_BOOLEAN', 2);
 
 /**
  * Plugin 'Realty List' for the 'realty' extension.
@@ -81,65 +75,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *            [uid][fieldname]
 	 */
 	private $favoritesDataVerbose;
-
-	/**
-	 * Display types of the records fields with the column names as keys.
-	 * These types are used for deciding whether to display or hide a field
-	 */
-	private $fieldTypes = array(
-		'object_number' => TYPE_STRING,
-		'object_type' => TYPE_STRING,
-		'title' => TYPE_STRING,
-		'emphasized' => TYPE_STRING,
-		'street' => TYPE_STRING,
-		'zip' => TYPE_STRING,
-		'city' => TYPE_STRING,
-		'district' => TYPE_STRING,
-		'country' => TYPE_STRING,
-		'number_of_rooms' => TYPE_STRING,
-		'living_area' => TYPE_NUMERIC,
-		'total_area' => TYPE_NUMERIC,
-		'estate_size' => TYPE_NUMERIC,
-		'rent_excluding_bills' => TYPE_NUMERIC,
-		'extra_charges' => TYPE_NUMERIC,
-		'heating_included' => TYPE_BOOLEAN,
-		'has_air_conditioning' => TYPE_BOOLEAN,
-		'has_pool' => TYPE_BOOLEAN,
-		'has_community_pool' => TYPE_BOOLEAN,
-		'hoa_fee' => TYPE_NUMERIC,
-		'deposit' => TYPE_STRING,
-		'provision' => TYPE_STRING,
-		'usable_from' => TYPE_STRING,
-		'buying_price' => TYPE_STRING,
-		'year_rent' => TYPE_STRING,
-		'rented' => TYPE_BOOLEAN,
-		'apartment_type' => TYPE_STRING,
-		'house_type' => TYPE_STRING,
-		'floor' => TYPE_NUMERIC,
-		'floors' => TYPE_NUMERIC,
-		'bedrooms' => TYPE_NUMERIC,
-		'bathrooms' => TYPE_NUMERIC,
-		'heating_type' => TYPE_STRING,
-		'garage_type' => TYPE_STRING,
-		'garage_rent' => TYPE_NUMERIC,
-		'garage_price' => TYPE_NUMERIC,
-		'pets' => TYPE_STRING,
-		'construction_year' => TYPE_NUMERIC,
-		'old_or_new_building' => TYPE_NUMERIC,
-		'state' => TYPE_STRING,
-		'balcony' => TYPE_BOOLEAN,
-		'garden' => TYPE_BOOLEAN,
-		'elevator' => TYPE_BOOLEAN,
-		'barrier_free' => TYPE_BOOLEAN,
-		'assisted_living' => TYPE_BOOLEAN,
-		'fitted_kitchen' => TYPE_BOOLEAN,
-		'teaser' => TYPE_STRING,
-		'description' => TYPE_STRING,
-		'equipment' => TYPE_STRING,
-		'layout' => TYPE_STRING,
-		'location' => TYPE_STRING,
-		'misc' => TYPE_STRING,
-	);
 
 	/**
 	 * @var array sort criteria that can be selected in the BE flexforms.
@@ -241,6 +176,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns the HTML for the current view.
 	 *
+	 * @see Bug #2432
+	 *
 	 * @return string HTML for the current view, will not be empty
 	 */
 	private function getHtmlForCurrentView() {
@@ -260,7 +197,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$filterForm->__destruct();
 				break;
 			case 'single_view':
-				$result = $this->createSingleView();
+				$singleViewClassName = t3lib_div::makeInstanceClassName(
+					'tx_realty_pi1_SingleView'
+				);
+				$singleView = new $singleViewClassName($this->conf, $this->cObj);
+				$result = $singleView->render($this->piVars);
+				$singleView->__destruct();
+
+				// TODO: This can be moved to the single view class when
+				// Bug #2432 is fixed.
+				if ($result == '') {
+					$this->setEmptyResultView();
+					tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+						->addHeader('Status: 404 Not Found');
+					$result = $this->getSubpart('SINGLE_VIEW');
+				}
 				break;
 			case 'contact_form':
 				$contactFormClassName = t3lib_div::makeInstanceClassName(
@@ -745,108 +696,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Displays a single item from the database. If access to the single view
-	 * is denied, a message with a link to the login page will be displayed
-	 * instead. If the requested record is not availiable, e.g. if the UID is
-	 * invalid or the record is hidden, the result will be an error message.
-	 *
-	 * @return string HTML of a single database entry or an error message
-	 *                with a link to the login page if access is denied or
-	 *                an empty result message if the requested record is
-	 *                not availiable, will not be empty
-	 */
-	private function createSingleView() {
-		if (!$this->isAccessToSingleViewPageAllowed()) {
-			$this->setMarker('login_link', $this->createLinkToSingleViewPage(
-				$this->translate('message_please_login'),
-				$this->piVars['showUid']
-			));
-			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-				->addHeader('Status: 403 Forbidden');
-
-			return $this->getSubpart('ACCESS_DENIED_VIEW');
-		}
-
-		$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
-
-		if (empty($this->internal['currentRow'])) {
-			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-				->addHeader('Status: 404 Not Found');
-			$this->setEmptyResultView();
-		} else {
-			if ($this->getConfValueString('galleryType') == 'lightbox') {
-				tx_realty_lightboxIncluder::includeLightboxFiles(
-					$this->prefixId, $this->extKey
-				);
-			}
-
-			$googleMapsClassName = t3lib_div::makeInstanceClassName(
-				'tx_realty_pi1_GoogleMapsView'
-			);
-			$googleMapsView = new $googleMapsClassName(
-				$this->conf, $this->cObj, $this->isTestMode
-			);
-			$googleMapsView->setMapMarker($this->piVars['showUid']);
-			$this->setSubpart('google_map', $googleMapsView->render());
-			$googleMapsView->__destruct();
-
-			// This sets the title of the page for display and for use in
-			// indexed search results.
-			if (!empty($this->internal['currentRow']['title'])) {
-				$GLOBALS['TSFE']->page['title']
-					= $this->internal['currentRow']['title'];
-				$GLOBALS['TSFE']->indexedDocTitle
-					= $this->internal['currentRow']['title'];
-			}
-
-			// stuff that should always be visible
-			foreach (array('title', 'uid') as $key) {
-				$this->setMarker($key, $this->internal['currentRow'][$key]);
-			}
-
-			// string stuff that should conditionally be visible
-			foreach (array(
-				'object_number', 'description', 'location', 'equipment', 'misc'
-			) as $key) {
-				$this->setOrDeleteMarkerIfNotEmpty(
-					$key,
-					$this->getFormatter()->getProperty($key),
-					'',
-					'field_wrapper'
-				);
-			}
-
-			$this->setMarker(
-				'address', $this->getFormatter()->getProperty('address')
-			);
-
-			$this->fillOrHideOffererWrapper();
-
-			$piVars = $this->piVars;
-			unset($piVars['DATA']);
-
-			// marker for button
-			$this->setMarker('back_url', $this->cObj->typoLink_URL( array(
-				'parameter' => $GLOBALS['TSFE']->id,
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					'', array(
-						$this->prefixId => t3lib_div::array_merge_recursive_overrule(
-							$piVars, array('showUid' => '')
-						),
-					)
-				),
-			)));
-			$this->setMarker('favorites_url', $this->getFavoritesUrl());
-
-			$this->fillOrHideContactWrapper();
-			$this->createOverviewTableInSingleView();
-			$this->setSubpart('images_list', $this->createImagesInSingleView());
-		}
-
-		return $this->getSubpart('SINGLE_VIEW');
-	}
-
-	/**
 	 * Returns a list row according to the current 'showUid'.
 	 *
 	 * @return array record to display in the single view, will be empty
@@ -879,139 +728,36 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Fills the contact wrapper if there is information to display and
-	 * displaying contact information is enabled for the current view. Otherwise
-	 * hides the complete wrapper.
+	 * Fills the wrapper with the link to the contact form if displaying contact
+	 * information is enabled for the favorites view. Otherwise hides the
+	 * complete wrapper.
 	 */
 	private function fillOrHideContactWrapper() {
-		$showContactWrapper = false;
-
-		if (($this->getCurrentView() == 'single_view')
-			&& $this->getConfValueBoolean('allowDirectRequestsForObjects')
-			&& ($this->getConfValueInteger('contactPID') != $this->getConfValueInteger('singlePID'))
+		if (($this->getCurrentView() != 'favorites')
+			|| !$this->hasConfValueInteger('contactPID')
 		) {
-			$piVarsArray = array('showUid' => $this->piVars['showUid']);
-			$showContactWrapper = true;
-		} elseif (($this->getCurrentView() == 'favorites')
-			&& !$this->getConfValueBoolean('allowDirectRequestsForObjects')
-			&& ($this->getConfValueInteger('contactPID') != $this->getConfValueInteger('favoritesPID'))
-		) {
-			$piVarsArray = array();
-			$showContactWrapper = true;
+			$this->hideSubparts('contact', 'wrapper');
+			return;
 		}
 
-		if ($this->hasConfValueInteger('contactPID') && $showContactWrapper) {
-			$pageId = $this->getConfValueInteger('contactPID');
-
-			if (!$pageId) {
-				$pageId = $GLOBALS['TSFE']->id;
-			}
-
+		if (!$this->getConfValueBoolean('allowDirectRequestsForObjects')
+			&& ($this->getConfValueInteger('contactPID')
+				!= $this->getConfValueInteger('favoritesPID')
+			)
+		) {
 			$piVars = $this->piVars;
 			unset($piVars['DATA']);
 
-			$contactUrl = htmlspecialchars(
-				$this->cObj->typoLink_URL(
-					array(
-						'parameter' => $pageId,
-						'additionalParams' => t3lib_div::implodeArrayForUrl(
-							'',
-							array(
-								$this->prefixId => t3lib_div::array_merge_recursive_overrule(
-									$piVars,
-									$piVarsArray
-								),
-							)
-						),
-					)
-				)
-			);
+			$contactUrl = htmlspecialchars($this->cObj->typoLink_URL(array(
+				'parameter' => $this->getConfValueInteger('contactPID'),
+				'additionalParams' => t3lib_div::implodeArrayForUrl(
+					'', array($this->prefixId => $piVars)
+				),
+			)));
 			$this->setMarker('contact_url', $contactUrl);
 		} else {
 			$this->hideSubparts('contact', 'wrapper');
 		}
-	}
-
-	/**
-	 * Fills the subpart ###OVERVIEW_TABLE### with the contents of the current
-	 * record's DB fields specified via the TS setup variable
-	 * "fieldsInSingleViewTable"".
-	 *
-	 * @return boolean true if at least one row has been filled, false otherwise
-	 */
-	private function createOverviewTableInSingleView() {
-		$result = false;
-
-		$rows = array();
-		$rowCounter = 0;
-		$fieldNames = explode(',', $this->getConfValueString('fieldsInSingleViewTable'));
-
-		foreach ($fieldNames as $currentFieldName) {
-			$trimmedFieldName = trim($currentFieldName);
-			// Is the field name valid?
-			if (isset($this->fieldTypes[$trimmedFieldName])) {
-				$isRowSet = false;
-				switch($this->fieldTypes[$trimmedFieldName]) {
-					case TYPE_NUMERIC:
-						$isRowSet = $this->setMarkerIfNotZero('data_current_row',
-							$this->getFormatter()->getProperty($trimmedFieldName));
-						break;
-					case TYPE_STRING:
-						$isRowSet = $this->setMarkerIfNotEmpty('data_current_row',
-							$this->getFormatter()->getProperty($trimmedFieldName));
-						break;
-					case TYPE_BOOLEAN:
-						if ($this->internal['currentRow'][$trimmedFieldName]) {
-							$this->setMarker('data_current_row', $this->translate('message_yes'));
-							$isRowSet = true;
-						}
-						break;
-					default:
-						break;
-				}
-				if ($isRowSet) {
-					$position = ($rowCounter % 2) ? 'odd' : 'even';
-					$this->setMarker('class_position_in_list', $position);
-					$this->setMarker('label_current_row', $this->pi_getLL('label_'.$trimmedFieldName));
-					$rows[] = $this->getSubpart('OVERVIEW_ROW');
-					$rowCounter++;
-					$result = true;
-				}
-			}
-		}
-
-		$this->setSubpart('overview_table', implode(LF, $rows));
-
-		return $result;
-	}
-
-	/**
-	 * Creates all images that are attached to the current record.
-	 *
-	 * Each image's size is limited by singleImageMaxX and singleImageMaxY
-	 * in TS setup.
-	 *
-	 * @return string HTML for the images
-	 */
-	private function createImagesInSingleView() {
-		$result = '';
-		$counter = 0;
-
-		// Tries to get an image complete with a tag and image tag, if an empty
-		// string is returned the current object has no images.
-		$currentImage = $this->getLinkedImage('singleImageMax');
-
-		while (!empty($currentImage)) {
-			$counter++;
-			$this->setMarker('one_image_tag', $currentImage);
-			$result .= $this->getSubpart('ONE_IMAGE_CONTAINER');
-			$currentImage = $this->getLinkedImage(
-				'singleImageMax',
-				$counter
-			);
-		}
-
-		return $result;
 	}
 
 	/**
@@ -1225,59 +971,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Fills the field wrapper "offerer" if displaying contact information is
-	 * enabled and if there is data for this wrapper. Otherwise the complete
-	 * wrapper is hidden.
-	 */
-	private function fillOrHideOffererWrapper() {
-		$contactData = $this->fetchContactDataFromSource();
-
-		if ($contactData != '') {
-			$this->setMarker('OFFERER_INFORMATION', $contactData);
-		} else {
-			$this->hideSubparts('offerer', 'field_wrapper');
-		}
-	}
-
-	/**
-	 * Fetches the contact data from the source defined in the realty record and
-	 * returns it in an array.
-	 *
-	 * @return string HTML with the contact data, will be empty if none was
-	 *                found
-	 */
-	private function fetchContactDataFromSource() {
-		$offererListClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_offererList'
-		);
-		$offererList = new $offererListClassName($this->conf, $this->cObj);
-
-		switch ($this->getFormatter()->getProperty('contact_data_source')) {
-			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
-				$result = $offererList->renderOneItem(
-					$this->internal['currentRow']['owner']
-				);
-				break;
-			case REALTY_CONTACT_FROM_REALTY_OBJECT:
-				$result = $offererList->renderOneItemWithTheDataProvided(
-					array(
-						'email' => $this->internal['currentRow']['contact_email'],
-						'company' => $this->internal['currentRow']['employer'],
-						'telephone' => $this->internal['currentRow']['contact_phone'],
-						'name' => $this->internal['currentRow']['contact_person'],
-					)
-				);
-				break;
-			default:
-				$result = '';
-				break;
-		}
-		$offererList->__destruct();
-
-		return $result;
-	}
-
-	/**
 	 * Returns the title of the current object linked to the single view page.
 	 */
 	private function getLinkedTitle() {
@@ -1377,115 +1070,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Gets an image from the current record's image list as a complete IMG tag
-	 * with alt text and title text (the image caption as defined in the DB),
-	 * wrapped in a link pointing to the image gallery.
-	 *
-	 * The PID of the target page can be set using flexforms.
-	 *
-	 * If galleryPopupParameters is set in TS setup, the link will have an
-	 * additional onclick handler to open the gallery in a pop-up window.
-	 *
-	 * If the gallery type "lightbox" is set in TS setup, the lightbox "rel"
-	 * attribute will be added to the a tag and the URL will link to the
-	 * full-size picture.
-	 *
-	 * The image's size can be limited by two TS setup variables.
-	 * Their names need to begin with the string defined as $maxSizeVariable.
-	 * The variable for the maximum width will then have the name set in
-	 * $maxSizVariable with a "X" appended. The variable for the maximum height
-	 * works the same, just with a "Y" appended.
-	 *
-	 * Example: If $maxSizeVariable is set to "listImageMax", the maximum width
-	 * and height should be stored in the TS setup variables "listImageMaxX" and
-	 * "listImageMaxY".
-	 *
-	 * If no image is found, an empty string is returned.
-	 *
-	 * @param string prefix to the TS setup variables that define the max size,
-	 *               will be prepended to "X" and "Y"
-	 * @param integer the number of the image to retrieve, must be >= 0
-	 *
-	 * @return string image tag wrapped in a link, may be empty
-	 */
-	private function getLinkedImage($maxSizeVariable, $offset = 0) {
-		$imageTag = $this->getImageTag($maxSizeVariable, $offset);
-		$imageRecord = $this->getImage($offset);
-		$useLightbox = ($this->getConfValueString('galleryType') == 'lightbox');
-		$linkAttribute = '';
-		$result = '';
-
-		if (($imageTag != '') &&
-			($this->hasConfValueInteger('galleryPID') || $useLightbox)
-		) {
-			if ($useLightbox) {
-				$imageLinkDestination = $this->uploadDirectory .
-					$imageRecord['image'];
-				$linkAttribute =
-					' rel="lightbox[objectGallery]" ' .
-					'title="' . $imageRecord['caption'] . '"'
-					;
-			} else {
-				$imageLinkDestination = $this->getConfValueInteger('galleryPID');
-			}
-			$galleryUrl = $this->createGalleryUrl(
-				$imageLinkDestination,
-				$offset
-			);
-
-			if (($linkAttribute == '') &&
-				$this->hasConfValueString('galleryPopupParameters')
-			) {
-				$linkAttribute =
-					' onclick="window.open(' .
-					'\'' . $galleryUrl . '\', ' .
-					'\'' . $this->getConfValueString('galleryPopupWindowName') . '\', ' .
-					'\'' . $this->getConfValueString('galleryPopupParameters') . '\' ' .
-					'); ' . 'return false;"';
-			}
-			$result = '<a href="' . $galleryUrl . '"' . $linkAttribute . '>'
-				. $imageTag . '</a>';
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Creates the URL of a gallery image.
-	 *
-	 * @param string the destination of the image link, must not be empty.
-	 * @param integer the number of the image to retrieve, must be >= 0
-	 *
-	 * @return string the URL to the current gallery image, will not be empty
-	 */
-	private function createGalleryUrl($linkDestination, $offset = 0) {
-		if ($linkDestination == '') {
-			throw new Exception(
-				'The destination for the image URL was empty.'
-			);
-		}
-
-		$urlParameters = array(
-			'showUid' => $this->internal['currentRow']['uid'],
-			'image' => $offset,
-		);
-
-		return htmlspecialchars(
-			t3lib_div::locationHeaderUrl(
-				$this->cObj->typoLink_URL(
-					array(
-						'parameter' => $linkDestination,
-						'additionalParams' => t3lib_div::implodeArrayForUrl(
-							$this->prefixId, $urlParameters
-						),
-						'useCacheHash' => true,
-					)
-				)
-			)
-		);
 	}
 
 	/**

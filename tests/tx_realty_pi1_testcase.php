@@ -2589,7 +2589,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	public function testContactLinkIsNotDisplayedInTheSingleViewIfTheContactFormHasTheSamePid() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
-		$this->fixture->setConfigurationValue('contactPID', $this->singlePid);
+		$this->fixture->setConfigurationValue('contactPID', $GLOBALS['TSFE']->id);
 		$this->fixture->piVars['showUid'] = $this->secondRealtyUid;
 
 		$this->assertNotContains(
