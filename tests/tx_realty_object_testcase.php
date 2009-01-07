@@ -109,7 +109,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES, $this->testingFramework->getListOfDirtyTables()
 		)) {
 			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-				'sys_refindex', 'ref_string = "uploads/tx_realty/bar"'
+				'sys_refindex', 'ref_string = "' . REALTY_UPLOAD_FOLDER . 'bar"'
 			);
 		}
 

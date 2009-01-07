@@ -1,4 +1,5 @@
 0.3.2 - currently working on
+- [#2355] Change: Use a constant for the path to the upload folder
 - [#2315] Fix: Invalid HTML when editing an existing object
 
 0.3.1 - released 2009-01-01

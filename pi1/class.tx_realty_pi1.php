@@ -52,8 +52,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	public $scriptRelPath = 'pi1/class.tx_realty_pi1.php';
 	/** the extension key */
 	public $extKey = 'realty';
-	/** the upload directory for images */
-	private $uploadDirectory = 'uploads/tx_realty/';
 	/** the names of the DB tables for foreign keys */
 	private $tableNames = array(
 		'objects' => REALTY_TABLE_OBJECTS,
@@ -1578,7 +1576,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	string		IMG tag
 	 */
 	private function createImageTag($filename, $maxSizeVariable, $caption = '') {
-		$fullPath = $this->uploadDirectory . $filename;
+		$fullPath = REALTY_UPLOAD_FOLDER . $filename;
 		$maxWidth = $this->getConfValueInteger($maxSizeVariable.'X');
 		$maxHeight = $this->getConfValueInteger($maxSizeVariable.'Y');
 

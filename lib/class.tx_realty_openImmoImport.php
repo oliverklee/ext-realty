@@ -105,7 +105,7 @@ class tx_realty_openImmoImport {
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 		$this->translator = t3lib_div::makeInstance('tx_realty_translator');
 		$this->fileNameMapper = t3lib_div::makeInstance('tx_realty_fileNameMapper');
-		$this->setUploadDirectory(PATH_site . 'uploads/tx_realty/');
+		$this->setUploadDirectory(PATH_site . REALTY_UPLOAD_FOLDER);
 	}
 
 	/**
