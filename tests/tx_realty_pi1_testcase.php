@@ -927,6 +927,26 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests for data in the list view
 	////////////////////////////////////
 
+	public function testListViewDisplaysNoMarkersForEmptyRenderedObject() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				// A city is the minimum requirement for an object to be displayed,
+				// though the object is rendered empty because the city has no title.
+				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'pid' => $systemFolder
+			)
+		);
+
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testListViewFillsMarkerForObjectNumber() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
@@ -1082,6 +1102,43 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'###TEASER###',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewDisplaysTheSecondObjectsTeaserIfTheFirstOneDoesNotHaveATeaser() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('teaser' => 'test teaser')
+		);
+
+		$this->assertContains(
+			'test teaser',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewDisplaysFeatureParagraphForListItemWithFeatures() {
+		// Among other things, the object number is rendered within this paragraph.
+		$this->assertContains(
+			'<p class="details">',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewDoesNotDisplayFeatureParagraphForListItemWithoutFeatures() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder
+			)
+		);
+
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertNotContains(
+			'<p class="details">',
 			$this->fixture->main('', array())
 		);
 	}

@@ -423,6 +423,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function fillListRows() {
 		$dbResult = $this->initListView();
+
 		if ($this->internal['res_count'] == 0) {
 			$this->setEmptyResultView();
 			return;
@@ -1025,12 +1026,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *                (alternative based on odd/even rows)
 	 */
 	private function createListRow($rowCounter = 0) {
-		$this->unhideSubparts(
-			'rent_excluding_bills,extra_charges,buying_price,extra_charges,' .
-				'number_of_rooms,teaser',
-			'',
-			'wrapper'
-		);
+		$this->resetListViewSubparts();
 
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarker('class_position_in_list', $position);
@@ -1214,6 +1210,23 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Unhides all subparts that might have been hidden after filling one list
+	 * row.
+	 *
+	 * All subparts that are conditionally displayed, depending on the data of
+	 * each list item are affected.
+	 */
+	private function resetListViewSubparts() {
+		$this->unhideSubparts(
+			'linked_title,features,teaser,city,living_area,rent_excluding_bills,' .
+				'buying_price,district,number_of_rooms,extra_charges,' .
+				'list_image_left,list_image_right',
+			'',
+			'wrapper'
+		);
+	}
+
+	/**
 	 * Fills the field wrapper "offerer" if displaying contact information is
 	 * enabled and if there is data for this wrapper. Otherwise the complete
 	 * wrapper is hidden.
@@ -1319,10 +1332,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$features[] = $this->translate('label_construction_year') . ' ' .
 				$this->internal['currentRow']['construction_year'];
 		}
-
-		$features[] = $this->translate('label_usable_from_short') . ' ' .
-			$this->getFormatter()->getProperty('usable_from');
-
+		if ($this->internal['currentRow']['usable_from'] != '') {
+			$features[] = $this->translate('label_usable_from_short') . ' ' .
+				$this->getFormatter()->getProperty('usable_from');
+		}
 		if (!empty($this->internal['currentRow']['object_number'])) {
 			$features[] = $this->translate('label_object_number') . ' ' .
 				$this->internal['currentRow']['object_number'];
