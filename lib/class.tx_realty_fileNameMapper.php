@@ -24,6 +24,8 @@
 
 require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+
 /**
  * Class 'tx_realty_fileNameMapper' for the 'realty' extension.
  *
@@ -51,7 +53,7 @@ class tx_realty_fileNameMapper {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->destinationPath = PATH_site . 'uploads/tx_realty/';
+		$this->destinationPath = PATH_site . REALTY_UPLOAD_FOLDER;
 	}
 
 	/**
