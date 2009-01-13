@@ -370,39 +370,30 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *                image with the provided number
 	 */
 	private function getLinkedImage($imageNumber = 0) {
-		if (!$this->hasConfValueInteger('galleryPID')
-			&& ($this->getConfValueString('galleryType') != 'lightbox')
-		) {
+		$isLightboxGallery
+			= ($this->getConfValueString('galleryType') == 'lightbox');
+
+		if (!$this->hasConfValueInteger('galleryPID') && !$isLightboxGallery) {
 			return '';
 		}
 
 		$imageRecord = $this->getImage($imageNumber);
+
 		if (empty($imageRecord)) {
 			return '';
 		}
 
-		$result = '';
+		$galleryUrl = $this->createGalleryUrl(
+			$isLightboxGallery
+				? REALTY_UPLOAD_FOLDER . $imageRecord['image']
+				: $this->getConfValueInteger('galleryPID'),
+			$imageNumber
+		);
 
-		if ($this->getConfValueString('galleryType') == 'lightbox') {
-			$linkAttribute = ' rel="lightbox[objectGallery]" title="' .
-				$imageRecord['caption'] . '"';
-			$imageLinkDestination = REALTY_UPLOAD_FOLDER . $imageRecord['image'];
-		} else {
-			$linkAttribute = '';
-			$imageLinkDestination = $this->getConfValueInteger('galleryPID');
-		}
-
-		$galleryUrl = $this->createGalleryUrl($imageLinkDestination, $imageNumber);
-
-		if (($linkAttribute == '') &&
-			$this->hasConfValueString('galleryPopupParameters')
-		) {
-			$linkAttribute = ' onclick="window.open(' .
-				'\'' . $galleryUrl . '\', ' .
-				'\'' . $this->getConfValueString('galleryPopupWindowName') . '\', ' .
-				'\'' . $this->getConfValueString('galleryPopupParameters') . '\'' .
-				'); ' . 'return false;"';
-		}
+		$linkAttribute = $isLightboxGallery
+			? ' rel="lightbox[objectGallery]" title="' .
+				$imageRecord['caption'] . '"'
+			: $this->getGalleryPopUpParameters($galleryUrl);
 
 		$imageTag = $this->createRestrictedImage(
 			REALTY_UPLOAD_FOLDER . $imageRecord['image'],
@@ -413,10 +404,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			$imageRecord['caption']
 		);
 
-		$result = '<a href="' . $galleryUrl . '"' . $linkAttribute . '>' .
+		return '<a href="' . $galleryUrl . '"' . $linkAttribute . '>' .
 			$imageTag . '</a>';
-
-		return $result;
 	}
 
 	/**
@@ -456,6 +445,27 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 				'useCacheHash' => true,
 			)))
 		);
+	}
+
+	/**
+	 * Returns the gallery pop-up parameters as an onclick attribute.
+	 *
+	 * @param string URL to the gallery, must not be empty
+	 *
+	 * @return string gallery pop-up parameters as an onclick attribute
+	 *                beginning with " onclick=", will be empty if these
+	 *                parameters are not configured
+	 */
+	private function getGalleryPopUpParameters($galleryUrl) {
+		if (!$this->hasConfValueString('galleryPopupParameters')) {
+			return '';
+		}
+
+		return ' onclick="window.open(' .
+			'\'' . $galleryUrl . '\', ' .
+			'\'' . $this->getConfValueString('galleryPopupWindowName') . '\', ' .
+			'\'' . $this->getConfValueString('galleryPopupParameters') . '\'' .
+			'); ' . 'return false;"';
 	}
 
 	/**
