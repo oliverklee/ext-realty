@@ -23,10 +23,9 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
 /**
- * Class 'tx_realty_objectChild' for the 'realty' extension.
+ * Class 'tx_realty_Model_RealtyObjectChild' for the 'realty' extension.
  *
  * This is mere a class used for unit tests of the 'realty' extension. Don't
  * use it for any other purpose.
@@ -36,11 +35,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-final class tx_realty_objectChild extends tx_realty_object {
+final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObject {
 	public function recordExistsInDatabase(
-		$dataArray,
-		$alternativeKey,
-		$table = REALTY_TABLE_OBJECTS
+		$dataArray, $alternativeKey, $table = REALTY_TABLE_OBJECTS
 	) {
 		return parent::recordExistsInDatabase($dataArray, $alternativeKey, $table);
 	}
@@ -92,7 +89,7 @@ final class tx_realty_objectChild extends tx_realty_object {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_objectChild.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_objectChild.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_Model_RealtyObjectChild.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_Model_RealtyObjectChild.php']);
 }
 ?>

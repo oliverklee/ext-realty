@@ -24,7 +24,6 @@
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_mapMarker.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
 /**
  * Class 'tx_realty_pi1_GoogleMapsView' for the 'realty' extension.
@@ -38,16 +37,24 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
-	/** @var array collected map markers for the current view */
+	/**
+	 * @var array collected map markers for the current view
+	 */
 	private $mapMarkers = array();
 
-	/** @var tx_realty_object realty object */
+	/** 
+	 * @var tx_realty_Model_RealtyObject realty object
+	 */
 	private $realtyObject = null;
 
-	/** @var boolean whether the constructor is called in test mode */
+	/**
+	 * @var boolean whether the constructor is called in test mode
+	 */
 	private $isTestMode = false;
 
-	/** @var integer the Google Maps zoom factor for a single marker */
+	/**
+	 * @var integer the Google Maps zoom factor for a single marker
+	 */
 	const ZOOM_FOR_SINGLE_MARKER = 13;
 
 	/**
@@ -287,12 +294,12 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param integer realty object UID, must be >= 0
 	 *
-	 * @return tx_realty_object realty object with the provided UID
+	 * @return tx_realty_Model_RealtyObject realty object for the provided UID
 	 */
 	private function getRealtyObject($realtyObjectUid) {
 		if (!$this->realtyObject) {
 			$realtyObjectClassName
-				= t3lib_div::makeInstanceClassName('tx_realty_object');
+				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
 			$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
 		}
 		if ($this->realtyObject->getUid() != $realtyObjectUid) {

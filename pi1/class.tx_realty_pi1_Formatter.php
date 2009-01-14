@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
 /**
  * Class 'tx_realty_pi1_Formatter' for the 'realty' extension.
@@ -57,7 +56,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	const CROP_SIZE = 74;
 
 	/**
-	 * @var tx_realty_object realty object
+	 * @var tx_realty_Model_RealtyObject realty object
 	 */
 	private $realtyObject = null;
 
@@ -79,7 +78,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			throw new Exception('$realtyObjectUid must be greater than zero.');
 		}
 
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
+		$this->realtyObject
+			= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
 		$this->loadRealtyObject($realtyObjectUid);
 
 		if ($this->realtyObject->isRealtyObjectDataEmpty()) {

@@ -25,7 +25,6 @@
 require_once(PATH_formidableapi);
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 
 /**
  * Class 'tx_realty_frontEndForm' for the 'realty' extension. This class
@@ -38,10 +37,14 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
-	/** @var tx_ameosformidable object that creates the form */
+	/**
+	 * @var tx_ameosformidable object that creates the form
+	 */
 	protected $formCreator = null;
 
-	/** @var tx_realty_object */
+	/**
+	 * @var tx_realty_Model_RealtyObject realty object
+	 */
 	protected $realtyObject = null;
 
 	/**
@@ -50,10 +53,14 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 */
 	protected $realtyObjectUid = 0;
 
-	/** @var boolean whether the constructor is called in test mode */
+	/** 
+	 * @var boolean whether the constructor is called in test mode
+	 */
 	protected $isTestMode = false;
 
-	/** @var  array this is used to fake form values for testing */
+	/**
+	 * @var array this is used to fake form values for testing
+	 */
 	protected $fakedFormValues = array();
 
 	/**
@@ -80,7 +87,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObjectUid = $uidOfObjectToEdit;
 		$this->xmlPath = $xmlPath;
 
-		$objectClassName = t3lib_div::makeInstanceClassName('tx_realty_object');
+		$objectClassName
+			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
 		$this->realtyObject = new $objectClassName($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 

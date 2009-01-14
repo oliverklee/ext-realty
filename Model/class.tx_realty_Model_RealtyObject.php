@@ -30,7 +30,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLookup.php');
 
 /**
- * Class 'tx_realty_object' for the 'realty' extension.
+ * Class 'tx_realty_Model_RealtyObject' for the 'realty' extension.
  *
  * This class represents a realty object.
  *
@@ -40,7 +40,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLo
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_object {
+class tx_realty_Model_RealtyObject {
 	/** @var integer the length of cropped titles */
 	const CROP_SIZE = 32;
 
@@ -1297,7 +1297,7 @@ class tx_realty_object {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_object.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_RealtyObject.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_RealtyObject.php']);
 }
 ?>

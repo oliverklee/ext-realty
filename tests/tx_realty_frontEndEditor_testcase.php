@@ -25,7 +25,6 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 
 /**
@@ -112,7 +111,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	 * Creates one dummy record in each table for auxiliary records.
 	 */
 	private function createAuxiliaryRecords() {
-		$realtyObject = new tx_realty_object(true);
+		$realtyObject = new tx_realty_Model_RealtyObject(true);
 		$realtyObject->loadRealtyObject($this->dummyObjectUid);
 
 		foreach (array(

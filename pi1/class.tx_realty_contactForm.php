@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-
 /**
  * Class 'tx_realty_contactForm' for the 'realty' extension.
  * This class provides a contact form for the realty plugin.
@@ -45,7 +43,9 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		'summaryStringOfFavorites' => ''
 	);
 
-	/** @var tx_realty_object */
+	/**
+	 * @var tx_realty_Model_RealtyObject realty object
+	 */
 	private $realtyObject = null;
 
 	/**
@@ -55,7 +55,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * @param tslib_cObj the parent cObj content, needed for the flexforms
 	 */
 	public function __construct(array $configuration, tslib_cObj $cObj) {
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
+		$this->realtyObject
+			= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
 
 		parent::__construct($configuration, $cObj);
 	}

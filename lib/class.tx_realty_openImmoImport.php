@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_domDocumentConverter.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_fileNameMapper.php');
@@ -63,10 +62,14 @@ class tx_realty_openImmoImport {
 	 */
 	private $importedXml = null;
 
-	/** instance of tx_oelib_configuration_proxy to access the EM configuration */
+	/**
+	 * @var tx_oelib_configuration_proxy to access the EM configuration
+	 */
 	private $globalConfiguration = null;
 
-	/** instance of 'tx_realty_object' which inserts OpenImmo records to database */
+	/**
+	 * @var tx_realty_Model_RealtyObject inserts OpenImmo records to database
+	 */
 	private $realtyObject = null;
 
 	/**
@@ -1189,7 +1192,8 @@ class tx_realty_openImmoImport {
 	 *              result row, or UID of an existing record
 	 */
 	protected function loadRealtyObject($data) {
-		$className = t3lib_div::makeInstanceClassName('tx_realty_object');
+		$className
+			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
 
 		$this->realtyObject = new $className($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data, true);

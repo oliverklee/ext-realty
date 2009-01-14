@@ -25,7 +25,6 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
 
 /**
@@ -104,7 +103,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	 * Creates dummy image records in the DB.
 	 */
 	private function createImageRecords() {
-		$realtyObject = new tx_realty_object(true);
+		$realtyObject = new tx_realty_Model_RealtyObject(true);
 		$realtyObject->loadRealtyObject($this->dummyObjectUid);
 
 		$realtyObject->addImageRecord(self::$firstImageTitle, self::$firstImageFileName);

@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncluder.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_offererList.php');
 
@@ -44,7 +43,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	private $formatter = null;
 
 	/**
-	 * @var tx_realty_object realty object
+	 * @var tx_realty_Model_RealtyObject realty object
 	 */
 	private $realtyObject = null;
 
@@ -97,7 +96,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			return false;
 		}
 
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
+		$this->realtyObject
+			= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
 		$this->realtyObject->loadRealtyObject($uid, true);
 		if ($this->realtyObject->isRealtyObjectDataEmpty()) {
 			return false;

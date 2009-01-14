@@ -25,10 +25,11 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_objectChild.php');
+require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_Model_RealtyObjectChild.php');
 
 /**
- * Unit tests for the tx_realty_object class in the 'realty' extension.
+ * Unit tests for the tx_realty_Model_RealtyObject class in the 'realty'
+ * extension.
  *
  * @package TYPO3
  * @subpackage tx_realty
@@ -36,12 +37,20 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_o
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_object_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_objectChild */
+class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_realty_Model_RealtyObjectChild
+	 */
 	private $fixture;
-	/** @var tx_oelib_testingFramework */
+
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
-	/** @var tx_oelib_templatehelper */
+
+	/**
+	 * @var tx_oelib_templatehelper
+	 */
 	private $templateHelper;
 
 	/** UID of a dummy realty object */
@@ -62,7 +71,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
 	public function setUp() {
-		$this->fixture = new tx_realty_objectChild(true);
+		$this->fixture = new tx_realty_Model_RealtyObjectChild(true);
 		$this->templateHelper = new tx_oelib_templatehelper();
 		$this->templateHelper->setConfigurationValue(
 			'googleMapsApiKey', self::GOOGLE_MAPS_API_KEY
@@ -2488,7 +2497,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	////////////////////////////
 
 	public function testGetUidReturnsZeroForObjectWithoutUid() {
-		$realtyObject = new tx_realty_objectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
 
 		$this->assertEquals(
 			0,
@@ -2511,7 +2520,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	//////////////////////////////
 
 	public function testGetTitleReturnsEmptyStringForObjectWithoutTitle() {
-		$realtyObject = new tx_realty_objectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
 
 		$this->assertEquals(
 			'',
@@ -2536,7 +2545,7 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////
 
 	public function testGetCroppedTitleReturnsEmptyStringForObjectWithoutTitle() {
-		$realtyObject = new tx_realty_objectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
 
 		$this->assertEquals(
 			'',

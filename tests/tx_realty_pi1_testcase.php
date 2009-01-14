@@ -992,7 +992,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testCreateListViewShowsValueForOldOrNewBuilding() {
 		$this->testingFramework->changeRecord(
-			'tx_realty_objects',
+			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
 			array('old_or_new_building' => '1')
 		);

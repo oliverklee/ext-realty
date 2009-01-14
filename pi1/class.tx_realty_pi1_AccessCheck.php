@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php');
-
 /**
  * Class 'tx_realty_pi1_AccessCheck' for the 'realty' extension.
  *
@@ -36,7 +34,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_object.php')
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_pi1_AccessCheck {
-	/** @var tx_realty_object */
+	/**
+	 * @var tx_realty_Model_RealtyObject realty object
+	 */
 	private $realtyObject = null;
 
 	/**
@@ -209,11 +209,12 @@ class tx_realty_pi1_AccessCheck {
 	 *
 	 * @param integer realty object UID, must be >= 0
 	 *
-	 * @return tx_realty_object realty object with the provided UID
+	 * @return tx_realty_Model_RealtyObject realty object for the provided UID
 	 */
 	private function getRealtyObject($realtyObjectUid) {
 		if (!$this->realtyObject) {
-			$this->realtyObject = t3lib_div::makeInstance('tx_realty_object');
+			$this->realtyObject
+				= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
 		}
 		if ($this->realtyObject->getUid() != $realtyObjectUid) {
 			$this->realtyObject->loadRealtyObject($realtyObjectUid, true);
