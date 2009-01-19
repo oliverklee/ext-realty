@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2503] Feature: Add DB result and DB query exceptions and wrappers for executing queries
 - [#2577] Fix: Unused $result = ''; in tx_realty_pi1_SingleView::getLinkedImage
 - [#2355] Change: Move the single view to a separate class
 - [#2564] Fix: ###DISTRICT### in the list view with objects that have no disctrict

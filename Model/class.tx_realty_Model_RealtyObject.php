@@ -284,10 +284,8 @@ class tx_realty_Model_RealtyObject {
 			$this->ensureUid(
 				$this->realtyObjectData, 'object_number, language, openimmo_obid'
 			);
-			if (!$this->updateDatabaseEntry($this->realtyObjectData)) {
-				$errorMessage = 'message_updating_failed';
-			}
-			if ($this->getProperty('deleted') && ($errorMessage == '')) {
+			$this->updateDatabaseEntry($this->realtyObjectData);
+			if ($this->getProperty('deleted')) {
 				$this->deleteRelatedImageRecords();
 				$errorMessage = 'message_deleted_flag_causes_deletion';
 			}
@@ -885,13 +883,12 @@ class tx_realty_Model_RealtyObject {
 	/**
 	 * Updates an existing database entry. The provided data must contain the
 	 * element 'uid'.
-	 * The value for 'tstamp' is set automatically
+	 *
+	 * The value for 'tstamp' is set automatically.
 	 *
 	 * @param array database column names as keys to update an already existing
 	 *              entry, must at least contain an element with the key 'uid'
 	 * @param string name of the database table, must not be empty
-	 *
-	 * @return boolean true if the update query was succesful, false otherwise
 	 */
 	protected function updateDatabaseEntry(
 		array $realtyData,
@@ -904,9 +901,9 @@ class tx_realty_Model_RealtyObject {
 		$dataForUpdate = $realtyData;
 		$dataForUpdate['tstamp'] = mktime();
 
-		return (boolean) $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+		tx_oelib_db::update(
 			$table,
-			'uid=' . intval($dataForUpdate['uid']),
+			'uid = ' . intval($dataForUpdate['uid']),
 			$dataForUpdate
 		);
 	}

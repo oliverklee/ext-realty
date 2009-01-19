@@ -12,7 +12,6 @@
 			<label index="message_import_directory_not_writable">Importing is impossible because the configured import directory is not writable. Please fix file permissions or configure another directory and restart the import.</label>
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
-			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
 			<label index="message_deleted_flag_causes_deletion">Updating this record deletes the record.</label>
 			<label index="message_deleted_flag_set">This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</label>
@@ -49,7 +48,6 @@
 			<label index="message_import_directory_not_writable">Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut.</label>
 			<label index="message_no_zips">Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</label>
 			<label index="message_object_not_loaded">Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</label>
-			<label index="message_updating_failed">Während der Aktualisierung des Datensatzes trat ein Fehler auf. Der Datensatz konnte nicht aktualisiert werden.</label>
 			<label index="message_insertion_failed">Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</label>
 			<label index="message_deleted_flag_causes_deletion">Dieser Datensatz wird durch die Aktualisierung gelöscht.</label>
 			<label index="message_deleted_flag_set">Dieser Datensatz ist zum Löschen markiert. Da er noch nicht in der Datenbank existiert, wird er beim Importieren ignoriert.</label>
@@ -85,7 +83,6 @@
 			<label index="message_zip_archive_not_installed">Importen blev afbrudt fordi din PHP-installation mangler ZIP-fil funktion. Kompiler venligst PHP med ZIP-support ved at benytte &quot;--enable-zip&quot; konfigurationsoptionen. På et SUSE system skal pakkerne &quot;php5-zlib&quot; og &quot;dietzlib&quot; installeres</label>
 			<label index="message_no_zips">Ingen ZIP-filer at hente. Den konfigurerede importmappe indeholder ikke nogen ZIP-filer. Kontroller venligst den konfigurerede &quot;extension manager&quot; og indholdet af mappen.</label>
 			<label index="message_object_not_loaded">Datamængden kunne ikke downloades. På grund af ugyldigt indhold er datamængden muligvis ikke blevet importeret fuldstændigt</label>
-			<label index="message_updating_failed">En fejl opstod ved forsøget på opdatere denne datamængde. Databasen er ikke blevet opdateret.</label>
 			<label index="message_insertion_failed">En fejl opstod ved forsøget på skabe en ny database-fil. Databasen er ikke blevet opdateret</label>
 			<label index="message_deleted_flag_set">Denne datamængde er blevet markeret til sletning. Hvis den eksisterer i databasen vil den blive slettet. Ellers vil den blive ignoreret.</label>
 			<label index="message_written_to_database">Datamængden blev skrevet ind i databasen</label>
@@ -117,7 +114,6 @@
 			<label index="message_zip_archive_not_installed">La importación fue abortada debido a que su instalación de PHP no adminte las funciones de archivos ZIP. Por favor, compilar PHP con soporte ZIP usando la opción de configuración &quot;- enable-zip&quot; . En un sistema SUSE los paquetes &quot;php5-zlib&quot; y &quot;dietzlib&quot; deben estar instalados.</label>
 			<label index="message_no_zips">No existern archivos ZIPs a extraer. La carpeta configurada para la importación no contiene archivos ZIP. Por favor compruebe la ruta configurada en el administrador de extensiones y el econtenido de la carpeta.</label>
 			<label index="message_object_not_loaded">El registro no ha podido ser cargado. Debido a contenido inválido, el registro no ha sido cargado completamente.</label>
-			<label index="message_updating_failed">Un error ha ocurrido en el intento de actualización de este registro. El registro de la base de datos no ha sido actualizado.</label>
 			<label index="message_insertion_failed">Un error ha ocurrido en el intento de creación de un nuevo registro en la base de datos. Este registro no ha sido insertado en la base de datos.</label>
 			<label index="message_deleted_flag_set">Este registro esta seleccionado para su eliminación. Si existe en la base de datos, será eliminado. Si no es así, el registro será ignorado.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
@@ -152,7 +148,6 @@
 			<label index="message_import_directory_not_writable" type="integer">129869469</label>
 			<label index="message_no_zips" type="integer">105518736</label>
 			<label index="message_object_not_loaded" type="integer">56779241</label>
-			<label index="message_updating_failed" type="integer">109345992</label>
 			<label index="message_insertion_failed" type="integer">50157132</label>
 			<label index="message_deleted_flag_causes_deletion" type="integer">253725718</label>
 			<label index="message_deleted_flag_set" type="integer">46487773</label>
@@ -188,7 +183,6 @@
 			<label index="message_zip_archive_not_installed" type="integer">197362181</label>
 			<label index="message_no_zips" type="integer">105518736</label>
 			<label index="message_object_not_loaded" type="integer">56779241</label>
-			<label index="message_updating_failed" type="integer">109345992</label>
 			<label index="message_insertion_failed" type="integer">50157132</label>
 			<label index="message_deleted_flag_set" type="integer">232865486</label>
 			<label index="message_written_to_database" type="integer">198437427</label>
@@ -220,7 +214,6 @@
 			<label index="message_zip_archive_not_installed" type="integer">185868903</label>
 			<label index="message_no_zips" type="integer">105518736</label>
 			<label index="message_object_not_loaded" type="integer">56779241</label>
-			<label index="message_updating_failed" type="integer">109345992</label>
 			<label index="message_insertion_failed" type="integer">50157132</label>
 			<label index="message_deleted_flag_set" type="integer">232865486</label>
 			<label index="message_written_to_database" type="integer">198437427</label>
@@ -255,7 +248,6 @@
 			<label index="message_import_directory_not_writable">Importing is impossible because the configured import directory is not writable. Please fix file permissions or configure another directory and restart the import.</label>
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
-			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
 			<label index="message_deleted_flag_causes_deletion">Updating this record deletes the record.</label>
 			<label index="message_deleted_flag_set">This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</label>
@@ -291,7 +283,6 @@
 			<label index="message_zip_archive_not_installed">The import was aborted because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php5-zlib&quot; and &quot;dietzlib&quot; must be installed for this.</label>
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
-			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
 			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
@@ -323,7 +314,6 @@
 			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php5-zlib&quot; and &quot;dietzlib&quot; must be installed for this.</label>
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
-			<label index="message_updating_failed">An error occurred while trying to update this record. The database entry of this record was not updated.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
 			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
