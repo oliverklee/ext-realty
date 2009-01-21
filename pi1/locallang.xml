@@ -244,14 +244,12 @@
 			<label index="label_requested_object">The requested object:</label>
 			<label index="label_requester_data_is_uneditable_formal">We are using the contact data from your account here.</label>
 			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
-			<label index="label_your_name_formal">Your name</label>
-			<label index="label_your_name_informal">Your name</label>
-			<label index="label_your_email_formal">Your e-mail address</label>
-			<label index="label_your_email_informal">Your e-mail address</label>
-			<label index="label_your_phone_formal">Your phone number</label>
-			<label index="label_your_phone_informal">Your phone number</label>
-			<label index="label_your_request_formal">Your request</label>
-			<label index="label_your_request_informal">Your request</label>
+			<label index="label_your_name">Name</label>
+			<label index="label_street">Street</label>
+			<label index="label_zip_and_city">ZIP and city</label>
+			<label index="label_your_email">E-mail address</label>
+			<label index="label_your_phone">Phone number</label>
+			<label index="label_your_request">Request</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
 			<label index="label_save_and_close">Save and close</label>
@@ -266,8 +264,8 @@
 			<label index="label_message_sent_formal">Your request was sent.</label>
 			<label index="label_message_sent_informal">Your request was sent.</label>
 			<label index="label_has_request">has written the following request:</label>
-			<label index="label_requester_phone">The sender's phone number:</label>
 			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
+			<label index="label_sender_contact">The sender's contact data:</label>
 			<label index="label_append_images">Append images</label>
 			<label index="label_edit">Edit</label>
 			<label index="label_new_record">Create new object</label>
@@ -543,14 +541,12 @@
 			<label index="label_requested_object">Das betreffende Objekt:</label>
 			<label index="label_requester_data_is_uneditable_formal">Wir benutzen hier die Daten Ihres Accounts.</label>
 			<label index="label_requester_data_is_uneditable_informal">Wir benutzen hier die Daten deines Accounts.</label>
-			<label index="label_your_name_formal">Ihr Name</label>
-			<label index="label_your_name_informal">Dein Name</label>
-			<label index="label_your_email_formal">Ihre E-Mail-Adresse</label>
-			<label index="label_your_email_informal">Deine E-Mail -Adresse</label>
-			<label index="label_your_phone_formal">Ihre Telefonnummer</label>
-			<label index="label_your_phone_informal">Deine Telefonnummer</label>
-			<label index="label_your_request_formal">Ihre Anfrage</label>
-			<label index="label_your_request_informal">Deine Anfrage</label>
+			<label index="label_your_name">Name</label>
+			<label index="label_street">Straße</label>
+			<label index="label_zip_and_city">PLZ und Stadt</label>
+			<label index="label_your_email">E-Mail-Adresse</label>
+			<label index="label_your_phone">Telefonnummer</label>
+			<label index="label_your_request">Anfrage</label>
 			<label index="label_submit">Abschicken</label>
 			<label index="label_save">Speichern</label>
 			<label index="label_save_and_close">Speichern und schließen</label>
@@ -565,8 +561,8 @@
 			<label index="label_message_sent_formal">Ihre Anfrage wurde verschickt.</label>
 			<label index="label_message_sent_informal">Deine Anfrage wurde abgeschickt.</label>
 			<label index="label_has_request">hat folgende Anfrage geschickt:</label>
-			<label index="label_requester_phone">Die Telefonnummer des Absenders:</label>
 			<label index="label_summary_string_of_favorites">Folgende Objekte waren auf dem Merkzettel:</label>
+			<label index="label_sender_contact">Die Kontaktdaten des Absenders:</label>
 			<label index="label_append_images">Bilder hinzufügen</label>
 			<label index="label_edit">Bearbeiten</label>
 			<label index="label_new_record">Neues Objekt erstellen</label>
@@ -1550,14 +1546,12 @@
 			<label index="label_requested_object" type="integer">244291644</label>
 			<label index="label_requester_data_is_uneditable_formal" type="integer">127937111</label>
 			<label index="label_requester_data_is_uneditable_informal" type="integer">127937111</label>
-			<label index="label_your_name_formal" type="integer">35776261</label>
-			<label index="label_your_name_informal" type="integer">35776261</label>
-			<label index="label_your_email_formal" type="integer">197667972</label>
-			<label index="label_your_email_informal" type="integer">197667972</label>
-			<label index="label_your_phone_formal" type="integer">86104819</label>
-			<label index="label_your_phone_informal" type="integer">86104819</label>
-			<label index="label_your_request_formal" type="integer">84651870</label>
-			<label index="label_your_request_informal" type="integer">84651870</label>
+			<label index="label_your_name" type="integer">77521672</label>
+			<label index="label_street" type="integer">224521181</label>
+			<label index="label_zip_and_city" type="integer">162235930</label>
+			<label index="label_your_email" type="integer">146136420</label>
+			<label index="label_your_phone" type="integer">33039901</label>
+			<label index="label_your_request" type="integer">22818181</label>
 			<label index="label_submit" type="integer">155805401</label>
 			<label index="label_save" type="integer">211601612</label>
 			<label index="label_save_and_close" type="integer">125326617</label>
@@ -1572,8 +1566,8 @@
 			<label index="label_message_sent_formal" type="integer">162249641</label>
 			<label index="label_message_sent_informal" type="integer">162249641</label>
 			<label index="label_has_request" type="integer">233711688</label>
-			<label index="label_requester_phone" type="integer">254665035</label>
 			<label index="label_summary_string_of_favorites" type="integer">199641813</label>
+			<label index="label_sender_contact" type="integer">23661526</label>
 			<label index="label_append_images" type="integer">260019087</label>
 			<label index="label_edit" type="integer">131916066</label>
 			<label index="label_new_record" type="integer">249043974</label>
@@ -2554,14 +2548,12 @@
 			<label index="label_requested_object">The requested object:</label>
 			<label index="label_requester_data_is_uneditable_formal">We are using the contact data from your account here.</label>
 			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
-			<label index="label_your_name_formal">Your name</label>
-			<label index="label_your_name_informal">Your name</label>
-			<label index="label_your_email_formal">Your e-mail address</label>
-			<label index="label_your_email_informal">Your e-mail address</label>
-			<label index="label_your_phone_formal">Your phone number</label>
-			<label index="label_your_phone_informal">Your phone number</label>
-			<label index="label_your_request_formal">Your request</label>
-			<label index="label_your_request_informal">Your request</label>
+			<label index="label_your_name">Name</label>
+			<label index="label_street">Street</label>
+			<label index="label_zip_and_city">ZIP and city</label>
+			<label index="label_your_email">E-mail address</label>
+			<label index="label_your_phone">Phone number</label>
+			<label index="label_your_request">Request</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
 			<label index="label_save_and_close">Save and close</label>
@@ -2576,8 +2568,8 @@
 			<label index="label_message_sent_formal">Your request was sent.</label>
 			<label index="label_message_sent_informal">Your request was sent.</label>
 			<label index="label_has_request">has written the following request:</label>
-			<label index="label_requester_phone">The sender's phone number:</label>
 			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
+			<label index="label_sender_contact">The sender's contact data:</label>
 			<label index="label_append_images">Append images</label>
 			<label index="label_edit">Edit</label>
 			<label index="label_new_record">Create new object</label>

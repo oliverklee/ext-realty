@@ -394,7 +394,7 @@
 		<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
 		<div class="tx-realty-pi1-field">
  			<label class="tx-realty-pi1-label" for="tx_realty_pi1-priceRange">###LABEL_SELECT_PRICE_RANGE###</label>
- 			<select class="tx-realty-pi1-input" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange">
+ 			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange">
 				###PRICE_RANGE_OPTIONS###
  			</select>
  		</div>
@@ -420,7 +420,7 @@
 			<p>###LABEL_CITYSELECTOR_DESCRIPTION###</p>
 			<form id="citySelector" method="post" action="###TARGET_URL###">
 				<div>
-					<select name="tx_realty_pi1[city]" onchange="document.forms['citySelector'].submit();">
+					<select class="tx-realty-pi1-input" name="tx_realty_pi1[city]" onchange="document.forms['citySelector'].submit();">
 						<option value="">###LABEL_PLEASESELECTCITY###</option>
 						###OPTIONS_CITYSELECTOR###
 					</select>
@@ -481,6 +481,15 @@
  				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterName]" id="tx_realty_pi1-requesterName" value="###REQUESTER_NAME###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
  			</div>
 			<div class="tx-realty-pi1-field">
+ 				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterStreet">###LABEL_STREET###:</label>
+ 				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterStreet]" id="tx_realty_pi1-requesterStreet" value="###REQUESTER_STREET###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
+ 			</div>
+			<div class="tx-realty-pi1-field">
+ 				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterZip">###LABEL_ZIP_AND_CITY###:</label>
+ 				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterZip]" id="tx_realty_pi1-requesterZip" value="###REQUESTER_ZIP###" ###DECLARE_UNEDITABLE### type="text" size="20" maxlength="20" />
+ 				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterCity]" id="tx_realty_pi1-requesterCity" value="###REQUESTER_CITY###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
+ 			</div>
+			<div class="tx-realty-pi1-field">
 				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterEmail">###LABEL_YOUR_EMAIL###:</label>
 				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterEmail]" id="tx_realty_pi1-requesterEmail" value="###REQUESTER_EMAIL###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
 			</div>
@@ -527,11 +536,16 @@
 <!-- ###WRAPPER_UID### -->###LABEL_UID###: ###UID###<!-- ###WRAPPER_UID### -->
 <!-- ###WRAPPER_EMAIL_FROM_SPECIALIZED_CONTACT_FORM### -->
 
-###REQUESTER_NAME### ###REQUESTER_EMAIL### ###LABEL_HAS_REQUEST###
+###REQUESTER_NAME### ###LABEL_HAS_REQUEST###
 
 ###REQUEST###
 
-<!-- ###WRAPPER_REQUESTER_PHONE### -->###LABEL_REQUESTER_PHONE### ###REQUESTER_PHONE###<!-- ###WRAPPER_REQUESTER_PHONE### -->
+###LABEL_SENDER_CONTACT###
+
+<!-- ###WRAPPER_REQUESTER_STREET### -->###REQUESTER_STREET###<!-- ###WRAPPER_REQUESTER_STREET### -->
+<!-- ###WRAPPER_REQUESTER_ZIP_AND_CITY### -->###REQUESTER_ZIP_AND_CITY###<!-- ###WRAPPER_REQUESTER_ZIP_AND_CITY### -->
+<!-- ###WRAPPER_REQUESTER_PHONE### -->###LABEL_PHONE### ###REQUESTER_PHONE###<!-- ###WRAPPER_REQUESTER_PHONE### -->
+###REQUESTER_EMAIL###
 <!-- ###EMAIL_BODY### -->
 </pre>
 

@@ -395,6 +395,7 @@
 }
 .tx-realty-pi1 .city-selector form select {
 	width: 100%;
+	padding: 0;
 }
 
 /***** CONTACT FORM *****/
@@ -419,7 +420,7 @@ p.tx-realty-pi1-objekt-nr {
 .tx-realty-pi1-label {
 	float: left;
 	display: block;
-	margin: 1px 0;
+	margin: 1px;
 	padding: 2px 5px;
 	line-height: 22px;
 	background: #d9e2e7;
@@ -428,7 +429,7 @@ p.tx-realty-pi1-objekt-nr {
 
 .tx-realty-pi1-information {
 	font-size: 11px;
-	width: 430px;
+	width: 434px;
 }
 
 .tx-realty-pi1-label {
@@ -438,12 +439,22 @@ p.tx-realty-pi1-objekt-nr {
 .tx-realty-pi1-input {
 	font-size: 12px;
 	width: 280px;
-	height: 22px;
+	height: 19px;
 	line-height: 18px;
 	border-style: solid;
 	border: 1px solid #bdcad4;
 	background-color: #f0f4f7;
 	margin: 1px;
+	padding: 5px 0 0 0;
+}
+
+#tx_realty_pi1-requesterZip {
+	width: 80px;
+	margin-right: 0px;
+}
+#tx_realty_pi1-requesterCity {
+	width: 196px;
+	margin-left: -1px;
 }
 
 .tx-realty-pi1-textarea {
@@ -455,6 +466,7 @@ p.tx-realty-pi1-objekt-nr {
 	border: 1px solid #bdcad4;
 	background-color: #f0f4f7;
 	margin: 1px;
+	padding-top: 3px;
 }
 
 .tx-realty-pi1-contact-form span.button {
@@ -469,6 +481,11 @@ p.tx-realty-pi1-objekt-nr {
 
 .tx-realty-pi1-filter-form .tx-realty-pi1-input {
 	width: 200px;
+}
+.tx-realty-pi1-filter-form .select {
+	height: 26px;
+	width: 202px;
+	padding: 0;
 }
 
 .tx-realty-pi1-filter-form span.button {

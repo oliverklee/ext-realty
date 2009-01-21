@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2613] Feature: Add address fields to the contact form
 - [#2503] Feature: Add DB result and DB query exceptions and wrappers for executing queries
 - [#2577] Fix: Unused $result = ''; in tx_realty_pi1_SingleView::getLinkedImage
 - [#2355] Change: Move the single view to a separate class
