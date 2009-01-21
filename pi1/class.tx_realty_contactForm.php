@@ -233,9 +233,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	private function getBccAddress() {
 		$result = '';
 
-		if ($this->hasConfValueString('blindCarbonCopyAddress')) {
-			$result = 'Bcc: ' .
-				$this->getConfValueString('blindCarbonCopyAddress') . LF;
+		if ($this->hasConfValueString(
+			'blindCarbonCopyAddress', 's_contactForm')
+		) {
+			$result = 'Bcc: ' . $this->getConfValueString(
+				'blindCarbonCopyAddress', 's_contactForm'
+			) . LF;
 		}
 
 		return $result;
@@ -289,8 +292,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 
 		if ($this->isValidEmail($contactData['email'])) {
 			$result = $contactData;
-		} elseif ($this->hasConfValueString('defaultContactEmail')) {
-			$result['email'] = $this->getConfValueString('defaultContactEmail');
+		} elseif ($this->hasConfValueString(
+			'defaultContactEmail', 's_contactForm')
+		) {
+			$result['email'] = $this->getConfValueString(
+				'defaultContactEmail', 's_contactForm'
+			);
 		}
 
 		return $result;

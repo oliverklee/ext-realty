@@ -2220,9 +2220,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	// Tests concerning the contact link in the favorites list
 	////////////////////////////////////////////////////////////
 
-	public function testContactLinkIsDisplayedInTheFavoritesViewIfDirectRequestsAreNotAllowedAndTheContactPidIsSet() {
+	public function testContactLinkIsDisplayedInTheFavoritesViewIfThisIsEnabledAndTheContactPidIsSet() {
 		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 0);
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 		$result = $this->fixture->main('', array());
 
@@ -2236,9 +2236,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactLinkIsNotDisplayedInTheInTheFavoritesViewIfDirectRequestsAreAllowedAndTheContactPidIsSet() {
+	public function testContactLinkIsNotDisplayedInTheFavoritesViewIfThisIsDisabledAndTheContactPidIsSet() {
 		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
+		$this->fixture->setConfigurationValue('showContactPageLink', 0);
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 
 		$this->assertNotContains(
@@ -2247,9 +2247,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactLinkIsNotDisplayedInTheFavoritesViewIfDirectRequestsAreNotAllowedAndTheContactPidIsNotSet() {
+	public function testContactLinkIsNotDisplayedInTheFavoritesViewIdThisIsEnabledAndTheContactPidIsNotSet() {
 		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 0);
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue('contactPID', '');
 
 		$this->assertNotContains(
@@ -2260,7 +2260,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testContactLinkIsNotDisplayedInTheFavoritesViewIfTheContactFormHasTheSamePid() {
 		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 0);
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue('contactPID', $this->favoritesPid);
 
 		$this->assertNotContains(

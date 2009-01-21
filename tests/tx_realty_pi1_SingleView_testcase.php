@@ -446,8 +446,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	// Tests concerning the contact link
 	//////////////////////////////////////
 
-	public function testSingleViewDisplaysContactButtonIfDirectRequestsAreAllowedAndTheContactPidIsSet() {
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
+	public function testSingleViewDisplaysContactButtonThisIsEnabledAndTheContactPidIsSet() {
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue(
 			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -458,10 +458,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysContactPidIfDirectRequestsAreAllowedAndTheContactPidIsSet() {
+	public function testSingleViewDisplaysContactPidThisIsEnabledAndTheContactPidIsSet() {
 		$contactPid = $this->testingFramework->createFrontEndPage();
 
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue('contactPID', $contactPid);
 
 		$this->assertContains(
@@ -470,8 +470,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysContactLinkIfDirectRequestsAreNotAllowedAndTheContactPidIsSet() {
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 0);
+	public function testSingleViewNotDisplaysContactLinkThisIsDisabledAndTheContactPidIsSet() {
+		$this->fixture->setConfigurationValue('showContactPageLink', 0);
 		$this->fixture->setConfigurationValue(
 			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -482,8 +482,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysContactLinkIfDirectRequestsAreAllowedAndTheContactPidIsNotSet() {
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
+	public function testSingleViewNotDisplaysContactLinkIfThisIsEnabledAndTheContactPidIsNotSet() {
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue('contactPID', '');
 
 		$this->assertNotContains(
@@ -493,7 +493,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysContactLinkWhichContainsTheObjectUid() {
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue(
 			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -505,7 +505,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewNotDisplaysContactLinkIfTheContactFormHasTheSamePid() {
-		$this->fixture->setConfigurationValue('allowDirectRequestsForObjects', 1);
+		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue('contactPID', $GLOBALS['TSFE']->id);
 
 		$this->assertNotContains(

@@ -257,7 +257,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		if ($this->getConfValueBoolean('allowDirectRequestsForObjects')
+		if ($this->getConfValueBoolean('showContactPageLink')
 			&& ($this->getConfValueInteger('contactPID') != $GLOBALS['TSFE']->id)
 		) {
 			$contactUrl = htmlspecialchars($this->cObj->typoLink_URL(array(

@@ -93,10 +93,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_favorites() {
 		$this->check_tx_realty_pi1_realty_list();
-		$this->checkContactPid();
 		$this->checkFavoriteFieldsInSession();
 		$this->checkImageSizeValuesForListView();
-		$this->checkAllowDirectRequestsForObjects();
+		$this->checkShowContactPageLink();
+		$this->checkContactPid();
 	}
 
 	/**
@@ -122,7 +122,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkDisplayedContactInformation();
 		$this->checkDisplayedContactInformationSpecial();
 		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
-		$this->checkAllowDirectRequestsForObjects();
+		$this->checkShowContactPageLink();
 		$this->checkContactPid();
 		$this->checkFieldsInSingleView();
 		$this->checkFavoritesPid();
@@ -425,16 +425,34 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Checks the setting of the configuration value showContactPageLink.
+	 */
+	private function checkShowContactPageLink() {
+		$this->checkIfBoolean(
+			'showContactPageLink',
+			true,
+			'sDEF',
+			'This value specifies whether a link to the contact form should be ' .
+				'displayed in the current view. A misconfigured value might lead ' .
+				'to undesired results.'
+		);
+	}
+
+	/**
 	 * Checks the setting for the contact PID.
 	 */
 	private function checkContactPid() {
-		$this->checkIfSingleFePageOrEmpty(
+		if (!$this->objectToCheck->getConfValueBoolean('showContactPageLink')) {
+			return;
+		}
+
+		$this->checkIfSingleFePageNotEmpty(
 			'contactPID',
 			false,
 			'',
-			'This value specifies the contact page which will be linked from '
-				.'the favorites list. An invalid link will be created if this '
-				.'value is invalid.'
+			'This value specifies the contact page which will be linked from ' .
+				'the current page. The link to the contact form will not work ' .
+				'as long as this value is misconfigured.'
 		);
 	}
 
@@ -623,12 +641,12 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIsValidEmailNotEmpty(
 			'defaultContactEmail',
 			true,
-			'sDEF',
+			's_contactForm',
 			true,
-			'This value specifies the recipient for requests on objects. '
-				.'This address is always used if direct requests for objects '
-				.'are disabled and it is used if a direct request is not '
-				.'possible because an object\'s contact data cannot be found.'
+			'This value specifies the recipient for requests on objects. ' .
+				'This address is always used if direct requests for objects ' .
+				'are disabled and it is used if a direct request is not ' .
+				'possible because an object\'s contact data cannot be found.'
 		);
 	}
 
@@ -639,26 +657,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkIsValidEmailOrEmpty(
 			'blindCarbonCopyAddress',
 			true,
-			'sDEF',
+			's_contactForm',
 			true,
-			'This value specifies the recipient for for a blind carbon copy of '
-				.'each request on objects and may be left empty.'
-		);
-	}
-
-	/**
-	 * Checks the setting of the configuration value allowDirectRequestsForObjects.
-	 */
-	private function checkAllowDirectRequestsForObjects() {
-		$this->checkIfBoolean(
-			'allowDirectRequestsForObjects',
-			true,
-			'sDEF',
-			'This value specifies whether a request for an object may be send '
-				.'directly to the FE user who created this record or to the '
-				.'contact person if the record was automatically imported from '
-				.'an OpenImmo file. This value might be interpreted incorrectly '
-				.'if no boolean value was set.'
+			'This value specifies the recipient for for a blind carbon copy of ' .
+				'each request on objects and may be left empty.'
 		);
 	}
 
@@ -670,9 +672,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'checkboxesFilter',
 			true,
 			's_searchForm',
-			'This value specifies the name of the DB field to create the search '
-				.'filter checkboxes from. Searching will not work properly if '
-				.'non-database fields are set.',
+			'This value specifies the name of the DB field to create the search ' .
+				'filter checkboxes from. Searching will not work properly if ' .
+				'non-database fields are set.',
 			REALTY_TABLE_OBJECTS
 		);
 	}

@@ -93,9 +93,9 @@ plugin.tx_realty_pi1 {
 	defaultContactEmail =
 	# e-mail address where to send a BCC of each request, leave empty to disable
 	blindCarbonCopyAddress =
-	# whether the contact form should send requests directly to the realty's
-	# contact person
-	allowDirectRequestsForObjects = 0
+	# whether the link to the contact form should be displayed
+	# (applicable for single and favorites view)
+	showContactPageLink = 0
 
 	# name of the DB field to create the search filter checkboxes from
 	checkboxesFilter =

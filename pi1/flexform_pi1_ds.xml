@@ -132,32 +132,14 @@
 							</config>
 						</TCEforms>
 					</staticSqlFilter>
-					<defaultContactEmail>
+					<showContactPageLink>
 						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultContactEmail</label>
-							<config>
-								<type>input</type>
-								<eval>trim</eval>
-							</config>
-						</TCEforms>
-					</defaultContactEmail>
-					<blindCarbonCopyAddress>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.blindCarbonCopyAddress</label>
-							<config>
-								<type>input</type>
-								<eval>trim</eval>
-							</config>
-						</TCEforms>
-					</blindCarbonCopyAddress>
-					<allowDirectRequestsForObjects>
-						<TCEforms>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.allowDirectRequestsForObjects</label>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.showContactPageLink</label>
 							<config>
 								<type>check</type>
 							</config>
 						</TCEforms>
-					</allowDirectRequestsForObjects>
+					</showContactPageLink>
 					<checkboxesFilter>
 						<TCEforms>
 							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.checkboxesFilter</label>
@@ -817,5 +799,33 @@
 				</el>
 			</ROOT>
 		</s_advertisements>
+		<s_contactForm>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sheet_contactForm</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<defaultContactEmail>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.defaultContactEmail</label>
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</defaultContactEmail>
+					<blindCarbonCopyAddress>
+						<TCEforms>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.blindCarbonCopyAddress</label>
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+							</config>
+						</TCEforms>
+					</blindCarbonCopyAddress>
+				</el>
+			</ROOT>
+		</s_contactForm>
 	</sheets>
 </T3DataStructure>

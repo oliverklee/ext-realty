@@ -739,7 +739,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
-		if (!$this->getConfValueBoolean('allowDirectRequestsForObjects')
+		if ($this->getConfValueBoolean('showContactPageLink')
 			&& ($this->getConfValueInteger('contactPID')
 				!= $this->getConfValueInteger('favoritesPID')
 			)
