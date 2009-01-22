@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2614] Feature: Add a flexforms configuration concerning which fields should be shown in the contact form
 - [#2615] Feature: Add a flexforms configuration concerning which contact form fields should be required
 - [#2613] Feature: Add address fields to the contact form
 - [#2503] Feature: Add DB result and DB query exceptions and wrappers for executing queries

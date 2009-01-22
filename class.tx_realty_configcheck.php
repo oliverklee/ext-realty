@@ -136,6 +136,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCommonFrontEndSettings();
 		$this->checkDefaultContactEmail();
 		$this->checkBlindCarbonCopyAddress();
+		$this->checkVisibleContactFormFields();
 		$this->checkRequiredContactFormFields();
 	}
 
@@ -666,6 +667,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Checks the setting for visibleContactFormFields.
+	 */
+	private function checkVisibleContactFormFields() {
+		$this->checkIfMultiInSetOrEmpty(
+			'visibleContactFormFields',
+			true,
+			's_contactForm',
+			'This value specifies which fields are visible in the contact form. ' .
+				'Some fields will be not be visible if this configuration is ' .
+				'incorrect.',
+			array('name', 'street', 'zip_and_city', 'telephone')
+		);		
+	}
+
+	/**
 	 * Checks the configuration for requiredContactFormFields.
 	 */
 	private function checkRequiredContactFormFields() {
@@ -677,6 +693,32 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'committing a contact request. Some fields will be not be ' .
 				'required if this configuration is incorrect.',
 			array('name', 'street', 'zip', 'city', 'telephone')
+		);
+
+		// checks whether the required fields are visible
+		$this->checkIfMultiInSetOrEmpty(
+			'requiredContactFormFields',
+			true,
+			's_contactForm',
+			'This value specifies which fields are required to be filled when ' .
+				'committing a contact request. Some fields are set to required ' .
+				'but are actually not configured to be visible in the form. ' .
+				'The form cannot be submitted as long as this inconsistency ' .
+				'remains.',
+			t3lib_div::trimExplode(
+				',',
+				// Replaces "zip_and_city" with "zip,city" as visiblity can only
+				// be configured for ZIP plus city but requirements can be set
+				// separately.
+				str_replace(
+					'_and_',
+					',',
+					$this->objectToCheck->getConfValueString(
+						'visibleContactFormFields', 's_contactForm'
+					)
+				),
+				true
+			)
 		);
 	}
 

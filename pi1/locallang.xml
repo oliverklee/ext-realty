@@ -28,6 +28,7 @@
 			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.requiredContactFormFields">Required form fields:</label>
+			<label index="realty.pi_flexform.visibleContactFormFields">Form fields to show:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
@@ -72,6 +73,7 @@
 			<label index="realty.pi_flexform.offererLabel">name</label>
 			<label index="realty.pi_flexform.street">street</label>
 			<label index="realty.pi_flexform.city">city</label>
+			<label index="realty.pi_flexform.zip_and_city">ZIP and city</label>
 			<label index="realty.pi_flexform.telephone">telephone</label>
 			<label index="realty.pi_flexform.email">e-mail address</label>
 			<label index="realty.pi_flexform.homepage">homepage</label>
@@ -330,6 +332,7 @@
 			<label index="realty.pi_flexform.defaultContactEmail">E-Mail-Adresse für Kontaktanfragen, wenn keine Kontaktdaten des Immobilienobjekts zu Verfügung stehen:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
 			<label index="realty.pi_flexform.requiredContactFormFields">Pflicht-Formularfelder:</label>
+			<label index="realty.pi_flexform.visibleContactFormFields">Angezeigte Formularfelder:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Link zum Kontaktformular anzeigen:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.orderBy">Listenansicht zu Anfang sortieren nach:</label>
@@ -374,6 +377,7 @@
 			<label index="realty.pi_flexform.offererLabel">Name</label>
 			<label index="realty.pi_flexform.street">Straße</label>
 			<label index="realty.pi_flexform.city">Stadt</label>
+			<label index="realty.pi_flexform.zip_and_city">PLZ und Stadt</label>
 			<label index="realty.pi_flexform.telephone">Telefonnummer</label>
 			<label index="realty.pi_flexform.email">E-mail</label>
 			<label index="realty.pi_flexform.homepage">Homepage</label>
@@ -1340,6 +1344,7 @@
 			<label index="realty.pi_flexform.defaultContactEmail" type="integer">182509551</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
 			<label index="realty.pi_flexform.requiredContactFormFields" type="integer">258996908</label>
+			<label index="realty.pi_flexform.visibleContactFormFields" type="integer">75148715</label>
 			<label index="realty.pi_flexform.showContactPageLink" type="integer">237349468</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
@@ -1384,6 +1389,7 @@
 			<label index="realty.pi_flexform.offererLabel" type="integer">184977713</label>
 			<label index="realty.pi_flexform.street" type="integer">32811368</label>
 			<label index="realty.pi_flexform.city" type="integer">82664750</label>
+			<label index="realty.pi_flexform.zip_and_city" type="integer">162235930</label>
 			<label index="realty.pi_flexform.telephone" type="integer">194754535</label>
 			<label index="realty.pi_flexform.email" type="integer">59414938</label>
 			<label index="realty.pi_flexform.homepage" type="integer">195270797</label>
@@ -2347,6 +2353,7 @@
 			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.requiredContactFormFields">Required form fields:</label>
+			<label index="realty.pi_flexform.visibleContactFormFields">Form fields to show:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
@@ -2391,6 +2398,7 @@
 			<label index="realty.pi_flexform.offererLabel">name</label>
 			<label index="realty.pi_flexform.street">street</label>
 			<label index="realty.pi_flexform.city">city</label>
+			<label index="realty.pi_flexform.zip_and_city">ZIP and city</label>
 			<label index="realty.pi_flexform.telephone">telephone</label>
 			<label index="realty.pi_flexform.email">e-mail address</label>
 			<label index="realty.pi_flexform.homepage">homepage</label>

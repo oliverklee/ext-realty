@@ -93,6 +93,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			return $this->getSubpart('EMPTY_RESULT_VIEW');
 		}
 
+		$this->hideNonVisibleFormFields();
+
 		$subpartName = 'CONTACT_FORM';
 		$errorMessages = array(
 			'requesterName' => '', 'requesterStreet' => '', 'requesterZip' => '',
@@ -116,6 +118,19 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		$this->setErrorMessageContent($errorMessages);
 
 		return $this->getSubpart($subpartName);
+	}
+
+	/**
+	 * Hides form fields that are not configured to be visible.
+	 */
+	private function hideNonVisibleFormFields() {
+		$this->hideSubpartsArray(
+			array_diff(
+				array('name', 'street', 'zip_and_city', 'telephone'),
+				$this->getConfigurationArray('visibleContactFormFields')
+			),
+			'contact_form_wrapper'
+		);
 	}
 
 	/**
@@ -174,13 +189,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		}
 
 		$result = array();
-		$requiredFields = t3lib_div::trimExplode(
-			',',
-			$this->getConfValueString(
-				'requiredContactFormFields', 's_contactForm'
-			),
-			true
-		);
+		$requiredFields
+			= $this->getConfigurationArray('requiredContactFormFields');
 
 		foreach (array(
 			'requesterName' => 'name',
@@ -332,16 +342,48 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
+		$visibilityKeysForFormData = array(
+			'requesterName' => 'name',
+			'requesterStreet' => 'street',
+			'requesterPhone' => 'telephone',
+			'requesterZip' => 'zip_and_city',
+			'requesterCity' => 'zip_and_city',
+		);
+		$visibleFields = array_intersect(
+			$visibilityKeysForFormData,
+			$this->getConfigurationArray('visibleContactFormFields')
+		);
+
 		foreach (array(
-			'requesterName' => $loggedInUser->getName(),
-			'requesterStreet' => $loggedInUser->getStreet(),
-			'requesterZip' => $loggedInUser->getZip(),
-			'requesterCity' => $loggedInUser->getCity(),
-			'requesterEmail' => $loggedInUser->getEMailAddress(),
-			'requesterPhone' => $loggedInUser->getPhoneNumber(),
-		) as $contactFormDataKey => $data) {
-			$this->contactFormData[$contactFormDataKey] = $data;
+			'requesterName' => getName,
+			'requesterStreet' => getStreet,
+			'requesterZip' => getZip,
+			'requesterCity' => getCity,
+			'requesterEmail' => getEMailAddress,
+			'requesterPhone' => getPhoneNumber,
+		) as $contactFormDataKey => $functionName) {
+			if (isset($visibleFields[$contactFormDataKey])
+				|| ($contactFormDataKey == 'requesterEmail')
+			) {
+				$this->contactFormData[$contactFormDataKey]
+					= $loggedInUser->$functionName();
+			}
 		}
+	}
+
+	/**
+	 * Returns an array of configuration value that is a comma-separated list in
+	 * the s_contactForm sheet.
+	 *
+	 * @param string key of the configuration value to get as an array, must not
+	 *               be empty
+	 *
+	 * @return array configuration of $key, empty if no configuration was found
+	 */
+	private function getConfigurationArray($key) {
+		return t3lib_div::trimExplode(
+			',', $this->getConfValueString($key, 's_contactForm'), true
+		);
 	}
 
 	/**
