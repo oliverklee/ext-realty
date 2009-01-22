@@ -463,13 +463,8 @@
 		</p>
 	</fieldset>
 	<!-- ###WRAPPER_SPECIALIZED_CONTACT_FORM### -->
-	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
 	<fieldset class="tx-realty-pi1-fieldset">
-		<h3>###LABEL_SORRY###</h3>
-		<p class="error">###ERROR_MESSAGE###</p>
-	</fieldset>
-	<!-- ###WRAPPER_CONTACT_FORM_ERROR### -->
-    <fieldset class="tx-realty-pi1-fieldset">
+		###CONTACT_FORM_ERROR###
 		<form method="post" action="">
 			<!-- ###WRAPPER_REQUESTER_DATA_IS_UNEDITABLE### -->
 			<div class="tx-realty-pi1-information">
@@ -477,27 +472,33 @@
  			</div>
 			<!-- ###WRAPPER_REQUESTER_DATA_IS_UNEDITABLE### -->
 			<div class="tx-realty-pi1-field">
+ 				###REQUESTERNAME_ERROR###
  				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterName">###LABEL_YOUR_NAME###:</label>
  				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterName]" id="tx_realty_pi1-requesterName" value="###REQUESTER_NAME###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
  			</div>
 			<div class="tx-realty-pi1-field">
+ 				###REQUESTERSTREET_ERROR###
  				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterStreet">###LABEL_STREET###:</label>
  				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterStreet]" id="tx_realty_pi1-requesterStreet" value="###REQUESTER_STREET###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
  			</div>
 			<div class="tx-realty-pi1-field">
+ 				###REQUESTERZIP_ERROR######REQUESTERCITY_ERROR###
  				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterZip">###LABEL_ZIP_AND_CITY###:</label>
  				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterZip]" id="tx_realty_pi1-requesterZip" value="###REQUESTER_ZIP###" ###DECLARE_UNEDITABLE### type="text" size="20" maxlength="20" />
  				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterCity]" id="tx_realty_pi1-requesterCity" value="###REQUESTER_CITY###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
  			</div>
 			<div class="tx-realty-pi1-field">
+ 				###REQUESTEREMAIL_ERROR###
 				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterEmail">###LABEL_YOUR_EMAIL###:</label>
 				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterEmail]" id="tx_realty_pi1-requesterEmail" value="###REQUESTER_EMAIL###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
 			</div>
 			<div class="tx-realty-pi1-field">
+ 				###REQUESTERPHONE_ERROR###
 				<label class="tx-realty-pi1-label" for="tx_realty_pi1-requesterPhone">###LABEL_YOUR_PHONE###:</label>
 				<input class="tx-realty-pi1-input" name="tx_realty_pi1[requesterPhone]" id="tx_realty_pi1-requesterPhone" value="###REQUESTER_PHONE###" ###DECLARE_UNEDITABLE### type="text" size="30" maxlength="50" />
 			</div>
 			<div class="tx-realty-pi1-field">
+ 				###REQUEST_ERROR###
 				<label class="tx-realty-pi1-label" for="tx_realty_pi1-request">###LABEL_YOUR_REQUEST###:</label>
 				<textarea class="tx-realty-pi1-textarea" name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10">###REQUEST###</textarea>
 			</div>
@@ -512,6 +513,11 @@
 	<div class="clear"></div>
 </div>
 <!-- ###CONTACT_FORM### -->
+
+<h2>Error message for the contact form</h2>
+<!-- ###CONTACT_FORM_ERROR### -->
+<p class="error">###ERROR_MESSAGE###</p>
+<!-- ###CONTACT_FORM_ERROR### -->
 
 <h2>Contact form has been submitted</h2>
 <!-- ###CONTACT_FORM_SUBMITTED### -->

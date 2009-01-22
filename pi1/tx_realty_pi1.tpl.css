@@ -416,6 +416,10 @@ p.tx-realty-pi1-objekt-nr {
 	clear: both;
 }
 
+.tx-realty-pi1-field p.error {
+	margin: 1em 0 0 0.2em;
+}
+
 .tx-realty-pi1-information,
 .tx-realty-pi1-label {
 	float: left;

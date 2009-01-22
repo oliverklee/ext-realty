@@ -824,6 +824,40 @@
 							</config>
 						</TCEforms>
 					</blindCarbonCopyAddress>
+					<requiredContactFormFields>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.requiredContactFormFields</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.offererLabel</numIndex>
+										<numIndex index="1">name</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.street</numIndex>
+										<numIndex index="1">street</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip</numIndex>
+										<numIndex index="1">zip</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.city</numIndex>
+										<numIndex index="1">city</numIndex>
+									</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.telephone</numIndex>
+										<numIndex index="1">telephone</numIndex>
+									</numIndex>
+								</items>
+								<maxitems>5</maxitems>
+								<minitems>0</minitems>
+								<renderMode>checkbox</renderMode>
+							</config>
+						</TCEforms>
+					</requiredContactFormFields>
 				</el>
 			</ROOT>
 		</s_contactForm>

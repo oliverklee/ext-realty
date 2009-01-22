@@ -51,12 +51,12 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	 * @var integer dummy realty object ID
 	 */
 	private $realtyUid;
-	
+
 	/**
 	 * @var string title for the dummy realty object
 	 */
 	const REALTY_TITLE = 'test title';
-	
+
 	/**
 	 * @var string object number for the dummy realty object
 	 */
@@ -83,6 +83,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'defaultContactEmail', 'any-default@email-address.org'
 		);
 		$this->fixture->setConfigurationValue('blindCarbonCopyAddress', '');
+		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
 	}
 
 	public function tearDown() {
@@ -378,9 +379,43 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvided() {
+	public function testContactFormDisplaysErrorAfterSubmittingIfAngleBracketsAreSetInTheNameField() {
 		$this->assertContains(
 			$this->fixture->translate('label_set_name'),
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => true,
+					'requesterName' => 'any name < anything',
+					'requesterEmail' => 'requester@valid-email.org',
+					'request' => 'the request',
+
+				)
+			)
+		);
+	}
+
+	public function testContactFormDisplaysErrorAfterSubmittingIfQuotationMarksAreSetInTheNameField() {
+		$this->assertContains(
+			$this->fixture->translate('label_set_name'),
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => true,
+					'requesterName' => 'any name " anything',
+					'requesterEmail' => 'requester@valid-email.org',
+					'request' => 'the request',
+
+				)
+			)
+		);
+	}
+
+	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
+
+		$this->assertContains(
+			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -393,9 +428,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvided() {
+	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
+
 		$this->assertContains(
-			$this->fixture->translate('label_set_name'),
+			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -469,18 +506,21 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysSeveralErrorMessagesIfNoNameNoEmailAndNorRequestAreProvided() {
-		$this->assertContains(
-			$this->fixture->translate('label_set_name') . '<br />' .
-				$this->fixture->translate('label_set_valid_email_address') .
-				'<br />' . $this->fixture->translate('label_no_empty_textarea'),
-			$this->fixture->render(
-				array(
-					'isSubmitted' => true,
-					'requesterName' => '',
-					'requesterEmail' => '',
-					'request' => '',
-				)
+	public function testContactFormDisplaysTwoErrorMessagesIfNameAndStreetAreRequiredButEmpty() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name,street');
+
+		$this->assertEquals(
+			2,
+			substr_count(
+				 $this->fixture->render(
+					array(
+						'isSubmitted' => true,
+						'requesterName' => '',
+						'requesterEmail' => 'requester@valid-email.org',
+						'request' => 'foo',
+					)
+				),
+				$this->fixture->translate('message_required_field')
 			)
 		);
 	}
@@ -558,6 +598,54 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
+				)
+			)
+		);
+	}
+
+	public function testContactFormDisplaysErrorMessageForEmptyRequiredStreetField() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
+
+		$this->assertContains(
+			$this->fixture->translate('message_required_field'),
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterEmail' => 'requester@valid-email.org',
+					'request' => 'foo bar',
+					'requesterStreet' => '',
+				)
+			)
+		);
+	}
+
+	public function testContactFormDisplaysErrorMessageForEmptyRequiredCityField() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'city');
+
+		$this->assertContains(
+			$this->fixture->translate('message_required_field_requesterCity'),
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterEmail' => 'requester@valid-email.org',
+					'request' => 'foo bar',
+					'requesterCity' => '',
+				)
+			)
+		);
+	}
+
+	public function testContactFormDisplaysNoErrorMessageForNonEmptyRequiredField() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
+
+		$this->assertNotContains(
+			$this->fixture->translate('message_required_field'),
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterEmail' => 'requester@valid-email.org',
+					'request' => 'foo bar',
+					'requesterStreet' => 'main street',
 				)
 			)
 		);

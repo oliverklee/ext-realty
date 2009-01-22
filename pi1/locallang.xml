@@ -27,6 +27,7 @@
 			<label index="realty.pi_flexform.sheet_contactForm">Contact form</label>
 			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
+			<label index="realty.pi_flexform.requiredContactFormFields">Required form fields:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
@@ -247,6 +248,7 @@
 			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
 			<label index="label_your_name">Name</label>
 			<label index="label_street">Street</label>
+			<label index="label_zip">ZIP</label>
 			<label index="label_zip_and_city">ZIP and city</label>
 			<label index="label_your_email">E-mail address</label>
 			<label index="label_your_phone">Phone number</label>
@@ -255,8 +257,8 @@
 			<label index="label_save">Save</label>
 			<label index="label_save_and_close">Save and close</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
-			<label index="label_set_name_formal">Please provide your name.</label>
-			<label index="label_set_name_informal">Please provide your name.</label>
+			<label index="label_set_name_formal">Please provide your name without special characters.</label>
+			<label index="label_set_name_informal">Please provide your name without special characters.</label>
 			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
 			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
 			<label index="label_no_empty_textarea">Please enter a request.</label>
@@ -283,6 +285,8 @@
 			<label index="message_no_valid_latitude_degree">Please enter a valid latitude degree (-90 to 90).</label>
 			<label index="message_object_number_exists">The entered object number already exists in the database. Please enter a different object number.</label>
 			<label index="message_required_field">Please enter a value for this field.</label>
+			<label index="message_required_field_requesterZip">Please enter your ZIP code.</label>
+			<label index="message_required_field_requesterCity">Please enter your city.</label>
 			<label index="message_value_not_allowed">The provided value is not within the set of allowed values.</label>
 			<label index="message_enter_valid_non_empty_buying_price">Please enter a valid price because this is an object to buy.</label>
 			<label index="message_enter_valid_or_empty_buying_price">Please enter a valid price or leave this field empty.</label>
@@ -325,6 +329,7 @@
 			<label index="realty.pi_flexform.sheet_contactForm">Kontaktformular</label>
 			<label index="realty.pi_flexform.defaultContactEmail">E-Mail-Adresse für Kontaktanfragen, wenn keine Kontaktdaten des Immobilienobjekts zu Verfügung stehen:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
+			<label index="realty.pi_flexform.requiredContactFormFields">Pflicht-Formularfelder:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Link zum Kontaktformular anzeigen:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.orderBy">Listenansicht zu Anfang sortieren nach:</label>
@@ -545,6 +550,7 @@
 			<label index="label_requester_data_is_uneditable_informal">Wir benutzen hier die Daten deines Accounts.</label>
 			<label index="label_your_name">Name</label>
 			<label index="label_street">Straße</label>
+			<label index="label_zip">PLZ</label>
 			<label index="label_zip_and_city">PLZ und Stadt</label>
 			<label index="label_your_email">E-Mail-Adresse</label>
 			<label index="label_your_phone">Telefonnummer</label>
@@ -553,8 +559,8 @@
 			<label index="label_save">Speichern</label>
 			<label index="label_save_and_close">Speichern und schließen</label>
 			<label index="label_no_contact_person">Die Anfrage kann nicht gesendet werden, weil für dieses Objekt keine Kontaktperson angegeben wurde.</label>
-			<label index="label_set_name_formal">Bitte geben Sie Ihren Namen ein.</label>
-			<label index="label_set_name_informal">Bitte gib deinen Namen ein.</label>
+			<label index="label_set_name_formal">Bitte geben Sie Ihren Namen ohne Sonderzeichen ein.</label>
+			<label index="label_set_name_informal">Bitte gib deinen Namen ohne Sonderzeichen ein.</label>
 			<label index="label_set_valid_email_address_formal">Bitte geben Sie eine gültige E-Mail-Addresse an.</label>
 			<label index="label_set_valid_email_address_informal">Bitte gib eine gültige E-Mail-Addresse an.</label>
 			<label index="label_no_empty_textarea">Bitte geben Sie Ihr Anliegen an.</label>
@@ -581,6 +587,8 @@
 			<label index="message_no_valid_latitude_degree">Bitte geben Sie einen gültigen Breitengrad ein (-90 bis 90).</label>
 			<label index="message_object_number_exists">Die angegebene Objektnummer existiert bereits in der Datenbank. Bitte geben Sie eine andere Objektnummer an.</label>
 			<label index="message_required_field">Bitte geben Sie einen Wert für dieses Feld an.</label>
+			<label index="message_required_field_requesterZip">Bitte geben Sie Ihre Postleitzahl an.</label>
+			<label index="message_required_field_requesterCity">Bitte geben Sie Ihren Wohnort an.</label>
 			<label index="message_value_not_allowed">Der eingegebene Wert ist für dieses Feld nicht erlaubt.</label>
 			<label index="message_enter_valid_non_empty_buying_price">Bitte geben Sie einen gültigen Preis an, weil Sie ein Objekt zum Kaufen anlegen.</label>
 			<label index="message_enter_valid_or_empty_buying_price">Bitte geben Sie einen gültigen Preis an oder lassen Sie dieses Feld leer.</label>
@@ -1331,6 +1339,7 @@
 			<label index="realty.pi_flexform.sheet_contactForm" type="integer">208018679</label>
 			<label index="realty.pi_flexform.defaultContactEmail" type="integer">182509551</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
+			<label index="realty.pi_flexform.requiredContactFormFields" type="integer">258996908</label>
 			<label index="realty.pi_flexform.showContactPageLink" type="integer">237349468</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
@@ -1551,6 +1560,7 @@
 			<label index="label_requester_data_is_uneditable_informal" type="integer">127937111</label>
 			<label index="label_your_name" type="integer">77521672</label>
 			<label index="label_street" type="integer">224521181</label>
+			<label index="label_zip" type="integer">70553491</label>
 			<label index="label_zip_and_city" type="integer">162235930</label>
 			<label index="label_your_email" type="integer">146136420</label>
 			<label index="label_your_phone" type="integer">33039901</label>
@@ -1559,8 +1569,8 @@
 			<label index="label_save" type="integer">211601612</label>
 			<label index="label_save_and_close" type="integer">125326617</label>
 			<label index="label_no_contact_person" type="integer">231672500</label>
-			<label index="label_set_name_formal" type="integer">49257832</label>
-			<label index="label_set_name_informal" type="integer">49257832</label>
+			<label index="label_set_name_formal" type="integer">124059229</label>
+			<label index="label_set_name_informal" type="integer">124059229</label>
 			<label index="label_set_valid_email_address_formal" type="integer">115392064</label>
 			<label index="label_set_valid_email_address_informal" type="integer">115392064</label>
 			<label index="label_no_empty_textarea" type="integer">151709982</label>
@@ -1587,6 +1597,8 @@
 			<label index="message_no_valid_latitude_degree" type="integer">55186029</label>
 			<label index="message_object_number_exists" type="integer">184908158</label>
 			<label index="message_required_field" type="integer">28575007</label>
+			<label index="message_required_field_requesterZip" type="integer">55741989</label>
+			<label index="message_required_field_requesterCity" type="integer">40317843</label>
 			<label index="message_value_not_allowed" type="integer">32064893</label>
 			<label index="message_enter_valid_non_empty_buying_price" type="integer">104449172</label>
 			<label index="message_enter_valid_or_empty_buying_price" type="integer">130513175</label>
@@ -2334,6 +2346,7 @@
 			<label index="realty.pi_flexform.sheet_contactForm">Contact form</label>
 			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
+			<label index="realty.pi_flexform.requiredContactFormFields">Required form fields:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
@@ -2554,6 +2567,7 @@
 			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
 			<label index="label_your_name">Name</label>
 			<label index="label_street">Street</label>
+			<label index="label_zip">ZIP</label>
 			<label index="label_zip_and_city">ZIP and city</label>
 			<label index="label_your_email">E-mail address</label>
 			<label index="label_your_phone">Phone number</label>
@@ -2562,8 +2576,8 @@
 			<label index="label_save">Save</label>
 			<label index="label_save_and_close">Save and close</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
-			<label index="label_set_name_formal">Please provide your name.</label>
-			<label index="label_set_name_informal">Please provide your name.</label>
+			<label index="label_set_name_formal">Please provide your name without special characters.</label>
+			<label index="label_set_name_informal">Please provide your name without special characters.</label>
 			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
 			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
 			<label index="label_no_empty_textarea">Please enter a request.</label>
@@ -2590,6 +2604,8 @@
 			<label index="message_no_valid_latitude_degree">Please enter a valid latitude degree (-90 to 90).</label>
 			<label index="message_object_number_exists">The entered object number already exists in the database. Please enter a different object number.</label>
 			<label index="message_required_field">Please enter a value for this field.</label>
+			<label index="message_required_field_requesterZip">Please enter your ZIP code.</label>
+			<label index="message_required_field_requesterCity">Please enter your city.</label>
 			<label index="message_value_not_allowed">The provided value is not within the set of allowed values.</label>
 			<label index="message_enter_valid_non_empty_buying_price">Please enter a valid price because this is an object to buy.</label>
 			<label index="message_enter_valid_or_empty_buying_price">Please enter a valid price or leave this field empty.</label>

@@ -136,6 +136,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCommonFrontEndSettings();
 		$this->checkDefaultContactEmail();
 		$this->checkBlindCarbonCopyAddress();
+		$this->checkRequiredContactFormFields();
 	}
 
 	/**
@@ -661,6 +662,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			true,
 			'This value specifies the recipient for for a blind carbon copy of ' .
 				'each request on objects and may be left empty.'
+		);
+	}
+
+	/**
+	 * Checks the configuration for requiredContactFormFields.
+	 */
+	private function checkRequiredContactFormFields() {
+		$this->checkIfMultiInSetOrEmpty(
+			'requiredContactFormFields',
+			true,
+			's_contactForm',
+			'This value specifies which fields are required to be filled when ' .
+				'committing a contact request. Some fields will be not be ' .
+				'required if this configuration is incorrect.',
+			array('name', 'street', 'zip', 'city', 'telephone')
 		);
 	}
 

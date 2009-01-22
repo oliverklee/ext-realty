@@ -93,6 +93,8 @@ plugin.tx_realty_pi1 {
 	defaultContactEmail =
 	# e-mail address where to send a BCC of each request, leave empty to disable
 	blindCarbonCopyAddress =
+	# required fields for the contact form
+	requiredContactFormFields = name
 	# whether the link to the contact form should be displayed
 	# (applicable for single and favorites view)
 	showContactPageLink = 0

@@ -94,39 +94,109 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		}
 
 		$subpartName = 'CONTACT_FORM';
-		$errorMessages = array();
+		$errorMessages = array(
+			'requesterName' => '', 'requesterStreet' => '', 'requesterZip' => '',
+			'requesterCity' => '', 'requesterEmail' => '', 'requesterPhone' => '',
+			'request' => '', 'contact_form' => '',
+		);
+
 		$this->fillContactInformationFieldsForLoggedInUser();
 		$this->setFormValues();
 
-		if ($this->contactFormData['isSubmitted']) {
-			if (!$this->isLoggedIn()) {
-				if (!$this->isValidName($this->contactFormData['requesterName'])) {
-					$errorMessages[] = 'label_set_name';
-				}
-				if (!$this->isValidEmail($this->contactFormData['requesterEmail'])) {
-					$errorMessages[] = 'label_set_valid_email_address';
-				}
-			}
-			if ($this->contactFormData['request'] == '') {
-				$errorMessages[] = 'label_no_empty_textarea';
-			}
-		}
-
-		if (empty($errorMessages) && $this->contactFormData['isSubmitted']) {
+		if ($this->contactFormData['isSubmitted']
+			&& $this->checkFormData($errorMessages)
+		) {
 			if ($this->sendRequest()) {
 				$subpartName = 'CONTACT_FORM_SUBMITTED';
 			} else {
-				$errorMessages[] = 'label_no_contact_person';
+				$errorMessages['contact_form'] = 'label_no_contact_person';
 			}
 		}
 
-		if (empty($errorMessages)) {
-			$this->hideSubparts('contact_form_error', 'wrapper');
-		} else {
-			$this->setErrorMessageContent($errorMessages);
-		}
+		$this->setErrorMessageContent($errorMessages);
 
 		return $this->getSubpart($subpartName);
+	}
+
+	/**
+	 * Checks whether the form data is correctly filled.
+	 *
+	 * @param array associative array with field names as keys, locallang keys
+	 *              of error messages will be added as values by this function
+	 *
+	 * @return boolean true if the form data was correctly filled, false
+	 *                 otherwise
+	 */
+	private function checkFormData(&$errorMessages) {
+		$noErrorsSet = true;
+
+		if (!$this->isLoggedIn()) {
+			if (!$this->isValidName($this->contactFormData['requesterName'])) {
+				$errorMessages['requesterName'] = 'label_set_name';
+				$noErrorsSet = false;
+			}
+			if (!$this->isValidEmail($this->contactFormData['requesterEmail'])) {
+				$errorMessages['requesterEmail'] = 'label_set_valid_email_address';
+				$noErrorsSet = false;
+			}
+			$nonFilledRequiredFields = $this->getEmptyRequiredFields();
+			if (!empty($nonFilledRequiredFields)) {
+				foreach ($nonFilledRequiredFields as $key) {
+					$suffix = '';
+					if (($key == 'requesterZip') || ($key == 'requesterCity')) {
+						$suffix = '_' . $key;
+					}
+					$errorMessages[$key] = 'message_required_field' . $suffix;
+				}
+				$noErrorsSet = false;
+			}
+		}
+		if ($this->contactFormData['request'] == '') {
+			$errorMessages['request'] = 'label_no_empty_textarea';
+			$noErrorsSet = false;
+		}
+
+		return $noErrorsSet;
+	}
+
+	/**
+	 * Returns an array of the form data keys that have empty values but are
+	 * configured to be required fields.
+	 *
+	 * @return array keys of form fields that are empty but must not be empty,
+	 *               may be empty
+	 */
+	private function getEmptyRequiredFields() {
+		if (!$this->hasConfValueString(
+			'requiredContactFormFields', 's_contactForm')
+		) {
+			return array();
+		}
+
+		$result = array();
+		$requiredFields = t3lib_div::trimExplode(
+			',',
+			$this->getConfValueString(
+				'requiredContactFormFields', 's_contactForm'
+			),
+			true
+		);
+
+		foreach (array(
+			'requesterName' => 'name',
+			'requesterStreet' => 'street',
+			'requesterZip' => 'zip',
+			'requesterCity' => 'city',
+			'requesterPhone' => 'telephone',
+		) as $formDataKey => $fieldName) {
+			if (in_array($fieldName, $requiredFields)
+				&& (trim($this->contactFormData[$formDataKey]) == '')
+			) {
+				$result[] = $formDataKey;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -180,7 +250,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			'requester_phone' => $this->contactFormData['requesterPhone'],
 			'requester_street' => $this->contactFormData['requesterStreet'],
 			'requester_zip_and_city' => trim(
-				$this->contactFormData['requesterZip'] . ' ' . 
+				$this->contactFormData['requesterZip'] . ' ' .
 					$this->contactFormData['requesterCity']
 				),
 			'summary_string_of_favorites'
@@ -219,8 +289,14 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *                will not be empty
 	 */
 	private function getEmailSender() {
-		return 'From: "' . $this->contactFormData['requesterName'] . '" ' .
-			'<' . $this->contactFormData['requesterEmail'] . '>' . LF;
+		if ($this->contactFormData['requesterName'] == '') {
+			$result = $this->contactFormData['requesterEmail'] . LF;
+		} else {
+			$result = 'From: "' .
+				$this->contactFormData['requesterName'] . '" ' . '<' .
+				$this->contactFormData['requesterEmail'] . '>' . LF;
+		}
+		return $result;
 	}
 
 	/**
@@ -362,7 +438,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 
 			foreach (array('object_number', 'title', 'uid') as $key) {
 				$this->setMarker(
-					$key, $this->getRealtyObject()->getProperty($key), 
+					$key, $this->getRealtyObject()->getProperty($key),
 					'', 'wrapper'
 				);
 			}
@@ -394,14 +470,25 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets an error message to the marker 'ERROR_MESSAGE'.
 	 *
-	 * @param array keys of the error messages to set, may be empy
+	 * @param array associative array with the fields where the error occured
+	 *              as keys and the locallang key of an error message as value
+	 *              if there was one, must not be empty
 	 */
-	private function setErrorMessageContent(array $keys) {
-		$errorMessage = '';
-		foreach ($keys as $key) {
-			$errorMessage .= $this->translate($key) . '<br />';
+	private function setErrorMessageContent(array $errors) {
+		foreach ($errors as $formFieldName => $locallangKey) {
+			if ($locallangKey != '') {
+				$this->setMarker(
+					'ERROR_MESSAGE', $this->translate($locallangKey) . '<br/>'
+				);
+				$formattedError = $this->getSubpart('CONTACT_FORM_ERROR');
+			} else {
+				$formattedError = '';
+			}
+
+			$this->setMarker(
+				strtoupper($formFieldName) . '_ERROR', $formattedError
+			);
 		}
-		$this->setMarker('ERROR_MESSAGE', $errorMessage);
 	}
 
 	/**
@@ -429,10 +516,17 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string the name to check, may be empty
 	 *
-	 * @return boolean true if the name is non-empty and valid, false otherwise
+	 * @return boolean true if the name is valid which means it does not contain
+	 *                 any characters that are indicative of header injection,
+	 *                 false otherwise
 	 */
 	private function isValidName($name) {
-		return (boolean) preg_match('/^[\S ]+$/s', $name);
+		if ($name == '') {
+			return true;
+		}
+
+		return (boolean) preg_match('/^[\S ]+$/s', $name)
+			&& !preg_match('/[<>"]/', $name);
 	}
 
 	/**
