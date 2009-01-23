@@ -1005,6 +1005,37 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////////////////////
+	// Tests concerning additional header in list view
+	////////////////////////////////////////////////////
+
+	public function testCreateListViewForNoPostDataSentDoesNotAddCacheControlHeader() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$this->fixture->main('', array());
+
+		$this->assertNotEquals(
+			tx_oelib_headerProxyFactory::getInstance()
+				->getHeaderProxy()->getLastAddedHeader(),
+			'Cache-Control: max-age=86400, must-revalidate'
+		);
+	}
+
+	public function testCreateListViewForPostDataSentAddsCacheControlHeader() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+
+		$_POST['tx_realty_pi1'] = 'foo';
+		$this->fixture->main('', array());
+		unset($_POST['tx_realty_pi1']);
+
+		$this->assertEquals(
+			tx_oelib_headerProxyFactory::getInstance()
+				->getHeaderProxy()->getLastAddedHeader(),
+			'Cache-Control: max-age=86400, must-revalidate'
+		);
+	}
+
+
 	/////////////////////////////////
 	// Testing filtered list views.
 	/////////////////////////////////

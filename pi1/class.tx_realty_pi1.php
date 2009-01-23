@@ -305,6 +305,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *                view if no items were found
 	 */
 	private function createListView() {
+		$this->addHeaderForListView();
+
 		// Initially most subparts are hidden. Depending on the type of list
 		// view, they will be set to unhidden again.
 		$this->hideSubparts(
@@ -2374,6 +2376,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 		} else {
 			$this->hideSubparts('new_record_link');
+		}
+	}
+
+	/**
+	 * Overides the line Cache-control if POST data of realty has been sent.
+	 * This assures, that the page is loaded correctly after hitting the back
+	 * button in IE (see also Bug 2636).
+	 */
+	private function addHeaderForListView() {
+		$postValues = t3lib_div::_POST();
+		if (isset($postValues['tx_realty_pi1'])) {
+			tx_oelib_headerProxyFactory::getInstance()
+				->getHeaderProxy()->addHeader(
+					'Cache-Control: max-age=86400, must-revalidate'
+				);
 		}
 	}
 }
