@@ -82,6 +82,13 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testRenderReturnsNoUnreplacedMarkers() {
+		$this->assertNotContains(
+			'###',
+			$this->fixture->render(array())
+		);
+	}
+
 
 	//////////////////////////////////////////////
 	// Testing the rendering of the site search.

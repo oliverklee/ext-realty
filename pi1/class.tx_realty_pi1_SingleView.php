@@ -289,7 +289,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Fills the subpart ###OVERVIEW_TABLE### with the contents of the current
+	 * Fills the subpart "OVERVIEW_TABLE" with the contents of the current
 	 * record's database fields specified via the TS setup variable
 	 * "fieldsInSingleViewTable".
 	 *

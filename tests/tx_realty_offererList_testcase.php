@@ -106,6 +106,13 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOffererListDisplaysNoUnreplacedMarkers() {
+		$this->assertNotContains(
+			'###',
+			$this->fixture->render()
+		);
+	}
+
 	public function testOffererListNotDisplaysDeletedOffererAlthoughHeIsInTheConfiguredGroup() {
 		$this->testingFramework->changeRecord(
 			'fe_users',

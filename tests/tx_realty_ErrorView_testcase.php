@@ -103,5 +103,12 @@ class tx_realty_ErrorView_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(array('message_access_denied'))
 		);
 	}
+
+	public function testRenderReturnsNoUnreplacedMarkers() {
+		$this->assertNotContains(
+			'###',
+			$this->fixture->render(array('message_access_denied'))
+		);
+	}
 }
 ?>

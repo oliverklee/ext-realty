@@ -109,6 +109,15 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testRenderGoogleMapsViewWithCollectedMarkerReturnsNoUnreplacedMarkers() {
+		$this->fixture->setMapMarker($this->realtyUid);
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->render(array('message_access_denied'))
+		);
+	}
+
 	public function testSetMapMarkerForZeroCausesException() {
 		$this->setExpectedException(
 			'Exception',

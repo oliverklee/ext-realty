@@ -672,6 +672,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			)
 		);
 
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('pidList', $systemFolder);
 
 		$this->assertNotContains(
@@ -1463,6 +1464,32 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCheckboxesFilterDoesNotHaveUnreplacedMarkersForMinimalContent() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				// A city is the minimum requirement for an object to be displayed,
+				// though the object is rendered empty because the city has no title.
+				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'pid' => $systemFolder
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testListFilterIsVisibleIfCheckboxesFilterIsSetToDistrictAndCitySelectorIsActive() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -2247,9 +2274,33 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////////////////////////
-	// Tests concerning the contact link in the favorites list
-	////////////////////////////////////////////////////////////
+	////////////////////////////////////////
+	// Tests concerning the favorites list
+	////////////////////////////////////////
+
+	public function testFavoritesViewHasNoUnreplacedMarkersForEmptyRenderedObject() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->session->setAsInteger(
+			tx_realty_pi1::FAVORITES_SESSION_KEY,
+			$this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS,
+				array(
+					// A city is the minimum requirement for an object to be displayed,
+					// though the object is rendered empty because the city has no title.
+					'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+					'pid' => $systemFolder
+				)
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
 
 	public function testContactLinkIsDisplayedInTheFavoritesViewIfThisIsEnabledAndTheContactPidIsSet() {
 		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
@@ -2772,6 +2823,23 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGalleryHasNoUnreplacedMarkersForOnlyOneImage() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testJavaScriptForGalleryGetsIncludedIfWhatToDisplayIsGallery() {
 		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
 		$this->fixture->main('', array());
@@ -2856,6 +2924,15 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			self::$secondObjectTitle,
 			$output
+		);
+	}
+
+	public function testMyObjectsViewHasNoUnreplacedMarkers() {
+		$this->prepareMyObjects(true);
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
 		);
 	}
 
@@ -3066,6 +3143,139 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////////////////////////////////////////////
+	// Tests concerning the "advertise" button in the my-objects view
+	///////////////////////////////////////////////////////////////////
+
+	public function testMyItemWithAdvertisePidAndNoAdvertisementDateHasAdvertiseButton() {
+		$this->prepareMyObjects(true);
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $this->testingFramework->createFrontEndPage()
+		);
+
+		$this->assertContains(
+			'class="button advertise"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithoutAdvertisePidNotHasAdvertiseButton() {
+		$this->prepareMyObjects(true);
+
+		$this->assertNotContains(
+			'class="button advertise"',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithAdvertisePidLinksToAdvertisePid() {
+		$this->prepareMyObjects(true);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithAdvertiseParameterUsesParameterWithObjectUid() {
+		$this->prepareMyObjects(true);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+		$this->fixture->setConfigurationValue(
+			'advertisementParameterForObjectUid', 'foo'
+		);
+
+		$this->assertContains(
+			'foo=' . $this->firstRealtyUid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithPastAdvertisementDateAndZeroExpiryNotHasLinkToAdvertisePid() {
+		$ownerUid = $this->prepareMyObjects(false);
+
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'owner' => $ownerUid,
+				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - ONE_DAY,
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'advertisementExpirationInDays', 0
+		);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertNotContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithPastAdvertisementDateAndNonZeroSmallEnoughExpiryHasLinkToAdvertisePid() {
+		$ownerUid = $this->prepareMyObjects(false);
+
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'owner' => $ownerUid,
+				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 10,
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'advertisementExpirationInDays', 1
+		);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testMyItemWithPastAdvertisementDateAndNonZeroTooBigExpiryNotHasLinkToAdvertisePid() {
+		$ownerUid = $this->prepareMyObjects(false);
+
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'owner' => $ownerUid,
+				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * ONE_DAY,
+			)
+		);
+
+		$this->fixture->setConfigurationValue(
+			'advertisementExpirationInDays', 1
+		);
+		$advertisementPid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue(
+			'advertisementPID', $advertisementPid
+		);
+
+		$this->assertNotContains(
+			'?id=' . $advertisementPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	////////////////////////////////////////////////
 	// Tests concerning the objects-by-owner list.
 	////////////////////////////////////////////////
@@ -3098,6 +3308,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_add_to_favorites'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testObjectsByOwnerListDisplaysNoUnreplacedMarkers() {
+		$ownerUid = $this->testingFramework->createFrontEndUser();
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $ownerUid)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'objects_by_owner');
+		$this->fixture->piVars['owner'] = $ownerUid;
+
+		$this->assertNotContains(
+			'###',
 			$this->fixture->main('', array())
 		);
 	}
@@ -3586,135 +3812,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-
-	////////////////////////////////////////////
-	// Tests concerning the "advertise" button
-	////////////////////////////////////////////
-
-	public function testMyItemWithAdvertisePidAndNoAdvertisementDateHasAdvertiseButton() {
-		$this->prepareMyObjects(true);
-		$this->fixture->setConfigurationValue(
-			'advertisementPID', $this->testingFramework->createFrontEndPage()
-		);
-
-		$this->assertContains(
-			'class="button advertise"',
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function testMyItemWithoutAdvertisePidNotHasAdvertiseButton() {
-		$this->prepareMyObjects(true);
+	public function tesCitySelectorHasNoUnreplacedMarkers() {
+		$this->fixture->setConfigurationValue('what_to_display', 'city_selector');
+		$this->fixture->setConfigurationValue('filterTargetPID', $this->listViewPid);
 
 		$this->assertNotContains(
-			'class="button advertise"',
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function testMyItemWithAdvertisePidLinksToAdvertisePid() {
-		$this->prepareMyObjects(true);
-		$advertisementPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue(
-			'advertisementPID', $advertisementPid
-		);
-
-		$this->assertContains(
-			'?id=' . $advertisementPid,
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function testMyItemWithAdvertiseParameterUsesParameterWithObjectUid() {
-		$this->prepareMyObjects(true);
-		$advertisementPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue(
-			'advertisementPID', $advertisementPid
-		);
-		$this->fixture->setConfigurationValue(
-			'advertisementParameterForObjectUid', 'foo'
-		);
-
-		$this->assertContains(
-			'foo=' . $this->firstRealtyUid,
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function testMyItemWithPastAdvertisementDateAndZeroExpiryNotHasLinkToAdvertisePid() {
-		$ownerUid = $this->prepareMyObjects(false);
-
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array(
-				'owner' => $ownerUid,
-				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - ONE_DAY,
-			)
-		);
-
-		$this->fixture->setConfigurationValue(
-			'advertisementExpirationInDays', 0
-		);
-		$advertisementPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue(
-			'advertisementPID', $advertisementPid
-		);
-
-		$this->assertNotContains(
-			'?id=' . $advertisementPid,
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function testMyItemWithPastAdvertisementDateAndNonZeroSmallEnoughExpiryHasLinkToAdvertisePid() {
-		$ownerUid = $this->prepareMyObjects(false);
-
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array(
-				'owner' => $ownerUid,
-				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 10,
-			)
-		);
-
-		$this->fixture->setConfigurationValue(
-			'advertisementExpirationInDays', 1
-		);
-		$advertisementPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue(
-			'advertisementPID', $advertisementPid
-		);
-
-		$this->assertContains(
-			'?id=' . $advertisementPid,
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function testMyItemWithPastAdvertisementDateAndNonZeroTooBigExpiryNotHasLinkToAdvertisePid() {
-		$ownerUid = $this->prepareMyObjects(false);
-
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array(
-				'owner' => $ownerUid,
-				'advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * ONE_DAY,
-			)
-		);
-
-		$this->fixture->setConfigurationValue(
-			'advertisementExpirationInDays', 1
-		);
-		$advertisementPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue(
-			'advertisementPID', $advertisementPid
-		);
-
-		$this->assertNotContains(
-			'?id=' . $advertisementPid,
+			'###',
 			$this->fixture->main('', array())
 		);
 	}

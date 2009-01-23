@@ -145,6 +145,19 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSingleViewReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+		$result = $this->fixture->render(array('showUid' => $this->realtyUid));
+
+		$this->assertNotEquals(
+			'',
+			$result
+		);
+		$this->assertNotContains(
+			'###',
+			$result
+		);
+	}
+
 
 	////////////////////////////////////////////////////////////
 	// Testing rendered images and the Lightbox styled gallery
