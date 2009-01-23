@@ -315,8 +315,8 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////////////////////
 
 	public function testGetRedirectUrlReturnsUrlWithCurrentPageIdAsTargetPageIfProceedUploadWasTrue() {
-		$fePageUid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', $pageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
 
 		$this->assertContains(
@@ -326,8 +326,8 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetRedirectUrlReturnsUrlShowUidInUrlIfProceedUploadWasTrue() {
-		$fePageUid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', $pageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
 
 		$this->assertContains(
@@ -337,12 +337,12 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetRedirectUrlReturnsUrlWithCurrentConfiguredRedirectPageIdAsTargetPageIfProceedUploadWasFalse() {
-		$fePageUid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', $pageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 0);
 
 		$this->assertContains(
-			'?id=' . $fePageUid,
+			'?id=' . $pageUid,
 			$this->fixture->getRedirectUrl()
 		);
 	}
