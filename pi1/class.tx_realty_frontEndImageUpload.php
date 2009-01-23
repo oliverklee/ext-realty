@@ -37,7 +37,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
-	/** @var string stores the type of validation error if there was one */
+	/**
+	 * @var string stores the type of validation error if there was one
+	 */
 	private $validationError = '';
 
 
@@ -223,9 +225,12 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * @return string URL of the current page, will not be empty
 	 */
 	private function getUrlOfCurrentPage() {
-		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(
-			array('parameter' => $GLOBALS['TSFE']->id)
-		));
+		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
+			'parameter' => $GLOBALS['TSFE']->id,
+			'additionalParams' => t3lib_div::implodeArrayForUrl('', array(
+				$this->prefixId => array('showUid' => $this->realtyObjectUid)
+			)),
+		)));
 	}
 
 	/**

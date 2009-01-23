@@ -325,6 +325,17 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetRedirectUrlReturnsUrlShowUidInUrlIfProceedUploadWasTrue() {
+		$fePageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
+		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
+
+		$this->assertContains(
+			'tx_realty_pi1[showUid]',
+			$this->fixture->getRedirectUrl()
+		);
+	}
+
 	public function testGetRedirectUrlReturnsUrlWithCurrentConfiguredRedirectPageIdAsTargetPageIfProceedUploadWasFalse() {
 		$fePageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
