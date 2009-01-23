@@ -43,12 +43,6 @@ $EM_CONF[$_EXTKEY] = array(
 		'conflicts' => array(
 			'dbal' => '',
 		),
-		'suggests' => array(
-			'mailform_userfunc' => '0.0.3.-',
-		),
-	),
-	'suggests' => array(
-		'mailform_userfunc' => '0.0.3.-',
 	),
 );
 
