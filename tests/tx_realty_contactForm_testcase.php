@@ -997,6 +997,23 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testEmailWithMinimumContentContainsNoUnreplacedMarkers() {
+		$this->fixture->render(
+			array(
+				'showUid' => $this->realtyUid,
+				'isSubmitted' => true,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+				'request' => 'the request',
+			)
+		);
+
+		$this->assertNotContains(
+			'###',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
 	public function testEmailBodyContainsTheRequestersName() {
 		$this->fixture->render(
 			array(

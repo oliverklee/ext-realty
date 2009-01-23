@@ -1105,6 +1105,32 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCheckboxesFilterDoesNotHaveUnreplacedMarkersForMinimalContent() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				// A city is the minimum requirement for an object to be displayed,
+				// though the object is rendered empty because the city has no title.
+				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'pid' => $systemFolder
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertContains(
+			'id="tx_realty_pi1_search"',
+			$this->fixture->main('', array())
+		);
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testListFilterIsVisibleIfCheckboxesFilterIsSetToDistrictAndCitySelectorIsActive() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -1797,6 +1823,42 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////////
+	// Tests concerning the favorites list
+	////////////////////////////////////////
+
+	public function testFavoritesViewContainsObjectWhichWasAddedToTheFavorites() {
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
+		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testFavoritesViewHasNoUnreplacedMarkersForEmptyRenderedObject() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->fixture->addToFavorites(array($this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				// A city is the minimum requirement for an object to be displayed,
+				// though the object is rendered empty because the city has no title.
+				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'pid' => $systemFolder,
+			)
+		)));
+
+		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	///////////////////////////////////////
 	// Tests concerning the contact link.
 	///////////////////////////////////////
@@ -2284,6 +2346,28 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 	}
+
+	public function testSingleViewHasNoUnreplacedMarkersForMinimalContent() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				// A city is the minimum requirement for an object to be displayed,
+				// though the object is rendered empty because the city has no title.
+				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'pid' => $systemFolder
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
 
 	/////////////////////////////////////
 	// Tests concerning getFieldContent
@@ -2841,6 +2925,23 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGalleryHasNoUnreplacedMarkersForOnlyOneImage() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES, array(
+				'realty_object_uid' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'gallery');
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testGalleryDisplaysNoWarningWithAllParameterForHiddenObjectWhenOwnerLoggedIn() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
@@ -3079,6 +3180,24 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testMyObjectsViewHasNoUnreplacedMarkers() {
+		$feUserId = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+		$this->testingFramework->loginFrontEndUser($feUserId);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('owner' => $feUserId)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+	
+		$this->assertNotContains(
+			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testMyObjectsViewContainsEditButton() {
 		$feUserId = $this->testingFramework->createFrontEndUser(
 			$this->testingFramework->createFrontEndUserGroup()
@@ -3256,6 +3375,16 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'?id=' . $this->listViewPid,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function tesCitySelectorHasNoUnreplacedMarkers() {
+		$this->fixture->setConfigurationValue('what_to_display', 'city_selector');
+		$this->fixture->setConfigurationValue('filterTargetPID', $this->listViewPid);
+
+		$this->assertNotContains(
+			'###',
 			$this->fixture->main('', array())
 		);
 	}
