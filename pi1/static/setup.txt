@@ -32,7 +32,7 @@ plugin.tx_realty_pi1 {
 	# maximum Y size of thumbnails in the gallery
 	galleryThumbnailY = 137
 	# maximum width of thumbnails in the front-end image upload
-	imageUploadThumbnailWidth = 200
+	imageUploadThumbnailWidth = 113
 	# maximum height of thumbnails in the front-end image upload
 	imageUploadThumbnailHeight = 75
 

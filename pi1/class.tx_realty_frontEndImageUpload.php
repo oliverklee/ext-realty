@@ -261,11 +261,14 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			$this->setMarker(
 				'single_image_item',
 				'<a href="' . $imageUrl . '" rel="lightbox[objectGallery]" ' .
-					'title="' . $imageRecord['caption'] . '"' . '>' . $imageTag .
-					'</a>' . ' ' . htmlspecialchars($imageRecord['caption'])
+					'title="' . htmlspecialchars($imageRecord['caption']) . '"' .
+					'>' . $imageTag . '</a>'
 			);
 			$this->setMarker(
-				'image_label',
+				'image_title', htmlspecialchars($imageRecord['caption'])
+			);
+			$this->setMarker(
+				'image_title_for_js',
 				htmlspecialchars(addslashes($imageRecord['caption']))
 			);
 			$this->setMarker(

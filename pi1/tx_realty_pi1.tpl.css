@@ -905,15 +905,25 @@ p.tx-realty-pi1-objekt-nr {
 	background: #e4e4e4;
 }
 
-#uploadfield .column2 dl dl dt span {
-	display: block;
-	margin: 5px 120px 5px 0;
+#uploadfield .column2 .label {
+	position: absolute;
+	left: 115px;
+	right: 120px;
+}
+
+#uploadfield .column2 .image {
+	border: none;
+}
+
+#uploadfield img {
+	margin: 2px 0 -3px 2px;
+	border: none;
 }
 
 #uploadfield .column2 dl dl dt input {
 	position: absolute;
-	right: 0;
-	top: 43px;
+	right: 2px;
+	top: 31px;
 	margin-right: 0;
 }
 
@@ -926,10 +936,4 @@ p.tx-realty-pi1-objekt-nr {
 	color: #ffffff;
 	background: transparent url(images/submit_button_inactive.png) no-repeat;
 	cursor: default;
-}
-
-#uploadfield img {
-	margin: 0 15px 5px 5px;
-	float:left;
-	border: none;
 }
