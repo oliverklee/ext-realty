@@ -1,4 +1,5 @@
 0.3.2 - currently working on
+- [#2636] Fix: When going back from single view to list view, IE says: page no longer valid 
 - [#2355] Change: Use a constant for the path to the upload folder
 - [#2315] Fix: Invalid HTML when editing an existing object
 
