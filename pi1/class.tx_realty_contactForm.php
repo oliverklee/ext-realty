@@ -57,6 +57,9 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		if (is_object($this->realtyObject)) {
+			$this->realtyObject->__destruct();
+		}
 		unset($this->realtyObject);
 
 		parent::__destruct();

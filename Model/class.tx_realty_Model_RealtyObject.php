@@ -40,23 +40,31 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLo
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_RealtyObject {
-	/** @var integer the length of cropped titles */
+class tx_realty_Model_RealtyObject extends tx_oelib_Model {
+	/**
+	 * @var integer the length of cropped titles
+	 */
 	const CROP_SIZE = 32;
 
-	/** contains the realty object's data */
+	/**
+	 * @var array contains the realty object's data
+	 */
 	private $realtyObjectData = array();
 
 	/**
-	 * records of images are stored here until they are inserted to
-	 * 'tx_realty_images'
+	 * @var array records of images are stored here until they are inserted to
+	 *            'tx_realty_images'
 	 */
 	private $images = array();
 
-	/** the owner record is cached in order to improve performance */
+	/**
+	 * @var array the owner record is cached in order to improve performance
+	 */
 	private $ownerData = array();
 
-	/** required fields for OpenImmo records */
+	/**
+	 * @var array required fields for OpenImmo records
+	 */
 	private $requiredFields = array(
 		'zip',
 		'object_number',
@@ -71,10 +79,14 @@ class tx_realty_Model_RealtyObject {
 		'contact_email'
 	);
 
-	/** allowed field names in the table for realty objects */
+	/**
+	 * @var array allowed field names in the table for realty objects
+	 */
 	private $allowedFieldNames = array();
 
-	/** associates property names and their corresponding tables */
+	/**
+	 * @var array associates property names and their corresponding tables
+	 */
 	private static $propertyTables = array(
 		REALTY_TABLE_CITIES => 'city',
 		REALTY_TABLE_APARTMENT_TYPES => 'apartment_type',
@@ -84,13 +96,19 @@ class tx_realty_Model_RealtyObject {
 		REALTY_TABLE_CAR_PLACES => 'garage_type',
 	);
 
-	/** whether hidden objects are loadable */
+	/**
+	 * @var boolean whether hidden objects are loadable
+	 */
 	private $canLoadHiddenObjects = false;
 
-	/** whether a newly created record is for testing purposes only */
+	/**
+	 * @var boolean whether a newly created record is for testing purposes only
+	 */
 	private $isDummyRecord = false;
 
-	/** @var tx_realty_googleMapsLookup a geo coordinate finder */
+	/**
+	 * @var tx_realty_googleMapsLookup a geo coordinate finder
+	 */
 	private static $geoFinder = null;
 
 	/**

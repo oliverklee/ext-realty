@@ -109,6 +109,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$realtyObject->addImageRecord(self::$firstImageTitle, self::$firstImageFileName);
 		$realtyObject->addImageRecord(self::$secondImageTitle, self::$secondImageFileName);
 		$realtyObject->writeToDatabase();
+		$realtyObject->__destruct();
 
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 	}

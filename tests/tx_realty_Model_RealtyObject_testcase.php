@@ -92,6 +92,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->cleanUpDatabase();
 
 		$this->templateHelper->__destruct();
+		$this->fixture->__destruct();
 		unset($this->fixture, $this->templateHelper, $this->testingFramework);
 	}
 

@@ -59,6 +59,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		if ($this->formatter) {
 			$this->formatter->__destruct();
 		}
+		if (is_object($this->realtyObject)) {
+			$this->realtyObject->__destruct();
+		}
 		unset($this->formatter, $this->realtyObject);
 		parent::__destruct();
 	}

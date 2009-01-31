@@ -119,6 +119,9 @@ class tx_realty_openImmoImport {
 		if (is_object($this->fileNameMapper)) {
 			$this->fileNameMapper->__destruct();
 		}
+		if (is_object($this->realtyObject)) {
+			$this->realtyObject->__destruct();
+		}
 		unset(
 			$this->globalConfiguration, $this->importedXml,
 			$this->realtyObject, $this->fileNameMapper

@@ -123,6 +123,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		}
 
 		$realtyObject->writeToDatabase();
+		$realtyObject->__destruct();
 	}
 
 
