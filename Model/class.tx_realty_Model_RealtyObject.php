@@ -1033,10 +1033,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$result = false;
 
 		$keysToMatch = array();
-		foreach (explode(',', $keys) as $key) {
-			$trimmedKey = trim($key);
-			if (isset($dataArray[$trimmedKey])) {
-				$keysToMatch[] = $trimmedKey;
+		foreach (t3lib_div::trimExplode(',', $keys, true) as $key) {
+			if (isset($dataArray[$key])) {
+				$keysToMatch[] = $key;
 			}
 		}
 

@@ -126,13 +126,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return array();
 		}
 
-		$rangeLimits = explode('-', $priceRange);
+		$rangeLimits = t3lib_div::intExplode('-', $priceRange);
 
 		// intval() converts an empty string to 0. So for "-100" zero and 100
 		// will be stored as limits.
 		return array(
-			'lowerLimit' => intval($rangeLimits[0]),
-			'upperLimit' => intval($rangeLimits[1])
+			'lowerLimit' => $rangeLimits[0],
+			'upperLimit' => $rangeLimits[1],
 		);
 	}
 

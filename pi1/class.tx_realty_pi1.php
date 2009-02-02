@@ -817,8 +817,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				$uid = $this->internal['currentRow']['uid'];
 				$this->favoritesDataVerbose[$uid] = array();
-				foreach (explode(
-					',', $this->getConfValueString('favoriteFieldsInSession')
+				foreach (t3lib_div::trimExplode(
+					',',
+					$this->getConfValueString('favoriteFieldsInSession'),
+					true
 				) as $key) {
 					$this->favoritesDataVerbose[$uid][$key]
 						= $this->getFormatter()->getProperty($key);
@@ -1787,8 +1789,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		$this->setMarker('self_url', $this->getSelfUrl());
-		$selectedSortCriteria = explode(
-			',', $this->getConfValueString('sortCriteria')
+		$selectedSortCriteria = t3lib_div::trimExplode(
+			',', $this->getConfValueString('sortCriteria'), true
 		);
 		$options = array();
 		foreach ($selectedSortCriteria as $selectedSortCriterion) {

@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#788] Fix: Use t3lib_div::trimExplode instead of explode
 - [#2649] Feature: Add a "Print" button to the single view
 - [#2627] Feature: Add a parameter $recordData to createAndLoginFrontEndUser
 - [#2629] Cleanup: Remove XCLASS stuff from all classes in tests/ and tests/fixtures/

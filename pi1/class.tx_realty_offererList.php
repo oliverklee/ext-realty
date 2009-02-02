@@ -234,9 +234,13 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 
 		return in_array(
 			$keyOfInformation,
-			explode(',', $this->getConfValueString(
-				$configurationKey, 's_offererInformation'
-			))
+			t3lib_div::trimExplode(
+				',',
+				$this->getConfValueString(
+					$configurationKey, 's_offererInformation'
+				),
+				true
+			)
 		);
 	}
 
@@ -259,11 +263,14 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 		}
 
 		$specialGroups = array_values(array_intersect(
-			explode(',', $groupList),
-			explode(',', $this->getConfValueString(
-				'groupsWithSpeciallyDisplayedContactInformation',
-				's_offererInformation'
-			))
+			t3lib_div::trimExplode(',', $groupList),
+			t3lib_div::trimExplode(',',
+				$this->getConfValueString(
+					'groupsWithSpeciallyDisplayedContactInformation',
+					's_offererInformation'
+				),
+				true
+			)
 		));
 
 		return !empty($specialGroups);
@@ -348,14 +355,16 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getFirstUserGroup(array $userRecord) {
 		$result = '';
-		$matchingGroups = explode(',', $userRecord['usergroup']);
+		$matchingGroups = t3lib_div::trimExplode(
+			',', $userRecord['usergroup'], true
+		);
 
 		if ($this->hasConfValueString(
 			'userGroupsForOffererList', 's_offererInformation'
 		)) {
 			$matchingGroups = array_values(array_intersect(
 				$matchingGroups,
-				explode(
+				t3lib_div::trimExplode(
 					',',
 					$this->getConfValueString(
 						'userGroupsForOffererList', 's_offererInformation'

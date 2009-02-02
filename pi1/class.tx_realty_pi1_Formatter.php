@@ -262,7 +262,11 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	private function getLabelForValidProperty($key) {
 		$localizedStrings = array();
 
-		foreach (explode(',', $this->realtyObject->getProperty($key)) as $suffix) {
+		foreach (
+			t3lib_div::trimExplode(
+				',', $this->realtyObject->getProperty($key), true
+			) as $suffix
+		) {
 			if ($suffix >= 1) {
 				$locallangKey = 'label_' . $key . '.' . $suffix;
 				$translatedLabel = $this->translate($locallangKey);

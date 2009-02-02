@@ -228,7 +228,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$result = true;
 
-		$range = explode('-', $formData['range']);
+		$range = t3lib_div::trimExplode('-', $formData['range'], true);
 		$valuesToCheck = $formData['multiple']
 			? $formData['value']
 			: array($formData['value']);

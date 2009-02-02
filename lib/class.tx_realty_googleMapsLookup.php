@@ -131,7 +131,7 @@ class tx_realty_googleMapsLookup {
 
 			$delay += 100000;
 
-			$resultParts = explode(',', $rawResult);
+			$resultParts = t3lib_div::trimExplode(',', $rawResult, true);
 			$status = $resultParts[0];
 		// 620 = too many requests too fast
 		} while ($status == '620');

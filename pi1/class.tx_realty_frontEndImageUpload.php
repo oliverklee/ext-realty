@@ -113,16 +113,16 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			);
 		}
 
-		$idsOfImagesToDelete = explode(',', $formData['imagesToDelete']);
+		$idsOfImagesToDelete = t3lib_div::trimExplode(
+			',', $formData['imagesToDelete'], true
+		);
 		foreach ($idsOfImagesToDelete as $imageId) {
-			if ($imageId != '') {
-				try {
-					// The ID-prefix is "attached_image_" which are 15 charachters.
-					$this->realtyObject->markImageRecordAsDeleted(
-						substr($imageId, 15)
-					);
-				} catch (Exception $noSuchImageRecord) {
-				}
+			try {
+				// The ID-prefix is "attached_image_" which are 15 charachters.
+				$this->realtyObject->markImageRecordAsDeleted(
+					substr($imageId, 15)
+				);
+			} catch (Exception $noSuchImageRecord) {
 			}
 		}
 
