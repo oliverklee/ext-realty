@@ -43,8 +43,4 @@ class tx_realty_tests_fixtures_testingFrontEndView extends tx_realty_pi1_FrontEn
 		return 'Hi, I am the testingFrontEndView!';
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_testingFrontEndView.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_testingFrontEndView.php']);
-}
 ?>

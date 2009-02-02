@@ -88,8 +88,4 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 		return parent::getAllImageData();
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_Model_RealtyObjectChild.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_Model_RealtyObjectChild.php']);
-}
 ?>

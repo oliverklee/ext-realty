@@ -1,9 +1,10 @@
 0.4.0 - currently working on
+- [#2629] Cleanup: Remove XCLASS stuff from all classes in tests/ and tests/fixtures/
 - [#2587] Fix: Image titles in the image upload dialog not aligned
 - [#2566] Change: Add unit tests for remaining ### in all views
 - [#2612] Fix: Buttons are misaligned in the my-objects view
 - [#2638] Fix: Missing showUid when using the save (and stay) link on the image upload page
-- [#2636] Fix: When going back from single view to list view, IE says: page no longer valid 
+- [#2636] Fix: When going back from single view to list view, IE says: page no longer valid
 - [#2611] Change: Move the city above the district in the FE editor
 - [#2585] Change: Remove the recommendation for mailform_userfunc from ext_emconf
 - [#2614] Feature: Add a flexforms configuration concerning which fields should be shown in the contact form

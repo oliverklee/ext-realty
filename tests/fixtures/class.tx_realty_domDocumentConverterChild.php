@@ -68,8 +68,4 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 		parent::initializeLanguage();
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domDocumentConverterChild.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_domDocumentConverterChild.php']);
-}
 ?>
