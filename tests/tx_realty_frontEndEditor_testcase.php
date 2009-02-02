@@ -87,7 +87,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	 * Creates dummy records in the DB.
 	 */
 	private function createDummyRecords() {
-		$this->feUserUid = $this->testingFramework->createFrontEndUser(
+		$this->feUserUid = $this->testingFramework->createAndLoginFrontEndUser(
 			'',
 			array(
 				'username' => 'test_user',
@@ -96,7 +96,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 				'tx_realty_openimmo_anid' => 'test-user-anid',
 			)
 		);
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(

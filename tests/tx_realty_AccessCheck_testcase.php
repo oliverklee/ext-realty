@@ -35,14 +35,18 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_pi1_AccessCheck */
+	/**
+	 * @var tx_realty_pi1_AccessCheck
+	 */
 	private $fixture;
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
-	/** @var integer dummy FE user UID */
-	private $frontEndUserUid;
-	/** @var integer UID of the dummy object */
+	/**
+	 * @var integer UID of the dummy object
+	 */
 	private $dummyObjectUid;
 
 	public function setUp() {
@@ -50,7 +54,6 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
-		$this->frontEndUserUid = $this->testingFramework->createFrontEndUser();
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS
 		);
@@ -84,7 +87,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForFeEditorThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
@@ -98,7 +101,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test404HeaderIsSentWhenCheckAccessForFeEditorThrowsExceptionWithObjectDoesNotExistMessage() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
@@ -167,9 +170,10 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->dummyObjectUid,
-			array('owner' => $this->frontEndUserUid)
+			array('owner' =>
+				$this->testingFramework->createAndLoginFrontEndUser()
+			)
 		);
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
 
 		$this->fixture->checkAccess(
 			'fe_editor', array('showUid' => $this->dummyObjectUid)
@@ -177,19 +181,18 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForFeEditorDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
 	}
 
 	public function testCheckAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterThrowsExceptionWithNoObjectsLeftMessage() {
-		$userUid = $this->testingFramework->createFrontEndUser(
+		$userUid = $this->testingFramework->createAndLoginFrontEndUser(
 			'', array('tx_realty_maximum_objects' => 1)
 		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('owner' => $userUid)
 		);
-		$this->testingFramework->loginFrontEndUser($userUid);
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_no_objects_left'
@@ -210,10 +213,9 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForFeEditorForLoggedInUserWithObjectsLeftToEnterThrowsNoException() {
-		$userUid = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('tx_realty_maximum_objects' => 1)
 		);
-		$this->testingFramework->loginFrontEndUser($userUid);
 
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
 	}
@@ -236,7 +238,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessageForAZeroObjectUidAndAUserLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_image_upload'
@@ -246,7 +248,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidObjectUidAndAUserLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
@@ -260,7 +262,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test404HeaderIsSentWhenCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessage() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
@@ -329,9 +331,10 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->dummyObjectUid,
-			array('owner' => $this->frontEndUserUid)
+			array('owner' =>
+				$this->testingFramework->createAndLoginFrontEndUser()
+			)
 		);
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
 
 		$this->fixture->checkAccess(
 			'image_upload', array('showUid' => $this->dummyObjectUid)
@@ -356,7 +359,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForMyObjectsThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidObjectToDeleteUidAndAUserLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
@@ -370,7 +373,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test404HeaderIsSentWhenCheckAccessForMyObjectsThrowsExceptionWithObjectDoesNotExistMessage() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
@@ -439,9 +442,10 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->dummyObjectUid,
-			array('owner' => $this->frontEndUserUid)
+			array('owner' =>
+				$this->testingFramework->createAndLoginFrontEndUser()
+			)
 		);
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
 
 		$this->fixture->checkAccess(
 			'my_objects', array('delete' => $this->dummyObjectUid)
@@ -449,7 +453,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForMyObjectsDoesNotThrowAnExceptionIfNoObjectToDeleteIsSetAndTheUserIsLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->fixture->checkAccess('my_objects', array('delete' => 0));
 	}
@@ -468,7 +472,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForSingleViewDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->fixture->checkAccess('single_view', array());
 	}
@@ -487,7 +491,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckAccessForGalleryDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
-		$this->testingFramework->loginFrontEndUser($this->frontEndUserUid);
+		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->fixture->checkAccess('single_view', array());
 	}

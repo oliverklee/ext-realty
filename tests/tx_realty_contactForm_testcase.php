@@ -149,10 +149,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSpecializedContactFormHasDisabledNameFieldIfLoggedIn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'', array('name' => 'test user')
-			)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('name' => 'test user')
 		);
 
 		$this->assertContains(
@@ -162,10 +160,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testContactFormHasNoNameFieldIfLoggedInButNameIsDisabledByConfiguration() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'', array('name' => 'test user')
-			)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('name' => 'test user')
 		);
 		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
@@ -176,10 +172,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSpecializedContactFormHasDisabledEmailFieldIfLoggedIn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'', array('email' => 'frontend-user@valid-email.org')
-			)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('email' => 'frontend-user@valid-email.org')
 		);
 
 		$this->assertContains(
@@ -189,10 +183,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGeneralContactFormHasDisabledNameFieldIfLoggedIn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'', array('name' => 'test user')
-			)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('name' => 'test user')
 		);
 
 		$this->assertContains(
@@ -202,10 +194,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGeneralContactFormHasDisabledEmailFieldIfLoggedIn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'', array('email' => 'frontend-user@valid-email.org')
-			)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('email' => 'frontend-user@valid-email.org')
 		);
 
 		$this->assertContains(
@@ -229,10 +219,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSpecializedContactFormHasDisabledInfomationIfLoggedIn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'', array('name' => 'test user')
-			)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('name' => 'test user')
 		);
 
 		$this->assertContains(
@@ -242,10 +230,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGeneralContactFormHasDisabledInfomationIfLoggedIn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'', array('name' => 'test user')
-			)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('name' => 'test user')
 		);
 
 		$this->assertContains(
@@ -1017,13 +1003,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testNameAndEmailAddressAreFetchedAutomaticallyAsSenderIfAFeUserIsLoggedIn() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'',
-				array(
-					'name' => 'test user',
-					'email' => 'frontend-user@valid-email.org',
-				)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'',
+			array(
+				'name' => 'test user',
+				'email' => 'frontend-user@valid-email.org',
 			)
 		);
 		$this->fixture->render(
@@ -1041,13 +1025,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testEmailAddressIsFetchedAutomaticallyAsSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'',
-				array(
-					'name' => '',
-					'email' => 'frontend-user@valid-email.org',
-				)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'',
+			array(
+				'name' => '',
+				'email' => 'frontend-user@valid-email.org',
 			)
 		);
 		$this->fixture->render(
@@ -1065,13 +1047,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSenderDoesNotContainTheNameIfAFeUserIsLoggedAndUserNameVisibilityDisabled() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'',
-				array(
-					'name' => 'user name',
-					'email' => 'frontend-user@valid-email.org',
-				)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'',
+			array(
+				'name' => 'user name',
+				'email' => 'frontend-user@valid-email.org',
 			)
 		);
 
@@ -1092,13 +1072,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testNoQuotesAreSetForTheSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'',
-				array(
-					'name' => '',
-					'email' => 'frontend-user@valid-email.org',
-				)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'',
+			array(
+				'name' => '',
+				'email' => 'frontend-user@valid-email.org',
 			)
 		);
 		$this->fixture->render(
@@ -1116,13 +1094,11 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testNoAngleBracketsAreSetForTheSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
-		$this->testingFramework->loginFrontEndUser(
-			$this->testingFramework->createFrontEndUser(
-				'',
-				array(
-					'name' => '',
-					'email' => 'frontend-user@valid-email.org',
-				)
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'',
+			array(
+				'name' => '',
+				'email' => 'frontend-user@valid-email.org',
 			)
 		);
 		$this->fixture->render(

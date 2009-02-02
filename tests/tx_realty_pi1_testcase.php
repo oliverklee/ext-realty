@@ -235,8 +235,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	) {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 
-		$uid = $this->testingFramework->createFrontEndUser('', $userData);
-		$this->testingFramework->loginFrontEndUser($uid);
+		$uid = $this->testingFramework->createAndLoginFrontEndUser(
+			'', $userData
+		);
 
 		if ($makeOwner) {
 			$this->testingFramework->changeRecord(
@@ -3131,10 +3132,9 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function testMyObjectsViewForUserWithNoObjectAndMaximumObjectsSetToTwoShowsMultipleObjectsLeftLabel() {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-		$feUserUid = $this->testingFramework->createFrontEndUser(
+		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('tx_realty_maximum_objects' => 2)
 		);
-		$this->testingFramework->loginFrontEndUser($feUserUid);
 
 		$this->assertContains(
 			sprintf($this->fixture->translate('label_multiple_objects_left'), 2),

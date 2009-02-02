@@ -62,7 +62,6 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->createDummyRecords();
-		$this->testingFramework->loginFrontEndUser($this->feUserUid);
 
 		$this->fixture = new tx_realty_frontEndImageUpload (
 			array('feEditorTemplateFile'
@@ -92,7 +91,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	 * Creates dummy records in the DB.
 	 */
 	private function createDummyRecords() {
-		$this->feUserUid = $this->testingFramework->createFrontEndUser();
+		$this->feUserUid = $this->testingFramework->createAndLoginFrontEndUser();
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('owner' => $this->feUserUid)
 		);
