@@ -216,10 +216,15 @@ class tx_realty_pi1_AccessCheck {
 	 */
 	private function getRealtyObject($realtyObjectUid) {
 		if (!$this->realtyObject) {
+			$realtyObjectClassName
+				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
+			$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
+		}
+
+		if ($this->realtyObject->getUid() != $realtyObjectUid) {
+			$this->realtyObject->__destruct();
 			$this->realtyObject
 				= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
-		}
-		if ($this->realtyObject->getUid() != $realtyObjectUid) {
 			$this->realtyObject->loadRealtyObject($realtyObjectUid, true);
 		}
 

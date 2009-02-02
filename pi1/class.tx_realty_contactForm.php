@@ -482,10 +482,10 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			}
 
 			foreach (array('object_number', 'title', 'uid') as $key) {
-				$this->setMarker(
-					$key, $this->getRealtyObject()->getProperty($key),
-					'', 'wrapper'
-				);
+				$value = ($key == 'uid')
+					? $this->realtyObject->getUid()
+					: $this->realtyObject->getProperty($key);
+				$this->setMarker($key, $value, '', 'wrapper');
 			}
 		} else {
 			$subpartsToHide = 'specialized_contact_form,' .
@@ -629,11 +629,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		if (!$this->realtyObject) {
 			$this->realtyObject
 				= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
-		}
-		if ($this->contactFormData['showUid'] > 0) {
-			$this->realtyObject->loadRealtyObject(
-				$this->contactFormData['showUid']
-			);
+			$this->realtyObject->loadRealtyObject($this->contactFormData['showUid']);
 		}
 
 		return $this->realtyObject;

@@ -78,8 +78,6 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			throw new Exception('$realtyObjectUid must be greater than zero.');
 		}
 
-		$this->realtyObject
-			= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
 		$this->loadRealtyObject($realtyObjectUid);
 
 		if ($this->realtyObject->isRealtyObjectDataEmpty()) {
@@ -234,6 +232,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'cropped_title':
 				$result = $this->realtyObject->getCroppedTitle(self::CROP_SIZE);
 				break;
+			case 'uid':
+				$result = $this->realtyObject->getUid();
+				break;
 			default:
 				$result = $this->realtyObject->getProperty($key);
 				break;
@@ -355,6 +356,11 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * @param integer UID of the realty object to load
 	 */
 	public function loadRealtyObject($uid) {
+		if (is_object($this->realtyObject)) {
+			$this->realtyObject->__destruct();
+		}
+		$this->realtyObject
+			= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
 		$this->realtyObject->loadRealtyObject($uid, true);
 	}
 }

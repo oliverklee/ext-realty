@@ -47,11 +47,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	const CROP_SIZE = 32;
 
 	/**
-	 * @var array contains the realty object's data
-	 */
-	private $realtyObjectData = array();
-
-	/**
 	 * @var array records of images are stored here until they are inserted to
 	 *            'tx_realty_images'
 	 */
@@ -127,12 +122,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Receives the data for a new realty object, converts it to an array and
-	 * writes it to $this->realtyObjectData.
+	 * Receives the data for a new realty object to load.
+	 *
 	 * The received data can either be a database result row or an array which
 	 * has database column names as keys (may be empty). The data can also be a
 	 * UID of an existent realty object to load from the database. If the data
-	 * is of an invalid type, $this->realtyObjectData stays empty.
+	 * is of an invalid type, an empty array will be set.
 	 *
 	 * @param mixed data for the realty object: an array, a database
 	 *              result row, or a UID (of integer > 0) of an existing
@@ -145,21 +140,18 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
-				$this->realtyObjectData
-					= $this->isolateImageRecords($realtyData);
+				$this->setData($this->isolateImageRecords($realtyData));
 				break;
 			case 'uid' :
-				$this->realtyObjectData = $this->loadDatabaseEntry(
-					intval($realtyData)
-				);
+				$this->setData($this->loadDatabaseEntry(intval($realtyData)));
 				$this->images = $this->getAttachedImages();
 				break;
 			case 'dbResult' :
-				$this->realtyObjectData = $this->fetchDatabaseResult($realtyData);
+				$this->setData($this->fetchDatabaseResult($realtyData));
 				$this->images = $this->getAttachedImages();
 				break;
 			default :
-				$this->realtyObjectData = array();
+				$this->setData(array());
 				break;
  		}
 
@@ -239,15 +231,21 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Checks '$this->realtyObjectData' for emptiness. Returns true if
-	 * '$this->realtyObjectData' is empty.
+	 * Returns true if the realty object is loaded without any data.
 	 *
-	 * @return boolean true if '$this->realtyObjectData' is empty, false
-	 *                 otherwise
+	 * @return boolean true if the realty object is empty, false otherwise
 	 */
 	public function isRealtyObjectDataEmpty() {
-		$data = $this->getAllProperties();
-		return empty($data);
+		$result = true;
+
+		foreach ($this->getAllowedFieldNames() as $key) {
+			if ($this->existsKey($key)) {
+				$result = false;
+				break;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -269,6 +267,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		if ($this->isRealtyObjectDataEmpty()) {
 			return 'message_object_not_loaded';
 		}
+
 		if (count($this->checkForRequiredFields()) > 0) {
 			return 'message_fields_required';
 		}
@@ -279,31 +278,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$this->processOwnerData();
 		}
 
-		if (($this->realtyObjectData['owner'] > 0)
-			&& (tx_oelib_configurationProxy::getInstance('realty')->
-				getConfigurationValueBoolean(
-					'useFrontEndUserDataAsContactDataForImportedRecords'
-				)
-			)
-		) {
-			$owner
-				= tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-					->find($this->realtyObjectData['owner']);
-			$owner->resetObjectsHaveBeenCalculated();
-			$ownerCanAddObjects = $owner->canAddNewObjects();
-		} else {
-			$ownerCanAddObjects = true;
-		}
+		$ownerCanAddObjects = $this->ownerMayAddObjects();
 
-		if ($this->recordExistsInDatabase(
-			$this->realtyObjectData, 'object_number, language, openimmo_obid'
-			)
-		) {
-			$this->ensureUid(
-				$this->realtyObjectData, 'object_number, language, openimmo_obid'
-			);
-			$this->updateDatabaseEntry($this->realtyObjectData);
-			if ($this->getProperty('deleted')) {
+		if ($this->identifyObjectAndSetUid()) {
+			$this->updateDatabaseEntry($this->getAllProperties());
+			if ($this->getAsBoolean('deleted')) {
 				$this->deleteRelatedImageRecords();
 				$errorMessage = 'message_deleted_flag_causes_deletion';
 			}
@@ -311,7 +290,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$errorMessage = 'message_object_limit_reached';
 		} else {
 			$newUid = $this->createNewDatabaseEntry(
-				$this->realtyObjectData, REALTY_TABLE_OBJECTS, $overridePid
+				$this->getAllProperties(), REALTY_TABLE_OBJECTS, $overridePid
 			);
 			switch ($newUid) {
 				case -1:
@@ -320,7 +299,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				case 0:
 					$errorMessage = 'message_insertion_failed';
 				default:
-					$this->realtyObjectData['uid'] = $newUid;
+					$this->setUid($newUid);
 					break;
 			}
 		}
@@ -335,21 +314,38 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
+	 * Checks whether an owner may add objects to the database.
+	 *
+	 * @return boolean true if the current owner may add objects to the database
+	 */
+	private function ownerMayAddObjects() {
+		if ($this->isOwnerDataUsable()) {
+			$owner = tx_oelib_MapperRegistry
+				::get('tx_realty_Mapper_FrontEndUser')
+				->find($this->getAsInteger('owner'));
+			$owner->resetObjectsHaveBeenCalculated();
+			$ownerCanAddObjects = $owner->canAddNewObjects();
+		} else {
+			$ownerCanAddObjects = true;
+		}
+
+		return $ownerCanAddObjects;
+	}
+
+	/**
 	 * Loads the owner's database record into $this->ownerData.
 	 */
 	private function loadOwnerRecord() {
-		if ((intval($this->getProperty('owner')) == 0)
-			&& ($this->getProperty('openimmo_anid') == '')
-		) {
+		if (!$this->hasOwner() && ($this->getAsString('openimmo_anid') == '')) {
 			return;
 		}
 
-		if (intval($this->getProperty('owner')) != 0) {
-			$whereClause = 'uid=' . $this->getProperty('owner');
+		if ($this->hasOwner()) {
+			$whereClause = 'uid=' . $this->getAsInteger('owner');
 		} else {
 			$whereClause = 'tx_realty_openimmo_anid="' .
 				$GLOBALS['TYPO3_DB']->quoteStr(
-					$this->getProperty('openimmo_anid'), REALTY_TABLE_OBJECTS
+					$this->getAsString('openimmo_anid'), REALTY_TABLE_OBJECTS
 				) . '" ';
 		}
 
@@ -378,7 +374,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	private function processOwnerData() {
 		$this->addRealtyRecordsOwner();
-		$this->addIsOwnerDataUsable();
+		if ($this->isOwnerDataUsable()) {
+			$this->setProperty('contact_data_source', 1);
+		}
 	}
 
 	/**
@@ -390,26 +388,26 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	private function addRealtyRecordsOwner() {
 		// Saves an existing owner from being overwritten.
-		if (intval($this->getProperty('owner')) != 0) {
+		if ($this->hasOwner()) {
 			return;
 		}
 
-		$this->setProperty('owner', intval($this->getOwnerProperty('uid')));
+		$this->setAsInteger('owner', $this->getOwnerProperty('uid'));
 	}
 
 	/**
-	 * Adds information concerning whether the owner's data may be used in the
-	 * FE according to the current configuration.
+	 * Returns whether the owner's data may be used in the FE according to the
+	 * current configuration.
+	 *
+	 * @return boolean true if there is an owner and his data may be used in
+	 *                 the FE, false otherwise
 	 */
-	private function addIsOwnerDataUsable() {
-		if ((intval($this->getProperty('owner')) != 0)
-			&& tx_oelib_configurationProxy::getInstance('realty')->
-				getConfigurationValueBoolean(
-					'useFrontEndUserDataAsContactDataForImportedRecords'
-				)
-		) {
-			$this->setProperty('contact_data_source', 1);
-		}
+	private function isOwnerDataUsable() {
+		return (tx_oelib_configurationProxy::getInstance('realty')
+			->getConfigurationValueBoolean(
+				'useFrontEndUserDataAsContactDataForImportedRecords'
+			) && $this->hasOwner() 
+		);
 	}
 
 	/**
@@ -431,6 +429,15 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
+	 * Returns whether an owner is set for the current realty object.
+	 *
+	 * @return boolean true if the object has an owner, false otherwise
+	 */
+	public function hasOwner() {
+		return ($this->getAsInteger('owner') > 0);
+	}
+
+	/**
 	 * Returns a value for a given key from a loaded realty object. If the key
 	 * does not exist or no object is loaded, an empty string is returned.
 	 *
@@ -441,11 +448,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *               does not exist
 	 */
 	public function getProperty($key) {
-		if ($this->isRealtyObjectDataEmpty() || !$this->hasProperty($key)) {
-			return '';
-		}
-
-		return $this->realtyObjectData[$key];
+		return $this->get($key);
 	}
 
 	/**
@@ -454,7 +457,17 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @return array current realty object data, may be empty
 	 */
 	protected function getAllProperties() {
-		return $this->realtyObjectData;
+		$result = array();
+
+		foreach ($this->getAllowedFieldNames() as $key) {
+			if ($this->existsKey($key)) {
+				$result[$key] = $this->get($key);
+			} elseif (($key == 'uid') && $this->hasUid()) {
+				$result['uid'] = $this->getUid();
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -469,6 +482,21 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *              (also empty) or of boolean, may not be null
 	 */
 	public function setProperty($key, $value) {
+		$this->set($key, $value);
+	}
+
+	/**
+	 * Sets an existing key from a loaded realty object to a value. Does nothing
+	 * if the key does not exist in the current realty object or no object is
+	 * loaded.
+	 * Reloads the owner's data.
+	 *
+	 * @param string key of the value to set in current realty object,
+	 *               must not be empty and must not be 'uid'
+	 * @param mixed value to set, must be either numeric or a string
+	 *              (also empty) or of boolean, may not be null
+	 */
+	public function set($key, $value) {
 		if ($this->isRealtyObjectDataEmpty()
 			|| !$this->isAllowedValue($value)
 			|| !in_array($key, $this->getAllowedFieldNames())
@@ -480,7 +508,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			throw new Exception('The key must not be "uid".');
 		}
 
-		$this->realtyObjectData[$key] = $value;
+		parent::set($key, $value);
 
 		// Ensures the owner's data becomes loaded if one was added.
 		if (($key == 'owner') || ($key == 'openimmo_anid')) {
@@ -501,34 +529,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Checks whether $key is an element of the currently loaded realty object.
- 	 *
-	 * @param string key of value to fetch from current realty object,
-	 *               must not be empty
- 	 *
-	 * @return boolean true if $key exists in the currently loaded realty
-	 *                 object, false otherwise
-	 */
-	private function hasProperty($key) {
-		return isset($this->realtyObjectData[$key]);
-	}
-
-	/**
-	 * Checks whether a realty object contains all possible database column
-	 * names. An array with column names which could not be found in the realty
-	 * object but in the database is returned. An empty array will be returned
-	 * if all column names occur in the realty object.
-	 *
-	 * @return array names of columns which are not set in the realty
-	 *               object but exist in database
-	 */
-	protected function checkMissingColumnNames() {
-		return array_diff(
-			$this->getAllowedFieldNames(), array_keys($this->getAllProperties())
-		);
-	}
-
-	/**
 	 * Checks wether all required fields are set in the realty object.
 	 * $this->requiredFields must have already been loaded.
 	 *
@@ -536,24 +536,15 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *               required fields are set
 	 */
 	public function checkForRequiredFields() {
-		$allMissingFields = $this->checkMissingColumnNames();
-		return array_intersect($allMissingFields, $this->requiredFields);
-	}
+		$missingFields = array();
 
-	/**
-	 * Deletes elements of the realty object which do not exist in the database.
-	 * Auxiliary properties are not added to the database as this would cause an
-	 * exception.
-	 */
-	protected function deleteSurplusFields() {
-		$surplusFieldsInRealtyObjectData = array_diff(
-			array_keys($this->getAllProperties()),
-			$this->getAllowedFieldNames()
-		);
-
-		foreach ($surplusFieldsInRealtyObjectData as $currentField) {
-			unset($this->realtyObjectData[$currentField]);
+		foreach ($this->requiredFields as $requiredField) {
+			if (!$this->existsKey($requiredField)) {
+				$missingFields[] = $requiredField;
+			}
 		}
+
+		return $missingFields;
 	}
 
 	/**
@@ -574,7 +565,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Sets the required fields for $this->realtyObjectData.
+	 * Sets the required fields for the current object.
 	 *
 	 * @param array required fields, may be empty
 	 */
@@ -583,7 +574,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Gets the required fields for '$this->realtyObjectData'.
+	 * Gets the required fields for the current object.
 	 *
 	 * @return array required fields, may be empty
 	 */
@@ -596,12 +587,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * the related tables.
 	 * It writes the values of 'city', 'apartment_type', 'house_type',
 	 * 'district', 'pets' and 'garage_type', in case they are defined, as
-	 * records to their own tables and stores the UID of the record
-	 * to '$this->realtyObjectData' instead of the value.
+	 * records to their own tables and stores the UID of the record instead of
+	 * the value.
 	 */
 	protected function prepareInsertionAndInsertRelations() {
-		$this->deleteSurplusFields();
-
 		foreach (self::$propertyTables as $currentTable => $currentProperty) {
 			$uidOfProperty = $this->insertPropertyToOwnTable(
 				$currentProperty,
@@ -648,23 +637,23 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	private function insertPropertyToOwnTable($key, $table) {
 		// If the property is not defined or the value is an empty string or
 		// zero, no record will be created.
-		if (!$this->hasProperty($key) || ($this->getProperty($key) == '')
-			|| ($this->getProperty($key) == '0')
+		if (!$this->existsKey($key)
+			|| in_array($this->get($key), array('0', '', 0), true)
 		) {
 			return 0;
 		}
+
 		// If the value is a non-zero integer, the relation has already been
 		// inserted.
-		if (intval($this->getProperty($key)) != 0) {
-			return $this->getProperty($key);
+		if ($this->hasInteger($key)) {
+			return $this->getAsInteger($key);
 		}
 
-		$propertyArray = array('title' => $this->getProperty($key));
+		$propertyArray = array('title' => $this->getAsString($key));
 		$uidOfProperty = 0;
 
-		if ($this->recordExistsInDatabase($propertyArray, 'title', $table)) {
-			$this->ensureUid($propertyArray, 'title', $table);
-			$uidOfProperty = $propertyArray['uid'];
+		if ($this->recordExistsInDatabase($propertyArray, $table)) {
+			$uidOfProperty = $this->getRecordUid($propertyArray, $table);
 		} else {
 			$uidOfProperty = $this->createNewDatabaseEntry($propertyArray, $table);
 		}
@@ -675,29 +664,23 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Inserts entries for images of the current realty object to the database
 	 * table 'tx_realty_images' and deletes all former image entries.
-	 * Images can only be linked with the current realty object if it has at
-	 * least an object number or a UID.
 	 *
 	 * @param integer PID for new object and image records (omit this
 	 *                parameter to use the PID set in the global
 	 *                configuration)
 	 */
 	private function refreshImageEntries($overridePid = 0) {
-		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
-			return;
-		}
-
-		$this->ensureUid(
-			$this->realtyObjectData, 'object_number, language, openimmo_obid'
-		);
-
 		// Marks all currently appended images in the database as obsolete.
 		// Those which are still supposed to be this record's images will be
 		// recreated later.
 		foreach ($this->getAttachedImages('realty_object_uid') as $obsoleteImage) {
 			$obsoleteImage['deleted'] = 1;
-			$this->ensureUid(
-				$obsoleteImage, 'image, realty_object_uid', REALTY_TABLE_IMAGES
+			$obsoleteImage['uid'] = $this->getRecordUid(
+				array(
+					'image' => $obsoleteImage['image'],
+					'realty_object_uid' => $this->getUid(),
+				),
+				REALTY_TABLE_IMAGES
 			);
 			$this->updateDatabaseEntry(
 				$obsoleteImage, REALTY_TABLE_IMAGES
@@ -711,11 +694,19 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			// Image deletions are done by updating the deleted-flag.
 			if (isset($imageData['deleted']) && ($imageData['deleted'] != 0)
 				&& $this->recordExistsInDatabase(
-					$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
+					array(
+						'image' => $imageData['image'],
+						'realty_object_uid' => $imageData['realty_object_uid'],
+					),
+					REALTY_TABLE_IMAGES
 				)
 			) {
-				$this->ensureUid(
-					$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
+				$imageData['uid'] = $this->getRecordUid(
+					array(
+						'image' => $imageData['image'],
+						'realty_object_uid' => $imageData['realty_object_uid'],
+					),
+					REALTY_TABLE_IMAGES
 				);
 				$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
 			} else {
@@ -763,26 +754,23 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *               be empty if there are no images
 	 */
 	private function getAttachedImages($additionalFields = '') {
-		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
+		if (!$this->identifyObjectAndSetUid()) {
 			return array();
 		}
 
-		$this->ensureUid(
-			$this->realtyObjectData, 'object_number, language, openimmo_obid'
-		);
 		$result = array();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'caption, image' .
 				(($additionalFields == '') ? '' : ',' . $additionalFields),
 			REALTY_TABLE_IMAGES,
-			'realty_object_uid=' . $this->getProperty('uid') .
+			'realty_object_uid=' . $this->getUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 			'',
 			'uid'
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
@@ -805,14 +793,14 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @return integer key of the newly created record, will be >= 0
 	 */
 	public function addImageRecord($caption, $fileName) {
-		if ($this->isRealtyObjectDataEmpty()) {
+		if ($this->isEmpty()) {
 			throw new Exception(
 				'A realty record must be loaded before images can be appended.'
 			);
 		}
 
 		$this->images[] = array('caption' => $caption, 'image' => $fileName);
-		$this->realtyObjectData['images']++;
+		$this->set('images', $this->getAsInteger('images') + 1);
 
 		return count($this->images) - 1;
 	}
@@ -826,7 +814,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                a key of the image data array and must be >= 0
 	 */
 	public function markImageRecordAsDeleted($imageKey) {
-		if ($this->isRealtyObjectDataEmpty()) {
+		if ($this->isEmpty()) {
 			throw new Exception(
 				'A realty record must be loaded before images can be marked ' .
 					'as deleted.'
@@ -837,7 +825,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		$this->images[$imageKey]['deleted'] = 1;
-		$this->realtyObjectData['images']--;
+		$this->set('images', $this->getAsInteger('images') - 1);
 	}
 
 	/**
@@ -910,7 +898,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		array $realtyData,
 		$table = REALTY_TABLE_OBJECTS
 	) {
-		if (!$realtyData['uid']) {
+		if ($realtyData['uid'] <= 0) {
 			return;
 		}
 
@@ -919,7 +907,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		tx_oelib_db::update(
 			$table,
-			'uid = ' . intval($dataForUpdate['uid']),
+			'uid = ' . $dataForUpdate['uid'],
 			$dataForUpdate
 		);
 	}
@@ -951,11 +939,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * of $dataArray which correspond to the list of alternative keys match the
 	 * a database record.
 	 *
-	 * @param array array of realty data, must not be empty
-	 * @param string Comma-separated list of database column names which also
-	 *               occur in the data array as keys. The database match is
-	 *               searched by all these keys' values in case there is no key
-	 *               'uid' in $dataArray. The list may contain spaces.
+	 * @param array Data array, with database column names and the corresponding
+	 *              values. The database match is searched by all these keys'
+	 *              values in case there is no UID within the array.
 	 * @param string name of table where to find out whether an entry yet
 	 *               exists, must not be empty
 	 *
@@ -966,49 +952,59 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                 nor $alternativeKey were elements of $dataArray.
 	 */
 	protected function recordExistsInDatabase(
-		array $dataArray,
-		$alternativeKeys,
-		$table = REALTY_TABLE_OBJECTS
+		array $dataArray, $table = REALTY_TABLE_OBJECTS
 	) {
-		if (isset($dataArray['uid']) && ($dataArray['uid'] != 0)) {
-			$keys = 'uid';
-		} else {
-			$keys = $alternativeKeys;
-		}
-
 		$databaseResult = $this->compareWithDatabase(
-			'COUNT(*) AS number', $dataArray, $keys, $table
+			'COUNT(*) AS number', $dataArray, $table
 		);
 
 		return ($databaseResult['number'] >= 1);
 	}
 
 	/**
-	 * Adds the UID from a database record to $dataArray if all keys mentioned
-	 * in $keys match the values of $dataArray and the database entry.
+	 * Sets the UID for a realty object if it exists in the database and has no
+	 * UID yet.
 	 *
-	 * @param array data of an entry which already exists in database,
-	 * m            ust not be empty
-	 * @param string comma-separated list of all the keys by which the existence
-	 *               of a database entry will be proven, must be keys of
-	 *               $dataArray and of $table, may contain spaces, must not be
-	 *               empty
-	 * @param string name of the table where to find out whether an entry
-	 *               already exists
+	 * @return boolean true if the record has a UID, false otherwise
 	 */
-	private function ensureUid(
-		array &$dataArray, $keys, $table = REALTY_TABLE_OBJECTS
-	) {
-		if (isset($dataArray['uid'])) {
-			return;
+	private function identifyObjectAndSetUid() {
+		if ($this->hasUid()) {
+			return true;
 		}
 
-		$databaseResultRow = $this->compareWithDatabase(
-			'uid', $dataArray, $keys, $table
-		);
-		if (!empty($databaseResultRow)) {
-			$dataArray['uid'] = $databaseResultRow['uid'];
+		$dataArray = array();
+		foreach (array('object_number', 'language', 'openimmo_obid') as $key) {
+			if ($this->existsKey($key)) {
+				$dataArray[$key] = $this->get($key);
+			}
 		}
+		if (!empty($dataArray)) {
+			$this->setUid($this->getRecordUid($dataArray));
+		}
+
+		return $this->hasUid();
+	}
+
+	/**
+	 * Returns the UID of a database record if all elements in $dataArray match
+	 * a database entry in $table.
+	 *
+	 * @param array the data of an entry which already exists in database by
+	 *              which the existence will be proven, must not be empty
+	 * @param string name of the table where to find out whether an entry
+	 *               already exists
+	 *
+	 * @return integer the UID of the record identified in the database, zero if
+	 *                 none was found
+	 */
+	private function getRecordUid(
+		array $dataArray, $table = REALTY_TABLE_OBJECTS
+	) {
+		$databaseResultRow = $this->compareWithDatabase(
+			'uid', $dataArray, $table
+		);
+
+		return (!empty($databaseResultRow) ? $databaseResultRow['uid'] : 0);
 	}
 
 	/**
@@ -1019,50 +1015,38 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *
 	 * @param string list of fields to select from the database table (part of
 	 *               the sql-query right after SELECT), must not be empty
-	 * @param array data from which to take elements for the database
-	 *               comparison, must not be empty
-	 * @param string comma-separated list of keys whose values in
-	 *               $dataArray and in the database should be compared,
-	 *               may contain spaces, must not be empty
+	 * @param array data which to take for the database comparison, must not be
+	 *              empty
 	 * @param string table name, must not be empty
 	 *
 	 * @return array database result row in an array, will be empty if
 	 *               no matching record was found
 	 */
-	private function compareWithDatabase($whatToSelect, $dataArray, $keys, $table) {
+	private function compareWithDatabase($whatToSelect, array $dataArray, $table) {
 		$result = false;
 
-		$keysToMatch = array();
-		foreach (t3lib_div::trimExplode(',', $keys, true) as $key) {
-			if (isset($dataArray[$key])) {
-				$keysToMatch[] = $key;
-			}
+		$whereClauseParts = array();
+		foreach (array_keys($dataArray) as $key) {
+			$whereClauseParts[] = $key . '="' . $dataArray[$key] . '"';
 		}
 
-		if (!empty($keysToMatch)) {
-			$whereClauseParts = array();
-			foreach ($keysToMatch as $key) {
-				$whereClauseParts[] = $key.'="'.$dataArray[$key].'"';
-			}
-
-			$showHidden = -1;
-			if (($table == REALTY_TABLE_OBJECTS) && $this->canLoadHiddenObjects) {
-				$showHidden = 1;
-			}
-
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				$whatToSelect,
-				$table,
-				implode(' AND ', $whereClauseParts) .
-					tx_oelib_db::enableFields($table, $showHidden)
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-
-			$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$showHidden = -1;
+		if (($table == REALTY_TABLE_OBJECTS) && $this->canLoadHiddenObjects) {
+			$showHidden = 1;
 		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$whatToSelect,
+			$table,
+			implode(' AND ', $whereClauseParts) .
+				tx_oelib_db::enableFields($table, $showHidden)
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return is_array($result) ? $result : array();
 	}
@@ -1086,9 +1070,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	public function retrieveCoordinates(
 		tx_oelib_templatehelper $configuration
 	) {
-		if ($this->getProperty('show_address')) {
+		if ($this->getAsBoolean('show_address')) {
 			$prefix = 'exact';
-			$street = $this->getProperty('street');
+			$street = $this->getAsString('street');
 		} else {
 			$prefix = 'rough';
 			$street = '';
@@ -1097,9 +1081,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		if (!$this->hasCachedCoordinates($prefix)) {
 			$coordinates = $this->createGeoFinder($configuration)->lookUp(
 				$street,
-				$this->getProperty('zip'),
+				$this->getAsString('zip'),
 				$this->getForeignPropertyField('city'),
-				intval($this->getProperty('country'))
+				$this->getAsInteger('country')
 			);
 
 			if (!empty($coordinates)) {
@@ -1113,7 +1097,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 					$prefix . '_longitude', $coordinates['longitude']
 				);
 				// The PID is provided so records do not change the location.
-				$this->writeToDatabase($this->getProperty('pid'));
+				$this->writeToDatabase($this->getAsInteger('pid'));
 			}
 		}
 
@@ -1166,8 +1150,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			);
 		}
 
-		$property = $this->getProperty($key);
-		if ($property === 0) {
+		$property = $this->get($key);
+		if (($property === '0') || ($property === 0)) {
 			return '';
 		}
 
@@ -1205,8 +1189,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                 indicated by $prefix, false otherwise
 	 */
 	private function hasCachedCoordinates($prefix) {
-		return (boolean)
-			$this->getProperty($prefix . '_coordinates_are_cached');
+		return $this->getAsBoolean($prefix . '_coordinates_are_cached');
 	}
 
 	/**
@@ -1224,8 +1207,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			return array();
 		}
 
-		$latitude = $this->getProperty($prefix . '_latitude');
-		$longitude = $this->getProperty($prefix . '_longitude');
+		$latitude = $this->getAsString($prefix . '_latitude');
+		$longitude = $this->getAsString($prefix . '_longitude');
 
 		if ($longitude != '' && $latitude != '') {
 			$result = array(
@@ -1240,23 +1223,13 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Gets this object's UID.
-	 *
-	 * @return integer this object's UID, will be 0 if this object does not
-	 *                 have a UID yet
-	 */
-	public function getUid() {
-		return intval($this->getProperty('uid'));
-	}
-
-	/**
 	 * Gets this object's title.
 	 *
 	 * @return string this object's title, will be empty if this object
 	 *                does not have a title
 	 */
 	public function getTitle() {
-		return $this->getProperty('title');
+		return $this->getAsString('title');
 	}
 
 	/**
@@ -1288,14 +1261,14 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	public function getAddressAsHtml() {
 		$addressParts = array();
 
-		if ($this->getProperty('show_address')
-			&& ($this->getProperty('street') != '')
+		if ($this->getAsBoolean('show_address')
+			&& ($this->getAsString('street') != '')
 		) {
-			$addressParts[] = htmlspecialchars($this->getProperty('street'));
+			$addressParts[] = htmlspecialchars($this->getAsString('street'));
 		}
 
 		$addressParts[] = htmlspecialchars(trim(
-			$this->getProperty('zip') . ' ' .
+			$this->getAsString('zip') . ' ' .
 				$this->getForeignPropertyField('city') . ' ' .
 				$this->getForeignPropertyField('district')
 		));

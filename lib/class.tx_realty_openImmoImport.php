@@ -1209,9 +1209,12 @@ class tx_realty_openImmoImport {
 	 *              result row, or UID of an existing record
 	 */
 	protected function loadRealtyObject($data) {
+		if (is_object($this->realtyObject)) {
+			$this->realtyObject->__destruct();
+		}
+
 		$className
 			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-
 		$this->realtyObject = new $className($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data, true);
 	}
@@ -1330,7 +1333,8 @@ class tx_realty_openImmoImport {
 				}
 				if ($OK) { $OK = rmdir($path); }
 
-			} else { // If $dirname is a file, simply remove it
+			} else {
+				// if $dirname is a file, simply remove it
 				$OK = unlink($path);
 			}
 

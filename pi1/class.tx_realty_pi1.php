@@ -221,7 +221,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$singleViewClassName = t3lib_div::makeInstanceClassName(
 					'tx_realty_pi1_SingleView'
 				);
-				$singleView = new $singleViewClassName($this->conf, $this->cObj);
+				$singleView = new $singleViewClassName(
+					$this->conf, $this->cObj, $this->isTestMode
+				);
 				$result = $singleView->render($this->piVars);
 				$singleView->__destruct();
 

@@ -42,7 +42,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 */
 	private $mapMarkers = array();
 
-	/** 
+	/**
 	 * @var tx_realty_Model_RealtyObject realty object
 	 */
 	private $realtyObject = null;
@@ -306,6 +306,10 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
 		}
 		if ($this->realtyObject->getUid() != $realtyObjectUid) {
+			$this->realtyObject->__destruct();
+			$realtyObjectClassName
+				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
+			$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
 			$this->realtyObject->loadRealtyObject($realtyObjectUid, true);
 		}
 

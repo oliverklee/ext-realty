@@ -37,9 +37,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObject {
 	public function recordExistsInDatabase(
-		$dataArray, $alternativeKey, $table = REALTY_TABLE_OBJECTS
+		$dataArray, $table = REALTY_TABLE_OBJECTS
 	) {
-		return parent::recordExistsInDatabase($dataArray, $alternativeKey, $table);
+		return parent::recordExistsInDatabase($dataArray, $table);
 	}
 
 	public function createNewDatabaseEntry(
@@ -56,16 +56,8 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 		return parent::getDataType($realtyData);
 	}
 
-	public function checkMissingColumnNames() {
-		return parent::checkMissingColumnNames();
-	}
-
 	public function loadDatabaseEntry($uid) {
 		return parent::loadDatabaseEntry($uid);
-	}
-
-	public function deleteSurplusFields() {
-		parent::deleteSurplusFields();
 	}
 
 	public function checkForRequiredFields() {

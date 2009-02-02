@@ -53,7 +53,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 */
 	protected $realtyObjectUid = 0;
 
-	/** 
+	/**
 	 * @var boolean whether the constructor is called in test mode
 	 */
 	protected $isTestMode = false;
@@ -243,7 +243,14 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 */
 	public function setRealtyObjectUid($uid) {
 		$this->realtyObjectUid = $uid;
-		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
+
+		if ($this->realtyObject->getUid() != $uid) {
+			$this->realtyObject->__destruct();
+			$objectClassName
+				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
+			$this->realtyObject = new $objectClassName($this->isTestMode);
+			$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
+		}
 	}
 
 	/**

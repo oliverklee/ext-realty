@@ -979,7 +979,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'save_folder',
 			REALTY_TABLE_CITIES,
-			'uid='.$cityUid
+			'uid=' . $cityUid
 		);
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
@@ -1164,6 +1164,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// The faked record is marked as a test record and no fields are
 		// required to be set.
 		$this->setFakedFormValue('is_dummy_record', 1);
+		$this->realtyObject->__destruct();
+		$objectClassName
+			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
+		$this->realtyObject = new $objectClassName($this->isTestMode);
 		$this->realtyObject->setRequiredFields(array());
 		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
 		$this->realtyObject->writeToDatabase();

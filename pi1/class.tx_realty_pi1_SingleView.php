@@ -53,6 +53,25 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	private $allowedFieldNames = array();
 
 	/**
+	 * @var boolean whether the constructor is called in test mode
+	 */
+	private $isTestMode = false;
+
+	/**
+	 * The constructor.
+	 *
+	 * @param array TypoScript configuration for the plugin
+	 * @param tslib_cObj the parent cObj content, needed for the flexforms
+	 * @param boolean whether the class is instantiated in test mode
+	 */
+	public function __construct(
+		array $configuration, tslib_cObj $cObj, $isTestMode = false
+	) {
+		parent::__construct($configuration, $cObj, $isTestMode);
+		$this->isTestMode = $isTestMode;
+	}
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -99,8 +118,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			return false;
 		}
 
-		$this->realtyObject
-			= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
+		$realtyObjectClassName
+			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
+		$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
 		$this->realtyObject->loadRealtyObject($uid, true);
 		if ($this->realtyObject->isRealtyObjectDataEmpty()) {
 			return false;
