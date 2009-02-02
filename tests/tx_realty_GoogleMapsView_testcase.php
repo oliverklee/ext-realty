@@ -36,20 +36,33 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_pi1_GoogleMapsView */
+	/**
+	 * @var tx_realty_pi1_GoogleMapsView
+	 */
 	private $fixture;
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
-	/** dummy realty object */
+	/**
+	 * @var integer dummy realty object
+	 */
 	private $realtyUid = 0;
 
-	/** dummy city UID */
+	/**
+	 * @var integer dummy city UID
+	 */
 	private $cityUid = 0;
-	/** title for the dummy city */
+
+	/**
+	 * @var string title for the dummy city
+	 */
 	private static $cityTitle = 'Bonn';
 
-	/** @var string a valid Google Maps API key for localhost */
+	/**
+	 * @var string a valid Google Maps API key for localhost
+	 */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
 	public function setUp() {

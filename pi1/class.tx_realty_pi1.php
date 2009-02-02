@@ -41,13 +41,24 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_offererList.
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_pi1 extends tx_oelib_templatehelper {
-	/** @var string same as class name */
+	/**
+	 * @var string same as class name
+	 */
 	public $prefixId = 'tx_realty_pi1';
-	/** @var string path to this script relative to the extension dir */
+
+	/**
+	 * @var string path to this script relative to the extension directory
+	 */
 	public $scriptRelPath = 'pi1/class.tx_realty_pi1.php';
-	/** @var string the extension key */
+
+	/**
+	 * @var string the extension key
+	 */
 	public $extKey = 'realty';
-	/** @var array the names of the DB tables for foreign keys */
+
+	/**
+	 * @var array the names of the database tables for foreign keys
+	 */
 	private $tableNames = array(
 		'objects' => REALTY_TABLE_OBJECTS,
 		'city' => REALTY_TABLE_CITIES,
@@ -59,10 +70,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'pets' => REALTY_TABLE_PETS,
 		'images' => REALTY_TABLE_IMAGES,
 	);
+
 	/**
 	 * @var string session key for storing the favorites list
 	 */
 	const FAVORITES_SESSION_KEY = 'tx_realty_favorites';
+
 	/**
 	 * @var string session key for storing data of all favorites that
 	 *                     currently get displayed
@@ -91,12 +104,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		'random',
 	);
 
+	/**
+	 * @var boolean whether to check cHash
+	 */
 	public $pi_checkCHash = true;
 
-	/** @var boolean whether this class is called in the test mode */
+	/**
+	 * @var boolean whether this class is called in the test mode
+	 */
 	private $isTestMode = false;
 
-	/** @var tx_realty_pi1_Formatter formatter for prices, areas etc. */
+	/**
+	 * @var tx_realty_pi1_Formatter formatter for prices, areas etc.
+	 */
 	private $formatter = null;
 
 	/**
@@ -104,7 +124,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private $cachedOwner = array('uid' => 0);
 
-	/** @var array existing types of list views */
+	/**
+	 * @var array existing types of list views
+	 */
 	private static $listViews = array(
 		'favorites', 'my_objects', 'objects_by_owner', 'realty_list'
 	);

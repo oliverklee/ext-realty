@@ -35,7 +35,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_googleMapsLookup {
-	/** @var string the base URL of the Google Maps geo coding service */
+	/**
+	 * @var string the base URL of the Google Maps geo coding service
+	 */
 	const BASE_URL = 'http://maps.google.com/maps/geo?output=csv&key=';
 
 	/**
@@ -44,7 +46,9 @@ class tx_realty_googleMapsLookup {
 	 */
 	private $baseUrlWithKey;
 
-	/** @var tx_oelib_templatehelper plugin configuration */
+	/**
+	 * @var tx_oelib_templatehelper plugin configuration
+	 */
 	private $configuration;
 
 	/**

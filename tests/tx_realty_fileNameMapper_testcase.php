@@ -36,9 +36,13 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_fileNameMapp
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_fileNameMapper_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_fileNameMapper instance to be tested */
+	/**
+	 * @var tx_realty_fileNameMapper instance to be tested
+	 */
 	private $fixture;
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
 	public function setUp() {

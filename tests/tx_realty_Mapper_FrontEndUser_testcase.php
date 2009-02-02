@@ -34,10 +34,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class tx_realty_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_Mapper_FrontEndUser */
+	/**
+	 * @var tx_realty_Mapper_FrontEndUser
+	 */
 	private $fixture;
 
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
 	public function setUp() {

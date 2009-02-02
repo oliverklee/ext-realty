@@ -38,21 +38,36 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_o
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
-	/** instance to be tested */
+	/**
+	 * @var tx_realty_openImmoImport instance to be tested
+	 */
 	private $fixture;
-	/** instance of tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
-	/** instance of tx_oelib_configurationProxy */
+	/**
+	 * @var tx_oelib_configurationProxy
+	 */
 	private $globalConfiguration;
-	/** instance of tx_realty_translator */
+	/**
+	 * @var tx_realty_translator
+	 */
 	private $translator;
 
-	/** PID of the system folder where imported records will be stored */
-	private $systemFolderPid;
-	/** path to the import folder */
-	private $importFolder;
+	/**
+	 * @var integer PID of the system folder where imported records will
+	 *              be stored
+	 */
+	private $systemFolderPid = 0;
+	/**
+	 * @var string path to the import folder
+	 */
+	private $importFolder = '';
 
-	/** whether an import folder has been created */
+	/**
+	 * @var boolean whether an import folder has been created
+	 */
 	private $testImportFolderExists = false;
 
 	public function setUp() {

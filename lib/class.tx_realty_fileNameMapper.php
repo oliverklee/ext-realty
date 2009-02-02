@@ -43,10 +43,14 @@ class tx_realty_fileNameMapper {
 	 */
 	private $fileNames = array();
 
-	/** @var string path of the folder in which to check whether a file exists */
+	/**
+	 * @var string path of the folder in which to check whether a file exists
+	 */
 	private $destinationPath = '';
 
-	/** @var t3lib_basicFileFunctions */
+	/**
+	 * @var t3lib_basicFileFunctions
+	 */
 	private static $fileFunctions = null;
 
 	/**

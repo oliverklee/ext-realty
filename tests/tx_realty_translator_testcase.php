@@ -37,7 +37,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_translator_testcase extends tx_phpunit_testcase {
-	/** instance to be tested */
+	/**
+	 * @var tx_realty_translator instance to be tested
+	 */
 	private $fixture;
 
 	public function setUp() {

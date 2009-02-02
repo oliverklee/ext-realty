@@ -36,7 +36,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
-	/** @var integer the number of objects belonging to the current user */
+	/**
+	 * @var integer the number of objects belonging to the current user
+	 */
 	private $numberOfObjects = 0;
 
 	/**

@@ -38,22 +38,27 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_fileNameMapp
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_openImmoImport {
-	/** stores the complete log entry */
+	/**
+	 * @var string stores the complete log entry
+	 */
 	private $logEntry = '';
 
-	/** stores the complete error log */
+	/**
+	 * @var string stores the complete error log
+	 */
 	private $errorLog = '';
 
 	/**
-	 * Stores log information to be written to '$logEntry'. So it is possible to
-	 * use only parts of the entire log e.g. to send e-mails only about the
-	 * import of certain records to a certain contact address.
+	 * @var string Stores log information to be written to '$logEntry'. So it
+	 *             is possible to use only parts of the entire log e.g. to send
+	 *             e-mails only about the import of certain records to a certain
+	 *             contact address.
 	 */
 	private $temporaryLogEntry = '';
 
 	/**
-	 * Stores log information to be written to '$errorLog'. So it is possible to
-	 * use only parts of the entire log.
+	 * @var string Stores log information to be written to '$errorLog'. So it is
+	 *             possible to use only parts of the entire log.
 	 */
 	private $temporaryErrorLog = '';
 
@@ -77,25 +82,34 @@ class tx_realty_openImmoImport {
 	 */
 	private static $translator = null;
 
-	/** @var tx_realty_fileNameMapper gets the unique names tor the images*/
+	/**
+	 * @var tx_realty_fileNameMapper gets the unique names tor the images
+	 */
 	private $fileNameMapper = null;
 
-	/** the upload directory for images */
+	/**
+	 * @var string the upload directory for images
+	 */
 	private $uploadDirectory = '';
 
-	/** @var boolean whether the current zip file should be deleted */
+	/**
+	 * @var boolean whether the current zip file should be deleted
+	 */
 	private $deleteCurrentZipFile = true;
 
 	/**
-	 * ZIP archives which are deleted at the end of import and folders which
-	 * were created during the import.
-	 * Archives are added to this array if they contain exactly one XML file as
-	 * this is the criterion for trying to import the XML file as an OpenImmo
-	 * record.
+	 * @var array ZIP archives which are deleted at the end of import and
+	 *            folders which were created during the import.
+	 *            Archives are added to this array if they contain exactly one
+	 *            XML file as this is the criterion for trying to import the
+	 *            XML file as an OpenImmo record.
 	 */
 	private $filesToDelete = array();
 
-	/** whether the class is tested and only dummy records should be created */
+	/**
+	 * @var boolean whether the class is tested and only dummy records should
+	 *              be created
+	 */
 	private $isTestMode = false;
 
 	/**

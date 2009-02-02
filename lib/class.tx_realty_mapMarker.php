@@ -33,16 +33,24 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_mapMarker {
-	/** @var string this marker's latitude */
+	/**
+	 * @var string this marker's latitude
+	 */
 	private $latitude = '';
 
-	/** @var string this marker's longitude */
+	/**
+	 * @var string this marker's longitude
+	 */
 	private $longitude = '';
 
-	/** @var string this marker's title, quote- and tag-safe */
+	/**
+	 * @var string this marker's title, quote- and tag-safe
+	 */
 	private $title = '';
 
-	/** @var string this marker's info window HTML */
+	/**
+	 * @var string this marker's info window HTML
+	 */
 	private $infoWindowHtml = '';
 
 	/**

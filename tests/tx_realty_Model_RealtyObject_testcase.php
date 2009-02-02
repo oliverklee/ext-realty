@@ -53,21 +53,35 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	 */
 	private $templateHelper;
 
-	/** UID of a dummy realty object */
+	/**
+	 * @var integer UID of a dummy realty object
+	 */
 	private $objectUid = 0;
-	/** page UID of a dummy FE page */
+	/**
+	 * @var integer page UID of a dummy FE page
+	 */
 	private $pageUid = 0;
-	/** page UID of another dummy FE page */
+	/**
+	 * @var integer page UID of another dummy FE page
+	 */
 	private $otherPageUid = 0;
-	/** object number of a dummy realty object */
+	/**
+	 * @var string object number of a dummy realty object
+	 */
 	private static $objectNumber = '100000';
-	/** object number of a dummy realty object */
+	/**
+	 * @var string object number of a dummy realty object
+	 */
 	private static $otherObjectNumber = '100001';
 
-	/** @var integer static_info_tables UID of Germany */
+	/**
+	 * @var integer static_info_tables UID of Germany
+	 */
 	const DE = 54;
 
-	/** @var string a valid Google Maps API key for localhost */
+	/**
+	 * @var string a valid Google Maps API key for localhost
+	 */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
 	public function setUp() {

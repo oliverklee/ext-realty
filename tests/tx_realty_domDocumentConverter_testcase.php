@@ -38,10 +38,14 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_d
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
-	/** instance to be tested */
+	/**
+	 * @var tx_realty_domDocumentConverter instance to be tested
+	 */
 	private $fixture;
 
-	/** @var integer static_info_tables UID of Germany */
+	/**
+	 * @var integer static_info_tables UID of Germany
+	 */
 	const DE = 54;
 
 	public function setUp() {

@@ -37,24 +37,40 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImag
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_frontEndImageUpload object to be tested */
+	/**
+	 * @var tx_realty_frontEndImageUpload object to be tested
+	 */
 	private $fixture;
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
-	/** @var integer dummy FE user UID */
+	/**
+	 * @var integer dummy FE user UID
+	 */
 	private $feUserUid;
-	/** @var integer UID of the dummy object */
+	/**
+	 * @var integer UID of the dummy object
+	 */
 	private $dummyObjectUid = 0;
 
-	/** @var string title for the first dummy image */
+	/**
+	 * @var string title for the first dummy image
+	 */
 	private static $firstImageTitle = 'first test image';
-	/** @var string file name for the first dummy image */
+	/**
+	 * @var string file name for the first dummy image
+	 */
 	private static $firstImageFileName = 'first.jpg';
 
-	/** @var string title for the second dummy image */
+	/**
+	 * @var string title for the second dummy image
+	 */
 	private static $secondImageTitle = 'second test image';
-	/** @var string file name for the second dummy image */
+	/**
+	 * @var string file name for the second dummy image
+	 */
 	private static $secondImageFileName = 'second.jpg';
 
 	public function setUp() {

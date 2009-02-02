@@ -38,42 +38,87 @@ define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_pi1 */
+	/**
+	 * @var tx_realty_pi1
+	 */
 	private $fixture;
 
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
+	/**
+	 * @var integer login PID
+	 */
 	private $loginPid = 0;
+	/**
+	 * @var integer list view PID
+	 */
 	private $listViewPid = 0;
+	/**
+	 * @var integer single view PID
+	 */
 	private $singlePid = 0;
+	/**
+	 * @var integer single view PID
+	 */
 	private $otherSinglePid = 0;
+	/**
+	 * @var integer favorites PID
+	 */
 	private $favoritesPid = 0;
+	/**
+	 * @var integer system folder PID
+	 */
 	private $systemFolderPid = 0;
+	/**
+	 * @var integer sub-system folder PID
+	 */
 	private $subSystemFolderPid = 0;
 
-	/** first dummy realty object */
+	/**
+	 * @var integer UID of the first dummy realty object
+	 */
 	private $firstRealtyUid = 0;
-	/** object number for the first dummy realty object */
+	/**
+	 * @var string object number for the first dummy realty object
+	 */
 	private static $firstObjectNumber = '1';
-	/** title for the first dummy realty object */
+	/**
+	 * @var string title for the first dummy realty object
+	 */
 	private static $firstObjectTitle = 'a title';
 
-	/** second dummy realty object */
+	/**
+	 * @var integer second dummy realty object
+	 */
 	private $secondRealtyUid = 0;
-	/** object number for the second dummy realty object */
+	/**
+	 * @var string object number for the second dummy realty object
+	 */
 	private static $secondObjectNumber = '2';
-	/** title for the second dummy realty object */
+	/**
+	 * @var string title for the second dummy realty object
+	 */
 	private static $secondObjectTitle = 'another title';
 
-	/** first dummy city UID */
+	/**
+	 * @var integer first dummy city UID
+	 */
 	private $firstCityUid = 0;
-	/** title for the first dummy city */
+	/**
+	 * @var string title for the first dummy city
+	 */
 	private static $firstCityTitle = 'Bonn';
 
-	/** second dummy city UID */
+	/**
+	 * @var integer second dummy city UID
+	 */
 	private $secondCityUid = 0;
-	/** title for the second dummy city */
+	/**
+	 * @var string title for the second dummy city
+	 */
 	private static $secondCityTitle = 'bar city';
 
 	/**
@@ -81,10 +126,14 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	 */
 	private $session;
 
-	/** @var string a valid Google Maps API key for localhost */
+	/**
+	 * @var string a valid Google Maps API key for localhost
+	 */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
-	/** @var integer static_info_tables UID of Germany */
+	/**
+	 * @var integer static_info_tables UID of Germany
+	 */
 	const DE = 54;
 
 	public function setUp() {

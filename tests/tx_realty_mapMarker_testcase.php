@@ -35,7 +35,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_mapMarker.ph
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_mapMarker_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_mapMarker */
+	/**
+	 * @var tx_realty_mapMarker
+	 */
 	private $fixture;
 
 	public function setUp() {

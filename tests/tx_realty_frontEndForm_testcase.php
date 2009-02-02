@@ -36,14 +36,22 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
-	/** @var tx_realty_frontEndForm object to be tested */
+	/**
+	 * @var tx_realty_frontEndForm object to be tested
+	 */
 	private $fixture;
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
-	/** @var integer dummy FE user UID */
+	/**
+	 * @var integer dummy FE user UID
+	 */
 	private $feUserUid;
-	/** @var integer UID of the dummy object */
+	/**
+	 * @var integer UID of the dummy object
+	 */
 	private $dummyObjectUid = 0;
 
 	public function setUp() {

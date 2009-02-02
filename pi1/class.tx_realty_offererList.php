@@ -32,7 +32,9 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
-	/** @var boolean whether this class is instantiated for testing */
+	/**
+	 * @var boolean whether this class is instantiated for testing
+	 */
 	private $isTestMode = false;
 
 	/**
