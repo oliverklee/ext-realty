@@ -1329,7 +1329,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
-		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUserGroup();
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$feUserUid = $this->testingFramework->createFrontendUser(
 			$feUserGroupUid,

@@ -1473,15 +1473,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$expectedResult = tx_oelib_db::selectSingle(
 			'uid',
 			REALTY_TABLE_OBJECTS,
 			'object_number="1234" AND language="XY"'
 		);
-		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
-			$dbResult
-		);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		$this->assertContains(
 			(string) $expectedResult['uid'],

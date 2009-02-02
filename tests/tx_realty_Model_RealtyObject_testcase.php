@@ -188,10 +188,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testLoadDatabaseEntryWithValidUid() {
 		$this->assertEquals(
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'*', REALTY_TABLE_OBJECTS, 'uid='.$this->objectUid
-				)
+			tx_oelib_db::selectSingle(
+				'*', REALTY_TABLE_OBJECTS, 'uid = ' . $this->objectUid
 			),
 			$this->fixture->loadDatabaseEntry($this->objectUid)
 		);
@@ -207,10 +205,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testLoadDatabaseEntryOfAnNonHiddenObjectIfOnlyVisibleAreAllowed() {
 		$this->fixture->loadRealtyObject($this->objectUid, false);
 		$this->assertEquals(
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'*', REALTY_TABLE_OBJECTS, 'uid='.$this->objectUid
-				)
+			tx_oelib_db::selectSingle(
+				'*', REALTY_TABLE_OBJECTS, 'uid = ' . $this->objectUid
 			),
 			$this->fixture->loadDatabaseEntry($this->objectUid)
 		);
@@ -233,10 +229,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, array('hidden' => 1)
 		);
 		$this->assertEquals(
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'*', REALTY_TABLE_OBJECTS, 'uid='.$uid
-				)
+			tx_oelib_db::selectSingle(
+				'*', REALTY_TABLE_OBJECTS, 'uid = ' . $uid
 			),
 			$this->fixture->loadDatabaseEntry($uid)
 		);
@@ -341,18 +335,16 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFetchDatabaseResultFromValidStream() {
-		$expectedResult = $this->testingFramework->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'*',
-				REALTY_TABLE_OBJECTS,
-				'uid='.$this->objectUid
-			)
-		);
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$expectedResult = tx_oelib_db::selectSingle(
 			'*',
 			REALTY_TABLE_OBJECTS,
-			'uid='.$this->objectUid
+			'uid = ' . $this->objectUid
+		);
+
+		$dbResult = tx_oelib_db::select(
+			'*',
+			REALTY_TABLE_OBJECTS,
+			'uid = ' . $this->objectUid
 		);
 		$resultToCheck = $this->fixture->fetchDatabaseResult($dbResult);
 
@@ -761,13 +753,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('pid' => $this->pageUid),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'pid',
-					REALTY_TABLE_OBJECTS,
-					'object_number=' . self::$otherObjectNumber .
-						tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
-				)
+			tx_oelib_db::selectSingle(
+				'pid',
+				REALTY_TABLE_OBJECTS,
+				'object_number = ' . self::$otherObjectNumber .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -822,13 +812,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('pid' => $this->otherPageUid),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'pid',
-					REALTY_TABLE_CITIES,
-					'title="foo"' .
-						tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
-				)
+			tx_oelib_db::selectSingle(
+				'pid',
+				REALTY_TABLE_CITIES,
+				'title = "foo"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
 			)
 		);
 	}
@@ -844,13 +832,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('pid' => $this->pageUid),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'pid',
-					REALTY_TABLE_CITIES,
-					'title="foo"' .
-						tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
-				)
+			tx_oelib_db::selectSingle(
+				'pid',
+				REALTY_TABLE_CITIES,
+				'title = "foo"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_CITIES)
 			)
 		);
 	}
@@ -1207,12 +1193,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('image' => 'foo.jpg'),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'image',
-					REALTY_TABLE_IMAGES,
-					'realty_object_uid=' . $this->objectUid
-				)
+			tx_oelib_db::selectSingle(
+				'image',
+				REALTY_TABLE_IMAGES,
+				'realty_object_uid = ' . $this->objectUid
 			)
 		);
 	}
@@ -1226,12 +1210,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('caption' => 'foo.jpg', 'image' => 'foo.jpg'),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'caption, image',
-					REALTY_TABLE_IMAGES,
-					'realty_object_uid=' . $this->objectUid
-				)
+			tx_oelib_db::selectSingle(
+				'caption, image',
+				REALTY_TABLE_IMAGES,
+				'realty_object_uid = ' . $this->objectUid
 			)
 		);
 	}
@@ -1288,13 +1270,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('pid' => $this->pageUid),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'pid',
-					REALTY_TABLE_OBJECTS,
-					'object_number="' . self::$otherObjectNumber . '"' .
-						tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
-				)
+			tx_oelib_db::selectSingle(
+				'pid',
+				REALTY_TABLE_OBJECTS,
+				'object_number = "' . self::$otherObjectNumber . '"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1307,13 +1287,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('pid' => $this->otherPageUid),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'pid',
-					REALTY_TABLE_OBJECTS,
-					'object_number="' . self::$otherObjectNumber . '"' .
-						tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
-				)
+			tx_oelib_db::selectSingle(
+				'pid',
+				REALTY_TABLE_OBJECTS,
+				'object_number = "' . self::$otherObjectNumber . '"' .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 			)
 		);
 	}
@@ -1331,12 +1309,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('pid' => $this->otherPageUid),
-			$this->testingFramework->getAssociativeDatabaseResult(
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'pid',
-					REALTY_TABLE_IMAGES,
-					'is_dummy_record=1'
-				)
+			tx_oelib_db::selectSingle(
+				'pid',
+				REALTY_TABLE_IMAGES,
+				'is_dummy_record = 1'
 			)
 		);
 	}
