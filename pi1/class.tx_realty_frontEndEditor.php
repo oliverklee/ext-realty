@@ -903,7 +903,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return integer UID of the new record, will be > 0
 	 */
 	private function createNewAuxiliaryRecord($title, $table) {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+		return tx_oelib_db::insert(
 			$table,
 			array(
 				'title' => $title,
@@ -915,11 +915,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				'is_dummy_record' => $this->isTestMode
 			)
 		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		return $GLOBALS['TYPO3_DB']->sql_insert_id();
 	}
 
 	/**

@@ -893,9 +893,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		// allows an easy removal of records created during the unit tests
 		$dataToInsert['is_dummy_record'] = $this->isDummyRecord;
 
-		$GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $dataToInsert);
-
-		return $GLOBALS['TYPO3_DB']->sql_insert_id();
+		return tx_oelib_db::insert($table, $dataToInsert);
 	}
 
 	/**
@@ -913,7 +911,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$table = REALTY_TABLE_OBJECTS
 	) {
 		if (!$realtyData['uid']) {
-			return false;
+			return;
 		}
 
 		$dataForUpdate = $realtyData;
