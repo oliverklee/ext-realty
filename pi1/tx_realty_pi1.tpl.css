@@ -27,6 +27,7 @@
 .tx-realty-pi1 a.addToFavorites,
 .tx-realty-pi1 a.removeFromFavorites,
 .tx-realty-pi1 a.contact,
+.tx-realty-pi1 a.printPage,
 .tx-realty-pi1 a.newRecord {
 	float: left;
 }

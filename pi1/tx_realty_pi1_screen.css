@@ -44,6 +44,10 @@
 
 /***** SINGLE VIEW *****/
 
+.tx-realty-pi1 a.printPage {
+	margin-left: 10px;
+}
+
 /* Lightbox Images */
 #prevLink:hover, #prevLink:visited:hover {
 	background: url(images/prevlabel.gif) left 15% no-repeat !important;

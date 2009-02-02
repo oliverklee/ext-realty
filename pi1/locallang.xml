@@ -191,6 +191,7 @@
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
 			<label index="label_on_favorites_list">Objects on the favorites list:</label>
+			<label index="label_print_page">Print page</label>
 			<label index="label_cityselector_head">Search in city</label>
 			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
@@ -495,6 +496,7 @@
 			<label index="label_add_to_favorites">Auf den Merkzettel</label>
 			<label index="label_remove_from_favorites">Vom Merkzettel löschen</label>
 			<label index="label_on_favorites_list">Objekte auf dem Merkzettel:</label>
+			<label index="label_print_page">Seite drucken</label>
 			<label index="label_cityselector_head">Immobilien-Suche</label>
 			<label index="label_cityselector_description_formal">Wir bieten Ihnen neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
 			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
@@ -1626,6 +1628,7 @@
 			<label index="message_no_such_owner" type="integer">71788074</label>
 			<label index="label_offerer_list" type="integer">34082678</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
+			<label index="label_print_page" type="integer">184576193</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -2635,6 +2638,7 @@
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
+			<label index="label_print_page">Print page</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
