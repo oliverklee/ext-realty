@@ -1,6 +1,7 @@
 0.3.2 - currently working on
+- [#788] Fix: Use t3lib_div::trimExplode instead of explode
 - [#2566] Change: Add unit tests for remaining ### in all views
-- [#2636] Fix: When going back from single view to list view, IE says: page no longer valid 
+- [#2636] Fix: When going back from single view to list view, IE says: page no longer valid
 - [#2355] Change: Use a constant for the path to the upload folder
 - [#2315] Fix: Invalid HTML when editing an existing object
 

@@ -772,25 +772,33 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$rows = array();
 		$rowCounter = 0;
-		$fieldNames = explode(',', $this->getConfValueString('fieldsInSingleViewTable'));
+		$fieldNames = t3lib_div::trimExplode(
+			',', $this->getConfValueString('fieldsInSingleViewTable'), true
+		);
 
-		foreach ($fieldNames as $currentFieldName) {
-			$trimmedFieldName = trim($currentFieldName);
+		foreach ($fieldNames as $fieldName) {
 			// Is the field name valid?
-			if (isset($this->fieldTypes[$trimmedFieldName])) {
+			if (isset($this->fieldTypes[$fieldName])) {
 				$isRowSet = false;
-				switch($this->fieldTypes[$trimmedFieldName]) {
+				switch($this->fieldTypes[$fieldName]) {
 					case TYPE_NUMERIC:
-						$isRowSet = $this->setMarkerIfNotZero('data_current_row',
-							$this->getFieldContent($trimmedFieldName));
+						$isRowSet = $this->setMarkerIfNotZero(
+							'data_current_row',
+							$this->getFieldContent($fieldName)
+						);
 						break;
 					case TYPE_STRING:
-						$isRowSet = $this->setMarkerIfNotEmpty('data_current_row',
-							$this->getFieldContent($trimmedFieldName));
+						$isRowSet = $this->setMarkerIfNotEmpty(
+							'data_current_row',
+							$this->getFieldContent($fieldName)
+						);
 						break;
 					case TYPE_BOOLEAN:
-						if ($this->internal['currentRow'][$trimmedFieldName]) {
-							$this->setMarker('data_current_row', $this->pi_getLL('message_yes'));
+						if ($this->internal['currentRow'][$fieldName]) {
+							$this->setMarker(
+								'data_current_row',
+								$this->pi_getLL('message_yes')
+							);
 							$isRowSet = true;
 						}
 						break;
@@ -800,7 +808,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				if ($isRowSet) {
 					$position = ($rowCounter % 2) ? 'odd' : 'even';
 					$this->setMarker('class_position_in_list', $position);
-					$this->setMarker('label_current_row', $this->pi_getLL('label_'.$trimmedFieldName));
+					$this->setMarker(
+						'label_current_row',
+						$this->pi_getLL('label_'.$fieldName)
+					);
 					$rows[] = $this->getSubpart('OVERVIEW_ROW');
 					$rowCounter++;
 					$result = true;
@@ -891,7 +902,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					break;
 				}
 				$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
-				foreach (explode(',', $this->getConfValueString('favoriteFieldsInSession')) as $key) {
+				foreach (t3lib_div::trimExplode(
+					',',
+					$this->getConfValueString('favoriteFieldsInSession'),
+					true
+				) as $key) {
 					$this->favoritesDataVerbose[$this->getFieldContent('uid')][$key]
 						= $this->getFieldContent($key);
 				}
@@ -1202,7 +1217,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function getLabelForValidProperty($key, $highestSuffix) {
 		$localizedStrings = array();
 
-		foreach (explode(',', $this->internal['currentRow'][$key]) as $suffix) {
+		foreach (
+			t3lib_div::trimExplode(
+				',', $this->internal['currentRow'][$key], true
+			) as $suffix
+		) {
 			if (($suffix >= 1) && ($suffix <= $highestSuffix)) {
 				$localizedStrings[] = $this->translate(
 					'label_' . $key . '.' . $suffix
@@ -1866,7 +1885,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * If the list is empty (or has not been created yet), an empty array will
 	 * be returned.
 	 *
-	 * @return	array		list of UIDs of the objects on the favorites list (may be empty, but will not be null)
+	 * @return array list of UIDs of the objects on the favorites list
+	 *               (may be empty, but will not be null)
 	 *
 	 * @see	getFavorites
 	 * @see	addToFavorites
@@ -1877,7 +1897,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		$favorites = $this->getFavorites();
 		if (!empty($favorites)) {
-			$result = explode(',', $favorites);
+			$result = t3lib_div::trimExplode(',', $favorites, true);
 		}
 
 		return $result;
