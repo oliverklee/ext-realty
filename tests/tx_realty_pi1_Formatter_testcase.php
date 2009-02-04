@@ -76,7 +76,6 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();

@@ -71,7 +71,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private $testImportFolderExists = false;
 
 	public function setUp() {
-		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
@@ -88,7 +87,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
-		tx_oelib_mailerFactory::getInstance()->discardInstance();
 
 		$this->fixture->__destruct();
 

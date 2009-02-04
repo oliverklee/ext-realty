@@ -90,8 +90,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		tx_oelib_mailerFactory::getInstance()->discardInstance();
-		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();

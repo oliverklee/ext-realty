@@ -81,8 +81,6 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
-		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
-		tx_oelib_mailerFactory::getInstance()->discardInstance();
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);

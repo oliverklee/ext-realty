@@ -138,7 +138,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 	public function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
-		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -175,7 +174,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
