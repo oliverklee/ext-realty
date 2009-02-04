@@ -528,7 +528,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *              (also empty) or of boolean, may not be null
 	 */
 	public function set($key, $value) {
-		if ($this->isEmpty()
+		if ($this->isVirgin()
 			|| !$this->isAllowedValue($value)
 			|| !in_array($key, $this->getAllowedFieldNames())
 		) {
@@ -826,7 +826,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @return integer key of the newly created record, will be >= 0
 	 */
 	public function addImageRecord($caption, $fileName) {
-		if ($this->isEmpty()) {
+		if ($this->isVirgin()) {
 			throw new Exception(
 				'A realty record must be loaded before images can be appended.'
 			);
@@ -847,7 +847,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                a key of the image data array and must be >= 0
 	 */
 	public function markImageRecordAsDeleted($imageKey) {
-		if ($this->isEmpty()) {
+		if ($this->isVirgin()) {
 			throw new Exception(
 				'A realty record must be loaded before images can be marked ' .
 					'as deleted.'
