@@ -1650,6 +1650,26 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testWriteToDatabaseDeletesExistingImageFromTheFileSystem() {
+		$fileName = $this->testingFramework->createDummyFile('foo.jpg');
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'image' => basename($fileName),
+				'realty_object_uid' => $this->objectUid
+			)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->markImageRecordAsDeleted(0);
+		$this->fixture->writeToDatabase();
+
+		$this->assertFalse(
+			file_exists($fileName)
+		);
+	}
+
 	public function testWriteToDatabaseNotAddsImageRecordWithDeletedFlagSet() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->markImageRecordAsDeleted(
