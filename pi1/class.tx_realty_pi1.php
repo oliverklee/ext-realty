@@ -730,31 +730,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		if ($this->hasConfValueInteger('contactPID') && $showContactWrapper) {
-			$pageId = $this->getConfValueInteger('contactPID');
-
-			if (!$pageId) {
-				$pageId = $GLOBALS['TSFE']->id;
-			}
-
-			$piVars = $this->piVars;
-			unset($piVars['DATA']);
-
-			$contactUrl = htmlspecialchars(
-				$this->cObj->typoLink_URL(
-					array(
-						'parameter' => $pageId,
-						'additionalParams' => t3lib_div::implodeArrayForUrl(
-							'',
-							array(
-								$this->prefixId => t3lib_div::array_merge_recursive_overrule(
-									$piVars,
-									$piVarsArray
-								),
-							)
-						),
-					)
+			$contactUrl = htmlspecialchars($this->cObj->typoLink_URL(
+				array(
+					'parameter' => $this->getConfValueInteger('contactPID'),
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						'',
+						 array($this->prefixId => array(
+							'showUid' => $this->piVars['showUid']
+						))
+					),
 				)
-			);
+			));
 			$this->setMarker('contact_url', $contactUrl);
 		} else {
 			$this->hideSubparts('contact', 'wrapper');
