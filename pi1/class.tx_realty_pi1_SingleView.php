@@ -43,9 +43,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	private $formatter = null;
 
 	/**
-	 * @var tx_realty_Model_RealtyObject realty object
+	 * @var integer UID of the realty object to show
 	 */
-	private $realtyObject = null;
+	private $showUid = 0;
 
 	/**
 	 * @var array field names in the realty objects table
@@ -78,10 +78,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		if ($this->formatter) {
 			$this->formatter->__destruct();
 		}
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
-		unset($this->formatter, $this->realtyObject);
+		unset($this->formatter);
 		parent::__destruct();
 	}
 
@@ -95,48 +92,56 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *                provided UID is no UID of a valid realty object
 	 */
 	public function render(array $piVars = array()) {
-		if (!$this->loadRealtyObject($piVars['showUid'])) {
+		if (!$this->existsRealtyObject($piVars['showUid'])) {
 			return '';
 		}
 
-		$this->createSingleView($piVars['showUid']);
+		$this->showUid = $piVars['showUid'];
+		if ($this->isTestMode) {
+			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+				->find($piVars['showUid'])->setTestMode();
+		}
+		$this->createSingleView();
 
 		return $this->getSubpart('SINGLE_VIEW');
 	}
 
 	/**
-	 * Loads the realty object if possible. It is loadable if the provided
-	 * UID is the UID of an existent, non-deleted realty object that is either
-	 * non-hidden or the logged-in FE user owns the object.
+	 * Checks whether the provided UID matches a loadable realty object. It is
+	 * loadable if the provided UID is the UID of an existent, non-deleted
+	 * realty object that is either non-hidden, or the logged-in FE user owns
+	 * the object.
 	 *
 	 * @param integer UID of the realty object, must be >= 0
 	 *
 	 * @return boolean true if the object has been loaded, false otherwise
 	 */
-	private function loadRealtyObject($uid) {
+	private function existsRealtyObject($uid) {
 		if ($uid <= 0) {
 			return false;
 		}
 
-		$realtyObjectClassName
-			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-		$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
-		$this->realtyObject->loadRealtyObject($uid, true);
-		if ($this->realtyObject->isRealtyObjectDataEmpty()) {
+		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->existsModel($uid, true)
+		) {
 			return false;
 		}
 
 		$result = false;
 
-		if ($this->realtyObject->getProperty('hidden') == 0) {
+		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($uid)->isHidden()
+		) {
 			$result = true;
 		} else {
 			$loggedInUser = tx_oelib_MapperRegistry
 				::get('tx_realty_Mapper_FrontEndUser')->getLoggedInUser();
 
 			if ($loggedInUser) {
-				$result = ($loggedInUser->getUid()
-					== $this->realtyObject->getProperty('owner'));
+				$result = ($loggedInUser->getUid() == tx_oelib_MapperRegistry
+					::get('tx_realty_Mapper_RealtyObject')
+					->find($uid)->getProperty('owner')
+				);
 			}
 		}
 
@@ -145,14 +150,11 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 
 	/**
 	 * Creates a single view.
-	 *
-	 * @param integer UID of the realty object for which to render the single
-	 *                view must be > 0
 	 */
-	private function createSingleView($uid) {
+	private function createSingleView() {
 		$this->includeLightboxFiles();
-		$this->includeGoogleMap($uid);
-		$this->setPageTitle($uid);
+		$this->includeGoogleMap();
+		$this->setPageTitle();
 
 		foreach (array(
 			'title', 'uid', 'object_number', 'description', 'location',
@@ -163,8 +165,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			);
 		}
 
-		$this->fillOrHideOffererWrapper($uid);
-		$this->fillOrHideContactWrapper($uid);
+		$this->fillOrHideOffererWrapper();
+		$this->fillOrHideContactWrapper();
 
 		$this->createOverviewTable();
 		$this->setMarker('favorites_url', $this->getFavoritesUrl());
@@ -186,18 +188,15 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 
 	/**
 	 * Includes a Google Map if configured.
-	 *
-	 * @param integer UID of the realty object for which to set the map marker,
-	 *                must be > 0
 	 */
-	private function includeGoogleMap($uid) {
+	private function includeGoogleMap() {
 		$googleMapsClassName = t3lib_div::makeInstanceClassName(
 			'tx_realty_pi1_GoogleMapsView'
 		);
 		$googleMapsView = new $googleMapsClassName(
 			$this->conf, $this->cObj, $this->isTestMode
 		);
-		$googleMapsView->setMapMarker($uid);
+		$googleMapsView->setMapMarker($this->getUid());
 		$this->setSubpart('google_map', $googleMapsView->render());
 		$googleMapsView->__destruct();
 	}
@@ -207,7 +206,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * results.
 	 */
 	private function setPageTitle() {
-		$title = $this->realtyObject->getProperty('title');
+		$title = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getUid())->getProperty('title');
 		if ($title == '') {
 			return;
 		}
@@ -243,19 +243,21 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			'tx_realty_offererList'
 		);
 		$offererList = new $offererListClassName($this->conf, $this->cObj);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
 
-		switch ($this->realtyObject->getProperty('contact_data_source')) {
+		switch ($realtyObject->getProperty('contact_data_source')) {
 			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
 				$result = $offererList->renderOneItem(
-					$this->realtyObject->getProperty('owner')
+					$realtyObject->getProperty('owner')
 				);
 				break;
 			case REALTY_CONTACT_FROM_REALTY_OBJECT:
 				$result = $offererList->renderOneItemWithTheDataProvided(array(
-					'email' => $this->realtyObject->getProperty('contact_email'),
-					'company' => $this->realtyObject->getProperty('employer'),
-					'telephone' => $this->realtyObject->getProperty('contact_phone'),
-					'name' => $this->realtyObject->getProperty('contact_person'),
+					'email' => $realtyObject->getProperty('contact_email'),
+					'company' => $realtyObject->getProperty('employer'),
+					'telephone' => $realtyObject->getProperty('contact_phone'),
+					'name' => $realtyObject->getProperty('contact_person'),
 				));
 				break;
 			default:
@@ -271,10 +273,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * Fills the wrapper with the link to the contact form if displaying contact
 	 * information is enabled for the single view. Otherwise hides the complete
 	 * wrapper.
-	 *
-	 * @param integer UID of the current realty object, must be > 0
 	 */
-	private function fillOrHideContactWrapper($uid) {
+	private function fillOrHideContactWrapper() {
 		if (!$this->hasConfValueInteger('contactPID')) {
 			$this->hideSubparts('contact', 'wrapper');
 			return;
@@ -287,7 +287,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 				'parameter' => $this->getConfValueInteger('contactPID'),
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					'',
-					array($this->prefixId => array('showUid' => $uid))
+					array($this->prefixId => array('showUid' => $this->getUid()))
 				),
 			)));
 			$this->setMarker('contact_url', $contactUrl);
@@ -441,7 +441,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *               does not exist
 	 */
 	private function getImage($imageNumber = 0) {
-		$images = $this->realtyObject->getAllImageData();
+		$images = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getUid())->getAllImageData();
 
 		return (isset($images[$imageNumber]) ? $images[$imageNumber] : array());
 	}
@@ -460,10 +461,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 				'parameter' => $linkDestination,
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					$this->prefixId,
-					array(
-						'showUid' => $this->realtyObject->getUid(),
-						'image' => $imageNumber,
-					)
+					array('showUid' => $this->getUid(), 'image' => $imageNumber)
 				),
 				'useCacheHash' => true,
 			)))
@@ -510,14 +508,22 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
+	 * Returns the current "showUid".
+	 *
+	 * @return UID of the realty record to show
+	 */
+	private function getUid() {
+		return $this->showUid;
+	}
+
+	/**
 	 * Returns a formatter instance for the current realty object.
 	 *
 	 * @return tx_realty_pi1_Formatter a formatter for the current realty object
 	 */
 	private function getFormatter() {
-		$currentUid = $this->realtyObject->getUid();
 		if ($this->formatter
-			&& ($this->formatter->getProperty('uid') != $currentUid)
+			&& ($this->formatter->getProperty('uid') != $this->getUid())
 		) {
 			$this->formatter->__destruct();
 			unset($this->formatter);
@@ -525,7 +531,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 
 		if (!$this->formatter) {
 			$className = t3lib_div::makeInstanceClassName('tx_realty_pi1_Formatter');
-			$this->formatter = new $className($currentUid, $this->conf, $this->cObj);
+			$this->formatter = new $className(
+				$this->getUid(), $this->conf, $this->cObj
+			);
 		}
 
 		return $this->formatter;

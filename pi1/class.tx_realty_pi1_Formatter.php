@@ -56,9 +56,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	const CROP_SIZE = 74;
 
 	/**
-	 * @var tx_realty_Model_RealtyObject realty object
+	 * @var integer UID of the realty object to show
 	 */
-	private $realtyObject = null;
+	private $showUid = 0;
 
 	/**
 	 * The constructor. Initializes the temlatehelper and loads the realty
@@ -78,28 +78,18 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			throw new Exception('$realtyObjectUid must be greater than zero.');
 		}
 
-		$this->loadRealtyObject($realtyObjectUid);
-
-		if ($this->realtyObject->isRealtyObjectDataEmpty()) {
-			throw new Exception('There was no realty object to load with the' .
+		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->existsModel($realtyObjectUid, true)
+		) {
+			throw new Exception('There was no realty object to load with the ' .
 				'provided UID of ' . $realtyObjectUid . '. The formatter can ' .
 				'only work for existing, non-deleted realty objects.'
 			);
 		}
 
+		$this->showUid = $realtyObjectUid;
 		$this->cObj = $cObj;
 		$this->init($configuration);
-	}
-
-	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	public function __destruct() {
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
-		unset($this->realtyObject);
-		parent::__destruct();
 	}
 
 	/**
@@ -119,6 +109,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		$result = '';
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
 
 		switch($key) {
 			case 'heating_type':
@@ -137,14 +129,15 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'city':
 				// The fallthrough is intended.
 			case 'district':
-				$result = $this->realtyObject->getForeignPropertyField($key);
+				$result = $realtyObject->getForeignPropertyField($key);
 				break;
 			case 'country':
-				if ($this->realtyObject->getProperty($key)
+				if ($realtyObject->getProperty($key)
 					!= $this->getConfValueInteger('defaultCountryUID')
 				) {
-					$result = $this->realtyObject
-						->getForeignPropertyField($key, 'cn_short_local');
+					$result = $realtyObject->getForeignPropertyField(
+						$key, 'cn_short_local'
+					);
 				}
 				break;
 			case 'total_area':
@@ -170,7 +163,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				$result = $this->getFormattedPrice($key);
 				break;
 			case 'usable_from':
-				$usableFrom = $this->realtyObject->getProperty($key);
+				$usableFrom = $realtyObject->getProperty($key);
 				// If no date is set, assume "now".
 				$result = ($usableFrom != '')
 					? $usableFrom
@@ -187,7 +180,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'bathrooms':
 				// The fallthrough is intended.
 			case 'construction_year':
-				$number = $this->realtyObject->getProperty($key);
+				$number = $realtyObject->getProperty($key);
 				$result = ($number != 0) ? ((string) $number) : '';
 				break;
 			case 'heating_included':
@@ -211,7 +204,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'assisted_living':
 				// The fallthrough is intended.
 			case 'fitted_kitchen':
-				$result = ($this->realtyObject->getProperty($key) == 1)
+				$result = ($realtyObject->getProperty($key) == 1)
 					? $this->translate('message_yes')
 					: '';
 				break;
@@ -222,21 +215,19 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'location':
 				// The fallthrough is intended.
 			case 'misc':
-				$result = $this->pi_RTEcssText(
-					$this->realtyObject->getProperty($key)
-				);
+				$result = $this->pi_RTEcssText($realtyObject->getProperty($key));
 				break;
 			case 'address':
-				$result = $this->realtyObject->getAddressAsHtml();
+				$result = $realtyObject->getAddressAsHtml();
 				break;
 			case 'cropped_title':
-				$result = $this->realtyObject->getCroppedTitle(self::CROP_SIZE);
+				$result = $realtyObject->getCroppedTitle(self::CROP_SIZE);
 				break;
 			case 'uid':
-				$result = $this->realtyObject->getUid();
+				$result = $this->getUid();
 				break;
 			default:
-				$result = $this->realtyObject->getProperty($key);
+				$result = $realtyObject->getProperty($key);
 				break;
 		}
 
@@ -265,7 +256,10 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 
 		foreach (
 			t3lib_div::trimExplode(
-				',', $this->realtyObject->getProperty($key), true
+				',',
+				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+					->find($this->getUid())->getProperty($key),
+				true
 			) as $suffix
 		) {
 			if ($suffix >= 1) {
@@ -312,7 +306,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *                symbol appended, may be an empty string
 	 */
 	private function getFormattedPrice($key) {
-		$currency = $this->realtyObject->getProperty('currency');
+		$currency = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getUid())->getProperty('currency');
 
 		if ($currency == '') {
 			$currency = $this->getConfValueString('currencyUnit');
@@ -333,7 +328,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *                string
 	 */
 	private function getFormattedNumber($key, $unit) {
-		$rawValue = $this->realtyObject->getProperty($key);
+		$rawValue = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getUid())->getProperty($key);
 		if (($rawValue == '') || (intval($rawValue) == 0)) {
 			return '';
 		}
@@ -349,19 +345,12 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Loads the realty object.
+	 * Returns the current "showUid".
 	 *
-	 * This function is public for testing purposes only.
-	 *
-	 * @param integer UID of the realty object to load
+	 * @return UID of the realty record to show, will be > 0
 	 */
-	public function loadRealtyObject($uid) {
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
-		$this->realtyObject
-			= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
-		$this->realtyObject->loadRealtyObject($uid, true);
+	private function getUid() {
+		return $this->showUid;
 	}
 }
 

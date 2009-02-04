@@ -35,21 +35,6 @@
  */
 class tx_realty_pi1_AccessCheck {
 	/**
-	 * @var tx_realty_Model_RealtyObject realty object
-	 */
-	private $realtyObject = null;
-
-	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	public function __destruct() {
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
-		unset($this->realtyObject);
-	}
-
-	/**
 	 * Checks access for the provided type of view and the current piVars.
 	 *
 	 * @throws tx_oelib_Exception_AccessDenied if access is denied, with the
@@ -145,7 +130,8 @@ class tx_realty_pi1_AccessCheck {
 	 */
 	private function realtyObjectExistsInDatabase($realtyObjectUid) {
 		if (($realtyObjectUid == 0)
-			|| !$this->getRealtyObject($realtyObjectUid)->isRealtyObjectDataEmpty()
+			|| tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+				->existsModel($realtyObjectUid)
 		) {
 			return;
 		}
@@ -170,7 +156,8 @@ class tx_realty_pi1_AccessCheck {
 	 */
 	private function frontEndUserOwnsObject($realtyObjectUid) {
 		if (($realtyObjectUid == 0)
-			|| ($this->getRealtyObject($realtyObjectUid)->getProperty('owner')
+			|| (tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+					->find($realtyObjectUid)->getProperty('owner')
 				== tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 					->getLoggedInUser()->getUid()
 			)
@@ -204,31 +191,6 @@ class tx_realty_pi1_AccessCheck {
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 403 Forbidden');
 		throw new tx_oelib_Exception_AccessDenied('message_no_objects_left');
-	}
-
-	/**
-	 * Gets the realty object with the provided UID. The object is loaded if
-	 * necessary. Hidden objects will also be loaded.
-	 *
-	 * @param integer realty object UID, must be >= 0
-	 *
-	 * @return tx_realty_Model_RealtyObject realty object for the provided UID
-	 */
-	private function getRealtyObject($realtyObjectUid) {
-		if (!$this->realtyObject) {
-			$realtyObjectClassName
-				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-			$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
-		}
-
-		if ($this->realtyObject->getUid() != $realtyObjectUid) {
-			$this->realtyObject->__destruct();
-			$this->realtyObject
-				= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
-			$this->realtyObject->loadRealtyObject($realtyObjectUid, true);
-		}
-
-		return $this->realtyObject;
 	}
 }
 

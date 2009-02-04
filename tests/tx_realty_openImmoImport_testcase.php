@@ -2206,6 +2206,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function testSentEmailContainsMessageThatARecordWasNotImportedForMismatchingAnidsAndEnabledOwnerRestriction() {
 		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
 		$this->globalConfiguration->setConfigurationValueBoolean(
 			'onlyImportForRegisteredFrontEndUsers', true
@@ -2221,6 +2222,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function testSentEmailForUserWhoReachedHisObjectLimitContainsMessageThatRecordWasNotImported() {
 		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$feUserUid = $this->testingFramework->createFrontendUser(

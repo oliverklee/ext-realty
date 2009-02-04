@@ -387,6 +387,52 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSetDataSetsTheRealtyObjectsTitle() {
+		$this->fixture->setData(array('title' => 'foo'));
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getTitle()
+		);
+	}
+
+	public function testSetDataSetsTheImageDataForImageFromDatabase() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'foo',
+				'image' => 'foo.jpg',
+				'realty_object_uid' => $this->objectUid
+			)
+		);
+		$this->fixture->setData(array('uid' => $this->objectUid, 'images' => 1));
+
+		$this->assertEquals(
+			array(
+				array('caption' => 'foo', 'image' => 'foo.jpg')
+			),
+			$this->fixture->getAllImageData()
+		);
+	}
+
+	public function testSetDataSetsTheImageDataForImageFromArray() {
+		$this->fixture->setData(
+			array(
+				'object_number' => self::$otherObjectNumber,
+				'images' => array(
+					array('caption' => 'test', 'image' => 'test.jpg')
+				)
+			)
+		);
+
+		$this->assertEquals(
+			array(
+				array('caption' => 'test', 'image' => 'test.jpg')
+			),
+			$this->fixture->getAllImageData()
+		);
+	}
+
 	public function testGetAllImageDataReturnsArrayOfTheCurrentObjectsImagesOrderedByUid() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,

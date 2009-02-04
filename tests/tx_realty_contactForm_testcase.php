@@ -38,7 +38,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.
  */
 class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_contactform
+	 * @var tx_realty_contactForm
 	 */
 	private $fixture;
 
@@ -90,8 +90,9 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->testingFramework->cleanUp();
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
+		tx_oelib_MapperRegistry::purgeInstance();
+		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);

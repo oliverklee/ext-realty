@@ -49,23 +49,6 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	);
 
 	/**
-	 * @var tx_realty_Model_RealtyObject realty object
-	 */
-	private $realtyObject = null;
-
-	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	public function __destruct() {
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
-		unset($this->realtyObject);
-
-		parent::__destruct();
-	}
-
-	/**
 	 * Returns the contact form in HTML.
 	 * If $contactFormData contains a value greater zero for the element
 	 * 'showUid', the contact form will be specific for the current realty
@@ -432,11 +415,16 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *               elements 'email' and 'name'
 	 */
 	private function fetchContactDataFromSource() {
+		if (!$this->isSpecializedView()) {
+			return array('email' => '', 'name' => '');
+		}
+
 		$result = array('email' => '', 'name' => '');
 
 		// Gets the contact data from the chosen source. No data is fetched if
 		// the 'contact_data_source' is set to an invalid value.
-		switch ($this->getRealtyObject()->getProperty('contact_data_source')) {
+		switch ($this->getRealtyObject()->getProperty('contact_data_source')
+		) {
 			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
 				$ownerUid = $this->getRealtyObject()->getProperty('owner');
 				if ($ownerUid > 0) {
@@ -451,10 +439,10 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 				}
 				break;
 			case REALTY_CONTACT_FROM_REALTY_OBJECT:
-				$result['email']
-					= $this->getRealtyObject()->getProperty('contact_email');
-				$result['name']
-					= $this->getRealtyObject()->getProperty('contact_person');
+				$result['email'] = $this->getRealtyObject()
+					->getProperty('contact_email');
+				$result['name'] = $this->getRealtyObject()
+					->getProperty('contact_person');
 				break;
 			default:
 				break;
@@ -477,14 +465,16 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		if ($this->isSpecializedView()) {
 			$subpartsToHide = 'email_from_general_contact_form';
 
-			if ($this->getRealtyObject()->isRealtyObjectDataEmpty()) {
+			if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+				->existsModel($this->getShowUid())
+			) {
 				$wasSuccessful = false;
 			}
 
 			foreach (array('object_number', 'title', 'uid') as $key) {
 				$value = ($key == 'uid')
-					? $this->realtyObject->getUid()
-					: $this->realtyObject->getProperty($key);
+					? $this->getRealtyObject()->getUid()
+					: $this->getRealtyObject()->getProperty($key);
 				$this->setMarker($key, $value, '', 'wrapper');
 			}
 		} else {
@@ -542,7 +532,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * @return boolean true if the view should be specialized, false otherwise
 	 */
 	private function isSpecializedView() {
-		return ($this->contactFormData['showUid'] > 0);
+		return ($this->getShowUid() > 0);
 	}
 
 	/**
@@ -620,19 +610,23 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Gets the realty object for the "showUid" defined in the contact data
-	 * array. Hidden objects will not be loaded.
+	 * Returns the current "showUid".
 	 *
-	 * @return tx_realty_Model_RealtyObject realty object for the provided UID
+	 * @return integer UID of the current realty object, will be >= 0
+	 */
+	private function getShowUid() {
+		return $this->contactFormData['showUid'];
+	}
+
+	/**
+	 * Gets the realty object for the "showUid" defined in the contact data
+	 * array.
+	 *
+	 * @return tx_realty_Model_RealtyObject realty object for current UID
 	 */
 	private function getRealtyObject() {
-		if (!$this->realtyObject) {
-			$this->realtyObject
-				= t3lib_div::makeInstance('tx_realty_Model_RealtyObject');
-			$this->realtyObject->loadRealtyObject($this->contactFormData['showUid']);
-		}
-
-		return $this->realtyObject;
+		return  tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getShowUid());
 	}
 }
 

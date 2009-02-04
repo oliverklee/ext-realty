@@ -43,11 +43,6 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	private $mapMarkers = array();
 
 	/**
-	 * @var tx_realty_Model_RealtyObject realty object
-	 */
-	private $realtyObject = null;
-
-	/**
 	 * @var boolean whether the constructor is called in test mode
 	 */
 	private $isTestMode = false;
@@ -207,10 +202,12 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			$coordinates['latitude'], $coordinates['longitude']
 		);
 		$mapMarker->setTitle(
-			$this->getRealtyObject($realtyObjectUid)->getTitle()
+			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+				->find($realtyObjectUid)->getTitle()
 		);
 
-		$title = $this->getRealtyObject($realtyObjectUid)->getCroppedTitle();
+		$title = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+				->find($realtyObjectUid)->getCroppedTitle();
 
 		if ($createLink) {
 			$title = $this->createLinkToSingleViewPage($title, $realtyObjectUid);
@@ -219,7 +216,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		$mapMarker->setInfoWindowHtml(
 			'<strong>' . $title .
 			'</strong><br />' .
-			$this->getRealtyObject($realtyObjectUid)->getAddressAsHtml()
+			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+				->find($realtyObjectUid)->getAddressAsHtml()
 		);
 		$this->mapMarkers[] = $mapMarker;
 	}
@@ -244,8 +242,14 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		try {
-			$coordinates = $this->getRealtyObject($realtyObjectUid)
-				->retrieveCoordinates($this);
+			// retrieveCoordinatas() might change the object
+			if ($this->isTestMode) {
+				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+					->find($realtyObjectUid)->setTestMode();
+			}
+			$coordinates = tx_oelib_MapperRegistry
+				::get('tx_realty_Mapper_RealtyObject')
+				->find($realtyObjectUid)->retrieveCoordinates($this);
 		} catch (Exception $exception) {
 			// RetrieveCoordinates will throw an exception if the Google Maps
 			// API key is missing. As this is checked by the configuration
@@ -270,8 +274,9 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		$separateSingleViewPage = $this->getRealtyObject($realtyObjectUid)
-			->getProperty('details_page');
+		$separateSingleViewPage = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')
+			->find($realtyObjectUid)->getProperty('details_page');
 
 		if ($separateSingleViewPage != '') {
 			$result = $this->cObj->typoLink(
@@ -289,31 +294,6 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Gets the realty object with the provided UID. The object is loaded if
-	 * necessary. Hidden objects will also be loaded.
-	 *
-	 * @param integer realty object UID, must be >= 0
-	 *
-	 * @return tx_realty_Model_RealtyObject realty object for the provided UID
-	 */
-	private function getRealtyObject($realtyObjectUid) {
-		if (!$this->realtyObject) {
-			$realtyObjectClassName
-				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-			$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
-		}
-		if ($this->realtyObject->getUid() != $realtyObjectUid) {
-			$this->realtyObject->__destruct();
-			$realtyObjectClassName
-				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-			$this->realtyObject = new $realtyObjectClassName($this->isTestMode);
-			$this->realtyObject->loadRealtyObject($realtyObjectUid, true);
-		}
-
-		return $this->realtyObject;
 	}
 }
 

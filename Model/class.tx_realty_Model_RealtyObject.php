@@ -94,7 +94,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * @var boolean whether hidden objects are loadable
 	 */
-	private $canLoadHiddenObjects = false;
+	private $canLoadHiddenObjects = true;
 
 	/**
 	 * @var boolean whether a newly created record is for testing purposes only
@@ -133,29 +133,55 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *              result row, or a UID (of integer > 0) of an existing
 	 *              record, an array must not contain the key 'uid'
 	 * @param boolean whether hidden objects are loadable
+	 *
+	 * @deprecated 2009-02-03 use setData() instead
 	 */
-	public function loadRealtyObject(
-		$realtyData, $canLoadHiddenObjects = false
-	) {
+	public function loadRealtyObject($realtyData, $canLoadHiddenObjects = false) {
 		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
+
 		switch ($this->getDataType($realtyData)) {
 			case 'array' :
-				$this->setData($this->isolateImageRecords($realtyData));
+				$this->setData($realtyData);
 				break;
 			case 'uid' :
 				$this->setData($this->loadDatabaseEntry(intval($realtyData)));
-				$this->images = $this->getAttachedImages();
 				break;
 			case 'dbResult' :
 				$this->setData($this->fetchDatabaseResult($realtyData));
-				$this->images = $this->getAttachedImages();
 				break;
 			default :
 				$this->setData(array());
 				break;
  		}
+	}
+
+	/**
+	 * Receives the data for a new realty object to load.
+	 *
+	 * The received data can either be a database result row or an array which
+	 * has database column names as keys (may be empty). The data can also be a
+	 * UID of an existent realty object to load from the database. If the data
+	 * is of an invalid type, an empty array will be set.
+	 *
+	 * @param array data for the realty object
+	 */
+	public function setData(array $realtyData) {
+		if (is_array($realtyData['images'])) {
+			parent::setData($this->isolateImageRecords($realtyData));
+		} else {
+			parent::setData($realtyData);
+			$this->images = $this->getAttachedImages();
+		}
 
 		$this->loadOwnerRecord();
+	}
+
+	/**
+	 * Sets the test mode. If this mode is enabled, all data written to the
+	 * database will receive the dummy record flag.
+	 */
+	public function setTestMode() {
+		$this->isDummyRecord = true;
 	}
 
 	/**
@@ -264,7 +290,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                written successfully
 	 */
 	public function writeToDatabase($overridePid = 0, $setOwner = false) {
-		if ($this->isRealtyObjectDataEmpty()) {
+		// If contact_email is the only field, the object is assumed to be not
+		// loaded.
+		if ($this->isRealtyObjectDataEmpty()
+			|| ($this->existsKey('contact_email')
+			&& (count($this->getAllProperties()) == 1))
+		) {
 			return 'message_object_not_loaded';
 		}
 
@@ -406,7 +437,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		return (tx_oelib_configurationProxy::getInstance('realty')
 			->getConfigurationValueBoolean(
 				'useFrontEndUserDataAsContactDataForImportedRecords'
-			) && $this->hasOwner() 
+			) && $this->hasOwner()
 		);
 	}
 
@@ -497,7 +528,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *              (also empty) or of boolean, may not be null
 	 */
 	public function set($key, $value) {
-		if ($this->isRealtyObjectDataEmpty()
+		if ($this->isEmpty()
 			|| !$this->isAllowedValue($value)
 			|| !in_array($key, $this->getAllowedFieldNames())
 		) {
@@ -509,7 +540,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		parent::set($key, $value);
-
 		// Ensures the owner's data becomes loaded if one was added.
 		if (($key == 'owner') || ($key == 'openimmo_anid')) {
 			$this->loadOwnerRecord();
@@ -799,8 +829,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			);
 		}
 
-		$this->images[] = array('caption' => $caption, 'image' => $fileName);
 		$this->set('images', $this->getAsInteger('images') + 1);
+		$this->images[] = array('caption' => $caption, 'image' => $fileName);
 
 		return count($this->images) - 1;
 	}

@@ -67,6 +67,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
@@ -165,19 +166,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	////////////////////////////////////////////////////////////
 
 	public function testSingleViewDisplaysLinkedImage() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('images' => '1')
-		);
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array(
-				'realty_object_uid' => $this->realtyUid,
-				'image' => 'foo.jpg',
-				'caption' => 'foo',
-			)
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->addImageRecord('foo', 'foo.jpg');
 
 		$this->fixture->setConfigurationValue(
 			'galleryPID', $this->testingFramework->createFrontEndPage()
@@ -190,19 +180,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysLinkedImageWithGalleryPid() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('images' => '1')
-		);
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array(
-				'realty_object_uid' => $this->realtyUid,
-				'image' => 'foo.jpg',
-				'caption' => 'foo',
-			)
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->addImageRecord('foo', 'foo.jpg');
 		$galleryPid = $this->testingFramework->createFrontEndPage();
 
 		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
@@ -214,19 +193,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysLinkedImageWithCacheHashInTheLink() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('images' => '1')
-		);
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array(
-				'realty_object_uid' => $this->realtyUid,
-				'image' => 'foo.jpg',
-				'caption' => 'foo',
-			)
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->addImageRecord('foo', 'foo.jpg');
 
 		$this->fixture->setConfigurationValue(
 			'galleryPID', $this->testingFramework->createFrontEndPage()
@@ -239,12 +207,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysImageWithFullUrlForPopUp() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid, array('images' => '1')
-		);
-		$this->testingFramework->createRecord(REALTY_TABLE_IMAGES, array(
-			'caption' => 'foo',	'realty_object_uid' => $this->realtyUid,
-		));
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->addImageRecord('foo', 'foo.jpg');
 
 		$this->fixture->setConfigurationValue('galleryType', 'classic');
 		$this->fixture->setConfigurationValue(
@@ -261,12 +225,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysImageForActivatedLightboxWithRelAttribute() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid, array('images' => '1')
-		);
-		$this->testingFramework->createRecord(REALTY_TABLE_IMAGES, array(
-			'caption' => 'foo',	'realty_object_uid' => $this->realtyUid,
-		));
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->addImageRecord('foo', 'foo.jpg');
 
 		$this->fixture->setConfigurationValue('galleryType', 'lightbox');
 		$this->fixture->setConfigurationValue(
@@ -280,12 +240,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysImageForDeactivatedLightboxWithoutRelAttribute() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid, array('images' => '1')
-		);
-		$this->testingFramework->createRecord(REALTY_TABLE_IMAGES, array(
-			'caption' => 'foo',	'realty_object_uid' => $this->realtyUid,
-		));
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->addImageRecord('foo', 'foo.jpg');
 
 		$this->fixture->setConfigurationValue('galleryType', 'classic');
 		$this->fixture->setConfigurationValue(
@@ -534,11 +490,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////////////////
 
 	public function testSingleViewDisplaysContactInformationIfEnabledAndInformationIsSetInTheRealtyObject() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('contact_phone' => '12345')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('contact_phone', '12345');
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
@@ -549,11 +502,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysPhoneNumberIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('contact_phone' => '12345')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('contact_phone', '12345');
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
@@ -564,11 +514,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysCompanyIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('employer' => 'test company')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('employer', 'test company');
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'company');
 
@@ -582,13 +529,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('telephone' => '123123')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
@@ -603,13 +548,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('company' => 'any company')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'company');
@@ -621,11 +564,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewNotDisplaysContactInformationIfOptionIsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('contact_phone' => '12345')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('contact_phone', '12345');
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 
@@ -648,13 +588,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('company' => 'any company', 'deleted' => 1)
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'company');
@@ -667,13 +605,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysContactInformationForEnabledOptionAndOwnerWithoutData() {
 		$ownerUid = $this->testingFramework->createFrontEndUser();
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'company');
@@ -689,14 +625,13 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
+
 		$this->fixture->setConfigurationValue(
 			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -711,13 +646,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
@@ -735,13 +668,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 		$objectsByOwnerPid = $this->testingFramework->createFrontEndPage();
 
@@ -758,13 +689,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
@@ -794,13 +723,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
@@ -818,13 +745,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
-				'owner' => $ownerUid,
-			)
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
@@ -841,11 +766,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	///////////////////////////////////////////////
 
 	public function testSingleViewDisplaysHasAirConditioningRowForTrue() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('has_air_conditioning' => '1')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('has_air_conditioning', '1');
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_air_conditioning'
@@ -869,11 +791,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysHasPoolRowForTrue() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('has_pool' => '1')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('has_pool', '1');
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_pool'
@@ -897,11 +816,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysHasCommunityPoolRowForTrue() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('has_community_pool' => '1')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('has_community_pool', '1');
+
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_community_pool'
 		);
@@ -924,11 +841,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheLabelForStateIfAValidStateIsSet() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('state' => 8)
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('state', 8);
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -939,11 +853,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheStateIfAValidStateIsSet() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('state' => 8)
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('state', 8);
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -954,11 +865,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewNotDisplaysTheLabelForStateIfNoStateIsSet() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('state' => 0)
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('state', 0);
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -969,11 +877,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewNotDisplaysTheLabelForStateIfTheStateIsInvalid() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('state' => 1000000)
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('state', 10000000);
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -984,11 +889,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheLabelForHeatingTypeIfOneValidHeatingTypeIsSet() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('heating_type' => '1')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('heating_type', '1');
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
@@ -999,11 +901,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheHeatingTypeIfOneValidHeatingTypeIsSet() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('heating_type' => '1')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('heating_type', '1');
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
@@ -1014,11 +913,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysAHeatingTypeListIfMultipleValidHeatingTypesAreSet() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('heating_type' => '1,3,4')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('heating_type', '1,3,4');
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
@@ -1031,11 +927,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheHeatingTypeLabelIfOnlyAnInvalidHeatingTypeIsSet() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('heating_type' => '100')
-		);
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('heating_type', '100');
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
@@ -1051,11 +944,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////
 
 	public function testSingleViewDisplaysTheStreetIfShowAddressOfObjectsIsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('street' => 'Foo road 3', 'show_address' => 1)
-		);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('street', 'Foo road 3');
+		$realtyObject->setProperty('show_address', 1);
 
 		$this->assertContains(
 			'Foo road 3',
@@ -1064,11 +956,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewNotDisplaysTheStreetIfShowAddressOfObjectsIsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('street' => 'Foo road 3', 'show_address' => 0)
-		);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('street', 'Foo road 3');
+		$realtyObject->setProperty('show_address', 0);
 
 		$this->assertNotContains(
 			'Foo road 3',
@@ -1077,11 +968,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheZipIfShowAddressOfObjectsIsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('zip' => '12345', 'show_address' => 1)
-		);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('zip', '12345');
+		$realtyObject->setProperty('show_address', 1);
 
 		$this->assertContains(
 			'12345',
@@ -1090,11 +980,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheZipIfShowAddressOfObjectsIsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array('zip' => '12345', 'show_address' => 0)
-		);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('zip', '12345');
+		$realtyObject->setProperty('show_address', 0);
 
 		$this->assertContains(
 			'12345',
@@ -1103,13 +992,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewDisplaysTheCountry() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			// chosen randomly the country ID of Australia, must be different
-			// from defaultCountryUid, otherwise the country would be hidden
-			array('country' => '14')
-		);
+		// chosen randomly the country ID of Australia, must be different
+		// from defaultCountryUid, otherwise the country would be hidden
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('country', '14');
 
 		$this->assertContains(
 			'Australia',
@@ -1123,16 +1009,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////////////
 
 	public function testSingleViewDisplaysMapForGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
-			)
-		);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('exact_coordinates_are_cached', 1);
+		$realtyObject->setProperty('exact_latitude', '50.734343');
+		$realtyObject->setProperty('exact_longitude', '7.10211');
+		$realtyObject->setProperty('show_address', 1);
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 
@@ -1143,16 +1025,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewNotDisplaysMapForGoogleMapsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
-			)
-		);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('exact_coordinates_are_cached', 1);
+		$realtyObject->setProperty('exact_latitude', 50.734343);
+		$realtyObject->setProperty('exact_longitude', 7.10211);
+		$realtyObject->setProperty('show_address', 1);
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
 
@@ -1163,17 +1041,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGoogleMapsDoesNotLinkObjectTitleInMap() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'street' => 'Foo road',
-				'show_address' => 1,
-			)
-		);
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
+		$realtyObject->setProperty('exact_coordinates_are_cached', 1);
+		$realtyObject->setProperty('exact_latitude', 50.734343);
+		$realtyObject->setProperty('exact_longitude', 7.10211);
+		$realtyObject->setProperty('show_address', 1);
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 

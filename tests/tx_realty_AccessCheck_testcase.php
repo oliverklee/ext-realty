@@ -63,9 +63,9 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
+		tx_oelib_MapperRegistry::purgeInstance();
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
 	}
 
