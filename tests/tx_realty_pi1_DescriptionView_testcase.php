@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_pi1_AddressView class in the 'realty'
+ * Unit tests for the tx_realty_pi1_DescriptionView class in the 'realty'
  * extension.
  *
  * @package TYPO3
@@ -33,9 +33,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
+class tx_realty_pi1_DescriptionView_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_pi1_AddressView
+	 * @var tx_realty_pi1_DescriptionView
 	 */
 	private $fixture;
 
@@ -53,7 +53,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->fixture = new tx_realty_pi1_AddressView(
+		$this->fixture = new tx_realty_pi1_DescriptionView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
 			$GLOBALS['TSFE']->cObj,
 			true
@@ -68,9 +68,9 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////
-	// Testing the address view
-	/////////////////////////////
+	/////////////////////////////////
+	// Testing the description view
+	/////////////////////////////////
 
 	public function testRenderReturnsEmptyResultForShowUidOfDeletedRecord() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
@@ -82,9 +82,9 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecordWithZip() {
+	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('zip', '12345');
+			->find(self::UID)->setProperty('description', 'foo');
 
 		$this->assertNotEquals(
 			'',
@@ -94,7 +94,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('zip', '12345');
+			->find(self::UID)->setProperty('description', 'foo');
 
 		$result = $this->fixture->render(array('showUid' => self::UID));
 
@@ -108,19 +108,29 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsAddressForValidRealtyObject() {
+	public function testRenderReturnsTheRealtyObjectsDescriptionForValidRealtyObject() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('zip', '12345');
+			->find(self::UID)->setProperty('description', 'foo');
 
 		$this->assertContains(
-			'12345',
+			'foo',
 			$this->fixture->render(array('showUid' => self::UID))
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForEmptyAddressDataOfValidRealtyObject() {
+	public function testRenderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('title', '');
+			->find(self::UID)->setProperty('description', 'foo</br>bar');
+
+		$this->assertContains(
+			'foo</br>bar',
+			$this->fixture->render(array('showUid' => self::UID))
+		);
+	}
+
+	public function testRenderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject() {
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find(self::UID)->setProperty('description', '');
 
 		$this->assertEquals(
 			'',
