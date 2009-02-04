@@ -625,21 +625,17 @@ class tx_realty_object {
 	/**
 	 * Inserts entries for images of the current realty object to the database
 	 * table 'tx_realty_images' and deletes all former image entries.
-	 * Images can only be linked with the current realty object if it has at
-	 * least an object number or a UID.
 	 *
 	 * @param	integer		PID for new object and image records (omit this
 	 * 						parameter to use the PID set in the global
 	 * 						configuration)
 	 */
 	private function refreshImageEntries($overridePid = 0) {
-		if (!$this->hasProperty('uid') && !$this->hasProperty('object_number')) {
-			return;
-		}
-
-		$this->ensureUid(
-			$this->realtyObjectData, 'object_number, language, openimmo_obid'
-		);
+		/**
+		 * @var array associative array of file names and the realty object UIDs
+		 *            of the currently appended image records in the database
+		 */
+		$obsoleteImages = array();
 
 		// Marks all currently appended images in the database as obsolete.
 		// Those which are still supposed to be this record's images will be
@@ -649,25 +645,30 @@ class tx_realty_object {
 			$this->ensureUid(
 				$obsoleteImage, 'image, realty_object_uid', REALTY_TABLE_IMAGES
 			);
-			$this->updateDatabaseEntry(
-				$obsoleteImage, REALTY_TABLE_IMAGES
-			);
-		}
+			$this->updateDatabaseEntry($obsoleteImage, REALTY_TABLE_IMAGES);
+
+			$obsoleteImages[$obsoleteImage['image']]
+				= $obsoleteImage['realty_object_uid'];
+			}
 
 		foreach ($this->getAllImageData() as $imageData) {
 			// Creates a relation to the parent realty object for each image.
 			$imageData['realty_object_uid'] = $this->getUid();
 
-			// Image deletions are done by updating the deleted-flag.
 			if (isset($imageData['deleted']) && ($imageData['deleted'] != 0)
-				&& $this->recordExistsInDatabase(
-					$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
-				)
+				&& ($obsoleteImages[$imageData['image']]
+					== $imageData['realty_object_uid'])
 			) {
-				$this->ensureUid(
-					$imageData, 'image, realty_object_uid', REALTY_TABLE_IMAGES
-				);
-				$this->updateDatabaseEntry($imageData, REALTY_TABLE_IMAGES);
+				$fileName = PATH_site . REALTY_UPLOAD_FOLDER . $imageData['image'];
+				// In the database, the image is already marked as deleted
+				// because it is in the list of obsoletes, this aditionally
+				// deletes the image from the file system.
+				if (file_exists($fileName) && !@unlink($fileName)) {
+					throw new Exception(
+						'The file ' . $fileName . ' could not be deleted. ' .
+						'Probably the file permissions are not set correctly.'
+					);
+				}
 			} else {
 				// If the title is empty, the file name also becomes the title
 				// to ensure the title is non-empty.
