@@ -44,11 +44,6 @@ class tx_realty_pi1_DescriptionView_testcase extends tx_phpunit_testcase {
 	 */
 	private $testingFramework;
 
-	/**
-	 * @var integer UID to map a realty object to it
-	 */
-	const UID = 1000;
-
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
@@ -73,30 +68,35 @@ class tx_realty_pi1_DescriptionView_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////
 
 	public function testRenderReturnsEmptyResultForShowUidOfDeletedRecord() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('deleted', 1);
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('deleted', 1);
 
 		$this->assertEquals(
 			'',
-			$this->fixture->render(array('showUid' => self::UID))
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('description', 'foo');
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('description', 'foo');
 
 		$this->assertNotEquals(
 			'',
-			$this->fixture->render(array('showUid' => self::UID))
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('description', 'foo');
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('description', 'foo');
 
-		$result = $this->fixture->render(array('showUid' => self::UID));
+		$result = $this->fixture->render(
+			array('showUid' => $realtyObject->getUid())
+		);
 
 		$this->assertNotEquals(
 			'',
@@ -109,32 +109,35 @@ class tx_realty_pi1_DescriptionView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRenderReturnsTheRealtyObjectsDescriptionForValidRealtyObject() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('description', 'foo');
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('description', 'foo');
 
 		$this->assertContains(
 			'foo',
-			$this->fixture->render(array('showUid' => self::UID))
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
 	public function testRenderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('description', 'foo</br>bar');
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('description', 'foo</br>bar');
 
 		$this->assertContains(
 			'foo</br>bar',
-			$this->fixture->render(array('showUid' => self::UID))
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
 	public function testRenderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find(self::UID)->setProperty('description', '');
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('description', '');
 
 		$this->assertEquals(
 			'',
-			$this->fixture->render(array('showUid' => self::UID))
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 }

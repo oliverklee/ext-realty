@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2664] Feature: Add dataMapper::getNewGhost
 - [#2653] Change: Rename the "empty" state to "virgin"
 - [#2657] Change: testingFramework::cleanUp should clean up the mapper registry and everything
 - [#2217] Change: Delete the corresponding image file if an image record becomes deleted
