@@ -530,7 +530,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	public function set($key, $value) {
 		if ($this->isVirgin()
 			|| !$this->isAllowedValue($value)
-			|| !in_array($key, $this->getAllowedFieldNames())
+			|| !$this->isAllowedKey($key)
 		) {
 			return;
 		}
@@ -592,6 +592,19 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		return $this->allowedFieldNames;
+	}
+
+	/**
+	 * Checks whether $key is in the list of allowed field names.
+	 *
+	 * @param string key to be checked for being an allowed field name, must not
+	 *               be empty
+	 *
+	 * @return boolean true if key is an allowed field name for a realty object,
+	 *                 false otherwise
+	 */
+	public function isAllowedKey($key) {
+		return in_array($key, $this->getAllowedFieldNames());
 	}
 
 	/**

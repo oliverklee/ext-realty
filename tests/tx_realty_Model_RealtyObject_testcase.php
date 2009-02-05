@@ -2734,5 +2734,28 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAddressAsHtml()
 		);
 	}
+
+
+	/////////////////////////////
+	// Tests for isAllowedKey()
+	/////////////////////////////
+
+	public function testIsAllowedKeyReturnsTrueForRealtyObjectField() {
+		$this->assertTrue(
+			$this->fixture->isAllowedKey('title')
+		);
+	}
+
+	public function testIsAllowedKeyReturnsFalseForNonRealtyObjectField() {
+		$this->assertFalse(
+			$this->fixture->isAllowedKey('foo')
+		);
+	}
+
+	public function testIsAllowedKeyReturnsFalseForEmptyKey() {
+		$this->assertFalse(
+			$this->fixture->isAllowedKey('')
+		);
+	}
 }
 ?>

@@ -50,8 +50,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 
 		$this->fixture = new tx_realty_pi1_AddressView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj,
-			true
+			$GLOBALS['TSFE']->cObj
 		);
 	}
 
