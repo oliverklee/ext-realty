@@ -54,7 +54,7 @@ class tx_realty_pi1_ActionButtonsView extends tx_realty_pi1_FrontEndView {
 		$this->setMarker('favorites_url', $favoritesUrl);
 		$this->setMarker('uid', $piVars['showUid']);
 
-		return $this->getSubpart('WRAPPER_ADD_TO_FAVORITES');
+		return $this->getSubpart('FIELD_WRAPPER_ACTIONBUTTONS');
 	}
 }
 

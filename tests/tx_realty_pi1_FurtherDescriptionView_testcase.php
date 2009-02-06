@@ -91,7 +91,7 @@ class tx_realty_pi1_FurtherDescriptionView_testcase extends tx_phpunit_testcase 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
-		$realtyObject->setProperty('misc', 'foo');
+		$realtyObject->setProperty('equipment', 'foo');
 
 		$result = $this->fixture->render(
 			array('showUid' => $realtyObject->getUid())

@@ -56,9 +56,11 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		$this->showUid = $piVars['showUid'];
 		$useLightbox = ($this->getConfValueString('galleryType') == 'lightbox');
 
-		$this->setSubpart('images_list', $this->createImages($useLightbox));
+		$this->setSubpart(
+			'field_wrapper_imagethumbnails', $this->createImages($useLightbox)
+		);
 
-		return $this->getSubpart('IMAGES_LIST');
+		return $this->getSubpart('FIELD_WRAPPER_IMAGETHUMBNAILS');
 	}
 
 	/**

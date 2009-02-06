@@ -53,12 +53,15 @@ class tx_realty_pi1_FurtherDescriptionView extends tx_realty_pi1_FrontEndView {
 					->find($piVars['showUid'])->getProperty($key)
 			);
 
-			$hasContent = $hasContent || $this->setOrDeleteMarkerIfNotEmpty(
-				$key, $value, '', 'field_wrapper'
-			);
+			$hasContent = $this->setOrDeleteMarkerIfNotEmpty(
+					$key, $value, '', 'field_wrapper'
+				) || $hasContent;
 		}
 
-		return ($hasContent ? $this->getSubpart('WRAPPER_FURTHER_DESCRIPTION') : '');
+		return ($hasContent
+			? $this->getSubpart('FIELD_WRAPPER_FURTHERDESCRIPTION')
+			: ''
+		);
 	}
 }
 

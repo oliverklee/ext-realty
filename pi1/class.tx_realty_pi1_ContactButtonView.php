@@ -62,7 +62,7 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView {
 		)));
 		$this->setMarker('contact_url', $contactUrl);
 
-		return $this->getSubpart('WRAPPER_CONTACT');
+		return $this->getSubpart('FIELD_WRAPPER_CONTACTBUTTON');
 	}
 }
 

@@ -48,9 +48,9 @@ class tx_realty_pi1_HeadingView extends tx_realty_pi1_FrontEndView {
 				->find($piVars['showUid'])->getProperty('title')
 		);
 
-		$this->setOrDeleteMarkerIfNotEmpty('title', $title, '', 'field_wrapper');
+		$this->setOrDeleteMarkerIfNotEmpty('heading', $title, '', 'field_wrapper');
 
-		return $this->getSubpart('FIELD_WRAPPER_TITLE');
+		return $this->getSubpart('FIELD_WRAPPER_HEADING');
 	}
 }
 

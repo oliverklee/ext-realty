@@ -54,7 +54,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 		$hasTableRows = $this->createTableRows($piVars['showUid']);
 
 		return ($hasObjectNumber || $hasTableRows)
-			? $this->getSubpart('FIELD_WRAPPER_OVERVIEW_TABLE')
+			? $this->getSubpart('FIELD_WRAPPER_OVERVIEWTABLE')
 			: '';
 	}
 

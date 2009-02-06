@@ -201,7 +201,9 @@
 <div class="single-view">
 	<!-- ###SINGLE_VIEW_RESULT### -->
 	<div class="text-pane">
-		<!-- ###FIELD_WRAPPER_TITLE### --><h2>###TITLE###</h2><!-- ###FIELD_WRAPPER_TITLE### -->
+		<!-- ###FIELD_WRAPPER_HEADING### -->
+		<h2>###HEADING###</h2>
+		<!-- ###FIELD_WRAPPER_HEADING### -->
 		<div class="address">
 			<!-- ###FIELD_WRAPPER_ADDRESS### -->
 			<h4 class="first">###LABEL_ADDRESS###</h4>
@@ -214,35 +216,33 @@
 			###DESCRIPTION###
 			<!-- ###FIELD_WRAPPER_DESCRIPTION### -->
 		</div>
-		<!-- ###FIELD_WRAPPER_OVERVIEW_TABLE### -->
+		<!-- ###FIELD_WRAPPER_OVERVIEWTABLE### -->
 		<table class="overview" summary="">
 			<tr>
 				<th colspan="2">###LABEL_OVERVIEW### <!-- ###FIELD_WRAPPER_OBJECT_NUMBER### -->###LABEL_OBJECT_NUMBER###&nbsp;###OBJECT_NUMBER###<!-- ###FIELD_WRAPPER_OBJECT_NUMBER### --></th>
 			</tr>
-			<!-- ###OVERVIEW_TABLE### -->
 			<!-- ###OVERVIEW_ROW### -->
 			<tr class="###CLASS_POSITION_IN_LIST###">
 				<td>###LABEL_CURRENT_ROW###</td><td>###DATA_CURRENT_ROW###</td>
 			</tr>
 			<!-- ###OVERVIEW_ROW### -->
-			<!-- ###OVERVIEW_TABLE### -->
 		</table>
-		<!-- ###FIELD_WRAPPER_OVERVIEW_TABLE### -->
+		<!-- ###FIELD_WRAPPER_OVERVIEWTABLE### -->
 		<!-- ###FIELD_WRAPPER_OFFERER### -->
 		<div class="tx-realty-pi1-offerer">
 			<h4>###LABEL_OFFERER###</h4>
 			###OFFERER_INFORMATION###
 		</div>
 		<!-- ###FIELD_WRAPPER_OFFERER### -->
-		<!-- ###WRAPPER_CONTACT### -->
+		<!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
 		<div class="buttons">
 			<a href="###CONTACT_URL###" class="button contact"><span>###LABEL_CONTACT###</span></a>
 		</div>
-		<!-- ###WRAPPER_CONTACT### -->
-		<!-- ###GOOGLE_MAP### -->
-		<div id="tx_realty_map"></div>
-		<!-- ###GOOGLE_MAP### -->
-		<!-- ###WRAPPER_ADD_TO_FAVORITES### -->
+		<!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
+		<!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
+		<!-- ###GOOGLE_MAP### --><div id="tx_realty_map"></div><!-- ###GOOGLE_MAP### -->
+		<!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
+		<!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
 		<form id="addToFavorites" method="post" action="###FAVORITES_URL###">
 			<div class="buttons">
 				<input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
@@ -251,8 +251,8 @@
 				<a href="#" class="button back" onclick="history.back(); return false;"><span>###LABEL_BACK###</span></a>
 			</div>
 		</form>
-		<!-- ###WRAPPER_ADD_TO_FAVORITES### -->
-		<!-- ###WRAPPER_FURTHER_DESCRIPTION### -->
+		<!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
+		<!-- ###FIELD_WRAPPER_FURTHERDESCRIPTION### -->
 		<div class="further-description">
 			<!-- ###FIELD_WRAPPER_EQUIPMENT### --><h4>###LABEL_EQUIPMENT###</h4>
 			###EQUIPMENT###<!-- ###FIELD_WRAPPER_EQUIPMENT### -->
@@ -261,10 +261,10 @@
 			<!-- ###FIELD_WRAPPER_MISC### --><h4>###LABEL_MISC###</h4>
 			###MISC###<!-- ###FIELD_WRAPPER_MISC### -->
 		</div>
-		<!-- ###WRAPPER_FURTHER_DESCRIPTION### -->
+		<!-- ###FIELD_WRAPPER_FURTHERDESCRIPTION### -->
 	</div>
 	<div class="images">
-	<!-- ###IMAGES_LIST### -->
+	<!-- ###FIELD_WRAPPER_IMAGETHUMBNAILS### -->
 		<!-- ###ONE_IMAGE_CONTAINER### -->
 		<table class="item" summary="">
 			<tr>
@@ -316,7 +316,7 @@
 				</td>
 			</tr>
 		</table>
-		<!-- ###IMAGES_LIST### -->
+	<!-- ###FIELD_WRAPPER_IMAGETHUMBNAILS### -->
 	</div>
 	<!-- ###SINGLE_VIEW_RESULT### -->
 	<div class="clear"></div>
