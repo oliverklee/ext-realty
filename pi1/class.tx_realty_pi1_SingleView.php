@@ -126,6 +126,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			'Heading' => true,
 			'Address' => true,
 			'Description' => true,
+			'Price' => true,
 			'OverviewTable' => true,
 			'Offerer' => true,
 			'ContactButton' => $this->getConfValueBoolean('showContactPageLink'),

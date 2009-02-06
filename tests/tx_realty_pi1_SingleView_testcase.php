@@ -183,6 +183,18 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSingleViewDisplaysThePriceOfARealtyObject() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
+		$realtyObject->setProperty('buying_price', '123');
+
+		$this->assertContains(
+			'123',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
 	public function testSingleViewDisplaysTheEquipmentDescriptionOfARealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
