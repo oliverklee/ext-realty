@@ -434,7 +434,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 							->find($ownerUid);
 						$result['email'] = $owner->getEMailAddress();
 						$result['name'] = $owner->getName();
-					} catch (tx_oelib_Exception_NotFound $exception) {
+					} catch (Exception $exception) {
 					}
 				}
 				break;
@@ -469,13 +469,13 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 				->existsModel($this->getShowUid())
 			) {
 				$wasSuccessful = false;
-			}
-
-			foreach (array('object_number', 'title', 'uid') as $key) {
-				$value = ($key == 'uid')
-					? $this->getRealtyObject()->getUid()
-					: $this->getRealtyObject()->getProperty($key);
-				$this->setMarker($key, $value, '', 'wrapper');
+			} else {
+				foreach (array('object_number', 'title', 'uid') as $key) {
+					$value = ($key == 'uid')
+						? $this->getRealtyObject()->getUid()
+						: $this->getRealtyObject()->getProperty($key);
+					$this->setMarker($key, $value, '', 'wrapper');
+				}
 			}
 		} else {
 			$subpartsToHide = 'specialized_contact_form,' .

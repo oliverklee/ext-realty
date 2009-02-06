@@ -845,6 +845,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			);
 		}
 
+		$this->markAsLoaded();
+
 		$this->set('images', $this->getAsInteger('images') + 1);
 		$this->images[] = array('caption' => $caption, 'image' => $fileName);
 
