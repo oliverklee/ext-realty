@@ -822,12 +822,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		switch ($this->internal['currentRow']['object_type']) {
-			case 1:
+			case REALTY_FOR_SALE:
 				$this->hideSubparts(
 					'rent_excluding_bills,extra_charges', 'wrapper'
 				);
 				break;
-			case 0:
+			case REALTY_FOR_RENTING:
 				$this->hideSubparts('buying_price', 'wrapper');
 				break;
 			default:

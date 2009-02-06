@@ -26,9 +26,6 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
 
-define('OBJECT_TYPE_SALE', 1);
-define('OBJECT_TYPE_RENT', 0);
-
 /**
  * Class 'tx_realty_frontEndEditor' for the 'realty' extension. This class
  * provides a FE editor the realty plugin.
@@ -272,7 +269,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	public function isNonEmptyValidPriceForObjectForSale(array $formData) {
 		return $this->isValidPriceForObjectType(
-			$formData['value'], OBJECT_TYPE_SALE
+			$formData['value'], REALTY_FOR_SALE
 		);
 	}
 
@@ -297,11 +294,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$twoValidValues =
 			$this->isValidNumberWithDecimals($formData)
-			&& $this->isValidNumberWithDecimals(array('value' =>$yearRent));
+			&& $this->isValidNumberWithDecimals(array('value' => $yearRent));
 
 		$oneValueMatchesObjectTypeConditions =
-			$this->isValidPriceForObjectType($formData['value'], OBJECT_TYPE_RENT)
-			|| $this->isValidPriceForObjectType($yearRent, OBJECT_TYPE_RENT);
+			$this->isValidPriceForObjectType($formData['value'], REALTY_FOR_RENTING)
+			|| $this->isValidPriceForObjectType($yearRent, REALTY_FOR_RENTING);
 
 		return $twoValidValues && $oneValueMatchesObjectTypeConditions;
 	}
@@ -1024,9 +1021,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	private function getObjectType() {
 		return t3lib_div::intInRange(
 			$this->getFormValue('object_type'),
-			OBJECT_TYPE_RENT,
-			OBJECT_TYPE_SALE,
-			OBJECT_TYPE_RENT
+			REALTY_FOR_RENTING,
+			REALTY_FOR_SALE,
+			REALTY_FOR_RENTING
 		);
 	}
 

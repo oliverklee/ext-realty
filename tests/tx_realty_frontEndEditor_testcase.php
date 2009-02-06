@@ -270,7 +270,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToBuy() {
-		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
@@ -280,7 +280,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToRent() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
@@ -290,7 +290,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetNoValidPriceOrEmptyMessageForRentFieldsIfObjectToRent() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
@@ -300,7 +300,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetNoValidPriceOrEmptyMessageForRentFieldsIfObjectToBuy() {
-		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
@@ -525,7 +525,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForSaleIfThePriceIsValid() {
-		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
 		$this->assertTrue(
 			$this->fixture->isNonEmptyValidPriceForObjectForSale(
 				array('value' => '1234')
@@ -534,7 +534,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForSaleIfThePriceIsInvalid() {
-		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
 		$this->assertFalse(
 			$this->fixture->isNonEmptyValidPriceForObjectForSale(
 				array('value' => 'foo')
@@ -543,7 +543,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForSaleIfThePriceIsEmpty() {
-		$this->fixture->setFakedFormValue('object_type', '1');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
 		$this->assertFalse(
 			$this->fixture->isNonEmptyValidPriceForObjectForSale(
 				array('value' => '')
@@ -552,7 +552,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForRentIfOnePriceIsValidAndOneEmpty() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 		$this->fixture->setFakedFormValue('year_rent', '');
 
 		$this->assertTrue(
@@ -563,7 +563,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsValidAndOneEmpty() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 		$this->fixture->setFakedFormValue('year_rent', '1234');
 
 		$this->assertTrue(
@@ -574,7 +574,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForRentIfBothPricesAreValid() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 		$this->fixture->setFakedFormValue('year_rent', '1234');
 
 		$this->assertTrue(
@@ -585,7 +585,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForRentIfBothPricesAreInvalid() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 		$this->fixture->setFakedFormValue('year_rent', 'foo');
 
 		$this->assertFalse(
@@ -596,7 +596,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForRentIfBothPricesAreEmpty() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 		$this->fixture->setFakedFormValue('year_rent', '');
 
 		$this->assertFalse(
@@ -607,7 +607,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForRentIfOnePriceIsInvalidAndOneValid() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 		$this->fixture->setFakedFormValue('year_rent', '1234');
 
 		$this->assertFalse(
@@ -618,7 +618,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsInvalidAndOneValid() {
-		$this->fixture->setFakedFormValue('object_type', '0');
+		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
 		$this->fixture->setFakedFormValue('year_rent', 'foo');
 
 		$this->assertFalse(

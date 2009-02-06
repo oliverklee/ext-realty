@@ -745,7 +745,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '9', 'object_type' => '1', 'currency' => '&euro;',)
+			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => '&euro;',)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 
@@ -759,7 +759,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '9', 'object_type' => '1', 'currency' => '&euro;',)
+			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => '&euro;',)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('currencyUnit', 'foo');
@@ -774,7 +774,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '9', 'object_type' => '1')
+			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
@@ -789,7 +789,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '1234567', 'object_type' => '1')
+			array('buying_price' => '1234567', 'object_type' => REALTY_FOR_SALE)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 
@@ -1951,12 +1951,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '9', 'object_type' => '1')
+			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
-			array('buying_price' => '11', 'object_type' => '1')
+			array('buying_price' => '11', 'object_type' => REALTY_FOR_SALE)
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
@@ -1976,12 +1976,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('rent_excluding_bills' => '9', 'object_type' => '0')
+			array('rent_excluding_bills' => '9', 'object_type' => REALTY_FOR_RENTING)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
-			array('rent_excluding_bills' => '11', 'object_type' => '0')
+			array('rent_excluding_bills' => '11', 'object_type' => REALTY_FOR_RENTING)
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
