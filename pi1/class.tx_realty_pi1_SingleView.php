@@ -89,7 +89,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$realtyObjectMapper = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_RealtyObject');
 
-		if (!$realtyObjectMapper->existsModel($uid, true)) {
+		if (!$realtyObjectMapper->existsModel($uid, true)
+			|| ($realtyObjectMapper->find($uid)->getProperty('deleted') == 1)
+		) {
 			return false;
 		}
 
