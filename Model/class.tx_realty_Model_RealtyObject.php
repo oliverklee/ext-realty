@@ -206,9 +206,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		} elseif (is_numeric($realtyData)) {
 			$result = 'uid';
 		} elseif (is_resource($realtyData)
-			&& (get_resource_type($realtyData) == 'mysql result'))
-		{
-				$result = 'dbResult';
+			&& (get_resource_type($realtyData) == 'mysql result')
+		) {
+			$result = 'dbResult';
 		}
 
 		return $result;
@@ -224,7 +224,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *               result could not be fetched
 	 */
 	protected function loadDatabaseEntry($uid) {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResult = tx_oelib_db::select(
 			'*',
 			REALTY_TABLE_OBJECTS,
 			'uid=' . $uid . tx_oelib_db::enableFields(
@@ -380,20 +380,14 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				) . '" ';
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
-			'fe_users',
-			$whereClause . tx_oelib_db::enableFields('fe_users')
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		if (is_array($row)) {
+		try {
+			$row = tx_oelib_db::selectSingle(
+				'*',
+				'fe_users',
+				$whereClause . tx_oelib_db::enableFields('fe_users')
+			);
 			$this->ownerData = $row;
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 		}
 	}
 
@@ -804,27 +798,15 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			return array();
 		}
 
-		$result = array();
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		return tx_oelib_db::selectMultiple(
 			'caption, image' .
 				(($additionalFields == '') ? '' : ',' . $additionalFields),
 			REALTY_TABLE_IMAGES,
-			'realty_object_uid=' . $this->getUid() .
+			'realty_object_uid = ' . $this->getUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 			'',
 			'uid'
 		);
-		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database();
-		}
-
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$result[] = $row;
-		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return $result;
 	}
 
 	/**
@@ -1070,7 +1052,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @return array database result row in an array, will be empty if
 	 *               no matching record was found
 	 */
-	private function compareWithDatabase($whatToSelect, array $dataArray, $table) {
+	private function compareWithDatabase(
+		$whatToSelect, array $dataArray, $table
+	) {
 		$result = false;
 
 		$whereClauseParts = array();
@@ -1083,20 +1067,18 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$showHidden = 1;
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$whatToSelect,
-			$table,
-			implode(' AND ', $whereClauseParts) .
-				tx_oelib_db::enableFields($table, $showHidden)
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+		try {
+			$result = tx_oelib_db::selectSingle(
+				$whatToSelect,
+				$table,
+				implode(' AND ', $whereClauseParts) .
+					tx_oelib_db::enableFields($table, $showHidden)
+			);
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+			$result = array();
 		}
 
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return is_array($result) ? $result : array();
+		return $result;
 	}
 
 	/**
@@ -1209,19 +1191,18 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			return $property;
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$titleField,
-			$tableName,
-			'uid = ' . $property . tx_oelib_db::enableFields($tableName)
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+		try {
+			$row = tx_oelib_db::selectSingle(
+				$titleField,
+				$tableName,
+				'uid = ' . $property . tx_oelib_db::enableFields($tableName)
+			);
+			$result = $row[$titleField];
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+			$result = '';
 		}
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return ($row) ? $row[$titleField] : '';
+		return $result;
 	}
 
 	/**

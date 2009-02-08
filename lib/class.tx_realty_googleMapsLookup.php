@@ -170,19 +170,11 @@ class tx_realty_googleMapsLookup {
 		}
 
 		if (!isset(self::$countryCache[$uid])) {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$row = tx_oelib_db::selectSingle(
 				'cn_iso_2',
 				'static_countries',
 				'uid = ' . $uid
 			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			if (!$row) {
-				throw new Exception(DATABASE_RESULT_ERROR);
-			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 			self::$countryCache[$uid] = $row['cn_iso_2'];
 		}

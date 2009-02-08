@@ -305,10 +305,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetDataTypeWhenDatabaseResultGiven() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResult = tx_oelib_db::select(
 			'*',
 			REALTY_TABLE_OBJECTS,
-			'uid='.$this->objectUid
+			'uid = ' . $this->objectUid
 		);
 
 		$result = $this->fixture->getDataType($dbResult);
@@ -374,8 +374,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->fixture->loadRealtyObject(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'*', REALTY_TABLE_OBJECTS, 'uid=' . $this->objectUid
+			tx_oelib_db::select(
+				'*', REALTY_TABLE_OBJECTS, 'uid = ' . $this->objectUid
 			)
 		);
 
@@ -1290,21 +1290,12 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			);
 		$message = $this->fixture->writeToDatabase();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$result = tx_oelib_db::selectSingle(
 			'pid',
 			REALTY_TABLE_OBJECTS,
-			'object_number="' . self::$objectNumber . '"' .
+			'object_number = "' . self::$objectNumber . '"' .
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
 		);
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$result) {
-			$this->fail(DATABASE_RESULT_ERROR);
-		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		$this->assertEquals(
 			array('pid' => $this->pageUid),

@@ -138,7 +138,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *                none were found
 	 */
 	private function listItemQuery($whereClause) {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$results = tx_oelib_db::selectMultiple(
 			'*',
 			'fe_users',
 			$whereClause .
@@ -147,15 +147,12 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			'',
 			'usergroup,city,company,last_name,name,username'
 		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 
 		$listItems = '';
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+
+		foreach ($results as $row) {
 			$listItems .= $this->createListRow($row);
 		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $listItems;
 	}
@@ -378,20 +375,11 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 		if (intval($matchingGroups[0]) != 0) {
 			// No enableFields is used here as the FE user records fetched in
 			// getListItems are not checked to be in enabled groups, either.
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$row = tx_oelib_db::selectSingle(
 				'title',
 				'fe_groups',
-				'uid=' . $matchingGroups[0] . $this->getWhereClauseForTesting()
+				'uid = ' . $matchingGroups[0] . $this->getWhereClauseForTesting()
 			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			if (!$row) {
-				throw new Exception(DATABASE_RESULT_ERROR);
-			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 			$result = ($row['title'] != '') ? ' (' . $row['title'] . ')' : '';
 		}

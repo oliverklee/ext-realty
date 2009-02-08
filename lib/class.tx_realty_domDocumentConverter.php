@@ -872,19 +872,18 @@ class tx_realty_domDocumentConverter {
 		if (isset(self::$cachedCountries[$country])) {
 			$uid = self::$cachedCountries[$country];
 		} else {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'uid',
-				STATIC_COUNTRIES,
-				'cn_iso_3="' .
-					$GLOBALS['TYPO3_DB']->quoteStr($country, STATIC_COUNTRIES) .
-					'"'
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
+			try {
+				$row = tx_oelib_db::selectSingle(
+					'uid',
+					STATIC_COUNTRIES,
+					'cn_iso_3 = "' . $GLOBALS['TYPO3_DB']->quoteStr(
+						$country, STATIC_COUNTRIES
+					) . '"'
+				);
+				$uid = $row['uid'];
+			} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+				$uid = 0;
 			}
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-			$uid = $row ? $row['uid'] : 0;
 			$this->cacheCountry($country, $uid);
 		}
 

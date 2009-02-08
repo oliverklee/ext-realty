@@ -629,12 +629,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->disableValidation();
 		$this->fixture->importFromZip();
-		$result = $this->testingFramework->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'uid',
-				REALTY_TABLE_OBJECTS,
-				'object_number="bar1234567" AND zip="zip"'
-			)
+		$result = tx_oelib_db::selectSingle(
+			'uid',
+			REALTY_TABLE_OBJECTS,
+			'object_number = "bar1234567" AND zip = "zip"'
 		);
 
 		// overwrites "same-name.zip" in the import folder

@@ -68,20 +68,14 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 			$whereClause = REALTY_TABLE_OBJECTS . '.owner=' . $this->getUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1);
 
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$dbData = tx_oelib_db::selectSingle(
 				'COUNT(*) AS number',
 				REALTY_TABLE_OBJECTS,
 				$whereClause
 			);
 
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-
-			$dbData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 			$this->numberOfObjects = $dbData['number'];
 			$this->numberOfObjectsHasBeenCalculated = true;
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
 		return $this->numberOfObjects;
