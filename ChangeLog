@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2685] Fix: Prices should be displayed without decimal in the FE
 - [#2454] Feature: Add an additional single view part "prices"
 - [#2676] Fix: Test errors for inexistent objects in the specialized contact form and thumbnails view
 - [#2452] Change: Further split the single view parts into separate views

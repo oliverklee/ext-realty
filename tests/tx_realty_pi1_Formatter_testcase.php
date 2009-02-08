@@ -228,7 +228,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsEstateSizeAsFormattedArea() {
+	public function testGetPropertyReturnsEstateSizeAsFormattedAreaWithDecimals() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($this->realtyUid)->setProperty('estate_size', 12345);
 		$localeConvention = localeconv();
@@ -240,13 +240,12 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsHoaFeeAsFormattedPrice() {
+	public function testGetPropertyReturnsHoaFeeAsFormattedPriceWithoutDecimals() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($this->realtyUid)->setProperty('hoa_fee', 12345);
-		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12 345' . $localeConvention['decimal_point'] . '00&nbsp;&euro;',
+			'12 345&nbsp;&euro;',
 			$this->fixture->getProperty('hoa_fee')
 		);
 	}

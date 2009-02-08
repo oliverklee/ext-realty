@@ -288,7 +288,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 */
 	private function getFormattedArea($key) {
 		return $this->getFormattedNumber(
-			$key, $this->translate('label_squareMeters')
+			$key, true, $this->translate('label_squareMeters')
 		);
 	}
 
@@ -313,7 +313,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			$currency = $this->getConfValueString('currencyUnit');
 		}
 
-		return $this->getFormattedNumber($key, $currency);
+		return $this->getFormattedNumber($key, false, $currency);
 	}
 
 	/**
@@ -322,12 +322,14 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * empty or its intval is zero, an empty string will be returned.
 	 *
 	 * @param string key of the field to retrieve (the name of a database
-	 *               column), may not be empty
+	 *               column), must not be empty
+	 * @param boolean whether decimals should be displayed
+	 * @param string unit of the formatted number, must not be empty
 	 * @return string HTML for the number in the field formatted using the
 	 *                system's locale with $unit appended, may be an empty
 	 *                string
 	 */
-	private function getFormattedNumber($key, $unit) {
+	private function getFormattedNumber($key, $showDecimals, $unit) {
 		$rawValue = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($this->getUid())->getProperty($key);
 		if (($rawValue == '') || (intval($rawValue) == 0)) {
@@ -335,7 +337,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		$localeConvention = localeconv();
-		$decimals = intval($this->getConfValueString('numberOfDecimals'));
+		$decimals = $showDecimals
+			? intval($this->getConfValueString('numberOfDecimals'))
+			: 0;
 
 		$formattedNumber = number_format(
 			$rawValue, $decimals, $localeConvention['decimal_point'], ' '
