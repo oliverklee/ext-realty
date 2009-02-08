@@ -97,9 +97,10 @@ plugin.tx_realty_pi1 {
 	visibleContactFormFields = name,street,zip_and_city,telephone
 	# required fields for the contact form
 	requiredContactFormFields = name
-	# whether the link to the contact form should be displayed
-	# (applicable for single and favorites view)
+	# whether the link to the contact form should be displayed in the favorites view
 	showContactPageLink = 0
+	# single view parts to display
+	singleViewPartsToDisplay = heading,address,description,furtherDescription,price,overviewTable,imageThumbnails,actionButtons,contactButton,offerer
 
 	# name of the DB field to create the search filter checkboxes from
 	checkboxesFilter =
