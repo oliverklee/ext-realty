@@ -1002,7 +1002,8 @@ class tx_realty_object {
 		if (!empty($keysToMatch)) {
 			$whereClauseParts = array();
 			foreach ($keysToMatch as $key) {
-				$whereClauseParts[] = $key.'="'.$dataArray[$key].'"';
+				$whereClauseParts[] = $key . '=' .
+					$GLOBALS['TYPO3_DB']->fullQuoteStr($dataArray[$key], $table);
 			}
 
 			$showHidden = -1;
