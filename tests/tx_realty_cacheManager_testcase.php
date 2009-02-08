@@ -49,7 +49,6 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 		unset($this->testingFramework);
 	}
 
-
 	public function testClearFrontEndCacheForRealtyPages() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createContentElement(
