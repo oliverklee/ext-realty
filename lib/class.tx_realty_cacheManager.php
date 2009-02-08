@@ -21,10 +21,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_fe.php');
-
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-
 /**
  * Class 'tx_realty_cacheManager' for the 'realty' extension.
  * This class provides a function to clear the FE cache for pages with the
@@ -38,21 +34,26 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 class tx_realty_cacheManager {
 	/**
 	 * Clears the FE cache for pages with a realty plugin.
+	 *
+	 * @see tslib_fe::clearPageCacheContent_pidList()
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$selectedPageUidFields = tx_oelib_db::selectMultiple(
 			'pid', 'tt_content', 'list_type="realty_pi1"'
 		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+
+		if (empty($selectedPageUidFields)) {
+			return;
 		}
 
-		$pageIds = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$pageIds[] = $row['pid'];
+		$pageUids = array();
+		foreach ($selectedPageUidFields as $selectedUidField) {
+			$pageUids[] = $selectedUidField['pid'];
 		}
 
-		tslib_fe::clearPageCacheContent_pidList(implode(',', $pageIds));
+		tx_oelib_db::delete(
+			'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
+		);
 	}
 }
 
