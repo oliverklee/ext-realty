@@ -1059,7 +1059,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$whereClauseParts = array();
 		foreach (array_keys($dataArray) as $key) {
-			$whereClauseParts[] = $key . '="' . $dataArray[$key] . '"';
+			$whereClauseParts[] = $key . '=' .
+				$GLOBALS['TYPO3_DB']->fullQuoteStr($dataArray[$key], $table);
 		}
 
 		$showHidden = -1;

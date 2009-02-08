@@ -777,6 +777,24 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testWriteToDatabaseCreatesNewDatabaseEntryForObjectWithQuotedData() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'object_number' => '"' . self::$otherObjectNumber . '"',
+				'openimmo_obid' => '"foo"',
+				'title' => '"bar"'
+			)
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS, 'uid=' . $this->fixture->getUid()
+			)
+		);
+	}
+
 	public function testWriteToDatabaseCreatesNewRealtyRecordWithRealtyRecordPid() {
 		$this->fixture->loadRealtyObject(
 			array('object_number' => self::$otherObjectNumber)
@@ -1021,6 +1039,19 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testPrepareInsertionAndInsertRelationsInsertsPropertyWithQuotesInTitleIntoItsTable() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', 'foo "bar"');
+		$this->fixture->prepareInsertionAndInsertRelations();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
+		);
+	}
+
 	public function testPrepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMatchingPid() {
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setConfigurationValueInteger(
@@ -1151,6 +1182,23 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			array('image' => 'foo.jpg'),
+			tx_oelib_db::selectSingle(
+				'image',
+				REALTY_TABLE_IMAGES,
+				'realty_object_uid = ' . $this->objectUid
+			)
+		);
+	}
+
+	public function testInsertImageEntriesInsertsNewImageWithCaptionWithQuotationMarks() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo "bar"', 'foo.jpg');
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
