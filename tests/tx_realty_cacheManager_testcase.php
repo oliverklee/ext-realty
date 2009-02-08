@@ -36,23 +36,17 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager
  */
 class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_cacheManager
-	 */
-	private $fixture;
-	/**
 	 * @var tx_oelib_testingFramework
 	 */
 	private $testingFramework;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
-		$this->fixture = new tx_realty_cacheManager();
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->fixture, $this->testingFramework);
+		unset($this->testingFramework);
 	}
 
 
@@ -70,7 +64,7 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->clearFrontEndCacheForRealtyPages();
+		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
 
 		$this->assertEquals(
 			0,
