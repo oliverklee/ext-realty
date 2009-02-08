@@ -96,7 +96,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkFavoriteFieldsInSession();
 		$this->checkImageSizeValuesForListView();
 		$this->checkShowContactPageLink();
-		$this->checkContactPid();
+		if ($this->objectToCheck->getConfValueBoolean('showContactPageLink')) {
+			$this->checkContactPid();
+		}
 	}
 
 	/**
@@ -104,29 +106,39 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_single_view() {
 		$this->checkCommonFrontEndSettings();
+		$this->checkSingleViewPartsToDisplay();
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkRequireLoginForSingleViewPage();
-		$this->checkGalleryType();
-		if ($this->objectToCheck->getConfValueString('galleryType') != 'lightbox') {
-			$this->checkGalleryPid();
-		}
 		if ($this->objectToCheck->getConfValueBoolean(
 			'requireLoginForSingleViewPage', 's_template_special'
 		)) {
 			$this->checkLoginPid();
 		}
-		$this->checkImageSizeValuesForSingleView();
+		if ($this->isSingleViewPartToDisplay('imageThumbnails')) {
+			$this->checkImageSizeValuesForSingleView();
+			$this->checkGalleryType();
+			if ($this->objectToCheck->getConfValueString('galleryType')
+				!= 'lightbox'
+			) {
+				$this->checkGalleryPid();
+			}
+		}
+		if ($this->isSingleViewPartToDisplay('contactButton')) {
+			$this->checkContactPid();
+		}
+		if ($this->isSingleViewPartToDisplay('overviewTable')) {
+			$this->checkFieldsInSingleViewTable();
+		}
+		if ($this->isSingleViewPartToDisplay('actionButtons')) {
+			$this->checkFavoritesPid();
+		}
+		$this->checkGoogleMaps();
 		$this->checkObjectsByOwnerPid();
 		$this->checkUserGroupsForOffererList();
 		$this->checkDisplayedContactInformation();
 		$this->checkDisplayedContactInformationSpecial();
 		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
-		$this->checkShowContactPageLink();
-		$this->checkContactPid();
-		$this->checkFieldsInSingleView();
-		$this->checkFavoritesPid();
-		$this->checkGoogleMaps();
 	}
 
 	/**
@@ -224,6 +236,26 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Returns whether $viewPart is enabled in the current configuration for
+	 * 'singleViewPartsToDisplay'.
+	 *
+	 * @param string key of the view part to check for visibility, must not be
+	 *               empty
+	 *
+	 * @return boolean true if $viewPart is configured to become rendered, false
+	 *                 otherwise
+	 */
+	private function isSingleViewPartToDisplay($viewPart) {
+		$configuredValues = t3lib_div::trimExplode(
+			',',
+			$this->objectToCheck->getConfValueString('singleViewPartsToDisplay'),
+			true
+		);
+
+		return in_array($viewPart, $configuredValues);
+	}
+
+	/**
 	 * Checks the settings for Google Maps.
 	 */
 	private function checkGoogleMaps() {
@@ -260,6 +292,25 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'objects_by_owner',
 				'fe_editor',
 				'image_upload',
+			)
+		);
+	}
+
+	/**
+	 * Checks the setting for 'singleViewPartsToDisplay'.
+	 */
+	private function checkSingleViewPartsToDisplay() {
+		$this->checkIfMultiInSetNotEmpty(
+			'singleViewPartsToDisplay',
+			true,
+			'sDEF',
+			'This setting specifies which single view parts to render, ' .
+				'incorrect keys will not be displayed and the single view will ' .
+				'be an empty page if no value is provided.',
+			array(
+				'heading', 'address', 'description', 'price', 'overviewTable',
+				'contactButton', 'actionButtons', 'furtherDescription',
+				'imageThumbnails', 'offerer',
 			)
 		);
 	}
@@ -366,9 +417,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the settings of fields in single view.
+	 * Checks the settings of fields in the overview table.
 	 */
-	private function checkFieldsInSingleView() {
+	private function checkFieldsInSingleViewTable() {
 		$this->checkIfMultiInSetNotEmpty(
 			'fieldsInSingleViewTable',
 			false,
@@ -444,10 +495,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting for the contact PID.
 	 */
 	private function checkContactPid() {
-		if (!$this->objectToCheck->getConfValueBoolean('showContactPageLink')) {
-			return;
-		}
-
 		$this->checkIfSingleFePageNotEmpty(
 			'contactPID',
 			false,
@@ -678,7 +725,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'Some fields will be not be visible if this configuration is ' .
 				'incorrect.',
 			array('name', 'street', 'zip_and_city', 'telephone')
-		);		
+		);
 	}
 
 	/**

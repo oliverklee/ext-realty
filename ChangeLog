@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2453] Feature: Add a flexforms chooser to display only certain parts of the single view
 - [#2685] Fix: Prices should be displayed without decimal in the FE
 - [#2454] Feature: Add an additional single view part "prices"
 - [#2676] Fix: Test errors for inexistent objects in the specialized contact form and thumbnails view

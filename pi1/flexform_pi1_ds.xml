@@ -68,6 +68,7 @@
 								<size>1</size>
 								<maxitems>1</maxitems>
 							</config>
+							<onChange>reload</onChange>
 						</TCEforms>
 					</what_to_display>
 		  			<pages>
@@ -83,6 +84,7 @@
 								<minitems>0</minitems>
 								<show_thumbs>1</show_thumbs>
 							</config>
+							<displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
 				  		</TCEforms>
 					</pages>
 					<recursive>
@@ -120,6 +122,7 @@
 								<maxitems>1</maxitems>
 								<size>1</size>
 							</config>
+							<displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
 						</TCEforms>
 					</recursive>
 					<staticSqlFilter>
@@ -130,6 +133,7 @@
 								<size>256</size>
 								<checkbox></checkbox>
 							</config>
+							<displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
 						</TCEforms>
 					</staticSqlFilter>
 					<showContactPageLink>
@@ -138,6 +142,7 @@
 							<config>
 								<type>check</type>
 							</config>
+							<displayCond>FIELD:what_to_display:=:favorites</displayCond>
 						</TCEforms>
 					</showContactPageLink>
 					<checkboxesFilter>
@@ -179,6 +184,7 @@
 								<maxitems>1</maxitems>
 								<size>1</size>
 							</config>
+							<displayCond>FIELD:what_to_display:=:realty_list</displayCond>
 						</TCEforms>
 					</checkboxesFilter>
 					<orderBy>
@@ -236,6 +242,7 @@
 								<maxitems>1</maxitems>
 								<minitems>0</minitems>
 							</config>
+							<displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
 						</TCEforms>
 					</orderBy>
 					<sortCriteria>
@@ -290,8 +297,64 @@
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>
+							<displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
 						</TCEforms>
 					</sortCriteria>
+					<singleViewPartsToDisplay>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.singleViewPartsToDisplay</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.heading</numIndex>
+										<numIndex index="1">heading</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.address</numIndex>
+										<numIndex index="1">address</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.description</numIndex>
+										<numIndex index="1">description</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.price</numIndex>
+										<numIndex index="1">price</numIndex>
+									</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.overviewTable</numIndex>
+										<numIndex index="1">overviewTable</numIndex>
+									</numIndex>
+									<numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.contactButton</numIndex>
+										<numIndex index="1">contactButton</numIndex>
+									</numIndex>
+									<numIndex index="6" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.actionButtons</numIndex>
+										<numIndex index="1">actionButtons</numIndex>
+									</numIndex>
+									<numIndex index="7" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.furtherDescription</numIndex>
+										<numIndex index="1">furtherDescription</numIndex>
+									</numIndex>
+									<numIndex index="8" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.imageThumbnails</numIndex>
+										<numIndex index="1">imageThumbnails</numIndex>
+									</numIndex>
+									<numIndex index="9" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.offerer</numIndex>
+										<numIndex index="1">offerer</numIndex>
+									</numIndex>
+								</items>
+								<maxitems>10</maxitems>
+								<minitems>0</minitems>
+								<renderMode>checkbox</renderMode>
+							</config>
+							<displayCond>FIELD:what_to_display:=:single_view</displayCond>
+						</TCEforms>
+					</singleViewPartsToDisplay>
 					<singlePID>
 						<TCEforms>
 							<exclude>1</exclude>
@@ -305,23 +368,9 @@
 								<minitems>0</minitems>
 								<show_thumbs>1</show_thumbs>
 							</config>
+							<displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
 						</TCEforms>
 					</singlePID>
-					<galleryPID>
-						<TCEforms>
-							<exclude>1</exclude>
-							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.galleryPID</label>
-							<config>
-								<type>group</type>
-								<internal_type>db</internal_type>
-								<allowed>pages</allowed>
-								<size>1</size>
-								<maxitems>1</maxitems>
-								<minitems>0</minitems>
-								<show_thumbs>1</show_thumbs>
-							</config>
-						</TCEforms>
-					</galleryPID>
 					<favoritesPID>
 						<TCEforms>
 							<exclude>1</exclude>
@@ -335,6 +384,7 @@
 								<minitems>0</minitems>
 								<show_thumbs>1</show_thumbs>
 							</config>
+							<displayCond>FIELD:what_to_display:IN:realty_list,single_view,objects_by_owner</displayCond>
 						</TCEforms>
 					</favoritesPID>
 					<editorPID>
@@ -350,6 +400,7 @@
 								<minitems>0</minitems>
 								<show_thumbs>1</show_thumbs>
 							</config>
+							<displayCond>FIELD:what_to_display:=:my_objects</displayCond>
 						</TCEforms>
 					</editorPID>
 					<imageUploadPID>
@@ -365,6 +416,7 @@
 								<minitems>0</minitems>
 								<show_thumbs>1</show_thumbs>
 							</config>
+							<displayCond>FIELD:what_to_display:=:my_objects</displayCond>
 						</TCEforms>
 					</imageUploadPID>
 					<galleryType>
@@ -387,8 +439,26 @@
 									</numIndex>
 								</items>
 							</config>
+							<onChange>reload</onChange>
+							<displayCond>FIELD:what_to_display:=:single_view</displayCond>
 						</TCEforms>
 					</galleryType>
+					<galleryPID>
+						<TCEforms>
+							<exclude>1</exclude>
+							<label>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.galleryPID</label>
+							<config>
+								<type>group</type>
+								<internal_type>db</internal_type>
+								<allowed>pages</allowed>
+								<size>1</size>
+								<maxitems>1</maxitems>
+								<minitems>0</minitems>
+								<show_thumbs>1</show_thumbs>
+							</config>
+							<displayCond>FIELD:galleryType:=:classic</displayCond>
+						</TCEforms>
+					</galleryPID>
 				</el>
 			</ROOT>
 		</sDEF>
@@ -483,6 +553,7 @@
 							<config>
 								<type>check</type>
 							</config>
+							<onChange>reload</onChange>
 						</TCEforms>
 					</showGoogleMaps>
 					<googleMapsApiKey>
@@ -493,6 +564,7 @@
 								<size>100</size>
 								<eval>trim</eval>
 							</config>
+							<displayCond>FIELD:showGoogleMaps:REQ:true</displayCond>
 						</TCEforms>
 					</googleMapsApiKey>
 					<defaultCountryUID>
@@ -512,6 +584,7 @@
 								<maxitems>1</maxitems>
 								<size>1</size>
 							</config>
+							<displayCond>FIELD:showGoogleMaps:REQ:true</displayCond>
 						</TCEforms>
 					</defaultCountryUID>
 				</el>
@@ -667,6 +740,7 @@
 								<minitems>0</minitems>
 								<show_thumbs>1</show_thumbs>
 							</config>
+							<onChange>reload</onChange>
 						</TCEforms>
 					</groupsWithSpeciallyDisplayedContactInformation>
 					<displayedContactInformationSpecial>

@@ -122,23 +122,33 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	private function createSingleView($uid) {
 		$this->setPageTitle($uid);
 
+		$hasTextContent = false;
+		$configuredViews = $this->getViewsToShow();
+
 		foreach (array(
-			'Heading' => true,
-			'Address' => true,
-			'Description' => true,
-			'Price' => true,
-			'OverviewTable' => true,
-			'Offerer' => true,
-			'ContactButton' => $this->getConfValueBoolean('showContactPageLink'),
-			'GoogleMaps' => $this->getConfValueBoolean('showGoogleMaps'),
-			'ActionButtons' => true,
-			'FurtherDescription' => true,
-			'ImageThumbnails' => true,
-		) as $key => $isVisible) {
-			$viewContent = $isVisible
+			'heading', 'address', 'description', 'price', 'overviewTable',
+			'offerer', 'contactButton', 'googleMaps', 'actionButtons',
+			'furtherDescription', 'imageThumbnails',
+		) as $key) {
+			$viewContent = in_array($key, $configuredViews)
 				? $this->getView($uid, $key)
 				: '';
+
 			$this->setSubpart($key, $viewContent, 'field_wrapper');
+			if (($viewContent != '') && ($key != 'imageThumbnails')) {
+				$hasTextContent = true;
+			}
+		}
+
+		// Sets an additional class name if the "image thumbnails" view
+		// is activated.
+		$this->setMarker(
+			'with_images',
+			in_array('imageThumbnails', $configuredViews) ? ' with-images' : ''
+		);
+
+		if (!$hasTextContent) {
+			$this->hideSubparts('field_wrapper_texts');
 		}
 	}
 
@@ -166,7 +176,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * @param integer UID of the realty object for which to create the view,
 	 *                must be > 0
 	 * @param string key of the view to get, must be a part of the class name of
-	 *               possible view: tx_realty_pi1_[$viewName]View, must not be
+	 *               possible view: tx_realty_pi1_[$viewName]View, must be
+	 *               case-sensitive apart from the first letter, must not be
 	 *               empty
 	 *
 	 * @return string the result of tx_realty_pi1_[$viewName]View::render(),
@@ -175,11 +186,11 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getView($uid, $viewName) {
 		$viewClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_pi1_' . $viewName . 'View'
+			'tx_realty_pi1_' . ucfirst($viewName) . 'View'
 		);
 		$view = new $viewClassName($this->conf, $this->cObj, $this->isTestMode);
 
-		if ($viewName == 'GoogleMaps') {
+		if ($viewName == 'googleMaps') {
 			$view->setMapMarker($uid);
 		}
 
@@ -187,6 +198,23 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$view->__destruct();
 
 		return $result;
+	}
+
+	/**
+	 * Returns the configuration for which views to show in an array.
+	 *
+	 * @return array the single view parts to display, will not be empty
+	 */
+	private function getViewsToShow() {
+		$configuredViews = t3lib_div::trimExplode(
+			',', $this->getConfValueString('singleViewPartsToDisplay'), true
+		);
+
+		if ($this->getConfValueBoolean('showGoogleMaps')) {
+			$configuredViews[] = 'googleMaps';
+		}
+
+		return $configuredViews;
 	}
 }
 

@@ -60,6 +60,11 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->cObj,
 			true
 		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay',
+			'heading,address,description,furtherDescription,price,overviewTable,' .
+				'imageThumbnails,actionButtons,contactButton,offerer'
+		);
 	}
 
 	public function tearDown() {
@@ -148,11 +153,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			->getNewGhost();
 		$realtyObject->setProperty('title', 'foo');
 
-		$result = $this->fixture->render(array('showUid' => $realtyObject->getUid()));
-
 		$this->assertNotContains(
 			'###',
-			$result
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
@@ -161,7 +164,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	// Testing the different view parts displayed
 	///////////////////////////////////////////////
 
-	public function testSingleViewDisplaysTheTitleOfARealtyObject() {
+	public function testSingleViewDisplaysTheTitleOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('title', 'foo');
@@ -172,7 +175,22 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheDescriptionOfARealtyObject() {
+	public function testSingleViewNotDisplaysTheTitleOfARealtyObjectIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('title', 'foo');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'description'
+		);
+
+		$this->assertNotContains(
+			'foo',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewDisplaysTheDescriptionOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('description', 'foo');
@@ -183,7 +201,22 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysThePriceOfARealtyObject() {
+	public function testSingleViewNotDisplaysTheDescriptionOfARealtyObjectIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('description', 'foo');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
+			'foo',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewDisplaysThePriceOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
@@ -195,7 +228,23 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheEquipmentDescriptionOfARealtyObject() {
+	public function testSingleViewNotDisplaysThePriceOfARealtyObjectIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
+		$realtyObject->setProperty('buying_price', '123');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
+			'123',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewDisplaysTheEquipmentDescriptionOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('equipment', 'foo');
@@ -206,7 +255,22 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheAddToFavoritesButton() {
+	public function testSingleViewNotDisplaysTheEquipmentDescriptionOfARealtyObjectIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('equipment', 'foo');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
+			'foo',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewDisplaysTheAddToFavoritesButtonIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('title', 'foo');
@@ -217,7 +281,22 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysLinkedImage() {
+	public function testSingleViewNotDisplaysTheAddToFavoritesButtonIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('title', 'foo');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
+			'class="button addToFavorites"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewDisplaysLinkedImageIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
@@ -232,12 +311,75 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSingleViewNotDisplaysLinkedImageIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+		$this->fixture->setConfigurationValue(
+			'galleryPID', $this->testingFramework->createFrontEndPage()
+		);
+
+		$this->assertNotContains(
+			'tx_realty_pi1[image]=0',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewNotDisplaysTextPaneDivIfOnlyImagesShouldBeDisplayed() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('title', 'foo');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'imageThumbnails'
+		);
+
+		$this->assertNotContains(
+			'<div class="text-pane',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewDisplaysTextPaneDivAndWithImagesClassNameImagesAndTextShouldBeDisplayed() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('title', 'foo');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading,imageThumbnails'
+		);
+
+		$this->assertContains(
+			'<div class="text-pane with-images',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewNotDisplaysWithImagesClassNameIfOnlyTextShouldBeDisplayed() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('title', 'foo');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
+			'with-images',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+
 	public function testSingleViewDisplaysContactButtonIfThisIsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('title', 'test title');
 
-		$this->fixture->setConfigurationValue('showContactPageLink', 1);
 		$this->fixture->setConfigurationValue(
 			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -253,7 +395,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			->getNewGhost();
 		$realtyObject->setProperty('title', 'test title');
 
-		$this->fixture->setConfigurationValue('showContactPageLink', 0);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
 		$this->fixture->setConfigurationValue(
 			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -269,7 +413,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			->getNewGhost();
 		$realtyObject->setProperty('contact_phone', '12345');
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'offerer'
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'telephone'
+		);
 
 		$this->assertContains(
 			$this->fixture->translate('label_offerer'),
@@ -282,7 +431,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			->getNewGhost();
 		$realtyObject->setProperty('contact_phone', '12345');
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', '');
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'telephone'
+		);
 
 		$this->assertNotContains(
 			$this->fixture->translate('label_offerer'),
@@ -290,7 +444,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysOverviewTableRow() {
+	public function testSingleViewDisplaysOverviewTableRowIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('has_air_conditioning', '1');
@@ -305,12 +459,45 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheAddressOfARealtyObject() {
+	public function testSingleViewNotDisplaysOverviewTableRowIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('has_air_conditioning', '1');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'has_air_conditioning'
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_has_air_conditioning'),
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewDisplaysTheAddressOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setProperty('zip', '12345');
 
 		$this->assertContains(
+			'12345',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testSingleViewNotDisplaysTheAddressOfARealtyObjectIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('zip', '12345');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
 			'12345',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);

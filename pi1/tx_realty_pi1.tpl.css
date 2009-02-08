@@ -229,6 +229,8 @@
 .tx-realty-pi1 .single-view .text-pane {
 	float: left;
 	margin: 0 1% 1em 0;
+}
+.tx-realty-pi1 .single-view .with-images {
 	width: 38%;
 }
 .tx-realty-pi1 .single-view .text-pane h4 {

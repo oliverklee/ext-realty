@@ -29,7 +29,7 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.requiredContactFormFields">Required form fields:</label>
 			<label index="realty.pi_flexform.visibleContactFormFields">Form fields to show:</label>
-			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form:</label>
+			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form in the favorites view:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -81,6 +81,17 @@
 			<label index="realty.pi_flexform.advertisementPID">Page with the advertisement form:</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET parameter for the object UID:</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays">Expiration period of advertisements (in days):</label>
+			<label index="realty.pi_flexform.singleViewPartsToDisplay">Single view parts to display:</label>
+			<label index="realty.pi_flexform.heading">heading</label>
+			<label index="realty.pi_flexform.address">address</label>
+			<label index="realty.pi_flexform.description">description</label>
+			<label index="realty.pi_flexform.price">rent/buying price</label>
+			<label index="realty.pi_flexform.overviewTable">overview table</label>
+			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>
+			<label index="realty.pi_flexform.actionButtons">buttons &quot;add to favorites&quot;, &quot;back&quot; and &quot;print&quot;</label>
+			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
+			<label index="realty.pi_flexform.imageThumbnails">images</label>
+			<label index="realty.pi_flexform.offerer">offerer information</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -334,7 +345,7 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-Mail-Adresse für eine Blindkopie jeder Anfrage:</label>
 			<label index="realty.pi_flexform.requiredContactFormFields">Pflicht-Formularfelder:</label>
 			<label index="realty.pi_flexform.visibleContactFormFields">Angezeigte Formularfelder:</label>
-			<label index="realty.pi_flexform.showContactPageLink">Link zum Kontaktformular anzeigen:</label>
+			<label index="realty.pi_flexform.showContactPageLink">Link zum Kontaktformular auf dem Merkzettel anzeigen:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.orderBy">Listenansicht zu Anfang sortieren nach:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB-Felder, nach denen ein FE-User die Listenansicht sortieren kann:</label>
@@ -386,6 +397,17 @@
 			<label index="realty.pi_flexform.advertisementPID">Seite mit dem Inseratsformular:</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET-Parameter für die Objekt-UID:</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays">Dauer der Inserate (in Tagen):</label>
+			<label index="realty.pi_flexform.singleViewPartsToDisplay">Angezeigte Teile der Einzelansicht:</label>
+			<label index="realty.pi_flexform.heading">Überschrift</label>
+			<label index="realty.pi_flexform.address">Adresse</label>
+			<label index="realty.pi_flexform.description">Beschreibung</label>
+			<label index="realty.pi_flexform.price">Miete/Kaufpreis</label>
+			<label index="realty.pi_flexform.overviewTable">Übersichtstabelle</label>
+			<label index="realty.pi_flexform.contactButton">Button &quot;Kontakt aufnehmen&quot;</label>
+			<label index="realty.pi_flexform.actionButtons">Buttons &quot;Auf den Merkzettel&quot;, &quot;Zurück&quot; and &quot;Drucken&quot;</label>
+			<label index="realty.pi_flexform.furtherDescription">Felder &quot;Ausstattung&quot;, &quot;Lage&quot; und &quot;Sonstiges&quot;</label>
+			<label index="realty.pi_flexform.imageThumbnails">Bilder</label>
+			<label index="realty.pi_flexform.offerer">Anbieterinformationen</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -1347,7 +1369,7 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
 			<label index="realty.pi_flexform.requiredContactFormFields" type="integer">258996908</label>
 			<label index="realty.pi_flexform.visibleContactFormFields" type="integer">75148715</label>
-			<label index="realty.pi_flexform.showContactPageLink" type="integer">237349468</label>
+			<label index="realty.pi_flexform.showContactPageLink" type="integer">75125315</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
@@ -1399,6 +1421,17 @@
 			<label index="realty.pi_flexform.advertisementPID" type="integer">61630174</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid" type="integer">251235559</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays" type="integer">103100612</label>
+			<label index="realty.pi_flexform.singleViewPartsToDisplay" type="integer">235944602</label>
+			<label index="realty.pi_flexform.heading" type="integer">259323193</label>
+			<label index="realty.pi_flexform.address" type="integer">142924160</label>
+			<label index="realty.pi_flexform.description" type="integer">108900242</label>
+			<label index="realty.pi_flexform.price" type="integer">232449975</label>
+			<label index="realty.pi_flexform.overviewTable" type="integer">232367950</label>
+			<label index="realty.pi_flexform.contactButton" type="integer">205238602</label>
+			<label index="realty.pi_flexform.actionButtons" type="integer">89159895</label>
+			<label index="realty.pi_flexform.furtherDescription" type="integer">175943160</label>
+			<label index="realty.pi_flexform.imageThumbnails" type="integer">94064961</label>
+			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -2357,7 +2390,7 @@
 			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
 			<label index="realty.pi_flexform.requiredContactFormFields">Required form fields:</label>
 			<label index="realty.pi_flexform.visibleContactFormFields">Form fields to show:</label>
-			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form:</label>
+			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form in the favorites view:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -2409,6 +2442,17 @@
 			<label index="realty.pi_flexform.advertisementPID">Page with the advertisement form:</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET parameter for the object UID:</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays">Expiration period of advertisements (in days):</label>
+			<label index="realty.pi_flexform.singleViewPartsToDisplay">Single view parts to display:</label>
+			<label index="realty.pi_flexform.heading">heading</label>
+			<label index="realty.pi_flexform.address">address</label>
+			<label index="realty.pi_flexform.description">description</label>
+			<label index="realty.pi_flexform.price">rent/buying price</label>
+			<label index="realty.pi_flexform.overviewTable">overview table</label>
+			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>
+			<label index="realty.pi_flexform.actionButtons">buttons &quot;add to favorites&quot;, &quot;back&quot; and &quot;print&quot;</label>
+			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
+			<label index="realty.pi_flexform.imageThumbnails">images</label>
+			<label index="realty.pi_flexform.offerer">offerer information</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
