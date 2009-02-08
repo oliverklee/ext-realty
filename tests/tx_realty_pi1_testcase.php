@@ -2267,6 +2267,46 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSingleViewFormatsPriceUsingNoDecimals() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('buying_price' => '1234567', 'object_type' => REALTY_FOR_SALE)
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'buying_price'
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
+
+		$this->assertContains(
+			'1 234 567&nbsp;&euro;',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testSingleViewFormatsAreaUsingDecimals() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('living_area' => '1234567')
+		);
+		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'living_area'
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
+		$this->fixture->setConfigurationValue('numberOfDecimals', 2);
+		$localeConvention = localeconv();
+
+		$this->assertContains(
+			'1 234 567' . $localeConvention['decimal_point'] . '00&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->main('', array())
+		);
+	}
+
 	public function testSingleViewHasLinkedImage() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,

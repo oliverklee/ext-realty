@@ -1,4 +1,5 @@
 0.3.2 - currently working on
+- [#2685] Fix: Prices should be displayed without decimal in the FE
 - [#2454] Change: Use constants for object type sale and rent
 - [#2217] Change: Delete the corresponding image file if an image record becomes deleted
 - [#2568] Change: The contact button in the single view should only have the UID as parameter

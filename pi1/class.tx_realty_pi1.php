@@ -1232,7 +1232,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function getFormattedArea($key) {
 		return $this->getFormattedNumber(
-			$key, $this->translate('label_squareMeters')
+			$key, true, $this->translate('label_squareMeters')
 		);
 	}
 
@@ -1250,8 +1250,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function getFormattedPrice($key) {
 		return $this->getFormattedNumber(
-			$key,
-			$this->getConfValueString('currencyUnit')
+			$key, false, $this->getConfValueString('currencyUnit')
 		);
 	}
 
@@ -1260,20 +1259,24 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * using the system's locale and appending $unit. If the field's value is
 	 * empty or its intval is zero, an empty string will be returned.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database
-	 * 						column), may not be empty
-	 * @return	string		HTML for the number in the field formatted using the
-	 * 						system's locale with $unit appended, may be an empty
-	 * 						string
+	 * @param string key of the field to retrieve (the name of a database
+	 *               column), must not be empty
+	 * @param boolean whether decimals should be displayed
+	 * @param string unit of the formatted number, must not be empty
+	 * @return string HTML for the number in the field formatted using the
+	 *                system's locale with $unit appended, may be an empty
+	 *                string
 	 */
-	private function getFormattedNumber($key, $unit) {
+	private function getFormattedNumber($key, $showDecimals, $unit) {
 		$rawValue = $this->internal['currentRow'][$key];
 		if (empty($rawValue) || (intval($rawValue) == 0)) {
 			return '';
 		}
 
 		$localeConvention = localeconv();
-		$decimals = intval($this->getConfValueString('numberOfDecimals'));
+		$decimals = $showDecimals
+			? intval($this->getConfValueString('numberOfDecimals'))
+			: 0;
 
 		$formattedNumber = number_format(
 			$rawValue,
@@ -1282,7 +1285,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			' '
 		);
 
-		return $formattedNumber.'&nbsp;'.$unit;;
+		return $formattedNumber . '&nbsp;' . $unit;
 	}
 
 	/**
