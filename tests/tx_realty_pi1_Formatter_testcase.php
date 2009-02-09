@@ -228,6 +228,21 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetPropertyReturnsHtmlSpecialcharedTitleOfCity() {
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty(
+				'city',
+				$this->testingFramework->createRecord(
+					REALTY_TABLE_CITIES, array('title' => 'test<br/>city')
+				)
+			);
+
+		$this->assertEquals(
+			htmlspecialchars('test<br/>city'),
+			$this->fixture->getProperty('city')
+		);
+	}
+
 	public function testGetPropertyReturnsEstateSizeAsFormattedAreaWithDecimals() {
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($this->realtyUid)->setProperty('estate_size', 12345);
@@ -263,6 +278,16 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'1.1.',
+			$this->fixture->getProperty('usable_from')
+		);
+	}
+
+	public function testGetPropertyReturnsHtmlspecialcharedValueOfUsableFrom() {
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty('usable_from', '1.<br/>1.');
+
+		$this->assertEquals(
+			htmlspecialchars('1.<br/>1.'),
 			$this->fixture->getProperty('usable_from')
 		);
 	}
@@ -337,6 +362,23 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'This title is longer than 75 Characters, so the rest should be' .
 				' cropped and…',
+			$this->fixture->getProperty('cropped_title')
+		);
+	}
+
+	public function testGetPropertyReturnsHtmlspecialcharedCroppedTitle() {
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->realtyUid)->setProperty(
+				'title',
+				'This title is longer than <b>75</b> Characters, so the' .
+					' rest should be cropped and be replaced with dots'
+			);
+
+		$this->assertEquals(
+			htmlspecialchars(
+				'This title is longer than <b>75</b> Characters,' .
+					' so the rest should be crop…'
+			),
 			$this->fixture->getProperty('cropped_title')
 		);
 	}

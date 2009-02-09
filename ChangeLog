@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2665] Fix: The formatter needs to htmlspecialchar most fields
 - [#2660] Fix: The cache manager must not call tslib_fe::clearPageCacheContent_pidList statically
 - [#2651] Fix: OpenImmo import fails if there are quotation marks in the XML
 - [#2453] Feature: Add a flexforms chooser to display only certain parts of the single view

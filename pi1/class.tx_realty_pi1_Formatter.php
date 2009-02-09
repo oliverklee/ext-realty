@@ -129,7 +129,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'city':
 				// The fallthrough is intended.
 			case 'district':
-				$result = $realtyObject->getForeignPropertyField($key);
+				$result = htmlspecialchars(
+					$realtyObject->getForeignPropertyField($key)
+				);
 				break;
 			case 'country':
 				if ($realtyObject->getProperty($key)
@@ -166,7 +168,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				$usableFrom = $realtyObject->getProperty($key);
 				// If no date is set, assume "now".
 				$result = ($usableFrom != '')
-					? $usableFrom
+					? htmlspecialchars($usableFrom)
 					: $this->translate('message_now');
 				break;
 			case 'number_of_rooms':
@@ -221,13 +223,15 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				$result = $realtyObject->getAddressAsHtml();
 				break;
 			case 'cropped_title':
-				$result = $realtyObject->getCroppedTitle(self::CROP_SIZE);
+				$result = htmlspecialchars(
+					$realtyObject->getCroppedTitle(self::CROP_SIZE)
+				);
 				break;
 			case 'uid':
 				$result = $this->getUid();
 				break;
 			default:
-				$result = $realtyObject->getProperty($key);
+				$result = htmlspecialchars($realtyObject->getProperty($key));
 				break;
 		}
 
