@@ -147,7 +147,6 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			'map.setCenter(' . $this->mapMarkers[0]->getCoordinates() .
 				', ' . self::ZOOM_FOR_SINGLE_MARKER . ');' . LF .
 			'map.enableContinuousZoom();' . LF .
-			'map.enableScrollWheelZoom();' . LF .
 			'map.addControl(new GLargeMapControl());' . LF .
 			'map.addControl(new GMapTypeControl());' . LF .
 			'var bounds = new GLatLngBounds();' . LF .
