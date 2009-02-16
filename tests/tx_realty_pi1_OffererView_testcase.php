@@ -264,7 +264,9 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+		);
 		$this->fixture->setConfigurationValue(
 			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -286,7 +288,9 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+		);
 		$this->fixture->setConfigurationValue(
 			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -309,7 +313,9 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 		);
 		$objectsByOwnerPid = $this->testingFramework->createFrontEndPage();
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+		);
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $objectsByOwnerPid);
 
 		$this->assertContains(
@@ -329,13 +335,39 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+		);
 		$this->fixture->setConfigurationValue(
 			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
 		);
 
 		$this->assertContains(
 			'tx_realty_pi1[owner]=' . $ownerUid,
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function test_Render_ForDisabledOptionAndOwnerSet_HidesObjectsByOwnerLink() {
+		$ownerUid = $this->testingFramework->createFrontEndUser(
+			'', array('username' => 'foo')
+		);
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->setProperty('owner', $ownerUid);
+		$realtyObject->setProperty(
+			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
+		);
+
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label'
+		);
+		$this->fixture->setConfigurationValue(
+			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_this_owners_objects'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -347,7 +379,9 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+		);
 		$this->fixture->setConfigurationValue(
 			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -380,7 +414,7 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoLinkToTheObjectsByOwnerListForNoObjectsByOwnerPidSetAndOwnerSet() {
+	public function test_Render_ForNoObjectsByOwnerPidSetAndOwnerSet_ReturnsLinkWithoutId() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
@@ -391,10 +425,12 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);
 
-		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+		);
 
 		$this->assertNotContains(
-			$this->fixture->translate('label_this_owners_objects'),
+			'?id=',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}

@@ -77,6 +77,7 @@
 			<label index="realty.pi_flexform.telephone">telephone</label>
 			<label index="realty.pi_flexform.email">e-mail address</label>
 			<label index="realty.pi_flexform.homepage">homepage</label>
+			<label index="realty.pi_flexform.objectsByOwnerLink">link to page with list of objects by one owner</label>
 			<label index="realty.pi_flexform.sheet_advertisements">Advertisements</label>
 			<label index="realty.pi_flexform.advertisementPID">Page with the advertisement form:</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET parameter for the object UID:</label>
@@ -393,6 +394,7 @@
 			<label index="realty.pi_flexform.telephone">Telefonnummer</label>
 			<label index="realty.pi_flexform.email">E-mail</label>
 			<label index="realty.pi_flexform.homepage">Homepage</label>
+			<label index="realty.pi_flexform.objectsByOwnerLink">Verlinke zur Seite mit der Liste der Objekte eines Anbieters</label>
 			<label index="realty.pi_flexform.sheet_advertisements">Inserate</label>
 			<label index="realty.pi_flexform.advertisementPID">Seite mit dem Inseratsformular:</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET-Parameter für die Objekt-UID:</label>
@@ -1417,6 +1419,7 @@
 			<label index="realty.pi_flexform.telephone" type="integer">194754535</label>
 			<label index="realty.pi_flexform.email" type="integer">59414938</label>
 			<label index="realty.pi_flexform.homepage" type="integer">195270797</label>
+			<label index="realty.pi_flexform.objectsByOwnerLink" type="integer">200525925</label>
 			<label index="realty.pi_flexform.sheet_advertisements" type="integer">222790078</label>
 			<label index="realty.pi_flexform.advertisementPID" type="integer">61630174</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid" type="integer">251235559</label>
@@ -2438,6 +2441,7 @@
 			<label index="realty.pi_flexform.telephone">telephone</label>
 			<label index="realty.pi_flexform.email">e-mail address</label>
 			<label index="realty.pi_flexform.homepage">homepage</label>
+			<label index="realty.pi_flexform.objectsByOwnerLink">link to page with list of objects by one owner</label>
 			<label index="realty.pi_flexform.sheet_advertisements">Advertisements</label>
 			<label index="realty.pi_flexform.advertisementPID">Page with the advertisement form:</label>
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET parameter for the object UID:</label>

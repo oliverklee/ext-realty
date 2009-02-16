@@ -169,6 +169,10 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	private function createListRow(array $userRecord) {
 		$subpartHasContent = false;
 		$this->resetSubpartsHiding();
+		$objectsByOwnerLink
+			= $this->mayDisplayInformation($userRecord, 'objects_by_owner_link')
+				? $this->getObjectsByOwnerUrl($userRecord)
+				: '';
 
 		foreach (array(
 			'usergroup' => htmlspecialchars($this->getFirstUserGroup($userRecord)),
@@ -182,6 +186,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 				htmlspecialchars($userRecord['www']),
 				array('parameter' => htmlspecialchars($userRecord['www']))
 			),
+			'objects_by_owner_link' => $objectsByOwnerLink,
 		) as $key => $value) {
 			$this->setMarker(
 				'emphasized_' . $key,
@@ -198,13 +203,6 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 				$this->hideSubparts($key, 'wrapper');
 			}
 		}
-
-		$this->setOrDeleteMarkerIfNotEmpty(
-			'objects_by_owner_link',
-			$this->getObjectsByOwnerUrl($userRecord),
-			'',
-			'wrapper'
-		);
 
 		// Apart from in the single view, the user group is appended to the
 		// company (if displayed) or to else the offerer name.
@@ -399,9 +397,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	private function getObjectsByOwnerUrl(array $userRecord) {
 		// There might be no UID if the data to render as offerer information
 		// was initially provided in an array.
-		if (!$this->hasConfValueInteger(
-			'objectsByOwnerPID', 's_offererInformation'
-		) || !isset($userRecord['uid'])) {
+		if (!isset($userRecord['uid'])) {
 			return '';
 		}
 

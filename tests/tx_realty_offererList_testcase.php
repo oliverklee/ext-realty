@@ -40,6 +40,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 	 * @var tx_oelib_testingFramework
 	 */
 	private $testingFramework;
+
 	/**
 	 * @var tx_realty_offererList
 	 */
@@ -49,14 +50,17 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 	 * @var integer FE user group UID
 	 */
 	private $feUserGroupUid;
-	/**
-	 * @var string FE user group name
-	 */
-	const FE_USER_GROUP_NAME = 'test offerers';
+
 	/**
 	 * @var integer FE user UID
 	 */
 	private $offererUid;
+
+	/**
+	 * @var string FE user group name
+	 */
+	const FE_USER_GROUP_NAME = 'test offerers';
+
 	/**
 	 * @var string FE user name
 	 */
@@ -860,6 +864,9 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
 		);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'objects_by_owner_link'
+		);
 
 		$this->assertContains(
 			'button objectsByOwner',
@@ -867,9 +874,12 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsConfiguredPageUidInTheLinkToTheObjectsByOffererListIfPageConfigured() {
+	public function test_OffererListItem_IfPageConfiguredAndConfigurationSet_ContainsConfiguredPageUidInTheLinkToTheObjectsByOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'objects_by_owner_link'
+		);
 
 		$this->assertContains(
 			'id=' . $pageUid,
@@ -877,9 +887,12 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsOwnerUidInTheLinkToTheObjectsByOffererListIfPageConfigured() {
+	public function test_OffererListItem_IfPageConfiguredAndConfigurationSet_ContainsOwnerUidInTheLinkToTheObjectsByOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'objects_by_owner_link'
+		);
 
 		$this->assertContains(
 			'tx_realty_pi1[owner]=' . $this->offererUid,
@@ -887,6 +900,76 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_OffererListItem_ForDisabledObjectsByOwnerLink_HidesLinkToTheOffererList() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label'
+		);
+
+		$this->assertNotContains(
+			'button objectsByOwner',
+			$this->fixture->render()
+		);
+	}
+
+	public function test_OffererListItem_ForDisabledSpecialObjectsByOwnerLinkAndOffererInSpecialGroup_HidesLinkToTheOffererList() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label'
+		);
+		$this->fixture->setConfigurationValue(
+			'groupsWithSpeciallyDisplayedContactInformation',
+			$this->feUserGroupUid
+		);
+
+		$this->assertNotContains(
+			'button objectsByOwner',
+			$this->fixture->render()
+		);
+	}
+
+	public function test_OffererListItem_ForEnabledObjectsByOwnerLinkAndOffererNotInSpecialGroup_ShowsLinkToTheOffererList() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformationSpecial', 'offerer_label'
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label, objects_by_owner_link'
+		);
+		$this->fixture->setConfigurationValue(
+			'groupsWithSpeciallyDisplayedContactInformation',
+			$this->testingFramework->getAutoincrement('fe_groups')
+		);
+
+		$this->assertContains(
+			'button objectsByOwner',
+			$this->fixture->render()
+		);
+	}
+
+	public function test_OffererListItem_ForEnabledSpecialOwnerLinkAndOffererInSpecialGroup_ShowsLinkToTheOffererList() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformationSpecial',
+			'offerer_label, objects_by_owner_link'
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'offerer_label'
+		);
+		$this->fixture->setConfigurationValue(
+			'groupsWithSpeciallyDisplayedContactInformation',
+			$this->feUserGroupUid
+		);
+
+		$this->assertContains(
+			'button objectsByOwner',
+			$this->fixture->render()
+		);
+	}
 
 	/////////////////////////////////////////////
 	// Testing to get only one list item by UID
