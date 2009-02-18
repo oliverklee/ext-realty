@@ -2408,59 +2408,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-
-	/////////////////////////////////////
-	// Tests concerning getFieldContent
-	/////////////////////////////////////
-
-	public function testGetFieldContentOfEstateSize() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('estate_size' => '12345')
-		);
-		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
-		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
-		// $this->createListView() is called indirectly here. It sets the correct
-		// values for $this->internal.
-		$this->fixture->main('', array());
-
-		$this->assertContains(
-			'12 345',
-			$this->fixture->getFieldContent('estate_size')
-		);
-	}
-
-	public function testGetFieldContentCreatesLinkToSinglePageIfAccessDenied() {
-		$this->denyAccess();
-
-		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
-		$this->fixture->setCurrentRow(array(
-			'title' => 'foo',
-			'uid' => 0
-		));
-
-		$this->assertEquals(
-			$this->fixture->createLinkToSingleViewPage('foo', 0),
-			$this->fixture->getFieldContent('linked_title')
-		);
-	}
-
-	public function testGetFieldContentCreatesLinkToSinglePageIfAccessAllowed() {
-		$this->allowAccess();
-
-		$this->fixture->setCurrentRow(array(
-			'title' => 'foo',
-			'uid' => 0
-		));
-
-		$this->assertEquals(
-			$this->fixture->createLinkToSingleViewPage('foo', 0),
-			$this->fixture->getFieldContent('linked_title')
-		);
-	}
-
-
 	public function testDetailPageDisplaysTheStreetIfShowAddressOfObjectsIsEnabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,

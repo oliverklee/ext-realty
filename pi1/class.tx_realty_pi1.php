@@ -30,11 +30,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.php');
-
-// field types for realty objects
-define('TYPE_NUMERIC', 0);
-define('TYPE_STRING', 1);
-define('TYPE_BOOLEAN', 2);
+require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_pi1_Formatter.php');
 
 /**
  * Plugin 'Realty List' for the 'realty' extension.
@@ -72,59 +68,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private $favoritesDataVerbose;
 
 	/**
-	 * Display types of the records fields with the column names as keys.
-	 * These types are used for deciding whether to display or hide a field
-	 */
-	private $fieldTypes = array(
-		'object_number' => TYPE_STRING,
-		'object_type' => TYPE_STRING,
-		'title' => TYPE_STRING,
-		'emphasized' => TYPE_STRING,
-		'street' => TYPE_STRING,
-		'zip' => TYPE_STRING,
-		'city' => TYPE_STRING,
-		'district' => TYPE_STRING,
-		'number_of_rooms' => TYPE_STRING,
-		'living_area' => TYPE_NUMERIC,
-		'total_area' => TYPE_NUMERIC,
-		'estate_size' => TYPE_NUMERIC,
-		'rent_excluding_bills' => TYPE_NUMERIC,
-		'extra_charges' => TYPE_NUMERIC,
-		'heating_included' => TYPE_BOOLEAN,
-		'deposit' => TYPE_STRING,
-		'provision' => TYPE_STRING,
-		'usable_from' => TYPE_STRING,
-		'buying_price' => TYPE_STRING,
-		'year_rent' => TYPE_STRING,
-		'rented' => TYPE_BOOLEAN,
-		'apartment_type' => TYPE_STRING,
-		'house_type' => TYPE_STRING,
-		'floor' => TYPE_NUMERIC,
-		'floors' => TYPE_NUMERIC,
-		'bedrooms' => TYPE_NUMERIC,
-		'bathrooms' => TYPE_NUMERIC,
-		'heating_type' => TYPE_STRING,
-		'garage_type' => TYPE_STRING,
-		'garage_rent' => TYPE_NUMERIC,
-		'garage_price' => TYPE_NUMERIC,
-		'pets' => TYPE_STRING,
-		'construction_year' => TYPE_NUMERIC,
-		'old_or_new_building' => TYPE_NUMERIC,
-		'state' => TYPE_STRING,
-		'balcony' => TYPE_BOOLEAN,
-		'garden' => TYPE_BOOLEAN,
-		'elevator' => TYPE_BOOLEAN,
-		'barrier_free' => TYPE_BOOLEAN,
-		'assisted_living' => TYPE_BOOLEAN,
-		'fitted_kitchen' => TYPE_BOOLEAN,
-		'description' => TYPE_STRING,
-		'equipment' => TYPE_STRING,
-		'layout' => TYPE_STRING,
-		'location' => TYPE_STRING,
-		'misc' => TYPE_STRING,
-	);
-
-	/**
 	 * Sort criteria that can be selected in the BE flexforms.
 	 * Flexforms stores all the flags in one word with a bit for each checkbox,
 	 * starting with the lowest bit for the first checkbox.
@@ -147,6 +90,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/** instance of tx_realty_filterForm */
 	private $filterForm = null;
 
+	/**
+	 * @var tx_realty_pi1_Formatter formatter for prices, areas etc.
+	 */
+	private $formatter = null;
+
 	/** whether this class is called in the test mode */
 	private $isTestMode = false;
 
@@ -157,6 +105,17 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	public function __construct($isTestMode = false) {
 		$this->isTestMode = $isTestMode;
+	}
+
+	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		if ($this->formatter) {
+			$this->formatter->__destruct();
+		}
+		unset($this->formatter);
+		parent::__destruct();
 	}
 
 	/**
@@ -635,8 +594,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			}
 
 			// stuff that should always be visible
-			foreach (array('title', 'uid') as $key) {
-				$this->setMarker($key, $this->getFieldContent($key));
+			foreach (array('title', 'uid', 'address') as $key) {
+				$this->setMarker($key, $this->getFormatter()->getProperty($key));
 			}
 
 			// string stuff that should conditionally be visible
@@ -644,11 +603,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'object_number', 'description', 'location', 'equipment', 'misc'
 			) as $key) {
 				$this->setOrDeleteMarkerIfNotEmpty(
-					$key, $this->getFieldContent($key), '', 'field_wrapper'
+					$key,
+					$this->getFormatter()->getProperty($key),
+					'',
+					'field_wrapper'
 				);
 			}
-
-			$this->setMarker('address', $this->getAddressAsHtml());
 
 			$this->fillOrHideOffererWrapper();
 
@@ -754,58 +714,62 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return	boolean		true if at least one row has been filled, false otherwise
 	 */
 	private function createOverviewTableInSingleView() {
-		$result = false;
+		$fieldNames = $this->getFieldNames();
+
+		if (empty($fieldNames)) {
+			$this->hideSubparts('overview_row');
+			return false;
+		}
 
 		$rows = array();
 		$rowCounter = 0;
-		$fieldNames = t3lib_div::trimExplode(
-			',', $this->getConfValueString('fieldsInSingleViewTable'), true
+		$formatterClassName
+			= t3lib_div::makeInstanceClassName('tx_realty_pi1_Formatter');
+		$formatter = new $formatterClassName(
+			$this->internal['currentRow']['uid'], $this->conf, $this->cObj
 		);
 
-		foreach ($fieldNames as $fieldName) {
-			// Is the field name valid?
-			if (isset($this->fieldTypes[$fieldName])) {
-				$isRowSet = false;
-				switch($this->fieldTypes[$fieldName]) {
-					case TYPE_NUMERIC:
-						$isRowSet = $this->setMarkerIfNotZero(
-							'data_current_row',
-							$this->getFieldContent($fieldName)
-						);
-						break;
-					case TYPE_STRING:
-						$isRowSet = $this->setMarkerIfNotEmpty(
-							'data_current_row',
-							$this->getFieldContent($fieldName)
-						);
-						break;
-					case TYPE_BOOLEAN:
-						if ($this->internal['currentRow'][$fieldName]) {
-							$this->setMarker(
-								'data_current_row',
-								$this->pi_getLL('message_yes')
-							);
-							$isRowSet = true;
-						}
-						break;
-					default:
-						break;
-				}
-				if ($isRowSet) {
-					$position = ($rowCounter % 2) ? 'odd' : 'even';
-					$this->setMarker('class_position_in_list', $position);
-					$this->setMarker(
-						'label_current_row',
-						$this->pi_getLL('label_'.$fieldName)
-					);
-					$rows[] = $this->getSubpart('OVERVIEW_ROW');
-					$rowCounter++;
-					$result = true;
-				}
+		foreach ($fieldNames as $key) {
+			if ($this->setMarkerIfNotEmpty(
+				'data_current_row', $formatter->getProperty($key)
+			)) {
+				$position = ($rowCounter % 2) ? 'odd' : 'even';
+				$this->setMarker('class_position_in_list', $position);
+				$this->setMarker(
+					'label_current_row', $this->translate('label_' . $key)
+				);
+				$rows[] = $this->getSubpart('OVERVIEW_ROW');
+				$rowCounter++;
 			}
 		}
 
+		$formatter->__destruct();
 		$this->setSubpart('overview_table', implode(LF, $rows));
+
+		return ($rowCounter > 0);
+	}
+
+	/**
+	 * Returns the field names for which to create the overview table. They are
+	 * derived from the configuration in "fieldsInSingleViewTable".
+	 *
+	 * @return array field names with which to fill the overview table, will be
+	 *               empty if none are configured
+	 */
+	private function getFieldNames() {
+		if (!$this->hasConfValueString('fieldsInSingleViewTable')) {
+			return array();
+		}
+
+		$result = array();
+
+		foreach (t3lib_div::trimExplode(
+			',', $this->getConfValueString('fieldsInSingleViewTable'), true
+		) as $key) {
+			if (isset($this->internal['currentRow'][$key])) {
+				$result[] = $key;
+			}
+		}
 
 		return $result;
 	}
@@ -844,32 +808,32 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * 						(alternative based on odd/even rows)
 	 */
 	private function createListRow($rowCounter = 0) {
-		$this->unhideSubparts(
-			'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
-		);
+		$this->resetListViewSubparts();
+
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarker('class_position_in_list', $position);
 
 		foreach (array(
-			'uid',
-			'object_number',
-			'linked_title',
-			'city',
-			'district',
-			'living_area',
-			'buying_price',
-			'rent_excluding_bills',
-			'extra_charges',
-			'number_of_rooms',
-			'features',
-			'heating_type',
-			'list_image_left',
-			'list_image_right',
-		) as $key) {
-			$this->setMarker($key, $this->getFieldContent($key));
+			'uid' => $this->internal['currentRow']['uid'],
+			'object_number' => $this->internal['currentRow']['object_number'],
+			'linked_title' => $this->getLinkedTitle(),
+			'features' => $this->getFeatureList(),
+			'list_image_right' => $this->getImageLinkedToSingleView('listImageMax'),
+			'list_image_left' => $this->getImageLinkedToSingleView('listImageMax', 1),
+		) as $key => $value) {
+			$this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper');
 		}
 
-		switch ($this->getFieldContent('object_type')){
+		foreach (array(
+			'city', 'district', 'living_area', 'number_of_rooms', 'heating_type',
+			'buying_price', 'extra_charges', 'rent_excluding_bills',
+		) as $key) {
+			$this->setOrDeleteMarkerIfNotEmpty(
+				$key, $this->getFormatter()->getProperty($key), '', 'wrapper'
+			);
+		}
+
+		switch ($this->internal['currentRow']['object_type']) {
 			case REALTY_FOR_SALE:
 				$this->hideSubparts(
 					'rent_excluding_bills,extra_charges', 'wrapper'
@@ -887,14 +851,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				if (!$this->hasConfValueString('favoriteFieldsInSession')) {
 					break;
 				}
-				$this->favoritesDataVerbose[$this->getFieldContent('uid')] = array();
+				$uid = $this->internal['currentRow']['uid'];
+				$this->favoritesDataVerbose[$uid] = array();
 				foreach (t3lib_div::trimExplode(
 					',',
 					$this->getConfValueString('favoriteFieldsInSession'),
 					true
 				) as $key) {
-					$this->favoritesDataVerbose[$this->getFieldContent('uid')][$key]
-						= $this->getFieldContent($key);
+					$this->favoritesDataVerbose[$uid][$key]
+						= $this->getFormatter()->getProperty($key);
 				}
 				break;
 			case 'my_objects':
@@ -984,13 +949,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private function fetchContactDataFromSource() {
 		// Gets the contact data from the chosen source. No data is fetched if
 		// the 'contact_data_source' is set to an invalid value.
-		switch ($this->getFieldContent('contact_data_source')) {
+		switch ($this->internal['currentRow']['contact_data_source']) {
 			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
 				$result = $this->getContactDataFromOwner();
 				break;
 			case REALTY_CONTACT_FROM_REALTY_OBJECT:
-				$result['employer'] = $this->getFieldContent('employer');
-				$result['contact_phone'] = $this->getFieldContent('contact_phone');
+				$result['employer']
+					= $this->getFormatter()->getProperty('employer');
+				$result['contact_phone']
+					= $this->getFormatter()->getProperty('contact_phone');
 				break;
 			default:
 				$result = array('employer' => '', 'contact_phone' => '');
@@ -1040,293 +1007,31 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the trimmed content of a given field for the list view.
-	 * In the case of the key "title", the result will be wrapped
-	 * in a link to the detail page of that particular item.
+	 * Unhides all subparts that might have been hidden after filling one list
+	 * row.
 	 *
-	 * @param	string		key of the field to retrieve (the name of a database column), may not be empty
-	 *
-	 * @return	string		value of the field (may be empty)
+	 * All subparts that are conditionally displayed, depending on the data of
+	 * each list item are affected.
 	 */
-	public function getFieldContent($key)	{
-		$result = '';
-
-		switch($key) {
-			case 'linked_title':
-				$result = $this->createLinkToSingleViewPage(
-					$this->internal['currentRow']['title'],
-					$this->internal['currentRow']['uid'],
-					$this->internal['currentRow']['details_page']
-				);
-				break;
-
-			case 'heating_type':
-				$result = $this->getLabelForValidProperty($key, 12);
-				break;
-			case 'state':
-				$result = $this->getLabelForValidProperty('state', 13);
-				break;
-			case 'pets':
-				// The fallthrough is intended.
-			case 'garage_type':
-				// The fallthrough is intended.
-			case 'house_type':
-				// The fallthrough is intended.
-			case 'apartment_type':
-				// The fallthrough is intended.
-			case 'city':
-				// The fallthrough is intended.
-			case 'district':
-				$result = $this->getForeignRecordTitle($key);
-				break;
-
-			case 'total_area':
-				// The fallthrough is intended.
-			case 'living_area':
-				$result = $this->getFormattedArea($key);
-				break;
-			case 'estate_size':
-				$result = $this->getFormattedArea($key);
-				break;
-
-			case 'rent_excluding_bills':
-				// The fallthrough is intended.
-			case 'extra_charges':
-				// The fallthrough is intended.
-			case 'buying_price':
-				// The fallthrough is intended.
-			case 'year_rent':
-				// The fallthrough is intended.
-			case 'garage_rent':
-				// The fallthrough is intended.
-			case 'garage_price':
-				$this->removeSubpartIfEmptyInteger($key, 'wrapper');
-				$result = $this->getFormattedPrice($key);
-				break;
-
-			case 'number_of_rooms':
-				$this->removeSubpartIfEmptyString($key, 'wrapper');
-				$result = $this->internal['currentRow'][$key];
-				break;
-			case 'features':
-				$result = $this->getFeatureList();
-				break;
-			case 'usable_from':
-				// If no date is set, assume "now".
-				$result = (!empty($this->internal['currentRow']['usable_from'])) ?
-					$this->internal['currentRow']['usable_from'] :
-					$this->pi_getLL('message_now');
-				break;
-
-			case 'list_image_right':
-				// If there is only one image, the right image will be filled.
-				$result = $this->getImageLinkedToSingleView('listImageMax');
-				break;
-			case 'list_image_left':
-				// If there is only one image, the left image will be empty.
-				$result = $this->getImageLinkedToSingleView('listImageMax', 1);
-				break;
-
-			case 'description':
-				// The fallthrough is intended.
-			case 'equipment':
-				// The fallthrough is intended.
-			case 'location':
-				// The fallthrough is intended.
-			case 'misc':
-				$result = $this->pi_RTEcssText($this->internal['currentRow'][$key]);
-				break;
-
-			default:
-				$result = $this->internal['currentRow'][$key];
-				break;
-		}
-
-		return trim($result);
-	}
-
-	/**
-	 * Retrieves a foreign key from the record field $key of the current record.
-	 * Then the corresponding record is looked up from $table, trimmed and returned.
-	 *
-	 * Returns an empty string if there is no such foreign key, the corresponding
-	 * foreign record does not exist or if it is an empty string.
-	 *
-	 * @throws	Exception	if a database query error occurs
-	 *
-	 * @param	string		key of the field that contains the foreign key of the table to retrieve.
-	 *
-	 * @return	string		the title of the record with the given UID in the foreign table, may be empty
-	 */
-	private function getForeignRecordTitle($key) {
-		$result = '';
-
-		/** this will be 0 if there is no record entered */
-		$foreignKey = intval($this->internal['currentRow'][$key]);
-		$tableName = $this->tableNames[$key];
-
-		if ($foreignKey) {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				$tableName,
-				'uid='.$foreignKey
-					.$this->enableFields($tableName)
-			);
-			if ($dbResult && $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult)) {
-				$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-				$result = $dbResultRow['title'];
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Returns the label for "label_[$key].[value of $key]" or an empty string
-	 * if the value of $key is not an allowed suffixes. Suffixes must always be
-	 * integers. The lowest allowed suffix is always 1 and the highest is set in
-	 * $highestSuffix.
-	 * The value of $key may be a comma-separated list of suffixes. In this case,
-	 * a comma-separated list of the localized strings is returned.
-	 *
-	 * @param	string		key of the current record's field that contains the
-	 * 						suffix for the label to get, must not be empty
-	 * @param	integer		the highest allowed suffix, must be at least 1
-	 *
-	 * @return	string		localized string for the label
-	 * 						"label_[$key].[value of $key]", will be a
-	 * 						comma-separated list of localized strings if
-	 * 						the value of $key was a comma-separated list of
-	 * 						suffixes, will be empty if no suffix is within the
-	 * 						range of allowed suffixes
-	 */
-	private function getLabelForValidProperty($key, $highestSuffix) {
-		$localizedStrings = array();
-
-		foreach (
-			t3lib_div::trimExplode(
-				',', $this->internal['currentRow'][$key], true
-			) as $suffix
-		) {
-			if (($suffix >= 1) && ($suffix <= $highestSuffix)) {
-				$localizedStrings[] = $this->translate(
-					'label_' . $key . '.' . $suffix
-				);
-			}
-		}
-
-		return implode(', ', $localizedStrings);
-	}
-
-	/**
-	 * Retrieves the value of the record field $key formatted as an area.
-	 * If the field's value is empty or its intval is zero, an empty string will
-	 * be returned.
-	 *
-	 * @param	string		key of the field to retrieve (the name of a database
-	 * 						column), may not be empty
-	 *
-	 * @return	string		HTML for the number in the field formatted using
-	 * 						decimalSeparator and areaUnit from the TS setup, may
-	 * 						be an empty string
-	 */
-	private function getFormattedArea($key) {
-		return $this->getFormattedNumber(
-			$key, true, $this->translate('label_squareMeters')
+	private function resetListViewSubparts() {
+		$this->unhideSubparts(
+			'linked_title,features,teaser,city,living_area,rent_excluding_bills,' .
+				'buying_price,district,number_of_rooms,extra_charges,' .
+				'list_image_left,list_image_right',
+			'',
+			'wrapper'
 		);
 	}
 
 	/**
-	 * Returns the number found in the database column $key with a currency
-	 * symbol appended. This sybol is the value of 'currencyUnit' set in the TS
-	 * setup.
-	 * If the value of $key is zero after applying intval, an empty string
-	 * will be returned.
-	 *
-	 * @param	string		name of a database column, may not be empty
-	 *
-	 * @return	string		HTML for the number in the field with a currency
-	 * 						symbol appended, may be an empty string
+	 * Returns the title of the current object linked to the single view page.
 	 */
-	private function getFormattedPrice($key) {
-		return $this->getFormattedNumber(
-			$key, false, $this->getConfValueString('currencyUnit')
+	private function getLinkedTitle() {
+		return $this->createLinkToSingleViewPage(
+			$this->getFormatter()->getProperty('title'),
+			$this->internal['currentRow']['uid'],
+			$this->internal['currentRow']['details_page']
 		);
-	}
-
-	/**
-	 * Retrieves the value of the record field $key and formats,
-	 * using the system's locale and appending $unit. If the field's value is
-	 * empty or its intval is zero, an empty string will be returned.
-	 *
-	 * @param string key of the field to retrieve (the name of a database
-	 *               column), must not be empty
-	 * @param boolean whether decimals should be displayed
-	 * @param string unit of the formatted number, must not be empty
-	 * @return string HTML for the number in the field formatted using the
-	 *                system's locale with $unit appended, may be an empty
-	 *                string
-	 */
-	private function getFormattedNumber($key, $showDecimals, $unit) {
-		$rawValue = $this->internal['currentRow'][$key];
-		if (empty($rawValue) || (intval($rawValue) == 0)) {
-			return '';
-		}
-
-		$localeConvention = localeconv();
-		$decimals = $showDecimals
-			? intval($this->getConfValueString('numberOfDecimals'))
-			: 0;
-
-		$formattedNumber = number_format(
-			$rawValue,
-			$decimals,
-			$localeConvention['decimal_point'],
-			' '
-		);
-
-		return $formattedNumber . '&nbsp;' . $unit;
-	}
-
-	/**
-	 * Removes a subpart ###PREFIX_KEY### (or ###KEY### if the prefix is empty)
-	 * if the record field $key intvals to zero.
-	 * For the subpart name, $key and $prefix will be automatically uppercased.
-	 *
-	 * If the record field intvals to a non-zero value, the subpart is set to
-	 * unhidden.
-	 *
-	 * @param	string		key of the label to retrieve (the name of a database
-	 * 						column), may not be empty
-	 * @param	string		prefix to the subpart name (may be empty,
-	 * 						case-insensitive, will get uppercased)
-	 */
-	private function removeSubpartIfEmptyInteger($key, $prefix = '') {
-		if (intval($this->internal['currentRow'][$key]) == 0) {
-			$this->hideSubparts($key, $prefix);
-		} else {
-			$this->unhideSubparts($key, $prefix);
-		}
-	}
-
-	/**
-	 * Removes a subpart ###PREFIX_KEY### (or ###KEY### if the prefix is empty)
-	 * if the record field $key is an empty string.
-	 * For the subpart name, $key and $prefix will be automatically uppercased.
-	 *
-	 * If the record field is a non-empty-string, the subpart is set to unhidden.
-	 *
-	 * @param	string		key of the label to retrieve (the name of a database
-	 * 						column), may not be empty
-	 * @param	string		prefix to the subpart name (may be empty,
-	 * 						case-insensitive, will get uppercased)
-	 */
-	private function removeSubpartIfEmptyString($key, $prefix = '') {
-		if (empty($this->internal['currentRow'][$key])) {
-			$this->hideSubparts($key, $prefix);
-		} else {
-			$this->unhideSubparts($key, $prefix);
-		}
 	}
 
 	/**
@@ -1344,8 +1049,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		// get features described by DB relations
 		foreach (array('apartment_type', 'house_type', 'garage_type') as $key) {
-			if ($this->getForeignRecordTitle($key) != '') {
-				$features[] = $this->getForeignRecordTitle($key);
+			$propertyTitle = $this->getFormatter()->getProperty($key);
+			if ($propertyTitle != '') {
+				$features[] = $propertyTitle;
 			}
 		}
 
@@ -1367,13 +1073,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			);
 		}
 		if ($this->internal['currentRow']['construction_year'] > 0) {
-			$features[] = $this->pi_getLL('label_construction_year').' '
-				.$this->internal['currentRow']['construction_year'];
+			$features[] = $this->translate('label_construction_year') . ' ' .
+				$this->internal['currentRow']['construction_year'];
 		}
-
-		$features[] = $this->pi_getLL('label_usable_from_short').' '
-			.$this->getFieldContent('usable_from');
-
+		if ($this->internal['currentRow']['usable_from'] != '') {
+			$features[] = $this->translate('label_usable_from_short') . ' ' .
+				$this->getFormatter()->getProperty('usable_from');
+		}
 		if (!empty($this->internal['currentRow']['object_number'])) {
 			$features[] = $this->pi_getLL('label_object_number').' '
 				.$this->internal['currentRow']['object_number'];
@@ -2544,29 +2250,36 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Formats the current object's address as HTML (separated by <br />) with
-	 * the granularity defined in the field "show_address".
+	 * Creates a formatter instance for $this->internal['currentRow']['uid'].
 	 *
-	 * @return	string		the address of the current object, will not be empty
+	 * @throws Exception if $this->internal['currentRow'] is not set or empty
+	 *
+	 * @return tx_realty_pi1_Formatter a formatter for the current row
 	 */
-	private function getAddressAsHtml() {
-		$addressParts = array();
-
-		if ($this->getFieldContent('show_address')
-			&& ($this->getFieldContent('street') != '')
+	private function getFormatter() {
+		if (!isset($this->internal['currentRow'])
+			|| empty($this->internal['currentRow'])
 		) {
-			$addressParts[]
-				= htmlspecialchars($this->getFieldContent('street'));
+			throw new Exception(
+				'$this->internal[\'currentRow\'] must not be empty.'
+			);
 		}
 
-		$addressParts[] = htmlspecialchars(trim(
-			$this->getFieldContent('zip') . ' ' .
-				$this->getFieldContent('city') . ' ' .
-				$this->getFieldContent('district')
-		));
+		$currentUid = $this->internal['currentRow']['uid'];
+		if ($this->formatter
+			&& ($this->formatter->getProperty('uid') != $currentUid)
+		) {
+			$this->formatter->__destruct();
+			unset($this->formatter);
+		}
 
-		return implode('<br />', $addressParts);
- 	}
+		if (!$this->formatter) {
+			$className = t3lib_div::makeInstanceClassName('tx_realty_pi1_Formatter');
+			$this->formatter = new $className($currentUid, $this->conf, $this->cObj);
+		}
+
+		return $this->formatter;
+	}
 
 	/**
 	 * Overides the line Cache-control if POST data of realty has been sent.

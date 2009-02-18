@@ -56,6 +56,11 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 	/** object number of a dummy realty object */
 	private static $otherObjectNumber = '100001';
 
+	/**
+	 * @var integer static_info_tables UID of Germany
+	 */
+	const DE = 54;
+
 	public function setUp() {
 		$this->fixture = new tx_realty_objectChild(true);
 		$this->templateHelper = new tx_oelib_templatehelper();
@@ -1234,10 +1239,12 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array('image' => 'foo.jpg'),
-			tx_oelib_db::selectSingle(
-				'image',
-				REALTY_TABLE_IMAGES,
-				'realty_object_uid = ' . $this->objectUid
+			$this->testingFramework->getAssociativeDatabaseResult(
+				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					'image',
+					REALTY_TABLE_IMAGES,
+					'realty_object_uid = ' . $this->objectUid
+				)
 			)
 		);
 	}
@@ -1985,6 +1992,155 @@ class tx_realty_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'foo title filltext-filltext-filltext-filltext',
 			$this->fixture->getTitle()
+		);
+	}
+
+
+	/////////////////////////////////////////////
+	// Tests concerning getForeignPropertyField
+	/////////////////////////////////////////////
+
+	public function testGetForeignPropertyFieldThrowsExeptionForNonAllowedField() {
+		$this->setExpectedException(
+			'Exception',
+			'$key must be within "city", "apartment_type", "house_type", ' .
+				'"district", "pets", "garage_type", "country", but actually is ' .
+				'"floor".'
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->getForeignPropertyField('floor');
+	}
+
+	public function testGetForeignPropertyFieldReturnsNonNumericFieldContentForAllowedField() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('city', 'test city');
+
+		$this->assertEquals(
+			'test city',
+			$this->fixture->getForeignPropertyField('city')
+		);
+	}
+
+	public function testGetForeignPropertyFieldReturnsEmptyStringIfThereIsNoPropertySetForAllowedField() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getForeignPropertyField('city')
+		);
+	}
+
+	public function testGetForeignPropertyFieldReturnsACitysTitle() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('title' => 'foo')
+		);
+		$this->fixture->setProperty('city', $cityUid);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getForeignPropertyField('city')
+		);
+	}
+
+	public function testGetForeignPropertyFieldReturnsADistrictsTitle() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$districtUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'foo')
+		);
+		$this->fixture->setProperty('district', $districtUid);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getForeignPropertyField('district')
+		);
+	}
+
+	public function testGetForeignPropertyFieldReturnsACountrysShortLocalName() {
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->setProperty('country', self::DE);
+
+		$this->assertEquals(
+			'Deutschland',
+			$this->fixture->getForeignPropertyField('country', 'cn_short_local')
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning getAddressAsHtml
+	//////////////////////////////////////
+
+	public function testGetAddressAsHtmlReturnsFormattedPartlyAddressIfAllDataProvidedAndShowAddressFalse() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+			'country' => self::DE,
+		));
+
+		$this->assertEquals(
+			'12345 Test Town District<br />Deutschland',
+			$this->fixture->getAddressAsHtml()
+		);
+	}
+
+	public function testGetAddressAsHtmlReturnsFormattedCompleteAddressIfAllDataProvidedAndShowAddressTrue() {
+		$this->fixture->loadRealtyObject(array(
+			'show_address' => 1,
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+			'country' => self::DE,
+		));
+
+		$this->assertEquals(
+			'Main Street<br />12345 Test Town District<br />Deutschland',
+			$this->fixture->getAddressAsHtml()
+		);
+	}
+
+	public function testGetAddressAsHtmlReturnsFormattedAddressForAllDataButCountryProvidedAndShowAddressTrue() {
+		$this->fixture->loadRealtyObject(array(
+			'show_address' => 1,
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+		));
+
+		$this->assertEquals(
+			'Main Street<br />12345 Test Town District',
+			$this->fixture->getAddressAsHtml()
+		);
+	}
+
+	public function testGetAddressAsHtmlReturnsFormattedAddressForAllDataButStreetProvidedAndShowAddressTrue() {
+		$this->fixture->loadRealtyObject(array(
+			'show_address' => 1,
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+			'country' => self::DE,
+		));
+
+		$this->assertEquals(
+			'12345 Test Town District<br />Deutschland',
+			$this->fixture->getAddressAsHtml()
+		);
+	}
+
+	public function testGetAddressAsHtmlReturnsFormattedAddressForOnlyStreetProvidedAndShowAddressTrue() {
+		$this->fixture->loadRealtyObject(array(
+			'show_address' => 1, 'street' => 'Main Street',
+		));
+
+		$this->assertEquals(
+			'Main Street<br />',
+			$this->fixture->getAddressAsHtml()
 		);
 	}
 }

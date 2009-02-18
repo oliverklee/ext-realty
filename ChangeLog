@@ -1,4 +1,5 @@
 0.3.2 - currently working on
+- [#2665, 2540] Fix: Use the formatter and htmlspecialchar most fields
 - [#2660] Fix: The cache manager must not call tslib_fe::clearPageCacheContent_pidList statically
 - [#2651] Fix: OpenImmo import fails if there are quotation marks in the XML
 - [#2685] Fix: Prices should be displayed without decimal in the FE

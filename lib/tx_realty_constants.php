@@ -37,6 +37,7 @@ define('REALTY_TABLE_HOUSE_TYPES', 'tx_realty_house_types');
 define('REALTY_TABLE_CAR_PLACES', 'tx_realty_car_places');
 define('REALTY_TABLE_PETS', 'tx_realty_pets');
 define('REALTY_TABLE_IMAGES', 'tx_realty_images');
+define('STATIC_COUNTRIES', 'static_countries');
 
 // sources of contact data
 define('REALTY_CONTACT_FROM_REALTY_OBJECT', 0);

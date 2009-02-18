@@ -71,8 +71,10 @@ class tx_realty_object {
 	/** allowed field names in the table for realty objects */
 	private $allowedFieldNames = array();
 
-	/** associates property names and their corresponding tables */
-	private $propertyTables = array(
+	/**
+	 * @var array associates property names and their corresponding tables
+	 */
+	private static $propertyTables = array(
 		REALTY_TABLE_CITIES => 'city',
 		REALTY_TABLE_APARTMENT_TYPES => 'apartment_type',
 		REALTY_TABLE_HOUSE_TYPES => 'house_type',
@@ -566,7 +568,7 @@ class tx_realty_object {
 		$this->deleteSurplusFields();
 
 		$referenceIndex = t3lib_div::makeInstance('t3lib_refindex');
-		foreach ($this->propertyTables as $currentTable => $currentProperty) {
+		foreach (self::$propertyTables as $currentTable => $currentProperty) {
 			$uidOfProperty = $this->insertPropertyToOwnTable(
 				$currentProperty,
 				$currentTable
@@ -1045,6 +1047,86 @@ class tx_realty_object {
 	 */
 	public function getTitle() {
 		return $this->getProperty('title');
+	}
+
+	/**
+	 * Gets a field of a related property of the object.
+	 *
+	 * @throws Exception if $key is not within "city", "apartment_type",
+	 *                   "house_type", "district", "pets", "garage_type" and
+	 *                   "country"
+	 *
+	 * @param string key of this object's property, must not be empty
+	 * @param string key of the property's field to get, must not be empty
+	 *
+	 * @return string the title of the related property with the UID found in
+	 *                in this object's field $key or an empty string if this
+	 *                object does not have the property set
+	 */
+	public function getForeignPropertyField($key, $titleField = 'title') {
+		$tableName = ($key == 'country')
+			? STATIC_COUNTRIES : array_search($key, self::$propertyTables);
+
+		if ($tableName === false) {
+			throw new Exception('$key must be within "city", ' .
+				'"apartment_type", "house_type", "district", "pets", ' .
+				'"garage_type", "country", but actually is "' . $key . '".'
+			);
+		}
+
+		$property = $this->getProperty($key);
+		if (($property === '0') || ($property === 0)) {
+			return '';
+		}
+
+		// In case property is an integer, it is expected to be a UID, else
+		// the foreign property's title is assumed to be directly provided.
+		if (!preg_match('/^\d+$/', $property)) {
+			return $property;
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$titleField,
+			$tableName,
+			'uid = ' . $property . tx_oelib_db::enableFields($tableName)
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$recordData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		return isset($recordData[$titleField]) ? $recordData[$titleField] : '';
+	}
+
+	/**
+	 * Returns the current object's address as HTML (separated by <br />) with
+	 * the granularity defined in the field "show_address".
+	 *
+	 * @return string the address of the current object, will not be empty
+	 */
+	public function getAddressAsHtml() {
+		$addressParts = array();
+
+		if ((boolean) $this->getProperty('show_address')
+			&& ($this->getProperty('street') != '')
+		) {
+			$addressParts[] = htmlspecialchars($this->getProperty('street'));
+		}
+
+		$addressParts[] = htmlspecialchars(trim(
+			$this->getProperty('zip') . ' ' .
+				$this->getForeignPropertyField('city') . ' ' .
+				$this->getForeignPropertyField('district')
+		));
+
+		$country = $this->getForeignPropertyField('country', 'cn_short_local');
+		if ($country != '') {
+			$addressParts[] = $country;
+		}
+
+		return implode('<br />', $addressParts);
 	}
 }
 
