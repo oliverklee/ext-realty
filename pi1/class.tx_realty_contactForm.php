@@ -434,7 +434,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 							->find($ownerUid);
 						$result['email'] = $owner->getEMailAddress();
 						$result['name'] = $owner->getName();
-					} catch (Exception $exception) {
+					} catch (tx_oelib_Exception_NotFound $exception) {
 					}
 				}
 				break;
