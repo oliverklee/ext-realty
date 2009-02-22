@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2729] Fix: lowercase the CLI user defined in localconf
 - [#2678] Feature: Enhance the exception that is thrown when accessing a dead model's data
 - [#2648] Feature: Allow hiding/showing the button "show objects by this offerer"
 - [#2699] Change: Disable Google Maps zoom
