@@ -37,11 +37,6 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm
  */
 class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
-	 * @var array cached column names of tables
-	 */
-	private static $tablesAndFieldNames = array();
-
-	/**
 	 * @var array table names which are allowed as form values
 	 */
 	private static $allowedTables = array(
@@ -144,9 +139,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			: 'title';
 		$this->checkForValidFieldName($titleColumn, $formData['table']);
 
-		$this->loadFieldNames($formData['table']);
-		$hasDummyColumn = isset(
-			self::$tablesAndFieldNames[$formData['table']]['is_dummy_record']
+		$hasDummyColumn = tx_oelib_db::tableHasColumn(
+			$formData['table'], 'is_dummy_record'
 		);
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -830,10 +824,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array form data, will be modified, must not be empty
 	 */
 	private function purgeNonRealtyObjectFields(array &$formData) {
-		$this->loadFieldNames(REALTY_TABLE_OBJECTS);
-
 		foreach (array_keys($formData) as $key) {
-			if (!isset(self::$tablesAndFieldNames[REALTY_TABLE_OBJECTS][$key])) {
+			if (!tx_oelib_db::tableHasColumn(REALTY_TABLE_OBJECTS, $key)) {
 				unset($formData[$key]);
 			}
 		}
@@ -1043,14 +1035,14 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *                 realty objects table and non-empty, false otherwise
 	 */
 	private function checkForValidFieldName(
-		$fieldName, $tableName = REALTY_TABLE_OBJECTS, $noExceptionIfEmpty = false
+		$fieldName, $tableName = REALTY_TABLE_OBJECTS,
+		$noExceptionIfEmpty = false
 	) {
 		if ((trim($fieldName) == '') && $noExceptionIfEmpty) {
 			return false;
 		}
 
-		$this->loadFieldNames($tableName);
-		if (!isset(self::$tablesAndFieldNames[$tableName][$fieldName])) {
+		if (!tx_oelib_db::tableHasColumn($tableName, $fieldName)) {
 			throw new Exception(
 				'"' . $fieldName . '" is not a valid column name for ' .
 				$tableName . '.'
@@ -1058,25 +1050,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Writes the column names of $table to self::$tablesAndFieldNames if they
-	 * are not cached yet.
-	 *
-	 * @param string table name, must not be empty
-	 */
-	private function loadFieldNames($table) {
-		// To reduce database queries in order to improve performance, the
-		// column names stored in an member variable.
-		if (isset(self::$tablesAndFieldNames[$table])
-			&& !empty(self::$tablesAndFieldNames[$table])
-		) {
-			return;
-		}
-
-		self::$tablesAndFieldNames[$table]
-			= $GLOBALS['TYPO3_DB']->admin_get_fields($table);
 	}
 
 	/**

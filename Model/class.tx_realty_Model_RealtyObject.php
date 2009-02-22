@@ -75,11 +75,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	);
 
 	/**
-	 * @var array allowed field names in the table for realty objects
-	 */
-	private $allowedFieldNames = array();
-
-	/**
 	 * @var array associates property names and their corresponding tables
 	 */
 	private static $propertyTables = array(
@@ -264,7 +259,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	public function isRealtyObjectDataEmpty() {
 		$result = true;
 
-		foreach ($this->getAllowedFieldNames() as $key) {
+		foreach (
+			array_keys(tx_oelib_db::getColumnsInTable(REALTY_TABLE_OBJECTS))
+		as $key) {
 			if ($this->existsKey($key)) {
 				$result = false;
 				break;
@@ -484,7 +481,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	protected function getAllProperties() {
 		$result = array();
 
-		foreach ($this->getAllowedFieldNames() as $key) {
+		foreach (
+			array_keys(tx_oelib_db::getColumnsInTable(REALTY_TABLE_OBJECTS))
+		as $key) {
 			if ($this->existsKey($key)) {
 				$result[$key] = $this->get($key);
 			} elseif (($key == 'uid') && $this->hasUid()) {
@@ -572,23 +571,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Returns all allowed field names for the realty objects table in an array.
-	 *
-	 * @return array column name from the realty objects table
-	 */
-	private function getAllowedFieldNames() {
-		// In order to improve performance, the result of admin_get_fields()
-		// is cached.
-		if (empty($this->allowedFieldNames)) {
-			$this->allowedFieldNames = array_keys(
-				$GLOBALS['TYPO3_DB']->admin_get_fields(REALTY_TABLE_OBJECTS)
-			);
-		}
-
-		return $this->allowedFieldNames;
-	}
-
-	/**
 	 * Checks whether $key is in the list of allowed field names.
 	 *
 	 * @param string key to be checked for being an allowed field name, must not
@@ -598,7 +580,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                 false otherwise
 	 */
 	public function isAllowedKey($key) {
-		return in_array($key, $this->getAllowedFieldNames());
+		return tx_oelib_db::tableHasColumn(REALTY_TABLE_OBJECTS, $key);
 	}
 
 	/**
