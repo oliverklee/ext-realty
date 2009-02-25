@@ -1,4 +1,5 @@
 0.3.2 - currently working on
+- [#2755] Fix: CLI user needs the uppercased prefix _CLI_
 - [#2729] Fix: lowercase the CLI user defined in localconf
 - [#2665, 2540] Fix: Use the formatter and htmlspecialchar most fields
 - [#2660] Fix: The cache manager must not call tslib_fe::clearPageCacheContent_pidList statically
