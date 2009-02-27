@@ -68,17 +68,6 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 	// Testing the price view
 	///////////////////////////
 
-	public function testRenderReturnsEmptyResultForShowUidOfDeletedRecord() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('deleted', 1);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();

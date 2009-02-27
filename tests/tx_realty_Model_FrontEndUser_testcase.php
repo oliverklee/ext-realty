@@ -37,7 +37,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var frontEndUserModel
+	 * @var tx_realty_Model_FrontEndUser
 	 */
 	private $fixture;
 

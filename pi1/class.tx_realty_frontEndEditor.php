@@ -70,7 +70,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			return;
 		}
 
-		$this->realtyObject->setProperty('deleted', true);
+		$this->realtyObject->setToDeleted();
 		// Providing the PID ensures the record not to change the location.
 		$this->realtyObject->writeToDatabase(
 			$this->realtyObject->getProperty('pid')

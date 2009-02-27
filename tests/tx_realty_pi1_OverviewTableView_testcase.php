@@ -67,17 +67,6 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 	// Testing the overview table view
 	////////////////////////////////////
 
-	public function testRenderReturnsEmptyResultForShowUidOfDeletedRecord() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('deleted', 1);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
@@ -131,7 +120,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 	public function testRenderReturnsEmptyResultForValidRealtyObjectWithoutData() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
-		$realtyObject->setProperty('title', '');
+		$realtyObject->setData(array());
 
 		$this->assertEquals(
 			'',

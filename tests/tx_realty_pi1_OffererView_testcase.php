@@ -69,17 +69,6 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 	// Testing the offerer view
 	/////////////////////////////
 
-	public function testRenderReturnsEmptyResultForShowUidOfDeletedRecord() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('deleted', 1);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
@@ -122,7 +111,7 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 	public function testRenderReturnsEmptyResultForValidRealtyObjectWithoutData() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
-		$realtyObject->setProperty('title', '');
+		$realtyObject->setData(array());
 
 		$this->assertEquals(
 			'',
@@ -375,6 +364,7 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 	public function testRenderNotReturnsLinkToTheObjectsByOwnerListForEnabledOptionAndNoOwnerSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
+		$realtyObject->setData(array());
 		$realtyObject->setProperty(
 			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		);

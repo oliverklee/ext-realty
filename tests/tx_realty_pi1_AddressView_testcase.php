@@ -66,17 +66,6 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 	// Testing the address view
 	/////////////////////////////
 
-	public function testRenderReturnsEmptyResultForShowUidOfDeletedRecord() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('deleted', 1);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecordWithZip() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
@@ -121,7 +110,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 	public function testRenderReturnsEmptyResultForEmptyAddressDataOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
-		$realtyObject->setProperty('title', '');
+		$realtyObject->setData(array());
 
 		$this->assertEquals(
 			'',

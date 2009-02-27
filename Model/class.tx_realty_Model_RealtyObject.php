@@ -540,6 +540,13 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
+	 * Sets the current realty object to deleted.
+	 */
+	public function setToDeleted() {
+		parent::setToDeleted();
+	}
+
+	/**
 	 * Checks whether a value is either numeric or a string or of boolean.
 	 *
 	 * @param mixed value to check

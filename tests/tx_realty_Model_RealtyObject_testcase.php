@@ -1234,7 +1234,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 		$this->fixture->writeToDatabase();
-		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->setToDeleted();
 		$message = $this->fixture->writeToDatabase();
 
 		$this->assertEquals(
@@ -1257,7 +1257,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->addImageRecord('foo2', 'foo2.jpg');
 		$this->fixture->addImageRecord('foo3', 'foo3.jpg');
 		$this->fixture->writeToDatabase();
-		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->setToDeleted();
 		$message = $this->fixture->writeToDatabase();
 
 		$this->assertEquals(
@@ -1382,7 +1382,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testWriteToDatabaseDeletesAnExistingNonHiddenRealtyRecordIfTheDeletedFlagIsSet() {
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->setToDeleted();
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
@@ -1400,7 +1400,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('hidden', 1);
 		$this->fixture->writeToDatabase();
 
-		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->setToDeleted();
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
@@ -1415,7 +1415,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testDeleteAnExistingRealtyRecordAndImportItAgainIfTheDeletedFlagIsSetExplicitly() {
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->setToDeleted();
 		$this->fixture->writeToDatabase();
 
 		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
@@ -1438,7 +1438,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testDeleteAnExistingRealtyRecordAndImportItAgainIfTheDeletedFlagIsNotSetExplicitly() {
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->setProperty('deleted', 1);
+		$this->fixture->setToDeleted();
 		$this->fixture->writeToDatabase();
 
 		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);

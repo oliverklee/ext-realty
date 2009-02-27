@@ -89,7 +89,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	public function testSingleViewReturnsEmptyResultForShowUidOfDeletedRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
-		$realtyObject->setProperty('deleted', 1);
+		$realtyObject->setToDeleted();
 
 		$this->assertEquals(
 			'',
