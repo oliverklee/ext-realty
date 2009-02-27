@@ -737,6 +737,10 @@ p.tx-realty-pi1-objekt-nr {
 	float: right;
 }
 
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_button_submit {
+	background: transparent url(images/submit_button_fe_editor.png) no-repeat;
+}
+
 /*SELECTFIELDS*/
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_country,
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_district,
