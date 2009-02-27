@@ -47,9 +47,9 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer UID of the  dummy realty object
+	 * @var tx_realty_Model_RealtyObject a dummy realty object
 	 */
-	private $realtyUid = 0;
+	private $realtyObject;
 
 	/**
 	 * @var integer static_info_tables UID of Germany
@@ -60,12 +60,12 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->realtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'test realty object')
-		);
+		$this->realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
+		$this->realtyObject->setData(array('title' => 'test realty object'));
 
 		$this->fixture = new tx_realty_pi1_Formatter(
-			$this->realtyUid,
+			$this->realtyObject->getUid(),
 			array(
 				'defaultCountryUID' => self::DE,
 				'currencyUnit' => '&euro;',
@@ -79,7 +79,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
-		unset($this->fixture, $this->testingFramework);
+		unset($this->realtyObject, $this->fixture, $this->testingFramework);
 	}
 
 
@@ -95,24 +95,21 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1_Formatter(
 			0, array(), $GLOBALS['TSFE']->cObj
 		);
-
 	}
 
-	public function testConstructAnExceptionIfCalledWithAUidOfADeletedRealtyObject() {
-		$deletedRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('deleted' => 1)
-		);
+	public function testConstructThrowsAnExceptionIfCalledWithAUidOfADeletedRealtyObject() {
+		$this->realtyObject->markAsDead();
 
 		$this->setExpectedException(
 			'Exception', 'There was no realty object to load with the ' .
-				'provided UID of ' . $deletedRealtyUid . '. The formatter can ' .
-				'only work for existing, non-deleted realty objects.'
+				'provided UID of ' . $this->realtyObject->getUid() .
+				'. The formatter can only work for existing, non-deleted ' .
+				'realty objects.'
 		);
 
-		$this->fixture = new tx_realty_pi1_Formatter(
-			$deletedRealtyUid, array(), $GLOBALS['TSFE']->cObj
+		new tx_realty_pi1_Formatter(
+			$this->realtyObject->getUid(), array(), $GLOBALS['TSFE']->cObj
 		);
-
 	}
 
 
@@ -127,8 +124,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsTheLabelOfAValidState() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('state', 8);
+		$this->realtyObject->setProperty('state', 8);
 
 		$this->assertEquals(
 			$this->fixture->translate('label_state.8'),
@@ -144,8 +140,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForState() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('state', 1000000);
+		$this->realtyObject->setProperty('state', 1000000);
 
 		$this->assertEquals(
 			'',
@@ -154,8 +149,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsTheLabelOfAValidHeatingType() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('heating_type', '1');
+		$this->realtyObject->setProperty('heating_type', '1');
 
 		$this->assertEquals(
 			$this->fixture->translate('label_heating_type.1'),
@@ -164,8 +158,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsTheLabelsOfAListOfValidHeatingTypes() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('heating_type', '1,3,4');
+		$this->realtyObject->setProperty('heating_type', '1,3,4');
 
 		$this->assertEquals(
 			$this->fixture->translate('label_heating_type.1') . ', ' .
@@ -183,8 +176,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForHeatingType() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('heating_type', 10000);
+		$this->realtyObject->setProperty('heating_type', 10000);
 
 		$this->assertEquals(
 			'',
@@ -193,8 +185,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsEmptyStringForCountrySameAsDefaultCountry() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('country', self::DE);
+		$this->realtyObject->setProperty('country', self::DE);
 
 		$this->assertEquals(
 			'',
@@ -204,8 +195,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 
 	public function testGetPropertyReturnsTheCountryNameForCountryDifferentFromDefaultCountry() {
 		// randomly chosen the country UID of Australia
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('country', 14);
+		$this->realtyObject->setProperty('country', 14);
 
 		$this->assertEquals(
 			'Australia',
@@ -214,8 +204,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsTitleOfCity() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty(
+		$this->realtyObject->setProperty(
 				'city',
 				$this->testingFramework->createRecord(
 					REALTY_TABLE_CITIES, array('title' => 'test city')
@@ -229,8 +218,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsHtmlSpecialcharedTitleOfCity() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty(
+		$this->realtyObject->setProperty(
 				'city',
 				$this->testingFramework->createRecord(
 					REALTY_TABLE_CITIES, array('title' => 'test<br/>city')
@@ -244,8 +232,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsEstateSizeAsFormattedAreaWithDecimals() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('estate_size', 12345);
+		$this->realtyObject->setProperty('estate_size', 12345);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
@@ -256,8 +243,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsHoaFeeAsFormattedPriceWithoutDecimals() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('hoa_fee', 12345);
+		$this->realtyObject->setProperty('hoa_fee', 12345);
 
 		$this->assertEquals(
 			'12 345&nbsp;&euro;',
@@ -273,8 +259,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsValueOfUsableFrom() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('usable_from', '1.1.');
+		$this->realtyObject->setProperty('usable_from', '1.1.');
 
 		$this->assertEquals(
 			'1.1.',
@@ -283,8 +268,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsHtmlspecialcharedValueOfUsableFrom() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('usable_from', '1.<br/>1.');
+		$this->realtyObject->setProperty('usable_from', '1.<br/>1.');
 
 		$this->assertEquals(
 			htmlspecialchars('1.<br/>1.'),
@@ -293,8 +277,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsNonZeroValueOfFloor() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('floor', 3);
+		$this->realtyObject->setProperty('floor', 3);
 
 		$this->assertEquals(
 			'3',
@@ -303,8 +286,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsEmptyStringForZeroValueOfFloor() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('floor', 0);
+		$this->realtyObject->setProperty('floor', 0);
 
 		$this->assertEquals(
 			'',
@@ -313,8 +295,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsMessageYesForRentedIfRentedIsSet() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('rented', 1);
+		$this->realtyObject->setProperty('rented', 1);
 
 		$this->assertEquals(
 			$this->fixture->translate('message_yes'),
@@ -323,8 +304,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsAnEmptyStringForRentedIfRentedIsNotSet() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty('rented', 0);
+		$this->realtyObject->setProperty('rented', 0);
 
 		$this->assertEquals(
 			'',
@@ -333,12 +313,10 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsAddress() {
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($this->realtyUid);
-		$realtyObject->setProperty('show_address', 1);
-		$realtyObject->setProperty('street', 'Main Street');
-		$realtyObject->setProperty('zip', '12345');
-		$realtyObject->setProperty(
+		$this->realtyObject->setProperty('show_address', 1);
+		$this->realtyObject->setProperty('street', 'Main Street');
+		$this->realtyObject->setProperty('zip', '12345');
+		$this->realtyObject->setProperty(
 			'city',
 			$this->testingFramework->createRecord(
 				REALTY_TABLE_CITIES, array('title' => 'Test Town')
@@ -352,8 +330,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsCroppedTitle() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty(
+		$this->realtyObject->setProperty(
 				'title',
 				'This title is longer than 75 Characters, so the' .
 					' rest should be cropped and be replaced with dots'
@@ -367,8 +344,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetPropertyReturnsHtmlspecialcharedCroppedTitle() {
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->realtyUid)->setProperty(
+		$this->realtyObject->setProperty(
 				'title',
 				'This title is longer than <b>75</b> Characters, so the' .
 					' rest should be cropped and be replaced with dots'
