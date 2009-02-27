@@ -366,5 +366,14 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			$this->fixture->getSelfUrlWithShowUid()
 		);
 	}
+
+	public function testGetSelfUrlWithShowUidReturnsAbsoluteUrl() {
+		$this->pi1->piVars['showUid'] = $this->dummyObjectUid;
+
+		$this->assertContains(
+			'http://',
+			$this->fixture->getSelfUrlWithShowUid()
+		);
+	}
 }
 ?>

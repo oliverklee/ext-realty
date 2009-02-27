@@ -164,7 +164,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * @return	string		self-URL of the image upload page, will not be empty
 	 */
 	public function getSelfUrlWithShowUid() {
-		return $this->plugin->cObj->typoLink_URL(
+		return t3lib_div::locationHeaderUrl($this->plugin->cObj->typoLink_URL(
 			array(
 				'parameter' => $GLOBALS['TSFE']->id,
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
@@ -174,7 +174,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 					true
 				),
 			)
-		);
+		));
 	}
 
 

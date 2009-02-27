@@ -1,4 +1,5 @@
 0.3.2 - currently working on
+- [#1996] Fix: RealURL Error after uploading image
 - [#2755] Fix: CLI user needs the uppercased prefix _CLI_
 - [#2729] Fix: lowercase the CLI user defined in localconf
 - [#2665, 2540] Fix: Use the formatter and htmlspecialchar most fields
