@@ -203,6 +203,48 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_PriceRange_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'priceRanges'
+		);
+		$this->fixture->setConfigurationValue(
+			'priceRangesForFilterForm', '-100'
+		);
+
+		$this->assertContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_PriceRange_ForNoOtherDisplayedSearchFields_HasSubmitButton() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'priceRanges'
+		);
+		$this->fixture->setConfigurationValue(
+			'priceRangesForFilterForm', '-100'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_search'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_PriceRange_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'priceRanges, uid'
+		);
+		$this->fixture->setConfigurationValue(
+			'priceRangesForFilterForm', '-100'
+		);
+
+		$this->assertNotContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
 
 	////////////////////////////////////////////
 	// Testing the rendering of the UID search
@@ -326,6 +368,28 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Foo city',
+			$this->fixture->render(array())
+		);
+	}
+
+		public function test_CitySelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city'
+		);
+
+		$this->assertContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_CitySelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city, priceRanges'
+		);
+
+		$this->assertNotContains(
+			'onchange="',
 			$this->fixture->render(array())
 		);
 	}

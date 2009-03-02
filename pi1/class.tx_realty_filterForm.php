@@ -208,6 +208,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 				$label . '</option>';
 		}
 		$this->setMarker('price_range_options', $optionTags);
+
+		$this->setMarker(
+			'price_range_on_change', $this->getOnChangeForSingleField()
+		);
 	}
 
 	/**
@@ -278,6 +282,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 				htmlspecialchars($city['title']) . '</option>' . LF;
 		}
 		$this->setOrDeleteMarkerIfNotEmpty('options_city_search', $options);
+
+		$this->setMarker(
+			'city_select_on_change', $this->getOnChangeForSingleField()
+		);
 	}
 
 	/**
@@ -478,6 +486,23 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function hasSearchField($fieldToCheck) {
 		return in_array($fieldToCheck, $this->displayedSearchFields);
+	}
+
+	/**
+	 * Returns an onChange attribute for the search wigdet fields.
+	 *
+	 * @return string attribute which sends the search widget on change event
+	 *                handler, will be empty if more than one field is shown
+	 */
+	private function getOnChangeForSingleField() {
+		if (count($this->displayedSearchFields) == 1) {
+			$result = ' onchange="document.' .
+				'forms[\'tx_realty_pi1_searchWidget\'].submit();"';
+		} else {
+			$result = '';
+		}
+
+		return $result;
 	}
 }
 
