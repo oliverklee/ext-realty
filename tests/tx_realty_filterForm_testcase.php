@@ -298,6 +298,39 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////////////////////
+	// Tests concerning the rendering of the city search
+	//////////////////////////////////////////////////////
+
+	public function test_SearchForm_DisplayedSearchWidgetSetToCitySearch_ShowsCitySearch() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_select_city'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_SearchForm_DisplayedSearchWidgetSetToCitySearch_ShowsCityOfEnteredObject() {
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('title' => 'Foo city')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'city' => $cityUid)
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city'
+		);
+
+		$this->assertContains(
+			'Foo city',
+			$this->fixture->render(array())
+		);
+	}
+
+
 	///////////////////////////////////////////////////
 	// Testing the filter forms's WHERE clause parts.
 	///////////////////////////////////////////////////

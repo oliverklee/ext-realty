@@ -3843,30 +3843,5 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
-
-
-	//////////////////////////////
-	// Testing the city selector
-	//////////////////////////////
-
-	public function testCitySelectorHasLinkToCitySelectorTargetPid() {
-		$this->fixture->setConfigurationValue('what_to_display', 'city_selector');
-		$this->fixture->setConfigurationValue('filterTargetPID', $this->listViewPid);
-
-		$this->assertContains(
-			'?id=' . $this->listViewPid,
-			$this->fixture->main('', array())
-		);
-	}
-
-	public function tesCitySelectorHasNoUnreplacedMarkers() {
-		$this->fixture->setConfigurationValue('what_to_display', 'city_selector');
-		$this->fixture->setConfigurationValue('filterTargetPID', $this->listViewPid);
-
-		$this->assertNotContains(
-			'###',
-			$this->fixture->main('', array())
-		);
-	}
 }
 ?>

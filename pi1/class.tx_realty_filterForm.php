@@ -73,6 +73,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$this->fillOrHidePriceRangeDropDown();
 		$this->fillOrHideUidSearch();
 		$this->fillOrHideObjectNumberSearch();
+		$this->fillOrHideCitySearch();
 
 		return $this->getSubpart('FILTER_FORM');
 	}
@@ -162,6 +163,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		);
 	}
 
+
+	////////////////////////////////////////////////////////////////////
+	// Functions concerning the hiding or filling of the search fields
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Fills the input box for zip code or city if there is data for it. Hides
 	 * the input if it is disabled by configuration.
@@ -245,6 +251,33 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			'searched_object_number',
 			htmlspecialchars($this->filterFormData['objectNumber'])
 		);
+	}
+
+ 	/**
+	 * Shows the city selector if enabled via configuration, otherwise hides it.
+	 */
+	private function fillOrHideCitySearch() {
+		if (!$this->hasSearchField('city')) {
+			$this->hideSubparts('wrapper_city_search');
+			return;
+		}
+
+		$cities = tx_oelib_db::selectMultiple(
+			REALTY_TABLE_CITIES . '.uid, ' . REALTY_TABLE_CITIES . '.title',
+			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_CITIES,
+			REALTY_TABLE_OBJECTS . '.city = ' . REALTY_TABLE_CITIES . '.uid' .
+				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
+				tx_oelib_db::enableFields(REALTY_TABLE_CITIES),
+			'uid',
+			REALTY_TABLE_CITIES . '.title'
+		);
+
+		$options = '';
+		foreach ($cities as $city) {
+			$options .= '<option value="' . $city['uid'] . '">' .
+				htmlspecialchars($city['title']) . '</option>' . LF;
+		}
+		$this->setOrDeleteMarkerIfNotEmpty('options_city_search', $options);
 	}
 
 	/**

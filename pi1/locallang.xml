@@ -15,7 +15,6 @@
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.single_view">Single view</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
-			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
@@ -59,7 +58,8 @@
 			<label index="realty.pi_flexform.classic">classic</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
-			<label index="realty.pi_flexform.displaySite">site</label>
+			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
+			<label index="realty.pi_flexform.displayCity">city drop-down</label>
 			<label index="realty.pi_flexform.displayPriceRanges">price ranges</label>
 			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
 			<label index="realty.pi_flexform.displayUid">Immo ID</label>
@@ -207,14 +207,12 @@
 			<label index="label_remove_from_favorites">Remove from favorites</label>
 			<label index="label_on_favorites_list">Objects on the favorites list:</label>
 			<label index="label_print_page">Print page</label>
-			<label index="label_cityselector_head">Search in city</label>
-			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">City or ZIP code:</label>
 			<label index="label_enter_object_number">Object number:</label>
 			<label index="label_enter_uid">Immo ID:</label>
+			<label index="label_select_city">City:</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_select_price_range">Price range:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
@@ -335,7 +333,6 @@
 			<label index="realty.pi_flexform.favorites">Merkzettel</label>
 			<label index="realty.pi_flexform.single_view">Einzelansicht</label>
 			<label index="realty.pi_flexform.gallery">Galerie</label>
-			<label index="realty.pi_flexform.city_selector">Stadtauswahl</label>
 			<label index="realty.pi_flexform.filter_form">Suchformular</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformular</label>
 			<label index="realty.pi_flexform.my_objects">Meine Objekte</label>
@@ -379,10 +376,11 @@
 			<label index="realty.pi_flexform.classic">klassisch</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Suchformular</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Angezeigte Suchfelder:</label>
-			<label index="realty.pi_flexform.displaySite">Ort</label>
+			<label index="realty.pi_flexform.displaySite">Ort und PLZ</label>
+			<label index="realty.pi_flexform.displayCity">Stadt-Drop-down</label>
 			<label index="realty.pi_flexform.displayPriceRanges">Preis-Drop-down</label>
 			<label index="realty.pi_flexform.displayObjectNumber">Objektnummer</label>
-			<label index="realty.pi_flexform.displayUid">Immo ID</label>
+			<label index="realty.pi_flexform.displayUid">Immo-ID</label>
 			<label index="realty.pi_flexform.filterTargetPID">Zielseite für das Suchwidget:</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Preisspannen für den Preis-Drop-down:</label>
 			<label index="realty.pi_flexform.objectNumber">Objektnummer</label>
@@ -527,14 +525,12 @@
 			<label index="label_remove_from_favorites">Vom Merkzettel löschen</label>
 			<label index="label_on_favorites_list">Objekte auf dem Merkzettel:</label>
 			<label index="label_print_page">Seite drucken</label>
-			<label index="label_cityselector_head">Immobilien-Suche</label>
-			<label index="label_cityselector_description_formal">Wir bieten Ihnen neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">Wir bieten dir neue interessante Immobilien in folgenden Städten &amp;#8230;</label>
-			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_filter_form">Suchkriterien</label>
 			<label index="label_enter_zip_or_city">Stadt oder Postleitzahl:</label>
 			<label index="label_enter_object_number">Objektnummer:</label>
 			<label index="label_enter_uid">Immo-ID:</label>
+			<label index="label_select_city">Stadt:</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_select_price_range">Preisspanne:</label>
 			<label index="label_less_than">weniger als</label>
 			<label index="label_greater_than">über</label>
@@ -655,7 +651,6 @@
 			<label index="realty.pi_flexform.favorites">Favorieten</label>
 			<label index="realty.pi_flexform.single_view">Detail aanzicht</label>
 			<label index="realty.pi_flexform.gallery">Galery</label>
-			<label index="realty.pi_flexform.city_selector">Stad keuze</label>
 			<label index="realty.pi_flexform.filter_form">Filterformulier</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformulier</label>
 			<label index="realty.pi_flexform.my_objects">Mijn objecten</label>
@@ -799,9 +794,6 @@
 			<label index="label_add_to_favorites">Op mijn favorietenlijst plaatsen</label>
 			<label index="label_remove_from_favorites">Van mijn favorietenlijst verwijderen</label>
 			<label index="label_on_favorites_list">Objecten op de favorietenlijst</label>
-			<label index="label_cityselector_head">Object zoeken</label>
-			<label index="label_cityselector_description_formal">Wij bieden U objecten aan in de navolgende steden;</label>
-			<label index="label_cityselector_description_informal">Wij bieden jouw objecten aan in de navolgende steden;</label>
 			<label index="label_pleaseselectcity">Kies een plaatsnaam;</label>
 			<label index="label_filter_form">Filter criteria</label>
 			<label index="label_enter_zip_or_city">Vul een plaatsnaam of postcode in:</label>
@@ -918,7 +910,6 @@
 			<label index="realty.pi_flexform.realty_list">Ejendomsoversigt (Projekter)</label>
 			<label index="realty.pi_flexform.favorites">Favoritter</label>
 			<label index="realty.pi_flexform.gallery">Galleri</label>
-			<label index="realty.pi_flexform.city_selector">Vælg by/område</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statisk SQL filter:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Database felt til oprettelse af &quot;checkboxe&quot; til søgefilter:</label>
 			<label index="realty.pi_flexform.sortCriteria">Databasefelt som brugeren kan sortére visningen efter:</label>
@@ -1016,9 +1007,6 @@
 			<label index="label_back">Tilbage til oversigten</label>
 			<label index="label_add_to_favorites">Tilføj til favoritter</label>
 			<label index="label_remove_from_favorites">Fjern fra favoritter</label>
-			<label index="label_cityselector_head">Søg i byer</label>
-			<label index="label_cityselector_description_formal">Vi kan tilbyde dem projekter i følgende byer ...</label>
-			<label index="label_cityselector_description_informal">Vi kan tilbyde dem projekter i følgende byer ...</label>
 			<label index="label_pleaseselectcity">- Vælg by -</label>
 			<label index="label_next_image">Gå til næste billede</label>
 			<label index="label_sorry">Beklager!</label>
@@ -1046,7 +1034,6 @@
 			<label index="realty.pi_flexform.realty_list">Список недвижемости</label>
 			<label index="realty.pi_flexform.favorites">Избранные</label>
 			<label index="realty.pi_flexform.gallery">Галерея</label>
-			<label index="realty.pi_flexform.city_selector">Выбор города</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Статический фильтр SQL (добавляется к условию WHERE, можно использовать оператор &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Поля базы данных доступные для фильтрации поиска:</label>
 			<label index="realty.pi_flexform.sortCriteria">Поля базы данных доступные для фильтрации списка недвижимости:</label>
@@ -1119,9 +1106,6 @@
 			<label index="label_back">Назад в список</label>
 			<label index="label_add_to_favorites">Добавить в избранное</label>
 			<label index="label_remove_from_favorites">Убрать из избранного</label>
-			<label index="label_cityselector_head">Искать в городе</label>
-			<label index="label_cityselector_description_formal">Предложения недвижимости в городе: &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">Предложения недвижимости в городе: &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Пожалуйста, выберите город &amp;#8212;</label>
 			<label index="label_next_image">следующее изображение</label>
 			<label index="label_sorry">Извините!</label>
@@ -1150,7 +1134,6 @@
 			<label index="realty.pi_flexform.realty_list">Emlak Listesi</label>
 			<label index="realty.pi_flexform.favorites">Favoriler</label>
 			<label index="realty.pi_flexform.gallery">Galeri</label>
-			<label index="realty.pi_flexform.city_selector">Şehir seçimi</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statik SQL filitresi (&quot; AND &quot; ile birlikte  WHERE clause ile kullanılır ):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">İçinden arama filitresi ve onay kutucuğu (checkbox) oluşturabilen veri bankası tablosu:</label>
 			<label index="realty.pi_flexform.sortCriteria">Kullanıcı tarafından liste görünümü düzenlenebilen Veri Bankası tabloları:</label>
@@ -1223,9 +1206,6 @@
 			<label index="label_back">geri dön</label>
 			<label index="label_add_to_favorites">Favori listesine ekle</label>
 			<label index="label_remove_from_favorites">Favori listesinden çıkar</label>
-			<label index="label_cityselector_head">Emlak Ara</label>
-			<label index="label_cityselector_description_formal">Size bu yerlerde emlak sunuyoruz &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">Sana bu yerlerde emlak sunuyoruz &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Lütfen şehir seçiniz &amp;#8212;</label>
 			<label index="label_next_image">bir sonraki resim</label>
 			<label index="label_sorry">Pardon!</label>
@@ -1251,7 +1231,6 @@
 			<label index="realty.pi_flexform.realty_list">Listado Inmobiliário</label>
 			<label index="realty.pi_flexform.favorites">Favoritos</label>
 			<label index="realty.pi_flexform.gallery">Galeria</label>
-			<label index="realty.pi_flexform.city_selector">Selector de ciudades</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Consulta SQL</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Campo de la base de datos para mostrar opciones de búsqueda</label>
 			<label index="realty.pi_flexform.sortCriteria">Campos de la Base da datos con los que el usuario podrá ordenar los resultados</label>
@@ -1325,9 +1304,6 @@
 			<label index="label_add_to_favorites">Añadir a mis favoritos</label>
 			<label index="label_remove_from_favorites">Borrar de mis favoritos</label>
 			<label index="label_on_favorites_list">Objetos en mi lista de favoritos</label>
-			<label index="label_cityselector_head">Buscar en la ciudad</label>
-			<label index="label_cityselector_description_formal">Le ofrecemos los siguientes objetos en estas ciudades</label>
-			<label index="label_cityselector_description_informal">Te ofrecemos los siguientes objetos en estas ciudades</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Seleccionar ciudad &amp;#8212;</label>
 			<label index="label_next_image">ir a la próxima imágen</label>
 			<label index="label_sorry">Lo sentimos!</label>
@@ -1361,7 +1337,6 @@
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.single_view" type="integer">260903848</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
-			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
@@ -1405,7 +1380,7 @@
 			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
-			<label index="realty.pi_flexform.displaySite" type="integer">160296918</label>
+			<label index="realty.pi_flexform.displaySite" type="integer">139764782</label>
 			<label index="realty.pi_flexform.displayPriceRanges" type="integer">200750050</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">140369544</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm" type="integer">218493474</label>
@@ -1550,14 +1525,12 @@
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
 			<label index="label_on_favorites_list" type="integer">104683823</label>
-			<label index="label_cityselector_head" type="integer">182629236</label>
-			<label index="label_cityselector_description_formal" type="integer">110211522</label>
-			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_filter_form" type="integer">174419877</label>
 			<label index="label_enter_zip_or_city" type="integer">209168872</label>
 			<label index="label_enter_object_number" type="integer">68185886</label>
 			<label index="label_enter_uid" type="integer">34884428</label>
+			<label index="label_select_city" type="integer">201307921</label>
 			<label index="label_select_price_range" type="integer">255812538</label>
 			<label index="label_less_than" type="integer">165614130</label>
 			<label index="label_greater_than" type="integer">199111175</label>
@@ -1672,6 +1645,7 @@
 			<label index="label_print_page" type="integer">184576193</label>
 			<label index="realty.pi_flexform.displayObjectNumber" type="integer">95425847</label>
 			<label index="realty.pi_flexform.displayUid" type="integer">68380357</label>
+			<label index="realty.pi_flexform.displayCity" type="integer">28144317</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -1679,7 +1653,6 @@
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
-			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
@@ -1783,9 +1756,6 @@
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
 			<label index="label_on_favorites_list" type="integer">104683823</label>
-			<label index="label_cityselector_head" type="integer">182629236</label>
-			<label index="label_cityselector_description_formal" type="integer">110211522</label>
-			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_filter_form" type="integer">174419877</label>
 			<label index="label_enter_zip_or_city" type="integer">100951234</label>
@@ -1944,7 +1914,6 @@
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
-			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
@@ -2017,9 +1986,6 @@
 			<label index="label_back" type="integer">8374236</label>
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
-			<label index="label_cityselector_head" type="integer">182629236</label>
-			<label index="label_cityselector_description_formal" type="integer">110211522</label>
-			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_next_image" type="integer">141623968</label>
 			<label index="label_sorry" type="integer">175133333</label>
@@ -2072,7 +2038,6 @@
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
-			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
@@ -2145,9 +2110,6 @@
 			<label index="label_back" type="integer">8374236</label>
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
-			<label index="label_cityselector_head" type="integer">182629236</label>
-			<label index="label_cityselector_description_formal" type="integer">110211522</label>
-			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_next_image" type="integer">141623968</label>
 			<label index="label_sorry" type="integer">175133333</label>
@@ -2173,7 +2135,6 @@
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
-			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
@@ -2246,9 +2207,6 @@
 			<label index="label_back" type="integer">8374236</label>
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
-			<label index="label_cityselector_head" type="integer">182629236</label>
-			<label index="label_cityselector_description_formal" type="integer">110211522</label>
-			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_next_image" type="integer">141623968</label>
 			<label index="label_sorry" type="integer">175133333</label>
@@ -2274,7 +2232,6 @@
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
-			<label index="realty.pi_flexform.city_selector" type="integer">106743419</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">87716999</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
@@ -2348,9 +2305,6 @@
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
 			<label index="label_on_favorites_list" type="integer">104683823</label>
-			<label index="label_cityselector_head" type="integer">182629236</label>
-			<label index="label_cityselector_description_formal" type="integer">110211522</label>
-			<label index="label_cityselector_description_informal" type="integer">110211522</label>
 			<label index="label_pleaseselectcity" type="integer">199863136</label>
 			<label index="label_next_image" type="integer">141623968</label>
 			<label index="label_sorry" type="integer">175133333</label>
@@ -2384,7 +2338,6 @@
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.single_view">Single view</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
-			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
@@ -2428,7 +2381,7 @@
 			<label index="realty.pi_flexform.classic">classic</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
-			<label index="realty.pi_flexform.displaySite">site</label>
+			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
 			<label index="realty.pi_flexform.displayPriceRanges">price ranges</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
@@ -2573,14 +2526,12 @@
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
 			<label index="label_on_favorites_list">Objects on the favorites list:</label>
-			<label index="label_cityselector_head">Search in city</label>
-			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">City or ZIP code:</label>
 			<label index="label_enter_object_number">Object number:</label>
 			<label index="label_enter_uid">Immo ID:</label>
+			<label index="label_select_city">City:</label>
 			<label index="label_select_price_range">Price range:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
@@ -2695,6 +2646,7 @@
 			<label index="label_print_page">Print page</label>
 			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
 			<label index="realty.pi_flexform.displayUid">Immo ID</label>
+			<label index="realty.pi_flexform.displayCity">city drop-down</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
@@ -2702,7 +2654,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
-			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
@@ -2806,9 +2757,6 @@
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
 			<label index="label_on_favorites_list">Objects on the favorites list:</label>
-			<label index="label_cityselector_head">Search in city</label>
-			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">Please enter the name or ZIP code of a city:</label>
@@ -2967,7 +2915,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
-			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -3040,9 +2987,6 @@
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
-			<label index="label_cityselector_head">Search in city</label>
-			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_next_image">go to the next image</label>
 			<label index="label_sorry">Sorry!</label>
@@ -3095,7 +3039,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
-			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -3168,9 +3111,6 @@
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
-			<label index="label_cityselector_head">Search in city</label>
-			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_next_image">go to the next image</label>
 			<label index="label_sorry">Sorry!</label>
@@ -3196,7 +3136,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
-			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -3269,9 +3208,6 @@
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
-			<label index="label_cityselector_head">Search in city</label>
-			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_next_image">go to the next image</label>
 			<label index="label_sorry">Sorry!</label>
@@ -3297,7 +3233,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.gallery">Gallery</label>
-			<label index="realty.pi_flexform.city_selector">City selector</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
@@ -3371,9 +3306,6 @@
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
 			<label index="label_on_favorites_list">Objects on the favorites list:</label>
-			<label index="label_cityselector_head">Search in city</label>
-			<label index="label_cityselector_description_formal">We offer you realty objects in these cities &amp;#8230;</label>
-			<label index="label_cityselector_description_informal">We offer you realty objects in these cities &amp;#8230;</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_next_image">go to the next image</label>
 			<label index="label_sorry">Sorry!</label>

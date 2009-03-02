@@ -45,14 +45,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the configuration for the city selector of the Realty Manager.
-	 */
-	public function check_tx_realty_pi1_city_selector() {
-		$this->checkCommonFrontEndSettings();
-		$this->checkFilterTargetPid();
-	}
-
-	/**
 	 * Checks the configuration for the filter form of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_filter_form() {
@@ -283,7 +275,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'single_view',
 				'gallery',
 				'favorites',
-				'city_selector',
 				'filter_form',
 				'contact_form',
 				'my_objects',
@@ -515,7 +506,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies which search widget fields to display in the ' .
 				'front-end. The search widget will not display any fields at ' .
 				'all if this value is empty or contains only invalid keys.',
-			array('site', 'priceRanges', 'uid', 'objectNumber')
+			array('site', 'priceRanges', 'uid', 'objectNumber', 'city')
 		);
 	}
 

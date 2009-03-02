@@ -206,9 +206,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			case 'gallery':
 				$result = $this->createGallery();
 				break;
-			case 'city_selector':
-				$result = $this->createCitySelector();
-				break;
 			case 'filter_form':
 				$filterFormClassName = t3lib_div::makeInstanceClassName(
 					'tx_realty_filterForm'
@@ -1387,54 +1384,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Creates a form for selecting a single city.
-	 *
-	 * @return string HTML of the city selector (will not be empty)
-	 */
-	private function createCitySelector() {
-		$targetListViewUrl = $this->cObj->typoLink_URL(
-			array('parameter' => $this->getConfValueInteger(
-				'filterTargetPID', 's_searchForm'
-			))
-		);
-		$this->setMarker('target_url', $targetListViewUrl);
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			REALTY_TABLE_CITIES . '.uid, ' . REALTY_TABLE_CITIES . '.title',
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_CITIES,
-			REALTY_TABLE_OBJECTS . '.city=' . REALTY_TABLE_CITIES . '.uid' .
-				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
-				tx_oelib_db::enableFields(REALTY_TABLE_CITIES),
-			'uid',
-			REALTY_TABLE_CITIES . '.title'
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		// builds an array of cities from DB result
-		$cities = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$cities[] = $row;
-		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		// creates options for <select>
-		$options = '';
-		if (count($cities)) {
-			foreach ($cities as $city) {
-				$options .= '<option value="' . $city['uid'] . '">' .
-					$city['title'] . '</option>' . LF;
-			}
-		}
-		$this->setOrDeleteMarkerIfNotEmpty(
-			'citySelector', $options, 'options', 'wrapper'
-		);
-
-		return $this->getSubpart('CITY_SELECTOR');
-	}
-
-	/**
 	 * Processes the UIDs submitted in $this->piVars['favorites']
 	 * if $this->piVars['favorites'] is set.
 	 *
@@ -2037,9 +1986,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *
 	 * @return string Name of the current view ('realty_list',
 	 *                'contact_form', 'favorites', 'fe_editor',
-	 *                'filter_form', 'city_selector', 'gallery'
-	 *                'image_upload', 'my_objects', 'offerer_list' or
-	 *                'objects_by_owner'), will not be empty.
+	 *                'filter_form', 'gallery', 'image_upload',
+	 *                'my_objects', 'offerer_list' or 'objects_by_owner'),
+	 *                will not be empty.
 	 *                If no view is set, 'realty_list' is returned as this
 	 *                is the fallback case.
 	 */
@@ -2051,7 +2000,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'single_view',
 			'gallery',
 			'favorites',
-			'city_selector',
 			'filter_form',
 			'contact_form',
 			'my_objects',

@@ -359,7 +359,7 @@
 <!-- ###FILTER_FORM### -->
 <div class="tx-realty-pi1-filter-form">
 	<h3>###LABEL_FILTER_FORM###</h3>
-	<form method="post" action="###TARGET_URL###">
+	<form method="post" action="###TARGET_URL###" id="filterForm">
 		<!-- ###WRAPPER_UID_SEARCH### -->
  		<div class="tx-realty-pi1-field">
 			<label class="tx-realty-pi1-label" for="tx_realty_pi1-uidsearch">###LABEL_ENTER_UID###</label>
@@ -378,6 +378,15 @@
  			<input class="tx-realty-pi1-input" name="tx_realty_pi1[site]" id="tx_realty_pi1-site" value="###SITE###" type="text" size="30" maxlength="50" />
  		</div>
 		<!-- ###WRAPPER_SITE_SEARCH### -->
+		<!-- ###WRAPPER_CITY_SEARCH### -->
+		<div class="tx-realty-pi1-field">
+			<label class="tx-realty-pi1-label" for="tx_realty_pi1-city">###LABEL_SELECT_CITY###</label>
+			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[city]" id="tx_realty_pi1-city" onchange="document.forms['filterForm'].submit();">
+				<option value="">###LABEL_PLEASESELECTCITY###</option>
+				###OPTIONS_CITY_SEARCH###
+			</select>
+		</div>
+		<!-- ###WRAPPER_CITY_SEARCH### -->
 		<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
 		<div class="tx-realty-pi1-field">
  			<label class="tx-realty-pi1-label" for="tx_realty_pi1-priceRange">###LABEL_SELECT_PRICE_RANGE###</label>
@@ -395,29 +404,6 @@
 	<div class="clear"></div>
 </div>
 <!-- ###FILTER_FORM### -->
-
-
-<h2>City selector</h2>
-<!-- ###CITY_SELECTOR### -->
-<!-- ###WRAPPER_CITYSELECTOR### -->
-<div class="city-selector">
-	<div class="outer">
-		<div class="inner">
-			<div class="title"><h3>###LABEL_CITYSELECTOR_HEAD###</h3></div>
-			<p>###LABEL_CITYSELECTOR_DESCRIPTION###</p>
-			<form id="citySelector" method="post" action="###TARGET_URL###">
-				<div>
-					<select class="tx-realty-pi1-input" name="tx_realty_pi1[city]" onchange="document.forms['citySelector'].submit();">
-						<option value="">###LABEL_PLEASESELECTCITY###</option>
-						###OPTIONS_CITYSELECTOR###
-					</select>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-<!-- ###WRAPPER_CITYSELECTOR### -->
-<!-- ###CITY_SELECTOR### -->
 
 
 <h2>Front-end editor e-mail</h2>
