@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1571] Feature: Add a description to the content wizard
 - [#2771] Feature: Add function setToDeleted to the model
 - [#2770] Fix: Some of the button images don't have anti aliasing.
 - [#2709] Change: Use less DB accesses in the unit tests

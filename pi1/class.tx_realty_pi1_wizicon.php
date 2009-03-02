@@ -43,7 +43,7 @@ class tx_realty_pi1_wizicon {
 		$wizardItems['plugins_tx_realty_pi1'] = array(
 			'icon' => t3lib_extMgm::extRelPath('realty') . 'pi1/ce_wiz.gif',
 			'title' => $LANG->getLLL('pi1_title', $LL),
-			'description' => $LANG->getLLL('pi1_plus_wiz_description', $LL),
+			'description' => $LANG->getLLL('pi1_description', $LL),
 			'params' => '&defVals[tt_content][CType]=list&' .
 				'defVals[tt_content][list_type]=realty_pi1'
 		);
