@@ -131,7 +131,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	private function checkFormData(&$errorMessages) {
 		$noErrorsSet = true;
 
-		if (!$this->isLoggedIn()) {
+		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			if (!$this->isValidName($this->contactFormData['requesterName'])) {
 				$errorMessages['requesterName'] = 'label_set_name';
 				$noErrorsSet = false;
@@ -321,10 +321,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * nothing if no user is logged in.
 	 */
 	private function setDataForLoggedInUser() {
-		$loggedInUser = tx_oelib_MapperRegistry
-				::get('tx_realty_Mapper_FrontEndUser')->getLoggedInUser();
-
-		if (!$loggedInUser) {
+		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			return;
 		}
 
@@ -340,6 +337,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			$this->getConfigurationArray('visibleContactFormFields')
 		);
 
+		$loggedInUser = tx_oelib_FrontEndLoginManager::getInstance()
+			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 		foreach (array(
 			'requesterName' => getName,
 			'requesterStreet' => getStreet,
@@ -493,7 +492,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function fillContactInformationFieldsForLoggedInUser() {
 		$readonlyMarkerContent = '';
-		if ($this->isLoggedIn()) {
+		if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			$readonlyMarkerContent = 'disabled="disabled"';
 			$this->setDataForLoggedInUser();
 		} else {

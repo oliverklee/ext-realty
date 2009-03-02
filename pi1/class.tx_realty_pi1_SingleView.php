@@ -100,11 +100,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		if (!$realtyObjectMapper->find($uid)->isHidden()) {
 			$result = true;
 		} else {
-			$loggedInUser = tx_oelib_MapperRegistry
-				::get('tx_realty_Mapper_FrontEndUser')->getLoggedInUser();
-
-			if ($loggedInUser) {
-				$result = ($loggedInUser->getUid()
+			if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
+				$result = (tx_oelib_FrontEndLoginManager::getInstance()
+					->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid()
 					== $realtyObjectMapper->find($uid)->getProperty('owner')
 				);
 			}

@@ -355,7 +355,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$this->unhideSubparts(
 					'wrapper_editor_specific_content,new_record_link'
 				);
-				if ($this->isLoggedIn()) {
+				if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 					$this->setLimitHeading();
 					$this->setEditorLinkMarker();
 				}
@@ -731,7 +731,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$whereClause = '(' . $showUid .
 			tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) . ')';
 		// Logged-in users may also see their hidden objects in the single view.
-		if ($this->isLoggedIn()) {
+		if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			$whereClause .= ' OR (' . $showUid .
 				' AND owner=' . $this->getFeUserUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1) . ')';
@@ -2098,7 +2098,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *                 false otherwise
 	 */
 	public function isAccessToSingleViewPageAllowed() {
-		return ($this->isLoggedIn()
+		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
 			|| !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
 	}
 
@@ -2347,8 +2347,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * end.
 	 */
 	private function setLimitHeading() {
-		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoggedInUser();
+		$user = tx_oelib_FrontEndLoginManager::getInstance()
+			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 		if ($user->getTotalNumberOfAllowedObjects() == 0) {
 			$this->hideSubparts('limit_heading');
 			return;
@@ -2393,8 +2393,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * end.
 	 */
 	private function setEditorLinkMarker() {
-		if (tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoggedInUser()->canAddNewObjects()
+		if (tx_oelib_FrontEndLoginManager::getInstance()
+			->getLoggedInUser('tx_realty_Mapper_FrontEndUser')
+			->canAddNewObjects()
 		) {
 			$this->setMarker(
 				'empty_editor_link',

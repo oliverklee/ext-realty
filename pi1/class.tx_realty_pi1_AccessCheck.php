@@ -90,9 +90,7 @@ class tx_realty_pi1_AccessCheck {
 	 * @throws tx_oelib_Exception_AccessDenied if no front-end user is logged in
 	 */
 	private function isFrontEndUserLoggedIn() {
-		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoggedInUser()
-		) {
+		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 				->addHeader('Status: 403 Forbidden');
 			throw new tx_oelib_Exception_AccessDenied('message_please_login');
@@ -158,8 +156,8 @@ class tx_realty_pi1_AccessCheck {
 		if (($realtyObjectUid == 0)
 			|| (tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 					->find($realtyObjectUid)->getProperty('owner')
-				== tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-					->getLoggedInUser()->getUid()
+				== tx_oelib_FrontEndLoginManager::getInstance()
+					->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid()
 			)
 		) {
 			return;
@@ -182,8 +180,9 @@ class tx_realty_pi1_AccessCheck {
 		if ($realtyObjectUid > 0) {
 			return;
 		}
-		if (tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoggedInUser()->canAddNewObjects()
+		if (tx_oelib_FrontEndLoginManager::getInstance()
+			->getLoggedInUser('tx_realty_Mapper_FrontEndUser')
+			->canAddNewObjects()
 		) {
 			return;
 		}
