@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2743] Feature: Provide the parts of the search widget with IDs so they can be styled with CSS easily
 - [#2742] Change: Make the city selector part of the search widget
 - [#2708] Feature: Add a FrontEndLoginManager
 - [#2741] Feature: Add a list of checkboxes in the flexforms concerning which parts of the search widget should be shown

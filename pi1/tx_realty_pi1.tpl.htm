@@ -359,36 +359,36 @@
 <!-- ###FILTER_FORM### -->
 <div class="tx-realty-pi1-filter-form">
 	<h3>###LABEL_FILTER_FORM###</h3>
-	<form method="post" action="###TARGET_URL###" id="filterForm">
+	<form method="post" action="###TARGET_URL###" id="tx_realty_pi1_searchWidget">
 		<!-- ###WRAPPER_UID_SEARCH### -->
- 		<div class="tx-realty-pi1-field">
+ 		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_uid">
 			<label class="tx-realty-pi1-label" for="tx_realty_pi1-uidsearch">###LABEL_ENTER_UID###</label>
  			<input class="tx-realty-pi1-input" name="tx_realty_pi1[uid]" id="tx_realty_pi1-uidsearch" value="###SEARCHED_UID###" type="text" size="30" />
  		</div>
 		<!-- ###WRAPPER_UID_SEARCH### -->
 		<!-- ###WRAPPER_OBJECT_NUMBER_SEARCH### -->
- 		<div class="tx-realty-pi1-field">
+ 		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_objectNumber">
 			<label class="tx-realty-pi1-label" for="tx_realty_pi1-objectNumberSearch">###LABEL_ENTER_OBJECT_NUMBER###</label>
  			<input class="tx-realty-pi1-input" name="tx_realty_pi1[objectNumber]" id="tx_realty_pi1-objectNumberSearch" value="###SEARCHED_OBJECT_NUMBER###" type="text" size="30" />
  		</div>
 		<!-- ###WRAPPER_OBJECT_NUMBER_SEARCH### -->
 		<!-- ###WRAPPER_SITE_SEARCH### -->
-		<div class="tx-realty-pi1-field">
+		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_site">
 			<label class="tx-realty-pi1-label" for="tx_realty_pi1-site">###LABEL_ENTER_ZIP_OR_CITY###</label>
  			<input class="tx-realty-pi1-input" name="tx_realty_pi1[site]" id="tx_realty_pi1-site" value="###SITE###" type="text" size="30" maxlength="50" />
  		</div>
 		<!-- ###WRAPPER_SITE_SEARCH### -->
 		<!-- ###WRAPPER_CITY_SEARCH### -->
-		<div class="tx-realty-pi1-field">
+		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_city">
 			<label class="tx-realty-pi1-label" for="tx_realty_pi1-city">###LABEL_SELECT_CITY###</label>
-			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[city]" id="tx_realty_pi1-city" onchange="document.forms['filterForm'].submit();">
+			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[city]" id="tx_realty_pi1-city" onchange="document.forms['tx_realty_pi1_searchWidget'].submit();">
 				<option value="">###LABEL_PLEASESELECTCITY###</option>
 				###OPTIONS_CITY_SEARCH###
 			</select>
 		</div>
 		<!-- ###WRAPPER_CITY_SEARCH### -->
 		<!-- ###WRAPPER_PRICE_RANGE_OPTIONS### -->
-		<div class="tx-realty-pi1-field">
+		<div class="tx-realty-pi1-field" id="tx_realty_pi1_searchWidget_priceRange">
  			<label class="tx-realty-pi1-label" for="tx_realty_pi1-priceRange">###LABEL_SELECT_PRICE_RANGE###</label>
  			<select class="tx-realty-pi1-input select" name="tx_realty_pi1[priceRange]" id="tx_realty_pi1-priceRange">
 				###PRICE_RANGE_OPTIONS###
