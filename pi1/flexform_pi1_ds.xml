@@ -605,7 +605,7 @@
 										<numIndex index="1">site</numIndex>
 									</numIndex>
 									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayPriceRanges</numIndex>
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.price</numIndex>
 										<numIndex index="1">priceRanges</numIndex>
 									</numIndex>
 									<numIndex index="2" type="array">

@@ -60,7 +60,6 @@
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
 			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
 			<label index="realty.pi_flexform.displayCity">city drop-down</label>
-			<label index="realty.pi_flexform.displayPriceRanges">price ranges</label>
 			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
 			<label index="realty.pi_flexform.displayUid">Immo ID</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
@@ -213,7 +212,7 @@
 			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_city">City:</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
-			<label index="label_select_price_range">Price range:</label>
+			<label index="label_select_price_range">Rent/buying price:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
 			<label index="label_to">to</label>
@@ -378,7 +377,6 @@
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Angezeigte Suchfelder:</label>
 			<label index="realty.pi_flexform.displaySite">Ort und PLZ</label>
 			<label index="realty.pi_flexform.displayCity">Stadt-Drop-down</label>
-			<label index="realty.pi_flexform.displayPriceRanges">Preis-Drop-down</label>
 			<label index="realty.pi_flexform.displayObjectNumber">Objektnummer</label>
 			<label index="realty.pi_flexform.displayUid">Immo-ID</label>
 			<label index="realty.pi_flexform.filterTargetPID">Zielseite für das Suchwidget:</label>
@@ -531,7 +529,7 @@
 			<label index="label_enter_uid">Immo-ID:</label>
 			<label index="label_select_city">Stadt:</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
-			<label index="label_select_price_range">Preisspanne:</label>
+			<label index="label_select_price_range">Miete/Kaufpreis:</label>
 			<label index="label_less_than">weniger als</label>
 			<label index="label_greater_than">über</label>
 			<label index="label_to">bis</label>
@@ -1381,7 +1379,6 @@
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
 			<label index="realty.pi_flexform.displaySite" type="integer">139764782</label>
-			<label index="realty.pi_flexform.displayPriceRanges" type="integer">200750050</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">140369544</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm" type="integer">218493474</label>
 			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
@@ -1531,7 +1528,7 @@
 			<label index="label_enter_object_number" type="integer">68185886</label>
 			<label index="label_enter_uid" type="integer">34884428</label>
 			<label index="label_select_city" type="integer">201307921</label>
-			<label index="label_select_price_range" type="integer">255812538</label>
+			<label index="label_select_price_range" type="integer">34243254</label>
 			<label index="label_less_than" type="integer">165614130</label>
 			<label index="label_greater_than" type="integer">199111175</label>
 			<label index="label_to" type="integer">1797664</label>
@@ -2382,7 +2379,6 @@
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
 			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
-			<label index="realty.pi_flexform.displayPriceRanges">price ranges</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
 			<label index="realty.pi_flexform.objectNumber">Object number</label>
@@ -2532,7 +2528,7 @@
 			<label index="label_enter_object_number">Object number:</label>
 			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_city">City:</label>
-			<label index="label_select_price_range">Price range:</label>
+			<label index="label_select_price_range">Rent/buying price:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
 			<label index="label_to">to</label>
