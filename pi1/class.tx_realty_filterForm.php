@@ -47,6 +47,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	);
 
 	/**
+	 * @var array the search fields which should be displayed in the search form
+	 */
+	private $displayedSearchFields = array();
+
+	/**
 	 * Returns the filter form in HTML.
 	 *
 	 * @param array current piVars, the elements "priceRange" and "site"
@@ -56,11 +61,18 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $filterFormData = array()) {
 		$this->extractValidFilterFormData($filterFormData);
+		$this->displayedSearchFields = t3lib_div::trimExplode(
+			',',
+			$this->getConfValueString(
+				'displayedSearchWidgetFields', 's_searchForm'),
+			true
+		);
 
 		$this->setTargetUrlMarker();
 		$this->fillOrHideSiteSearch();
 		$this->fillOrHidePriceRangeDropDown();
-		$this->fillOrHideIdSearch();
+		$this->fillOrHideUidSearch();
+		$this->fillOrHideObjectNumberSearch();
 
 		return $this->getSubpart('FILTER_FORM');
 	}
@@ -155,9 +167,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * the input if it is disabled by configuration.
 	 */
 	private function fillOrHideSiteSearch() {
-		if ($this->getConfValueString(
-			'showSiteSearchInFilterForm', 's_searchForm'
-		) == 'show') {
+		if ($this->hasSearchField('site')) {
 			$this->setMarker(
 				'site', htmlspecialchars($this->filterFormData['site'])
 			);
@@ -167,53 +177,50 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Fills the price range drop-down with the configured ranges or hides it if
-	 * none are configured.
+	 * Fills the price range drop-down with the configured ranges if it is
+	 * enabled in the configuration, hides it otherwise.
 	 */
 	private function fillOrHidePriceRangeDropDown() {
-		$priceRanges = $this->getPriceRangesFromConfiguration();
-
-		if (!empty($priceRanges)) {
-			$optionTags = '';
-
-			foreach ($priceRanges as $range) {
-				$priceRangeString = implode('-', $range);
-				$label = $this->getPriceRangeLabel($range);
-				$selectedAttribute
-					= ($this->filterFormData['priceRange'] == $priceRangeString)
-						? ' selected="selected"'
-						: '';
-
-				$optionTags .= '<option value="' . $priceRangeString .
-					'" label="' . $label . '" ' . $selectedAttribute . '>' .
-					$label . '</option>';
-			}
-			$this->setMarker('price_range_options', $optionTags);
-		} else {
+		if (!$this->hasSearchField('priceRanges')) {
 			$this->hideSubparts('wrapper_price_range_options');
+			return;
 		}
+
+		$priceRanges = $this->getPriceRangesFromConfiguration();
+		$optionTags = '';
+
+		foreach ($priceRanges as $range) {
+			$priceRangeString = implode('-', $range);
+			$label = $this->getPriceRangeLabel($range);
+			$selectedAttribute
+				= ($this->filterFormData['priceRange'] == $priceRangeString)
+					? ' selected="selected"'
+					: '';
+
+			$optionTags .= '<option value="' . $priceRangeString .
+				'" label="' . $label . '" ' . $selectedAttribute . '>' .
+				$label . '</option>';
+		}
+		$this->setMarker('price_range_options', $optionTags);
 	}
 
 	/**
-	 * Fills the input box for the UID or the object number search if it is
-	 * configured to be displayed. Hides the form element if it is disabled by
+	 * Fills the input box for the UID search if it is configured to be
+	 * displayed. Hides the form element if it is disabled by
 	 * configuration.
 	 */
-	private function fillOrHideIdSearch() {
-		$searchType = $this->getConfValueString(
-			'showIdSearchInFilterForm', 's_searchForm'
-		);
-
-		if ($searchType == '') {
-			$this->hideSubparts('wrapper_id_search');
+	private function fillOrHideUidSearch() {
+		if (!$this->hasSearchField('uid')) {
+			$this->hideSubparts('wrapper_uid_search');
 			return;
 		}
 
 		$this->setMarker(
-			'searched_id',
-			($this->filterFormData[$searchType] != 0)
-				 ? htmlspecialchars($this->filterFormData[$searchType])
-				 : ''
+			'searched_uid',
+			((intval($this->filterFormData['uid']) == 0)
+				? ''
+				: intval($this->filterFormData['uid'])
+			)
 		);
 		$this->setMarker(
 			'id_search_label',
@@ -222,6 +229,22 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			)
 		);
 		$this->setMarker('id_search_type', $searchType);
+	}
+
+	/**
+	 * Fills the input box for the object number search if it is configured to
+	 * be displayed. Hides the form element if it is disabled by configuration.
+	 */
+	private function fillOrHideObjectNumberSearch() {
+		if (!$this->hasSearchField('objectNumber')) {
+			$this->hideSubparts('wrapper_object_number_search');
+			return;
+		}
+
+		$this->setMarker(
+			'searched_object_number',
+			htmlspecialchars($this->filterFormData['objectNumber'])
+		);
 	}
 
 	/**
@@ -410,6 +433,18 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		return ' AND ' . REALTY_TABLE_OBJECTS . '.uid=' .
 			$this->filterFormData['uid'];
+	}
+
+	/**
+	 * Checks whether a given search field ID is set in displayedSearchFields
+	 *
+	 * @param string the search field name to check, must not be empty
+	 *
+	 * @return boolean true if the given field should be displayed as set per
+	 *                 configuration, false otherwise
+	 */
+	private function hasSearchField($fieldToCheck) {
+		return in_array($fieldToCheck, $this->displayedSearchFields);
 	}
 }
 

@@ -109,14 +109,13 @@ plugin.tx_realty_pi1 {
 	# DB fields by which a FE user can sort the list view, also "random" is allowed
 	sortCriteria =
 
-	# whether to display the input for ZIP/city in the search form, may either be "show" or "hide"
-	showSiteSearchInFilterForm = show
+	# list of search fields which should be displayed in the search widget
+	displayedSearchWidgetFields = site
 	# price ranges for the search form, leave empty to hide this field
 	# e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
 	priceRangesForFilterForm =
-	# whether to display the input for UID or object number search, allowed values are
-	# "uid" and "objectNumber", leave empty if the form field should be hidden
-	showIdSearchInFilterForm =
+	# PID of the target page for the search form and the city selector
+	filterTargetPID =
 
 	# PID of the page for the single view (leave empty to use the same page as the list view)
 	singlePID =
@@ -124,8 +123,6 @@ plugin.tx_realty_pi1 {
 	galleryPID =
 	# PID of the page with the favorites list
 	favoritesPID =
-	# PID of the target page for the search form and the city selector
-	filterTargetPID =
 
 	# PID of the FE editor page
 	editorPID =

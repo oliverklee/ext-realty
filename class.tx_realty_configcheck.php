@@ -57,10 +57,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_filter_form() {
 		$this->checkCommonFrontEndSettings();
+		$this->checkDisplayedSearchWidgetFields();
 		$this->checkFilterTargetPid();
-		$this->checkShowSiteSearchInFilterForm();
 		$this->checkPriceRangesForFilterForm();
-		$this->checkShowIdSearchInFilterForm();
 	}
 
 	/**
@@ -506,17 +505,17 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the setting for whether to show the site search in the filter form.
+	 * Checks the setting for displayedSearchWidgetFields.
 	 */
-	private function checkShowSiteSearchInFilterForm() {
-		$this->checkIfSingleInSetNotEmpty(
-			'showSiteSearchInFilterForm',
+	private function checkDisplayedSearchWidgetFields() {
+		$this->checkIfMultiInSetNotEmpty(
+			'displayedSearchWidgetFields',
 			true,
 			's_searchForm',
-			'This value specifies whether to show the input to search for ZIP ' .
-				'code or city in the filter form. It might be interpreted ' .
-				'incorrectly if a value out of range was set.',
-			array('show', 'hide')
+			'This value specifies which search widget fields to display in the ' .
+				'front-end. The search widget will not display any fields at ' .
+				'all if this value is empty or contains only invalid keys.',
+			array('site', 'priceRanges', 'uid', 'objectNumber')
 		);
 	}
 
@@ -524,6 +523,17 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting for the price ranges for the filter form.
 	 */
 	private function checkPriceRangesForFilterForm() {
+		$displayedWidgetFields = t3lib_div::trimExplode(
+			',',
+			$this->objectToCheck->getConfValueString(
+				'displayedSearchWidgetFields', 's_searchForm'
+			),
+			true
+		);
+		if (!in_array('priceRanges', $displayedWidgetFields)) {
+			return;
+		}
+
 		$this->checkRegExp(
 			'priceRangesForFilterForm',
 			true,
@@ -531,23 +541,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value defines the ranges to be displayed in the filter ' .
 				'form\'s selectbox for prices. With an invalid configuration, ' .
 				'price ranges will not be displayed correctly.',
-			'/^(((\d+-\d+|-\d+|\d+-), *)*(\d+-\d+|-\d+|\d+-))?$/'
-		);
-	}
-
-	/**
-	 * Checks the setting for whether to show the UID or object number search
-	 * in the search form.
-	 */
-	private function checkShowIdSearchInFilterForm() {
-		$this->checkIfSingleInSetOrEmpty(
-			'showIdSearchInFilterForm',
-			true,
-			's_searchForm',
-			'This value specifies which ID search to show in the search form. ' .
-			'If an incorrect value is set, the ID search form will be displayed ' .
-			'with an incorrect label and the search will not work.',
-			array('uid', 'objectNumber')
+			'/^(((\d+-\d+|-\d+|\d+-), *)*(\d+-\d+|-\d+|\d+-))$/'
 		);
 	}
 
