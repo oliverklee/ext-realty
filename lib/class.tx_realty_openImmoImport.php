@@ -375,14 +375,12 @@ class tx_realty_openImmoImport {
 			break;
 		case 'message_object_limit_reached':
 			$this->deleteCurrentZipFile = false;
-			$ownerUid = $this->realtyObject->getProperty('owner');
-			$owner
-				= tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-					->find($ownerUid);
+			$owner = $this->realtyObject->getOwner();
 			$this->addToErrorLog(
 				sprintf(
 					$this->getTranslator()->translate($errorMessage),
-					$owner->getName(), $ownerUid,
+					$owner->getName(),
+					$owner->getUid(),
 					$owner->getTotalNumberOfAllowedObjects()
 				) . LF
 			);
@@ -417,7 +415,7 @@ class tx_realty_openImmoImport {
 	 *
 	 * @return boolean true if the current realty object's owner matches
 	 *                 an allowed FE user, also true if this check is
-	 *                 disabled by validation, false otherwise
+	 *                 disabled by configuration, false otherwise
 	 */
 	private function hasValidOwnerForImport() {
 		if (!$this->globalConfiguration->getConfigurationValueBoolean(
@@ -425,41 +423,23 @@ class tx_realty_openImmoImport {
 		)) {
 			return true;
 		}
-		// In case this check is enabled, only objects for which an owner can be
-		// found will be imported.
-		if ($this->realtyObject->getOwnerProperty('uid') == 0) {
+
+		try {
+			$this->realtyObject->getOwner();
+		} catch (tx_oelib_Exception_NotFound $exception) {
 			return false;
 		}
 
-		$allowedFrontEndUserGroups = $this->getAllowedFrontEndUserGroups();
-		// "empty" means all FE user groups are allowed. It was checked before
-		// that there actually is an owner.
-		if (empty($allowedFrontEndUserGroups)) {
-			$result = true;
-		} else {
-			$result = in_array(
-				$this->realtyObject->getOwnerProperty('usergroup'),
+		$allowedFrontEndUserGroups = $this->globalConfiguration
+			->getConfigurationValueString('allowedFrontEndUserGroups');
+
+		// An empty string is interpreted as any FE user group being allowed.
+		$result = ($allowedFrontEndUserGroups == '')
+			|| $this->realtyObject->getOwner()->hasGroupMembership(
 				$allowedFrontEndUserGroups
 			);
-		}
 
 		return $result;
-	}
-
-	/**
-	 * Returns the UIDs of the allowed FE user groups in an array.
-	 *
-	 * @return array allowed FE user group UIDs (not int-safe), will be
-	 *               empty if all are allowed
-	 */
-	private function getAllowedFrontEndUserGroups() {
-		$frontEndUserGroupUids = $this->globalConfiguration
-			->getConfigurationValueString('allowedFrontEndUserGroups');
-		if ($frontEndUserGroupUids == '') {
-			return array();
-		}
-
-		return t3lib_div::trimExplode(',', $frontEndUserGroupUids);
 	}
 
 	/**
@@ -1244,23 +1224,24 @@ class tx_realty_openImmoImport {
 	 *
 	 * @return string e-mail address, depending on the configuration either the
 	 *                field 'contact_email' from the realty record or the
-	 *               owner's e-mail address, will be empty if no e-mail address
-	 *               was found or if the realty object is not initialized
+	 *                owner's e-mail address, will be empty if no e-mail address
+	 *                was found or if the realty object is not initialized
 	 */
 	protected function getContactEmailFromRealtyObject() {
 		if (!is_object($this->realtyObject)) {
 			return '';
 		}
 
-		$emailAddress = '';
+		$emailAddress = $this->realtyObject->getProperty('contact_email');
 
 		if ($this->mayUseOwnerData()) {
-			$emailAddress = $this->realtyObject->getOwnerProperty('email');
+			try {
+				$emailAddress = $this->realtyObject->getOwner()->getEMailAddress();
+			} catch (tx_oelib_Exception_NotFound $exception) {
+			}
 		}
 
-		return ($emailAddress != '')
-			? $emailAddress
-			: $this->realtyObject->getProperty('contact_email');
+		return $emailAddress;
 	}
 
 	/**

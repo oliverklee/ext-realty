@@ -425,16 +425,11 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		switch ($this->getRealtyObject()->getProperty('contact_data_source')
 		) {
 			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
-				$ownerUid = $this->getRealtyObject()->getProperty('owner');
-				if ($ownerUid > 0) {
-					try {
-						$owner = tx_oelib_MapperRegistry
-							::get('tx_realty_Mapper_FrontEndUser')
-							->find($ownerUid);
-						$result['email'] = $owner->getEMailAddress();
-						$result['name'] = $owner->getName();
-					} catch (tx_oelib_Exception_NotFound $exception) {
-					}
+				try {
+					$owner = $this->getRealtyObject()->getOwner();
+					$result['email'] = $owner->getEMailAddress();
+					$result['name'] = $owner->getName();
+				} catch (tx_oelib_Exception_NotFound $exception) {
 				}
 				break;
 			case REALTY_CONTACT_FROM_REALTY_OBJECT:

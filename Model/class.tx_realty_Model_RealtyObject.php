@@ -167,8 +167,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			parent::setData($realtyData);
 			$this->images = $this->getAttachedImages();
 		}
-
-		$this->loadOwnerRecord();
 	}
 
 	/**
@@ -348,11 +346,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	private function ownerMayAddObjects() {
 		if ($this->isOwnerDataUsable()) {
-			$owner = tx_oelib_MapperRegistry
-				::get('tx_realty_Mapper_FrontEndUser')
-				->find($this->getAsInteger('owner'));
-			$owner->resetObjectsHaveBeenCalculated();
-			$ownerCanAddObjects = $owner->canAddNewObjects();
+			$this->getOwner()->resetObjectsHaveBeenCalculated();
+			$ownerCanAddObjects = $this->getOwner()->canAddNewObjects();
 		} else {
 			$ownerCanAddObjects = true;
 		}
@@ -414,7 +409,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			return;
 		}
 
-		$this->setAsInteger('owner', $this->getOwnerProperty('uid'));
+		try {
+			$this->setAsInteger('owner', $this->getOwner()->getUid());
+		} catch (tx_oelib_Exception_NotFound $exception) {
+		}
 	}
 
 	/**
@@ -433,21 +431,41 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Returns a value for a given key from an owner of a loaded realty object.
-	 * If the key does not exist no owner is loaded, an empty string is returned.
+	 * Returns the owner as model. This will usually be the FE user who has a
+	 * relation to the object. If there is none, the FE user with an ANID
+	 * that matches the object's ANID will be returned.
 	 *
-	 * @param string key of value to fetch from current realty object's
-	 *               owner, must not be empty
+	 * TODO: When saving relations works with models (Bug 2680, 2681), this
+	 *       function should return a real relation. $this->ownerData is no
+	 *       longer needed then either.
 	 *
-	 * @return mixed corresponding value or an empty string if the key
-	 *               does not exist
+	 * @throws tx_oelib_Exception_NotFound if there is no owner - not even a FE
+	 *                                     user with an ANID matching the
+	 *                                     current object's ANID
+	 *
+	 * @return tx_realty_Model_FrontEndUser owner of the current object, null
+	 *                                      if there is none
 	 */
-	public function getOwnerProperty($key) {
-		if (empty($this->ownerData) || !isset($this->ownerData[$key])) {
-			return '';
+	public function getOwner() {
+		if (empty($this->ownerData)
+			|| ($this->ownerData['uid'] != $this->getAsInteger('owner'))
+			|| ($this->ownerData['tx_realty_openimmo_anid']
+					!= $this->getAsString('openimmo_anid')
+				)
+		) {
+			$this->loadOwnerRecord();
 		}
 
-		return $this->ownerData[$key];
+		try {
+			$result = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+				->getModel($this->ownerData);
+		} catch (Exception $exception) {
+			throw new tx_oelib_Exception_NotFound(
+				'There is no owner for the current realty object.'
+			);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -533,10 +551,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		parent::set($key, $value);
-		// Ensures the owner's data becomes loaded if one was added.
-		if (($key == 'owner') || ($key == 'openimmo_anid')) {
-			$this->loadOwnerRecord();
-		}
 	}
 
 	/**
