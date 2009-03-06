@@ -395,6 +395,54 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////////////////////////////////////////////
+	// Tests concerning the rendering of the objectType radio buttons
+	///////////////////////////////////////////////////////////////////
+
+	public function test_ObjectTypeSelector_ForDisplayedSeachrWidgetFieldsSetToObjectType_DisplaysRadioButtons() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_select_object_type'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_ObjectTypeSelector_ForDisplayedSeachrWidgetFieldsSetToObjectType_HasNoDefaultSelectRadiobuttons() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType'
+		);
+
+		$this->assertNotContains(
+			'checked="checked"',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_ObjectTypeSelector_ForObjectTypeSetToRent_PreselectsRentRadiobutton() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType'
+		);
+
+		$this->assertContains(
+			'value="forRent" checked="checked"',
+			$this->fixture->render(array('objectType' => 'forRent'))
+		);
+	}
+
+	public function test_ObjectTypeSelector_ForObjectTypeSetToSale_PreselectsSaleRadiobutton() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType'
+		);
+
+		$this->assertContains(
+			'value="forSale" checked="checked"',
+			$this->fixture->render(array('objectType' => 'forSale'))
+		);
+	}
+
 	///////////////////////////////////////////////////
 	// Testing the filter forms's WHERE clause parts.
 	///////////////////////////////////////////////////
@@ -511,6 +559,29 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('objectNumber' => ''))
+		);
+	}
+
+	public function test_GetWhereClausePartForObjectTypeSelector_WithSaleSelected_ReturnsSaleWhereclausePart() {
+		$this->assertEquals(
+			' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' .
+				REALTY_FOR_SALE,
+			$this->fixture->getWhereClausePart(array('objectType' => 'forSale'))
+		);
+	}
+
+	public function test_GetWhereClausePartForObjectTypeSelector_WithRentSelected_ReturnsRentWhereclausePart() {
+		$this->assertEquals(
+			' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' .
+				REALTY_FOR_RENTING,
+			$this->fixture->getWhereClausePart(array('objectType' => 'forRent'))
+		);
+	}
+
+	public function test_GetWhereClausePartForObjectTypeSelector_WithNothingSelected_ReturnsEmptyString() {
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('objectType' => ''))
 		);
 	}
 }

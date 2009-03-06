@@ -251,6 +251,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'has_air_conditioning' => '0',
 				'has_pool' => '0',
 				'has_community_pool' => '0',
+				'object_type' => REALTY_FOR_RENTING,
 			)
 		);
 		$this->secondRealtyUid = $this->testingFramework->createRecord(
@@ -260,6 +261,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 				'object_number' => self::$secondObjectNumber,
 				'pid' => $this->systemFolderPid,
 				'city' => $this->secondCityUid,
+				'object_type' => REALTY_FOR_SALE,
 			)
 		);
 	}
@@ -1486,6 +1488,46 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListView_FilteredByRentStatus_DisplaysObjectsForRenting() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectType' => 'forRent');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListView_FilteredByRentStatus_DoesNotDisplaysObjectsForSale() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectType' => 'forRent');
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListView_FilteredBySaleStatus_DisplaysObjectsForSale() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectType' => 'forSale');
+
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListView_FilteredBySaleStatus_DoesNotDisplaysObjectsForRenting() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('objectType' => 'forSale');
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
 			$this->fixture->main('', array())
 		);
 	}

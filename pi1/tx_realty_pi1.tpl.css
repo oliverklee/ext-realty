@@ -505,6 +505,14 @@ p.tx-realty-pi1-objekt-nr {
 	float : right;
 }
 
+.tx-realty-pi1-filter-form .tx-realty-pi1-radio-buttons {
+	height: 26px;
+	padding-top: 6px
+}
+.tx-realty-pi1-filter-form .tx-realty-pi1-radio-buttons input {
+	vertical-align: middle;
+}
+
 
 /***** FE EDITOR *****/
 .tx-realty-pi1 #tx_realty_frontEndEditor select {

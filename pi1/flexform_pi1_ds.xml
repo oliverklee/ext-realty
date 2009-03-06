@@ -620,8 +620,12 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayCity</numIndex>
 										<numIndex index="1">city</numIndex>
  									</numIndex>
+									<numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayObjectType</numIndex>
+										<numIndex index="1">objectType</numIndex>
+ 									</numIndex>
 								</items>
-								<maxitems>5</maxitems>
+								<maxitems>6</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

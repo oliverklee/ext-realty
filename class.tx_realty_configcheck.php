@@ -506,7 +506,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies which search widget fields to display in the ' .
 				'front-end. The search widget will not display any fields at ' .
 				'all if this value is empty or contains only invalid keys.',
-			array('site', 'priceRanges', 'uid', 'objectNumber', 'city')
+			array(
+				'site', 'priceRanges', 'uid', 'objectNumber', 'city',
+				'objectType',
+			)
 		);
 	}
 

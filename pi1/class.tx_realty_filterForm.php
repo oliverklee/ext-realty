@@ -43,7 +43,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *            derived from the form data.
 	 */
 	private $filterFormData = array(
-		'priceRange' => '', 'site' => '', 'objectNumber' => '', 'uid' => 0
+		'priceRange' => '', 'site' => '', 'objectNumber' => '', 'uid' => 0,
+		'objectType' => '',
 	);
 
 	/**
@@ -74,6 +75,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$this->fillOrHideUidSearch();
 		$this->fillOrHideObjectNumberSearch();
 		$this->fillOrHideCitySearch();
+		$this->fillOrHideObjectTypeSelect();
 
 		return $this->getSubpart('FILTER_FORM');
 	}
@@ -96,7 +98,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		return $this->getPriceRangeWhereClausePart() .
 			$this->getSiteWhereClausePart() .
 			$this->getObjectNumberWhereClausePart() .
-			$this->getUidWhereClausePart();
+			$this->getUidWhereClausePart() .
+			$this->getObjectTypeWhereClausePart();
 	}
 
 	/**
@@ -106,7 +109,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @param array filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
-		foreach (array('site', 'objectNumber', 'uid') as $key) {
+		foreach (array('site', 'objectNumber', 'uid', 'objectType') as $key) {
 			if (isset($formData[$key])) {
 				$this->filterFormData[$key] = ($key == 'uid')
 					? intval($formData[$key])
@@ -122,6 +125,14 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			$this->filterFormData['priceRange'] = $formData['priceRange'];
 		} else {
 			$this->filterFormData['priceRange'] = '';
+		}
+
+		if (isset($formData['objectType'])
+			&& in_array($formData['objectType'], array('forSale', 'forRent'))
+		) {
+			$this->filterFormData['objectType'] = $formData['objectType'];
+		} else {
+			$this->filterFormData['objectType'] = '';
 		}
 	}
 
@@ -285,6 +296,31 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$this->setMarker(
 			'city_select_on_change', $this->getOnChangeForSingleField()
+		);
+	}
+
+ 	/**
+	 * Shows the rent/sale radiobuttons if enabled via configuration, otherwise
+	 * hides them.
+	 */
+	private function fillOrHideObjectTypeSelect() {
+		if (!$this->hasSearchField('objectType')) {
+			$this->hideSubparts('wrapper_object_type_selector');
+			return;
+		}
+
+		$checked = ' checked="checked"';
+		$this->setMarker('rent_checked',
+			(($this->filterFormData['objectType'] == 'forRent')
+				? $checked
+				: ''
+			)
+		);
+		$this->setMarker('sale_checked',
+			(($this->filterFormData['objectType'] == 'forSale')
+				? $checked
+				: ''
+			)
 		);
 	}
 
@@ -474,6 +510,25 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		return ' AND ' . REALTY_TABLE_OBJECTS . '.uid=' .
 			$this->filterFormData['uid'];
+	}
+
+	/**
+	 * Returns the WHERE clause part for the objectType selector.
+	 *
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the objectType
+	 *                selector
+	 */
+	private function getObjectTypeWhereClausePart() {
+		if ($this->filterFormData['objectType'] == '') {
+			return '';
+		}
+
+		$objectType = ($this->filterFormData['objectType'] == 'forRent')
+			? REALTY_FOR_RENTING
+			: REALTY_FOR_SALE;
+
+		return ' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' . $objectType;
 	}
 
 	/**
