@@ -487,6 +487,41 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	
+	/////////////////////////////////////////////////////////////////////////
+	// Tests concerning the rendering of the rent/buying price input fields
+	/////////////////////////////////////////////////////////////////////////
+
+	public function test_SearchForm_ForSetRentInputFields_DisplaysRentInputFields() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'rent'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_enter_rent'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_SearchForm_ForSetRentInputFieldsAndSentData_EntersSentDataIntoInputFields() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'rent'
+		);
+
+		$output = $this->fixture->render(
+			array('rentFrom' => '42', 'rentTo' => '100')
+		);
+
+		$this->assertContains(
+			'value="42"',
+			$output
+		);
+		$this->assertContains(
+			'value="100"',
+			$output
+		);
+	}
+
 
 	///////////////////////////////////////////////////
 	// Testing the filter form's WHERE clause parts.
@@ -627,6 +662,50 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('objectType' => ''))
+		);
+	}
+
+	public function test_WhereClause_OnlyForLowerRentLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1))',
+			$this->fixture->getWhereClausePart(array('rentFrom' => '1'))
+		);
+	}
+
+	public function test_WhereClause_OnlyForUpperRentLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills > 0 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price > 0 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills = 0 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price = 0))',
+			$this->fixture->getWhereClausePart(array('rentTo' => '10'))
+		);
+	}
+
+	public function test_WhereClause_ForUpperPlusLowerRentLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			$this->fixture->getWhereClausePart(
+				array('rentFrom' => '1', 'rentTo' => '10')
+			)
+		);
+	}
+
+	public function test_WhereClause_ForUpperPlusLowerRentAndPriceLimit_OverwritesPriceLimitWithRentLimit() {
+		$this->assertEquals(
+			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
+				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			$this->fixture->getWhereClausePart(
+				array('rentFrom' => '1', 'rentTo' => '10', 'priceRange' => '100-1000')
+			)
 		);
 	}
 }

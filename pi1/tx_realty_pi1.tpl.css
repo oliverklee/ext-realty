@@ -489,6 +489,18 @@ p.tx-realty-pi1-objekt-nr {
 .tx-realty-pi1-filter-form .tx-realty-pi1-input {
 	width: 200px;
 }
+
+.tx-realty-pi1-filter-form #tx_realty_pi1-rent-from,
+.tx-realty-pi1-filter-form #tx_realty_pi1-rent-to {
+	width: 85px;
+}
+.tx-realty-pi1-filter-form #tx_realty_pi1-rent-from {
+	margin-right: 3px
+}
+.tx-realty-pi1-filter-form #tx_realty_pi1-rent-to {
+	margin-left: 7px
+}
+
 .tx-realty-pi1-filter-form .select {
 	height: 26px;
 	width: 202px;

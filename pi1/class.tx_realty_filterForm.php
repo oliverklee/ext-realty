@@ -37,14 +37,14 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var array Filter form data array with the elements "priceRange",
-	 *            "site", "objectNumber" and "uid".
+	 *            "site", "objectNumber", "uid", "rentFrom" and "rentTo.
 	 *            "priceRange" keeps a string of the format
 	 *            "number-number" and "site" has any string, directly
 	 *            derived from the form data.
 	 */
 	private $filterFormData = array(
 		'priceRange' => '', 'site' => '', 'objectNumber' => '', 'uid' => 0,
-		'objectType' => '',
+		'objectType' => '', 'rentFrom' => 0, 'rentTo' => 0,
 	);
 
 	/**
@@ -76,6 +76,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$this->fillOrHideObjectNumberSearch();
 		$this->fillOrHideCitySearch();
 		$this->fillOrHideObjectTypeSelect();
+		$this->fillOrHideRentSearch();
 
 		return $this->getSubpart('FILTER_FORM');
 	}
@@ -95,7 +96,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	public function getWhereClausePart(array $filterFormData) {
 		$this->extractValidFilterFormData($filterFormData);
 
-		return $this->getPriceRangeWhereClausePart() .
+		return $this->getRentOrPriceRangeWhereClausePart() .
 			$this->getSiteWhereClausePart() .
 			$this->getObjectNumberWhereClausePart() .
 			$this->getUidWhereClausePart() .
@@ -109,13 +110,17 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @param array filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
-		foreach (array('site', 'objectNumber', 'uid', 'objectType') as $key) {
+		$integerFields = array('uid', 'rentFrom', 'rentTo');
+		foreach (array(
+			'site', 'objectNumber', 'uid', 'objectType', 'rentFrom','rentTo'
+		) as $key) {
 			if (isset($formData[$key])) {
-				$this->filterFormData[$key] = ($key == 'uid')
+				$this->filterFormData[$key] = (in_array($key, $integerFields))
 					? intval($formData[$key])
 					: $formData[$key];
 			} else {
-				$this->filterFormData[$key] = ($key == 'uid') ? 0 : '';
+				$this->filterFormData[$key]
+					= (in_array($key, $integerFields)) ? 0 : '';
 			}
 		}
 
@@ -158,6 +163,42 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			'lowerLimit' => $rangeLimits[0],
 			'upperLimit' => $rangeLimits[1],
 		);
+	}
+
+	/**
+	 * Returns the priceRange data stored in priceRange.
+	 *
+	 * @return array array with one price range, consists of the two elements
+	 *               "upperLimit" and "lowerLimit", will be empty if no price
+	 *               range or rent data was set
+	 */
+	private function getPriceRange() {
+		$rentData = $this->processRentFilterFormData();
+		$priceRange = ($rentData != '')
+			? $rentData
+			: $this->filterFormData['priceRange'];
+
+		return $this->getFormattedPriceRange($priceRange);
+	}
+
+	/**
+	 * Formats the values of rentFrom and rentTo, to fit into the
+	 * price ranges schema and then stores it in the member variable priceRange.
+	 *
+	 * @return string the rent values formatted as priceRange, will be empty if
+	 *                rentTo and rentFrom are empty
+	 */
+	private function processRentFilterFormData() {
+		$rentFrom = (!intval($this->filterFormData['rentFrom']))
+			? ''
+			: intval($this->filterFormData['rentFrom']);
+		$rentTo = (!intval($this->filterFormData['rentTo']))
+			? ''
+			: intval($this->filterFormData['rentTo']);
+
+		return (($rentFrom != '') || ($rentTo != ''))
+			? $rentFrom . '-' . $rentTo
+			: '';
 	}
 
 	/**
@@ -315,6 +356,26 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
+	 * Fills the input box for the rent/buying price search if it is configured
+	 * to be displayed. Hides the form element if it is disabled by
+	 * configuration.
+	 */
+	private function fillOrHideRentSearch() {
+		if (!$this->hasSearchField('rent')) {
+			$this->hideSubparts('wrapper_rent_search');
+			return;
+		}
+
+		foreach (array('From', 'To') as $suffix) {
+			$this->setMarker(
+				'searched_rent_' . $suffix,
+				($this->filterFormData['rent' . $suffix])
+					? $this->filterFormData['rent' . $suffix] : ''
+			);
+		}
+	}
+
+	/**
 	 * Returns an array of configured price ranges.
 	 *
 	 * @return array Two-dimensional array of the possible price ranges. Each
@@ -382,23 +443,26 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		return $result;
 	}
 
+
+	//////////////////////////////////////////////////////////////////////////////
+	// Functions concerning the building of the WHERE clauses for the list view.
+	//////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Returns a WHERE clause part for one price range.
 	 *
-	 * @return string WHERE clause part for the provided price range
-	 *                starting with " AND", will be empty if the filter
-	 *                form data was zero
+	 * @return string WHERE clause part for the price range, will be build from
+	 *                      "rentTo" and "rentFrom" fields if they are empty it
+	 *                      will be build from "priceRange" field, if all three
+	 *                      fields are empty an empty string will be returned
 	 */
-	private function getPriceRangeWhereClausePart() {
-		if ($this->filterFormData['priceRange'] == '') {
+	private function getRentOrPriceRangeWhereClausePart() {
+		$priceRange = $this->getPriceRange();
+		if (empty($priceRange)) {
 			return '';
 		}
 
-		$range = $this->getFormattedPriceRange(
-			$this->filterFormData['priceRange']
-		);
-
-		if ($range['lowerLimit'] == 0) {
+		if ($priceRange['lowerLimit'] == 0) {
 			// Zero as lower limit must be excluded of the range because each
 			// non-set price will be identified as zero. Many objects either
 			// have a buying price or a rent which would make searching for
@@ -417,17 +481,17 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		// The WHERE clause part for the lower limit is always set, even if no
 		// lower limit was provided. The lower limit will just be zero then.
 		$lowerLimitRent = REALTY_TABLE_OBJECTS . '.rent_excluding_bills ' .
-			'>' . $equalSign . ' ' . $range['lowerLimit'];
+			'>' . $equalSign . ' ' . $priceRange['lowerLimit'];
 		$lowerLimitBuy = REALTY_TABLE_OBJECTS . '.buying_price ' .
-			'>' . $equalSign . ' ' . $range['lowerLimit'];
+			'>' . $equalSign . ' ' . $priceRange['lowerLimit'];
 
 		// The upper limit will be zero if no upper limit was provided. So zero
 		// means infinite here.
-		if ($range['upperLimit'] != 0) {
+		if ($priceRange['upperLimit'] != 0) {
 			$upperLimitRent = ' AND ' . REALTY_TABLE_OBJECTS .
-				'.rent_excluding_bills <= ' . $range['upperLimit'];
+				'.rent_excluding_bills <= ' . $priceRange['upperLimit'];
 			$upperLimitBuy = ' AND ' . REALTY_TABLE_OBJECTS .
-				'.buying_price <= ' . $range['upperLimit'];
+				'.buying_price <= ' . $priceRange['upperLimit'];
 		} else {
 			$upperLimitRent = '';
 			$upperLimitBuy = '';
