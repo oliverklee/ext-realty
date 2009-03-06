@@ -243,13 +243,6 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 				: intval($this->filterFormData['uid'])
 			)
 		);
-		$this->setMarker(
-			'id_search_label',
-			$this->translate(
-				'label_enter_' . $searchType
-			)
-		);
-		$this->setMarker('id_search_type', $searchType);
 	}
 
 	/**
