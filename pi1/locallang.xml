@@ -383,7 +383,7 @@
 			<label index="realty.pi_flexform.displayCity">Stadt-Drop-down</label>
 			<label index="realty.pi_flexform.displayObjectNumber">Objektnummer</label>
 			<label index="realty.pi_flexform.displayUid">Immo-ID</label>
-			<label index="realty.pi_flexform.displayObjectType">Objekttyp radiobuttons</label>
+			<label index="realty.pi_flexform.displayObjectType">Objekttyp Radiobuttons</label>
 			<label index="realty.pi_flexform.filterTargetPID">Zielseite für das Suchwidget:</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Preisspannen für den Preis-Drop-down:</label>
 			<label index="realty.pi_flexform.objectNumber">Objektnummer</label>
@@ -536,8 +536,8 @@
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_select_price_range">Miete/Kaufpreis:</label>
 			<label index="label_select_object_type">Nur Objekte:</label>
-			<label index="label_select_rent">zum Verkauf</label>
-			<label index="label_select_sale">zur Miete</label>
+			<label index="label_select_rent">zur Miete</label>
+			<label index="label_select_sale">zum Verkauf</label>
 			<label index="label_less_than">weniger als</label>
 			<label index="label_greater_than">über</label>
 			<label index="label_to">bis</label>

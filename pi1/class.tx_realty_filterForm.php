@@ -309,19 +309,16 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		$checked = ' checked="checked"';
-		$this->setMarker('rent_checked',
-			(($this->filterFormData['objectType'] == 'forRent')
-				? $checked
-				: ''
-			)
-		);
-		$this->setMarker('sale_checked',
-			(($this->filterFormData['objectType'] == 'forSale')
-				? $checked
-				: ''
-			)
-		);
+		foreach(array('forRent' => 'rent', 'forSale' => 'sale')
+			as $key => $markerPrefix
+		) {
+			$this->setMarker($markerPrefix . '_attributes',
+				(($this->filterFormData['objectType'] == $key)
+					? ' checked="checked"'
+					: ''
+				) . $this->getOnChangeForSingleField()
+			);
+		}
 	}
 
 	/**

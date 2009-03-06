@@ -443,8 +443,53 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_ObjectTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType'
+		);
+
+		$this->assertContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_ObjectTypeSelector_ForOtherDisplayedSearchFields_DoesNotHaveOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType,city'
+		);
+
+		$this->assertNotContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_ObjectTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttributeOnForRentRadiobutton() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType'
+		);
+
+		$this->assertContains(
+			'value="forRent" onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_ObjectTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttributeOnForSaleRadiobutton() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'objectType'
+		);
+
+		$this->assertContains(
+			'value="forSale" onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+
 	///////////////////////////////////////////////////
-	// Testing the filter forms's WHERE clause parts.
+	// Testing the filter form's WHERE clause parts.
 	///////////////////////////////////////////////////
 
 	public function testWhereClauseOnlyForLowerPriceLimitCanBeCreated() {
