@@ -45,6 +45,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	private $filterFormData = array(
 		'priceRange' => '', 'site' => '', 'objectNumber' => '', 'uid' => 0,
 		'objectType' => '', 'rentFrom' => 0, 'rentTo' => 0,
+		'livingAreaFrom' => 0, 'livingAreaTo' => 0,
 	);
 
 	/**
@@ -76,7 +77,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$this->fillOrHideObjectNumberSearch();
 		$this->fillOrHideCitySearch();
 		$this->fillOrHideObjectTypeSelect();
-		$this->fillOrHideRentSearch();
+		$this->fillOrHideFromToSearchField('rent', 'rent');
+		$this->fillOrHideFromToSearchField('livingArea', 'living_area');
 
 		return $this->getSubpart('FILTER_FORM');
 	}
@@ -100,7 +102,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			$this->getSiteWhereClausePart() .
 			$this->getObjectNumberWhereClausePart() .
 			$this->getUidWhereClausePart() .
-			$this->getObjectTypeWhereClausePart();
+			$this->getObjectTypeWhereClausePart() .
+			$this->getLivingAreaWhereClausePart();
 	}
 
 	/**
@@ -110,10 +113,15 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @param array filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
-		$integerFields = array('uid', 'rentFrom', 'rentTo');
-		foreach (array(
-			'site', 'objectNumber', 'uid', 'objectType', 'rentFrom','rentTo'
-		) as $key) {
+		$integerFields = array(
+			'uid', 'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo'
+		);
+		$allowedArrayKeys = array(
+			'priceRange', 'site', 'objectNumber', 'uid', 'objectType',
+			'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo',
+		);
+
+		foreach ($allowedArrayKeys as $key) {
 			if (isset($formData[$key])) {
 				$this->filterFormData[$key] = (in_array($key, $integerFields))
 					? intval($formData[$key])
@@ -356,21 +364,28 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Fills the input box for the rent/buying price search if it is configured
-	 * to be displayed. Hides the form element if it is disabled by
-	 * configuration.
+	 * Fills the input box for the given search field if it is configured to be
+	 * displayed. Hides the form element if it is disabled by configuration.
+	 *
+	 * @param string the name of the search field, to hide or show, must be
+	 *               'livingArea' or 'rent'
+	 * @param string the name of the field name part of the searched marker,
+	 *               must not be empty
 	 */
-	private function fillOrHideRentSearch() {
-		if (!$this->hasSearchField('rent')) {
-			$this->hideSubparts('wrapper_rent_search');
+	private function fillOrHideFromToSearchField(
+		$searchField, $fieldMarkerPart
+	) {
+		if (!$this->hasSearchField($searchField)) {
+			$this->hideSubparts('wrapper_' . $fieldMarkerPart . '_search');
 			return;
 		}
 
 		foreach (array('From', 'To') as $suffix) {
 			$this->setMarker(
-				'searched_rent_' . $suffix,
-				($this->filterFormData['rent' . $suffix])
-					? $this->filterFormData['rent' . $suffix] : ''
+				'searched_' . $fieldMarkerPart . '_' . $suffix,
+				($this->filterFormData[$searchField . $suffix])
+					? $this->filterFormData[$searchField . $suffix]
+					: ''
 			);
 		}
 	}
@@ -583,6 +598,24 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			: REALTY_FOR_SALE;
 
 		return ' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' . $objectType;
+	}
+
+	/**
+	 * Returns the WHERE clause part for the living area search fields.
+	 *
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the living area
+	 *                search fields
+	 */
+	private function getLivingAreaWhereClausePart() {
+		return (($this->filterFormData['livingAreaFrom'] != 0)
+				? ' AND (' . REALTY_TABLE_OBJECTS . '.living_area >= '
+					. $this->filterFormData['livingAreaFrom'] . ')'
+				: '') .
+			(($this->filterFormData['livingAreaTo'] != 0)
+				? ' AND (' . REALTY_TABLE_OBJECTS . '.living_area <= '
+					. $this->filterFormData['livingAreaTo'] . ')'
+				: '');
 	}
 
 	/**

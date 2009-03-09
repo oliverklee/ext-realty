@@ -1532,6 +1532,144 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_ListViewFilteredByLivingArea_AndSetLowerLimit_DisplaysRealtyObjectWithLivingAreaGreaterThanTheLowerLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('living_area' => 11)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('livingAreaFrom' => '10');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByLivingArea_AndSetUpperLimit_DisplaysRealtyObjectWithLivingAreaLowerThanTheGreaterLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('living_area' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('livingAreaTo' => '10');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByLivingArea_ForSetUpperLimitAndNotSetLowerLimit_DisplaysRealtyObjectWithLivingAreaZero() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('living_area' => 0)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('livingAreaTo' => '10');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectBelowLivingAreaLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('living_area' => 9)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'livingAreaFrom' => '10', 'livingAreaTo' => '100'
+		);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectWithLivingAreaGreaterThanLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('living_area' => 101)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'livingAreaFrom' => '10', 'livingAreaTo' => '100'
+		);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DisplaysRealtyObjectWithLivingAreaEqualToLowerLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('living_area' => 10)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'livingAreaFrom' => '10', 'livingAreaTo' => '20'
+		);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DisplaysRealtyObjectWithLivingAreaEqualToUpperLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('living_area' => 20)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'livingAreaFrom' => '10', 'livingAreaTo' => '20'
+		);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByLivingArea_ForUpperLimitSet_CanDisplayTwoRealtyObjectsWithTheLivingAreaInRange() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('living_area' => 9)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('living_area' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('livingAreaTo' => '10');
+
+		$output = $this->fixture->main('', array());
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$output
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$output
+		);
+	}
+
 
 	//////////////////////////////////////////
 	// Tests for the list filter checkboxes.

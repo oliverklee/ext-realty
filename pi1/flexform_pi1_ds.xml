@@ -628,8 +628,12 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayRent</numIndex>
 										<numIndex index="1">rent</numIndex>
 									</numIndex>
+									<numIndex index="7" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayLivingArea</numIndex>
+										<numIndex index="1">livingArea</numIndex>
+									</numIndex>
 								</items>
-								<maxitems>7</maxitems>
+								<maxitems>8</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

@@ -65,6 +65,7 @@
 			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
 			<label index="realty.pi_flexform.displayUid">Immo ID</label>
 			<label index="realty.pi_flexform.displayObjectType">Object-type radiobuttons</label>
+			<label index="realty.pi_flexform.displayLivingArea">Living area</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
 			<label index="realty.pi_flexform.objectNumber">Object number</label>
@@ -217,6 +218,7 @@
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_select_price_range">Rent/buying price:</label>
 			<label index="label_enter_rent">Rent/buying price from</label>
+			<label index="label_enter_living_area">Living area from</label>
 			<label index="label_select_object_type">Only objects:</label>
 			<label index="label_select_rent">for rent</label>
 			<label index="label_select_sale">for sale</label>
@@ -389,6 +391,7 @@
 			<label index="realty.pi_flexform.displayObjectNumber">Objektnummer</label>
 			<label index="realty.pi_flexform.displayUid">Immo-ID</label>
 			<label index="realty.pi_flexform.displayObjectType">Objekttyp Radiobuttons</label>
+			<label index="realty.pi_flexform.displayLivingArea">Wohnraum</label>
 			<label index="realty.pi_flexform.filterTargetPID">Zielseite für das Suchwidget:</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Preisspannen für den Preis-Drop-down:</label>
 			<label index="realty.pi_flexform.objectNumber">Objektnummer</label>
@@ -541,6 +544,7 @@
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_select_price_range">Miete/Kaufpreis:</label>
 			<label index="label_enter_rent">Miete/Kaufpreis von</label>
+			<label index="label_enter_living_area">Wohnraumgröße von</label>
 			<label index="label_select_object_type">Nur Objekte:</label>
 			<label index="label_select_rent">zur Miete</label>
 			<label index="label_select_sale">zum Verkauf</label>
@@ -1399,6 +1403,7 @@
 			<label index="realty.pi_flexform.displayUid" type="integer">68380357</label>
 			<label index="realty.pi_flexform.displayCity" type="integer">28144317</label>
 			<label index="realty.pi_flexform.displayObjectType" type="integer">213900981</label>
+			<label index="realty.pi_flexform.displayLivingArea" type="integer">135838058</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">140369544</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm" type="integer">218493474</label>
 			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
@@ -1550,6 +1555,7 @@
 			<label index="label_select_city" type="integer">201307921</label>
 			<label index="label_select_price_range" type="integer">34243254</label>
 			<label index="label_enter_rent" type="integer">213148408</label>
+			<label index="label_enter_living_area" type="integer">204664028</label>
 			<label index="label_select_object_type" type="integer">188049544</label>
 			<label index="label_select_rent" type="integer">61764923</label>
 			<label index="label_select_sale" type="integer">70955112</label>
@@ -2409,6 +2415,7 @@
 			<label index="realty.pi_flexform.displayRent">rent/buying price input</label>
 			<label index="realty.pi_flexform.displayPriceRange">rent/buying price drop-down</label>
 			<label index="realty.pi_flexform.displayObjectType">Object-type radiobuttons</label>
+			<label index="realty.pi_flexform.displayLivingArea">Living area</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
 			<label index="realty.pi_flexform.objectNumber">Object number</label>
@@ -2559,7 +2566,8 @@
 			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_city">City:</label>
 			<label index="label_select_price_range">Rent/buying price:</label>
-			<label index="label_enter_rent" type="integer">Rent/buying price from</label>
+			<label index="label_enter_rent">Rent/buying price from</label>
+			<label index="label_enter_living_area">Living area from</label>
 			<label index="label_select_object_type">Only objects:</label>
 			<label index="label_select_rent">for rent</label>
 			<label index="label_select_sale">for sale</label>

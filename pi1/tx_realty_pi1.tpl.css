@@ -491,12 +491,16 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 .tx-realty-pi1-filter-form #tx_realty_pi1-rent-from,
-.tx-realty-pi1-filter-form #tx_realty_pi1-rent-to {
+.tx-realty-pi1-filter-form #tx_realty_pi1-rent-to,
+.tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-from,
+.tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-to {
 	width: 85px;
 }
+.tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-from,
 .tx-realty-pi1-filter-form #tx_realty_pi1-rent-from {
 	margin-right: 3px
 }
+.tx-realty-pi1-filter-form #tx_realty_pi1-livingArea-to,
 .tx-realty-pi1-filter-form #tx_realty_pi1-rent-to {
 	margin-left: 7px
 }

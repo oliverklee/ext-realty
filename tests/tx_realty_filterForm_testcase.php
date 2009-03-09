@@ -487,7 +487,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	
+
 	/////////////////////////////////////////////////////////////////////////
 	// Tests concerning the rendering of the rent/buying price input fields
 	/////////////////////////////////////////////////////////////////////////
@@ -522,6 +522,40 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	///////////////////////////////////////////////////////////////////
+	// Tests concerning the rendering of the living area input fields
+	///////////////////////////////////////////////////////////////////
+
+	public function test_SearchForm_ForSetLivingAreaInputFields_DisplaysLivingAreaInputFields() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'livingArea'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_enter_living_area'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_SearchForm_ForSetLivingAreaInputFieldsAndSentData_EntersSentDataIntoInputFields() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'livingArea'
+		);
+
+		$output = $this->fixture->render(
+			array('livingAreaFrom' => '42', 'livingAreaTo' => '100')
+		);
+
+		$this->assertContains(
+			'value="42"',
+			$output
+		);
+		$this->assertContains(
+			'value="100"',
+			$output
+		);
+	}
 
 	///////////////////////////////////////////////////
 	// Testing the filter form's WHERE clause parts.
@@ -705,6 +739,35 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
 			$this->fixture->getWhereClausePart(
 				array('rentFrom' => '1', 'rentTo' => '10', 'priceRange' => '100-1000')
+			)
+		);
+	}
+
+
+	///////////////////////////////////////////////////////////////
+	// Tests concerning the WHERE clause part for the living area
+	///////////////////////////////////////////////////////////////
+
+	public function test_WhereClause_OnlyForLowerLivingAreaLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.living_area >= 1)',
+			$this->fixture->getWhereClausePart(array('livingAreaFrom' => '1'))
+		);
+	}
+
+	public function test_WhereClause_OnlyForUpperLivingAreaLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.living_area <= 10)',
+			$this->fixture->getWhereClausePart(array('livingAreaTo' => '10'))
+		);
+	}
+
+	public function test_WhereClause_ForUpperPlusLowerLivingAreaLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.living_area >= 1)' .
+			' AND (' . REALTY_TABLE_OBJECTS . '.living_area <= 10)',
+			$this->fixture->getWhereClausePart(
+				array('livingAreaFrom' => '1', 'livingAreaTo' => '10')
 			)
 		);
 	}
