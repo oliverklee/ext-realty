@@ -52,12 +52,6 @@ class tx_realty_googleMapsLookup {
 	private $configuration;
 
 	/**
-	 * @var array cached country codes from static_info_tables using the
-	 *            UID as numeric key and the ISO 3166-1 alpha2 code as value
-	 */
-	private static $countryCache = array();
-
-	/**
 	 * The constructor.
 	 *
 	 * @param tx_oelib_templatehelper the plugin configuration
@@ -89,9 +83,10 @@ class tx_realty_googleMapsLookup {
 	/**
 	 * Looks up the geo coordinates of an address.
 	 *
-	 * @param string the street of the address
-	 * @param string the ZIP code of the address
-	 * @param string the city of the address
+	 * @param string the street of the address, may be empty
+	 * @param string the ZIP code of the address, may be empty
+	 * @param string the district of the address, may be empty
+	 * @param string the city of the address, may be empty
 	 * @param integer the country of the address as a UID from
 	 *                static_info_tables, if this is 0, the default
 	 *                country set in the configuration will be used
@@ -100,23 +95,22 @@ class tx_realty_googleMapsLookup {
 	 *               'longitude' and 'latitude' or an empty array if the
 	 *               lookup failed
 	 */
-	public function lookUp($street = '', $zip = '', $city = '', $countryUid = 0) {
-		if (($zip . $city) == '') {
+	public function lookUp(
+		$street = '', $zip = '', $district = '', $city = '', $countryUid = 0
+	) {
+		if (($zip . $district . $city) == '') {
 			return array();
 		}
 
-		$actualCountryUid = ($countryUid != 0)
-			? $countryUid : $this->configuration->getConfValueInteger(
-			'defaultCountryUID', 's_googlemaps'
-			);
-
 		$addressParts = array();
-		if ($street != '') {
-			$addressParts[] = $street;
+		foreach (array(
+			$street, trim($zip . ' ' . $district), $city,
+			$this->getCountryCode($countryUid),
+		) as $part) {
+			if ($part != '') {
+				$addressParts[] = $part;
+			}
 		}
-		$addressParts[] = $zip . ' ' . $city;
-		$addressParts[] = $this->getCountryCodeFromUid($actualCountryUid);
-		$fullAddress = implode(', ', $addressParts);
 
 		$delay = 0;
 
@@ -125,7 +119,7 @@ class tx_realty_googleMapsLookup {
 				usleep($delay);
 			}
 			$rawResult = t3lib_div::getURL(
-				$this->baseUrlWithKey . urlencode($fullAddress)
+				$this->baseUrlWithKey . urlencode(implode(', ', $addressParts))
 			);
 			if ($rawResult === false) {
 				throw new Exception(
@@ -159,27 +153,30 @@ class tx_realty_googleMapsLookup {
 	 * Reads the default ISO 3166-1 alpha2 country code for a UID from
 	 * static_info_tables.
 	 *
-	 * @param integer a country UID from static_info_tables, must be >= 0
+	 * @param integer a country UID from static_info_tables, will be used if it
+	 *                is > 0 otherwise the configuration of "defaultCountryUID"
+	 *                will be used
 	 *
-	 * @return string the ISO 3166-1 alpha 2 code for the UID or an empty
-	 *                string if the UID does not map to a country
+	 * @return string the ISO 3166-1 alpha 2 country code for the provided UID
+	 *                if it was > 0, otherwise the country code for the UID
+	 *                configured in "defaultCountryUID", an empty string if the
+	 *                UID which was taken does not map to a country
 	 */
-	private function getCountryCodeFromUid($uid) {
-		if ($uid == 0) {
-			return '';
-		}
-
-		if (!isset(self::$countryCache[$uid])) {
-			$row = tx_oelib_db::selectSingle(
-				'cn_iso_2',
-				'static_countries',
-				'uid = ' . $uid
+	private function getCountryCode($uid) {
+		$actualUid = ($uid > 0)
+			? $uid
+			: $this->configuration->getConfValueInteger(
+				'defaultCountryUID', 's_googlemaps'
 			);
 
-			self::$countryCache[$uid] = $row['cn_iso_2'];
+		try {
+			$result = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
+				->find($actualUid)->getIsoAlpha2Code();
+		} catch (Exception $exception) {
+			$result = '';
 		}
 
-		return self::$countryCache[$uid];
+		return $result;
 	}
 }
 

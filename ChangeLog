@@ -1,5 +1,6 @@
 0.4.0 - currently working on
-- [#2748] Add input fields "living area from ... to" and filter the list view accordingly
+- [#2403] Change: The district should also be used when looking up the geo coordinates
+- [#2748] Feature: Add input fields "living area from ... to" and filter the list view accordingly
 - [#2747] Feature: Add two input fields for rent/buying price and filter the list view accordingly
 - [#2745] Add radio buttons rent/sale and filter the list view accordingly
 - [#2474] Change: Use function FrontEndUser::hasGroupMembership

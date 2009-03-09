@@ -108,7 +108,7 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 	public function testLookUpReturnsEmptyArrayIfAllParametersAreEmpty() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('', '', '', 0)
+			$this->fixture->lookUp('', '', '', '', 0)
 		);
 	}
 
@@ -122,34 +122,34 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 	public function testLookUpReturnsEmptyArrayIfOnlyTheCountryIsProvided() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('', '', '', self::DE)
+			$this->fixture->lookUp('', '', '', '', self::DE)
 		);
 	}
 
 	public function testLookUpReturnsEmptyArrayIfOnlyTheStreetIsProvided() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('Am Hof 1', '', '', 0)
+			$this->fixture->lookUp('Am Hof 1', '', '', '', 0)
 		);
 	}
 
 	public function testLookUpReturnsEmptyArrayIfOnlyStreetAndCountryAreProvided() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('Am Hof 1', '', '', self::DE)
+			$this->fixture->lookUp('Am Hof 1', '', '', '', self::DE)
 		);
 	}
 
 	public function testLookUpReturnsEmptyArrayForAGarbageAddress() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('asdfas', '11111', 'ljkasfda', self::DE)
+			$this->fixture->lookUp('asdfas', '11111', 'sdgh', 'ljkasfda', self::DE)
 		);
 	}
 
 	public function testLookUpReturnsCorrectCoordinatesForAFullGermanAddress() {
 		$coordinates = $this->fixture->lookUp(
-			'Am Hof 1', '53111', 'Bonn', self::DE
+			'Am Hof 1', '53113', 'Zentrum', 'Bonn', self::DE
 		);
 
 		$this->assertEquals(
@@ -166,7 +166,7 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 
 	public function testLookUpReturnsCorrectCoordinatesForAFullUsAddress() {
 		$coordinates = $this->fixture->lookUp(
-			'1600 Amphitheatre', '94043', 'Mountain View', 'US'
+			'1600 Amphitheatre', '94043', '', 'Mountain View', 'US'
 		);
 
 		$this->assertEquals(
@@ -183,7 +183,7 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 
 	public function testLookUpReturnsCorrectCoordinatesForAFullAddressWithUmlaut() {
 		$coordinates = $this->fixture->lookUp(
-			'Münsterplatz 1', '53111', 'Bonn', self::DE
+			'Münsterplatz 1', '53111', 'Zentrum', 'Bonn', self::DE
 		);
 
 		$this->assertEquals(
@@ -200,7 +200,24 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 
 	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithCityMissing() {
 		$coordinates = $this->fixture->lookUp(
-			'Am Hof 1', '53111', '', self::DE
+			'Am Hof 1', '53113', 'Zentrum', '', self::DE
+		);
+
+		$this->assertEquals(
+			50.734343,
+			$coordinates['latitude'],
+			'', 0.01
+		);
+		$this->assertEquals(
+			7.10211,
+			$coordinates['longitude'],
+			'', 0.01
+		);
+	}
+
+	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithCityAndDistrictMissing() {
+		$coordinates = $this->fixture->lookUp(
+			'Am Hof 1', '53113', '', '', self::DE
 		);
 
 		$this->assertEquals(
@@ -217,7 +234,24 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 
 	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithZipMissing() {
 		$coordinates = $this->fixture->lookUp(
-			'Am Hof 1', '', 'Bonn', self::DE
+			'Am Hof 1', '', 'Zentrum', 'Bonn', self::DE
+		);
+
+		$this->assertEquals(
+			50.734343,
+			$coordinates['latitude'],
+			'', 0.01
+		);
+		$this->assertEquals(
+			7.10211,
+			$coordinates['longitude'],
+			'', 0.01
+		);
+	}
+
+	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithZipAndDistrictMissing() {
+		$coordinates = $this->fixture->lookUp(
+			'Am Hof 1', '', '', 'Bonn', self::DE
 		);
 
 		$this->assertEquals(
@@ -234,7 +268,7 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 
 	public function testLookUpReturnsCorrectCoordinatesForAGermanCity() {
 		$coordinates = $this->fixture->lookUp(
-			'', '', 'Bonn', self::DE
+			'', '', '', 'Bonn', self::DE
 		);
 
 		$this->assertEquals(
@@ -251,7 +285,7 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 
 	public function testLookUpReturnsCorrectCoordinatesForAGermanZip() {
 		$coordinates = $this->fixture->lookUp(
-			'', '53111', '', self::DE
+			'', '53111', '', '', self::DE
 		);
 
 		$this->assertEquals(
@@ -268,15 +302,15 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 
 	public function testLookUpCanReturnTheCorrectCoordinatesTwoTimesInARow() {
 		$this->assertEquals(
-			$this->fixture->lookUp('Am Hof 1', '53111', 'Bonn', self::DE),
-			$this->fixture->lookUp('Am Hof 1', '53111', 'Bonn', self::DE)
+			$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE),
+			$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE)
 		);
 	}
 
 	public function testLookUpReturnsDifferentCoordinatesForTheSameCityNameInDifferentCountries() {
 		$this->assertNotEquals(
-			$this->fixture->lookUp('', '', 'Texas', self::DE),
-			$this->fixture->lookUp('', '', 'Texas', self::US)
+			$this->fixture->lookUp('', '', '', 'Texas', self::DE),
+			$this->fixture->lookUp('', '', '', 'Texas', self::US)
 		);
 	}
 
@@ -284,8 +318,8 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		$this->configuration->setConfigurationValue('defaultCountryUID', self::DE);
 
 		$this->assertEquals(
-			$this->fixture->lookUp('', '', 'Texas', self::DE),
-			$this->fixture->lookUp('', '', 'Texas', 0)
+			$this->fixture->lookUp('', '', '', 'Texas', self::DE),
+			$this->fixture->lookUp('', '', '', 'Texas', 0)
 		);
 	}
 
@@ -293,8 +327,8 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		$this->configuration->setConfigurationValue('defaultCountryUID', self::US);
 
 		$this->assertEquals(
-			$this->fixture->lookUp('', '', 'Texas', self::US),
-			$this->fixture->lookUp('', '', 'Texas', 0)
+			$this->fixture->lookUp('', '', '', 'Texas', self::US),
+			$this->fixture->lookUp('', '', '', 'Texas', 0)
 		);
 	}
 }
