@@ -86,21 +86,36 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *                $offererUid is not a UID of an enabled user
 	 */
 	public function renderOneItem($offererUid) {
-		return $this->listItemQuery('uid=' . $offererUid);
+		return $this->listItemQuery('uid = ' . $offererUid);
 	}
 
 	/**
 	 * Returns the HTML for one list item.
 	 *
-	 * @param array owner data array, the keys 'company', 'usergroup', 'name',
-	 *              'first_name', 'last_name', 'address', 'zip', 'city',
-	 *              'email', 'www' and 'telephone' will be used for the HTML
+	 * @param array owner data array, the keys 'company', 'name', 'first_name',
+	 *              'last_name', 'address', 'zip', 'city', 'email', 'www'
+	 *              and 'telephone' will be used for the HTML
 	 *
 	 * @return string HTML for one contact data item, will be empty if
 	 *                $ownerData did not contain data to use
 	 */
 	public function renderOneItemWithTheDataProvided(array $ownerData) {
-		return $this->createListRow($ownerData);
+		if (isset($ownerData['usergroup'])) {
+			throw new Exception(
+				'To process user group information you need to use render() or' .
+					'renderOneItem().'
+			);
+		}
+
+		$frontEndUser = t3lib_div::makeInstance('tx_realty_Model_FrontEndUser');
+
+		// setData() will not create the relations, but "usergroup" is expected
+		// to hold a list instance.
+		$dataToSet = $ownerData;
+		$dataToSet['usergroup'] = t3lib_div::makeInstance('tx_oelib_List');
+		$frontEndUser->setData($dataToSet);
+
+		return $this->createListRow($frontEndUser);
 	}
 
 	/**
@@ -138,20 +153,22 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *                none were found
 	 */
 	private function listItemQuery($whereClause) {
-		$results = tx_oelib_db::selectMultiple(
+		$listItems = '';
+
+		$offererRecords = tx_oelib_db::selectMultiple(
 			'*',
 			'fe_users',
-			$whereClause .
-				tx_oelib_db::enableFields('fe_users') .
+			$whereClause . tx_oelib_db::enableFields('fe_users') .
 				$this->getWhereClauseForTesting(),
 			'',
 			'usergroup,city,company,last_name,name,username'
 		);
+		$offererList = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_FrontEndUser')
+			->getListOfModels($offererRecords);
 
-		$listItems = '';
-
-		foreach ($results as $row) {
-			$listItems .= $this->createListRow($row);
+		foreach ($offererList as $offerer) {
+			$listItems .= $this->createListRow($offerer);
 		}
 
 		return $listItems;
@@ -160,45 +177,27 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns a single table row for the offerer list.
 	 *
-	 * @param array the FE user record for which to create the row, must
-	 *              not be empty
+	 * @param tx_realty_Model_FrontEndUser FE user for which to create the row
 	 *
 	 * @return string HTML for one list row, will be empty if there is no
 	 *                no content (or only the user group) for the row
 	 */
-	private function createListRow(array $userRecord) {
-		$subpartHasContent = false;
+	private function createListRow(tx_realty_Model_FrontEndUser $offerer) {
+		$rowHasContent = false;
 		$this->resetSubpartsHiding();
-		$objectsByOwnerLink
-			= $this->mayDisplayInformation($userRecord, 'objects_by_owner_link')
-				? $this->getObjectsByOwnerUrl($userRecord)
-				: '';
 
-		foreach (array(
-			'usergroup' => htmlspecialchars($this->getFirstUserGroup($userRecord)),
-			'company' => htmlspecialchars($this->getCompany($userRecord)),
-			'offerer_label' => htmlspecialchars($this->getOffererLabel($userRecord)),
-			'street' => htmlspecialchars($userRecord['address']),
-			'city' => htmlspecialchars($userRecord['zip'] . ' ' . $userRecord['city']),
-			'telephone' => htmlspecialchars($userRecord['telephone']),
-			'email' => htmlspecialchars($userRecord['email']),
-			'www' => $this->cObj->typoLink(
-				htmlspecialchars($userRecord['www']),
-				array('parameter' => htmlspecialchars($userRecord['www']))
-			),
-			'objects_by_owner_link' => $objectsByOwnerLink,
-		) as $key => $value) {
+		foreach ($this->getListRowContent($offerer) as $key => $value) {
 			$this->setMarker(
 				'emphasized_' . $key,
-				(!$subpartHasContent && (trim($value) != '')) ? 'emphasized' : ''
+				(!$rowHasContent && ($value != '')) ? 'emphasized' : ''
 			);
 
-			if ($this->mayDisplayInformation($userRecord, $key)
-				&& $this->setOrDeleteMarkerIfNotEmpty(
-					$key, trim($value), '', 'wrapper'
-				)
-			) {
-				$subpartHasContent = ($key != 'usergroup');
+			if (($key != 'www') && ($key != 'objects_by_owner_link')) {
+				$value = htmlspecialchars($value);
+			}
+
+			if ($this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper')) {
+				$rowHasContent = ($key != 'usergroup');
 			} else {
 				$this->hideSubparts($key, 'wrapper');
 			}
@@ -210,67 +209,76 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			$this->hideSubparts('usergroup', 'wrapper');
 		}
 
-		return ($subpartHasContent
-			? $this->getSubpart('OFFERER_LIST_ITEM')
-			: ''
+		return ($rowHasContent ? $this->getSubpart('OFFERER_LIST_ITEM') : '');
+	}
+
+	/**
+	 * Returns an array of data for a list row.
+	 *
+	 * @param tx_realty_Model_FrontEndUser offerer for which to create the row
+	 *
+	 * @return array associative array with the marker names as keys and the
+	 *               content to replace them with as values, will not be empty
+	 */
+	private function getListRowContent(tx_realty_Model_FrontEndUser $offerer) {
+		$result = array();
+
+		$maximumRowContent = array(
+			'usergroup' => $this->getFirstUserGroup($offerer->getUserGroups()),
+			'company' => $this->getCompany($offerer),
+			'offerer_label' => $this->getOffererLabel($offerer),
+			'street' => $offerer->getStreet(),
+			'city' => $offerer->getZipAndCity(),
+			'telephone' => $offerer->getPhoneNumber(),
+			'email' => $offerer->getEMailAddress(),
+			'objects_by_owner_link' => $this->getObjectsByOwnerUrl(
+				$offerer->getUid()
+			),
+			'www' => $this->cObj->typoLink(
+				htmlspecialchars($offerer->getHomepage()),
+				array('parameter' => $offerer->getHomepage())
+			),
 		);
+
+		foreach ($maximumRowContent as $key => $value) {
+			$result[$key] = $this->mayDisplayInformation($offerer, $key)
+				? trim($value) : '';
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Checks wether an item of offerer information may be displayed.
 	 *
-	 * @param array offerer record, must not be empty
+	 * @param tx_realty_Model_FrontEndUser offerer
+	 * @param string key of the information for which to check visibility, must
+	 *               not be emtpy
 	 *
-	 * @return boolean true if it is configured to display the information for
-	 *                 the provided user, false otherwise
+	 * @return boolean true if it is configured to display the information of
+	 *                 the provided offerer, false otherwise
 	 */
-	private function mayDisplayInformation(array $userRecord, $keyOfInformation) {
-		$configurationKey = 'displayedContactInformation' . (
-			$this->containsSpecialGroup($userRecord['usergroup']) ? 'Special' : ''
-		);
+	private function mayDisplayInformation(
+		tx_realty_Model_FrontEndUser $offerer, $keyOfInformation
+	) {
+		$configurationKey = 'displayedContactInformation';
 
-		return in_array(
-			$keyOfInformation,
-			t3lib_div::trimExplode(
-				',',
-				$this->getConfValueString(
-					$configurationKey, 's_offererInformation'
-				),
-				true
-			)
-		);
-	}
-
-	/**
-	 * Checks whether a list of user groups contains at least one of the
-	 * configured special groups.
-	 *
-	 * @param string comma-separated list of FE user group UIDs to check, must
-	 *               not be empty
-	 *
-	 * @return boolean true if the provided string contains at least one of the
-	 *                 configured special user groups
-	 */
-	private function containsSpecialGroup($groupList) {
-		if (!$this->hasConfValueString(
+		$specialGroups = $this->getConfValueString(
 			'groupsWithSpeciallyDisplayedContactInformation',
 			's_offererInformation'
-		)) {
-			return false;
+		);
+
+		if (($specialGroups != '')
+			&& $offerer->hasGroupMembership($specialGroups)
+		) {
+			$configurationKey .= 'Special';
 		}
 
-		$specialGroups = array_values(array_intersect(
-			t3lib_div::trimExplode(',', $groupList),
-			t3lib_div::trimExplode(',',
-				$this->getConfValueString(
-					'groupsWithSpeciallyDisplayedContactInformation',
-					's_offererInformation'
-				),
-				true
-			)
+		return in_array($keyOfInformation, t3lib_div::trimExplode(
+			',',
+			$this->getConfValueString($configurationKey, 's_offererInformation'),
+			true
 		));
-
-		return !empty($specialGroups);
 	}
 
 	/**
@@ -278,7 +286,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * If none of these is provided, the user name will be returned.
 	 * FE user records are expected to have at least a user name.
 	 *
-	 * @param array the user record of which to get the label, must not be empty
+	 * @param tx_realty_Model_FrontEndUser offerer of which to get the name
 	 *
 	 * @return string label for the owner with the first user group appended if
 	 *                no company will be displayed (which usually has the user
@@ -287,17 +295,13 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *                or if the cached record is an invalid FE user record
 	 *                without a user name
 	 */
-	private function getOffererLabel(array $userRecord) {
-		$name = ($userRecord['last_name'] != '')
-			? trim($userRecord['first_name'] . ' ' . $userRecord['last_name'])
-			: trim($userRecord['name']);
+	private function getOffererLabel(tx_realty_Model_FrontEndUser $offerer) {
+		$result = $offerer->getName();
 
-		$result = ($name != '') ? $name : $userRecord['username'];
-
-		if (!isset($userRecord['company']) || ($userRecord['company'] == '')
-			|| !$this->mayDisplayInformation($userRecord, 'company')
+		if (!$offerer->hasCompany()
+			|| !$this->mayDisplayInformation($offerer, 'company')
 		) {
-			$this->appendUserGroup($result, $userRecord);
+			$this->appendUserGroup($result, $offerer);
 		}
 
 		return trim($result);
@@ -306,16 +310,16 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the company with the user group appended.
 	 *
-	 * @param array the user record of which to get the company, must not be
-	 *              empty
+	 * @param tx_realty_Model_FrontEndUser the offerer of which to get the
+	 *                                     company, must not be empty
 	 *
 	 * @return string the company with the user group appended if the offerer
 	 *                list is not used in the single view, will be empty if
 	 *                there is no company
 	 */
-	private function getCompany(array $userRecord) {
-		$result = $userRecord['company'];
-		$this->appendUserGroup($result, $userRecord);
+	private function getCompany(tx_realty_Model_FrontEndUser $offerer) {
+		$result = $offerer->getCompany();
+		$this->appendUserGroup($result, $offerer);
 
 		return trim($result);
 	}
@@ -327,77 +331,64 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string information to which the user group should be appended, may
 	 *               be empty, will be modified
-	 * @param array the user record of which to append the user group, must not
-	 *              be empty
+	 * @param tx_realty_Model_FrontEndUser the offerer of which to append the
+	 *                                     user group
 	 */
-	private function appendUserGroup(&$information, array $userRecord) {
+	private function appendUserGroup(
+		&$information, tx_realty_Model_FrontEndUser $offerer
+	) {
 		if (($this->getConfValueString('what_to_display') != 'single_view')
-			&& $this->mayDisplayInformation($userRecord, 'usergroup')
+			&& $this->mayDisplayInformation($offerer, 'usergroup')
 			&& ($information != '')
 		) {
-			$information .= ' ' . $this->getFirstUserGroup($userRecord);
+			$information
+				.= ' ' . $this->getFirstUserGroup($offerer->getUserGroups());
 		}
 	}
 
 	/**
-	 * Returns the first user group a user belongs to which is within the list
-	 * of allowed user groups.
+	 * Returns the title of the first user group a user belongs to and which is
+	 * within the list of allowed user groups.
 	 *
-	 * @param array the user record of which to get the first user group
-	 *              which is within the list of allowed user groups,
-	 *              must not be empty
+	 * @param tx_oelib_List the offerer's user groups of which to get the first
+	 *                      which is within the list of allowed user groups
 	 *
 	 * @return string title of the first allowed user group of the given
 	 *                FE user, will be empty if the user has no group
 	 */
-	private function getFirstUserGroup(array $userRecord) {
+	private function getFirstUserGroup(tx_oelib_List $userGroups) {
 		$result = '';
-		$matchingGroups = t3lib_div::trimExplode(
-			',', $userRecord['usergroup'], true
+
+		$allowedGroups = t3lib_div::trimExplode(
+			',',
+			$this->getConfValueString(
+				'userGroupsForOffererList', 's_offererInformation'
+			),
+			true
 		);
 
-		if ($this->hasConfValueString(
-			'userGroupsForOffererList', 's_offererInformation'
-		)) {
-			$matchingGroups = array_values(array_intersect(
-				$matchingGroups,
-				t3lib_div::trimExplode(
-					',',
-					$this->getConfValueString(
-						'userGroupsForOffererList', 's_offererInformation'
-					)
-				)
-			));
+		foreach ($userGroups as $group) {
+			if (in_array($group->getUid(), $allowedGroups)) {
+				$result = $group->getTitle();
+				break;
+			}
 		}
 
-		if (intval($matchingGroups[0]) != 0) {
-			// No enableFields is used here as the FE user records fetched in
-			// getListItems are not checked to be in enabled groups, either.
-			$row = tx_oelib_db::selectSingle(
-				'title',
-				'fe_groups',
-				'uid = ' . $matchingGroups[0] . $this->getWhereClauseForTesting()
-			);
-
-			$result = ($row['title'] != '') ? ' (' . $row['title'] . ')' : '';
-		}
-
-		return $result;
+		return ($result != '') ? ' (' . $result . ')' : '';
 	}
 
 	/**
-	 * Returns the URL to the list of objects by the owner provided in
-	 * $userRecord.
+	 * Returns the URL to the list of objects by the provided owner.
 	 *
-	 * @param array user record for which to create the URL, must not be empty
+	 * @param integer UID of the owner for which to create the URL, must be >= 0
 	 *
-	 * @return string URL to the objects-by-owner list, will be empty if
-	 *                the configuration for 'objectsByOwnerPID' is zero
+	 * @return string URL to the objects-by-owner list, will be empty if the
+	 *                owner UID is zero
 	 */
-	private function getObjectsByOwnerUrl(array $userRecord) {
+	private function getObjectsByOwnerUrl($ownerUid) {
 		// There might be no UID if the data to render as offerer information
 		// was initially provided in an array.
-		if (!isset($userRecord['uid'])) {
+		if ($ownerUid == 0) {
 			return '';
 		}
 
@@ -407,7 +398,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 					'objectsByOwnerPID', 's_offererInformation'
 				),
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					$this->prefixId, array('owner' => $userRecord['uid'])
+					$this->prefixId, array('owner' => $ownerUid)
 				),
 				'useCacheHash' => true,
 			)

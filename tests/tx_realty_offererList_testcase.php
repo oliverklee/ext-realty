@@ -364,19 +364,6 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheNameIfLastNameIsSet() {
-		$this->testingFramework->changeRecord(
-			'fe_users',
-			$this->offererUid,
-			array('name' => 'Mr. Test', 'last_name' => 'User')
-		);
-
-		$this->assertNotContains(
-			'Mr. Test',
-			$this->fixture->render()
-		);
-	}
-
 	public function testOffererListItemNotContainsTheUserNameIfLastNameIsSet() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('last_name' => 'User')
@@ -798,6 +785,20 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOffererListItemContainsTheOfferersLinkedWebsiteWithEscapedAmpersand() {
+		$this->fixture->setConfigurationValue(
+			'displayedContactInformation', 'www'
+		);
+		$this->testingFramework->changeRecord(
+			'fe_users', $this->offererUid, array('www' => 'http://www.company.org/?a=b&c=d')
+		);
+
+		$this->assertContains(
+			'<a href="http://www.company.org/?a=b&amp;c=d"',
+			$this->fixture->render()
+		);
+	}
+
 	public function testOffererListItemNotContainsTheOfferersWebsiteIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->testingFramework->changeRecord(
@@ -1025,6 +1026,17 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 			$this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
 		);
 	}
+
+	public function testRenderOneItemWithTheDataProvidedForUsergroupProvidedThrowsException() {
+		$this->setExpectedException(
+			Exception,
+			'To process user group information you need to use render() or' .
+				'renderOneItem().'
+		);
+
+		$this->fixture->renderOneItemWithTheDataProvided(array('usergroup' => 1));
+	}
+
 
 
 	/////////////////////////////////////////////////////
