@@ -217,8 +217,8 @@
 			<label index="label_select_city">City:</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_select_price_range">Rent/buying price:</label>
-			<label index="label_enter_rent">Rent/buying price from</label>
-			<label index="label_enter_living_area">Living area from</label>
+			<label index="label_enter_rent">Rent/buying price from:</label>
+			<label index="label_enter_living_area">Living area from:</label>
 			<label index="label_select_object_type">Only objects:</label>
 			<label index="label_select_rent">for rent</label>
 			<label index="label_select_sale">for sale</label>
@@ -543,8 +543,8 @@
 			<label index="label_select_city">Stadt:</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
 			<label index="label_select_price_range">Miete/Kaufpreis:</label>
-			<label index="label_enter_rent">Miete/Kaufpreis von</label>
-			<label index="label_enter_living_area">Wohnraumgröße von</label>
+			<label index="label_enter_rent">Miete/Kaufpreis von:</label>
+			<label index="label_enter_living_area">Wohnraumgröße von:</label>
 			<label index="label_select_object_type">Nur Objekte:</label>
 			<label index="label_select_rent">zur Miete</label>
 			<label index="label_select_sale">zum Verkauf</label>
@@ -1554,8 +1554,8 @@
 			<label index="label_enter_uid" type="integer">34884428</label>
 			<label index="label_select_city" type="integer">201307921</label>
 			<label index="label_select_price_range" type="integer">34243254</label>
-			<label index="label_enter_rent" type="integer">213148408</label>
-			<label index="label_enter_living_area" type="integer">204664028</label>
+			<label index="label_enter_rent" type="integer">49656040</label>
+			<label index="label_enter_living_area" type="integer">63089449</label>
 			<label index="label_select_object_type" type="integer">188049544</label>
 			<label index="label_select_rent" type="integer">61764923</label>
 			<label index="label_select_sale" type="integer">70955112</label>
@@ -2566,8 +2566,8 @@
 			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_city">City:</label>
 			<label index="label_select_price_range">Rent/buying price:</label>
-			<label index="label_enter_rent">Rent/buying price from</label>
-			<label index="label_enter_living_area">Living area from</label>
+			<label index="label_enter_rent">Rent/buying price from:</label>
+			<label index="label_enter_living_area">Living area from:</label>
 			<label index="label_select_object_type">Only objects:</label>
 			<label index="label_select_rent">for rent</label>
 			<label index="label_select_sale">for sale</label>
