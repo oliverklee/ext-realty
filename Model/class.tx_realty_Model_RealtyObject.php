@@ -1293,15 +1293,25 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @return string the address of the current object, will not be empty
 	 */
 	public function getAddressAsHtml() {
-		$addressParts = array();
+		return implode('<br />', $this->getAddressParts());
+	}
+
+	/**
+	 * Builds the address for later formatting with the granularity defined in
+	 * the field "show_address".
+	 *
+	 * @return array the htmlspeciachared address in an array, will not be empty
+	 */
+	private function getAddressParts() {
+		$result = array();
 
 		if ($this->getAsBoolean('show_address')
 			&& ($this->getAsString('street') != '')
 		) {
-			$addressParts[] = htmlspecialchars($this->getAsString('street'));
+			$result[] = htmlspecialchars($this->getAsString('street'));
 		}
 
-		$addressParts[] = htmlspecialchars(trim(
+		$result[] = htmlspecialchars(trim(
 			$this->getAsString('zip') . ' ' .
 				$this->getForeignPropertyField('city') . ' ' .
 				$this->getForeignPropertyField('district')
@@ -1309,10 +1319,20 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$country = $this->getForeignPropertyField('country', 'cn_short_local');
 		if ($country != '') {
-			$addressParts[] = $country;
+			$result[] = $country;
 		}
 
-		return implode('<br />', $addressParts);
+		return $result;
+	}
+
+	/**
+	 * Returns the objects address as a single line, with comma separated values
+	 * and with the granularity defined in the field "show_address".
+	 *
+	 * @return string the address with comma separated values, will not be empty
+	 */
+	public function getAddressAsSingleLine() {
+		return implode(', ', $this->getAddressParts());
 	}
 }
 

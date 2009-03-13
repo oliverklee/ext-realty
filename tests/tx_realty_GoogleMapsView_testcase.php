@@ -450,16 +450,27 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewReturnsTheObjectsFullTitleAsTitleForGoogleMaps() {
+	public function test_RenderGoogleMapsView_ForShowAddressTrue_ReturnsTheObjectsFullAddressAsTitleForGoogleMaps() {
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('title' => 'Test Town')
+		);
+		$districtUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'District')
+		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
 			array(
-				'title' => 'A really long title that is not too short.',
+				'title' => 'foo',
 				'exact_coordinates_are_cached' => 1,
 				'exact_latitude' => 50.734343,
 				'exact_longitude' => 7.10211,
 				'show_address' => 1,
+				'street' => 'Main Street',
+				'zip' => '12345',
+				'city' => $cityUid,
+				'district' => $districtUid,
+				'country' => 54,
 			)
 		);
 
@@ -467,7 +478,40 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertContains(
-			'title: "A really long title that is not too short."',
+			'title: "Main Street, 12345 Test Town District, Deutschland"',
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function test_RenderGoogleMapsView_ForShowAddressFalse_ReturnsTheObjectsAddressWithoutStreetAsTitleForGoogleMaps() {
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('title' => 'Test Town')
+		);
+		$districtUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'District')
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->realtyUid,
+			array(
+				'title' => 'foo',
+				'rough_coordinates_are_cached' => 1,
+				'rough_latitude' => 52.123,
+				'rough_longitude' => 7.456,
+				'show_address' => 0,
+				'street' => 'Main Street',
+				'zip' => '12345',
+				'city' => $cityUid,
+				'district' => $districtUid,
+				'country' => 54,
+			)
+		);
+
+		$this->fixture->setMapMarker($this->realtyUid);
+		$this->fixture->render();
+
+		$this->assertContains(
+			'title: "12345 Test Town District, Deutschland"',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -717,6 +761,12 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRenderSetsFullTitlesOfTwoObjectsInHeader() {
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES, array('title' => 'Test Town')
+		);
+		$districtUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'District')
+		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
@@ -724,6 +774,11 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 				'exact_latitude' => 52.123,
 				'exact_longitude' => 7.456,
 				'show_address' => 1,
+				'street' => 'foo street',
+				'zip' => '12345',
+				'city' => $cityUid,
+				'district' => $districtUid,
+				'country' => 54,
 			)
 		);
 		$this->fixture->setMapMarker($this->realtyUid);
@@ -736,6 +791,11 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 					'exact_latitude' => 50.734343,
 					'exact_longitude' => 7.10211,
 					'show_address' => 1,
+					'street' => 'bar street',
+					'zip' => '12345',
+					'city' => $cityUid,
+					'district' => $districtUid,
+					'country' => 54,
 				)
 			)
 		);
@@ -747,11 +807,11 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'title: "test realty object"',
+			'title: "foo street, 12345 Test Town District, Deutschland"',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 		$this->assertContains(
-			'title: "second test object"',
+			'title: "bar street, 12345 Test Town District, Deutschland"',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}

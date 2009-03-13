@@ -202,7 +202,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		);
 		$mapMarker->setTitle(
 			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($realtyObjectUid)->getTitle()
+				->find($realtyObjectUid)->getAddressAsSingleLine()
 		);
 
 		$title = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')

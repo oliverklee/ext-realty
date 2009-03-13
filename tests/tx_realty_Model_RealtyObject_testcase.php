@@ -2775,6 +2775,88 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////////////
+	// Tests concerning getAddressAsSingleLine
+	////////////////////////////////////////////
+
+	public function test_getAddressAsSingleLine_ForShowAddressFalse_ReturnsAddressWithoutStreet() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+			'country' => self::DE,
+		));
+
+		$this->assertEquals(
+			'12345 Test Town District, Deutschland',
+			$this->fixture->getAddressAsSingleLine()
+		);
+	}
+
+	public function test_getAddressAsSingleLine_ForShowAddressTrue_ReturnsCompleteAddress() {
+		$this->fixture->loadRealtyObject(array(
+			'show_address' => 1,
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+			'country' => self::DE,
+		));
+
+		$this->assertEquals(
+			'Main Street, 12345 Test Town District, Deutschland',
+			$this->fixture->getAddressAsSingleLine()
+		);
+	}
+
+	public function test_getAddressAsSingleLine_ForNoCountrySetAndShowAddressTrue_ReturnsAddressWithoutCountry() {
+		$this->fixture->loadRealtyObject(array(
+			'show_address' => 1,
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+		));
+
+		$this->assertEquals(
+			'Main Street, 12345 Test Town District',
+			$this->fixture->getAddressAsSingleLine()
+		);
+	}
+
+	public function test_getAddressAsSingleLine_ForNoStreetSetAndShowAddressTrue_ReturnsAddressWithoutStreet() {
+			$this->fixture->loadRealtyObject(array(
+			'show_address' => 1,
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+			'country' => self::DE,
+		));
+
+		$this->assertEquals(
+			'12345 Test Town District, Deutschland',
+			$this->fixture->getAddressAsSingleLine()
+		);
+	}
+
+	public function test_getAddressAsSingleLine_ForShowAddressTrue_ReturnsCompleteAddressWithoutHtmlTags() {
+		$this->fixture->loadRealtyObject(array(
+			'show_address' => 1,
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'city' => 'Test Town',
+			'district' => 'District',
+			'country' => self::DE,
+		));
+
+		$this->assertNotContains(
+			'<',
+			$this->fixture->getAddressAsSingleLine()
+		);
+	}
+
+
 	/////////////////////////////
 	// Tests for isAllowedKey()
 	/////////////////////////////
