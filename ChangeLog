@@ -4,7 +4,7 @@
 - [#2403] Change: The district should also be used when looking up the geo coordinates
 - [#2748] Feature: Add input fields "living area from ... to" and filter the list view accordingly
 - [#2747] Feature: Add two input fields for rent/buying price and filter the list view accordingly
-- [#2745] Add radio buttons rent/sale and filter the list view accordingly
+- [#2745] Feature: Add radio buttons rent/sale and filter the list view accordingly
 - [#2474] Change: Use function FrontEndUser::hasGroupMembership
 - [#2744] Feature: If only one part of the search widget is visible, automatically submit the form after data has been entered
 - [#2746] Change: Change the label "Preisspanne" to "Kaufpreis/Miete"
