@@ -40,8 +40,17 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 	 */
 	private $testingFramework;
 
+	/**
+	 * @var integer page UID
+	 */
+	private $pageUid = 0;
+
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->pageUid = $this->testingFramework->createFrontEndPage();
+		$this->testingFramework->createContentElement(
+			$this->pageUid, array('list_type' => 'realty_pi1')
+		);
 	}
 
 	public function tearDown() {
@@ -49,17 +58,19 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 		unset($this->testingFramework);
 	}
 
-	public function testClearFrontEndCacheForRealtyPages() {
-		$pageUid = $this->testingFramework->createFrontEndPage();
-		$this->testingFramework->createContentElement(
-			$pageUid, array('list_type' => 'realty_pi1')
-		);
-		$this->testingFramework->createPageCacheEntry($pageUid);
+	public function testClearFrontEndCacheForRealtyPagesDeletesCachePageEntry() {
+		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+			$this->markTestSkipped(
+				'This test is only applicable for TYPO3 versions up to 4.2.'
+			);
+		}
+
+		$this->testingFramework->createPageCacheEntry($this->pageUid);
 
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				'cache_pages', 'page_id=' . $pageUid
+				'cache_pages', 'page_id=' . $this->pageUid
 			)
 		);
 
@@ -68,9 +79,37 @@ class tx_realty_cacheManager_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				'cache_pages', 'page_id=' . $pageUid
+				'cache_pages', 'page_id=' . $this->pageUid
 			)
 		);
+	}
+
+	public function testClearFrontEndCacheForRealtyPagesCallsTypo3CacheManager() {
+		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+			$this->markTestSkipped(
+				'This test is not applicable for TYPO3 versions lower than 4.3.'
+			);
+		}
+
+		$cachePages = $this->getMock(
+			't3lib_cache_frontend_AbstractFrontend',
+			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
+			array(), '', false
+		);
+		$cachePages->expects($this->once())->method('getIdentifier')
+			->will($this->returnValue('cache_pages')
+		);
+		$cachePages->expects($this->once())->method('flushByTags')
+			->with($this->contains('pageId_' . $this->pageUid)
+		);
+
+		$GLOBALS['typo3CacheManager'] = new t3lib_cache_Manager();
+		$GLOBALS['typo3CacheManager']->registerCache($cachePages);
+
+		tx_realty_cacheManager::clearFrontEndCacheForRealtyPages();
+
+		$GLOBALS['typo3CacheManager'] = null;
+		$cachePages = null;
 	}
 }
 ?>

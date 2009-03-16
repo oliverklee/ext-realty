@@ -1153,24 +1153,64 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	// Test for clearing the cache.
 	/////////////////////////////////
 
-	public function testFrontEndCacheIsClearedAfterImport() {
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$pageUid = $this->testingFramework->createFrontEndPage();
-		$contentUid = $this->testingFramework->createContentElement(
-			$pageUid,
-			array('list_type' => 'tx_realty_pi1')
-		);
-		$this->testingFramework->createPageCacheEntry($contentUid);
+	public function testImportFromZipClearsFrontEndCachePagesTableAfterImport() {
+		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+			$this->markTestSkipped(
+				'This test is only applicable for TYPO3 versions up to 4.2.'
+			);
+		}
+
+ 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		$this->copyTestFileIntoImportFolder('foo.zip');
+ 		$pageUid = $this->testingFramework->createFrontEndPage();
+ 		$contentUid = $this->testingFramework->createContentElement(
+			$pageUid, array('list_type' => 'realty_pi1')
+ 		);
+ 		$this->testingFramework->createPageCacheEntry($contentUid);
 
 		$this->fixture->importFromZip();
 
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				'cache_pages',
-				'page_id='.$pageUid
+				'cache_pages', 'page_id = ' . $pageUid
 			)
 		);
+	}
+
+	public function testImportFromZipClearsFrontEndCacheAfterImport() {
+		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+			$this->markTestSkipped(
+				'This test is not applicable for TYPO3 versions lower than 4.3.'
+			);
+		}
+
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+
+		$this->copyTestFileIntoImportFolder('foo.zip');
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$contentUid = $this->testingFramework->createContentElement(
+			$pageUid, array('list_type' => 'realty_pi1')
+		);
+
+		$cachePages = $this->getMock(
+			't3lib_cache_frontend_AbstractFrontend',
+			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
+			array(), '', false
+		);
+		$cachePages->expects($this->once())->method('getIdentifier')
+			->will($this->returnValue('cache_pages')
+		);
+		$cachePages->expects($this->atLeastOnce())->method('flushByTags');
+
+		$GLOBALS['typo3CacheManager'] = new t3lib_cache_Manager();
+		$GLOBALS['typo3CacheManager']->registerCache($cachePages);
+
+		$this->fixture->importFromZip();
+
+		$GLOBALS['typo3CacheManager'] = null;
+		$cachePages = null;
 	}
 
 
