@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2302] Fix: tx_realty_cacheManager::clearFrontEndCacheForRealtyPages should also work with TYPO3 4.3
 - [#2515] Change: Use the address as title for the Google Maps markers
 - [#2403] Change: The district should also be used when looking up the geo coordinates
 - [#2748] Feature: Add input fields "living area from ... to" and filter the list view accordingly

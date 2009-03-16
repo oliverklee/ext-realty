@@ -39,22 +39,61 @@ class tx_realty_cacheManager {
 	 * @see tslib_fe::clearPageCacheContent_pidList()
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
-		$selectedPageUidFields = tx_oelib_db::selectMultiple(
-			'pid', 'tt_content', 'list_type="realty_pi1"'
+		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+			self::clearCacheWithCacheManager();
+		} else {
+			$pageUids = self::getPageUids();
+			if(empty($pageUids)) {
+				return;
+			}
+
+			tx_oelib_db::delete(
+				'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
+			);
+		}
+	}
+
+	/**
+	 * Returns the page UIDs of the pages with the realty plugin.
+	 *
+	 * @param string prefix for each UID, leave empty to set no prefix
+	 *
+	 * @return array page UIDs of the pages with the realty plugin, each will be
+	 *               prefixed with $prefix, will be empty if there are none
+	 */
+	private static function getPageUids($prefix = '') {
+		$pageUids = tx_oelib_db::selectMultiple(
+			'pid', 'tt_content', 'list_type = "realty_pi1"'
 		);
 
-		if (empty($selectedPageUidFields)) {
-			return;
+		$result = array();
+		foreach ($pageUids as $pageUid) {
+			$result[] = $prefix . $pageUid['pid'];
 		}
 
-		$pageUids = array();
-		foreach ($selectedPageUidFields as $selectedUidField) {
-			$pageUids[] = $selectedUidField['pid'];
+		return $result;
+	}
+
+	/**
+	 * Uses the TYPO3 cache manager to clear the cache for the pages with the
+	 * realty plugin.
+	 *
+	 * Note: The cache manager is not avialable in TYPO3 versions lower than 4.3.
+	 */
+	private static function clearCacheWithCacheManager() {
+		if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
+			$GLOBALS['typo3CacheManager']
+				= t3lib_div::makeInstance('t3lib_cache_Manager');
 		}
 
-		tx_oelib_db::delete(
-			'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
-		);
+		try {
+			$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');
+		} catch(t3lib_cache_exception_NoSuchCache $exception) {
+			t3lib_cache::initPageCache();
+			$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');
+		}
+
+		$pageCache->flushByTags(self::getPageUids('pageId_'));
 	}
 }
 
