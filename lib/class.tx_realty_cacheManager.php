@@ -48,9 +48,12 @@ class tx_realty_cacheManager {
 				return;
 			}
 
-			tx_oelib_db::delete(
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 				'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
 			);
+			if (!$dbResult) {
+				throw new DATABASE_QUERY_ERROR;
+			}
 		}
 	}
 
@@ -63,14 +66,18 @@ class tx_realty_cacheManager {
 	 *               prefixed with $prefix, will be empty if there are none
 	 */
 	private static function getPageUids($prefix = '') {
-		$pageUids = tx_oelib_db::selectMultiple(
-			'pid', 'tt_content', 'list_type = "realty_pi1"'
- 		);
-
 		$result = array();
-		foreach ($pageUids as $pageUid) {
-			$result[] = $prefix . $pageUid['pid'];
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid', 'tt_content', 'list_type = "realty_pi1"'
+		);
+		if (!$dbResult) {
+			throw new DATABASE_QUERY_ERROR;
 		}
+
+		while ($recordData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$result[] = $prefix . $recordData['pid'];
+		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
 	}
