@@ -1,4 +1,4 @@
-0.3.2 - currently working on
+0.3.2 - released 2009-03-27
 - [#2302] Fix: tx_realty_cacheManager::clearFrontEndCacheForRealtyPages should also work with TYPO3 4.3
 - [#2770] Fix: Some of the button images don't have anti aliasing.
 - [#1996] Fix: RealURL Error after uploading image
