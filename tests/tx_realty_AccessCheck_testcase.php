@@ -178,6 +178,21 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCheckAccessForFeEditorDoesNotThrowAnExceptionIfTheNonPublishedObjectExistsAndTheUserIsLoggedIn() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->dummyObjectUid,
+			array(
+				'owner' => $this->testingFramework->createAndLoginFrontEndUser(),
+				'hidden' => true,
+			)
+		);
+
+		$this->fixture->checkAccess(
+			'fe_editor', array('showUid' => $this->dummyObjectUid)
+		);
+	}
+
 	public function testCheckAccessForFeEditorDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
