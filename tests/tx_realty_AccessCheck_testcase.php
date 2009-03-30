@@ -101,15 +101,14 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	public function test404HeaderIsSentWhenCheckAccessForFeEditorThrowsExceptionWithObjectDoesNotExistMessage() {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
-		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
-		);
-
-		$this->fixture->checkAccess('fe_editor', array(
-			'showUid' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		));
+		try {
+			$this->fixture->checkAccess('fe_editor', array(
+				'showUid' => $this->testingFramework->createRecord(
+					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				)
+			));
+		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		}
 
 		$this->assertEquals(
 			'Status: 404 Not Found',
@@ -150,13 +149,12 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	public function test403HeaderIsSentWhenCheckAccessForFeEditorThrowsExceptionWithAccessDeniedMessage() {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
-		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_access_denied'
-		);
-
-		$this->fixture->checkAccess(
-			'fe_editor', array('showUid' => $this->dummyObjectUid)
-		);
+		try {
+			$this->fixture->checkAccess(
+				'fe_editor', array('showUid' => $this->dummyObjectUid)
+			);
+		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		}
 
 		$this->assertEquals(
 			'Status: 403 Forbidden',
@@ -277,15 +275,14 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	public function test404HeaderIsSentWhenCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessage() {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
-		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
-		);
-
-		$this->fixture->checkAccess('image_upload', array(
-			'showUid' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		));
+		try {
+			$this->fixture->checkAccess('image_upload', array(
+				'showUid' => $this->testingFramework->createRecord(
+					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				)
+			));
+		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		}
 
 		$this->assertEquals(
 			'Status: 404 Not Found',
@@ -326,13 +323,12 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	public function test403HeaderIsSentWhenCheckAccessForImageUploadThrowsExceptionWithAccessDeniedMessage() {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
-		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_access_denied'
-		);
-
-		$this->fixture->checkAccess(
-			'image_upload', array('showUid' => $this->dummyObjectUid)
-		);
+		try {
+			$this->fixture->checkAccess(
+				'image_upload', array('showUid' => $this->dummyObjectUid)
+			);
+		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		}
 
 		$this->assertEquals(
 			'Status: 403 Forbidden',
@@ -388,15 +384,14 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	public function test404HeaderIsSentWhenCheckAccessForMyObjectsThrowsExceptionWithObjectDoesNotExistMessage() {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
-		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
-		);
-
-		$this->fixture->checkAccess('my_objects', array(
-			'delete' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
-			)
-		));
+		try {
+			$this->fixture->checkAccess('my_objects', array(
+				'delete' => $this->testingFramework->createRecord(
+					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				)
+			));
+		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		}
 
 		$this->assertEquals(
 			'Status: 404 Not Found',
@@ -437,13 +432,12 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	public function test403HeaderIsSentWhenCheckAccessForMyObjectsThrowsExceptionWithAccessDeniedMessage() {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
-		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_access_denied'
-		);
-
-		$this->fixture->checkAccess(
-			'my_objects', array('delete' => $this->dummyObjectUid)
-		);
+		try {
+			$this->fixture->checkAccess(
+				'my_objects', array('delete' => $this->dummyObjectUid)
+			);
+		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		}
 
 		$this->assertEquals(
 			'Status: 403 Forbidden',
