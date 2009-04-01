@@ -1,3 +1,6 @@
+0.3.3 - currently working on
+- [#2845] Change: Display the prices with decimals again
+
 0.3.2 - released 2009-03-27
 - [#2302] Fix: tx_realty_cacheManager::clearFrontEndCacheForRealtyPages should also work with TYPO3 4.3
 - [#2770] Fix: Some of the button images don't have anti aliasing.
