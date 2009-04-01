@@ -242,11 +242,12 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsHoaFeeAsFormattedPriceWithoutDecimals() {
+	public function testGetPropertyReturnsHoaFeeAsFormattedPriceWithDecimals() {
 		$this->realtyObject->setProperty('hoa_fee', 12345);
+		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12 345&nbsp;&euro;',
+			'12 345' . $localeConvention['decimal_point'] . '00&nbsp;&euro;',
 			$this->fixture->getProperty('hoa_fee')
 		);
 	}

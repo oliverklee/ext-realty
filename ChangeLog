@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2845] Change: Display the prices with decimals again
 - [#2824] Fix: In the access check tests use try/catch instead of asserting the exeption when testing the headers
 - [#2818] Fix: Hidden objects cannot be edited
 - [#2302] Fix: tx_realty_cacheManager::clearFrontEndCacheForRealtyPages should also work with TYPO3 4.3
