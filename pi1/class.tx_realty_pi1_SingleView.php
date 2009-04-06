@@ -208,7 +208,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			',', $this->getConfValueString('singleViewPartsToDisplay'), true
 		);
 
-		if ($this->getConfValueBoolean('showGoogleMaps')) {
+		if ($this->getConfValueBoolean('showGoogleMaps', 's_googlemaps')) {
 			$configuredViews[] = 'googleMaps';
 		}
 
