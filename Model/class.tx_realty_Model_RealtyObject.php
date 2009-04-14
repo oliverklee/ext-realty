@@ -107,6 +107,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	private static $referenceIndex = null;
 
 	/**
+	 * @var tx_realty_Model_FrontEndUser the owner of this object
+	 */
+	private $owner = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param boolean whether the database records to create are for
@@ -114,6 +119,17 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function __construct($createDummyRecords = false) {
 		$this->isDummyRecord = $createDummyRecords;
+	}
+
+	/**
+	 * Destructor.
+	 */
+	public function __destruct() {
+		if ($this->owner) {
+			unset($this->owner);
+		}
+
+		parent::__destruct();
 	}
 
 	/**
@@ -1333,6 +1349,113 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function getAddressAsSingleLine() {
 		return implode(', ', $this->getAddressParts());
+	}
+
+	/**
+	 * Returns the name of the contact person.
+	 *
+	 * @return string the name of the contact person, might be empty
+	 */
+	public function getContactName() {
+		return ($this->usesContactDataOfOwner())
+			? $this->owner->getName()
+			: $this->getAsString('contact_person');
+	}
+
+	/**
+	 * Returns the e-mail address of the contact person.
+	 *
+	 * @return string the e-mail address of the contact person, might be empty
+	 */
+	public function getContactEMailAddress() {
+		return ($this->usesContactDataOfOwner())
+			? $this->owner->getEMailAddress()
+			: $this->getAsString('contact_email');
+	}
+
+	/**
+	 * Returns the city of the contact person.
+	 *
+	 * @return string the city of the contact person, will be empty if no city
+	 *                was set or the contact data source is this object
+	 */
+	public function getContactCity() {
+		return ($this->usesContactDataOfOwner())
+			? $this->owner->getCity()
+			: '';
+	}
+
+	/**
+	 * Returns the street of the contact person.
+	 *
+	 * @return string the street of the contact person, may be multi-line, will
+	 *                be empty if no street was set or the contact data source
+	 *                is this object
+	 */
+	public function getContactStreet() {
+		return ($this->usesContactDataOfOwner())
+			? $this->owner->getStreet()
+			: '';
+	}
+
+	/**
+	 * Returns the ZIP code of the contact person.
+	 *
+	 * @return string the ZIP code of the contact person, will be empty if no
+	 *                ZIP code was set or the contact data source is this object
+	 */
+	public function getContactZip() {
+		return ($this->usesContactDataOfOwner())
+			? $this->owner->getZip()
+			: '';
+	}
+
+	/**
+	 * Returns the homepage of the contact person.
+	 *
+	 * @return string the homepage of the contact person, will be empty if no
+	 *                homepage was set or the contact data source is this object
+	 */
+	public function getContactHomepage() {
+		return ($this->usesContactDataOfOwner())
+			? $this->owner->getHomepage()
+			: '';
+	}
+
+	/**
+	 * Returns the telephone number of the contact person.
+	 *
+	 * @return string the telephone number of the contact person, will be empty
+	 *                if no telephone number was set
+	 */
+	public function getContactPhoneNumber() {
+		return ($this->usesContactDataOfOwner())
+			? $this->owner->getPhoneNumber()
+			: $this->getAsString('contact_phone');
+	}
+
+	/**
+	 * Checks whether the contact data of this object should be retrieved from
+	 * the owner FE user.
+	 *
+	 * If a front-end user should be used as owner, the owner will be stored in
+	 * $this->owner.
+	 *
+	 * @return boolean true if the contact data should be fetched from the owner
+	 *                 FE user, false otherwise
+	 */
+	private function usesContactDataOfOwner() {
+		$useContactDataOfOwner =
+			$this->getAsInteger('contact_data_source')
+				== REALTY_CONTACT_FROM_OWNER_ACCOUNT;
+
+		if ($useContactDataOfOwner && $this->owner == null) {
+			$this->owner
+				= tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+					->find($this->getAsInteger('owner'));
+		}
+
+		return $useContactDataOfOwner;
 	}
 }
 

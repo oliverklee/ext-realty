@@ -151,6 +151,35 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Loads a realty object into the fixture and sets the owner of this object.
+	 *
+	 * @param integer the source of the owner data for the object, must be
+	 *                REALTY_CONTACT_FROM_OWNER_ACCOUNT or
+	 *                REALTY_CONTACT_FROM_REALTY_OBJECT
+	 * @param array additional data which should be stored into the owners data,
+	 *              may be empty
+	 * @param array additional data which should be stored into the object,
+	 *              may be empty
+	 */
+	private function loadRealtyObjectAndSetOwner(
+		$ownerSource,
+		array $userData = array() ,
+		array $additionalObjectData = array()
+	) {
+		$objectData = array_merge(
+			$additionalObjectData,
+			array(
+				'contact_data_source' => $ownerSource,
+				'owner' =>
+					tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+						->getLoadedTestingModel($userData)->getUid(),
+			)
+		);
+
+		$this->fixture->loadRealtyObject($objectData);
+	}
+
 
 	///////////////////////////////
 	// Testing the realty object.
@@ -2876,6 +2905,292 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testIsAllowedKeyReturnsFalseForEmptyKey() {
 		$this->assertFalse(
 			$this->fixture->isAllowedKey('')
+		);
+	}
+
+
+	//////////////////////////////
+	// Tests concerning getOwner
+	//////////////////////////////
+
+	public function test_getOwner_ForObjectWithOwner_ReturnsFrontEndUserModel() {
+		$this->fixture->loadRealtyObject(
+			array(
+				'owner' => $this->testingFramework->createFrontEndUser()
+			)
+		);
+
+		$this->assertTrue(
+			$this->fixture->getOwner() instanceof tx_realty_Model_FrontEndUser
+		);
+	}
+
+
+	////////////////////////////////////////////
+	// Tests concerning the owner data getters
+	////////////////////////////////////////////
+
+	////////////////////////////////////
+	// Tests concerning getContactName
+	////////////////////////////////////
+
+	public function test_getContactName_ForOwnerFromObjectAndWithoutName_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactName()
+		);
+	}
+
+	public function test_getContactName_ForOwnerFromFeUserWithName_ReturnsOwnerName() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('name' => 'foo')
+		);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getContactName()
+		);
+	}
+
+	public function test_getContactName_ForOwnerFromObjectWithName_ReturnsOwnerName() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT, array(),
+			array('contact_person' => 'foo')
+		);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getContactName()
+		);
+	}
+
+
+	////////////////////////////////////////////
+	// Tests concerning getContactEMailAddress
+	////////////////////////////////////////////
+
+	public function test_getContactEMailAddress_ForOwnerFromFeUserAndWithoutEMailAddress_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactEMailAddress()
+		);
+	}
+
+	public function test_getContactEMailAddress_ForOwnerFromObjectAndWithoutEMailAddress_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactEMailAddress()
+		);
+	}
+
+	public function test_getContactEMailAddress_ForOwnerFromFeUserWithEMailAddress_ReturnsEMailAddress() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('email' => 'foo@bar.com')
+		);
+
+		$this->assertEquals(
+			'foo@bar.com',
+			$this->fixture->getContactEMailAddress()
+		);
+	}
+
+	public function test_getContactEMailAddress_ForOwnerFromObjectWithContactEMailAddress_ReturnsContactEMailAddress() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT, array(),
+			array('contact_email' => 'bar@foo.com')
+		);
+
+		$this->assertEquals(
+			'bar@foo.com',
+			$this->fixture->getContactEMailAddress()
+		);
+	}
+
+
+	////////////////////////////////////
+	// Tests concerning getContactCity
+	////////////////////////////////////
+
+	public function test_getContactCity_ForOwnerFromFeUserAndWithoutCity_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactCity()
+		);
+	}
+
+	public function test_getContactCity_ForOwnerFromObject_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactCity()
+		);
+	}
+
+	public function test_getContactCity_ForOwnerFromFeUserWithCity_ReturnsCity() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('city' => 'footown')
+		);
+
+		$this->assertEquals(
+			'footown',
+			$this->fixture->getContactCity()
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning getContactStreet
+	//////////////////////////////////////
+
+	public function test_getContactStreet_ForOwnerFromFeUserAndWithoutStreet_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactStreet()
+		);
+	}
+
+	public function test_getContactStreet_ForOwnerFromObject_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactStreet()
+		);
+	}
+
+	public function test_getContactStreet_ForOwnerFromFeUserWithStreet_ReturnsStreet() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('address' => 'foo')
+		);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getContactStreet()
+		);
+	}
+
+
+	///////////////////////////////////
+	// Tests concerning getContactZip
+	///////////////////////////////////
+
+	public function test_getContactZip_ForOwnerFromFeUserAndWithoutZip_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactZip()
+		);
+	}
+
+	public function test_getContactZip_ForOwnerFromObject_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactZip()
+		);
+	}
+
+	public function test_getContactZip_ForOwnerFromFeUserWithZip_ReturnsZip() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('zip' => '12345')
+		);
+
+		$this->assertEquals(
+			'12345',
+			$this->fixture->getContactZip()
+		);
+	}
+
+
+	////////////////////////////////////////
+	// Tests concerning getContactHomepage
+	////////////////////////////////////////
+
+	public function test_getContactHomepage_ForOwnerFromFeUserAndWithoutHomepage_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactHomepage()
+		);
+	}
+
+	public function test_getContactHomepage_ForOwnerFromObject_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactHomepage()
+		);
+	}
+
+	public function test_getContactHomepage_ForOwnerFromFeUserWithHomepage_ReturnsHomepage() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('www' => 'www.foo.de')
+		);
+
+		$this->assertEquals(
+			'www.foo.de',
+			$this->fixture->getContactHomepage()
+		);
+	}
+
+
+	///////////////////////////////////////////
+	// Tests concerning getContactPhoneNumber
+	///////////////////////////////////////////
+
+	public function test_getContactPhoneNumber_ForOwnerFromFeUserAndWithoutPhoneNumber_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+	public function test_getContactPhoneNumber_ForOwnerFromObjectAndWithoutPhoneNumber_ReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+	public function test_getContactPhoneNumber_ForOwnerFromFeUserWithPhoneNumber_ReturnsPhoneNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('telephone' => '555-123456')
+		);
+
+		$this->assertEquals(
+			'555-123456',
+			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+	public function test_getContactPhoneNumber_ForOwnerFromObjectWithContactPhoneNumber_ReturnsContactPhoneNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT, array(),
+			array('contact_phone' => '555-123456')
+		);
+
+		$this->assertEquals(
+			'555-123456',
+			$this->fixture->getContactPhoneNumber()
 		);
 	}
 }
