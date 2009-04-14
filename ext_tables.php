@@ -209,5 +209,12 @@ t3lib_extMgm::addStaticFile($_EXTKEY,'pi1/static/', 'Realty Manager');
 if (TYPO3_MODE == 'BE') {
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_realty_pi1_wizicon']
 		= $extPath.'pi1/class.tx_realty_pi1_wizicon.php';
+
+	t3lib_extMgm::addModulePath(
+		'web_txrealtyM1', t3lib_extMgm::extPath($_EXTKEY) . 'BackEnd/'
+	);
+	t3lib_extMgm::addModule(
+		'web', 'txrealtyM1', '', t3lib_extMgm::extPath($_EXTKEY) . 'BackEnd/'
+	);
 }
 ?>

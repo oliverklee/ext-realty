@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;web_txrealtyM1&quot;</description>
+		<labelContext type="array">
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">Realty</label>
+			<label index="label_hello_world">Hello World!</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="title">Immobilien</label>
+			<label index="label_hello_world">Hallo Welt!</label>
+		</languageKey>
+	</data>
+	<orig_hash type="array">
+		<languageKey index="de" type="array">
+			<label index="title" type="integer">18908185</label>
+			<label index="label_hello_world" type="integer">248542760</label>
+		</languageKey>
+	</orig_hash>
+	<orig_text type="array">
+		<languageKey index="de" type="array">
+			<label index="title">Realty</label>
+			<label index="label_hello_world">Hello World!</label>
+		</languageKey>
+	</orig_text>
+</T3locallang>
