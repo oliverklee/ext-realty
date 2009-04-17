@@ -9,23 +9,23 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="title">Realty</label>
-			<label index="label_hello_world">Hello World!</label>
+			<label index="import_tab">OpenImmo import</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="title">Immobilien</label>
-			<label index="label_hello_world">Hallo Welt!</label>
+			<label index="import_tab">OpenImmo-Import</label>
 		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
 			<label index="title" type="integer">18908185</label>
-			<label index="label_hello_world" type="integer">248542760</label>
+			<label index="import_tab" type="integer">191942723</label>
 		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
 			<label index="title">Realty</label>
-			<label index="label_hello_world">Hello World!</label>
+			<label index="import_tab">OpenImmo import</label>
 		</languageKey>
 	</orig_text>
 </T3locallang>

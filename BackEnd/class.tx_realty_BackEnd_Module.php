@@ -39,6 +39,11 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	private $template = null;
 
 	/**
+	 * @var integer tab import
+	 */
+	const IMPORT_TAB = 0;
+
+	/**
 	 * Initializes the module.
 	 */
 	public function init() {
@@ -60,11 +65,10 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$result .= $this->doc->header($GLOBALS['LANG']->getLL('title'));
 
 		if ($GLOBALS['BE_USER']->isAdmin()) {
-			$this->template->setMarker(
-				'label_hello_world',
-				$GLOBALS['LANG']->getLL('label_hello_world')
+			$result .= $this->doc->section(
+				'',
+				$this->doc->spacer(10) . $this->createTab()
 			);
-			$result .= $this->template->getSubpart('FULLDOC');
 		} else {
 			$result .= $this->doc->spacer(10);
 		}
@@ -87,6 +91,23 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$this->template = tx_oelib_TemplateRegistry::getInstance()->getByFileName(
 			'EXT:realty/BackEnd/mod_template.html'
 		);
+	}
+
+	/**
+	 * Creates the OpenImmo import tab.
+	 *
+	 * @return string HTML for the OpenImmo tab, will not be empty
+	 */
+	private function createTab() {
+		$tabMenu = $this->doc->getTabMenu(
+			array('M' => 'web_txrealtyM1', 'id' => $this->id),
+			'tab',
+			IMPORT_TAB,
+			array(self::IMPORT_TAB => $GLOBALS['LANG']->getLL('import_tab'))
+			) . $this->doc->spacer(5);
+
+		// $this->doc->getTabMenu adds a surplus ampersand after the "?".
+		return str_replace('mod.php?&amp;amp;M=', 'mod.php?M=', $tabMenu);
 	}
 }
 
