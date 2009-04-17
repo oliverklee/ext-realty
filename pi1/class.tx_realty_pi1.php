@@ -334,7 +334,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'list_filter,back_link,new_record_link,wrapper_contact,' .
 			'add_to_favorites_button,remove_from_favorites_button,' .
 			'wrapper_editor_specific_content,wrapper_checkbox,favorites_url,' .
-			'limit_heading'
+			'limit_heading, google_map'
 		);
 		switch ($this->getCurrentView()) {
 			case 'favorites':
@@ -423,6 +423,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setSubpart('list_item', $listItems);
 		$this->setSubpart('pagination', $this->createPagination());
 		$this->setSubpart('wrapper_sorting', $this->createSorting());
+		$this->unhideSubparts('google_map');
 		$this->setSubpart('google_map', $googleMapsView->render());
 
 		$googleMapsView->__destruct();

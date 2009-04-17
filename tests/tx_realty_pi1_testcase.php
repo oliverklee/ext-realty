@@ -4023,5 +4023,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
+
+	public function test_ListView_forActivatedGoogleMapsAndNoEntry_HidesGoogleMapsSubpart() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '53111')
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
+		$this->fixture->setConfigurationValue('showGoogleMaps', true);
+		$this->fixture->piVars = array('site' => '8888');
+
+		$this->fixture->main('', array());
+
+		$this->assertNotContains(
+			'tx_realty_map',
+			$this->fixture->main('', array())
+		);
+	}
 }
 ?>
