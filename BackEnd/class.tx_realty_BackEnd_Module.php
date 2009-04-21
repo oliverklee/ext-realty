@@ -58,9 +58,6 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * @return string HTML for the module, will not be empty
 	 */
 	function render()	{
-		$this->doc->docType = 'xhtml_strict';
-		$this->doc->styleSheetFile2 = '../typo3conf/ext/realty/BackEnd.css';
-
 		$result = $this->doc->startPage($GLOBALS['LANG']->getLL('title'));
 		$result .= $this->doc->header($GLOBALS['LANG']->getLL('title'));
 
@@ -69,6 +66,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 				'',
 				$this->doc->spacer(10) . $this->createTab()
 			);
+			$result .= $this->createImportButton();
 		} else {
 			$result .= $this->doc->spacer(10);
 		}
@@ -82,15 +80,11 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * Initializes the template objects.
 	 */
 	private function initializeTemplate() {
-		$this->doc = t3lib_div::makeInstance('template');
-		$this->doc->setModuleTemplate(
-			t3lib_extMgm::extPath('realty') . 'BackEnd/mod_template.html'
-		);
+		$this->doc = t3lib_div::makeInstance('bigDoc');
 		$this->doc->backPath = $GLOBALS['BACK_PATH'];
-
-		$this->template = tx_oelib_TemplateRegistry::getInstance()->getByFileName(
-			'EXT:realty/BackEnd/mod_template.html'
-		);
+		$this->doc->docType = 'xhtml_strict';
+		$this->doc->styleSheetFile2
+			= '../typo3conf/ext/realty/BackEnd/BackEnd.css';
 	}
 
 	/**
@@ -102,12 +96,31 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$tabMenu = $this->doc->getTabMenu(
 			array('M' => 'web_txrealtyM1', 'id' => $this->id),
 			'tab',
-			IMPORT_TAB,
+			self::IMPORT_TAB,
 			array(self::IMPORT_TAB => $GLOBALS['LANG']->getLL('import_tab'))
 			) . $this->doc->spacer(5);
 
 		// $this->doc->getTabMenu adds a surplus ampersand after the "?".
 		return str_replace('mod.php?&amp;amp;M=', 'mod.php?M=', $tabMenu);
+	}
+
+	/**
+	 * Creates an import button which will start the import of the OpenImmo
+	 * files.
+	 *
+	 * @return string the HTML output for the import button
+	 */
+	private function createImportButton() {
+		$result = '<div class="openImmo-import-button">' .
+			'<form action="mod.php?id=' . $this->id .
+				'&amp;M=web_txrealtyM1" method="post">' .
+			'<p><input type="submit" value="' .
+			$GLOBALS['LANG']->getLL('start_import_button') . '" />' .
+			'<input type="hidden" name="tab" value="' . self::IMPORT_TAB .
+				'" />' .
+			'</p></form></div>';
+
+		return $result;
 	}
 }
 
