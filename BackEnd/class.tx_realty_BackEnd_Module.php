@@ -24,6 +24,8 @@
 
 require_once(PATH_t3lib . 'class.t3lib_scbase.php');
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_openImmoImport.php');
+
 /**
  * Backend module for the 'realty' extension.
  *
@@ -66,6 +68,18 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 				'',
 				$this->doc->spacer(10) . $this->createTab()
 			);
+
+			if (t3lib_div::_GP('action') == 'startImport') {
+				$importer = t3lib_div::makeInstance('tx_realty_openImmoImport');
+				$this->template->setMarker(
+					'import_logs',
+					nl2br(htmlspecialchars($importer->importFromZip()))
+				);
+				$importer->__destruct();
+
+				$result .= $this->template->getSubpart('IMPORT_RESULT');
+			}
+
 			$result .= $this->createImportButton();
 		} else {
 			$result .= $this->doc->spacer(10);
@@ -85,6 +99,11 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$this->doc->docType = 'xhtml_strict';
 		$this->doc->styleSheetFile2
 			= '../typo3conf/ext/realty/BackEnd/BackEnd.css';
+
+		$this->template
+			= tx_oelib_TemplateRegistry::getInstance()->getByFileName(
+				'EXT:realty/BackEnd/mod_template.html'
+		);
 	}
 
 	/**
@@ -111,16 +130,18 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * @return string the HTML output for the import button
 	 */
 	private function createImportButton() {
-		$result = '<div class="openImmo-import-button">' .
-			'<form action="mod.php?id=' . $this->id .
-				'&amp;M=web_txrealtyM1" method="post">' .
-			'<p><input type="submit" value="' .
-			$GLOBALS['LANG']->getLL('start_import_button') . '" />' .
-			'<input type="hidden" name="tab" value="' . self::IMPORT_TAB .
-				'" />' .
-			'</p></form></div>';
+		$this->template->setMarker('action_id', $this->id);
+		$this->template->setMarker(
+			'label_start_import',
+			$GLOBALS['LANG']->getLL('start_import_button')
+		);
+		$this->template->setMarker('tab_number', self::IMPORT_TAB);
+		$this->template->setMarker(
+			'label_import_in_progress',
+			$GLOBALS['LANG']->getLL('label_import_in_progress')
+		);
 
-		return $result;
+		return $this->template->getSubpart('IMPORT_BUTTON');
 	}
 }
 

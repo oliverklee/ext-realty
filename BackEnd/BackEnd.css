@@ -1,3 +1,27 @@
-.openImmo-import-button input {
+div#openImmoImportButton {
 	float: right;
+	margin-top: 2px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+div#importSpinner {
+	display: none;
+	float: right;
+	position: absolute;
+	top: 0;
+	right: 60px;
+}
+
+div#submitButtonContainer {
+	position: relative;
+}
+
+div#importResult {
+	background-color: #FFFFFF;
+	padding: 3% 1%;
+	border: #CCCCCC 1px solid;
+	overflow: auto;
+	width: 98%;
 }

@@ -11,11 +11,13 @@
 			<label index="title">Realty</label>
 			<label index="import_tab">OpenImmo import</label>
 			<label index="start_import_button">Start OpenImmo import</label>
+			<label index="label_import_in_progress">Data is beeing imported...</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="title">Immobilien</label>
 			<label index="import_tab">OpenImmo-Import</label>
 			<label index="start_import_button">OpenImmo-Import starten</label>
+			<label index="label_import_in_progress">Daten werden importiert...</label>
 		</languageKey>
 	</data>
 	<orig_hash type="array">
@@ -23,6 +25,7 @@
 			<label index="title" type="integer">18908185</label>
 			<label index="import_tab" type="integer">191942723</label>
 			<label index="start_import_button" type="integer">115192825</label>
+			<label index="label_import_in_progress" type="integer">27652567</label>
 		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
@@ -30,6 +33,7 @@
 			<label index="title">Realty</label>
 			<label index="import_tab">OpenImmo import</label>
 			<label index="start_import_button">Start OpenImmo import</label>
+			<label index="label_import_in_progress">Data is beeing imported...</label>
 		</languageKey>
 	</orig_text>
 </T3locallang>
