@@ -43,6 +43,12 @@ $EM_CONF[$_EXTKEY] = array(
 		'conflicts' => array(
 			'dbal' => '',
 		),
+		'suggests' => array(
+			'sr_feuser_register' => '',
+		),
+	),
+	'suggests' => array(
+		'sr_feuser_register' => '',
 	),
 );
 
