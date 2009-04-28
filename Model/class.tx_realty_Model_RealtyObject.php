@@ -42,6 +42,16 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLo
  */
 class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
+	 * @var string the charset that is used for the output
+	 */
+	private $renderCharset = 'utf-8';
+
+	/**
+	 * @var t3lib_cs helper for charset conversion
+	 */
+	private $charsetConversion = null;
+
+	/**
 	 * @var integer the length of cropped titles
 	 */
 	const CROP_SIZE = 32;
@@ -114,6 +124,17 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function __construct($createDummyRecords = false) {
 		$this->isDummyRecord = $createDummyRecords;
+
+		$this->initializeCharsetConversion();
+	}
+
+	/**
+	 * Destructor.
+	 */
+	public function __destruct() {
+		unset($this->charsetConversion);
+
+		parent::__destruct();
 	}
 
 	/**
@@ -1282,8 +1303,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$fullTitle = $this->getTitle();
 		$interceptPoint = ($cropSize > 0) ? $cropSize : self::CROP_SIZE;
 
-		return ((mb_strlen($fullTitle) <= $interceptPoint)
-			? $fullTitle : (mb_substr($fullTitle, 0, $interceptPoint) . '…'));
+		return $this->charsetConversion->crop(
+			$this->renderCharset, $fullTitle, $interceptPoint, '…'
+		);
 	}
 
 	/**
@@ -1333,6 +1355,24 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function getAddressAsSingleLine() {
 		return implode(', ', $this->getAddressParts());
+	}
+
+	/**
+	 * Sets the current charset in $this->renderCharset and the charset
+	 * conversion instance in $this->$charsetConversion.
+	 */
+	private function initializeCharsetConversion() {
+		if (isset($GLOBALS['TSFE'])) {
+			$this->renderCharset = $GLOBALS['TSFE']->renderCharset;
+			$this->charsetConversion = $GLOBALS['TSFE']->csConvObj;
+		} elseif (isset($GLOBALS['BE_USER'])) {
+			$this->renderCharset = $GLOBALS['LANG']->charset;
+			$this->charsetConversion = $GLOBALS['LANG']->csConvObj;
+		} else {
+			throw new Exception(
+				'There was neither a front end nor a back end detected.'
+			);
+		}
 	}
 }
 

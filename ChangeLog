@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#2953] Fix: Use TYPO3's wrapper for the multibyte string functions
 - [#1740] Fix: Delete the editorcfg entry from ext_localconf.php plus the related files
 - [#2897] Fix: Empty space in empty list view
 - [#2899] Fix: Googlemaps display switch in single view is not loaded from flexforms
