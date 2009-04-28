@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#2970] Change: Recommend sr_feuser_register in ext_emconf
 - [#2969] Change: Change the error message when ZipArchive could not be found
 - [#2953] Fix: Use TYPO3's wrapper for the multibyte string functions
 - [#2875] Feature: Add an OpenImmo import to the BE module
