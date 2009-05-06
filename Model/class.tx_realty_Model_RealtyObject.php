@@ -1365,7 +1365,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		if (isset($GLOBALS['TSFE'])) {
 			$this->renderCharset = $GLOBALS['TSFE']->renderCharset;
 			$this->charsetConversion = $GLOBALS['TSFE']->csConvObj;
-		} elseif (isset($GLOBALS['BE_USER'])) {
+		} elseif (isset($GLOBALS['LANG'])) {
 			$this->renderCharset = $GLOBALS['LANG']->charset;
 			$this->charsetConversion = $GLOBALS['LANG']->csConvObj;
 		} else {
