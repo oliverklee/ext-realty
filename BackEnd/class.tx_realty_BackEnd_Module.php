@@ -24,6 +24,7 @@
 
 require_once(PATH_t3lib . 'class.t3lib_scbase.php');
 
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_openImmoImport.php');
 
 /**
@@ -63,7 +64,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$result = $this->doc->startPage($GLOBALS['LANG']->getLL('title'));
 		$result .= $this->doc->header($GLOBALS['LANG']->getLL('title'));
 
-		if ($GLOBALS['BE_USER']->isAdmin()) {
+		if ($this->hasAccess()) {
 			$result .= $this->doc->section(
 				'',
 				$this->doc->spacer(10) . $this->createTab()
@@ -82,7 +83,8 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 
 			$result .= $this->createImportButton();
 		} else {
-			$result .= $this->doc->spacer(10);
+			$result .= $GLOBALS['LANG']->getLL('message_no_permission') .
+				$this->doc->spacer(10);
 		}
 
 		$result .= $this->doc->endPage();
@@ -142,6 +144,78 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		);
 
 		return $this->template->getSubpart('IMPORT_BUTTON');
+	}
+
+	/**
+	 * Checks if the current BE user has access to the necessary data to import
+	 * realty records.
+	 *
+	 * @return boolean true if the BE user is an admin or if they have the
+	 *                 rights to access the necessary data, false otherwise
+	 */
+	private function hasAccess() {
+		if ($GLOBALS['BE_USER']->isAdmin()) {
+			return true;
+		}
+
+		return $this->userHasAccessToPages() && $this->userHasAccessToTables();
+	}
+
+	/**
+	 * Checks if the user has write permissions on the pages configured in
+	 * "pidForRealtyObjectsAndImages" and "pidForAuxiliaryRecords".
+	 *
+	 * @return boolean true if the user has write access to both pages, false
+	 *                 otherwise
+	 */
+	private function userHasAccessToPages() {
+		$configurationProxy = tx_oelib_configurationProxy::getInstance('realty');
+
+		$objectsPid = $configurationProxy->getConfigurationValueBoolean(
+			'pidForRealtyObjectsAndImages'
+		);
+		$canWriteObjectsPage = $GLOBALS['BE_USER']->doesUserHaveAccess(
+			t3lib_BEfunc::getRecord('pages', $objectsPid), 16
+		);
+
+		$auxiliaryPid = $configurationProxy->getConfigurationValueBoolean(
+			'pidForAuxiliaryRecords'
+		);
+		$canWriteAuxiliaryPage = $GLOBALS['BE_USER']->doesUserHaveAccess(
+			t3lib_BEfunc::getRecord('pages', $auxiliaryPid), 16
+		);
+
+		return $canWriteObjectsPage && $canWriteAuxiliaryPage;
+	}
+
+	/**
+	 * Checks if the user has write access to the database tables needed to
+	 * create realty objects and auxiliary records.
+	 *
+	 * @return boolean true if the user has the needed DB table access
+	 *                 permissions, false otherwise
+	 */
+	private function userHasAccessToTables() {
+      	$userHasAccessToTables = true;
+      	$neededTables = array(
+      		REALTY_TABLE_OBJECTS,
+      		REALTY_TABLE_APARTMENT_TYPES,
+      		REALTY_TABLE_CAR_PLACES,
+      		REALTY_TABLE_CITIES,
+      		REALTY_TABLE_DISTRICTS,
+      		REALTY_TABLE_HOUSE_TYPES,
+      		REALTY_TABLE_IMAGES,
+      		REALTY_TABLE_PETS,
+      	);
+
+      	foreach ($neededTables as $table) {
+      		if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
+      			$userHasAccessToTables = false;
+      			break;
+      		}
+      	}
+
+      	return $userHasAccessToTables;
 	}
 }
 
