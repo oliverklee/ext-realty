@@ -130,6 +130,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkDisplayedContactInformation();
 		$this->checkDisplayedContactInformationSpecial();
 		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
+		$this->checkOffererImageConfiguration();
 	}
 
 	/**
@@ -178,6 +179,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkDisplayedContactInformation(false);
 		$this->checkDisplayedContactInformationSpecial();
 		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
+		$this->checkOffererImageConfiguration();
 	}
 
 	/**
@@ -629,7 +631,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'empty or contains only invalid keys.',
 			array(
 				'company', 'offerer_label', 'usergroup', 'street', 'city',
-				'telephone', 'email', 'www', 'objects_by_owner_link'
+				'telephone', 'email', 'www', 'image', 'objects_by_owner_link'
 			)
 		);
 	}
@@ -650,7 +652,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'invalid keys.',
 			array(
 				'company', 'offerer_label', 'usergroup', 'street', 'city',
-				'telephone', 'email', 'www', 'objects_by_owner_link'
+				'telephone', 'email', 'www', 'image', 'objects_by_owner_link'
 			)
 		);
 	}
@@ -1099,6 +1101,45 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'not expire at all.'
 		);
 	}
+
+	/**
+	 * Checks the settings for the offerer image.
+	 */
+	private function checkOffererImageConfiguration() {
+		$this->checkOffererImageWidth();
+		$this->checkOffererImageHeight();
+	}
+
+	/**
+	 * Checks the value of offererImageMaxWidth.
+	 */
+	private function checkOffererImageWidth() {
+		$this->checkIfPositiveInteger(
+			'offererImageMaxWidth',
+			false,
+			'',
+			'This value specifies the width of the offerer image in the ' .
+				'offerer list view and the single view. If it is not ' .
+				'configured properly, the image will be shown in its original ' .
+				'size.'
+		);
+	}
+
+	/**
+	 * Checks the value of offererImageMaxHeight.
+	 */
+	private function checkOffererImageHeight() {
+		$this->checkIfPositiveInteger(
+			'offererImageMaxHeight',
+			false,
+			'',
+			'This value specifies the height of the offerer image in the ' .
+				'offerer list view and the single view. If it is not ' .
+				'configured properly, the image will be shown in its original ' .
+				'size.'
+		);
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/class.tx_realty_configcheck.php']) {

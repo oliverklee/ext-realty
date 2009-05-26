@@ -87,6 +87,10 @@ plugin.tx_realty_pi1 {
 	# PID of the target page for the list of objects by one owner, leave empty
 	# to disable the link to this list in the detail view
 	objectsByOwnerPID =
+	# the maximum width for the offerer image
+	offererImageMaxWidth = 150
+	# the maximum height for the offerer image
+	offererImageMaxHeight = 100
 
 	# default e-mail address for requests, used without validation if the record
 	# has no valid contact_email

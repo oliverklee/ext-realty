@@ -286,14 +286,21 @@
 	position: relative;
 	list-style-type: none;
 	margin-top: .5px;
+	width: 100%;
 }
 .tx-realty-pi1 .tx-realty-pi1-offerer dd {
 	margin-left: 0;
 }
+.tx-realty-pi1 .tx-realty-pi1-offerer .offerer-list-image {
+	width: 100%
+}
+.tx-realty-pi1 .tx-realty-pi1-offerer .offerer-list-image img {
+	float: right;
+}
 .tx-realty-pi1 .tx-realty-pi1-offerer dl .link {
 	position: absolute;
-	bottom: -.1em;
 	right: 0;
+	bottom: -1.4em
 }
 
 /* Images */
@@ -549,14 +556,15 @@ p.tx-realty-pi1-objekt-nr {
 /***** OFFERER LIST *****/
 .tx-realty-pi1 .offerer-list ul {
 	list-style-type: none;
-	border-top: 2px solid #FFA500;
+	border-bottom: 2px solid #ffa500;
 	margin-top: 10px;
 	padding: 10px 0 0 0;
 }
 .tx-realty-pi1 .offerer-list .result dl {
 	position: relative;
-	border-bottom: 2px solid #FFA500;
+	border-top: 2px solid #ffa500;
 	padding: .5em 0;
+	clear: both;
 }
 .tx-realty-pi1 .offerer-list .result .emphasized {
 	font-weight: bold;
@@ -568,6 +576,13 @@ p.tx-realty-pi1-objekt-nr {
 	position: absolute;
 	bottom: .4em;
 	right: 0;
+}
+.tx-realty-pi1 .offerer-list .result .offerer-list-image {
+	width: 25em;
+}
+.tx-realty-pi1 .offerer-list .offerer-list-image img {
+	float: right;
+	margin-bottom: .4em;
 }
 
 

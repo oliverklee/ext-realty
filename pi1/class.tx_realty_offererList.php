@@ -161,7 +161,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			$whereClause . tx_oelib_db::enableFields('fe_users') .
 				$this->getWhereClauseForTesting(),
 			'',
-			'usergroup,city,company,last_name,name,username'
+			'usergroup,city,company,last_name,name,username,image'
 		);
 		$offererList = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_FrontEndUser')
@@ -192,7 +192,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 				(!$rowHasContent && ($value != '')) ? 'emphasized' : ''
 			);
 
-			if (($key != 'www') && ($key != 'objects_by_owner_link')) {
+			if (!in_array(
+				$key, array('www', 'objects_by_owner_link', 'image'))
+			) {
 				$value = htmlspecialchars($value);
 			}
 
@@ -238,6 +240,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 				htmlspecialchars($offerer->getHomepage()),
 				array('parameter' => $offerer->getHomepage())
 			),
+			'image' => $this->getImageMarkerContent($offerer),
 		);
 
 		foreach ($maximumRowContent as $key => $value) {
@@ -414,6 +417,42 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getWhereClauseForTesting() {
 		return $this->isTestMode ? ' AND tx_oelib_is_dummy_record=1' : '';
+	}
+
+	/**
+	 * Returns the image tag for the offerer image with the image resized to the
+	 * maximum width and height as configured in TS Setup.
+	 *
+	 * @param tx_realty_Model_FrontEndUser the offerer to show the image for
+	 *
+	 * @return string the image tag with the image, will be empty if user has no
+	 *                image
+	 */
+	private function getImageMarkerContent(tx_realty_Model_FrontEndUser $offerer) {
+		if (!$offerer->hasImage()) {
+			return '';
+		}
+
+		$configuredUploadFolder = tx_oelib_configurationProxy::getInstance(
+				'sr_feuser_register'
+			)->getConfigurationValueString('uploadFolder');
+
+		$uploadFolder = ($configuredUploadFolder == '')
+			? 'uploads/tx_srfeuserregister'
+			: $configuredUploadFolder;
+
+		if (substr($uploadFolder, -1) != '/') {
+			$uploadFolder .= '/';
+		}
+
+		return $this->createRestrictedImage(
+			$uploadFolder . $offerer->getImage(),
+			'',
+			$this->getConfValueInteger('offererImageMaxWidth'),
+			$this->getConfValueInteger('offererImageMaxHeight'),
+			0,
+			$offerer->getName()
+		);
 	}
 }
 

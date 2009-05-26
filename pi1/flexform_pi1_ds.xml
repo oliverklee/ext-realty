@@ -713,11 +713,15 @@
 										<numIndex index="1">www</numIndex>
 									</numIndex>
 									<numIndex index="8" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.image</numIndex>
+										<numIndex index="1">image</numIndex>
+									</numIndex>
+									<numIndex index="9" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.objectsByOwnerLink</numIndex>
 										<numIndex index="1">objects_by_owner_link</numIndex>
 									</numIndex>
 								</items>
-								<maxitems>9</maxitems>
+								<maxitems>10</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>
@@ -779,11 +783,15 @@
 										<numIndex index="1">www</numIndex>
 									</numIndex>
 									<numIndex index="8" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.image</numIndex>
+										<numIndex index="1">image</numIndex>
+									</numIndex>
+									<numIndex index="9" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.objectsByOwnerLink</numIndex>
 										<numIndex index="1">objects_by_owner_link</numIndex>
 									</numIndex>
 								</items>
-								<maxitems>9</maxitems>
+								<maxitems>10</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

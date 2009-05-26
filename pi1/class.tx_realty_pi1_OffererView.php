@@ -82,6 +82,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 					'company' => $realtyObject->getProperty('employer'),
 					'telephone' => $realtyObject->getProperty('contact_phone'),
 					'name' => $realtyObject->getProperty('contact_person'),
+					'image' => '',
 				));
 				break;
 			default:
