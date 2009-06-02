@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#3003] Fix: HTML validation errors in the search widget
 - [#2970] Change: Recommend sr_feuser_register in ext_emconf
 - [#2969] Change: Change the error message when ZipArchive could not be found
 - [#2953] Fix: Use TYPO3's wrapper for the multibyte string functions
