@@ -171,14 +171,14 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	private function userHasAccessToPages() {
 		$configurationProxy = tx_oelib_configurationProxy::getInstance('realty');
 
-		$objectsPid = $configurationProxy->getConfigurationValueBoolean(
+		$objectsPid = $configurationProxy->getConfigurationValueInteger(
 			'pidForRealtyObjectsAndImages'
 		);
 		$canWriteObjectsPage = $GLOBALS['BE_USER']->doesUserHaveAccess(
 			t3lib_BEfunc::getRecord('pages', $objectsPid), 16
 		);
 
-		$auxiliaryPid = $configurationProxy->getConfigurationValueBoolean(
+		$auxiliaryPid = $configurationProxy->getConfigurationValueInteger(
 			'pidForAuxiliaryRecords'
 		);
 		$canWriteAuxiliaryPage = $GLOBALS['BE_USER']->doesUserHaveAccess(
