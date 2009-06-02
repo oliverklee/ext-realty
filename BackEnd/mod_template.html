@@ -7,13 +7,14 @@
 <!-- ###IMPORT_BUTTON### -->
 <div id="submitButtonContainer">
 	<div id="openImmoImportButton">
-		<form action="mod.php?id=###ACTION_ID###&amp;M=web_txrealtyM1" method="post">
+		<form id="importForm" action="mod.php?id=###ACTION_ID###&amp;M=web_txrealtyM1" method="post">
 		<p>
 			<input id="importButton" type="submit" value="###LABEL_START_IMPORT###"
 				onclick="document.getElementById('importSpinner').style.display = 'block';
-					document.getElementById('importButton').disabled=true;
+					document.getElementById('importButton').disabled = true;
 					document.getElementById('importButton').style.color = '#ccc';
-					return true;"
+					document.forms['importForm'].submit();
+					return false;"
 			/>
 			<input type="hidden" name="tab" value="###TAB_NUMBER###" />
 			<input type="hidden" name="action" value="startImport" />
