@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#2712] Feature: Add a setting for the maximum size of full-size Lightbox images
 - [#2983] Feature: Show the owner image in the offerer list and the object single view
 - [#2985] Feature: Also show the OpenImmo import BE module for non-admin BE users
 - [#2976] Fix: Error in the BE module if a page is selected

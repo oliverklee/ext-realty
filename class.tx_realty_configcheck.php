@@ -113,6 +113,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				!= 'lightbox'
 			) {
 				$this->checkGalleryPid();
+			} else {
+				$this->checkLightboxImageConfiguration();
 			}
 		}
 		if ($this->isSingleViewPartToDisplay('contactButton')) {
@@ -1140,6 +1142,41 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		);
 	}
 
+	/**
+	 * Checks the settings for the gallery image when using the lightbox.
+	 */
+	private function checkLightboxImageConfiguration() {
+		$this->checkLightboxImageWidthMax();
+		$this->checkLightboxImageHeightMax();
+	}
+
+	/**
+	 * Checks the value of lightboxImageWidthMax.
+	 */
+	private function checkLightboxImageWidthMax() {
+		$this->checkIfPositiveInteger(
+			'lightboxImageWidthMax',
+			false,
+			'',
+			'This value specifies the width of the gallery images in the ' .
+				'lightbox window. If it is not configured properly, the ' .
+				'images will be shown in their original size.'
+		);
+	}
+
+	/**
+	 * Checks the value of lightboxImageHeightMax.
+	 */
+	private function checkLightboxImageHeightMax() {
+		$this->checkIfPositiveInteger(
+			'lightboxImageHeightMax',
+			false,
+			'',
+			'This value specifies the height of the gallery images in the ' .
+				'lightbox window. If it is not configured properly, the ' .
+				'images will be shown in their original size.'
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/class.tx_realty_configcheck.php']) {

@@ -122,12 +122,21 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		$galleryUrl = $this->createGalleryUrl(
-			$useLightbox
-				? REALTY_UPLOAD_FOLDER . $imageRecord['image']
-				: $this->getConfValueInteger('galleryPID'),
-			$imageNumber
-		);
+		if ($useLightbox) {
+			$imagePath = array();
+			$imageWithTag = $this->createRestrictedImage(
+				REALTY_UPLOAD_FOLDER . $imageRecord['image'],
+				'',
+				$this->getConfValueInteger('lightboxImageWidthMax'),
+				$this->getConfValueInteger('lightboxImageHeightMax')
+			);
+			preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
+
+			$galleryLink = $imagePath[1];
+		} else {
+			$galleryLink = $this->getConfValueInteger('galleryPID');
+		}
+		$galleryUrl = $this->createGalleryUrl($galleryLink, $imageNumber);
 
 		$linkAttribute = $useLightbox
 			? ' rel="lightbox[objectGallery]" title="' .
