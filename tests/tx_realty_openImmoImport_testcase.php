@@ -1762,10 +1762,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function test_ImportFromZip_ForNonExistingImportFolder_ReturnsFolderNotExistingErrorMessage() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
-		$this->copyTestFileIntoImportFolder('foo.zip');
-		$path = '/any/not/existing/path/';
+		$path = '/any/not/existing/import-path/';
 		$this->globalConfiguration->setConfigurationValueString(
 			'importFolder', $path
 		);
@@ -1783,10 +1781,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 	public function test_ImportFromZip_ForNonExistingUploadFolder_ReturnsFolderNotExistingErrorMessage() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('foo.zip');
 
-		$path = '/any/not/existing/path/';
+		$path = '/any/not/existing/upload-path/';
 		$this->fixture->setUploadDirectory($path);
 
 		$this->assertContains(
