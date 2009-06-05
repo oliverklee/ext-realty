@@ -1295,6 +1295,25 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_ImportFromZip_ForNonExistingUploadFolder_ReturnsFolderNotExistingErrorMessage() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('foo.zip');
+
+		$path = '/any/not/existing/path/';
+		$this->fixture->setUploadDirectory($path);
+
+		$this->assertContains(
+			sprintf(
+				$this->translator->translate(
+					'message_upload_directory_not_existing'
+				),
+				$path
+			),
+			$this->fixture->importFromZip()
+		);
+	}
+
 
 	//////////////////////////////////////////////////////////////
 	// Tests for setting the PID depending on the ZIP file name.
