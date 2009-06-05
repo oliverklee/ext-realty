@@ -488,7 +488,6 @@ class tx_realty_openImmoImport {
 	 */
 	private function canStartImport($importDirectory) {
 		$result = true;
-		$errorMessage = '';
 
 		if (!in_array('zip', get_loaded_extensions())) {
 			$this->addToErrorLog($this->getTranslator()->translate(
@@ -497,25 +496,95 @@ class tx_realty_openImmoImport {
 			$result = false;
 		}
 
-		if (!@is_dir($importDirectory)) {
-			$errorMessage = 'message_import_directory_not_existing';
-		} elseif (!@is_readable($importDirectory)) {
-			$errorMessage = 'message_import_directory_not_readable';
-		} elseif (!@is_writable($importDirectory)) {
-			$errorMessage = 'message_import_directory_not_writable';
-		}
+		return $result && $this->isImportDirectoryAccessible($importDirectory)
+			&& $this->isUploadDirectoryAccessible();
+	}
 
-		if (($errorMessage != '') && $result) {
+	/**
+	 * Checks that the import directory exists and is readable and writable.
+	 *
+	 * @param string unified path of the import directory, must not be empty
+	 *
+	 * @return boolean true if the import directory exists and is readable and
+	 *                 writable, false otherwise
+	 */
+	private function isImportDirectoryAccessible($importDirectory) {
+		$isAccessible = false;
+
+		if (!@is_dir($importDirectory)) {
 			$this->addToErrorLog(
 				sprintf(
-					$this->getTranslator()->translate($errorMessage),
+					$this->getTranslator()->translate(
+						'message_import_directory_not_existing'
+					),
 					$importDirectory
 				)
 			);
-			$result = false;
+		} elseif (!@is_readable($importDirectory)) {
+			$this->addFolderAccessErrorMessage(
+				'message_import_directory_not_readable', $importDirectory
+			);
+		} elseif (!@is_writable($importDirectory)) {
+			$this->addFolderAccessErrorMessage(
+				'message_import_directory_not_writable', $importDirectory
+			);
+		} else {
+			$isAccessible = true;
 		}
 
-		return $result;
+		return $isAccessible;
+	}
+
+	/**
+	 * Checks that the realty upload path exists and is writable.
+	 *
+	 * @return boolean true if the realty upload path exists and is writable,
+	 *                 false otherwise
+	 */
+	private function isUploadDirectoryAccessible(){
+		$isAccessible = false;
+
+		if (!@is_dir($this->uploadDirectory)){
+			$this->addToErrorLog(
+				sprintf(
+					$this->getTranslator()->translate(
+						'message_upload_directory_not_existing'
+					),
+					$this->uploadDirectory
+				)
+			);
+		} elseif (!@is_writable($this->uploadDirectory)) {
+			$this->addFolderAccessErrorMessage(
+				'message_upload_directory_not_writable', $this->uploadDirectory
+			);
+		} else {
+			$isAccessible = true;
+		}
+
+		return $isAccessible;
+	}
+
+	/**
+	 * Adds the given error message to the error log.
+	 *
+	 * @param string locallang label for the error message to add to the log,
+	 *               must not be empty
+	 * @param string the path to be displayed in the error message, must not be
+	 *               empty
+	 */
+	private function addFolderAccessErrorMessage($message, $path) {
+		$ownerUid = fileowner($path);
+		$owner = posix_getpwuid($ownerUid);
+
+		$this->addToErrorLog(
+			sprintf(
+				$this->getTranslator()->translate($message),
+				$path,
+				$owner['name'] . ', ' . $ownerUid,
+				substr(decoct(fileperms($path)), 2),
+				get_current_user()
+			)
+		);
 	}
 
 	/**
