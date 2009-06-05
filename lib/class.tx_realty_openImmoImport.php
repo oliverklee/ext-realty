@@ -488,6 +488,7 @@ class tx_realty_openImmoImport {
 	 */
 	private function canStartImport($importDirectory) {
 		$result = true;
+		$errorMessage = '';
 
 		if (!in_array('zip', get_loaded_extensions())) {
 			$this->addToErrorLog($this->getTranslator()->translate(
@@ -495,9 +496,21 @@ class tx_realty_openImmoImport {
 			);
 			$result = false;
 		}
-		if (!@is_writable($importDirectory)) {
-			$this->addToErrorLog($this->getTranslator()->translate(
-				'message_import_directory_not_writable')
+
+		if (!@is_dir($importDirectory)) {
+			$errorMessage = 'message_import_directory_not_existing';
+		} elseif (!@is_readable($importDirectory)) {
+			$errorMessage = 'message_import_directory_not_readable';
+		} elseif (!@is_writable($importDirectory)) {
+			$errorMessage = 'message_import_directory_not_writable';
+		}
+
+		if (($errorMessage != '') && $result) {
+			$this->addToErrorLog(
+				sprintf(
+					$this->getTranslator()->translate($errorMessage),
+					$importDirectory
+				)
 			);
 			$result = false;
 		}
