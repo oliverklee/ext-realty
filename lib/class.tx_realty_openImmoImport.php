@@ -478,7 +478,7 @@ class tx_realty_openImmoImport {
 		if (!@is_dir($importDirectory)) {
 			$this->addToErrorLog(
 				sprintf(
-					$this->getTranslator()->translate(
+					$this->translator->translate(
 						'message_import_directory_not_existing'
 					),
 					$importDirectory
@@ -511,7 +511,7 @@ class tx_realty_openImmoImport {
 		if (!@is_dir($this->uploadDirectory)){
 			$this->addToErrorLog(
 				sprintf(
-					$this->getTranslator()->translate(
+					$this->translator->translate(
 						'message_upload_directory_not_existing'
 					),
 					$this->uploadDirectory
@@ -542,7 +542,7 @@ class tx_realty_openImmoImport {
 
 		$this->addToErrorLog(
 			sprintf(
-				$this->getTranslator()->translate($message),
+				$this->translator->translate($message),
 				$path,
 				$owner['name'] . ', ' . $ownerUid,
 				substr(decoct(fileperms($path)), 2),
