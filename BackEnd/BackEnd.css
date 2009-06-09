@@ -19,9 +19,13 @@ div#submitButtonContainer {
 }
 
 div#importResult {
-	background-color: #FFFFFF;
+	background-color: #fff;
 	padding: 3% 1%;
-	border: #CCCCCC 1px solid;
+	border: #fff 1px solid;
 	overflow: auto;
 	width: 98%;
+}
+
+div#importErrors {
+	border: 1px solid #f00;
 }

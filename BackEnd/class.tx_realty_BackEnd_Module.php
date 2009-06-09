@@ -42,6 +42,12 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	private $template = null;
 
 	/**
+	 * @var array localized error message for the errors occurred during the
+	 *            access check
+	 */
+	private $errorMessages = array();
+
+	/**
 	 * @var integer tab import
 	 */
 	const IMPORT_TAB = 0;
@@ -83,8 +89,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 
 			$result .= $this->createImportButton();
 		} else {
-			$result .= $GLOBALS['LANG']->getLL('message_no_permission') .
-				$this->doc->spacer(10);
+			$result .= $this->getErrorMessages();
 		}
 
 		$result .= $this->doc->endPage();
@@ -185,6 +190,13 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 			t3lib_BEfunc::getRecord('pages', $auxiliaryPid), 16
 		);
 
+		if (!$canWriteObjectsPage) {
+			$this->storeErrorMessage('objects_pid', $objectsPid);
+		}
+		if (!$canWriteAuxiliaryPage) {
+			$this->storeErrorMessage('auxiliary_pid', $auxiliaryPid);
+		}
+
 		return $canWriteObjectsPage && $canWriteAuxiliaryPage;
 	}
 
@@ -211,11 +223,51 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
       	foreach ($neededTables as $table) {
       		if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
       			$userHasAccessToTables = false;
+      			$this->storeErrorMessage('table_access', $table);
       			break;
       		}
       	}
 
       	return $userHasAccessToTables;
+	}
+
+	/**
+	 * Stores a localized error message in $this->errorMessages.
+	 *
+	 * @param string the locallang key of the error message to store, must be
+	 *               an existing locallang label without the prefix
+	 *              'error_message_'
+	 * @param mixed the value which should be included in the locallang message,
+	 *              must not be empty
+	 */
+	private function storeErrorMessage($message, $value) {
+		$this->errorMessages[] = sprintf(
+			$GLOBALS['LANG']->getLL('error_message_' . $message),
+			$value
+		);
+	}
+
+	/**
+	 * Builds the HTML output for the error messages.
+	 *
+	 * @return string HTML output for the error messages, will be empty if no
+	 *                errors occurred during processing
+	 */
+	private function getErrorMessages() {
+		if (empty($this->errorMessages)) {
+			return '';
+		}
+
+		$this->template->setMarker(
+			'message_no_permissions',
+			$this->doc->spacer(5) .
+				$GLOBALS['LANG']->getLL('message_no_permission')
+
+		);
+		$errorList = implode('</li>' . LF . '<li>', $this->errorMessages);
+		$this->template->setMarker('error_list', '<li>' . $errorList .'</li>');
+
+		return $this->template->getSubpart('IMPORT_ERRORS');
 	}
 }
 
