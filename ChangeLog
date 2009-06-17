@@ -1,4 +1,4 @@
-0.3.3 - currently working on
+0.3.3 - released 2009-06-17
 - [#3018] Feature: Check that the realty uploads folder exists and is writable
 - [#3009] Change: Check if the import folder exists and is readable
 - [#2969] Change: Change the error message when ZipArchive could not be found
