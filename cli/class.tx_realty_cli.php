@@ -50,7 +50,7 @@ class tx_realty_cli {
 	 * Calls the OpenImmo importer.
 	 */
 	public function main() {
-		$importer = t3lib_div::makeInstance('tx_realty_openImmoImport');
+		$importer = tx_oelib_ObjectFactory::make('tx_realty_openImmoImport');
 		echo $importer->importFromZip();
 	}
 }
@@ -59,5 +59,5 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli.php']);
 }
 
-t3lib_div::makeInstance('tx_realty_cli')->main();
+tx_oelib_ObjectFactory::make('tx_realty_cli')->main();
 ?>

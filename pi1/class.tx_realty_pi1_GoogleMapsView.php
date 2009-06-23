@@ -196,7 +196,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		$mapMarker = t3lib_div::makeInstance('tx_realty_mapMarker');
+		$mapMarker = tx_oelib_ObjectFactory::make('tx_realty_mapMarker');
 		$mapMarker->setCoordinates(
 			$coordinates['latitude'], $coordinates['longitude']
 		);

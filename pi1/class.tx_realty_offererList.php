@@ -107,12 +107,12 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			);
 		}
 
-		$frontEndUser = t3lib_div::makeInstance('tx_realty_Model_FrontEndUser');
+		$frontEndUser = tx_oelib_ObjectFactory::make('tx_realty_Model_FrontEndUser');
 
 		// setData() will not create the relations, but "usergroup" is expected
 		// to hold a list instance.
 		$dataToSet = $ownerData;
-		$dataToSet['usergroup'] = t3lib_div::makeInstance('tx_oelib_List');
+		$dataToSet['usergroup'] = tx_oelib_ObjectFactory::make('tx_oelib_List');
 		$frontEndUser->setData($dataToSet);
 
 		return $this->createListRow($frontEndUser);

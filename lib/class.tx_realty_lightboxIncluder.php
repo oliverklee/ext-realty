@@ -36,7 +36,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
 class tx_realty_lightboxIncluder {
 	/**
 	 * Includes the files needed for the Lightbox.
-	 * 
+	 *
 	 * @param string the extension's prefix ID, must not be empty
 	 * @param string extension key, must not be empty
 	 */
@@ -70,12 +70,12 @@ class tx_realty_lightboxIncluder {
 	/**
 	 * Adds the configuration for the Lightbox to the header. This function
 	 * must be called before the lightbox.js file ist added to the header.
-	 * 	 
+	 *
 	 * @param string the extension's prefix ID, must not be empty
 	 * @param string extension key, must not be empty
 	 */
 	private static function addLightboxConfigurationToHeader($prefixId, $extKey) {
-		$translator = t3lib_div::makeInstance('tx_realty_translator');
+		$translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
 
 		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_lightbox_config']
 			= '<script type="text/javascript">' .
@@ -101,7 +101,7 @@ class tx_realty_lightboxIncluder {
 				'labelOf: "'. $translator->translate('label_lightbox_of') .'"' .
 			'}, window.LightboxOptions || {});' .
 		'</script>';
-		
+
 		unset($translator);
 	}
 }

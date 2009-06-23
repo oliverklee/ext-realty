@@ -78,9 +78,9 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 
 		$rows = array();
 		$rowCounter = 0;
-		$formatterClassName
-			= t3lib_div::makeInstanceClassName('tx_realty_pi1_Formatter');
-		$formatter = new $formatterClassName($uid, $this->conf, $this->cObj);
+		$formatter = tx_oelib_ObjectFactory::make(
+			'tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj
+		);
 
 		foreach ($fieldNames as $key) {
 			if ($this->setMarkerIfNotEmpty(

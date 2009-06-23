@@ -207,19 +207,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $this->createGallery();
 				break;
 			case 'filter_form':
-				$filterFormClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_filterForm'
+				$filterForm = tx_oelib_ObjectFactory::make(
+					'tx_realty_filterForm', $this->conf, $this->cObj
 				);
-				$filterForm = new $filterFormClassName($this->conf, $this->cObj);
 				$result = $filterForm->render($this->piVars);
 				$filterForm->__destruct();
 				break;
 			case 'single_view':
-				$singleViewClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_pi1_SingleView'
-				);
-				$singleView = new $singleViewClassName(
-					$this->conf, $this->cObj, $this->isTestMode
+				$singleView = tx_oelib_ObjectFactory::make(
+					'tx_realty_pi1_SingleView', $this->conf, $this->cObj,
+					$this->isTestMode
 				);
 				$result = $singleView->render($this->piVars);
 				$singleView->__destruct();
@@ -234,10 +231,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				break;
 			case 'contact_form':
-				$contactFormClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_contactForm'
+				$contactForm = tx_oelib_ObjectFactory::make(
+					'tx_realty_contactForm', $this->conf, $this->cObj
 				);
-				$contactForm = new $contactFormClassName($this->conf, $this->cObj);
 				$formData = $this->piVars;
 				$formData['summaryStringOfFavorites']
 					= $this->createSummaryStringOfFavorites();
@@ -245,36 +241,25 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$contactForm->__destruct();
 				break;
 			case 'fe_editor':
-				$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_frontEndEditor'
-				);
-				$frontEndEditor = new $frontEndEditorClassName(
-					$this->conf,
-					$this->cObj,
-					$this->piVars['showUid'],
-					'pi1/tx_realty_frontEndEditor.xml'
+				$frontEndEditor = tx_oelib_ObjectFactory::make(
+					'tx_realty_frontEndEditor', $this->conf, $this->cObj,
+					$this->piVars['showUid'], 'pi1/tx_realty_frontEndEditor.xml'
 				);
 				$result = $frontEndEditor->render();
 				$frontEndEditor->__destruct();
 				break;
 			case 'image_upload':
-				$imageUploadClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_frontEndImageUpload'
-				);
-				$imageUpload = new $imageUploadClassName(
-					$this->conf,
-					$this->cObj,
-					$this->piVars['showUid'],
-					'pi1/tx_realty_frontEndImageUpload.xml'
+				$imageUpload = tx_oelib_ObjectFactory::make(
+					'tx_realty_frontEndImageUpload', $this->conf, $this->cObj,
+					$this->piVars['showUid'], 'pi1/tx_realty_frontEndImageUpload.xml'
 				);
 				$result = $imageUpload->render();
 				$imageUpload->__destruct();
 				break;
 			case 'offerer_list':
-				$offererListClassName = t3lib_div::makeInstanceClassName(
-					'tx_realty_offererList'
+				$offererList = tx_oelib_ObjectFactory::make(
+					'tx_realty_offererList', $this->conf, $this->cObj
 				);
-				$offererList = new $offererListClassName($this->conf, $this->cObj);
 				$result = $offererList->render();
 				$offererList->__destruct();
 				break;
@@ -303,15 +288,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		try {
-			t3lib_div::makeInstance('tx_realty_pi1_AccessCheck')->checkAccess(
+			tx_oelib_ObjectFactory::make('tx_realty_pi1_AccessCheck')->checkAccess(
 				$this->getCurrentView(), $this->piVars
 			);
 			$result = '';
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
-			$errorViewClassName = t3lib_div::makeInstanceClassName(
-				'tx_realty_pi1_ErrorView'
+			$errorView = tx_oelib_ObjectFactory::make(
+				'tx_realty_pi1_ErrorView', $this->conf, $this->cObj
 			);
-			$errorView = new $errorViewClassName($this->conf, $this->cObj);
 			$result = $errorView->render(array($exception->getMessage()));
 			$errorView->__destruct();
 		}
@@ -400,11 +384,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
-		$googleMapsClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_pi1_GoogleMapsView'
-		);
-		$googleMapsView = new $googleMapsClassName(
-			$this->conf, $this->cObj, $this->isTestMode
+		$googleMapsView = tx_oelib_ObjectFactory::make(
+			'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj,
+			$this->isTestMode
 		);
 
 		$listItems = '';
@@ -453,14 +435,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		// For testing, the FE editor's FORMidable object must not be created.
-		$frontEndEditorClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_frontEndEditor'
-		);
-		$frontEndEditor = new $frontEndEditorClassName(
-			$this->conf,
-			$this->cObj,
-			$this->piVars['delete'],
-			'pi1/tx_realty_frontEndEditor.xml',
+		$frontEndEditor = tx_oelib_ObjectFactory::make(
+			'tx_realty_frontEndEditor', $this->conf, $this->cObj,
+			$this->piVars['delete'], 'pi1/tx_realty_frontEndEditor.xml',
 			$this->isTestMode
 		);
 		$frontEndEditor->deleteRecord();
@@ -574,10 +551,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				' IN (' . $searchSelection . ')';
 		}
 
-		$filterFormClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_filterForm'
+		$filterForm = tx_oelib_ObjectFactory::make(
+			'tx_realty_filterForm', $this->conf, $this->cObj
 		);
-		$filterForm = new $filterFormClassName($this->conf, $this->cObj);
 		$whereClause .= $filterForm->getWhereClausePart($this->piVars);
 		$filterForm->__destruct();
 
@@ -2233,8 +2209,9 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		if (!$this->formatter) {
-			$className = t3lib_div::makeInstanceClassName('tx_realty_pi1_Formatter');
-			$this->formatter = new $className($currentUid, $this->conf, $this->cObj);
+			$this->formatter = tx_oelib_ObjectFactory::make(
+				'tx_realty_pi1_Formatter', $currentUid, $this->conf, $this->cObj
+			);
 		}
 
 		return $this->formatter;

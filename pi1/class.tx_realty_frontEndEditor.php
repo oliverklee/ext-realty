@@ -1135,9 +1135,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// required to be set.
 		$this->setFakedFormValue('is_dummy_record', 1);
 		$this->realtyObject->__destruct();
-		$objectClassName
-			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-		$this->realtyObject = new $objectClassName($this->isTestMode);
+		$this->realtyObject = tx_oelib_ObjectFactory::make(
+			'tx_realty_Model_RealtyObject', $this->isTestMode
+		);
 		$this->realtyObject->setRequiredFields(array());
 		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
 		$this->realtyObject->writeToDatabase();

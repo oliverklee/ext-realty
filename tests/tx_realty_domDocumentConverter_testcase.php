@@ -364,7 +364,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			t3lib_div::makeInstance('tx_realty_translator')->translate('label_allowed'),
+			tx_oelib_ObjectFactory::make('tx_realty_translator')->translate('label_allowed'),
 			$result[0]['pets']
 		);
 	}
@@ -384,7 +384,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			t3lib_div::makeInstance('tx_realty_translator')->translate('label_allowed'),
+			tx_oelib_ObjectFactory::make('tx_realty_translator')->translate('label_allowed'),
 			$result[0]['pets']
 		);
 	}

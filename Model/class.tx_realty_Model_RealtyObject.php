@@ -1172,10 +1172,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	private function createGeoFinder(tx_oelib_templatehelper $configuration) {
 		if (!self::$geoFinder) {
-			$className = t3lib_div::makeInstanceClassName(
-				'tx_realty_googleMapsLookup'
+			self::$geoFinder = tx_oelib_ObjectFactory::make(
+				'tx_realty_googleMapsLookup', $configuration
 			);
-			self::$geoFinder = new $className($configuration);
 		}
 
 		return self::$geoFinder;

@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#3080] Change: Use the object factory
 - [#3018] Feature: Check that the realty uploads folder exists and is writable
 - [#3009] Change: Check if the import folder exists and is readable
 - [#3003] Fix: HTML validation errors in the search widget
