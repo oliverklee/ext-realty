@@ -1629,32 +1629,6 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	// Test for clearing the cache.
 	/////////////////////////////////
 
-	public function testImportFromZipClearsFrontEndCachePagesTableAfterImport() {
-		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
-			$this->markTestSkipped(
-				'This test is only applicable for TYPO3 versions up to 4.2.'
-			);
-		}
-
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-
-		$this->copyTestFileIntoImportFolder('foo.zip');
-		$pageUid = $this->testingFramework->createFrontEndPage();
-		$contentUid = $this->testingFramework->createContentElement(
-			$pageUid, array('list_type' => 'realty_pi1')
-		);
-		$this->testingFramework->createPageCacheEntry($contentUid);
-
-		$this->fixture->importFromZip();
-
-		$this->assertEquals(
-			0,
-			$this->testingFramework->countRecords(
-				'cache_pages', 'page_id = ' . $pageUid
-			)
-		);
-	}
-
 	public function testImportFromZipClearsFrontEndCacheAfterImport() {
 		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
 			$this->markTestSkipped(
@@ -1666,7 +1640,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$pageUid = $this->testingFramework->createFrontEndPage();
-		$contentUid = $this->testingFramework->createContentElement(
+		$this->testingFramework->createContentElement(
 			$pageUid, array('list_type' => 'realty_pi1')
 		);
 
