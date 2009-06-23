@@ -77,7 +77,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 			);
 
 			if (t3lib_div::_GP('action') == 'startImport') {
-				$importer = t3lib_div::makeInstance('tx_realty_openImmoImport');
+				$importer = tx_oelib_ObjectFactory::make('tx_realty_openImmoImport');
 				$this->template->setMarker(
 					'import_logs',
 					nl2br(htmlspecialchars($importer->importFromZip()))

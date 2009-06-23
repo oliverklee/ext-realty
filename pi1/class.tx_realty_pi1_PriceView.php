@@ -66,10 +66,9 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 		}
 
 		if ($hasValidContent) {
-			$formatterClassName
-				= t3lib_div::makeInstanceClassName('tx_realty_pi1_Formatter');
-			$formatter = new $formatterClassName(
-				$piVars['showUid'], $this->conf, $this->cObj
+			$formatter = tx_oelib_ObjectFactory::make(
+				'tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf,
+				$this->cObj
 			);
 			$hasValidContent = $this->setOrDeleteMarkerIfNotEmpty(
 				$keyToShow,

@@ -87,9 +87,9 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObjectUid = $uidOfObjectToEdit;
 		$this->xmlPath = $xmlPath;
 
-		$objectClassName
-			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-		$this->realtyObject = new $objectClassName($this->isTestMode);
+		$this->realtyObject = tx_oelib_ObjectFactory::make(
+			'tx_realty_Model_RealtyObject', $this->isTestMode
+		);
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 
 		parent::__construct($configuration, $cObj);
@@ -246,9 +246,9 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 
 		if ($this->realtyObject->getUid() != $uid) {
 			$this->realtyObject->__destruct();
-			$objectClassName
-				= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-			$this->realtyObject = new $objectClassName($this->isTestMode);
+			$this->realtyObject = tx_oelib_ObjectFactory::make(
+				'tx_realty_Model_RealtyObject', $this->isTestMode
+			);
 			$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 		}
 	}

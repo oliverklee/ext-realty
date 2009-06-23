@@ -183,10 +183,10 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *                requested view
 	 */
 	private function getView($uid, $viewName) {
-		$viewClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_pi1_' . ucfirst($viewName) . 'View'
+		$view = tx_oelib_ObjectFactory::make(
+			'tx_realty_pi1_' . ucfirst($viewName) . 'View',
+			$this->conf, $this->cObj, $this->isTestMode
 		);
-		$view = new $viewClassName($this->conf, $this->cObj, $this->isTestMode);
 
 		if ($viewName == 'googleMaps') {
 			$view->setMapMarker($uid);

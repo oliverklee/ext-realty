@@ -64,9 +64,9 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	 * @return string the contact data as HTML, will be empty if none was found
 	 */
 	private function fetchContactDataFromSource($uid) {
-		$offererListClassName
-			= t3lib_div::makeInstanceClassName('tx_realty_offererList');
-		$offererList = new $offererListClassName($this->conf, $this->cObj);
+		$offererList = tx_oelib_ObjectFactory::make(
+			'tx_realty_offererList', $this->conf, $this->cObj
+		);
 		$realtyObject = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_RealtyObject')->find($uid);
 

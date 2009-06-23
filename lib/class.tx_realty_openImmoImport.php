@@ -122,7 +122,7 @@ class tx_realty_openImmoImport {
 		$this->isTestMode = $isTestMode;
 		libxml_use_internal_errors(true);
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
-		$this->fileNameMapper = t3lib_div::makeInstance('tx_realty_fileNameMapper');
+		$this->fileNameMapper = tx_oelib_ObjectFactory::make('tx_realty_fileNameMapper');
 		$this->setUploadDirectory(PATH_site . REALTY_UPLOAD_FOLDER);
 	}
 
@@ -212,7 +212,7 @@ class tx_realty_openImmoImport {
 	 */
 	private function getTranslator() {
 		if (!self::$translator) {
-			self::$translator = t3lib_div::makeInstance('tx_realty_translator');
+			self::$translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
 		}
 
 		return self::$translator;
@@ -795,7 +795,7 @@ class tx_realty_openImmoImport {
 	 * @return string e-mail body
 	 */
 	private function fillEmailTemplate($recordsForOneEmail) {
-		$templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
+		$templateHelper = tx_oelib_ObjectFactory::make('tx_oelib_templatehelper');
 		$templateHelper->init(
 			array(
 				'templateFile' =>
@@ -1246,11 +1246,9 @@ class tx_realty_openImmoImport {
 			return array();
 		}
 
-		$domDocumentConverterClassName = t3lib_div::makeInstanceClassName(
-			'tx_realty_domDocumentConverter'
+		$domDocumentConverter = tx_oelib_ObjectFactory::make(
+			'tx_realty_domDocumentConverter', $this->fileNameMapper
 		);
-		$domDocumentConverter
-			= new $domDocumentConverterClassName($this->fileNameMapper);
 
 		$result = $domDocumentConverter->getConvertedData($realtyRecords);
 
@@ -1275,9 +1273,9 @@ class tx_realty_openImmoImport {
 			$this->realtyObject->__destruct();
 		}
 
-		$className
-			= t3lib_div::makeInstanceClassName('tx_realty_Model_RealtyObject');
-		$this->realtyObject = new $className($this->isTestMode);
+		$this->realtyObject = tx_oelib_ObjectFactory::make(
+			'tx_realty_Model_RealtyObject', $this->isTestMode
+		);
 		$this->realtyObject->loadRealtyObject($data, true);
 	}
 
