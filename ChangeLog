@@ -1,4 +1,4 @@
-0.4.0 - currently working on
+0.4.0 - released 2009-07-01
 - [#3154] Localization: Add an Italian localization, thanks to Roberto Torresani
 - [#3153] Fix: Typo in German locallang: "E-Mail-Addresse" -> "E-Mail-Adresse"
 - [#3150] Change: Add some default configuration for the classic gallery pop-up window
