@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3153] Fix: Typo in German locallang: "E-Mail-Addresse" -> "E-Mail-Adresse"
 - [#3150] Change: Add some default configuration for the classic gallery pop-up window
 - [#3044] Change: Remove deprecated functions for oelib 0.7.0
 - [#3080] Change: Use the object factory
