@@ -149,6 +149,46 @@
 			<label index="label_allowed">Permitido</label>
 			<label index="label_not_allowed">No permitido</label>
 		</languageKey>
+		<languageKey index="it" type="array">
+			<label index="message_zip_archive_not_installed">Importazione non possibile perch&amp;egrave; l'installazione di PHP non prevede le funzioni per i ZIP file. Si prega di compilare PHP con il supporto ZIP utilizzando le opzioni di configurazione &quot;--enable-zip&quot;. Su sistema SUSE i pacchetti &quot;php-zip&quot; o &quot;php5-zip&quot; devono essere installati.</label>
+			<label index="message_import_directory_not_existing">Importazione non possibile perch&amp;egrave; la directory &quot;%s&quot;, configurata per l'importazione, non esiste.</label>
+			<label index="message_import_directory_not_readable">Importazione non possibile perch&amp;egrave; la directory &quot;%s&quot;, configurata per l'importazione, non &amp;egrave; leggibile. Si prega di configurare i permessi di accesso o impostare un altra directory. La directory appartiene all'utente &quot;%s&quot; e ha i seguenti permessi: &quot;%s&quot;. L'utente che ha avviato l'importazione &amp;egrave;: &quot;%s&quot;.</label>
+			<label index="message_import_directory_not_writable">Importazione non possibile perch&amp;egrave; la directory &quot;%s&quot;, configurata per l'importazione, non &amp;egrave; scrivibile. Si prega di configurare i permessi di accesso o impostare un altra directory. La directory appartiene all'utente &quot;%s&quot; e ha i seguenti permessi: &quot;%s&quot;. L'utente che ha avviato l'importazione &amp;egrave;: &quot;%s&quot;.</label>
+			<label index="message_upload_directory_not_existing">Importazione non possibile perch&amp;egrave; la directory di upload dell'estensione realty &quot;%s&quot; non esiste. Si prega di verificare la configurazione e riavviare l'importazione.</label>
+			<label index="message_upload_directory_not_writable">Importazione non possibile perch&amp;egrave; la directory di upload dell'estensione realty &quot;%s&quot; non &amp;egrave; scrivibile. Si prega di configurare i permessi di accesso e riaviare l'importazione. La directory appartiene all'utente &quot;%s&quot; e ha i seguenti permessi: &quot;%s&quot;. L'utente che ha avviato l'importazione &amp;egrave;: &quot;%s&quot;.</label>
+			<label index="message_no_zips">Nessun ZIP da estrarre. La directory configurata non contiene archivi ZIP. Perfavore verificare la directory di importazione impostata e il contenuto della stessa.</label>
+			<label index="message_object_not_loaded">Il record non puo' essere caricato. A causa di contenuti errati, i record non sono stati importati completamente.</label>
+			<label index="message_insertion_failed">Si &amp;egrave; verificato un errore nel tentativo di creare un nuovo record nel database. Questo record non &amp;egrave; stato inserito nel database.</label>
+			<label index="message_deleted_flag_causes_deletion">Aggiornando questo record si cancella il record.</label>
+			<label index="message_deleted_flag_set">Questo record &amp;egrave; impostato come cancellato ed &amp;egrave;  ignorato dal processo di importazione perch&amp;egrave; non esiste nel database.</label>
+			<label index="message_written_to_database">Il record &amp;egrave; stato scritto nel database.</label>
+			<label index="message_fields_required">Il record non &amp;egrave; stato importato perch&amp;egrave; i campi richiesti non sono impostati</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user">Il record non &amp;egrave; stato importato perch&amp;egrave; la restrizione di importazione agli utenti registrati &amp;egrave; attiva e il OpenImmo ANID del record non corrisponde a nessun OpenImmo ANID degli utenti FE che si trovano nei gruppi utenti abilitati. Il record OpenImmo ANID &amp;egrave;:</label>
+			<label index="message_log_sent_to">Il log &amp;egrave; impostato a</label>
+			<label index="message_extracted_successfully">L'archivio ZIP &amp;egrave; stato estratto con successo.</label>
+			<label index="message_extraction_failed">L'estrazione di questo archivio ZIP &amp;egrave; fallita. L'archivio ZIP non puo' essere aperto. Potrebbe essere corrotto.</label>
+			<label index="message_surplus_folder">La cartella necessaria all'esecuzione dell'importazione &amp;egrave; gi&amp;agrave; presente nella directory di importazione. I record non possono essere importati fino a quando esiste questa cartella. Cancella la cartella.</label>
+			<label index="message_invalid_xml_path">Il percorso del file XML non &amp;egrave; valido. La cartella potrebbe non essere estrata. Potrebbe essere un problema di permessi del file. Per favore verifica se hai i permessi per scrivere nella directory di importazione.</label>
+			<label index="message_too_many_xml">Non ci devono essere piu' di un file XML nell'archivio ZIP. Si prega di rimuovere i files in piu' nell'archivio.</label>
+			<label index="message_no_xml">Nessun file XML &amp;egrave; stato trovato nell'archivio ZIP. Se &amp;egrave; presente, assicurati che finisca con '.xml'.</label>
+			<label index="message_successful_validation">La validazione &amp;egrave; stata eseguita correttamente.</label>
+			<label index="message_no_schema_file">Non &amp;egrave; impostato uno schema per la validazione.</label>
+			<label index="message_invalid_schema_file_path">Il percorso dello schema non &amp;egrave; valido. Per favore verifica nelle configurazioni dell'estensione.</label>
+			<label index="message_import_without_validation">L'importazione &amp;egrave; stata fatta senza validazione.</label>
+			<label index="message_please_validate">Si prega di verificare la validit&amp;agrave; dei dati dell'importazione.</label>
+			<label index="message_validation_impossible">La validazione non &amp;egrave; possibile. Potrebbe esserci un errore di sintassi nel file XML caricato.</label>
+			<label index="message_line">Linea</label>
+			<label index="message_files_removed">I seguenti files sono stati rimossi</label>
+			<label index="message_introduction">Questi sono i risultati dell'ultima importazione dei tuoi records OpenImmo.</label>
+			<label index="message_explanation">Hai ricevuto questa e-mail perch&amp;egrave; sei il contatto del seguente record OpenImmo.</label>
+			<label index="message_object_limit_reached">Il record dell'utente %s (UID: %u) non &amp;egrave; stato importato perch&amp;egrave; l'utente ha raggiunto il limite di %u immobili.</label>
+			<label index="label_subject_openImmo_import">Importazione OpenImmo</label>
+			<label index="label_object_number">Codice immobile</label>
+			<label index="label_allowed">Permesso</label>
+			<label index="label_not_allowed">Non gradito</label>
+			<label index="label_lightbox_image">Immagine</label>
+			<label index="label_lightbox_of">di</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
@@ -253,6 +293,46 @@
 			<label index="label_allowed" type="integer">196476508</label>
 			<label index="label_not_allowed" type="integer">95428607</label>
 		</languageKey>
+		<languageKey index="it" type="array">
+			<label index="message_zip_archive_not_installed" type="integer">244067387</label>
+			<label index="message_import_directory_not_existing" type="integer">99695630</label>
+			<label index="message_import_directory_not_readable" type="integer">256871324</label>
+			<label index="message_import_directory_not_writable" type="integer">212022356</label>
+			<label index="message_upload_directory_not_existing" type="integer">235037657</label>
+			<label index="message_upload_directory_not_writable" type="integer">132546299</label>
+			<label index="message_no_zips" type="integer">105518736</label>
+			<label index="message_object_not_loaded" type="integer">56779241</label>
+			<label index="message_insertion_failed" type="integer">50157132</label>
+			<label index="message_deleted_flag_causes_deletion" type="integer">253725718</label>
+			<label index="message_deleted_flag_set" type="integer">46487773</label>
+			<label index="message_written_to_database" type="integer">198437427</label>
+			<label index="message_fields_required" type="integer">127661848</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user" type="integer">182565751</label>
+			<label index="message_log_sent_to" type="integer">24096936</label>
+			<label index="message_extracted_successfully" type="integer">215773016</label>
+			<label index="message_extraction_failed" type="integer">256903313</label>
+			<label index="message_surplus_folder" type="integer">135193776</label>
+			<label index="message_invalid_xml_path" type="integer">103030008</label>
+			<label index="message_too_many_xml" type="integer">238269320</label>
+			<label index="message_no_xml" type="integer">206769090</label>
+			<label index="message_successful_validation" type="integer">224591219</label>
+			<label index="message_no_schema_file" type="integer">90705624</label>
+			<label index="message_invalid_schema_file_path" type="integer">201826895</label>
+			<label index="message_import_without_validation" type="integer">211192423</label>
+			<label index="message_please_validate" type="integer">164447491</label>
+			<label index="message_validation_impossible" type="integer">100672002</label>
+			<label index="message_line" type="integer">75513451</label>
+			<label index="message_files_removed" type="integer">180330163</label>
+			<label index="message_introduction" type="integer">254777339</label>
+			<label index="message_explanation" type="integer">205777286</label>
+			<label index="message_object_limit_reached" type="integer">206506953</label>
+			<label index="label_subject_openImmo_import" type="integer">191942723</label>
+			<label index="label_object_number" type="integer">180539649</label>
+			<label index="label_allowed" type="integer">196476508</label>
+			<label index="label_not_allowed" type="integer">95428607</label>
+			<label index="label_lightbox_image" type="integer">199571973</label>
+			<label index="label_lightbox_of" type="integer">146770004</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
@@ -356,6 +436,46 @@
 			<label index="label_object_number">Object Number</label>
 			<label index="label_allowed">Allowed</label>
 			<label index="label_not_allowed">Unwelcome</label>
+		</languageKey>
+		<languageKey index="it" type="array">
+			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</label>
+			<label index="message_import_directory_not_existing">Importing is impossible because the configured import directory &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
+			<label index="message_import_directory_not_readable">Importing is impossible because the configured import directory &quot;%s&quot; is not readable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
+			<label index="message_import_directory_not_writable">Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
+			<label index="message_upload_directory_not_existing">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
+			<label index="message_upload_directory_not_writable">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
+			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
+			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
+			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
+			<label index="message_deleted_flag_causes_deletion">Updating this record deletes the record.</label>
+			<label index="message_deleted_flag_set">This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</label>
+			<label index="message_written_to_database">The record was written to the database.</label>
+			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
+			<label index="message_openimmo_anid_not_matches_allowed_fe_user">The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</label>
+			<label index="message_log_sent_to">The log was sent to</label>
+			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
+			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
+			<label index="message_surplus_folder">The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</label>
+			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
+			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
+			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>
+			<label index="message_successful_validation">The validation proceeded successfully.</label>
+			<label index="message_no_schema_file">There is no schema file set for validation.</label>
+			<label index="message_invalid_schema_file_path">The path of the schema file is invalid. Please check your configuration in the extension manager.</label>
+			<label index="message_import_without_validation">The import is done without validation.</label>
+			<label index="message_please_validate">Please ensure the validity of the data to import.</label>
+			<label index="message_validation_impossible">The validation is not possible. There might be a syntax error in the XML file to load.</label>
+			<label index="message_line">Line</label>
+			<label index="message_files_removed">The following files have been removed</label>
+			<label index="message_introduction">Here is the result of the last import of your OpenImmo records.</label>
+			<label index="message_explanation">You are receiving this e-mail because you are the contact person for the OpenImmo records above.</label>
+			<label index="message_object_limit_reached">The record for the user %s (UID: %u) was not imported because the user's object limit of %u has been reached.</label>
+			<label index="label_subject_openImmo_import">OpenImmo import</label>
+			<label index="label_object_number">Object Number</label>
+			<label index="label_allowed">Allowed</label>
+			<label index="label_not_allowed">Unwelcome</label>
+			<label index="label_lightbox_image">Image</label>
+			<label index="label_lightbox_of">of</label>
 		</languageKey>
 	</orig_text>
 </T3locallang>
