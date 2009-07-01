@@ -501,8 +501,8 @@
 			<label index="label_no_contact_person">Die Anfrage kann nicht gesendet werden, weil für dieses Objekt keine Kontaktperson angegeben wurde.</label>
 			<label index="label_set_name_formal">Bitte geben Sie Ihren Namen ein.</label>
 			<label index="label_set_name_informal">Bitte gib deinen Namen ein.</label>
-			<label index="label_set_valid_email_address_formal">Bitte geben Sie eine gültige E-Mail-Addresse an.</label>
-			<label index="label_set_valid_email_address_informal">Bitte gib eine gültige E-Mail-Addresse an.</label>
+			<label index="label_set_valid_email_address_formal">Bitte geben Sie eine gültige E-Mail-Adresse an.</label>
+			<label index="label_set_valid_email_address_informal">Bitte gib eine gültige E-Mail-Adresse an.</label>
 			<label index="label_no_empty_textarea">Bitte geben Sie Ihr Anliegen an.</label>
 			<label index="label_thank_you_formal">Danke für Ihre Anfrage.</label>
 			<label index="label_thank_you_informal">Danke für deine Anfrage.</label>
