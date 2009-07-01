@@ -46,10 +46,9 @@ plugin.tx_realty_pi1 {
 	favoriteFieldsInSession =
 
 	# name of the gallery pop-up window (in case the pop-up window is enabled)
-	galleryPopupWindowName =
+	galleryPopupWindowName = realty_gallery
 	# parameters for the gallery pop-up window (leave empty to disable pop-up windows),
-	# e.g. width=600,height=400,resizable=no,toolbar=no,location=no,directories=no,status=no,menubar=no
-	galleryPopupParameters =
+	galleryPopupParameters = width=1024,height=768,resizable=no,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes
 	# type of the gallery to determine what kind of gallery should be shown,
 	# the classic gallery or the lightbox,
 	# classic enables the classic gallery,
