@@ -165,11 +165,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				$result = $this->getFormattedPrice($key);
 				break;
 			case 'usable_from':
-				$usableFrom = $realtyObject->getProperty($key);
-				// If no date is set, assume "now".
-				$result = ($usableFrom != '')
-					? htmlspecialchars($usableFrom)
-					: $this->translate('message_now');
+				$result = htmlspecialchars($realtyObject->getProperty($key));
 				break;
 			case 'number_of_rooms':
 				// The fallthrough is intended.

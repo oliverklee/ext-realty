@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3196] Change: Don't display the "available from" field in the list view and single view if it is empty
 - [#3195] Feature: Add some object states
 - [#3154] Localization: Add an Italian localization, thanks to Roberto Torresani
 - [#3153] Fix: Typo in German locallang: "E-Mail-Addresse" -> "E-Mail-Adresse"
