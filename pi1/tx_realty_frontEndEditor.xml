@@ -626,6 +626,38 @@
 						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.13</caption>
 						<value>13</value>
 					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.14</caption>
+						<value>14</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.15</caption>
+						<value>15</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.16</caption>
+						<value>16</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.17</caption>
+						<value>17</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.18</caption>
+						<value>18</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.19</caption>
+						<value>19</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.20</caption>
+						<value>20</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.21</caption>
+						<value>21</value>
+					</item>
 				</items>
 			</data>
 			<validators>
@@ -634,7 +666,7 @@
 						<extension>this</extension>
 						<method>isIntegerInRange</method>
 						<params>
-							<data name="range" value="0-13"/>
+							<data name="range" value="0-21"/>
 							<data name="multiple" value="0"/>
 						</params>
 						<message>

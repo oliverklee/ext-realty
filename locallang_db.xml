@@ -83,6 +83,14 @@
 			<label index="tx_realty_objects.state.11">renovated</label>
 			<label index="tx_realty_objects.state.12">sanitated</label>
 			<label index="tx_realty_objects.state.13">planned</label>
+			<label index="tx_realty_objects.state.14">not renovated</label>
+			<label index="tx_realty_objects.state.15">partly renovated</label>
+			<label index="tx_realty_objects.state.16">currently being planned</label>
+			<label index="tx_realty_objects.state.17">in need of renovation</label>
+			<label index="tx_realty_objects.state.18">fully rented</label>
+			<label index="tx_realty_objects.state.19">vacant</label>
+			<label index="tx_realty_objects.state.20">partly rented</label>
+			<label index="tx_realty_objects.state.21">has building permit</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
@@ -211,7 +219,15 @@
 			<label index="tx_realty_objects.state.10">neuwertig</label>
 			<label index="tx_realty_objects.state.11">renoviert</label>
 			<label index="tx_realty_objects.state.12">saniert</label>
-			<label index="tx_realty_objects.state.13">geplant</label>
+			<label index="tx_realty_objects.state.13">projektiert</label>
+			<label index="tx_realty_objects.state.14">unsaniert</label>
+			<label index="tx_realty_objects.state.15">teilsaniert</label>
+			<label index="tx_realty_objects.state.16">in Projektierung</label>
+			<label index="tx_realty_objects.state.17">sanierungsbedürftig</label>
+			<label index="tx_realty_objects.state.18">vollständig vermietet</label>
+			<label index="tx_realty_objects.state.19">leer stehend</label>
+			<label index="tx_realty_objects.state.20">teilvermietet</label>
+			<label index="tx_realty_objects.state.21">mit Baugenehmigung</label>
 			<label index="tx_realty_objects.balcony">Balkon/Terrasse</label>
 			<label index="tx_realty_objects.garden">Garten(-mitbenutzung)</label>
 			<label index="tx_realty_objects.elevator">Personenaufzug</label>
@@ -939,6 +955,14 @@
 			<label index="tx_realty_objects.state.11" type="integer">6435587</label>
 			<label index="tx_realty_objects.state.12" type="integer">149392355</label>
 			<label index="tx_realty_objects.state.13" type="integer">59756617</label>
+			<label index="tx_realty_objects.state.14" type="integer">59326879</label>
+			<label index="tx_realty_objects.state.15" type="integer">104896764</label>
+			<label index="tx_realty_objects.state.16" type="integer">24698282</label>
+			<label index="tx_realty_objects.state.17" type="integer">112726903</label>
+			<label index="tx_realty_objects.state.18" type="integer">24647912</label>
+			<label index="tx_realty_objects.state.19" type="integer">141770829</label>
+			<label index="tx_realty_objects.state.20" type="integer">180193091</label>
+			<label index="tx_realty_objects.state.21" type="integer">41136802</label>
 			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
 			<label index="tx_realty_objects.garden" type="integer">237814086</label>
 			<label index="tx_realty_objects.elevator" type="integer">157509981</label>
@@ -1667,6 +1691,14 @@
 			<label index="tx_realty_objects.state.11">renovated</label>
 			<label index="tx_realty_objects.state.12">sanitated</label>
 			<label index="tx_realty_objects.state.13">planned</label>
+			<label index="tx_realty_objects.state.14">not renovated</label>
+			<label index="tx_realty_objects.state.15">partly renovated</label>
+			<label index="tx_realty_objects.state.16">currently being planned</label>
+			<label index="tx_realty_objects.state.17">in need of renovation</label>
+			<label index="tx_realty_objects.state.18">fully rented</label>
+			<label index="tx_realty_objects.state.19">vacant</label>
+			<label index="tx_realty_objects.state.20">partly rented</label>
+			<label index="tx_realty_objects.state.21">has building permit</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>

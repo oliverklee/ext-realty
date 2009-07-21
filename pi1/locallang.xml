@@ -192,6 +192,14 @@
 			<label index="label_state.11">renovated</label>
 			<label index="label_state.12">sanitated</label>
 			<label index="label_state.13">planned</label>
+			<label index="label_state.14">not renovated</label>
+			<label index="label_state.15">partly renovated</label>
+			<label index="label_state.16">currently being planned</label>
+			<label index="label_state.17">in need of renovation</label>
+			<label index="label_state.18">fully rented</label>
+			<label index="label_state.19">vacant</label>
+			<label index="label_state.20">partly rented</label>
+			<label index="label_state.21">has building permit</label>
 			<label index="label_weofferyou_formal">We offer you the following objects:</label>
 			<label index="label_weofferyou_informal">We offer you the following objects:</label>
 			<label index="label_yourfavorites_formal">You have the following objects on your favorites list:</label>
@@ -518,7 +526,15 @@
 			<label index="label_state.10">neuwertig</label>
 			<label index="label_state.11">renoviert</label>
 			<label index="label_state.12">saniert</label>
-			<label index="label_state.13">geplant</label>
+			<label index="label_state.13">projektiert</label>
+			<label index="label_state.14">unsaniert</label>
+			<label index="label_state.15">teilsaniert</label>
+			<label index="label_state.16">in Projektierung</label>
+			<label index="label_state.17">sanierungsbedürftig</label>
+			<label index="label_state.18">vollständig vermietet</label>
+			<label index="label_state.19">leer stehend</label>
+			<label index="label_state.20">teilvermietet</label>
+			<label index="label_state.21">mit Baugenehmigung</label>
 			<label index="label_weofferyou_formal">Wir bieten Ihnen folgende Objekte an:</label>
 			<label index="label_weofferyou_informal">Wir bieten dir folgende Objekte an:</label>
 			<label index="label_yourfavorites_formal">Sie haben die folgenden Objekte auf Ihrem Merkzettel:</label>
@@ -1859,6 +1875,14 @@
 			<label index="label_state.11" type="integer">6435587</label>
 			<label index="label_state.12" type="integer">149392355</label>
 			<label index="label_state.13" type="integer">59756617</label>
+			<label index="label_state.14" type="integer">59326879</label>
+			<label index="label_state.15" type="integer">104896764</label>
+			<label index="label_state.16" type="integer">24698282</label>
+			<label index="label_state.17" type="integer">112726903</label>
+			<label index="label_state.18" type="integer">24647912</label>
+			<label index="label_state.19" type="integer">141770829</label>
+			<label index="label_state.20" type="integer">180193091</label>
+			<label index="label_state.21" type="integer">41136802</label>
 			<label index="label_weofferyou_formal" type="integer">89755002</label>
 			<label index="label_weofferyou_informal" type="integer">89755002</label>
 			<label index="label_yourfavorites_formal" type="integer">210319328</label>
@@ -3199,6 +3223,14 @@
 			<label index="label_state.11">renovated</label>
 			<label index="label_state.12">sanitated</label>
 			<label index="label_state.13">planned</label>
+			<label index="label_state.14">not renovated</label>
+			<label index="label_state.15">partly renovated</label>
+			<label index="label_state.16">currently being planned</label>
+			<label index="label_state.17">in need of renovation</label>
+			<label index="label_state.18">fully rented</label>
+			<label index="label_state.19">vacant</label>
+			<label index="label_state.20">partly rented</label>
+			<label index="label_state.21">has building permit</label>
 			<label index="label_weofferyou_formal">We offer you the following objects:</label>
 			<label index="label_weofferyou_informal">We offer you the following objects:</label>
 			<label index="label_yourfavorites_formal">You have the following objects on your favorites list:</label>
