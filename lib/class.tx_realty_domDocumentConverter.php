@@ -595,7 +595,9 @@ class tx_realty_domDocumentConverter {
 		// It must be ensured that the key 'object_type' is set as soon as there
 		// are attributes provided, because 'object_type' is a required field.
 		if (!empty($objectTypeAttributes)) {
-			if (isset($objectTypeAttributes['kauf'])) {
+			if (isset($objectTypeAttributes['kauf'])
+				&& ($objectTypeAttributes['kauf'] === 'true')
+			) {
 				$this->addImportedData('object_type', REALTY_FOR_SALE);
 			} else {
 				$this->addImportedData('object_type', REALTY_FOR_RENTING);

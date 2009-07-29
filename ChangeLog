@@ -1,4 +1,5 @@
 0.4.1 - currently working on
+- [#3228] Fix: Objects for rent are imported as for sale
 
 0.4.0 - released 2009-07-01
 - [#3154] Localization: Add an Italian localization, thanks to Roberto Torresani

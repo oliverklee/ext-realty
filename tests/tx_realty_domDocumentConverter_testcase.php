@@ -292,6 +292,116 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReadsObjectTitle() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>klein und teuer</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'klein und teuer')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForSaleTrueCreatesSaleObject() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<vermarktungsart KAUF="true"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('object_type' => REALTY_FOR_SALE)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForRentTrueCreatesRentObject() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<vermarktungsart MIETE_PACHT="true"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('object_type' => REALTY_FOR_RENTING)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForSaleTrueAndRentFalseCreatesSaleObject() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<vermarktungsart KAUF="true" MIETE_PACHT="false"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('object_type' => REALTY_FOR_SALE)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForSaleFalseAndRentTrueCreatesRentObject() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<vermarktungsart KAUF="false" MIETE_PACHT="true"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('object_type' => REALTY_FOR_RENTING)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedDataReturnsUniversalDataInEachRecord() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
