@@ -481,13 +481,22 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		);
 		$this->allowAccess();
 		$this->assertEquals(
-			'', $this->fixture->createLinkToSingleViewPage('', 0)
+			'',
+			$this->fixture->createLinkToSingleViewPage('', 0)
 		);
 	}
 
 	public function testLinkToSingleViewPageContainsLinkText() {
 		$this->assertContains(
-			'foo', $this->fixture->createLinkToSingleViewPage('foo', 0)
+			'foo',
+			$this->fixture->createLinkToSingleViewPage('foo', 0)
+		);
+	}
+
+	public function testLinkToSingleViewPageHtmlSpecialCharsLinkText() {
+		$this->assertContains(
+			'a &amp; &quot; &gt;',
+			$this->fixture->createLinkToSingleViewPage('a & " >', 0)
 		);
 	}
 
@@ -715,9 +724,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(
-				// A city is the minimum requirement for an object to be displayed,
-				// though the object is rendered empty because the city has no title.
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'city' => $this->firstCityUid,
 				'pid' => $systemFolder
 			)
 		);
@@ -727,6 +734,26 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'###',
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function testListViewHtmlSpecialCharsObjectTitles() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'title' => 'a & " >',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+
+		$this->assertContains(
+			'a &amp; &quot; &gt;',
 			$this->fixture->main('', array())
 		);
 	}
