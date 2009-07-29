@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#1868] Feature: Add a try/catch construct around the realty pi1 and cli main functions
 - [#3277] Fix: HTML is double-escaped in object titles in the list view
 - [#3228] Fix: Objects for rent are imported as for sale
 - [#3196] Change: Don't display the "available from" field in the list view and single view if it is empty

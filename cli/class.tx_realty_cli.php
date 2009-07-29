@@ -50,8 +50,14 @@ class tx_realty_cli {
 	 * Calls the OpenImmo importer.
 	 */
 	public function main() {
-		$importer = tx_oelib_ObjectFactory::make('tx_realty_openImmoImport');
-		echo $importer->importFromZip();
+		try {
+			$importer = tx_oelib_ObjectFactory::make('tx_realty_openImmoImport');
+			echo $importer->importFromZip();
+		} catch (Exception $exception) {
+			echo $exception->getMessage() . LF . LF .
+				$exception->getTraceAsString() . LF .LF;
+		}
+
 	}
 }
 
