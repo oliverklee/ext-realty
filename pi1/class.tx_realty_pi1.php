@@ -120,6 +120,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	private $formatter = null;
 
 	/**
+	 * @var integer character length for cropped titles
+	 */
+	const CROP_SIZE = 74;
+
+	/**
 	 * @var array FE user record, will at least contain the element 'uid'
 	 */
 	private $cachedOwner = array('uid' => 0);
@@ -975,8 +980,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Returns the title of the current object linked to the single view page.
 	 */
 	private function getLinkedTitle() {
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')
+			->find($this->internal['currentRow']['uid']);
+
 		return $this->createLinkToSingleViewPage(
-			$this->getFormatter()->getProperty('cropped_title'),
+			$realtyObject->getCroppedTitle(self::CROP_SIZE),
 			$this->internal['currentRow']['uid'],
 			$this->internal['currentRow']['details_page']
 		);

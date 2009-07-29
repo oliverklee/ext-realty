@@ -329,35 +329,5 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 			$this->fixture->getProperty('address')
 		);
 	}
-
-	public function testGetPropertyReturnsCroppedTitle() {
-		$this->realtyObject->setProperty(
-				'title',
-				'This title is longer than 75 Characters, so the' .
-					' rest should be cropped and be replaced with dots'
-			);
-
-		$this->assertEquals(
-			'This title is longer than 75 Characters, so the rest should be' .
-				' cropped and…',
-			$this->fixture->getProperty('cropped_title')
-		);
-	}
-
-	public function testGetPropertyReturnsHtmlspecialcharedCroppedTitle() {
-		$this->realtyObject->setProperty(
-				'title',
-				'This title is longer than <b>75</b> Characters, so the' .
-					' rest should be cropped and be replaced with dots'
-			);
-
-		$this->assertEquals(
-			htmlspecialchars(
-				'This title is longer than <b>75</b> Characters,' .
-					' so the rest should be crop…'
-			),
-			$this->fixture->getProperty('cropped_title')
-		);
-	}
 }
 ?>

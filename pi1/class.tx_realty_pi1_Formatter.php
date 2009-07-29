@@ -51,11 +51,6 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	public $extKey = 'realty';
 
 	/**
-	 * @var integer character length for cropped titles
-	 */
-	const CROP_SIZE = 74;
-
-	/**
 	 * @var integer UID of the realty object to show
 	 */
 	private $showUid = 0;
@@ -97,9 +92,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *
 	 * @throws Exception if $key was empty
 	 *
-	 * @param string key of the realty object's field of which to retrieve the
-	 *               formatted value, may also be "address" or "cropped_title",
-	 *               must not be empty
+	 * @param string $key
+	 *        key of the realty object's field of which to retrieve the
+	 *        formatted value, may also be "address", must not be empty
 	 *
 	 * @return string formatted value of the field, may be empty
 	 */
@@ -221,11 +216,6 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				break;
 			case 'address':
 				$result = $realtyObject->getAddressAsHtml();
-				break;
-			case 'cropped_title':
-				$result = htmlspecialchars(
-					$realtyObject->getCroppedTitle(self::CROP_SIZE)
-				);
 				break;
 			case 'uid':
 				$result = $this->getUid();
