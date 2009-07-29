@@ -165,38 +165,50 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return string HTML for the plugin
 	 */
 	public function main($unused, array $conf) {
-		$this->init($conf);
-		$this->pi_initPIflexForm();
+		$result = '';
 
-		$this->setLocaleConvention();
-		$this->getTemplateCode();
-		$this->setLabels();
+		try {
+			$this->init($conf);
+			$this->pi_initPIflexForm();
 
-		if (strstr($this->cObj->currentRecord, 'tt_content')) {
-			$this->conf['pidList'] = $this->getConfValueString('pages');
-			$this->conf['recursive'] = $this->getConfValueInteger('recursive');
+			$this->setLocaleConvention();
+			$this->getTemplateCode();
+			$this->setLabels();
+
+			if (strstr($this->cObj->currentRecord, 'tt_content')) {
+				$this->conf['pidList'] = $this->getConfValueString('pages');
+				$this->conf['recursive'] = $this->getConfValueInteger('recursive');
+			}
+
+			$this->internal['currentTable'] = $this->tableNames['objects'];
+			$this->ensureIntegerPiVars(array(
+				'city', 'image', 'remove', 'showUid', 'delete', 'owner', 'uid'
+			));
+			$this->cacheSelectedOwner();
+
+			// Checks the configuration and displays any errors.
+			// The direct return value from $this->checkConfiguration() is not
+			// used as this would ignore any previous error messages.
+			$this->setFlavor($this->getCurrentView());
+			$this->checkConfiguration();
+
+			$errorViewHtml = $this->checkAccessAndGetHtmlOfErrorView();
+			$result = $this->pi_wrapInBaseClass(
+				(($errorViewHtml == '')
+					? $this->getHtmlForCurrentView()
+					: $errorViewHtml
+				) . $this->getWrappedConfigCheckMessage()
+			);
+		} catch (Exception $exception) {
+			$result .= '<p style="border: 2px solid red; padding: 1em; ' .
+				'font-weight: bold;">' . LF .
+				htmlspecialchars($exception->getMessage()) . LF .
+				'<br /><br />' . LF .
+				nl2br(htmlspecialchars($exception->getTraceAsString())) . LF .
+				'</p>' . LF;
 		}
 
-		$this->internal['currentTable'] = $this->tableNames['objects'];
-		$this->ensureIntegerPiVars(array(
-			'city', 'image', 'remove', 'showUid', 'delete', 'owner', 'uid'
-		));
-		$this->cacheSelectedOwner();
-
-		// Checks the configuration and displays any errors.
-		// The direct return value from $this->checkConfiguration() is not used
-		// as this would ignore any previous error messages.
-		$this->setFlavor($this->getCurrentView());
-		$this->checkConfiguration();
-
-		$errorViewHtml = $this->checkAccessAndGetHtmlOfErrorView();
-
-		return $this->pi_wrapInBaseClass(
-			(($errorViewHtml == '')
-				? $this->getHtmlForCurrentView()
-				: $errorViewHtml
-			) . $this->getWrappedConfigCheckMessage()
-		);
+		return $result;
 	}
 
 	/**
