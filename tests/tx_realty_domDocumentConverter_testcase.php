@@ -1229,6 +1229,65 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetConvertedDataImportsRentExcludingBillsFromNettokaltmieteWhenKaltmieteIsPresent() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<preise>' .
+							'<nettokaltmiete>12345</nettokaltmiete>' .
+							'<kaltmiete>54321</kaltmiete>' .
+						'</preise>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('rent_excluding_bills' => '12345')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataForNettokaltmieteMissingAndExistingKaltmieteImportsRentExcludingBillsFromKaltmiete() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<preise>' .
+							'<kaltmiete>54321</kaltmiete>' .
+						'</preise>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('rent_excluding_bills' => '54321')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	public function testGetConvertedDataForNettokaltmieteEmptyAndNonEmptyKaltmieteImportsRentExcludingBillsFromKaltmiete() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<preise>' .
+							'<nettokaltmiete></nettokaltmiete>' .
+							'<kaltmiete>54321</kaltmiete>' .
+						'</preise>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('rent_excluding_bills' => '54321')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 	public function testGetConvertedDataImportsTheLanguage() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'

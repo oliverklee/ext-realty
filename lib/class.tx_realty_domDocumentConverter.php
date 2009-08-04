@@ -62,7 +62,6 @@ class tx_realty_domDocumentConverter {
 		'living_area' => array('flaechen' => 'wohnflaeche'),
 		'total_area' => array('flaechen' => 'gesamtflaeche'),
 		'estate_size' => array('flaechen' => 'grundstuecksflaeche'),
-		'rent_excluding_bills' => array('preise' => 'nettokaltmiete'),
 		'extra_charges' => array('preise' => 'nebenkosten'),
 		'heating_included' => array('preise' => 'heizkosten_enthalten'),
 		'deposit' => array('preise' => 'kaution'),
@@ -298,6 +297,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchLanguage();
 		$this->fetchGeoCoordinates();
 		$this->fetchCountry();
+		$this->fetchRent();
 
 		$this->replaceImportedBooleanLikeStrings();
 		$this->substitudeSurplusDecimals();
@@ -1123,6 +1123,30 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function cacheCountry($key, $value) {
 		self::$cachedCountries[$key] = $value;
+	}
+
+	/**
+	 * Fetches the rent excluding bills from the XML.
+	 *
+	 * Rent excluding bills will be fetched from 'nettokaltmiete' if it is
+	 * present and not empty, otherwise it will be fetched from 'kaltmiete'.
+	 */
+	private function fetchRent() {
+		$nodeWithAttributes = $this->findFirstGrandchild(
+			'preise', 'nettokaltmiete'
+		);
+
+		if (!$nodeWithAttributes || ($nodeWithAttributes->nodeValue == '')) {
+			$nodeWithAttributes = $this->findFirstGrandchild(
+				'preise', 'kaltmiete'
+			);
+		}
+
+		if ($nodeWithAttributes) {
+			$this->addImportedDataIfValueIsNonEmpty(
+				'rent_excluding_bills', $nodeWithAttributes->nodeValue
+			);
+		}
 	}
 }
 
