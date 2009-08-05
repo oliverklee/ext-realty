@@ -2294,8 +2294,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(
-				'latitude' => '50.7343433',
-				'longitude' => '7.1021105',
+				'latitude' => '50.7343353',
+				'longitude' => '7.1021270',
 			),
 			$this->fixture->retrieveCoordinates($this->templateHelper)
 		);
@@ -2318,8 +2318,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'uid = ' . $this->fixture->getUid() .
-					' AND exact_latitude = "50.7343433"' .
-					' AND exact_longitude = "7.1021105"'
+					' AND exact_latitude = "50.7343353"' .
+					' AND exact_longitude = "7.1021270"'
 			)
 		);
 	}
