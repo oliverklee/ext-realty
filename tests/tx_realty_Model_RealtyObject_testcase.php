@@ -1979,7 +1979,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testRetrieveCoordinatesForInvalidAddressDoesNotWriteObjectToDb() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
-			'zip' => '12345',
 			'city' => 'Allk3q4öklbj',
 			'country' => self::DE,
 		));
@@ -1994,7 +1993,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testRetrieveCoordinatesForInvalidAddressWithoutCachedCoordinatesReturnsEmptyArray() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
-			'zip' => '12345',
 			'city' => 'Allk3q4öklbj',
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
@@ -2010,7 +2008,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testRetrieveCoordinatesForInvalidAddressDoesNotChangeExistingCoordinates() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
-			'zip' => '12345',
 			'city' => 'Allk3q4öklbj',
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
@@ -2043,7 +2040,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testRetrieveCoordinatesForInvalidAddressDoesNotMarkCoordinatesAsCached() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
-			'zip' => '12345',
 			'city' => 'Allk3q4öklbj',
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,
@@ -2396,7 +2392,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testRetrieveCoordinatesForExactInvalidAddressReturnsCachedCoordinatesIfTheyWereSet() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
-			'zip' => '12345',
 			'city' => 'Allk3q4öklbj',
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 1,
@@ -2418,7 +2413,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testRetrieveCoordinatesForRoughInvalidAddressReturnsCachedCoordinatesIfTheyWereSet() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
-			'zip' => '12345',
 			'city' => 'Allk3q4öklbj',
 			'country' => self::DE,
 			'exact_coordinates_are_cached' => 0,

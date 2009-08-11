@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3302] Fix: Multiple tests regarding retrieveCoordinates fail.
 - [#3246] Fix: Coordinates have changed again
 - [#3254] Change: Also import the rent from "kaltmiete" if "nettokaltmiete" is empty or missing
 - [#1868] Feature: Add a try/catch construct around the realty pi1 and cli main functions
