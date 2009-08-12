@@ -113,4 +113,7 @@ t3lib_extMgm::addTypoScript(
 // registers the key for class.tx_realty_cli.php
 $TYPO3_CONF_VARS['SC_OPTIONS']['GLOBAL']['cliKeys']['openImmoImport']
 	= array('EXT:realty/cli/class.tx_realty_cli.php', '_CLI_realty');
+// registers the key for class.tx_realty_cli_ImageCleanUpStarter.php
+$TYPO3_CONF_VARS['SC_OPTIONS']['GLOBAL']['cliKeys']['cleanUpRealtyImages']
+	= array('EXT:realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php', '_CLI_realty');
 ?>

@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2009 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2009 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,40 +30,44 @@ require_once(PATH_t3lib . 'class.t3lib_cli.php');
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_openImmoImport.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_cli' for the 'realty' extension.
+ * Class 'tx_realty_cli_ImageCleanUpStarter' for the 'realty' extension.
  *
- * This class provides access via command-line interface.
+ * This class provides access via command-line interface and starts the
+ * removal of unused images from the Realty upload folder.
  *
  * To run this script, use the following command in a console: '/[absolute path
- * of the TYPO3 installation]/typo3/cli_dispatch.phpsh openImmoImport'.
+ * of the TYPO3 installation]/typo3/cli_dispatch.phpsh cleanUpRealtyImages'.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_cli {
+class tx_realty_cli_ImageCleanUpStarter {
 	/**
-	 * Calls the OpenImmo importer.
+	 * Starts the clean-up.
 	 */
 	public function main() {
 		try {
-			$importer = tx_oelib_ObjectFactory::make('tx_realty_openImmoImport');
-			echo $importer->importFromZip();
+			$cleanUp = t3lib_div::makeInstance('tx_realty_cli_ImageCleanUp');
+			$cleanUp->checkUploadFolder();
+			$cleanUp->hideUnusedImagesInDatabase();
+			$cleanUp->deleteUnusedImageFiles();
+			echo $cleanUp->getStatistics() . LF . LF;
 		} catch (Exception $exception) {
-			echo $exception->getMessage() . LF . LF .
-				$exception->getTraceAsString() . LF .LF;
+			echo 'An error has occurred during the clean-up: ' . LF .
+				$exception->getMessage() . LF . LF .
+				$exception->getTraceAsString() . LF . LF;
 		}
-
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php']);
 }
 
-tx_oelib_ObjectFactory::make('tx_realty_cli')->main();
+tx_oelib_ObjectFactory::make('tx_realty_cli_ImageCleanUpStarter')->main();
 ?>
