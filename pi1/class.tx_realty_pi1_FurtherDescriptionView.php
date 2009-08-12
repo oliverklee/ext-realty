@@ -46,16 +46,15 @@ class tx_realty_pi1_FurtherDescriptionView extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $piVars = array()) {
 		$hasContent = false;
+		$model = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($piVars['showUid']);
 
 		foreach (array('equipment', 'location', 'misc') as $key) {
-			$value = $this->pi_RTEcssText(
-				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-					->find($piVars['showUid'])->getProperty($key)
-			);
+			$value = $this->pi_RTEcssText($model->getProperty($key));
 
 			$hasContent = $this->setOrDeleteMarkerIfNotEmpty(
-					$key, $value, '', 'field_wrapper'
-				) || $hasContent;
+				$key, $value, '', 'field_wrapper'
+			) || $hasContent;
 		}
 
 		return ($hasContent
