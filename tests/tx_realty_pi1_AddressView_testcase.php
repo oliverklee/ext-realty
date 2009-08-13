@@ -68,8 +68,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecordWithZip() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('zip', '12345');
+			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$this->assertNotEquals(
 			'',
@@ -79,8 +78,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('zip', '12345');
+			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$result = $this->fixture->render(
 			array('showUid' => $realtyObject->getUid())
@@ -98,8 +96,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheRealtyObjectsAddressForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('zip', '12345');
+			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$this->assertContains(
 			'12345',
@@ -109,8 +106,7 @@ class tx_realty_pi1_AddressView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsEmptyResultForEmptyAddressDataOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setData(array());
+			->getLoadedTestingModel(array());
 
 		$this->assertEquals(
 			'',

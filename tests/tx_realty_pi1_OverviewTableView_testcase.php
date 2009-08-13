@@ -69,8 +69,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_number', '12345');
+			->getLoadedTestingModel(array('object_number' => '12345'));
 
 		$this->assertNotEquals(
 			'',
@@ -80,8 +79,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_number', '12345');
+			->getLoadedTestingModel(array('object_number' => '12345'));
 
 		$result = $this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
@@ -97,8 +95,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheRealtyObjectsObjectNumberForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_number', '12345');
+			->getLoadedTestingModel(array('object_number' => '12345'));
 
 		$this->assertContains(
 			'12345',
@@ -108,8 +105,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_number', '12345</br>');
+			->getLoadedTestingModel(array('object_number' => '12345</br>'));
 
 		$this->assertContains(
 			htmlspecialchars('12345</br>'),
@@ -119,8 +115,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsEmptyResultForValidRealtyObjectWithoutData() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setData(array());
+			->getLoadedTestingModel(array());
 
 		$this->assertEquals(
 			'',
@@ -135,8 +130,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsHasAirConditioningRowForTrue() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_air_conditioning', 1);
+			->getLoadedTestingModel(array('has_air_conditioning' => 1));
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_air_conditioning'
@@ -150,8 +144,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsHasAirConditioningRowForFalse() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_air_conditioning', 0);
+			->getLoadedTestingModel(array('has_air_conditioning' => 0));
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_air_conditioning'
@@ -165,8 +158,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsHasPoolRowForTrue() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_pool', 1);
+			->getLoadedTestingModel(array('has_pool' => 1));
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_pool'
@@ -180,8 +172,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsHasPoolRowForFalse() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_pool', 0);
+			->getLoadedTestingModel(array('has_pool' => 0));
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_pool'
@@ -195,8 +186,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsHasCommunityPoolRowForTrue() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_community_pool', 1);
+			->getLoadedTestingModel(array('has_community_pool' => 1));
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_community_pool'
@@ -210,8 +200,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsHasCommunityPoolRowForFalse() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_community_pool', 0);
+			->getLoadedTestingModel(array('has_community_pool' => 0));
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_community_pool'
@@ -225,8 +214,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheLabelForStateIfAValidStateIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('state', 8);
+			->getLoadedTestingModel(array('state' => 8));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -238,8 +226,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheStateIfAValidStateIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('state', 8);
+			->getLoadedTestingModel(array('state' => 8));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -251,8 +238,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsTheLabelForStateIfNoStateIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('state', 0);
+			->getLoadedTestingModel(array('state' => 0));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -264,8 +250,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsTheLabelForStateIfTheStateIsInvalid() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('state', 10000000);
+			->getLoadedTestingModel(array('state' => 10000000));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
@@ -277,8 +262,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheLabelForHeatingTypeIfOneValidHeatingTypeIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('heating_type', '1');
+			->getLoadedTestingModel(array('heating_type' => '1'));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
@@ -290,8 +274,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheHeatingTypeIfOneValidHeatingTypeIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('heating_type', '1');
+			->getLoadedTestingModel(array('heating_type' => '1'));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
@@ -303,8 +286,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsAHeatingTypeListIfMultipleValidHeatingTypesAreSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('heating_type', '1,3,4');
+			->getLoadedTestingModel(array('heating_type' => '1,3,4'));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
@@ -318,8 +300,7 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsTheHeatingTypeLabelIfOnlyAnInvalidHeatingTypeIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('heating_type', '100');
+			->getLoadedTestingModel(array('heating_type' => '100'));
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 

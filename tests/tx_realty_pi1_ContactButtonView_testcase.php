@@ -78,8 +78,7 @@ class tx_realty_pi1_ContactButtonView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNonEmptyResultForShowUidOfRealtyRecordProvided() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test title');
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->assertNotEquals(
 			'',
@@ -89,8 +88,7 @@ class tx_realty_pi1_ContactButtonView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsProvidedShowUidOfRealtyRecordAsLinkParameter() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test title');
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->assertContains(
 			'tx_realty_pi1[showUid]=' . $realtyObject->getUid(),
