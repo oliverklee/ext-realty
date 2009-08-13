@@ -70,9 +70,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_RENTING);
-		$realtyObject->setProperty('rent_excluding_bills', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_RENTING,
+				'rent_excluding_bills' => '123',
+		));
 
 		$this->assertNotEquals(
 			'',
@@ -82,8 +83,7 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsEmptyResultForShowUidOfObjectWithInvalidObjectType() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', 2);
+			->getLoadedTestingModel(array('object_type' => 2));
 
 		$this->assertEquals(
 			'',
@@ -93,9 +93,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_RENTING);
-		$realtyObject->setProperty('rent_excluding_bills', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_RENTING,
+				'rent_excluding_bills' => '123',
+		));
 
 		$result = $this->fixture->render(
 			array('showUid' => $realtyObject->getUid())
@@ -113,9 +114,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheRealtyObjectsBuyingPriceForObjectForSale() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
-		$realtyObject->setProperty('buying_price', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'buying_price' => '123',
+		));
 
 		$this->assertContains(
 			'123',
@@ -125,9 +127,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsTheRealtyObjectsBuyingPriceForObjectForRenting() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_RENTING);
-		$realtyObject->setProperty('buying_price', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_RENTING,
+				'buying_price' => '123',
+		));
 
 		$this->assertNotContains(
 			'123',
@@ -137,9 +140,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheRealtyObjectsRentForObjectForRenting() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_RENTING);
-		$realtyObject->setProperty('rent_excluding_bills', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_RENTING,
+				'rent_excluding_bills' => '123',
+		));
 
 		$this->assertContains(
 			'123',
@@ -149,9 +153,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsTheRealtyObjectsRentForObjectForSale() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
-		$realtyObject->setProperty('rent_excluding_bills price', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'rent_excluding_bills' => '123',
+		));
 
 		$this->assertNotContains(
 			'123',
@@ -161,9 +166,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsEmptyResultForEmptyBuyingPriceOfObjectForSale() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
-		$realtyObject->setProperty('buying_price', '');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'buying_price' => '',
+		));
 
 		$this->assertEquals(
 			'',

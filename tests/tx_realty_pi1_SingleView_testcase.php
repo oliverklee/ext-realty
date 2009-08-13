@@ -99,8 +99,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewReturnsEmptyResultForShowUidOfHiddenRecordAndNoUserLoggedIn() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('hidden', 1);
+			->getLoadedTestingModel(array('hidden' => 1));
 		$this->assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
@@ -109,11 +108,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewReturnsEmptyResultForShowUidOfHiddenRecordNonOwnerLoggedIn() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('hidden', 1);
-		$realtyObject->setProperty(
-			'owner', $this->testingFramework->createFrontEndUser()
-		);
+			->getLoadedTestingModel(array(
+				'hidden' => 1,
+				'owner' => $this->testingFramework->createFrontEndUser()
+		));
 
 		$this->testingFramework->createAndLoginFrontEndUser();
 
@@ -125,11 +123,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewReturnsNonEmptyResultForShowUidOfHiddenRecordOwnerLoggedIn() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('hidden', 1);
-		$realtyObject->setProperty(
-			'owner', $this->testingFramework->createAndLoginFrontEndUser()
-		);
+			->getLoadedTestingModel(array(
+				'hidden' => 1,
+				'owner' => $this->testingFramework->createAndLoginFrontEndUser()
+		));
 
 		$this->assertNotEquals(
 			'',
@@ -139,8 +136,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->assertNotEquals(
 			'',
@@ -150,8 +146,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->assertNotContains(
 			'###',
@@ -166,8 +161,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysTheTitleOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->assertContains(
 			'foo',
@@ -177,8 +171,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysTheTitleOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'description'
@@ -192,8 +185,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysTheDescriptionOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('description', 'foo');
+			->getLoadedTestingModel(array('description' => 'foo'));
 
 		$this->assertContains(
 			'foo',
@@ -203,8 +195,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysTheDescriptionOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('description', 'foo');
+			->getLoadedTestingModel(array('description' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -218,9 +209,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysThePriceOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
-		$realtyObject->setProperty('buying_price', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'buying_price' => '123',
+		));
 
 		$this->assertContains(
 			'123',
@@ -230,9 +222,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysThePriceOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('object_type', REALTY_FOR_SALE);
-		$realtyObject->setProperty('buying_price', '123');
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'buying_price' => '123',
+		));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -246,8 +239,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysTheEquipmentDescriptionOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('equipment', 'foo');
+			->getLoadedTestingModel(array('equipment' => 'foo'));
 
 		$this->assertContains(
 			'foo',
@@ -257,8 +249,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysTheEquipmentDescriptionOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('equipment', 'foo');
+			->getLoadedTestingModel(array('equipment' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -272,8 +263,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysTheAddToFavoritesButtonIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->assertContains(
 			'class="button addToFavorites"',
@@ -283,8 +273,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysTheAddToFavoritesButtonIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -331,8 +320,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysTextPaneDivIfOnlyImagesShouldBeDisplayed() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'imageThumbnails'
@@ -346,8 +334,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysTextPaneDivAndWithImagesClassNameImagesAndTextShouldBeDisplayed() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading,imageThumbnails'
@@ -361,8 +348,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysWithImagesClassNameIfOnlyTextShouldBeDisplayed() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'foo');
+			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -377,8 +363,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysContactButtonIfThisIsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test title');
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->fixture->setConfigurationValue(
 			'contactPID', $this->testingFramework->createFrontEndPage()
@@ -392,8 +377,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysContactButtonIfThisIsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test title');
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -410,8 +394,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysOffererInformationIfThisIsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('contact_phone', '12345');
+			->getLoadedTestingModel(array('contact_phone' => '12345'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'offerer'
@@ -428,8 +411,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysOffererInformationIfThisIsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('contact_phone', '12345');
+			->getLoadedTestingModel(array('contact_phone' => '12345'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -446,8 +428,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysOverviewTableRowIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_air_conditioning', '1');
+			->getLoadedTestingModel(array('has_air_conditioning' => '1'));
 
 		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_air_conditioning'
@@ -461,8 +442,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysOverviewTableRowIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('has_air_conditioning', '1');
+			->getLoadedTestingModel(array('has_air_conditioning' => '1'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -479,8 +459,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysTheAddressOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('zip', '12345');
+			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$this->assertContains(
 			'12345',
@@ -490,8 +469,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysTheAddressOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('zip', '12345');
+			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'
@@ -510,11 +488,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysMapForGoogleMapsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('exact_coordinates_are_cached', 1);
-		$realtyObject->setProperty('exact_latitude', '50.734343');
-		$realtyObject->setProperty('exact_longitude', '7.10211');
-		$realtyObject->setProperty('show_address', 1);
+			->getLoadedTestingModel(array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => '50.734343',
+				'exact_longitude' => '7.10211',
+				'show_address' => 1,
+		));
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 
@@ -526,11 +505,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewNotDisplaysMapForGoogleMapsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('exact_coordinates_are_cached', 1);
-		$realtyObject->setProperty('exact_latitude', 50.734343);
-		$realtyObject->setProperty('exact_longitude', 7.10211);
-		$realtyObject->setProperty('show_address', 1);
+			->getLoadedTestingModel(array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+				'show_address' => 1,
+		));
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
 
@@ -542,11 +522,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testGoogleMapsDoesNotLinkObjectTitleInMap() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('exact_coordinates_are_cached', 1);
-		$realtyObject->setProperty('exact_latitude', 50.734343);
-		$realtyObject->setProperty('exact_longitude', 7.10211);
-		$realtyObject->setProperty('show_address', 1);
+			->getLoadedTestingModel(array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+				'show_address' => 1,
+		));
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 

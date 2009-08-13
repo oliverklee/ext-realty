@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3324] Change: Change all getNewGhost/set* sequences to getLoadedTestingModel in realty
 - [#3131] Feature: Create a CLI script for cleaning up unused image files
 - [#3321] Change: Move the loading of the model out of the loop in pi1_FurtherDescriptionView::render
 - [#3309] Fix: Test failure: testRenderReturnsEmptyResultForEmptyFurtherDescriptionOfValidRealtyObject

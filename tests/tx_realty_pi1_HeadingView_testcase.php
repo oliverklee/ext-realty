@@ -68,8 +68,7 @@ class tx_realty_pi1_HeadingView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test title');
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->assertNotEquals(
 			'',
@@ -79,8 +78,7 @@ class tx_realty_pi1_HeadingView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test title');
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$result = $this->fixture->render(
 			array('showUid' => $realtyObject->getUid())
@@ -98,8 +96,7 @@ class tx_realty_pi1_HeadingView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheRealtyObjectsTitleForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test title');
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->assertContains(
 			'test title',
@@ -109,8 +106,7 @@ class tx_realty_pi1_HeadingView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', 'test</br>title');
+			->getLoadedTestingModel(array('title' => 'test</br>title'));
 
 		$this->assertContains(
 			htmlspecialchars('test</br>title'),
@@ -120,8 +116,7 @@ class tx_realty_pi1_HeadingView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsEmptyResultForEmptyTitleOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->setProperty('title', '');
+			->getLoadedTestingModel(array('title' => ''));
 
 		$this->assertEquals(
 			'',
