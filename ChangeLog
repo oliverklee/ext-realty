@@ -1,4 +1,5 @@
 0.4.1 - currently working on
+- [#3341] Fix: Typo in ext_tables.php
 - [#3324] Change: Change all getNewGhost/set* sequences to getLoadedTestingModel in realty
 - [#3321] Change: Move the loading of the model out of the loop in pi1_FurtherDescriptionView::render
 - [#3309] Fix: Test failure: testRenderReturnsEmptyResultForEmptyFurtherDescriptionOfValidRealtyObject
