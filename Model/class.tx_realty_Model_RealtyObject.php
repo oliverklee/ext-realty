@@ -209,7 +209,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                 case of any other type
 	 */
 	protected function getDataType($realtyData) {
-		if ($realtyData == null) {
+		if ($realtyData === null) {
 			return '';
 		}
 

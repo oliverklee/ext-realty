@@ -593,8 +593,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-		$this->assertTrue(
-			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
+		$this->assertEquals(
+			'DOMDocument',
+			get_class($this->fixture->getImportedXml())
 		);
 	}
 
@@ -605,8 +606,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-		$this->assertTrue(
-			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
+		$this->assertEquals(
+			'DOMDocument',
+			get_class($this->fixture->getImportedXml())
 		);
 	}
 
@@ -617,8 +619,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->fixture->extractZip($this->importFolder . 'bar.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'bar.zip');
 
-		$this->assertTrue(
-			get_class($this->fixture->getImportedXml()) == 'DOMDocument'
+		$this->assertEquals(
+			'DOMDocument',
+			get_class($this->fixture->getImportedXml())
 		);
 	}
 

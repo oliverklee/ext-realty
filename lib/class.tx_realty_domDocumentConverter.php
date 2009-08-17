@@ -596,7 +596,7 @@ class tx_realty_domDocumentConverter {
 		// are attributes provided, because 'object_type' is a required field.
 		if (!empty($objectTypeAttributes)) {
 			if (isset($objectTypeAttributes['kauf'])
-				&& ($objectTypeAttributes['kauf'] === 'true')
+				&& ($objectTypeAttributes['kauf'] == 'true')
 			) {
 				$this->addImportedData('object_type', REALTY_FOR_SALE);
 			} else {
