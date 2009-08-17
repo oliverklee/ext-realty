@@ -214,7 +214,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                 case of any other type
 	 */
 	protected function getDataType($realtyData) {
-		if ($realtyData == null) {
+		if ($realtyData === null) {
 			return '';
 		}
 
@@ -1459,7 +1459,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$this->getAsInteger('contact_data_source')
 				== REALTY_CONTACT_FROM_OWNER_ACCOUNT;
 
-		if ($useContactDataOfOwner && $this->owner == null) {
+		if ($useContactDataOfOwner && $this->owner === null) {
 			$this->owner
 				= tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 					->find($this->getAsInteger('owner'));

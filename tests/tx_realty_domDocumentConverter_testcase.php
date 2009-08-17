@@ -1122,8 +1122,9 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
-		$this->assertTrue(
-			count($this->fixture->createRecordsForImages()) == 1
+		$this->assertEquals(
+			1,
+			count($this->fixture->createRecordsForImages())
 		);
 	}
 

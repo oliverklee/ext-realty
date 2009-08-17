@@ -1325,8 +1325,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			isset($result['city'])
 		);
-		$this->assertFalse(
-			$result['city'] == 0
+		$this->assertNotEquals(
+			0,
+			$result['city']
 		);
 	}
 
@@ -1352,8 +1353,9 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 				REALTY_TABLE_CITIES, 'title = "new city"'
 			)
 		);
-		$this->assertTrue(
-			$result['city'] == 1
+		$this->assertEquals(
+			1,
+			$result['city']
 		);
 	}
 
