@@ -242,7 +242,7 @@ class tx_realty_openImmoImport {
 		);
 
 		if (!empty($recordsToInsert)) {
-			$this->copyImagesFromExtractedZip($currentZip);
+			$this->copyImagesFromExtractedZip($currentZip, $recordsToInsert);
 			// Only ZIP archives that have a valid owner and therefore can be
 			// imported are marked as deletable.
 			// The owner is the same for each record within one ZIP archive.
@@ -1157,12 +1157,15 @@ class tx_realty_openImmoImport {
 	/**
 	 * Copies images for OpenImmo records to the local upload folder.
 	 *
-	 * @param string path of the extracted ZIP archive, must not be empty
+	 * @param string $pathOfZip
+	 *        path of the extracted ZIP archive, must not be empty
+	 * @param array $realtyRecords
+	 *        realty record data derived from the XML file, must not be empty
 	 */
-	public function copyImagesFromExtractedZip($pathOfZip) {
+	public function copyImagesFromExtractedZip($pathOfZip, array $realtyRecords) {
 		$folderWithImages = $this->getNameForExtractionFolder($pathOfZip);
-
-		foreach (array('jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF')
+		$imagesNotToCopy = $this->findImageNamesOfDeletedRecords($realtyRecords);
+		foreach (explode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
 			as $pattern
 		) {
 			$images = glob($folderWithImages . '*.' . $pattern);
@@ -1172,10 +1175,34 @@ class tx_realty_openImmoImport {
 				);
 
 				foreach ($uniqueFileNames as $uniqueName) {
-					copy($image, $this->uploadDirectory . $uniqueName);
+					if (!in_array($uniqueName, $imagesNotToCopy)) {
+						copy($image, $this->uploadDirectory . $uniqueName);
+					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Finds file names of images which must not be copied into the uploads
+	 * folder because their corresponding realty records are marked as deleted.
+	 *
+	 * @param array $records realty records, must not be empty
+	 *
+	 * @return array file names of the images which must not be copied
+	 */
+	private function findImageNamesOfDeletedRecords(array $records) {
+		$imagesNotToCopy = array();
+
+		foreach ($records as $record) {
+			if ($record['deleted']) {
+				foreach ($record['images'] as $image) {
+					$imagesNotToCopy[] = $image['image'];
+				}
+			}
+		}
+
+		return $imagesNotToCopy;
 	}
 
 	/**

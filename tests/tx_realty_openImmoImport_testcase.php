@@ -367,6 +367,34 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCopyImagesFromExtractedZipCopiesImagesForRealtyRecord() {
+		$this->checkForZipArchive();
+
+		$this->copyTestFileIntoImportFolder('foo.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			file_exists($this->importFolder . 'foo.jpg')
+		);
+		$this->assertTrue(
+			file_exists($this->importFolder . 'bar.jpg')
+		);
+	}
+
+	public function testCopyImagesFromExtractedZipNotCopiesImagesForRecordWithDeletionFlagSet() {
+		$this->checkForZipArchive();
+
+		$this->copyTestFileIntoImportFolder('foo-deleted.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertFalse(
+			file_exists($this->importFolder . 'foo.jpg')
+		);
+		$this->assertFalse(
+			file_exists($this->importFolder . 'bar.jpg')
+		);
+	}
+
 
 	////////////////////////////////
 	// Tests concerning cleanUp().
