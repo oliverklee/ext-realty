@@ -36,16 +36,16 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
-	 * @var array Filter form data array with the elements "priceRange",
-	 *            "site", "objectNumber", "uid", "rentFrom" and "rentTo.
-	 *            "priceRange" keeps a string of the format
+	 * @var array Filter form data array with the the fields for which a filter
+	 *            is applicable. "priceRange" keeps a string of the format
 	 *            "number-number" and "site" has any string, directly
-	 *            derived from the form data.
+	 *            derived from the form data. Fields initialized with 0 refer to
+	 *            integer values and fields initialized with '' to strings.
 	 */
 	private $filterFormData = array(
-		'priceRange' => '', 'site' => '', 'objectNumber' => '', 'uid' => 0,
-		'objectType' => '', 'rentFrom' => 0, 'rentTo' => 0,
-		'livingAreaFrom' => 0, 'livingAreaTo' => 0,
+		'uid' => 0, 'objectNumber' => '', 'site' => '', 'city' => 0,
+		'houseType' => 0, 'priceRange' => '', 'rentFrom' => 0, 'rentTo' => 0,
+		'livingAreaFrom' => 0, 'livingAreaTo' => 0, 'objectType' => '',
 	);
 
 	/**
@@ -71,14 +71,15 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		);
 
 		$this->setTargetUrlMarker();
-		$this->fillOrHideSiteSearch();
-		$this->fillOrHidePriceRangeDropDown();
 		$this->fillOrHideUidSearch();
 		$this->fillOrHideObjectNumberSearch();
+		$this->fillOrHideSiteSearch();
 		$this->fillOrHideCitySearch();
-		$this->fillOrHideObjectTypeSelect();
+		$this->fillOrHideHouseTypeSearch();
+		$this->fillOrHidePriceRangeDropDown();
 		$this->fillOrHideFromToSearchField('rent', 'rent');
 		$this->fillOrHideFromToSearchField('livingArea', 'living_area');
+		$this->fillOrHideObjectTypeSelect();
 
 		return $this->getSubpart('FILTER_FORM');
 	}
@@ -98,12 +99,14 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	public function getWhereClausePart(array $filterFormData) {
 		$this->extractValidFilterFormData($filterFormData);
 
-		return $this->getRentOrPriceRangeWhereClausePart() .
-			$this->getSiteWhereClausePart() .
+		return $this->getUidWhereClausePart() .
 			$this->getObjectNumberWhereClausePart() .
-			$this->getUidWhereClausePart() .
-			$this->getObjectTypeWhereClausePart() .
-			$this->getLivingAreaWhereClausePart();
+			$this->getSiteWhereClausePart() .
+			$this->getCityWhereClausePart() .
+			$this->getHouseTypeWhereClausePart() .
+			$this->getRentOrPriceRangeWhereClausePart() .
+			$this->getLivingAreaWhereClausePart() .
+			$this->getObjectTypeWhereClausePart();
 	}
 
 	/**
@@ -114,11 +117,12 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function extractValidFilterFormData(array $formData) {
 		$integerFields = array(
-			'uid', 'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo'
+			'uid', 'city', 'houseType', 'rentFrom', 'rentTo', 'livingAreaFrom',
+			'livingAreaTo',
 		);
 		$allowedArrayKeys = array(
-			'priceRange', 'site', 'objectNumber', 'uid', 'objectType',
-			'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo',
+			'uid', 'objectNumber', 'site', 'city', 'houseType', 'priceRange',
+			'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo', 'objectType',
 		);
 
 		foreach ($allowedArrayKeys as $key) {
@@ -314,30 +318,66 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Shows the city selector if enabled via configuration, otherwise hides it.
 	 */
 	private function fillOrHideCitySearch() {
-		if (!$this->hasSearchField('city')) {
-			$this->hideSubparts('wrapper_city_search');
+		$this->fillOrHideAuxiliaryRecordSearch(
+			'city', REALTY_TABLE_CITIES, 'city'
+		);
+	}
+
+	/**
+	 * Shows a drop down menu for selecting house types if enabled via
+	 * configuration, otherwise hides it.
+	 */
+	private function fillOrHideHouseTypeSearch() {
+		$this->fillOrHideAuxiliaryRecordSearch(
+			'houseType', REALTY_TABLE_HOUSE_TYPES, 'house_type'
+		);
+	}
+
+	/**
+	 * Shows or hides a drop-down box of auxiliary records to filter the list
+	 * for. Whether the box is hidden or shown depends on the configuration.
+	 *
+	 * @param string $searchKey
+	 *        key used in the search from for the auxiliary records to get, must
+	 *        be an exiting search key corresponding to the provided table name,
+	 *        must not be empty
+	 * @param string $tableName
+	 *        name of the database table of which to use the records for the
+	 *        drop-down, must not be empty
+	 * @param string $columnName
+	 *        column name in the realty records table which corresponds to the
+	 *        provided table name, must not be empty
+	 */
+	private function fillOrHideAuxiliaryRecordSearch(
+		$searchKey, $tableName, $columnName
+	) {
+		if (!$this->hasSearchField($searchKey)) {
+			$this->hideSubparts('wrapper_' . $columnName . '_search');
 			return;
 		}
 
-		$cities = tx_oelib_db::selectMultiple(
-			REALTY_TABLE_CITIES . '.uid, ' . REALTY_TABLE_CITIES . '.title',
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_CITIES,
-			REALTY_TABLE_OBJECTS . '.city = ' . REALTY_TABLE_CITIES . '.uid' .
+		$records = tx_oelib_db::selectMultiple(
+			$tableName . '.uid, ' . $tableName . '.title',
+			REALTY_TABLE_OBJECTS . ',' . $tableName,
+			REALTY_TABLE_OBJECTS . '.' . $columnName .
+				' = ' . $columnName . '.uid' .
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
-				tx_oelib_db::enableFields(REALTY_TABLE_CITIES),
+				tx_oelib_db::enableFields($tableName),
 			'uid',
-			REALTY_TABLE_CITIES . '.title'
+			$tableName . '.title'
 		);
 
 		$options = '';
-		foreach ($cities as $city) {
-			$options .= '<option value="' . $city['uid'] . '">' .
-				htmlspecialchars($city['title']) . '</option>' . LF;
+		foreach ($records as $record) {
+			$options .= '<option value="' . $record['uid'] . '">' .
+				htmlspecialchars($record['title']) . '</option>' . LF;
 		}
-		$this->setOrDeleteMarkerIfNotEmpty('options_city_search', $options);
+		$this->setMarker(
+			'options_' . $columnName . '_search', $options
+		);
 
 		$this->setMarker(
-			'city_select_on_change', $this->getOnChangeForSingleField()
+			$tableKey . '_select_on_change', $this->getOnChangeForSingleField()
 		);
 	}
 
@@ -598,6 +638,38 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			: REALTY_FOR_SALE;
 
 		return ' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' . $objectType;
+	}
+
+	/**
+	 * Returns the WHERE clause part for the city selection.
+	 *
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the city
+	 *                selector
+	 */
+	private function getCityWhereClausePart() {
+		if ($this->filterFormData['city'] == 0) {
+			return '';
+		}
+
+		return ' AND ' . REALTY_TABLE_OBJECTS . '.city = ' .
+			$this->filterFormData['city'];
+	}
+
+	/**
+	 * Returns the WHERE clause part for the house type selection.
+	 *
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the house type
+	 *                selector
+	 */
+	private function getHouseTypeWhereClausePart() {
+		if ($this->filterFormData['houseType'] == 0) {
+			return '';
+		}
+
+		return ' AND ' . REALTY_TABLE_OBJECTS . '.house_type = ' .
+			$this->filterFormData['houseType'];
 	}
 
 	/**

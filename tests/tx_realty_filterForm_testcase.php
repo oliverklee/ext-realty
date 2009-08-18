@@ -372,7 +372,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-		public function test_CitySelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	public function test_CitySelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city'
 		);
@@ -386,6 +386,61 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	public function test_CitySelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city, priceRanges'
+		);
+
+		$this->assertNotContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+
+	////////////////////////////////////////////////////////////
+	// Tests concerning the rendering of the house type search
+	////////////////////////////////////////////////////////////
+
+	public function test_SearchForm_DisplayedSearchWidgetSetToHouseTypeSearch_ShowsHouseTypeSearch() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'houseType'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_select_house_type'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_SearchForm_DisplayedSearchWidgetSetToHouseTypeSearch_ShowsHouseTypeOfEnteredObject() {
+		$houseTypeUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_HOUSE_TYPES, array('title' => 'Foo house type')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'house_type' => $houseTypeUid)
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'houseType'
+		);
+
+		$this->assertContains(
+			'Foo house type',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_HouseTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'houseType'
+		);
+
+		$this->assertContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_HouseTypeSelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'houseType, priceRanges'
 		);
 
 		$this->assertNotContains(
@@ -605,14 +660,14 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWhereClauseForSiteSearchIsCanBeAppendedToPriceRangeWhereClause() {
+	public function testWhereClauseForPriceRangeCanBeAppendedToSiteSearchWhereClause() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
+			' AND (' . REALTY_TABLE_OBJECTS . '.zip LIKE "fo%" ' .
+				'OR ' . REALTY_TABLE_CITIES . '.title LIKE "%foo%") ' .
+				'AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
 				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
 				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10)) ' .
-				'AND (' . REALTY_TABLE_OBJECTS . '.zip LIKE "fo%" ' .
-				'OR ' . REALTY_TABLE_CITIES . '.title LIKE "%foo%")',
+				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
 			$this->fixture->getWhereClausePart(
 				array('site' => 'foo', 'priceRange' => '1-10')
 			)
@@ -655,6 +710,42 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('uid' => 0))
+		);
+	}
+
+	public function testWhereClauseForCitySearchWithNonZeroCityCanBeCreated() {
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'city');
+
+		$this->assertEquals(
+			' AND ' . REALTY_TABLE_OBJECTS . '.city = 1',
+			$this->fixture->getWhereClausePart(array('city' => 1))
+		);
+	}
+
+	public function testWhereClauseForHouseTypeSearchWithNonZeroHouseTypeCanBeCreated() {
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'houseType');
+
+		$this->assertEquals(
+			' AND ' . REALTY_TABLE_OBJECTS . '.house_type = 1',
+			$this->fixture->getWhereClausePart(array('houseType' => 1))
+		);
+	}
+
+	public function testWhereClauseForCitySearchWithZeroCityIsEmpty() {
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'city');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('city' => 0))
+		);
+	}
+
+	public function testWhereClauseForHouseTypeSearchWithZeroHouseTypeIsEmpty() {
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'houseType');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(array('houseType' => 0))
 		);
 	}
 

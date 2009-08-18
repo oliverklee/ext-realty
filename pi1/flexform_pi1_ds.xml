@@ -601,29 +601,29 @@
 								<type>select</type>
 								<items type="array">
 									<numIndex index="0" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displaySite</numIndex>
-										<numIndex index="1">site</numIndex>
-									</numIndex>
-									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayPriceRange</numIndex>
-										<numIndex index="1">priceRanges</numIndex>
-									</numIndex>
-									<numIndex index="2" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayObjectNumber</numIndex>
-										<numIndex index="1">objectNumber</numIndex>
-									</numIndex>
-									<numIndex index="3" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayUid</numIndex>
 										<numIndex index="1">uid</numIndex>
 									</numIndex>
-									<numIndex index="4" type="array">
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayObjectNumber</numIndex>
+										<numIndex index="1">objectNumber</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displaySite</numIndex>
+										<numIndex index="1">site</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayCity</numIndex>
 										<numIndex index="1">city</numIndex>
  									</numIndex>
-									<numIndex index="5" type="array">
-										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayObjectType</numIndex>
-										<numIndex index="1">objectType</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayHouseType</numIndex>
+										<numIndex index="1">houseType</numIndex>
  									</numIndex>
+									<numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayPriceRange</numIndex>
+										<numIndex index="1">priceRanges</numIndex>
+									</numIndex>
 									<numIndex index="6" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayRent</numIndex>
 										<numIndex index="1">rent</numIndex>
@@ -632,8 +632,12 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayLivingArea</numIndex>
 										<numIndex index="1">livingArea</numIndex>
 									</numIndex>
+									<numIndex index="8" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayObjectType</numIndex>
+										<numIndex index="1">objectType</numIndex>
+ 									</numIndex>
 								</items>
-								<maxitems>8</maxitems>
+								<maxitems>9</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

@@ -60,6 +60,7 @@
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
 			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
 			<label index="realty.pi_flexform.displayCity">city drop-down</label>
+			<label index="realty.pi_flexform.displayHouseType">house type drop-down</label>
 			<label index="realty.pi_flexform.displayRent">price input fields</label>
 			<label index="realty.pi_flexform.displayPriceRange">rent/buying price drop-down</label>
 			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
@@ -225,6 +226,8 @@
 			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_city">City:</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
+			<label index="label_select_house_type">House type:</label>
+			<label index="label_pleaseselecthousetype">&amp;#8212; Please select house type &amp;#8212;</label>
 			<label index="label_select_price_range">Rent/buying price:</label>
 			<label index="label_enter_rent">Rent/buying price from:</label>
 			<label index="label_enter_living_area">Living area from:</label>
@@ -394,6 +397,7 @@
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Angezeigte Suchfelder:</label>
 			<label index="realty.pi_flexform.displaySite">Ort und PLZ</label>
 			<label index="realty.pi_flexform.displayCity">Stadt-Drop-down</label>
+			<label index="realty.pi_flexform.displayHouseType">Haustyp-Drop-down</label>
 			<label index="realty.pi_flexform.displayRent">Preis-Eingabefelder</label>
 			<label index="realty.pi_flexform.displayPriceRange">Miete/Kaufpreis Drop-Down</label>
 			<label index="realty.pi_flexform.displayObjectNumber">Objektnummer</label>
@@ -559,6 +563,8 @@
 			<label index="label_enter_uid">Immo-ID:</label>
 			<label index="label_select_city">Stadt:</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Bitte Stadt wählen &amp;#8212;</label>
+			<label index="label_select_house_type">Haustyp:</label>
+			<label index="label_pleaseselecthousetype">&amp;#8212; Bitte Haustyp wählen &amp;#8212;</label>
 			<label index="label_select_price_range">Miete/Kaufpreis:</label>
 			<label index="label_enter_rent">Miete/Kaufpreis von:</label>
 			<label index="label_enter_living_area">Wohnraumgröße von:</label>
@@ -1739,6 +1745,7 @@
 			<label index="realty.pi_flexform.displayObjectNumber" type="integer">95425847</label>
 			<label index="realty.pi_flexform.displayUid" type="integer">68380357</label>
 			<label index="realty.pi_flexform.displayCity" type="integer">28144317</label>
+			<label index="realty.pi_flexform.displayHouseType" type="integer">168489798</label>
 			<label index="realty.pi_flexform.displayObjectType" type="integer">200190647</label>
 			<label index="realty.pi_flexform.displayLivingArea" type="integer">135838058</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">140369544</label>
@@ -1900,6 +1907,8 @@
 			<label index="label_enter_uid" type="integer">34884428</label>
 			<label index="label_select_city" type="integer">201307921</label>
 			<label index="label_select_price_range" type="integer">34243254</label>
+			<label index="label_select_house_type" type="integer">164551701</label>
+			<label index="label_pleaseselecthousetype" type="integer">124573177</label>
 			<label index="label_enter_rent" type="integer">49656040</label>
 			<label index="label_enter_living_area" type="integer">63089449</label>
 			<label index="label_select_object_type" type="integer">188049544</label>
@@ -3078,6 +3087,7 @@
 			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
 			<label index="realty.pi_flexform.displayUid">Immo ID</label>
 			<label index="realty.pi_flexform.displayCity">city drop-down</label>
+			<label index="realty.pi_flexform.displayHouseType">house type drop-down</label>
 			<label index="realty.pi_flexform.displayRent">price input fields</label>
 			<label index="realty.pi_flexform.displayPriceRange">rent/buying price drop-down</label>
 			<label index="realty.pi_flexform.displayObjectType">Radiobuttons rent/sale</label>
@@ -3234,12 +3244,14 @@
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
 			<label index="label_on_favorites_list">Objects on the favorites list:</label>
-			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
 			<label index="label_filter_form">Search criteria</label>
 			<label index="label_enter_zip_or_city">City or ZIP code:</label>
 			<label index="label_enter_object_number">Object number:</label>
 			<label index="label_enter_uid">Immo ID:</label>
 			<label index="label_select_city">City:</label>
+			<label index="label_pleaseselectcity">&amp;#8212; Please select city &amp;#8212;</label>
+			<label index="label_select_house_type">House type:</label>
+			<label index="label_pleaseselecthousetype">&amp;#8212; Please select house type &amp;#8212;</label>
 			<label index="label_select_price_range">Rent/buying price:</label>
 			<label index="label_enter_rent">Rent/buying price from:</label>
 			<label index="label_enter_living_area">Living area from:</label>

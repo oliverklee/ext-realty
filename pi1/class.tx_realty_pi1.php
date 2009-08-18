@@ -182,7 +182,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 			$this->internal['currentTable'] = $this->tableNames['objects'];
 			$this->ensureIntegerPiVars(array(
-				'city', 'image', 'remove', 'showUid', 'delete', 'owner', 'uid'
+				'image', 'remove', 'showUid', 'delete', 'owner', 'uid'
 			));
 			$this->cacheSelectedOwner();
 
@@ -554,12 +554,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$whereClause .= ($this->hasConfValueString('staticSqlFilter'))
 			? ' AND ' . $this->getConfValueString('staticSqlFilter')
 			: '';
-
-		// finds only cities that match the UID in piVars['city']
-		if ($this->piVars['city'] != 0) {
-			$whereClause .=  ' AND '.REALTY_TABLE_OBJECTS . '.city' .
-				'=' . $this->piVars['city'];
-		}
 
 		$searchSelection = implode(',', $this->getSearchSelection());
 		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
