@@ -360,7 +360,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			$tableName . '.uid, ' . $tableName . '.title',
 			REALTY_TABLE_OBJECTS . ',' . $tableName,
 			REALTY_TABLE_OBJECTS . '.' . $columnName .
-				' = ' . $columnName . '.uid' .
+				' = ' . $tableName . '.uid' .
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
 				tx_oelib_db::enableFields($tableName),
 			'uid',
@@ -377,7 +377,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		);
 
 		$this->setMarker(
-			$tableKey . '_select_on_change', $this->getOnChangeForSingleField()
+			$columnName . '_select_on_change', $this->getOnChangeForSingleField()
 		);
 	}
 
