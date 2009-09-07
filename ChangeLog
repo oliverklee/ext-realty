@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#3383] Fix: Image import fails
 
 0.4.1 - released 2009-08-18
 - [#3102] Fix: Make sure that the image files of deleted objects do not get imported
