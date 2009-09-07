@@ -109,6 +109,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private function setupStaticConditions() {
 		// avoids using the extension's real upload folder
 		$this->fixture->setUploadDirectory($this->importFolder);
+
+		// TYPO3 default configuration
+		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+			= 'gif,jpg,jpeg,tif,bmp,pcx,tga,png,pdf,ai';
+
 		$this->globalConfiguration->setConfigurationValueString(
 			'emailAddress', 'default-address@valid-email.org'
 		);
@@ -349,6 +354,17 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertTrue(
 			file_exists($this->importFolder . 'bar.jpg')
+		);
+	}
+
+	public function testCopyImagesFromExtractedZipCopiesImagesWithUppercasedExtensionsIntoTheUploadFolder() {
+		$this->checkForZipArchive();
+
+		$this->copyTestFileIntoImportFolder('foo-uppercased.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			file_exists($this->importFolder . 'foo.JPG')
 		);
 	}
 

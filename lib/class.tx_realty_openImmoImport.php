@@ -1165,9 +1165,10 @@ class tx_realty_openImmoImport {
 	public function copyImagesFromExtractedZip($pathOfZip, array $realtyRecords) {
 		$folderWithImages = $this->getNameForExtractionFolder($pathOfZip);
 		$imagesNotToCopy = $this->findImageNamesOfDeletedRecords($realtyRecords);
-		foreach (explode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'])
-			as $pattern
-		) {
+		$fileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] .
+			',' . strtoupper($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']);
+
+		foreach (explode(',', $fileExtensions) as $pattern) {
 			$images = glob($folderWithImages . '*.' . $pattern);
 			foreach ($images as $image) {
 				$uniqueFileNames = $this->fileNameMapper->releaseMappedFileNames(
@@ -1195,7 +1196,7 @@ class tx_realty_openImmoImport {
 		$imagesNotToCopy = array();
 
 		foreach ($records as $record) {
-			if ($record['deleted']) {
+			if ($record['deleted'] && is_array($record['images'])) {
 				foreach ($record['images'] as $image) {
 					$imagesNotToCopy[] = $image['image'];
 				}
