@@ -303,7 +303,6 @@ class tx_realty_domDocumentConverter {
 		$this->substitudeSurplusDecimals();
 
 		return $this->importedData;
-
 	}
 
 	/**
@@ -503,16 +502,12 @@ class tx_realty_domDocumentConverter {
 		}
 
 		$annexes = $this->getNodeListFromRawData(
-			'anhang',
-			'',
-			$listedRealties->item($this->recordNumber)
+			'anhang', '', $listedRealties->item($this->recordNumber)
 		);
 
 		foreach ($annexes as $contextNode) {
 			$titleNodeList = $this->getNodeListFromRawData(
-				'anhangtitel',
-				'',
-				$contextNode
+				'anhangtitel', '', $contextNode
 			);
 
 			$title = '';
@@ -521,9 +516,7 @@ class tx_realty_domDocumentConverter {
 			}
 
 			$fileNameNodeList = $this->getNodeListFromRawData(
-				'daten',
-				'pfad',
-				$contextNode
+				'daten', 'pfad', $contextNode
 			);
 
 			if ($fileNameNodeList->item(0)) {
@@ -533,10 +526,7 @@ class tx_realty_domDocumentConverter {
 			}
 
 			if ($fileName != '') {
-				$images[] = array(
-					'caption' => $title,
-					'image' => $fileName
-				);
+				$images[] = array('caption' => $title, 'image' => $fileName);
 			}
 		}
 
@@ -924,9 +914,7 @@ class tx_realty_domDocumentConverter {
 	 *                     names do not exist
 	 */
 	private function getNodeListFromRawData(
-		$nodeName,
-		$childNodeName = '',
-		$contextNode = null
+		$nodeName, $childNodeName = '', $contextNode = null
 	) {
 		$queryString = '';
 		$isContextNodeValid = false;
