@@ -44,8 +44,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private $filterFormData = array(
 		'uid' => 0, 'objectNumber' => '', 'site' => '', 'city' => 0,
-		'houseType' => 0, 'priceRange' => '', 'rentFrom' => 0, 'rentTo' => 0,
-		'livingAreaFrom' => 0, 'livingAreaTo' => 0, 'objectType' => '',
+		'district' => 0, 'houseType' => 0, 'priceRange' => '', 'rentFrom' => 0,
+		'rentTo' => 0, 'livingAreaFrom' => 0, 'livingAreaTo' => 0,
+		'objectType' => '',
 	);
 
 	/**
@@ -75,6 +76,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$this->fillOrHideObjectNumberSearch();
 		$this->fillOrHideSiteSearch();
 		$this->fillOrHideCitySearch();
+		$this->fillOrHideDistrictSearch();
 		$this->fillOrHideHouseTypeSearch();
 		$this->fillOrHidePriceRangeDropDown();
 		$this->fillOrHideFromToSearchField('rent', 'rent');
@@ -103,6 +105,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			$this->getObjectNumberWhereClausePart() .
 			$this->getSiteWhereClausePart() .
 			$this->getCityWhereClausePart() .
+			$this->getDistrictWhereClausePart() .
 			$this->getHouseTypeWhereClausePart() .
 			$this->getRentOrPriceRangeWhereClausePart() .
 			$this->getLivingAreaWhereClausePart() .
@@ -116,13 +119,14 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @param array filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
-		$integerFields = array(
-			'uid', 'city', 'houseType', 'rentFrom', 'rentTo', 'livingAreaFrom',
-			'livingAreaTo',
-		);
 		$allowedArrayKeys = array(
-			'uid', 'objectNumber', 'site', 'city', 'houseType', 'priceRange',
-			'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo', 'objectType',
+			'uid', 'objectNumber', 'site', 'city', 'district', 'houseType',
+			'priceRange', 'rentFrom', 'rentTo', 'livingAreaFrom',
+			'livingAreaTo', 'objectType',
+		);
+		$integerFields = array(
+			'uid', 'city', 'district', 'houseType', 'rentFrom', 'rentTo',
+			'livingAreaFrom', 'livingAreaTo',
 		);
 
 		foreach ($allowedArrayKeys as $key) {
@@ -323,6 +327,16 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		);
 	}
 
+ 	/**
+	 * Shows the district selector if enabled via configuration, otherwise
+	 * hides it.
+	 */
+	private function fillOrHideDistrictSearch() {
+		$this->fillOrHideAuxiliaryRecordSearch(
+			'district', REALTY_TABLE_DISTRICTS, 'district'
+		);
+	}
+
 	/**
 	 * Shows a drop down menu for selecting house types if enabled via
 	 * configuration, otherwise hides it.
@@ -369,8 +383,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$options = '';
 		foreach ($records as $record) {
-			$options .= '<option value="' . $record['uid'] . '">' .
-				htmlspecialchars($record['title']) . '</option>' . LF;
+			$options .= '<option value="' . $record['uid'] . '" ' .
+				(($this->filterFormData[$searchKey] == $record['uid'])
+					? 'selected="selected"' : '') .
+				'>' . htmlspecialchars($record['title']) . '</option>' . LF;
 		}
 		$this->setMarker(
 			'options_' . $columnName . '_search', $options
@@ -654,6 +670,22 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		return ' AND ' . REALTY_TABLE_OBJECTS . '.city = ' .
 			$this->filterFormData['city'];
+	}
+
+	/**
+	 * Returns the WHERE clause part for the district selection.
+	 *
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the city
+	 *                selector
+	 */
+	private function getDistrictWhereClausePart() {
+		if ($this->filterFormData['district'] == 0) {
+			return '';
+		}
+
+		return ' AND ' . REALTY_TABLE_OBJECTS . '.district = ' .
+			$this->filterFormData['district'];
 	}
 
 	/**

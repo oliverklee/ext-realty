@@ -395,6 +395,95 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////////////////////////
+	// Tests concerning the rendering of the district search
+	//////////////////////////////////////////////////////////
+
+	public function test_SearchForm_DisplayedSearchWidgetSetToDistrictSearch_ShowsDistrictSearch() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_select_district'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_SearchForm_DisplayedSearchWidgetSetToDistrictSearch_ShowsDistrictOfEnteredObject() {
+		$districtUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'Foo district')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'district' => $districtUid)
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertContains(
+			'Foo district',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_DistrtictSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_DistrictSelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district, priceRanges'
+		);
+
+		$this->assertNotContains(
+			'onchange="',
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_DistrictSelector_ForSelectedDistrict_HasSelectedAttributeOnThatDistrict() {
+		$districtUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'Foo district')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'district' => $districtUid)
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertContains(
+			'value="' . $districtUid . '" selected="',
+			$this->fixture->render(array('district' => $districtUid))
+		);
+	}
+
+	public function test_DistrictSelector_ForNonSelectedDistrict_HasNoSelectedAttributeOnThatDistrict() {
+		$districtUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_DISTRICTS, array('title' => 'Foo district')
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'district' => $districtUid)
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertNotContains(
+			'value="' . $districtUid . '" selected="',
+			$this->fixture->render(array())
+		);
+	}
+
+
 	////////////////////////////////////////////////////////////
 	// Tests concerning the rendering of the house type search
 	////////////////////////////////////////////////////////////
@@ -719,6 +808,15 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			' AND ' . REALTY_TABLE_OBJECTS . '.city = 1',
 			$this->fixture->getWhereClausePart(array('city' => 1))
+		);
+	}
+
+	public function testWhereClauseForDistrictSearchWithNonZeroDistrictCanBeCreated() {
+		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'district');
+
+		$this->assertEquals(
+			' AND ' . REALTY_TABLE_OBJECTS . '.district = 1',
+			$this->fixture->getWhereClausePart(array('district' => 1))
 		);
 	}
 
