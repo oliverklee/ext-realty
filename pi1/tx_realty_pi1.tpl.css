@@ -48,6 +48,7 @@
 	line-height: 18px;
 	color: #ffffff;
 	padding-right: 10px;
+	margin-right: -1px; /* IE hack */
 }
 
 /* Images in result list and single view */
@@ -482,6 +483,10 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 /***** FILTER FORM *****/
+.tx-realty-pi1-filter-form {
+	width: 500px;
+}
+
 .tx-realty-pi1-filter-form .tx-realty-pi1-label {
 	width: 250px;
 }

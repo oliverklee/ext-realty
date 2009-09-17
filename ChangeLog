@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#3034] Fix: Button of search widget is too wide in IE6
 
 0.4.2 - released 2009-09-07
 - [#3383] Fix: Image import fails
