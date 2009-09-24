@@ -75,7 +75,7 @@ class tx_realty_pi1_ActionButtonsView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsButtonBack() {
 		$this->assertContains(
-			'class="button back"',
+			'class="button singleViewBack"',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}
@@ -89,7 +89,7 @@ class tx_realty_pi1_ActionButtonsView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsButtonAddToFavorites() {
 		$this->assertContains(
-			'class="button addToFavorites"',
+			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}

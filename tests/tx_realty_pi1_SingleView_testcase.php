@@ -266,7 +266,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->assertContains(
-			'class="button addToFavorites"',
+			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -280,7 +280,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertNotContains(
-			'class="button addToFavorites"',
+			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -370,7 +370,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'class="button contact"',
+			'class="button singleViewContact"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -387,7 +387,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertNotContains(
-			'class="button contact"',
+			'class="button singleViewContact"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}

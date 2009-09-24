@@ -18,15 +18,18 @@
 }
 
 /* Buttons */
-.tx-realty-pi1 a.back,
+.tx-realty-pi1 a.listViewBack,
+.tx-realty-pi1 a.singleViewBack,
 .tx-realty-pi1 a.close,
 .tx-realty-pi1 a.objectsByOwner {
 	float: right;
 }
 
-.tx-realty-pi1 a.addToFavorites,
+.tx-realty-pi1 a.singleViewAddToFavorites,
+.tx-realty-pi1 a.listViewAddToFavorites,
 .tx-realty-pi1 a.removeFromFavorites,
-.tx-realty-pi1 a.contact,
+.tx-realty-pi1 a.singleViewContact,
+.tx-realty-pi1 a.listViewContact,
 .tx-realty-pi1 a.printPage,
 .tx-realty-pi1 a.newRecord {
 	float: left;

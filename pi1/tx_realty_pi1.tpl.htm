@@ -30,7 +30,7 @@
 				</div>
 				<!-- ###SEARCH_ITEM### -->
 			</div>
-			<span class="button">
+			<span class="button search">
 				<input type="submit" class="tx-realty-pi1-submit" name="###LABEL_SEARCH###" value="###LABEL_SEARCH###" />
 			</span>
 			<div class="clear"></div>
@@ -74,7 +74,7 @@
 						<!-- ###PAGINATION### --><!-- ###PAGINATION### -->
 						<!-- ###ADD_TO_FAVORITES_BUTTON### -->
 						<div class="favorites">
-							<a href="#" class="button addToFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+							<a href="#" class="button listViewAddToFavorites" onclick="document.forms['tx_realty_pi1_list_view'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
 						</div>
 						<!-- ###ADD_TO_FAVORITES_BUTTON### -->
 						<!-- ###REMOVE_FROM_FAVORITES_BUTTON### -->
@@ -168,7 +168,7 @@
 							</td>
 							<td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderAsc" value="0"###SORT_CHECKED_ASC###/><label for="sortOrderAsc">###LABEL_ASCENDING###</label></td>
 							<td><input type="radio" name="tx_realty_pi1[descFlag]" id="sortOrderDesc" value="1"###SORT_CHECKED_DESC###/><label for="sortOrderDesc">###LABEL_DESCENDING###</label></td>
-							<td><a href="#" class="button" onclick="document.forms['tx_realty_pi1_sorting'].submit(); return false;"><span>###LABEL_SORT###</span></a></td>
+							<td><a href="#" class="button sort" onclick="document.forms['tx_realty_pi1_sorting'].submit(); return false;"><span>###LABEL_SORT###</span></a></td>
 						</tr>
 					</table>
 				</td>
@@ -178,7 +178,7 @@
 	<!-- ###WRAPPER_SORTING### -->
 	<!-- ###LIST_RESULT### -->
 	<!-- ###BACK_LINK### -->
-	<a href="#" onclick="history.back(); return false;" class="button back"><span>###LABEL_BACK###</span></a>
+	<a href="#" onclick="history.back(); return false;" class="button listViewBack"><span>###LABEL_BACK###</span></a>
 	<!-- ###BACK_LINK### -->
 	<!-- ###NEW_RECORD_LINK### -->
 	<a href="###EMPTY_EDITOR_LINK###" class="button newRecord"><span>###LABEL_NEW_RECORD###</span></a>
@@ -188,7 +188,7 @@
 	<!-- ###LIMIT_HEADING### -->
 	<!-- ###WRAPPER_CONTACT### -->
 	<div class="buttons">
-		<a href="###CONTACT_URL###" class="button contact"><span>###LABEL_CONTACT###</span></a>
+		<a href="###CONTACT_URL###" class="button listViewContact"><span>###LABEL_CONTACT###</span></a>
 	</div>
 	<!-- ###WRAPPER_CONTACT### -->
 	<div class="clear"></div>
@@ -249,7 +249,7 @@
 		<!-- ###FIELD_WRAPPER_OFFERER### -->
 		<!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
 		<div class="buttons">
-			<a href="###CONTACT_URL###" class="button contact"><span>###LABEL_CONTACT###</span></a>
+			<a href="###CONTACT_URL###" class="button singleViewContact"><span>###LABEL_CONTACT###</span></a>
 		</div>
 		<!-- ###FIELD_WRAPPER_CONTACTBUTTON### -->
 		<!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
@@ -259,9 +259,9 @@
 		<form id="addToFavorites" method="post" action="###FAVORITES_URL###">
 			<div class="buttons">
 				<input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
-				<a href="#" class="button addToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+				<a href="#" class="button singleViewAddToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
 				<a href="#" class="button printPage" onclick="window.print(); return false;"><span>###LABEL_PRINT_PAGE###</span></a>
-				<a href="#" class="button back" onclick="history.back(); return false;"><span>###LABEL_BACK###</span></a>
+				<a href="#" class="button singleViewBack" onclick="history.back(); return false;"><span>###LABEL_BACK###</span></a>
 			</div>
 		</form>
 		<!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
@@ -318,7 +318,7 @@
 <!-- ###GALLERY_VIEW### -->
 <div class="gallery-view">
 	<div class="buttons">
-		<a href="#" onclick="window.close(); return;" class="button close"><span>###LABEL_CLOSE_WINDOW###</span></a>
+		<a href="#" onclick="window.close(); return;" class="button topClose"><span>###LABEL_CLOSE_WINDOW###</span></a>
 	</div>
 	<h2>###TITLE###</h2>
 	<div class="fullsize">
@@ -341,7 +341,7 @@
 		</table>
 	</div>
 	<div class="buttons">
-		<a href="#" onclick="window.close(); return;" class="button close"><span>###LABEL_CLOSE_WINDOW###</span></a>
+		<a href="#" onclick="window.close(); return;" class="button bottomClose"><span>###LABEL_CLOSE_WINDOW###</span></a>
 	</div>
 </div>
 <!-- ###GALLERY_VIEW### -->
@@ -439,7 +439,7 @@
  		</div>
 		<!-- ###WRAPPER_OBJECT_TYPE_SELECTOR### -->
 		<div>
-			<span class="button">
+			<span class="button filterFormSubmit">
 				<input type="submit" class="tx-realty-pi1-submit" value="###LABEL_SEARCH###" />
 			</span>
 		</div>
@@ -527,7 +527,7 @@
 				<textarea class="tx-realty-pi1-textarea" name="tx_realty_pi1[request]" id="tx_realty_pi1-request" cols="50" rows="10">###REQUEST###</textarea>
 			</div>
 			<div>
-				<span class="button">
+				<span class="button contactFormSubmit">
 					<input type="hidden" name="tx_realty_pi1[isSubmitted]" value="1" />
 					<input type="submit" class="tx-realty-pi1-submit" value="###LABEL_SUBMIT###" />
 				</span>

@@ -2568,7 +2568,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$result
 		);
 		$this->assertContains(
-			'class="button contact"',
+			'class="button listViewContact"',
 			$result
 		);
 	}
@@ -2579,7 +2579,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
 
 		$this->assertNotContains(
-			'class="button contact"',
+			'class="button listViewContact"',
 			$this->fixture->main('', array())
 		);
 	}
@@ -2590,7 +2590,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('contactPID', '');
 
 		$this->assertNotContains(
-			'class="button contact"',
+			'class="button listViewContact"',
 			$this->fixture->main('', array())
 		);
 	}
@@ -2601,7 +2601,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('contactPID', $this->favoritesPid);
 
 		$this->assertNotContains(
-			'class="button contact"',
+			'class="button listViewContact"',
 			$this->fixture->main('', array())
 		);
 	}
