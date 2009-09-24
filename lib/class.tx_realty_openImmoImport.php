@@ -988,8 +988,28 @@ class tx_realty_openImmoImport {
 
 		$folderForZipExtraction = $this->getNameForExtractionFolder($pathOfZip);
 		if (!is_dir($folderForZipExtraction)) {
-			t3lib_div::mkdir($folderForZipExtraction);
-			$this->filesToDelete[] = $folderForZipExtraction;
+			if (t3lib_div::mkdir($folderForZipExtraction)) {
+				$this->filesToDelete[] = $folderForZipExtraction;
+				if (!is_writable($folderForZipExtraction)) {
+					$this->addToErrorLog(
+						sprintf(
+							$this->getTranslator()->translate(
+								'message_folder_not_writable'
+							),
+							$folderForZipExtraction
+						)
+					);
+				}
+			} else {
+				$this->addToErrorLog(
+					sprintf(
+						$this->getTranslator()->translate(
+							'message_folder_creation_failed'
+						),
+						$folderForZipExtraction
+					)
+				);
+			}
 		} else {
 			$this->addToErrorLog(
 				$folderForZipExtraction . ': ' .
@@ -1170,6 +1190,10 @@ class tx_realty_openImmoImport {
 
 		foreach (explode(',', $fileExtensions) as $pattern) {
 			$images = glob($folderWithImages . '*.' . $pattern);
+			if (!is_array($images)) {
+				continue;
+			}
+
 			foreach ($images as $image) {
 				$uniqueFileNames = $this->fileNameMapper->releaseMappedFileNames(
 					basename($image)

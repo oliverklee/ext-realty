@@ -26,6 +26,8 @@
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
 			<label index="message_surplus_folder">The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</label>
+			<label index="message_folder_creation_failed">The folder &quot;%s&quot; could not be created. Please check your access rights.</label>
+			<label index="message_folder_not_writable">The folder &quot;%s&quot; has been created successfully, but is not writable. Please check your access rights.</label>
 			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
 			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
 			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>
@@ -66,6 +68,8 @@
 			<label index="message_extracted_successfully">Das ZIP-Archiv wurde erfolgreich entpackt.</label>
 			<label index="message_extraction_failed">Das Entpacken des ZIP-Archives ist fehlgeschlagen, da das Archiv nicht geöffnet werden konnte. Möglicherweise ist die Datei fehlerhaft.</label>
 			<label index="message_surplus_folder">Der Ordner, der für den Import erstellt werden muss, existiert bereits in Ihrem Import-Verzeichnis. Der Datensatz kann nicht importiert werden, solange dieser Ordner existiert. Bitte entfernen Sie ihn aus dem Import-Verzeichnis.</label>
+			<label index="message_folder_creation_failed">Der Ordner &quot;%s&quot; konnte nicht erstellt werden. Bitte überprüfen Sie Ihre Zugriffsrechte.</label>
+			<label index="message_folder_not_writable">Der Ordner &quot;%s&quot; wurde erfolgreich erstellt, ist aber nicht beschreibbar. Bitte überprüfen Sie Ihre Zugriffsrechte.</label>
 			<label index="message_invalid_xml_path">Der XML-Pfad wurde nicht gefunden. Eventuell ist kein Ordner mit dem entpacktem Inhalt des ZIP-Archives vorhanden. Ein Dateirechteproblem kann die Ursache sein. Bitte stellen Sie sicher, dass Sie Schreibrechte im Import-Ordner haben.</label>
 			<label index="message_too_many_xml">Es darf nicht mehr als eine XML-Datei im ZIP-Archiv sein. Bitte entfernen Sie die überschüssigen XML-Dateien aus dem Archiv.</label>
 			<label index="message_no_xml">Im ZIP-Archiv kann keine XML-Datei gefunden werden. Sollte es dennoch eine geben, stellen Sie bitte sicher, dass sie mit '.xml' endet.</label>
@@ -210,6 +214,8 @@
 			<label index="message_extracted_successfully" type="integer">215773016</label>
 			<label index="message_extraction_failed" type="integer">256903313</label>
 			<label index="message_surplus_folder" type="integer">135193776</label>
+			<label index="message_folder_creation_failed" type="integer">237886324</label>
+			<label index="message_folder_not_writable" type="integer">237916578</label>
 			<label index="message_invalid_xml_path" type="integer">103030008</label>
 			<label index="message_too_many_xml" type="integer">238269320</label>
 			<label index="message_no_xml" type="integer">206769090</label>
@@ -354,6 +360,8 @@
 			<label index="message_extracted_successfully">The ZIP archive was extracted successfully.</label>
 			<label index="message_extraction_failed">The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</label>
 			<label index="message_surplus_folder">The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</label>
+			<label index="message_folder_creation_failed">The folder &quot;%s&quot; could not be created. Please check your access rights.</label>
+			<label index="message_folder_not_writable">The folder &quot;%s&quot; has been created successfully, but is not writable. Please check your access rights.</label>
 			<label index="message_invalid_xml_path">The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</label>
 			<label index="message_too_many_xml">There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</label>
 			<label index="message_no_xml">No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</label>
