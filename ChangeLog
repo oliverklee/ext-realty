@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3427] Fix: Misspelled word in cronjob import message
 - [#3034] Fix: Button of search widget is too wide in IE6
 - [#3365] Feature: Add a search widget for the district
 - [#3383] Fix: Image import fails

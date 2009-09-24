@@ -78,7 +78,7 @@
 			<label index="message_line">Zeile</label>
 			<label index="message_files_removed">Folgende Dateien wurden gelöscht</label>
 			<label index="message_introduction">Hier ist das Ergebnis des letzen Imports Ihrer OpenImmo Datensätze.</label>
-			<label index="message_explanation">Sie erhalten diese E-Mail, weil Sie die Kotaktperson für die oben genannten Immobilien sind.</label>
+			<label index="message_explanation">Sie erhalten diese E-Mail, weil Sie die Kontaktperson für die oben genannten Immobilien sind.</label>
 			<label index="message_object_limit_reached">Der Datensatz des Benutzers %s (UID: %u) konnte nicht importiert werden, da die maximale Objektanzahl von %u Objekten für diesen Benutzer erreicht wurde.</label>
 			<label index="label_subject_openImmo_import">OpenImmo-Import</label>
 			<label index="label_object_number">Objektnummer</label>
