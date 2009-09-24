@@ -1012,6 +1012,48 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testImportUtf8FileWithCorrectUmlauts() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('charset-UTF8.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				REALTY_TABLE_OBJECTS,
+				'openimmo_anid="test-anid-with-umlaut-ü"'
+			)
+		);
+	}
+
+	public function testImportUtf8FileWithUtf8AsDefaultEncodingAndNoXmlPrologueWithCorrectUmlauts() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('charset-UTF8-default.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				REALTY_TABLE_OBJECTS,
+				'openimmo_anid="test-anid-with-umlaut-ü"'
+			)
+		);
+	}
+
+	public function testImpotIso8859_1FileWithCorrectUmlauts() {
+		$this->checkForZipArchive();
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->copyTestFileIntoImportFolder('charset-ISO8859-1.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				REALTY_TABLE_OBJECTS,
+				'openimmo_anid="test-anid-with-umlaut-ü"'
+			)
+		);
+	}
+
 
 	//////////////////////////////////////////////////////////////////
 	// Tests concerning the restricted import for registered owners.

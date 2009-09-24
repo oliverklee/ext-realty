@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#3141] Change: Make sure that ISO8859-1 XML files can be imported as well
 - [#3427] Fix: Misspelled word in cronjob import message
 - [#3034] Fix: Button of search widget is too wide in IE6
 
