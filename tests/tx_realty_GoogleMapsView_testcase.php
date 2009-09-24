@@ -86,7 +86,6 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'googleMapsApiKey' => self::GOOGLE_MAPS_API_KEY,
-				'showGoogleMaps' => 1,
 				'defaultCountryUID' => 54,
 			),
 			$GLOBALS['TSFE']->cObj,
@@ -138,31 +137,6 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->setMapMarker(0);
-	}
-
-	public function testRenderGoogleMapsViewWhenDisabledByConfigurationDoesNotMarkAnyCoordinatesAsCached() {
-		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'street' => 'Am Hof 1',
-				'city' => $this->cityUid,
-				'show_address' => 1,
-			)
-		);
-
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->render();
-
-		$this->assertTrue(
-			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_OBJECTS,
-				'uid = ' . $this->realtyUid .
-					' AND exact_coordinates_are_cached = 0' .
-					' AND rough_coordinates_are_cached = 0'
-				)
-		);
 	}
 
 	public function testRenderGoogleMapsViewWhenEnabledAndExactAddressMarksExactCoordinatesAsCached() {
@@ -253,27 +227,6 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewNotReturnsMapForObjectWithCachedAddressAndGoogleMapsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
-			)
-		);
-
-		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
-		$this->fixture->setMapMarker($this->realtyUid);
-
-		$this->assertNotContains(
-			'<div id="tx_realty_map"',
-			$this->fixture->render()
-		);
-	}
-
 	public function testRenderGoogleMapsViewAddsGoogleMapsJavaScriptForObjectWithCachedAddressAndGoogleMapsEnabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -314,27 +267,6 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewNotAddsGoogleMapsJavaScriptForObjectWithCachedAddressAndGoogleMapsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
-			)
-		);
-
-		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->render();
-
-		$this->assertFalse(
-			isset($GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'])
-		);
-	}
-
 	public function testRenderGoogleMapsViewAddsOnLoadForObjectWithCachedAddressAndGoogleMapsEnabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -357,29 +289,6 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewNotAddsOnLoadForObjectWithCachedAddressAndGoogleMapsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
-			)
-		);
-
-		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->render();
-
-		$this->assertFalse(
-			isset($GLOBALS['TSFE']
-				->JSeventFuncCalls['onload']['tx_realty_pi1_maps']
-			)
-		);
-	}
-
 	public function testRenderGoogleMapsViewAddsOnUnloadForObjectWithCachedAddressAndGoogleMapsEnabled() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
@@ -396,29 +305,6 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']
-				->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
-			)
-		);
-	}
-
-	public function testRenderGoogleMapsViewNotAddsOnUnloadForObjectWithCachedAddressAndGoogleMapsDisabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
-			)
-		);
-
-		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->render();
-
-		$this->assertFalse(
 			isset($GLOBALS['TSFE']
 				->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
 			)

@@ -494,8 +494,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 				'exact_longitude' => '7.10211',
 				'show_address' => 1,
 		));
-
-		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'googleMaps'
+		);
 
 		$this->assertContains(
 			'<div id="tx_realty_map"',
@@ -512,8 +513,6 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 				'show_address' => 1,
 		));
 
-		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
-
 		$this->assertNotContains(
 			'<div id="tx_realty_map"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
@@ -529,12 +528,31 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 				'show_address' => 1,
 		));
 
-		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'googleMaps'
+		);
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 		$this->assertNotContains(
 			'href=',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+		);
+	}
+
+	public function test_singleViewForActivatedListViewGooglemaps_DoesNotShowGoogleMapsByDefault() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array(
+				'exact_coordinates_are_cached' => 1,
+				'exact_latitude' => 50.734343,
+				'exact_longitude' => 7.10211,
+				'show_address' => 1,
+		));
+
+		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
+
+		$this->assertNotContains(
+			'<div id="tx_realty_map"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 }

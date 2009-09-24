@@ -121,7 +121,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$this->setPageTitle($uid);
 
 		$hasTextContent = false;
-		$configuredViews = $this->getViewsToShow();
+		$configuredViews = t3lib_div::trimExplode(
+			',', $this->getConfValueString('singleViewPartsToDisplay'), true
+		);
 
 		foreach (array(
 			'heading', 'address', 'description', 'price', 'overviewTable',
@@ -196,23 +198,6 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$view->__destruct();
 
 		return $result;
-	}
-
-	/**
-	 * Returns the configuration for which views to show in an array.
-	 *
-	 * @return array the single view parts to display, will not be empty
-	 */
-	private function getViewsToShow() {
-		$configuredViews = t3lib_div::trimExplode(
-			',', $this->getConfValueString('singleViewPartsToDisplay'), true
-		);
-
-		if ($this->getConfValueBoolean('showGoogleMaps', 's_googlemaps')) {
-			$configuredViews[] = 'googleMaps';
-		}
-
-		return $configuredViews;
 	}
 }
 

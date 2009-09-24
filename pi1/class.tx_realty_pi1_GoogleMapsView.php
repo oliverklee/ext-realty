@@ -66,9 +66,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		$this->cObj = $cObj;
 		$this->init($configuration);
 
-		if ($this->isGoogleMapsEnabled()) {
-			$this->getTemplateCode();
-		}
+		$this->getTemplateCode();
 	}
 
 	/**
@@ -86,17 +84,16 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the HTML for Google Maps.
 	 *
-	 * If Google Maps is disabled or if none of the objects on the current
-	 * page have coordinates, the result will be empty.
+	 * If none of the objects on the current page have coordinates, the result
+	 * will be empty.
 	 *
-	 * @param array unused
+	 * @param array $unused unused
 	 *
-	 * @return string HTML for the Google Map, will be empty if Google Maps is
-	 *                disabled by configuration and if no map markers have been
-	 *                set before
+	 * @return string HTML for the Google Map, will be empty no map markers have
+	 *                been set before
 	 */
 	public function render(array $unused = array()) {
-		if (!$this->isGoogleMapsEnabled() || empty($this->mapMarkers)) {
+		if (empty($this->mapMarkers)) {
 			return '';
 		}
 
@@ -113,20 +110,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 *                object title
 	 */
 	public function setMapMarker($realtyObjectUid, $createLink = false) {
-		if (!$this->isGoogleMapsEnabled()) {
-			return;
-		}
-
 		$this->createMarkerFromCoordinates($realtyObjectUid, $createLink);
-	}
-
-	/**
-	 * Checks whether Google Maps is enabled by configuration.
-	 *
-	 * @return boolean true if Google Maps is enabled, false otherwise
-	 */
-	private function isGoogleMapsEnabled() {
-		return ($this->getConfValueBoolean('showGoogleMaps', 's_googlemaps'));
 	}
 
 	/**

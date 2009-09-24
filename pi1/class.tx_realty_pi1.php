@@ -401,10 +401,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return;
 		}
 
-		$googleMapsView = tx_oelib_ObjectFactory::make(
-			'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj,
-			$this->isTestMode
+		$isGoogleMapsEnabled = $this->getConfValueBoolean(
+			'showGoogleMaps', 's_googlemaps'
 		);
+		if ($isGoogleMapsEnabled) {
+			$googleMapsView = tx_oelib_ObjectFactory::make(
+				'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj,
+				$this->isTestMode
+			);
+		}
 
 		$listItems = '';
 		$rowCounter = 0;
@@ -412,9 +417,11 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$this->internal['currentRow'] = $row;
 			$listItems .= $this->createListRow($rowCounter);
-			$googleMapsView->setMapMarker(
-				$this->internal['currentRow']['uid'], true
-			);
+			if ($isGoogleMapsEnabled) {
+				$googleMapsView->setMapMarker(
+					$this->internal['currentRow']['uid'], true
+				);
+			}
 			$rowCounter++;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
@@ -422,10 +429,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->setSubpart('list_item', $listItems);
 		$this->setSubpart('pagination', $this->createPagination());
 		$this->setSubpart('wrapper_sorting', $this->createSorting());
-		$this->unhideSubparts('google_map');
-		$this->setSubpart('google_map', $googleMapsView->render());
-
-		$googleMapsView->__destruct();
+		if ($isGoogleMapsEnabled) {
+			$this->unhideSubparts('google_map');
+			$this->setSubpart('google_map', $googleMapsView->render());
+			$googleMapsView->__destruct();
+			$googleMapsView = null;
+		}
 	}
 
 	/**

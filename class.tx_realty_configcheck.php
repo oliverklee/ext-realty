@@ -304,7 +304,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			array(
 				'heading', 'address', 'description', 'price', 'overviewTable',
 				'contactButton', 'actionButtons', 'furtherDescription',
-				'imageThumbnails', 'offerer',
+				'imageThumbnails', 'offerer', 'googleMaps',
 			)
 		);
 	}

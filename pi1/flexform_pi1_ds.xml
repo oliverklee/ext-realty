@@ -343,8 +343,12 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.offerer</numIndex>
 										<numIndex index="1">offerer</numIndex>
 									</numIndex>
+									<numIndex index="10" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMaps</numIndex>
+										<numIndex index="1">googleMaps</numIndex>
+									</numIndex>
 								</items>
-								<maxitems>10</maxitems>
+								<maxitems>11</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>
@@ -549,7 +553,6 @@
 							<config>
 								<type>check</type>
 							</config>
-							<onChange>reload</onChange>
 						</TCEforms>
 					</showGoogleMaps>
 					<googleMapsApiKey>
@@ -560,7 +563,6 @@
 								<size>100</size>
 								<eval>trim</eval>
 							</config>
-							<displayCond>FIELD:showGoogleMaps:REQ:true</displayCond>
 						</TCEforms>
 					</googleMapsApiKey>
 					<defaultCountryUID>
@@ -580,7 +582,6 @@
 								<maxitems>1</maxitems>
 								<size>1</size>
 							</config>
-							<displayCond>FIELD:showGoogleMaps:REQ:true</displayCond>
 						</TCEforms>
 					</defaultCountryUID>
 				</el>
