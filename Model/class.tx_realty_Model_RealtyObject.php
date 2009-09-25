@@ -107,11 +107,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	private $isDummyRecord = false;
 
 	/**
-	 * @var tx_realty_googleMapsLookup a geo coordinate finder
-	 */
-	private static $geoFinder = null;
-
-	/**
 	 * @var t3lib_refindex a cached reference index instance
 	 */
 	private static $referenceIndex = null;
@@ -1139,13 +1134,14 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		if (!$this->hasCachedCoordinates($prefix)) {
-			$coordinates = $this->createGeoFinder($configuration)->lookUp(
-				$street,
-				$this->getAsString('zip'),
-				$this->getForeignPropertyField('district'),
-				$this->getForeignPropertyField('city'),
-				$this->getAsInteger('country')
-			);
+			$coordinates = tx_realty_googleMapsLookup
+				::getInstance($configuration)->lookUp(
+					$street,
+					$this->getAsString('zip'),
+					$this->getForeignPropertyField('district'),
+					$this->getForeignPropertyField('city'),
+					$this->getAsInteger('country')
+				);
 
 			if (!empty($coordinates)) {
 				$this->setProperty(
@@ -1163,26 +1159,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		return $this->getCachedCoordinates($prefix);
-	}
-
-	/**
-	 * Gets the shared geo coordinate finder.
-	 *
-	 * If it does not exist yet, it will be created first.
-	 *
-	 * @param tx_oelib_templatehelper object that contains the plugin
-	 *                                configuration
-	 *
-	 * @return tx_realty_googleMapsLookup our geo coordinate finder
-	 */
-	private function createGeoFinder(tx_oelib_templatehelper $configuration) {
-		if (!self::$geoFinder) {
-			self::$geoFinder = tx_oelib_ObjectFactory::make(
-				'tx_realty_googleMapsLookup', $configuration
-			);
-		}
-
-		return self::$geoFinder;
 	}
 
 	/**
