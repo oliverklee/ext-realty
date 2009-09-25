@@ -65,6 +65,16 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 	 */
 	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
 
+	/**
+	 * @var float latitude
+	 */
+	const LATITUDE = 50.7;
+
+	/**
+	 * @var float longitude
+	 */
+	const LONGITUDE = 7.1;
+
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
@@ -82,6 +92,10 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
+		$geoFinder = new tx_realty_tests_fixtures_FakeGoogleMapsLookup();
+		$geoFinder->setCoordinates(self::LATITUDE, self::LONGITUDE);
+		tx_realty_googleMapsLookup::setInstance($geoFinder);
+
 		$this->fixture = new tx_realty_pi1_GoogleMapsView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
@@ -94,9 +108,11 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->testingFramework->cleanUp();
-
 		$this->fixture->__destruct();
+
+		$this->testingFramework->cleanUp();
+		tx_realty_googleMapsLookup::purgeInstance();
+
 		unset($this->fixture, $this->testingFramework);
 	}
 
@@ -193,8 +209,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 			)
 		);
@@ -233,8 +249,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 			)
 		);
@@ -273,8 +289,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 			)
 		);
@@ -295,8 +311,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 			)
 		);
@@ -317,8 +333,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 			)
 		);
@@ -327,11 +343,11 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertContains(
-			'50.7343',
+			(string) self::LATITUDE,
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 		$this->assertContains(
-			'7.1021',
+			(string) self::LONGITUDE,
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -349,8 +365,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			array(
 				'title' => 'foo',
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 				'street' => 'Main Street',
 				'zip' => '12345',
@@ -382,8 +398,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			array(
 				'title' => 'foo',
 				'rough_coordinates_are_cached' => 1,
-				'rough_latitude' => 52.123,
-				'rough_longitude' => 7.456,
+				'rough_latitude' => self::LATITUDE,
+				'rough_longitude' => self::LONGITUDE,
 				'show_address' => 0,
 				'street' => 'Main Street',
 				'zip' => '12345',
@@ -409,8 +425,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			array(
 				'title' => 'A really long title that is not too short.',
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 			)
 		);
@@ -430,8 +446,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'district' => $this->testingFramework->createRecord(
 					REALTY_TABLE_DISTRICTS,
 					array('title' => 'Beuel')
@@ -455,8 +471,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'street' => 'Foo road',
 				'show_address' => 1,
 			)
@@ -477,8 +493,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'street' => 'Foo road',
 				'show_address' => 1,
 			)
@@ -502,8 +518,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'street' => 'Foo road',
 				'show_address' => 1,
 			)
@@ -527,8 +543,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			$this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'street' => 'Foo road',
 				'show_address' => 0,
 			)
@@ -579,8 +595,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 52.123,
-				'exact_longitude' => 7.456,
+				'exact_latitude' => self::LATITUDE,
+				'exact_longitude' => self::LONGITUDE,
 				'show_address' => 1,
 			)
 		);
@@ -591,8 +607,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 					'title' => 'second test object',
 					'object_number' => '6789',
 					'exact_coordinates_are_cached' => 1,
-					'exact_latitude' => 50.734343,
-					'exact_longitude' => 7.10211,
+					'exact_latitude' => self::LATITUDE + 1,
+					'exact_longitude' => self::LONGITUDE + 1,
 					'show_address' => 1,
 				)
 			)
@@ -601,11 +617,11 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertContains(
-			'52.123,7.456',
+			(self::LATITUDE + 1) . ',' . (self::LONGITUDE + 1),
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 		$this->assertContains(
-			'50.734343,7.10211',
+			self::LATITUDE . ',' . self::LONGITUDE,
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -615,8 +631,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
 				'rough_coordinates_are_cached' => 1,
-				'rough_latitude' => 52.123,
-				'rough_longitude' => 7.456,
+				'rough_latitude' => self::LATITUDE + 1,
+				'rough_longitude' => self::LONGITUDE + 1,
 				'show_address' => 0,
 			)
 		);
@@ -627,8 +643,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 					'title' => 'second test object',
 					'object_number' => '6789',
 					'rough_coordinates_are_cached' => 1,
-					'rough_latitude' => 50.734343,
-					'rough_longitude' => 7.10211,
+					'rough_latitude' => self::LATITUDE,
+					'rough_longitude' => self::LONGITUDE,
 					'show_address' => 0,
 				)
 			)
@@ -637,11 +653,11 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertContains(
-			'52.123,7.456',
+			(self::LATITUDE + 1) . ',' . (self::LONGITUDE + 1),
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 		$this->assertContains(
-			'50.734343,7.10211',
+			self::LATITUDE . ',' . self::LONGITUDE,
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -657,8 +673,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 52.123,
-				'exact_longitude' => 7.456,
+				'exact_latitude' => self::LATITUDE + 1,
+				'exact_longitude' => self::LONGITUDE + 1,
 				'show_address' => 1,
 				'street' => 'foo street',
 				'zip' => '12345',
@@ -674,8 +690,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 					'title' => 'second test object',
 					'object_number' => '6789',
 					'exact_coordinates_are_cached' => 1,
-					'exact_latitude' => 50.734343,
-					'exact_longitude' => 7.10211,
+					'exact_latitude' => self::LATITUDE,
+					'exact_longitude' => self::LONGITUDE,
 					'show_address' => 1,
 					'street' => 'bar street',
 					'zip' => '12345',
@@ -707,8 +723,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
 				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 52.123,
-				'exact_longitude' => 7.456,
+				'exact_latitude' => self::LATITUDE + 1,
+				'exact_longitude' => self::LONGITUDE + 1,
 				'show_address' => 1,
 			)
 		);
@@ -719,8 +735,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 					'title' => 'second test object',
 					'object_number' => '6789',
 					'exact_coordinates_are_cached' => 1,
-					'exact_latitude' => 50.734343,
-					'exact_longitude' => 7.10211,
+					'exact_latitude' => self::LATITUDE,
+					'exact_longitude' => self::LONGITUDE,
 					'show_address' => 1,
 				)
 			)
@@ -749,8 +765,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 					'title' => 'second test object',
 					'object_number' => '6789',
 					'exact_coordinates_are_cached' => 1,
-					'exact_latitude' => 50.734343,
-					'exact_longitude' => 7.10211,
+					'exact_latitude' => self::LATITUDE,
+					'exact_longitude' => self::LONGITUDE,
 					'show_address' => 1,
 				)
 			)

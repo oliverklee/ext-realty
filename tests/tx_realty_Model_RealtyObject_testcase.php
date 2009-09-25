@@ -80,17 +80,25 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	const DE = 54;
 
 	/**
-	 * @var string a valid Google Maps API key for localhost
+	 * @var float latitude
 	 */
-	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
+	const LATITUDE = 50.7;
+
+	/**
+	 * @var float longitude
+	 */
+	const LONGITUDE = 7.1;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
-		$this->templateHelper = new tx_oelib_templatehelper();
-		$this->templateHelper->setConfigurationValue(
-			'googleMapsApiKey', self::GOOGLE_MAPS_API_KEY
+		$geoFinder = new tx_realty_tests_fixtures_FakeGoogleMapsLookup();
+		$geoFinder->setCoordinates(self::LATITUDE, self::LONGITUDE);
+		tx_realty_googleMapsLookup::setInstance($geoFinder);
+
+		$this->templateHelper = $this->getMock(
+			'tx_oelib_templatehelper', array('hasConfValueString', 'getConfValueString')
 		);
 
 		$this->fixture = new tx_realty_Model_RealtyObjectChild(true);
@@ -106,6 +114,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->cleanUpDatabase();
 
+		tx_realty_googleMapsLookup::purgeInstance();
 		$this->templateHelper->__destruct();
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->templateHelper, $this->testingFramework);
@@ -1977,6 +1986,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveCoordinatesForInvalidAddressDoesNotWriteObjectToDb() {
+		tx_realty_googleMapsLookup::getInstance(
+			$this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
 			'city' => 'Allk3q4öklbj',
@@ -1991,6 +2002,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveCoordinatesForInvalidAddressWithoutCachedCoordinatesReturnsEmptyArray() {
+		tx_realty_googleMapsLookup::getInstance(
+			$this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
 			'city' => 'Allk3q4öklbj',
@@ -2006,6 +2019,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveCoordinatesForInvalidAddressDoesNotChangeExistingCoordinates() {
+		tx_realty_googleMapsLookup::getInstance(
+			$this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
 			'city' => 'Allk3q4öklbj',
@@ -2038,6 +2053,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveCoordinatesForInvalidAddressDoesNotMarkCoordinatesAsCached() {
+		tx_realty_googleMapsLookup::getInstance(
+			$this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'asgtqbt4q3 mkb 431',
 			'city' => 'Allk3q4öklbj',
@@ -2168,14 +2185,12 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
-			50.741551,
-			$this->fixture->getProperty('rough_latitude'),
-			'', 0.01
+			self::LATITUDE,
+			$this->fixture->getProperty('rough_latitude')
 		);
 		$this->assertEquals(
-			7.101499,
-			$this->fixture->getProperty('rough_longitude'),
-			'', 0.01
+			self::LONGITUDE,
+			$this->fixture->getProperty('rough_longitude')
 		);
 	}
 
@@ -2194,14 +2209,12 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
-			50.734343,
-			$this->fixture->getProperty('exact_latitude'),
-			'', 0.001
+			self::LATITUDE,
+			$this->fixture->getProperty('exact_latitude')
 		);
 		$this->assertEquals(
-			7.10211,
-			$this->fixture->getProperty('exact_longitude'),
-			'', 0.001
+			self::LONGITUDE,
+			$this->fixture->getProperty('exact_longitude')
 		);
 	}
 
@@ -2290,8 +2303,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(
-				'latitude' => '50.7343353',
-				'longitude' => '7.1021270',
+				'latitude' => self::LATITUDE,
+				'longitude' => self::LONGITUDE,
 			),
 			$this->fixture->retrieveCoordinates($this->templateHelper)
 		);
@@ -2314,8 +2327,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_OBJECTS,
 				'uid = ' . $this->fixture->getUid() .
-					' AND exact_latitude = "50.7343353"' .
-					' AND exact_longitude = "7.1021270"'
+					' AND exact_latitude = "' . self::LATITUDE .'"'.
+					' AND exact_longitude = "' . self::LONGITUDE .'"'
 			)
 		);
 	}
@@ -2334,14 +2347,12 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$coordinates = $this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertEquals(
-			50.740081,
-			$coordinates['latitude'],
-			'', 0.01
+			self::LATITUDE,
+			$coordinates['latitude']
 		);
 		$this->assertEquals(
-			7.098095,
-			$coordinates['longitude'],
-			'', 0.01
+			self::LONGITUDE,
+			$coordinates['longitude']
 		);
 	}
 
@@ -2442,6 +2453,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			'show_address' => 1,
 		));
 		$exactResult = $this->fixture->retrieveCoordinates($this->templateHelper);
+
+		tx_realty_googleMapsLookup::getInstance($this->templateHelper)
+			->setCoordinates(self::LATITUDE + 1, self::LONGITUDE + 1);
 
 		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
 		$realtyObject->setRequiredFields(array());

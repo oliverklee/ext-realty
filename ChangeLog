@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#2082] Change: Use geolocation lookup mockups for the tests
 - [#3428] Fix: PHP warning during the OpenImmo import
 - [#3284] Fix: Provide unique CSS classes for all buttons
 - [#3286] Feature: Add Google Maps to the list of checkboxes for the single view

@@ -67,12 +67,12 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 			'googleMapsApiKey', self::GOOGLE_MAPS_API_KEY
 		);
 
-		$this->fixture = new tx_realty_googleMapsLookup($this->configuration);
+		$this->fixture = tx_realty_googleMapsLookup::getInstance($this->configuration);
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
 		$this->configuration->__destruct();
+		tx_realty_googleMapsLookup::purgeInstance();
 
 		unset($this->fixture, $this->configuration);
 	}
@@ -94,10 +94,12 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 			'The Google Maps API key was missing from the configuration.'
 		);
 
-		$configuration = new tx_oelib_templatehelper();
-		$configuration->init(array());
+		$configuration = $this->getMock('tx_oelib_templatehelper', array('hasConfValueString'));
+		$configuration->expects($this->any())->method('hasConfValueString')
+			->will($this->returnValue(false));
 
-		new tx_realty_googleMapsLookup($configuration);
+		tx_realty_googleMapsLookup::purgeInstance();
+		tx_realty_googleMapsLookup::getInstance($configuration);
 	}
 
 

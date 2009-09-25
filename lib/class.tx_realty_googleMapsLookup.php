@@ -36,6 +36,11 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_googleMapsLookup {
 	/**
+	 * @var tx_realty_googleMapsLookup the Singleton GoogleMaps instance
+	 */
+	private static $instance = null;
+
+	/**
 	 * @var string the base URL of the Google Maps geo coding service
 	 */
 	const BASE_URL = 'http://maps.google.com/maps/geo?output=csv&key=';
@@ -52,11 +57,12 @@ class tx_realty_googleMapsLookup {
 	private $configuration;
 
 	/**
-	 * The constructor.
+	 * The constructor. Do not call this constructor directly. Use getInstance()
+	 * instead.
 	 *
 	 * @param tx_oelib_templatehelper the plugin configuration
 	 */
-	public function __construct(tx_oelib_templatehelper $configuration) {
+	protected function __construct(tx_oelib_templatehelper $configuration) {
 		if (!$configuration->hasConfValueString(
 			'googleMapsApiKey', 's_googlemaps'
 		)) {
@@ -74,6 +80,45 @@ class tx_realty_googleMapsLookup {
 	}
 
 	/**
+	 * Retrieves the Singleton instance of the GoogleMaps look-up.
+	 *
+	 * @param tx_oelib_templatehelper configuration, will only be used for
+	 *                                creating the initial Singleton object
+	 *
+	 * @return tx_realty_googleMapsLookup the Singleton GoogleMaps look-up
+	 */
+	public static function getInstance(tx_oelib_templatehelper $configuration) {
+		if (!is_object(self::$instance)) {
+			self::$instance = new tx_realty_googleMapsLookup($configuration);
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Sets the Singleton GoogleMaps look-up instance.
+	 *
+	 * Note: This function is to be used for testing only.
+	 *
+	 * @param tx_realty_googleMapsLookup the instance which getInstance()
+	 *                                   should return
+	 */
+	public static function setInstance(tx_realty_googleMapsLookup $geoFinder) {
+		self::$instance = $geoFinder;
+	}
+
+	/**
+	 * Purges the current GoogleMaps look-up instance.
+	 */
+	public static function purgeInstance() {
+		if (is_object(self::$instance)) {
+			self::$instance->__destruct();
+		}
+
+		self::$instance = null;
+	}
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -88,7 +133,7 @@ class tx_realty_googleMapsLookup {
 	 * @param string the district of the address, may be empty
 	 * @param string the city of the address, may be empty
 	 * @param integer the country of the address as a UID from
-	 *                static_info_tables, if this is 0, the default
+	 *                static_info_tables; if this is 0, the default
 	 *                country set in the configuration will be used
 	 *
 	 * @return array an array with the geo coordinates using the keys

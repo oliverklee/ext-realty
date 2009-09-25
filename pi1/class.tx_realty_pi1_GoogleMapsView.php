@@ -98,6 +98,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		$this->addGoogleMapToHtmlHead();
+
 		return $this->getSubpart('GOOGLE_MAP');
 	}
 
