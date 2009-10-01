@@ -512,7 +512,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'all if this value is empty or contains only invalid keys.',
 			array(
 				'site', 'priceRanges', 'uid', 'objectNumber', 'city', 'district',
-				'objectType', 'rent', 'livingArea', 'houseType',
+				'objectType', 'rent', 'livingArea', 'houseType', 'numberOfRooms',
 			)
 		);
 	}

@@ -46,7 +46,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		'uid' => 0, 'objectNumber' => '', 'site' => '', 'city' => 0,
 		'district' => 0, 'houseType' => 0, 'priceRange' => '', 'rentFrom' => 0,
 		'rentTo' => 0, 'livingAreaFrom' => 0, 'livingAreaTo' => 0,
-		'objectType' => '',
+		'objectType' => '', 'numberOfRoomsFrom' => 0, 'numberOfRoomsTo' => 0,
 	);
 
 	/**
@@ -81,6 +81,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$this->fillOrHidePriceRangeDropDown();
 		$this->fillOrHideFromToSearchField('rent', 'rent');
 		$this->fillOrHideFromToSearchField('livingArea', 'living_area');
+		$this->fillOrHideFromToSearchField('numberOfRooms', 'number_of_rooms');
 		$this->fillOrHideObjectTypeSelect();
 
 		return $this->getSubpart('FILTER_FORM');
@@ -119,41 +120,50 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @param array filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
-		$allowedArrayKeys = array(
-			'uid', 'objectNumber', 'site', 'city', 'district', 'houseType',
-			'priceRange', 'rentFrom', 'rentTo', 'livingAreaFrom',
-			'livingAreaTo', 'objectType',
-		);
-		$integerFields = array(
-			'uid', 'city', 'district', 'houseType', 'rentFrom', 'rentTo',
-			'livingAreaFrom', 'livingAreaTo',
-		);
-
-		foreach ($allowedArrayKeys as $key) {
-			if (isset($formData[$key])) {
-				$this->filterFormData[$key] = (in_array($key, $integerFields))
-					? intval($formData[$key])
-					: $formData[$key];
-			} else {
-				$this->filterFormData[$key]
-					= (in_array($key, $integerFields)) ? 0 : '';
+		foreach ($formData as $key => $rawValue) {
+			switch($key) {
+				case 'uid':
+					// The fallthrough is intended.
+				case 'city':
+					// The fallthrough is intended.
+				case 'district':
+					// The fallthrough is intended.
+				case 'houseType':
+					// The fallthrough is intended.
+				case 'rentFrom':
+					// The fallthrough is intended.
+				case 'rentTo':
+					// The fallthrough is intended.
+				case 'livingAreaFrom':
+					// The fallthrough is intended.
+				case 'livingAreaTo':
+					$this->filterFormData[$key] = intval($rawValue);
+					break;
+				case 'objectNumber':
+					// The fallthrough is intended.
+				case 'site':
+					$this->filterFormData[$key] = $rawValue;
+					break;
+				case 'objectType':
+					$this->filterFormData['objectType'] = in_array(
+						$rawValue, array('forSale', 'forRent')
+					) ?  $rawValue : '';
+					break;
+				case 'priceRange':
+					$this->filterFormData['priceRange'] = preg_match(
+						'/^(\d+-\d+|-\d+|\d+-)$/', $rawValue
+					) ? $rawValue : '';
+					break;
+				case 'numberOfRoomsFrom':
+					// The fallthrough is intended.
+				case 'numberOfRoomsTo':
+					$this->filterFormData[$key]
+						= tx_realty_pi1_Formatter::formatDecimal(
+							floatval($rawValue)
+						);
+				default:
+					break;
 			}
-		}
-
-		if (isset($formData['priceRange'])
-			&& preg_match('/^(\d+-\d+|-\d+|\d+-)$/', $formData['priceRange'])
-		) {
-			$this->filterFormData['priceRange'] = $formData['priceRange'];
-		} else {
-			$this->filterFormData['priceRange'] = '';
-		}
-
-		if (isset($formData['objectType'])
-			&& in_array($formData['objectType'], array('forSale', 'forRent'))
-		) {
-			$this->filterFormData['objectType'] = $formData['objectType'];
-		} else {
-			$this->filterFormData['objectType'] = '';
 		}
 	}
 

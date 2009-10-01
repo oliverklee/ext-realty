@@ -67,6 +67,7 @@
 			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
 			<label index="realty.pi_flexform.displayUid">Immo ID</label>
 			<label index="realty.pi_flexform.displayObjectType">Radiobuttons rent/sale</label>
+			<label index="realty.pi_flexform.displayNumberOfRooms">Number of rooms</label>
 			<label index="realty.pi_flexform.displayLivingArea">Living area</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
@@ -238,6 +239,7 @@
 			<label index="label_select_object_type">Only objects:</label>
 			<label index="label_select_rent">for rent</label>
 			<label index="label_select_sale">for sale</label>
+			<label index="label_enter_number_of_rooms">Number of rooms:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
 			<label index="label_to">to</label>
@@ -408,6 +410,7 @@
 			<label index="realty.pi_flexform.displayObjectNumber">Objektnummer</label>
 			<label index="realty.pi_flexform.displayUid">Immo-ID</label>
 			<label index="realty.pi_flexform.displayObjectType">Radiobuttons Kauf/Miete</label>
+			<label index="realty.pi_flexform.displayNumberOfRooms">Zimmeranzahl</label>
 			<label index="realty.pi_flexform.displayLivingArea">Wohnraum</label>
 			<label index="realty.pi_flexform.filterTargetPID">Zielseite für das Suchwidget:</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Preisspannen für den Preis-Drop-down:</label>
@@ -579,6 +582,7 @@
 			<label index="label_select_object_type">Nur Objekte:</label>
 			<label index="label_select_rent">zur Miete</label>
 			<label index="label_select_sale">zum Verkauf</label>
+			<label index="label_enter_number_of_rooms">Zimmeranzahl:</label>
 			<label index="label_less_than">weniger als</label>
 			<label index="label_greater_than">über</label>
 			<label index="label_to">bis</label>
@@ -1756,6 +1760,7 @@
 			<label index="realty.pi_flexform.displayDistrict" type="integer">29634777</label>
 			<label index="realty.pi_flexform.displayHouseType" type="integer">168489798</label>
 			<label index="realty.pi_flexform.displayObjectType" type="integer">200190647</label>
+			<label index="realty.pi_flexform.displayNumberOfRooms" type="integer">151522303</label>
 			<label index="realty.pi_flexform.displayLivingArea" type="integer">135838058</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">140369544</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm" type="integer">218493474</label>
@@ -1926,6 +1931,7 @@
 			<label index="label_select_object_type" type="integer">188049544</label>
 			<label index="label_select_rent" type="integer">61764923</label>
 			<label index="label_select_sale" type="integer">70955112</label>
+			<label index="label_enter_number_of_rooms" type="integer">212051686</label>
 			<label index="label_less_than" type="integer">165614130</label>
 			<label index="label_greater_than" type="integer">199111175</label>
 			<label index="label_to" type="integer">1797664</label>
@@ -3104,6 +3110,7 @@
 			<label index="realty.pi_flexform.displayRent">price input fields</label>
 			<label index="realty.pi_flexform.displayPriceRange">rent/buying price drop-down</label>
 			<label index="realty.pi_flexform.displayObjectType">Radiobuttons rent/sale</label>
+			<label index="realty.pi_flexform.displayNumberOfRooms">Number of rooms</label>
 			<label index="realty.pi_flexform.displayLivingArea">Living area</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
@@ -3274,6 +3281,7 @@
 			<label index="label_select_object_type">Only objects:</label>
 			<label index="label_select_rent">for rent</label>
 			<label index="label_select_sale">for sale</label>
+			<label index="label_enter_number_of_rooms">Number of rooms:</label>
 			<label index="label_less_than">less than</label>
 			<label index="label_greater_than">greater than</label>
 			<label index="label_to">to</label>

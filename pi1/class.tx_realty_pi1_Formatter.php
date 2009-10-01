@@ -350,25 +350,37 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * Retrieves the value of the record field $key, formats it using the
 	 * system's locale and strips zeros on the end of the value.
 	 *
-	 * @param string $key
-	 *        key of the field to retrieve (the name of a database column), must
-	 *        not be empty
+	 * @param float $key name of a database column, must not be empty
 	 *
 	 * @return string the number in the field formatted using the system's
 	 *                locale and stripped of trailing zeros, will be empty if
 	 *                the value is zero.
 	 */
 	private function getFormattedDecimal($key) {
-		$value = floatval(tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->getUid())->getProperty($key));
+		$value = floatval(
+			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+				->find($this->getUid())->getProperty($key)
+		);
 
-		if ($value == 0) {
+		return self::formatDecimal($value);
+	}
+
+	/**
+	 * Formats the given decimal removing trailing zeros and the decimal point
+	 * if neccessary.
+	 *
+	 * @param float $number the number to format
+	 *
+	 * @return $string the formatted float, will be empty if zero was given
+	 */
+	public static function formatDecimal($number) {
+		if ($number == 0) {
 			return '';
 		}
 
 		$localeConvention = localeconv();
 		$decimalPoint = $localeConvention['decimal_point'];
-		$formattedNumber = number_format($value, 2, $decimalPoint, '');
+		$formattedNumber = number_format($number, 2, $decimalPoint, '');
 
 		return preg_replace('/\\' . $decimalPoint . '?0+$/',
 			'',

@@ -641,8 +641,12 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayObjectType</numIndex>
 										<numIndex index="1">objectType</numIndex>
  									</numIndex>
+									<numIndex index="10" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayNumberOfRooms</numIndex>
+										<numIndex index="1">numberOfRooms</numIndex>
+ 									</numIndex>
 								</items>
-								<maxitems>10</maxitems>
+								<maxitems>11</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

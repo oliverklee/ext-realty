@@ -960,5 +960,73 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////////////////////////////////////////////
+	// Tests concerning the rendering of the numberOfRooms input fields
+	/////////////////////////////////////////////////////////////////////
+
+	public function test_SearchForm_ForSetNumberOfRoomsInputFields_DisplaysNumberOfRoomsInputFields() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'numberOfRooms'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_enter_number_of_rooms'),
+			$this->fixture->render(array())
+		);
+	}
+
+	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndRoomsFromSet_EntersSentDataIntoInputFields() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'numberOfRooms'
+		);
+
+		$this->assertContains(
+			'value="1"',
+			$this->fixture->render(array('numberOfRoomsFrom' => '1'))
+		);
+	}
+
+	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndRoomsToSet_EntersSentDataIntoInputFields() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'numberOfRooms'
+		);
+
+		$this->assertContains(
+			'value="2"',
+			$this->fixture->render(array('numberOfRoomsTo' => '2'))
+		);
+	}
+
+	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndRoomsFromZero_SetsEmptyValueForRoomsFromInput() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'numberOfRooms'
+		);
+
+		$output = $this->fixture->render(
+			array('numberOfRoomsFrom' => '0')
+		);
+
+		$this->assertContains(
+			'value=""',
+			$output
+		);
+	}
+
+	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndDataWithTrailingZeros_RemovesTrailingZerosFromInput() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'numberOfRooms'
+		);
+
+		$output = $this->fixture->render(
+			array('numberOfRoomsTo' => '15.20')
+		);
+
+		$this->assertContains(
+			'value="15.2"',
+			$output
+		);
+	}
 }
 ?>
