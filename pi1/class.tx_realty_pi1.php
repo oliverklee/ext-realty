@@ -605,8 +605,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				// values but also might need to contain strings.
 				case 'buying_price':
 					// intended fall-through
-				case 'number_of_rooms':
-					// intended fall-through
 				case 'object_number':
 					// intended fall-through
 				case 'rent_excluding_bills':
@@ -623,6 +621,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				case 'random':
 					$result = 'RAND()';
 					break;
+				case 'number_of_rooms':
+					// intended fall-through
 				default:
 					$result = REALTY_TABLE_OBJECTS . '.' . $sortCriterion;
 					break;

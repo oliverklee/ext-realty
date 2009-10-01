@@ -1012,6 +1012,57 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testImportStoresNumberOfRoomsWithDecimalsIntoDb() {
+		$this->testingFramework->markTableAsDirty(
+			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+		);
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1"/>' .
+							'<vermarktungsart KAUF="1"/>' .
+							'<objektart><zimmer/></objektart>' .
+						'</objektkategorie>' .
+						'<flaechen>' .
+							'<anzahl_zimmer>1.25</anzahl_zimmer>' .
+						'</flaechen>' .
+						'<geo>' .
+							'<plz>01234</plz>' .
+						'</geo>' .
+						'<kontaktperson>' .
+							'<name>bar</name>' .
+						'</kontaktperson>' .
+						'<verwaltung_techn>' .
+							'<openimmo_obid>foo</openimmo_obid>' .
+							'<objektnr_extern>' .
+								$objectNumber .
+							'</objektnr_extern>' .
+						'</verwaltung_techn>' .
+					'</immobilie>' .
+					'<openimmo_anid>foo</openimmo_anid>' .
+					'<firma>bar</firma>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				REALTY_TABLE_OBJECTS,
+				'object_number="' . $objectNumber . '" AND ' .
+					'number_of_rooms = 1.25' .
+					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+			)
+		);
+	}
+
 	public function testImportUtf8FileWithCorrectUmlauts() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);

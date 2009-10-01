@@ -312,8 +312,13 @@ $TCA['tx_realty_objects'] = array(
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms',
 			'config' => array(
 				'type' => 'input',
-				'size' => '5',
-				'eval' => 'trim',
+				'size' => '2',
+				'max' => '5',
+				'eval' => 'double2',
+				'range' => array(
+					'upper' => '99',
+					'lower' => '0',
+				),
 			),
 		),
 		'living_area' => array(
@@ -543,8 +548,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '2',
-				'max' => '2',
-				'eval' => 'int',
+				'max' => '5',
+				'eval' => 'double2',
 				'checkbox' => '0',
 				'range' => array(
 					'upper' => '99',
@@ -559,8 +564,8 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '2',
-				'max' => '2',
-				'eval' => 'int',
+				'max' => '5',
+				'eval' => 'double2',
 				'checkbox' => '0',
 				'range' => array(
 					'upper' => '99',

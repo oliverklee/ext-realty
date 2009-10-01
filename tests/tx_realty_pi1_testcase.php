@@ -2208,12 +2208,12 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('number_of_rooms' => '9')
+			array('number_of_rooms' => 9)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
-			array('number_of_rooms' => '11')
+			array('number_of_rooms' => 11)
 		);
 
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');

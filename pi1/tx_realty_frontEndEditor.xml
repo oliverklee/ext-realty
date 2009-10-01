@@ -828,7 +828,7 @@
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isValidIntegerNumber</method>
+						<method>isValidNumberWithDecimals</method>
 						<message>
 							<userobj>
 								<extension>this</extension>
@@ -848,7 +848,7 @@
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isValidIntegerNumber</method>
+						<method>isValidNumberWithDecimals</method>
 						<message>
 							<userobj>
 								<extension>this</extension>

@@ -329,5 +329,51 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 			$this->fixture->getProperty('address')
 		);
 	}
+
+	public function test_GetPropertyForRoomNumberWithTwoDecimalsNotZero_ReturnsTheNumberWithBothDecimals() {
+		$this->realtyObject->setProperty('number_of_rooms', 5.28);
+
+
+		$this->assertEquals(
+			'5.28',
+			$this->fixture->getProperty('number_of_rooms')
+		);
+	}
+
+	public function test_GetPropertyForRoomNumberWithTwoDecimalsLastOneZero_ReturnsTheNumberWithOnlyOneDecimal() {
+		$this->realtyObject->setProperty('number_of_rooms', '5.20');
+
+		$this->assertSame(
+			'5.2',
+			$this->fixture->getProperty('number_of_rooms')
+		);
+	}
+
+	public function test_GetPropertyForRoomNumberWithTwoDecimalsBothZero_ReturnsTheNumberWithoutDecimals() {
+		$this->realtyObject->setProperty('number_of_rooms', '5.00');
+
+		$this->assertSame(
+			'5',
+			$this->fixture->getProperty('number_of_rooms')
+		);
+	}
+
+	public function test_GetPropertyForBathroomsWithTwoDecimalsLastOneZero_ReturnsTheBathroomsWithOnlyOneDecimal() {
+		$this->realtyObject->setProperty('bathrooms', '5.20');
+
+		$this->assertSame(
+			'5.2',
+			$this->fixture->getProperty('bathrooms')
+		);
+	}
+
+	public function test_GetPropertyForBedroomsWithTwoDecimalsLastOneZero_ReturnsTheBedroomsWithOnlyOneDecimal() {
+		$this->realtyObject->setProperty('bedrooms', '5.20');
+
+		$this->assertSame(
+			'5.2',
+			$this->fixture->getProperty('bedrooms')
+		);
+	}
 }
 ?>

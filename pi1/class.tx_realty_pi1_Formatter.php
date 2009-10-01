@@ -162,15 +162,16 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'usable_from':
 				$result = htmlspecialchars($realtyObject->getProperty($key));
 				break;
-			case 'number_of_rooms':
-				// The fallthrough is intended.
-			case 'floor':
-				// The fallthrough is intended.
-			case 'floors':
-				// The fallthrough is intended.
 			case 'bedrooms':
 				// The fallthrough is intended.
 			case 'bathrooms':
+				// The fallthrough is intended.
+			case 'number_of_rooms':
+				$result = $this->getFormattedDecimal($key);
+				break;
+			case 'floor':
+				// The fallthrough is intended.
+			case 'floors':
 				// The fallthrough is intended.
 			case 'construction_year':
 				$number = $realtyObject->getProperty($key);
@@ -343,6 +344,36 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 */
 	private function getUid() {
 		return $this->showUid;
+	}
+
+	/**
+	 * Retrieves the value of the record field $key, formats it using the
+	 * system's locale and strips zeros on the end of the value.
+	 *
+	 * @param string $key
+	 *        key of the field to retrieve (the name of a database column), must
+	 *        not be empty
+	 *
+	 * @return string the number in the field formatted using the system's
+	 *                locale and stripped of trailing zeros, will be empty if
+	 *                the value is zero.
+	 */
+	private function getFormattedDecimal($key) {
+		$value = floatval(tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getUid())->getProperty($key));
+
+		if ($value == 0) {
+			return '';
+		}
+
+		$localeConvention = localeconv();
+		$decimalPoint = $localeConvention['decimal_point'];
+		$formattedNumber = number_format($value, 2, $decimalPoint, '');
+
+		return preg_replace('/\\' . $decimalPoint . '?0+$/',
+			'',
+			$formattedNumber
+		);
 	}
 }
 
