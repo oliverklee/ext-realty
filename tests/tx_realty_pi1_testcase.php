@@ -1698,6 +1698,200 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////////////////////////////////////////
+	// Tests concerning the list view filtered by number of rooms
+	///////////////////////////////////////////////////////////////
+
+	public function test_ListViewFilteredByNumberOfRoomsAndSetLowerLimit_DisplaysRealtyObjectWithNumberOfRoomsGreaterThanTheLowerLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 11)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('numberOfRoomsFrom' => '10');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsAndSetUpperLimit_DisplaysRealtyObjectWithNumberOfRoomsLowerThanTheGreaterLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('numberOfRoomsTo' => '2');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForSetUpperLimitAndNotSetLowerLimit_DisplaysRealtyObjectWithNumberOfRoomsZero() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 0)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('numberOfRoomsTo' => '10');
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectBelowNumberOfRoomsLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('number_of_rooms' => 9)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '100'
+		);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectWithNumberOfRoomsGreaterThanLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('number_of_rooms' => 101)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '100'
+		);
+
+		$this->assertNotContains(
+			self::$secondObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DisplaysRealtyObjectWithNumberOfRoomsEqualToLowerLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 10)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '20'
+		);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DisplaysRealtyObjectWithNumberOfRoomsEqualToUpperLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 20)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'numberOfRoomsFrom' => '10', 'numberOfRoomsTo' => '20'
+		);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperLimitSet_CanDisplayTwoRealtyObjectsWithTheNumberOfRoomsInRange() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 9)
+		);
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->secondRealtyUid,
+			array('number_of_rooms' => 1)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array('numberOfRoomsTo' => '10');
+
+		$output = $this->fixture->main('', array());
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$output
+		);
+		$this->assertContains(
+			self::$secondObjectTitle,
+			$output
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqual_HidesRealtyObjectWithNumberOfRoomsHigherThanLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 5)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'numberOfRoomsFrom' => '4.5', 'numberOfRoomsTo' => '4.5'
+		);
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualAndCommaAsDecimalSeparator_HidesRealtyObjectWithNumberOfRoomsLowerThanLimit() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 4)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'numberOfRoomsFrom' => '4,5', 'numberOfRoomsTo' => '4,5'
+		);
+
+		$this->assertNotContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitFourPointFive_DisplaysObjectWithFourPointFiveRooms() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array('number_of_rooms' => 4.5)
+		);
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->piVars = array(
+			'numberOfRoomsFrom' => '4.5', 'numberOfRoomsTo' => '4.5'
+		);
+
+		$this->assertContains(
+			self::$firstObjectTitle,
+			$this->fixture->main('', array())
+		);
+	}
+
+
 	//////////////////////////////////////////
 	// Tests for the list filter checkboxes.
 	//////////////////////////////////////////

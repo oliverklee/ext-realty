@@ -1043,5 +1043,65 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 			$output
 		);
 	}
+
+
+	///////////////////////////////////////////////////////////////////
+	// Tests concerning the WHERE clause part for the number of rooms
+	///////////////////////////////////////////////////////////////////
+
+	public function test_WhereClause_OnlyForLowerNumberOfRoomsLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1)',
+			$this->fixture->getWhereClausePart(
+				array('numberOfRoomsFrom' => 1)
+			)
+		);
+	}
+
+	public function test_WhereClause_OnlyForUpperNumberOfRoomsLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms <= 10)',
+			$this->fixture->getWhereClausePart(
+				array('numberOfRoomsTo' => 10)
+			)
+		);
+	}
+
+	public function test_WhereClause_ForUpperPlusLowerNumberOfRoomsLimit_CanBeCreated() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1)' .
+			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms <= 10)',
+			$this->fixture->getWhereClausePart(
+				array('numberOfRoomsFrom' => 1, 'numberOfRoomsTo' => 10)
+			)
+		);
+	}
+
+	public function test_WhereClause_ForLowerNumberOfRoomsLimitWithDecimals_CreatesWhereClauseWithCompleteNumber() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1.5)',
+			$this->fixture->getWhereClausePart(
+				array('numberOfRoomsFrom' => 1.5)
+			)
+		);
+	}
+
+	public function test_WhereClause_ForLowerNumberOfRoomsLimitString_DoesNotAddWhereClause() {
+		$this->assertEquals(
+			'',
+			$this->fixture->getWhereClausePart(
+				array('numberOfRoomsFrom' => 'foo')
+			)
+		);
+	}
+
+	public function test_WhereClause_ForLowerNumberOfRoomsLimitWithCommaAsDecimalSeparator_ReplacesCommaWithDot() {
+		$this->assertEquals(
+			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1.8)',
+			$this->fixture->getWhereClausePart(
+				array('numberOfRoomsFrom' => '1,8')
+			)
+		);
+	}
 }
 ?>

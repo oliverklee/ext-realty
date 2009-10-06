@@ -110,7 +110,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			$this->getHouseTypeWhereClausePart() .
 			$this->getRentOrPriceRangeWhereClausePart() .
 			$this->getLivingAreaWhereClausePart() .
-			$this->getObjectTypeWhereClausePart();
+			$this->getObjectTypeWhereClausePart() .
+			$this->getNumberOfRoomsWhereClausePart();
 	}
 
 	/**
@@ -157,7 +158,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 				case 'numberOfRoomsFrom':
 					// The fallthrough is intended.
 				case 'numberOfRoomsTo':
-					$commaFreeValue = str_replace(',', '.', $rawValue);
+					$commaFreeValue = $this->replaceCommasWithDots($rawValue);
 					$this->filterFormData[$key]
 						= tx_realty_pi1_Formatter::formatDecimal(
 							floatval($commaFreeValue)
@@ -760,6 +761,47 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns the WHERE clause part for the number of rooms search fields.
+	 *
+	 * @return string WHERE clause part beginning with " AND", will be empty if
+	 *                no filter form data was provided for the number of rooms
+	 *                search fields
+	 */
+	private function getNumberOfRoomsWhereClausePart() {
+		$result = '';
+
+		$roomsFromWithDots = $this->replaceCommasWithDots(
+			$this->filterFormData['numberOfRoomsFrom']
+		);
+		if ($roomsFromWithDots != 0) {
+			$result .= ' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= '
+				. $roomsFromWithDots . ')';
+		}
+
+		$roomsToWithDots = $this->replaceCommasWithDots(
+			$this->filterFormData['numberOfRoomsTo']
+		);
+		if ($roomsToWithDots != 0) {
+			$result .= ' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms <= '
+				. $roomsToWithDots . ')';
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Replaces every comma in a given string with a dot.
+	 *
+	 * @param string $rawValue the string with commas, may be empty
+	 *
+	 * @return string the string, with every comma replaced by a dot, will be
+	 *                empty if the input string was empty.
+	 */
+	private function replaceCommasWithDots($rawValue) {
+		return str_replace(',', '.', $rawValue);
 	}
 }
 
