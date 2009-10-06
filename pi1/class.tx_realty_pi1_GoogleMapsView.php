@@ -149,8 +149,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 		$createMapJavaScript .=  '}'. LF .
 			'}' . LF .
-			'/*]]>*/' . LF .
-			'</script>';
+			'/*]]>*/</script>';
 
 		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 			=  $generalGoogleMapsJavaScript . $createMapJavaScript;
