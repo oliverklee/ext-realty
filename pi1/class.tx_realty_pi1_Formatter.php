@@ -350,19 +350,21 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * Retrieves the value of the record field $key, formats it using the
 	 * system's locale and strips zeros on the end of the value.
 	 *
-	 * @param float $key name of a database column, must not be empty
+	 * @param string $key name of a database column, must not be empty
 	 *
 	 * @return string the number in the field formatted using the system's
 	 *                locale and stripped of trailing zeros, will be empty if
 	 *                the value is zero.
 	 */
 	private function getFormattedDecimal($key) {
-		$value = floatval(
+		$value = str_replace(
+			',',
+			'.',
 			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 				->find($this->getUid())->getProperty($key)
 		);
 
-		return self::formatDecimal($value);
+		return self::formatDecimal(floatval($value));
 	}
 
 	/**

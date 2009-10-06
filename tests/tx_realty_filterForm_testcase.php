@@ -1028,5 +1028,20 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 			$output
 		);
 	}
+
+	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndDataWithCommaAsDecimalSeparator_KeepsDecimalAfterSeparator() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'numberOfRooms'
+		);
+
+		$output = $this->fixture->render(
+			array('numberOfRoomsTo' => '15,25')
+		);
+
+		$this->assertContains(
+			'value="15.25"',
+			$output
+		);
+	}
 }
 ?>

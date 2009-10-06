@@ -357,6 +357,15 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_GetPropertyForRoomNumberForDecimalSeparatorCommaAndTwoDecimals_ReturnsTheNumberBothDecimals() {
+		$this->realtyObject->setProperty('number_of_rooms', '5,22');
+
+		$this->assertSame(
+			'5.22',
+			$this->fixture->getProperty('number_of_rooms')
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concerning formatDecimal
