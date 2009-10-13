@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "realty".
 #
-# Auto generated 07-10-2009 15:23
+# Auto generated 13-10-2009 10:56
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
@@ -36,7 +36,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'php' => '5.2.0-0.0.0',
 			'typo3' => '4.2.4-0.0.0',
 			'cms' => '',
-			'oelib' => '0.6.63-',
+			'oelib' => '0.6.64-',
 			'ameos_formidable' => '1.1.0-1.9.99',
 			'static_info_tables' => '2.0.2-',
 		),
