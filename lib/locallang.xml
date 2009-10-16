@@ -9,7 +9,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</label>
-			<label index="message_import_directory_not_existing">Importing is impossible because the configured import directory &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
+			<label index="message_import_directory_not_existing">Importing is impossible because the configured import directory &quot;%s&quot; does not exist. It is also possible that the current user &quot;%s&quot; has no read permissions on one of the parent folders. Please check your configuration and restart the import.</label>
 			<label index="message_import_directory_not_readable">Importing is impossible because the configured import directory &quot;%s&quot; is not readable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
 			<label index="message_import_directory_not_writable">Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
 			<label index="message_upload_directory_not_existing">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
@@ -51,7 +51,7 @@
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="message_zip_archive_not_installed">Der Import kann nicht durchgeführt werden, weil Ihre PHP Installation keine ZIP-Funktionen bereitstellt. Bitte kompilieren Sie PHP mit ZIP-Unterstützung, indem Sie die &quot;--enable-zip&quot;-Option bei der Kompilierung verwenden. Bei einem SUSE-System müssen die Pakete &quot;php-zip&quot; oder &quot;php5_zip&quot; dafür installiert sein.</label>
-			<label index="message_import_directory_not_existing">Der Import kann nicht durchgeführt werden, weil der konfigurierte Import-Ordner &quot;%s&quot; nicht existiert. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</label>
+			<label index="message_import_directory_not_existing">Der Import kann nicht durchgeführt werden, weil der konfigurierte Import-Ordner &quot;%s&quot; nicht existiert. Es besteht auch die Möglichkeit, dass der aktuelle Benutzer &quot;%s&quot; keine Leserechte auf einen der übergeordneten Ordner besitzt. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</label>
 			<label index="message_import_directory_not_readable">Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner &quot;%s&quot; keine Leserechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</label>
 			<label index="message_import_directory_not_writable">Der Import kann nicht durchgeführt werden, weil für den konfigurierten Import-Ordner &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner oder konfigurieren Sie einen anderen und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</label>
 			<label index="message_upload_directory_not_existing">Der Import kann nicht durchgeführt werden, weil der Upload-Ordner der Realty-Extension &quot;%s&quot; nicht existiert. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</label>
@@ -197,7 +197,7 @@
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
 			<label index="message_zip_archive_not_installed" type="integer">244067387</label>
-			<label index="message_import_directory_not_existing" type="integer">99695630</label>
+			<label index="message_import_directory_not_existing" type="integer">219502235</label>
 			<label index="message_import_directory_not_readable" type="integer">256871324</label>
 			<label index="message_import_directory_not_writable" type="integer">212022356</label>
 			<label index="message_upload_directory_not_existing" type="integer">235037657</label>
@@ -343,7 +343,7 @@
 	<orig_text type="array">
 		<languageKey index="de" type="array">
 			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</label>
-			<label index="message_import_directory_not_existing">Importing is impossible because the configured import directory &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
+			<label index="message_import_directory_not_existing">Importing is impossible because the configured import directory &quot;%s&quot; does not exist. It is also possible that the current user &quot;%s&quot; has no read permissions on one of the parent folders. Please check your configuration and restart the import.</label>
 			<label index="message_import_directory_not_readable">Importing is impossible because the configured import directory &quot;%s&quot; is not readable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
 			<label index="message_import_directory_not_writable">Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
 			<label index="message_upload_directory_not_existing">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
