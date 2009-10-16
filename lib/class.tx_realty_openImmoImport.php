@@ -517,7 +517,8 @@ class tx_realty_openImmoImport {
 					$this->getTranslator()->translate(
 						'message_import_directory_not_existing'
 					),
-					$importDirectory
+					$importDirectory,
+					get_current_user()
 				)
 			);
 		} elseif (!@is_readable($importDirectory)) {
