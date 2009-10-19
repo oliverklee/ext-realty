@@ -1836,7 +1836,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 				$this->translator->translate(
 					'message_import_directory_not_existing'
 				),
-				$path
+				$path,
+				get_current_user()
 			),
 			$this->fixture->importFromZip()
 		);
