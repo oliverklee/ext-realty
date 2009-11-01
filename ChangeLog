@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3474] Fix: Add all required parameters to the geocoding request
 - [#3448] Fix: test_ImportFromZip_ForNonExistingImportFolder_ReturnsFolderNotExistingErrorMessage fails
 - [#3447] Fix: Import fails with error message: import folder does not exist
 - [#3224] Fix: Make sure all <script> tags have proper CDATA
