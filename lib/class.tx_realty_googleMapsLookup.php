@@ -38,7 +38,8 @@ class tx_realty_googleMapsLookup {
 	/**
 	 * @var string the base URL of the Google Maps geo coding service
 	 */
-	const BASE_URL = 'http://maps.google.com/maps/geo?output=csv&key=';
+	const BASE_URL =
+		'http://maps.google.com/maps/geo?sensor=false&output=csv&key=';
 
 	/**
 	 * @var string the Google Maps geo coding base URL including the key
