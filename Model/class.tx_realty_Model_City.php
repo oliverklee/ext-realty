@@ -41,6 +41,19 @@ class tx_realty_Model_City extends tx_oelib_Model {
 	public function getTitle() {
 		return $this->getAsString('title');
 	}
+
+	/**
+	 * Sets our title.
+	 *
+	 * @param string our title to set, must not be empty
+	 */
+	public function setTitle($title) {
+		if ($title == '') {
+			throw new Exception('The parameter $title must not be empty.');
+		}
+
+		$this->setAsString('title', $title);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_City.php']) {

@@ -56,12 +56,35 @@ class tx_realty_Model_District_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getTitleWithNonEmptyTitleReturnsTitle() {
-		$this->fixture->setData(array('title' => 'London'));
+		$this->fixture->setData(array('title' => 'Bad Godesberg'));
 
 		$this->assertEquals(
-			'London',
+			'Bad Godesberg',
 			$this->fixture->getTitle()
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setTitleSetsTitle() {
+		$this->fixture->setTitle('Bad Godesberg');
+
+		$this->assertEquals(
+			'Bad Godesberg',
+			$this->fixture->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setTitleWithEmptyStringThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The parameter $title must not be empty.'
+		);
+
+		$this->fixture->setTitle('');
 	}
 }
 ?>

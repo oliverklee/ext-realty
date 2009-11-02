@@ -63,5 +63,28 @@ class tx_realty_Model_City_testcase extends tx_phpunit_testcase {
 			$this->fixture->getTitle()
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function setTitleSetsTitle() {
+		$this->fixture->setTitle('London');
+
+		$this->assertEquals(
+			'London',
+			$this->fixture->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setTitleWithEmptyStringThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The parameter $title must not be empty.'
+		);
+
+		$this->fixture->setTitle('');
+	}
 }
 ?>
