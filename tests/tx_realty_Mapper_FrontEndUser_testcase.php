@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_Mapper_FrontEndUser class in the 'realty'
+ * Unit tests for the tx_realty_Mapper_FrontEndUser class in the "realty"
  * extension.
  *
  * @package TYPO3

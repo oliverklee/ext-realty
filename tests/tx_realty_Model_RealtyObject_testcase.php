@@ -28,7 +28,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_Model_RealtyObjectChild.php');
 
 /**
- * Unit tests for the tx_realty_Model_RealtyObject class in the 'realty'
+ * Unit tests for the tx_realty_Model_RealtyObject class in the "realty"
  * extension.
  *
  * @package TYPO3

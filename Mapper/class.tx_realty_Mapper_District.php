@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2009 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,46 +22,29 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-
 /**
- * Testcase for the tx_realty_Model_District class in the "realty" extension.
+ * Class 'tx_realty_Mapper_District' for the 'realty' extension.
+ *
+ * This class represents a mapper for districts.
  *
  * @package TYPO3
- * @subpackage  tx_realty
+ * @subpackage tx_realty
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_District_testcase extends tx_phpunit_testcase {
+class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	/**
-	 * @var tx_realty_Model_District
+	 * @var string the name of the database table for this mapper
 	 */
-	private $fixture;
-
-	public function setUp() {
-		$this->fixture = new tx_realty_Model_District();
-	}
-
-	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
-	}
-
-
-	///////////////////////////////
-	// Tests concerning the title
-	///////////////////////////////
+	protected $tableName = 'tx_realty_districts';
 
 	/**
-	 * @test
+	 * @var string the model class name for this mapper, must not be empty
 	 */
-	public function getTitleWithNonEmptyTitleReturnsTitle() {
-		$this->fixture->setData(array('title' => 'London'));
+	protected $modelClassName = 'tx_realty_Model_District';
+}
 
-		$this->assertEquals(
-			'London',
-			$this->fixture->getTitle()
-		);
-	}
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_District.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_District.php']);
 }
 ?>

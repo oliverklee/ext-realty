@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the tx_realty_Model_City class in the 'realty' extension.
+ * Testcase for the tx_realty_Model_City class in the "realty" extension.
  *
  * @package TYPO3
  * @subpackage  tx_realty

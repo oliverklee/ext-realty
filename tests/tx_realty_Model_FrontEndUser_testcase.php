@@ -27,7 +27,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Unit tests for the tx_realty_Model_FrontEndUser class in the 'realty'
+ * Unit tests for the tx_realty_Model_FrontEndUser class in the "realty"
  * extension.
  *
  * @package TYPO3
