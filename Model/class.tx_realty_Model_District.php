@@ -54,6 +54,25 @@ class tx_realty_Model_District extends tx_oelib_Model {
 
 		$this->setAsString('title', $title);
 	}
+
+	/**
+	 * Gets the city this district is part of.
+	 *
+	 * @return tx_realty_Model_City this district's city, will be null if no
+	 *                              city is associated with this district
+	 */
+	public function getCity() {
+		return $this->getAsModel('city');
+	}
+
+	/**
+	 * Sets this district's city.
+	 *
+	 * @param tx_realty_Model_City $city the city to set, may be null
+	 */
+	public function setCity(tx_realty_Model_City $city = null) {
+		$this->set('city', $city);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_District.php']) {

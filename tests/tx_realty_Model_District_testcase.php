@@ -86,5 +86,53 @@ class tx_realty_Model_District_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setTitle('');
 	}
+
+
+	//////////////////////////////
+	// Tests concerning the city
+	//////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getCityWithCitySetReturnsCity() {
+		$city = new tx_realty_Model_City();
+
+		$this->fixture->setData(array('city' => $city));
+
+		$this->assertSame(
+			$city,
+			$this->fixture->getCity()
+		);
+
+		$city->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCityReturnsCitySetWithSetCity() {
+		$city = new tx_realty_Model_City();
+
+		$this->fixture->setCity($city);
+
+		$this->assertSame(
+			$city,
+			$this->fixture->getCity()
+		);
+
+		$city->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCityAfterSetCityWithNullReturnsNull() {
+		$this->fixture->setCity(null);
+
+		$this->assertNull(
+			$this->fixture->getCity()
+		);
+	}
 }
 ?>

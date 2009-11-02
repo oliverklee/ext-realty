@@ -251,10 +251,12 @@ CREATE TABLE tx_realty_districts (
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
+	city int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
-	KEY dummy (is_dummy_record)
+	KEY dummy (is_dummy_record),
+	KEY city (city)
 );
 
 #

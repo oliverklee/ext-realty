@@ -139,6 +139,7 @@
 			<label index="tx_realty_cities.save_folder">Folder for objects in this city (only for FE-created records)</label>
 			<label index="tx_realty_districts">District</label>
 			<label index="tx_realty_districts.title">The district's name</label>
+			<label index="tx_realty_districts.city">City which this district belongs to</label>
 			<label index="fe_users.tx_realty_tab">Realty</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo offerer ID</label>
 			<label index="fe_users.tx_realty_maximum_objects">Maximum number of objects</label>
@@ -276,6 +277,7 @@
 			<label index="tx_realty_cities.save_folder">Ordner für Objekte in diesem Ort (nur für den FE-Editor)</label>
 			<label index="tx_realty_districts">Ortsteil</label>
 			<label index="tx_realty_districts.title">Name des Ortsteils</label>
+			<label index="tx_realty_districts.city">Ort, zu dem dieser Ortsteil gehört</label>
 			<label index="fe_users.tx_realty_tab">Immobilien</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo-Anbieter-ID</label>
 			<label index="fe_users.tx_realty_maximum_objects">Maximale Anzahl an Objekten</label>
@@ -1008,6 +1010,7 @@
 			<label index="tx_realty_cities.save_folder" type="integer">80265519</label>
 			<label index="tx_realty_districts" type="integer">235647734</label>
 			<label index="tx_realty_districts.title" type="integer">69265812</label>
+			<label index="tx_realty_districts.city" type="integer">255731253</label>
 			<label index="fe_users.tx_realty_tab" type="integer">18908185</label>
 			<label index="fe_users.tx_realty_openimmo_anid" type="integer">239911211</label>
 			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
@@ -1743,6 +1746,7 @@
 			<label index="tx_realty_cities.title">City name</label>
 			<label index="tx_realty_districts">District</label>
 			<label index="tx_realty_districts.title">The district's name</label>
+			<label index="tx_realty_districts.city">City which this district belongs to</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
 			<label index="fe_users.tx_realty_tab">Realty</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo offerer ID</label>

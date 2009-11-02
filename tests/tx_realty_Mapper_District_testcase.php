@@ -83,5 +83,27 @@ class tx_realty_Mapper_District_testcase extends tx_phpunit_testcase {
 			$this->fixture->find($uid)->getTitle()
 		);
 	}
+
+
+	///////////////////////////
+	// Test for the relations
+	///////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getCityReturnsCityFromRelation() {
+		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
+			->getNewGhost();
+
+		$model = $this->fixture->getLoadedTestingModel(
+			array('city' => $city->getUid())
+		);
+
+		$this->assertSame(
+			$city,
+			$model->getCity()
+		);
+	}
 }
 ?>

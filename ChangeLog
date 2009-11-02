@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3416] Feature: Add a relation from the districts to the cities
 - [#3415] Feature: Add models and mappers for cities and districts
 - [#3474] Fix: Add all required parameters to the geocoding request
 - [#3448] Fix: test_ImportFromZip_ForNonExistingImportFolder_ReturnsFolderNotExistingErrorMessage fails

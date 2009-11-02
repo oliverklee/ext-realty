@@ -1498,7 +1498,7 @@ $TCA['tx_realty_cities'] = array(
 $TCA['tx_realty_districts'] = array(
 	'ctrl' => $TCA['tx_realty_districts']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
+		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title,city'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -1541,9 +1541,24 @@ $TCA['tx_realty_districts'] = array(
 				'eval' => 'required',
 			),
 		),
+		'city' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_districts.city',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+				),
+				'foreign_table' => 'tx_realty_cities',
+				'foreign_table_where' => ' ORDER BY title ASC',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2'),
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title;;;;2-2-2, city'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),

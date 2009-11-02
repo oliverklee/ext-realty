@@ -42,6 +42,14 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * @var string the model class name for this mapper, must not be empty
 	 */
 	protected $modelClassName = 'tx_realty_Model_District';
+
+	/**
+	 * @var array the (possible) relations of the created models in the format
+	 *            DB column name => mapper name
+	 */
+	protected $relations = array(
+		'city' => 'tx_realty_Mapper_City',
+	);
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_District.php']) {
