@@ -22,10 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
- * Class 'tx_realty_Mapper_RealtyObject' for the 'realty' extension.
+ * Class tx_realty_Mapper_RealtyObject for the "realty" extension.
  *
  * This class represents a mapper for realty objects.
  *
@@ -33,17 +31,49 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
-	protected $tableName = REALTY_TABLE_OBJECTS;
+	protected $tableName = 'tx_realty_objects';
 
 	/**
 	 * @var string the model class name for this mapper, must not be empty
 	 */
 	protected $modelClassName = 'tx_realty_Model_RealtyObject';
+
+	/**
+	 * Returns the number of realty objects in the city $city.
+	 *
+	 * @param tx_realty_Model_City $city the city for which to count the objects
+	 *
+	 * @return integer the number of objects in the given city, will be >= 0
+	 */
+	public function countByCity(tx_realty_Model_City $city) {
+		return tx_oelib_db::count(
+			$this->tableName,
+			'(city = ' . $city->getUid() . ') AND ' .
+				$this->getUniversalWhereClause()
+		);
+	}
+
+	/**
+	 * Returns the number of realty objects in the district $district.
+	 *
+	 * @param tx_realty_Model_District $district
+	 *        the district for which to count the objects
+	 *
+	 * @return integer the number of objects in the given district, will be >= 0
+	 */
+	public function countByDistrict(tx_realty_Model_District $district) {
+		return tx_oelib_db::count(
+			$this->tableName,
+			'(district = ' . $district->getUid() . ') AND ' .
+				$this->getUniversalWhereClause()
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_RealtyObject.php']) {

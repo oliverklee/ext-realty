@@ -24,8 +24,6 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Unit tests for the tx_realty_Mapper_RealtyObject class in the "realty"
  * extension.
@@ -34,6 +32,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_Mapper_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
@@ -66,7 +65,7 @@ class tx_realty_Mapper_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testFindWithUidOfExistingRecordReturnsRealtyObjectInstance() {
 		$uid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'foo')
+			'tx_realty_objects', array('title' => 'foo')
 		);
 
 		$this->assertTrue(
@@ -77,12 +76,128 @@ class tx_realty_Mapper_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testGetOwnerForMappedModelReturnsFrontEndUserInstance() {
 		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'owner' => $ownerUid)
+			'tx_realty_objects', array('title' => 'foo', 'owner' => $ownerUid)
 		);
 
 		$this->assertTrue(
 			$this->fixture->find($objectUid)->getOwner()
 				instanceof tx_realty_Model_FrontEndUser
+		);
+	}
+
+
+	/////////////////////////////////
+	// Tests concerning countByCity
+	/////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function countByCityForNoMatchesReturnsZero() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
+			->find($cityUid);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->countByCity($city)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByCityWithOneMatchReturnsOne() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
+			->find($cityUid);
+
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countByCity($city)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByCityWithTwoMatchesReturnsTwo() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
+			->find($cityUid);
+
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->countByCity($city)
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning countByDistrict
+	/////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function countByDistrictForNoMatchesReturnsZero() {
+		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
+		$district = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
+			->find($districtUid);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->countByDistrict($district)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByDistrictWithOneMatchReturnsOne() {
+		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
+		$district = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
+			->find($districtUid);
+
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countByDistrict($district)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByDistrictWithTwoMatchesReturnsTwo() {
+		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
+		$district = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
+			->find($districtUid);
+
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->countByDistrict($district)
 		);
 	}
 }
