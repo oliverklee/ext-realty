@@ -33,6 +33,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_filterForm.p
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
@@ -344,7 +345,10 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	// Tests concerning the rendering of the city search
 	//////////////////////////////////////////////////////
 
-	public function test_SearchForm_DisplayedSearchWidgetSetToCitySearch_ShowsCitySearch() {
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToCitySearchShowsCitySearch() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city'
 		);
@@ -355,12 +359,15 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_DisplayedSearchWidgetSetToCitySearch_ShowsCityOfEnteredObject() {
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToCitySearchShowsCityOfEnteredObject() {
 		$cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('title' => 'Foo city')
+			'tx_realty_cities', array('title' => 'Foo city')
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'city' => $cityUid)
+			'tx_realty_objects', array('city' => $cityUid)
 		);
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city'
@@ -372,7 +379,50 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_CitySelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToCitySearchShowsNumberOfMatchesForCity() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city'
+		);
+
+		$this->assertContains(
+			'Foo city (2)',
+			$this->fixture->render(array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToCitySearchNotShowsCityWithoutObjects() {
+		$this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city'
+		);
+
+		$this->assertNotContains(
+			'Foo city',
+			$this->fixture->render(array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function citySelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city'
 		);
@@ -383,7 +433,10 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_CitySelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function citySelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city, priceRanges'
 		);
@@ -399,7 +452,10 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	// Tests concerning the rendering of the district search
 	//////////////////////////////////////////////////////////
 
-	public function test_SearchForm_DisplayedSearchWidgetSetToDistrictSearch_ShowsDistrictSearch() {
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToDistrictSearch_ShowsDistrictSearch() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
 		);
@@ -410,12 +466,15 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_DisplayedSearchWidgetSetToDistrictSearch_ShowsDistrictOfEnteredObject() {
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToDistrictSearch_ShowsDistrictOfEnteredObject() {
 		$districtUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_DISTRICTS, array('title' => 'Foo district')
+			'tx_realty_districts', array('title' => 'Foo district')
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'district' => $districtUid)
+			'tx_realty_objects', array('district' => $districtUid)
 		);
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
@@ -427,7 +486,50 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_DistrtictSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToDistrictSearchShowsNumberOfMatchesForDistrict() {
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('title' => 'Foo district')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertContains(
+			'Foo district (2)',
+			$this->fixture->render(array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function displayedSearchWidgetSetToDistrictSearchNotShowsDistrictWithoutObjects() {
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('title' => 'Foo district')
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertNotContains(
+			'Foo district',
+			$this->fixture->render(array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function districtSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
 		);
@@ -438,7 +540,10 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_DistrictSelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function districtSelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district, priceRanges'
 		);
@@ -449,12 +554,15 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_DistrictSelector_ForSelectedDistrict_HasSelectedAttributeOnThatDistrict() {
+	/**
+	 * @test
+	 */
+	public function districtSelector_ForSelectedDistrict_HasSelectedAttributeOnThatDistrict() {
 		$districtUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_DISTRICTS, array('title' => 'Foo district')
+			'tx_realty_districts'
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'district' => $districtUid)
+			'tx_realty_objects', array('district' => $districtUid)
 		);
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
@@ -466,12 +574,15 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_DistrictSelector_ForNonSelectedDistrict_HasNoSelectedAttributeOnThatDistrict() {
+	/**
+	 * @test
+	 */
+	public function districtSelector_ForNonSelectedDistrict_HasNoSelectedAttributeOnThatDistrict() {
 		$districtUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_DISTRICTS, array('title' => 'Foo district')
+			'tx_realty_districts'
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'district' => $districtUid)
+			'tx_realty_objects', array('district' => $districtUid)
 		);
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
@@ -501,10 +612,10 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_SearchForm_DisplayedSearchWidgetSetToHouseTypeSearch_ShowsHouseTypeOfEnteredObject() {
 		$houseTypeUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_HOUSE_TYPES, array('title' => 'Foo house type')
+			'tx_realty_house_types', array('title' => 'Foo house type')
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('title' => 'foo', 'house_type' => $houseTypeUid)
+			'tx_realty_objects', array('title' => 'foo', 'house_type' => $houseTypeUid)
 		);
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'houseType'
@@ -707,56 +818,56 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function testWhereClauseOnlyForLowerPriceLimitCanBeCreated() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1))',
+			' AND ((tx_realty_objects.rent_excluding_bills >= 1) ' .
+				'OR (tx_realty_objects.buying_price >= 1))',
 			$this->fixture->getWhereClausePart(array('priceRange' => '1-'))
 		);
 	}
 
 	public function testWhereClauseOnlyForUpperPriceLimitCanBeCreated() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills > 0 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price > 0 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills = 0 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price = 0))',
+			' AND ((tx_realty_objects.rent_excluding_bills > 0 ' .
+				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+				'OR (tx_realty_objects.buying_price > 0 ' .
+				'AND tx_realty_objects.buying_price <= 10) ' .
+				'OR (tx_realty_objects.rent_excluding_bills = 0 ' .
+				'AND tx_realty_objects.buying_price = 0))',
 			$this->fixture->getWhereClausePart(array('priceRange' => '-10'))
 		);
 	}
 
 	public function testWhereClauseForUpperPlusLowerPriceLimitCanBeCreated() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
+				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+				'OR (tx_realty_objects.buying_price >= 1 ' .
+				'AND tx_realty_objects.buying_price <= 10))',
 			$this->fixture->getWhereClausePart(array('priceRange' => '1-10'))
 		);
 	}
 
 	public function testSearchStringForZipIsNotLongerThanTwoCharacters() {
 		$this->assertContains(
-			REALTY_TABLE_OBJECTS . '.zip LIKE "fo%"',
+			'tx_realty_objects.zip LIKE "fo%"',
 			$this->fixture->getWhereClausePart(array('site' => 'foo'))
 		);
 	}
 
 	public function testSearchStringForSiteIsEscapedForLike() {
 		$this->assertContains(
-			REALTY_TABLE_CITIES . '.title LIKE "%f\\\%oo%")',
+			'tx_realty_cities.title LIKE "%f\\\%oo%")',
 			$this->fixture->getWhereClausePart(array('site' => 'f%oo'))
 		);
 	}
 
 	public function testWhereClauseForPriceRangeCanBeAppendedToSiteSearchWhereClause() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.zip LIKE "fo%" ' .
-				'OR ' . REALTY_TABLE_CITIES . '.title LIKE "%foo%") ' .
-				'AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			' AND (tx_realty_objects.zip LIKE "fo%" ' .
+				'OR tx_realty_cities.title LIKE "%foo%") ' .
+				'AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
+				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+				'OR (tx_realty_objects.buying_price >= 1 ' .
+				'AND tx_realty_objects.buying_price <= 10))',
 			$this->fixture->getWhereClausePart(
 				array('site' => 'foo', 'priceRange' => '1-10')
 			)
@@ -788,7 +899,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'uid');
 
 		$this->assertEquals(
-			' AND ' . REALTY_TABLE_OBJECTS . '.uid=1',
+			' AND tx_realty_objects.uid=1',
 			$this->fixture->getWhereClausePart(array('uid' => 1))
 		);
 	}
@@ -806,7 +917,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'city');
 
 		$this->assertEquals(
-			' AND ' . REALTY_TABLE_OBJECTS . '.city = 1',
+			' AND tx_realty_objects.city = 1',
 			$this->fixture->getWhereClausePart(array('city' => 1))
 		);
 	}
@@ -815,7 +926,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'district');
 
 		$this->assertEquals(
-			' AND ' . REALTY_TABLE_OBJECTS . '.district = 1',
+			' AND tx_realty_objects.district = 1',
 			$this->fixture->getWhereClausePart(array('district' => 1))
 		);
 	}
@@ -824,7 +935,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'houseType');
 
 		$this->assertEquals(
-			' AND ' . REALTY_TABLE_OBJECTS . '.house_type = 1',
+			' AND tx_realty_objects.house_type = 1',
 			$this->fixture->getWhereClausePart(array('houseType' => 1))
 		);
 	}
@@ -851,7 +962,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
 
 		$this->assertEquals(
-			' AND ' . REALTY_TABLE_OBJECTS . '.object_number="foo"',
+			' AND tx_realty_objects.object_number="foo"',
 			$this->fixture->getWhereClausePart(array('objectNumber' => 'foo'))
 		);
 	}
@@ -867,7 +978,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_GetWhereClausePartForObjectTypeSelector_WithSaleSelected_ReturnsSaleWhereclausePart() {
 		$this->assertEquals(
-			' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' .
+			' AND tx_realty_objects.object_type = ' .
 				REALTY_FOR_SALE,
 			$this->fixture->getWhereClausePart(array('objectType' => 'forSale'))
 		);
@@ -875,7 +986,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_GetWhereClausePartForObjectTypeSelector_WithRentSelected_ReturnsRentWhereclausePart() {
 		$this->assertEquals(
-			' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' .
+			' AND tx_realty_objects.object_type = ' .
 				REALTY_FOR_RENTING,
 			$this->fixture->getWhereClausePart(array('objectType' => 'forRent'))
 		);
@@ -890,30 +1001,30 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_OnlyForLowerRentLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1))',
+			' AND ((tx_realty_objects.rent_excluding_bills >= 1) ' .
+				'OR (tx_realty_objects.buying_price >= 1))',
 			$this->fixture->getWhereClausePart(array('rentFrom' => '1'))
 		);
 	}
 
 	public function test_WhereClause_OnlyForUpperRentLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills > 0 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price > 0 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills = 0 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price = 0))',
+			' AND ((tx_realty_objects.rent_excluding_bills > 0 ' .
+				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+				'OR (tx_realty_objects.buying_price > 0 ' .
+				'AND tx_realty_objects.buying_price <= 10) ' .
+				'OR (tx_realty_objects.rent_excluding_bills = 0 ' .
+				'AND tx_realty_objects.buying_price = 0))',
 			$this->fixture->getWhereClausePart(array('rentTo' => '10'))
 		);
 	}
 
 	public function test_WhereClause_ForUpperPlusLowerRentLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
+				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+				'OR (tx_realty_objects.buying_price >= 1 ' .
+				'AND tx_realty_objects.buying_price <= 10))',
 			$this->fixture->getWhereClausePart(
 				array('rentFrom' => '1', 'rentTo' => '10')
 			)
@@ -922,10 +1033,10 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_ForUpperPlusLowerRentAndPriceLimit_OverwritesPriceLimitWithRentLimit() {
 		$this->assertEquals(
-			' AND ((' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.rent_excluding_bills <= 10) ' .
-				'OR (' . REALTY_TABLE_OBJECTS . '.buying_price >= 1 ' .
-				'AND ' . REALTY_TABLE_OBJECTS . '.buying_price <= 10))',
+			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
+				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
+				'OR (tx_realty_objects.buying_price >= 1 ' .
+				'AND tx_realty_objects.buying_price <= 10))',
 			$this->fixture->getWhereClausePart(
 				array('rentFrom' => '1', 'rentTo' => '10', 'priceRange' => '100-1000')
 			)
@@ -939,22 +1050,22 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_OnlyForLowerLivingAreaLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.living_area >= 1)',
+			' AND (tx_realty_objects.living_area >= 1)',
 			$this->fixture->getWhereClausePart(array('livingAreaFrom' => '1'))
 		);
 	}
 
 	public function test_WhereClause_OnlyForUpperLivingAreaLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.living_area <= 10)',
+			' AND (tx_realty_objects.living_area <= 10)',
 			$this->fixture->getWhereClausePart(array('livingAreaTo' => '10'))
 		);
 	}
 
 	public function test_WhereClause_ForUpperPlusLowerLivingAreaLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.living_area >= 1)' .
-			' AND (' . REALTY_TABLE_OBJECTS . '.living_area <= 10)',
+			' AND (tx_realty_objects.living_area >= 1)' .
+			' AND (tx_realty_objects.living_area <= 10)',
 			$this->fixture->getWhereClausePart(
 				array('livingAreaFrom' => '1', 'livingAreaTo' => '10')
 			)
@@ -1051,7 +1162,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_OnlyForLowerNumberOfRoomsLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1)',
+			' AND (tx_realty_objects.number_of_rooms >= 1)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => 1)
 			)
@@ -1060,7 +1171,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_OnlyForUpperNumberOfRoomsLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms <= 10)',
+			' AND (tx_realty_objects.number_of_rooms <= 10)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsTo' => 10)
 			)
@@ -1069,8 +1180,8 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_ForUpperPlusLowerNumberOfRoomsLimit_CanBeCreated() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1)' .
-			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms <= 10)',
+			' AND (tx_realty_objects.number_of_rooms >= 1)' .
+			' AND (tx_realty_objects.number_of_rooms <= 10)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => 1, 'numberOfRoomsTo' => 10)
 			)
@@ -1079,7 +1190,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_ForLowerNumberOfRoomsLimitWithDecimals_CreatesWhereClauseWithCompleteNumber() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1.5)',
+			' AND (tx_realty_objects.number_of_rooms >= 1.5)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => 1.5)
 			)
@@ -1097,7 +1208,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 	public function test_WhereClause_ForLowerNumberOfRoomsLimitWithCommaAsDecimalSeparator_ReplacesCommaWithDot() {
 		$this->assertEquals(
-			' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= 1.8)',
+			' AND (tx_realty_objects.number_of_rooms >= 1.8)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => '1,8')
 			)

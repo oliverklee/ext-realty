@@ -33,6 +33,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
@@ -334,9 +335,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Shows the city selector if enabled via configuration, otherwise hides it.
 	 */
 	private function fillOrHideCitySearch() {
-		$this->fillOrHideAuxiliaryRecordSearch(
-			'city', REALTY_TABLE_CITIES, 'city'
-		);
+		$this->createDropDown('city');
 	}
 
  	/**
@@ -344,8 +343,53 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * hides it.
 	 */
 	private function fillOrHideDistrictSearch() {
-		$this->fillOrHideAuxiliaryRecordSearch(
-			'district', REALTY_TABLE_DISTRICTS, 'district'
+		$this->createDropDown('district');
+	}
+
+	/**
+	 * Fills a search drop-down from a list of models in the current template.
+	 *
+	 * If the drop-down is configured to be hidden, this function hides it in
+	 * the template.
+	 *
+	 * Note that the object mapper must have a matching count function for
+	 * $type, e.g. for $type = "city", it must have a "countByCity" function.
+	 *
+	 * @param string $type
+	 *        the type of the selector, for example "city", must not be empty
+	 */
+	private function createDropDown($type) {
+		if (!$this->hasSearchField($type)) {
+			$this->hideSubparts('wrapper_' . $type . '_search');
+			return;
+		}
+
+		$objectMapper =
+			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$countFunction = 'countBy' . ucfirst($type);
+
+		$models = tx_oelib_MapperRegistry::
+			get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
+
+		$options = '';
+		foreach ($models as $model) {
+			$numberOfMatches = $objectMapper->$countFunction($model);
+			if ($numberOfMatches == 0) {
+				continue;
+			}
+
+			$options .= '<option value="' . $model->getUid() . '" ' .
+				(($this->filterFormData[$type] == $model->getUid())
+					? 'selected="selected"' : '') .
+						'>' . htmlspecialchars($model->getTitle()) . ' (' .
+						$numberOfMatches . ')</option>' . LF;
+		}
+		$this->setMarker(
+			'options_' . $type . '_search', $options
+		);
+
+		$this->setMarker(
+			$type . '_select_on_change', $this->getOnChangeForSingleField()
 		);
 	}
 
