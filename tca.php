@@ -205,15 +205,12 @@ $TCA['tx_realty_objects'] = array(
 			),
 		),
 		'district' => array(
+			'displayCond' => 'FIELD:city:>:0',
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district',
 			'config' => array(
 				'type' => 'select',
-				'items' => array(
-					array('', 0),
-				),
-				'foreign_table' => 'tx_realty_districts',
-				'foreign_table_where' => 'AND tx_realty_districts.pid=###STORAGE_PID### ORDER BY tx_realty_districts.title',
+				'itemsProcFunc' => 'tx_realty_Tca->getDistrictsForCity',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,

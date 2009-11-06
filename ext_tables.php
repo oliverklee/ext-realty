@@ -28,7 +28,8 @@ $TCA['tx_realty_objects'] = array(
 			'endtime' => 'endtime'
 		),
 		'dynamicConfigFile' => $extPath.'tca.php',
-		'iconfile' => $extIconRelPath.'icon_tx_realty_objects.gif'
+		'iconfile' => $extIconRelPath.'icon_tx_realty_objects.gif',
+		'requestUpdate' => 'city',
 	)
 );
 
