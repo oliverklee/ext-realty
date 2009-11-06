@@ -102,7 +102,9 @@ CREATE TABLE tx_realty_objects (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY dummy (is_dummy_record),
-	KEY owner (owner)
+	KEY owner (owner),
+	KEY city (city),
+	KEY district (district)
 );
 
 #
