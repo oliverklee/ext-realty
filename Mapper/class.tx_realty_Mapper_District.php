@@ -50,6 +50,35 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	protected $relations = array(
 		'city' => 'tx_realty_Mapper_City',
 	);
+
+	/**
+	 * Finds all districts that belong to a certain city.
+	 *
+	 * If $uid is zero, this function returns all districts without a city.
+	 *
+	 * @param integer $uid
+	 *        the UID of the city for which to find the disctricts, must be >= 0
+	 *
+	 * @return tx_oelib_List the districts within the given city, may be empty
+	 */
+	public function findAllByCityUid($uid) {
+		return $this->findByWhereClause('city = ' . $uid, 'title ASC');
+	}
+
+	/**
+	 * Finds all districts that belong to a certain or no city.
+	 *
+	 * If $uid is zero, this function returns all districts without a city.
+	 *
+	 * @param integer $uid
+	 *        the UID of the city for which to find the disctricts, must be >= 0
+	 *
+	 * @return tx_oelib_List the districts within the given city or without a city,
+	 *                       may be empty
+	 */
+	public function findAllByCityUidOrUnassigned($uid) {
+		return $this->findByWhereClause('city = 0 OR city = ' . $uid, 'title ASC');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_District.php']) {

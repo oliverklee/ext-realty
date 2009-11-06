@@ -85,9 +85,9 @@ class tx_realty_Mapper_District_testcase extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////
-	// Test for the relations
-	///////////////////////////
+	////////////////////////////
+	// Tests for the relations
+	////////////////////////////
 
 	/**
 	 * @test
@@ -103,6 +103,219 @@ class tx_realty_Mapper_District_testcase extends tx_phpunit_testcase {
 		$this->assertSame(
 			$city,
 			$model->getCity()
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning findAllByCityUid
+	//////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidWithZeroUidFindsDistrictWithoutCity() {
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts'
+		);
+
+		$this->assertTrue(
+			$this->fixture->findAllByCityUid(0)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidWithZeroUidNotFindsDistrictWithSetCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+
+		$this->assertFalse(
+			$this->fixture->findAllByCityUid(0)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidFindsDistrictWithThatCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+
+		$this->assertTrue(
+			$this->fixture->findAllByCityUid($cityUid)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidCanFindTwoDistrictsWithThatCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid1 = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+		$districtUid2 = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+
+		$result = $this->fixture->findAllByCityUid($cityUid);
+		$this->assertTrue(
+			$result->hasUid($districtUid1)
+		);
+		$this->assertTrue(
+			$result->hasUid($districtUid2)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidNotFindsDistrictWithoutCity() {
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts'
+		);
+
+		$this->assertFalse(
+			$this->fixture->findAllByCityUid(1)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidNotFindsDistrictWithOtherCity() {
+		$otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $otherCityUid)
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+
+		$this->assertFalse(
+			$this->fixture->findAllByCityUid($cityUid)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidOrdersResultsByTitle() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+
+		$this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array('city'=> $cityUid, 'title' => 'Xen District')
+		);
+		$districtUid2 = $this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array('city'=> $cityUid, 'title' => 'Another District')
+		);
+
+		$this->assertEquals(
+			$districtUid2,
+			$this->fixture->findAllByCityUid($cityUid)->first()->getUid()
+		);
+	}
+
+
+	//////////////////////////////////////////////////
+	// Tests concerning findAllByCityUidOrUnassigned
+	//////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidOrUnassignedWithZeroUidFindsDistrictWithoutCity() {
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts'
+		);
+
+		$this->assertTrue(
+			$this->fixture->findAllByCityUidOrUnassigned(0)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidOrUnassignedWithZeroUidNotFindsDistrictWithSetCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+
+		$this->assertFalse(
+			$this->fixture->findAllByCityUidOrUnassigned(0)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidOrUnassignedFindsDistrictWithThatCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+
+		$this->assertTrue(
+			$this->fixture->findAllByCityUidOrUnassigned($cityUid)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidOrUnassignedCanFindTwoDistrictsWithThatCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid1 = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+		$districtUid2 = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+
+		$result = $this->fixture->findAllByCityUidOrUnassigned($cityUid);
+		$this->assertTrue(
+			$result->hasUid($districtUid1)
+		);
+		$this->assertTrue(
+			$result->hasUid($districtUid2)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidOrUnassignedFindsDistrictWithoutCity() {
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts'
+		);
+
+		$this->assertTrue(
+			$this->fixture->findAllByCityUidOrUnassigned(1)->hasUid($districtUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByCityUidOrUnassignedNotFindsDistrictWithOtherCity() {
+		$otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $otherCityUid)
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+
+		$this->assertFalse(
+			$this->fixture->findAllByCityUidOrUnassigned($cityUid)->hasUid($districtUid)
 		);
 	}
 }
