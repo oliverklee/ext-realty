@@ -32,25 +32,22 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_lightboxIncluder {
 	/**
 	 * Includes the files needed for the Lightbox.
 	 *
-	 * @param string the extension's prefix ID, must not be empty
-	 * @param string extension key, must not be empty
+	 * @param string $prefixId the extension's prefix ID, must not be empty
+	 * @param string $extKey extension key, must not be empty
 	 */
-	public static function includeLightboxFiles($prefixId, $extKey) {
+	static public function includeLightboxFiles($prefixId, $extKey) {
 		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_lightboxcss']
 			= '<link rel="stylesheet" type="text/css" href="' .
 			t3lib_extMgm::extRelPath($extKey) .
 			'pi1/contrib/lightbox.css" />';
 
-		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_prototype']
-			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath($extKey) .
-			'pi1/contrib/prototype.js">' .
-			'</script>';
+		self::includePrototype($prefixId, $extKey);
 
 		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_scriptaculous']
 			= '<script type="text/javascript"' .
@@ -68,13 +65,27 @@ class tx_realty_lightboxIncluder {
 	}
 
 	/**
+	 * Includes the Prototype files.
+	 *
+	 * @param string $prefixId the extension's prefix ID, must not be empty
+	 * @param string $extKey extension key, must not be empty
+	 */
+	static public function includePrototype($prefixId, $extKey) {
+		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_prototype']
+			= '<script type="text/javascript" ' .
+			'src="' . t3lib_extMgm::extRelPath($extKey) .
+			'pi1/contrib/prototype.js">' .
+			'</script>';
+	}
+
+	/**
 	 * Adds the configuration for the Lightbox to the header. This function
 	 * must be called before the lightbox.js file ist added to the header.
 	 *
-	 * @param string the extension's prefix ID, must not be empty
-	 * @param string extension key, must not be empty
+	 * @param string $prefixId the extension's prefix ID, must not be empty
+	 * @param string $extKey extension key, must not be empty
 	 */
-	private static function addLightboxConfigurationToHeader($prefixId, $extKey) {
+	static private function addLightboxConfigurationToHeader($prefixId, $extKey) {
 		$translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
 
 		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_lightbox_config']
