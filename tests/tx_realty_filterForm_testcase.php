@@ -45,6 +45,11 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	 */
 	private $testingFramework;
 
+	/**
+	 * @var string the prefix ID for frontend output
+	 */
+	const PREFIX_ID = 'tx_realty_pi1';
+
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
@@ -447,6 +452,56 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function citySelectorWithoutDistrictSelectorsNotIncludesPrototype() {
+		$this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city'
+		);
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				self::PREFIX_ID . '_prototype'
+			])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function citySelectorWithUidSelectorsNotIncludesPrototype() {
+		$this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city,uid'
+		);
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				self::PREFIX_ID . '_prototype'
+			])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function citySelectorWithDistrictSelectorIncludesPrototype() {
+		$this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city,district'
+		);
+
+		$this->fixture->render();
+
+		$this->assertTrue(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				self::PREFIX_ID . '_prototype'
+			])
+		);
+	}
+
 
 	//////////////////////////////////////////////////////////
 	// Tests concerning the rendering of the district search
@@ -513,7 +568,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function displayedSearchWidgetSetToDistrictSearchNotShowsDistrictWithoutObjects() {
-		$districtUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			'tx_realty_districts', array('title' => 'Foo district')
 		);
 		$this->fixture->setConfigurationValue(
@@ -591,6 +646,24 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			'value="' . $districtUid . '" selected="',
 			$this->fixture->render(array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function districtSelectorWithoutOtherSelectorsNotIncludesPrototype() {
+		$this->testingFramework->createRecord(
+			'tx_realty_districts'
+		);
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'district'
+		);
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				self::PREFIX_ID . '_prototype'
+			])
 		);
 	}
 
