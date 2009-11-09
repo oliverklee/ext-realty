@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#3493] Fix: The checkbox filter deletes the piVars of the search widget
 - [#3474] Fix: Add all required parameters to the geocoding request
 - [#3448] Fix: test_ImportFromZip_ForNonExistingImportFolder_ReturnsFolderNotExistingErrorMessage fails
 - [#3447] Fix: Import fails with error message: import folder does not exist

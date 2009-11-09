@@ -1617,13 +1617,21 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @param boolean whether the current piVars should be kept
+	 * @param array $removeKeys
+	 *        the keys to remove from the piVar data before processing the URL,
+	 *        may be empty
 	 *
 	 * @return string htmlspecialchared URL of the current page, will not
 	 *                be empty
 	 */
-	private function getSelfUrl($keepPiVars = true) {
+	private function getSelfUrl($keepPiVars = true, array $removeKeys = array()) {
 		$piVars = $keepPiVars ? $this->piVars : array();
 		unset($piVars['DATA']);
+		foreach ($removeKeys as $removeThisKey) {
+			if (isset($piVars[$removeThisKey])) {
+				unset($piVars[$removeThisKey]);
+			}
+		}
 
 		return htmlspecialchars(
 			$this->cObj->typoLink_URL(
@@ -1811,7 +1819,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		if (!empty($items)) {
 			$this->setSubpart('search_item', implode(LF, $items));
 			$this->setMarker(
-				'self_url_without_pivars', $this->getSelfUrl(false)
+				'self_url_without_pivars',
+				$this->getSelfUrl(TRUE, array('search'))
 			);
 
 			$result = $this->getSubpart('LIST_FILTER');
