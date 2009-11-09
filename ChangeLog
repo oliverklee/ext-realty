@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3493] Fix: The checkbox filter deletes the piVars of the search widget
 - [#3075] Change: Move the list views to their own classes
 - [#3422] Feature: Show the number of objects after the city and district names in the selector widget
 - [#3417] Feature: When setting a city in the BE object editor, load the districts for selection

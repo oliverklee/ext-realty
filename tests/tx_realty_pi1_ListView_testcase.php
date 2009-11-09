@@ -1801,6 +1801,16 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testListFilterKeepsAlreadySetPiVars() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		$this->assertContains(
+			'tx_realty_pi1%5Bowner%5D=25',
+			$this->fixture->render(array('owner' => 25))
+		);
+	}
+
 
 	//////////////////////////////////////////////////
 	// Tests concerning the sorting in the list view
