@@ -49,6 +49,18 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
+	 * @var integer PID of the single view page
+	 */
+	private $singlePid = 0;
+	/**
+	 * @var integer PID of the alternate single view page
+	 */
+	private $otherSinglePid = 0;
+	/**
+	 * @var integer PID of the favorites page
+	 */
+	private $favoritesPid = 0;
+	/**
 	 * @var integer login PID
 	 */
 	private $loginPid = 0;
@@ -720,6 +732,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_please_login'),
 			$output
 		);
+
 		$this->assertContains(
 			'?id=' . $this->loginPid,
 			$output
@@ -737,6 +750,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'redirect_url',
 			$output
 		);
+
 		$this->assertContains(
 			urlencode('?id=' . $myObjectsPid),
 			$output

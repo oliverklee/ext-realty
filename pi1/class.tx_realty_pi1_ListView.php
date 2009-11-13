@@ -706,6 +706,8 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
+		$this->setMarker('number_of_results', $this->internal['res_count']);
+
 		$links = $this->createPaginationLink(
 			max(0, $this->piVars['pointer'] - 1), '&lt;', false
 		);
@@ -906,7 +908,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function createLimitStatement($table, $whereClause) {
 		// number of results to show in a listing
-
 		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
 			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
 		);

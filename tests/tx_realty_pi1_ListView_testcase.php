@@ -48,11 +48,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer UID of the  dummy realty object
-	 */
-	private $realtyUid = 0;
-
-	/**
 	 * @var integer UID of the first dummy realty object
 	 */
 	private $firstRealtyUid = 0;
@@ -97,9 +92,29 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	private static $secondCityTitle = 'bar city';
 
 	/**
-	 * @var integer the system folder to store the testing records to
+	 * @var integer PID of the single view page
+	 */
+	private $singlePid = 0;
+	/**
+	 * @var integer PID of the alternate single view page
+	 */
+	private $otherSinglePid = 0;
+	/**
+	 * @var integer PID of the favorites page
+	 */
+	private $favoritesPid = 0;
+	/**
+	 * @var integer login PID
+	 */
+	private $loginPid = 0;
+	/**
+	 * @var integer system folder PID
 	 */
 	private $systemFolderPid = 0;
+	/**
+	 * @var integer sub-system folder PID
+	 */
+	private $subSystemFolderPid = 0;
 
 	/**
 	 * @var integer static_info_tables UID of Germany
@@ -131,8 +146,10 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 				'defaultCountryUID' => self::DE,
 			),
 			$GLOBALS['TSFE']->cObj,
-			true
+			TRUE
 		);
+
+		$this->fixture->setCurrentView('realty_list');
 	}
 
 	public function tearDown() {
@@ -198,7 +215,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	 */
 	private function createDummyPages() {
 		$this->loginPid = $this->testingFramework->createFrontEndPage();
-		$this->listViewPid = $this->testingFramework->createFrontEndPage();
 		$this->singlePid = $this->testingFramework->createFrontEndPage();
 		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
 		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
@@ -314,6 +330,85 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////
+	// Tests concerning the pagination
+	////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function internalResultCounterForListOfTwoIsTwo() {
+		$this->fixture->render();
+
+		$this->assertEquals(
+			2,
+			$this->fixture->internal['res_count']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationIsNotEmptyForMoreObjectsThanFitOnOnePage() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 1)
+		);
+		$this->fixture->render();
+
+		$this->assertNotEquals(
+			'',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationIsEmptyIfObjectsJustFitOnOnePage() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 2)
+		);
+		$this->fixture->render();
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationIsEmptyIfObjectsNotFillOnePage() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 3)
+		);
+		$this->fixture->render();
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationForMoreThanOnePageContainsNumberOfTotalResults() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 1)
+		);
+		$this->fixture->render();
+
+		$this->assertContains(
+			'(2 ',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+	}
+
+
+
+
 	//////////////////////////////////////////
 	// Tests for the images in the list view
 	//////////////////////////////////////////
@@ -326,8 +421,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 				'realty_object_uid' => $this->firstRealtyUid,
 			)
 		);
-
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			'test image',
@@ -344,8 +437,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 				'deleted' => 1,
 			)
 		);
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			'test image',
 			$this->fixture->render()
@@ -361,8 +452,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 				'hidden' => 1,
 			)
 		);
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			'test image',
 			$this->fixture->render()
@@ -386,9 +475,8 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
 		);
-		$this->fixture->setCurrentView('realty_list');
-
 		$output = $this->fixture->render();
+
 		$this->assertContains(
 			'tx_realty_pi1[showUid]='.$this->firstRealtyUid,
 			$output
@@ -411,13 +499,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
 		);
-		$this->fixture->setCurrentView('realty_list');
 		// this enables the gallery popup window
 		$this->fixture->setConfigurationValue(
 			'galleryPopupParameters',
 			'width=600,height=400,resizable=no,toolbar=no,'
 			.'location=no,directories=no,status=no,menubar=no'
 		);
+
 		$this->assertNotContains(
 			'onclick="window.open(',
 			$this->fixture->render()
@@ -437,8 +525,8 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('realty_object_uid' => $this->firstRealtyUid, 'caption' => 'foo')
 		);
 		$galleryPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
+
 		$this->assertNotContains(
 			'?id=' . $galleryPid,
 			$this->fixture->render()
@@ -460,7 +548,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('pidList', $systemFolder);
 
 		$this->assertNotContains(
@@ -480,7 +567,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('pidList', $systemFolder);
 
 		$this->assertContains(
@@ -490,7 +576,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewFillsMarkerForObjectNumber() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 		$this->fixture->render();
@@ -507,7 +592,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => '&euro;',)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			'&euro;',
@@ -521,7 +605,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => '&euro;',)
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('currencyUnit', 'foo');
 
 		$this->assertContains(
@@ -536,7 +619,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE)
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
 
 		$this->assertContains(
@@ -551,7 +633,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => '1234567', 'object_type' => REALTY_FOR_SALE)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			'1 234 567',
@@ -560,9 +641,8 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateListViewReturnsListOfRecords() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$output = $this->fixture->render();
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -574,7 +654,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateListViewReturnsMainSysFolderRecordsAndSubFolderRecordsIfRecursionIsEnabled() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('recursive', '1');
 
 		$this->testingFramework->changeRecord(
@@ -584,6 +663,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 
 		$output = $this->fixture->render();
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -595,7 +675,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateListViewNotReturnsSubFolderRecordsIfRecursionIsDisabled() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('recursive', '0');
 
 		$this->testingFramework->changeRecord(
@@ -605,6 +684,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 
 		$output = $this->fixture->render();
+
 		$this->assertNotContains(
 			self::$firstObjectTitle,
 			$output
@@ -615,18 +695,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTheResultIsCountedCorrectly() {
-		$this->fixture->setCurrentView('realty_list');
-		$this->fixture->render();
-
-		$this->assertEquals(
-			2,
-			$this->fixture->internal['res_count']
-		);
-	}
-
 	public function testListViewForNonEmptyTeaserShowsTeaserText() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -640,8 +709,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewForEmptyTeaserHidesTeaserSubpart() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			'###TEASER###',
 			$this->fixture->render()
@@ -686,7 +753,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithOneRecordDueToTheAppliedUidFilterRedirectsToSingleView() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render(array('uid' => $this->firstRealtyUid));
 
 		$this->assertContains(
@@ -696,7 +762,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNumericObjectNumber() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render(array('objectNumber' => self::$firstObjectNumber));
 
 		$this->assertContains(
@@ -706,7 +771,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewForNonNumericObjectNumber() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -721,7 +785,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectPid() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render(array('objectNumber' => self::$firstObjectNumber));
 
 		$this->assertContains(
@@ -732,7 +795,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 
 	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewWithTheCorrectShowUid() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render(array('objectNumber' => self::$firstObjectNumber));
 
 		$this->assertContains(
@@ -742,7 +804,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithOneRecordDueToTheAppliedObjectNumberFilterRedirectsToSingleViewAnProvidesAChash() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render(array('objectNumber' => self::$firstObjectNumber));
 
 		$this->assertContains(
@@ -755,7 +816,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_CITIES, $this->firstCityUid, array('title' => 'foo-bar')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render(array('site' => 'foo'));
 
 		$this->assertEquals(
@@ -765,7 +825,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewWithTwoRecordsNotRedirectsToSingleView() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render();
 
 		$this->assertEquals(
@@ -783,7 +842,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 					' rest should be cropped and be replaced with dots'
 			)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			'This title is longer than 75 Characters, so the rest should be' .
@@ -798,7 +856,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('old_or_new_building' => '1')
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			$this->fixture->translate('label_old_or_new_building_1'),
@@ -812,8 +869,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	////////////////////////////////////////////////////
 
 	public function testCreateListViewForNoPostDataSentDoesNotAddCacheControlHeader() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->fixture->render();
 
 		$this->assertNotEquals(
@@ -824,8 +879,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateListViewForPostDataSentAddsCacheControlHeader() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$_POST['tx_realty_pi1'] = 'foo';
 		$this->fixture->render();
 		unset($_POST['tx_realty_pi1']);
@@ -848,7 +901,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 11)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -862,7 +914,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 1)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -876,7 +927,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 0, 'rent_excluding_bills' => 0)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -890,7 +940,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 0, 'rent_excluding_bills' => 11)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
@@ -904,7 +953,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('buying_price' => 9)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -918,7 +966,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('buying_price' => 101)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -932,7 +979,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 10)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -946,7 +992,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 20)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -965,9 +1010,8 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('buying_price' => 1)
 		);
-		$this->fixture->setCurrentView('realty_list');
-
 		$output = $this->fixture->render(array('priceRange' => '-10'));
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -989,9 +1033,8 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('rent_excluding_bills' => 1)
 		);
-		$this->fixture->setCurrentView('realty_list');
-
 		$output = $this->fixture->render(array('priceRange' => '-10'));
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -1006,7 +1049,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '12345')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertContains(
@@ -1016,7 +1058,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewFilteredBySiteDisplaysObjectWithMatchingCity() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertContains(
@@ -1029,7 +1070,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '12345')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertContains(
@@ -1042,7 +1082,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_CITIES, $this->firstCityUid, array('title' => 'foo-bar')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertContains(
@@ -1055,7 +1094,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '12345')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertNotContains(
@@ -1065,7 +1103,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewFilteredBySiteNotDisplaysObjectWithNonMatchingCity() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertNotContains(
@@ -1075,10 +1112,10 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewFilteredBySiteDisplaysAllObjectsForAnEmptyString() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$output = $this->fixture->render(array('site' => ''));
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -1095,7 +1132,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 50)
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertContains(
@@ -1112,7 +1148,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 50, 'zip' => '12345')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertContains(
@@ -1129,7 +1164,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 50)
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertNotContains(
@@ -1147,7 +1181,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 50, 'zip' => '12345')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertNotContains(
@@ -1164,7 +1197,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 150)
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertNotContains(
@@ -1181,7 +1213,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => 150, 'zip' => '12345')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 
 		$this->assertNotContains(
@@ -1193,8 +1224,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewContainsMatchingRecordWhenFilteredByObjectNumber() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertContains(
 			self::$firstObjectNumber,
 			$this->fixture->render(
@@ -1204,8 +1233,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewNotContainsMismatchingRecordWhenFilteredByObjectNumber() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			self::$secondObjectTitle,
 			$this->fixture->render(
@@ -1215,8 +1242,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewContainsMatchingRecordWhenFilteredByUid() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$this->fixture->render(array('uid' => $this->firstRealtyUid))
@@ -1224,8 +1249,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewNotContainsMismatchingRecordWhenFilteredByUid() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			self::$secondObjectTitle,
 			$this->fixture->render(array('uid' => $this->firstRealtyUid))
@@ -1233,8 +1256,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_ListView_FilteredByRentStatus_DisplaysObjectsForRenting() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$this->fixture->render(array('objectType' => 'forRent'))
@@ -1242,8 +1263,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_ListView_FilteredByRentStatus_DoesNotDisplaysObjectsForSale() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			self::$secondObjectTitle,
 			$this->fixture->render(array('objectType' => 'forRent'))
@@ -1251,8 +1270,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_ListView_FilteredBySaleStatus_DisplaysObjectsForSale() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertContains(
 			self::$secondObjectTitle,
 			$this->fixture->render(array('objectType' => 'forSale'))
@@ -1260,8 +1277,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_ListView_FilteredBySaleStatus_DoesNotDisplaysObjectsForRenting() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			self::$firstObjectTitle,
 			$this->fixture->render(array('objectType' => 'forSale'))
@@ -1274,7 +1289,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('living_area' => 11)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1288,7 +1302,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('living_area' => 1)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1302,7 +1315,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('living_area' => 0)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1316,7 +1328,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('living_area' => 9)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -1332,7 +1343,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('living_area' => 101)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -1348,7 +1358,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('living_area' => 10)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1364,7 +1373,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('living_area' => 20)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1385,9 +1393,8 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('living_area' => 1)
 		);
-		$this->fixture->setCurrentView('realty_list');
-
 		$output = $this->fixture->render(array('livingAreaTo' => '10'));
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -1409,7 +1416,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 11)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1423,7 +1429,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 1)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1437,7 +1442,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 0)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1451,7 +1455,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('number_of_rooms' => 9)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -1467,7 +1470,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('number_of_rooms' => 101)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$secondObjectTitle,
@@ -1483,7 +1485,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 10)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1499,7 +1500,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 20)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1520,9 +1520,8 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->secondRealtyUid,
 			array('number_of_rooms' => 1)
 		);
-		$this->fixture->setCurrentView('realty_list');
-
 		$output = $this->fixture->render(array('numberOfRoomsTo' => '10'));
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -1539,7 +1538,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 5)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
@@ -1555,7 +1553,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 4)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			self::$firstObjectTitle,
@@ -1571,7 +1568,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('number_of_rooms' => 4.5)
 		);
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertContains(
 			self::$firstObjectTitle,
@@ -1594,7 +1590,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 				REALTY_TABLE_DISTRICTS, array('title' => 'test district')
 			))
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
 		$this->assertContains(
@@ -1615,7 +1610,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 		$this->fixture->setConfigurationValue('pidList', $systemFolder);
 
@@ -1637,7 +1631,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 				REALTY_TABLE_DISTRICTS, array('title' => 'test district')
 			))
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
 		$this->assertContains(
@@ -1650,7 +1643,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_DISTRICTS, array('title' => 'test district')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
 		$this->assertNotContains(
@@ -1660,7 +1652,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListFilterIsInvisibleIfCheckboxesFilterSetToDistrictAndNoDistrictsExists() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
 		$this->assertNotContains(
@@ -1670,7 +1661,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListFilterIsVisibleIfCheckboxesFilterSetToCityAndCitySelectorIsInactive() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$this->assertContains(
@@ -1680,7 +1670,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListFilterIsInvisibleIfCheckboxesFilterIsSetToCityAndCitySelectorIsActive() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$this->assertNotContains(
@@ -1690,8 +1679,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListFilterIsInvisibleIfCheckboxesFilterNotSet() {
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			'id="tx_realty_pi1_search"',
 			$this->fixture->render()
@@ -1702,10 +1689,10 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES, array('title' => 'unlinked city')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$output = $this->fixture->render();
+
 		$this->assertContains(
 			'id="tx_realty_pi1_search"',
 			$output
@@ -1723,10 +1710,10 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('city' => $deletedCityUid)
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$output = $this->fixture->render();
+
 		$this->assertContains(
 			'id="tx_realty_pi1_search"',
 			$output
@@ -1738,7 +1725,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListIsFilteredForOneCriterion() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 		$piVars = array('search' => array($this->firstCityUid));
 
@@ -1759,7 +1745,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListIsFilteredForTwoCriteria() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 		$piVars = array('search' => array(
 			$this->firstCityUid, $this->secondCityUid
@@ -1782,7 +1767,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testTheListFilterLinksToTheSelfUrl() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$this->assertContains(
@@ -1792,7 +1776,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testTheListFiltersLinkDoesNotContainSearchPiVars() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$this->assertNotContains(
@@ -1817,13 +1800,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////////////////////
 
 	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$firstObjectNumber),
 			strpos($result, self::$secondObjectNumber)
@@ -1831,13 +1814,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewIsSortedDescendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$secondObjectNumber),
 			strpos($result, self::$firstObjectNumber)
@@ -1856,13 +1839,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '11')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '9'),
 			strpos($result, '11')
@@ -1881,13 +1864,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '11')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '11'),
 			strpos($result, '9')
@@ -1906,13 +1889,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '4.10')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '4.10'),
 			strpos($result, '12.34')
@@ -1931,13 +1914,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '4.10')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '12.34'),
 			strpos($result, '4.10')
@@ -1956,13 +1939,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '12.00')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '12.00'),
 			strpos($result, '12.34')
@@ -1981,13 +1964,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '12.00')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '12.34'),
 			strpos($result, '12.00')
@@ -2006,13 +1989,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '4,10')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '4,10'),
 			strpos($result, '12,34')
@@ -2031,13 +2014,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('object_number' => '4,10')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '12,34'),
 			strpos($result, '4,10')
@@ -2056,13 +2039,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('buying_price' => '11', 'object_type' => REALTY_FOR_SALE)
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'buying_price');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '9'),
 			strpos($result, '11')
@@ -2081,13 +2064,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('rent_excluding_bills' => '11', 'object_type' => REALTY_FOR_RENTING)
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'rent_excluding_bills');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '9'),
 			strpos($result, '11')
@@ -2106,13 +2089,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('number_of_rooms' => 11)
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'number_of_rooms');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '9'),
 			strpos($result, '11')
@@ -2131,13 +2114,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('living_area' => '11')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'living_area');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, '9'),
 			strpos($result, '11')
@@ -2145,13 +2128,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewIsSortedAscendinglyByTheCitiesTitles() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'city');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$secondCityTitle),
 			strpos($result, self::$firstCityTitle)
@@ -2159,13 +2142,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testListViewIsSortedDescendinglyByTheCitiesTitles() {
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'city');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$firstCityTitle),
 			strpos($result, self::$secondCityTitle)
@@ -2180,13 +2163,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('street' => '9')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'street');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$firstCityTitle),
 			strpos($result, self::$secondCityTitle)
@@ -2201,12 +2184,12 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('sorting' => '9')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$secondCityTitle),
 			strpos($result, self::$firstCityTitle)
@@ -2221,12 +2204,12 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('sorting' => '9')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$secondCityTitle),
 			strpos($result, self::$firstCityTitle)
@@ -2245,13 +2228,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			array('sorting' => '9', 'living_area' => '11')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'living_area');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$secondCityTitle),
 			strpos($result, self::$firstCityTitle)
@@ -2266,12 +2249,12 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, array('sorting' => '9')
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 1));
 
 		// Links inside the tags might contain numbers which could influence the
 		// result. Therefore the tags are stripped.
 		$result = strip_tags($this->fixture->render());
+
 		$this->assertGreaterThan(
 			strpos($result, self::$secondCityTitle),
 			strpos($result, self::$firstCityTitle)
@@ -2375,6 +2358,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->prepareMyObjects(true);
 
 		$output = $this->fixture->render();
+
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$output
@@ -3102,8 +3086,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $coordinates
 		);
 
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertContains(
 			'<div id="tx_realty_map"',
 			$this->fixture->render()
@@ -3125,8 +3107,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $coordinates
 		);
 
-		$this->fixture->setCurrentView('realty_list');
-
 		$this->assertNotContains(
 			'<div id="tx_realty_map"',
 			$this->fixture->render()
@@ -3147,8 +3127,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $coordinates
 		);
-
-		$this->fixture->setCurrentView('realty_list');
 
 		$this->assertNotContains(
 			'<div id="tx_realty_map"',
@@ -3177,7 +3155,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue(
 			'listView.', array('descFlag' => 0, 'results_at_a_time' => 1)
@@ -3204,7 +3181,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid, $coordinates
 		);
 
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->render();
 
 		$this->assertRegExp(
@@ -3217,7 +3193,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '53111')
 		);
-		$this->fixture->setCurrentView('realty_list');
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
 		$this->fixture->setConfigurationValue('showGoogleMaps', true);
 
@@ -3327,6 +3302,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToExternalSingleViewPageContainsExternalUrlIfAccessAllowed() {
 		$this->allowAccess();
+
 		$this->assertContains(
 			'http://' . TX_REALTY_EXTERNAL_SINGLE_PAGE,
 			$this->fixture->createLinkToSingleViewPage(
@@ -3338,6 +3314,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToExternalSingleViewPageContainsExternalUrlIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			urlencode('http://' . TX_REALTY_EXTERNAL_SINGLE_PAGE),
 			$this->fixture->createLinkToSingleViewPage(
@@ -3349,6 +3326,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToExternalSingleViewPageContainsATagIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'<a href=',
 			$this->fixture->createLinkToSingleViewPage(
@@ -3360,6 +3338,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToExternalSingleViewPageLinksToLoginPageIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
@@ -3371,6 +3350,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToExternalSingleViewPageContainsRedirectUrlIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
@@ -3382,6 +3362,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToExternalSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertNotContains(
 			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
@@ -3393,6 +3374,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToExternalSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertNotContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
@@ -3408,6 +3390,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSeparateSingleViewPageLinksToSeparateSinglePidIfAccessAllowed() {
 		$this->allowAccess();
+
 		$this->assertContains(
 			'?id=' . $this->otherSinglePid,
 			$this->fixture->createLinkToSingleViewPage(
@@ -3420,6 +3403,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd($this->otherSinglePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			urlencode('?id=' . $this->otherSinglePid),
 			$this->fixture->createLinkToSingleViewPage(
@@ -3431,6 +3415,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSeparateSingleViewPageContainsATagIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'<a href=',
 			$this->fixture->createLinkToSingleViewPage(
@@ -3442,6 +3427,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSeparateSingleViewPageLinksToLoginPageIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
@@ -3453,6 +3439,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSeparateSingleViewPageContainsRedirectUrlIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
@@ -3464,6 +3451,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSeparateSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertNotContains(
 			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage(
@@ -3475,6 +3463,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSeparateSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertNotContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage(
@@ -3488,6 +3477,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 			'', $this->fixture->createLinkToSingleViewPage('', 0)
 		);
 		$this->allowAccess();
+
 		$this->assertEquals(
 			'',
 			$this->fixture->createLinkToSingleViewPage('', 0)
@@ -3510,6 +3500,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSingleViewPageHasSinglePidAsLinkTargetIfAccessAllowed() {
 		$this->allowAccess();
+
 		$this->assertContains(
 			'?id=' . $this->singlePid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
@@ -3520,6 +3511,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd($this->singlePid);
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			urlencode('?id=' . $this->singlePid),
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
@@ -3528,6 +3520,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSingleViewPageEscapesAmpersandsIfAccessAllowed() {
 		$this->allowAccess();
+
 		$this->assertContains(
 			'&amp;', $this->fixture->createLinkToSingleViewPage('&', 0)
 		);
@@ -3535,6 +3528,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSingleViewPageEscapesAmpersandsIfAccessDenied() {
 		$this->denyAccess();
+
 		$this->assertContains(
 			'&amp;', $this->fixture->createLinkToSingleViewPage('&', 0)
 		);
@@ -3542,6 +3536,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 	public function testLinkToSingleViewPageContainsATagIfAccessAllowed() {
 		$this->allowAccess();
+
 		$this->assertContains(
 			'<a href=', $this->fixture->createLinkToSingleViewPage('&', 0)
 		);
@@ -3550,6 +3545,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSingleViewPageContainsATagIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'<a href=', $this->fixture->createLinkToSingleViewPage('&', 0)
 		);
@@ -3558,6 +3554,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSingleViewPageLinksToLoginPageIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
@@ -3567,6 +3564,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSingleViewPageContainsRedirectUrlIfAccessDenied() {
 		$this->denyAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
@@ -3576,6 +3574,7 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSingleViewPageNotLinksToLoginPageIfAccessAllowed() {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertNotContains(
 			'?id=' . $this->loginPid,
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
@@ -3585,11 +3584,13 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	public function testLinkToSingleViewPageNotContainsRedirectUrlIfAccesAllowed() {
 		$this->allowAccess();
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
+
 		$this->assertNotContains(
 			'redirect_url',
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
+
 
 	////////////////////////////////////
 	// Tests concerning setCurrentView
@@ -3646,7 +3647,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function setCurrentViewForObjectsByOwnerSetsObjectsByOwnerViewAsViewType() {
-		;
 		$this->fixture->setCurrentView('objects_by_owner');
 
 		$this->assertContains(
