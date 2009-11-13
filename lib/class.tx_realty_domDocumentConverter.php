@@ -794,14 +794,14 @@ class tx_realty_domDocumentConverter {
 		// The node is valid when there is a node name, it does not need to
 		// have attributes.
 		if ($this->getNodeName($nodeWithAttributes)) {
- 			$this->addImportedData(
+			$this->addImportedData(
 				'deleted',
 				in_array(
 					'delete',
 					$this->fetchLowercasedDomAttributes($nodeWithAttributes)
 				)
- 			);
- 		}
+			);
+		}
 	}
 
 	/**

@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#3508] Cleanup: Replace space + tab with tab
 - [#3266] Change: Update to the latest versions of Prototype and Scriptaculous
 - [#3493] Fix: The checkbox filter deletes the piVars of the search widget
 - [#3474] Fix: Add all required parameters to the geocoding request

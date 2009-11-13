@@ -168,7 +168,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			default :
 				$this->setData(array());
 				break;
- 		}
+		}
 	}
 
 	/**
