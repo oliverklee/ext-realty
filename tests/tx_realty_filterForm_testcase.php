@@ -78,7 +78,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	public function testFilterFormHasSubmitButton() {
 		$this->assertContains(
 			$this->fixture->translate('label_search'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -88,14 +88,14 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'?id=' . $pageUid,
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
 	public function testRenderReturnsNoUnreplacedMarkers() {
 		$this->assertNotContains(
 			'###',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -109,7 +109,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'id="tx_realty_pi1-site"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -118,7 +118,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'id="tx_realty_pi1-site"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -130,7 +130,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	public function testFilterFormHasNoPricesSelectboxForUnconfiguredFilter() {
 		$this->assertNotContains(
 			'<select',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -140,7 +140,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'<select',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -152,7 +152,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'<select',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -165,7 +165,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'&euro;',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -179,7 +179,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'1 ' . $this->fixture->translate('label_to') . ' 100',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -191,7 +191,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_greater_than') . ' 1',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -205,7 +205,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_less_than') . ' 100',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -219,7 +219,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -233,7 +233,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_search'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -247,7 +247,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -261,7 +261,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'name="tx_realty_pi1[uid]"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -272,7 +272,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'name="tx_realty_pi1[uid]"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -308,7 +308,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'name="tx_realty_pi1[objectNumber]"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -319,7 +319,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'name="tx_realty_pi1[objectNumber]"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -341,7 +341,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'id="tx_realty_pi1-idsearch"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -360,7 +360,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_select_city'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -380,7 +380,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Foo city',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -403,7 +403,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Foo city (2)',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -420,7 +420,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'Foo city',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -434,7 +434,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -448,7 +448,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -517,7 +517,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_select_district'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -537,7 +537,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Foo district',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -560,7 +560,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Foo district (2)',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -577,7 +577,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'Foo district',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -591,7 +591,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -605,7 +605,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -645,7 +645,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'value="' . $districtUid . '" selected="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -679,7 +679,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_select_house_type'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -696,7 +696,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Foo house type',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -707,7 +707,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -718,7 +718,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -734,7 +734,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_select_object_type'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -745,7 +745,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'checked="checked"',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -778,7 +778,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -789,7 +789,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -800,7 +800,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'value="forRent" onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -811,7 +811,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'value="forSale" onchange="',
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -827,7 +827,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_enter_rent'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -862,7 +862,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_enter_living_area'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
@@ -1157,7 +1157,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->fixture->translate('label_enter_number_of_rooms'),
-			$this->fixture->render(array())
+			$this->fixture->render()
 		);
 	}
 
