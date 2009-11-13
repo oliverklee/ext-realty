@@ -4,7 +4,7 @@
 	</meta>
 	<sheets>
 		<sDEF>
-	  		<ROOT>
+	 		<ROOT>
 				<TCEforms>
 					<sheetTitle>LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.sheet_general</sheetTitle>
 				</TCEforms>
@@ -67,8 +67,8 @@
 							<onChange>reload</onChange>
 						</TCEforms>
 					</what_to_display>
-		  			<pages>
-				  		<TCEforms>
+		 			<pages>
+				 		<TCEforms>
 							<exclude>1</exclude>
 							<label>LLL:EXT:lang/locallang_general.php:LGL.startingpoint</label>
 							<config>
@@ -81,10 +81,10 @@
 								<show_thumbs>1</show_thumbs>
 							</config>
 							<displayCond>FIELD:what_to_display:IN:realty_list,objects_by_owner,favorites,my_objects</displayCond>
-				  		</TCEforms>
+				 		</TCEforms>
 					</pages>
 					<recursive>
-				  		<TCEforms>
+				 		<TCEforms>
 							<label>LLL:EXT:lang/locallang_general.php:LGL.recursive</label>
 							<config>
 								<type>select</type>
@@ -616,15 +616,15 @@
 									<numIndex index="3" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayCity</numIndex>
 										<numIndex index="1">city</numIndex>
- 									</numIndex>
+									</numIndex>
 									<numIndex index="4" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayDistrict</numIndex>
 										<numIndex index="1">district</numIndex>
- 									</numIndex>
+									</numIndex>
 									<numIndex index="5" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayHouseType</numIndex>
 										<numIndex index="1">houseType</numIndex>
- 									</numIndex>
+									</numIndex>
 									<numIndex index="6" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayPriceRange</numIndex>
 										<numIndex index="1">priceRanges</numIndex>
@@ -640,11 +640,11 @@
 									<numIndex index="9" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayObjectType</numIndex>
 										<numIndex index="1">objectType</numIndex>
- 									</numIndex>
+									</numIndex>
 									<numIndex index="10" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.displayNumberOfRooms</numIndex>
 										<numIndex index="1">numberOfRooms</numIndex>
- 									</numIndex>
+									</numIndex>
 								</items>
 								<maxitems>11</maxitems>
 								<minitems>0</minitems>

@@ -345,14 +345,14 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		);
 	}
 
- 	/**
+	/**
 	 * Shows the city selector if enabled via configuration, otherwise hides it.
 	 */
 	private function fillOrHideCitySearch() {
 		$this->createDropDown('city');
 	}
 
- 	/**
+	/**
 	 * Shows the district selector if enabled via configuration, otherwise
 	 * hides it.
 	 */
@@ -467,7 +467,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		);
 	}
 
- 	/**
+	/**
 	 * Shows the rent/sale radiobuttons if enabled via configuration, otherwise
 	 * hides them.
 	 */

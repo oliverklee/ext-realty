@@ -332,7 +332,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 *                object or if the current object does not have images
 	 */
 	private function getImageTag($maxSizeVariable, $offset = 0, $id = '') {
- 		$result = '';
+		$result = '';
 
 		$image = $this->getImage($offset);
 		if (!empty($image)) {
@@ -465,10 +465,10 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'title',
 					htmlspecialchars($this->internal['currentRow']['title'])
 				);
- 				$this->createGalleryFullSizeImage();
+				$this->createGalleryFullSizeImage();
 				$this->setSubpart('thumbnail_item', $this->createGalleryThumbnails());
 				$result = $this->getSubpart('GALLERY_VIEW');
- 				$isOkay = true;
+				$isOkay = true;
 			}
 		}
 
@@ -485,7 +485,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		return $result;
 	}
 
- 	/**
+	/**
 	 * Includes the JavaScript used to display fullsize images in the gallery.
 	 */
 	private function includeJavaScriptForGallery() {
@@ -631,12 +631,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return string formatted string to use in an e-mail form, may be empty
 	 */
 	 public function createSummaryStringOfFavorites() {
-	 	$summaryStringOfFavorites = '';
+		$summaryStringOfFavorites = '';
 
-	 	$currentFavorites = $this->getFavorites();
+		$currentFavorites = $this->getFavorites();
 		if ($currentFavorites != '') {
-		 	$table = $this->tableNames['objects'];
-		 	$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$table = $this->tableNames['objects'];
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'object_number, title',
 				$table,
 				'uid IN (' . $currentFavorites . ')' .
@@ -659,7 +659,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
-	 	return $summaryStringOfFavorites;
+		return $summaryStringOfFavorites;
 	 }
 
 	/**

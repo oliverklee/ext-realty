@@ -208,27 +208,27 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 *                 permissions, false otherwise
 	 */
 	private function userHasAccessToTables() {
-      	$userHasAccessToTables = true;
-      	$neededTables = array(
-      		REALTY_TABLE_OBJECTS,
-      		REALTY_TABLE_APARTMENT_TYPES,
-      		REALTY_TABLE_CAR_PLACES,
-      		REALTY_TABLE_CITIES,
-      		REALTY_TABLE_DISTRICTS,
-      		REALTY_TABLE_HOUSE_TYPES,
-      		REALTY_TABLE_IMAGES,
-      		REALTY_TABLE_PETS,
-      	);
+     	$userHasAccessToTables = true;
+     	$neededTables = array(
+     		REALTY_TABLE_OBJECTS,
+     		REALTY_TABLE_APARTMENT_TYPES,
+     		REALTY_TABLE_CAR_PLACES,
+     		REALTY_TABLE_CITIES,
+     		REALTY_TABLE_DISTRICTS,
+     		REALTY_TABLE_HOUSE_TYPES,
+     		REALTY_TABLE_IMAGES,
+     		REALTY_TABLE_PETS,
+     	);
 
-      	foreach ($neededTables as $table) {
-      		if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
-      			$userHasAccessToTables = false;
-      			$this->storeErrorMessage('table_access', $table);
-      			break;
-      		}
-      	}
+     	foreach ($neededTables as $table) {
+     		if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
+     			$userHasAccessToTables = false;
+     			$this->storeErrorMessage('table_access', $table);
+     			break;
+     		}
+     	}
 
-      	return $userHasAccessToTables;
+     	return $userHasAccessToTables;
 	}
 
 	/**
