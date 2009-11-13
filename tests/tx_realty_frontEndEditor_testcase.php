@@ -1519,9 +1519,18 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSendEmailForNewObjectAndClearFrontEndCacheClearsFrontEndCache() {
+		$this->markTestSkipped(
+			'Currently this test is not applicable due to a bug in TYPO3 4.3. ' .
+			'See bug #3501.'
+		);
+
 		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
 			$this->markTestSkipped(
 				'This test is not applicable for TYPO3 versions lower than 4.3.'
+			);
+		} elseif (!TYPO3_UseCachingFramework) {
+			$this->markTestSkipped(
+				'This test is not applicable if the caching framework is disabled.'
 			);
 		}
 

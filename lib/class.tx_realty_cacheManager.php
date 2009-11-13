@@ -37,19 +37,16 @@ class tx_realty_cacheManager {
 	 * Clears the FE cache for pages with a realty plugin.
 	 *
 	 * @see tslib_fe::clearPageCacheContent_pidList()
+	 * @see http://bugs.typo3.org/view.php?id=12579
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
-		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+		// TODO: Remove workaround once TYPO3 Bug #12579 is fixed.
+		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999
+			&& TYPO3_UseCachingFramework
+		) {
 			self::clearCacheWithCacheManager();
 		} else {
-			$pageUids = self::getPageUids();
-			if(empty($pageUids)) {
-				return;
-			}
-
-			tx_oelib_db::delete(
-				'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
-			);
+			self::deleteCacheInTable();
 		}
 	}
 
@@ -94,6 +91,20 @@ class tx_realty_cacheManager {
 		}
 
 		$pageCache->flushByTags(self::getPageUids('pageId_'));
+	}
+
+	/**
+	 * Deletes the cache entries in the cache table to clear the cache.
+	 */
+	private static function deleteCacheInTable() {
+		$pageUids = self::getPageUids();
+		if (empty($pageUids)) {
+			return;
+		}
+
+		tx_oelib_db::delete(
+			'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
+		);
 	}
 }
 
