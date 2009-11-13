@@ -35,27 +35,33 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncl
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
-	/**
-	 * @var string the prefix ID for frontend output
-	 */
-	const PREFIX_ID = 'tx_realty_pi1';
-
-	/**
-	 * @var string the extension key
-	 */
-	const EXTENSION_KEY = 'realty';
-
-	/**
-	 * @var tx_oelib_testingFramework
-	 */
-	private $testingFramework;
-
 	public function setUp() {
 		$GLOBALS['TSFE'] = $this->getMock('tslib_fe', array(), array(), '', FALSE);
 	}
 
 	public function tearDown() {
 		$GLOBALS['TSFE'] = null;
+	}
+
+
+	///////////////////////////////////////////
+	// Tests concerning includeMainJavaScript
+	///////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function includeMainJavaScriptIncludesMainFile() {
+		tx_realty_lightboxIncluder::includeMainJavaScript();
+
+		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$this->assertTrue(
+			isset($additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
+		);
+		$this->assertContains(
+			'tx_realty_pi1.js',
+			$additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID]
+		);
 	}
 
 
@@ -67,17 +73,19 @@ class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function includeLightboxFilesIncludesLightboxCss() {
-		tx_realty_lightboxIncluder::includeLightboxFiles(
-			self::PREFIX_ID, self::EXTENSION_KEY
-		);
+		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
 		$this->assertTrue(
-			isset($additionalHeaderData[self::PREFIX_ID . '_lightboxcss'])
+			isset($additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
+			])
 		);
 		$this->assertContains(
 			'lightbox.css',
-			$additionalHeaderData[self::PREFIX_ID . '_lightboxcss']
+			$additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
+			]
 		);
 	}
 
@@ -85,17 +93,19 @@ class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function includeLightboxFilesIncludesPrototype() {
-		tx_realty_lightboxIncluder::includeLightboxFiles(
-			self::PREFIX_ID, self::EXTENSION_KEY
-		);
+		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
 		$this->assertTrue(
-			isset($additionalHeaderData[self::PREFIX_ID . '_prototype'])
+			isset($additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+			])
 		);
 		$this->assertContains(
 			'prototype.js',
-			$additionalHeaderData[self::PREFIX_ID . '_prototype']
+			$additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+			]
 		);
 	}
 
@@ -103,17 +113,19 @@ class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function includeLightboxFilesIncludesScriptaculous() {
-		tx_realty_lightboxIncluder::includeLightboxFiles(
-			self::PREFIX_ID, self::EXTENSION_KEY
-		);
+		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
 		$this->assertTrue(
-			isset($additionalHeaderData[self::PREFIX_ID . '_scriptaculous'])
+			isset($additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
+			])
 		);
 		$this->assertContains(
 			'scriptaculous.js',
-			$additionalHeaderData[self::PREFIX_ID . '_scriptaculous']
+			$additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
+			]
 		);
 	}
 
@@ -121,17 +133,19 @@ class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function includeLightboxFilesIncludesLightbox() {
-		tx_realty_lightboxIncluder::includeLightboxFiles(
-			self::PREFIX_ID, self::EXTENSION_KEY
-		);
+		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
 		$this->assertTrue(
-			isset($additionalHeaderData[self::PREFIX_ID . '_lightbox'])
+			isset($additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
+			])
 		);
 		$this->assertContains(
 			'lightbox.js',
-			$additionalHeaderData[self::PREFIX_ID . '_lightbox']
+			$additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
+			]
 		);
 	}
 
@@ -139,17 +153,19 @@ class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function includeLightboxFilesIncludesLightboxConfiguration() {
-		tx_realty_lightboxIncluder::includeLightboxFiles(
-			self::PREFIX_ID, self::EXTENSION_KEY
-		);
+		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
 		$this->assertTrue(
-			isset($additionalHeaderData[self::PREFIX_ID . '_lightbox_config'])
+			isset($additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
+			])
 		);
 		$this->assertContains(
 			'LightboxOptions',
-			$additionalHeaderData[self::PREFIX_ID . '_lightbox_config']
+			$additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
+			]
 		);
 	}
 
@@ -162,17 +178,19 @@ class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function includePrototypeIncludesPrototype() {
-		tx_realty_lightboxIncluder::includePrototype(
-			self::PREFIX_ID, self::EXTENSION_KEY
-		);
+		tx_realty_lightboxIncluder::includePrototype();
 
 		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
 		$this->assertTrue(
-			isset($additionalHeaderData[self::PREFIX_ID . '_prototype'])
+			isset($additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+			])
 		);
 		$this->assertContains(
 			'prototype.js',
-			$additionalHeaderData[self::PREFIX_ID . '_prototype']
+			$additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+			]
 		);
 	}
 }

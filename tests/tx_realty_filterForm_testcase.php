@@ -45,11 +45,6 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	 */
 	private $testingFramework;
 
-	/**
-	 * @var string the prefix ID for frontend output
-	 */
-	const PREFIX_ID = 'tx_realty_pi1';
-
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
@@ -455,15 +450,17 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function citySelectorWithoutDistrictSelectorsNotIncludesPrototype() {
+	public function citySelectorWithoutDistrictSelectorNotIncludesPrototype() {
 		$this->testingFramework->createRecord('tx_realty_cities');
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city'
 		);
 
+		$this->fixture->render();
+
 		$this->assertFalse(
 			isset($GLOBALS['TSFE']->additionalHeaderData[
-				self::PREFIX_ID . '_prototype'
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
 			])
 		);
 	}
@@ -471,15 +468,17 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function citySelectorWithUidSelectorsNotIncludesPrototype() {
+	public function citySelectorWithUidSelectorNotIncludesPrototype() {
 		$this->testingFramework->createRecord('tx_realty_cities');
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city,uid'
 		);
 
+		$this->fixture->render();
+
 		$this->assertFalse(
 			isset($GLOBALS['TSFE']->additionalHeaderData[
-				self::PREFIX_ID . '_prototype'
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
 			])
 		);
 	}
@@ -497,7 +496,61 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			isset($GLOBALS['TSFE']->additionalHeaderData[
-				self::PREFIX_ID . '_prototype'
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+			])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function citySelectorWithoutDistrictSelectorsNotIncludesMainJavaScript() {
+		$this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city'
+		);
+
+		$this->fixture->render();
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID
+			])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function citySelectorWithUidSelectorsNotIncludesMainJavaScript() {
+		$this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city,uid'
+		);
+
+		$this->fixture->render();
+
+		$this->assertFalse(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID
+			])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function citySelectorWithDistrictSelectorIncludesMainJavaScript() {
+		$this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city,district'
+		);
+
+		$this->fixture->render();
+
+		$this->assertTrue(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID
 			])
 		);
 	}
@@ -660,9 +713,11 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 			'displayedSearchWidgetFields', 'district'
 		);
 
+		$this->fixture->render();
+
 		$this->assertFalse(
 			isset($GLOBALS['TSFE']->additionalHeaderData[
-				self::PREFIX_ID . '_prototype'
+				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
 			])
 		);
 	}

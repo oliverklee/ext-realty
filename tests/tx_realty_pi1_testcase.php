@@ -714,7 +714,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			'<script src="' . t3lib_extMgm::extRelPath('realty') .
 				'pi1/tx_realty_pi1.js" type="text/javascript">' .
 				'</script>',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_gallery']
+			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1']
 		);
 	}
 

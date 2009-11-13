@@ -73,7 +73,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			true
 		);
 
-		$this->includePrototype();
+		$this->includeJavaScript();
 
 		$this->setTargetUrlMarker();
 		$this->fillOrHideUidSearch();
@@ -92,13 +92,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Includes the Prototype JavaScript in the page header if it is needed.
+	 * Includes the extension's main JavaScript and Prototype in the page header
+	 * if this is needed.
 	 */
-	private function includePrototype() {
+	private function includeJavaScript() {
 		if ($this->hasSearchField('city') && $this->hasSearchField('district')) {
-			tx_realty_lightboxIncluder::includePrototype(
-				$this->prefixId, $this->extKey
-			);
+			tx_realty_lightboxIncluder::includePrototype();
+			tx_realty_lightboxIncluder::includeMainJavaScript();
 		}
 	}
 

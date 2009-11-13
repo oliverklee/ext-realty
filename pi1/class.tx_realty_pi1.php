@@ -25,6 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncluder.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImageUpload.php');
@@ -445,7 +446,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$result = '';
 		$isOkay = false;
 
-		$this->includeJavaScriptForGallery();
+		tx_realty_lightboxIncluder::includeMainJavaScript();
 
 		if ($this->hasShowUidInUrl()) {
 			$this->internal['currentRow'] = $this->getCurrentRowForShowUid();
@@ -483,16 +484,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Includes the JavaScript used to display fullsize images in the gallery.
-	 */
-	private function includeJavaScriptForGallery() {
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId . '_gallery']
-			= '<script src="' . t3lib_extMgm::extRelPath($this->extKey) .
-				'pi1/tx_realty_pi1.js" type="text/javascript">' .
-				'</script>';
 	}
 
 	/**

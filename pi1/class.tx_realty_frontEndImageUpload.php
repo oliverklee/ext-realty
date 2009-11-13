@@ -65,7 +65,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		tx_realty_lightboxIncluder::includeLightboxFiles(
 			$this->prefixId, $this->extKey
 		);
-		$this->includeJavaScript();
+		tx_realty_lightboxIncluder::includeMainJavaScript();
 		$this->processTemplate($result);
 		$this->setLabels();
 
@@ -208,15 +208,6 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		return ($this->isTestMode)
 			? $fileName
 			: ($this->formCreator->aORenderlets['image']->sCoolFileName);
-	}
-
-	/**
-	 * Includes additional JavaScript.
-	 */
-	private function includeJavaScript() {
-		$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId]
-			= '<script src="' . t3lib_extMgm::extRelPath($this->extKey) .
-				'pi1/tx_realty_pi1.js" type="text/javascript"></script>';
 	}
 
 	/**

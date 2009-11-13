@@ -26,7 +26,9 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
 
 /**
  * Class 'tx_realty_lightboxIncluder' for the 'realty' extension.
- * This class includes all files needed for Lightbox.
+ *
+ * This class includes JavaScript and CSS files, for example the main JavaScript
+ * file, Prototype, Scriptaculous and Lightbox.
  *
  * @package TYPO3
  * @subpackage tx_realty
@@ -36,44 +38,58 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
  */
 class tx_realty_lightboxIncluder {
 	/**
-	 * Includes the files needed for the Lightbox.
-	 *
-	 * @param string $prefixId the extension's prefix ID, must not be empty
-	 * @param string $extKey extension key, must not be empty
+	 * @var string the prefix ID for frontend output
 	 */
-	static public function includeLightboxFiles($prefixId, $extKey) {
-		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_lightboxcss']
+	const PREFIX_ID = 'tx_realty_pi1';
+
+	/**
+	 * @var string the extension key
+	 */
+	const EXTENSION_KEY = 'realty';
+
+	/**
+	 * Includes the extension's main JavaScript file.
+	 */
+	static public function includeMainJavaScript() {
+		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID]
+			= '<script src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+				'pi1/tx_realty_pi1.js" type="text/javascript">' .
+				'</script>';
+	}
+
+	/**
+	 * Includes the files needed for the Lightbox.
+	 */
+	static public function includeLightboxFiles() {
+		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightboxcss']
 			= '<link rel="stylesheet" type="text/css" href="' .
-			t3lib_extMgm::extRelPath($extKey) .
+			t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/lightbox.css" />';
 
-		self::includePrototype($prefixId, $extKey);
+		self::includePrototype();
 
-		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_scriptaculous']
+		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_scriptaculous']
 			= '<script type="text/javascript"' .
-			'src="' . t3lib_extMgm::extRelPath($extKey) .
+			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/scriptaculous.js?load=effects,builder">' .
 			'</script>';
 
-		self::addLightboxConfigurationToHeader($prefixId, $extKey);
+		self::addLightboxConfigurationToHeader();
 
-		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_lightbox']
+		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox']
 			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath($extKey) .
+			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/lightbox.js" >' .
 			'</script>';
 	}
 
 	/**
 	 * Includes the Prototype files.
-	 *
-	 * @param string $prefixId the extension's prefix ID, must not be empty
-	 * @param string $extKey extension key, must not be empty
 	 */
-	static public function includePrototype($prefixId, $extKey) {
-		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_prototype']
+	static public function includePrototype() {
+		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_prototype']
 			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath($extKey) .
+			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/prototype.js">' .
 			'</script>';
 	}
@@ -81,21 +97,18 @@ class tx_realty_lightboxIncluder {
 	/**
 	 * Adds the configuration for the Lightbox to the header. This function
 	 * must be called before the lightbox.js file ist added to the header.
-	 *
-	 * @param string $prefixId the extension's prefix ID, must not be empty
-	 * @param string $extKey extension key, must not be empty
 	 */
-	static private function addLightboxConfigurationToHeader($prefixId, $extKey) {
+	static private function addLightboxConfigurationToHeader() {
 		$translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
 
-		$GLOBALS['TSFE']->additionalHeaderData[$prefixId . '_lightbox_config']
+		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox_config']
 			= '<script type="text/javascript">/*<![CDATA[*/' .
 			'LightboxOptions = Object.extend({' .
 				'fileLoadingImage: \''.
-					t3lib_extMgm::extRelPath($extKey) .
+					t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
 					'pi1/images/loading.gif\',' .
 				'fileBottomNavCloseImage: \'' .
-					t3lib_extMgm::extRelPath($extKey) .
+					t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
 					'pi1/images/closelabel.gif\',' .
 				// controls transparency of shadow overlay
 				'overlayOpacity: 0.8,' .
