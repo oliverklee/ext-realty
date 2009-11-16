@@ -44,7 +44,7 @@ class tx_realty_cacheManager {
 		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999
 			&& TYPO3_UseCachingFramework
 		) {
-			self::clearCacheWithCacheManager();
+			self::clearCacheWithCachingFramework();
 		} else {
 			self::deleteCacheInTable();
 		}
@@ -72,15 +72,14 @@ class tx_realty_cacheManager {
 	}
 
 	/**
-	 * Uses the TYPO3 cache manager to clear the cache for the pages with the
-	 * realty plugin.
+	 * Uses the TYPO3 caching framework to clear the cache for the pages with
+	 * the realty plugin.
 	 *
-	 * Note: The cache manager is not avialable in TYPO3 versions lower than 4.3.
+	 * Note: The caching framework is not avialable in TYPO3 versions lower than 4.3.
 	 */
-	private static function clearCacheWithCacheManager() {
+	private static function clearCacheWithCachingFramework() {
 		if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
-			$GLOBALS['typo3CacheManager']
-				= t3lib_div::makeInstance('t3lib_cache_Manager');
+			t3lib_cache::initializeCachingFramework();
 		}
 
 		try {
