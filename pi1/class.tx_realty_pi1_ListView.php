@@ -287,6 +287,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			REALTY_TABLE_CITIES . '.uid';
 		$whereClause = $this->createWhereClause();
 		$sortingColumn = REALTY_TABLE_OBJECTS . '.sorting';
+		tx_oelib_db::enableQueryLogging();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'(' .
@@ -307,7 +308,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		);
 
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		return $dbResult;
@@ -917,19 +918,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
 		);
 
-		// get number of records
-		$dbResultCounter = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'COUNT(*) AS number',
-			$table,
-			$whereClause
-		);
-		if (!$dbResultCounter) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$counterRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($dbResultCounter);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResultCounter);
-		$this->internal['res_count'] = $counterRow[0];
+		$this->internal['res_count'] = tx_oelib_db::count($table, $whereClause);
 
 		// The number of the last possible page in a listing
 		// (which is the number of pages minus one as the numbering starts at zero).
@@ -1017,37 +1006,32 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			? $this->piVars['search']
 			: array();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid, title',
-			$currentTable,
-			'EXISTS ' . '(' .
-				'SELECT * ' .
-				'FROM ' . REALTY_TABLE_OBJECTS . ' ' .
-				'WHERE ' . REALTY_TABLE_OBJECTS . '.' . $filterCriterion .
-					'=' . $currentTable . '.uid ' .
-					$this->getWhereClausePartForPidList() .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
-				')' . tx_oelib_db::enableFields($currentTable)
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
+		$whereClause = 'EXISTS ' . '(' .
+			'SELECT * ' .
+			'FROM ' . REALTY_TABLE_OBJECTS . ' ' .
+			'WHERE ' . REALTY_TABLE_OBJECTS . '.' . $filterCriterion .
+				' = ' . $currentTable . '.uid ' .
+				$this->getWhereClausePartForPidList() .
+				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
+			')' . tx_oelib_db::enableFields($currentTable);
 
-		while ($dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			if (in_array($dbResultRow['uid'], $currentSearch)) {
+		$checkboxItems = tx_oelib_db::selectMultiple(
+			'uid, title', $currentTable, $whereClause
+		);
+
+		foreach ($checkboxItems as $checkboxItem) {
+			if (in_array($checkboxItem['uid'], $currentSearch)) {
 				$checked = ' checked="checked"';
 			} else {
 				$checked = '';
 			}
 			$this->setMarker('search_checked', $checked);
-			$this->setMarker('search_value', $dbResultRow['uid']);
+			$this->setMarker('search_value', $checkboxItem['uid']);
 			$this->setMarker(
-				'search_label', htmlspecialchars($dbResultRow['title'])
+				'search_label', htmlspecialchars($checkboxItem['title'])
 			);
 			$result[] = $this->getSubpart('SEARCH_ITEM');
 		}
-
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
 	}
@@ -1758,23 +1742,21 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			return array();
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'image, caption',
-			REALTY_TABLE_IMAGES,
-			'realty_object_uid=' . $this->internal['currentRow']['uid'] .
-				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
-			'',
-			'uid',
-			intval($offset) . ',1'
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+		try {
+			$image = tx_oelib_db::selectSingle(
+				'image, caption',
+				REALTY_TABLE_IMAGES,
+				'realty_object_uid = ' . $this->internal['currentRow']['uid'] .
+					tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
+				'',
+				'uid',
+				intval($offset)
+			);
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+			$image = array();
 		}
 
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return $row ? $row : array();
+		return $image;
 	}
 
 	/**
@@ -1879,27 +1861,22 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		$currentFavorites = $this->getFavorites();
 		if ($currentFavorites != '') {
 			$table = $this->tableNames['objects'];
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$objects = tx_oelib_db::selectMultiple(
 				'object_number, title',
 				$table,
 				'uid IN (' . $currentFavorites . ')' .
 					tx_oelib_db::enableFields($table)
 			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
 
 			$summaryStringOfFavorites
 				= $this->translate('label_on_favorites_list') . LF;
 
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				$objectNumber = $row['object_number'];
-				$objectTitle = $row['title'];
+			foreach ($objects as $object) {
+				$objectNumber = $object['object_number'];
+				$objectTitle = $object['title'];
 				$summaryStringOfFavorites
 					.= '* ' . $objectNumber . ' ' . $objectTitle . LF;
 			}
-
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
 		return $summaryStringOfFavorites;
@@ -1914,22 +1891,19 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 * zero then.
 	 */
 	private function cacheSelectedOwner() {
-		$row = false;
+		$owner = array('uid' => 0);
 
 		if ($this->piVars['owner'] > 0) {
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'*',
-				'fe_users',
-				'uid=' . $this->piVars['owner'] .
-					tx_oelib_db::enableFields('fe_users')
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+			try {
+				$owner = tx_oelib_db::selectSingle(
+					'*',
+					'fe_users',
+					'uid = ' . $this->piVars['owner'] .
+						tx_oelib_db::enableFields('fe_users')
+				);
+			} catch (tx_oelib_Exception_EmptyQueryResult $exception) {}
 		}
-		$this->cachedOwner = $row ? $row : array('uid' => 0);
+		$this->cachedOwner = $owner;
 	}
 
 	/**
