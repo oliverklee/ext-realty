@@ -77,6 +77,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
 		$this->checkGoogleMaps();
+		$this->checkEnableNextPreviousButtons();
 	}
 
 	/**
@@ -1175,6 +1176,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the height of the gallery images in the ' .
 				'lightbox window. If it is not configured properly, the ' .
 				'images will be shown in their original size.'
+		);
+	}
+
+	/**
+	 * Checks the value of enableNextPreviousButtons.
+	 */
+	private function checkEnableNextPreviousButtons() {
+		$this->checkIfBoolean(
+			'enableNextPreviousButtons',
+			false,
+			'',
+			'This value specifies whether the next and previous buttons should ' .
+				'be shown. If this value is not set correctly, the buttons ' .
+				'might not get shown although they should be shown (or vice ' .
+				'versa).'
 		);
 	}
 }

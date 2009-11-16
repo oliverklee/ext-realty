@@ -1112,12 +1112,16 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 				array('parameter' => $separateSingleViewPage)
 			);
 		} else {
+			$additionalParameters = array('showUid' => $uid);
+			if ($this->getConfValueBoolean('enableNextPreviousButtons')) {
+				$additionalParameters['listUid'] = $this->cObj->data['uid'];
+			}
 			$completeLink = $this->cObj->typoLink(
 				$linkText,
 				array(
 					'parameter' => $this->getConfValueInteger('singlePID'),
 					'additionalParams' => t3lib_div::implodeArrayForUrl(
-						$this->prefixId, array('showUid' => $uid)
+						$this->prefixId, $additionalParameters
 					),
 					'useCacheHash' => $useCache,
 				)

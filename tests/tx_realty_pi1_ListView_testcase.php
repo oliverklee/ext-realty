@@ -863,6 +863,32 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewForDisabledEnableNextPreviousButtonsDoesNotAddListUidToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 0);
+		$output = $this->fixture->render();
+
+		$this->assertNotContains(
+		   'listUid',
+			$output
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledEnableNextPreviousButtonsAddsListUidToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$output = $this->fixture->render();
+
+		$this->assertContains(
+		   'listUid',
+			$output
+		);
+	}
+
 
 	////////////////////////////////////////////////////
 	// Tests concerning additional header in list view
