@@ -469,30 +469,6 @@
 		</div>
 	</fieldset>
 </div>
-<script type="text/javascript">/*<![CDATA[*/
-function updateHideAndShow() {
-	if ($("tx_realty_frontEndEditor_object_type_item").checked) {
-		$$(".rent").invoke("show");
-		$$(".sale").invoke("hide");
-	} else {
-		$$(".rent").invoke("hide");
-		$$(".sale").invoke("show");
-	}
-
-	if ($("tx_realty_frontEndEditor_contact_data_source_item").checked) {
-		$("contact-data").show();
-	} else {
-		$("contact-data").hide();
-	}
-	if ($("tx_realty_frontEndEditor_show_address").checked) {
-		$$(".exact-address").invoke("show");
-		$$(".rough-address").invoke("hide");
-	} else {
-		$$(".exact-address").invoke("hide");
-		$$(".rough-address").invoke("show");
-	}
-}
-/*]]>*/</script>
 <!-- ###FE_EDITOR### -->
 			</form>
 

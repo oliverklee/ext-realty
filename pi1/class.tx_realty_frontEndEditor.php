@@ -25,15 +25,17 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndForm.php');
+require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_lightboxIncluder.php');
 
 /**
- * Class 'tx_realty_frontEndEditor' for the 'realty' extension. This class
+ * Class tx_realty_frontEndEditor for the "realty" extension. This class
  * provides a FE editor the realty plugin.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
@@ -59,6 +61,31 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		'construction_year', 'exact_longitude', 'exact_latitude',
 		'rough_longitude', 'rough_latitude',
 	);
+
+	/**
+	 * The constructor.
+	 *
+	 * @param array $configuration TypoScript configuration for the plugin
+	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param integer $uidOfObjectToEdit
+	 *        UID of the object to edit, set to 0 to create a new record,
+	 *        must be >= 0
+	 * @param string $xmlPath
+	 *        path of the XML for the form, relative to this extension,
+	 *        must not begin with a slash and must not be empty
+	 * @param boolean $isTestMode
+	 *        whether the FE editor is instantiated in test mode
+	 */
+	public function __construct(
+		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,
+		$isTestMode = false
+	) {
+		parent::__construct(
+			$configuration, $cObj, $uidOfObjectToEdit, $xmlPath, $isTestMode
+		);
+
+		tx_realty_lightboxIncluder::includeMainJavaScript();
+	}
 
 	/**
 	 * Deletes the currently loaded realty record.

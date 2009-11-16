@@ -28,6 +28,7 @@
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 
 /**
@@ -58,7 +59,7 @@ function showFullsizeImage(id, linkToFullsizeImage) {
 
 /**
  * Marks the current attachment as deleted if the confirm becomes submitted.
- * 
+ *
  * @param string ID of the list item with the attachment to delete, must not be
  *               empty
  * @param string localized confirm message for whether really to mark an
@@ -68,12 +69,40 @@ function markAttachmentAsDeleted(listItemId, confirmMessage) {
 	var listItem = document.getElementById(listItemId);
 	var fileNameDiv = listItem.getElementsByTagName("span")[0];
 	var deleteButton = listItem.getElementsByTagName("input")[0];
-	
+
 	if (confirm(confirmMessage)) {
 		document.getElementById("tx_realty_frontEndImageUpload_imagesToDelete").value
 			+= "," + listItemId;
 		fileNameDiv.setAttribute("class", "deleted");
 		deleteButton.className += " deleted";
 		deleteButton.disabled = true;
+	}
+}
+
+/**
+ * In the front-end editor, hides/shows fields depending on whether currently
+ * "rent" or "sale" is selected for the edited object.
+ */
+function updateHideAndShow() {
+	if ($("tx_realty_frontEndEditor_object_type_item").checked) {
+		$$(".rent").invoke("show");
+		$$(".sale").invoke("hide");
+	} else {
+		$$(".rent").invoke("hide");
+		$$(".sale").invoke("show");
+	}
+
+	if ($("tx_realty_frontEndEditor_contact_data_source_item").checked) {
+		$("contact-data").show();
+	} else {
+		$("contact-data").hide();
+	}
+
+	if ($("tx_realty_frontEndEditor_show_address").checked) {
+		$$(".exact-address").invoke("show");
+		$$(".rough-address").invoke("hide");
+	} else {
+		$$(".exact-address").invoke("hide");
+		$$(".rough-address").invoke("show");
 	}
 }

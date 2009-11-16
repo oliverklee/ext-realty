@@ -28,12 +28,13 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
 
 /**
- * Unit tests for the tx_realty_frontEndEditor class in the 'realty' extension.
+ * Unit tests for the tx_realty_frontEndEditor class in the "realty" extension.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	/**
@@ -131,6 +132,22 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 		$realtyObject->writeToDatabase();
 		$realtyObject->__destruct();
+	}
+
+
+	/////////////////////////////////////////
+	// Tests concerning the basic functions
+	/////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function viewIncludesMainJavaScript() {
+		$this->assertTrue(
+			isset($GLOBALS['TSFE']->additionalHeaderData[
+				tx_realty_lightboxIncluder::PREFIX_ID
+			])
+		);
 	}
 
 
