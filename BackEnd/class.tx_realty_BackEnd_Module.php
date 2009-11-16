@@ -1,25 +1,25 @@
 <?php
 /***************************************************************
-*  Copyright notice
+* Copyright notice
 *
-*  (c) 2009 Bernd Schönbach <bernd@oliverklee.de>
-*  All rights reserved
+* (c) 2009 Bernd Schönbach <bernd@oliverklee.de>
+* All rights reserved
 *
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
+* This script is part of the TYPO3 project. The TYPO3 project is
+* free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
 *
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
+* The GNU General Public License can be found at
+* http://www.gnu.org/copyleft/gpl.html.
 *
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
+* This script is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
 *
-*  This copyright notice MUST APPEAR in all copies of the script!
+* This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
 require_once(PATH_t3lib . 'class.t3lib_scbase.php');
@@ -208,27 +208,27 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 *                 permissions, false otherwise
 	 */
 	private function userHasAccessToTables() {
-     	$userHasAccessToTables = true;
-     	$neededTables = array(
-     		REALTY_TABLE_OBJECTS,
-     		REALTY_TABLE_APARTMENT_TYPES,
-     		REALTY_TABLE_CAR_PLACES,
-     		REALTY_TABLE_CITIES,
-     		REALTY_TABLE_DISTRICTS,
-     		REALTY_TABLE_HOUSE_TYPES,
-     		REALTY_TABLE_IMAGES,
-     		REALTY_TABLE_PETS,
-     	);
+		$userHasAccessToTables = true;
+		$neededTables = array(
+			REALTY_TABLE_OBJECTS,
+			REALTY_TABLE_APARTMENT_TYPES,
+			REALTY_TABLE_CAR_PLACES,
+			REALTY_TABLE_CITIES,
+			REALTY_TABLE_DISTRICTS,
+			REALTY_TABLE_HOUSE_TYPES,
+			REALTY_TABLE_IMAGES,
+			REALTY_TABLE_PETS,
+		);
 
-     	foreach ($neededTables as $table) {
-     		if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
-     			$userHasAccessToTables = false;
-     			$this->storeErrorMessage('table_access', $table);
-     			break;
-     		}
-     	}
+		foreach ($neededTables as $table) {
+			if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
+				$userHasAccessToTables = false;
+				$this->storeErrorMessage('table_access', $table);
+				break;
+			}
+		}
 
-     	return $userHasAccessToTables;
+		return $userHasAccessToTables;
 	}
 
 	/**
