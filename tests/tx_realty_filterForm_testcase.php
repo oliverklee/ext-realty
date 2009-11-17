@@ -382,22 +382,13 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function displayedSearchWidgetSetToCitySearchShowsNumberOfMatchesForCity() {
-		$cityUid = $this->testingFramework->createRecord(
-			'tx_realty_cities', array('title' => 'Foo city')
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('city' => $cityUid)
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('city' => $cityUid)
-		);
+	public function citySelectorForNoOtherDisplayedSearchFields_GetsOnChangeSubmit() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city'
 		);
 
 		$this->assertContains(
-			'Foo city (2)',
+			'onchange="document.forms',
 			$this->fixture->render()
 		);
 	}
@@ -405,44 +396,27 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function displayedSearchWidgetSetToCitySearchNotShowsCityWithoutObjects() {
-		$this->testingFramework->createRecord(
-			'tx_realty_cities', array('title' => 'Foo city')
-		);
-		$this->fixture->setConfigurationValue(
-			'displayedSearchWidgetFields', 'city'
-		);
-
-		$this->assertNotContains(
-			'Foo city',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function citySelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
-		$this->fixture->setConfigurationValue(
-			'displayedSearchWidgetFields', 'city'
-		);
-
-		$this->assertContains(
-			'onchange="',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function citySelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+	public function citySelectorForOtherDisplayedSearchField_DoesNotHaveOnChangeSubmit() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city, priceRanges'
 		);
 
 		$this->assertNotContains(
-			'onchange="',
+			'onchange="document.forms',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function citySelectorWithDistrictSelectorHasOnChangeUpdateDistricts() {
+		$this->fixture->setConfigurationValue(
+			'displayedSearchWidgetFields', 'city, district'
+		);
+
+		$this->assertContains(
+			'onchange="updateDistricts',
 			$this->fixture->render()
 		);
 	}
@@ -563,7 +537,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function displayedSearchWidgetSetToDistrictSearch_ShowsDistrictSearch() {
+	public function displayedSearchWidgetSetToDistrictSearc_ShowsDistrictSearch() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
 		);
@@ -577,7 +551,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function displayedSearchWidgetSetToDistrictSearch_ShowsDistrictOfEnteredObject() {
+	public function displayedSearchWidgetSetToDistrictSearchShowsDistrictOfEnteredObject() {
 		$districtUid = $this->testingFramework->createRecord(
 			'tx_realty_districts', array('title' => 'Foo district')
 		);
@@ -597,47 +571,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function displayedSearchWidgetSetToDistrictSearchShowsNumberOfMatchesForDistrict() {
-		$districtUid = $this->testingFramework->createRecord(
-			'tx_realty_districts', array('title' => 'Foo district')
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
-		$this->fixture->setConfigurationValue(
-			'displayedSearchWidgetFields', 'district'
-		);
-
-		$this->assertContains(
-			'Foo district (2)',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function displayedSearchWidgetSetToDistrictSearchNotShowsDistrictWithoutObjects() {
-		$this->testingFramework->createRecord(
-			'tx_realty_districts', array('title' => 'Foo district')
-		);
-		$this->fixture->setConfigurationValue(
-			'displayedSearchWidgetFields', 'district'
-		);
-
-		$this->assertNotContains(
-			'Foo district',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function districtSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	public function districtSelectorForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
 		);
@@ -651,7 +585,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function districtSelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+	public function districtSelectorForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district, priceRanges'
 		);
@@ -665,43 +599,30 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function districtSelector_ForSelectedDistrict_HasSelectedAttributeOnThatDistrict() {
-		$districtUid = $this->testingFramework->createRecord(
-			'tx_realty_districts'
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
+	public function districtSearchWithoutCitySearchShowsDistrictSearch() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
 		);
 
 		$this->assertContains(
-			'value="' . $districtUid . '" selected="',
-			$this->fixture->render(array('district' => $districtUid))
+			'id="tx_realty_pi1_searchWidget_district" style="display: block;"',
+			$this->fixture->render()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function districtSelector_ForNonSelectedDistrict_HasNoSelectedAttributeOnThatDistrict() {
-		$districtUid = $this->testingFramework->createRecord(
-			'tx_realty_districts'
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
+	public function districtSearchWithCitySearchHidesDistrictSearch() {
 		$this->fixture->setConfigurationValue(
-			'displayedSearchWidgetFields', 'district'
+			'displayedSearchWidgetFields', 'city,district'
 		);
 
-		$this->assertNotContains(
-			'value="' . $districtUid . '" selected="',
+		$this->assertContains(
+			'id="tx_realty_pi1_searchWidget_district" style="display: none;"',
 			$this->fixture->render()
 		);
 	}
-
 	/**
 	 * @test
 	 */
@@ -1340,6 +1261,156 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => '1,8')
 			)
+		);
+	}
+
+
+	/////////////////////////////////////////
+	// Tests concerning createDropDownItems
+	/////////////////////////////////////////
+	// Note: We test only the details for cities. The districts work the same.
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsWithInvalidTypeThrowsException() {
+		$this->setExpectedException(
+			'Exception', '"foo" is not a valid type.'
+		);
+
+		$this->fixture->createDropDownItems('foo');
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForCityWithObjectContainsItemWithCityName() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+
+		$this->assertContains(
+			'Foo city',
+			$this->fixture->createDropDownItems('city')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForCityWithObjectContainsItemWithCityUid() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+
+		$this->assertContains(
+			'value="' . $cityUid . '"',
+			$this->fixture->createDropDownItems('city')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForCityWithObjectContainsItemWithCountOfMatches() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+
+		$this->assertContains(
+			'Foo city (2)',
+			$this->fixture->createDropDownItems('city')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForCityNotContainsCityWithoutMatches() {
+		$this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+
+		$this->assertNotContains(
+			'Foo city',
+			$this->fixture->createDropDownItems('city')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForCityWithSelectedZeroNotContainsSelected() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+
+		$this->assertNotContains(
+			'selected="selected"',
+			$this->fixture->createDropDownItems('city', 0)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForCityWithSelectedUidOfSelectsCityWithThatUid() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Foo city')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('city' => $cityUid)
+		);
+
+		$this->assertContains(
+			'value="' . $cityUid . '" selected="selected"',
+			$this->fixture->createDropDownItems('city', $cityUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForDistrictWithObjectContainsItemWithDistrictName() {
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('title' => 'Foo district')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+
+		$this->assertContains(
+			'Foo district',
+			$this->fixture->createDropDownItems('district')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createDropDownItemsForDistrictNotContainsDistrictWithoutMatches() {
+		$this->testingFramework->createRecord(
+			'tx_realty_districts', array('title' => 'Foo district')
+		);
+
+		$this->assertNotContains(
+			'Foo district',
+			$this->fixture->createDropDownItems('district')
 		);
 	}
 }

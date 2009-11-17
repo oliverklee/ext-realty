@@ -349,7 +349,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Shows the city selector if enabled via configuration, otherwise hides it.
 	 */
 	private function fillOrHideCitySearch() {
-		$this->createDropDown('city');
+		$onChange = $this->hasSearchField('district')
+			? ' onchange="updateDistricts();"'
+			: $this->getOnChangeForSingleField();
+		$this->createAndSetDropDown('city', $onChange);
 	}
 
 	/**
@@ -357,7 +360,15 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * hides it.
 	 */
 	private function fillOrHideDistrictSearch() {
-		$this->createDropDown('district');
+		$this->createAndSetDropDown(
+			'district', $this->getOnChangeForSingleField()
+		);
+
+		$this->setMarker(
+			'hide_district_selector',
+			$this->hasSearchField('city') ?
+			' style="display: none;"' : ' style="display: block;"'
+		);
 	}
 
 	/**
@@ -371,17 +382,45 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string $type
 	 *        the type of the selector, for example "city", must not be empty
+	 * @param string $onChange
+	 *        onchange attribute, must either start with " onchange" (including
+	 *        the leading space) or be empty
 	 */
-	private function createDropDown($type) {
+	private function createAndSetDropDown($type, $onChange = '') {
 		if (!$this->hasSearchField($type)) {
 			$this->hideSubparts('wrapper_' . $type . '_search');
 			return;
 		}
 
+		$this->setMarker(
+			'options_' . $type . '_search',
+			$this->createDropDownItems($type, $this->filterFormData[$type])
+		);
+
+		$this->setMarker(
+			$type . '_select_on_change', $onChange
+		);
+	}
+
+	/**
+	 * Creates the items HTML for a drop down.
+	 *
+	 * @param string $type
+	 *        the type of the selector, for example "city", must not be empty
+	 * @param integer $selectedUid
+	 *        the UID of the item that should be selected, must be >= 0,
+	 *        set to 0 to select no item
+	 *
+	 * @return string the created HTML, will contain at least an empty option
+	 */
+	public function createDropDownItems($type, $selectedUid = 0) {
+		if (!in_array($type, array('city', 'district'))) {
+			throw new Exception('"' . $type . '" is not a valid type.');
+		}
+
 		$objectMapper =
 			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		$countFunction = 'countBy' . ucfirst($type);
-
 		$models = tx_oelib_MapperRegistry::
 			get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
 
@@ -392,19 +431,15 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 				continue;
 			}
 
-			$options .= '<option value="' . $model->getUid() . '" ' .
-				(($this->filterFormData[$type] == $model->getUid())
-					? 'selected="selected"' : '') .
-						'>' . htmlspecialchars($model->getTitle()) . ' (' .
-						$numberOfMatches . ')</option>' . LF;
-		}
-		$this->setMarker(
-			'options_' . $type . '_search', $options
-		);
+			$selected = ($selectedUid == $model->getUid())
+					? ' selected="selected"' : '';
 
-		$this->setMarker(
-			$type . '_select_on_change', $this->getOnChangeForSingleField()
-		);
+			$options .= '<option value="' . $model->getUid() . '"' .
+				$selected . '>' . htmlspecialchars($model->getTitle()) . ' (' .
+				$numberOfMatches . ')</option>' . LF;
+		}
+
+		return $options;
 	}
 
 	/**

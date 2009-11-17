@@ -106,3 +106,24 @@ function updateHideAndShow() {
 		$$(".rough-address").invoke("show");
 	}
 }
+
+/**
+ * Updates the districts selector, depending on whether a city is selected.
+ *
+ * If no city is selected, the district selector will be hidden.
+ *
+ * This function must only be called if Prototype is loaded.
+ */
+function updateDistricts() {
+	if (!$("tx_realty_pi1-city") || !$("tx_realty_pi1-district")) {
+		return;
+	}
+
+	var cityUid = $("tx_realty_pi1-city").value;
+	if (cityUid == "0") {
+		Element.hide($("tx_realty_pi1_searchWidget_district"));
+		return;
+	}
+
+	Element.show($("tx_realty_pi1_searchWidget_district"));
+}
