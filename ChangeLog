@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3464] Change: Move favorite list view related functions into own class
 - [#3419] Feature: In the selector widget, load the districts by city
 - [#3463] Fix: Google Maps geocoding lookups need to be throttled
 - [#3456] Change: Remove the check that the construction year lies in the past

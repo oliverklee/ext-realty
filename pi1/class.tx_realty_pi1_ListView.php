@@ -51,12 +51,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	private $isTestMode = false;
 
 	/**
-	 * @var array the data of the currently displayed favorites using the keys
-	 *            [uid][fieldname]
-	 */
-	private $favoritesDataVerbose;
-
-	/**
 	 * @var tx_realty_pi1_Formatter formatter for prices, areas etc.
 	 */
 	private $formatter = null;
@@ -64,7 +58,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var string the list view type to display
 	 */
-	private $currentView = '';
+	protected $currentView = '';
 
 	/**
 	 * @var array the names of the database tables for foreign keys
@@ -98,22 +92,16 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	);
 
 	/**
+	 * @var string the locallang key to the label of a list view
+	 */
+	protected $listViewLabel = '';
+
+	/**
 	 * @var array existing types of list views
 	 */
 	private static $listViews = array(
 		'favorites', 'my_objects', 'objects_by_owner', 'realty_list'
 	);
-
-	/**
-	 * @var string session key for storing the favorites list
-	 */
-	const FAVORITES_SESSION_KEY = 'tx_realty_favorites';
-
-	/**
-	 * @var string session key for storing data of all favorites that
-	 *                     currently get displayed
-	 */
-	const FAVORITES_SESSION_KEY_VERBOSE = 'tx_realty_favorites_verbose';
 
 	/**
 	 * @var integer character length for cropped titles
@@ -167,19 +155,23 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		);
 		$this->cacheSelectedOwner();
 
+		$this->initializeView();
+
+		$this->setMarker('list_heading', $this->translate($this->listViewLabel));
+		$this->setSubpart('favorites_url', $this->getFavoritesUrl());
+		$this->fillListRows();
+		$this->setRedirectHeaderForSingleResult();
+
+		return $this->getSubpart('LIST_VIEW');
+	}
+
+	/**
+	 * Initializes some view-specific data.
+	 */
+	protected function initializeView() {
 		switch ($this->currentView) {
-			case 'favorites':
-				$listLabel = 'label_yourfavorites';
-				$this->unhideSubparts(
-					'back_link,wrapper_contact,wrapper_checkbox,favorites_url,' .
-					'remove_from_favorites_button'
-				);
-				$this->setMarker('favorites_url', $this->getFavoritesUrl());
-				$this->fillOrHideContactWrapper();
-				$this->setFavoritesSessionData();
-				break;
 			case 'my_objects':
-				$listLabel = 'label_your_objects';
+				$this->listViewLabel = 'label_your_objects';
 				$this->unhideSubparts(
 					'wrapper_editor_specific_content,new_record_link'
 				);
@@ -195,7 +187,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 				$this->processDeletion();
 				break;
 			case 'objects_by_owner':
-				$listLabel = $this->getTitleForTheObjectsByOwnerList();
+				$this->listViewLabel = $this->getTitleForTheObjectsByOwnerList();
 				$this->unhideSubparts(
 					'favorites_url,add_to_favorites_button,wrapper_checkbox,' .
 					'back_link'
@@ -204,7 +196,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			case 'realty_list':
 				// intended fall-through
 			default:
-				$listLabel = 'label_weofferyou';
+				$this->listViewLabel = 'label_weofferyou';
 				$this->unhideSubparts(
 					'favorites_url,list_filter,add_to_favorites_button,' .
 					'wrapper_checkbox'
@@ -212,13 +204,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 				$this->setSubpart('list_filter', $this->createCheckboxesFilter());
 				break;
 		}
-
-		$this->setMarker('list_heading', $this->translate($listLabel));
-		$this->setSubpart('favorites_url', $this->getFavoritesUrl());
-		$this->fillListRows();
-		$this->setRedirectHeaderForSingleResult();
-
-		return $this->getSubpart('LIST_VIEW');
 	}
 
 	/**
@@ -343,7 +328,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 *                $this->getConfValueInteger('favoritesPID'), will
 	 *                not be empty
 	 */
-	private function getFavoritesUrl() {
+	protected function getFavoritesUrl() {
 		$pageId = $this->getConfValueInteger('favoritesPID');
 
 		if (!$pageId) {
@@ -352,53 +337,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 
 		return htmlspecialchars(
 			$this->cObj->typoLink_URL(array('parameter' => $pageId))
-		);
-	}
-
-	/**
-	 * Fills the wrapper with the link to the contact form if displaying contact
-	 * information is enabled for the favorites view. Otherwise hides the
-	 * complete wrapper.
-	 */
-	private function fillOrHideContactWrapper() {
-		if (($this->currentView != 'favorites')
-			|| !$this->hasConfValueInteger('contactPID')
-		) {
-			$this->hideSubparts('contact', 'wrapper');
-			return;
-		}
-
-		if ($this->getConfValueBoolean('showContactPageLink')
-			&& ($this->getConfValueInteger('contactPID')
-				!= $this->getConfValueInteger('favoritesPID')
-			)
-		) {
-			$piVars = $this->piVars;
-			unset($piVars['DATA']);
-
-			$contactUrl = htmlspecialchars($this->cObj->typoLink_URL(array(
-				'parameter' => $this->getConfValueInteger('contactPID'),
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					'', array($this->prefixId => $piVars)
-				),
-			)));
-			$this->setMarker('contact_url', $contactUrl);
-		} else {
-			$this->hideSubparts('contact', 'wrapper');
-		}
-	}
-
-	/**
-	 * Sets the current session data for the favorites.
-	 */
-	private function setFavoritesSessionData() {
-		if (!$this->hasConfValueString('favoriteFieldsInSession')) {
-			return;
-		}
-
-		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)->setAsString(
-			self::FAVORITES_SESSION_KEY_VERBOSE,
-			serialize($this->favoritesDataVerbose)
 		);
 	}
 
@@ -668,30 +606,22 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 				break;
 		}
 
+		$this->setViewSpecificListRowContents();
+
+		return $this->getSubpart('LIST_ITEM');
+	}
+
+	/**
+	 * Sets the row contents specific to this view.
+	 */
+	protected function setViewSpecificListRowContents() {
 		switch ($this->currentView) {
-			case 'favorites':
-				if (!$this->hasConfValueString('favoriteFieldsInSession')) {
-					break;
-				}
-				$uid = $this->internal['currentRow']['uid'];
-				$this->favoritesDataVerbose[$uid] = array();
-				foreach (t3lib_div::trimExplode(
-					',',
-					$this->getConfValueString('favoriteFieldsInSession'),
-					true
-				) as $key) {
-					$this->favoritesDataVerbose[$uid][$key]
-						= $this->getFormatter()->getProperty($key);
-				}
-				break;
 			case 'my_objects':
 				$this->setListRowContentsForMyObjectsView();
 				break;
 			default:
 				break;
 		}
-
-		return $this->getSubpart('LIST_ITEM');
 	}
 
 	/**
@@ -780,42 +710,13 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function createWhereClause() {
 		$whereClause = '1=1';
-		$showHiddenObjects = -1;
 
-		switch ($this->currentView) {
-			case 'favorites':
-				// The favorites page should never get cached.
-				$GLOBALS['TSFE']->set_no_cache();
-				// The favorites list is the only content element that may
-				// accept changes to the favorites list.
-				$this->processSubmittedFavorites();
-				// If the favorites list is empty, make sure to create a valid query
-				// that will produce zero results.
-				$whereClause .= ($this->getFavorites() != '')
-					? ' AND ' . REALTY_TABLE_OBJECTS . '.uid ' .
-						'IN(' . $this->getFavorites() . ')'
-					: ' AND 0=1';
-				$this->favoritesDataVerbose = array();
-				break;
-			case 'my_objects':
-				$whereClause .= ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
-					'=' . $this->getFeUserUid();
-				$showHiddenObjects = 1;
-				break;
-			case 'objects_by_owner':
-				$whereClause .= ($this->cachedOwner['uid'] != 0)
-					? ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
-						'=' . $this->cachedOwner['uid']
-					: ' AND 0=1';
-				break;
-			default:
-				break;
-		}
+		$whereClause .= $this->getViewSpecificWhereClauseParts();
 
 		// The result may only contain non-deleted and non-hidden records except
 		// for the my objects view.
 		$whereClause .= tx_oelib_db::enableFields(
-			REALTY_TABLE_OBJECTS, $showHiddenObjects
+			REALTY_TABLE_OBJECTS, $this->shouldShowHiddenObjects()
 		) . tx_oelib_db::enableFields(REALTY_TABLE_CITIES);
 
 		$whereClause .= $this->getWhereClausePartForPidList();
@@ -1405,51 +1306,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Processes the UIDs submitted in $this->piVars['favorites']
-	 * if $this->piVars['favorites'] is set.
-	 *
-	 * If $this->piVars['remove'] is set to "1", the submitted items will be
-	 * removed from the list of favorites.
-	 * Otherwise, these items will get added to the list of favorites.
-	 *
-	 * Please note that $this->piVars['remove'] is expected to already be
-	 * int-safe.
-	 */
-	private function processSubmittedFavorites() {
-		if (isset($this->piVars['favorites']) && !empty($this->piVars['favorites'])) {
-			if ($this->piVars['remove']) {
-				$this->removeFromFavorites($this->piVars['favorites']);
-			} else {
-				$this->addToFavorites($this->piVars['favorites']);
-			}
-		}
-
-		$this->writeSummaryStringOfFavoritesToSession();
-	}
-
-	/**
-	 * Gets the favorites list (which is stored in an anonymous session) as a
-	 * comma-separated list of UIDs. The UIDs are int-safe (this is ensured by
-	 * addToFavorites()), but they are not guaranteed to point to existing
-	 * records. In addition, each element is ensured to be unique
-	 * (by storeFavorites()).
-	 *
-	 * If the list is empty (or has not been created yet), an empty string will
-	 * be returned.
-	 *
-	 * @return string comma-separated list of UIDs of the objects on the
-	 *                favorites list (may be empty)
-	 *
-	 * @see getFavoritesArray
-	 * @see addToFavorites
-	 * @see storeFavorites
-	 */
-	private function getFavorites() {
-		return tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
-			->getAsString(self::FAVORITES_SESSION_KEY);
-	}
-
-	/**
 	 * Returns the WHERE clause part for the list of allowed PIDs within the
 	 * realty objects table.
 	 *
@@ -1671,64 +1527,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Removes some items to the favorites list (which is stored in an anonymous
-	 * session). If some of the UIDs in $itemsToRemove are not in the favorites
-	 * list, they will silently being ignored (no harm done here).
-	 *
-	 * @param array $itemsToRemove
-	 *        list of realty object UIDs to to remove (will be intvaled by this
-	 *        function), may be empty
-	 */
-	private function removeFromFavorites(array $itemsToRemove) {
-		if ($itemsToRemove) {
-			$favorites = $this->getFavoritesArray();
-
-			foreach ($itemsToRemove as $currentItem) {
-				$key = array_search($currentItem, $favorites);
-				// $key will be false if the item has not been found.
-				// Zero, on the other hand, is a valid key.
-				if ($key !== false) {
-					unset($favorites[$key]);
-				}
-			}
-			$this->storeFavorites($favorites);
-		}
-	}
-
-	/**
-	 * Adds some items to the favorites list (which is stored in an anonymous
-	 * session). The object UIDs are added to the list regardless of whether
-	 * there actually are objects with those UIDs. That case is harmless
-	 * because the favorites list serves as a filter merely.
-	 *
-	 * @param array $itemsToAdd
-	 *        list of realty object UIDs to add (will be intvaled by this
-	 *        function), may be empty
-	 */
-	public function addToFavorites(array $itemsToAdd) {
-		if ($itemsToAdd) {
-			$favorites = $this->getFavoritesArray();
-
-			foreach ($itemsToAdd as $currentItem) {
-				$favorites[] = intval($currentItem);
-			}
-			$this->storeFavorites(array_unique($favorites));
-		}
-	}
-
-	/**
-	 * Writes a formatted string containing object numbers and titles of objects
-	 * on the favorites list to session.
-	 */
-	 public function writeSummaryStringOfFavoritesToSession() {
-		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
-			->setAsString(
-				'summaryStringOfFavorites',
-				$this->createSummaryStringOfFavorites()
-			);
-	 }
-
-	/**
 	 * Returns an image record that is associated with the current realty record.
 	 *
 	 * @throws Exception if a database query error occurs
@@ -1818,75 +1616,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Gets the favorites list (which is stored in an anonymous session) as an
-	 * array of UIDs. The UIDs are int-safe (this is ensured by
-	 * addToFavorites()), but they are not guaranteed to point to existing
-	 * records. In addition, each array element is ensured to be unique
-	 * (by storeFavorites()).
-	 *
-	 * If the list is empty (or has not been created yet), an empty array will
-	 * be returned.
-	 *
-	 * @return array list of UIDs of the objects on the favorites list,
-	 *               may be empty
-	 *
-	 * @see getFavorites
-	 * @see addToFavorites
-	 * @see storeFavorites
-	 */
-	private function getFavoritesArray() {
-		return tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
-			->getAsIntegerArray(self::FAVORITES_SESSION_KEY);
-	}
-
-	/**
-	 * Stores the favorites given in $favorites in an anonymous session.
-	 *
-	 * Before storing, the list of favorites is clear of duplicates.
-	 *
-	 * @param array list of UIDs in the favorites list to store, must
-	 *              already be int-safe, may be empty
-	 */
-	private function storeFavorites(array $favorites) {
-		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
-			->setAsArray(self::FAVORITES_SESSION_KEY, $favorites);
-	}
-
-	/**
-	 * Creates a formatted string to prefill an e-mail form. The string contains
-	 * the object numbers and titles of the objects on the current favorites list.
-	 * If there are no selected favorites, an empty string is returned.
-	 *
-	 * @return string formatted string to use in an e-mail form, may be empty
-	 */
-	 private function createSummaryStringOfFavorites() {
-		$summaryStringOfFavorites = '';
-
-		$currentFavorites = $this->getFavorites();
-		if ($currentFavorites != '') {
-			$table = $this->tableNames['objects'];
-			$objects = tx_oelib_db::selectMultiple(
-				'object_number, title',
-				$table,
-				'uid IN (' . $currentFavorites . ')' .
-					tx_oelib_db::enableFields($table)
-			);
-
-			$summaryStringOfFavorites
-				= $this->translate('label_on_favorites_list') . LF;
-
-			foreach ($objects as $object) {
-				$objectNumber = $object['object_number'];
-				$objectTitle = $object['title'];
-				$summaryStringOfFavorites
-					.= '* ' . $objectNumber . ' ' . $objectTitle . LF;
-			}
-		}
-
-		return $summaryStringOfFavorites;
-	 }
-
-	/**
 	 * Caches the record of the currently selected owner.
 	 *
 	 * If no value is provided by piVars or if the provided value does not match
@@ -1928,6 +1657,41 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		}
 
 		$this->currentView = $currentView;
+	}
+
+	/**
+	 * Gets the WHERE clause part specific to this view.
+	 *
+	 * @return string the WHERE clause parts to add, will be empty if no view
+	 *                specific WHERE clause parts are needed
+	 */
+	protected function getViewSpecificWhereClauseParts() {
+		switch ($this->currentView) {
+			case 'my_objects':
+				$result = ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
+					'=' . $this->getFeUserUid();
+				break;
+			case 'objects_by_owner':
+				$result = ($this->cachedOwner['uid'] != 0)
+					? ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
+						' = ' . $this->cachedOwner['uid']
+					: ' AND 0 = 1';
+				break;
+			default:
+				$result = '';
+				break;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Determines whether hidden results should be shown.
+	 *
+	 * @return integer 1 if hidden records should be shown, -1 otherwise
+	 */
+	private function shouldShowHiddenObjects() {
+		return ($this->currentView == 'my_objects') ? 1 : -1;
 	}
 }
 

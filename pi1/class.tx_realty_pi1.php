@@ -187,8 +187,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'tx_realty_contactForm', $this->conf, $this->cObj
 				);
 				$formData = $this->piVars;
+				$favoritesList = tx_oelib_ObjectFactory::make(
+					'tx_realty_pi1_FavoritesListView', $this->conf, $this->cObj
+				);
 				$formData['summaryStringOfFavorites']
-					= $this->createSummaryStringOfFavorites();
+					= $favoritesList->createSummaryStringOfFavorites();
+				$favoritesList->__destruct();
 				$result = $contactForm->render($formData);
 				$contactForm->__destruct();
 				break;
@@ -214,6 +218,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				$result = $offererList->render();
 				$offererList->__destruct();
+				break;
+			case 'favorites':
+				$favoritesList = tx_oelib_ObjectFactory::make(
+					'tx_realty_pi1_FavoritesListView', $this->conf, $this->cObj
+				);
+				$result = $favoritesList->render($this->piVars);
+				$favoritesList->__destruct();
 				break;
 			default:
 				// All other return values of getCurrentView stand for list views.
@@ -595,63 +606,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			'"showFullsizeImage(this.id, \'' . $linkToFullsizeImage . '\'); ' .
 			'return false;"';
 	}
-
-	/**
-	 * Gets the favorites list (which is stored in an anonymous session) as a
-	 * comma-separated list of UIDs. The UIDs are int-safe (this is ensured by
-	 * addToFavorites()), but they are not guaranteed to point to existing
-	 * records. In addition, each element is ensured to be unique
-	 * (by storeFavorites()).
-	 *
-	 * If the list is empty (or has not been created yet), an empty string will
-	 * be returned.
-	 *
-	 * @return string comma-separated list of UIDs of the objects on the
-	 *                favorites list (may be empty)
-	 */
-	private function getFavorites() {
-		return tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
-			->getAsString(tx_realty_pi1_ListView::FAVORITES_SESSION_KEY);
-	}
-
-	/**
-	 * Creates a formatted string to prefill an e-mail form. The string contains
-	 * the object numbers and titles of the objects on the current favorites list.
-	 * If there are no selected favorites, an empty string is returned.
-	 *
-	 * @return string formatted string to use in an e-mail form, may be empty
-	 */
-	 public function createSummaryStringOfFavorites() {
-		$summaryStringOfFavorites = '';
-
-		$currentFavorites = $this->getFavorites();
-		if ($currentFavorites != '') {
-			$table = $this->tableNames['objects'];
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'object_number, title',
-				$table,
-				'uid IN (' . $currentFavorites . ')' .
-					tx_oelib_db::enableFields($table)
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-
-			$summaryStringOfFavorites
-				= $this->translate('label_on_favorites_list') . LF;
-
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				$objectNumber = $row['object_number'];
-				$objectTitle = $row['title'];
-				$summaryStringOfFavorites
-					.= '* ' . $objectNumber . ' ' . $objectTitle . LF;
-			}
-
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-		}
-
-		return $summaryStringOfFavorites;
-	 }
 
 	/**
 	 * Returns the current view.

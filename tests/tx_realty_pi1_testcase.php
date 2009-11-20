@@ -118,11 +118,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	private static $secondCityTitle = 'bar city';
 
 	/**
-	 * @var tx_oelib_FakeSession a fake session
-	 */
-	private $session;
-
-	/**
 	 * @var integer static_info_tables UID of Germany
 	 */
 	const DE = 54;
@@ -134,15 +129,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->createDummyPages();
 		$this->createDummyObjects();
-
-		$this->session = new tx_oelib_FakeSession();
-		// Ensures an empty favorites list.
-		$this->session->setAsString(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, ''
-		);
-		tx_oelib_Session::setInstance(
-			tx_oelib_Session::TYPE_TEMPORARY, $this->session
-		);
 
 		// True enables the test mode which inhibits the FE editors FORMidable
 		// object from being created.
@@ -167,7 +153,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
-		unset($this->fixture, $this->session, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -327,56 +313,6 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
-		);
-	}
-
-
-	/////////////////////////////////////////////
-	// Tests for createSummaryStringOfFavorites
-	/////////////////////////////////////////////
-
-	public function testCreateSummaryStringOfFavoritesForNoDataReturnsEmptyString() {
-		$this->assertEquals(
-			'',
-			$this->fixture->createSummaryStringOfFavorites()
-		);
-	}
-
-	public function testCreateSummaryStringOfFavoritesForOneItemsContainsItemData() {
-		$this->session->setAsInteger(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid
-		);
-
-		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
-		);
-	}
-
-	public function testCreateSummaryStringOfFavoritesForOneItemsNotContainsDataOfOtherItem() {
-		$this->session->setAsInteger(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid
-		);
-
-		$this->assertNotContains(
-			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
-		);
-	}
-
-	public function testCreateSummaryStringOfFavoritesForTwoItemsContainsDataFromBothObjects() {
-		$this->session->setAsArray(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY,
-			array($this->firstRealtyUid, $this->secondRealtyUid)
-		);
-
-		$this->assertContains(
-			'* '.self::$firstObjectNumber.' '.self::$firstObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
-		);
-		$this->assertContains(
-			'* '.self::$secondObjectNumber.' '.self::$secondObjectTitle.LF,
-			$this->fixture->createSummaryStringOfFavorites()
 		);
 	}
 

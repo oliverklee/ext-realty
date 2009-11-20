@@ -127,14 +127,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 		$this->createDummyPages();
 		$this->createDummyObjects();
-		$this->session = new tx_oelib_FakeSession();
-		// Ensures an empty favorites list.
-		$this->session->setAsString(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, ''
-		);
-		tx_oelib_Session::setInstance(
-			tx_oelib_Session::TYPE_TEMPORARY, $this->session
-		);
 
 		$this->fixture = new tx_realty_pi1_ListView(
 			array(
@@ -2288,84 +2280,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////
-	// Tests concerning the favorites list
-	////////////////////////////////////////
-
-	public function testFavoritesViewHasNoUnreplacedMarkersForEmptyRenderedObject() {
-		$systemFolder = $this->testingFramework->createSystemFolder();
-		$this->session->setAsInteger(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY,
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS,
-				array(
-					// A city is the minimum requirement for an object to be displayed,
-					// though the object is rendered empty because the city has no title.
-					'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
-					'pid' => $systemFolder
-				)
-			)
-		);
-
-		$this->fixture->setCurrentView('favorites');
-		$this->fixture->setConfigurationValue('pidList', $systemFolder);
-
-		$this->assertNotContains(
-			'###',
-			$this->fixture->render()
-		);
-	}
-
-	public function testContactLinkIsDisplayedInTheFavoritesViewIfThisIsEnabledAndTheContactPidIsSet() {
-		$this->fixture->setCurrentView('favorites');
-		$this->fixture->setConfigurationValue('showContactPageLink', 1);
-		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
-		$result = $this->fixture->render();
-
-		$this->assertContains(
-			'?id=' . $this->otherSinglePid,
-			$result
-		);
-		$this->assertContains(
-			'class="button listViewContact"',
-			$result
-		);
-	}
-
-	public function testContactLinkIsNotDisplayedInTheFavoritesViewIfThisIsDisabledAndTheContactPidIsSet() {
-		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
-		$this->fixture->setConfigurationValue('showContactPageLink', 0);
-		$this->fixture->setConfigurationValue('contactPID', $this->otherSinglePid);
-
-		$this->assertNotContains(
-			'class="button listViewContact"',
-			$this->fixture->render()
-		);
-	}
-
-	public function testContactLinkIsNotDisplayedInTheFavoritesViewIdThisIsEnabledAndTheContactPidIsNotSet() {
-		$this->fixture->setCurrentView('favorites');
-		$this->fixture->setConfigurationValue('showContactPageLink', 1);
-		$this->fixture->setConfigurationValue('contactPID', '');
-
-		$this->assertNotContains(
-			'class="button listViewContact"',
-			$this->fixture->render()
-		);
-	}
-
-	public function testContactLinkIsNotDisplayedInTheFavoritesViewIfTheContactFormHasTheSamePid() {
-		$this->fixture->setCurrentView('favorites');
-		$this->fixture->setConfigurationValue('showContactPageLink', 1);
-		$this->fixture->setConfigurationValue('contactPID', $this->favoritesPid);
-
-		$this->assertNotContains(
-			'class="button listViewContact"',
-			$this->fixture->render()
-		);
-	}
-
-
 	///////////////////////////////////////////
 	// Tests concering the "my objects" list.
 	///////////////////////////////////////////
@@ -3231,97 +3145,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////
-	// Tests concerning addToFavorites
-	////////////////////////////////////
-
-	public function testAddToFavoritesWithNewItemCanAddItemToEmptySession() {
-		$this->fixture->addToFavorites(array($this->firstRealtyUid));
-
-		$this->assertEquals(
-			array($this->firstRealtyUid),
-			$this->session->getAsIntegerArray(
-				tx_realty_pi1_ListView::FAVORITES_SESSION_KEY
-			)
-		);
-	}
-
-	public function testAddToFavoritesWithTwoNewItemCanAddItemsToEmptySession() {
-		$this->fixture->addToFavorites(
-			array($this->firstRealtyUid, $this->secondRealtyUid)
-		);
-
-		$this->assertEquals(
-			array($this->firstRealtyUid, $this->secondRealtyUid),
-			$this->session->getAsIntegerArray(
-				tx_realty_pi1_ListView::FAVORITES_SESSION_KEY
-			)
-		);
-	}
-
-	public function testAddToFavoritesWithNewItemCanAddItemToNonEmptySession() {
-		$this->session->setAsInteger(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid
-		);
-
-		$this->fixture->addToFavorites(array($this->secondRealtyUid));
-
-		$this->assertEquals(
-			array($this->firstRealtyUid, $this->secondRealtyUid),
-			$this->session->getAsIntegerArray(
-				tx_realty_pi1_ListView::FAVORITES_SESSION_KEY
-			)
-		);
-	}
-
-	public function testAddToFavoritesWithExistingItemDoesNotAddToSession() {
-		$this->session->setAsInteger(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid
-		);
-
-		$this->fixture->addToFavorites(array($this->firstRealtyUid));
-
-		$this->assertEquals(
-			array($this->firstRealtyUid),
-			$this->session->getAsIntegerArray(
-				tx_realty_pi1_ListView::FAVORITES_SESSION_KEY
-			)
-		);
-	}
-
-
-	/////////////////////////////////////////////////////
-	// Tests for writeSummaryStringOfFavoritesToSession
-	/////////////////////////////////////////////////////
-
-	public function testWriteSummaryStringOfFavoritesToSessionForOneItemWritesItemsNumberAndTitleToSession() {
-		$this->session->setAsInteger(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid
-		);
-		$this->fixture->writeSummaryStringOfFavoritesToSession();
-
-		$this->assertContains(
-			'* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
-			$this->session->getAsString('summaryStringOfFavorites')
-		);
-	}
-
-	public function testWriteSummaryStringOfFavoritesToSessionForLoggedInFrontEndUserWritesDataToTemporarySession() {
-		$this->testingFramework->createAndLoginFrontEndUser();
-
-		$this->session->setAsInteger(
-			tx_realty_pi1_ListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid
-		);
-		$this->fixture->writeSummaryStringOfFavoritesToSession();
-
-		$this->assertContains(
-			'* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
-			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
-				->getAsString('summaryStringOfFavorites')
-		);
-	}
-
-
 	/////////////////////////////////////////////////////
 	// Tests concerning links to external details pages
 	/////////////////////////////////////////////////////
@@ -3641,18 +3464,6 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'list-view',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setCurrentViewForFavoritesSetsFavoriteViewAsViewType() {
-		$this->fixture->setCurrentView('favorites');
-
-		$this->assertContains(
-			$this->fixture->translate('label_yourfavorites'),
 			$this->fixture->render()
 		);
 	}
