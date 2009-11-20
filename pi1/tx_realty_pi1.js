@@ -108,7 +108,7 @@ function updateHideAndShow() {
 }
 
 /**
- * Updates the districts selector, depending on whether a city is selected.
+ * Updates the districts selector via AJAX, depending on which city is selected.
  *
  * If no city is selected, the district selector will be hidden.
  *
@@ -125,7 +125,22 @@ function updateDistrictsInSearchWidget() {
 		return;
 	}
 
-	Element.show($("tx_realty_pi1_searchWidget_district"));
+	new Ajax.Updater(
+		"tx_realty_pi1-district",
+		"/index.php?eID=realty&city=" + encodeURI(cityUid),
+		{
+			method: "get",
+			onLoading: function() {
+				$("tx_realty_pi1-district").disabled = true;
+				Element.show($("tx_realty_pi1_searchWidget_district"));
+				Element.show($("tx-realty-pi1-loading"));
+			},
+			onComplete: function() {
+				$("tx_realty_pi1-district").disabled = false;
+				Element.hide($("tx-realty-pi1-loading"));
+			}
+		}
+	);
 }
 
 /**

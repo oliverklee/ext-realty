@@ -41,6 +41,20 @@
 	border: 1px solid #B3C5D3;
 }
 
+/***** SEARCH WIDGET *****/
+
+#tx_realty_pi1_searchWidget_district {
+	position: relative;
+}
+
+#tx-realty-pi1-loading {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: -3px;
+	right: -12px;
+	background: url(images/loading.gif) no-repeat center #fff;
+}
 
 /***** SINGLE VIEW *****/
 

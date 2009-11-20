@@ -48,14 +48,19 @@ if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
 	}
 }
 
+$cityUid = intval(t3lib_div::_GET('city'));
+if ($cityUid > 0) {
+	$output = tx_realty_Ajax_DistrictSelector::render($cityUid);
+} else {
+	$output = '';
+}
+
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . 'GMT');
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
-
-$output = 'Hello world!';
 header('Content-Length: '.strlen($output));
-echo $output;
 
+echo $output;
 ?>
