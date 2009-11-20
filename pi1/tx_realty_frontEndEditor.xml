@@ -142,6 +142,7 @@
 					</params>
 				</userobj>
 			</data>
+			<onchange>updateDistrictsInEditor();</onchange>
 			<validators>
 				<validator:STANDARD>
 					<userobj>

@@ -114,7 +114,7 @@ function updateHideAndShow() {
  *
  * This function must only be called if Prototype is loaded.
  */
-function updateDistricts() {
+function updateDistrictsInSearchWidget() {
 	if (!$("tx_realty_pi1-city") || !$("tx_realty_pi1-district")) {
 		return;
 	}
@@ -126,4 +126,29 @@ function updateDistricts() {
 	}
 
 	Element.show($("tx_realty_pi1_searchWidget_district"));
+}
+
+/**
+ * Updates the district element in the editor, depending on whether a city is
+ * selected.
+ *
+ * If no city is selected, the district element will be hidden.
+ */
+function updateDistrictsInEditor() {
+	if (!$("tx_realty_frontEndEditor_city")
+		|| !$("tx_realty_frontEndEditor_district_wrapper")
+		|| !$("tx_realty_frontEndEditor_new_district_wrapper")
+	) {
+		return;
+	}
+
+	var cityUid = $("tx_realty_frontEndEditor_city").value;
+	if (cityUid == "0") {
+		Element.hide($("tx_realty_frontEndEditor_district_wrapper"));
+		Element.hide($("tx_realty_frontEndEditor_new_district_wrapper"));
+		return;
+	}
+
+	Element.show($("tx_realty_frontEndEditor_district_wrapper"));
+	Element.show($("tx_realty_frontEndEditor_new_district_wrapper"));
 }

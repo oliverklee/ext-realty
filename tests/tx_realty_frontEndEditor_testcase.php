@@ -1602,5 +1602,23 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+	public function testAddOnLoadHandlerAddsCallToUpdateHideAndShow() {
+		$this->fixture->addOnLoadHandler();
+
+		$this->assertContains(
+			'updateHideAndShow();',
+			$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
+		);
+	}
+
+	public function testAddOnLoadHandlerAddsCallToUpdateDistrictsInEditor() {
+		$this->fixture->addOnLoadHandler();
+
+		$this->assertContains(
+			'updateDistrictsInEditor();',
+			$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
+		);
+	}
 }
 ?>

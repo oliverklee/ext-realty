@@ -350,7 +350,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function fillOrHideCitySearch() {
 		$onChange = $this->hasSearchField('district')
-			? ' onchange="updateDistricts();"'
+			? ' onchange="updateDistrictsInSearchWidget();"'
 			: $this->getOnChangeForSingleField();
 		$this->createAndSetDropDown('city', $onChange);
 	}

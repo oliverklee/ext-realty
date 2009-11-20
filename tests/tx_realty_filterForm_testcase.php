@@ -416,7 +416,7 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'onchange="updateDistricts',
+			'onchange="updateDistrictsInSearchWidget',
 			$this->fixture->render()
 		);
 	}
