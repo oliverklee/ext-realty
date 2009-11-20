@@ -248,8 +248,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return boolean true if the year is valid or empty
 	 */
 	public function isValidYear(array $formData) {
-		return ($this->isValidNumber($formData['value'], false)
-			&& ($formData['value'] <= date('Y', mktime())));
+		return $this->isValidNumber($formData['value'], false);
 	}
 
 	/**

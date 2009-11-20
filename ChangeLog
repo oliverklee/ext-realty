@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#3456] Change: Remove the check that the construction year lies in the past
 - [#3501] Fix: Crash in TYPO3 4.3 (trunk) after saving in the FE editor or the image upload
 - [#3508] Cleanup: Replace space + tab with tab
 - [#3266] Change: Update to the latest versions of Prototype and Scriptaculous

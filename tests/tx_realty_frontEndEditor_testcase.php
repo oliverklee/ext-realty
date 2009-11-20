@@ -506,21 +506,39 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsValidYearReturnsTrueForTheCurrentYear() {
+	/**
+	 * @test
+	 */
+	public function isValidYearReturnsTrueForTheCurrentYear() {
 		$this->assertTrue(
 			$this->fixture->isValidYear(array('value' => date('Y', mktime())))
 		);
 	}
 
-	public function testIsValidYearReturnsTrueForAFormerYear() {
+	/**
+	 * @test
+	 */
+	public function isValidYearReturnsTrueForAFormerYear() {
 		$this->assertTrue(
 			$this->fixture->isValidYear(array('value' => '2000'))
 		);
 	}
 
-	public function testIsValidYearReturnsFalseForAFutureYear() {
-		$this->assertFalse(
+	/**
+	 * @test
+	 */
+	public function isValidYearReturnsTrueForAFutureYear() {
+		$this->assertTrue(
 			$this->fixture->isValidYear(array('value' => '2100'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidYearReturnsFalseForNumberWithDecimals() {
+		$this->assertFalse(
+			$this->fixture->isValidYear(array('value' => '42,55'))
 		);
 	}
 
