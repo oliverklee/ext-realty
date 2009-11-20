@@ -37,10 +37,8 @@ class tx_realty_cacheManager {
 	 * Clears the FE cache for pages with a realty plugin.
 	 *
 	 * @see tslib_fe::clearPageCacheContent_pidList()
-	 * @see http://bugs.typo3.org/view.php?id=12579
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
-		// TODO: Remove workaround once TYPO3 Bug #12579 is fixed.
 		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999
 			&& TYPO3_UseCachingFramework
 		) {
