@@ -53,6 +53,17 @@ class tx_realty_googleMapsLookup {
 	private $baseUrlWithKey;
 
 	/**
+	 * @var float the amount of time (in seconds) that need to pass between
+	 *            subsequent geocoding requests
+	 */
+	const GEOCODING_THROTTLING = 1.75;
+
+	/**
+	 * @var float the timestamp of the last geocoding request
+	 */
+	static private $lastGeocodingTimestamp = 0.00;
+
+	/**
 	 * @var tx_oelib_templatehelper plugin configuration
 	 */
 	private $configuration;
@@ -164,6 +175,7 @@ class tx_realty_googleMapsLookup {
 			if ($delay > 0) {
 				usleep($delay);
 			}
+			$this->throttle();
 			$rawResult = t3lib_div::getURL(
 				$this->baseUrlWithKey . urlencode(implode(', ', $addressParts))
 			);
@@ -193,6 +205,24 @@ class tx_realty_googleMapsLookup {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Makes sure the necessary amount of time has passed since the last
+	 * geocoding request.
+	 */
+	private function throttle() {
+		if (self::$lastGeocodingTimestamp > 0) {
+			$secondsSinceLastRequest
+				= microtime(TRUE) - self::$lastGeocodingTimestamp;
+			if ($secondsSinceLastRequest < self::GEOCODING_THROTTLING) {
+				usleep( 1000000 *
+					(self::GEOCODING_THROTTLING - $secondsSinceLastRequest)
+				);
+			}
+		}
+
+		self::$lastGeocodingTimestamp = microtime(TRUE);
 	}
 
 	/**
