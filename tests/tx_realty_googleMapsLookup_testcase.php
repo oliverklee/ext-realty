@@ -307,6 +307,21 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function lookUpThrottlesCallsByAtLeast1Dot73Seconds() {
+		$startTime = microtime(TRUE);
+		$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
+		$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
+		$endTime = microtime(TRUE);
+
+		$this->assertGreaterThan(
+			1.73,
+			$endTime - $startTime
+		);
+	}
+
 	public function testLookUpReturnsDifferentCoordinatesForTheSameCityNameInDifferentCountries() {
 		$this->assertNotEquals(
 			$this->fixture->lookUp('', '', '', 'Texas', self::DE),
