@@ -1137,12 +1137,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
-	 * Adds an onload handler (which calls updateHideAndShow and
-	 * updateDistrictsInEditor) to the page header.
+	 * Adds an onload handler (which calls updateHideAndShow) to the page header.
 	 */
 	public function addOnLoadHandler() {
 		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
-			= 'updateHideAndShow();updateDistrictsInEditor();';
+			= 'updateHideAndShow();';
 	}
 
 

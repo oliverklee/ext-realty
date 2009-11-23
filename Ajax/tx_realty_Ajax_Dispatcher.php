@@ -49,8 +49,9 @@ if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
 }
 
 $cityUid = intval(t3lib_div::_GET('city'));
+$showWithNumbers = (t3lib_div::_GET('type') == 'withNumber');
 if ($cityUid > 0) {
-	$output = tx_realty_Ajax_DistrictSelector::render($cityUid);
+	$output = tx_realty_Ajax_DistrictSelector::render($cityUid, $showWithNumbers);
 } else {
 	$output = '';
 }

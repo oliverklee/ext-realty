@@ -34,19 +34,24 @@
  */
 class tx_realty_Ajax_DistrictSelector {
 	/**
-	 * Creates a drop-down for all district within a city that have at least
-	 * one object. Districts without a city will also be listed.
+	 * Creates a drop-down for all districts within a city. Districts without a
+	 * city will also be listed.
 	 *
 	 * At the top, an empty option with the value 0 will always be included.
 	 *
 	 * @param integer $cityUid
 	 *        the UID of a city for which to get the districts, must be > 0,
 	 *        may also point to an inexistent record
+	 * @param boolean $showWithNumbers
+	 *        if TRUE, the number of matching objects will be displayed behind
+	 *        the district name, and districts without matches will be omitted;
+	 *        if FALSE, the number of matches will not be displayed, and
+	 *        districts without matches will also be displayed
 	 *
 	 * @return string the HTML of the drop-down items with the districts, will
 	 *                not be empty
 	 */
-	static public function render($cityUid) {
+	static public function render($cityUid, $showWithNumbers = FALSE) {
 		$options = '<option value="0">&nbsp;</option>';
 
 		$objectMapper =
@@ -55,14 +60,19 @@ class tx_realty_Ajax_DistrictSelector {
 		$districts = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
 			->findAllByCityUidOrUnassigned($cityUid);
 		foreach ($districts as $district) {
-			$numberOfMatches = $objectMapper->countByDistrict($district);
-			if ($numberOfMatches == 0) {
-				continue;
+			if ($showWithNumbers) {
+				$numberOfMatches = $objectMapper->countByDistrict($district);
+				if ($numberOfMatches == 0) {
+					continue;
+				}
+				$displayedNumber = ' (' . $numberOfMatches . ')';
+			} else {
+				$displayedNumber = '';
 			}
 
 			$options .= '<option value="' . $district->getUid() . '">' .
 				htmlspecialchars($district->getTitle()) .
-				' (' . $numberOfMatches . ')</option>' . LF;
+				$displayedNumber . '</option>' . LF;
 		}
 
 		return $options;

@@ -127,7 +127,7 @@ function updateDistrictsInSearchWidget() {
 
 	new Ajax.Updater(
 		"tx_realty_pi1-district",
-		"/index.php?eID=realty&city=" + encodeURI(cityUid),
+		"/index.php?eID=realty&type=withNumber&city=" + encodeURI(cityUid),
 		{
 			method: "get",
 			onLoading: function() {
@@ -152,6 +152,7 @@ function updateDistrictsInSearchWidget() {
 function updateDistrictsInEditor() {
 	if (!$("tx_realty_frontEndEditor_city")
 		|| !$("tx_realty_frontEndEditor_district_wrapper")
+		|| !$("tx_realty_frontEndEditor_district")
 		|| !$("tx_realty_frontEndEditor_new_district_wrapper")
 	) {
 		return;
@@ -164,6 +165,19 @@ function updateDistrictsInEditor() {
 		return;
 	}
 
-	Element.show($("tx_realty_frontEndEditor_district_wrapper"));
-	Element.show($("tx_realty_frontEndEditor_new_district_wrapper"));
+	new Ajax.Updater(
+		"tx_realty_frontEndEditor_district",
+		"/index.php?eID=realty&city=" + encodeURI(cityUid),
+		{
+			method: "get",
+			onLoading: function() {
+				$("tx_realty_frontEndEditor_district").disabled = true;
+				Element.show($("tx_realty_frontEndEditor_district_wrapper"));
+				Element.show($("tx_realty_frontEndEditor_new_district_wrapper"));
+			},
+			onComplete: function() {
+				$("tx_realty_frontEndEditor_district").disabled = false;
+			}
+		}
+	);
 }

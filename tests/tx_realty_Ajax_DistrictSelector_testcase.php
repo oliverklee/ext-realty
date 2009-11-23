@@ -81,12 +81,9 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 	 */
 	public function renderShowsNameOfDistrictOfGivenCity() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		$districtUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			'tx_realty_districts',
 			array('title' => 'Kreuzberg', 'city' => $cityUid)
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
 		);
 
 		$this->assertContains(
@@ -100,12 +97,9 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 	 */
 	public function renderShowsHtmlspecialcharedNameOfDistrictOfGivenCity() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		$districtUid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			'tx_realty_districts',
 			array('title' => 'A & B', 'city' => $cityUid)
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
 		);
 
 		$this->assertContains(
@@ -122,9 +116,6 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 		$districtUid = $this->testingFramework->createRecord(
 			'tx_realty_districts', array('city' => $cityUid)
 		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
 
 		$this->assertContains(
 			'<option value="' . $districtUid . '">',
@@ -135,28 +126,24 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderCanContainUidsOfTwoDistrictsOfGivenCityAsValue() {
+	public function renderCanContainUidsOfTwoDistrictsOfGivenCity() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
 		$districtUid1 = $this->testingFramework->createRecord(
 			'tx_realty_districts', array('city' => $cityUid)
 		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid1)
-		);
 		$districtUid2 = $this->testingFramework->createRecord(
 			'tx_realty_districts', array('city' => $cityUid)
 		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid2)
-		);
+
+		$output = tx_realty_Ajax_DistrictSelector::render($cityUid);
 
 		$this->assertContains(
 			'<option value="' . $districtUid1 . '">',
-			tx_realty_Ajax_DistrictSelector::render($cityUid)
+			$output
 		);
 		$this->assertContains(
 			'<option value="' . $districtUid2 . '">',
-			tx_realty_Ajax_DistrictSelector::render($cityUid)
+			$output
 		);
 	}
 
@@ -167,9 +154,6 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
 		$districtUid = $this->testingFramework->createRecord(
 			'tx_realty_districts'
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
 		);
 
 		$this->assertContains(
@@ -187,9 +171,6 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 		$districtUid = $this->testingFramework->createRecord(
 			'tx_realty_districts', array('city' => $otherCityUid)
 		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
 
 		$this->assertNotContains(
 			'value="' . $districtUid . '"',
@@ -197,10 +178,15 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	/////////////////////////////////////////////////////////
+	// Tests concerning render with $showWithNumbers = TRUE
+	/////////////////////////////////////////////////////////
+
 	/**
 	 * @test
 	 */
-	public function renderContainsNumberOfMatchesOfDistrict() {
+	public function renderWithCountTrueContainsNumberOfMatchesOfDistrict() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
 		$districtUid = $this->testingFramework->createRecord(
 			'tx_realty_districts', array('city' => $cityUid, 'title' => 'Beuel')
@@ -214,14 +200,14 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'Beuel (2)',
-			tx_realty_Ajax_DistrictSelector::render($cityUid)
+			tx_realty_Ajax_DistrictSelector::render($cityUid, TRUE)
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function renderNotContainsDistrictWithoutMatches() {
+	public function renderWithCountTrueNotContainsDistrictWithoutMatches() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
 		$districtUid = $this->testingFramework->createRecord(
 			'tx_realty_districts', array('city' => $cityUid)
@@ -229,7 +215,48 @@ class tx_realty_Ajax_DistrictSelector_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'value="' . $districtUid . '"',
-			tx_realty_Ajax_DistrictSelector::render($cityUid)
+			tx_realty_Ajax_DistrictSelector::render($cityUid, TRUE)
+		);
+	}
+
+
+	//////////////////////////////////////////////////////////
+	// Tests concerning render with $showWithNumbers = FALSE
+	//////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function renderWithCountFalseNotContainsNumberOfMatchesOfDistrict() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid, 'title' => 'Beuel')
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_objects', array('district' => $districtUid)
+		);
+
+		$this->assertNotContains(
+			'Beuel (2)',
+			tx_realty_Ajax_DistrictSelector::render($cityUid, FALSE)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithCountFalseContainsDistrictWithoutMatches() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('city' => $cityUid)
+		);
+
+		$this->assertContains(
+			'value="' . $districtUid . '"',
+			tx_realty_Ajax_DistrictSelector::render($cityUid, FALSE)
 		);
 	}
 }
