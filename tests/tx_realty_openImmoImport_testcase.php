@@ -1724,6 +1724,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 				'This test is not applicable for TYPO3 versions lower than 4.3.'
 			);
 		}
+		if (!TYPO3_UseCachingFramework) {
+			$this->markTestSkipped(
+				'This test is not applicable if the caching framework is disabled.'
+			);
+		}
 
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 

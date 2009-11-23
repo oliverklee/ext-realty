@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#3528] Fix: Crash in the branch unit tests
 - [#3527] Fix: Failure in the Google Maps branch tests
 - [#3463] Fix: Google Maps geocoding lookups need to be throttled
 - [#3456] Change: Remove the check that the construction year lies in the past

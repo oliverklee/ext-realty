@@ -1542,6 +1542,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 				'This test is not applicable for TYPO3 versions lower than 4.3.'
 			);
 		}
+		if (!TYPO3_UseCachingFramework) {
+			$this->markTestSkipped(
+				'This test is not applicable if the caching framework is disabled.'
+			);
+		}
 
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createContentElement(
