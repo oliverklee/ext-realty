@@ -123,11 +123,16 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function render(array $unused = array()) {
 		$result = parent::render();
 
-		return $this->isObjectNumberReadonly()
-			? str_replace(
+		$result = str_replace(
+			'###DISTRICT_VISIBILITY###', $this->getDistrictVisibility(), $result
+		);
+		if ($this->isObjectNumberReadonly()) {
+			$result = str_replace(
 				' for="tx_realty_frontEndEditor_object_number"', '', $result
-			)
-			: $result;
+			);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -136,7 +141,58 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return boolean true if the object number is readonly, false otherwise
 	 */
 	public function isObjectNumberReadonly() {
-		return $this->realtyObjectUid > 0;
+		return ($this->realtyObjectUid > 0);
+	}
+
+	/**
+	 * Creates a list of districts.
+	 *
+	 * @return array items for the district selector, will be empty if no city
+	 *               is selected of there are no districts for the selected city
+	 */
+	public function populateDistrictList() {
+		$cityUid = $this->getSelectedCityUid();
+		if ($cityUid == 0) {
+			return array();
+		}
+
+		$options = array();
+
+		$districts = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
+			->findAllByCityUidOrUnassigned($cityUid);
+		foreach ($districts as $district) {
+			$options[] = array(
+				'value' => $district->getUid(),
+				'caption' => $district->getTitle(),
+			);
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Creates a CSS style rule for showing/hiding the district selector.
+	 *
+	 * The district selector is shown if a city is selected. It is hidden if no
+	 * city is selected.
+	 *
+	 * @return string the style rule to hide/show the district selector, will
+	 *                start with "display:" and end with a semicolon
+	 */
+	protected function getDistrictVisibility() {
+		return ($this->getSelectedCityUid() > 0)
+			? 'display: table;' : 'display: none;';
+	}
+
+
+	/**
+	 * Returns the UID of the currently selected city.
+	 *
+	 * @return integer the UID of the currently selected city, will be >= 0,
+	 *                 will be 0 if no city is selected
+	 */
+	private function getSelectedCityUid() {
+		return intval($this->getFormValue('city'));
 	}
 
 	/**
@@ -184,7 +240,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$items = array();
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$items[] = array('caption' => $row[$titleColumn], 'value' => $row['uid']);
+			$items[] = array(
+				'value' => $row['uid'],
+				'caption' => $row[$titleColumn],
+			);
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 

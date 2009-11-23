@@ -195,6 +195,85 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	//////////////////////////////////////////
+	// Tests concerning populateDistrictList
+	//////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function populateDistrictListForSelectedCityReturnsDistrictOfCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array('city' => $cityUid, 'title' => 'Kreuzberg')
+		);
+		$this->fixture->setFakedFormValue('city', $cityUid);
+
+		$this->assertTrue(
+			in_array(
+				array('value' => $districtUid, 'caption' => 'Kreuzberg'),
+				$this->fixture->populateDistrictList()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function populateDistrictListForSelectedCityReturnsDistrictWithoutCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('title' => 'Kreuzberg')
+		);
+		$this->fixture->setFakedFormValue('city', $cityUid);
+
+		$this->assertTrue(
+			in_array(
+				array('value' => $districtUid, 'caption' => 'Kreuzberg'),
+				$this->fixture->populateDistrictList()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function populateDistrictListForSelectedCityNotReturnsDistrictOfOtherCity() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array('city' => $otherCityUid, 'title' => 'Kreuzberg')
+		);
+		$this->fixture->setFakedFormValue('city', $cityUid);
+
+		$this->assertFalse(
+			in_array(
+				array('value' => $districtUid, 'caption' => 'Kreuzberg'),
+				$this->fixture->populateDistrictList()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function populateDistrictListForNoSelectedCityIsEmpty() {
+		$this->fixture->setFakedFormValue('city', 0);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->populateDistrictList()
+		);
+	}
+
+
+	//////////////////////////////////
+	// Tests concerning populateList
+	//////////////////////////////////
+
 	public function testPopulateListForValidTableReturnsARecordsTitleAsCaption() {
 		$result = $this->fixture->populateList(
 			array(), array('table' => REALTY_TABLE_CITIES)
@@ -228,8 +307,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	public function testPopulateListOfCountriesContainsDeutschland() {
 		$this->assertContains(
 			array(
-				'caption' => 'Deutschland',
 				'value' => '54',
+				'caption' => 'Deutschland',
 			),
 			$this->fixture->populateList(array(), array(
 				'table' => STATIC_COUNTRIES,

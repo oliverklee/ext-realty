@@ -191,10 +191,7 @@
 				</items>
 				<userobj>
 					<extension>this</extension>
-					<method>populateList</method>
-					<params>
-						<data name="table" value="tx_realty_districts"/>
-					</params>
+					<method>populateDistrictList</method>
 				</userobj>
 			</data>
 			<validators>
