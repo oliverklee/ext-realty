@@ -59,6 +59,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_realty_list() {
 		$this->checkListViewRelatedConfiguration();
+		$this->checkGoogleMaps();
 		$this->checkFavoritesPid();
 	}
 
@@ -76,7 +77,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
-		$this->checkGoogleMaps();
 		$this->checkEnableNextPreviousButtons();
 	}
 

@@ -727,16 +727,41 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////
-	// Tests concerning the list view
-	///////////////////////////////////
+	////////////////////////////////////
+	// Tests concerning the list views
+	////////////////////////////////////
 
 	/**
 	 * @test
 	 */
 	public function listViewCanBeRendered() {
 		$this->assertContains(
-			'list-view',
+			$this->fixture->translate('label_weofferyou'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function favoritesViewCanBeRendered() {
+		$this->fixture->setConfigurationValue('what_to_display', 'favorites');
+
+		$this->assertContains(
+			$this->fixture->translate('label_yourfavorites'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function myObjectsViewCanBeRendered() {
+		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
+		$this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertContains(
+			$this->fixture->translate('label_your_objects'),
 			$this->fixture->main('', array())
 		);
 	}

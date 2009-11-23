@@ -58,6 +58,11 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_ListView {
 	private $favoritesDataVerbose;
 
 	/**
+	 * @var boolean whether Google Maps should be shown in this view
+	 */
+	protected $isGoogleMapsAllowed = TRUE;
+
+	/**
 	 * @var string the ID of the current view
 	 */
 	protected $currentView = 'favorites';

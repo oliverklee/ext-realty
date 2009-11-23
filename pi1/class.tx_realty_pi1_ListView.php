@@ -109,6 +109,11 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	const CROP_SIZE = 74;
 
 	/**
+	 * @var boolean whether Google Maps should be shown in this view
+	 */
+	protected $isGoogleMapsAllowed = TRUE;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
@@ -170,22 +175,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 */
 	protected function initializeView() {
 		switch ($this->currentView) {
-			case 'my_objects':
-				$this->listViewLabel = 'label_your_objects';
-				$this->unhideSubparts(
-					'wrapper_editor_specific_content,new_record_link'
-				);
-
-				if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
-					$this->setLimitHeading();
-					$this->setEditorLinkMarker();
-				}
-				$this->setMarker(
-					'empty_editor_link',
-					$this->createLinkToFeEditorPage('editorPID', 0)
-				);
-				$this->processDeletion();
-				break;
 			case 'objects_by_owner':
 				$this->listViewLabel = $this->getTitleForTheObjectsByOwnerList();
 				$this->unhideSubparts(
@@ -217,27 +206,14 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		$isGoogleMapsEnabled = $this->getConfValueBoolean(
-			'showGoogleMaps', 's_googlemaps'
-		);
-		if ($isGoogleMapsEnabled) {
-			$googleMapsView = tx_oelib_ObjectFactory::make(
-				'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj,
-				$this->isTestMode
-			);
-		}
-
 		$listItems = '';
 		$rowCounter = 0;
+		$listedObjectsUids = array();
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$this->internal['currentRow'] = $row;
 			$listItems .= $this->createListRow($rowCounter);
-			if ($isGoogleMapsEnabled) {
-				$googleMapsView->setMapMarker(
-					$this->internal['currentRow']['uid'], true
-				);
-			}
+			$listedObjectsUids[] = $this->internal['currentRow']['uid'];
 			$rowCounter++;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
@@ -245,12 +221,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		$this->setSubpart('list_item', $listItems);
 		$this->setSubpart('pagination', $this->createPagination());
 		$this->setSubpart('wrapper_sorting', $this->createSorting());
-		if ($isGoogleMapsEnabled) {
-			$this->unhideSubparts('google_map');
-			$this->setSubpart('google_map', $googleMapsView->render());
-			$googleMapsView->__destruct();
-			$googleMapsView = null;
-		}
+		$this->showGoogleMapsIfEnabled($listedObjectsUids);
 	}
 
 	/**
@@ -338,116 +309,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		return htmlspecialchars(
 			$this->cObj->typoLink_URL(array('parameter' => $pageId))
 		);
-	}
-
-	/**
-	 * Sets the message how many objects the currently logged-in front-end user
-	 * still can enter.
-	 *
-	 * This function should only be called when a user is logged-in at the front
-	 * end.
-	 */
-	private function setLimitHeading() {
-		$user = tx_oelib_FrontEndLoginManager::getInstance()
-			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-		if ($user->getTotalNumberOfAllowedObjects() == 0) {
-			$this->hideSubparts('limit_heading');
-			return;
-		}
-
-		$objectsLeftToEnter = $user->getObjectsLeftToEnter();
-		$this->unhideSubparts('limit_heading');
-		$this->setMarker(
-			'objects_limit_heading',
-			sprintf(
-				$this->translate('label_objects_already_entered'),
-				$user->getNumberOfObjects(),
-				$user->getTotalNumberOfAllowedObjects()
-			)
-		);
-		switch ($objectsLeftToEnter) {
-			case 0:
-				$labelLeftToEnter = $this->translate('label_no_objects_left');
-				break;
-			case 1:
-				$labelLeftToEnter = $this->translate('label_one_object_left');
-				break;
-			default:
-				$labelLeftToEnter = sprintf(
-					$this->translate('label_multiple_objects_left'),
-					$objectsLeftToEnter
-				);
-				break;
-		}
-
-		$this->setMarker(
-			'objects_left_to_enter',
-			$labelLeftToEnter
-		);
-	}
-
-	/**
-	 * Sets the link to the new record button of the my objects view and hides
-	 * it if the user cannot enter any more objects.
-	 *
-	 * This function should only be called when a user is logged in at the front
-	 * end.
-	 */
-	private function setEditorLinkMarker() {
-		if (tx_oelib_FrontEndLoginManager::getInstance()
-			->getLoggedInUser('tx_realty_Mapper_FrontEndUser')
-			->canAddNewObjects()
-		) {
-			$this->setMarker(
-				'empty_editor_link',
-				$this->createLinkToFeEditorPage('editorPID', 0)
-			);
-		} else {
-			$this->hideSubparts('new_record_link');
-		}
-	}
-
-	/**
-	 * Creates a link to the FE editor page.
-	 *
-	 * @param string $pidKey
-	 *        key of the configuration value with the PID, must not be empty
-	 * @param integer $uid
-	 *        UID of the object to be loaded for editing, must be >= 0
-	 *        (Zero will open the FE editor for a new record to insert.)
-	 *
-	 * @return string the link to the FE editor page, will not be empty
-	 */
-	private function createLinkToFeEditorPage($pidKey, $uid) {
-		return t3lib_div::locationHeaderUrl(
-			$this->cObj->typoLink_URL(
-				array(
-					'parameter' => $this->getConfValueInteger($pidKey),
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
-						$this->prefixId, array('showUid' => $uid)
-					),
-				)
-			)
-		);
-	}
-
-	/**
-	 * Processes the deletion of a realty record.
-	 */
-	private function processDeletion() {
-		// no need for a front-end editor if there is nothing to delete
-		if ($this->piVars['delete'] == 0) {
-			return;
-		}
-
-		// For testing, the FE editor's FORMidable object must not be created.
-		$frontEndEditor = tx_oelib_ObjectFactory::make(
-			'tx_realty_frontEndEditor', $this->conf, $this->cObj,
-			$this->piVars['delete'], 'pi1/tx_realty_frontEndEditor.xml',
-			$this->isTestMode
-		);
-		$frontEndEditor->deleteRecord();
-		$frontEndEditor->__destruct();
 	}
 
 	/**
@@ -614,15 +475,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets the row contents specific to this view.
 	 */
-	protected function setViewSpecificListRowContents() {
-		switch ($this->currentView) {
-			case 'my_objects':
-				$this->setListRowContentsForMyObjectsView();
-				break;
-			default:
-				break;
-		}
-	}
+	protected function setViewSpecificListRowContents() {}
 
 	/**
 	 * Creates a result browser for the list view with the current page
@@ -1190,51 +1043,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Sets subparts and markers for a list row in the my objects view.
-	 */
-	private function setListRowContentsForMyObjectsView() {
-		$this->setMarker(
-			'editor_link',
-			$this->createLinkToFeEditorPage(
-				'editorPID', $this->internal['currentRow']['uid']
-			)
-		);
-		$this->setMarker(
-			'image_upload_link',
-			$this->createLinkToFeEditorPage(
-				'imageUploadPID', $this->internal['currentRow']['uid']
-			)
-		);
-		$this->setMarker(
-			'really_delete',
-			$this->translate('label_really_delete') . '\n' .
-				$this->translate('label_object_number') . ' ' .
-				$this->internal['currentRow']['object_number'] . ': ' .
-				$this->internal['currentRow']['title']
-		);
-		$this->setMarker(
-			'delete_link',
-			$this->cObj->typoLink_URL(
-				array(
-					'parameter' => $GLOBALS['TSFE']->id,
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
-						$this->prefixId,
-						array('delete' => $this->internal['currentRow']['uid'])
-					),
-				)
-			)
-		);
-		$this->setMarker(
-			'record_state',
-			$this->translate($this->internal['currentRow']['hidden']
-				? 'label_pending' : 'label_published'
-			)
-		);
-
-		$this->setAdvertisementMarkers();
-	}
-
-	/**
 	 * Creates HTML for a list of links to result pages.
 	 *
 	 * @return string HTML for the pages list (will not be empty)
@@ -1478,55 +1286,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Sets the markers for the "advertise" link for one row.
-	 */
-	private function setAdvertisementMarkers() {
-		if (!$this->hasConfValueInteger(
-			'advertisementPID', 's_advertisements'
-		)) {
-			$this->hideSubparts('wrapper_advertising');
-			return;
-		}
-
-		if ($this->isCurrentObjectAdvertised()) {
-			$this->hideSubparts('wrapper_advertise_button');
-			$this->unhideSubparts('wrapper_advertised_status');
-			return;
-		}
-
-		$this->unhideSubparts('wrapper_advertise_button');
-		$this->hideSubparts('wrapper_advertised_status');
-
-		if ($this->hasConfValueString(
-			'advertisementParameterForObjectUid', 's_advertisements'
-		)) {
-			$linkParameters = t3lib_div::implodeArrayForUrl(
-				'',
-				array(
-					$this->getConfValueString(
-						'advertisementParameterForObjectUid',
-						's_advertisements'
-					) => $this->internal['currentRow']['uid']
-				)
-			);
-		} else {
-			$linkParameters = '';
-		}
-
-		$this->setMarker(
-			'advertise_link',
-			$this->cObj->typoLink_URL(
-				array(
-					'parameter' => $this->getConfValueInteger(
-						'advertisementPID', 's_advertisements'
-					),
-					'additionalParams' => $linkParameters,
-				)
-			)
-		);
-	}
-
-	/**
 	 * Returns an image record that is associated with the current realty record.
 	 *
 	 * @throws Exception if a database query error occurs
@@ -1590,32 +1349,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Checks whether the current object is advertised and the advertisement
-	 * has not expired yet.
-	 *
-	 * @return boolean true if the current object is advertised and the
-	 *                 advertisement has not expired yet, false otherwise
-	 */
-	private function isCurrentObjectAdvertised() {
-		$advertisementDate = $this->internal['currentRow']['advertised_date'];
-		if ($advertisementDate == 0) {
-			return false;
-		}
-
-		$expiryInDays = $this->getConfValueInteger(
-			'advertisementExpirationInDays', 's_advertisements'
-		);
-		if ($expiryInDays == 0) {
-			return true;
-		}
-
-		return (
-			($advertisementDate + $expiryInDays * ONE_DAY)
-				< $GLOBALS['SIM_ACCESS_TIME']
-		);
-	}
-
-	/**
 	 * Caches the record of the currently selected owner.
 	 *
 	 * If no value is provided by piVars or if the provided value does not match
@@ -1643,14 +1376,10 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 * Sets the current list view.
 	 *
 	 * @param string $currentListView
-	 *        the list view to display, must be one of "realty_list", "favorites",
-	 *        "my_objects" or "objects_by_owner"
+	 *        the list view to display, must be either "realty_list" or "objects_by_owner"
 	 */
 	public function setCurrentView($currentView) {
-		if(!in_array(
-			$currentView,
-			array('realty_list', 'favorites', 'my_objects', 'objects_by_owner'))
-		) {
+		if (!in_array($currentView, array('realty_list', 'objects_by_owner'))) {
 			throw new Exception(
 				'The given list view type "' . $currentView . '" is not defined.'
 			);
@@ -1667,10 +1396,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 */
 	protected function getViewSpecificWhereClauseParts() {
 		switch ($this->currentView) {
-			case 'my_objects':
-				$result = ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
-					'=' . $this->getFeUserUid();
-				break;
 			case 'objects_by_owner':
 				$result = ($this->cachedOwner['uid'] != 0)
 					? ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
@@ -1688,10 +1413,37 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Determines whether hidden results should be shown.
 	 *
+	 * This will be used for tx_oelib_db::enableFields.
+	 *
 	 * @return integer 1 if hidden records should be shown, -1 otherwise
 	 */
-	private function shouldShowHiddenObjects() {
-		return ($this->currentView == 'my_objects') ? 1 : -1;
+	protected function shouldShowHiddenObjects() {
+		return -1;
+	}
+
+	/**
+	 * Sets the google maps marker content if it is enabled.
+	 *
+	 * @param array $shownObjectsUids
+	 *        the UIDs of the objects to show on the map, may be empty
+	 */
+	protected function showGoogleMapsIfEnabled(array $shownObjectsUids) {
+		if (!$this->isGoogleMapsAllowed || !$this->getConfValueBoolean(
+			'showGoogleMaps', 's_googlemaps'
+		)) {
+			return;
+		}
+
+		$googleMapsView = tx_oelib_ObjectFactory::make(
+			'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj,
+			$this->isTestMode
+		);
+		foreach ($shownObjectsUids as $objectUid) {
+			$googleMapsView->setMapMarker($objectUid, true);
+		}
+		$this->unhideSubparts('google_map');
+		$this->setSubpart('google_map', $googleMapsView->render());
+		$googleMapsView->__destruct();
 	}
 }
 

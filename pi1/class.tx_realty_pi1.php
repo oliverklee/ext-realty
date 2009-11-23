@@ -226,6 +226,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $favoritesList->render($this->piVars);
 				$favoritesList->__destruct();
 				break;
+			case 'my_objects':
+				$myObjectsList = tx_oelib_ObjectFactory::make(
+					'tx_realty_pi1_MyObjectsListView', $this->conf, $this->cObj
+				);
+				$result = $myObjectsList->render($this->piVars);
+				$myObjectsList->__destruct();
+				break;
 			default:
 				// All other return values of getCurrentView stand for list views.
 				$listView = tx_oelib_ObjectFactory::make(
