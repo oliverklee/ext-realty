@@ -114,6 +114,11 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	protected $isGoogleMapsAllowed = TRUE;
 
 	/**
+	 * @var integer the start of the limit expression for the list query
+	 */
+	private $startingRecordNumber = 0;
+
+	/**
 	 * The constructor.
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
@@ -212,6 +217,8 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$this->internal['currentRow'] = $row;
+			$this->internal['currentRow']['recordPosition']
+				= $this->startingRecordNumber + $rowCounter;
 			$listItems .= $this->createListRow($rowCounter);
 			$listedObjectsUids[] = $this->internal['currentRow']['uid'];
 			$rowCounter++;
@@ -687,6 +694,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		$upperLimit = t3lib_div::intInRange(
 			$this->internal['results_at_a_time'], 1, 1000
 		);
+		$this->startingRecordNumber = $lowerLimit;
 
 		return $lowerLimit . ',' . $upperLimit;
 	}
@@ -870,6 +878,8 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			if ($this->getConfValueBoolean('enableNextPreviousButtons')) {
 				$additionalParameters['listUid'] = $this->cObj->data['uid'];
 				$additionalParameters['listViewType'] = $this->currentView;
+				$additionalParameters['recordPosition']
+					= $this->internal['currentRow']['recordPosition'];
 			}
 			$completeLink = $this->cObj->typoLink(
 				$linkText,

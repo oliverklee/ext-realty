@@ -839,6 +839,81 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewForDisabledEnableNextPreviousButtonsDoesNotAddRecordPositionToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 0);
+
+		$this->assertNotContains(
+		   'recordPosition',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledEnableNextPreviousButtonsAddsRecordPositionToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+
+		$this->assertContains(
+		   'recordPosition',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewRecordPositionSingleViewLinkParameterTakesSortingIntoAccount() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+
+		$this->assertRegExp(
+			'/' . $this->secondRealtyUid . '[^>]+recordPosition]=0/',
+			$this->fixture->render(array('orderBy' => 'title', 'descFlag' => 1))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForTwoRecordsAddsRecordPositionZeroToSingleViewLinkOfFirstRecord() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+
+		$this->assertRegExp(
+			'/' . $this->firstRealtyUid . '[^>]+recordPosition]=0/',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForTwoRecordsOnOnePageAddsRecordPositionOneToSingleViewLinkOfSecondRecord() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+
+		$this->assertRegExp(
+			'/' . $this->secondRealtyUid . '[^>]+recordPosition]=1/',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForTwoRecordsOnTwoPagesAddsRecordPositionOneToSingleViewLinkOfRecordOnSecondPage() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 1)
+		);
+
+		$this->assertContains(
+		   'recordPosition]=1',
+			$this->fixture->render(array('pointer' => 1))
+		);
+	}
+
 
 	////////////////////////////////////////////////////
 	// Tests concerning additional header in list view
