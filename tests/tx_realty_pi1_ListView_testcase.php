@@ -797,6 +797,48 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewForDisabledEnableNextPreviousButtonsDoesNotAddListTypeToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 0);
+		$output = $this->fixture->render();
+
+		$this->assertNotContains(
+		   'listViewType',
+			$output
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledEnableNextPreviousButtonsAddsListTypeToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$output = $this->fixture->render();
+
+		$this->assertContains(
+		   'listViewType',
+			$output
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledEnableNextPreviousButtonsAndListTypeRealtyListAddsCorrectListViewTypeToLink() {
+		// TODO: Move this test into a testing class for the abstract list view,
+		// when Bug# 3075 is finished
+		$this->fixture->setCurrentView('realty_list');
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$output = $this->fixture->render();
+
+		$this->assertContains(
+		   'listViewType]=realty_list',
+			$output
+		);
+	}
+
 
 	////////////////////////////////////////////////////
 	// Tests concerning additional header in list view

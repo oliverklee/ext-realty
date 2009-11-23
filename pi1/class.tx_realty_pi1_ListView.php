@@ -869,6 +869,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			$additionalParameters = array('showUid' => $uid);
 			if ($this->getConfValueBoolean('enableNextPreviousButtons')) {
 				$additionalParameters['listUid'] = $this->cObj->data['uid'];
+				$additionalParameters['listViewType'] = $this->currentView;
 			}
 			$completeLink = $this->cObj->typoLink(
 				$linkText,
