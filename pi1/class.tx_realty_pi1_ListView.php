@@ -783,13 +783,8 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 				array('parameter' => $separateSingleViewPage)
 			);
 		} else {
-			$additionalParameters = array('showUid' => $uid);
-			if ($this->getConfValueBoolean('enableNextPreviousButtons')) {
-				$additionalParameters['listUid'] = $this->cObj->data['uid'];
-				$additionalParameters['listViewType'] = $this->currentView;
-				$additionalParameters['recordPosition']
-					= $this->internal['currentRow']['recordPosition'];
-			}
+			$additionalParameters
+				= $this->getAdditionalParametersForSingleViewLink($uid);
 			$completeLink = $this->cObj->typoLink(
 				$linkText,
 				array(
@@ -1321,6 +1316,51 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		$this->unhideSubparts('google_map');
 		$this->setSubpart('google_map', $googleMapsView->render());
 		$googleMapsView->__destruct();
+	}
+
+	/**
+	 * Gets the additional parameters to add to the link to the single view page.
+	 *
+	 * @param integer $uid
+	 *        the UID of the object to create the link for, must be > 0
+	 *
+	 * @return array additional parameters to the single view page for usage
+	 *               with t3lib_div::implodeArrayForUrl, will not be empty
+	 */
+	private function getAdditionalParametersForSingleViewLink($uid) {
+		$result = array('showUid' => $uid);
+		if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
+			return $result;
+		}
+
+		$filterFormPiVars = tx_realty_filterForm::getPiVarKeys();
+		$parametersToSerialize = array();
+
+		foreach ($filterFormPiVars as $key) {
+			if (isset($this->piVars[$key])) {
+				$parametersToSerialize[$key] = $this->piVars[$key];
+			}
+		}
+
+		if (isset($this->piVars['search'])) {
+			$parametersToSerialize['search'] = $this->piVars['search'];
+
+		}
+		if (isset($this->piVars['orderBy'])) {
+			$parametersToSerialize['orderBy'] = $this->piVars['orderBy'];
+			$parametersToSerialize['descFlag'] = $this->piVars['descFlag'];
+		}
+
+		$result['listViewLimitation'] = base64_encode
+			(serialize($parametersToSerialize)
+		);
+
+		$result['listUid'] = $this->cObj->data['uid'];
+		$result['listViewType'] = $this->currentView;
+		$result['recordPosition']
+			= $this->internal['currentRow']['recordPosition'];
+
+		return $result;
 	}
 }
 

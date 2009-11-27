@@ -911,6 +911,136 @@ class tx_realty_pi1_ListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledNextPreviousButtonsAddsListViewLimitationToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+
+		$this->assertContains(
+		   'listViewLimitation',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForDisabledNextPreviousButtonsNotAddsListViewLimitationToSingleViewLink() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+
+		$this->assertContains(
+		   'listViewLimitation',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledNextPreviousButtonsBase64EncodesListViewLimitationValue() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$listViewLimitation = array();
+		preg_match(
+			'/listViewLimitation]=([^&]*)/',
+			$this->fixture->render(),
+			$listViewLimitation
+		);
+
+		$this->assertNotEquals(
+		   '',
+			base64_decode($listViewLimitation[1])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledNextPreviousButtonsSerializesListViewLimitationValue() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$listViewLimitation = array();
+		preg_match(
+			'/listViewLimitation]=([^&]*)/',
+			$this->fixture->render(array('orderBy' => 'foo')),
+			$listViewLimitation
+		);
+
+		$this->assertNotEquals(
+			'',
+			unserialize(base64_decode($listViewLimitation[1]))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledNextPreviousButtonsForSetOrderByContainsOrderByValue() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$listViewLimitation = array();
+		preg_match(
+			'/listViewLimitation]=([^&]*)/',
+			$this->fixture->render(array('orderBy' => 'foo')),
+			$listViewLimitation
+		);
+		$this->assertContains(
+			'foo',
+			unserialize(base64_decode($listViewLimitation[1]))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledNextPreviousButtonsForSetDescFlagContainsDescFlagValue() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$listViewLimitation = array();
+		preg_match(
+			'/listViewLimitation]=([^&]*)/',
+			$this->fixture->render(array('orderBy' => 'foo', 'descFlag' => 1)),
+			$listViewLimitation
+		);
+
+		$this->assertContains(
+			1,
+			unserialize(base64_decode($listViewLimitation[1]))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForEnabledNextPreviousButtonsForSetSearchContainsSearchValue() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$listViewLimitation = array();
+		preg_match(
+			'/listViewLimitation]=([^&]*)/',
+			$this->fixture->render(array('search' => array('0' => '42'))),
+			$listViewLimitation
+		);
+		$this->assertContains(
+			array('0' => '42'),
+			unserialize(base64_decode($listViewLimitation[1]))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewFilteredBySiteForEnabledNextPreviousButtonsContainsFilteredSite() {
+		$this->fixture->setConfigurationValue('enableNextPreviousButtons', 1);
+		$listViewLimitation = array();
+		preg_match(
+			'/listViewLimitation]=([^&]*)/',
+			$this->fixture->render(array('site' => self::$firstCityTitle)),
+			$listViewLimitation
+		);
+
+		$this->assertContains(
+			self::$firstCityTitle,
+			unserialize(base64_decode($listViewLimitation[1]))
+		);
+	}
+
 
 	////////////////////////////////////////////////////
 	// Tests concerning additional header in list view

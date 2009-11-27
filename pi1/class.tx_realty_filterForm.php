@@ -896,6 +896,19 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	private function replaceCommasWithDots($rawValue) {
 		return str_replace(',', '.', $rawValue);
 	}
+
+	/**
+	 * Returns the allowed filter form piVar keys.
+	 *
+	 * @return array the allowed filter form piVar keys, will not be empty
+	 */
+	static public function getPiVarKeys() {
+		return array(
+			'uid', 'objectNumber', 'site', 'city', 'district', 'houseType',
+			'priceRange', 'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo',
+			'objectType', 'numberOfRoomsFrom', 'numberOfRoomsTo'
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_filterForm.php']) {

@@ -1413,5 +1413,29 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->createDropDownItems('district')
 		);
 	}
+
+	//////////////////////////////////
+	// Tests concerning getPiVarKeys
+	//////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getPiVarKeysReturnsAnArray() {
+		$this->assertTrue(
+			is_array(tx_realty_filterForm::getPiVarKeys())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPiVarKeysReturnsNonEmptyArray() {
+		$result = tx_realty_filterForm::getPiVarKeys();
+
+		$this->assertTrue(
+			!empty($result)
+		);
+	}
 }
 ?>
