@@ -982,7 +982,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			array(
 				'title' => $title,
 				'pid' => $this->getConfValueInteger(
-					'sysFolderForFeCreatedAuxiliaryRecords', 's_feeditor'
+					'sysFolderForFeCreatedAuxiliaryRecords'
 				),
 				'tstamp' => mktime(),
 				'crdate' => mktime(),

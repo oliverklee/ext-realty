@@ -934,11 +934,11 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkSysFolderForFeCreatedAuxiliaryRecords() {
 		$this->checkIfSingleSysFolderNotEmpty(
 			'sysFolderForFeCreatedAuxiliaryRecords',
-			true,
-			's_feeditor',
-			'This value specifies the PID of the system folder for FE-created '
-				.'auxiliary records. New cities and districts will be stored on'
-				.'the root page if this value is invalid.'
+			FALSE,
+			'',
+			'This value specifies the PID of the system folder for FE-created ' .
+				'auxiliary records. New cities and districts will be stored on' .
+				'the root page if this value is invalid.'
 		);
 	}
 

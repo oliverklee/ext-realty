@@ -4,6 +4,8 @@ plugin.tx_realty_pi1 {
 
 	# location of the HTML template file
 	templateFile = EXT:realty/pi1/tx_realty_pi1.tpl.htm
+	# location of the HTML template file for the FE editor and image upload
+	feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
 
 	# whether to use formal or informal language
 	salutation = formal
@@ -64,6 +66,9 @@ plugin.tx_realty_pi1 {
 	# PID of the contact page which will be linked from the favorites list
 	# (leave empty to disable this link)
 	contactPID =
+
+	# PID of the system folder for FE-created auxiliary records
+	sysFolderForFeCreatedAuxiliaryRecords =
 
 
 	##########################################################################
@@ -137,14 +142,10 @@ plugin.tx_realty_pi1 {
 	imageUploadPID =
 	# PID of the system folder for FE-created records
 	sysFolderForFeCreatedRecords =
-	# PID of the system folder for FE-created auxiliary records
-	sysFolderForFeCreatedAuxiliaryRecords =
 	# PID of the FE page to redirect to after saving a FE-created record
 	feEditorRedirectPid =
 	# e-mail address which receives a message if e new FE record was created
 	feEditorNotifyEmail =
-	# location of the HTML template file for the FE editor and image upload
-	feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
 
 	# whether Google Maps should be displayed in the FE
 	showGoogleMaps = 0

@@ -175,7 +175,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Gets the path to the HTML template as set in the TS setup or flexforms.
+	 * Gets the path to the HTML template as set in the TS setup.
 	 * The returned path will always be an absolute path in the file system;
 	 * EXT: references will automatically get resolved.
 	 *
@@ -184,7 +184,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 */
 	public function getTemplatePath() {
 		return t3lib_div::getFileAbsFileName(
-			$this->getConfValueString('feEditorTemplateFile', 's_feeditor', true)
+			$this->getConfValueString('feEditorTemplateFile')
 		);
 	}
 
