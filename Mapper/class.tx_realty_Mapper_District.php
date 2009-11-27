@@ -52,6 +52,21 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	);
 
 	/**
+	 * @var array cache by district name and city UID, using values from
+	 *            createCacheKeyFromNameAndCityUid as keys
+	 */
+	private $cacheByNameAndCityUid = array();
+
+	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		$this->cacheByNameAndCityUid = array();
+
+		parent::__destruct();
+	}
+
+	/**
 	 * Finds all districts that belong to a certain city.
 	 *
 	 * If $uid is zero, this function returns all districts without a city.
@@ -78,6 +93,120 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 */
 	public function findAllByCityUidOrUnassigned($uid) {
 		return $this->findByWhereClause('city = 0 OR city = ' . $uid, 'title ASC');
+	}
+
+	/**
+	 * Finds a district by its name and its associated city.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no district with the
+	 *                                     given name and city
+	 *
+	 * @param string $districtName
+	 *        the name of the district to find, must not be empty
+	 * @param integer $cityUid
+	 *        the UID of the city of the district to find, must be >= 0
+	 *
+	 * @return tx_oelib_Model_District the district with the given name and city
+	 */
+	public function findByNameAndCityUid($districtName, $cityUid) {
+		if ($districtName == '') {
+			throw new Exception('$districtName must not be empty.');
+		}
+		if ($cityUid < 0) {
+			throw new Exception('$cityUid must be >= 0.');
+		}
+
+		try {
+			$model = $this->findByNameAndCityUidFromCache(
+				$districtName, $cityUid
+			);
+		} catch (tx_oelib_Exception_NotFound $exception) {
+			$model = $this->findByNameAndCityUidFromDatabase(
+				$districtName, $cityUid
+			);
+		}
+
+		return $model;
+	}
+
+	/**
+	 * Finds a district by its name and its associated city from the cache.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no district with the
+	 *                                     given name and city in the cache
+	 *
+	 * @param string $districtName
+	 *        the name of the district to find, must not be empty
+	 * @param integer $cityUid
+	 *        the UID of the city of the district to find, must be >= 0
+	 *
+	 * @return tx_oelib_Model_District the district with the given name and city
+	 */
+	private function findByNameAndCityUidFromCache($districtName, $cityUid) {
+		$cacheKey = $this->createCacheKeyFromNameAndCityUid(
+			$districtName, $cityUid
+		);
+		if (!isset($this->cacheByNameAndCityUid[$cacheKey])) {
+			throw new tx_oelib_Exception_NotFound();
+		}
+
+		return $this->cacheByNameAndCityUid[$cacheKey];
+	}
+
+	/**
+	 * Caches a model by additional combined keys.
+	 *
+	 * @param tx_oelib_Model $model the model to cache
+	 * @param array $data the data of the model as it is in the DB, may be empty
+	 */
+	protected function cacheModelByCombinedKeys(
+		tx_oelib_Model $model, array $data
+	) {
+		$districtName = isset($data['title']) ? $data['title'] : '';
+		if ($districtName == '') {
+			return;
+		}
+
+		$cityUid = isset($data['city']) ? $data['city'] : 0;
+
+		$cacheKey = $this->createCacheKeyFromNameAndCityUid(
+			$districtName, $cityUid
+		);
+		$this->cacheByNameAndCityUid[$cacheKey] = $model;
+	}
+
+	/**
+	 * Creates a unique cache key for a district name and a city UID.
+	 *
+	 * @param string $districtName
+	 *        the name of a district, must not be empty
+	 * @param integer $cityUid the UID of a city of a district, must be >= 0
+	 *
+	 * @return string a cache key, will be unique for that name/city pair,
+	 *                will not be empty
+	 */
+	private function createCacheKeyFromNameAndCityUid($districtName, $cityUid) {
+		return $cityUid . ':' . $districtName;
+	}
+
+	/**
+	 * Finds a district by its name and its associated city from the database.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no district with the
+	 *                                     given name and city in the database
+	 *
+	 * @param string $districtName
+	 *        the name of the district to find, must not be empty
+	 * @param integer $cityUid
+	 *        the UID of the city of the district to find, must be >= 0
+	 *
+	 * @return tx_oelib_Model_District the district with the given name and city
+	 */
+	private function findByNameAndCityUidFromDatabase($districtName, $cityUid) {
+		return $this->findSingleByWhereClause(array(
+			'title' => $districtName,
+			'city' => $cityUid,
+		));
 	}
 }
 

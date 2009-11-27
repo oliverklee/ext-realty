@@ -318,5 +318,242 @@ class tx_realty_Mapper_District_testcase extends tx_phpunit_testcase {
 			$this->fixture->findAllByCityUidOrUnassigned($cityUid)->hasUid($districtUid)
 		);
 	}
+
+
+	//////////////////////////////////////////
+	// Tests concerning findByNameAndCityUid
+	//////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidForEmptyNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$districtName must not be empty.'
+		);
+
+		$this->fixture->findByNameAndCityUid('', 42);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidForNegativeCityUidThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$cityUid must be >= 0.'
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', -1);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidForZeroCityUidNotThrowsException() {
+		$district = $this->fixture->getLoadedTestingModel(
+			array(
+				'title' => 'Kreuzberg',
+				'city' => 0,
+			)
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', 0);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidReturnsDistrict() {
+		$this->fixture->getLoadedTestingModel(
+			array(
+				'title' => 'Kreuzberg',
+				'city' => 0,
+			)
+		);
+
+		$this->assertTrue(
+			$this->fixture->findByNameAndCityUid('Kreuzberg', 0)
+				instanceof tx_realty_Model_District
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidCanFindDistrictWithThatNameAndCityFromDatabase() {
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$districtUid = $this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array(
+				'title' => 'Kreuzberg',
+				'city' => $cityUid,
+			)
+		);
+
+		$this->assertEquals(
+			$districtUid,
+			$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid)->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidNotFindsDistrictWithThatNameAndOtherCityFromDatabase() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array(
+				'title' => 'Kreuzberg',
+				'city' => $otherCityUid,
+			)
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidNotFindsDistrictWithThatNameAndInexistentCityFromDatabase() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array(
+				'title' => 'Kreuzberg',
+				'city' => 0,
+			)
+		);
+		$cityUid = $this->testingFramework->getAutoIncrement('tx_realty_cities');
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidNotFindsDistrictWithOtherNameAndMatchingCityFromDatabase() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array(
+				'title' => 'Neukölln',
+				'city' => $cityUid,
+			)
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidNotFindsDistrictWithOtherNameAndOtherCityFromDatabase() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$this->testingFramework->createRecord(
+			'tx_realty_districts',
+			array(
+				'title' => 'Neukölln',
+				'city' => $otherCityUid,
+			)
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidCanFindDistrictWithThatNameAndCityFromCache() {
+		$cityUid = tx_oelib_MapperRegistry::get('tx_realty_Mapper_city')
+			->getNewGhost()->getUid();
+		$district = $this->fixture->getLoadedTestingModel(
+			array(
+				'title' => 'Kreuzberg',
+				'city' => $cityUid,
+			)
+		);
+
+		$this->assertEquals(
+			$district,
+			$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidNotFindsDistrictWithThatNameAndOtherCityFromCache() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->getLoadedTestingModel(
+			array(
+				'title' => 'Kreuzberg',
+				'city' => $otherCityUid,
+			)
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidNotFindsDistrictWithOtherNameMatchingCityFromCache() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->getLoadedTestingModel(
+			array(
+				'title' => 'Neukölln',
+				'city' => $cityUid,
+			)
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameAndCityUidNotFindsDistrictWithOtherNameAndOtherCityFromCache() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+		$this->fixture->getLoadedTestingModel(
+			array(
+				'title' => 'Neukölln',
+				'city' => $otherCityUid,
+			)
+		);
+
+		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
+	}
 }
 ?>
