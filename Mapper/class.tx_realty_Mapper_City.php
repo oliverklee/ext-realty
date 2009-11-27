@@ -42,6 +42,25 @@ class tx_realty_Mapper_City extends tx_oelib_DataMapper {
 	 * @var string the model class name for this mapper, must not be empty
 	 */
 	protected $modelClassName = 'tx_realty_Model_City';
+
+	/**
+	 * @var array the column names of additional string keys
+	 */
+	protected $additionalKeys = array('title');
+
+	/**
+	 * Finds a city by its name.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no city with the
+	 *                                     given name
+	 *
+	 * @param string $name the name of the city to find, must not be empty
+	 *
+	 * @return tx_oelib_Model_City the city with the given name
+	 */
+	public function findByName($name) {
+		return $this->findOneByKey('title', $name);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_City.php']) {
