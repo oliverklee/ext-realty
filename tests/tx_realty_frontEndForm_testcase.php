@@ -143,7 +143,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 	public function testGetTemplatePathReturnsAbsolutePathFromTheConfiguration() {
 		$this->assertRegExp(
 			'/\/typo3conf\/ext\/realty\/pi1\/tx_realty_frontEndEditor\.html$/',
-			$this->fixture->getTemplatePath()
+			tx_realty_frontEndForm::getTemplatePath()
 		);
 	}
 }

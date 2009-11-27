@@ -182,9 +182,10 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 * @return string the path to the HTML template as an absolute path in the
 	 *                file system, will not be empty in a correct configuration
 	 */
-	public function getTemplatePath() {
+	static public function getTemplatePath() {
 		return t3lib_div::getFileAbsFileName(
-			$this->getConfValueString('feEditorTemplateFile')
+			tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+				->getAsString('feEditorTemplateFile')
 		);
 	}
 
