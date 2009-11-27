@@ -257,14 +257,20 @@
 		<!-- ###GOOGLE_MAP### --><div id="tx_realty_map"></div><!-- ###GOOGLE_MAP### -->
 		<!-- ###FIELD_WRAPPER_GOOGLEMAPS### -->
 		<!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
-		<form id="addToFavorites" method="post" action="###FAVORITES_URL###">
-			<div class="buttons">
+		<div class="buttons">
+			<!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
+			<form id="addToFavorites" method="post" action="###FAVORITES_URL###">
 				<input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
 				<a href="#" class="button singleViewAddToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
-				<a href="#" class="button printPage" onclick="window.print(); return false;"><span>###LABEL_PRINT_PAGE###</span></a>
-				<a href="#" class="button singleViewBack" onclick="history.back(); return false;"><span>###LABEL_BACK###</span></a>
-			</div>
-		</form>
+			</form>
+			<!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
+			<!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
+			<a href="#" class="button printPage" onclick="window.print(); return false;"><span>###LABEL_PRINT_PAGE###</span></a>
+			<!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
+			<!-- ###FIELD_WRAPPER_BACKBUTTON### -->
+			<a href="#" class="button singleViewBack" onclick="history.back(); return false;"><span>###LABEL_BACK###</span></a>
+			<!-- ###FIELD_WRAPPER_BACKBUTTON### -->
+		</div>
 		<!-- ###FIELD_WRAPPER_ACTIONBUTTONS### -->
 		<!-- ###FIELD_WRAPPER_FURTHERDESCRIPTION### -->
 		<div class="further-description">

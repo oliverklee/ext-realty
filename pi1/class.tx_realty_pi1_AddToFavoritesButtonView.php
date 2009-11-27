@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2009 Bernd Schönbach <bernd@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,21 +23,20 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_ActionButtonsView' for the 'realty' extension.
+ * Class tx_realty_pi1_AddToFavoritesButtonView for the "realty" extension.
  *
- * This class renders the add-to-favorites button and the buttons for back and
- * print.
+ * This class renders the add-to-favorites button.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
- * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1_ActionButtonsView extends tx_realty_pi1_FrontEndView {
+class tx_realty_pi1_AddToFavoritesButtonView extends tx_realty_pi1_FrontEndView {
 	/**
-	 * Returns the add-to-favorites button and the buttons for back and
-	 * print as HTML. For the add-to-favorites button, "favoritesPID" is
-	 * required to be configured.
+	 * Returns the add-to-favorites button.
+	 *
+	 * "favoritesPID" is required to be configured.
 	 *
 	 * @param array piVars array, must contain the key "showUid" with a valid
 	 *              realty object UID as value
@@ -54,11 +53,11 @@ class tx_realty_pi1_ActionButtonsView extends tx_realty_pi1_FrontEndView {
 		$this->setMarker('favorites_url', $favoritesUrl);
 		$this->setMarker('uid', $piVars['showUid']);
 
-		return $this->getSubpart('FIELD_WRAPPER_ACTIONBUTTONS');
+		return $this->getSubpart('FIELD_WRAPPER_ADDTOFAVORITESBUTTON');
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_ActionButtonsView.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_ActionButtonsView.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_AddToFavoritesButtonView.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_AddToFavoritesButtonView.php']);
 }
 ?>

@@ -99,7 +99,9 @@
 			<label index="realty.pi_flexform.price">rent/buying price</label>
 			<label index="realty.pi_flexform.overviewTable">overview table</label>
 			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>
-			<label index="realty.pi_flexform.actionButtons">buttons &quot;add to favorites&quot;, &quot;back&quot; and &quot;print&quot;</label>
+			<label index="realty.pi_flexform.addToFavoritesButton">button &quot;add to favorites&quot;</label>
+			<label index="realty.pi_flexform.printPageButton">button &quot;print&quot;</label>
+			<label index="realty.pi_flexform.backButton">buttons &quot;back&quot;</label>
 			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
@@ -443,7 +445,9 @@
 			<label index="realty.pi_flexform.price">Miete/Kaufpreis</label>
 			<label index="realty.pi_flexform.overviewTable">Übersichtstabelle</label>
 			<label index="realty.pi_flexform.contactButton">Button &quot;Kontakt aufnehmen&quot;</label>
-			<label index="realty.pi_flexform.actionButtons">Buttons &quot;Auf den Merkzettel&quot;, &quot;Zurück&quot; and &quot;Drucken&quot;</label>
+			<label index="realty.pi_flexform.addToFavoritesButton">Button &quot;Auf den Merkzettel&quot;</label>
+			<label index="realty.pi_flexform.printPageButton">Button &quot;Drucken&quot;</label>
+			<label index="realty.pi_flexform.backButton">Button &quot;Zurück&quot;</label>
 			<label index="realty.pi_flexform.furtherDescription">Felder &quot;Ausstattung&quot;, &quot;Lage&quot; und &quot;Sonstiges&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">Bilder</label>
 			<label index="realty.pi_flexform.offerer">Anbieterinformationen</label>
@@ -1463,7 +1467,6 @@
 			<label index="realty.pi_flexform.price">prezzo di affitto/vendita</label>
 			<label index="realty.pi_flexform.overviewTable">tabella riassuntiva</label>
 			<label index="realty.pi_flexform.contactButton">bottone &quot;contatti&quot;</label>
-			<label index="realty.pi_flexform.actionButtons">bottoni &quot;aggiungi a favoriti&quot;, &quot;indietro&quot; e &quot;stampa&quot;</label>
 			<label index="realty.pi_flexform.furtherDescription">campi &quot;attrezzatura&quot;, &quot;localit&amp;agrave;&quot; e &quot;varie&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">immagini</label>
 			<label index="realty.pi_flexform.offerer">informazioni proprietario</label>
@@ -1794,7 +1797,9 @@
 			<label index="realty.pi_flexform.price" type="integer">232449975</label>
 			<label index="realty.pi_flexform.overviewTable" type="integer">232367950</label>
 			<label index="realty.pi_flexform.contactButton" type="integer">205238602</label>
-			<label index="realty.pi_flexform.actionButtons" type="integer">89159895</label>
+			<label index="realty.pi_flexform.addToFavoritesButton" type="integer">75420222</label>
+			<label index="realty.pi_flexform.printPageButton" type="integer">179729703</label>
+			<label index="realty.pi_flexform.backButton" type="integer">244687441</label>
 			<label index="realty.pi_flexform.furtherDescription" type="integer">175943160</label>
 			<label index="realty.pi_flexform.imageThumbnails" type="integer">94064961</label>
 			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
@@ -2814,7 +2819,6 @@
 			<label index="realty.pi_flexform.price" type="integer">232449975</label>
 			<label index="realty.pi_flexform.overviewTable" type="integer">232367950</label>
 			<label index="realty.pi_flexform.contactButton" type="integer">205238602</label>
-			<label index="realty.pi_flexform.actionButtons" type="integer">89159895</label>
 			<label index="realty.pi_flexform.furtherDescription" type="integer">175943160</label>
 			<label index="realty.pi_flexform.imageThumbnails" type="integer">94064961</label>
 			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
@@ -3145,7 +3149,9 @@
 			<label index="realty.pi_flexform.price">rent/buying price</label>
 			<label index="realty.pi_flexform.overviewTable">overview table</label>
 			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>
-			<label index="realty.pi_flexform.actionButtons">buttons &quot;add to favorites&quot;, &quot;back&quot; and &quot;print&quot;</label>
+			<label index="realty.pi_flexform.addToFavoritesButton">button &quot;add to favorites&quot;</label>
+			<label index="realty.pi_flexform.printPageButton">button &quot;print&quot;</label>
+			<label index="realty.pi_flexform.backButton">buttons &quot;back&quot;</label>
 			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
@@ -4162,7 +4168,6 @@
 			<label index="realty.pi_flexform.price">rent/buying price</label>
 			<label index="realty.pi_flexform.overviewTable">overview table</label>
 			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>
-			<label index="realty.pi_flexform.actionButtons">buttons &quot;add to favorites&quot;, &quot;back&quot; and &quot;print&quot;</label>
 			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>

@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2009 Bernd Schönbach <bernd@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -25,17 +25,17 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_pi1_ActionButtonsView class in the 'realty'
+ * Unit tests for the tx_realty_pi1_BackButtonView class in the "realty"
  * extension.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
- * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1_ActionButtonsView_testcase extends tx_phpunit_testcase {
+class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_pi1_ActionButtonsView
+	 * @var tx_realty_pi1_BackButtonView
 	 */
 	private $fixture;
 
@@ -48,7 +48,7 @@ class tx_realty_pi1_ActionButtonsView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->fixture = new tx_realty_pi1_ActionButtonsView(
+		$this->fixture = new tx_realty_pi1_BackButtonView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
 			$GLOBALS['TSFE']->cObj
 		);
@@ -63,60 +63,12 @@ class tx_realty_pi1_ActionButtonsView_testcase extends tx_phpunit_testcase {
 
 
 	////////////////////////////////////
-	// Testing the action buttons view
+	// Testing the basic functionality
 	////////////////////////////////////
-
-	public function testRenderReturnsNonEmptyResultForZeroShowUidAndNoFavoritesPidConfigured() {
-		$this->assertNotEquals(
-			'',
-			$this->fixture->render(array('showUid' => 0))
-		);
-	}
 
 	public function testRenderReturnsButtonBack() {
 		$this->assertContains(
 			'class="button singleViewBack"',
-			$this->fixture->render(array('showUid' => 0))
-		);
-	}
-
-	public function testRenderReturnsButtonPrint() {
-		$this->assertContains(
-			'class="button printPage"',
-			$this->fixture->render(array('showUid' => 0))
-		);
-	}
-
-	public function testRenderReturnsButtonAddToFavorites() {
-		$this->assertContains(
-			'class="button singleViewAddToFavorites"',
-			$this->fixture->render(array('showUid' => 0))
-		);
-	}
-
-	public function testRenderReturnsProvidedShowUidOfRealtyRecordWithinTheFormAsInputValue() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-
-		$this->assertContains(
-			'value="' . $realtyObject->getUid() . '"',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
-	public function testRenderReturnsConfiguredFavoritesPidAsLinkTarget() {
-		$pageUid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue('favoritesPID', $pageUid);
-
-		$this->assertContains(
-			'?id=' . $pageUid,
-			$this->fixture->render(array('showUid' => 0))
-		);
-	}
-
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		$this->assertNotContains(
-			'###',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}

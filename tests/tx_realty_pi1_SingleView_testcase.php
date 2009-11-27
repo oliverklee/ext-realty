@@ -63,7 +63,8 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay',
 			'heading,address,description,furtherDescription,price,overviewTable,' .
-				'imageThumbnails,actionButtons,contactButton,offerer'
+				'imageThumbnails,addToFavoritesButton,contactButton,offerer,' .
+				'backButton,printPageButton'
 		);
 	}
 
@@ -261,7 +262,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheAddToFavoritesButtonIfEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTheAddToFavoritesButtonIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -271,17 +275,97 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysTheAddToFavoritesButtonIfDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTheAddToFavoritesButtonIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
 		$this->fixture->setConfigurationValue(
-			'singleViewPartsToDisplay', 'heading'
+			'singleViewPartsToDisplay', 'backButton'
 		);
 
 		$this->assertNotContains(
 			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysThePrintPageButtonIfEnabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('title' => 'foo'));
+
+		$this->assertContains(
+			'class="button printPage"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysThePrintPageButtonIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('title' => 'foo'));
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'addToFavoritesButton'
+		);
+
+		$this->assertNotContains(
+			'class="button printPage"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTheBackButtonIfEnabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('title' => 'foo'));
+
+		$this->assertContains(
+			'class="button singleViewBack"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTheBackButtonIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('title' => 'foo'));
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'printPageButton'
+		);
+
+		$this->assertNotContains(
+			'class="button singleViewBack"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplayingAnyOfTheActionButtonsHidesActionSubpart() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('title' => 'foo'));
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'header'
+		);
+		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
+
+		$this->assertFalse(
+			$this->fixture->isSubpartVisible('FIELD_WRAPPER_ACTIONBUTTONS')
 		);
 	}
 

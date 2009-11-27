@@ -127,8 +127,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 
 		foreach (array(
 			'heading', 'address', 'description', 'price', 'overviewTable',
-			'offerer', 'contactButton', 'googleMaps', 'actionButtons',
-			'furtherDescription', 'imageThumbnails',
+			'offerer', 'contactButton', 'googleMaps', 'addToFavoritesButton',
+			'furtherDescription', 'imageThumbnails', 'backButton',
+			'printPageButton',
 		) as $key) {
 			$viewContent = in_array($key, $configuredViews)
 				? $this->getView($uid, $key)
@@ -140,6 +141,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			}
 		}
 
+		$this->hideActionButtonsIfNeccessary($configuredViews);
 		// Sets an additional class name if the "image thumbnails" view
 		// is activated.
 		$this->setMarker(
@@ -198,6 +200,28 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$view->__destruct();
 
 		return $result;
+	}
+
+	/**
+	 * Hides the subpart actionButtons if the three action buttons
+	 * 'addToFavorites', 'printPage' and 'back' are hidden.
+	 *
+	 * @param array $displayedViews the views which are displayed, may be empty
+	 */
+	private function hideActionButtonsIfNeccessary(array $displayedViews) {
+		$visibilityTree = tx_oelib_ObjectFactory::make(
+			'tx_oelib_Visibility_Tree',
+			array('actionButtons' => array(
+				'addToFavoritesButton' => false,
+				'backButton' => false,
+				'printPageButton' => false,
+			))
+		);
+		$visibilityTree->makeNodesVisible($displayedViews);
+		$this->hideSubpartsArray(
+			$visibilityTree->getKeysOfHiddenSubparts(), 'FIELD_WRAPPER'
+		);
+		$visibilityTree->__destruct();
 	}
 }
 
