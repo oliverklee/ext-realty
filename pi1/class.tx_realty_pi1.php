@@ -241,12 +241,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$objectsByOwnerList->__destruct();
 				break;
 			default:
-				$listView = tx_oelib_ObjectFactory::make(
-					'tx_realty_pi1_ListView', $this->conf, $this->cObj
+				$realtyListView = tx_oelib_ObjectFactory::make(
+					'tx_realty_pi1_DefaultListView', $this->conf, $this->cObj
 				);
 
-				$result = $listView->render($this->piVars);
-				$listView->__destruct();
+				$result = $realtyListView->render($this->piVars);
+				$realtyListView->__destruct();
 				break;
 		}
 

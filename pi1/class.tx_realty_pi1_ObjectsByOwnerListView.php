@@ -33,11 +33,16 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_ListView {
+class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * @var string the list view type to display
 	 */
 	protected $currentView = 'objects_by_owner';
+
+	/**
+	 * @var string the locallang key to the label of a list view
+	 */
+	protected $listViewLabel = 'label_offerings_by';
 
 	/**
 	 * @var boolean whether Google Maps should be shown in this view

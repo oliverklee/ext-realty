@@ -34,7 +34,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_ListView {
+class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * @var string session key for storing the favorites list
 	 */

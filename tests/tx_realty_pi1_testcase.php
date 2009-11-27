@@ -734,7 +734,21 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function listViewCanBeRendered() {
+	public function forNoWhatToDisplaySetRealtyListViewWillBeRendered() {
+		$this->fixture->setConfigurationValue('what_to_display', '');
+
+		$this->assertContains(
+			$this->fixture->translate('label_weofferyou'),
+			$this->fixture->main('', array())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function realtyListViewCanBeRendered() {
+		$this->fixture->setConfigurationValue('what_to_display', 'realty-list');
+
 		$this->assertContains(
 			$this->fixture->translate('label_weofferyou'),
 			$this->fixture->main('', array())

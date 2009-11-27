@@ -34,7 +34,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
+abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var string same as class name
 	 */
@@ -43,7 +43,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var string path to this script relative to the extension directory
 	 */
-	public $scriptRelPath = 'pi1/class.tx_realty_pi1_ListView.php';
+	public $scriptRelPath = 'pi1/class.tx_realty_pi1_AbstractListView.php';
 
 	/**
 	 * @var boolean whether this class is called in the test mode
@@ -58,22 +58,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var string the list view type to display
 	 */
-	protected $currentView = 'realty_list';
-
-	/**
-	 * @var array the names of the database tables for foreign keys
-	 */
-	private $tableNames = array(
-		'objects' => REALTY_TABLE_OBJECTS,
-		'city' => REALTY_TABLE_CITIES,
-		'district' => REALTY_TABLE_DISTRICTS,
-		'country' => STATIC_COUNTRIES,
-		'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
-		'house_type' => REALTY_TABLE_HOUSE_TYPES,
-		'garage_type' => REALTY_TABLE_CAR_PLACES,
-		'pets' => REALTY_TABLE_PETS,
-		'images' => REALTY_TABLE_IMAGES,
-	);
+	protected $currentView = '';
 
 	/**
 	 * @var array sort criteria that can be selected in the BE flexforms.
@@ -122,6 +107,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = false
 	) {
+		$this->checkMemberVariables();
 		$this->isTestMode = $isTestMode;
 		parent::__construct($configuration, $cObj);
 	}
@@ -135,6 +121,32 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		}
 		unset($this->formatter);
 		parent::__destruct();
+	}
+
+	/**
+	 * Checks the member variables which need to be set.
+	 *
+	 * Checks the member variables $listViewLabel and $currentView for
+	 * non-emptiness, and $isGoogleMapsAllowed if it is set.
+	 *
+	 * @throws Exception one of the three checked variables has illegal values
+	 */
+	private function checkMemberVariables() {
+		if ($this->listViewLabel == '') {
+			throw new Exception(
+				'The member variable $listViewLabel must not be empty.'
+			);
+		}
+		if ($this->currentView == '') {
+			throw new Exception(
+				'The member variable $currentView must not be empty.'
+			);
+		}
+		if (!isset($this->isGoogleMapsAllowed)) {
+			throw new Exception(
+				'The member variable $isGoogleMapsAllowed must be set.'
+			);
+		}
 	}
 
 	/**
@@ -170,14 +182,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Initializes some view-specific data.
 	 */
-	protected function initializeView() {
-		$this->listViewLabel = 'label_weofferyou';
-		$this->unhideSubparts(
-			'favorites_url,list_filter,add_to_favorites_button,' .
-			'wrapper_checkbox'
-		);
-		$this->setSubpart('list_filter', $this->createCheckboxesFilter());
-	}
+	abstract protected function initializeView();
 
 	/**
 	 * Fills in the data for each list row.
@@ -295,37 +300,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		return htmlspecialchars(
 			$this->cObj->typoLink_URL(array('parameter' => $pageId))
 		);
-	}
-
-	/**
-	 * Creates the search checkboxes for the DB field selected in the BE.
-	 * If no field is selected in the BE or there are not DB records with
-	 * non-empty data for that field, this function returns an empty string.
-	 *
-	 * This function will also return an empty string if "city" is selected in
-	 * the BE and $this->piVars['city'] is set (by the city selector).
-	 *
-	 * @return string HTML for the search bar, may be empty
-	 */
-	private function createCheckboxesFilter() {
-		if (!$this->mayCheckboxesFilterBeCreated()) {
-			return '';
-		}
-
-		$items = $this->getCheckboxItems();
-		if (!empty($items)) {
-			$this->setSubpart('search_item', implode(LF, $items));
-			$this->setMarker(
-				'self_url_without_pivars',
-				$this->getSelfUrl(TRUE, array('search'))
-			);
-
-			$result = $this->getSubpart('LIST_FILTER');
-		} else {
-			$result = '';
-		}
-
-		return $result;
 	}
 
 	/**
@@ -645,69 +619,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Checks whether the checkboxes filter may be created.
-	 *
-	 * @return boolean true if there is a sort criterion configured and if the
-	 *                 criterion is not "city" while the city selector is
-	 *                 active, false otherwise
-	 */
-	private function mayCheckboxesFilterBeCreated() {
-		if (!$this->hasConfValueString('checkboxesFilter')) {
-			return false;
-		}
-
-		return (($this->getConfValueString('checkboxesFilter') != 'city')
-			|| !$this->isCitySelectorInUse()
-		);
-	}
-
-	/**
-	 * Returns an array of checkbox items for the list filter.
-	 *
-	 * @return array HTML for each checkbox item in an array, will be
-	 *               empty if there are no entries found for the
-	 *               configured filter
-	 */
-	private function getCheckboxItems() {
-		$result = array();
-
-		$filterCriterion = $this->getConfValueString('checkboxesFilter');
-		$currentTable = $this->tableNames[$filterCriterion];
-		$currentSearch = $this->searchSelectionExists()
-			? $this->piVars['search']
-			: array();
-
-		$whereClause = 'EXISTS ' . '(' .
-			'SELECT * ' .
-			'FROM ' . REALTY_TABLE_OBJECTS . ' ' .
-			'WHERE ' . REALTY_TABLE_OBJECTS . '.' . $filterCriterion .
-				' = ' . $currentTable . '.uid ' .
-				$this->getWhereClausePartForPidList() .
-				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
-			')' . tx_oelib_db::enableFields($currentTable);
-
-		$checkboxItems = tx_oelib_db::selectMultiple(
-			'uid, title', $currentTable, $whereClause
-		);
-
-		foreach ($checkboxItems as $checkboxItem) {
-			if (in_array($checkboxItem['uid'], $currentSearch)) {
-				$checked = ' checked="checked"';
-			} else {
-				$checked = '';
-			}
-			$this->setMarker('search_checked', $checked);
-			$this->setMarker('search_value', $checkboxItem['uid']);
-			$this->setMarker(
-				'search_label', htmlspecialchars($checkboxItem['title'])
-			);
-			$result[] = $this->getSubpart('SEARCH_ITEM');
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Creates the URL of the current page. The URL will contain a flag to
 	 * disable caching as this URL also is used for forms with method="post".
 	 *
@@ -722,7 +633,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 * @return string htmlspecialchared URL of the current page, will not
 	 *                be empty
 	 */
-	private function getSelfUrl($keepPiVars = true, array $removeKeys = array()) {
+	protected function getSelfUrl($keepPiVars = true, array $removeKeys = array()) {
 		$piVars = $keepPiVars ? $this->piVars : array();
 		unset($piVars['DATA']);
 		foreach ($removeKeys as $removeThisKey) {
@@ -1045,7 +956,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 *                comma-separated PID list, will be empty if no list
 	 *                could be fetched
 	 */
-	private function getWhereClausePartForPidList() {
+	protected function getWhereClausePartForPidList() {
 		$pidList = tx_oelib_db::createRecursivePageList(
 			$this->getConfValueString('pidList'),
 			$this->getConfValueInteger('recursive')
@@ -1075,22 +986,13 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		return array_unique($result);
 	}
 
-	/**
-	 * Checks whether the current piVars contain a value for the city selector.
-	 *
-	 * @return boolean whether the city selector is currently used
-	 */
-	private function isCitySelectorInUse() {
-		return $this->piVars['city'] > 0;
-	}
-
 	 /**
 	 * Checks whether a search selection exists.
 	 *
 	 * @return boolean true if a search selection is provided in the
 	 *                 current piVars, false otherwise
 	 */
-	private function searchSelectionExists() {
+	protected function searchSelectionExists() {
 		return (isset($this->piVars['search'])
 			&& is_array($this->piVars['search']));
 	}
@@ -1299,7 +1201,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 * @param array $shownObjectsUids
 	 *        the UIDs of the objects to show on the map, may be empty
 	 */
-	protected function showGoogleMapsIfEnabled(array $shownObjectsUids) {
+	private function showGoogleMapsIfEnabled(array $shownObjectsUids) {
 		if (!$this->isGoogleMapsAllowed || !$this->getConfValueBoolean(
 			'showGoogleMaps', 's_googlemaps'
 		)) {
@@ -1364,7 +1266,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_ListView.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_ListView.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_AbstractListView.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_AbstractListView.php']);
 }
 ?>

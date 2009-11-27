@@ -36,7 +36,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_ListView {
+class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * @var string the list view type to display
 	 */
