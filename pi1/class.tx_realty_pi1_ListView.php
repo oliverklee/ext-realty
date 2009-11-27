@@ -58,7 +58,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var string the list view type to display
 	 */
-	protected $currentView = '';
+	protected $currentView = 'realty_list';
 
 	/**
 	 * @var array the names of the database tables for foreign keys
@@ -95,13 +95,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 * @var string the locallang key to the label of a list view
 	 */
 	protected $listViewLabel = '';
-
-	/**
-	 * @var array existing types of list views
-	 */
-	private static $listViews = array(
-		'favorites', 'my_objects', 'objects_by_owner', 'realty_list'
-	);
 
 	/**
 	 * @var integer character length for cropped titles
@@ -163,7 +156,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 			'wrapper_editor_specific_content,wrapper_checkbox,favorites_url,' .
 			'limit_heading, google_map'
 		);
-		$this->cacheSelectedOwner();
 
 		$this->initializeView();
 
@@ -179,25 +171,12 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 * Initializes some view-specific data.
 	 */
 	protected function initializeView() {
-		switch ($this->currentView) {
-			case 'objects_by_owner':
-				$this->listViewLabel = $this->getTitleForTheObjectsByOwnerList();
-				$this->unhideSubparts(
-					'favorites_url,add_to_favorites_button,wrapper_checkbox,' .
-					'back_link'
-				);
-				break;
-			case 'realty_list':
-				// intended fall-through
-			default:
-				$this->listViewLabel = 'label_weofferyou';
-				$this->unhideSubparts(
-					'favorites_url,list_filter,add_to_favorites_button,' .
-					'wrapper_checkbox'
-				);
-				$this->setSubpart('list_filter', $this->createCheckboxesFilter());
-				break;
-		}
+		$this->listViewLabel = 'label_weofferyou';
+		$this->unhideSubparts(
+			'favorites_url,list_filter,add_to_favorites_button,' .
+			'wrapper_checkbox'
+		);
+		$this->setSubpart('list_filter', $this->createCheckboxesFilter());
 	}
 
 	/**
@@ -319,33 +298,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Returns the title for the list of objects by one owner.
-	 * The title will contain a localized string for 'label_offerings_by' plus
-	 * the owner's label.
-	 *
-	 * If there is no cached owner, the return value will be 'label_sorry'
-	 * as a localized string. (setEmptyResultView will add the corresponding
-	 * error message then.) An owner is cached through cacheSelectedOwner in
-	 * the main function if a valid UID was provided by $this->piVars.
-	 *
-	 * @return string localized string for 'label_offerings_by' plus the
-	 *                owner's label or the string for 'label_sorry' if
-	 *                there is no owner at all
-	 *
-	 * @see getOwnerLabel()
-	 */
-	private function getTitleForTheObjectsByOwnerList() {
-		$result = $this->translate('label_sorry');
-
-		if ($this->cachedOwner['uid'] != 0) {
-			$result = $this->translate('label_offerings_by') . ' ' .
-				$this->getOwnerLabel();
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Creates the search checkboxes for the DB field selected in the BE.
 	 * If no field is selected in the BE or there are not DB records with
 	 * non-empty data for that field, this function returns an empty string.
@@ -400,28 +352,21 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	 * Sets the view to an empty result message specific for the requested view.
 	 */
 	private function setEmptyResultView() {
-		$noResultsMessage = 'message_noResultsFound_' . $this->currentView;
-
-		// The objects-by-owner-view has two reasons for being empty.
-		if (($this->currentView == 'objects_by_owner')
-			&& ($this->cachedOwner['uid'] == 0)
-		) {
-			$noResultsMessage = 'message_no_such_owner';
-		}
-
 		$this->setMarker(
-			'message_noResultsFound', $this->translate($noResultsMessage)
+			'message_noResultsFound', $this->createNoResultsMessage()
 		);
-
-		// If the current view is a list view, the subpart to fill will be
-		// 'list_result'. All non-list view's subparts to fill here are named
-		// '[type of view]_result'.
-		if (in_array($this->currentView, self::$listViews)) {
-			$this->currentView = 'list';
-		}
 		$this->setSubpart(
-			$this->currentView . '_result', $this->getSubpart('EMPTY_RESULT_VIEW')
+			'list_result', $this->getSubpart('EMPTY_RESULT_VIEW')
 		);
+	}
+
+	/**
+	 * Creates the message for "no results found".
+	 *
+	 * @return string the localized message, will not be empty
+	 */
+	protected function createNoResultsMessage() {
+		return $this->translate('message_noResultsFound_' . $this->currentView);
 	}
 
 	/**
@@ -697,42 +642,6 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		$this->startingRecordNumber = $lowerLimit;
 
 		return $lowerLimit . ',' . $upperLimit;
-	}
-
-	/**
-	 * Returns a FE user's company if set in $this->cachedOwner, else the first
-	 * name and last name if provided, else the name. If none of these is
-	 * provided, the user name will be returned. FE user records are expected
-	 * to have at least a user name.
-	 *
-	 * @return string label for the owner, will be empty if no owner
-	 *                record was cached or if the cached record is an
-	 *                invalid FE user record without a user name
-	 */
-	private function getOwnerLabel() {
-		$result = '';
-
-		// As sr_feuser_register might not be installed, each field needs to be
-		// checked to exist.
-		foreach (array('username', 'name', 'last_name', 'company') as $key) {
-			if (isset($this->cachedOwner[$key])
-				&& ($this->cachedOwner[$key] != '')
-			) {
-				$result = $this->cachedOwner[$key];
-
-				// tries to add a first name if there is a last name
-				if (($key == 'last_name')
-					&& (isset($this->cachedOwner['first_name']))
-				) {
-					$result = trim(
-						$this->cachedOwner['first_name'] . ' ' .
-						$this->cachedOwner[$key]
-					);
-				}
-			}
-		}
-
-		return $result;
 	}
 
 	/**
@@ -1360,65 +1269,13 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Caches the record of the currently selected owner.
-	 *
-	 * If no value is provided by piVars or if the provided value does not match
-	 * a valid owner (a FE user who is non-hidden and non-deleted),
-	 * $this->cachedOwner will only contain the element 'uid' which will be
-	 * zero then.
-	 */
-	private function cacheSelectedOwner() {
-		$owner = array('uid' => 0);
-
-		if ($this->piVars['owner'] > 0) {
-			try {
-				$owner = tx_oelib_db::selectSingle(
-					'*',
-					'fe_users',
-					'uid = ' . $this->piVars['owner'] .
-						tx_oelib_db::enableFields('fe_users')
-				);
-			} catch (tx_oelib_Exception_EmptyQueryResult $exception) {}
-		}
-		$this->cachedOwner = $owner;
-	}
-
-	/**
-	 * Sets the current list view.
-	 *
-	 * @param string $currentListView
-	 *        the list view to display, must be either "realty_list" or "objects_by_owner"
-	 */
-	public function setCurrentView($currentView) {
-		if (!in_array($currentView, array('realty_list', 'objects_by_owner'))) {
-			throw new Exception(
-				'The given list view type "' . $currentView . '" is not defined.'
-			);
-		}
-
-		$this->currentView = $currentView;
-	}
-
-	/**
 	 * Gets the WHERE clause part specific to this view.
 	 *
 	 * @return string the WHERE clause parts to add, will be empty if no view
 	 *                specific WHERE clause parts are needed
 	 */
 	protected function getViewSpecificWhereClauseParts() {
-		switch ($this->currentView) {
-			case 'objects_by_owner':
-				$result = ($this->cachedOwner['uid'] != 0)
-					? ' AND ' . REALTY_TABLE_OBJECTS . '.owner' .
-						' = ' . $this->cachedOwner['uid']
-					: ' AND 0 = 1';
-				break;
-			default:
-				$result = '';
-				break;
-		}
-
-		return $result;
+		return '';
 	}
 
 	/**

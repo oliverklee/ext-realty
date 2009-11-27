@@ -233,13 +233,18 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $myObjectsList->render($this->piVars);
 				$myObjectsList->__destruct();
 				break;
+			case 'objects_by_owner':
+				$objectsByOwnerList = tx_oelib_ObjectFactory::make(
+					'tx_realty_pi1_ObjectsByOwnerListView', $this->conf, $this->cObj
+				);
+				$result = $objectsByOwnerList->render($this->piVars);
+				$objectsByOwnerList->__destruct();
+				break;
 			default:
-				// All other return values of getCurrentView stand for list views.
 				$listView = tx_oelib_ObjectFactory::make(
 					'tx_realty_pi1_ListView', $this->conf, $this->cObj
 				);
 
-				$listView->setCurrentView($this->getCurrentView());
 				$result = $listView->render($this->piVars);
 				$listView->__destruct();
 				break;

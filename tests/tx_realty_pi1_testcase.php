@@ -765,5 +765,19 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 			$this->fixture->main('', array())
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function objectByOwnerViewCanBeRendered() {
+		$this->fixture->setConfigurationValue(
+			'what_to_display', 'objects_by_owner'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_sorry'),
+			$this->fixture->main('', array())
+		);
+	}
 }
 ?>
