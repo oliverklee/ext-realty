@@ -135,11 +135,11 @@
 					</item>
 				</items>
 				<userobj>
-					<extension>this</extension>
-					<method>populateList</method>
-					<params>
-						<data name="table" value="tx_realty_cities"/>
-					</params>
+					<php><![CDATA[
+						require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+						require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
+						return tx_realty_frontEndEditor::populateCityList();
+					]]></php>
 				</userobj>
 			</data>
 			<onchange>updateDistrictsInEditor();</onchange>

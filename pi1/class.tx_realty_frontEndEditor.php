@@ -145,6 +145,27 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
+	 * Creates a list of cities.
+	 *
+	 * @return array items for the city selector, will be empty if there are no
+	 *               cities in the database
+	 */
+	static public function populateCityList() {
+		$options = array();
+
+		$districts = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
+			->findAll('title');
+		foreach ($districts as $district) {
+			$options[] = array(
+				'value' => $district->getUid(),
+				'caption' => $district->getTitle(),
+			);
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Creates a list of districts.
 	 *
 	 * @return array items for the district selector, will be empty if no city

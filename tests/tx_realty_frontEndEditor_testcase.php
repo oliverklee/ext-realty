@@ -1690,5 +1690,26 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
 		);
 	}
+
+
+	//////////////////////////////////////
+	// Tests concerning populateCityList
+	//////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function populateCityListContainsCityFromDatabase() {
+		$cityUid = $this->testingFramework->createRecord(
+			'tx_realty_cities', array('title' => 'Bonn')
+		);
+
+		$this->assertTrue(
+			in_array(
+				array('value' => $cityUid, 'caption' => 'Bonn'),
+				tx_realty_frontEndEditor::populateCityList()
+			)
+		);
+	}
 }
 ?>
