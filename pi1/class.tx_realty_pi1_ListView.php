@@ -775,7 +775,7 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 
 		$hasSeparateSingleViewPage = ($separateSingleViewPage != '');
 		// disables the caching if we are in the favorites list
-		$useCache = ($this->currentView != 'favorites');
+		$useCache = $this->useCacheForSinglePageLink();
 
 		if ($hasSeparateSingleViewPage) {
 			$completeLink = $this->cObj->typoLink(
@@ -811,6 +811,15 @@ class tx_realty_pi1_ListView extends tx_realty_pi1_FrontEndView {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Checks whether to use caching for the link to the single view page.
+	 *
+	 * @return boolean true if caching should be used, false otherwise
+	 */
+	protected function useCacheForSinglePageLink() {
+		return TRUE;
 	}
 
 	/**
