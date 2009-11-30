@@ -154,6 +154,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return string HTML for the current view, will not be empty
 	 */
 	private function getHtmlForCurrentView() {
+		$listViewType = '';
+
 		switch ($this->getCurrentView()) {
 			case 'gallery':
 				$result = $this->createGallery();
@@ -220,34 +222,24 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$offererList->__destruct();
 				break;
 			case 'favorites':
-				$favoritesList = tx_oelib_ObjectFactory::make(
-					'tx_realty_pi1_FavoritesListView', $this->conf, $this->cObj
-				);
-				$result = $favoritesList->render($this->piVars);
-				$favoritesList->__destruct();
+				$listViewType = 'favorites';
 				break;
 			case 'my_objects':
-				$myObjectsList = tx_oelib_ObjectFactory::make(
-					'tx_realty_pi1_MyObjectsListView', $this->conf, $this->cObj
-				);
-				$result = $myObjectsList->render($this->piVars);
-				$myObjectsList->__destruct();
+				$listViewType = 'my_objects';
 				break;
 			case 'objects_by_owner':
-				$objectsByOwnerList = tx_oelib_ObjectFactory::make(
-					'tx_realty_pi1_ObjectsByOwnerListView', $this->conf, $this->cObj
-				);
-				$result = $objectsByOwnerList->render($this->piVars);
-				$objectsByOwnerList->__destruct();
+				$listViewType = 'objects_by_owner';
 				break;
 			default:
-				$realtyListView = tx_oelib_ObjectFactory::make(
-					'tx_realty_pi1_DefaultListView', $this->conf, $this->cObj
-				);
-
-				$result = $realtyListView->render($this->piVars);
-				$realtyListView->__destruct();
+				$listViewType = 'realty_list';
 				break;
+		}
+		if ($listViewType != '') {
+			$listView = tx_realty_pi1_ListViewFactory::make(
+				$listViewType, $this->conf, $this->cObj
+			);
+			$result = $listView->render($this->piVars);
+			$listView->__destruct();
 		}
 
 		return $result;
