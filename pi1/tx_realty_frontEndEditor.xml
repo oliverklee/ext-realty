@@ -219,29 +219,60 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:TEXT name="new_district" label="LLL:EXT:realty/pi1/locallang.xml:label_new_district">
-			<validators>
-				<validator:STANDARD>
-					<userobj>
-						<extension>this</extension>
-						<method>isAtMostOneValueForAuxiliaryRecordProvided</method>
-						<params>
-							<data name="fieldName" value="district"/>
-						</params>
-						<message>
-							<userobj>
-								<extension>this</extension>
-								<method>getMessageForRealtyObjectField</method>
-								<params>
-									<data name="fieldName" value="district"/>
-									<data name="label" value="message_either_new_or_existing_record"/>
-								</params>
-							</userobj>
-						</message>
-					</userobj>
-				</validator:STANDARD>
-			</validators>
-		</renderlet:TEXT>
+		<renderlet:BUTTON name="newDistrictButton" label="LLL:EXT:realty/pi1/locallang.xml:label_new_district">
+			<onclick runat="ajax" cache="false">
+				<userobj>
+					<php><![CDATA[
+						$this->oRenderer->_setDisplayLabels(true);
+						$result = $this->aORenderlets['newDistrictModalBox']->majixShowFreshBox();
+						$this->oRenderer->_setDisplayLabels(false);
+						return $result;
+					]]></php>
+				</userobj>
+			</onclick>
+		</renderlet:BUTTON>
+		<renderlet:MODALBOX name="newDistrictModalBox">
+			<childs>
+				<renderlet:TEXT name="newDistrictTitle" label="LLL:EXT:realty/locallang_db.xml:tx_realty_districts.title"/>
+				<renderlet:LISTBOX name="newDistrictCity" label="LLL:EXT:realty/locallang_db.xml:tx_realty_districts.city">
+					<data>
+						<items>
+							<item>
+								<caption>&amp;nbsp;</caption>
+								<value>0</value>
+							</item>
+						</items>
+						<userobj>
+							<php><![CDATA[
+								require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+								require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
+								return tx_realty_frontEndEditor::populateCityList();
+							]]></php>
+						</userobj>
+					</data>
+				</renderlet:LISTBOX>
+				<renderlet:BUTTON name="newDistrictCancelButton" label="LLL:EXT:realty/pi1/locallang.xml:label_cancel" wrap="&lt;div class=&quot;formidable-rdrstd-rdtwrap tx_realty_pi1_modalbox_buttons&quot;&gt;|">
+					<onclick runat="client">
+						<userobj>
+							<php><![CDATA[
+								return $this->aORenderlets['newDistrictModalBox']->majixCloseBox();
+							]]></php>
+						</userobj>
+					</onclick>
+				</renderlet:BUTTON>
+				<renderlet:BUTTON name="newDistrictSaveButton" label="LLL:EXT:realty/pi1/locallang.xml:label_save" wrap="|&lt;/div&gt;">
+					<onclick runat="ajax" cache="false" params="newDistrictTitle, newDistrictCity">
+						<userobj>
+							<php><![CDATA[
+								require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+								require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndEditor.php');
+								return tx_realty_frontEndEditor::createNewDistrict($this);
+							]]></php>
+						</userobj>
+					</onclick>
+				</renderlet:BUTTON>
+			</childs>
+		</renderlet:MODALBOX>
 		<renderlet:LISTBOX name="country" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.country">
 			<data>
 				<items>

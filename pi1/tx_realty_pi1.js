@@ -181,3 +181,20 @@ function updateDistrictsInEditor() {
 		}
 	);
 }
+
+/**
+ * Appends a district so that it is available for selection in the FE editor.
+ *
+ * @param integer uid the UID of the district to add, must be > 0
+ * @param string title the title of the district, must not be empty
+ */
+function appendDistrictInEditor(uid, title) {
+	var container = $("tx_realty_frontEndEditor_district");
+	if (!container) {
+		return;
+	}
+	var optionElement = new Element("option", {"value": uid});
+	optionElement.appendChild(document.createTextNode(title));
+
+	container.appendChild(optionElement);
+}

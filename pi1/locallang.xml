@@ -298,6 +298,7 @@
 			<label index="label_your_request">Request</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
+			<label index="label_cancel">Cancel</label>
 			<label index="label_save_and_close">Save and close</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
 			<label index="label_set_name_formal">Please provide your name without special characters.</label>
@@ -336,6 +337,8 @@
 			<label index="message_enter_valid_non_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</label>
 			<label index="message_enter_valid_or_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</label>
 			<label index="message_either_new_or_existing_record">A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</label>
+			<label index="message_emptyTitle">Please enter a title.</label>
+			<label index="message_emptyCity">Please select a city.</label>
 			<label index="label_new_city">Create new city</label>
 			<label index="label_new_district">Create new district</label>
 			<label index="label_email_subject_fe_editor">A new realty record has been created in the FE.</label>
@@ -643,6 +646,7 @@
 			<label index="label_your_request">Anfrage</label>
 			<label index="label_submit">Abschicken</label>
 			<label index="label_save">Speichern</label>
+			<label index="label_cancel">Abbrechen</label>
 			<label index="label_save_and_close">Speichern und schließen</label>
 			<label index="label_no_contact_person">Die Anfrage kann nicht gesendet werden, weil für dieses Objekt keine Kontaktperson angegeben wurde.</label>
 			<label index="label_set_name_formal">Bitte geben Sie Ihren Namen ohne Sonderzeichen ein.</label>
@@ -681,6 +685,8 @@
 			<label index="message_enter_valid_non_empty_rent">Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an, da Sie ein Objekt zum Mieten anlegen.</label>
 			<label index="message_enter_valid_or_empty_rent">Bitte geben Sie einen gültigen Preis für &lt;em&gt;Nettojahresmiete&lt;/em&gt; oder &lt;em&gt;Kaltmiete&lt;/em&gt; an oder lassen Sie dieses Feld leer.</label>
 			<label index="message_either_new_or_existing_record">Ein neuer und ein existierender Datensatz können nicht für dasselbe Objekt gespeichert werden. Bitte wählen Sie entweder einen der existierenden Datensätze oder geben Sie einen neuen Titel an.</label>
+			<label index="message_emptyTitle">Bitte geben Sie einen Titel ein.</label>
+			<label index="message_emptyCity">Bitte wählen Sie eine Stadt aus.</label>
 			<label index="label_new_city">Neuen Ort anlegen</label>
 			<label index="label_new_district">Neuen Ortsteil anlegen</label>
 			<label index="label_email_subject_fe_editor">Ein neues Immobilienobjekt wurde im FE angelegt</label>
@@ -1991,6 +1997,7 @@
 			<label index="label_your_request" type="integer">22818181</label>
 			<label index="label_submit" type="integer">155805401</label>
 			<label index="label_save" type="integer">211601612</label>
+			<label index="label_cancel" type="integer">245659783</label>
 			<label index="label_save_and_close" type="integer">125326617</label>
 			<label index="label_no_contact_person" type="integer">231672500</label>
 			<label index="label_set_name_formal" type="integer">124059229</label>
@@ -2029,6 +2036,8 @@
 			<label index="message_enter_valid_non_empty_rent" type="integer">164774428</label>
 			<label index="message_enter_valid_or_empty_rent" type="integer">122811280</label>
 			<label index="message_either_new_or_existing_record" type="integer">106518866</label>
+			<label index="message_emptyTitle" type="integer">174051111</label>
+			<label index="message_emptyCity" type="integer">140614102</label>
 			<label index="label_new_city" type="integer">129803662</label>
 			<label index="label_new_district" type="integer">155755436</label>
 			<label index="label_email_subject_fe_editor" type="integer">99521102</label>
@@ -3340,6 +3349,7 @@
 			<label index="label_your_request">Request</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
+			<label index="label_cancel">Cancel</label>
 			<label index="label_save_and_close">Save and close</label>
 			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
 			<label index="label_set_name_formal">Please provide your name without special characters.</label>
@@ -3378,6 +3388,8 @@
 			<label index="message_enter_valid_non_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</label>
 			<label index="message_enter_valid_or_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</label>
 			<label index="message_either_new_or_existing_record">A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</label>
+			<label index="message_emptyTitle">Please enter a title.</label>
+			<label index="message_emptyCity">Please select a city.</label>
 			<label index="label_new_city">Create new city</label>
 			<label index="label_new_district">Create new district</label>
 			<label index="label_email_subject_fe_editor">A new realty record has been created in the FE.</label>

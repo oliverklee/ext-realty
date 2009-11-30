@@ -70,3 +70,8 @@
 #nextLink:hover, #nextLink:visited:hover {
 	background: url(images/nextlabel.gif) right 15% no-repeat !important;
 }
+
+/***** FRONT-END EDITOR *****/
+.tx_realty_pi1_modalbox_buttons {
+	margin-top: 1em;
+}

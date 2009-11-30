@@ -552,22 +552,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
-	 * Checks whether there is no existing district record selected at the same
-	 * time a new one should be created.
-	 *
-	 * @param array array with one element named "value" that contains the value
-	 *              which contains the string for the new district record
-	 *
-	 * @return boolean true if no existing district record is selected or
-	 *                 if the string for the new district record is empty
-	 */
-	public function isAtMostOneValueForDistrictRecordProvided(array $valueToCheck) {
-		return $this->isAtMostOneValueForAuxiliaryRecordProvided(
-			$valueToCheck['value'], 'district'
-		);
-	}
-
-	/**
 	 * Checks whether the provided value is non-empty or the owner's data is
 	 * chosen as contact data source.
 	 *
@@ -940,25 +924,25 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
 	 * Stores new auxiliary records in the database if there are any in the
 	 * provided form data and modifies the form data.
+	 *
 	 * The UIDs of the new records are written to the form data.
 	 *
 	 * @param array form data, will be modified, must not be empty
 	 */
 	private function storeNewAuxiliaryRecords(array &$formData) {
-		foreach (array(
-			REALTY_TABLE_CITIES => 'city', REALTY_TABLE_DISTRICTS => 'district'
-		) as $table => $key) {
-			$title = trim($formData['new_' . $key]);
+		$table = REALTY_TABLE_CITIES;
+		$key = 'city';
 
-			if (($title != '') && ($formData[$key] == 0)) {
-				$uid = $this->getUidIfAuxiliaryRecordExists($title, $table);
+		$title = trim($formData['new_' . $key]);
 
-				if ($uid == 0) {
-					$uid = $this->createNewAuxiliaryRecord($title, $table);
-				}
+		if (($title != '') && ($formData[$key] == 0)) {
+			$uid = $this->getUidIfAuxiliaryRecordExists($title, $table);
 
-				$formData[$key] = $uid;
+			if ($uid == 0) {
+				$uid = $this->createNewAuxiliaryRecord($title, $table);
 			}
+
+			$formData[$key] = $uid;
 		}
 	}
 
@@ -1092,6 +1076,101 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return intval($row['save_folder']);
+	}
+
+
+	////////////////////////////////////////////////////
+	// Functions concerning the modal district editor.
+	///////////////////////////////////////////////////
+
+	/**
+	 * Creates a new district record.
+	 *
+	 * This function is intended to be called via an AJAX FORMidable event.
+	 *
+	 * @param tx_ameosformidable $formidable
+	 *        the FORMidable object for the AJAX call
+	 *
+	 * @return array calls to be executed on the client
+	 */
+	static public function createNewDistrict(tx_ameosformidable $formidable) {
+		$formData = $formidable->oMajixEvent->getParams();
+		$title = trim(strip_tags($formData['newDistrictTitle']));
+		$cityUid = intval($formData['newDistrictCity']);
+
+		$validationErrors = self::validateDistrict(
+			$formidable, array(
+				'title' => $title,
+				'city' => $cityUid,
+			)
+		);
+		if (!empty($validationErrors)) {
+			return array(
+				$formidable->majixExecJs(
+					'alert("' . implode('\n', $validationErrors) . '");'
+				),
+			);
+		};
+
+		try {
+			tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
+				->findByNameAndCityUid($title, $cityUid);
+			// just closes the modal box; doesn't save the district if it
+			// already exists
+			return array(
+				$formidable->aORenderlets['newDistrictModalBox']->majixCloseBox()
+			);
+		} catch (tx_oelib_Exception_NotFound $exception) {
+		}
+
+		$district = tx_oelib_ObjectFactory::make('tx_realty_Model_District');
+		$district->setData(array('pid' => self::getPageIdForAuxiliaryRecords()));
+		$district->setTitle($title);
+		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')->find(
+			$cityUid
+		);
+		$district->setCity($city);
+		$district->markAsDirty();
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')->save($district);
+
+		return array(
+			$formidable->aORenderlets['newDistrictModalBox']->majixCloseBox(),
+			$formidable->majixExecJs(
+				'appendDistrictInEditor(' . $district->getUid() . ', "' .
+					addcslashes($district->getTitle(), '"\\') . '");'
+			),
+		);
+	}
+
+	/**
+	 * Validates the entered data for a district.
+	 *
+	 * @param tx_ameosformidable $formidable
+	 *        the FORMidable object for the AJAX call
+	 * @param array $formData
+	 *        the entered form data, the key must be stripped of the
+	 *        "newDistrict" prefix, must not be empty
+	 *
+	 * @return array any error messages, will be empty if there are no
+	 *         validation errors
+	 */
+	static private function validateDistrict(
+		tx_ameosformidable $formidable, array $formData
+	) {
+		$validationErrors = array();
+
+		if ($formData['title'] == '') {
+			$validationErrors[] = $formidable->getLLLabel(
+				'LLL:EXT:realty/pi1/locallang.xml:message_emptyTitle'
+			);
+		}
+		if ($formData['city'] <= 0) {
+			$validationErrors[] = $formidable->getLLLabel(
+				'LLL:EXT:realty/pi1/locallang.xml:message_emptyCity'
+			);
+		}
+
+		return $validationErrors;
 	}
 
 
