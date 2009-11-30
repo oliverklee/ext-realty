@@ -70,6 +70,9 @@ plugin.tx_realty_pi1 {
 	# PID of the system folder for FE-created auxiliary records
 	sysFolderForFeCreatedAuxiliaryRecords =
 
+	# whether to show the next and previous buttons in the single view
+	enableNextPreviousButtons = 0
+
 
 	##########################################################################
 	# The following variable can also be set using flexforms. Non-empty values
@@ -164,9 +167,6 @@ plugin.tx_realty_pi1 {
 	# the number of days after which an advertisement expires, set to 0 to have
 	# no expiration
 	advertisementExpirationInDays = 0
-
-	# whether to show the next and previous buttons
-	enableNextPreviousButtons = 0
 }
 
 plugin.tx_realty_pi1.listView {
