@@ -66,10 +66,164 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 	// Testing the basic functionality
 	////////////////////////////////////
 
-	public function testRenderReturnsButtonBack() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsButtonBack() {
 		$this->assertContains(
 			'class="button singleViewBack"',
 			$this->fixture->render(array('showUid' => 0))
+		);
+	}
+
+
+	//////////////////////////////
+	// Tests concerning the link
+	//////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsDisabledAndNoListUidViewIsJavaScriptBack() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', FALSE
+		);
+
+		$this->assertContains(
+			'history.back();',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsDisabledAndListUidViewIsJavaScriptBack() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', FALSE
+		);
+		$listUid = $this->testingFramework->createContentElement(
+				$this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->piVars['listUid'] = $listUid;
+
+		$this->assertContains(
+			'history.back();',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsEnabledAndNoListUidViewIsJavaScriptBack() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+
+		$this->assertContains(
+			'history.back();',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsEnabledAndListUidViewNotIsJavaScriptBack() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+		$listViewPageUid = $this->testingFramework->createFrontEndPage();
+		$listUid = $this->testingFramework->createContentElement(
+			$listViewPageUid
+		);
+		$this->fixture->piVars['listUid'] = $listUid;
+
+
+		$this->assertNotContains(
+			'history.back();',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsEnabledAndListUidViewContainsLinkToListViewPage() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+		$listViewPageUid = $this->testingFramework->createFrontEndPage();
+		$listUid = $this->testingFramework->createContentElement(
+			$listViewPageUid
+		);
+		$this->fixture->piVars['listUid'] = $listUid;
+
+		$this->assertContains(
+			'?id=' . $listViewPageUid,
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsEnabledAndListViewLimitationSetAddsListViewLimitationDecodedToPiVar() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+		$listViewPageUid = $this->testingFramework->createFrontEndPage();
+		$listUid = $this->testingFramework->createContentElement(
+			$listViewPageUid
+		);
+		$listViewLimitation = base64_encode(
+			serialize(array('objectNumber' => 'foo')));
+		$this->fixture->piVars['listUid'] = $listUid;
+		$this->fixture->piVars['listViewLimitation'] = $listViewLimitation;
+
+		$this->assertContains(
+			'objectNumber]=foo',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsEnabledAndFooSetAsPiVarNotAddsFooToBackLink() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+		$listViewPageUid = $this->testingFramework->createFrontEndPage();
+		$listUid = $this->testingFramework->createContentElement(
+			$listViewPageUid
+		);
+		$this->fixture->piVars['listUid'] = $listUid;
+		$this->fixture->piVars['foo'] = 'bar';
+
+		$this->assertNotContains(
+			'foo',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function forPreviousNextButtonsEnabledAndListUidSetToStringDoesNotAddListUidStringToLink() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+		$listViewPageUid = $this->testingFramework->createFrontEndPage();
+		$listUid = $this->testingFramework->createContentElement(
+			$listViewPageUid
+		);
+		$this->fixture->piVars['listUid'] = 'fooo';
+
+		$this->assertNotContains(
+			'fooo',
+			$this->fixture->render()
 		);
 	}
 }

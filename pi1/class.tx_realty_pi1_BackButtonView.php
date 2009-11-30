@@ -41,7 +41,64 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 	 * @return string HTML for the back button, will not be empty
 	 */
 	public function render(array $piVars = array()) {
+		if ($this->getConfValueBoolean('enableNextPreviousButtons')
+			&& isset($this->piVars['listUid'])
+		) {
+			$backUrl = $this->getBackLinkUrl();
+			$javaScriptBack = '';
+		} else {
+			$backUrl =  '#';
+			$javaScriptBack = ' onclick="history.back(); return false;"';
+		}
+
+		$this->setMarker('BACK_URL', $backUrl);
+		$this->setMarker('JAVASCRIPT_BACK', $javaScriptBack);
+
 		return $this->getSubpart('FIELD_WRAPPER_BACKBUTTON');
+	}
+
+	/**
+	 * Builds the URL for the back link.
+	 *
+	 * @return string the URL to the listView, will be empty if listUid is not
+	 *                set or zero in piVars
+	 */
+	private function getBackLinkUrl() {
+		if (intval($this->piVars['listUid']) == 0) {
+			return '';
+		}
+
+		$listUid = intval($this->piVars['listUid']);
+
+		try {
+			$listViewPage = tx_oelib_db::selectSingle(
+				'pid',
+				'tt_content',
+				'uid=' . $listUid . tx_oelib_db::enableFields('tt_content')
+			);
+		} catch (tx_oelib_Exception_EmptyQueryResult $Exception) {
+			return '';
+		}
+
+		$additionalParameters = array();
+		if (isset($this->piVars['listViewLimitation'])) {
+			$unserializedParameters = unserialize(
+				base64_decode($this->piVars['listViewLimitation'])
+			);
+
+			$additionalParameters = (is_array($unserializedParameters))
+				? $unserializedParameters : array();
+		}
+
+		$urlParameter = array(
+			'parameter' => $listViewPage['pid'],
+			'additionalParams' => t3lib_div::implodeArrayForUrl(
+				$this->prefixId, $additionalParameters
+			),
+			'useCacheHash' => FALSE,
+		);
+
+		return htmlspecialchars($this->cObj->typoLink_URL($urlParameter));
 	}
 }
 
