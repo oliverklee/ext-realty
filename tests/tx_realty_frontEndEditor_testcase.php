@@ -1415,9 +1415,14 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testStoreNewAuxiliaryRecordsCreatesANewRecordWithCorrectPid() {
 		$pid = $this->testingFramework->createSystemFolder(1);
-		$this->fixture->setConfigurationValue(
-			'sysFolderForFeCreatedAuxiliaryRecords', $pid
+		$configuration = new tx_oelib_Configuration();
+		$configuration->setData(array(
+			'sysFolderForFeCreatedAuxiliaryRecords' => $pid
+		));
+		tx_oelib_ConfigurationRegistry::getInstance()->set(
+			'plugin.tx_realty_pi1', $configuration
 		);
+
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$this->fixture->modifyDataToInsert(array('new_city' => 'new city'));
 

@@ -1002,14 +1002,22 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$table,
 			array(
 				'title' => $title,
-				'pid' => $this->getConfValueInteger(
-					'sysFolderForFeCreatedAuxiliaryRecords'
-				),
+				'pid' => self::getPageIdForAuxiliaryRecords(),
 				'tstamp' => mktime(),
 				'crdate' => mktime(),
 				'is_dummy_record' => $this->isTestMode
 			)
 		);
+	}
+
+	/**
+	 * Gets the page ID for new auxiliary records from the configuration.
+	 *
+	 * @return integer the page ID for new auxiliary records, will be >= 0
+	 */
+	static private function getPageIdForAuxiliaryRecords() {
+		return tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+			->getAsInteger('sysFolderForFeCreatedAuxiliaryRecords');
 	}
 
 	/**
