@@ -2655,5 +2655,76 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			$this->fixture->createLinkToSingleViewPage('foo', 0)
 		);
 	}
+
+
+	///////////////////////////////////////////
+	// Tests concerning getUidForRecordNumber
+	///////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getUidForRecordNumberNegativeRecordNumberThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The record position must be a non-negative integer.'
+		);
+
+		$this->fixture->getUidForRecordNumber(-1);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getUidForRecordNumberZeroReturnsFirstRecordsUid() {
+		$this->assertEquals(
+			$this->firstRealtyUid,
+			$this->fixture->getUidForRecordNumber(0)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getUidForRecordNumberForOneReturnsSecondRecordsUid() {
+		$this->assertEquals(
+			$this->secondRealtyUid,
+			$this->fixture->getUidForRecordNumber(1)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getUidForRecordNumberForNoObjectForGivenRecordNumberReturnsZero() {
+		$this->fixture->setPiVars(array('numberOfRoomsFrom' => 41));
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getUidForRecordNumber(0)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getUidForRecordNumberForFilteringSetInPiVarsConsidersFilterOptions() {
+		$this->fixture->setPiVars(array('numberOfRoomsFrom' => 41));
+		$fittingRecordUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'title' => self::$firstObjectTitle,
+				'object_number' => self::$firstObjectNumber,
+				'pid' => $this->systemFolderPid,
+				'city' => $this->firstCityUid,
+				'object_type' => REALTY_FOR_RENTING,
+				'number_of_rooms' => 42,
+			)
+		);
+
+		$this->assertEquals(
+			$fittingRecordUid,
+			$this->fixture->getUidForRecordNumber(0)
+		);
+	}
 }
 ?>

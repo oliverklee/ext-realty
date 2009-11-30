@@ -164,7 +164,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *                view if no items were found
 	 */
 	public function render(array $piVars = array()) {
-		$this->piVars = $piVars;
+		$this->setPiVars($piVars);
 		$this->addHeaderForListView();
 		// Initially most subparts are hidden. Depending on the type of list
 		// view, they will be set to unhidden again.
@@ -1276,6 +1276,47 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			= $this->internal['currentRow']['recordPosition'];
 
 		return $result;
+	}
+
+	/**
+	 * Retrieves the UID for the record a the provided position.
+	 *
+	 * The record position is zero based, so 0 is the first postion.
+	 *
+	 * @param integer $recordPosition
+	 *        the position of the searched record, must be >= 0
+	 *
+	 * @return integer the record UID, will be zero if no record for the given
+	 *                 record number could be found
+	 */
+	public function getUidForRecordNumber($recordPosition) {
+		if ($recordPosition < 0) {
+			throw new Exception(
+				'The record position must be a non-negative integer.'
+			);
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+			$this->getSelectForListVew($this->createWhereClause()) .
+				' LIMIT ' . $recordPosition . ',1'
+		);
+
+		if (!$dbResult) {
+			throw new tx_oelib_Exception_Database();
+		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		return (is_array($result)) ? $result['uid'] : 0;
+	}
+
+	/**
+	 * Sets the piVars.
+	 *
+	 * @param array $piVars the piVar array to store, may be empty
+	 */
+	public function setPiVars(array $piVars) {
+		$this->piVars = $piVars;
 	}
 }
 
