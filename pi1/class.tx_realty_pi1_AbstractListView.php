@@ -97,6 +97,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	private $startingRecordNumber = 0;
 
 	/**
+	 * @var string the table statement for the SQL query to retrieve the
+	 *             list entries
+	 */
+	const TABLES = 'tx_realty_objects INNER JOIN tx_realty_cities ON tx_realty_objects.city = tx_realty_cities.uid';
+
+	/**
 	 * The constructor.
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
@@ -227,31 +233,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return pointer the realty records to list as a mysql result resource
 	 */
 	private function initListView() {
-		// To ensure that sorting by cities actually sorts the titles and not
-		// the cities' UIDs, the JOIN on the cities table is needed.
-		$table = REALTY_TABLE_OBJECTS . ' INNER JOIN ' . REALTY_TABLE_CITIES .
-			' ON ' . REALTY_TABLE_OBJECTS . '.city = ' .
-			REALTY_TABLE_CITIES . '.uid';
 		$whereClause = $this->createWhereClause();
-		$sortingColumn = REALTY_TABLE_OBJECTS . '.sorting';
-		tx_oelib_db::enableQueryLogging();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'(' .
-				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
-				' FROM ' . $table .
-				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '>0' .
-				' ORDER BY ' . $sortingColumn .
-				// ORDER BY within the SELECT call of a UNION requires a LIMIT.
-				' LIMIT 10000000000000' .
-			') UNION (' .
-				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
-				' FROM ' . $table .
-				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '<1' .
-				' ORDER BY ' . $this->createOrderByStatement() .
-				' LIMIT 10000000000000' .
-			')' .
-			' LIMIT ' . $this->createLimitStatement($table, $whereClause)
+			$this->getSelectForListVew($whereClause) .
+				' LIMIT ' . $this->createLimitStatement($whereClause)
 		);
 
 		if (!$dbResult) {
@@ -259,6 +245,33 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		return $dbResult;
+	}
+
+	/**
+	 * Creates the SQL statement to retrieve the list view entries.
+	 *
+	 * @param string $whereClause WHERE clause for the query, must not be empty
+	 *
+	 * @return string the SQL statement to retrieve the list view entries for.
+	 */
+	private function getSelectForListVew($whereClause) {
+		$sortingColumn = REALTY_TABLE_OBJECTS . '.sorting';
+		tx_oelib_db::enableQueryLogging();
+
+		return '(' .
+				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
+				' FROM ' . self::TABLES .
+				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '>0' .
+				' ORDER BY ' . $sortingColumn .
+				// ORDER BY within the SELECT call of a UNION requires a LIMIT.
+				' LIMIT 10000000000000' .
+			') UNION (' .
+				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
+				' FROM ' . self::TABLES .
+				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '<1' .
+				' ORDER BY ' . $this->createOrderByStatement() .
+				' LIMIT 10000000000000' .
+			')';
 	}
 
 	/**
@@ -579,15 +592,13 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @throws Exception if a database query error occurs
 	 *
-	 * @param string $table
-	 *        table for which to create the LIMIT statement, must not be empty
 	 * @param string $whereClause
 	 *        WHERE clause of the query for which the LIMIT statement will be,
 	 *        may be empty
 	 *
 	 * @return string LIMIT statement for initListView(), will not be empty
 	 */
-	private function createLimitStatement($table, $whereClause) {
+	private function createLimitStatement($whereClause) {
 		// number of results to show in a listing
 		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
 			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
@@ -598,7 +609,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
 		);
 
-		$this->internal['res_count'] = tx_oelib_db::count($table, $whereClause);
+		$this->internal['res_count'] = tx_oelib_db::count(
+			self::TABLES, $whereClause
+		);
 
 		// The number of the last possible page in a listing
 		// (which is the number of pages minus one as the numbering starts at zero).
