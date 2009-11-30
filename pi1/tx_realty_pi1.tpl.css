@@ -21,7 +21,8 @@
 .tx-realty-pi1 a.listViewBack,
 .tx-realty-pi1 a.singleViewBack,
 .tx-realty-pi1 a.close,
-.tx-realty-pi1 a.objectsByOwner {
+.tx-realty-pi1 a.objectsByOwner,
+.tx-realty-pi1 a.nextPage {
 	float: right;
 }
 
@@ -31,7 +32,8 @@
 .tx-realty-pi1 a.singleViewContact,
 .tx-realty-pi1 a.listViewContact,
 .tx-realty-pi1 a.printPage,
-.tx-realty-pi1 a.newRecord {
+.tx-realty-pi1 a.newRecord,
+.tx-realty-pi1 a.previousPage {
 	float: left;
 }
 
@@ -52,6 +54,11 @@
 	color: #ffffff;
 	padding-right: 10px;
 	margin-right: -1px; /* IE hack */
+}
+
+.tx-realty-pi1 .previousNextButtons {
+	float: right;
+	padding-bottom: .8em;
 }
 
 /* Images in result list and single view */

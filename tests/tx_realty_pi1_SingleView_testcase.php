@@ -639,5 +639,54 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
+
+
+	///////////////////////////////////////////////////
+	// Tests concerning the next and previous buttons
+	///////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function singleViewForEnabledNextPreviousButtonsShowsNextPreviousButtonsSubpart() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array());
+		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
+
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+
+		$this->assertContains(
+			'previousNextButtons',
+			$this->fixture->render(array(
+				'showUid' => $realtyObject->getUid(),
+				'recordPosition' => 0,
+				'listViewType' => 'realty_list',
+			))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewForDisabledNextPreviousButtonsHidesNextPreviousButtonsSubpart() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array());
+		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
+
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', FALSE
+		);
+
+		$this->assertNotContains(
+			'previousNextButtons',
+			$this->fixture->render(array(
+				'showUid' => $realtyObject->getUid(),
+				'recordPosition' => 0,
+				'listViewType' => 'realty_list',
+			))
+		);
+	}
 }
 ?>

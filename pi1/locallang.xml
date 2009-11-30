@@ -255,6 +255,8 @@
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
 			<label index="label_objects">objects</label>
+			<label index="label_previous_page">previous object</label>
+			<label index="label_next_page">next object</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -603,6 +605,8 @@
 			<label index="label_contact">Kontakt aufnehmen</label>
 			<label index="label_close_window">Fenster schließen</label>
 			<label index="label_objects">Objekte</label>
+			<label index="label_previous_page">zum vorherigen Objekt</label>
+			<label index="label_next_page">zum nächsten Objekt</label>
 			<label index="message_yes">ja</label>
 			<label index="message_noResultsFound_realty_list_formal">Leider wurden keine Ergebnisse für Ihre Suchkriterien gefunden. Versuchen Sie die Suche zu verallgemeinern.</label>
 			<label index="message_noResultsFound_realty_list_informal">Leider wurden keine Ergebnisse für deine Suchkriterien gefunden. Versuche die Suche zu verallgemeinern.</label>
@@ -1954,6 +1958,8 @@
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
 			<label index="label_objects" type="integer">92872098</label>
+			<label index="label_previous_page" type="integer">8645519</label>
+			<label index="label_next_page" type="integer">171965462</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -3306,6 +3312,8 @@
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
 			<label index="label_objects">objects</label>
+			<label index="label_previous_page">previous object</label>
+			<label index="label_next_page">next object</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>

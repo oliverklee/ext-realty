@@ -67,6 +67,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		}
 
 		$this->createSingleView($piVars['showUid']);
+		$this->showOrHideNextPreviousButtons($piVars);
 
 		return $this->getSubpart('SINGLE_VIEW');
 	}
@@ -222,6 +223,24 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			$visibilityTree->getKeysOfHiddenSubparts(), 'FIELD_WRAPPER'
 		);
 		$visibilityTree->__destruct();
+	}
+
+	/**
+	 * Shows or hides the "next" and "previous" buttons.
+	 *
+	 * @param array $piVars
+	 *        the piVars sent to the single view, may be empty, must not yet be
+	 *        sanitized
+	 */
+	private function showOrHideNextPreviousButtons(array $piVars) {
+		$view = tx_oelib_ObjectFactory::make(
+			'tx_realty_pi1_NextPreviousButtonsView', $this->conf, $this->cObj
+		);
+
+		$this->setSubpart(
+			'previousNextButtons', $view->render($piVars), 'wrapper'
+		);
+		$view->__destruct();
 	}
 }
 

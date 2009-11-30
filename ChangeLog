@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3514] Feature: Add "previous"/"next" buttons to the single view
 - [#3420] Feature: Add a modal editor for entering districts
 - [#3238] Feature: Add functions for asking the list view for getting the UID of the n-th object
 - [#3525] Change: Remove/Mock more Google Maps lookup tests
