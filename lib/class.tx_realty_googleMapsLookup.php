@@ -47,12 +47,6 @@ class tx_realty_googleMapsLookup {
 		'http://maps.google.com/maps/geo?sensor=false&output=csv&key=';
 
 	/**
-	 * @var string the Google Maps geo coding base URL including the key
-	 *             and the "q" variable name
-	 */
-	private $baseUrlWithKey;
-
-	/**
 	 * @var float the amount of time (in seconds) that need to pass between
 	 *            subsequent geocoding requests
 	 */
@@ -84,11 +78,6 @@ class tx_realty_googleMapsLookup {
 		}
 
 		$this->configuration = $configuration;
-
-		$this->baseUrlWithKey = self::BASE_URL .
-			$configuration->getConfValueString(
-				'googleMapsApiKey', 's_googlemaps'
-			) . '&q=';
 	}
 
 	/**
@@ -176,9 +165,7 @@ class tx_realty_googleMapsLookup {
 				usleep($delay);
 			}
 			$this->throttle();
-			$rawResult = t3lib_div::getURL(
-				$this->baseUrlWithKey . urlencode(implode(', ', $addressParts))
-			);
+			$rawResult = $this->sendRequest($addressParts);
 			if ($rawResult === false) {
 				throw new Exception(
 					'There was an error connecting to the Google Maps server.'
@@ -208,10 +195,37 @@ class tx_realty_googleMapsLookup {
 	}
 
 	/**
+	 * Sends a geocoding request to the Google Maps server.
+	 *
+	 * @param array $addressParts the address parts, must not be empty
+	 *
+	 * @return mixed a string with the CSV result from the Google Maps server,
+	 *               or FALSE if an error has occurred
+	 */
+	protected function sendRequest(array $addressParts) {
+		$baseUrlWithKey = self::BASE_URL . $this->getGoogleMapsApiKey() . '&q=';
+
+		return t3lib_div::getURL(
+			$baseUrlWithKey . urlencode(implode(', ', $addressParts))
+		);
+	}
+
+	/**
+	 * Gets the Google Maps API key from the configuration.
+	 *
+	 * @return string the Google Maps API key, will be empty if no key has been set
+	 */
+	protected function getGoogleMapsApiKey() {
+		return $this->configuration->getConfValueString(
+			'googleMapsApiKey', 's_googlemaps'
+		);
+	}
+
+	/**
 	 * Makes sure the necessary amount of time has passed since the last
 	 * geocoding request.
 	 */
-	private function throttle() {
+	protected function throttle() {
 		if (self::$lastGeocodingTimestamp > 0) {
 			$secondsSinceLastRequest
 				= microtime(TRUE) - self::$lastGeocodingTimestamp;
@@ -239,11 +253,7 @@ class tx_realty_googleMapsLookup {
 	 *                UID which was taken does not map to a country
 	 */
 	private function getCountryCode($uid) {
-		$actualUid = ($uid > 0)
-			? $uid
-			: $this->configuration->getConfValueInteger(
-				'defaultCountryUID', 's_googlemaps'
-			);
+		$actualUid = ($uid > 0) ? $uid : $this->getDefaultCountryUid();
 
 		try {
 			$result = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
@@ -253,6 +263,17 @@ class tx_realty_googleMapsLookup {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Reads the default country UID from the configuration.
+	 *
+	 * @return integer the default country UID, will be >= 0
+	 */
+	protected function getDefaultCountryUid() {
+		return $this->configuration->getConfValueInteger(
+			'defaultCountryUID', 's_googlemaps'
+		);
 	}
 }
 

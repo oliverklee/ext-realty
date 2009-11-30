@@ -56,25 +56,18 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 	 */
 	const US = 220;
 
-	/**
-	 * @var tx_oelib_templatehelper plugin configuration
-	 */
-	private $configuration;
-
 	public function setUp() {
-		$this->configuration = new tx_oelib_templatehelper();
-		$this->configuration->setConfigurationValue(
-			'googleMapsApiKey', self::GOOGLE_MAPS_API_KEY
+		$this->fixture = $this->getMock(
+			'tx_realty_googleMapsLookup',
+			array('sendRequest', 'throttle', 'getDefaultCountryUid'),
+			array(),
+			'',
+			FALSE
 		);
-
-		$this->fixture = tx_realty_googleMapsLookup::getInstance($this->configuration);
 	}
 
 	public function tearDown() {
-		$this->configuration->__destruct();
-		tx_realty_googleMapsLookup::purgeInstance();
-
-		unset($this->fixture, $this->configuration);
+		unset($this->fixture);
 	}
 
 
@@ -82,24 +75,46 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 	// Tests for the basic functionality
 	//////////////////////////////////////
 
-	public function testClassCanBeInstantiated() {
-		$this->assertTrue(
-			$this->fixture instanceof tx_realty_googleMapsLookup
+	/**
+	 * @test
+	 */
+	public function getInstanceCreatesGoogleMapsLookupInstance() {
+		$configuration = $this->getMock(
+			'tx_oelib_templatehelper', array('hasConfValueString')
 		);
+		$configuration->expects($this->any())->method('hasConfValueString')
+			->with('googleMapsApiKey', 's_googlemaps')
+			->will($this->returnValue(TRUE));
+
+		$this->assertTrue(
+			tx_realty_googleMapsLookup::getInstance($configuration)
+				instanceof tx_realty_googleMapsLookup
+		);
+
+		tx_realty_googleMapsLookup::purgeInstance();
+		$configuration->__destruct();
 	}
 
-	public function testConstructorThrowsExceptionIfGoogleMapsApiKeyIsMissing() {
+	/**
+	 * @test
+	 */
+	public function constructorThrowsExceptionIfGoogleMapsApiKeyIsMissing() {
 		$this->setExpectedException(
 			'Exception',
 			'The Google Maps API key was missing from the configuration.'
 		);
 
-		$configuration = $this->getMock('tx_oelib_templatehelper', array('hasConfValueString'));
+		$configuration = $this->getMock(
+			'tx_oelib_templatehelper', array('hasConfValueString')
+		);
 		$configuration->expects($this->any())->method('hasConfValueString')
-			->will($this->returnValue(false));
+			->with('googleMapsApiKey', 's_googlemaps')
+			->will($this->returnValue(FALSE));
+
+		tx_realty_googleMapsLookup::getInstance($configuration);
 
 		tx_realty_googleMapsLookup::purgeInstance();
-		tx_realty_googleMapsLookup::getInstance($configuration);
+		$configuration->__destruct();
 	}
 
 
@@ -107,215 +122,194 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 	// Tests for lookUp
 	/////////////////////
 
-	public function testLookUpReturnsEmptyArrayIfAllParametersAreEmpty() {
+	/**
+	 * @test
+	 */
+	public function lookUpReturnsEmptyArrayIfAllParametersAreEmpty() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp('', '', '', '', 0)
 		);
 	}
 
-	public function testLookUpReturnsEmptyArrayIfAllParametersAreMissing() {
+	/**
+	 * @test
+	 */
+	public function lookUpReturnsEmptyArrayIfAllParametersAreMissing() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp()
 		);
 	}
 
-	public function testLookUpReturnsEmptyArrayIfOnlyTheCountryIsProvided() {
+	/**
+	 * @test
+	 */
+	public function lookUpReturnsEmptyArrayIfOnlyTheCountryIsProvided() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp('', '', '', '', self::DE)
 		);
 	}
 
-	public function testLookUpReturnsEmptyArrayIfOnlyTheStreetIsProvided() {
+	/**
+	 * @test
+	 */
+	public function lookUpReturnsEmptyArrayIfOnlyTheStreetIsProvided() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp('Am Hof 1', '', '', '', 0)
 		);
 	}
 
-	public function testLookUpReturnsEmptyArrayIfOnlyStreetAndCountryAreProvided() {
+	/**
+	 * @test
+	 */
+	public function lookUpReturnsEmptyArrayIfOnlyStreetAndCountryAreProvided() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp('Am Hof 1', '', '', '', self::DE)
 		);
 	}
 
-	public function testLookUpReturnsEmptyArrayForAGarbageAddress() {
+	/**
+	 * @test
+	 */
+	public function lookUpReturnsEmptyArrayForAGarbageAddress() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('asdfas', '11111 sdgh', 'ljkasfda', 'DE'))
+			->will($this->returnValue('602'));
+
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp('asdfas', '11111', 'sdgh', 'ljkasfda', self::DE)
 		);
 	}
 
-	public function testLookUpReturnsCorrectCoordinatesForAFullGermanAddress() {
-		$coordinates = $this->fixture->lookUp(
+	/**
+	 * @test
+	 */
+	public function lookUpReturnsCorrectCoordinatesForAFullGermanAddress() {
+		$fixture = $this->getMock(
+			'tx_realty_googleMapsLookup',
+			array('throttle', 'getGoogleMapsApiKey'),
+			array(),
+			'',
+			FALSE
+		);
+		$fixture->expects($this->any())->method('getGoogleMapsApiKey')
+			->will($this->returnValue(self::GOOGLE_MAPS_API_KEY));
+
+		$coordinates = $fixture->lookUp(
 			'Am Hof 1', '53113', 'Zentrum', 'Bonn', self::DE
 		);
 
 		$this->assertEquals(
 			50.734343,
 			$coordinates['latitude'],
-			'', 0.01
+			'', 0.1
 		);
 		$this->assertEquals(
 			7.10211,
 			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAFullUsAddress() {
-		$coordinates = $this->fixture->lookUp(
-			'1600 Amphitheatre', '94043', '', 'Mountain View', 'US'
-		);
-
-		$this->assertEquals(
-			37.423088,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			-122.085121,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAFullAddressWithUmlaut() {
-		$coordinates = $this->fixture->lookUp(
-			'Münsterplatz 1', '53111', 'Zentrum', 'Bonn', self::DE
-		);
-
-		$this->assertEquals(
-			50.733895,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			7.099394,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithCityMissing() {
-		$coordinates = $this->fixture->lookUp(
-			'Am Hof 1', '53113', 'Zentrum', '', self::DE
-		);
-
-		$this->assertEquals(
-			50.734343,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			7.10211,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithCityAndDistrictMissing() {
-		$coordinates = $this->fixture->lookUp(
-			'Am Hof 1', '53113', '', '', self::DE
-		);
-
-		$this->assertEquals(
-			50.734343,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			7.10211,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithZipMissing() {
-		$coordinates = $this->fixture->lookUp(
-			'Am Hof 1', '', 'Zentrum', 'Bonn', self::DE
-		);
-
-		$this->assertEquals(
-			50.734343,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			7.10211,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAGermanAddressWithZipAndDistrictMissing() {
-		$coordinates = $this->fixture->lookUp(
-			'Am Hof 1', '', '', 'Bonn', self::DE
-		);
-
-		$this->assertEquals(
-			50.734343,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			7.10211,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAGermanCity() {
-		$coordinates = $this->fixture->lookUp(
-			'', '', '', 'Bonn', self::DE
-		);
-
-		$this->assertEquals(
-			50.732704,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			7.096311,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpReturnsCorrectCoordinatesForAGermanZip() {
-		$coordinates = $this->fixture->lookUp(
-			'', '53111', '', '', self::DE
-		);
-
-		$this->assertEquals(
-			50.741551,
-			$coordinates['latitude'],
-			'', 0.01
-		);
-		$this->assertEquals(
-			7.101499,
-			$coordinates['longitude'],
-			'', 0.01
-		);
-	}
-
-	public function testLookUpCanReturnTheCorrectCoordinatesTwoTimesInARow() {
-		$this->assertEquals(
-			$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE),
-			$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE)
+			'', 0.1
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function lookUpThrottlesCallsByAtLeast1Dot73Seconds() {
+	public function lookUpSendsRequestForAFullUsAddress() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('1600 Amphitheatre', '94043', 'Mountain View', 'US'));
+		$this->fixture->lookUp(
+			'1600 Amphitheatre', '94043', '', 'Mountain View', self::US
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function lookUpSendsRequestForAGermanAddressWithCityMissing() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('Am Hof 1', '53113 Zentrum', 'DE'));
+		$this->fixture->lookUp(
+			'Am Hof 1', '53113', 'Zentrum', '', self::DE
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function lookUpSendsRequestForAGermanAddressWithCityAndDistrictMissing() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('Am Hof 1', '53113', 'DE'));
+		$this->fixture->lookUp(
+			'Am Hof 1', '53113', '', '', self::DE
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function lookUpSendsRequestForAGermanAddressWithZipMissing() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('Am Hof 1', 'Zentrum', 'Bonn', 'DE'));
+		$this->fixture->lookUp(
+			'Am Hof 1', '', 'Zentrum', 'Bonn', self::DE
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function lookUpSendsRequestForAGermanAddressWithZipAndDistrictMissing() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('Am Hof 1', 'Bonn', 'DE'));
+		$this->fixture->lookUp(
+			'Am Hof 1', '', '', 'Bonn', self::DE
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function lookUpSendsRequestForAGermanCity() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('Bonn', 'DE'));
+		$this->fixture->lookUp(
+			'', '', '', 'Bonn', self::DE
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function lookUpSendsRequestForAGermanZip() {
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('53111', 'DE'));
+		$this->fixture->lookUp(
+			'', '53111', '', '', self::DE
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function lookUpThrottlesRequestsByAtLeast1Dot73Seconds() {
+		$fixture = $this->getMock(
+			'tx_realty_googleMapsLookup',
+			array('sendRequest'),
+			array(),
+			'',
+			FALSE
+		);
+		$fixture->expects($this->any())->method('sendRequest')
+			->will($this->returnValue('200'));
+
 		$startTime = microtime(TRUE);
-		$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
-		$this->fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
+		$fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
+		$fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
 		$endTime = microtime(TRUE);
 
 		$this->assertGreaterThan(
@@ -324,29 +318,16 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLookUpReturnsDifferentCoordinatesForTheSameCityNameInDifferentCountries() {
-		$this->assertNotEquals(
-			$this->fixture->lookUp('', '', '', 'Texas', self::DE),
-			$this->fixture->lookUp('', '', '', 'Texas', self::US)
-		);
-	}
+	/**
+	 * @test
+	 */
+	public function lookUpForNoCountryProvidedCanUsesDefaultCountryFromConfiguration() {
+		$this->fixture->expects($this->any())->method('getDefaultCountryUid')
+			->will($this->returnValue(self::US));
+		$this->fixture->expects($this->once())->method('sendRequest')
+			->with(array('Texas', 'US'));
 
-	public function testLookUpCanUseDeAsDefaultCountryFromConfiguration() {
-		$this->configuration->setConfigurationValue('defaultCountryUID', self::DE);
-
-		$this->assertEquals(
-			$this->fixture->lookUp('', '', '', 'Texas', self::DE),
-			$this->fixture->lookUp('', '', '', 'Texas', 0)
-		);
-	}
-
-	public function testLookUpCanUseUsAsDefaultCountryFromConfiguration() {
-		$this->configuration->setConfigurationValue('defaultCountryUID', self::US);
-
-		$this->assertEquals(
-			$this->fixture->lookUp('', '', '', 'Texas', self::US),
-			$this->fixture->lookUp('', '', '', 'Texas', 0)
-		);
+		$this->fixture->lookUp('', '', '', 'Texas', 0);
 	}
 }
 ?>

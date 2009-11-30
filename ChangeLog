@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3525] Change: Remove/Mock more Google Maps lookup tests
 - [#3465] Change: Move default realty list view-related functions into own class
 - [#3512] Feature: Provide all piVars in the link from the list view to the single view
 - [#3537] Feature: Add CityMapper::findByName and DistrictMapper::findByNameAndCityUid
