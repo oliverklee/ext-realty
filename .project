@@ -3,7 +3,7 @@
 	<name>realty</name>
 	<comment></comment>
 	<projects>
-		<project>tx_oelib</project>
+		<project>oelib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
