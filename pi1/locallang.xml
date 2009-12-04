@@ -92,6 +92,7 @@
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET parameter for the object UID:</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays">Expiration period of advertisements (in days):</label>
 			<label index="realty.pi_flexform.singleViewPartsToDisplay">Single view parts to display:</label>
+			<label index="realty.pi_flexform.nextPreviousButtons">next/previous buttons</label>
 			<label index="realty.pi_flexform.heading">heading</label>
 			<label index="realty.pi_flexform.address">address</label>
 			<label index="realty.pi_flexform.description">description</label>
@@ -442,6 +443,7 @@
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET-Parameter für die Objekt-UID:</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays">Dauer der Inserate (in Tagen):</label>
 			<label index="realty.pi_flexform.singleViewPartsToDisplay">Angezeigte Teile der Einzelansicht:</label>
+			<label index="realty.pi_flexform.nextPreviousButtons">Buttons &quot;Zum nächsten/vorherigen Objekt&quot;</label>
 			<label index="realty.pi_flexform.heading">Überschrift</label>
 			<label index="realty.pi_flexform.address">Adresse</label>
 			<label index="realty.pi_flexform.description">Beschreibung</label>
@@ -1796,6 +1798,7 @@
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid" type="integer">251235559</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays" type="integer">103100612</label>
 			<label index="realty.pi_flexform.singleViewPartsToDisplay" type="integer">235944602</label>
+			<label index="realty.pi_flexform.nextPreviousButtons" type="integer">187413106</label>
 			<label index="realty.pi_flexform.heading" type="integer">259323193</label>
 			<label index="realty.pi_flexform.address" type="integer">142924160</label>
 			<label index="realty.pi_flexform.description" type="integer">108900242</label>
@@ -3150,6 +3153,7 @@
 			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET parameter for the object UID:</label>
 			<label index="realty.pi_flexform.advertisementExpirationInDays">Expiration period of advertisements (in days):</label>
 			<label index="realty.pi_flexform.singleViewPartsToDisplay">Single view parts to display:</label>
+			<label index="realty.pi_flexform.nextPreviousButtons">next/previous buttons</label>
 			<label index="realty.pi_flexform.heading">heading</label>
 			<label index="realty.pi_flexform.address">address</label>
 			<label index="realty.pi_flexform.description">description</label>

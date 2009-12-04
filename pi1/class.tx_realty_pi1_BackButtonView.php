@@ -41,9 +41,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 	 * @return string HTML for the back button, will not be empty
 	 */
 	public function render(array $piVars = array()) {
-		if ($this->getConfValueBoolean('enableNextPreviousButtons')
-			&& isset($this->piVars['listUid'])
-		) {
+		if ($this->nextPreviousButtonsAreEnabled()) {
 			$backUrl = $this->getBackLinkUrl();
 			$javaScriptBack = '';
 		} else {
@@ -99,6 +97,30 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 		);
 
 		return htmlspecialchars($this->cObj->typoLink_URL($urlParameter));
+	}
+
+	/**
+	 * Checks whether the display of the next/previous buttons is enabled.
+	 *
+	 * @return boolean TRUE if the buttons should be displayed, FALSE otherwise
+	 */
+	private function nextPreviousButtonsAreEnabled() {
+		if (!isset($this->piVars['listUid'])) {
+			return FALSE;
+		}
+		if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
+			return FALSE;
+		}
+
+		$displayedSingleViewParts = t3lib_div::trimExplode(
+			',', $this->getConfValueString('singleViewPartsToDisplay'), TRUE
+		);
+
+		if (!in_array('nextPreviousButtons', $displayedSingleViewParts)) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 }
 

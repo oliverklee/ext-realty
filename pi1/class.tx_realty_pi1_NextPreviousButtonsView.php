@@ -42,30 +42,17 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	 *                will be empty if both buttons are hidden
 	 */
 	public function render(array $piVars = array()) {
-		if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
-			return '';
-		}
-		if (!isset($piVars['recordPosition'])
-			|| (intval($piVars['recordPosition']) < 0)
-		) {
-			return '';
-		}
-		if (!isset($piVars['listViewType'])
-			|| !in_array(
-				$piVars['listViewType'],
-				array('my_objects', 'favorites', 'objects_by_offerer', 'realty_list')
-			)
-		) {
+		$this->piVars = $this->sanitizePiVars();
+		if (!$this->canButtonsBeRendered()) {
 			return '';
 		}
 
 		$visibilityTree = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('previousNextButtons' => array(
+			array('nextPreviousButtons' => array(
 				'previousButton' => false, 'nextButton' => false
 			))
 		);
-		$this->piVars = $this->sanitizePiVars($piVars);
 
 		$recordPosition = $this->piVars['recordPosition'];
 		if ($recordPosition > 0) {
@@ -87,12 +74,43 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		$this->hideSubpartsArray(
-			$visibilityTree->getKeysOfHiddenSubparts(), 'WRAPPER'
+			$visibilityTree->getKeysOfHiddenSubparts(), 'FIELD_WRAPPER'
 		);
 
 		$visibilityTree->__destruct();
 
-		return $this->getSubpart('WRAPPER_PREVIOUSNEXTBUTTONS');
+		return $this->getSubpart('FIELD_WRAPPER_NEXTPREVIOUSBUTTONS');
+	}
+
+	/**
+	 * Checks whether all preconditions are fulfilled for the rendering of the
+	 * buttons.
+	 *
+	 * @return boolean TRUE if the buttons can be rendered, FALSE otherwise
+	 */
+	private function canButtonsBeRendered() {
+		if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
+			return FALSE;
+		}
+		if (intval($this->piVars['recordPosition']) < 0) {
+			return FALSE;
+		}
+		if (!in_array(
+				$this->piVars['listViewType'],
+				array('my_objects', 'favorites', 'objects_by_offerer', 'realty_list')
+			)
+		) {
+			return FALSE;
+		}
+		if (($this->piVars['listUid'] <= 0)) {
+			return FALSE;
+		}
+
+		return tx_oelib_db::existsRecordWithUid(
+			'tt_content',
+			intval($this->piVars['listUid']),
+			tx_oelib_db::enableFields('tt_content')
+		);
 	}
 
 
@@ -101,31 +119,31 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	/////////////////////////
 
 	/**
-	 * Sanitizes the given piVars.
+	 * Sanitizes the piVars needed for this view.
 	 *
 	 * This function will store the sanitized piVars into $this->piVars.
-	 *
-	 * @param array $piVars the piVars to sanitize, may be empty
 	 *
 	 * @return array the sanitized piVars, will be empty if an empty array was
 	 *               given.
 	 */
-	private function sanitizePiVars(array $piVars) {
+	private function sanitizePiVars() {
 		$sanitizedPiVars = array();
 
-		$sanitizedPiVars['recordPosition'] = (isset($piVars['recordPosition']))
-			? max(intval($piVars['recordPosition']), 0)
-			: 0;
-		$sanitizedPiVars['listUid'] = (isset($piVars['listUid']))
-			? max(intval($piVars['listUid']), 0)
+		$sanitizedPiVars['recordPosition'] = (isset($this->piVars['recordPosition']))
+			? intval($this->piVars['recordPosition'])
+			: -1;
+		$sanitizedPiVars['listUid'] = (isset($this->piVars['listUid']))
+			? max(intval($this->piVars['listUid']), 0)
 			: 0;
 
-		$sanitizedPiVars['listViewType'] = $piVars['listViewType'];
+		$sanitizedPiVars['listViewType'] = (isset($this->piVars['listViewType']))
+			? $this->piVars['listViewType']
+			: '';
 
 		// listViewLimitation will be sanitized, only if it actually is used.
-		if (isset($piVars['listViewLimitation'])) {
+		if (isset($this->piVars['listViewLimitation'])) {
 		  	$sanitizedPiVars['listViewLimitation']
-		  		= $piVars['listViewLimitation'];
+		  		= $this->piVars['listViewLimitation'];
 		}
 
 		return $sanitizedPiVars;

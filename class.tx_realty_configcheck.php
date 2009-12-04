@@ -134,6 +134,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkDisplayedContactInformationSpecial();
 		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
 		$this->checkOffererImageConfiguration();
+		$this->checkEnableNextPreviousButtonsForSingleView();
 	}
 
 	/**
@@ -303,10 +304,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'incorrect keys will not be displayed and the single view will ' .
 				'be an empty page if no value is provided.',
 			array(
-				'heading', 'address', 'description', 'price', 'overviewTable',
-				'contactButton', 'addToFavoritesButton', 'furtherDescription',
-				'imageThumbnails', 'offerer', 'googleMaps', 'printPageButton',
-				'backButton',
+				'nextPreviousButtons', 'heading', 'address', 'description',
+				'price', 'overviewTable', 'contactButton',
+				'addToFavoritesButton', 'furtherDescription', 'imageThumbnails',
+				'offerer', 'googleMaps', 'printPageButton', 'backButton',
 			)
 		);
 	}
@@ -1194,6 +1195,46 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'versa).'
 		);
 	}
+
+
+	/**
+	 * Checks the configuration of the next previous buttons for the single view.
+	 */
+	private function checkEnableNextPreviousButtonsForSingleView() {
+		$this->checkEnableNextPreviousButtons();
+
+		if ($this->objectToCheck->getConfValueBoolean('enableNextPreviousButtons') &&
+			!$this->isSingleViewPartToDisplay('nextPreviousButtons')
+		) {
+			$this->setErrorMessageAndRequestCorrection(
+				'singleViewPartsToDisplay',
+				TRUE,
+				'The TS setup variable <strong>' .
+				$this->getTSSetupPath() . 'singleViewPartsToDisplay' .
+				'</strong> does not contain the key ' .
+				'<strong>nextPreviousButtons</strong>.<br/>' .
+				'This value shows the enables the next/previous buttons. If this' .
+				'value is not set correctly, the buttons will not be shown.'
+			);
+		} elseif (
+			!$this->objectToCheck->getConfValueBoolean('enableNextPreviousButtons') &&
+			$this->isSingleViewPartToDisplay('nextPreviousButtons')
+		) {
+			$this->setErrorMessageAndRequestCorrection(
+				'enableNextPreviousButtons',
+				FALSE,
+				'The TS setup variable <strong>' .
+				$this->getTSSetupPath(). 'enableNextPreviousButtons' .
+				'</strong> is set to <strong>0</strong> but needs to be set to ' .
+				'<strong>1</strong>.<br/>' .
+				'This value specifies whether the next and previous buttons should ' .
+				'be shown. If this value is not set correctly, the buttons ' .
+				'might not get shown although they should be shown (or vice ' .
+				'versa).'
+			);
+		}
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/class.tx_realty_configcheck.php']) {

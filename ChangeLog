@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3566] Feature: Add a checkbox in the flexforms for the "previous/next element" buttons
 - [#3565] Fix: District list in BE not populated in TYPO3 4.2
 - [#3515] Feature: Change the "back" link in the single view to include the piVars
 - [#3514] Feature: Add "previous"/"next" buttons to the single view

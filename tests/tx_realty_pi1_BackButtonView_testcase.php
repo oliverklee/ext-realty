@@ -116,6 +116,27 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function forPreviousNextButtonsDisabledAndSingleViewPartNextPreviousButtonEnabledIsJavaScriptBack() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', FALSE
+		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'nextPreviousButtons'
+		);
+		$listUid = $this->testingFramework->createContentElement(
+				$this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->piVars['listUid'] = $listUid;
+
+		$this->assertContains(
+			'history.back();',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function forPreviousNextButtonsEnabledAndNoListUidViewIsJavaScriptBack() {
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
@@ -130,10 +151,35 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function forPreviousNextButtonsEnabledAndSingleViewPartNotContainsNextPreviousButtonIsJavaScriptBack() {
+		$this->fixture->setConfigurationValue(
+			'enableNextPreviousButtons', TRUE
+		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'backButton'
+		);
+		$listUid = $this->testingFramework->createContentElement(
+			$this->testingFramework->createFrontEndPage()
+		);
+		$this->fixture->piVars['listUid'] = $listUid;
+
+		$this->assertContains(
+			'history.back();',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function forPreviousNextButtonsEnabledAndListUidViewNotIsJavaScriptBack() {
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
 		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'nextPreviousButtons'
+		);
+
 		$listViewPageUid = $this->testingFramework->createFrontEndPage();
 		$listUid = $this->testingFramework->createContentElement(
 			$listViewPageUid
@@ -154,6 +200,9 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
 		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'nextPreviousButtons'
+		);
 		$listViewPageUid = $this->testingFramework->createFrontEndPage();
 		$listUid = $this->testingFramework->createContentElement(
 			$listViewPageUid
@@ -172,6 +221,9 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 	public function forPreviousNextButtonsEnabledAndListViewLimitationSetAddsListViewLimitationDecodedToPiVar() {
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
+		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'nextPreviousButtons'
 		);
 		$listViewPageUid = $this->testingFramework->createFrontEndPage();
 		$listUid = $this->testingFramework->createContentElement(
@@ -195,6 +247,9 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
 		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'nextPreviousButtons'
+		);
 		$listViewPageUid = $this->testingFramework->createFrontEndPage();
 		$listUid = $this->testingFramework->createContentElement(
 			$listViewPageUid
@@ -214,6 +269,9 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 	public function forPreviousNextButtonsEnabledAndListUidSetToStringDoesNotAddListUidStringToLink() {
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
+		);
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'nextPreviousButtons'
 		);
 		$listViewPageUid = $this->testingFramework->createFrontEndPage();
 		$listUid = $this->testingFramework->createContentElement(
