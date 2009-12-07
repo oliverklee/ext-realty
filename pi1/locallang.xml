@@ -413,7 +413,7 @@
 			<label index="realty.pi_flexform.displayDistrict">Stadtteil-Drop-down</label>
 			<label index="realty.pi_flexform.displayHouseType">Haustyp-Drop-down</label>
 			<label index="realty.pi_flexform.displayRent">Preis-Eingabefelder</label>
-			<label index="realty.pi_flexform.displayPriceRange">Miete/Kaufpreis Drop-Down</label>
+			<label index="realty.pi_flexform.displayPriceRange">Miete-/Kaufpreis-Drop-down</label>
 			<label index="realty.pi_flexform.displayObjectNumber">Objektnummer</label>
 			<label index="realty.pi_flexform.displayUid">Immo-ID</label>
 			<label index="realty.pi_flexform.displayObjectType">Radiobuttons Kauf/Miete</label>
