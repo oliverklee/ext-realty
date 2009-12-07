@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3590] Localization: Update the NL localization
 - [#3589] Fix: Fix the spelling in the German search widget flexforms
 - [#3566] Feature: Add a checkbox in the flexforms for the "previous/next element" buttons
 - [#3565] Fix: District list in BE not populated in TYPO3 4.2

@@ -493,6 +493,14 @@
 			<label index="tx_realty_objects.state.11">Gerenoveerd</label>
 			<label index="tx_realty_objects.state.12">Gesaneerd</label>
 			<label index="tx_realty_objects.state.13">Bouwplannen aanwezig</label>
+			<label index="tx_realty_objects.state.14">niet gerenoveerd</label>
+			<label index="tx_realty_objects.state.15">gedeeltelijk gerenoveerd</label>
+			<label index="tx_realty_objects.state.16">Renovatie gepland</label>
+			<label index="tx_realty_objects.state.17">Renovatie noodzakelijk</label>
+			<label index="tx_realty_objects.state.18">Volledig verhuurd</label>
+			<label index="tx_realty_objects.state.19">Vrij</label>
+			<label index="tx_realty_objects.state.20">Gedeeltelijk verhuurd</label>
+			<label index="tx_realty_objects.state.21">Bouwvergunning aanwezig</label>
 			<label index="tx_realty_objects.balcony">Balkon</label>
 			<label index="tx_realty_objects.garden">Tuin</label>
 			<label index="tx_realty_objects.elevator">Lift</label>
@@ -523,6 +531,8 @@
 			<label index="tx_realty_objects.owner">FE gebruiker die dit objekt heeft aangelegd</label>
 			<label index="tx_realty_objects.language">Taal</label>
 			<label index="tx_realty_objects.currency">Muntsoort</label>
+			<label index="tx_realty_objects.sorting">Positie in de lijst</label>
+			<label index="tx_realty_objects.advertised_date">Geadverteerd sinds</label>
 			<label index="tx_realty_apartment_types">Type appartement</label>
 			<label index="tx_realty_apartment_types.title">Titel</label>
 			<label index="tx_realty_house_types">Type huis</label>
@@ -539,8 +549,10 @@
 			<label index="tx_realty_cities.save_folder">Folder voor plaatsnamen</label>
 			<label index="tx_realty_districts">Regio</label>
 			<label index="tx_realty_districts.title">Regio</label>
+			<label index="tx_realty_districts.city">Plaats waar dit stadsdeel toe behoort</label>
 			<label index="fe_users.tx_realty_tab">Onroerend goed</label>
 			<label index="fe_users.tx_realty_openimmo_anid">OpenImmo aanbieder ID</label>
+			<label index="fe_users.tx_realty_maximum_objects">Maximum aantal van objecten</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
@@ -1279,6 +1291,18 @@
 			<label index="tx_realty_objects.has_pool" type="integer">233780919</label>
 			<label index="tx_realty_objects.has_community_pool" type="integer">7430612</label>
 			<label index="tx_realty_objects.teaser" type="integer">124178563</label>
+			<label index="tx_realty_objects.state.14" type="integer">59326879</label>
+			<label index="tx_realty_objects.state.15" type="integer">104896764</label>
+			<label index="tx_realty_objects.state.16" type="integer">24698282</label>
+			<label index="tx_realty_objects.state.17" type="integer">112726903</label>
+			<label index="tx_realty_objects.state.18" type="integer">24647912</label>
+			<label index="tx_realty_objects.state.19" type="integer">141770829</label>
+			<label index="tx_realty_objects.state.20" type="integer">180193091</label>
+			<label index="tx_realty_objects.state.21" type="integer">41136802</label>
+			<label index="tx_realty_objects.sorting" type="integer">193306316</label>
+			<label index="tx_realty_objects.advertised_date" type="integer">33492913</label>
+			<label index="tx_realty_districts.city" type="integer">255731253</label>
+			<label index="fe_users.tx_realty_maximum_objects" type="integer">97532292</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -2016,6 +2040,18 @@
 			<label index="tx_realty_objects.has_pool">Pool</label>
 			<label index="tx_realty_objects.has_community_pool">Community pool</label>
 			<label index="tx_realty_objects.teaser">Teaser</label>
+			<label index="tx_realty_objects.state.14">not renovated</label>
+			<label index="tx_realty_objects.state.15">partly renovated</label>
+			<label index="tx_realty_objects.state.16">currently being planned</label>
+			<label index="tx_realty_objects.state.17">in need of renovation</label>
+			<label index="tx_realty_objects.state.18">fully rented</label>
+			<label index="tx_realty_objects.state.19">vacant</label>
+			<label index="tx_realty_objects.state.20">partly rented</label>
+			<label index="tx_realty_objects.state.21">has building permit</label>
+			<label index="tx_realty_objects.sorting">Positioning in the list view</label>
+			<label index="tx_realty_objects.advertised_date">Advertised on</label>
+			<label index="tx_realty_districts.city">City which this district belongs to</label>
+			<label index="fe_users.tx_realty_maximum_objects">Maximum number of objects</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="tx_realty_objects">Realty object</label>
