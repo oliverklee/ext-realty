@@ -1213,7 +1213,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				$this->getTSSetupPath() . 'singleViewPartsToDisplay' .
 				'</strong> does not contain the key ' .
 				'<strong>nextPreviousButtons</strong>.<br/>' .
-				'This value shows the enables the next/previous buttons. If this' .
+				'This value shows the enables the next/previous buttons. If this ' .
 				'value is not set correctly, the buttons will not be shown.'
 			);
 		} elseif (
