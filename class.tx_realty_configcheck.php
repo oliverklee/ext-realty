@@ -1203,20 +1203,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkEnableNextPreviousButtonsForSingleView() {
 		$this->checkEnableNextPreviousButtons();
 
-		if ($this->objectToCheck->getConfValueBoolean('enableNextPreviousButtons') &&
-			!$this->isSingleViewPartToDisplay('nextPreviousButtons')
-		) {
-			$this->setErrorMessageAndRequestCorrection(
-				'singleViewPartsToDisplay',
-				TRUE,
-				'The TS setup variable <strong>' .
-				$this->getTSSetupPath() . 'singleViewPartsToDisplay' .
-				'</strong> does not contain the key ' .
-				'<strong>nextPreviousButtons</strong>.<br/>' .
-				'This value shows the enables the next/previous buttons. If this ' .
-				'value is not set correctly, the buttons will not be shown.'
-			);
-		} elseif (
+		if (
 			!$this->objectToCheck->getConfValueBoolean('enableNextPreviousButtons') &&
 			$this->isSingleViewPartToDisplay('nextPreviousButtons')
 		) {
@@ -1229,8 +1216,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'<strong>1</strong>.<br/>' .
 				'This value specifies whether the next and previous buttons should ' .
 				'be shown. If this value is not set correctly, the buttons ' .
-				'might not get shown although they should be shown (or vice ' .
-				'versa).'
+				'will not get shown.'
 			);
 		}
 	}

@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3593] Fix: Config check warning on the single view page
 - [#3590] Localization: Update the NL localization
 - [#3589] Fix: Fix the spelling in the German search widget flexforms
 - [#3566] Feature: Add a checkbox in the flexforms for the "previous/next element" buttons
