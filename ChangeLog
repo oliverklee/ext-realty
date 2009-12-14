@@ -1,4 +1,6 @@
-0.5.0 - currently working on
+0.6.0 - currently working on
+
+0.5.0 - branched 2009-12-14
 - [#3593] Fix: Config check warning on the single view page
 - [#3590] Localization: Update the NL localization
 - [#3589] Fix: Fix the spelling in the German search widget flexforms
