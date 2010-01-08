@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_tslib . 'class.tslib_content.php');
+
 /**
  * Class tx_realty_pi1_NextPreviousButtonsView for the "realty" extension.
  *
@@ -218,9 +220,18 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	 * @return integer the UID of the record at the given position, will be >= 0
 	 */
 	private function getRecordAtPosition($recordPosition) {
-		$listView = tx_realty_pi1_ListViewFactory::make(
-			$this->piVars['listViewType'], $this->conf, $this->cObj
+		$contentData = tx_oelib_db::selectSingle(
+			'*', 'tt_content',
+			'uid = ' . intval($this->piVars['listUid']) .
+				tx_oelib_db::enableFields('tt_content')
 		);
+		$contentObject = tx_oelib_ObjectFactory::make('tslib_cObj');
+		$contentObject->start($contentData, 'tt_content');
+		$listView = tx_realty_pi1_ListViewFactory::make(
+			$this->piVars['listViewType'], $this->conf, $contentObject
+		);
+		// TODO: use tslib_content::readFlexformIntoConf when TYPO3 4.3 is required
+		$listView->pi_initPIflexForm();
 
 		$listView->setPiVars($this->sanitizeAndSplitListViewLimitation());
 
