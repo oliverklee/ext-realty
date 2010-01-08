@@ -166,7 +166,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		$allowedKeys = array_merge(
-			array('search', 'orderBy', 'descFlag', 'uid'),
+			array('search', 'orderBy', 'descFlag'),
 			tx_realty_filterForm::getPiVarKeys()
 		);
 		$result = array();
