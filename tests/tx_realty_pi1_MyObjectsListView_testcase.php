@@ -71,7 +71,7 @@ class tx_realty_pi1_MyObjectsListView_testcase extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1_MyObjectsListView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-				'pidList' => $this->systemFolderPid,
+				'pages' => $this->systemFolderPid,
 			),
 			$GLOBALS['TSFE']->cObj,
 			TRUE

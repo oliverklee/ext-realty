@@ -133,7 +133,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'singlePID' => $this->singlePid,
 				'favoritesPID' => $this->favoritesPid,
-				'pidList' => $this->systemFolderPid,
+				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'defaultCountryUID' => self::DE,
 			),
@@ -454,7 +454,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+		$this->fixture->setConfigurationValue('pages', $systemFolder);
 
 		$this->assertNotContains(
 			'###',
@@ -473,7 +473,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+		$this->fixture->setConfigurationValue('pages', $systemFolder);
 
 		$this->assertContains(
 			'a &amp; &quot; &gt;',
@@ -650,7 +650,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+		$this->fixture->setConfigurationValue('pages', $systemFolder);
 
 		$this->assertNotContains(
 			'<p class="details">',

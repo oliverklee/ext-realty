@@ -91,7 +91,7 @@ class tx_realty_pi1_DefaultListView_testcase extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1_DefaultListView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-				'pidList' => $this->systemFolderPid,
+				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 			),
 			$GLOBALS['TSFE']->cObj,
@@ -189,7 +189,7 @@ class tx_realty_pi1_DefaultListView_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+		$this->fixture->setConfigurationValue('pages', $systemFolder);
 
 		$this->assertContains(
 			'id="tx_realty_pi1_search"',
