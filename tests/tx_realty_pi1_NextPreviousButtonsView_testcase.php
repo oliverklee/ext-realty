@@ -267,6 +267,43 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function renderForEnabledNextPreviousButtonsAndOnlyOneRecordOnListViewPageReturnsEmptyString() {
+		$sysFolder = $this->testingFramework->createSystemFolder();
+		$flexforms = '<?xml version="1.0" encoding="utf-8" standalone="yes" ?>' .
+			'<T3FlexForms>' .
+				'<data>' .
+					'<sheet index="sDEF">' .
+						'<language index="lDEF">' .
+							'<field index="pages">' .
+								'<value index="vDEF">' . $sysFolder . '</value>' .
+							'</field>' .
+						'</language>' .
+					'</sheet>' .
+				'</data>' .
+			'</T3FlexForms>';
+		$listViewUid = $this->testingFramework->createContentElement(
+			0, array('pi_flexform' => $flexforms)
+		);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('pid' => $sysFolder));
+
+		$this->fixture->piVars = array(
+			'showUid' => $realtyObject,
+			'recordPosition' => 0,
+			'listViewType' => 'realty_list',
+			'listUid' => $listViewUid,
+		);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->render()
+		);
+	}
+
 
 	//////////////////////////////////////////////////////////////////
 	// Tests concerning the URL of the "next" and "previous" buttons
