@@ -236,7 +236,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$whereClause = $this->createWhereClause();
 
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			$this->getSelectForListVew($whereClause) .
+			$this->getSelectForListView($whereClause) .
 				' LIMIT ' . $this->createLimitStatement($whereClause)
 		);
 
@@ -254,7 +254,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @return string the SQL statement to retrieve the list view entries for.
 	 */
-	private function getSelectForListVew($whereClause) {
+	private function getSelectForListView($whereClause) {
 		$sortingColumn = REALTY_TABLE_OBJECTS . '.sorting';
 		tx_oelib_db::enableQueryLogging();
 
@@ -1297,7 +1297,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			$this->getSelectForListVew($this->createWhereClause()) .
+			$this->getSelectForListView($this->createWhereClause()) .
 				' LIMIT ' . $recordPosition . ',1'
 		);
 
