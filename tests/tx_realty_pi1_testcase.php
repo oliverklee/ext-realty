@@ -142,7 +142,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// The template file also needs to be included explicitly.
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-			'pidList' => $this->systemFolderPid,
+			'pages' => $this->systemFolderPid,
 			'showGoogleMaps' => 0,
 			'defaultCountryUID' => self::DE,
 			'displayedContactInformation' => 'company,offerer_label,telephone',
@@ -214,7 +214,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-			'pidList' => $this->systemFolderPid
+			'pages' => $this->systemFolderPid
 		));
 		// ensures there is at least one configuration error to report
 		$this->fixture->setConfigurationValue('numberOfDecimals', -1);
@@ -234,7 +234,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-			'pidList' => $this->systemFolderPid
+			'pages' => $this->systemFolderPid
 		));
 		// ensures there is at least one configuration error to report
 		$this->fixture->setConfigurationValue('numberOfDecimals', -1);

@@ -111,11 +111,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$this->getTemplateCode();
 			$this->setLabels();
 
-			if (strstr($this->cObj->currentRecord, 'tt_content')) {
-				$this->conf['pidList'] = $this->getConfValueString('pages');
-				$this->conf['recursive'] = $this->getConfValueInteger('recursive');
-			}
-
 			$this->internal['currentTable'] = $this->tableNames['objects'];
 			$this->ensureIntegerPiVars(array(
 				'image', 'remove', 'showUid', 'delete', 'owner', 'uid'

@@ -78,7 +78,7 @@ class tx_realty_pi1_ObjectsByOwnerListView_testcase extends tx_phpunit_testcase 
 		$this->fixture = new tx_realty_pi1_ObjectsByOwnerListView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-				'pidList' => $this->systemFolderPid,
+				'pages' => $this->systemFolderPid,
 			),
 			$GLOBALS['TSFE']->cObj,
 			TRUE

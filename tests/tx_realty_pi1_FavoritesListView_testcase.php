@@ -97,7 +97,7 @@ class tx_realty_pi1_FavoritesListView_testcase extends tx_phpunit_testcase {
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'favoritesPID' => $this->favoritesPid,
-				'pidList' => $this->systemFolderPid,
+				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 			),
 			$GLOBALS['TSFE']->cObj,
@@ -166,7 +166,7 @@ class tx_realty_pi1_FavoritesListView_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->fixture->setConfigurationValue('pidList', $systemFolder);
+		$this->fixture->setConfigurationValue('pages', $systemFolder);
 
 		$this->assertNotContains(
 			'###',

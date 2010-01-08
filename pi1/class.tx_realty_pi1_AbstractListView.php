@@ -971,7 +971,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	protected function getWhereClausePartForPidList() {
 		$pidList = tx_oelib_db::createRecursivePageList(
-			$this->getConfValueString('pidList'),
+			$this->getConfValueString('pages'),
 			$this->getConfValueInteger('recursive')
 		);
 
