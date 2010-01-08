@@ -92,7 +92,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
 			return FALSE;
 		}
-		if (intval($this->piVars['recordPosition']) < 0) {
+		if ($this->piVars['recordPosition'] < 0) {
 			return FALSE;
 		}
 		if (!in_array(
@@ -102,13 +102,13 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		) {
 			return FALSE;
 		}
-		if (($this->piVars['listUid'] <= 0)) {
+		if ($this->piVars['listUid'] <= 0) {
 			return FALSE;
 		}
 
 		return tx_oelib_db::existsRecordWithUid(
 			'tt_content',
-			intval($this->piVars['listUid']),
+			$this->piVars['listUid'],
 			tx_oelib_db::enableFields('tt_content')
 		);
 	}
