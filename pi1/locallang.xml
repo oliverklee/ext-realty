@@ -235,7 +235,6 @@
 			<label index="label_random">random</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -561,7 +560,6 @@
 			<label index="label_random">zufällig</label>
 			<label index="label_contact">Kontakt aufnehmen</label>
 			<label index="label_close_window">Fenster schließen</label>
-			<label index="message_now">sofort</label>
 			<label index="message_yes">ja</label>
 			<label index="message_noResultsFound_realty_list_formal">Leider wurden keine Ergebnisse für Ihre Suchkriterien gefunden. Versuchen Sie die Suche zu verallgemeinern.</label>
 			<label index="message_noResultsFound_realty_list_informal">Leider wurden keine Ergebnisse für deine Suchkriterien gefunden. Versuche die Suche zu verallgemeinern.</label>
@@ -828,7 +826,6 @@
 			<label index="label_sortby">Resultaten naar</label>
 			<label index="label_contact">Contact opnemen</label>
 			<label index="label_close_window">Venster sluiten</label>
-			<label index="message_now">direct</label>
 			<label index="message_yes">ja</label>
 			<label index="message_noResultsFound_realty_list_formal">Helaas zijn er geen resultaten die aan uw criteria voldoen. Probeert U het eens met minder zoekopties.</label>
 			<label index="message_noResultsFound_realty_list_informal">Helaas zijn er geen resultaten die aan je criteria voldoen. Probeer het eens met minder zoekopties.</label>
@@ -1033,7 +1030,6 @@
 			<label index="label_sortby">Visning sorteret efter</label>
 			<label index="label_contact">Kontakt os</label>
 			<label index="label_close_window">Vælg vindue</label>
-			<label index="message_now">Omgående</label>
 			<label index="message_yes">Ja</label>
 			<label index="message_noResultsFound_realty_list_formal">Søgningen gav intet resultat. Prøv at tilpasse søgningen.</label>
 			<label index="message_noResultsFound_realty_list_informal">Søgningen gav intet resultat. Prøv at tilpasse søgningen.</label>
@@ -1132,7 +1128,6 @@
 			<label index="label_sortby">Сортировать по</label>
 			<label index="label_contact">Связаться с нами</label>
 			<label index="label_close_window">Закрыть окно</label>
-			<label index="message_now">сейчас</label>
 			<label index="message_yes">да</label>
 			<label index="message_noResultsFound_realty_list_formal">По заданым параметрам не найдено ни одного предложения. Пожалуйста, попробуйте изменить условия поиска.</label>
 			<label index="message_noResultsFound_realty_list_informal">По заданым параметрам не найдено ни одного предложения. Пожалуйста, попробуйте изменить условия поиска.</label>
@@ -1232,7 +1227,6 @@
 			<label index="label_sortby">Düzenli göster</label>
 			<label index="label_contact">Bize Ulaşın</label>
 			<label index="label_close_window">Penceryi kapat</label>
-			<label index="message_now">şimdi</label>
 			<label index="message_yes">evet</label>
 			<label index="message_noResultsFound_realty_list_formal">Maalaesef aradığınız kelime ile ilgili sonuç bulunamamıştır. Arama İşleminizi genelelleştirerek tekrar deneyiniz.</label>
 			<label index="message_noResultsFound_realty_list_informal">Maalaesef aradığın kelime ile ilgili sonuç bulunamamıştır. Arama İşlemini genelelleştirerek tekrar deneyin.</label>
@@ -1330,7 +1324,6 @@
 			<label index="label_sortby">Mostrar resultados por</label>
 			<label index="label_contact">Contacte con nosotros</label>
 			<label index="label_close_window">Cerrar ventana</label>
-			<label index="message_now">ahora</label>
 			<label index="message_yes">si</label>
 			<label index="message_noResultsFound_realty_list_formal">No se han encontrado resultados con estos parámetros. Por favor redefina su búsqueda</label>
 			<label index="message_noResultsFound_realty_list_informal">No se han encontrado resultados con estos parámetros. Por favor redefine tu búsqueda</label>
@@ -1572,7 +1565,6 @@
 			<label index="label_random">casuale</label>
 			<label index="label_contact">Conttaci</label>
 			<label index="label_close_window">Chiudi finestra</label>
-			<label index="message_now">ora</label>
 			<label index="message_yes">si</label>
 			<label index="message_noResultsFound_realty_list_formal">Nessun risultato trovato con questi parametri di ricerca. Si prega di modificare la ricerca.</label>
 			<label index="message_noResultsFound_realty_list_informal">Nessun risultato trovato con questi parametri di ricerca. Modifica la ricerca.</label>
@@ -1899,7 +1891,6 @@
 			<label index="label_random" type="integer">131986222</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
-			<label index="message_now" type="integer">159106450</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -2126,7 +2117,6 @@
 			<label index="label_sortby" type="integer">188609045</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
-			<label index="message_now" type="integer">159106450</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -2350,7 +2340,6 @@
 			<label index="label_sortby" type="integer">188609045</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
-			<label index="message_now" type="integer">159106450</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -2474,7 +2463,6 @@
 			<label index="label_sortby" type="integer">188609045</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
-			<label index="message_now" type="integer">159106450</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -2571,7 +2559,6 @@
 			<label index="label_sortby" type="integer">188609045</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
-			<label index="message_now" type="integer">159106450</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -2669,7 +2656,6 @@
 			<label index="label_sortby" type="integer">188609045</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
-			<label index="message_now" type="integer">159106450</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -2911,7 +2897,6 @@
 			<label index="label_random" type="integer">131986222</label>
 			<label index="label_contact" type="integer">2966658</label>
 			<label index="label_close_window" type="integer">160116745</label>
-			<label index="message_now" type="integer">159106450</label>
 			<label index="message_yes" type="integer">174130624</label>
 			<label index="message_noResultsFound_realty_list_formal" type="integer">248987258</label>
 			<label index="message_noResultsFound_realty_list_informal" type="integer">248987258</label>
@@ -3238,7 +3223,6 @@
 			<label index="label_random">random</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -3462,7 +3446,6 @@
 			<label index="label_sortby">Display sorted by</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -3686,7 +3669,6 @@
 			<label index="label_sortby">Display sorted by</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -3810,7 +3792,6 @@
 			<label index="label_sortby">Display sorted by</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -3907,7 +3888,6 @@
 			<label index="label_sortby">Display sorted by</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -4005,7 +3985,6 @@
 			<label index="label_sortby">Display sorted by</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>
@@ -4247,7 +4226,6 @@
 			<label index="label_random">random</label>
 			<label index="label_contact">Contact us</label>
 			<label index="label_close_window">Close window</label>
-			<label index="message_now">now</label>
 			<label index="message_yes">yes</label>
 			<label index="message_noResultsFound_realty_list_formal">No results were found with these search parameters. Please try refining your search.</label>
 			<label index="message_noResultsFound_realty_list_informal">No results were found with these search parameters. Please try refining your search.</label>

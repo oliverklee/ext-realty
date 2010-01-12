@@ -252,9 +252,9 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsMessageNowForUsableFromIfNoValueIsSet() {
+	public function testGetPropertyReturnsEmptyStringForUsableFromIfNoValueIsSet() {
 		$this->assertEquals(
-			$this->fixture->translate('message_now'),
+			'',
 			$this->fixture->getProperty('usable_from')
 		);
 	}
