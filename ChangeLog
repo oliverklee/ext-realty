@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#3656] Fix: Don't use TYPO3_branch or compat_version
 - [#3630] Fix: The next/previous buttons view needs to create a separate cObj for the list view instance
 - [#3648] Change: Remove the manual setting of the configuration pidList and recursive in pi1
 - [#3629] Fix: Remove superfluous intvals and parentheses

@@ -36,7 +36,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 
 tslib_eidtools::connectDB();
-if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
 	tslib_eidtools::initTCA();
 } else {
 	if (!is_array($GLOBALS['TCA']) || !isset($GLOBALS['TCA']['pages'])) {
