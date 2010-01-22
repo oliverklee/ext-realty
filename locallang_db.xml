@@ -118,6 +118,8 @@
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
 			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
+			<label index="tx_realty_objects.phone_switchboard">Contact phone (switchboard)</label>
+			<label index="tx_realty_objects.phone_direct_extension">Contact phone (direct extension)</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_objects.currency">Currency</label>
@@ -256,6 +258,8 @@
 			<label index="tx_realty_objects.contact_person">Kontaktperson</label>
 			<label index="tx_realty_objects.contact_email">Kontakt-E-Mail</label>
 			<label index="tx_realty_objects.contact_phone">Kontakt-Telefonnummer</label>
+			<label index="tx_realty_objects.phone_switchboard">Kontakt-Telefonnummer (Zentrale)</label>
+			<label index="tx_realty_objects.phone_direct_extension">Kontakt-Telefonnummer (Durchwahl)</label>
 			<label index="tx_realty_objects.owner">FE-Benutzer, der dieses Objekt erstellt hat</label>
 			<label index="tx_realty_objects.language">Sprache dieses Datensatzes</label>
 			<label index="tx_realty_objects.currency">Währung</label>
@@ -1001,6 +1005,8 @@
 			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
 			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
 			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
+			<label index="tx_realty_objects.phone_switchboard" type="integer">207514048</label>
+			<label index="tx_realty_objects.phone_direct_extension" type="integer">46342529</label>
 			<label index="tx_realty_objects.owner" type="integer">181513656</label>
 			<label index="tx_realty_objects.language" type="integer">243141894</label>
 			<label index="tx_realty_objects.currency" type="integer">59163449</label>
@@ -1750,6 +1756,8 @@
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
 			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
+			<label index="tx_realty_objects.phone_switchboard">Contact phone (switchboard)</label>
+			<label index="tx_realty_objects.phone_direct_extension">Contact phone (direct extension)</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_objects.currency">Currency</label>

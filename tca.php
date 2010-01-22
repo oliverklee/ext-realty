@@ -20,7 +20,8 @@ $TCA['tx_realty_objects'] = array(
 			'fitted_kitchen, has_pool,has_community_pool,teaser,description,' .
 			'equipment,layout,location,misc,details_page,images,employer,' .
 			'openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
-			'contact_person,contact_email,contact_phone,owner,language,currency,' .
+			'contact_person,contact_email,contact_phone,phone_switchboard,' .
+			'phone_direct_extension,owner,language,currency,' .
 			'exact_coordinates_are_cached,exact_longitude,exact_latitude,' .
 			'rough_coordinates_are_cached,rough_longitude,rough_latitude,' .
 			'advertised_date'
@@ -979,6 +980,24 @@ $TCA['tx_realty_objects'] = array(
 				'eval' => 'trim',
 			),
 		),
+		'phone_switchboard' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.phone_switchboard',
+			'config' => array(
+				'type' => 'input',
+				'size' => '30',
+				'eval' => 'trim',
+			),
+		),
+		'phone_direct_extension' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.phone_direct_extension',
+			'config' => array(
+				'type' => 'input',
+				'size' => '30',
+				'eval' => 'trim',
+			),
+		),
 		'owner' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.owner',
@@ -1060,7 +1079,8 @@ $TCA['tx_realty_objects'] = array(
 					'chMode]' .
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'details_page, images, contact_data_source, employer, ' .
-				'contact_person, contact_email, contact_phone, owner, language, ' .
+				'contact_person, contact_email, contact_phone, ' .
+				'phone_switchboard, phone_direct_extension, owner, language, ' .
 				'currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
 				'rough_coordinates_are_cached;;3, advertised_date;;;;2-2-2'
@@ -1102,7 +1122,8 @@ $TCA['tx_realty_objects'] = array(
 					'chMode]' .
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'details_page, images, contact_data_source, employer, '.
-				'contact_person, contact_email, contact_phone, owner, language, ' .
+				'contact_person, contact_email, contact_phone, ' .
+				'phone_switchboard, phone_direct_extension, owner, language, ' .
 				'currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
 				'rough_coordinates_are_cached;;3, advertised_date;;;;2-2-2'
