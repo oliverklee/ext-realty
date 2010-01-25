@@ -213,6 +213,11 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	//////////////////////////////////////
+	// Tests concerning getConvertedData
+	//////////////////////////////////////
+
 	public function testGetConvertedDataWhenNoRecordsAreGiven() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
@@ -668,8 +673,9 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			$this->fixture->getConvertedData($node),
-			array(array('contact_phone' => '1234567'))
+			array(array('contact_phone' => '1234567', 'phone_switchboard' => 1234567))
 		);
+		// TODO: remove this test in Bug 3603
 	}
 
 	public function testGetConvertedDataFetchesAlternativePhoneNumber() {
@@ -968,6 +974,60 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 			$this->fixture->getConvertedData($node)
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesSwitchboardPhoneNumber() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<kontaktperson>'
+							.'<tel_zentrale>1234567</tel_zentrale>'
+						.'</kontaktperson>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('contact_phone' => '1234567', 'phone_switchboard' => 1234567))
+		);
+		// TODO: remove contact phone in Bug 3603
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesDirectExtensionPhoneNumber() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>'
+				.'<anbieter>'
+					.'<immobilie>'
+						.'<kontaktperson>'
+							.'<tel_durchw>1234567</tel_durchw>'
+						.'</kontaktperson>'
+					.'</immobilie>'
+				.'</anbieter>'
+			.'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('phone_direct_extension' => '1234567'))
+		);
+	}
+
+
+	////////////////////////////////////////////
+	// Tests concerning createRecordsForImages
+	////////////////////////////////////////////
 
 	public function testCreateRecordsForImagesIfOneImageAppendixWithoutAnImagePathIsGiven() {
 		$this->setRawDataToConvert(

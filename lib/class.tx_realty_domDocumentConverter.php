@@ -89,6 +89,8 @@ class tx_realty_domDocumentConverter {
 		'contact_person' => array('kontaktperson' => 'name'),
 		'contact_email' => array('kontaktperson' => 'email_zentrale'),
 		'contact_phone' => array('kontaktperson' => 'tel_zentrale'),
+		'phone_switchboard' => array('kontaktperson' => 'tel_zentrale'),
+		'phone_direct_extension' => array('kontaktperson' => 'tel_durchw'),
 	);
 
 	/** raw data of an OpenImmo record */
