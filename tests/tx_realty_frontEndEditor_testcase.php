@@ -1382,22 +1382,36 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	// ** purgeNonRealtyObjectFields().
 	/////////////////////////////////////
 
-	public function testFieldThatDoesNotExistInTheRealtyObjectsTableIsPurged() {
+	/**
+	 * @test
+	 */
+	public function fieldThatDoesNotExistInTheRealtyObjectsTableIsPurged() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
-		$this->assertNotContains(
-			'spacer_01',
-			$this->fixture->modifyDataToInsert(array('spacer_01'))
+		$this->assertFalse(
+			array_key_exists(
+				'spacer_01',
+				$this->fixture->modifyDataToInsert(array('spacer_01' => 'blubb'))
+			)
 		);
+		// TODO: remove the workaround when PHPUnit Bug 992 is fixed.
+		// @see http://www.phpunit.de/ticket/992
 	}
 
-	public function testFieldThatExitsInTheRealtyObjectsTableIsNotPurged() {
+	/**
+	 * @test
+	 */
+	public function fieldThatExitsInTheRealtyObjectsTableIsNotPurged() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
-		$this->assertNotContains(
-			'title',
-			$this->fixture->modifyDataToInsert(array('title'))
+		$this->assertTrue(
+			array_key_exists(
+				'title',
+				$this->fixture->modifyDataToInsert(array('title' => 'foo'))
+			)
 		);
+		// TODO: remove the workaround when PHPUnit Bug 992 is fixed.
+		// @see http://www.phpunit.de/ticket/992
 	}
 
 
