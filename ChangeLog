@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3660] Fix: Test failures with PHPUnit 3.4.7
 - [#3601] Feature: Import the two new phone number fields
 - [#3600] Feature: Add the two new phone number fields to the FE editor
 - [#3599] Feature: Add two phone number fields to the DB and TCA
