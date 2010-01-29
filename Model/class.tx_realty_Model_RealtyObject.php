@@ -39,6 +39,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLo
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
@@ -1411,13 +1412,30 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Returns the telephone number of the contact person.
 	 *
+	 * If the contact data source is this object, first the direct extension
+	 * will be displayed. If this is empty the switchboard will be displayed. If
+	 * this is also empty, the contact phone will be returned.
+	 *
 	 * @return string the telephone number of the contact person, will be empty
 	 *                if no telephone number was set
 	 */
 	public function getContactPhoneNumber() {
-		return ($this->usesContactDataOfOwner())
-			? $this->owner->getPhoneNumber()
-			: $this->getAsString('contact_phone');
+		if ($this->usesContactDataOfOwner()) {
+			return $this->owner->getPhoneNumber();
+		}
+
+		if ($this->hasString('phone_direct_extension')) {
+			$result = $this->getContactDirectExtension();
+		} elseif ($this->hasString('phone_switchboard')) {
+			$result = $this->getContactSwitchboard();
+		} elseif ($this->hasString('contact_phone')) {
+			$result = $this->getAsString('contact_phone');
+		} else {
+			$result = '';
+		}
+		// TODO: remove last guard clause in Bug #3603
+
+		return $result;
 	}
 
 	/**
@@ -1460,6 +1478,29 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				'There was neither a front end nor a back end detected.'
 			);
 		}
+	}
+
+	/**
+	 * Returns the switchboard phone number of the contact person stored in this
+	 * object.
+	 *
+	 * @return string the switchboard phone number of the contact person, will
+	 *                be empty if no switchboard phone number has been set
+	 */
+	public function getContactSwitchboard() {
+		return $this->getAsString('phone_switchboard');
+	}
+
+	/**
+	 * Returns the direct extension phone number of the contact person stored in
+	 * this object.
+	 *
+	 * @return string the direct extension phone number of the contact person,
+	 *                will be empty if no direct extension phone number has been
+	 *                set
+	 */
+	public function getContactDirectExtension() {
+		return $this->getAsString('phone_direct_extension');
 	}
 }
 

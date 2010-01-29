@@ -36,6 +36,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_M
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
@@ -3161,7 +3162,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	// Tests concerning getContactPhoneNumber
 	///////////////////////////////////////////
 
-	public function test_getContactPhoneNumber_ForOwnerFromFeUserAndWithoutPhoneNumber_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumber_ForOwnerFromFeUserAndWithoutPhoneNumber_ReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
 
 		$this->assertEquals(
@@ -3170,7 +3174,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactPhoneNumber_ForOwnerFromObjectAndWithoutPhoneNumber_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumber_ForOwnerFromObjectAndWithoutPhoneNumber_ReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3179,7 +3186,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactPhoneNumber_ForOwnerFromFeUserWithPhoneNumber_ReturnsPhoneNumber() {
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumber_ForOwnerFromFeUserWithPhoneNumber_ReturnsPhoneNumber() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('telephone' => '555-123456')
 		);
@@ -3190,7 +3200,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactPhoneNumber_ForOwnerFromObjectWithContactPhoneNumber_ReturnsContactPhoneNumber() {
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumber_ForOwnerFromObjectWithContactPhoneNumber_ReturnsContactPhoneNumber() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_REALTY_OBJECT, array(),
 			array('contact_phone' => '555-123456')
@@ -3199,6 +3212,143 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'555-123456',
 			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumberForOwnerFromObjectWithDirectExtensionPhoneNumberReturnsThisNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT,
+			array(),
+			array('phone_direct_extension' => '555-123456')
+		);
+
+		$this->assertEquals(
+			'555-123456',
+			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumberForOwnerFromObjectWithSwitchboardAndWithoutDirectExtensionPhoneNumberReturnsSwitchboardNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT,
+			array(),
+			array('phone_switchboard' => '555-123456')
+		);
+
+		$this->assertEquals(
+			'555-123456',
+			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumberForOwnerFromObjectWithSwitchboardAndDirectExtensionPhoneNumberReturnsDirectExtensionNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT,
+			array(),
+			array(
+				'phone_switchboard' => '123456',
+				'phone_direct_extension' => '654321'
+			)
+		);
+
+		$this->assertEquals(
+			'654321',
+			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getContactPhoneNumberForOwnerFromObjectWithSwitchboardAndContactPhoneNumberReturnsSwitchboardPhoneNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT,
+			array(),
+			array('phone_switchboard' => '123456', 'contact_phone' => '654321')
+		);
+
+		$this->assertEquals(
+			'123456',
+			$this->fixture->getContactPhoneNumber()
+		);
+	}
+
+
+	///////////////////////////////////////////
+	// Tests concerning getContactSwitchboard
+	///////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getContactSwitchboardForNoSwitchboardSetReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT, array(), array()
+		);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactSwitchboard()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getContactSwitchboardForSwitchboardSetReturnsSwitchboardNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+			array(),
+			array('phone_switchboard' => '555-123456')
+		);
+
+		$this->assertEquals(
+			'555-123456',
+			$this->fixture->getContactSwitchboard()
+		);
+	}
+
+
+	///////////////////////////////////////////////
+	// Tests concerning getContactDirectExtension
+	///////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getContactDirectExtensionForNoDirectExtensionSetReturnsEmptyString() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_REALTY_OBJECT, array(), array()
+		);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getContactDirectExtension()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getContactDirectExtensionForDirectExtensionSetReturnsDirectExtensionNumber() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+			array(),
+			array('phone_direct_extension' => '555-123456')
+		);
+
+		$this->assertEquals(
+			'555-123456',
+			$this->fixture->getContactDirectExtension()
 		);
 	}
 }

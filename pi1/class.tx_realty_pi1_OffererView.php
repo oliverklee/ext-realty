@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_offererList.
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	/**
@@ -80,7 +81,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 				$result = $offererList->renderOneItemWithTheDataProvided(array(
 					'email' => $realtyObject->getProperty('contact_email'),
 					'company' => $realtyObject->getProperty('employer'),
-					'telephone' => $realtyObject->getProperty('contact_phone'),
+					'telephone' => $realtyObject->getContactPhoneNumber(),
 					'name' => $realtyObject->getProperty('contact_person'),
 					'image' => '',
 				));

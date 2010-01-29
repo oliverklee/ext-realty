@@ -32,6 +32,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 	/**
@@ -191,6 +192,26 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 			'12345',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForDisplayContactTelephoneEnabledContactFromObjectAndDirectExtensionSetShowsDirectExtensionNumber() {
+		$model = $this->getMock(
+			'tx_realty_Model_RealtyObject',
+			array('getContactPhoneNumber', 'getProperty')
+		);
+		$model->expects($this->once())->method('getContactPhoneNumber');
+
+		$mapper = $this->getMock('tx_realty_Mapper_RealtyObject', array('find'));
+		$mapper->expects($this->any())->method('find')
+			->will($this->returnValue($model));
+		tx_oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $mapper);
+
+		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
+
+		$this->fixture->render(array('showUid' => 0));
 	}
 
 	public function testRenderReturnsCompanyIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject() {
