@@ -376,7 +376,6 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="contact_phone" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_phone"/>
 		<renderlet:TEXT name="phone_switchboard" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.phone_switchboard"/>
 		<renderlet:TEXT name="phone_direct_extension" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.phone_direct_extension"/>
 

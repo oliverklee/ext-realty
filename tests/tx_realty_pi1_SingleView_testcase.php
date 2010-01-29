@@ -478,7 +478,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysOffererInformationIfThisIsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('contact_phone' => '12345'));
+			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'offerer'
@@ -495,7 +495,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 	public function testSingleViewDisplaysOffererInformationIfThisIsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('contact_phone' => '12345'));
+			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'heading'

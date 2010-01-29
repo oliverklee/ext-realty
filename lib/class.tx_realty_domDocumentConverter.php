@@ -88,7 +88,6 @@ class tx_realty_domDocumentConverter {
 		'openimmo_obid' => array('verwaltung_techn' => 'openimmo_obid'),
 		'contact_person' => array('kontaktperson' => 'name'),
 		'contact_email' => array('kontaktperson' => 'email_zentrale'),
-		'contact_phone' => array('kontaktperson' => 'tel_zentrale'),
 		'phone_switchboard' => array('kontaktperson' => 'tel_zentrale'),
 		'phone_direct_extension' => array('kontaktperson' => 'tel_durchw'),
 	);
@@ -384,7 +383,6 @@ class tx_realty_domDocumentConverter {
 		$this->appendStreetNumber();
 		$this->setTitleForPets();
 		$this->trySecondContactEmailIfEmailNotFound();
-		$this->trySecondContactPhoneNumberIfPhoneNumberNotFound();
 	}
 
 	/**
@@ -457,25 +455,6 @@ class tx_realty_domDocumentConverter {
 		);
 		$this->addImportedDataIfValueIsNonEmpty(
 			'contact_email',
-			$contactEmailNode->nodeValue
-		);
-	}
-
-	/**
-	 * Fetches the contact phone number from the tag 'tel_privat' if the phone
-	 * number has not been imported yet.
-	 */
-	private function trySecondContactPhoneNumberIfPhoneNumberNotFound() {
-		if (isset($this->importedData['contact_phone'])) {
-			return;
-		}
-
-		$contactEmailNode = $this->findFirstGrandchild(
-			'kontaktperson',
-			'tel_privat'
-		);
-		$this->addImportedDataIfValueIsNonEmpty(
-			'contact_phone',
 			$contactEmailNode->nodeValue
 		);
 	}

@@ -656,49 +656,6 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataFetchesPhoneNumber() {
-		$node = DOMDocument::loadXML(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<kontaktperson>'
-							.'<tel_zentrale>1234567</tel_zentrale>'
-						.'</kontaktperson>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-		$this->fixture->setRawRealtyData($node);
-
-
-		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('contact_phone' => '1234567', 'phone_switchboard' => 1234567))
-		);
-		// TODO: remove this test in Bug 3603
-	}
-
-	public function testGetConvertedDataFetchesAlternativePhoneNumber() {
-		$node = DOMDocument::loadXML(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<kontaktperson>'
-							.'<tel_privat>1234567</tel_privat>'
-						.'</kontaktperson>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-		$this->fixture->setRawRealtyData($node);
-
-
-		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('contact_phone' => '1234567'))
-		);
-	}
-
 	public function testGetConvertedDataReplacesLowercasedBooleanStringsWithTrueBooleans() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
@@ -995,9 +952,8 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			$this->fixture->getConvertedData($node),
-			array(array('contact_phone' => '1234567', 'phone_switchboard' => 1234567))
+			array(array('phone_switchboard' => 1234567))
 		);
-		// TODO: remove contact phone in Bug 3603
 	}
 
 	/**

@@ -172,7 +172,7 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsContactInformationIfEnabledAndInformationIsSetInTheRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('contact_phone' => '12345'));
+			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
@@ -184,7 +184,7 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderReturnsPhoneNumberIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('contact_phone' => '12345'));
+			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
@@ -250,7 +250,7 @@ class tx_realty_pi1_OffererView_testcase extends tx_phpunit_testcase {
 
 	public function testRenderNotReturnsContactInformationIfOptionIsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('contact_phone' => '12345'));
+			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 

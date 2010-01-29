@@ -1428,12 +1428,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$result = $this->getContactDirectExtension();
 		} elseif ($this->hasString('phone_switchboard')) {
 			$result = $this->getContactSwitchboard();
-		} elseif ($this->hasString('contact_phone')) {
-			$result = $this->getAsString('contact_phone');
 		} else {
 			$result = '';
 		}
-		// TODO: remove last guard clause in Bug #3603
 
 		return $result;
 	}

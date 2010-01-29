@@ -117,7 +117,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_objects.phone_switchboard">Contact phone (switchboard)</label>
 			<label index="tx_realty_objects.phone_direct_extension">Contact phone (direct extension)</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
@@ -257,7 +256,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">Mein Benutzeraccount</label>
 			<label index="tx_realty_objects.contact_person">Kontaktperson</label>
 			<label index="tx_realty_objects.contact_email">Kontakt-E-Mail</label>
-			<label index="tx_realty_objects.contact_phone">Kontakt-Telefonnummer</label>
 			<label index="tx_realty_objects.phone_switchboard">Kontakt-Telefonnummer (Zentrale)</label>
 			<label index="tx_realty_objects.phone_direct_extension">Kontakt-Telefonnummer (Durchwahl)</label>
 			<label index="tx_realty_objects.owner">FE-Benutzer, der dieses Objekt erstellt hat</label>
@@ -531,7 +529,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">Mijn Account</label>
 			<label index="tx_realty_objects.contact_person">Kontaktpersoon</label>
 			<label index="tx_realty_objects.contact_email">Kontakt E-mail</label>
-			<label index="tx_realty_objects.contact_phone">Kontakt telefoonnummer</label>
 			<label index="tx_realty_objects.owner">FE gebruiker die dit objekt heeft aangelegd</label>
 			<label index="tx_realty_objects.language">Taal</label>
 			<label index="tx_realty_objects.currency">Muntsoort</label>
@@ -623,7 +620,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">Min konto</label>
 			<label index="tx_realty_objects.contact_person">Kontaktperson</label>
 			<label index="tx_realty_objects.contact_email">Kontakt e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Kontakt tlf.</label>
 			<label index="tx_realty_objects.owner">FE-bruger der har skabt dette objekt</label>
 			<label index="tx_realty_objects.language">Sprog for denne datamængde</label>
 			<label index="tx_realty_apartment_types">Lejlighedstype</label>
@@ -743,7 +739,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">Mi cuenta</label>
 			<label index="tx_realty_objects.contact_person">Persona de contacto</label>
 			<label index="tx_realty_objects.contact_email">E-Mail de contacto</label>
-			<label index="tx_realty_objects.contact_phone">Número de teléfono de contacto</label>
 			<label index="tx_realty_objects.owner">Usuario FE que ha creado este objeto</label>
 			<label index="tx_realty_objects.language">Idioma elegido</label>
 			<label index="tx_realty_objects.currency">Divisa</label>
@@ -869,7 +864,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">Mio utente</label>
 			<label index="tx_realty_objects.contact_person">Persona di contatto</label>
 			<label index="tx_realty_objects.contact_email">Contatto e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Contatto telefonico</label>
 			<label index="tx_realty_objects.owner">Utente FE che ha inserito l'immobile</label>
 			<label index="tx_realty_objects.language">Lingua del record</label>
 			<label index="tx_realty_objects.currency">Valuta</label>
@@ -1004,7 +998,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1" type="integer">227921738</label>
 			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
 			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
-			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
 			<label index="tx_realty_objects.phone_switchboard" type="integer">207514048</label>
 			<label index="tx_realty_objects.phone_direct_extension" type="integer">46342529</label>
 			<label index="tx_realty_objects.owner" type="integer">181513656</label>
@@ -1243,7 +1236,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1" type="integer">227921738</label>
 			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
 			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
-			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
 			<label index="tx_realty_objects.owner" type="integer">181513656</label>
 			<label index="tx_realty_objects.language" type="integer">243141894</label>
 			<label index="tx_realty_apartment_types" type="integer">220566396</label>
@@ -1374,7 +1366,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1" type="integer">227921738</label>
 			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
 			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
-			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
 			<label index="tx_realty_objects.owner" type="integer">181513656</label>
 			<label index="tx_realty_objects.language" type="integer">243141894</label>
 			<label index="tx_realty_apartment_types" type="integer">220566396</label>
@@ -1510,7 +1501,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1" type="integer">227921738</label>
 			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
 			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
-			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
 			<label index="tx_realty_objects.owner" type="integer">181513656</label>
 			<label index="tx_realty_objects.language" type="integer">243141894</label>
 			<label index="tx_realty_objects.currency" type="integer">59163449</label>
@@ -1620,7 +1610,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1" type="integer">227921738</label>
 			<label index="tx_realty_objects.contact_person" type="integer">39277711</label>
 			<label index="tx_realty_objects.contact_email" type="integer">23126863</label>
-			<label index="tx_realty_objects.contact_phone" type="integer">228321208</label>
 			<label index="tx_realty_objects.owner" type="integer">181513656</label>
 			<label index="tx_realty_objects.language" type="integer">243141894</label>
 			<label index="tx_realty_objects.currency" type="integer">59163449</label>
@@ -1755,7 +1744,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_objects.phone_switchboard">Contact phone (switchboard)</label>
 			<label index="tx_realty_objects.phone_direct_extension">Contact phone (direct extension)</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
@@ -1994,7 +1982,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
@@ -2125,7 +2112,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
@@ -2261,7 +2247,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_objects.currency">Currency</label>
@@ -2371,7 +2356,6 @@
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
-			<label index="tx_realty_objects.contact_phone">Contact phone number</label>
 			<label index="tx_realty_objects.owner">FE user who has created this object</label>
 			<label index="tx_realty_objects.language">Language of the record</label>
 			<label index="tx_realty_objects.currency">Currency</label>
