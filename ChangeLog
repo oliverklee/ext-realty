@@ -1,3 +1,5 @@
+0.5.1 - currently working on
+
 0.5.0 - released 2010-02-23
 - [#3660] Fix: Test failures with PHPUnit 3.4.7
 - [#3656] Fix: Don't use TYPO3_branch or compat_version
