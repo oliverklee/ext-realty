@@ -1,4 +1,4 @@
-0.4.4 - currently working on
+0.4.4 - released 2010-02-23
 - [#3660] Fix: Test failures with PHPUnit 3.4.7
 - [#3656] Fix: Don't use TYPO3_branch or compat_version
 - [#3196] Change: Don't display the "available from" field in the list view and single view if it is empty
