@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3729] Change: Provide ext_autoload for our extensions
 - [#3603] Change: Remove the old phone number field
 - [#3602] Feature: In the contact data in the single view, display the new phone number fields
 - [#3660] Fix: Test failures with PHPUnit 3.4.7
