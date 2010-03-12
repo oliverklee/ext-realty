@@ -925,8 +925,12 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.telephone</numIndex>
 										<numIndex index="1">telephone</numIndex>
 									</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.request</numIndex>
+										<numIndex index="1">request</numIndex>
+									</numIndex>
 								</items>
-								<maxitems>4</maxitems>
+								<maxitems>5</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>
@@ -959,8 +963,12 @@
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.telephone</numIndex>
 										<numIndex index="1">telephone</numIndex>
 									</numIndex>
+									<numIndex index="5" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.request</numIndex>
+										<numIndex index="1">request</numIndex>
+									</numIndex>
 								</items>
-								<maxitems>5</maxitems>
+								<maxitems>6</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

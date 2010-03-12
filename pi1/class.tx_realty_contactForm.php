@@ -30,6 +30,7 @@
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
@@ -112,7 +113,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	private function hideNonVisibleFormFields() {
 		$this->hideSubpartsArray(
 			array_diff(
-				array('name', 'street', 'zip_and_city', 'telephone'),
+				array('name', 'street', 'zip_and_city', 'telephone', 'request'),
 				$this->getConfigurationArray('visibleContactFormFields')
 			),
 			'contact_form_wrapper'
@@ -144,17 +145,16 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			if (!empty($nonFilledRequiredFields)) {
 				foreach ($nonFilledRequiredFields as $key) {
 					$suffix = '';
-					if (($key == 'requesterZip') || ($key == 'requesterCity')) {
+					if (in_array(
+						$key, array('requesterZip', 'requesterCity', 'request')
+					)) {
 						$suffix = '_' . $key;
 					}
+
 					$errorMessages[$key] = 'message_required_field' . $suffix;
 				}
 				$noErrorsSet = false;
 			}
-		}
-		if ($this->contactFormData['request'] == '') {
-			$errorMessages['request'] = 'label_no_empty_textarea';
-			$noErrorsSet = false;
 		}
 
 		return $noErrorsSet;
@@ -184,6 +184,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			'requesterZip' => 'zip',
 			'requesterCity' => 'city',
 			'requesterPhone' => 'telephone',
+			'request' => 'request',
 		) as $formDataKey => $fieldName) {
 			if (in_array($fieldName, $requiredFields)
 				&& (trim($this->contactFormData[$formDataKey]) == '')

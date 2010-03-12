@@ -719,7 +719,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies which fields are visible in the contact form. ' .
 				'Some fields will be not be visible if this configuration is ' .
 				'incorrect.',
-			array('name', 'street', 'zip_and_city', 'telephone')
+			array('name', 'street', 'zip_and_city', 'telephone', 'request')
 		);
 	}
 
@@ -734,7 +734,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies which fields are required to be filled when ' .
 				'committing a contact request. Some fields will be not be ' .
 				'required if this configuration is incorrect.',
-			array('name', 'street', 'zip', 'city', 'telephone')
+			array('name', 'street', 'zip', 'city', 'telephone', 'request')
 		);
 
 		// checks whether the required fields are visible

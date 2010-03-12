@@ -35,6 +35,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_contactForm.
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	/**
@@ -84,9 +85,9 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('blindCarbonCopyAddress', '');
 		$this->fixture->setConfigurationValue(
-			'visibleContactFormFields', 'name,street,zip_and_city,telephone'
+			'visibleContactFormFields', 'name,street,zip_and_city,telephone,request'
 		);
-		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'request');
 	}
 
 	public function tearDown() {
@@ -101,7 +102,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	// Tests concerning view-dependently displayed strings.
 	/////////////////////////////////////////////////////////
 
-	public function testSpecializedContactFormContainsObjectTitle() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormContainsObjectTitle() {
 		$this->assertContains(
 			self::REALTY_TITLE,
 			$this->fixture->render(
@@ -110,7 +114,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormContainsObjectNumber() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormContainsObjectNumber() {
 		$this->assertContains(
 			self::REALTY_OBJECT_NUMBER,
 			$this->fixture->render(
@@ -119,35 +126,50 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormDoesNotContainTitleLabelWithoutRealtyObjectSet() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormDoesNotContainTitleLabelWithoutRealtyObjectSet() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_title'),
 			$this->fixture->render()
 		);
 	}
 
-	public function testGeneralContactFormDoesNotContainObjectNumberLabelWithoutRealtyObjectSet() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormDoesNotContainObjectNumberLabelWithoutRealtyObjectSet() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_object_number'),
 			$this->fixture->render()
 		);
 	}
 
-	public function testSpecializedContactFormHasNoDisabledFieldsIfNotLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormHasNoDisabledFieldsIfNotLoggedIn() {
 		$this->assertNotContains(
 			'disabled',
 			$this->fixture->render(array('showUid' => $this->realtyUid))
 		);
 	}
 
-	public function testGeneralContactFormHasNoDisabledFieldsIfNotLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormHasNoDisabledFieldsIfNotLoggedIn() {
 		$this->assertNotContains(
 			'disabled',
 			$this->fixture->render()
 		);
 	}
 
-	public function testSpecializedContactFormHasDisabledNameFieldIfLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormHasDisabledNameFieldIfLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('name' => 'test user')
 		);
@@ -158,7 +180,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormHasNoNameFieldIfLoggedInButNameIsDisabledByConfiguration() {
+	/**
+	 * @test
+	 */
+	public function contactFormHasNoNameFieldIfLoggedInButNameIsDisabledByConfiguration() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('name' => 'test user')
 		);
@@ -170,7 +195,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormHasDisabledEmailFieldIfLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormHasDisabledEmailFieldIfLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('email' => 'frontend-user@valid-email.org')
 		);
@@ -181,7 +209,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormHasDisabledNameFieldIfLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormHasDisabledNameFieldIfLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('name' => 'test user')
 		);
@@ -192,7 +223,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormHasDisabledEmailFieldIfLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormHasDisabledEmailFieldIfLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('email' => 'frontend-user@valid-email.org')
 		);
@@ -203,21 +237,30 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormHasNoDisabledInfomationIfNotLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormHasNoDisabledInfomationIfNotLoggedIn() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render(array('showUid' => $this->realtyUid))
 		);
 	}
 
-	public function testGeneralContactHasNoDisabledInfomationIfNotLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function generalContactHasNoDisabledInfomationIfNotLoggedIn() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render()
 		);
 	}
 
-	public function testSpecializedContactFormHasDisabledInfomationIfLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormHasDisabledInfomationIfLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('name' => 'test user')
 		);
@@ -228,7 +271,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormHasDisabledInfomationIfLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormHasDisabledInfomationIfLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'', array('name' => 'test user')
 		);
@@ -239,7 +285,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysGeneralViewIfTheRealtyObjectUidWasNotNumeric() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysGeneralViewIfTheRealtyObjectUidWasNotNumeric() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(
@@ -248,7 +297,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormNotDisplaysUnreplacedMarkersIfRealtyObjectDoesNotExist() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormNotDisplaysUnreplacedMarkersIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
 			'###',
 			$this->fixture->render(
@@ -259,7 +311,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormNotDisplaysObjectNumberLabelIfRealtyObjectDoesNotExist() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormNotDisplaysObjectNumberLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(
@@ -270,7 +325,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormNotDisplaysTitleLabelIfRealtyObjectDoesNotExist() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormNotDisplaysTitleLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_title'),
 			$this->fixture->render(
@@ -281,7 +339,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormNotDisplaysSubmitLabelIfRealtyObjectDoesNotExist() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormNotDisplaysSubmitLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_submit'),
 			$this->fixture->render(array(
@@ -292,7 +353,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormNotDisplaysYourNameLabelIfRealtyObjectDoesNotExist() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormNotDisplaysYourNameLabelIfRealtyObjectDoesNotExist() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_your_name'),
 			$this->fixture->render(array(
@@ -303,18 +367,46 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysYourNameLabelIfThisIsConfigured() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysYourNameLabelIfThisIsConfigured() {
 		$this->assertContains(
 			$this->fixture->translate('label_your_name'),
 			$this->fixture->render()
 		);
 	}
 
-	public function testContactFormNotDisplaysYourNameLabelIfThisIsNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysYourNameLabelIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
 		$this->assertNotContains(
 			$this->fixture->translate('label_your_name'),
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysRequestFieldIfThisIsConfigured() {
+		$this->assertContains(
+			'name="tx_realty_pi1[request]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysRequestFieldIfThisIsNotConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+
+		$this->assertNotContains(
+			'name="tx_realty_pi1[request]"',
 			$this->fixture->render()
 		);
 	}
@@ -324,7 +416,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	// Tests concerning (error) messages.
 	///////////////////////////////////////
 
-	public function testSpecializedContactFormDisplaysAnErrorIfRealtyObjectDoesNotExist() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormDisplaysAnErrorIfRealtyObjectDoesNotExist() {
 		$this->assertContains(
 			$this->fixture->translate('message_noResultsFound_contact_form'),
 			$this->fixture->render(
@@ -335,7 +430,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
 		$this->assertContains(
 			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
@@ -351,7 +449,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
 		$this->assertContains(
 			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
@@ -365,7 +466,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheEmailField() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheEmailField() {
 		$this->assertContains(
 			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
@@ -381,7 +485,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheNameField() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheNameField() {
 		$this->assertContains(
 			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
@@ -397,7 +504,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysErrorAfterSubmittingIfAngleBracketsAreSetInTheNameField() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysErrorAfterSubmittingIfAngleBracketsAreSetInTheNameField() {
 		$this->assertContains(
 			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
@@ -413,7 +523,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysErrorAfterSubmittingIfQuotationMarksAreSetInTheNameField() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysErrorAfterSubmittingIfQuotationMarksAreSetInTheNameField() {
 		$this->assertContains(
 			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
@@ -429,7 +542,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
 
 		$this->assertContains(
@@ -446,7 +562,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
 
 		$this->assertContains(
@@ -462,9 +581,16 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormForRequiredMessageDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', 'request'
+		);
+
 		$this->assertContains(
-			$this->fixture->translate('label_no_empty_textarea'),
+			$this->fixture->translate('message_required_field_request'),
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
@@ -477,9 +603,16 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormForRequiredMessageDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', 'request'
+		);
+
 		$this->assertContains(
-			$this->fixture->translate('label_no_empty_textarea'),
+			$this->fixture->translate('message_required_field_request'),
 			$this->fixture->render(
 				array(
 					'isSubmitted' => true,
@@ -491,7 +624,28 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormWithoutRequiredMessageNotDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
+
+		$this->assertNotContains(
+			$this->fixture->translate('message_required_field_request'),
+			$this->fixture->render(
+				array(
+					'isSubmitted' => true,
+					'requesterName' => 'any name',
+					'requesterEmail' => 'requester@valid-email.org',
+					'request' => '',
+				)
+			)
+		);
+	}
+	/**
+	 * @test
+	 */
+	public function specializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet() {
 		$this->fixture->setConfigurationValue('defaultContactEmail', '');
 
 		$this->assertContains(
@@ -508,7 +662,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormDisplaysAnErrorAfterSubmittingIfNoDefaultEmailAddressWasSet() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormDisplaysAnErrorAfterSubmittingIfNoDefaultEmailAddressWasSet() {
 		$this->fixture->setConfigurationValue('defaultContactEmail', '');
 
 		$this->assertContains(
@@ -524,7 +681,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysTwoErrorMessagesIfNameAndStreetAreRequiredButEmpty() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysTwoErrorMessagesIfNameAndStreetAreRequiredButEmpty() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name,street');
 
 		$this->assertEquals(
@@ -543,7 +703,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormStillDisplaysTheFormIfAnErrorOccurs() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormStillDisplaysTheFormIfAnErrorOccurs() {
 		$result = $this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
@@ -555,7 +718,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			$this->fixture->translate('label_no_empty_textarea'),
+			$this->fixture->translate('message_required_field_request'),
 			$result
 		);
 		$this->assertContains(
@@ -568,7 +731,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormStillDisplaysGeneralViewOfTheFormIfAnErrorOccurs() {
+	/**
+	 * @test
+	 */
+	public function contactFormStillDisplaysGeneralViewOfTheFormIfAnErrorOccurs() {
 		$result = $this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -579,7 +745,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			$this->fixture->translate('label_no_empty_textarea'),
+			$this->fixture->translate('message_required_field_request'),
 			$result
 		);
 		$this->assertNotContains(
@@ -592,7 +758,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormShowsSubmittedMessageIfAllContentIsValid() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormShowsSubmittedMessageIfAllContentIsValid() {
 		$this->assertContains(
 			$this->fixture->translate('label_message_sent'),
 			$this->fixture->render(
@@ -607,7 +776,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormShowsSubmittedMessageIfAllContentIsValid() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormShowsSubmittedMessageIfAllContentIsValid() {
 		$this->assertContains(
 			$this->fixture->translate('label_message_sent'),
 			$this->fixture->render(
@@ -621,7 +793,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysErrorMessageForEmptyRequiredStreetField() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysErrorMessageForEmptyRequiredStreetField() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
 
 		$this->assertContains(
@@ -637,7 +812,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysErrorMessageForEmptyRequiredCityField() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysErrorMessageForEmptyRequiredCityField() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'city');
 
 		$this->assertContains(
@@ -653,7 +831,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContactFormDisplaysNoErrorMessageForNonEmptyRequiredField() {
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysNoErrorMessageForNonEmptyRequiredField() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
 
 		$this->assertNotContains(
@@ -674,28 +855,40 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	// Tests for generally displayed strings.
 	///////////////////////////////////////////
 
-	public function testFormWithMinimalContentDoesNotContainUnreplacedMarkers() {
+	/**
+	 * @test
+	 */
+	public function formWithMinimalContentDoesNotContainUnreplacedMarkers() {
 		$this->assertNotContains(
 			'###',
 			$this->fixture->render()
 		);
 	}
 
-	public function testFormHasInputFieldForStreet() {
+	/**
+	 * @test
+	 */
+	public function formHasInputFieldForStreet() {
 		$this->assertContains(
 			'tx_realty_pi1[requesterStreet]',
 			$this->fixture->render()
 		);
 	}
 
-	public function testFormHasInputFieldForZip() {
+	/**
+	 * @test
+	 */
+	public function formHasInputFieldForZip() {
 		$this->assertContains(
 			'tx_realty_pi1[requesterStreet]',
 			$this->fixture->render()
 		);
 	}
 
-	public function testFormHasInputFieldForCity() {
+	/**
+	 * @test
+	 */
+	public function formHasInputFieldForCity() {
 		$this->assertContains(
 			'tx_realty_pi1[requesterStreet]',
 			$this->fixture->render()
@@ -707,7 +900,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	// Tests concerning the form fields' values.
 	//////////////////////////////////////////////
 
-	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForRequest() {
+	/**
+	 * @test
+	 */
+	public function notSuccessfullySubmittedFormStillContainsSubmittedValueForRequest() {
 		$this->assertContains(
 			'>the request</textarea>',
 			$this->fixture->render(
@@ -719,7 +915,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForName() {
+	/**
+	 * @test
+	 */
+	public function notSuccessfullySubmittedFormStillContainsSubmittedValueForName() {
 		$this->assertContains(
 			'value="any name"',
 			$this->fixture->render(
@@ -731,7 +930,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueForPhone() {
+	/**
+	 * @test
+	 */
+	public function notSuccessfullySubmittedFormStillContainsSubmittedValueForPhone() {
 		$this->assertContains(
 			'value="1234567"',
 			$this->fixture->render(
@@ -743,7 +945,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueOfEmail() {
+	/**
+	 * @test
+	 */
+	public function notSuccessfullySubmittedFormStillContainsSubmittedValueOfEmail() {
 		$this->assertContains(
 			'value="requester@valid-email.org"',
 			$this->fixture->render(
@@ -755,7 +960,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueOfFalseEmail() {
+	/**
+	 * @test
+	 */
+	public function notSuccessfullySubmittedFormStillContainsSubmittedValueOfFalseEmail() {
 		$this->assertContains(
 			'value="requester-invalid-email"',
 			$this->fixture->render(
@@ -767,7 +975,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNotSuccessfullySubmittedFormStillContainsSubmittedValueWithHtmlSpecialCharedTags() {
+	/**
+	 * @test
+	 */
+	public function notSuccessfullySubmittedFormStillContainsSubmittedValueWithHtmlSpecialCharedTags() {
 		$this->assertContains(
 			'>&lt;fieldset /&gt;the request&lt;script /&gt;</textarea>',
 			$this->fixture->render(
@@ -784,7 +995,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	// Tests concerning the content of e-mails.
 	/////////////////////////////////////////////
 
-	public function testSpecializedContactFormUsesDefaultEmailAddressIfTheObjectHasNoContactData() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormUsesDefaultEmailAddressIfTheObjectHasNoContactData() {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
@@ -801,7 +1015,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToRealtyObject() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -827,7 +1044,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesTheDefaultEmailAddressEmailIfTheOwnersAddressWasNotValid() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormUsesTheDefaultEmailAddressEmailIfTheOwnersAddressWasNotValid() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('email' => 'invalid-address')
 		);
@@ -855,7 +1075,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesTheDefaultEmailAddressIfTheContactPersonsAddressIsInvalid() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormUsesTheDefaultEmailAddressIfTheContactPersonsAddressIsInvalid() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -880,7 +1103,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToOwner() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToOwner() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -908,7 +1134,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesDefaultEmailAddressWhenDataSourceIsDeletedOwner() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormUsesDefaultEmailAddressWhenDataSourceIsDeletedOwner() {
 		$deletedUserUid = $this->testingFramework->createFrontEndUser(
 			'',
 			array(
@@ -942,7 +1171,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSpecializedContactFormUsesDefaultEmailAddressForInvalidAddressFromOwnerAccount() {
+	/**
+	 * @test
+	 */
+	public function specializedContactFormUsesDefaultEmailAddressForInvalidAddressFromOwnerAccount() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -969,7 +1201,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGeneralContactFormUsesTheDefaultEmailAddress() {
+	/**
+	 * @test
+	 */
+	public function generalContactFormUsesTheDefaultEmailAddress() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -985,7 +1220,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHeaderContainsNameAndEmailAddress() {
+	/**
+	 * @test
+	 */
+	public function headerContainsNameAndEmailAddress() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1001,7 +1239,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNameAndEmailAddressAreFetchedAutomaticallyAsSenderIfAFeUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function nameAndEmailAddressAreFetchedAutomaticallyAsSenderIfAFeUserIsLoggedIn() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'',
 			array(
@@ -1023,7 +1264,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailAddressIsFetchedAutomaticallyAsSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
+	/**
+	 * @test
+	 */
+	public function emailAddressIsFetchedAutomaticallyAsSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'',
 			array(
@@ -1045,7 +1289,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSenderDoesNotContainTheNameIfAFeUserIsLoggedAndUserNameVisibilityDisabled() {
+	/**
+	 * @test
+	 */
+	public function senderDoesNotContainTheNameIfAFeUserIsLoggedAndUserNameVisibilityDisabled() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'',
 			array(
@@ -1070,7 +1317,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNoQuotesAreSetForTheSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
+	/**
+	 * @test
+	 */
+	public function noQuotesAreSetForTheSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'',
 			array(
@@ -1092,7 +1342,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNoAngleBracketsAreSetForTheSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
+	/**
+	 * @test
+	 */
+	public function noAngleBracketsAreSetForTheSenderIfAFeUserIsLoggedInAndNoUserNameSet() {
 		$this->testingFramework->createAndLoginFrontEndUser(
 			'',
 			array(
@@ -1118,7 +1371,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTheHeaderContainsABccAddressIfThisWasConfigured() {
+	/**
+	 * @test
+	 */
+	public function headerContainsABccAddressIfThisWasConfigured() {
 		$this->fixture->setConfigurationValue(
 			'blindCarbonCopyAddress', 'bcc-address@valid-email.org'
 		);
@@ -1137,7 +1393,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTheHeaderContainsNoBccLineIfNoAddressWasConfigured() {
+	/**
+	 * @test
+	 */
+	public function headerContainsNoBccLineIfNoAddressWasConfigured() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1153,7 +1412,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNoEmailIsSentIfTheContactFormWasNotFilledCorrectly() {
+	/**
+	 * @test
+	 */
+	public function noEmailIsSentIfTheContactFormWasNotFilledCorrectly() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1167,7 +1429,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailWithMinimumContentContainsNoUnreplacedMarkers() {
+	/**
+	 * @test
+	 */
+	public function emailWithMinimumContentContainsNoUnreplacedMarkers() {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
@@ -1184,7 +1449,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailContainsTheTitleOfTheRequestedObjectIfASpecializedContactFormWasSubmitted() {
+	/**
+	 * @test
+	 */
+	public function emailContainsTheTitleOfTheRequestedObjectIfASpecializedContactFormWasSubmitted() {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
@@ -1201,7 +1469,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailContainsTheObjectNumberOfTheRequestedObjectIfASpecializedContactFormWasSubmitted() {
+	/**
+	 * @test
+	 */
+	public function emailContainsTheObjectNumberOfTheRequestedObjectIfASpecializedContactFormWasSubmitted() {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
@@ -1218,7 +1489,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailFromGeneralContactFormContainsASummaryStringOfTheFavoritesList() {
+	/**
+	 * @test
+	 */
+	public function emailFromGeneralContactFormContainsASummaryStringOfTheFavoritesList() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1235,7 +1509,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailBodyContainsTheRequestersName() {
+	/**
+	 * @test
+	 */
+	public function emailBodyContainsTheRequestersName() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1251,7 +1528,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailBodyContainsTheRequestersEmailAddress() {
+	/**
+	 * @test
+	 */
+	public function emailBodyContainsTheRequestersEmailAddress() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1267,7 +1547,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailBodyContainsTheRequestersPhoneNumber() {
+	/**
+	 * @test
+	 */
+	public function emailBodyContainsTheRequestersPhoneNumber() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1284,7 +1567,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailBodyNotContainsThePhoneNumberLabelIfNoPhoneNumberWasSet() {
+	/**
+	 * @test
+	 */
+	public function emailBodyNotContainsThePhoneNumberLabelIfNoPhoneNumberWasSet() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1300,7 +1586,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailBodyContainsTheRequestersStreet() {
+	/**
+	 * @test
+	 */
+	public function emailBodyContainsTheRequestersStreet() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1317,7 +1606,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailBodyContainsTheRequestersZip() {
+	/**
+	 * @test
+	 */
+	public function emailBodyContainsTheRequestersZip() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1334,7 +1626,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailBodyContainsTheRequestersCity() {
+	/**
+	 * @test
+	 */
+	public function emailBodyContainsTheRequestersCity() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1351,7 +1646,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailSubjectIsGeneralForTheGeneralForm() {
+	/**
+	 * @test
+	 */
+	public function emailSubjectIsGeneralForTheGeneralForm() {
 		$this->fixture->render(
 			array(
 				'isSubmitted' => true,
@@ -1367,7 +1665,10 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailSubjectIsSpecializedForTheSpecializedForm() {
+	/**
+	 * @test
+	 */
+	public function emailSubjectIsSpecializedForTheSpecializedForm() {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
