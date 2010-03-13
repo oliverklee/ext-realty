@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3450] Change: Mention in setup.txt that the admin should not copy'n'paste the complete template into the TS template
 - [#3722] Feature: Add some checkboxes for displaying additional fields in the contact form
 - [#3720] Change: In the contact form, make it optional to show the message text and to have it as a required field
 - [#3729] Change: Provide ext_autoload for our extensions
