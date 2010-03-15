@@ -33,6 +33,7 @@
 			<label index="realty.pi_flexform.information">checkbox about object information</label>
 			<label index="realty.pi_flexform.terms">checkbox for the terms</label>
 			<label index="realty.pi_flexform.law">note concerning the law against unfair competition</label>
+			<label index="realty.pi_flexform.termsPID">Page with the terms:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form in the favorites view:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
@@ -389,6 +390,7 @@
 			<label index="realty.pi_flexform.information">Objektinformationen-Checkbox</label>
 			<label index="realty.pi_flexform.terms">AGB-Checkbox</label>
 			<label index="realty.pi_flexform.law">UWG-Hinweis</label>
+			<label index="realty.pi_flexform.termsPID">Seite mit den AGB:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Link zum Kontaktformular auf dem Merkzettel anzeigen:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB-Feld, aus dem die Suchfilter-Checkboxen erzeugt werden:</label>
 			<label index="realty.pi_flexform.orderBy">Listenansicht zu Anfang sortieren nach:</label>
@@ -1841,6 +1843,7 @@
 			<label index="realty.pi_flexform.information" type="integer">133952677</label>
 			<label index="realty.pi_flexform.terms" type="integer">17445587</label>
 			<label index="realty.pi_flexform.law" type="integer">12130417</label>
+			<label index="realty.pi_flexform.termsPID" type="integer">105763576</label>
 			<label index="realty.pi_flexform.showContactPageLink" type="integer">75125315</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
@@ -3291,6 +3294,7 @@
 			<label index="realty.pi_flexform.information">checkbox about object information</label>
 			<label index="realty.pi_flexform.terms">checkbox for the terms</label>
 			<label index="realty.pi_flexform.law">note concerning the law against unfair competition</label>
+			<label index="realty.pi_flexform.termsPID">Page with the terms:</label>
 			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form in the favorites view:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>

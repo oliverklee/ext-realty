@@ -112,6 +112,8 @@ plugin.tx_realty_pi1 {
 	visibleContactFormFields = name,street,zip_and_city,telephone,request
 	# required fields for the contact form
 	requiredContactFormFields = name,request
+	# PID of the page containing the terms linked from the contact form
+	termsPID =
 	# whether the link to the contact form should be displayed in the favorites view
 	showContactPageLink = 0
 	# single view parts to display

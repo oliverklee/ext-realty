@@ -146,6 +146,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkBlindCarbonCopyAddress();
 		$this->checkVisibleContactFormFields();
 		$this->checkRequiredContactFormFields();
+		if ($this->hasTermsInContactForm()) {
+			$this->checkTermsPid();
+		}
 	}
 
 	/**
@@ -727,6 +730,23 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
+	 * Checks whether the "terms" checkbox is visible in the contact form.
+	 *
+	 * @return boolean TRUE if the "terms" checkbox is visible, FALSE otherwise
+	 */
+	private function hasTermsInContactForm() {
+		$visibleFormFields = t3lib_div::trimExplode(
+			',',
+			$this->objectToCheck->getConfValueString(
+				'visibleContactFormFields', 's_contactForm'
+			),
+			TRUE
+		);
+
+		return in_array('terms', $visibleFormFields);
+	}
+
+	/**
 	 * Checks the configuration for requiredContactFormFields.
 	 */
 	private function checkRequiredContactFormFields() {
@@ -764,6 +784,20 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				),
 				true
 			)
+		);
+	}
+
+	/**
+	 * Checks the variable termsPID.
+	 */
+	private function checkTermsPid() {
+		$this->checkIfSingleFePageNotEmpty(
+			'termsPID',
+			TRUE,
+			's_contactForm',
+			'This value specifies the PID containing the terms linked from ' .
+				'the contact form. If this value is invalid, the link to ' .
+				'the terms page will not work.'
 		);
 	}
 

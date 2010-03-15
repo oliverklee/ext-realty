@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3721] Feature: Add a TS setup configuration & flexforms for the FE page with the terms
 - [#3738] Change: Require static_info_tables >= 2.1.0
 - [#3066] Change: Use the new getters/setters when using the configuration proxy
 - [#3450] Change: Mention in setup.txt that the admin should not copy'n'paste the complete template into the TS template
