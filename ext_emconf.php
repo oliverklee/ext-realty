@@ -38,7 +38,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'cms' => '',
 			'oelib' => '0.7.0-',
 			'ameos_formidable' => '1.1.0-1.9.99',
-			'static_info_tables' => '2.0.2-',
+			'static_info_tables' => '2.1.0-',
 		),
 		'conflicts' => array(
 			'dbal' => '',
