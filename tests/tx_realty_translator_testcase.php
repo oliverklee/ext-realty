@@ -54,7 +54,7 @@ class tx_realty_translator_testcase extends tx_phpunit_testcase {
 
 	public function testTranslatorReturnsGermanString() {
 		tx_oelib_configurationProxy::getInstance('realty')
-			->setConfigurationValueString('cliLanguage', 'de');
+			->setAsString('cliLanguage', 'de');
 		$this->fixture = new tx_realty_translator();
 
 		$this->assertEquals(
@@ -65,7 +65,7 @@ class tx_realty_translator_testcase extends tx_phpunit_testcase {
 
 	public function testTranslatorReturnsEnglishString() {
 		tx_oelib_configurationProxy::getInstance('realty')
-			->setConfigurationValueString('cliLanguage', 'en');
+			->setAsString('cliLanguage', 'en');
 		$this->fixture = new tx_realty_translator();
 
 		$this->assertEquals(
@@ -76,7 +76,7 @@ class tx_realty_translator_testcase extends tx_phpunit_testcase {
 
 	public function testTranslatorReturnsDefaultLanguageStringForInvalidLanguageKey() {
 		tx_oelib_configurationProxy::getInstance('realty')
-			->setConfigurationValueString('cliLanguage', 'xy');
+			->setAsString('cliLanguage', 'xy');
 		$this->fixture = new tx_realty_translator();
 
 		$this->assertEquals(
@@ -87,7 +87,7 @@ class tx_realty_translator_testcase extends tx_phpunit_testcase {
 
 	public function testTranslatorReturnsDefaultLanguageStringForEmptyLanguageKey() {
 		tx_oelib_configurationProxy::getInstance('realty')
-			->setConfigurationValueString('cliLanguage', '');
+			->setAsString('cliLanguage', '');
 		$this->fixture = new tx_realty_translator();
 
 		$this->assertEquals(

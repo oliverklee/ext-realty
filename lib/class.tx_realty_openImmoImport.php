@@ -168,7 +168,7 @@ class tx_realty_openImmoImport {
 	public function importFromZip() {
 		$this->addToLogEntry(date('Y-m-d G:i:s').LF);
 		$checkedImportDirectory = $this->unifyPath(
-			$this->globalConfiguration->getConfigurationValueString('importFolder')
+			$this->globalConfiguration->getAsString('importFolder')
 		);
 
 		if (!$this->canStartImport($checkedImportDirectory)) {
@@ -287,7 +287,7 @@ class tx_realty_openImmoImport {
 	 */
 	private function getOverridePidForZip($fileName) {
 		if (($fileName == '')
-			|| ($this->globalConfiguration->getConfigurationValueString(
+			|| ($this->globalConfiguration->getAsString(
 				'pidsForRealtyObjectsAndImagesByFileName'
 			) == '')
 		) {
@@ -300,7 +300,7 @@ class tx_realty_openImmoImport {
 
 		if (preg_match_all(
 			'/(^|;)([^\:]+)\:(\d+)/',
-			$this->globalConfiguration->getConfigurationValueString(
+			$this->globalConfiguration->getAsString(
 				'pidsForRealtyObjectsAndImagesByFileName'
 			),
 			$matches
@@ -402,8 +402,7 @@ class tx_realty_openImmoImport {
 	 *                an empty string if this is already enabled
 	 */
 	private function getPleaseActivateValidationMessage() {
-		return ($this->globalConfiguration
-				->getConfigurationValueString('openImmoSchema') != '')
+		return ($this->globalConfiguration->getAsString('openImmoSchema') != '')
 			? $this->getTranslator()->translate('message_please_validate')
 			: '' ;
 	}
@@ -418,7 +417,7 @@ class tx_realty_openImmoImport {
 	 *                 disabled by configuration, false otherwise
 	 */
 	private function hasValidOwnerForImport() {
-		if (!$this->globalConfiguration->getConfigurationValueBoolean(
+		if (!$this->globalConfiguration->getAsBoolean(
 			'onlyImportForRegisteredFrontEndUsers'
 		)) {
 			return true;
@@ -431,7 +430,7 @@ class tx_realty_openImmoImport {
 		}
 
 		$allowedFrontEndUserGroups = $this->globalConfiguration
-			->getConfigurationValueString('allowedFrontEndUserGroups');
+			->getAsString('allowedFrontEndUserGroups');
 
 		// An empty string is interpreted as any FE user group being allowed.
 		$result = ($allowedFrontEndUserGroups == '')
@@ -606,9 +605,7 @@ class tx_realty_openImmoImport {
 	 * @return boolean true if 'onlyErrors' is enabled, false otherwise
 	 */
 	private function isErrorLogOnlyEnabled() {
-		return $this->globalConfiguration->getConfigurationValueBoolean(
-			'onlyErrors'
-		);
+		return $this->globalConfiguration->getAsBoolean('onlyErrors');
 	}
 
 	/**
@@ -617,9 +614,7 @@ class tx_realty_openImmoImport {
 	 * @return string default e-mail address, may be empty
 	 */
 	private function getDefaultEmailAddress() {
-		return $this->globalConfiguration->getConfigurationValueString(
-			'emailAddress'
-		);
+		return $this->globalConfiguration->getAsString('emailAddress');
 	}
 
 	/**
@@ -630,9 +625,7 @@ class tx_realty_openImmoImport {
 	 *                 false otherwise
 	 */
 	private function isNotifyContactPersonsEnabled() {
-		return $this->globalConfiguration->getConfigurationValueBoolean(
-			'notifyContactPersons'
-		);
+		return $this->globalConfiguration->getAsBoolean('notifyContactPersons');
 	}
 
 	/**
@@ -800,9 +793,7 @@ class tx_realty_openImmoImport {
 		$templateHelper->init(
 			array(
 				'templateFile' =>
-					$this->globalConfiguration->getConfigurationValueString(
-						'emailTemplate'
-					)
+					$this->globalConfiguration->getAsString('emailTemplate')
 			)
 		);
 		$templateHelper->getTemplateCode();
@@ -1107,9 +1098,7 @@ class tx_realty_openImmoImport {
 	 */
 	private function validateXml() {
 		$validationResult = '';
-		$schemaFile = $this->globalConfiguration->getConfigurationValueString(
-			'openImmoSchema'
-		);
+		$schemaFile = $this->globalConfiguration->getAsString('openImmoSchema');
 
 		if ($schemaFile == '') {
 			$validationResult = 'message_no_schema_file';
@@ -1245,7 +1234,7 @@ class tx_realty_openImmoImport {
 		}
 
 		$removedFiles = array();
-		$deleteImportedZips = $this->globalConfiguration->getConfigurationValueBoolean(
+		$deleteImportedZips = $this->globalConfiguration->getAsBoolean(
 			'deleteZipsAfterImport'
 		);
 
@@ -1384,7 +1373,7 @@ class tx_realty_openImmoImport {
 	 *                 owner's data, false otherwise
 	 */
 	private function mayUseOwnerData() {
-		return $this->globalConfiguration->getConfigurationValueBoolean(
+		return $this->globalConfiguration->getAsBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords'
 		);
 	}
