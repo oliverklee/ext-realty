@@ -435,7 +435,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 
 		$configuredUploadFolder = tx_oelib_configurationProxy::getInstance(
 				'sr_feuser_register'
-			)->getConfigurationValueString('uploadFolder');
+			)->getAsString('uploadFolder');
 
 		$uploadFolder = ($configuredUploadFolder == '')
 			? 'uploads/tx_srfeuserregister'

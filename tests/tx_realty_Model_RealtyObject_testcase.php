@@ -106,10 +106,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setRequiredFields(array());
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger(
-				'pidForRealtyObjectsAndImages',
-				$this->pageUid
-			);
+			setAsInteger('pidForRealtyObjectsAndImages', $this->pageUid);
 	}
 
 	public function tearDown() {
@@ -890,10 +887,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testWriteToDatabaseCreatesNewCityRecordWithAuxiliaryRecordPid() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger(
-				'pidForAuxiliaryRecords',
-				$this->otherPageUid
-			);
+			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
 
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('city', 'foo');
@@ -913,7 +907,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testWriteToDatabaseCreatesNewCityRecordWithRealtyRecordPidIfAuxiliaryRecordPidNotSet() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_CITIES);
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger('pidForAuxiliaryRecords', 0);
+			setAsInteger('pidForAuxiliaryRecords', 0);
 
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('city', 'foo');
@@ -1093,9 +1087,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testPrepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMatchingPid() {
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger(
-				'pidForAuxiliaryRecords', $this->otherPageUid
-			);
+			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
 		$cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES,
 			array('title' => 'test city', 'pid' => $this->otherPageUid)
@@ -1113,9 +1105,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testPrepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMismatchingPid() {
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger(
-				'pidForAuxiliaryRecords', ($this->otherPageUid +1)
-			);
+			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
 		$cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES,
 			array('title' => 'test city', 'pid' => $this->otherPageUid)
@@ -1133,9 +1123,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testPrepareInsertionAndInsertDoesNotUpdateThePidOfAnAlreadyExistingPropertyForMismatchingPids() {
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger(
-				'pidForAuxiliaryRecords', ($this->otherPageUid +1)
-			);
+			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
 		$cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES,
 			array('title' => 'test city', 'pid' => $this->otherPageUid)
@@ -1371,10 +1359,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->setProperty('title', 'new title');
 
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueInteger(
-				'pidForRealtyObjectsAndImages',
-				$this->otherPageUid
-			);
+			setAsInteger('pidForRealtyObjectsAndImages', $this->otherPageUid);
 		$message = $this->fixture->writeToDatabase();
 
 		$result = tx_oelib_db::selectSingle(
@@ -1884,7 +1869,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueBoolean(
+			setAsBoolean(
 				'useFrontEndUserDataAsContactDataForImportedRecords', true
 			);
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1902,7 +1887,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueBoolean(
+			setAsBoolean(
 				'useFrontEndUserDataAsContactDataForImportedRecords', false
 			);
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1920,7 +1905,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
-			setConfigurationValueBoolean(
+			setAsBoolean(
 				'useFrontEndUserDataAsContactDataForImportedRecords', true
 			);
 		$this->fixture->loadRealtyObject($this->objectUid);

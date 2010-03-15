@@ -210,7 +210,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// the object to test is recreated for this test.
 		unset($this->fixture);
 		tx_oelib_configurationProxy::getInstance('realty')
-			->setConfigurationValueBoolean('enableConfigCheck', true);
+			->setAsBoolean('enableConfigCheck', TRUE);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
@@ -230,7 +230,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		// the object to test is recreated for this test.
 		unset($this->fixture);
 		tx_oelib_configurationProxy::getInstance('realty')
-			->setConfigurationValueBoolean('enableConfigCheck', false);
+			->setAsBoolean('enableConfigCheck', FALSE);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
 			'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',

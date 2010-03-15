@@ -446,9 +446,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	private function isOwnerDataUsable() {
 		return (tx_oelib_configurationProxy::getInstance('realty')
-			->getConfigurationValueBoolean(
-				'useFrontEndUserDataAsContactDataForImportedRecords'
-			) && $this->hasOwner()
+			->getAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords')
+				&& $this->hasOwner()
 		);
 	}
 
@@ -917,7 +916,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$dataToInsert = $realtyData;
 		$pid = tx_oelib_configurationProxy::getInstance('realty')->
-			getConfigurationValueInteger('pidForAuxiliaryRecords');
+			getAsInteger('pidForAuxiliaryRecords');
 		if (($pid == 0)
 			|| ($table == REALTY_TABLE_IMAGES)
 			|| ($table == REALTY_TABLE_OBJECTS)
@@ -926,7 +925,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				$pid = $overridePid;
 			} else {
 				$pid = tx_oelib_configurationProxy::getInstance('realty')->
-					getConfigurationValueInteger('pidForRealtyObjectsAndImages');
+					getAsInteger('pidForRealtyObjectsAndImages');
 			}
 		}
 
