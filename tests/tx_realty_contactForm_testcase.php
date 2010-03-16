@@ -87,7 +87,9 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'visibleContactFormFields', 'name,street,zip_and_city,telephone,request'
 		);
-		$this->fixture->setConfigurationValue('requiredContactFormFields', 'request');
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', 'request'
+		);
 	}
 
 	public function tearDown() {
@@ -1650,18 +1652,81 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function emailWithMinimumContentContainsNoUnreplacedMarkers() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
 				'isSubmitted' => true,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
-				'request' => 'the request',
+				'request' => '',
 			)
 		);
 
 		$this->assertNotContains(
 			'###',
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailWithNonEmptyRequestContainsRequestIntro() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
+		$this->fixture->render(
+			array(
+				'showUid' => $this->realtyUid,
+				'isSubmitted' => TRUE,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+				'request' => 'Bonjour!',
+			)
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_has_request'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailWithEmptyRequestNotContainsRequestIntro() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
+		$this->fixture->render(
+			array(
+				'showUid' => $this->realtyUid,
+				'isSubmitted' => TRUE,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+				'request' => '',
+			)
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_has_request'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailWithMissingRequestNotContainsRequestIntro() {
+		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
+		$this->fixture->render(
+			array(
+				'showUid' => $this->realtyUid,
+				'isSubmitted' => TRUE,
+				'requesterName' => 'any name',
+				'requesterEmail' => 'requester@valid-email.org',
+			)
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_has_request'),
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
 		);
 	}
