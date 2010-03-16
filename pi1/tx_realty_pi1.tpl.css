@@ -449,7 +449,6 @@ p.tx-realty-pi1-objekt-nr {
 	padding: 2px 5px;
 	line-height: 22px;
 	background: #d9e2e7;
-
 }
 
 .tx-realty-pi1-information {
@@ -494,9 +493,22 @@ p.tx-realty-pi1-objekt-nr {
 	padding-top: 3px;
 }
 
+.tx-realty-pi1-contact-form .tx-realty-pi1-required {
+	font-weight: bold;
+}
+
+.tx-realty-pi1-contact-form .submitWrapper {
+	margin-top: 10px;
+}
+
 .tx-realty-pi1-contact-form span.button {
 	float: left;
 	margin: 10px 0 5px 160px;
+}
+
+.tx-realty-pi1-contact-form p.tx-realty-pi1-law {
+	width: 75%;
+	font-size: 11px;
 }
 
 /***** FILTER FORM *****/

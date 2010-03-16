@@ -306,6 +306,11 @@
 			<label index="label_your_email">E-mail address</label>
 			<label index="label_your_phone">Phone number</label>
 			<label index="label_your_request">Request</label>
+			<label index="label_viewing">Please arrange a date for viewing the object with me.</label>
+			<label index="label_information">Please send me some information material.</label>
+			<label index="label_callback">Please call me back.</label>
+			<label index="label_terms">I have read and agree to the %s terms %s.</label>
+			<label index="label_law">If you would like us to call you back, please give us explicit permission to do so.</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
 			<label index="label_cancel">Cancel</label>
@@ -664,6 +669,11 @@
 			<label index="label_your_email">E-Mail-Adresse</label>
 			<label index="label_your_phone">Telefonnummer</label>
 			<label index="label_your_request">Anfrage</label>
+			<label index="label_viewing">Bitte vereinbaren Sie einen Besichtigungstermin.</label>
+			<label index="label_information">Bitte senden Sie mir Objektinformationen zu.</label>
+			<label index="label_callback">Bitte rufen Sie mich zurück.</label>
+			<label index="label_terms">Ich habe die %s &lt;acronym title=&quot;Allgemeine Geschäftsbedingungen&quot;&gt;AGB&lt;/acronym&gt; %s zur Kenntnis genommen und erkläre mich mit dem Inhalt einverstanden.</label>
+			<label index="label_law">Seit dem 1. August 2009 sind nach §7 Absatz 2 Nr. 2 des Gesetzes gegen unlauteren Wettbewerb (UWG) Anrufe ohne ausdrückliche Genehmigung unerlaubte Telefonwerbung. Wir bitten Sie daher an dieser Stelle, uns Ihre Erlaubnis für Telefonanrufe zu erteilen, damit wir Sie auch in Zukunft über attraktive Immobilien informieren und persönlich beraten können.</label>
 			<label index="label_submit">Abschicken</label>
 			<label index="label_save">Speichern</label>
 			<label index="label_cancel">Abbrechen</label>
@@ -2117,6 +2127,11 @@
 			<label index="label_your_email" type="integer">146136420</label>
 			<label index="label_your_phone" type="integer">33039901</label>
 			<label index="label_your_request" type="integer">22818181</label>
+			<label index="label_viewing" type="integer">262501325</label>
+			<label index="label_information" type="integer">163099863</label>
+			<label index="label_callback" type="integer">39605535</label>
+			<label index="label_terms" type="integer">62117634</label>
+			<label index="label_law" type="integer">47120756</label>
 			<label index="label_submit" type="integer">155805401</label>
 			<label index="label_save" type="integer">211601612</label>
 			<label index="label_cancel" type="integer">245659783</label>
@@ -3569,6 +3584,11 @@
 			<label index="label_your_email">E-mail address</label>
 			<label index="label_your_phone">Phone number</label>
 			<label index="label_your_request">Request</label>
+			<label index="label_viewing">Please arrange a date for viewing the object with me.</label>
+			<label index="label_information">Please send me some information material.</label>
+			<label index="label_callback">Please call me back.</label>
+			<label index="label_terms">I have read and agree to the %s terms %s.</label>
+			<label index="label_law">If you would like us to call you back, please give us explicit permission to do so.</label>
 			<label index="label_submit">Send</label>
 			<label index="label_save">Save</label>
 			<label index="label_cancel">Cancel</label>

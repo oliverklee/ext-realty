@@ -77,7 +77,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 		$this->fixture = new tx_realty_contactForm(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj
+			$this->createContentMock()
 		);
 
 		$this->fixture->setConfigurationValue(
@@ -95,6 +95,66 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
+	}
+
+
+	///////////////////////
+	// Utility functions.
+	///////////////////////
+
+	/**
+	 * Creates a mock content object that can create URLs in the following
+	 * form:
+	 *
+	 * index.php?id=42
+	 *
+	 * The page ID isn't checked for existence. So any page ID can be used.
+	 *
+	 * @return tslib_cObj a mock content object
+	 */
+	private function createContentMock() {
+		$mock = $this->getMock('tslib_cObj', array('getTypoLink_URL'));
+		$mock->expects($this->any())->method('getTypoLink_URL')
+			->will($this->returnCallback(array($this, 'getTypoLinkUrl')));
+
+		return $mock;
+	}
+
+	/**
+	 * Callback function for creating mock typolink URLs.
+	 *
+	 * @param integer $pageId the page ID to link to, must be >= 0
+	 *
+	 * @return string faked URL, will not be empty
+	 */
+	public function getTypoLinkUrl($pageId) {
+		return 'index.php?id=' . $pageId;
+	}
+
+
+	/////////////////////////////////////
+	// Tests for the utility functions.
+	/////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function createContentMockCreatesContentInstance() {
+		$this->assertTrue(
+			$this->createContentMock() instanceof tslib_cObj
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createTypoLinkInContentMockCreatesUrlToPageId() {
+		$contentMock = $this->createContentMock();
+
+		$this->assertContains(
+			'index.php?id=42',
+			$contentMock->getTypoLink_URL(42)
+		);
 	}
 
 
@@ -410,7 +470,164 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render()
 		);
 	}
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysViewingFieldIfThisIsConfigured() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'viewing'
+		);
 
+		$this->assertContains(
+			'name="tx_realty_pi1[viewing]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysViewingFieldIfThisIsNotConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+
+		$this->assertNotContains(
+			'name="tx_realty_pi1[viewing]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysInformationFieldIfThisIsConfigured() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'information'
+		);
+
+		$this->assertContains(
+			'name="tx_realty_pi1[information]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysInformationFieldIfThisIsNotConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+
+		$this->assertNotContains(
+			'name="tx_realty_pi1[information]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysCallbackFieldIfThisIsConfigured() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'callback'
+		);
+
+		$this->assertContains(
+			'name="tx_realty_pi1[callback]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysCallbackFieldIfThisIsNotConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+
+		$this->assertNotContains(
+			'name="tx_realty_pi1[callback]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysTermsFieldIfThisIsConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
+
+		$this->assertContains(
+			'name="tx_realty_pi1[terms]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysTermsFieldIfThisIsNotConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+
+		$this->assertNotContains(
+			'name="tx_realty_pi1[terms]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysLawTextIfThisIsConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'law');
+
+		$this->assertContains(
+			'class="tx-realty-pi1-law"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysLawTextIfThisIsNotConfigured() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
+
+		$this->assertNotContains(
+			'class="tx-realty-pi1-law"',
+			$this->fixture->render()
+		);
+	}
+
+
+	//////////////////////////////////////////
+	// Test concerning the link to the terms
+	//////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function termsLabelContainsLinkToTermsPage() {
+		$termsPid = 1337;
+		$this->fixture->setConfigurationValue('termsPID', $termsPid);
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
+
+		$this->assertContains(
+			'a href="index.php?id=' . $termsPid,
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function termsLabelContainsTermsPagePopup() {
+		$termsPid = 1337;
+		$this->fixture->setConfigurationValue('termsPID', $termsPid);
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
+
+		$this->assertContains(
+			'onclick="window.open(\'index.php?id=' . $termsPid,
+			$this->fixture->render()
+		);
+	}
 
 	///////////////////////////////////////
 	// Tests concerning (error) messages.

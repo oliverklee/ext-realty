@@ -90,6 +90,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		);
 
 		$this->fillContactInformationFieldsForLoggedInUser();
+		$this->createTermsLink();
 		$this->setFormValues();
 
 		if ($this->contactFormData['isSubmitted']
@@ -113,7 +114,10 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	private function hideNonVisibleFormFields() {
 		$this->hideSubpartsArray(
 			array_diff(
-				array('name', 'street', 'zip_and_city', 'telephone', 'request'),
+				array(
+					'name', 'street', 'zip_and_city', 'telephone', 'request',
+					'viewing', 'information', 'callback', 'terms', 'law',
+				),
 				$this->getConfigurationArray('visibleContactFormFields')
 			),
 			'contact_form_wrapper'
@@ -557,6 +561,32 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 
 		return (boolean) preg_match('/^[\S ]+$/s', $name)
 			&& !preg_match('/[<>"]/', $name);
+	}
+
+	/**
+	 * Creates the link and label to the terms and sets its as a marker content
+	 * in the template.
+	 *
+	 * This function is a no-op if the "terms" checkbox is not configured to be
+	 * displayed.
+	 */
+	private function createTermsLink() {
+		if (!in_array(
+			'terms',
+			$this->getConfigurationArray('visibleContactFormFields')
+		)) {
+			return;
+		}
+
+		$termsPid = $this->getConfValueInteger('termsPID', 's_contactForm');
+		$termsUrl = $this->cObj->getTypoLink_URL($termsPid);
+		$linkStart = '<a href="' . $termsUrl .
+			'" onclick="window.open(\''. $termsUrl . '\'); return false;">';
+		$linkEnd = '</a>';
+
+		$label = sprintf($this->translate('label_terms'), $linkStart, $linkEnd);
+
+		$this->setMarker('label_terms_with_link', $label);
 	}
 
 	/**
