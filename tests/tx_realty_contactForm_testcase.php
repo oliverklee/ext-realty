@@ -85,7 +85,8 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue('blindCarbonCopyAddress', '');
 		$this->fixture->setConfigurationValue(
-			'visibleContactFormFields', 'name,street,zip_and_city,telephone,request'
+			'visibleContactFormFields',
+			'name,street,zip_and_city,telephone,request,viewing,information,callback'
 		);
 		$this->fixture->setConfigurationValue(
 			'requiredContactFormFields', 'request'
@@ -546,6 +547,34 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'name="tx_realty_pi1[callback]"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormDisplaysCallbackAsteriskIfCallbackAndLawTextAreVisible() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'callback,law'
+		);
+
+		$this->assertContains(
+			'class="tx-realty-pi1-law-asterisk"',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormNotDisplaysCallbackAsteriskIfCallbackIsVisibleAndLawTextIsNotVisible() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'callback'
+		);
+
+		$this->assertNotContains(
+			'class="tx-realty-pi1-law-asterisk"',
 			$this->fixture->render()
 		);
 	}
@@ -1964,6 +1993,183 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			self::REALTY_OBJECT_NUMBER,
 			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastSubject()
+		);
+	}
+
+
+	////////////////////////////////////////////////////////////////
+	// Tests concerning the monkey functionality of the checkboxes
+	////////////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function viewingCheckboxNotSubmittedIsNotMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'viewing'
+		);
+
+		$this->assertNotContains(
+			'checked="checked" name="tx_realty_pi1[viewing]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function viewingCheckboxSubmittedCheckedIsMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'viewing'
+		);
+
+		$this->assertContains(
+			'checked="checked" name="tx_realty_pi1[viewing]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+					'viewing' => '1',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function informationCheckboxNotSubmittedIsNotMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'information'
+		);
+
+		$this->assertNotContains(
+			'checked="checked" name="tx_realty_pi1[information]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function informationCheckboxSubmittedCheckedIsMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'information'
+		);
+
+		$this->assertContains(
+			'checked="checked" name="tx_realty_pi1[information]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+					'information' => '1',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function callbackCheckboxNotSubmittedIsNotMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'callback'
+		);
+
+		$this->assertNotContains(
+			'checked="checked" name="tx_realty_pi1[callback]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function callbackCheckboxSubmittedCheckedIsMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'callback'
+		);
+
+		$this->assertContains(
+			'checked="checked" name="tx_realty_pi1[callback]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+					'callback' => '1',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function termsCheckboxNotSubmittedIsNotMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'terms'
+		);
+
+		$this->assertNotContains(
+			'checked="checked" name="tx_realty_pi1[terms]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function termsCheckboxSubmittedCheckedIsMarkedAsChecked() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields',
+			'terms'
+		);
+
+		$this->assertContains(
+			'checked="checked" name="tx_realty_pi1[terms]"',
+			$this->fixture->render(
+				array(
+					'showUid' => $this->realtyUid,
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+					'terms' => '1',
+				)
+			)
 		);
 	}
 }

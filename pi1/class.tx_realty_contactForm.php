@@ -46,6 +46,10 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		'requesterEmail' => '',
 		'requesterPhone' => '',
 		'request' => '',
+		'viewing' => 0,
+		'information' => 0,
+		'callback' => 0,
+		'terms' => 0,
 		'summaryStringOfFavorites' => '',
 	);
 
@@ -112,16 +116,32 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * Hides form fields that are not configured to be visible.
 	 */
 	private function hideNonVisibleFormFields() {
+		$visibleFields = $this->getVisibleFields();
+		if (in_array('law', $visibleFields)) {
+			$visibleFields[] = 'law_asterisk';
+		}
+
 		$this->hideSubpartsArray(
 			array_diff(
 				array(
 					'name', 'street', 'zip_and_city', 'telephone', 'request',
-					'viewing', 'information', 'callback', 'terms', 'law',
+					'viewing', 'information', 'callback', 'law_asterisk',
+					'terms', 'law',
 				),
-				$this->getConfigurationArray('visibleContactFormFields')
+				$visibleFields
 			),
 			'contact_form_wrapper'
 		);
+	}
+
+	/**
+	 * Retrieves the names of the visible fields.
+	 *
+	 * @return array the names of the visible fields, will be empty if no
+	 *               optional fields are visible
+	 */
+	private function getVisibleFields() {
+		return $this->getConfigurationArray('visibleContactFormFields');
 	}
 
 	/**
@@ -339,7 +359,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		);
 		$visibleFields = array_intersect(
 			$visibilityKeysForFormData,
-			$this->getConfigurationArray('visibleContactFormFields')
+			$this->getVisibleFields()
 		);
 
 		$loggedInUser = tx_oelib_FrontEndLoginManager::getInstance()
@@ -605,6 +625,17 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		) as $marker => $value) {
 			$this->setMarker($marker, htmlspecialchars($value));
 		}
+
+		foreach (array(
+			'viewing' => $this->contactFormData['viewing'],
+			'information' => $this->contactFormData['information'],
+			'callback' => $this->contactFormData['callback'],
+			'terms' => $this->contactFormData['terms'],
+		) as $key => $value) {
+			$checked = ($value == 1) ? 'checked="checked" ' : '';
+			$this->setMarker($key, $checked, 'checked');
+		}
+
 	}
 
 	/**
@@ -621,6 +652,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		) {
 			$this->contactFormData[$key] = isset($contactFormData[$key])
 				? trim($contactFormData[$key]) : '';
+		}
+		foreach (
+			array('viewing', 'information', 'callback', 'terms') as $key
+		) {
+			$this->contactFormData[$key] = isset($contactFormData[$key])
+				? intval($contactFormData[$key]) : 0;
 		}
 
 		$this->contactFormData['isSubmitted']
