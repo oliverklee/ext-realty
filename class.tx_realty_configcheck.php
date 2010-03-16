@@ -724,7 +724,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'incorrect.',
 			array(
 				'name', 'street', 'zip_and_city', 'telephone', 'request',
-				'viewing', 'information', 'terms', 'law',
+				'viewing', 'information', 'callback', 'terms', 'law',
 			)
 		);
 	}

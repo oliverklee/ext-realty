@@ -31,6 +31,7 @@
 			<label index="realty.pi_flexform.request">message text</label>
 			<label index="realty.pi_flexform.viewing">checkbox about a viewing</label>
 			<label index="realty.pi_flexform.information">checkbox about object information</label>
+			<label index="realty.pi_flexform.callback">checkbox about object a callback</label>
 			<label index="realty.pi_flexform.terms">checkbox for the terms</label>
 			<label index="realty.pi_flexform.law">note concerning the law against unfair competition</label>
 			<label index="realty.pi_flexform.termsPID">Page with the terms:</label>
@@ -388,6 +389,7 @@
 			<label index="realty.pi_flexform.request">Nachrichtentext</label>
 			<label index="realty.pi_flexform.viewing">Besichtigungstermin-Checkbox</label>
 			<label index="realty.pi_flexform.information">Objektinformationen-Checkbox</label>
+			<label index="realty.pi_flexform.callback">Rückruf-Checkbox</label>
 			<label index="realty.pi_flexform.terms">AGB-Checkbox</label>
 			<label index="realty.pi_flexform.law">UWG-Hinweis</label>
 			<label index="realty.pi_flexform.termsPID">Seite mit den AGB:</label>
@@ -1841,6 +1843,7 @@
 			<label index="realty.pi_flexform.request" type="integer">134566013</label>
 			<label index="realty.pi_flexform.viewing" type="integer">105103097</label>
 			<label index="realty.pi_flexform.information" type="integer">133952677</label>
+			<label index="realty.pi_flexform.callback" type="integer">232306093</label>
 			<label index="realty.pi_flexform.terms" type="integer">17445587</label>
 			<label index="realty.pi_flexform.law" type="integer">12130417</label>
 			<label index="realty.pi_flexform.termsPID" type="integer">105763576</label>
@@ -3292,6 +3295,7 @@
 			<label index="realty.pi_flexform.request">message text</label>
 			<label index="realty.pi_flexform.viewing">checkbox about a viewing</label>
 			<label index="realty.pi_flexform.information">checkbox about object information</label>
+			<label index="realty.pi_flexform.callback">checkbox about object a callback</label>
 			<label index="realty.pi_flexform.terms">checkbox for the terms</label>
 			<label index="realty.pi_flexform.law">note concerning the law against unfair competition</label>
 			<label index="realty.pi_flexform.termsPID">Page with the terms:</label>

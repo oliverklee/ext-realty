@@ -938,15 +938,19 @@
 										<numIndex index="1">information</numIndex>
 									</numIndex>
 									<numIndex index="7" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.callback</numIndex>
+										<numIndex index="1">callback</numIndex>
+									</numIndex>
+									<numIndex index="8" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.terms</numIndex>
 										<numIndex index="1">terms</numIndex>
 									</numIndex>
-									<numIndex index="8" type="array">
+									<numIndex index="9" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.law</numIndex>
 										<numIndex index="1">law</numIndex>
 									</numIndex>
 								</items>
-								<maxitems>9</maxitems>
+								<maxitems>10</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>
