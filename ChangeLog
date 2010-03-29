@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3770] Fix: Pagination URLs are not htmlspecialchared
 - [#3723] Change: Don't include the message text in the contact form e-mail if it is empty or not part of the form
 - [#3724] Feature: Add some new fields to the contact form
 - [#3721] Feature: Add a TS setup configuration & flexforms for the FE page with the terms

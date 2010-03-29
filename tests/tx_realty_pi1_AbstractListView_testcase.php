@@ -312,7 +312,54 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function paginationForTwoPagesLinksFromFirstPageToSecondPage() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 1)
+		);
+		$this->fixture->render();
 
+		$this->assertContains(
+			'tx_realty_pi1[pointer]=1',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationForTwoPagesNotLinksFromFirstPageToFirstPage() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 1)
+		);
+		$this->fixture->render();
+
+		$this->assertNotContains(
+			'tx_realty_pi1[pointer]=0',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function paginationHtmlspecialcharsUrl() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('results_at_a_time' => 1)
+		);
+		$this->fixture->render();
+
+		$this->assertContains(
+			'&amp;tx_realty_pi1',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+		$this->assertNotContains(
+			'&tx_realty_pi1',
+			$this->fixture->getSubpart('PAGINATION')
+		);
+	}
 
 
 	//////////////////////////////////////////

@@ -925,10 +925,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *        current page
 	 *
 	 * @return string HTML code of the link, will be empty if $alsoShowNonLinks
-	 *                is false and the $pageNum is the current page
+	 *                is FALSE and the $pageNum is the current page
 	 */
 	private function createPaginationLink(
-		$pageNum, $linkText, $alsoShowNonLinks = true
+		$pageNum, $linkText, $alsoShowNonLinks = TRUE
 	) {
 		$result = '';
 		$this->setMarker('linktext', $linkText);
@@ -954,7 +954,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				)
 			);
 
-			$this->setMarker('url', $url);
+			$this->setMarker('url', htmlspecialchars($url));
 			$result = $this->getSubpart('LINK_TO_OTHER_PAGE');
 		}
 
