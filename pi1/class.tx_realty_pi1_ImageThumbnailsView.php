@@ -42,9 +42,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	private $showUid = 0;
 
 	/**
-	 * Returns the image thumbnails for one realty object as HTML. If the
-	 * gallery type is configured to be classic, the "galleryPID" is
-	 * required to be configured.
+	 * Returns the image thumbnails for one realty object as HTML.
 	 *
 	 * @param array piVars array, must contain the key "showUid" with a valid
 	 *              realty object UID as value
@@ -54,9 +52,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $piVars = array()) {
 		$this->showUid = $piVars['showUid'];
-		$useLightbox = ($this->getConfValueString('galleryType') == 'lightbox');
 
-		$renderedImages = $this->createImages($useLightbox);
+		$renderedImages = $this->createImages();
 		$this->setSubpart(
 			'one_image_container', $renderedImages
 		);
@@ -68,27 +65,23 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Creates all images that are attached to the current record.
 	 *
-	 * @param boolean whether to use the lightbox-styled gallery
-	 *
 	 * @return string HTML for the images, will be empty if there are no images
 	 */
-	private function createImages($useLightbox) {
-		if ($useLightbox) {
-			tx_realty_lightboxIncluder::includeLightboxFiles(
-				$this->prefixId, $this->extKey
-			);
-		}
+	private function createImages() {
+		tx_realty_lightboxIncluder::includeLightboxFiles(
+			$this->prefixId, $this->extKey
+		);
 
 		$result = '';
 		$counter = 0;
 
-		$currentImage = $this->getLinkedImage($useLightbox);
+		$currentImage = $this->getLinkedImage();
 
 		while ($currentImage != '') {
 			$counter++;
 			$this->setMarker('one_image_tag', $currentImage);
 			$result .= $this->getSubpart('ONE_IMAGE_CONTAINER');
-			$currentImage = $this->getLinkedImage($useLightbox, $counter);
+			$currentImage = $this->getLinkedImage($counter);
 		}
 
 		return $result;
@@ -96,54 +89,41 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 
 	/**
 	 * Gets an image from the current record's image list as a complete IMG tag
-	 * with alt text and title text, wrapped in a link pointing to the gallery
-	 * and seized according do the configuration in "singleImageMaxX" and
+	 * with alt text and title text, wrapped in a link pointing to the full-size
+	 * image and sized according do the configuration in "singleImageMaxX" and
 	 * "singleImageMaxY".
 	 *
-	 * If "galleryPopupParameters" is set in the TS setup, the link will have
-	 * an additional onclick handler to open the gallery in a pop-up window.
-	 *
-	 * If the gallery type "lightbox" is set in TS setup, the lightbox "rel"
-	 * attribute will be added to the a tag and the URL will link to the
-	 * full-size picture.
+	 * The lightbox "rel" attribute will be added to the "a" tag and the URL
+	 * will link to the full-size picture.
 	 *
 	 * If no image is found, an empty string is returned.
 	 *
-	 * @param boolean whether to use the lightbox-styled gallery
 	 * @param integer the number of the image to retrieve, must be >= 0
 	 *
 	 * @return string image tag wrapped in a link, will be empty if there is no
 	 *                image with the provided number
 	 */
-	private function getLinkedImage($useLightbox, $imageNumber = 0) {
+	private function getLinkedImage($imageNumber = 0) {
 		$imageRecord = $this->getImage($imageNumber);
 
 		if (empty($imageRecord)) {
 			return '';
 		}
 
-		if ($useLightbox) {
-			$imagePath = array();
-			$imageWithTag = $this->createRestrictedImage(
-				REALTY_UPLOAD_FOLDER . $imageRecord['image'],
-				'',
-				$this->getConfValueInteger('lightboxImageWidthMax'),
-				$this->getConfValueInteger('lightboxImageHeightMax')
-			);
-			preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
+		$imagePath = array();
+		$imageWithTag = $this->createRestrictedImage(
+			REALTY_UPLOAD_FOLDER . $imageRecord['image'],
+			'',
+			$this->getConfValueInteger('lightboxImageWidthMax'),
+			$this->getConfValueInteger('lightboxImageHeightMax')
+		);
+		preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
 
-			$galleryLink = $imagePath[1];
-		} else {
-			$galleryLink = $this->getConfValueInteger('galleryPID');
-		}
-		$galleryUrl = $this->createGalleryUrl($galleryLink, $imageNumber);
+		$linkAttribute = ' rel="lightbox[objectGallery]" title="' .
+				$imageRecord['caption'] . '"';
 
-		$linkAttribute = $useLightbox
-			? ' rel="lightbox[objectGallery]" title="' .
-				$imageRecord['caption'] . '"'
-			: $this->getGalleryPopUpParameters($galleryUrl);
-
-		$imageTag = $this->createRestrictedImage(
+		$fullSizeImageUrl = $imagePath[1];
+		$thumbnailUrl = $this->createRestrictedImage(
 			REALTY_UPLOAD_FOLDER . $imageRecord['image'],
 			$imageRecord['caption'],
 			$this->getConfValueInteger('singleImageMaxX'),
@@ -152,8 +132,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 			$imageRecord['caption']
 		);
 
-		return '<a href="' . $galleryUrl . '"' . $linkAttribute . '>' .
-			$imageTag . '</a>';
+		return '<a href="' . $fullSizeImageUrl . '"' . $linkAttribute . '>' .
+			$thumbnailUrl . '</a>';
 	}
 
 	/**
@@ -177,48 +157,6 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Creates the URL of a gallery image.
-	 *
-	 * @param string the destination of the image link, must not be empty
-	 * @param integer the number of the image to retrieve, must be >= 0
-	 *
-	 * @return string the URL to the current gallery image, will not be empty
-	 */
-	private function createGalleryUrl($linkDestination, $imageNumber = 0) {
-		return htmlspecialchars(
-			t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
-				'parameter' => $linkDestination,
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					$this->prefixId,
-					array('showUid' => $this->getUid(), 'image' => $imageNumber)
-				),
-				'useCacheHash' => true,
-			)))
-		);
-	}
-
-	/**
-	 * Returns the gallery pop-up parameters as an onclick attribute.
-	 *
-	 * @param string URL to the gallery, must not be empty
-	 *
-	 * @return string gallery pop-up parameters as an onclick attribute
-	 *                beginning with " onclick=", will be empty if these
-	 *                parameters are not configured
-	 */
-	private function getGalleryPopUpParameters($galleryUrl) {
-		if (!$this->hasConfValueString('galleryPopupParameters')) {
-			return '';
-		}
-
-		return ' onclick="window.open(' .
-			'\'' . $galleryUrl . '\', ' .
-			'\'' . $this->getConfValueString('galleryPopupWindowName') . '\', ' .
-			'\'' . $this->getConfValueString('galleryPopupParameters') . '\'' .
-			'); ' . 'return false;"';
 	}
 
 	/**

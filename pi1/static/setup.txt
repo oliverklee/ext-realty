@@ -25,14 +25,6 @@ plugin.tx_realty_pi1 {
 	singleImageMaxX = 137
 	# maximum Y size of images in the single view
 	singleImageMaxY = 137
-	# maximum X size of the full-sized image in the gallery
-	galleryFullSizeImageX = 600
-	# maximum Y size of the full-sized image in the gallery
-	galleryFullSizeImageY = 600
-	# maximum X size of thumbnails in the gallery
-	galleryThumbnailX = 137
-	# maximum Y size of thumbnails in the gallery
-	galleryThumbnailY = 137
 	# maximum width of thumbnails in the front-end image upload
 	imageUploadThumbnailWidth = 113
 	# maximum height of thumbnails in the front-end image upload
@@ -46,16 +38,6 @@ plugin.tx_realty_pi1 {
 	fieldsInSingleViewTable = construction_year,layout,number_of_rooms,living_area,total_area,estate_size,extra_charges,heating_included,deposit,provision,usable_from,hoa_fee,year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,bathrooms,heating_type,garage_type,garage_rent,garage_price,pets,state,balcony,garden,elevator,barrier_free,assisted_living,fitted_kitchen,has_air_conditioning,has_pool,has_community_pool
 	# ordered, comma-separated list of field names that will be stored in the session when displaying the favorites list, leave empty to disable
 	favoriteFieldsInSession =
-
-	# name of the gallery pop-up window (in case the pop-up window is enabled)
-	galleryPopupWindowName = realty_gallery
-	# parameters for the gallery pop-up window (leave empty to disable pop-up windows),
-	galleryPopupParameters = width=1024,height=768,resizable=no,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes
-	# type of the gallery to determine what kind of gallery should be shown,
-	# the classic gallery or the lightbox,
-	# classic enables the classic gallery,
-	# lightbox enables the Lightbox-styled gallery
-	galleryType = lightbox
 
 	# whether the single view page may only be viewed by logged-in FE users
 	requireLoginForSingleViewPage = 0
@@ -136,8 +118,6 @@ plugin.tx_realty_pi1 {
 
 	# PID of the page for the single view (leave empty to use the same page as the list view)
 	singlePID =
-	# PID of the page with the gallery (leave empty to disable the gallery)
-	galleryPID =
 	# PID of the page with the favorites list
 	favoritesPID =
 

@@ -17,7 +17,6 @@ To-do list for the "Realty Manager" extension
 - make it configurable *whether* to have the page browser
 - make it configurable *where* to have the page browser (top, bottom, both)
 - provide an RSS feed for new objects
-- if the gallery is openened in a separate window AND JavaScript is allowed, add a "close this window" link to the gallery
 - move the pagination to oelib
 - make it configurable which fields to show in the miniature table in the list view
 - support workspaces

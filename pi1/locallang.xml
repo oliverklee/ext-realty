@@ -14,7 +14,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.single_view">Single view</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
@@ -44,7 +43,6 @@
 			<label index="realty.pi_flexform.hide">hide</label>
 			<label index="realty.pi_flexform.show">show</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
@@ -58,10 +56,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
-			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
-			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">classic</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
 			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
@@ -377,7 +371,6 @@
 			<label index="realty.pi_flexform.realty_list">Immobilienliste</label>
 			<label index="realty.pi_flexform.favorites">Merkzettel</label>
 			<label index="realty.pi_flexform.single_view">Einzelansicht</label>
-			<label index="realty.pi_flexform.gallery">Galerie</label>
 			<label index="realty.pi_flexform.filter_form">Suchformular</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformular</label>
 			<label index="realty.pi_flexform.my_objects">Meine Objekte</label>
@@ -407,7 +400,6 @@
 			<label index="realty.pi_flexform.hide">verstecken</label>
 			<label index="realty.pi_flexform.show">anzeigen</label>
 			<label index="realty.pi_flexform.singlePID">Seite mit der Einzelansicht:</label>
-			<label index="realty.pi_flexform.galleryPID">Seite mit der Galerie:</label>
 			<label index="realty.pi_flexform.favoritesPID">Seite mit dem Merkzettel:</label>
 			<label index="realty.pi_flexform.editorPID">Seite mit dem FE-Editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Seite zum Hochladen von Bildern:</label>
@@ -421,10 +413,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps">Zeige Google Maps in der Listenansicht:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google-Maps-API-Schlüssel:</label>
 			<label index="realty.pi_flexform.defaultCountry">Standard-Land der Objekte:</label>
-			<label index="realty.pi_flexform.galleryType">Galerietyp</label>
-			<label index="realty.pi_flexform.galleryByTS">(aus dem TS-Setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">klassisch</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Suchformular</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Angezeigte Suchfelder:</label>
 			<label index="realty.pi_flexform.displaySite">Ort und PLZ</label>
@@ -740,7 +728,6 @@
 			<label index="realty.pi_flexform.realty_list">Lijst van objecten</label>
 			<label index="realty.pi_flexform.favorites">Favorieten</label>
 			<label index="realty.pi_flexform.single_view">Detail aanzicht</label>
-			<label index="realty.pi_flexform.gallery">Galery</label>
 			<label index="realty.pi_flexform.filter_form">Filterformulier</label>
 			<label index="realty.pi_flexform.contact_form">Kontaktformulier</label>
 			<label index="realty.pi_flexform.my_objects">Mijn objecten</label>
@@ -763,7 +750,6 @@
 			<label index="realty.pi_flexform.hide">Verberg</label>
 			<label index="realty.pi_flexform.show">Toon</label>
 			<label index="realty.pi_flexform.singlePID">Pagina voor de single aanzicht:</label>
-			<label index="realty.pi_flexform.galleryPID">Pagina voor de galery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Pagina voor de favorietenlijst:</label>
 			<label index="realty.pi_flexform.editorPID">Pagina met de FE editor</label>
 			<label index="realty.pi_flexform.imageUploadPID">Pagina met de FE foto-upload</label>
@@ -777,10 +763,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps">Toon Google Maps:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key</label>
 			<label index="realty.pi_flexform.defaultCountry">Default land voor objecten</label>
-			<label index="realty.pi_flexform.galleryType">Gallerij type:</label>
-			<label index="realty.pi_flexform.galleryByTS">(vanuit de TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">Klassiek</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Zoekformulier</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Toon de zoekvelden:</label>
 			<label index="realty.pi_flexform.displaySite">Plaats &amp; Postcode</label>
@@ -1089,12 +1071,10 @@
 			<label index="realty.pi_flexform.what_to_display">Hvad skal vises på hjemmesiden:</label>
 			<label index="realty.pi_flexform.realty_list">Ejendomsoversigt (Projekter)</label>
 			<label index="realty.pi_flexform.favorites">Favoritter</label>
-			<label index="realty.pi_flexform.gallery">Galleri</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statisk SQL filter:</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Database felt til oprettelse af &quot;checkboxe&quot; til søgefilter:</label>
 			<label index="realty.pi_flexform.sortCriteria">Databasefelt som brugeren kan sortére visningen efter:</label>
 			<label index="realty.pi_flexform.singlePID">Side for enkelt visning:</label>
-			<label index="realty.pi_flexform.galleryPID">Underside med galleri</label>
 			<label index="realty.pi_flexform.favoritesPID">Underside med favoritter:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Målside for en valgt by/område:</label>
 			<label index="label_title">Titel</label>
@@ -1212,12 +1192,10 @@
 			<label index="realty.pi_flexform.what_to_display">Выберите, что нужно показать посетителю сайта:</label>
 			<label index="realty.pi_flexform.realty_list">Список недвижемости</label>
 			<label index="realty.pi_flexform.favorites">Избранные</label>
-			<label index="realty.pi_flexform.gallery">Галерея</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Статический фильтр SQL (добавляется к условию WHERE, можно использовать оператор &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Поля базы данных доступные для фильтрации поиска:</label>
 			<label index="realty.pi_flexform.sortCriteria">Поля базы данных доступные для фильтрации списка недвижимости:</label>
 			<label index="realty.pi_flexform.singlePID">Страница для просмотра единственного елемента недвижимости (single):</label>
-			<label index="realty.pi_flexform.galleryPID">Страница с галереей:</label>
 			<label index="realty.pi_flexform.favoritesPID">Страница с избранными:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Страница с выбором недвижемости по городам:</label>
 			<label index="label_title">Заголовок</label>
@@ -1311,12 +1289,10 @@
 			<label index="realty.pi_flexform.what_to_display">Ne gösterilsin:</label>
 			<label index="realty.pi_flexform.realty_list">Emlak Listesi</label>
 			<label index="realty.pi_flexform.favorites">Favoriler</label>
-			<label index="realty.pi_flexform.gallery">Galeri</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Statik SQL filitresi (&quot; AND &quot; ile birlikte  WHERE clause ile kullanılır ):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">İçinden arama filitresi ve onay kutucuğu (checkbox) oluşturabilen veri bankası tablosu:</label>
 			<label index="realty.pi_flexform.sortCriteria">Kullanıcı tarafından liste görünümü düzenlenebilen Veri Bankası tabloları:</label>
 			<label index="realty.pi_flexform.singlePID">Sayfa Detaylı (tek)görünüşü</label>
-			<label index="realty.pi_flexform.galleryPID">Sayfa Galeri</label>
 			<label index="realty.pi_flexform.favoritesPID">Sayfa favoriler</label>
 			<label index="realty.pi_flexform.filterTargetPID">Şehir seçicisi için Sayfa</label>
 			<label index="label_title">Başlık</label>
@@ -1407,12 +1383,10 @@
 			<label index="realty.pi_flexform.what_to_display">Cuáles deberían ser mostradas</label>
 			<label index="realty.pi_flexform.realty_list">Listado Inmobiliário</label>
 			<label index="realty.pi_flexform.favorites">Favoritos</label>
-			<label index="realty.pi_flexform.gallery">Galeria</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Consulta SQL</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Campo de la base de datos para mostrar opciones de búsqueda</label>
 			<label index="realty.pi_flexform.sortCriteria">Campos de la Base da datos con los que el usuario podrá ordenar los resultados</label>
 			<label index="realty.pi_flexform.singlePID">Página para mostrar la ficha técnica</label>
-			<label index="realty.pi_flexform.galleryPID">Página para mostrar la galería de imágenes</label>
 			<label index="realty.pi_flexform.favoritesPID">Página para favoritos</label>
 			<label index="realty.pi_flexform.filterTargetPID">Página de destino para el selector de ciudades</label>
 			<label index="label_title">Título</label>
@@ -1510,7 +1484,6 @@
 			<label index="realty.pi_flexform.realty_list">Elenco immobili</label>
 			<label index="realty.pi_flexform.favorites">Favoriti</label>
 			<label index="realty.pi_flexform.single_view">Vista singola</label>
-			<label index="realty.pi_flexform.gallery">Galleria</label>
 			<label index="realty.pi_flexform.filter_form">Modulo ricerca</label>
 			<label index="realty.pi_flexform.contact_form">Modulo contatti</label>
 			<label index="realty.pi_flexform.my_objects">Mie immobili</label>
@@ -1533,7 +1506,6 @@
 			<label index="realty.pi_flexform.hide">nascosto</label>
 			<label index="realty.pi_flexform.show">visibile</label>
 			<label index="realty.pi_flexform.singlePID">Pagina per la vista singola:</label>
-			<label index="realty.pi_flexform.galleryPID">Pagina con la galleria:</label>
 			<label index="realty.pi_flexform.favoritesPID">Pagina con lista favoriti:</label>
 			<label index="realty.pi_flexform.editorPID">Pagina con editor FE:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Pagina con caricamento immagini nel FE:</label>
@@ -1547,10 +1519,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps">Mostra Google Maps:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Nazione di default degli immobili:</label>
-			<label index="realty.pi_flexform.galleryType">Tipo galleria:</label>
-			<label index="realty.pi_flexform.galleryByTS">(da TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">classico</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Modulo di ricerca</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Campi di ricerca da visualizzare:</label>
 			<label index="realty.pi_flexform.displaySite">citt&amp;agrave; e CAP</label>
@@ -1836,7 +1804,6 @@
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.single_view" type="integer">260903848</label>
-			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
@@ -1866,7 +1833,6 @@
 			<label index="realty.pi_flexform.hide" type="integer">176746587</label>
 			<label index="realty.pi_flexform.show" type="integer">176017707</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
-			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.editorPID" type="integer">135203367</label>
 			<label index="realty.pi_flexform.imageUploadPID" type="integer">221590091</label>
@@ -1880,10 +1846,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps" type="integer">32573731</label>
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
-			<label index="realty.pi_flexform.galleryType" type="integer">192312547</label>
-			<label index="realty.pi_flexform.galleryByTS" type="integer">136988657</label>
-			<label index="realty.pi_flexform.lightbox" type="integer">249597613</label>
-			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
 			<label index="realty.pi_flexform.displaySite" type="integer">139764782</label>
@@ -2197,7 +2159,6 @@
 			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
-			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
@@ -2215,7 +2176,6 @@
 			<label index="realty.pi_flexform.show" type="integer">176017707</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm" type="integer">218493474</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
-			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.editorPID" type="integer">135203367</label>
 			<label index="realty.pi_flexform.imageUploadPID" type="integer">221590091</label>
@@ -2450,10 +2410,6 @@
 			<label index="realty.pi_flexform.visibleContactFormFields" type="integer">75148715</label>
 			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
 			<label index="realty.pi_flexform.random" type="integer">131986222</label>
-			<label index="realty.pi_flexform.galleryType" type="integer">192312547</label>
-			<label index="realty.pi_flexform.galleryByTS" type="integer">136988657</label>
-			<label index="realty.pi_flexform.lightbox" type="integer">249597613</label>
-			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
 			<label index="realty.pi_flexform.displaySite" type="integer">139764782</label>
 			<label index="realty.pi_flexform.displayCity" type="integer">28144317</label>
@@ -2549,12 +2505,10 @@
 			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
-			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
-			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">129983894</label>
 			<label index="label_title" type="integer">192455458</label>
@@ -2672,12 +2626,10 @@
 			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
-			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
-			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">12423386</label>
 			<label index="label_title" type="integer">192455458</label>
@@ -2768,12 +2720,10 @@
 			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
-			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">137200426</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
-			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">12423386</label>
 			<label index="label_title" type="integer">192455458</label>
@@ -2864,12 +2814,10 @@
 			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
-			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.staticSqlFilter" type="integer">87716999</label>
 			<label index="realty.pi_flexform.checkboxesFilter" type="integer">10873904</label>
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
-			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.filterTargetPID" type="integer">265563004</label>
 			<label index="label_title" type="integer">192455458</label>
@@ -2967,7 +2915,6 @@
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
 			<label index="realty.pi_flexform.favorites" type="integer">226007145</label>
 			<label index="realty.pi_flexform.single_view" type="integer">260903848</label>
-			<label index="realty.pi_flexform.gallery" type="integer">97071888</label>
 			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
 			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
 			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
@@ -2990,7 +2937,6 @@
 			<label index="realty.pi_flexform.hide" type="integer">176746587</label>
 			<label index="realty.pi_flexform.show" type="integer">176017707</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
-			<label index="realty.pi_flexform.galleryPID" type="integer">200870091</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
 			<label index="realty.pi_flexform.editorPID" type="integer">135203367</label>
 			<label index="realty.pi_flexform.imageUploadPID" type="integer">221590091</label>
@@ -3004,10 +2950,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps" type="integer">83129911</label>
 			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
-			<label index="realty.pi_flexform.galleryType" type="integer">192312547</label>
-			<label index="realty.pi_flexform.galleryByTS" type="integer">136988657</label>
-			<label index="realty.pi_flexform.lightbox" type="integer">249597613</label>
-			<label index="realty.pi_flexform.classic" type="integer">255681649</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
 			<label index="realty.pi_flexform.displaySite" type="integer">139764782</label>
@@ -3293,7 +3235,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.single_view">Single view</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
@@ -3323,7 +3264,6 @@
 			<label index="realty.pi_flexform.hide">hide</label>
 			<label index="realty.pi_flexform.show">show</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
@@ -3337,10 +3277,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
-			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
-			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">classic</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
 			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
@@ -3654,7 +3590,6 @@
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
@@ -3672,7 +3607,6 @@
 			<label index="realty.pi_flexform.show">show</label>
 			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
@@ -3904,10 +3838,6 @@
 			<label index="realty.pi_flexform.visibleContactFormFields">Form fields to show:</label>
 			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
 			<label index="realty.pi_flexform.random">random</label>
-			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
-			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">classic</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
 			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
 			<label index="realty.pi_flexform.displayCity">city drop-down</label>
@@ -4006,12 +3936,10 @@
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the filter form and the city selector:</label>
 			<label index="label_title">Title</label>
@@ -4129,12 +4057,10 @@
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the city selector:</label>
 			<label index="label_title">Title</label>
@@ -4225,12 +4151,10 @@
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL Filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the city selector:</label>
 			<label index="label_title">Title</label>
@@ -4321,12 +4245,10 @@
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</label>
 			<label index="realty.pi_flexform.checkboxesFilter">DB field to create the search filter checkboxes from:</label>
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search form and the city selector:</label>
 			<label index="label_title">Title</label>
@@ -4424,7 +4346,6 @@
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
 			<label index="realty.pi_flexform.favorites">Favorites</label>
 			<label index="realty.pi_flexform.single_view">Single view</label>
-			<label index="realty.pi_flexform.gallery">Gallery</label>
 			<label index="realty.pi_flexform.filter_form">Search form</label>
 			<label index="realty.pi_flexform.contact_form">Contact form</label>
 			<label index="realty.pi_flexform.my_objects">My objects</label>
@@ -4447,7 +4368,6 @@
 			<label index="realty.pi_flexform.hide">hide</label>
 			<label index="realty.pi_flexform.show">show</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
-			<label index="realty.pi_flexform.galleryPID">Page with the gallery:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
 			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
@@ -4461,10 +4381,6 @@
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps:</label>
 			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
-			<label index="realty.pi_flexform.galleryType">Gallery type:</label>
-			<label index="realty.pi_flexform.galleryByTS">(from TS setup)</label>
-			<label index="realty.pi_flexform.lightbox">Lightbox</label>
-			<label index="realty.pi_flexform.classic">classic</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
 			<label index="realty.pi_flexform.displaySite">city and ZIP</label>

@@ -32,32 +32,6 @@
  */
 
 /**
- * Sets the current full-size image to the current thumbnail and sets the class
- * attribute of the thumbnail accordingly.
- *
- * @param string ID of the link tag that wraps the current image tag, must not
- *               be empty
- * @param string link to the full-size version of the current image, must not
- *               be empty
- */
-function showFullsizeImage(id, linkToFullsizeImage) {
-	var fullsizeImage = document.getElementById("tx_realty_fullsizeImage");
-	var currentImage = document.getElementById(id).getElementsByTagName("img")[0];
-	var thumbnails = document.getElementById("tx_realty_thumbnailTable").getElementsByTagName("a");
-
-	fullsizeImage.removeAttribute("width");
-	fullsizeImage.removeAttribute("height");
-	fullsizeImage.alt = currentImage.title;
-	fullsizeImage.title = currentImage.title;
-	fullsizeImage.src = linkToFullsizeImage;
-	for (i = 0; i < (thumbnails.length); i++) {
-		thumbnails[i].className = "tx-realty-pi1-thumbnail";
-	};
-	document.getElementById(id).className += "-current";
-	document.getElementById("tx_realty_fullsizeImageCaption").firstChild.nodeValue = currentImage.title;
-}
-
-/**
  * Marks the current attachment as deleted if the confirm becomes submitted.
  *
  * @param string ID of the list item with the attachment to delete, must not be

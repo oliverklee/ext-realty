@@ -440,52 +440,6 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImagesInTheListViewDoNotContainPopUpJavaScriptCode() {
-		// This test asserts that linked images in the list view do no longer
-		// lead to the gallery.
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('images' => '1')
-		);
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
-		);
-		// this enables the gallery popup window
-		$this->fixture->setConfigurationValue(
-			'galleryPopupParameters',
-			'width=600,height=400,resizable=no,toolbar=no,'
-			.'location=no,directories=no,status=no,menubar=no'
-		);
-
-		$this->assertNotContains(
-			'onclick="window.open(',
-			$this->fixture->render()
-		);
-	}
-
-	public function testImagesInTheListViewDoNotContainLinkToGallery() {
-		// This test asserts that linked images in the list view do no longer
-		// lead to the gallery.
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->firstRealtyUid,
-			array('images' => '1')
-		);
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array('realty_object_uid' => $this->firstRealtyUid, 'caption' => 'foo')
-		);
-		$galleryPid = $this->testingFramework->createFrontEndPage();
-		$this->fixture->setConfigurationValue('galleryPID', $galleryPid);
-
-		$this->assertNotContains(
-			'?id=' . $galleryPid,
-			$this->fixture->render()
-		);
-	}
-
 
 	////////////////////////////////////
 	// Tests for data in the list view

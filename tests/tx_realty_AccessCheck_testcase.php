@@ -485,25 +485,6 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////////
-	// Tests concerning access to the gallery.
-	////////////////////////////////////////////
-
-	public function testCheckAccessForGalleryThrowsExceptionWithPleaseLoginMessageForANewObjectIfNoUserIsLoggedIn() {
-		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
-		);
-
-		$this->fixture->checkAccess('gallery', array());
-	}
-
-	public function testCheckAccessForGalleryDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
-		$this->testingFramework->createAndLoginFrontEndUser();
-
-		$this->fixture->checkAccess('single_view', array());
-	}
-
-
 	//////////////////////////////////////////////
 	// Test concerning access to any other view.
 	//////////////////////////////////////////////

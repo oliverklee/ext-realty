@@ -369,39 +369,6 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysLinkedImageIfEnabled() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->addImageRecord('foo', 'foo.jpg');
-
-		$this->fixture->setConfigurationValue(
-			'galleryPID', $this->testingFramework->createFrontEndPage()
-		);
-
-		$this->assertContains(
-			'tx_realty_pi1[image]=0',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
-	public function testSingleViewNotDisplaysLinkedImageIfDisabled() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getNewGhost();
-		$realtyObject->addImageRecord('foo', 'foo.jpg');
-
-		$this->fixture->setConfigurationValue(
-			'singleViewPartsToDisplay', 'heading'
-		);
-		$this->fixture->setConfigurationValue(
-			'galleryPID', $this->testingFramework->createFrontEndPage()
-		);
-
-		$this->assertNotContains(
-			'tx_realty_pi1[image]=0',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
 	public function testSingleViewNotDisplaysTextPaneDivIfOnlyImagesShouldBeDisplayed() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));

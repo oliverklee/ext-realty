@@ -68,9 +68,6 @@ class tx_realty_pi1_AccessCheck {
 				$this->realtyObjectExistsInDatabase($piVars['delete']);
 				$this->frontEndUserOwnsObject($piVars['delete']);
 				break;
-			case 'gallery':
-				// The fall-through is intended because the gallery is only
-				// accessible through the single view.
 			case 'single_view':
 				// When Bug #1480 is fixed, the access check should become
 				// responsible for checking the configuration for

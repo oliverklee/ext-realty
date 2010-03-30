@@ -329,63 +329,6 @@
 
 
 
-/***** GALLERY VIEW *****/
-.tx-realty-pi1 .gallery-view {
-	padding: 1em;
-}
-
-/* full size image */
-.tx-realty-pi1 .gallery-view .fullsize {
-	float: left;
-	border: 1px solid #B3C5D3;
-	background: #B3C5D3;
-}
-.tx-realty-pi1 .gallery-view .fullsize-image {
-	width: 602px;
-	height: 602px;
-	vertical-align: middle;
-	text-align: center;
-	background: white;
-}
-.tx-realty-pi1 .gallery-view .fullsize .caption {
-	font-weight: bold;
-	padding: 0.125em 0.25em 0.25em;
-}
-
-/* thumbnails */
-.tx-realty-pi1 .gallery-view .thumbs {
-	float: left;
-	width: 150px;
-	margin-left: 1em;
-	overflow: auto;
-}
-.tx-realty-pi1 .gallery-view .thumbs table {
-	padding: 0;
-	border-collapse: separate;
-	border-spacing: 0.125em;
-}
-.tx-realty-pi1 .gallery-view .thumbs .image {
-	vertical-align: middle;
-	text-align: center;
-	width: 137px;
-	height: 137px;
-}
-.tx-realty-pi1 .gallery-view .image img {
-	border: none;
-	margin: 0;
-}
-.tx-realty-pi1 .gallery-view .item .caption {
-	font-size: 10px;
-	padding: 0 0.25em;
-}
-
-/* buttons */
-.tx-realty-pi1 .gallery-view .buttons {
-	clear: left;
-	margin-right: 14px;
-}
-
-
 /***** CITY SELECTOR *****/
 .tx-realty-pi1 .city-selector {
 	width: 198px;

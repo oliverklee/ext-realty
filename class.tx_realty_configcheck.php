@@ -37,14 +37,6 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
-	 * Checks the configuration for the gallery of the Realty Manager.
-	 */
-	public function check_tx_realty_pi1_gallery() {
-		$this->checkCommonFrontEndSettings();
-		$this->checkImageSizeValuesForGallery();
-	}
-
-	/**
 	 * Checks the configuration for the filter form of the Realty Manager.
 	 */
 	public function check_tx_realty_pi1_filter_form() {
@@ -109,14 +101,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		}
 		if ($this->isSingleViewPartToDisplay('imageThumbnails')) {
 			$this->checkImageSizeValuesForSingleView();
-			$this->checkGalleryType();
-			if ($this->objectToCheck->getConfValueString('galleryType')
-				!= 'lightbox'
-			) {
-				$this->checkGalleryPid();
-			} else {
-				$this->checkLightboxImageConfiguration();
-			}
+			$this->checkLightboxImageConfiguration();
 		}
 		if ($this->isSingleViewPartToDisplay('contactButton')) {
 			$this->checkContactPid();
@@ -282,7 +267,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			array(
 				'realty_list',
 				'single_view',
-				'gallery',
 				'favorites',
 				'filter_form',
 				'contact_form',
@@ -381,28 +365,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$imageSizeItems =  array (
 			'singleImageMaxX',
 			'singleImageMaxY'
-		);
-
-		foreach ($imageSizeItems as $fieldName) {
-			$this->checkIfPositiveInteger(
-				$fieldName,
-				false,
-				'',
-				'This value specifies image dimensions. Images will not be '
-					.'displayed correctly if this value is invalid.'
-			);
-		}
-	}
-
-	/**
-	 * Checks whether values for image sizes in the gallery are set.
-	 */
-	private function checkImageSizeValuesForGallery() {
-		$imageSizeItems =  array (
-			'galleryFullSizeImageX',
-			'galleryFullSizeImageY',
-			'galleryThumbnailX',
-			'galleryThumbnailY'
 		);
 
 		foreach ($imageSizeItems as $fieldName) {
@@ -883,19 +845,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the settings for the PID for the gallery.
-	 */
-	private function checkGalleryPid() {
-		$this->checkIfSingleFePageNotEmpty(
-			'galleryPID',
-			true,
-			'sDEF',
-			'This value specifies the PID of the page with the gallery. If this '
-				.'value is empty, the gallery will be disabled.'
-		);
-	}
-
-	/**
 	 * Checks the settings for the PID for the favorites view.
 	 */
 	private function checkFavoritesPid() {
@@ -1049,24 +998,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			's_googlemaps',
 			'This determines the Google Maps API key. If this is not set ' .
 				'correctly, Google Maps will produce an error message.'
-		);
-	}
-
-	/**
-	 * Checks the settings for the gallery/Lightbox display.
-	 */
-	private function checkGalleryType() {
-		$this->checkIfSingleInSetNotEmpty(
-			'galleryType',
-			true,
-			'sDEF',
-			'This setting determines wether the gallery makes use of Lightbox. ' .
-				'If this is not set correctly, the gallery will fall back to ' .
-				'the old gallery and will not use the Lightbox.',
-			array(
-				'lightbox',
-				'classic',
-			)
 		);
 	}
 
