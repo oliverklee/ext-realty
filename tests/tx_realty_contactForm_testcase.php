@@ -2172,5 +2172,248 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	//////////////////////////////////////////////////////
+	// Tests concerning the checkbox texts in the e-mail
+	//////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function emailForCheckedViewingCheckboxContainsViewingCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'viewing'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'viewing' => '1',
+			)
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_viewing'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForVisibleAndNotCheckedViewingCheckboxNotContainsViewingCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'viewing'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'viewing' => '',
+			)
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_viewing'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForCheckedInformationCheckboxContainsInformationCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'information'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'information' => '1',
+			)
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_information'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForVisibleAndNotCheckedInformationCheckboxNotContainsInformationCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'information'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'information' => '',
+			)
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_information'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForCheckedCallbackCheckboxContainsCallbackCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'callback'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'callback' => '1',
+			)
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_callback'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForVisibleAndNotCheckedCallbackCheckboxNotContainsCallbackCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'callback'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'callback' => '',
+			)
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_callback'),
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForCheckedTermsCheckboxContainsStrippedTermsCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'terms'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'terms' => '1',
+			)
+		);
+
+		$label = strip_tags(
+			str_replace(' %s', '', $this->fixture->translate('label_terms'))
+		);
+		$this->assertContains(
+			$label,
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForVisibleAndNotCheckedTermsCheckboxNotContainsStrippedTermsCheckboxText() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'terms'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'terms' => '',
+			)
+		);
+
+		$label = strip_tags(
+			str_replace(' %s', '', $this->fixture->translate('label_terms'))
+		);
+		$this->assertNotContains(
+			$label,
+			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailForCheckedInformationAndCallbackCheckboxContainsBothCheckboxTexts() {
+		$this->fixture->setConfigurationValue(
+			'visibleContactFormFields', 'information,callback'
+		);
+		$this->fixture->setConfigurationValue(
+			'requiredContactFormFields', ''
+		);
+		$this->fixture->render(
+			array(
+				'isSubmitted' => TRUE,
+				'requesterName' => 'a name of a requester',
+				'requesterEmail' => 'requester@valid-email.org',
+				'information' => '1',
+				'callback' => '1',
+			)
+		);
+
+		$emailBody = tx_oelib_mailerFactory::getInstance()->getMailer()
+			->getLastBody();
+		$this->assertContains(
+			$this->fixture->translate('label_information'),
+			$emailBody
+		);
+		$this->assertContains(
+			$this->fixture->translate('label_callback'),
+			$emailBody
+		);
+	}
 }
 ?>

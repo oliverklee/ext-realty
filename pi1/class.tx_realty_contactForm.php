@@ -281,7 +281,36 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			$this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
 		}
 
+		$this->setOrDeleteMarkerIfNotEmpty(
+			'email_checkboxes', $this->getCheckboxesForEMail(), '', 'wrapper'
+		);
+
 		return $this->getSubpart('EMAIL_BODY');
+	}
+
+	/**
+	 * Returns the texts concerning the checked checkboxes prepared for e-mail.
+	 *
+	 * @return string the checkboxes texts separated by LF, will be empty if no
+	 *                checkboxes have been checked
+	 */
+	private function getCheckboxesForEMail() {
+		$result = array();
+
+		foreach (array('viewing', 'information', 'callback') as $key) {
+			if ($this->contactFormData[$key] == 1) {
+				$result[] = $this->translate('label_' . $key);
+			}
+		}
+		if ($this->contactFormData['terms'] == 1) {
+			// The label might have an acronym tag in it and %s markers for
+			// the anchor tag which need to get removed.
+			$result[] = strip_tags(
+				str_replace(' %s', '', $this->translate('label_terms'))
+			);
+		}
+
+		return implode(LF, $result);
 	}
 
 	/**

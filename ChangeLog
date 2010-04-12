@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3726] Feature: Include the checked checkboxes in the contact form e-mail
 - [#2153] Change: Drop the classic gallery
 - [#3770] Fix: Pagination URLs are not htmlspecialchared
 - [#3723] Change: Don't include the message text in the contact form e-mail if it is empty or not part of the form
