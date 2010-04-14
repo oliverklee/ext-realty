@@ -274,13 +274,13 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * Writes a formatted string containing object numbers and titles of objects
 	 * on the favorites list to the session.
 	 */
-	 public function writeSummaryStringOfFavoritesToSession() {
+	public function writeSummaryStringOfFavoritesToSession() {
 		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 			->setAsString(
 				'summaryStringOfFavorites',
 				$this->createSummaryStringOfFavorites()
 			);
-	 }
+	}
 
 	/**
 	 * Creates a formatted string to prefill an e-mail form. The string contains
@@ -289,7 +289,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 *
 	 * @return string formatted string to use in an e-mail form, may be empty
 	 */
-	 public function createSummaryStringOfFavorites() {
+	public function createSummaryStringOfFavorites() {
 		$summaryStringOfFavorites = '';
 
 		$currentFavorites = $this->getFavorites();
@@ -314,7 +314,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 		}
 
 		return $summaryStringOfFavorites;
-	 }
+	}
 
 	/**
 	 * Sets the row contents specific to this view.
