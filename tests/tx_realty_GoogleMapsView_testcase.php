@@ -103,7 +103,7 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 				'defaultCountryUID' => 54,
 			),
 			$GLOBALS['TSFE']->cObj,
-			true
+			TRUE
 		);
 	}
 
@@ -528,7 +528,7 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'singlePID', $this->testingFramework->createFrontEndPage()
 		);
-		$this->fixture->setMapMarker($this->realtyUid, true);
+		$this->fixture->setMapMarker($this->realtyUid, TRUE);
 		$this->fixture->render();
 
 		$this->assertContains(

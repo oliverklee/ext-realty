@@ -36,7 +36,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var boolean whether the constructor is called in test mode
 	 */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/**
 	 * The constructor.
@@ -46,7 +46,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * @param boolean whether the class is instantiated in test mode
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $isTestMode = false
+		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
 	) {
 		parent::__construct($configuration, $cObj, $isTestMode);
 		$this->isTestMode = $isTestMode;
@@ -81,26 +81,26 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param integer UID of the realty object, must be >= 0
 	 *
-	 * @return boolean true if the object has been loaded, false otherwise
+	 * @return boolean TRUE if the object has been loaded, FALSE otherwise
 	 */
 	private function existsRealtyObject($uid) {
 		if ($uid <= 0) {
-			return false;
+			return FALSE;
 		}
 
 		$realtyObjectMapper = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_RealtyObject');
 
-		if (!$realtyObjectMapper->existsModel($uid, true)
+		if (!$realtyObjectMapper->existsModel($uid, TRUE)
 			|| ($realtyObjectMapper->find($uid)->getProperty('deleted') == 1)
 		) {
-			return false;
+			return FALSE;
 		}
 
-		$result = false;
+		$result = FALSE;
 
 		if (!$realtyObjectMapper->find($uid)->isHidden()) {
-			$result = true;
+			$result = TRUE;
 		} else {
 			if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 				$result = (tx_oelib_FrontEndLoginManager::getInstance()
@@ -122,9 +122,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	private function createSingleView($uid) {
 		$this->setPageTitle($uid);
 
-		$hasTextContent = false;
+		$hasTextContent = FALSE;
 		$configuredViews = t3lib_div::trimExplode(
-			',', $this->getConfValueString('singleViewPartsToDisplay'), true
+			',', $this->getConfValueString('singleViewPartsToDisplay'), TRUE
 		);
 
 		foreach (array(
@@ -139,7 +139,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 
 			$this->setSubpart($key, $viewContent, 'field_wrapper');
 			if (($viewContent != '') && ($key != 'imageThumbnails')) {
-				$hasTextContent = true;
+				$hasTextContent = TRUE;
 			}
 		}
 
@@ -215,9 +215,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$visibilityTree = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('actionButtons' => array(
-				'addToFavoritesButton' => false,
-				'backButton' => false,
-				'printPageButton' => false,
+				'addToFavoritesButton' => FALSE,
+				'backButton' => FALSE,
+				'printPageButton' => FALSE,
 			))
 		);
 		$visibilityTree->makeNodesVisible($displayedViews);

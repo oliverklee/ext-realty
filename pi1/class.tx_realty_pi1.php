@@ -61,19 +61,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * @var boolean whether to check cHash
 	 */
-	public $pi_checkCHash = true;
+	public $pi_checkCHash = TRUE;
 
 	/**
 	 * @var boolean whether this class is called in the test mode
 	 */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/**
 	 * The constructor.
 	 *
 	 * @param boolean whether this class is called in the test mode
 	 */
-	public function __construct($isTestMode = false) {
+	public function __construct($isTestMode = FALSE) {
 		$this->isTestMode = $isTestMode;
 	}
 
@@ -297,7 +297,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
-		return ($result !== false) ? $result : array();
+		return ($result !== FALSE) ? $result : array();
 	}
 
 	/**
@@ -338,8 +338,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * Checks whether the showUid parameter is set and contains a positive
 	 * number.
 	 *
-	 * @return boolean true if showUid is set and is a positive integer,
-	 *                 false otherwise
+	 * @return boolean TRUE if showUid is set and is a positive integer,
+	 *                 FALSE otherwise
 	 */
 	private function hasShowUidInUrl() {
 		return $this->piVars['showUid'] > 0;
@@ -348,7 +348,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Checks that we are properly initialized.
 	 *
-	 * @return boolean true if we are properly initialized, false otherwise
+	 * @return boolean TRUE if we are properly initialized, FALSE otherwise
 	 */
 	public function isInitialized() {
 		return $this->isInitialized;
@@ -360,8 +360,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * configuration, access to the details page is allowed even when no user is
 	 * logged in.
 	 *
-	 * @return boolean true if the details page is allowed to be viewed,
-	 *                 false otherwise
+	 * @return boolean TRUE if the details page is allowed to be viewed,
+	 *                 FALSE otherwise
 	 */
 	public function isAccessToSingleViewPageAllowed() {
 		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()

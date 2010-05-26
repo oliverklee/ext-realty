@@ -48,7 +48,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * @var boolean whether this class is called in the test mode
 	 */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/**
 	 * @var tx_realty_pi1_Formatter formatter for prices, areas etc.
@@ -111,7 +111,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *        whether this class should be instantiated for testing
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $isTestMode = false
+		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
 	) {
 		$this->checkMemberVariables();
 		$this->isTestMode = $isTestMode;
@@ -432,13 +432,13 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$this->setMarker('number_of_results', $this->internal['res_count']);
 
 		$links = $this->createPaginationLink(
-			max(0, $this->piVars['pointer'] - 1), '&lt;', false
+			max(0, $this->piVars['pointer'] - 1), '&lt;', FALSE
 		);
 		$links .= $this->createPageList();
 		$links .= $this->createPaginationLink(
 			min($this->internal['lastPage'], $this->piVars['pointer'] + 1),
 			'&gt;',
-			false
+			FALSE
 		);
 		$this->setSubpart('links_to_result_pages', $links);
 
@@ -464,7 +464,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 		$this->setMarker('self_url', $this->getSelfUrl());
 		$selectedSortCriteria = t3lib_div::trimExplode(
-			',', $this->getConfValueString('sortCriteria'), true
+			',', $this->getConfValueString('sortCriteria'), TRUE
 		);
 		$options = array();
 		foreach ($selectedSortCriteria as $selectedSortCriterion) {
@@ -635,7 +635,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * Creates the URL of the current page. The URL will contain a flag to
 	 * disable caching as this URL also is used for forms with method="post".
 	 *
-	 * The URL will contain the current piVars if $keepPiVars is set to true.
+	 * The URL will contain the current piVars if $keepPiVars is set to TRUE.
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @param boolean $keepPiVars whether the current piVars should be kept
@@ -646,7 +646,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return string htmlspecialchared URL of the current page, will not
 	 *                be empty
 	 */
-	protected function getSelfUrl($keepPiVars = true, array $removeKeys = array()) {
+	protected function getSelfUrl($keepPiVars = TRUE, array $removeKeys = array()) {
 		$piVars = $keepPiVars ? $this->piVars : array();
 		unset($piVars['DATA']);
 		foreach ($removeKeys as $removeThisKey) {
@@ -663,8 +663,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 						'',
 						array($this->prefixId => $piVars),
 						'',
-						true,
-						true
+						TRUE,
+						TRUE
 					),
 				)
 			)
@@ -735,7 +735,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Checks whether to use caching for the link to the single view page.
 	 *
-	 * @return boolean true if caching should be used, false otherwise
+	 * @return boolean TRUE if caching should be used, FALSE otherwise
 	 */
 	protected function useCacheForSinglePageLink() {
 		return TRUE;
@@ -1002,8 +1002,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 /**
 	 * Checks whether a search selection exists.
 	 *
-	 * @return boolean true if a search selection is provided in the
-	 *                 current piVars, false otherwise
+	 * @return boolean TRUE if a search selection is provided in the
+	 *                 current piVars, FALSE otherwise
 	 */
 	protected function searchSelectionExists() {
 		return (isset($this->piVars['search'])
@@ -1016,8 +1016,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * configuration, access to the details page is allowed even when no user is
 	 * logged in.
 	 *
-	 * @return boolean true if the details page is allowed to be viewed,
-	 *                 false otherwise
+	 * @return boolean TRUE if the details page is allowed to be viewed,
+	 *                 FALSE otherwise
 	 */
 	private function isAccessToSingleViewPageAllowed() {
 		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
@@ -1038,10 +1038,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return string link text wrapped by the link to the login page, will not
 	 *                be empty
 	 */
-	private function createLoginPageLink($linkText, $hasExternalSingleViewPage = false) {
+	private function createLoginPageLink($linkText, $hasExternalSingleViewPage = FALSE) {
 		$redirectPage = ($hasExternalSingleViewPage)
 			? $this->cObj->lastTypoLinkUrl
-			: $this->getSelfUrl(false);
+			: $this->getSelfUrl(FALSE);
 
 		return $this->cObj->typoLink(
 			$linkText,
@@ -1226,7 +1226,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$this->isTestMode
 		);
 		foreach ($shownObjectsUids as $objectUid) {
-			$googleMapsView->setMapMarker($objectUid, true);
+			$googleMapsView->setMapMarker($objectUid, TRUE);
 		}
 		$this->unhideSubparts('google_map');
 		$this->setSubpart('google_map', $googleMapsView->render());

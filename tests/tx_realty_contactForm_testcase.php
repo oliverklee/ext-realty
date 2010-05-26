@@ -687,7 +687,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester-invalid-email',
 					'request' => 'the request',
@@ -704,7 +704,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester-invalid-email',
 					'request' => 'the request',
@@ -722,7 +722,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org' . LF . 'anything',
 					'request' => 'the request',
@@ -740,7 +740,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name' . LF . 'anything',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -758,7 +758,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name < anything',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -776,7 +776,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name " anything',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -796,7 +796,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => '',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -815,7 +815,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => '',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -837,7 +837,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => '',
@@ -858,7 +858,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_required_field_request'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => '',
@@ -877,7 +877,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_required_field_request'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => '',
@@ -896,7 +896,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -915,7 +915,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('label_no_contact_person'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -935,7 +935,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			substr_count(
 				 $this->fixture->render(
 					array(
-						'isSubmitted' => true,
+						'isSubmitted' => TRUE,
 						'requesterName' => '',
 						'requesterEmail' => 'requester@valid-email.org',
 						'request' => 'foo',
@@ -953,7 +953,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$result = $this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => '',
@@ -980,7 +980,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function contactFormStillDisplaysGeneralViewOfTheFormIfAnErrorOccurs() {
 		$result = $this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => '',
@@ -1010,7 +1010,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(
 				array(
 					'showUid' => $this->realtyUid,
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -1027,7 +1027,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('label_message_sent'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
@@ -1046,7 +1046,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'foo bar',
 					'requesterStreet' => '',
@@ -1065,7 +1065,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_required_field_requesterCity'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'foo bar',
 					'requesterCity' => '',
@@ -1084,7 +1084,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'foo bar',
 					'requesterStreet' => 'main street',
@@ -1206,7 +1206,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'>the request</textarea>',
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'request' => 'the request'
 				)
 			)
@@ -1221,7 +1221,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'value="any name"',
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterName' => 'any name',
 				)
 			)
@@ -1236,7 +1236,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'value="1234567"',
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterPhone' => '1234567',
 				)
 			)
@@ -1251,7 +1251,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'value="requester@valid-email.org"',
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterEmail' => 'requester@valid-email.org',
 				)
 			)
@@ -1266,7 +1266,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'value="requester-invalid-email"',
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'requesterEmail' => 'requester-invalid-email',
 				)
 			)
@@ -1281,7 +1281,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 			'>&lt;fieldset /&gt;the request&lt;script /&gt;</textarea>',
 			$this->fixture->render(
 				array(
-					'isSubmitted' => true,
+					'isSubmitted' => TRUE,
 					'request' => '<fieldset />the request<script />',
 				)
 			)
@@ -1300,7 +1300,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1329,7 +1329,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1360,7 +1360,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1388,7 +1388,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1419,7 +1419,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1456,7 +1456,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1486,7 +1486,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1505,7 +1505,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function generalContactFormUsesTheDefaultEmailAddress() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1524,7 +1524,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function headerContainsNameAndEmailAddress() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1551,7 +1551,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'request' => 'the request',
 			)
 		);
@@ -1576,7 +1576,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'request' => 'the request',
 			)
 		);
@@ -1604,7 +1604,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'request' => 'the request',
 			)
 		);
@@ -1629,7 +1629,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'request' => 'the request',
 			)
 		);
@@ -1654,7 +1654,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'request' => 'the request',
 			)
 		);
@@ -1678,7 +1678,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1697,7 +1697,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function headerContainsNoBccLineIfNoAddressWasConfigured() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1716,7 +1716,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function noEmailIsSentIfTheContactFormWasNotFilledCorrectly() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 			)
 		);
@@ -1734,7 +1734,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1816,7 +1816,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1836,7 +1836,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1855,7 +1855,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailFromGeneralContactFormContainsASummaryStringOfTheFavoritesList() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1875,7 +1875,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailBodyContainsTheRequestersName() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1894,7 +1894,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailBodyContainsTheRequestersEmailAddress() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1913,7 +1913,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailBodyContainsTheRequestersPhoneNumber() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'requesterPhone' => '1234567',
@@ -1933,7 +1933,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailBodyNotContainsThePhoneNumberLabelIfNoPhoneNumberWasSet() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -1952,7 +1952,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailBodyContainsTheRequestersStreet() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'requesterStreet' => 'main street',
@@ -1972,7 +1972,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailBodyContainsTheRequestersZip() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'requesterZip' => '12345',
@@ -1992,7 +1992,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailBodyContainsTheRequestersCity() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'requesterCity' => 'a city',
@@ -2012,7 +2012,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	public function emailSubjectIsGeneralForTheGeneralForm() {
 		$this->fixture->render(
 			array(
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'a name of a requester',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',
@@ -2032,7 +2032,7 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
-				'isSubmitted' => true,
+				'isSubmitted' => TRUE,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
 				'request' => 'the request',

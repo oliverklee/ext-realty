@@ -132,7 +132,7 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		// True enables the test mode which inhibits the FE editors FORMidable
 		// object from being created.
-		$this->fixture = new tx_realty_pi1(true);
+		$this->fixture = new tx_realty_pi1(TRUE);
 		// This passed array with configuration values becomes part of
 		// $this->fixture->conf. "conf" is inherited from tslib_pibase and needs
 		// to contain "pidList". "pidList" is none of our configuration values

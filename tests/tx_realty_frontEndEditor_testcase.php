@@ -76,7 +76,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->cObj,
 			0,
 			'',
-			true
+			TRUE
 		);
 	}
 
@@ -119,7 +119,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	 * Creates one dummy record in each table for auxiliary records.
 	 */
 	private function createAuxiliaryRecords() {
-		$realtyObject = new tx_realty_Model_RealtyObject(true);
+		$realtyObject = new tx_realty_Model_RealtyObject(TRUE);
 		$realtyObject->loadRealtyObject($this->dummyObjectUid);
 
 		foreach (array(
@@ -1670,7 +1670,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		$cachePages = $this->getMock(
 			't3lib_cache_frontend_AbstractFrontend',
 			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
-			array(), '', false
+			array(), '', FALSE
 		);
 		$cachePages->expects($this->once())->method('getIdentifier')
 			->will($this->returnValue('cache_pages')

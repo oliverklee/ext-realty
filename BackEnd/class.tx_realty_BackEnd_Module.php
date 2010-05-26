@@ -155,12 +155,12 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * Checks if the current BE user has access to the necessary data to import
 	 * realty records.
 	 *
-	 * @return boolean true if the BE user is an admin or if they have the
-	 *                 rights to access the necessary data, false otherwise
+	 * @return boolean TRUE if the BE user is an admin or if they have the
+	 *                 rights to access the necessary data, FALSE otherwise
 	 */
 	private function hasAccess() {
 		if ($GLOBALS['BE_USER']->isAdmin()) {
-			return true;
+			return TRUE;
 		}
 
 		return $this->userHasAccessToPages() && $this->userHasAccessToTables();
@@ -170,7 +170,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * Checks if the user has write permissions on the pages configured in
 	 * "pidForRealtyObjectsAndImages" and "pidForAuxiliaryRecords".
 	 *
-	 * @return boolean true if the user has write access to both pages, false
+	 * @return boolean TRUE if the user has write access to both pages, FALSE
 	 *                 otherwise
 	 */
 	private function userHasAccessToPages() {
@@ -204,11 +204,11 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * Checks if the user has write access to the database tables needed to
 	 * create realty objects and auxiliary records.
 	 *
-	 * @return boolean true if the user has the needed DB table access
-	 *                 permissions, false otherwise
+	 * @return boolean TRUE if the user has the needed DB table access
+	 *                 permissions, FALSE otherwise
 	 */
 	private function userHasAccessToTables() {
-		$userHasAccessToTables = true;
+		$userHasAccessToTables = TRUE;
 		$neededTables = array(
 			REALTY_TABLE_OBJECTS,
 			REALTY_TABLE_APARTMENT_TYPES,
@@ -222,7 +222,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 
 		foreach ($neededTables as $table) {
 			if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
-				$userHasAccessToTables = false;
+				$userHasAccessToTables = FALSE;
 				$this->storeErrorMessage('table_access', $table);
 				break;
 			}

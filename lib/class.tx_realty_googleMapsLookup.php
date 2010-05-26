@@ -166,7 +166,7 @@ class tx_realty_googleMapsLookup {
 			}
 			$this->throttle();
 			$rawResult = $this->sendRequest($addressParts);
-			if ($rawResult === false) {
+			if ($rawResult === FALSE) {
 				throw new Exception(
 					'There was an error connecting to the Google Maps server.'
 				);
@@ -174,7 +174,7 @@ class tx_realty_googleMapsLookup {
 
 			$delay += 100000;
 
-			$resultParts = t3lib_div::trimExplode(',', $rawResult, true);
+			$resultParts = t3lib_div::trimExplode(',', $rawResult, TRUE);
 			$status = $resultParts[0];
 		// 620 = too many requests too fast
 		} while ($status == '620');

@@ -182,7 +182,7 @@ class tx_realty_AccessCheck_testcase extends tx_phpunit_testcase {
 			$this->dummyObjectUid,
 			array(
 				'owner' => $this->testingFramework->createAndLoginFrontEndUser(),
-				'hidden' => true,
+				'hidden' => TRUE,
 			)
 		);
 

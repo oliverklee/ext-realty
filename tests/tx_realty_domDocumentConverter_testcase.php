@@ -673,8 +673,8 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(
 				array(
-					'street' => true,
-					'zip' => false
+					'street' => TRUE,
+					'zip' => FALSE
 				)
 			),
 			$this->fixture->getConvertedData($node)
@@ -698,8 +698,8 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(
 				array(
-					'street' => true,
-					'zip' => false
+					'street' => TRUE,
+					'zip' => FALSE
 				)
 			),
 			$this->fixture->getConvertedData($node)
@@ -723,8 +723,8 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(
 				array(
-					'street' => true,
-					'zip' => false
+					'street' => TRUE,
+					'zip' => FALSE
 				)
 			),
 			$this->fixture->getConvertedData($node)
@@ -1200,8 +1200,8 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(
 				array(
-					'elevator' => false,
-					'fitted_kitchen' => true
+					'elevator' => FALSE,
+					'fitted_kitchen' => TRUE
 				)
 			),
 			$this->fixture->getConvertedData($node)
@@ -1344,7 +1344,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 				array(
 					'exact_longitude' => 'foo',
 					'exact_latitude' => 'bar',
-					'exact_coordinates_are_cached' => true,
+					'exact_coordinates_are_cached' => TRUE,
 				)
 			),
 			$this->fixture->getConvertedData($node)

@@ -68,7 +68,7 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView {
 			$this->cObj->typoLink_URL(array(
 				'parameter' => $GLOBALS['TSFE']->id,
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
-					$this->prefixId, $piVars, '', true, true
+					$this->prefixId, $piVars, '', TRUE, TRUE
 				),
 			))
 		);

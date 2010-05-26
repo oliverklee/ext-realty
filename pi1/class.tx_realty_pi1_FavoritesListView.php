@@ -181,9 +181,9 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 
 		foreach ($itemsToRemove as $currentItem) {
 			$key = array_search($currentItem, $favorites);
-			// $key will be false if the item has not been found.
+			// $key will be FALSE if the item has not been found.
 			// Zero, on the other hand, is a valid key.
-			if ($key !== false) {
+			if ($key !== FALSE) {
 				unset($favorites[$key]);
 			}
 		}
@@ -327,7 +327,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 		$uid = $this->internal['currentRow']['uid'];
 		$this->favoritesDataVerbose[$uid] = array();
 		foreach (t3lib_div::trimExplode(
-			',', $this->getConfValueString('favoriteFieldsInSession'), true
+			',', $this->getConfValueString('favoriteFieldsInSession'), TRUE
 		) as $key) {
 			$this->favoritesDataVerbose[$uid][$key]
 				= $this->getFormatter()->getProperty($key);
@@ -337,7 +337,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * Checks whether to use caching for the link to the single view page.
 	 *
-	 * @return boolean true if caching should be used, false otherwise
+	 * @return boolean TRUE if caching should be used, FALSE otherwise
 	 */
 	protected function useCacheForSinglePageLink() {
 		return FALSE;

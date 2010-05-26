@@ -52,7 +52,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		$visibilityTree = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('nextPreviousButtons' => array(
-				'previousButton' => false, 'nextButton' => false
+				'previousButton' => FALSE, 'nextButton' => FALSE
 			))
 		);
 

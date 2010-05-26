@@ -45,7 +45,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var boolean whether the constructor is called in test mode
 	 */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/**
 	 * @var integer the Google Maps zoom factor for a single marker
@@ -60,7 +60,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 * @param boolean whether the class is instantiated in test mode
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $isTestMode = false
+		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
 	) {
 		$this->isTestMode = $isTestMode;
 		$this->cObj = $cObj;
@@ -110,7 +110,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 * @param boolean whether the detail page should be linked in the
 	 *                object title
 	 */
-	public function setMapMarker($realtyObjectUid, $createLink = false) {
+	public function setMapMarker($realtyObjectUid, $createLink = FALSE) {
 		$this->createMarkerFromCoordinates($realtyObjectUid, $createLink);
 	}
 
@@ -173,7 +173,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 *                object title
 	 */
 	private function createMarkerFromCoordinates(
-		$realtyObjectUid, $createLink = false
+		$realtyObjectUid, $createLink = FALSE
 	) {
 		$coordinates = $this->retrieveGeoCoordinates($realtyObjectUid);
 		if (empty($coordinates)) {

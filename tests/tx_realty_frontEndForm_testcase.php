@@ -69,7 +69,7 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->cObj,
 			0,
 			'',
-			true
+			TRUE
 		);
 	}
 

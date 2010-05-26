@@ -56,7 +56,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var boolean whether the constructor is called in test mode
 	 */
-	protected $isTestMode = false;
+	protected $isTestMode = FALSE;
 
 	/**
 	 * @var array this is used to fake form values for testing
@@ -81,7 +81,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,
-		$isTestMode = false
+		$isTestMode = FALSE
 	) {
 		$this->isTestMode = $isTestMode;
 		$this->realtyObjectUid = $uidOfObjectToEdit;
@@ -90,7 +90,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObject = tx_oelib_ObjectFactory::make(
 			'tx_realty_Model_RealtyObject', $this->isTestMode
 		);
-		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
+		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, TRUE);
 
 		parent::__construct($configuration, $cObj);
 	}
@@ -126,7 +126,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 			$this->formCreator->init(
 				$this,
 				t3lib_extMgm::extPath('realty') . $this->xmlPath,
-				($this->realtyObjectUid > 0) ? $this->realtyObjectUid : false
+				($this->realtyObjectUid > 0) ? $this->realtyObjectUid : FALSE
 			);
 		}
 	}
@@ -215,14 +215,14 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 
 	/**
 	 * Checks whether the realty object exists in the database and is enabled.
-	 * For new objects, the result will always be true.
+	 * For new objects, the result will always be TRUE.
 	 *
-	 * @return boolean true if the realty object is available for editing,
-	 *                 false otherwise
+	 * @return boolean TRUE if the realty object is available for editing,
+	 *                 FALSE otherwise
 	 */
 	private function realtyObjectExistsInDatabase() {
 		if ($this->realtyObjectUid == 0) {
-			return true;
+			return TRUE;
 		}
 
 		return !$this->realtyObject->isRealtyObjectDataEmpty();
@@ -250,7 +250,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 			$this->realtyObject = tx_oelib_ObjectFactory::make(
 				'tx_realty_Model_RealtyObject', $this->isTestMode
 			);
-			$this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
+			$this->realtyObject->loadRealtyObject($this->realtyObjectUid, TRUE);
 		}
 	}
 

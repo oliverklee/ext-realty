@@ -102,7 +102,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			'tx_oelib_templatehelper', array('hasConfValueString', 'getConfValueString')
 		);
 
-		$this->fixture = new tx_realty_Model_RealtyObjectChild(true);
+		$this->fixture = new tx_realty_Model_RealtyObjectChild(TRUE);
 
 		$this->fixture->setRequiredFields(array());
 		tx_oelib_configurationProxy::getInstance('realty')->
@@ -225,7 +225,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadDatabaseEntryOfAnNonHiddenObjectIfOnlyVisibleAreAllowed() {
-		$this->fixture->loadRealtyObject($this->objectUid, false);
+		$this->fixture->loadRealtyObject($this->objectUid, FALSE);
 		$this->assertEquals(
 			tx_oelib_db::selectSingle(
 				'*', REALTY_TABLE_OBJECTS, 'uid = ' . $this->objectUid
@@ -235,7 +235,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadDatabaseEntryDoesNotLoadAHiddenObjectIfOnlyVisibleAreAllowed() {
-		$this->fixture->loadRealtyObject($this->objectUid, false);
+		$this->fixture->loadRealtyObject($this->objectUid, FALSE);
 		$uid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('hidden' => 1)
 		);
@@ -246,7 +246,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadDatabaseEntryLoadsAHiddenObjectIfHiddenAreAllowed() {
-		$this->fixture->loadRealtyObject($this->objectUid, true);
+		$this->fixture->loadRealtyObject($this->objectUid, TRUE);
 		$uid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('hidden' => 1)
 		);
@@ -286,7 +286,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->objectUid, array('hidden' => 1)
 		);
-		$this->fixture->loadRealtyObject($this->objectUid, false);
+		$this->fixture->loadRealtyObject($this->objectUid, FALSE);
 
 		$this->assertTrue(
 			$this->fixture->isRealtyObjectDataEmpty()
@@ -297,7 +297,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->objectUid, array('hidden' => 1)
 		);
-		$this->fixture->loadRealtyObject($this->objectUid, true);
+		$this->fixture->loadRealtyObject($this->objectUid, TRUE);
 
 		$this->assertFalse(
 			$this->fixture->isRealtyObjectDataEmpty()
@@ -378,7 +378,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testFetchDatabaseResultIfDbResultIsFalse() {
 		$this->setExpectedException('Exception', DATABASE_QUERY_ERROR);
-		$this->fixture->fetchDatabaseResult(false);
+		$this->fixture->fetchDatabaseResult(FALSE);
 	}
 
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
@@ -955,10 +955,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testSetPropertyWhenValueOfBoolean() {
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->setProperty('pets', true);
+		$this->fixture->setProperty('pets', TRUE);
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getProperty('pets')
 		);
 	}
@@ -1389,7 +1389,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->loadRealtyObject(
-			array('object_number' => self::$otherObjectNumber), true
+			array('object_number' => self::$otherObjectNumber), TRUE
 		);
 		$this->fixture->writeToDatabase();
 
@@ -1420,7 +1420,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseDeletesAnExistingHiddenRealtyRecordIfTheDeletedFlagIsSet() {
-		$this->fixture->loadRealtyObject($this->objectUid, true);
+		$this->fixture->loadRealtyObject($this->objectUid, TRUE);
 		$this->fixture->setProperty('hidden', 1);
 		$this->fixture->writeToDatabase();
 
@@ -1442,10 +1442,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->setToDeleted();
 		$this->fixture->writeToDatabase();
 
-		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(TRUE);
 		$realtyObject->setRequiredFields(array());
 		$realtyObject->loadRealtyObject(
-			array('object_number' => self::$objectNumber, 'deleted' => 0), true
+			array('object_number' => self::$objectNumber, 'deleted' => 0), TRUE
 		);
 		$realtyObject->writeToDatabase();
 
@@ -1465,10 +1465,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->setToDeleted();
 		$this->fixture->writeToDatabase();
 
-		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(TRUE);
 		$realtyObject->setRequiredFields(array());
 		$realtyObject->loadRealtyObject(
-			array('object_number' => self::$objectNumber), true
+			array('object_number' => self::$objectNumber), TRUE
 		);
 		$realtyObject->writeToDatabase();
 		$realtyObject->__destruct();
@@ -1771,7 +1771,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid');
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			$feUserUid,
@@ -1784,7 +1784,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		$this->fixture->loadRealtyObject(array('openimmo_anid' => 'test anid'));
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			$feUserUid,
@@ -1798,7 +1798,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid');
-		$this->fixture->writeToDatabase(0, false);
+		$this->fixture->writeToDatabase(0, FALSE);
 
 		$this->assertEquals(
 			0,
@@ -1811,7 +1811,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			0,
@@ -1826,9 +1826,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid 1');
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 		$this->fixture->setProperty('openimmo_anid', 'test anid 2');
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			$feUserUid,
@@ -1850,9 +1850,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid 1');
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 		$this->fixture->setProperty('openimmo_anid', 'test anid 2');
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			$uidOfFeUserOne,
@@ -1870,11 +1870,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setAsBoolean(
-				'useFrontEndUserDataAsContactDataForImportedRecords', true
+				'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 			);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid');
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			1,
@@ -1888,11 +1888,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setAsBoolean(
-				'useFrontEndUserDataAsContactDataForImportedRecords', false
+				'useFrontEndUserDataAsContactDataForImportedRecords', FALSE
 			);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('openimmo_anid', 'test anid');
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			0,
@@ -1906,10 +1906,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setAsBoolean(
-				'useFrontEndUserDataAsContactDataForImportedRecords', true
+				'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 			);
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->writeToDatabase(0, true);
+		$this->fixture->writeToDatabase(0, TRUE);
 
 		$this->assertEquals(
 			0,
@@ -2443,7 +2443,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		tx_realty_googleMapsLookup::getInstance($this->templateHelper)
 			->setCoordinates(self::LATITUDE + 1, self::LONGITUDE + 1);
 
-		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(TRUE);
 		$realtyObject->setRequiredFields(array());
 		$realtyObject->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
@@ -2479,7 +2479,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		));
 		$exactResult = $this->fixture->retrieveCoordinates($this->templateHelper);
 
-		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(TRUE);
 		$realtyObject->setRequiredFields(array());
 		$realtyObject->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
@@ -2529,7 +2529,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	////////////////////////////
 
 	public function testGetUidReturnsZeroForObjectWithoutUid() {
-		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(TRUE);
 
 		$this->assertEquals(
 			0,
@@ -2554,7 +2554,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	//////////////////////////////
 
 	public function testGetTitleReturnsEmptyStringForObjectWithoutTitle() {
-		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(TRUE);
 		$realtyObject->loadRealtyObject(0);
 
 		$this->assertEquals(
@@ -2582,7 +2582,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////
 
 	public function testGetCroppedTitleReturnsEmptyStringForObjectWithoutTitle() {
-		$realtyObject = new tx_realty_Model_RealtyObjectChild(true);
+		$realtyObject = new tx_realty_Model_RealtyObjectChild(TRUE);
 		$realtyObject->loadRealtyObject(0);
 
 		$this->assertEquals(

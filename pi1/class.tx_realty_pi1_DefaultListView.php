@@ -110,13 +110,13 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * Checks whether the checkboxes filter may be created.
 	 *
-	 * @return boolean true if there is a sort criterion configured and if the
+	 * @return boolean TRUE if there is a sort criterion configured and if the
 	 *                 criterion is not "city" while the city selector is
-	 *                 active, false otherwise
+	 *                 active, FALSE otherwise
 	 */
 	private function mayCheckboxesFilterBeCreated() {
 		if (!$this->hasConfValueString('checkboxesFilter')) {
-			return false;
+			return FALSE;
 		}
 
 		return (($this->getConfValueString('checkboxesFilter') != 'city')

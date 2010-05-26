@@ -44,7 +44,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	/**
 	 * @var boolean whether the number of objects has already been calculated
 	 */
-	private $numberOfObjectsHasBeenCalculated = false;
+	private $numberOfObjectsHasBeenCalculated = FALSE;
 
 	/**
 	 * Returns the maximum number of objects the user is allowed to enter.
@@ -75,7 +75,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 			);
 
 			$this->numberOfObjects = $dbData['number'];
-			$this->numberOfObjectsHasBeenCalculated = true;
+			$this->numberOfObjectsHasBeenCalculated = TRUE;
 		}
 
 		return $this->numberOfObjects;
@@ -99,7 +99,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	/**
 	 * Checks whether the user is allowed to enter any objects.
 	 *
-	 * @return boolean true if the user is allowed to enter objects, false
+	 * @return boolean TRUE if the user is allowed to enter objects, FALSE
 	 *                 otherwise
 	 */
 	public function canAddNewObjects() {
@@ -112,7 +112,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	 * objects.
 	 */
 	public function resetObjectsHaveBeenCalculated() {
-		$this->numberOfObjectsHasBeenCalculated = false;
+		$this->numberOfObjectsHasBeenCalculated = FALSE;
 	}
 }
 

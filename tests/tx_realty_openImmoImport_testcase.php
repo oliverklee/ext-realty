@@ -68,7 +68,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/**
 	 * @var boolean whether an import folder has been created
 	 */
-	private $testImportFolderExists = false;
+	private $testImportFolderExists = FALSE;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
@@ -81,7 +81,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
 
-		$this->fixture = new tx_realty_openImmoImportChild(true);
+		$this->fixture = new tx_realty_openImmoImportChild(TRUE);
 		$this->setupStaticConditions();
 	}
 
@@ -118,7 +118,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			'emailAddress', 'default-address@valid-email.org'
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyErrors', false
+			'onlyErrors', FALSE
 		);
 		$this->globalConfiguration->setAsString(
 			'openImmoSchema', $this->importFolder . 'schema.xsd'
@@ -127,10 +127,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			'importFolder', $this->importFolder
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'deleteZipsAfterImport', true
+			'deleteZipsAfterImport', TRUE
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'notifyContactPersons', true
+			'notifyContactPersons', TRUE
 		);
 		$this->globalConfiguration->setAsInteger(
 			'pidForRealtyObjectsAndImages', $this->systemFolderPid
@@ -139,10 +139,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			'pidsForRealtyObjectsAndImagesByFileName', ''
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', false
+			'useFrontEndUserDataAsContactDataForImportedRecords', FALSE
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', false
+			'onlyImportForRegisteredFrontEndUsers', FALSE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', ''
@@ -171,7 +171,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		if (!is_dir($this->importFolder)) {
 			t3lib_div::mkdir($this->importFolder);
 		}
-		$this->testImportFolderExists = true;
+		$this->testImportFolderExists = TRUE;
 
 		if ($fileName != '') {
 			copy(
@@ -189,8 +189,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 */
 	private function deleteTestImportFolder() {
 		if ($this->testImportFolderExists) {
-			tx_realty_openImmoImport::rmdir($this->importFolder, true);
-			$this->testImportFolderExists = false;
+			tx_realty_openImmoImport::rmdir($this->importFolder, TRUE);
+			$this->testImportFolderExists = FALSE;
 		}
 	}
 
@@ -471,7 +471,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
-		// 'deleteZipsAfterImport' is set to true during setUp()
+		// 'deleteZipsAfterImport' is set to TRUE during setUp()
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
@@ -527,9 +527,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
-		// 'deleteZipsAfterImport' is set to true during setUp()
+		// 'deleteZipsAfterImport' is set to TRUE during setUp()
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
@@ -546,9 +546,9 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFrontendUser(
 			'', array('tx_realty_openimmo_anid' => 'foo')
 		);
-		// 'deleteZipsAfterImport' is set to true during setUp()
+		// 'deleteZipsAfterImport' is set to TRUE during setUp()
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
@@ -575,10 +575,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
@@ -608,10 +608,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			array('owner' => $feUserUid)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 		$this->fixture->importFromZip();
@@ -875,7 +875,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			array(
 				'object_number' => $objectNumber,
 				'openimmo_obid' => $objectId,
-				'hidden' => true,
+				'hidden' => TRUE,
 			)
 		);
 		$dummyDocument = DOMDocument::loadXML(
@@ -1114,7 +1114,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			'',	array('tx_realty_openimmo_anid' => 'foo')
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
@@ -1132,7 +1132,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->checkForZipArchive();
 
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
@@ -1155,7 +1155,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid
@@ -1180,7 +1180,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid + 1
@@ -1221,7 +1221,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid
@@ -1280,7 +1280,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid
@@ -1351,7 +1351,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid
@@ -1410,7 +1410,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid
@@ -1487,13 +1487,13 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 
@@ -1561,7 +1561,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 		$this->globalConfiguration->setAsBoolean(
 			'notifyContactPersons',
-			false
+			FALSE
 		);
 		$emailData = array(
 			array(
@@ -1784,7 +1784,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$cachePages = $this->getMock(
 			't3lib_cache_frontend_AbstractFrontend',
 			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
-			array(), '', false
+			array(), '', FALSE
 		);
 		$cachePages->expects($this->once())->method('getIdentifier')
 			->will($this->returnValue('cache_pages')
@@ -2215,7 +2215,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
@@ -2238,7 +2238,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
@@ -2261,7 +2261,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
@@ -2284,7 +2284,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('valid-email.zip');
@@ -2307,7 +2307,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
@@ -2330,7 +2330,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -2391,7 +2391,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
@@ -2415,14 +2415,14 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', true
+			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 
 		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', true
+			'onlyImportForRegisteredFrontEndUsers', TRUE
 		);
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 		$this->fixture->importFromZip();

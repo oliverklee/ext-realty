@@ -78,7 +78,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,
-		$isTestMode = false
+		$isTestMode = FALSE
 	) {
 		parent::__construct(
 			$configuration, $cObj, $uidOfObjectToEdit, $xmlPath, $isTestMode
@@ -138,7 +138,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
 	 * Checks whether the object number is readonly.
 	 *
-	 * @return boolean true if the object number is readonly, false otherwise
+	 * @return boolean TRUE if the object number is readonly, FALSE otherwise
 	 */
 	public function isObjectNumberReadonly() {
 		return ($this->realtyObjectUid > 0);
@@ -228,7 +228,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * element 'title_column' where the database column name of the field that
 	 * will be used as the title can be defined, if not set, the key 'title'
 	 * is assumed to be the title. There may also be an element
-	 * 'has_dummy_column' which needs to be false if the table has no column
+	 * 'has_dummy_column' which needs to be FALSE if the table has no column
 	 * 'is_dummy_record'.
 	 *
 	 * @return array items for the select box, will be empty if there are no
@@ -285,10 +285,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains
 	 *              the number to check, this number may also be empty
 	 *
-	 * @return boolean true if the number is an integer or empty
+	 * @return boolean TRUE if the number is an integer or empty
 	 */
 	public function isValidIntegerNumber(array $formData) {
-		return $this->isValidNumber($formData['value'], false);
+		return $this->isValidNumber($formData['value'], FALSE);
 	}
 
 	/**
@@ -297,17 +297,17 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains
 	 *              the number to check, this number may also be empty
 	 *
-	 * @return boolean true if the number is valid or empty
+	 * @return boolean TRUE if the number is valid or empty
 	 */
 	public function isValidNumberWithDecimals(array $formData) {
-		return $this->isValidNumber($formData['value'], true);
+		return $this->isValidNumber($formData['value'], TRUE);
 	}
 
 	/**
 	 * Checks whether a form data value is within a range of allowed integers.
 	 * The provided form data array must contain the keys 'value', 'range' and
 	 * 'multiple'. 'range' must be two integers separated by '-'. If 'multiple',
-	 * which is supposed to be boolean, is set to true, multiple values are
+	 * which is supposed to be boolean, is set to TRUE, multiple values are
 	 * allowed in 'value'. In this case, 'value' is expected to contain an inner
 	 * array.
 	 *
@@ -316,31 +316,31 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *               and can be empty, 'range' must be two integers
 	 *               separated by '-' and 'multiple' must be boolean
 	 *
-	 * @return boolean true if the values to check are empty or in range,
-	 *                 false otherwise
+	 * @return boolean TRUE if the values to check are empty or in range,
+	 *                 FALSE otherwise
 	 */
 	public function isIntegerInRange(array $formData) {
 		if ($formData['value'] === '') {
-			return true;
+			return TRUE;
 		}
 
-		$result = true;
+		$result = TRUE;
 
-		$range = t3lib_div::trimExplode('-', $formData['range'], true);
+		$range = t3lib_div::trimExplode('-', $formData['range'], TRUE);
 		$valuesToCheck = $formData['multiple']
 			? $formData['value']
 			: array($formData['value']);
 
 		foreach ($valuesToCheck as $value) {
 			if (!$this->isValidIntegerNumber(array('value' => $value))) {
-				$result = false;
+				$result = FALSE;
 			}
 		}
 
 		if ((min($valuesToCheck) < min($range))
 			|| (max($valuesToCheck) > max($range))
 		) {
-			$result = false;
+			$result = FALSE;
 		}
 
 		return $result;
@@ -352,10 +352,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains the year
 	 *              to check, this must be this year or earlier or empty
 	 *
-	 * @return boolean true if the year is valid or empty
+	 * @return boolean TRUE if the year is valid or empty
 	 */
 	public function isValidYear(array $formData) {
-		return $this->isValidNumber($formData['value'], false);
+		return $this->isValidNumber($formData['value'], FALSE);
 	}
 
 	/**
@@ -364,7 +364,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains the price
 	 *              to check for non-emptiness if an object is for sale
 	 *
-	 * @return boolean true if the price is valid and non-empty, also true if
+	 * @return boolean TRUE if the price is valid and non-empty, also TRUE if
 	 *                 the price is valid or empty if the object is for rent
 	 */
 	public function isNonEmptyValidPriceForObjectForSale(array $formData) {
@@ -383,11 +383,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains
 	 *              the price to check
 	 *
-	 * @return boolean if the object is for rent, true is returned if at
+	 * @return boolean if the object is for rent, TRUE is returned if at
 	 *                 least one of the prices is non-empty and both are
-	 *                 valid or empty, if the object is for sale, true is
+	 *                 valid or empty, if the object is for sale, TRUE is
 	 *                 returned if both prices are valid or empty,
-	 *                 otherwise the result is false
+	 *                 otherwise the result is FALSE
 	 */
 	public function isNonEmptyValidPriceForObjectForRent(array $formData) {
 		$yearRent = $this->getFormValue('year_rent');
@@ -407,24 +407,24 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * Checks whether the object number is non-empty and whether the combination
 	 * of object number and language is unique in the database.
 	 *
-	 * Always returns true if an existing object is edited.
+	 * Always returns TRUE if an existing object is edited.
 	 *
 	 * @param array array with one element named "value" that contains
 	 *              the entered object number, this number may be empty
 	 *
-	 * @return boolean true if the object number is non empty and unique
-	 *                 for the entered language, also true if the object
+	 * @return boolean TRUE if the object number is non empty and unique
+	 *                 for the entered language, also TRUE if the object
 	 *                 already exists in the database
 	 */
 	public function isObjectNumberUniqueForLanguage(array $formData) {
 		// FE users cannot change the object number of existing objects anyway.
 		if ($this->realtyObjectUid > 0) {
-			return true;
+			return TRUE;
 		}
 
 		// Empty object numbers are not allowed.
 		if ($formData['value'] == '') {
-			return false;
+			return FALSE;
 		}
 
 		$languages = array();
@@ -460,21 +460,21 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *              value to check to be an identifying value of a
 	 *              record and 'table' which contains the name of the
 	 *              corresponding database table and must not be empty
-	 * @param boolean true if the value to check may be empty or zero instead of
-	 *                pointing to an existing record, false otherwise
+	 * @param boolean TRUE if the value to check may be empty or zero instead of
+	 *                pointing to an existing record, FALSE otherwise
 	 *
-	 * @return boolean true if the form data value is actually the UID of
-	 *                 a record in a valid table, false otherwise
+	 * @return boolean TRUE if the form data value is actually the UID of
+	 *                 a record in a valid table, FALSE otherwise
 	 */
 	public function checkKeyExistsInTable(
-		array $formData, $mayBeEmptyOrZero = true
+		array $formData, $mayBeEmptyOrZero = TRUE
 	) {
 		$this->checkForValidTableName($formData['table']);
 
 		if ($mayBeEmptyOrZero
 			&& (($formData['value'] === '0') || ($formData['value'] === ''))
 		) {
-			return true;
+			return TRUE;
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -503,11 +503,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *              the number which is checked to be the UID of an
 	 *              existing record, this number must be an integer >= 0
 	 *
-	 * @return boolean true if the provided UID is valid or if there is a
-	 *                 value in 'new_city', false otherwise
+	 * @return boolean TRUE if the provided UID is valid or if there is a
+	 *                 value in 'new_city', FALSE otherwise
 	 */
 	public function isAllowedValueForCity(array $formData) {
-		$mayBeEmpty = ($this->getFormValue('new_city') == '') ? false : true;
+		$mayBeEmpty = ($this->getFormValue('new_city') == '') ? FALSE : TRUE;
 
 		return $this->checkKeyExistsInTable(array(
 				'value' => $formData['value'], 'table' => REALTY_TABLE_CITIES
@@ -518,16 +518,16 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether no existing record is selected if a new record title is
-	 * provided. Returns always true if no new record title is provided.
+	 * provided. Returns always TRUE if no new record title is provided.
 	 *
 	 * @param array form data with one element named 'value' that contains the
 	 *              title for the new record or may be empty and one element
 	 *              'fieldName' where the key used in tx_realty_objets for this
 	 *               record is defined and must not be empty
 	 *
-	 * @return boolean true if the value for 'fieldName' is empty when
-	 *                 there is a value for 'value' provided, also true if
-	 *                 'value' is empty, false otherwise
+	 * @return boolean TRUE if the value for 'fieldName' is empty when
+	 *                 there is a value for 'value' provided, also TRUE if
+	 *                 'value' is empty, FALSE otherwise
 	 */
 	public function isAtMostOneValueForAuxiliaryRecordProvided(array $formData) {
 		return (($formData['value'] == '')
@@ -542,7 +542,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains the value
 	 *              which contains the string for the new city record
 	 *
-	 * @return boolean true if no existing city record is selected or if
+	 * @return boolean TRUE if no existing city record is selected or if
 	 *                 the string for the new city record is empty
 	 */
 	public function isAtMostOneValueForCityRecordProvided(array $valueToCheck) {
@@ -558,14 +558,14 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains
 	 *              the value which contains the string to check
 	 *
-	 * @return boolean true if the provided value is non-empty or if the contact
-	 *                 data source is the owner's account, false otherwise
+	 * @return boolean TRUE if the provided value is non-empty or if the contact
+	 *                 data source is the owner's account, FALSE otherwise
 	 */
 	public function isNonEmptyOrOwnerDataUsed(array $formData) {
 		if ($this->getFormValue('contact_data_source')
 			== REALTY_CONTACT_FROM_OWNER_ACCOUNT
 		) {
-			return true;
+			return TRUE;
 		}
 
 		return ($formData['value'] != '');
@@ -580,7 +580,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains
 	 *              the value which contains the string to check
 	 *
-	 * @return boolean true if $formData['value'] is valid, false otherwise
+	 * @return boolean TRUE if $formData['value'] is valid, FALSE otherwise
 	 */
 	public function isValidLongitudeDegree(array $formData) {
 		return $this->checkGeoCoordinate(
@@ -596,7 +596,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array array with one element named "value" that contains
 	 *              the value which contains the string to check
 	 *
-	 * @return boolean true if $formData['value'] is valid, false otherwise
+	 * @return boolean TRUE if $formData['value'] is valid, FALSE otherwise
 	 */
 	public function isValidLatitudeDegree(array $formData) {
 		return $this->checkGeoCoordinate($formData['value'], -90.00, 90.00);
@@ -611,11 +611,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param float mininum allowed value
 	 * @param float maximum allowed value
 	 *
-	 * @return boolean true if $valueToCheck is valid or empty, false otherwise
+	 * @return boolean TRUE if $valueToCheck is valid or empty, FALSE otherwise
 	 */
 	private function checkGeoCoordinate($valueToCheck, $minimum, $maximum) {
 		if ($valueToCheck == '') {
-			return true;
+			return TRUE;
 		}
 
 		$unifiedValueToCheck = $this->unifyNumber($valueToCheck);
@@ -636,11 +636,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param string value to check to be a valid number, may be empty
 	 * @param boolean whether the number may have decimals
 	 *
-	 * @return boolean true if $valueToCheck is valid or empty, false otherwise
+	 * @return boolean TRUE if $valueToCheck is valid or empty, FALSE otherwise
 	 */
 	private function isValidNumber($valueToCheck, $mayHaveDecimals) {
 		if ($valueToCheck == '') {
-			return true;
+			return TRUE;
 		}
 
 		$unifiedValueToCheck = $this->unifyNumber($valueToCheck);
@@ -662,16 +662,16 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param integer one if the price was entered as a buying price,
 	 *                zero if it derived from a field for rent
 	 *
-	 * @return boolean true if the object type and $typeOfField match and
-	 *                 $price is non-empty and valid, also true if object
+	 * @return boolean TRUE if the object type and $typeOfField match and
+	 *                 $price is non-empty and valid, also TRUE if object
 	 *                 type and $typeOfField do not match and $price is
 	 *                 valid or empty
 	 */
 	private function isValidPriceForObjectType($price, $typeOfField) {
 		if ($this->getObjectType() == $typeOfField) {
-			$result = ($this->isValidNumber($price, true) && ($price != ''));
+			$result = ($this->isValidNumber($price, TRUE) && ($price != ''));
 		} else {
-			$result = $this->isValidNumber($price, true);
+			$result = $this->isValidNumber($price, TRUE);
 		}
 
 		return $result;
@@ -765,7 +765,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function getMessageForRealtyObjectField(array $formData) {
 		// This  will lead to an exception for an invalid non-empty field name.
 		$labelOfField = $this->checkForValidFieldName(
-				$formData['fieldName'], REALTY_TABLE_OBJECTS, true
+				$formData['fieldName'], REALTY_TABLE_OBJECTS, TRUE
 			) ? 'LLL:EXT:realty/locallang_db.xml:' . REALTY_TABLE_OBJECTS . '.' .
 				$formData['fieldName']
 			: '';
@@ -801,7 +801,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @param string locallang key to check, must not be empty
 	 *
-	 * @return boolean true if the provided locallang key only consists of
+	 * @return boolean TRUE if the provided locallang key only consists of
 	 *                 allowed characters, otherwise an exception is thrown
 	 */
 	private function checkForValidLocallangKey($label) {
@@ -809,7 +809,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			throw new Exception('"' . $label . '" is not a valid locallang key.');
 		}
 
-		return true;
+		return TRUE;
 	}
 
 
@@ -970,7 +970,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
-		return ($result !== false) ? $result['uid'] : 0;
+		return ($result !== FALSE) ? $result['uid'] : 0;
 	}
 
 	/**
@@ -1214,25 +1214,25 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Checks whether a provided field name is actually the name of a database
-	 * column of $tableName. The result will be true if the field name is valid,
+	 * column of $tableName. The result will be TRUE if the field name is valid,
 	 * otherwise, an exception will be thrown. Only if $noExceptionIfEmpty is
-	 * set to true, the result will just be false for an empty field name.
+	 * set to TRUE, the result will just be FALSE for an empty field name.
 	 *
 	 * @param string field name to check, may be empty
 	 * @param string table name, must be a valid database table name,
 	 *               will be tx_realty_objects if no other table is set
-	 * @param boolean true if the the field name to check may be empty,
-	 *                false otherwise
+	 * @param boolean TRUE if the the field name to check may be empty,
+	 *                FALSE otherwise
 	 *
-	 * @return boolean true if $fieldName is a database colum name of the
-	 *                 realty objects table and non-empty, false otherwise
+	 * @return boolean TRUE if $fieldName is a database colum name of the
+	 *                 realty objects table and non-empty, FALSE otherwise
 	 */
 	private function checkForValidFieldName(
 		$fieldName, $tableName = REALTY_TABLE_OBJECTS,
-		$noExceptionIfEmpty = false
+		$noExceptionIfEmpty = FALSE
 	) {
 		if ((trim($fieldName) == '') && $noExceptionIfEmpty) {
-			return false;
+			return FALSE;
 		}
 
 		if (!tx_oelib_db::tableHasColumn($tableName, $fieldName)) {
@@ -1242,7 +1242,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			);
 		}
 
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -1251,7 +1251,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @param string table name to check, must not be empty
 	 *
-	 * @return boolean true if the table name is allowed, an exception is
+	 * @return boolean TRUE if the table name is allowed, an exception is
 	 *                 thrown otherwise
 	 */
 	private function checkForValidTableName($tableName) {
@@ -1261,7 +1261,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			);
 		}
 
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -1292,7 +1292,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if ($result === false) {
+		if ($result === FALSE) {
 			throw new Exception(
 				'The FE user data could not be fetched. Please ensure ' .
 				'a FE user to be logged in.'
