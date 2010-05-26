@@ -691,7 +691,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester-invalid-email',
 					'request' => 'the request',
-
 				)
 			)
 		);
@@ -727,7 +726,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'requesterName' => 'any name',
 					'requesterEmail' => 'requester@valid-email.org' . LF . 'anything',
 					'request' => 'the request',
-
 				)
 			)
 		);
@@ -746,7 +744,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'requesterName' => 'any name' . LF . 'anything',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
-
 				)
 			)
 		);
@@ -765,7 +762,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'requesterName' => 'any name < anything',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
-
 				)
 			)
 		);
@@ -784,7 +780,6 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'requesterName' => 'any name " anything',
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'the request',
-
 				)
 			)
 		);
@@ -1093,6 +1088,61 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 					'requesterEmail' => 'requester@valid-email.org',
 					'request' => 'foo bar',
 					'requesterStreet' => 'main street',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormForVisibleAndNotSubmittedTermsFieldDisplaysErrorMessage() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
+		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
+
+		$this->assertContains(
+			$this->fixture->translate('message_required_field_terms'),
+			$this->fixture->render(
+				array(
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormForVisibleAndFilledTermsFieldNotDisplaysErrorMessage() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
+		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
+
+		$this->assertNotContains(
+			$this->fixture->translate('message_required_field_terms'),
+			$this->fixture->render(
+				array(
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
+					'terms' => '1',
+				)
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function contactFormForNotVisibleAndNotSubmittedTermsFieldNotDisplaysErrorMessage() {
+		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
+		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
+
+		$this->assertNotContains(
+			$this->fixture->translate('message_required_field_terms'),
+			$this->fixture->render(
+				array(
+					'isSubmitted' => TRUE,
+					'requesterEmail' => 'requester@valid-email.org',
 				)
 			)
 		);
@@ -1681,14 +1731,13 @@ class tx_realty_contactForm_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function emailWithMinimumContentContainsNoUnreplacedMarkers() {
-		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
 		$this->fixture->render(
 			array(
 				'showUid' => $this->realtyUid,
 				'isSubmitted' => true,
 				'requesterName' => 'any name',
 				'requesterEmail' => 'requester@valid-email.org',
-				'request' => '',
+				'request' => 'the request',
 			)
 		);
 

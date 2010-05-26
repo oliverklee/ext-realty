@@ -315,6 +315,7 @@
 			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
 			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
 			<label index="message_required_field_request">Please enter a request.</label>
+			<label index="message_required_field_terms">For processing your request, we need you to explicitly accept our terms and conditions. Please check the checkbox below.</label>
 			<label index="label_thank_you_formal">Thank you for your request.</label>
 			<label index="label_thank_you_informal">Thank you for your request.</label>
 			<label index="label_message_sent_formal">Your request was sent.</label>
@@ -672,6 +673,7 @@
 			<label index="label_set_valid_email_address_formal">Bitte geben Sie eine gültige E-Mail-Adresse an.</label>
 			<label index="label_set_valid_email_address_informal">Bitte gib eine gültige E-Mail-Adresse an.</label>
 			<label index="message_required_field_request">Bitte geben Sie Ihr Anliegen an.</label>
+			<label index="message_required_field_terms">Wir können Ihre Anfrage leider nur dann entgegennehmen und bearbeiten, wenn Sie unseren Allgemeinen Geschäftsbedingungen ausdrücklich zustimmen. Bitte wählen Sie dazu das unten stehende Kästchen an.</label>
 			<label index="label_thank_you_formal">Danke für Ihre Anfrage.</label>
 			<label index="label_thank_you_informal">Danke für deine Anfrage.</label>
 			<label index="label_message_sent_formal">Ihre Anfrage wurde verschickt.</label>
@@ -2104,6 +2106,7 @@
 			<label index="label_set_valid_email_address_formal" type="integer">115392064</label>
 			<label index="label_set_valid_email_address_informal" type="integer">115392064</label>
 			<label index="message_required_field_request" type="integer">151709982</label>
+			<label index="message_required_field_terms" type="integer">181095852</label>
 			<label index="label_thank_you_formal" type="integer">231839047</label>
 			<label index="label_thank_you_informal" type="integer">231839047</label>
 			<label index="label_message_sent_formal" type="integer">162249641</label>
@@ -3535,6 +3538,7 @@
 			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
 			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
 			<label index="message_required_field_request">Please enter a request.</label>
+			<label index="message_required_field_terms">For processing your request, we need you to explicitly accept our terms and conditions. Please check the checkbox below.</label>
 			<label index="label_thank_you_formal">Thank you for your request.</label>
 			<label index="label_thank_you_informal">Thank you for your request.</label>
 			<label index="label_message_sent_formal">Your request was sent.</label>

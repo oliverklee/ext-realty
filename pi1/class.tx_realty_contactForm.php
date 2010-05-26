@@ -90,7 +90,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		$errorMessages = array(
 			'requesterName' => '', 'requesterStreet' => '', 'requesterZip' => '',
 			'requesterCity' => '', 'requesterEmail' => '', 'requesterPhone' => '',
-			'request' => '', 'contact_form' => '',
+			'request' => '', 'terms' => '', 'contact_form' => '',
 		);
 
 		$this->fillContactInformationFieldsForLoggedInUser();
@@ -147,13 +147,14 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether the form data is correctly filled.
 	 *
-	 * @param array associative array with field names as keys, locallang keys
-	 *              of error messages will be added as values by this function
+	 * @param array $errorMessages
+	 *        associative array with field names as keys, locallang keys of
+	 *        error messages will be added as values by this function
 	 *
-	 * @return boolean true if the form data was correctly filled, false
+	 * @return boolean TRUE if the form data was correctly filled, FALSE
 	 *                 otherwise
 	 */
-	private function checkFormData(&$errorMessages) {
+	private function checkFormData(array &$errorMessages) {
 		$noErrorsSet = true;
 
 		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
@@ -170,7 +171,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 				foreach ($nonFilledRequiredFields as $key) {
 					$suffix = '';
 					if (in_array(
-						$key, array('requesterZip', 'requesterCity', 'request')
+						$key,
+						array('requesterZip', 'requesterCity', 'request', 'terms')
 					)) {
 						$suffix = '_' . $key;
 					}
@@ -189,15 +191,9 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * configured to be required fields.
 	 *
 	 * @return array keys of form fields that are empty but must not be empty,
-	 *               may be empty
+	 *               will be empty if all required fields have been filled in
 	 */
 	private function getEmptyRequiredFields() {
-		if (!$this->hasConfValueString(
-			'requiredContactFormFields', 's_contactForm')
-		) {
-			return array();
-		}
-
 		$result = array();
 		$requiredFields
 			= $this->getConfigurationArray('requiredContactFormFields');
@@ -215,6 +211,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			) {
 				$result[] = $formDataKey;
 			}
+		}
+
+		if (in_array('terms', $this->getVisibleFields())
+			&& ($this->contactFormData['terms'] != 1)
+		) {
+			$result[] = 'terms';
 		}
 
 		return $result;
@@ -553,9 +555,10 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets an error message to the marker 'ERROR_MESSAGE'.
 	 *
-	 * @param array associative array with the fields where the error occured
-	 *              as keys and the locallang key of an error message as value
-	 *              if there was one, must not be empty
+	 * @param array $errors
+	 *        associative array with the fields where the error occured as keys
+	 *        and the locallang key of an error message as value if there was
+	 *        one, must not be empty
 	 */
 	private function setErrorMessageContent(array $errors) {
 		foreach ($errors as $formFieldName => $locallangKey) {
