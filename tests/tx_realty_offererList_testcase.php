@@ -72,7 +72,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 
 		$this->createDummyRecords();
 
-		// "true" enables the test mode
+		// "TRUE" enables the test mode
 		$this->fixture = new tx_realty_offererList(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
@@ -81,7 +81,7 @@ class tx_realty_offererList_testcase extends tx_phpunit_testcase {
 				'displayedContactInformation' => 'usergroup,offerer_label',
 			),
 			$GLOBALS['TSFE']->cObj,
-			true
+			TRUE
 		);
 	}
 

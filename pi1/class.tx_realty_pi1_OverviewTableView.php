@@ -66,14 +66,14 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 * @param integer UID of the realty object for which to create the table,
 	 *                must be > 0
 	 *
-	 * @return boolean true if at least one row has been filled, false otherwise
+	 * @return boolean TRUE if at least one row has been filled, FALSE otherwise
 	 */
 	private function createTableRows($uid) {
 		$fieldNames = $this->getFieldNames($uid);
 
 		if (empty($fieldNames)) {
 			$this->hideSubparts('overview_row');
-			return false;
+			return FALSE;
 		}
 
 		$rows = array();
@@ -119,7 +119,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 		$result = array();
 
 		foreach (t3lib_div::trimExplode(
-			',', $this->getConfValueString('fieldsInSingleViewTable'), true
+			',', $this->getConfValueString('fieldsInSingleViewTable'), TRUE
 		) as $key) {
 			if (tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 				->find($uid)->isAllowedKey($key)

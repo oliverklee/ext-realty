@@ -47,7 +47,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 	 *                defined object type
 	 */
 	public function render(array $piVars = array()) {
-		$hasValidContent = true;
+		$hasValidContent = TRUE;
 
 		switch (tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($piVars['showUid'])->getProperty('object_type')
@@ -61,7 +61,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 				$keyToHide = 'buying_price';
 				break;
 			default:
-				$hasValidContent = false;
+				$hasValidContent = FALSE;
 				break;
 		}
 

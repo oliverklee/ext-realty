@@ -135,8 +135,8 @@ class tx_realty_mapMarker {
 	/**
 	 * Checks whether this marker has both latitude and longitude.
 	 *
-	 * @return boolean true if this markes has both latitude and longitude,
-	 *                 false otherwise
+	 * @return boolean TRUE if this markes has both latitude and longitude,
+	 *                 FALSE otherwise
 	 */
 	private function hasCoordinates() {
 		return ($this->latitude != '') && ($this->longitude != '');

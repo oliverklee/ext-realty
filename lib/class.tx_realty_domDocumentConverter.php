@@ -312,20 +312,20 @@ class tx_realty_domDocumentConverter {
 	private function replaceImportedBooleanLikeStrings() {
 		foreach ($this->importedData as $key => $value) {
 			if ($this->isBooleanLikeStringTrue($value)) {
-				$this->importedData[$key] = true;
+				$this->importedData[$key] = TRUE;
 			} elseif ($this->isBooleanLikeStringFalse($value)) {
-				$this->importedData[$key] = false;
+				$this->importedData[$key] = FALSE;
 			}
 		}
 	}
 
 	/**
-	 * Returns true if a string equals 'true'. In any other case false is
+	 * Returns TRUE if a string equals 'true'. In any other case FALSE is
 	 * returned.
 	 *
 	 * @param string string to compare with 'true', may also be also
 	 *               uppercased, surrounded by quotes or empty
-	 * @return boolean true if the input value was the string 'true', false
+	 * @return boolean TRUE if the input value was the string 'true', FALSE
 	 *                 otherwise
 	 */
 	private function isBooleanLikeStringTrue($booleanLikeString) {
@@ -333,13 +333,13 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Returns true if a string equals 'false'. In any other case false is
+	 * Returns TRUE if a string equals 'false'. In any other case FALSE is
 	 * returned.
 	 *
 	 * @param string string to compare with 'false', may also be also
 	 *               uppercased, surrounded by quotes or empty
 	 *
-	 * @return boolean true if the input value was the string 'true', false
+	 * @return boolean TRUE if the input value was the string 'true', FALSE
 	 *                 otherwise
 	 */
 	private function isBooleanLikeStringFalse($booleanLikeString) {
@@ -839,7 +839,7 @@ class tx_realty_domDocumentConverter {
 		if ($this->isElementSetAndNonEmpty('laengengrad', $attributes)
 			&& $this->isElementSetAndNonEmpty('breitengrad', $attributes)
 		) {
-			$this->addImportedData('exact_coordinates_are_cached', true);
+			$this->addImportedData('exact_coordinates_are_cached', TRUE);
 			$this->addImportedData('exact_longitude', $attributes['laengengrad']);
 			$this->addImportedData('exact_latitude', $attributes['breitengrad']);
 		}
@@ -917,9 +917,9 @@ class tx_realty_domDocumentConverter {
 		$nodeName, $childNodeName = '', $contextNode = null
 	) {
 		$queryString = '';
-		$isContextNodeValid = false;
+		$isContextNodeValid = FALSE;
 		if ($contextNode && (get_parent_class($contextNode) == 'DOMNode')) {
-			$isContextNodeValid = true;
+			$isContextNodeValid = TRUE;
 			$queryString = '.';
 		}
 
@@ -980,8 +980,8 @@ class tx_realty_domDocumentConverter {
 	 * Checks whether the OpenImmo record has a valid root node. The node must
 	 * be named 'openimmo' or 'immoxml'.
 	 *
-	 * @return boolean true if the root node is named 'openimmo' or
-	 *                 'immoxml', false otherwise
+	 * @return boolean TRUE if the root node is named 'openimmo' or
+	 *                 'immoxml', FALSE otherwise
 	 */
 	private function hasValidRootNode() {
 		$rootNode = $this->rawRealtyData->query(
@@ -1049,8 +1049,8 @@ class tx_realty_domDocumentConverter {
 	 * @param array array in which the existance of an element should be
 	 *              checked, may be empty
 	 *
-	 * @return boolean true if the the element exists and is non-empty,
-	 *                 false otherwise
+	 * @return boolean TRUE if the the element exists and is non-empty,
+	 *                 FALSE otherwise
 	 */
 	private function isElementSetAndNonEmpty($key, array $array) {
 		return (isset($array[$key]) && !empty($array[$key]));

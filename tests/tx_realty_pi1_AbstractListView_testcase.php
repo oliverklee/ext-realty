@@ -2397,7 +2397,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '53111')
 		);
 		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('showGoogleMaps', true);
+		$this->fixture->setConfigurationValue('showGoogleMaps', TRUE);
 
 		$this->fixture->render();
 

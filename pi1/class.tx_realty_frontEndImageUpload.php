@@ -114,7 +114,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		}
 
 		$idsOfImagesToDelete = t3lib_div::trimExplode(
-			',', $formData['imagesToDelete'], true
+			',', $formData['imagesToDelete'], TRUE
 		);
 		foreach ($idsOfImagesToDelete as $imageId) {
 			try {
@@ -144,7 +144,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	public function checkFile(array $valueToCheck) {
 		// nothing to check if there is no file
 		if ($valueToCheck['value']['name'] == '') {
-			return true;
+			return TRUE;
 		}
 
 		$validationErrorLabel = '';

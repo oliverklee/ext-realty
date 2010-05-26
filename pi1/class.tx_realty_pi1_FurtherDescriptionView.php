@@ -45,7 +45,7 @@ class tx_realty_pi1_FurtherDescriptionView extends tx_realty_pi1_FrontEndView {
 	 *                in "equipment" nor "loaction" nor "misc"
 	 */
 	public function render(array $piVars = array()) {
-		$hasContent = false;
+		$hasContent = FALSE;
 		$model = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($piVars['showUid']);
 

@@ -178,9 +178,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	public function check_tx_realty_pi1_offerer_list() {
 		$this->checkCommonFrontEndSettings();
-		$this->checkObjectsByOwnerPid(false);
+		$this->checkObjectsByOwnerPid(FALSE);
 		$this->checkUserGroupsForOffererList();
-		$this->checkDisplayedContactInformation(false);
+		$this->checkDisplayedContactInformation(FALSE);
 		$this->checkDisplayedContactInformationSpecial();
 		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
 		$this->checkOffererImageConfiguration();
@@ -239,14 +239,14 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * @param string key of the view part to check for visibility, must not be
 	 *               empty
 	 *
-	 * @return boolean true if $viewPart is configured to become rendered, false
+	 * @return boolean TRUE if $viewPart is configured to become rendered, FALSE
 	 *                 otherwise
 	 */
 	private function isSingleViewPartToDisplay($viewPart) {
 		$configuredValues = t3lib_div::trimExplode(
 			',',
 			$this->objectToCheck->getConfValueString('singleViewPartsToDisplay'),
-			true
+			TRUE
 		);
 
 		return in_array($viewPart, $configuredValues);
@@ -271,7 +271,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkWhatToDisplay() {
 		$this->checkIfSingleInSetNotEmpty(
 			'what_to_display',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the type of the realty plug-in to display. '
 				.'If it is not set correctly, it is ignored and the list view '
@@ -298,7 +298,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkSingleViewPartsToDisplay() {
 		$this->checkIfMultiInSetNotEmpty(
 			'singleViewPartsToDisplay',
-			true,
+			TRUE,
 			'sDEF',
 			'This setting specifies which single view parts to render, ' .
 				'incorrect keys will not be displayed and the single view will ' .
@@ -318,7 +318,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkCurrencyUnit() {
 		$this->checkForNonEmptyString(
 			'currencyUnit',
-			false,
+			FALSE,
 			'',
 			'This value specifies the currency of displayed prices. ' .
 				'If this value is empty, prices of objects that do not provide' .
@@ -332,7 +332,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkDateFormat() {
 		$this->checkForNonEmptyString(
 			'dateFormat',
-			false,
+			FALSE,
 			'',
 			'This determines the way dates and times are displayed. '
 				.'If this is not set correctly, dates and times might '
@@ -343,7 +343,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkNumberOfDecimals() {
 		$this->checkIfPositiveIntegerOrZero(
 			'numberOfDecimals',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the number of decimal digits for formatting '
 				.'prices. If this value is invalid, the standard value of the '
@@ -363,7 +363,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		foreach ($imageSizeItems as $fieldName) {
 			$this->checkIfPositiveInteger(
 				$fieldName,
-				false,
+				FALSE,
 				'',
 				'This value specifies image dimensions. Images will not be '
 					.'displayed correctly if this value is invalid.'
@@ -383,7 +383,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		foreach ($imageSizeItems as $fieldName) {
 			$this->checkIfPositiveInteger(
 				$fieldName,
-				false,
+				FALSE,
 				'',
 				'This value specifies image dimensions. Images will not be '
 					.'displayed correctly if this value is invalid.'
@@ -405,7 +405,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		foreach ($imageSizeItems as $fieldName) {
 			$this->checkIfPositiveInteger(
 				$fieldName,
-				false,
+				FALSE,
 				'',
 				'This value specifies image dimensions. Images will not be '
 					.'displayed correctly if this value is invalid.'
@@ -419,7 +419,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkFieldsInSingleViewTable() {
 		$this->checkIfMultiInSetNotEmpty(
 			'fieldsInSingleViewTable',
-			false,
+			FALSE,
 			'',
 			'This value specifies the fields which should be displayed in '
 				.'single view. If this value is empty, the single view only '
@@ -435,7 +435,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkFavoriteFieldsInSession() {
 		$this->checkIfMultiInSetOrEmpty(
 			'favoriteFieldsInSession',
-			false,
+			FALSE,
 			'',
 			'This value specifies the field names that will be stored in the '
 				.'session when displaying the favorites list. This value may be '
@@ -452,7 +452,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkRequireLoginForSingleViewPage() {
 		$this->checkIfBoolean(
 			'requireLoginForSingleViewPage',
-			false,
+			FALSE,
 			'',
 			'This value specifies whether a login is required to access the '
 				.'single view page. It might be interpreted incorrectly if no '
@@ -466,7 +466,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkLoginPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'loginPID',
-			false,
+			FALSE,
 			'',
 			'This value specifies the login page and is needed if a login ' .
 				'is required. Users could not be directed to the login ' .
@@ -480,7 +480,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkShowContactPageLink() {
 		$this->checkIfBoolean(
 			'showContactPageLink',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies whether a link to the contact form should be ' .
 				'displayed in the current view. A misconfigured value might lead ' .
@@ -494,7 +494,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkContactPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'contactPID',
-			false,
+			FALSE,
 			'',
 			'This value specifies the contact page which will be linked from ' .
 				'the current page. The link to the contact form will not work ' .
@@ -508,7 +508,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkDisplayedSearchWidgetFields() {
 		$this->checkIfMultiInSetNotEmpty(
 			'displayedSearchWidgetFields',
-			true,
+			TRUE,
 			's_searchForm',
 			'This value specifies which search widget fields to display in the ' .
 				'front-end. The search widget will not display any fields at ' .
@@ -529,7 +529,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			$this->objectToCheck->getConfValueString(
 				'displayedSearchWidgetFields', 's_searchForm'
 			),
-			true
+			TRUE
 		);
 		if (!in_array('priceRanges', $displayedWidgetFields)) {
 			return;
@@ -537,7 +537,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 		$this->checkRegExp(
 			'priceRangesForFilterForm',
-			true,
+			TRUE,
 			's_searchForm',
 			'This value defines the ranges to be displayed in the filter ' .
 				'form\'s selectbox for prices. With an invalid configuration, ' .
@@ -553,7 +553,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkPagesToDisplay() {
 		$this->checkIfPidListNotEmpty(
 			'pages',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the list of PIDs that contain the realty '
 				.'records to be displayed. If this list is empty, there is only '
@@ -567,7 +567,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkRecursive() {
 		$this->checkIfPositiveIntegerOrZero(
 			'recursive',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the recursion level for the pages list. The '
 				.'recursion can only be set to include subfolders of the '
@@ -579,9 +579,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting of the configuration value objectsByOwnerPID.
 	 *
-	 * @param boolean true if the configuration may be empty
+	 * @param boolean TRUE if the configuration may be empty
 	 */
-	private function checkObjectsByOwnerPid($mayBeEmpty = true) {
+	private function checkObjectsByOwnerPid($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {
 			$checkFunction = checkIfSingleFePageOrEmpty;
 			$errorText = 'This value specifies the page ID of the list of ' .
@@ -596,7 +596,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		}
 
 		$this->$checkFunction(
-			'objectsByOwnerPID', true, 's_offererInformation', $errorText
+			'objectsByOwnerPID', TRUE, 's_offererInformation', $errorText
 		);
 	}
 
@@ -606,7 +606,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkUserGroupsForOffererList() {
 		$this->checkIfPidListOrEmpty(
 			'userGroupsForOffererList',
-			true,
+			TRUE,
 			's_offererInformation',
 			'This value specifies the group from which the users are displayed ' .
 				'in the offerer list. The list will be empty if this value is ' .
@@ -618,9 +618,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting for displayedContactInformation.
 	 *
-	 * @param boolean true if the configuration may be empty
+	 * @param boolean TRUE if the configuration may be empty
 	 */
-	private function checkDisplayedContactInformation($mayBeEmpty = true) {
+	private function checkDisplayedContactInformation($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {
 			$checkFunction = checkIfMultiInSetOrEmpty;
 		} else {
@@ -629,7 +629,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 		$this->$checkFunction(
 			'displayedContactInformation',
-			true,
+			TRUE,
 			's_offererInformation',
 			'This value specifies which contact data to display in the front-end. ' .
 				'The contact data will not be displayed at all if this value is ' .
@@ -647,7 +647,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkDisplayedContactInformationSpecial() {
 		$this->checkIfMultiInSetOrEmpty(
 			'displayedContactInformationSpecial',
-			true,
+			TRUE,
 			's_offererInformation',
 			'This value specifies which contact data to display in the front-end. ' .
 				'This value only defines which contact data to display of ' .
@@ -669,7 +669,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		// checkIfPidListOrEmpty checks for a comma separated list of integers
 		$this->checkIfPidListOrEmpty(
 			'groupsWithSpeciallyDisplayedContactInformation',
-			true,
+			TRUE,
 			's_offererInformation',
 			'This value specifies of which front-end user group\'s offerers ' .
 				'special contact data should be displayed. If this value is ' .
@@ -684,9 +684,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkDefaultContactEmail() {
 		$this->checkIsValidEmailNotEmpty(
 			'defaultContactEmail',
-			true,
+			TRUE,
 			's_contactForm',
-			true,
+			TRUE,
 			'This value specifies the recipient for requests on objects. ' .
 				'This address is always used if direct requests for objects ' .
 				'are disabled and it is used if a direct request is not ' .
@@ -700,9 +700,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkBlindCarbonCopyAddress() {
 		$this->checkIsValidEmailOrEmpty(
 			'blindCarbonCopyAddress',
-			true,
+			TRUE,
 			's_contactForm',
-			true,
+			TRUE,
 			'This value specifies the recipient for for a blind carbon copy of ' .
 				'each request on objects and may be left empty.'
 		);
@@ -714,7 +714,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkVisibleContactFormFields() {
 		$this->checkIfMultiInSetOrEmpty(
 			'visibleContactFormFields',
-			true,
+			TRUE,
 			's_contactForm',
 			'This value specifies which fields are visible in the contact form. ' .
 				'Some fields will be not be visible if this configuration is ' .
@@ -729,7 +729,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkRequiredContactFormFields() {
 		$this->checkIfMultiInSetOrEmpty(
 			'requiredContactFormFields',
-			true,
+			TRUE,
 			's_contactForm',
 			'This value specifies which fields are required to be filled when ' .
 				'committing a contact request. Some fields will be not be ' .
@@ -740,7 +740,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		// checks whether the required fields are visible
 		$this->checkIfMultiInSetOrEmpty(
 			'requiredContactFormFields',
-			true,
+			TRUE,
 			's_contactForm',
 			'This value specifies which fields are required to be filled when ' .
 				'committing a contact request. Some fields are set to required ' .
@@ -759,7 +759,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 						'visibleContactFormFields', 's_contactForm'
 					)
 				),
-				true
+				TRUE
 			)
 		);
 	}
@@ -770,7 +770,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkCheckboxesFilter() {
 		$this->checkIfSingleInTableOrEmpty(
 			'checkboxesFilter',
-			true,
+			TRUE,
 			's_searchForm',
 			'This value specifies the name of the DB field to create the search ' .
 				'filter checkboxes from. Searching will not work properly if ' .
@@ -785,7 +785,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkOrderBy() {
 		$this->checkIfSingleInSetOrEmpty(
 			'orderBy',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the database field name by which the list view ' .
 				'should be sorted initially. Displaying the list view might not ' .
@@ -811,7 +811,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkSortCriteria() {
 		$this->checkIfMultiInSetOrEmpty(
 			'sortCriteria',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the database field names by which a FE user ' .
 				'can sort the list view. This value is usually set via ' .
@@ -837,7 +837,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkSingleViewPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'singlePID',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the PID of the page for the single view. If '
 				.'this value is empty or invalid, the single view is shown on '
@@ -851,7 +851,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkGalleryPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'galleryPID',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the PID of the page with the gallery. If this '
 				.'value is empty, the gallery will be disabled.'
@@ -864,7 +864,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkFavoritesPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'favoritesPID',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the PID of the page for the favorites view. '
 				.'Favorites cannot be displayed if this value is invalid.'
@@ -877,7 +877,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkEditorPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'editorPID',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the PID of the page for the FE editor. '
 				.'This page cannot be displayed if this value is invalid.'
@@ -891,7 +891,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkFilterTargetPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'filterTargetPID',
-			true,
+			TRUE,
 			's_searchForm',
 			'This value specifies the PID of the target page for the filter '
 				.'form and the city selector. These forms will not direct to '
@@ -905,7 +905,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkImageUploadPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'imageUploadPID',
-			true,
+			TRUE,
 			'sDEF',
 			'This value specifies the PID of the page with the image upload for '
 				.'the FE editor. The image upload cannot be displayed if this '
@@ -920,7 +920,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkSysFolderForFeCreatedRecords() {
 		$this->checkIfSingleSysFolderNotEmpty(
 			'sysFolderForFeCreatedRecords',
-			true,
+			TRUE,
 			's_feeditor',
 			'This value specifies the PID of the system folder for FE-created '
 				.'records. New records will be stored on the root page if this '
@@ -950,7 +950,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkFeEditorRedirectPid() {
 		$this->checkIfSingleFePageNotEmpty(
 			'feEditorRedirectPid',
-			true,
+			TRUE,
 			's_feeditor',
 			'This value specifies the PID of the FE page to which users will ' .
 				'be redirected after a FE-created record or an image was saved. ' .
@@ -965,9 +965,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkFeEditorNotifyEmail() {
 		$this->checkIsValidEmailNotEmpty(
 			'feEditorNotifyEmail',
-			true,
+			TRUE,
 			's_feeditor',
-			true,
+			TRUE,
 			'This value specifies the recipient for a notification when a new '
 				.'record has been created in the FE. No e-mail will be send if '
 				.'this value is not configured correctly.'
@@ -980,7 +980,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkDefaultCountry() {
 		$this->checkIfPositiveInteger(
 			'defaultCountryUID',
-			true,
+			TRUE,
 			's_googlemaps',
 			'This value specifies the UID of the default country for realty ' .
 				'objects. If this value is not configured correctly, the ' .
@@ -994,7 +994,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkShowGoogleMaps() {
 		$this->checkIfBoolean(
 			'showGoogleMaps',
-			true,
+			TRUE,
 			's_googlemaps',
 			'This value specifies whether a Google Map of an object should be ' .
 				'shown. If this value is not set correctly, the map might not ' .
@@ -1008,7 +1008,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkGoogleMapsApiKey() {
 		$this->checkForNonEmptyString(
 			'googleMapsApiKey',
-			true,
+			TRUE,
 			's_googlemaps',
 			'This determines the Google Maps API key. If this is not set ' .
 				'correctly, Google Maps will produce an error message.'
@@ -1021,7 +1021,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkGalleryType() {
 		$this->checkIfSingleInSetNotEmpty(
 			'galleryType',
-			true,
+			TRUE,
 			'sDEF',
 			'This setting determines wether the gallery makes use of Lightbox. ' .
 				'If this is not set correctly, the gallery will fall back to ' .
@@ -1049,7 +1049,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkImageUploadThumbnailWidth() {
 		$this->checkIfPositiveInteger(
 			'imageUploadThumbnailWidth',
-			false,
+			FALSE,
 			'',
 			'This value specifies the width of the thumbnails in the image ' .
 				'upload. If it is not configured properly, the image will be ' .
@@ -1064,7 +1064,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkImageUploadThumbnailHeight() {
 		$this->checkIfPositiveInteger(
 			'imageUploadThumbnailHeight',
-			false,
+			FALSE,
 			'',
 			'This value specifies the height of the thumbnails in the image ' .
 				'upload. If it is not configured properly, the image will be ' .
@@ -1078,7 +1078,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkAdvertisementPid() {
 		$this->checkIfSingleFePageOrEmpty(
 			'advertisementPID',
-			true,
+			TRUE,
 			's_advertisements',
 			'This value specifies the page that contains the advertisement ' .
 				'form. If this value is incorrect, the link to the form ' .
@@ -1099,7 +1099,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkAdvertisementExpirationInDays() {
 		$this->checkIfPositiveIntegerOrZero(
 			'advertisementExpirationInDays',
-			true,
+			TRUE,
 			's_advertisements',
 			'This value specifies the period after which an advertisement ' .
 				'expires. If this value is invalid, advertisements will ' .
@@ -1121,7 +1121,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkOffererImageWidth() {
 		$this->checkIfPositiveInteger(
 			'offererImageMaxWidth',
-			false,
+			FALSE,
 			'',
 			'This value specifies the width of the offerer image in the ' .
 				'offerer list view and the single view. If it is not ' .
@@ -1136,7 +1136,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkOffererImageHeight() {
 		$this->checkIfPositiveInteger(
 			'offererImageMaxHeight',
-			false,
+			FALSE,
 			'',
 			'This value specifies the height of the offerer image in the ' .
 				'offerer list view and the single view. If it is not ' .
@@ -1159,7 +1159,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkLightboxImageWidthMax() {
 		$this->checkIfPositiveInteger(
 			'lightboxImageWidthMax',
-			false,
+			FALSE,
 			'',
 			'This value specifies the width of the gallery images in the ' .
 				'lightbox window. If it is not configured properly, the ' .
@@ -1173,7 +1173,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkLightboxImageHeightMax() {
 		$this->checkIfPositiveInteger(
 			'lightboxImageHeightMax',
-			false,
+			FALSE,
 			'',
 			'This value specifies the height of the gallery images in the ' .
 				'lightbox window. If it is not configured properly, the ' .
@@ -1187,7 +1187,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	private function checkEnableNextPreviousButtons() {
 		$this->checkIfBoolean(
 			'enableNextPreviousButtons',
-			false,
+			FALSE,
 			'',
 			'This value specifies whether the next and previous buttons should ' .
 				'be shown. If this value is not set correctly, the buttons ' .

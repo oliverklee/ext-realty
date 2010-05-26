@@ -300,20 +300,20 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 * Checks whether the current object is advertised and the advertisement
 	 * has not expired yet.
 	 *
-	 * @return boolean true if the current object is advertised and the
-	 *                 advertisement has not expired yet, false otherwise
+	 * @return boolean TRUE if the current object is advertised and the
+	 *                 advertisement has not expired yet, FALSE otherwise
 	 */
 	private function isCurrentObjectAdvertised() {
 		$advertisementDate = $this->internal['currentRow']['advertised_date'];
 		if ($advertisementDate == 0) {
-			return false;
+			return FALSE;
 		}
 
 		$expiryInDays = $this->getConfValueInteger(
 			'advertisementExpirationInDays', 's_advertisements'
 		);
 		if ($expiryInDays == 0) {
-			return true;
+			return TRUE;
 		}
 
 		return (

@@ -155,16 +155,16 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	 * Checks whether a non-deleted, non-hidden user has been selected for
 	 * display.
 	 *
-	 * @return boolean true if an existing user has been selected, false otherwise
+	 * @return boolean TRUE if an existing user has been selected, FALSE otherwise
 	 */
 	protected function existsOwner() {
 		try {
 			$this->getOwner();
 		} catch (tx_oelib_Exception_NotFound $exception) {
-			return false;
+			return FALSE;
 		}
 
-		return true;
+		return TRUE;
 	}
 }
 

@@ -195,7 +195,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 					$this->prefixId,
 					array('showUid' => $this->getUid(), 'image' => $imageNumber)
 				),
-				'useCacheHash' => true,
+				'useCacheHash' => TRUE,
 			)))
 		);
 	}

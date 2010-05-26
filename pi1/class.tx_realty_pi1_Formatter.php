@@ -74,7 +74,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->existsModel($realtyObjectUid, true)
+			->existsModel($realtyObjectUid, TRUE)
 		) {
 			throw new Exception('There was no realty object to load with the ' .
 				'provided UID of ' . $realtyObjectUid . '. The formatter can ' .
@@ -250,7 +250,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				',',
 				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 					->find($this->getUid())->getProperty($key),
-				true
+				TRUE
 			) as $suffix
 		) {
 			if ($suffix >= 1) {

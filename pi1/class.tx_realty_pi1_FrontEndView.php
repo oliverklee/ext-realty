@@ -58,7 +58,7 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 	 * @param boolean whether the class is instantiated in test mode
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $isTestMode = false
+		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
 	) {
 		$this->cObj = $cObj;
 		$this->init($configuration);

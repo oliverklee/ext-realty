@@ -86,7 +86,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->cObj,
 			0,
 			'',
-			true
+			TRUE
 		);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 	}
@@ -118,7 +118,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	 * Creates dummy image records in the DB.
 	 */
 	private function createImageRecords() {
-		$realtyObject = new tx_realty_Model_RealtyObject(true);
+		$realtyObject = new tx_realty_Model_RealtyObject(TRUE);
 		$realtyObject->loadRealtyObject($this->dummyObjectUid);
 
 		$realtyObject->addImageRecord(self::$firstImageTitle, self::$firstImageFileName);

@@ -35,17 +35,17 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var boolean whether this class is instantiated for testing
 	 */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/**
 	 * The constructor.
 	 *
 	 * @param array TypoScript configuration for the plugin
 	 * @param tslib_cObj the parent cObj content, needed for the flexforms
-	 * @param boolean true if this class is instantiated for testing, else false
+	 * @param boolean TRUE if this class is instantiated for testing, else FALSE
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $isTestMode = false
+		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
 	) {
 		$this->isTestMode = $isTestMode;
 		parent::__construct($configuration, $cObj);
@@ -183,7 +183,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *                no content (or only the user group) for the row
 	 */
 	private function createListRow(tx_realty_Model_FrontEndUser $offerer) {
-		$rowHasContent = false;
+		$rowHasContent = FALSE;
 		$this->resetSubpartsHiding();
 
 		foreach ($this->getListRowContent($offerer) as $key => $value) {
@@ -258,8 +258,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * @param string key of the information for which to check visibility, must
 	 *               not be emtpy
 	 *
-	 * @return boolean true if it is configured to display the information of
-	 *                 the provided offerer, false otherwise
+	 * @return boolean TRUE if it is configured to display the information of
+	 *                 the provided offerer, FALSE otherwise
 	 */
 	private function mayDisplayInformation(
 		tx_realty_Model_FrontEndUser $offerer, $keyOfInformation
@@ -280,7 +280,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 		return in_array($keyOfInformation, t3lib_div::trimExplode(
 			',',
 			$this->getConfValueString($configurationKey, 's_offererInformation'),
-			true
+			TRUE
 		));
 	}
 
@@ -367,7 +367,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			$this->getConfValueString(
 				'userGroupsForOffererList', 's_offererInformation'
 			),
-			true
+			TRUE
 		);
 
 		foreach ($userGroups as $group) {
@@ -403,7 +403,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					$this->prefixId, array('owner' => $ownerUid)
 				),
-				'useCacheHash' => true,
+				'useCacheHash' => TRUE,
 			)
 		));
 	}

@@ -36,7 +36,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * @var array data for the contact form
 	 */
 	private $contactFormData = array(
-		'isSubmitted' => false,
+		'isSubmitted' => FALSE,
 		'showUid' => 0,
 		'requesterName' => '',
 		'requesterStreet' => '',
@@ -125,20 +125,20 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * @param array associative array with field names as keys, locallang keys
 	 *              of error messages will be added as values by this function
 	 *
-	 * @return boolean true if the form data was correctly filled, false
+	 * @return boolean TRUE if the form data was correctly filled, FALSE
 	 *                 otherwise
 	 */
 	private function checkFormData(&$errorMessages) {
-		$noErrorsSet = true;
+		$noErrorsSet = TRUE;
 
 		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			if (!$this->isValidName($this->contactFormData['requesterName'])) {
 				$errorMessages['requesterName'] = 'label_set_name';
-				$noErrorsSet = false;
+				$noErrorsSet = FALSE;
 			}
 			if (!$this->isValidEmail($this->contactFormData['requesterEmail'])) {
 				$errorMessages['requesterEmail'] = 'label_set_valid_email_address';
-				$noErrorsSet = false;
+				$noErrorsSet = FALSE;
 			}
 			$nonFilledRequiredFields = $this->getEmptyRequiredFields();
 			if (!empty($nonFilledRequiredFields)) {
@@ -149,12 +149,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 					}
 					$errorMessages[$key] = 'message_required_field' . $suffix;
 				}
-				$noErrorsSet = false;
+				$noErrorsSet = FALSE;
 			}
 		}
 		if ($this->contactFormData['request'] == '') {
 			$errorMessages['request'] = 'label_no_empty_textarea';
-			$noErrorsSet = false;
+			$noErrorsSet = FALSE;
 		}
 
 		return $noErrorsSet;
@@ -202,19 +202,19 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * also sent to this address.
 	 *
 	 * Note: When this extension requires TYPO3 4.2, the return value of
-	 * sendEmail() should be returned instead of just returning true after
+	 * sendEmail() should be returned instead of just returning TRUE after
 	 * sending an e-mail.
 	 *
-	 * @return boolean true if the contact data for sending an e-mail could be
+	 * @return boolean TRUE if the contact data for sending an e-mail could be
 	 *                 fetched and the send e-mail function was called,
-	 *                 false otherwise
+	 *                 FALSE otherwise
 	 *
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=961
 	 */
 	private function sendRequest() {
 		$contactData = $this->getContactData();
 		if (($contactData['email'] == '') || !$this->setOrHideSpecializedView()) {
-			return false;
+			return FALSE;
 		}
 
 		tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
@@ -226,7 +226,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			'UTF-8'
 		);
 
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -367,7 +367,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getConfigurationArray($key) {
 		return t3lib_div::trimExplode(
-			',', $this->getConfValueString($key, 's_contactForm'), true
+			',', $this->getConfValueString($key, 's_contactForm'), TRUE
 		);
 	}
 
@@ -448,12 +448,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets or hides the specialized contact form.
 	 *
-	 * @return boolean false if the specialized contact form is supposed to
-	 *                 be set but no object data could be fetched, true
+	 * @return boolean FALSE if the specialized contact form is supposed to
+	 *                 be set but no object data could be fetched, TRUE
 	 *                 otherwise
 	 */
 	private function setOrHideSpecializedView() {
-		$wasSuccessful = true;
+		$wasSuccessful = TRUE;
 		$subpartsToHide = '';
 
 		if ($this->isSpecializedView()) {
@@ -462,7 +462,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 				->existsModel($this->getShowUid())
 			) {
-				$wasSuccessful = false;
+				$wasSuccessful = FALSE;
 			} else {
 				foreach (array('object_number', 'title', 'uid') as $key) {
 					$value = ($key == 'uid')
@@ -523,7 +523,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether the specialized view should be set.
 	 *
-	 * @return boolean true if the view should be specialized, false otherwise
+	 * @return boolean TRUE if the view should be specialized, FALSE otherwise
 	 */
 	private function isSpecializedView() {
 		return ($this->getShowUid() > 0);
@@ -534,7 +534,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string e-mail address to check, may be empty
 	 *
-	 * @return boolean true if the e-mail address is valid, false otherwise
+	 * @return boolean TRUE if the e-mail address is valid, FALSE otherwise
 	 */
 	private function isValidEmail($emailAddress) {
 		return (($emailAddress != '') && t3lib_div::validEmail($emailAddress));
@@ -545,13 +545,13 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string the name to check, may be empty
 	 *
-	 * @return boolean true if the name is valid which means it does not contain
+	 * @return boolean TRUE if the name is valid which means it does not contain
 	 *                 any characters that are indicative of header injection,
-	 *                 false otherwise
+	 *                 FALSE otherwise
 	 */
 	private function isValidName($name) {
 		if ($name == '') {
-			return true;
+			return TRUE;
 		}
 
 		return (boolean) preg_match('/^[\S ]+$/s', $name)
@@ -594,7 +594,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 
 		$this->contactFormData['isSubmitted']
 			= isset($contactFormData['isSubmitted'])
-			? (boolean) $contactFormData['isSubmitted'] : false;
+			? (boolean) $contactFormData['isSubmitted'] : FALSE;
 		$this->contactFormData['showUid']
 			= isset($contactFormData['showUid'])
 			? intval($contactFormData['showUid']) : 0;

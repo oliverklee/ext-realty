@@ -129,7 +129,7 @@ class tx_realty_pi1_AccessCheck {
 	private function realtyObjectExistsInDatabase($realtyObjectUid) {
 		if (($realtyObjectUid == 0)
 			|| tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->existsModel($realtyObjectUid, true)
+				->existsModel($realtyObjectUid, TRUE)
 		) {
 			return;
 		}

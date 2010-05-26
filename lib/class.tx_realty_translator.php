@@ -50,7 +50,7 @@ class tx_realty_translator {
 			->getAsString('cliLanguage');
 		// 'default' is used as language key if the configured language key is
 		// not within the set of available language keys.
-		$languageKey = (strpos(TYPO3_languages, '|'.$cliLanguage.'|') !== false)
+		$languageKey = (strpos(TYPO3_languages, '|'.$cliLanguage.'|') !== FALSE)
 			? $cliLanguage
 			: 'default';
 		$GLOBALS['LANG']->init($languageKey);

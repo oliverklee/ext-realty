@@ -95,7 +95,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * @var boolean whether the current zip file should be deleted
 	 */
-	private $deleteCurrentZipFile = true;
+	private $deleteCurrentZipFile = TRUE;
 
 	/**
 	 * @var array ZIP archives which are deleted at the end of import and
@@ -110,7 +110,7 @@ class tx_realty_openImmoImport {
 	 * @var boolean whether the class is tested and only dummy records should
 	 *              be created
 	 */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/**
 	 * Constructor.
@@ -118,9 +118,9 @@ class tx_realty_openImmoImport {
 	 * @param boolean whether the class ist tested and therefore only
 	 *                dummy records should be inserted into the database
 	 */
-	public function __construct($isTestMode = false) {
+	public function __construct($isTestMode = FALSE) {
 		$this->isTestMode = $isTestMode;
-		libxml_use_internal_errors(true);
+		libxml_use_internal_errors(TRUE);
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 		$this->fileNameMapper = tx_oelib_ObjectFactory::make('tx_realty_fileNameMapper');
 		$this->setUploadDirectory(PATH_site . REALTY_UPLOAD_FOLDER);
@@ -270,7 +270,7 @@ class tx_realty_openImmoImport {
 			$this->filesToDelete = array_diff(
 				$this->filesToDelete, array($currentZip)
 			);
-			$this->deleteCurrentZipFile = true;
+			$this->deleteCurrentZipFile = TRUE;
 		}
 
 		return $emailData;
@@ -346,8 +346,8 @@ class tx_realty_openImmoImport {
 			return;
 		}
 
-		// 'true' allows to add an owner to the realty record if it hasn't got one.
-		$errorMessage = $this->realtyObject->writeToDatabase($overridePid, true);
+		// 'TRUE' allows to add an owner to the realty record if it hasn't got one.
+		$errorMessage = $this->realtyObject->writeToDatabase($overridePid, TRUE);
 
 		switch ($errorMessage) {
 			case '':
@@ -374,7 +374,7 @@ class tx_realty_openImmoImport {
 			);
 			break;
 		case 'message_object_limit_reached':
-			$this->deleteCurrentZipFile = false;
+			$this->deleteCurrentZipFile = FALSE;
 			$owner = $this->realtyObject->getOwner();
 			$this->addToErrorLog(
 				sprintf(
@@ -410,23 +410,23 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks whether the current realty object's supposed owner is in an
 	 * allowed FE user group.
-	 * Returns true if this check is disabled by configuration.
+	 * Returns TRUE if this check is disabled by configuration.
 	 *
-	 * @return boolean true if the current realty object's owner matches
-	 *                 an allowed FE user, also true if this check is
-	 *                 disabled by configuration, false otherwise
+	 * @return boolean TRUE if the current realty object's owner matches
+	 *                 an allowed FE user, also TRUE if this check is
+	 *                 disabled by configuration, FALSE otherwise
 	 */
 	private function hasValidOwnerForImport() {
 		if (!$this->globalConfiguration->getAsBoolean(
 			'onlyImportForRegisteredFrontEndUsers'
 		)) {
-			return true;
+			return TRUE;
 		}
 
 		try {
 			$this->realtyObject->getOwner();
 		} catch (tx_oelib_Exception_NotFound $exception) {
-			return false;
+			return FALSE;
 		}
 
 		$allowedFrontEndUserGroups = $this->globalConfiguration
@@ -476,23 +476,23 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Checks whether the import may start. Will return true if the class for
+	 * Checks whether the import may start. Will return TRUE if the class for
 	 * ZIP extraction is available and if the import directory is writable.
-	 * Otherwise, the result will be false and the reason will be logged.
+	 * Otherwise, the result will be FALSE and the reason will be logged.
 	 *
 	 * @param string unified path of the import directory, must not be empty
 	 *
-	 * @return boolean true if the requirements to start the import are
-	 *                 fullfilled, false otherwise
+	 * @return boolean TRUE if the requirements to start the import are
+	 *                 fullfilled, FALSE otherwise
 	 */
 	private function canStartImport($importDirectory) {
-		$result = true;
+		$result = TRUE;
 
 		if (!in_array('zip', get_loaded_extensions())) {
 			$this->addToErrorLog($this->getTranslator()->translate(
 				'message_zip_archive_not_installed')
 			);
-			$result = false;
+			$result = FALSE;
 		}
 
 		return $result && $this->isImportDirectoryAccessible($importDirectory)
@@ -504,11 +504,11 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string unified path of the import directory, must not be empty
 	 *
-	 * @return boolean true if the import directory exists and is readable and
-	 *                 writable, false otherwise
+	 * @return boolean TRUE if the import directory exists and is readable and
+	 *                 writable, FALSE otherwise
 	 */
 	private function isImportDirectoryAccessible($importDirectory) {
-		$isAccessible = false;
+		$isAccessible = FALSE;
 
 		if (!@is_dir($importDirectory)) {
 			$this->addToErrorLog(
@@ -529,7 +529,7 @@ class tx_realty_openImmoImport {
 				'message_import_directory_not_writable', $importDirectory
 			);
 		} else {
-			$isAccessible = true;
+			$isAccessible = TRUE;
 		}
 
 		return $isAccessible;
@@ -538,11 +538,11 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks that the realty upload path exists and is writable.
 	 *
-	 * @return boolean true if the realty upload path exists and is writable,
-	 *                 false otherwise
+	 * @return boolean TRUE if the realty upload path exists and is writable,
+	 *                 FALSE otherwise
 	 */
 	private function isUploadDirectoryAccessible(){
-		$isAccessible = false;
+		$isAccessible = FALSE;
 
 		if (!@is_dir($this->uploadDirectory)){
 			$this->addToErrorLog(
@@ -558,7 +558,7 @@ class tx_realty_openImmoImport {
 				'message_upload_directory_not_writable', $this->uploadDirectory
 			);
 		} else {
-			$isAccessible = true;
+			$isAccessible = TRUE;
 		}
 
 		return $isAccessible;
@@ -602,7 +602,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks if the configuration in the EM enables sending errors only.
 	 *
-	 * @return boolean true if 'onlyErrors' is enabled, false otherwise
+	 * @return boolean TRUE if 'onlyErrors' is enabled, FALSE otherwise
 	 */
 	private function isErrorLogOnlyEnabled() {
 		return $this->globalConfiguration->getAsBoolean('onlyErrors');
@@ -621,8 +621,8 @@ class tx_realty_openImmoImport {
 	 * Checks whether contact persons of each record should receive e-mails
 	 * about the import of their records.
 	 *
-	 * @return boolean true if contact persons should receive e-mails,
-	 *                 false otherwise
+	 * @return boolean TRUE if contact persons should receive e-mails,
+	 *                 FALSE otherwise
 	 */
 	private function isNotifyContactPersonsEnabled() {
 		return $this->globalConfiguration->getAsBoolean('notifyContactPersons');
@@ -705,7 +705,7 @@ class tx_realty_openImmoImport {
 
 	/**
 	 * Validates an e-mail data array which is used to prepare e-mails. Returns
-	 * true if the structure is correct, false otherwise.
+	 * TRUE if the structure is correct, FALSE otherwise.
 	 * The structure is correct, if there are arrays as values for each numeric
 	 * key and if those arrays contain the elements 'recipient', 'objectNumber',
 	 * 'logEntry' and 'errorLog' as keys.
@@ -715,11 +715,11 @@ class tx_realty_openImmoImport {
 	 *              elements 'recipient', 'objectNumber', 'logEntry' and
 	 *               'errorLog' as keys, may be empty
 	 *
-	 * @return boolean true if the structure of the array is valid, false
+	 * @return boolean TRUE if the structure of the array is valid, FALSE
 	 *                 otherwise
 	 */
 	private function validateEmailDataArray(array $emailData) {
-		$isValidDataArray = true;
+		$isValidDataArray = TRUE;
 		$requiredKeys = array(
 			'recipient',
 			'objectNumber',
@@ -729,7 +729,7 @@ class tx_realty_openImmoImport {
 
 		foreach ($emailData as $dataArray) {
 			if (!is_array($dataArray)) {
-				$isValidDataArray = false;
+				$isValidDataArray = FALSE;
 				break;
 			} else {
 				$numberOfValidArrays = count(
@@ -737,7 +737,7 @@ class tx_realty_openImmoImport {
 				);
 
 				if ($numberOfValidArrays != 4) {
-					$isValidDataArray = false;
+					$isValidDataArray = FALSE;
 					break;
 				}
 			}
@@ -888,7 +888,7 @@ class tx_realty_openImmoImport {
 	 */
 	protected function unifyPath($directory) {
 		$checkedPath = trim($directory);
-		if (strpos($checkedPath, '/', strlen($checkedPath) - 1) === false) {
+		if (strpos($checkedPath, '/', strlen($checkedPath) - 1) === FALSE) {
 			$checkedPath .= '/';
 		}
 
@@ -1268,7 +1268,7 @@ class tx_realty_openImmoImport {
 	private function deleteFile($pathOfFile) {
 		$removedFile = '';
 		if (in_array($pathOfFile, $this->filesToDelete)) {
-			self::rmdir($pathOfFile, true);
+			self::rmdir($pathOfFile, TRUE);
 			$removedFile = basename($pathOfFile);
 		}
 
@@ -1318,7 +1318,7 @@ class tx_realty_openImmoImport {
 		$this->realtyObject = tx_oelib_ObjectFactory::make(
 			'tx_realty_Model_RealtyObject', $this->isTestMode
 		);
-		$this->realtyObject->loadRealtyObject($data, true);
+		$this->realtyObject->loadRealtyObject($data, TRUE);
 	}
 
 	/**
@@ -1369,8 +1369,8 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks whether the owner's data may be used.
 	 *
-	 * @return boolean true it is allowed by configuration to use the
-	 *                 owner's data, false otherwise
+	 * @return boolean TRUE it is allowed by configuration to use the
+	 *                 owner's data, FALSE otherwise
 	 */
 	private function mayUseOwnerData() {
 		return $this->globalConfiguration->getAsBoolean(
@@ -1417,18 +1417,18 @@ class tx_realty_openImmoImport {
 	 *               Removes trailing slash internally.
 	 * @param boolean allow deletion of non-empty directories
 	 *
-	 * @return boolean true if @rmdir went well!
+	 * @return boolean TRUE if @rmdir went well!
 	 */
-	public static function rmdir($path,$removeNonEmpty=false) {
-		$OK = false;
+	public static function rmdir($path,$removeNonEmpty=FALSE) {
+		$OK = FALSE;
 		$path = preg_replace('|/$|','',$path); // Remove trailing slash
 
 		if (file_exists($path)) {
-			$OK = true;
+			$OK = TRUE;
 
 			if (is_dir($path)) {
-				if ($removeNonEmpty==true && $handle = opendir($path)) {
-					while ($OK && false !== ($file = readdir($handle))) {
+				if ($removeNonEmpty==TRUE && $handle = opendir($path)) {
+					while ($OK && FALSE !== ($file = readdir($handle))) {
 						if ($file=='.' || $file=='..') continue;
 						$OK = self::rmdir($path.'/'.$file,$removeNonEmpty);
 					}

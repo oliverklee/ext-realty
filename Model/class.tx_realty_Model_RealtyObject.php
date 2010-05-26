@@ -99,12 +99,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * @var boolean whether hidden objects are loadable
 	 */
-	private $canLoadHiddenObjects = true;
+	private $canLoadHiddenObjects = TRUE;
 
 	/**
 	 * @var boolean whether a newly created record is for testing purposes only
 	 */
-	private $isDummyRecord = false;
+	private $isDummyRecord = FALSE;
 
 	/**
 	 * @var t3lib_refindex a cached reference index instance
@@ -122,7 +122,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @param boolean whether the database records to create are for
 	 *                testing purposes only
 	 */
-	public function __construct($createDummyRecords = false) {
+	public function __construct($createDummyRecords = FALSE) {
 		$this->isDummyRecord = $createDummyRecords;
 
 		$this->initializeCharsetConversion();
@@ -152,7 +152,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *
 	 * @deprecated 2009-02-03 use setData() instead
 	 */
-	public function loadRealtyObject($realtyData, $canLoadHiddenObjects = false) {
+	public function loadRealtyObject($realtyData, $canLoadHiddenObjects = FALSE) {
 		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
 
 		switch ($this->getDataType($realtyData)) {
@@ -195,7 +195,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * database will receive the dummy record flag.
 	 */
 	public function setTestMode() {
-		$this->isDummyRecord = true;
+		$this->isDummyRecord = TRUE;
 	}
 
 	/**
@@ -271,18 +271,18 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Returns true if the realty object is loaded without any data.
+	 * Returns TRUE if the realty object is loaded without any data.
 	 *
-	 * @return boolean true if the realty object is empty, false otherwise
+	 * @return boolean TRUE if the realty object is empty, FALSE otherwise
 	 */
 	public function isRealtyObjectDataEmpty() {
-		$result = true;
+		$result = TRUE;
 
 		foreach (
 			array_keys(tx_oelib_db::getColumnsInTable(REALTY_TABLE_OBJECTS))
 		as $key) {
 			if ($this->existsKey($key)) {
-				$result = false;
+				$result = FALSE;
 				break;
 			}
 		}
@@ -299,13 +299,13 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *
 	 * @param integer PID for new records (omit this parameter to use
 	 *                the PID set in the global configuration)
-	 * @param boolean true if the owner may be set, false otherwise
+	 * @param boolean TRUE if the owner may be set, FALSE otherwise
 	 *
 	 * @return string locallang key of an error message if the record was
 	 *                not written to database, an empty string if it was
 	 *                written successfully
 	 */
-	public function writeToDatabase($overridePid = 0, $setOwner = false) {
+	public function writeToDatabase($overridePid = 0, $setOwner = FALSE) {
 		// If contact_email is the only field, the object is assumed to be not
 		// loaded.
 		if ($this->isRealtyObjectDataEmpty()
@@ -363,14 +363,14 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Checks whether an owner may add objects to the database.
 	 *
-	 * @return boolean true if the current owner may add objects to the database
+	 * @return boolean TRUE if the current owner may add objects to the database
 	 */
 	private function ownerMayAddObjects() {
 		if ($this->isOwnerDataUsable()) {
 			$this->getOwner()->resetObjectsHaveBeenCalculated();
 			$ownerCanAddObjects = $this->getOwner()->canAddNewObjects();
 		} else {
-			$ownerCanAddObjects = true;
+			$ownerCanAddObjects = TRUE;
 		}
 
 		return $ownerCanAddObjects;
@@ -440,8 +440,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Returns whether the owner's data may be used in the FE according to the
 	 * current configuration.
 	 *
-	 * @return boolean true if there is an owner and his data may be used in
-	 *                 the FE, false otherwise
+	 * @return boolean TRUE if there is an owner and his data may be used in
+	 *                 the FE, FALSE otherwise
 	 */
 	private function isOwnerDataUsable() {
 		return (tx_oelib_configurationProxy::getInstance('realty')
@@ -491,7 +491,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Returns whether an owner is set for the current realty object.
 	 *
-	 * @return boolean true if the object has an owner, false otherwise
+	 * @return boolean TRUE if the object has an owner, FALSE otherwise
 	 */
 	public function hasOwner() {
 		return ($this->getAsInteger('owner') > 0);
@@ -585,8 +585,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *
 	 * @param mixed value to check
 	 *
-	 * @return boolean true if the value is either numeric or a string
-	 *                 or of boolean, false otherwise
+	 * @return boolean TRUE if the value is either numeric or a string
+	 *                 or of boolean, FALSE otherwise
 	 */
 	private function isAllowedValue($value) {
 		return (is_numeric($value) || is_string($value) || is_bool($value));
@@ -617,8 +617,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @param string key to be checked for being an allowed field name, must not
 	 *               be empty
 	 *
-	 * @return boolean true if key is an allowed field name for a realty object,
-	 *                 false otherwise
+	 * @return boolean TRUE if key is an allowed field name for a realty object,
+	 *                 FALSE otherwise
 	 */
 	public function isAllowedKey($key) {
 		return tx_oelib_db::tableHasColumn(REALTY_TABLE_OBJECTS, $key);
@@ -698,7 +698,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		// If the property is not defined or the value is an empty string or
 		// zero, no record will be created.
 		if (!$this->existsKey($key)
-			|| in_array($this->get($key), array('0', '', 0), true)
+			|| in_array($this->get($key), array('0', '', 0), TRUE)
 		) {
 			return 0;
 		}
@@ -970,7 +970,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *
 	 * @param resource database result of one record
 	 *
-	 * @return array database result row, will be empty if $dbResult was false
+	 * @return array database result row, will be empty if $dbResult was FALSE
 	 */
 	protected function fetchDatabaseResult($dbResult) {
 		if (!$dbResult) {
@@ -988,7 +988,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * If $dataArray has got an element named 'uid', the database match is
 	 * searched by this UID. Otherwise, the database match is searched by the
 	 * list of alternative keys.
-	 * The result will be true if either the UIDs matched or if all the elements
+	 * The result will be TRUE if either the UIDs matched or if all the elements
 	 * of $dataArray which correspond to the list of alternative keys match the
 	 * a database record.
 	 *
@@ -1018,11 +1018,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Sets the UID for a realty object if it exists in the database and has no
 	 * UID yet.
 	 *
-	 * @return boolean true if the record has a UID, false otherwise
+	 * @return boolean TRUE if the record has a UID, FALSE otherwise
 	 */
 	private function identifyObjectAndSetUid() {
 		if ($this->hasUid()) {
-			return true;
+			return TRUE;
 		}
 
 		$dataArray = array();
@@ -1078,7 +1078,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	private function compareWithDatabase(
 		$whatToSelect, array $dataArray, $table
 	) {
-		$result = false;
+		$result = FALSE;
 
 		$whereClauseParts = array();
 		foreach (array_keys($dataArray) as $key) {
@@ -1178,7 +1178,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$tableName = ($key == 'country')
 			? STATIC_COUNTRIES : array_search($key, self::$propertyTables);
 
-		if ($tableName === false) {
+		if ($tableName === FALSE) {
 			throw new Exception('$key must be within "city", ' .
 				'"apartment_type", "house_type", "district", "pets", ' .
 				'"garage_type", "country", but actually is "' . $key . '".'
@@ -1219,8 +1219,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @param string either "exact" or "rough" to indicate which
 	 *               coordinates to check
 	 *
-	 * @return boolean true if we have exact coordinates with the exactness
-	 *                 indicated by $prefix, false otherwise
+	 * @return boolean TRUE if we have exact coordinates with the exactness
+	 *                 indicated by $prefix, FALSE otherwise
 	 */
 	private function hasCachedCoordinates($prefix) {
 		return $this->getAsBoolean($prefix . '_coordinates_are_cached');
@@ -1426,8 +1426,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * If a front-end user should be used as owner, the owner will be stored in
 	 * $this->owner.
 	 *
-	 * @return boolean true if the contact data should be fetched from the owner
-	 *                 FE user, false otherwise
+	 * @return boolean TRUE if the contact data should be fetched from the owner
+	 *                 FE user, FALSE otherwise
 	 */
 	private function usesContactDataOfOwner() {
 		$useContactDataOfOwner =

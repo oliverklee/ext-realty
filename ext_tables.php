@@ -15,7 +15,7 @@ $TCA['tx_realty_objects'] = array(
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'type' => 'object_type',
-		'versioningWS' => true,
+		'versioningWS' => TRUE,
 		'origUid' => 't3_origuid',
 		'languageField' => 'sys_language_uid',
 		'transOrigPointerField' => 'l18n_parent',
@@ -185,7 +185,7 @@ t3lib_extMgm::addTCAcolumns(
 			),
 		)
 	),
-	true
+	TRUE
 );
 t3lib_extMgm::addToAllTCAtypes('fe_users','--div--;LLL:EXT:realty/locallang_db.xml:fe_users.tx_realty_tab,tx_realty_openimmo_anid,tx_realty_maximum_objects;;;;1-1-1,');
 
