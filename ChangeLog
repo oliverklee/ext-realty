@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3859] Fix: Fatal error in the favorites list: Call to private method
 - [#3848] Fix: Replace newRecordLinkPosition with levelLinksPosition in the TCA
 - [#3434] Cleanup: Replace false/true with FALSE/TRUE
 - [#3725] Feature: Validate the terms checkbox in the contact form
