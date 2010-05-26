@@ -864,7 +864,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @return tx_realty_pi1_Formatter a formatter for the current row
 	 */
-	private function getFormatter() {
+	protected function getFormatter() {
 		if (!isset($this->internal['currentRow'])
 			|| empty($this->internal['currentRow'])
 		) {

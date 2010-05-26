@@ -278,7 +278,6 @@ class tx_realty_pi1_FavoritesListView_testcase extends tx_phpunit_testcase {
 			$this->fixture->translate('message_noResultsFound_favorites'),
 			$output
 		);
-
 	}
 
 	/**
@@ -530,6 +529,21 @@ class tx_realty_pi1_FavoritesListView_testcase extends tx_phpunit_testcase {
 			'another object',
 			$result
 		);
+	}
+
+
+	/////////////////////////////////////////////////////////
+	// Tests concerning the favorites fields in the session
+	/////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function favoriteFieldsInSessionForTitleDoesNotCrash() {
+		$this->fixture->addToFavorites(array($this->firstRealtyUid));
+		$this->fixture->setConfigurationValue('favoriteFieldsInSession', 'title');
+
+		$this->fixture->render();
 	}
 }
 ?>
