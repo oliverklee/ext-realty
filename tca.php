@@ -901,7 +901,7 @@ $TCA['tx_realty_objects'] = array(
 					'collapseAll' => 1,
 					'expandSingle' => 1,
 					'newRecordLinkAddTitle' => 1,
-					'newRecordLinkPosition' => 'bottom',
+					'levelLinksPosition' => 'bottom',
 				),
 			),
 		),
