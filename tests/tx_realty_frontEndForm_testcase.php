@@ -59,13 +59,21 @@ class tx_realty_frontEndForm_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
+		$configuration = new tx_oelib_Configuration();
+		$configuration->setData(
+			array(
+				'feEditorTemplateFile'
+					=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+			)
+		);
+		tx_oelib_ConfigurationRegistry::getInstance()->set(
+			'plugin.tx_realty_pi1', $configuration
+		);
+
 		$this->createDummyRecords();
 
-
 		$this->fixture = new tx_realty_frontEndEditor(
-			array('feEditorTemplateFile'
-				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html'
-			),
+			array(),
 			$GLOBALS['TSFE']->cObj,
 			0,
 			'',
