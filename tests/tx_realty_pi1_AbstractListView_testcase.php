@@ -137,7 +137,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 				'showGoogleMaps' => 0,
 				'defaultCountryUID' => self::DE,
 			),
-			$GLOBALS['TSFE']->cObj,
+			$this->createContentMock(),
 			TRUE
 		);
 	}
@@ -232,6 +232,78 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 	private function allowAccess() {
 		$this->fixture->setConfigurationValue(
 			'requireLoginForSingleViewPage', 0
+		);
+	}
+
+	/**
+	 * Creates a mock content object that can create URLs in the following
+	 * form:
+	 *
+	 * index.php?id=42
+	 *
+	 * The page ID isn't checked for existence. So any page ID can be used.
+	 *
+	 * @return tslib_cObj a mock content object
+	 */
+	private function createContentMock() {
+		$mock = $this->getMock('tslib_cObj', array('typoLink_URL'));
+		$mock->expects($this->any())->method('typoLink_URL')
+			->will($this->returnCallback(array($this, 'getTypoLinkUrl')));
+
+		return $mock;
+	}
+
+	/**
+	 * Callback function for creating mock typolink URLs.
+	 *
+	 * @param array $linkProperties
+	 *        TypoScript properties for "typolink", must at least contain the
+	 *        key 'parameter'
+	 *
+	 * @return string faked URL, will not be empty
+	 */
+	public function getTypoLinkUrl(array $linkProperties) {
+		$pageId = $linkProperties['parameter'];
+		if (isset($linkProperties['additionalParams'])) {
+			$additionalParameters = $linkProperties['additionalParams'];
+		} else {
+			$additionalParameters = '';
+		}
+
+		return 'index.php?id=' . $pageId . $additionalParameters;
+	}
+
+
+	////////////////////////////////////
+	// Tests for the utility functions
+	////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function createTypoLinkInContentMockCreatesLinkToPageId() {
+		$contentMock = $this->createContentMock();
+
+		$this->assertContains(
+			'index.php?id=42',
+			$contentMock->typoLink_URL(array('parameter' => 42))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createTypoLinkInContentMockAddsParameters() {
+		$contentMock = $this->createContentMock();
+
+		$this->assertContains(
+			'&tx_seminars_pi1[seminar]=42',
+			$contentMock->typoLink_URL(
+				array(
+					'parameter' => 1,
+					'additionalParams' => '&tx_seminars_pi1[seminar]=42',
+				)
+			)
 		);
 	}
 
@@ -2725,6 +2797,89 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$fittingRecordUid,
 			$this->fixture->getUidForRecordNumber(0)
+		);
+	}
+
+
+	////////////////////////////////
+	// Tests concerning getSelfUrl
+	////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getSelfUrlCreatesUrlForCurrentPage() {
+		$pageId = $GLOBALS['TSFE']->id;
+
+		$this->assertContains(
+			'?id=' . $pageId,
+			$this->fixture->getSelfUrl()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSelfUrlKeepsExistingPiVar() {
+		$pageId = $GLOBALS['TSFE']->id;
+		$this->fixture->piVars['pointer'] = 2;
+
+		$this->assertContains(
+			'tx_realty_pi1%5Bpointer%5D=2',
+			$this->fixture->getSelfUrl()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSelfUrlNotKeepsExistingDataPiVar() {
+		$pageId = $GLOBALS['TSFE']->id;
+		$this->fixture->piVars['DATA'] = 'stuff';
+
+		$this->assertNotContains(
+			'tx_realty_pi1%5BDATA%5D',
+			$this->fixture->getSelfUrl()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSelfUrlWithKeepPiVarsFalseNotKeepsExistingPiVar() {
+		$pageId = $GLOBALS['TSFE']->id;
+		$this->fixture->piVars['pointer'] = 2;
+
+		$this->assertNotContains(
+			'tx_realty_pi1%5Bpointer%5D',
+			$this->fixture->getSelfUrl(FALSE)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSelfUrlWithPiVarInKeysToRemoveDropsExistingPiVar() {
+		$pageId = $GLOBALS['TSFE']->id;
+		$this->fixture->piVars['pointer'] = 2;
+
+		$this->assertNotContains(
+			'tx_realty_pi1%5Bpointer%5D',
+			$this->fixture->getSelfUrl(TRUE, array('pointer'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSelfUrlWithPiVarInKeysToRemoveKeepsOtherExistingPiVar() {
+		$pageId = $GLOBALS['TSFE']->id;
+		$this->fixture->piVars['uid'] = 42;
+		$this->fixture->piVars['pointer'] = 2;
+
+		$this->assertContains(
+			'tx_realty_pi1%5Buid%5D=42',
+			$this->fixture->getSelfUrl(TRUE, array('pointer'))
 		);
 	}
 }
