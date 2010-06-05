@@ -317,6 +317,160 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function getConvertedDataReplacesSingleLinefeedInObjectTitleWithSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo' . LF . 'bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'foo bar')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReplacesDoubleLinefeedInObjectTitleWithSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo' . LF . LF. 'bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'foo bar')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReplacesSingleCarriageReturnInObjectTitleWithSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo' . CR . 'bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'foo bar')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReplacesDoubleCarriageReturnInObjectTitleWithSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo' . CR . CR . 'bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'foo bar')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReplacesCrLfInObjectTitleWithSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo' . CRLF .'bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'foo bar')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReplacesSingleTabInObjectTitleWithSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo' . TAB . 'bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'foo bar')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReplacesMultipleTabsInObjectTitleWithSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo' . TAB . TAB . 'bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('title' => 'foo bar')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getConvertedDataForSaleTrueCreatesSaleObject() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .

@@ -374,8 +374,7 @@ class tx_realty_domDocumentConverter {
 				implode($openImmoNames)
 			);
 			$this->addImportedData(
-				$databaseColumnName,
-				$currentDomNode->nodeValue
+				$databaseColumnName, $currentDomNode->nodeValue
 			);
 		}
 
@@ -1006,21 +1005,29 @@ class tx_realty_domDocumentConverter {
 	 * Adds a new element $value to the array $arrayExpand, using the key $key.
 	 * The element will not be added if is null.
 	 *
-	 * @param array into which the new element should be inserted, may be empty
-	 * @param string key to insert
-	 * @param mixed value to insert
+	 * @param array $arrayToExpand
+	 *        array into which the new element should be inserted, may be empty
+	 * @param string $key the key to insert, must not be empty
+	 * @param mixed $value the value to insert, may be empty or even null
 	 */
 	protected function addElementToArray(array &$arrayToExpand, $key, $value) {
 		if (!is_null($value)) {
-			$arrayToExpand[$key] = $value;
+			if (is_string($value)) {
+				$cleanedValue = preg_replace(
+					'/[\r\n\t]+/', ' ', trim($value)
+				);
+			} else {
+				$cleanedValue = $value;
+			}
+			$arrayToExpand[$key] = $cleanedValue;
 		}
 	}
 
 	/**
 	 * Adds an element to $this->importedData.
 	 *
-	 * @param string key to insert, must not be empty
-	 * @param mixed value to insert
+	 * @param string $key the key to insert, must not be empty
+	 * @param mixed $value the value to insert, may be empty or even null
 	 */
 	private function addImportedData($key, $value) {
 		$this->addElementToArray($this->importedData, $key, $value);
@@ -1029,9 +1036,9 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Adds an element to $this->importedData if $value is non-empty.
 	 *
-	 * @param string key for the element to add, must not be empty
-	 * @param mixed value for the element to add, will not be added if it is
-	 *              empty
+	 * @param string $key the key for the element to add, must not be empty
+	 * @param mixed $value
+	 *        the value for the element to add, will not be added if it is empty
 	 */
 	private function addImportedDataIfValueIsNonEmpty($key, $value) {
 		if (empty($value)) {
