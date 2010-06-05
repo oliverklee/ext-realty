@@ -1,4 +1,5 @@
 0.5.1 - currently working on
+- [#3771] Cleanup: Clean up and unit-test tx_realty_pi1_AbstractListView::getSelfUrl
 - [#3727] Fix: LF, CR and tab in the object title need to be replaced by spaces during the import
 - [#3799] Fix: Test getTemplatePathReturnsAbsolutePathFromTheConfiguration fails
 - [#3876] Fix: Evil unit tests create a folder in the TYPO3 root directory

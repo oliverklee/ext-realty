@@ -635,7 +635,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * Creates the URL of the current page. The URL will contain a flag to
 	 * disable caching as this URL also is used for forms with method="post".
 	 *
-	 * The URL will contain the current piVars if $keepPiVars is set to TRUE.
+	 * The URL will contain the current piVars that are relevant for the list
+	 * view if $keepPiVars is set to TRUE.
+	 *
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @param boolean $keepPiVars whether the current piVars should be kept
@@ -646,29 +648,29 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return string htmlspecialchared URL of the current page, will not
 	 *                be empty
 	 */
-	protected function getSelfUrl($keepPiVars = TRUE, array $removeKeys = array()) {
-		$piVars = $keepPiVars ? $this->piVars : array();
-		unset($piVars['DATA']);
-		foreach ($removeKeys as $removeThisKey) {
-			if (isset($piVars[$removeThisKey])) {
-				unset($piVars[$removeThisKey]);
+	protected function getSelfUrl(
+		$keepPiVars = TRUE, array $keysToRemove = array()
+	) {
+		$piVars = array();
+		if ($keepPiVars) {
+			foreach ($this->piVars as $key => $value) {
+				if (($key != 'DATA') && !in_array($key, $keysToRemove)) {
+					$piVars[$key] = $value;
+				}
 			}
 		}
 
-		return htmlspecialchars(
-			$this->cObj->typoLink_URL(
-				array(
-					'parameter' => $GLOBALS['TSFE']->id,
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
-						'',
-						array($this->prefixId => $piVars),
-						'',
-						TRUE,
-						TRUE
-					),
-				)
+		$parameters = t3lib_div::implodeArrayForUrl(
+			'', array($this->prefixId => $piVars), '', TRUE, TRUE
+		);
+		$url = $this->cObj->typoLink_URL(
+			array(
+				'parameter' => $GLOBALS['TSFE']->id,
+				'additionalParams' => $parameters,
 			)
 		);
+
+		return htmlspecialchars($url);
 	}
 
 	/**

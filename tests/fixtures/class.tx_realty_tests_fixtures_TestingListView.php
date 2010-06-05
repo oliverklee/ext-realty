@@ -52,6 +52,27 @@ class tx_realty_tests_fixtures_TestingListView extends tx_realty_pi1_AbstractLis
 	 * Initializes some view-specific data.
 	 */
 	protected function initializeView() {}
+
+	/**
+	 * Creates the URL of the current page. The URL will contain a flag to
+	 * disable caching as this URL also is used for forms with method="post".
+	 *
+	 * The URL will contain the current piVars that are relevant for the list
+	 * view if $keepPiVars is set to TRUE.
+	 *
+	 * The URL will already be htmlspecialchared.
+	 *
+	 * @param boolean $keepPiVars whether the current piVars should be kept
+	 * @param array $removeKeys
+	 *        the keys to remove from the piVar data before processing the URL,
+	 *        may be empty
+	 *
+	 * @return string htmlspecialchared URL of the current page, will not
+	 *                be empty
+	 */
+	public function getSelfUrl($keepPiVars = TRUE, array $removeKeys = array()) {
+		return parent::getSelfUrl($keepPiVars, $removeKeys);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/tests/fixtures/class.tx_realty_tests_fixtures_TestingListView.php']) {
