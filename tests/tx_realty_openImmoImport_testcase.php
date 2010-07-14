@@ -68,7 +68,16 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 */
 	private $testImportFolderExists = FALSE;
 
+	/**
+	 * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
+	 *
+	 * @var array
+	 */
+	private $graphicsConfigurationBackup;
+
 	public function setUp() {
+		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
+
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
@@ -93,6 +102,8 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 			$this->globalConfiguration
 		);
 		$this->deleteTestImportFolder();
+
+		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 
 
@@ -110,7 +121,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		// TYPO3 default configuration
 		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-			= 'gif,jpg,jpeg,tif,bmp,pcx,tga,png,pdf,ai';
+			= 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
 
 		$this->globalConfiguration->setAsString(
 			'emailAddress', 'default-address@valid-email.org'
@@ -339,7 +350,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCopyImagesFromExtractedZipCopiesImagesIntoTheUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function copyImagesFromExtractedZipCopiesJpgImagesIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -353,7 +367,38 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCopyImagesFromExtractedZipCopiesImagesWithUppercasedExtensionsIntoTheUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function copyImagesFromExtractedZipNotCopiesPdfFilesIntoTheUploadFolder() {
+		$this->checkForZipArchive();
+
+		$this->copyTestFileIntoImportFolder('pdf.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertFalse(
+			file_exists($this->importFolder . 'foo.pdf')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function copyImagesFromExtractedZipNotCopiesPsFilesIntoTheUploadFolder() {
+		$this->checkForZipArchive();
+
+		$this->copyTestFileIntoImportFolder('ps.zip');
+		$this->fixture->importFromZip();
+
+		$this->assertFalse(
+			file_exists($this->importFolder . 'foo.ps')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function copyImagesFromExtractedZipCopiesJpgImagesWithUppercasedExtensionsIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo-uppercased.zip');
@@ -364,7 +409,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCopyImagesFromExtractedZipTwiceCopiesImagesUniquelyNamedIntoTheUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function copyImagesFromExtractedZipTwiceCopiesImagesUniquelyNamedIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -379,7 +427,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCopyImagesFromExtractedZipCopiesImagesForRealtyRecord() {
+	/**
+	 * @test
+	 */
+	public function copyImagesFromExtractedZipCopiesImagesForRealtyRecord() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -393,7 +444,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCopyImagesFromExtractedZipNotCopiesImagesForRecordWithDeletionFlagSet() {
+	/**
+	 * @test
+	 */
+	public function copyImagesFromExtractedZipNotCopiesImagesForRecordWithDeletionFlagSet() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo-deleted.zip');

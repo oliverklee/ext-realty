@@ -474,6 +474,17 @@ class tx_realty_domDocumentConverter {
 	 * @return array image records, will be empty if there were none
 	 */
 	protected function createRecordsForImages() {
+		$imageExtensions = t3lib_div::trimExplode(
+			',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE
+		);
+		if (in_array('pdf', $imageExtensions)) {
+			unset($imageExtensions[array_search('pdf', $imageExtensions)]);
+		}
+		if (in_array('ps', $imageExtensions)) {
+			unset($imageExtensions[array_search('ps', $imageExtensions)]);
+		}
+		$extensionValidator = '/^.+\.(' . implode('|', $imageExtensions) . ')$/i';
+
 		$images = array();
 		$listedRealties = $this->getListedRealties();
 		if (!$listedRealties) {
@@ -499,13 +510,15 @@ class tx_realty_domDocumentConverter {
 			);
 
 			if ($fileNameNodeList->item(0)) {
-				$fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(
-					basename($fileNameNodeList->item(0)->nodeValue)
-				);
-			}
+				$rawFileName = $fileNameNodeList->item(0)->nodeValue;
 
-			if ($fileName != '') {
-				$images[] = array('caption' => $title, 'image' => $fileName);
+				if (preg_match($extensionValidator, $rawFileName)) {
+					$fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(
+						basename($rawFileName)
+					);
+
+					$images[] = array('caption' => $title, 'image' => $fileName);
+				}
 			}
 		}
 

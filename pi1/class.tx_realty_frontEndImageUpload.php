@@ -147,16 +147,22 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		$validationErrorLabel = '';
 		$maximumFileSizeInBytes
 			= $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024;
-		$validExtensions = '/^.+\.(' .
-			str_replace(
-				',', '|', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-			) . ')$/i';
+		$imageExtensions = t3lib_div::trimExplode(
+			',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE
+		);
+		if (in_array('pdf', $imageExtensions)) {
+			unset($imageExtensions[array_search('pdf', $imageExtensions)]);
+		}
+		if (in_array('ps', $imageExtensions)) {
+			unset($imageExtensions[array_search('ps', $imageExtensions)]);
+		}
+		$extensionValidator = '/^.+\.(' . implode('|', $imageExtensions) . ')$/i';
 
 		if ($this->getFormValue('caption') == '') {
 			$validationErrorLabel = 'message_empty_caption';
 		} elseif ($valueToCheck['value']['size'] > $maximumFileSizeInBytes) {
 			$validationErrorLabel = 'message_image_too_large';
-		} elseif (!preg_match($validExtensions, $valueToCheck['value']['name'])) {
+		} elseif (!preg_match($extensionValidator, $valueToCheck['value']['name'])) {
 			$validationErrorLabel = 'message_invalid_type';
 		}
 
