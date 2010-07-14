@@ -82,40 +82,31 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	public function main($unused, array $conf) {
 		$result = '';
 
-		try {
-			$this->init($conf);
-			$this->pi_initPIflexForm();
+		$this->init($conf);
+		$this->pi_initPIflexForm();
 
-			$this->setLocaleConvention();
-			$this->getTemplateCode();
-			$this->setLabels();
+		$this->setLocaleConvention();
+		$this->getTemplateCode();
+		$this->setLabels();
 
-			$this->internal['currentTable'] = REALTY_TABLE_OBJECTS;
-			$this->ensureIntegerPiVars(array(
-				'remove', 'showUid', 'delete', 'owner', 'uid'
-			));
+		$this->internal['currentTable'] = REALTY_TABLE_OBJECTS;
+		$this->ensureIntegerPiVars(array(
+			'remove', 'showUid', 'delete', 'owner', 'uid'
+		));
 
-			// Checks the configuration and displays any errors.
-			// The direct return value from $this->checkConfiguration() is not
-			// used as this would ignore any previous error messages.
-			$this->setFlavor($this->getCurrentView());
-			$this->checkConfiguration();
+		// Checks the configuration and displays any errors.
+		// The direct return value from $this->checkConfiguration() is not
+		// used as this would ignore any previous error messages.
+		$this->setFlavor($this->getCurrentView());
+		$this->checkConfiguration();
 
-			$errorViewHtml = $this->checkAccessAndGetHtmlOfErrorView();
-			$result = $this->pi_wrapInBaseClass(
-				(($errorViewHtml == '')
-					? $this->getHtmlForCurrentView()
-					: $errorViewHtml
-				) . $this->getWrappedConfigCheckMessage()
-			);
-		} catch (Exception $exception) {
-			$result .= '<p style="border: 2px solid red; padding: 1em; ' .
-				'font-weight: bold;">' . LF .
-				htmlspecialchars($exception->getMessage()) . LF .
-				'<br /><br />' . LF .
-				nl2br(htmlspecialchars($exception->getTraceAsString())) . LF .
-				'</p>' . LF;
-		}
+		$errorViewHtml = $this->checkAccessAndGetHtmlOfErrorView();
+		$result = $this->pi_wrapInBaseClass(
+			(($errorViewHtml == '')
+				? $this->getHtmlForCurrentView()
+				: $errorViewHtml
+			) . $this->getWrappedConfigCheckMessage()
+		);
 
 		return $result;
 	}

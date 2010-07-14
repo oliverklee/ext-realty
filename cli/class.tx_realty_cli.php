@@ -53,7 +53,6 @@ class tx_realty_cli {
 			echo $exception->getMessage() . LF . LF .
 				$exception->getTraceAsString() . LF .LF;
 		}
-
 	}
 }
 
