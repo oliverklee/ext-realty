@@ -24,8 +24,6 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
-require_once(PATH_tslib . 'class.tslib_content.php');
-
 /**
  * Testcase for the tx_realty_pi1_ListViewFactory class in the "realty" extension.
  *

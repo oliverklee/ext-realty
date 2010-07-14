@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_typo3 . 'sysext/lang/lang.php');
-
 /**
  * Class 'tx_realty_translator' for the 'realty' extension.
  *

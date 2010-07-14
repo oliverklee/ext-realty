@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_content.php');
-
 /**
  * Class tx_realty_pi1_NextPreviousButtonsView for the "realty" extension.
  *

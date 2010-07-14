@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
-require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_openImmoImportChild.php');
 
 /**
  * Unit tests for the tx_realty_openImmoImport class in the 'realty' extension.
@@ -1763,11 +1761,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////
 
 	public function testImportFromZipClearsFrontEndCacheAfterImport() {
-		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
-			$this->markTestSkipped(
-				'This test is not applicable for TYPO3 versions lower than 4.3.'
-			);
-		} elseif (!TYPO3_UseCachingFramework) {
+		if (!TYPO3_UseCachingFramework) {
 			$this->markTestSkipped(
 				'This test is not applicable if the caching framework is disabled.'
 			);

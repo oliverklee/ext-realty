@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_offererList.php');
 
 /**
  * Class 'tx_realty_pi1_OffererView' for the 'realty' extension.

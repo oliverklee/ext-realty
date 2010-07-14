@@ -24,10 +24,6 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_fileNameMapper.php');
-require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_domDocumentConverterChild.php');
-
 /**
  * Unit tests for the tx_realty_domDocumentConverter class in the 'realty'
  * extension.

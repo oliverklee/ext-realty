@@ -23,11 +23,7 @@
 ***************************************************************/
 
 
-require_once(PATH_t3lib . 'class.t3lib_refindex.php');
-require_once(PATH_t3lib . 'class.t3lib_befunc.php');
-
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_googleMapsLookup.php');
 
 /**
  * Class 'tx_realty_Model_RealtyObject' for the 'realty' extension.

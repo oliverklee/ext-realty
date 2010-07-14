@@ -22,11 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_cacheManager.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_domDocumentConverter.php');
-require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_fileNameMapper.php');
-
 /**
  * Class 'tx_realty_openImmoImport' for the 'realty' extension.
  *

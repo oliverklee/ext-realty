@@ -36,17 +36,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 
 tslib_eidtools::connectDB();
-if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
-	tslib_eidtools::initTCA();
-} else {
-	if (!is_array($GLOBALS['TCA']) || !isset($GLOBALS['TCA']['pages'])) {
-		require_once(PATH_tslib.'class.tslib_fe.php');
-
-		tx_oelib_ObjectFactory::make(
-			'tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], 0, 0
-		)->includeTCA(FALSE);;
-	}
-}
+tslib_eidtools::initTCA();
 
 $cityUid = intval(t3lib_div::_GET('city'));
 $showWithNumbers = (t3lib_div::_GET('type') == 'withNumber');
