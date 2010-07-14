@@ -22,7 +22,7 @@
 ***************************************************************/
 
 /**
- * This file provides a JavaScript functions for the Realty Manager.
+ * This file provides JavaScript functions for the Realty Manager.
  *
  * @package TYPO3
  * @subpackage tx_realty
