@@ -38,42 +38,69 @@ require_once(t3lib_extMgm::extPath('realty') . 'pi1/class.tx_realty_frontEndImag
  */
 class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_frontEndImageUpload object to be tested
+	 * @var tx_realty_frontEndImageUpload
 	 */
 	private $fixture;
+
 	/**
 	 * @var tx_oelib_testingFramework
 	 */
 	private $testingFramework;
 
 	/**
-	 * @var integer dummy FE user UID
+	 * dummy FE user UID
+	 *
+	 * @var integer
 	 */
 	private $feUserUid;
+
 	/**
-	 * @var integer UID of the dummy object
+	 * UID of the dummy object
+	 *
+	 * @var integer
 	 */
 	private $dummyObjectUid = 0;
 
 	/**
-	 * @var string title for the first dummy image
+	 * title for the first dummy image
+	 *
+	 * @var string
 	 */
 	private static $firstImageTitle = 'first test image';
+
 	/**
-	 * @var string file name for the first dummy image
+	 * file name for the first dummy image
+	 *
+	 * @var string
 	 */
 	private static $firstImageFileName = 'first.jpg';
 
 	/**
-	 * @var string title for the second dummy image
+	 * title for the second dummy image
+	 *
+	 * @var string
 	 */
 	private static $secondImageTitle = 'second test image';
+
 	/**
-	 * @var string file name for the second dummy image
+	 * file name for the second dummy image
+	 *
+	 * @var string
 	 */
 	private static $secondImageFileName = 'second.jpg';
 
+	/**
+	 * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
+	 *
+	 * @var array
+	 */
+	private $graphicsConfigurationBackup;
+
 	public function setUp() {
+		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
+		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+			= 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
+
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -96,6 +123,8 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
+
+		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 
 
@@ -220,14 +249,21 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 	// Tests concerning validation.
 	/////////////////////////////////
 
-	public function testCheckFileReturnsTrueIfNoImageWasProvided() {
+	/**
+	 * @test
+	 */
+	public function checkFileForNoImageReturnsTrue() {
 		$this->assertTrue(
 			$this->fixture->checkFile(array('value' => array('name')))
 		);
 	}
 
-	public function testCheckFileReturnsTrueForGifFile() {
+	/**
+	 * @test
+	 */
+	public function checkFileForGifFileReturnsTrue() {
 		$this->fixture->setFakedFormValue('caption', 'foo');
+
 		$this->assertTrue(
 			$this->fixture->checkFile(
 				array('value' => array('name' => 'foo.gif', 'size' => 1))
@@ -235,8 +271,12 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckFileReturnsTrueForPngFile() {
+	/**
+	 * @test
+	 */
+	public function checkFileForPngFileReturnsTrue() {
 		$this->fixture->setFakedFormValue('caption', 'foo');
+
 		$this->assertTrue(
 			$this->fixture->checkFile(
 				array('value' => array('name' => 'foo.png', 'size' => 1))
@@ -244,8 +284,12 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckFileReturnsTrueForJpgFile() {
+	/**
+	 * @test
+	 */
+	public function checkFileForJpgFileReturnsTrue() {
 		$this->fixture->setFakedFormValue('caption', 'foo');
+
 		$this->assertTrue(
 			$this->fixture->checkFile(
 				array('value' => array('name' => 'foo.jpg', 'size' => 1))
@@ -253,8 +297,12 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckFileReturnsTrueForJpegFile() {
+	/**
+	 * @test
+	 */
+	public function checkFileForJpegFileReturnsTrue() {
 		$this->fixture->setFakedFormValue('caption', 'foo');
+
 		$this->assertTrue(
 			$this->fixture->checkFile(
 				array('value' => array('name' => 'foo.jpeg', 'size' => 1))
@@ -262,7 +310,36 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckFileReturnsFalseIfNoCaptionWasProvidedForTheImage() {
+	/**
+	 * @test
+	 */
+	public function checkFileForPdfFileReturnsFalse() {
+		$this->fixture->setFakedFormValue('caption', 'foo');
+
+		$this->assertFalse(
+			$this->fixture->checkFile(
+				array('value' => array('name' => 'foo.pdf', 'size' => 1))
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function checkFileForPsFileReturnsFalse() {
+		$this->fixture->setFakedFormValue('caption', 'foo');
+
+		$this->assertFalse(
+			$this->fixture->checkFile(
+				array('value' => array('name' => 'foo.ps', 'size' => 1))
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function checkFileWithoutCaptionReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->checkFile(
 				array('value' => array('name' => 'foo.jpg', 'size' => 1))
@@ -270,9 +347,13 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckFileReturnsFalseForTooLargeImage() {
+	/**
+	 * @test
+	 */
+	public function checkFileForTooLargeImageReturnsFalse() {
 		$tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024) + 1;
 		$this->fixture->setFakedFormValue('caption', 'foo');
+
 		$this->assertFalse(
 			$this->fixture->checkFile(
 				array('value' => array('name' => 'foo.jpg', 'size' => $tooLarge))
@@ -280,8 +361,12 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckFileReturnsFalseForInvalidExtension() {
+	/**
+	 * @test
+	 */
+	public function checkFileForInvalidFooExtensionReturnsFalse() {
 		$this->fixture->setFakedFormValue('caption', 'foo');
+
 		$this->assertFalse(
 			$this->fixture->checkFile(
 				array('value' => array('name' => 'foo.foo', 'size' => 1))

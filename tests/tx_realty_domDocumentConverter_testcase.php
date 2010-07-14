@@ -39,16 +39,29 @@ require_once(t3lib_extMgm::extPath('realty') . 'tests/fixtures/class.tx_realty_d
  */
 class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_domDocumentConverter instance to be tested
+	 * @var tx_realty_domDocumentConverter
 	 */
 	private $fixture;
 
 	/**
-	 * @var integer static_info_tables UID of Germany
+	 * static_info_tables UID of Germany
+	 *
+	 * @var integer
 	 */
 	const DE = 54;
 
+	/**
+	 * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
+	 *
+	 * @var array
+	 */
+	private $graphicsConfigurationBackup;
+
 	public function setUp() {
+		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
+		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+			= 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
+
 		$this->fixture = new tx_realty_domDocumentConverterChild(
 			new tx_realty_fileNameMapper()
 		);
@@ -58,6 +71,8 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$this->fixture->__destruct();
 
 		unset($this->fixture);
+
+		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 
 
@@ -1138,7 +1153,10 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordsForImagesIfOneImageValidImageAppendixIsGiven() {
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesForLowercaseJpgWithCaptionReturnsRecord() {
 		$this->setRawDataToConvert(
 			'<immobilie>'
 				.'<anhang>'
@@ -1161,7 +1179,99 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordsForImagesIfOneImageImageAppendixWithoutTitleIsGiven() {
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesForUppercaseJpgWithCaptionReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>tx_realty_image_test.JPG</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(
+				array(
+					'caption' => 'bar',
+					'image' => 'tx_realty_image_test.JPG'
+				)
+			),
+			$this->fixture->createRecordsForImages()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesForPdfWithCaptionNotReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>layout.pdf</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->createRecordsForImages()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesForPsWithCaptionNotReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>layout.ps</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->createRecordsForImages()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesForExeWithCaptionNotReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>evil-virus.exe</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->createRecordsForImages()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesForJpgWithoutCaptionReturnsRecord() {
 		$this->setRawDataToConvert(
 			'<immobilie>'
 				.'<anhang>'
