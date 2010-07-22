@@ -736,30 +736,29 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		// Marks all currently appended images in the database as obsolete.
 		// Those which are still supposed to be this record's images will be
 		// recreated later.
-		foreach ($this->getAttachedImages('realty_object_uid') as $obsoleteImage) {
+		foreach ($this->getAttachedImages('object') as $obsoleteImage) {
 			$obsoleteImage['deleted'] = 1;
 			$obsoleteImage['uid'] = $this->getRecordUid(
 				array(
 					'image' => $obsoleteImage['image'],
-					'realty_object_uid' => $this->getUid(),
+					'object' => $this->getUid(),
 				),
 				REALTY_TABLE_IMAGES
 			);
 			$this->updateDatabaseEntry($obsoleteImage, REALTY_TABLE_IMAGES);
 
-			$obsoleteImages[$obsoleteImage['image']]
-				= $obsoleteImage['realty_object_uid'];
+			$obsoleteImages[$obsoleteImage['image']] = $obsoleteImage['object'];
 		}
 
 		foreach ($this->getAllImageData() as $imageData) {
 			// Creates a relation to the parent realty object for each image.
-			$imageData['realty_object_uid'] = $this->getUid();
+			$imageData['object'] = $this->getUid();
 
 			if (isset($imageData['deleted']) && ($imageData['deleted'] != 0)
 				&& ($obsoleteImages[$imageData['image']]
-					== $imageData['realty_object_uid'])
+					== $imageData['object'])
 			) {
-				$fileName = PATH_site . REALTY_UPLOAD_FOLDER . $imageData['image'];
+				$fileName = PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER . $imageData['image'];
 				// In the database, the image is already marked as deleted
 				// because it is in the list of obsoletes, this aditionally
 				// deletes the image from the file system.
@@ -822,7 +821,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			'caption, image' .
 				(($additionalFields == '') ? '' : ',' . $additionalFields),
 			REALTY_TABLE_IMAGES,
-			'realty_object_uid = ' . $this->getUid() .
+			'object = ' . $this->getUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 			'',
 			'uid'

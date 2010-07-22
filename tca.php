@@ -895,7 +895,7 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type'=> 'inline',
 				'foreign_table' => 'tx_realty_images',
-				'foreign_field' => 'realty_object_uid',
+				'foreign_field' => 'object',
 				'minitems' => 0,
 				'maxitems' => 99,
 				'appearance' => array(
@@ -1398,6 +1398,17 @@ $TCA['tx_realty_images'] = array(
 			'config' => array(
 				'type' => 'check',
 				'default' => '0',
+			),
+		),
+		'object' => array(
+			'exclude' => 0,
+			'label' => '',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_realty_objects',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
 			),
 		),
 		'caption' => array(

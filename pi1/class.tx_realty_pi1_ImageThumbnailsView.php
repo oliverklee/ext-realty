@@ -111,7 +111,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 
 		$imagePath = array();
 		$imageWithTag = $this->createRestrictedImage(
-			REALTY_UPLOAD_FOLDER . $imageRecord['image'],
+			tx_realty_Model_Image::UPLOAD_FOLDER . $imageRecord['image'],
 			'',
 			$this->getConfValueInteger('lightboxImageWidthMax'),
 			$this->getConfValueInteger('lightboxImageHeightMax')
@@ -123,7 +123,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 
 		$fullSizeImageUrl = $imagePath[1];
 		$thumbnailUrl = $this->createRestrictedImage(
-			REALTY_UPLOAD_FOLDER . $imageRecord['image'],
+			tx_realty_Model_Image::UPLOAD_FOLDER . $imageRecord['image'],
 			$imageRecord['caption'],
 			$this->getConfValueInteger('singleImageMaxX'),
 			$this->getConfValueInteger('singleImageMaxY'),

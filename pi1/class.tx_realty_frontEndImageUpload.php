@@ -239,7 +239,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	private function getRenderedImageList(array $imageData) {
 		$result = '';
 		foreach ($imageData as $key => $imageRecord) {
-			$imagePath = REALTY_UPLOAD_FOLDER . $imageRecord['image'];
+			$imagePath = tx_realty_Model_Image::UPLOAD_FOLDER . $imageRecord['image'];
 			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
 					$this->cObj->typoLink_URL(array('parameter' => $imagePath))
 			));

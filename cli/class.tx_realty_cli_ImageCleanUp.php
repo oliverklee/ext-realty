@@ -41,7 +41,7 @@ class tx_realty_cli_ImageCleanUp {
 	/**
 	 * @var string upload folder, relative to PATH_site
 	 */
-	private $uploadFolder = REALTY_UPLOAD_FOLDER;
+	private $uploadFolder = tx_realty_Model_Image::UPLOAD_FOLDER;
 
 	/**
 	 * @var array associative array with statistical information collected
@@ -98,7 +98,7 @@ class tx_realty_cli_ImageCleanUp {
 			? array()
 			: tx_oelib_db::selectColumnForMultiple(
 				'uid', REALTY_TABLE_IMAGES,
-				'realty_object_uid IN (' . $nonDeletedRealtyRecordUids . ')' .
+				'object IN (' . $nonDeletedRealtyRecordUids . ')' .
 					tx_oelib_db::enableFields(REALTY_TABLE_IMAGES, 1) .
 					$this->additionalWhereClause
 			);

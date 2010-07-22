@@ -45,7 +45,4 @@ define('REALTY_CONTACT_FROM_OWNER_ACCOUNT', 1);
 // object types
 define('REALTY_FOR_RENTING', 0);
 define('REALTY_FOR_SALE', 1);
-
-// the upload folder for images
-define('REALTY_UPLOAD_FOLDER', 'uploads/tx_realty/');
 ?>

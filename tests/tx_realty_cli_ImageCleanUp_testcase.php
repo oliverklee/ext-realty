@@ -104,7 +104,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	public function hideUnusedImagesInDatabase_notHidesImageReferencingEnabledRealtyRecord() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('realty_object_uid' => $this->testingFramework->createRecord(
+			array('object' => $this->testingFramework->createRecord(
 				REALTY_TABLE_OBJECTS, array('images' => 1)
 			))
 		);
@@ -124,7 +124,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	public function hideUnusedImagesInDatabase_notHidesImageReferencingHiddenRealtyRecord() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('realty_object_uid' => $this->testingFramework->createRecord(
+			array('object' => $this->testingFramework->createRecord(
 				REALTY_TABLE_OBJECTS, array('images' => 1, 'hidden' => 1)
 			))
 		);
@@ -144,7 +144,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	public function hideUnusedImagesInDatabase_hidesImageReferencingDeletedRealtyRecord() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('realty_object_uid' => $this->testingFramework->createRecord(
+			array('object' => $this->testingFramework->createRecord(
 				REALTY_TABLE_OBJECTS, array('images' => 1, 'deleted' => 1)
 			))
 		);

@@ -150,7 +150,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES, $this->testingFramework->getListOfDirtyTables()
 		)) {
 			tx_oelib_db::delete(
-				'sys_refindex', 'ref_string = "' . REALTY_UPLOAD_FOLDER . 'bar"'
+				'sys_refindex', 'ref_string = "' . tx_realty_Model_Image::UPLOAD_FOLDER . 'bar"'
 			);
 		}
 
@@ -386,7 +386,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'foo',
 				'image' => 'foo.jpg',
-				'realty_object_uid' => $this->objectUid
+				'object' => $this->objectUid
 			)
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -405,7 +405,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'foo',
 				'image' => 'foo.jpg',
-				'realty_object_uid' => $this->objectUid
+				'object' => $this->objectUid
 			)
 		);
 		$this->fixture->loadRealtyObject(
@@ -437,7 +437,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'foo',
 				'image' => 'foo.jpg',
-				'realty_object_uid' => $this->objectUid
+				'object' => $this->objectUid
 			)
 		);
 		$this->fixture->setData(array('uid' => $this->objectUid, 'images' => 1));
@@ -474,7 +474,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'first',
 				'image' => 'first.jpg',
-				'realty_object_uid' => $this->objectUid,
+				'object' => $this->objectUid,
 			)
 		);
 		$this->testingFramework->createRecord(
@@ -482,7 +482,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'second',
 				'image' => 'second.jpg',
-				'realty_object_uid' => $this->objectUid,
+				'object' => $this->objectUid,
 			)
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1215,7 +1215,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			tx_oelib_db::selectSingle(
 				'image',
 				REALTY_TABLE_IMAGES,
-				'realty_object_uid = ' . $this->objectUid
+				'object = ' . $this->objectUid
 			)
 		);
 	}
@@ -1232,7 +1232,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			tx_oelib_db::selectSingle(
 				'image',
 				REALTY_TABLE_IMAGES,
-				'realty_object_uid = ' . $this->objectUid
+				'object = ' . $this->objectUid
 			)
 		);
 	}
@@ -1249,7 +1249,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			tx_oelib_db::selectSingle(
 				'caption, image',
 				REALTY_TABLE_IMAGES,
-				'realty_object_uid = ' . $this->objectUid
+				'object = ' . $this->objectUid
 			)
 		);
 	}
@@ -1486,7 +1486,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testLoadingAnExistingRecordWithAnImageAndWritingItToTheDatabaseDoesNotDuplicateTheImage() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('realty_object_uid' => $this->objectUid, 'image' => 'test.jpg')
+			array('object' => $this->objectUid, 'image' => 'test.jpg')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->writeToDatabase();
@@ -1501,7 +1501,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	public function testLoadingAnExistingRecordWithAnImageByArrayAndWritingItWithAnotherImageToTheDatabaseDeletesTheExistingImage() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('realty_object_uid' => $this->objectUid, 'image' => 'test.jpg')
+			array('object' => $this->objectUid, 'image' => 'test.jpg')
 		);
 		$this->fixture->loadRealtyObject(
 			array(
@@ -1524,7 +1524,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
-				'realty_object_uid' => $this->objectUid,
+				'object' => $this->objectUid,
 				'image' => 'test.jpg',
 				'caption' => 'test',
 			)
@@ -1542,7 +1542,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
 				REALTY_TABLE_IMAGES,
-				'realty_object_uid=' . $this->objectUid . ' AND image="test.jpg"'
+				'object=' . $this->objectUid . ' AND image="test.jpg"'
 			)
 		);
 	}
@@ -1673,7 +1673,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'foo',
 				'image' => 'foo.jpg',
-				'realty_object_uid' => $this->objectUid
+				'object' => $this->objectUid
 			)
 		);
 
@@ -1696,7 +1696,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'foo',
 				'image' => 'foo.jpg',
-				'realty_object_uid' => $this->objectUid,
+				'object' => $this->objectUid,
 				'deleted' => 1,
 			)
 		);
@@ -1719,7 +1719,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			array(
 				'caption' => 'foo',
 				'image' => basename($fileName),
-				'realty_object_uid' => $this->objectUid
+				'object' => $this->objectUid
 			)
 		);
 

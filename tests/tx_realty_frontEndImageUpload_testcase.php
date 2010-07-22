@@ -191,7 +191,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
-				'realty_object_uid=' . $this->dummyObjectUid .
+				'object=' . $this->dummyObjectUid .
 					' AND caption="test image" AND image="image.jpg"'
 			)
 		);
@@ -209,7 +209,7 @@ class tx_realty_frontEndImageUpload_testcase extends tx_phpunit_testcase {
 			0,
 			$this->testingFramework->countRecords(
 				REALTY_TABLE_IMAGES,
-				'realty_object_uid=' . $this->dummyObjectUid .
+				'object=' . $this->dummyObjectUid .
 					' AND caption="test image"'
 			)
 		);

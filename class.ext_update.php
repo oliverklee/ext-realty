@@ -51,6 +51,9 @@ class ext_update {
 			if ($this->needsToUpdateDistricts()) {
 				$result = $this->updateDistricts();
 			}
+			if ($this->needsToUpdateImages()) {
+				$result .= $this->updateImages();
+			}
 		} catch (tx_oelib_Exception_Database $exception) {
 		}
 
@@ -71,15 +74,14 @@ class ext_update {
 		if (!tx_oelib_db::existsTable('tx_realty_objects')
 			|| !tx_oelib_db::existsTable('tx_realty_cities')
 			|| !tx_oelib_db::existsTable('tx_realty_districts')
+			|| !tx_oelib_db::existsTable('tx_realty_images')
 		) {
-			return FALSE;
-		}
-		if (!tx_oelib_db::tableHasColumn('tx_realty_districts', 'city')) {
 			return FALSE;
 		}
 
 		try {
-			$result = $this->needsToUpdateDistricts();
+			$result = $this->needsToUpdateDistricts()
+				|| $this->needsToUpdateImages();
 		} catch (tx_oelib_Exception_Database $exception) {
 			$result = FALSE;
 		}
@@ -89,8 +91,14 @@ class ext_update {
 
 	/**
 	 * Checks whether the district -> city relations need to be updated.
+	 *
+	 * @return boolean TRUE if the relation needs to be updated, FALSE otherwise
 	 */
 	private function needsToUpdateDistricts() {
+		if (!tx_oelib_db::tableHasColumn('tx_realty_districts', 'city')) {
+			return FALSE;
+		}
+
 		$districtsWithExactlyOneCity = $this->findDistrictsToAssignCity();
 
 		return !empty($districtsWithExactlyOneCity);
@@ -167,6 +175,43 @@ class ext_update {
 			'district HAVING COUNT(DISTINCT city) = 1',
 			'city'
 		);
+	}
+
+	/**
+	 * Checks whether the image -> object relations need to be updated.
+	 *
+	 * @return boolean TRUE if the relation needs to be updated, FALSE otherwise
+	 */
+	private function needsToUpdateImages() {
+		if (!tx_oelib_db::tableHasColumn('tx_realty_images', 'realty_object_uid')
+			|| !tx_oelib_db::tableHasColumn('tx_realty_images', 'object')
+		) {
+			return FALSE;
+		}
+
+		return tx_oelib_db::existsRecord(
+			'tx_realty_images',
+			'realty_object_uid > 0 AND object = 0'
+		);
+	}
+
+	/**
+	 * Updates the image -> object relations.
+	 *
+	 * @return string output of the update function, will not be empty
+	 */
+	private function updateImages() {
+		$result = '<h2>Updating image-object relations:</h2>' . LF;
+
+		$GLOBALS['TYPO3_DB']->sql_query(
+			'UPDATE tx_realty_images SET object = realty_object_uid ' .
+				'WHERE realty_object_uid > 0 AND object = 0'
+		);
+		$numberOfAffectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
+
+		$result .= '<p>Updated ' . $numberOfAffectedRows . ' image records.</p>';
+
+		return $result;
 	}
 }
 

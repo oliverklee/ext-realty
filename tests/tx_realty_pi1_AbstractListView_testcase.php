@@ -443,7 +443,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'test image',
-				'realty_object_uid' => $this->firstRealtyUid,
+				'object' => $this->firstRealtyUid,
 			)
 		);
 
@@ -458,7 +458,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'test image',
-				'realty_object_uid' => $this->firstRealtyUid,
+				'object' => $this->firstRealtyUid,
 				'deleted' => 1,
 			)
 		);
@@ -473,7 +473,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'test image',
-				'realty_object_uid' => $this->firstRealtyUid,
+				'object' => $this->firstRealtyUid,
 				'hidden' => 1,
 			)
 		);
@@ -498,7 +498,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('caption' => 'foo', 'realty_object_uid' => $this->firstRealtyUid)
+			array('caption' => 'foo', 'object' => $this->firstRealtyUid)
 		);
 		$output = $this->fixture->render();
 

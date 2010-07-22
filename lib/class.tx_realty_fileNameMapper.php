@@ -55,7 +55,7 @@ class tx_realty_fileNameMapper {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->destinationPath = PATH_site . REALTY_UPLOAD_FOLDER;
+		$this->destinationPath = PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER;
 	}
 
 	/**

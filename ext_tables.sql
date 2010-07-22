@@ -198,7 +198,7 @@ CREATE TABLE tx_realty_pets (
 CREATE TABLE tx_realty_images (
 	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
-	realty_object_uid int(11) DEFAULT '0' NOT NULL,
+	object int(11) DEFAULT '0' NOT NULL,
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
 	cruser_id int(11) DEFAULT '0' NOT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE tx_realty_images (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY dummy (is_dummy_record),
-	KEY container (realty_object_uid)
+	KEY container (object)
 );
 
 #

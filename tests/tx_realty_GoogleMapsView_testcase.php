@@ -565,7 +565,7 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 			array(
 				'caption'=>'foo.jpg',
 				'image' => 'foo.jpg',
-				'realty_object_uid' => $this->realtyUid,
+				'object' => $this->realtyUid,
 			)
 		);
 		$this->testingFramework->changeRecord(

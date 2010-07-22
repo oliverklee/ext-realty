@@ -118,7 +118,7 @@ class tx_realty_openImmoImport {
 		libxml_use_internal_errors(TRUE);
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 		$this->fileNameMapper = tx_oelib_ObjectFactory::make('tx_realty_fileNameMapper');
-		$this->setUploadDirectory(PATH_site . REALTY_UPLOAD_FOLDER);
+		$this->setUploadDirectory(PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER);
 	}
 
 	/**

@@ -1148,7 +1148,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$image = tx_oelib_db::selectSingle(
 				'image, caption',
 				REALTY_TABLE_IMAGES,
-				'realty_object_uid = ' . $this->internal['currentRow']['uid'] .
+				'object = ' . $this->internal['currentRow']['uid'] .
 					tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 				'',
 				'uid',
@@ -1180,7 +1180,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	private function createImageTag(
 		$filename, $maxSizeVariable, $caption = '', $id = ''
 	) {
-		$fullPath = REALTY_UPLOAD_FOLDER . $filename;
+		$fullPath = tx_realty_Model_Image::UPLOAD_FOLDER . $filename;
 		$maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
 		$maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
 
