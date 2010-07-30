@@ -803,16 +803,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Gets the related image records.
-	 *
-	 * @return tx_oelib_List list of tx_realty_Model_Image, will be empty if
-	 *                       this object has no images
-	 */
-	public function getImages() {
-		return $this->getAsList('images');
-	}
-
-	/**
 	 * Returns the images of the current realty object in an array.
 	 *
 	 * @param string comma-separated list of additional database fields to
