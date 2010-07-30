@@ -121,6 +121,24 @@ $TCA['tx_realty_images'] = array(
 	)
 );
 
+$TCA['tx_realty_documents'] = array(
+	'ctrl' => array(
+		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_documents',
+		'label' => 'title',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'cruser_id' => 'cruser_id',
+		'languageField' => 'sys_language_uid',
+		'transOrigPointerField' => 'l18n_parent',
+		'transOrigDiffSourceField' => 'l18n_diffsource',
+		'default_sortby' => 'ORDER BY crdate',
+		'delete' => 'deleted',
+		'enablecolumns' => array(),
+		'dynamicConfigFile' => $extPath . 'tca.php',
+		'iconfile' => $extIconRelPath . 'icon_tx_realty_images.gif'
+	)
+);
+
 $TCA['tx_realty_cities'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_cities',

@@ -107,6 +107,7 @@
 			<label index="tx_realty_objects.misc">Miscellaneous</label>
 			<label index="tx_realty_objects.details_page">Separate page for the details view for this object</label>
 			<label index="tx_realty_objects.images">Images</label>
+			<label index="tx_realty_objects.documents">Documents</label>
 			<label index="tx_realty_objects.tstamp">Last changed</label>
 			<label index="tx_realty_objects.employer">Employer</label>
 			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
@@ -135,6 +136,9 @@
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
+			<label index="tx_realty_documents">Document</label>
+			<label index="tx_realty_documents.title">Title</label>
+			<label index="tx_realty_documents.filename">File</label>
 			<label index="tx_realty_cities">City</label>
 			<label index="tx_realty_cities.title">City name</label>
 			<label index="tx_realty_cities.save_folder">Folder for objects in this city (only for FE-created records)</label>
@@ -246,6 +250,7 @@
 			<label index="tx_realty_objects.misc">Sonstiges</label>
 			<label index="tx_realty_objects.details_page">Separate Seite für die Detailansicht dieses Objektes</label>
 			<label index="tx_realty_objects.images">Bilder</label>
+			<label index="tx_realty_objects.documents">Dokumente</label>
 			<label index="tx_realty_objects.tstamp">Änderungsdatum</label>
 			<label index="tx_realty_objects.employer">Firma</label>
 			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
@@ -274,6 +279,9 @@
 			<label index="tx_realty_images">Bild</label>
 			<label index="tx_realty_images.caption">Bildunterschrift</label>
 			<label index="tx_realty_images.image">Bild</label>
+			<label index="tx_realty_documents">Dokument</label>
+			<label index="tx_realty_documents.title">Titel</label>
+			<label index="tx_realty_documents.filename">Datei</label>
 			<label index="tx_realty_cities">Ort</label>
 			<label index="tx_realty_cities.title">Ortsname</label>
 			<label index="tx_realty_cities.save_folder">Ordner für Objekte in diesem Ort (nur für den FE-Editor)</label>
@@ -988,6 +996,7 @@
 			<label index="tx_realty_objects.misc" type="integer">59226864</label>
 			<label index="tx_realty_objects.details_page" type="integer">265680266</label>
 			<label index="tx_realty_objects.images" type="integer">268373344</label>
+			<label index="tx_realty_objects.documents" type="integer">254284427</label>
 			<label index="tx_realty_objects.tstamp" type="integer">68135228</label>
 			<label index="tx_realty_objects.employer" type="integer">158221070</label>
 			<label index="tx_realty_objects.openimmo_anid" type="integer">252752095</label>
@@ -1016,6 +1025,9 @@
 			<label index="tx_realty_images" type="integer">199571973</label>
 			<label index="tx_realty_images.caption" type="integer">41073277</label>
 			<label index="tx_realty_images.image" type="integer">199571973</label>
+			<label index="tx_realty_documents" type="integer">9720665</label>
+			<label index="tx_realty_documents.title" type="integer">192455458</label>
+			<label index="tx_realty_documents.filename" type="integer">11696408</label>
 			<label index="tx_realty_cities" type="integer">92079470</label>
 			<label index="tx_realty_cities.title" type="integer">163522718</label>
 			<label index="tx_realty_cities.save_folder" type="integer">80265519</label>
@@ -1734,6 +1746,7 @@
 			<label index="tx_realty_objects.misc">Miscellaneous</label>
 			<label index="tx_realty_objects.details_page">Separate page for the details view for this object</label>
 			<label index="tx_realty_objects.images">Images</label>
+			<label index="tx_realty_objects.documents">Documents</label>
 			<label index="tx_realty_objects.tstamp">Last changed</label>
 			<label index="tx_realty_objects.employer">Employer</label>
 			<label index="tx_realty_objects.openimmo_anid">&quot;OpenImmo-ANID&quot;</label>
@@ -1762,6 +1775,9 @@
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
+			<label index="tx_realty_documents">Document</label>
+			<label index="tx_realty_documents.title">Title</label>
+			<label index="tx_realty_documents.filename">File</label>
 			<label index="tx_realty_cities">City</label>
 			<label index="tx_realty_cities.title">City name</label>
 			<label index="tx_realty_districts">District</label>

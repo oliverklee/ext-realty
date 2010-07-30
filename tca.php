@@ -906,6 +906,23 @@ $TCA['tx_realty_objects'] = array(
 				),
 			),
 		),
+		'documents' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.documents',
+			'config' => array(
+				'type'=> 'inline',
+				'foreign_table' => 'tx_realty_documents',
+				'foreign_field' => 'object',
+				'minitems' => 0,
+				'maxitems' => 99,
+				'appearance' => array(
+					'collapseAll' => 1,
+					'expandSingle' => 1,
+					'newRecordLinkAddTitle' => 1,
+					'levelLinksPosition' => 'bottom',
+				),
+			),
+		),
 		'employer' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer',
@@ -1069,7 +1086,7 @@ $TCA['tx_realty_objects'] = array(
 					'unorderedlist|outdent|indent|link|table|image|line|' .
 					'chMode]' .
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-				'details_page, images, contact_data_source, employer, ' .
+				'details_page, images, documents, contact_data_source, employer, ' .
 				'contact_person, contact_email, phone_switchboard, ' .
 				'phone_direct_extension, owner, language, currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
@@ -1111,7 +1128,7 @@ $TCA['tx_realty_objects'] = array(
 					'unorderedlist|outdent|indent|link|table|image|line|' .
 					'chMode]' .
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
-				'details_page, images, contact_data_source, employer, '.
+				'details_page, images, documents, contact_data_source, employer, '.
 				'contact_person, contact_email, phone_switchboard, ' .
 				'phone_direct_extension, owner, language, currency, ' .
 				'exact_coordinates_are_cached;;2, ' .
@@ -1444,6 +1461,88 @@ $TCA['tx_realty_images'] = array(
 	),
 );
 
+
+
+$TCA['tx_realty_documents'] = array(
+	'ctrl' => $TCA['tx_realty_documents']['ctrl'],
+	'interface' => array(
+		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title,filename'
+	),
+	'columns' => array(
+		'sys_language_uid' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0),
+				),
+			),
+		),
+		'l18n_parent' => array(
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+				),
+				'foreign_table' => 'tx_realty_documents',
+				'foreign_table_where' => 'AND tx_realty_documents.pid=###CURRENT_PID### AND tx_realty_documents.sys_language_uid IN (-1, 0)',
+			),
+		),
+		'l18n_diffsource' => array(
+			'config' => array(
+				'type' => 'passthrough',
+			)
+		),
+		'object' => array(
+			'exclude' => 0,
+			'label' => '',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_realty_objects',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+		'title' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_documents.title',
+			'config' => array(
+				'type' => 'input',
+				'size' => '30',
+				'eval' => 'required',
+			),
+		),
+		'filename' => array(
+			'exclude' => 0,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_documents.filename',
+			'config' => array(
+				'type' => 'group',
+				'internal_type' => 'file',
+				'allowed' => 'pdf',
+				'max_size' => 2000,
+				'uploadfolder' => 'uploads/tx_realty',
+				'show_thumbs' => 0,
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+	),
+	'types' => array(
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, title, filename'),
+	),
+	'palettes' => array(
+		'1' => array('showitem' => ''),
+	),
+);
 
 
 $TCA['tx_realty_cities'] = array(

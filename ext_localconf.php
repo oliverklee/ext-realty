@@ -3,9 +3,6 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-t3lib_extMgm::addUserTSConfig('
-	options.saveDocNew.tx_realty_objects = 1
-');
 t3lib_extMgm::addPageTSConfig('
 
 	# ***************************************************************************************
@@ -71,6 +68,9 @@ RTE.config.tx_realty_objects.misc {
 }
 ');
 t3lib_extMgm::addUserTSConfig('
+	options.saveDocNew.tx_realty_objects = 1
+');
+t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_realty_apartment_types = 1
 ');
 t3lib_extMgm::addUserTSConfig('
@@ -81,9 +81,6 @@ t3lib_extMgm::addUserTSConfig('
 ');
 t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_realty_pets = 1
-');
-t3lib_extMgm::addUserTSConfig('
-	options.saveDocNew.tx_realty_images = 1
 ');
 t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_realty_cities = 1
