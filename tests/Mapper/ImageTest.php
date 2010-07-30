@@ -103,5 +103,50 @@ class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
 			$image->getObject()
 		);
 	}
+
+
+	////////////////////////////
+	// Tests concerning delete
+	////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function deleteDeletesImageFile() {
+		$dummyFile = $this->testingFramework->createDummyFile('foo.jpg');
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_images', array('image' => basename($dummyFile))
+		);
+
+		$this->fixture->delete($this->fixture->find($uid));
+
+		$this->assertFalse(
+			file_exists($dummyFile)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForInexistentImageFileNotThrowsException() {
+		$dummyFile = $this->testingFramework->createDummyFile('foo.jpg');
+		unlink($dummyFile);
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_images', array('image' => basename($dummyFile))
+		);
+
+		$this->fixture->delete($this->fixture->find($uid));
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForEmptyImageFileNameNotThrowsException() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_images', array('image' => '')
+		);
+
+		$this->fixture->delete($this->fixture->find($uid));
+	}
 }
 ?>

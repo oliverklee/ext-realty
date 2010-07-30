@@ -325,9 +325,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$ownerCanAddObjects = $this->ownerMayAddObjects();
 
 		if ($this->identifyObjectAndSetUid()) {
-			$this->updateDatabaseEntry($this->getAllProperties());
-			if ($this->getAsBoolean('deleted')) {
-				$this->deleteRelatedImageRecords();
+			if (!$this->getAsBoolean('deleted')) {
+				$this->updateDatabaseEntry($this->getAllProperties());
+			} else {
+				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+					->delete($this);
 				$errorMessage = 'message_deleted_flag_causes_deletion';
 			}
 		} elseif (!$ownerCanAddObjects) {
@@ -782,22 +784,22 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Sets the deleted flag for all image records related to the current realty
-	 * object to delete.
-	 */
-	private function deleteRelatedImageRecords() {
-		foreach (array_keys($this->getAllImageData()) as $imageKey) {
-			$this->markImageRecordAsDeleted($imageKey);
-		}
-	}
-
-	/**
 	 * Returns an array of data for each image.
 	 *
 	 * @return array images data, may be empty
 	 */
 	public function getAllImageData() {
 		return $this->images;
+	}
+
+	/**
+	 * Gets the related image records.
+	 *
+	 * @return tx_oelib_List list of tx_realty_Model_Image, will be empty if
+	 *                       this object has no images
+	 */
+	public function getImages() {
+		return $this->getAsList('images');
 	}
 
 	/**

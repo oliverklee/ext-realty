@@ -52,6 +52,32 @@ class tx_realty_Mapper_Image extends tx_oelib_DataMapper {
 	protected $relations = array(
 		'object' => 'tx_realty_Mapper_RealtyObject',
 	);
+
+	/**
+	 * Marks $image as deleted, saves it to the DB (if it has a UID) and deletes
+	 * the corresponding image file.
+	 *
+	 * @param tx_realty_Model_Image $image
+	 *        the image model  to delete, must not be a memory-only dummy, must
+	 *        not be read-only
+	 */
+	public function delete(tx_realty_Model_Image $image) {
+		if ($image->isDead()) {
+			return;
+		}
+
+		$fileName = $image->getFileName();
+
+		parent::delete($image);
+
+		if ($fileName !== '') {
+			$fullPath = PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER .
+				$fileName;
+			if (file_exists($fullPath)) {
+				unlink($fullPath);
+			}
+		}
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Mapper/Image.php']) {
