@@ -198,7 +198,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	 */
 	private function deleteTestImportFolder() {
 		if ($this->testImportFolderExists) {
-			tx_realty_openImmoImport::rmdir($this->importFolder, TRUE);
+			t3lib_div::rmdir($this->importFolder, TRUE);
 			$this->testImportFolderExists = FALSE;
 		}
 	}

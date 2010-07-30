@@ -155,7 +155,7 @@ class tx_realty_cli_ImageCleanUp {
 		);
 		$this->addToStatistics('Image files deleted', count($imagesToDelete));
 		foreach ($imagesToDelete as $image) {
-			tx_oelib_FileFunctions::rmdir($absolutePath . $image);
+			t3lib_div::rmdir($absolutePath . $image);
 		}
 		$imagesOnlyInDatabase = array_diff(
 			$imageFileNamesInDatabase, $imageFilesInUploadFolder
