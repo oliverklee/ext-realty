@@ -826,7 +826,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			'object = ' . $this->getUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 			'',
-			'uid'
+			'sorting'
 		);
 	}
 

@@ -468,21 +468,26 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAllImageDataReturnsArrayOfTheCurrentObjectsImagesOrderedByUid() {
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array(
-				'caption' => 'first',
-				'image' => 'first.jpg',
-				'object' => $this->objectUid,
-			)
-		);
+	/**
+	 * @test
+	 */
+	public function getAllImageDataReturnsArrayOfTheCurrentObjectsImagesOrderedBySorting() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'second',
 				'image' => 'second.jpg',
 				'object' => $this->objectUid,
+				'sorting' => 2,
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'first',
+				'image' => 'first.jpg',
+				'object' => $this->objectUid,
+				'sorting' => 1,
 			)
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);

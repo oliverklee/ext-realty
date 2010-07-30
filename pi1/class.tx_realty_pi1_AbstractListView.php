@@ -1151,7 +1151,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				'object = ' . $this->internal['currentRow']['uid'] .
 					tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
 				'',
-				'uid',
+				'sorting',
 				intval($offset)
 			);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
