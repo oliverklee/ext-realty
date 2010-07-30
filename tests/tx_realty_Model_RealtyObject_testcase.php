@@ -3304,5 +3304,23 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			$this->fixture->getContactDirectExtension()
 		);
 	}
+
+
+	///////////////////////////////
+	// Tests concerning getImages
+	///////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getImagesReturnsImages() {
+		$images = new tx_oelib_List();
+		$this->fixture->setData(array('images' => $images));
+
+		$this->assertSame(
+			$images,
+			$this->fixture->getImages()
+		);
+	}
 }
 ?>

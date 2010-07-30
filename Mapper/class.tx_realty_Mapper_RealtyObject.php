@@ -55,6 +55,16 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	);
 
 	/**
+	 * the (possible) relations of the created models in the format
+	 * DB column name => mapper name
+	 *
+	 * @var array
+	 */
+	protected $relations = array(
+		'images' => 'tx_realty_Mapper_Image',
+	);
+
+	/**
 	 * Returns the number of realty objects in the city $city.
 	 *
 	 * @param tx_realty_Model_City $city the city for which to count the objects
