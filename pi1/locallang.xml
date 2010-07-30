@@ -181,7 +181,7 @@
 			<label index="label_heating_type.10">solar heating</label>
 			<label index="label_heating_type.11">heating by stove</label>
 			<label index="label_heating_type.12">zone heating</label>
-			<label index="label_garage_type">Garage/parking space</label>
+			<label index="label_garage_type">Parking space type</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>
@@ -511,7 +511,7 @@
 			<label index="label_misc">Sonstiges</label>
 			<label index="label_layout">Aufteilung</label>
 			<label index="label_living_area">Wohnfläche ca.</label>
-			<label index="label_total_area">Nutzfläche ca.</label>
+			<label index="label_total_area">Gesamtfläche ca.</label>
 			<label index="label_estate_size">Grundstücksfläche</label>
 			<label index="label_heating_included">Nebenkosten inkl.&amp;nbsp;Heizung</label>
 			<label index="label_deposit">Kaution</label>
@@ -526,7 +526,7 @@
 			<label index="label_floors">Anzahl Etagen</label>
 			<label index="label_bedrooms">Anzahl Schlafzimmer</label>
 			<label index="label_bathrooms">Anzahl Badezimmer</label>
-			<label index="label_heating_type">Heizungsart</label>
+			<label index="label_heating_type">Heizungsart und Befeuerung</label>
 			<label index="label_heating_type.1">Fernwärme</label>
 			<label index="label_heating_type.2">Zentralheizung</label>
 			<label index="label_heating_type.3">Elektroheizung</label>
@@ -539,7 +539,7 @@
 			<label index="label_heating_type.10">Solarheizung</label>
 			<label index="label_heating_type.11">Ofen</label>
 			<label index="label_heating_type.12">Blockheizung</label>
-			<label index="label_garage_type">Garage/Stellplatz</label>
+			<label index="label_garage_type">Stellplatzart</label>
 			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="label_garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="label_pets">Haustiere</label>
@@ -1973,7 +1973,7 @@
 			<label index="label_heating_type.10" type="integer">90902450</label>
 			<label index="label_heating_type.11" type="integer">161251937</label>
 			<label index="label_heating_type.12" type="integer">5073316</label>
-			<label index="label_garage_type" type="integer">97055949</label>
+			<label index="label_garage_type" type="integer">162953662</label>
 			<label index="label_garage_rent" type="integer">32433980</label>
 			<label index="label_garage_price" type="integer">57868081</label>
 			<label index="label_pets" type="integer">122743082</label>
@@ -3405,7 +3405,7 @@
 			<label index="label_heating_type.10">solar heating</label>
 			<label index="label_heating_type.11">heating by stove</label>
 			<label index="label_heating_type.12">zone heating</label>
-			<label index="label_garage_type">Garage/parking space</label>
+			<label index="label_garage_type">Parking space type</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>

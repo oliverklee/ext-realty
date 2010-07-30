@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3997] Localization: Change some field titles in the FE and BE
 - [#4010] Change: Use the mapper to save imported objects and images
 - [#3708] Fix: Non-image attachments get imported as images
 - [#3863] Cleanup: Drop our own exception handlers in realty

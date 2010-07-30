@@ -61,7 +61,7 @@
 			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
 			<label index="tx_realty_objects.heating_type.12">zone heating</label>
 			<label index="tx_realty_objects.has_air_conditioning">Air conditioning</label>
-			<label index="tx_realty_objects.garage_type">Garage/parking space</label>
+			<label index="tx_realty_objects.garage_type">Parking space type</label>
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
@@ -168,7 +168,7 @@
 			<label index="tx_realty_objects.rough_latitude">Ungefährer Breitengrad</label>
 			<label index="tx_realty_objects.number_of_rooms">Zimmeranzahl</label>
 			<label index="tx_realty_objects.living_area">Wohnfläche ca. in m²</label>
-			<label index="tx_realty_objects.total_area">Nutzfläche ca. in m²</label>
+			<label index="tx_realty_objects.total_area">Gesamtfläche ca. in m²</label>
 			<label index="tx_realty_objects.estate_size">Grundstücksfläche in m²</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Kaltmiete</label>
 			<label index="tx_realty_objects.extra_charges">Nebenkosten</label>
@@ -186,7 +186,7 @@
 			<label index="tx_realty_objects.floors">Anzahl Etagen</label>
 			<label index="tx_realty_objects.bedrooms">Anzahl Schlafzimmer</label>
 			<label index="tx_realty_objects.bathrooms">Anzahl Badezimmer</label>
-			<label index="tx_realty_objects.heating_type">Heizungsart</label>
+			<label index="tx_realty_objects.heating_type">Heizungsart und Befeuerung</label>
 			<label index="tx_realty_objects.heating_type.1">Fernwärme</label>
 			<label index="tx_realty_objects.heating_type.2">Zentralheizung</label>
 			<label index="tx_realty_objects.heating_type.3">Elektroheizung</label>
@@ -200,7 +200,7 @@
 			<label index="tx_realty_objects.heating_type.11">Ofen</label>
 			<label index="tx_realty_objects.heating_type.12">Blockheizung</label>
 			<label index="tx_realty_objects.has_air_conditioning">Klimaanlage</label>
-			<label index="tx_realty_objects.garage_type">Garage/Stellplatz</label>
+			<label index="tx_realty_objects.garage_type">Stellplatzart</label>
 			<label index="tx_realty_objects.garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.pets">Haustiere</label>
@@ -945,7 +945,7 @@
 			<label index="tx_realty_objects.heating_type.10" type="integer">90902450</label>
 			<label index="tx_realty_objects.heating_type.11" type="integer">161251937</label>
 			<label index="tx_realty_objects.heating_type.12" type="integer">5073316</label>
-			<label index="tx_realty_objects.garage_type" type="integer">97055949</label>
+			<label index="tx_realty_objects.garage_type" type="integer">162953662</label>
 			<label index="tx_realty_objects.garage_rent" type="integer">32433980</label>
 			<label index="tx_realty_objects.garage_price" type="integer">57868081</label>
 			<label index="tx_realty_objects.pets" type="integer">122743082</label>
@@ -1691,7 +1691,7 @@
 			<label index="tx_realty_objects.heating_type.10">solar heating</label>
 			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
 			<label index="tx_realty_objects.heating_type.12">zone heating</label>
-			<label index="tx_realty_objects.garage_type">Garage/parking space</label>
+			<label index="tx_realty_objects.garage_type">Parking space type</label>
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
