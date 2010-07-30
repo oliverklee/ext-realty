@@ -291,7 +291,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchValueForOldOrNewBuilding();
 		$this->fetchAction();
 		$this->fetchHeatingType();
-		$this->fetchGarageType();
+		$this->fetchParkingSpaceType();
 		$this->fetchGaragePrice();
 		$this->fetchCurrency();
 		$this->fetchLanguage();
@@ -694,7 +694,7 @@ class tx_realty_domDocumentConverter {
 	 * Fetches the 'stellplatzart' and stores it with the corresponding database
 	 * column name 'garage_type' as key in $this->importedData.
 	 */
-	private function fetchGarageType() {
+	private function fetchParkingSpaceType() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
 			'ausstattung', 'stellplatzart'
 		);
