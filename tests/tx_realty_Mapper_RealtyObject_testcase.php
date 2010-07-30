@@ -222,27 +222,5 @@ class tx_realty_Mapper_RealtyObject_testcase extends tx_phpunit_testcase {
 				instanceof tx_realty_Model_Image
 		);
 	}
-
-
-	////////////////////////////////////////////////
-	// Tests concerning the relation to the images
-	////////////////////////////////////////////////
-
-	/**
-	 * @test
-	 */
-	public function imagesRelationFetchesImageModels() {
-		$uid = $this->testingFramework->createRecord(
-			'tx_realty_objects', array('images' => 1)
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_images', array('object' => $uid)
-		);
-
-		$this->assertTrue(
-			$this->fixture->find($uid)->getImages()->first()
-				instanceof tx_realty_Model_Image
-		);
-	}
 }
 ?>
