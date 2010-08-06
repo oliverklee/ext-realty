@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#3991] Fix: "objektkategorie nutzungsart" gets imported even if an attribute is set to false
 - [#4017] Feature: Automatically make some content subtypes uncached
 - [#3998] Feature: Add, import and display some fields
 - [#4022] Feature: Add an icon for documents records to the BE

@@ -1119,10 +1119,109 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
-
 		$this->assertEquals(
 			$this->fixture->getConvertedData($node),
 			array(array('phone_direct_extension' => '1234567'))
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
+	 */
+	public function getConvertedDataCanImportLivingUsage() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="true" GEWERBE="false"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('utilization' => 'Wohnen'))
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
+	 */
+	public function getConvertedDataCanImportCommercialUsage() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="false" GEWERBE="true"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('utilization' => 'Gewerbe'))
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
+	 */
+	public function getConvertedDataCanImportLivingAndCommercialUsage() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="true" GEWERBE="true"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('utilization' => 'Wohnen, Gewerbe'))
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
+	 */
+	public function getConvertedDataCanImportEmptyUsage() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="false" GEWERBE="false"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array())
 		);
 	}
 
