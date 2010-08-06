@@ -606,15 +606,20 @@ class tx_realty_domDocumentConverter {
 			}
 		}
 
-		$nodeWithAttributes = $this->findFirstGrandchild(
+		$utilizationAttributes = array();
+		$nodes = $this->findFirstGrandchild(
 			'objektkategorie',
 			'nutzungsart'
 		);
-		$utilizationAttributes = $this->fetchDomAttributes($nodeWithAttributes);
+		foreach ($this->fetchDomAttributes($nodes) as $key => $value) {
+			if ($this->isBooleanLikeStringTrue($value)) {
+				$utilizationAttributes[] = $key;
+			}
+		}
 		if (!empty($utilizationAttributes)) {
 			$this->addImportedData(
 				'utilization',
-				$this->getFormattedString(array_keys($utilizationAttributes))
+				$this->getFormattedString($utilizationAttributes)
 			);
 		}
 	}
