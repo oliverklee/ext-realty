@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4022] Feature: Add an icon for documents records to the BE
 - [#2876] Feature: Make images sortable in the BE, thanks to Christian Stupp
 - [#4011] Feature: Add a field for related documents (uploaded PDFs)
 - [#2049] Cleanup: Drop our copy of t3lib_div::rmdir

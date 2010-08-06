@@ -135,7 +135,7 @@ $TCA['tx_realty_documents'] = array(
 		'delete' => 'deleted',
 		'enablecolumns' => array(),
 		'dynamicConfigFile' => $extPath . 'tca.php',
-		'iconfile' => $extIconRelPath . 'icon_tx_realty_images.gif'
+		'iconfile' => $extIconRelPath . 'icon_tx_realty_documents.gif'
 	)
 );
 
