@@ -7,7 +7,6 @@
 - [#4011] Feature: Add a field for related documents (uploaded PDFs)
 - [#2049] Cleanup: Drop our copy of t3lib_div::rmdir
 - [#3997] Localization: Change some field titles in the FE and BE
-- [#4010] Change: Use the mapper to save imported objects and images
 - [#3708] Fix: Non-image attachments get imported as images
 - [#3863] Cleanup: Drop our own exception handlers in realty
 - [#3097] Change: Require TYPO3 4.3 for realty
