@@ -50,9 +50,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 *
 	 * @var array
 	 */
-	protected $relations = array(
-		'images' => 'tx_realty_Mapper_Image',
-	);
+	protected $relations = array();
 
 	/**
 	 * Returns the number of realty objects in the city $city.
