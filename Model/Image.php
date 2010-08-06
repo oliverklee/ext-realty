@@ -107,6 +107,28 @@ class tx_realty_Model_Image extends tx_oelib_Model {
 	public function setObject(tx_realty_Model_RealtyObject $realtyObject) {
 		return $this->set('object', $realtyObject);
 	}
+
+	/**
+	 * Returns the sorting value for this image.
+	 *
+	 * This is the sorting as used in the back end.
+	 *
+	 * @return integer the sorting value of this image, will be >= 0
+	 */
+	public function getSorting() {
+		return $this->getAsInteger('sorting');
+	}
+
+	/**
+	 * Sets the sorting value for this image.
+	 *
+	 * This is the sorting as used in the back end.
+	 *
+	 * @param integer $sorting the sorting value of this image, must be >= 0
+	 */
+	public function setSorting($sorting) {
+		return $this->setAsInteger('sorting', $sorting);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/Image.php']) {

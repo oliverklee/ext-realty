@@ -153,5 +153,46 @@ class tx_realty_Model_ImageTest extends tx_phpunit_testcase {
 			$this->fixture->getObject()
 		);
 	}
+
+
+	/////////////////////////////////
+	// Tests concerning the sorting
+	/////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getSortingInitiallyReturnsZero() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getSorting()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSortingReturnsSorting() {
+		$this->fixture->setData(array('sorting' => 42));
+
+		$this->assertEquals(
+			42,
+			$this->fixture->getSorting()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setSortingSetsSorting() {
+		$this->fixture->setSorting(21);
+
+		$this->assertEquals(
+			21,
+			$this->fixture->getSorting()
+		);
+	}
 }
 ?>
