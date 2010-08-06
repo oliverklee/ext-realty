@@ -116,6 +116,7 @@
 			<label index="label_extra_charges_short">Extra charges</label>
 			<label index="label_rent_excluding_bills">Rent excluding bills</label>
 			<label index="label_rent_excluding_bills_short">Rent excluding bills</label>
+			<label index="label_rent_per_square_meter">Rent/m²</label>
 			<label index="label_number_of_rooms">Number of rooms</label>
 			<label index="label_number_of_rooms_short">rooms</label>
 			<label index="label_balcony">Balcony/patio</label>
@@ -152,9 +153,15 @@
 			<label index="label_location">Location</label>
 			<label index="label_misc">Miscellaneous</label>
 			<label index="label_layout">Layout</label>
-			<label index="label_living_area">Size of the living area</label>
+			<label index="label_living_area">Living area</label>
 			<label index="label_total_area">Total area</label>
+			<label index="label_shop_area">Shop area</label>
+			<label index="label_total_usable_area">Total usable area</label>
+			<label index="label_storage_area">Storage area</label>
+			<label index="label_office_space">Office space</label>
 			<label index="label_estate_size">Estate size</label>
+			<label index="label_site_occupancy_index">Site occupancy index</label>
+			<label index="label_floor_space_index">Floor-space index</label>
 			<label index="label_heating_included">Extra charges include heating</label>
 			<label index="label_deposit">Security deposit</label>
 			<label index="label_provision">Provision/broker's fee</label>
@@ -182,6 +189,7 @@
 			<label index="label_heating_type.11">heating by stove</label>
 			<label index="label_heating_type.12">zone heating</label>
 			<label index="label_garage_type">Parking space type</label>
+			<label index="label_parking_spaces">Number of parking spaces</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>
@@ -474,6 +482,7 @@
 			<label index="label_extra_charges_short">&lt;acronym title=&quot;Nebenkosten&quot;&gt;NK&lt;/acronym&gt;</label>
 			<label index="label_rent_excluding_bills">Kaltmiete</label>
 			<label index="label_rent_excluding_bills_short">&lt;acronym title=&quot;Kaltmiete&quot;&gt;KM&lt;/acronym&gt;</label>
+			<label index="label_rent_per_square_meter">Miete/m²</label>
 			<label index="label_number_of_rooms">Zimmeranzahl</label>
 			<label index="label_number_of_rooms_short">Zimmer</label>
 			<label index="label_balcony">Balkon/Terrasse</label>
@@ -512,7 +521,13 @@
 			<label index="label_layout">Aufteilung</label>
 			<label index="label_living_area">Wohnfläche ca.</label>
 			<label index="label_total_area">Gesamtfläche ca.</label>
-			<label index="label_estate_size">Grundstücksfläche</label>
+			<label index="label_shop_area">Ladenfläche ca.</label>
+			<label index="label_total_usable_area">Nutzfläche ca.</label>
+			<label index="label_storage_area">Lagerfläche ca.</label>
+			<label index="label_office_space">Bürofläche ca.</label>
+			<label index="label_estate_size">Grundstücksfläche ca.</label>
+			<label index="label_site_occupancy_index">Grundflächenzahl (GRZ)</label>
+			<label index="label_floor_space_index">Geschossflächenzahl (GFZ)</label>
 			<label index="label_heating_included">Nebenkosten inkl.&amp;nbsp;Heizung</label>
 			<label index="label_deposit">Kaution</label>
 			<label index="label_provision">Provision/Courtage</label>
@@ -540,6 +555,7 @@
 			<label index="label_heating_type.11">Ofen</label>
 			<label index="label_heating_type.12">Blockheizung</label>
 			<label index="label_garage_type">Stellplatzart</label>
+			<label index="label_parking_spaces">Anzahl Stellplätze</label>
 			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="label_garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="label_pets">Haustiere</label>
@@ -1944,7 +1960,7 @@
 			<label index="label_location" type="integer">216383317</label>
 			<label index="label_misc" type="integer">59226864</label>
 			<label index="label_layout" type="integer">247307244</label>
-			<label index="label_living_area" type="integer">38494779</label>
+			<label index="label_living_area" type="integer">135838058</label>
 			<label index="label_total_area" type="integer">109266585</label>
 			<label index="label_estate_size" type="integer">133635012</label>
 			<label index="label_heating_included" type="integer">150189013</label>
@@ -2156,6 +2172,14 @@
 			<label index="label_offerer_list" type="integer">34082678</label>
 			<label index="label_this_owners_objects" type="integer">163900489</label>
 			<label index="label_print_page" type="integer">184576193</label>
+			<label index="label_rent_per_square_meter" type="integer">72503072</label>
+			<label index="label_shop_area" type="integer">218773450</label>
+			<label index="label_total_usable_area" type="integer">40520553</label>
+			<label index="label_storage_area" type="integer">104170328</label>
+			<label index="label_office_space" type="integer">93012222</label>
+			<label index="label_site_occupancy_index" type="integer">46976993</label>
+			<label index="label_floor_space_index" type="integer">14617497</label>
+			<label index="label_parking_spaces" type="integer">166780875</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -3376,7 +3400,7 @@
 			<label index="label_location">Location</label>
 			<label index="label_misc">Miscellaneous</label>
 			<label index="label_layout">Layout</label>
-			<label index="label_living_area">Size of the living area</label>
+			<label index="label_living_area">Living area</label>
 			<label index="label_total_area">Total area</label>
 			<label index="label_estate_size">Estate size</label>
 			<label index="label_heating_included">Extra charges include heating</label>
@@ -3588,6 +3612,14 @@
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
 			<label index="label_print_page">Print page</label>
+			<label index="label_rent_per_square_meter">Rent/m²</label>
+			<label index="label_shop_area">Shop area</label>
+			<label index="label_total_usable_area">Total usable area</label>
+			<label index="label_storage_area">Storage area</label>
+			<label index="label_office_space">Office space</label>
+			<label index="label_site_occupancy_index">Site occupancy index</label>
+			<label index="label_floor_space_index">Floor-space index</label>
+			<label index="label_parking_spaces">Number of parking spaces</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

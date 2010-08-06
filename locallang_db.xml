@@ -30,8 +30,15 @@
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
+			<label index="tx_realty_objects.shop_area">Shop area in m²</label>
+			<label index="tx_realty_objects.total_usable_area">Total usable area in m²</label>
+			<label index="tx_realty_objects.storage_area">Storage area in m²</label>
+			<label index="tx_realty_objects.office_space">Office space in m²</label>
 			<label index="tx_realty_objects.estate_size">Estate size in m²</label>
+			<label index="tx_realty_objects.site_occupancy_index">Site occupancy index</label>
+			<label index="tx_realty_objects.floor_space_index">Floor-space index</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Rent excluding bills</label>
+			<label index="tx_realty_objects.rent_per_square_meter">Rent/m²</label>
 			<label index="tx_realty_objects.extra_charges">Extra charges</label>
 			<label index="tx_realty_objects.heating_included">Extra charges include heating</label>
 			<label index="tx_realty_objects.deposit">Security deposit</label>
@@ -62,6 +69,7 @@
 			<label index="tx_realty_objects.heating_type.12">zone heating</label>
 			<label index="tx_realty_objects.has_air_conditioning">Air conditioning</label>
 			<label index="tx_realty_objects.garage_type">Parking space type</label>
+			<label index="tx_realty_objects.parking_spaces">Number of parking spaces</label>
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
@@ -173,8 +181,15 @@
 			<label index="tx_realty_objects.number_of_rooms">Zimmeranzahl</label>
 			<label index="tx_realty_objects.living_area">Wohnfläche ca. in m²</label>
 			<label index="tx_realty_objects.total_area">Gesamtfläche ca. in m²</label>
+			<label index="tx_realty_objects.shop_area">Ladenfläche ca. in m²</label>
+			<label index="tx_realty_objects.total_usable_area">Nutzfläche ca. in m²</label>
+			<label index="tx_realty_objects.storage_area">Lagerfläche ca. in m²</label>
+			<label index="tx_realty_objects.office_space">Bürofläche ca. in m²</label>
 			<label index="tx_realty_objects.estate_size">Grundstücksfläche in m²</label>
+			<label index="tx_realty_objects.site_occupancy_index">Grundflächenzahl (GRZ)</label>
+			<label index="tx_realty_objects.floor_space_index">Geschossflächenzahl (GFZ)</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Kaltmiete</label>
+			<label index="tx_realty_objects.rent_per_square_meter">Miete/m²</label>
 			<label index="tx_realty_objects.extra_charges">Nebenkosten</label>
 			<label index="tx_realty_objects.heating_included">Nebenkosten inklusive Heizung</label>
 			<label index="tx_realty_objects.deposit">Kaution</label>
@@ -205,6 +220,7 @@
 			<label index="tx_realty_objects.heating_type.12">Blockheizung</label>
 			<label index="tx_realty_objects.has_air_conditioning">Klimaanlage</label>
 			<label index="tx_realty_objects.garage_type">Stellplatzart</label>
+			<label index="tx_realty_objects.parking_spaces">Anzahl Stellplätze</label>
 			<label index="tx_realty_objects.garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.pets">Haustiere</label>
@@ -923,8 +939,15 @@
 			<label index="tx_realty_objects.number_of_rooms" type="integer">151522303</label>
 			<label index="tx_realty_objects.living_area" type="integer">191559076</label>
 			<label index="tx_realty_objects.total_area" type="integer">79620667</label>
+			<label index="tx_realty_objects.shop_area" type="integer">125090309</label>
+			<label index="tx_realty_objects.total_usable_area" type="integer">79873776</label>
+			<label index="tx_realty_objects.storage_area" type="integer">163867715</label>
+			<label index="tx_realty_objects.office_space" type="integer">223077184</label>
 			<label index="tx_realty_objects.estate_size" type="integer">85968249</label>
+			<label index="tx_realty_objects.site_occupancy_index" type="integer">46976993</label>
+			<label index="tx_realty_objects.floor_space_index" type="integer">14617497</label>
 			<label index="tx_realty_objects.rent_excluding_bills" type="integer">255153687</label>
+			<label index="tx_realty_objects.rent_per_square_meter" type="integer">72503072</label>
 			<label index="tx_realty_objects.extra_charges" type="integer">91504638</label>
 			<label index="tx_realty_objects.heating_included" type="integer">150189013</label>
 			<label index="tx_realty_objects.deposit" type="integer">254246076</label>
@@ -954,6 +977,7 @@
 			<label index="tx_realty_objects.heating_type.11" type="integer">161251937</label>
 			<label index="tx_realty_objects.heating_type.12" type="integer">5073316</label>
 			<label index="tx_realty_objects.garage_type" type="integer">162953662</label>
+			<label index="tx_realty_objects.parking_spaces" type="integer">166780875</label>
 			<label index="tx_realty_objects.garage_rent" type="integer">32433980</label>
 			<label index="tx_realty_objects.garage_price" type="integer">57868081</label>
 			<label index="tx_realty_objects.pets" type="integer">122743082</label>
@@ -1673,8 +1697,15 @@
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
+			<label index="tx_realty_objects.shop_area">Shop area in m²</label>
+			<label index="tx_realty_objects.total_usable_area">Total usable area in m²</label>
+			<label index="tx_realty_objects.storage_area">Storage area in m²</label>
+			<label index="tx_realty_objects.office_space">Office space in m²</label>
 			<label index="tx_realty_objects.estate_size">Estate size in m²</label>
+			<label index="tx_realty_objects.site_occupancy_index">Site occupancy index</label>
+			<label index="tx_realty_objects.floor_space_index">Floor-space index</label>
 			<label index="tx_realty_objects.rent_excluding_bills">Rent excluding bills</label>
+			<label index="tx_realty_objects.rent_per_square_meter">Rent/m²</label>
 			<label index="tx_realty_objects.extra_charges">Extra charges</label>
 			<label index="tx_realty_objects.heating_included">Extra charges include heating</label>
 			<label index="tx_realty_objects.deposit">Security deposit</label>
@@ -1704,6 +1735,7 @@
 			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
 			<label index="tx_realty_objects.heating_type.12">zone heating</label>
 			<label index="tx_realty_objects.garage_type">Parking space type</label>
+			<label index="tx_realty_objects.parking_spaces">Number of parking spaces</label>
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>

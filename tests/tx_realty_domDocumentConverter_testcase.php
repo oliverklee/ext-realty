@@ -32,6 +32,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/**
@@ -896,26 +897,6 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataGetsEstateSize() {
-		$node = DOMDocument::loadXML(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<flaechen>'
-							.'<grundstuecksflaeche>12345</grundstuecksflaeche>'
-						.'</flaechen>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-		$this->fixture->setRawRealtyData($node);
-
-		$this->assertEquals(
-			array(array('estate_size' => '12345')),
-			$this->fixture->getConvertedData($node)
-		);
-	}
-
 	public function testGetConvertedDataGetsStateIfValidStateProvided() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
@@ -1443,6 +1424,11 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	//////////////////////////////////////
+	// Tests concerning getConvertedData
+	//////////////////////////////////////
+
 	public function testGetConvertedDataImportsAttributeValuesCorrectly() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
@@ -1843,6 +1829,341 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 			$this->fixture->getConvertedData($node)
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsRentPerSquareMeter() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<preise>' .
+							'<mietpreis_pro_qm>12.34</mietpreis_pro_qm>' .
+						'</preise>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('rent_per_square_meter' => 12.34)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsLivingArea() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<wohnflaeche>123.45</wohnflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('living_area' => 123.45)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTotalUsableArea() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<nutzflaeche>123.45</nutzflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('total_usable_area' => 123.45)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTotalArea() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<gesamtflaeche>123.45</gesamtflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('total_area' => 123.45)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsShopArea() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<ladenflaeche>123.45</ladenflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('shop_area' => 123.45)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsStorageArea() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<lagerflaeche>123.45</lagerflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('storage_area' => 123.45)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsOfficeSpace() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<bueroflaeche>123.45</bueroflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('office_space' => 123.45)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsFloorSpaceIndex() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<grz>0.12</grz>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('floor_space_index' => 0.12)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsSiteOccupancyIndex() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<gfz>0.12</gfz>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('site_occupancy_index' => 0.12)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsEstateSize() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<grundstuecksflaeche>123.45</grundstuecksflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('estate_size' => 123.45)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsNumberOfRooms() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<anzahl_zimmer>3.5</anzahl_zimmer>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('number_of_rooms' => 3.5)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsNumberOfBedrooms() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<anzahl_schlafzimmer>2</anzahl_schlafzimmer>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('bedrooms' => 2)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsNumberOfBathrooms() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<anzahl_badezimmer>2</anzahl_badezimmer>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('bathrooms' => 2)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsNumberOfBalconies() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<anzahl_balkon_terrassen>1</anzahl_balkon_terrassen>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('balcony' => 1)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsNumberOfParkingSpaces() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<anzahl_stellplaetze>2</anzahl_stellplaetze>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('parking_spaces' => 2)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+
+	////////////////////////////////////////
+	// Tests concerning fetchDomAttributes
+	////////////////////////////////////////
 
 	public function testFetchDomAttributesIfValidNodeGiven() {
 		$node = new DOMDocument();

@@ -33,6 +33,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_domDocumentConverter {
 	/**
@@ -57,27 +58,36 @@ class tx_realty_domDocumentConverter {
 		'city' => array('geo' => 'ort'),
 		'district' => array('geo' => 'regionaler_zusatz'),
 		'show_address' => array('verwaltung_objekt' => 'objektadresse_freigeben'),
-		'number_of_rooms' => array('flaechen' => 'anzahl_zimmer'),
 		'living_area' => array('flaechen' => 'wohnflaeche'),
+		'total_usable_area' => array('flaechen' => 'nutzflaeche'),
 		'total_area' => array('flaechen' => 'gesamtflaeche'),
+		'shop_area' => array('flaechen' => 'ladenflaeche'),
+		'storage_area' => array('flaechen' => 'lagerflaeche'),
+		'office_space' => array('flaechen' => 'bueroflaeche'),
+		'floor_space_index' => array('flaechen' => 'grz'),
+		'site_occupancy_index' => array('flaechen' => 'gfz'),
 		'estate_size' => array('flaechen' => 'grundstuecksflaeche'),
+		'number_of_rooms' => array('flaechen' => 'anzahl_zimmer'),
+		'bedrooms' => array('flaechen' => 'anzahl_schlafzimmer'),
+		'bathrooms' => array('flaechen' => 'anzahl_badezimmer'),
+		'balcony' => array('flaechen' => 'anzahl_balkon_terrassen'),
+		'parking_spaces' => array('flaechen' => 'anzahl_stellplaetze'),
+		'buying_price' => array('preise' => 'kaufpreis'),
 		'extra_charges' => array('preise' => 'nebenkosten'),
 		'heating_included' => array('preise' => 'heizkosten_enthalten'),
-		'deposit' => array('preise' => 'kaution'),
+		'hoa_fee' => array('preise' => 'hausgeld'),
+		'rent_per_square_meter' => array('preise' => 'mietpreis_pro_qm'),
 		'provision' => array('preise' => 'aussen_courtage'),
+		'year_rent' => array('preise' => 'mieteinnahmen_ist'),
+		'deposit' => array('preise' => 'kaution'),
+
 		// OpenImmo tag for 'usable_from' could possibly be 'abdatum'.
 		'usable_from' => array('verwaltung_objekt' => 'verfuegbar_ab'),
-		'buying_price' => array('preise' => 'kaufpreis'),
-		'hoa_fee' => array('preise' => 'hausgeld'),
-		'year_rent' => array('preise' => 'mieteinnahmen_ist'),
 		'rented' => array('verwaltung_objekt' => 'vermietet'),
 		'floor' => array('geo' => 'etage'),
 		'floors' => array('geo' => 'anzahl_etagen'),
-		'bedrooms' => array('flaechen' => 'anzahl_schlafzimmer'),
-		'bathrooms' => array('flaechen' => 'anzahl_badezimmer'),
 		'pets' => array('verwaltung_objekt' => 'haustiere'),
 		'construction_year' => array('zustand_angaben' => 'baujahr'),
-		'balcony' => array('flaechen' => 'anzahl_balkon_terrassen'),
 		'garden' => array('ausstattung' => 'gartennutzung'),
 		'barrier_free' => array('ausstattung' => 'rollstuhlgerecht'),
 		'description' => array('freitexte' => 'objektbeschreibung'),
