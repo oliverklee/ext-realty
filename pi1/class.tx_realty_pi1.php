@@ -85,6 +85,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
+		$viewConfiguration = tx_oelib_ConfigurationRegistry
+			::get('plugin.tx_realty_pi1.views.' . $this->getCurrentView());
+
+		if (!$viewConfiguration->getAsBoolean('cache')
+			&& ($this->cObj->getUserObjectType() == tslib_cObj::OBJECTTYPE_USER)
+		) {
+			$this->cObj->convertToUserIntObject();
+			return '';
+		}
+
 		$this->setLocaleConvention();
 		$this->getTemplateCode();
 		$this->setLabels();
