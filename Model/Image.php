@@ -32,7 +32,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_Image extends tx_oelib_Model {
+class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface_Sortable {
 	/**
 	 * the folder where uploaded images get stored.
 	 *
