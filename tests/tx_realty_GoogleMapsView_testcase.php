@@ -79,6 +79,9 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
+		tx_oelib_MapperRegistry::getInstance()
+			->activateTestingMode($this->testingFramework);
+
 		$this->cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES, array('title' => self::$cityTitle)
 		);
@@ -111,6 +114,7 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 		$this->fixture->__destruct();
 
 		$this->testingFramework->cleanUp();
+
 		tx_realty_googleMapsLookup::purgeInstance();
 
 		unset($this->fixture, $this->testingFramework);
