@@ -91,6 +91,17 @@ class tx_realty_domDocumentConverter {
 		'contact_phone' => array('kontaktperson' => 'tel_zentrale'),
 	);
 
+	/**
+	 * the keys of the fields that are of boolean type
+	 *
+	 * @var array<string>
+	 */
+	private static $booleanFields = array(
+		'show_address', 'heating_included', 'rented', 'garden', 'barrier_free',
+		'elevator', 'has_air_conditioning', 'assisted_living', 'fitted_kitchen',
+		'has_pool', 'has_community_pool',
+	);
+
 	/** raw data of an OpenImmo record */
 	private $rawRealtyData = null;
 
@@ -310,7 +321,8 @@ class tx_realty_domDocumentConverter {
 	 * with real booleans. This replacement is not case sensitive.
 	 */
 	private function replaceImportedBooleanLikeStrings() {
-		foreach ($this->importedData as $key => $value) {
+		foreach (self::$booleanFields as $key) {
+			$value = $this->importedData[$key];
 			if ($this->isBooleanLikeStringTrue($value)) {
 				$this->importedData[$key] = TRUE;
 			} elseif ($this->isBooleanLikeStringFalse($value)) {
@@ -320,32 +332,34 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Returns TRUE if a string equals 'true'. In any other case FALSE is
-	 * returned.
+	 * Checks whether a string evaluates to TRUE.
 	 *
-	 * @param string string to compare with 'true', may also be also
-	 *               uppercased, surrounded by quotes or empty
-	 * @return boolean TRUE if the input value was the string 'true', FALSE
-	 *                 otherwise
+	 * @param string $booleanLikeString
+	 *        case-insensitive string to evaluate, may be surrounded by quotes
+	 *
+	 * @return boolean
+	 *         TRUE if $booleanLikeString evaluates to TRUE, FALSE otherwise
 	 */
 	private function isBooleanLikeStringTrue($booleanLikeString) {
-		return strtolower(trim($booleanLikeString, '"')) == 'true';
+		$trimmedString = strtolower(trim($booleanLikeString, '"'));
+
+		return ($trimmedString === 'true') || ($trimmedString === '1');
 	}
 
 	/**
-	 * Returns TRUE if a string equals 'false'. In any other case FALSE is
-	 * returned.
+	 * Checks whether a string evaluates to FALSE.
 	 *
-	 * @param string string to compare with 'false', may also be also
-	 *               uppercased, surrounded by quotes or empty
+	 * @param string $booleanLikeString
+	 *        case-insensitive string to evaluate, may be surrounded by quotes
 	 *
-	 * @return boolean TRUE if the input value was the string 'true', FALSE
-	 *                 otherwise
+	 * @return boolean
+	 *         TRUE if $booleanLikeString evaluates to FALSE, FALSE otherwise
 	 */
 	private function isBooleanLikeStringFalse($booleanLikeString) {
-		return strtolower(trim($booleanLikeString, '"')) == 'false';
-	}
+		$trimmedString = strtolower(trim($booleanLikeString, '"'));
 
+		return ($trimmedString === 'false') || ($trimmedString === '0');
+	}
 
 	/**
 	 * Substitutes decimals from the currently imported data if they are zero.
@@ -598,7 +612,7 @@ class tx_realty_domDocumentConverter {
 		// are attributes provided, because 'object_type' is a required field.
 		if (!empty($objectTypeAttributes)) {
 			if (isset($objectTypeAttributes['kauf'])
-				&& ($objectTypeAttributes['kauf'] == 'true')
+				&& $this->isBooleanLikeStringTrue($objectTypeAttributes['kauf'])
 			) {
 				$this->addImportedData('object_type', REALTY_FOR_SALE);
 			} else {
