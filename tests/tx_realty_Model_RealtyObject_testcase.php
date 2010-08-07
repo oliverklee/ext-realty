@@ -362,35 +362,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFetchDatabaseResultFromValidStream() {
-		$expectedResult = tx_oelib_db::selectSingle(
-			'*',
-			REALTY_TABLE_OBJECTS,
-			'uid = ' . $this->objectUid
-		);
-
-		$dbResult = tx_oelib_db::select(
-			'*',
-			REALTY_TABLE_OBJECTS,
-			'uid = ' . $this->objectUid
-		);
-		$resultToCheck = $this->fixture->fetchDatabaseResult($dbResult);
-
-		$this->assertEquals(
-			$expectedResult,
-			$resultToCheck
-		);
-	}
-
-	/**
-	 * @test
-	 *
-	 * @expectedException Exception
-	 */
-	public function fetchDatabaseResultForDbResultFalseThrowsException() {
-		$this->fixture->fetchDatabaseResult(FALSE);
-	}
-
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
@@ -401,29 +372,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			)
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
-
-		$this->assertEquals(
-			array(
-				array('caption' => 'foo', 'image' => 'foo.jpg')
-			),
-			$this->fixture->getAllImageData()
-		);
-	}
-
-	public function testLoadRealtyObjectByDatabaseResultAlsoLoadsImages() {
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array(
-				'caption' => 'foo',
-				'image' => 'foo.jpg',
-				'object' => $this->objectUid
-			)
-		);
-		$this->fixture->loadRealtyObject(
-			tx_oelib_db::select(
-				'*', REALTY_TABLE_OBJECTS, 'uid = ' . $this->objectUid
-			)
-		);
 
 		$this->assertEquals(
 			array(

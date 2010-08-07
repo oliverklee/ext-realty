@@ -142,9 +142,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * UID of an existent realty object to load from the database. If the data
 	 * is of an invalid type, an empty array will be set.
 	 *
-	 * @param mixed data for the realty object: an array, a database
-	 *              result row, or a UID (of integer > 0) of an existing
-	 *              record, an array must not contain the key 'uid'
+	 * @param mixed $realtyData
+	 *        data for the realty object: an array or a UID (of integer > 0) of
+	 *        an existing record, an array must not contain the key 'uid'
 	 * @param boolean whether hidden objects are loadable
 	 *
 	 * @deprecated 2009-02-03 use setData() instead
@@ -158,9 +158,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				break;
 			case 'uid' :
 				$this->setData($this->loadDatabaseEntry(intval($realtyData)));
-				break;
-			case 'dbResult' :
-				$this->setData($this->fetchDatabaseResult($realtyData));
 				break;
 			default :
 				$this->setData(array());
@@ -235,15 +232,19 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *               result could not be fetched
 	 */
 	protected function loadDatabaseEntry($uid) {
-		$dbResult = tx_oelib_db::select(
-			'*',
-			REALTY_TABLE_OBJECTS,
-			'uid=' . $uid . tx_oelib_db::enableFields(
-				REALTY_TABLE_OBJECTS, $this->canLoadHiddenObjects ? 1 : -1
-			)
-		);
+		try {
+			$result = tx_oelib_db::selectSingle(
+				'*',
+				REALTY_TABLE_OBJECTS,
+				'uid=' . $uid . tx_oelib_db::enableFields(
+					REALTY_TABLE_OBJECTS, $this->canLoadHiddenObjects ? 1 : -1
+				)
+			);
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+			$result = array();
+		}
 
-		return $this->fetchDatabaseResult($dbResult);;
+		return $result;
 	}
 
 	/**
@@ -912,7 +913,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Updates an existing database entry. The provided data must contain the
+	 * Updates an existing realty record entry. The provided data must contain the
 	 * element 'uid'.
 	 *
 	 * The value for 'tstamp' is set automatically.
@@ -922,8 +923,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	protected function updateDatabaseEntry(array $realtyData) {
 		if ($realtyData['uid'] <= 0) {
-			return;
-		}
+			throw new InvalidArgumentException(
+				'$data needs to contain a UID > 0.'
+			);
+ 		}
 
 		$dataForUpdate = $realtyData;
 		$dataForUpdate['tstamp'] = $GLOBALS['SIM_EXEC_TIME'];
@@ -933,24 +936,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			'uid = ' . $dataForUpdate['uid'],
 			$dataForUpdate
 		);
-	}
-
-	/**
-	 * Fetches one database result row.
-	 *
-	 * @param resource database result of one record
-	 *
-	 * @return array database result row, will be empty if $dbResult was FALSE
-	 */
-	protected function fetchDatabaseResult($dbResult) {
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return is_array($result) ? $result : array();
 	}
 
 	/**

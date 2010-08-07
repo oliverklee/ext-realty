@@ -48,10 +48,6 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 		return parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
 	}
 
-	public function fetchDatabaseResult($databaseResult) {
-		return parent::fetchDatabaseResult($databaseResult);
-	}
-
 	public function getDataType($realtyData) {
 		return parent::getDataType($realtyData);
 	}
