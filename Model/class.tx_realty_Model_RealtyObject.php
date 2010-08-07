@@ -54,8 +54,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	const CROP_SIZE = 32;
 
 	/**
-	 * @var array records of images are stored here until they are inserted to
-	 *            'tx_realty_images'
+	 * @var array<array>
+	 *      records of images are stored here until they are inserted to the
+	 *      database
 	 */
 	private $images = array();
 
@@ -257,6 +258,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	private function isolateImageRecords(array $realtyDataArray) {
 		$result = $realtyDataArray;
+
+		$imageMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
 
 		if (is_array($realtyDataArray['images'])) {
 			$this->images = $realtyDataArray['images'];
@@ -728,57 +731,21 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                configuration)
 	 */
 	private function refreshImageEntries($overridePid = 0) {
-		/**
-		 * @var array associative array of file names and the realty object UIDs
-		 *            of the currently appended image records in the database
-		 */
-		$obsoleteImages = array();
-
-		// Marks all currently appended images in the database as obsolete.
-		// Those which are still supposed to be this record's images will be
-		// recreated later.
-		foreach ($this->getAttachedImages('object') as $obsoleteImage) {
-			$obsoleteImage['deleted'] = 1;
-			$obsoleteImage['uid'] = $this->getRecordUid(
-				array(
-					'image' => $obsoleteImage['image'],
-					'object' => $this->getUid(),
-				),
-				REALTY_TABLE_IMAGES
-			);
-			$this->updateDatabaseEntry($obsoleteImage, REALTY_TABLE_IMAGES);
-
-			$obsoleteImages[$obsoleteImage['image']] = $obsoleteImage['object'];
-		}
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		foreach ($mapper->findAllByRelation($this, 'object') as $image) {
+			$mapper->delete($image);
+ 		}
 
 		foreach ($this->getAllImageData() as $imageData) {
 			// Creates a relation to the parent realty object for each image.
 			$imageData['object'] = $this->getUid();
 
-			if (isset($imageData['deleted']) && ($imageData['deleted'] != 0)
-				&& ($obsoleteImages[$imageData['image']]
-					== $imageData['object'])
-			) {
-				$fileName = PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER . $imageData['image'];
-				// In the database, the image is already marked as deleted
-				// because it is in the list of obsoletes, this aditionally
-				// deletes the image from the file system.
-				if (file_exists($fileName) && !@unlink($fileName)) {
-					throw new Exception(
-						'The file ' . $fileName . ' could not be deleted. ' .
-						'Probably the file permissions are not set correctly.'
-					);
-				}
-			} else {
-				// If the title is empty, the file name also becomes the title
-				// to ensure the title is non-empty.
-				if ($imageData['caption'] == '') {
-					$imageData['caption'] = $imageData['image'];
-				}
-				$this->createNewDatabaseEntry(
-					$imageData, REALTY_TABLE_IMAGES, $overridePid
-				);
+			if ($imageData['caption'] == '') {
+				$imageData['caption'] = $imageData['image'];
 			}
+			$this->createNewDatabaseEntry(
+				$imageData, REALTY_TABLE_IMAGES, $overridePid
+			);
 		}
 	}
 
@@ -801,32 +768,32 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		return $this->getAsList('images');
 	}
 
-	/**
-	 * Returns the images of the current realty object in an array.
-	 *
-	 * @param string comma-separated list of additional database fields to
-	 *               retrieve of each image entry, must be the name of an
-	 *               exiting field in the images table but 'uid', the values of
-	 *               'caption' and 'image' will be returned anyway
-	 *
-	 * @return array appended images in a two-dimensional array, each inner
-	 *               element will contain the keys 'caption' and 'image', will
-	 *               be empty if there are no images
-	 */
-	private function getAttachedImages($additionalFields = '') {
+ 	/**
+	 * Returns the images of the current realty object.
+ 	 *
+	 * @return array<array>
+	 *         appended images in a two-dimensional array, each inner element
+	 *         will contain the keys 'caption' and 'image', will be empty if
+	 *         there are no images
+ 	 */
+	private function getAttachedImages() {
 		if (!$this->identifyObjectAndSetUid()) {
 			return array();
 		}
 
-		return tx_oelib_db::selectMultiple(
-			'caption, image' .
-				(($additionalFields == '') ? '' : ',' . $additionalFields),
-			REALTY_TABLE_IMAGES,
-			'object = ' . $this->getUid() .
-				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
-			'',
-			'sorting'
-		);
+		$imageMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		$images = $imageMapper->findAllByRelation($this, 'object');
+		$images->sortBySorting();
+
+		$result = array();
+		foreach ($images as $image) {
+			$result[] = array(
+				'caption' => $image->getTitle(),
+				'image' => $image->getFileName(),
+			);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -926,8 +893,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		$dataToInsert['pid'] = $pid;
-		$dataToInsert['tstamp'] = mktime();
-		$dataToInsert['crdate'] = mktime();
+		$dataToInsert['tstamp'] = $GLOBALS['SIM_EXEC_TIME'];
+		$dataToInsert['crdate'] = $GLOBALS['SIM_EXEC_TIME'];
 		// allows an easy removal of records created during the unit tests
 		$dataToInsert['is_dummy_record'] = $this->isDummyRecord;
 
