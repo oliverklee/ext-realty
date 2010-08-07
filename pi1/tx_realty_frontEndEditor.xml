@@ -731,6 +731,49 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
+		<renderlet:LISTBOX name="furnishing_category" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category">
+			<data>
+				<items>
+					<item>
+						<caption>&amp;nbsp;</caption>
+						<value>0</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.1</caption>
+						<value>1</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.2</caption>
+						<value>2</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.3</caption>
+						<value>3</value>
+					</item>
+				</items>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isIntegerInRange</method>
+						<params>
+							<data name="range" value="0-3"/>
+							<data name="multiple" value="0"/>
+						</params>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getValueNotAllowedMessage</method>
+								<params>
+									<data name="fieldName" value="furnishing_category"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:LISTBOX>
 		<renderlet:TEXT name="estate_size" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.estate_size">
 			<validators>
 				<validator:STANDARD>

@@ -473,6 +473,30 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getPropertyForExistingFurnishingCategoryReturnsCategoryLabel() {
+		$this->realtyObject->setProperty('furnishing_category', 1);
+
+		$this->assertEquals(
+			$this->fixture->translate('label_furnishing_category_1'),
+			$this->fixture->getProperty('furnishing_category')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForInvalidFurnishingCategoryReturnsEmptyString() {
+		$this->realtyObject->setProperty('furnishing_category', 42);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getProperty('furnishing_category')
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concerning formatDecimal

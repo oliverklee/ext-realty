@@ -110,6 +110,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		switch($key) {
 			case 'heating_type':
 				// The fallthrough is intended.
+			case 'furnishing_category':
+				// The fallthrough is intended.
 			case 'state':
 				$result = $this->getLabelForValidProperty($key);
 				break;
