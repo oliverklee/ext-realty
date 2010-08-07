@@ -366,6 +366,113 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getPropertyForTotalUsableAreaReturnsItAsFormattedArea() {
+		$this->realtyObject->setProperty('total_usable_area', '123');
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'123' . $localeConvention['decimal_point'] . '00&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('total_usable_area')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForOfficeSpaceReturnsItAsFormattedArea() {
+		$this->realtyObject->setProperty('office_space', '58');
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'58' . $localeConvention['decimal_point'] . '00&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('office_space')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForShopAreaReturnsItAsFormattedArea() {
+		$this->realtyObject->setProperty('shop_area', '12.34');
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('shop_area')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForStorageAreaReturnsItAsFormattedArea() {
+		$this->realtyObject->setProperty('storage_area', '18.4');
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'18' . $localeConvention['decimal_point'] . '40&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('storage_area')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForSiteOccupancyIndexReturnsItAsFormattedDecimal() {
+		$this->realtyObject->setProperty('site_occupancy_index', '19.40');
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'19' . $localeConvention['decimal_point'] . '4',
+			$this->fixture->getProperty('site_occupancy_index')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForFloorSpaceIndexReturnsItAsFormattedDecimal() {
+		$this->realtyObject->setProperty('floor_space_index', '19.48');
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'19' . $localeConvention['decimal_point'] . '48',
+			$this->fixture->getProperty('floor_space_index')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsRentPerSquareMeterAsFormattedPriceWithDecimals() {
+		$this->realtyObject->setProperty('rent_per_square_meter', 12345);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12 345' . $localeConvention['decimal_point'] . '00&nbsp;&euro;',
+			$this->fixture->getProperty('rent_per_square_meter')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsParkingSpacesAsInteger() {
+		$this->realtyObject->setProperty('parking_spaces', 3);
+
+		$this->assertEquals(
+			'3',
+			$this->fixture->getProperty('parking_spaces')
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concerning formatDecimal

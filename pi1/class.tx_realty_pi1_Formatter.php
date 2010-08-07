@@ -139,6 +139,14 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				break;
 			case 'total_area':
 				// The fallthrough is intended.
+			case 'total_usable_area':
+				// The fallthrough is intended.
+			case 'office_space':
+				// The fallthrough is intended.
+			case 'shop_area':
+				// The fallthrough is intended.
+			case 'storage_area':
+				// The fallthrough is intended.
 			case 'living_area':
 				// The fallthrough is intended.
 			case 'estate_size':
@@ -156,6 +164,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'hoa_fee':
 				// The fallthrough is intended.
+			case 'rent_per_square_meter':
+				// The fallthrough is intended.
 			case 'garage_price':
 				$result = $this->getFormattedPrice($key);
 				break;
@@ -165,6 +175,10 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'bedrooms':
 				// The fallthrough is intended.
 			case 'bathrooms':
+				// The fallthrough is intended.
+			case 'site_occupancy_index':
+				// The fallthrough is intended.
+			case 'floor_space_index':
 				// The fallthrough is intended.
 			case 'number_of_rooms':
 				$result = $this->getFormattedDecimal($key);

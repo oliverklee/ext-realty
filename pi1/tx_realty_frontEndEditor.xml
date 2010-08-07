@@ -434,6 +434,26 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
+		<renderlet:TEXT name="rent_per_square_meter" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_per_square_meter">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="rent_per_square_meter" value="hoa_fee"/>
+									<data name="label" value="message_no_valid_price"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
 		<renderlet:TEXT name="provision" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision"/>
 		<renderlet:TEXT name="extra_charges" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.extra_charges">
 			<validators>
@@ -751,6 +771,126 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
+		<renderlet:TEXT name="total_usable_area"  label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_usable_area">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="total_usable_area"/>
+									<data name="label" value="message_no_valid_number"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="office_space"  label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.office_space">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="office_space"/>
+									<data name="label" value="message_no_valid_number"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="shop_area"  label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.shop_area">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="shop_area"/>
+									<data name="label" value="message_no_valid_number"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="storage_area"  label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.storage_area">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="storage_area"/>
+									<data name="label" value="message_no_valid_number"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="site_occupancy_index"  label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.site_occupancy_index">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="site_occupancy_index"/>
+									<data name="label" value="message_no_valid_number"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="floor_space_index"  label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor_space_index">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="floor_space_index"/>
+									<data name="label" value="message_no_valid_number"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
 		<renderlet:TEXT name="total_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_area">
 			<validators>
 				<validator:STANDARD>
@@ -763,6 +903,26 @@
 								<method>getMessageForRealtyObjectField</method>
 								<params>
 									<data name="fieldName" value="total_area"/>
+									<data name="label" value="message_no_valid_number"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
+		<renderlet:TEXT name="parking_spaces" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.parking_spaces">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidIntegerNumber</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="parking_spaces"/>
 									<data name="label" value="message_no_valid_number"/>
 								</params>
 							</userobj>
