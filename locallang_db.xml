@@ -73,6 +73,18 @@
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
+			<label index="tx_realty_objects.flooring">Flooring</label>
+			<label index="tx_realty_objects.flooring.1">tiled</label>
+			<label index="tx_realty_objects.flooring.2">stone</label>
+			<label index="tx_realty_objects.flooring.3">carpet</label>
+			<label index="tx_realty_objects.flooring.4">parquet</label>
+			<label index="tx_realty_objects.flooring.5">prefinished floor</label>
+			<label index="tx_realty_objects.flooring.6">laminate</label>
+			<label index="tx_realty_objects.flooring.7">timber piling</label>
+			<label index="tx_realty_objects.flooring.8">PVC</label>
+			<label index="tx_realty_objects.flooring.9">screed</label>
+			<label index="tx_realty_objects.flooring.10">double floor</label>
+			<label index="tx_realty_objects.flooring.11">linoleum</label>
 			<label index="tx_realty_objects.construction_year">Year of construction</label>
 			<label index="tx_realty_objects.old_or_new_building">Old or new building</label>
 			<label index="tx_realty_objects.old_or_new_building.I.1">new building</label>
@@ -228,6 +240,18 @@
 			<label index="tx_realty_objects.garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="tx_realty_objects.pets">Haustiere</label>
+			<label index="tx_realty_objects.flooring">Bodenbelag</label>
+			<label index="tx_realty_objects.flooring.1">Fliesen</label>
+			<label index="tx_realty_objects.flooring.2">Stein</label>
+			<label index="tx_realty_objects.flooring.3">Teppich</label>
+			<label index="tx_realty_objects.flooring.4">Parkett</label>
+			<label index="tx_realty_objects.flooring.5">Fertigparkett</label>
+			<label index="tx_realty_objects.flooring.6">Laminat</label>
+			<label index="tx_realty_objects.flooring.7">Dielen</label>
+			<label index="tx_realty_objects.flooring.8">PVC</label>
+			<label index="tx_realty_objects.flooring.9">Estrich</label>
+			<label index="tx_realty_objects.flooring.10">Doppelboden</label>
+			<label index="tx_realty_objects.flooring.11">Linoleum</label>
 			<label index="tx_realty_objects.construction_year">Baujahr</label>
 			<label index="tx_realty_objects.old_or_new_building">Altbau oder Neubau</label>
 			<label index="tx_realty_objects.old_or_new_building.I.1">Neubau</label>
@@ -989,6 +1013,18 @@
 			<label index="tx_realty_objects.garage_rent" type="integer">32433980</label>
 			<label index="tx_realty_objects.garage_price" type="integer">57868081</label>
 			<label index="tx_realty_objects.pets" type="integer">122743082</label>
+			<label index="tx_realty_objects.flooring" type="integer">78339923</label>
+			<label index="tx_realty_objects.flooring.1" type="integer">126158472</label>
+			<label index="tx_realty_objects.flooring.2" type="integer">11026671</label>
+			<label index="tx_realty_objects.flooring.3" type="integer">58485426</label>
+			<label index="tx_realty_objects.flooring.4" type="integer">97027146</label>
+			<label index="tx_realty_objects.flooring.5" type="integer">178570794</label>
+			<label index="tx_realty_objects.flooring.6" type="integer">17579188</label>
+			<label index="tx_realty_objects.flooring.7" type="integer">36591041</label>
+			<label index="tx_realty_objects.flooring.8" type="integer">77398825</label>
+			<label index="tx_realty_objects.flooring.9" type="integer">144264349</label>
+			<label index="tx_realty_objects.flooring.10" type="integer">214374921</label>
+			<label index="tx_realty_objects.flooring.11" type="integer">186118125</label>
 			<label index="tx_realty_objects.construction_year" type="integer">38900511</label>
 			<label index="tx_realty_objects.old_or_new_building" type="integer">81900542</label>
 			<label index="tx_realty_objects.old_or_new_building.I.1" type="integer">241425363</label>
@@ -1751,6 +1787,18 @@
 			<label index="tx_realty_objects.garage_rent">Rent for garage/parking space</label>
 			<label index="tx_realty_objects.garage_price">Price for buying the garage/parking space</label>
 			<label index="tx_realty_objects.pets">Pets</label>
+			<label index="tx_realty_objects.flooring">Flooring</label>
+			<label index="tx_realty_objects.flooring.1">tiled</label>
+			<label index="tx_realty_objects.flooring.2">stone</label>
+			<label index="tx_realty_objects.flooring.3">carpet</label>
+			<label index="tx_realty_objects.flooring.4">parquet</label>
+			<label index="tx_realty_objects.flooring.5">prefinished floor</label>
+			<label index="tx_realty_objects.flooring.6">laminate</label>
+			<label index="tx_realty_objects.flooring.7">timber piling</label>
+			<label index="tx_realty_objects.flooring.8">PVC</label>
+			<label index="tx_realty_objects.flooring.9">screed</label>
+			<label index="tx_realty_objects.flooring.10">double floor</label>
+			<label index="tx_realty_objects.flooring.11">linoleum</label>
 			<label index="tx_realty_objects.construction_year">Year of construction</label>
 			<label index="tx_realty_objects.old_or_new_building">Old or new building</label>
 			<label index="tx_realty_objects.old_or_new_building.I.1">new building</label>

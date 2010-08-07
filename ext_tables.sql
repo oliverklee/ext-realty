@@ -109,6 +109,7 @@ CREATE TABLE tx_realty_objects (
 	floor_space_index decimal(5,2) DEFAULT '0.00' NOT NULL,
 	parking_spaces int(11) unsigned DEFAULT '0' NOT NULL,
 	furnishing_category tinyint(3) DEFAULT '0' NOT NULL,
+	flooring tinytext NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),

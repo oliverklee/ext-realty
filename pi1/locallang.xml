@@ -137,6 +137,18 @@
 			<label index="label_assisted_living_short">assisted living</label>
 			<label index="label_fitted_kitchen">Fitted kitchen</label>
 			<label index="label_fitted_kitchen_short">fitted kitchen</label>
+			<label index="label_flooring">Flooring</label>
+			<label index="label_flooring_1">tiled</label>
+			<label index="label_flooring_2">stone</label>
+			<label index="label_flooring_3">carpet</label>
+			<label index="label_flooring_4">parquet</label>
+			<label index="label_flooring_5">prefinished floor</label>
+			<label index="label_flooring_6">laminate</label>
+			<label index="label_flooring_7">timber piling</label>
+			<label index="label_flooring_8">PVC</label>
+			<label index="label_flooring_9">screed</label>
+			<label index="label_flooring_10">double floor</label>
+			<label index="label_flooring_11">linoleum</label>
 			<label index="label_construction_year">Year of construction</label>
 			<label index="label_construction_year_short">year of construction</label>
 			<label index="label_old_or_new_building_1">new building</label>
@@ -507,6 +519,18 @@
 			<label index="label_assisted_living_short">betreutes Wohnen</label>
 			<label index="label_fitted_kitchen">Einbauküche</label>
 			<label index="label_fitted_kitchen_short">&lt;acronym title=&quot;Einbauküche&quot;&gt;EBK&lt;/acronym&gt;</label>
+			<label index="label_flooring">Bodenbelag</label>
+			<label index="label_flooring_1">Fliesen</label>
+			<label index="label_flooring_2">Stein</label>
+			<label index="label_flooring_3">Teppich</label>
+			<label index="label_flooring_4">Parkett</label>
+			<label index="label_flooring_5">Fertigparkett</label>
+			<label index="label_flooring_6">Laminat</label>
+			<label index="label_flooring_7">Dielen</label>
+			<label index="label_flooring_8">PVC</label>
+			<label index="label_flooring_9">Estrich</label>
+			<label index="label_flooring_10">Doppelboden</label>
+			<label index="label_flooring_11">Linoleum</label>
 			<label index="label_construction_year">Baujahr</label>
 			<label index="label_construction_year_short">Baujahr</label>
 			<label index="label_old_or_new_building_1">Neubau</label>
@@ -1952,6 +1976,18 @@
 			<label index="label_assisted_living_short" type="integer">119969606</label>
 			<label index="label_fitted_kitchen" type="integer">82838765</label>
 			<label index="label_fitted_kitchen_short" type="integer">246053483</label>
+			<label index="label_flooring" type="integer">78339923</label>
+			<label index="label_flooring_1" type="integer">126158472</label>
+			<label index="label_flooring_2" type="integer">11026671</label>
+			<label index="label_flooring_3" type="integer">58485426</label>
+			<label index="label_flooring_4" type="integer">97027146</label>
+			<label index="label_flooring_5" type="integer">178570794</label>
+			<label index="label_flooring_6" type="integer">17579188</label>
+			<label index="label_flooring_7" type="integer">36591041</label>
+			<label index="label_flooring_8" type="integer">77398825</label>
+			<label index="label_flooring_9" type="integer">144264349</label>
+			<label index="label_flooring_10" type="integer">214374921</label>
+			<label index="label_flooring_11" type="integer">186118125</label>
 			<label index="label_construction_year" type="integer">38900511</label>
 			<label index="label_construction_year_short" type="integer">6164852</label>
 			<label index="label_old_or_new_building_1" type="integer">241425363</label>
@@ -3396,6 +3432,18 @@
 			<label index="label_assisted_living_short">assisted living</label>
 			<label index="label_fitted_kitchen">Fitted kitchen</label>
 			<label index="label_fitted_kitchen_short">fitted kitchen</label>
+			<label index="label_flooring">Flooring</label>
+			<label index="label_flooring_1">tiled</label>
+			<label index="label_flooring_2">stone</label>
+			<label index="label_flooring_3">carpet</label>
+			<label index="label_flooring_4">parquet</label>
+			<label index="label_flooring_5">prefinished floor</label>
+			<label index="label_flooring_6">laminate</label>
+			<label index="label_flooring_7">timber piling</label>
+			<label index="label_flooring_8">PVC</label>
+			<label index="label_flooring_9">screed</label>
+			<label index="label_flooring_10">double floor</label>
+			<label index="label_flooring_11">linoleum</label>
 			<label index="label_construction_year">Year of construction</label>
 			<label index="label_construction_year_short">year of construction</label>
 			<label index="label_old_or_new_building_1">new building</label>
