@@ -49,12 +49,21 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 */
 	private $listViewUid = 0;
 
+	/**
+	 * @var integer the UID of a dummy city used for object records
+	 *
+	 */
+	private $dummyCityUid = 0;
+
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$GLOBALS['TSFE']->cObj->data['pid']
 			= $this->testingFramework->createFrontEndPage();
 		$this->listViewUid = $this->testingFramework->createContentElement();
+		$this->dummyCityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES
+		);
 
 		$this->fixture = new tx_realty_pi1_NextPreviousButtonsView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
@@ -69,6 +78,71 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
+	}
+
+
+	//////////////////////
+	// Utility Functions
+	//////////////////////
+
+	/**
+	 * Creates a realty object with a city.
+	 *
+	 * @return integer the UID of the created realty object, will be > 0
+	 */
+	private function createRealtyRecordWithCity() {
+		return $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+		);
+	}
+
+
+	///////////////////////////////////////////
+	// Tests concerning the utility functions
+	///////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function createRealtyRecordWithCityReturnsNonZeroUid() {
+		$this->assertTrue(
+			$this->createRealtyRecordWithCity() > 0
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRealtyRecordWithCityRunTwiceCreatesTwoDifferentRecords() {
+		$this->assertTrue(
+			$this->createRealtyRecordWithCity() != $this->createRealtyRecordWithCity()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRealtyRecordWithCityCreatesRealtyObjectRecord() {
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				REALTY_TABLE_OBJECTS,
+				'uid = ' . $objectUid . ' AND is_dummy_record = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRealtyRecordWithCityAddsCityToRealtyObjectRecord() {
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				REALTY_TABLE_OBJECTS,
+				'uid = ' . $objectUid . ' AND city > 0 AND is_dummy_record = 1'
+			)
+		);
 	}
 
 
@@ -125,8 +199,9 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForEnabledNextPreviousButtonsAndMultipleRecordsReturnsNextLink() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->createRealtyRecordWithCity();
+
 		$this->fixture->piVars = array(
 			'showUid' => $objectUid,
 			'recordPosition' => 0,
@@ -144,14 +219,9 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForRecordPositionZeroNotReturnsPreviousButton() {
-		$objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array('city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
-		);
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array('city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
-		);
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->createRealtyRecordWithCity();
+
 		$this->fixture->piVars = array(
 			'showUid' => $objectUid,
 			'recordPosition' => 0,
@@ -316,8 +386,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderAddsListViewUidToNextButton() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->createRealtyRecordWithCity();
 
 		$this->fixture->piVars = array(
 			'showUid' => $objectUid,
@@ -336,8 +406,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderAddsListViewTypeToNextButton() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->createRealtyRecordWithCity();
 
 		$this->fixture->piVars = array(
 			'showUid' => $objectUid,
@@ -356,8 +426,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderAddsListViewLimitationToNextLink() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->createRealtyRecordWithCity();
 
 		$listViewLimitation = base64_encode(serialize(array('objectNumber' => 'foo')));
 
@@ -379,9 +449,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForNoListViewTypeReturnsEmptyString() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
 		$this->fixture->piVars = array(
-			'showUid' => $objectUid,
+			'showUid' => $this->createRealtyRecordWithCity(),
 			'recordPosition' => 1,
 			'listUid' => $this->listViewUid,
 		);
@@ -396,9 +465,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForInvalidListViewTypeReturnsString() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
 		$this->fixture->piVars = array(
-			'showUid' => $objectUid,
+			'showUid' => $this->createRealtyRecordWithCity(),
 			'recordPosition' => 1,
 			'listViewType' => 'foo',
 			'listUid' => $this->listViewUid,
@@ -414,9 +482,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForNegativeRecordPositionReturnsEmptyString() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
 		$this->fixture->piVars = array(
-			'showUid' => $objectUid,
+			'showUid' => $this->createRealtyRecordWithCity(),
 			'recordPosition' => -1,
 			'listViewType' => 'realty_list',
 			'listUid' => $this->listViewUid,
@@ -432,7 +499,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForRecordPositionStringAddsRecordPositionOnetoNextLink() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
+		$objectUid = $this->createRealtyRecordWithCity();
+		$this->createRealtyRecordWithCity();
 		$this->fixture->piVars = array(
 			'showUid' => $objectUid,
 			'recordPosition' => 'foo',
@@ -450,9 +518,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForRecordPositionStringHidesPreviousButton() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
 		$this->fixture->piVars = array(
-			'showUid' => $objectUid,
+			'showUid' => $this->createRealtyRecordWithCity(),
 			'recordPosition' => 'foo',
 			'listViewType' => 'realty_list',
 			'listUid' => $this->listViewUid,
@@ -468,9 +535,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForListUidNegativeReturnsEmptyString() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
 		$this->fixture->piVars = array(
-			'showUid' => $objectUid,
+			'showUid' => $this->createRealtyRecordWithCity(),
 			'recordPosition' => 0,
 			'listUid' => -1,
 			'listViewType' => 'realty_list',
@@ -486,9 +552,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForListUidPointingToNonExistingContentElementReturnsEmptyString() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
 		$this->fixture->piVars = array(
-			'showUid' => $objectUid,
+			'showUid' => $this->createRealtyRecordWithCity(),
 			'recordPosition' => 0,
 			'listUid' => $this->testingFramework->getAutoIncrement('tt_content'),
 			'listViewType' => 'realty_list',
@@ -504,9 +569,8 @@ class tx_realty_pi1_NextPreviousButtonsView_testcase extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForNoListUidSetInPiVarsReturnsEmptyString() {
-		$objectUid = $this->testingFramework->createRecord(REALTY_TABLE_OBJECTS);
 		$this->fixture->piVars = array(
-			'showUid' => $objectUid,
+			'showUid' => $this->createRealtyRecordWithCity(),
 			'recordPosition' => 0,
 			'listViewType' => 'realty_list',
 		);

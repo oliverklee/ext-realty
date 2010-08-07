@@ -1,4 +1,5 @@
 0.5.1 - currently working on
+- [#3800] Fix: Multiple tests concerning the next/previous buttons fail
 - [#3991] Fix: "objektkategorie nutzungsart" gets imported even if an attribute is set to false
 - [#3997] Localization: Change some field titles in the FE and BE
 - [#3708] Fix: Non-image attachments get imported as images

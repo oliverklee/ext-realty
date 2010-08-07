@@ -47,9 +47,14 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer UID of the  dummy realty object
+	 * @var integer UID of the dummy realty object
 	 */
 	private $realtyUid = 0;
+
+	/**
+	 * @var integer the UID of a dummy city for the object records
+	 */
+	private $dummyCityUid = 0;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
@@ -65,6 +70,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			'heading,address,description,furtherDescription,price,overviewTable,' .
 				'imageThumbnails,addToFavoritesButton,contactButton,offerer,' .
 				'backButton,printPageButton'
+		);
+		$this->dummyCityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES
 		);
 	}
 
@@ -649,8 +657,12 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function singleViewForEnabledNextPreviousButtonsShowsNextPreviousButtonsSubpart() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		$objectUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+		);
 		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
 		$this->fixture->setConfigurationValue(
@@ -663,7 +675,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$this->assertContains(
 			'previousNextButtons',
 			$this->fixture->render(array(
-				'showUid' => $realtyObject->getUid(),
+				'showUid' => $objectUid,
 				'recordPosition' => 0,
 				'listViewType' => 'realty_list',
 				'listUid' => $this->testingFramework->createContentElement(),
@@ -675,8 +687,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function singleViewForEnabledNextPreviousButtonsButNotSetDisplayPartHidesNextPreviousButtonsSubpart() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		$objectUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+		);
 		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
 		$this->fixture->setConfigurationValue(
@@ -689,7 +702,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			'previousNextButtons',
 			$this->fixture->render(array(
-				'showUid' => $realtyObject->getUid(),
+				'showUid' => $objectUid,
 				'recordPosition' => 0,
 				'listViewType' => 'realty_list',
 				'listUid' => $this->testingFramework->createContentElement(),
@@ -701,8 +714,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function singleViewForDisabledNextPreviousButtonsHidesNextPreviousButtonsSubpart() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		$objectUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+		);
 		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
 		$this->fixture->setConfigurationValue(
@@ -715,7 +729,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			'previousNextButtons',
 			$this->fixture->render(array(
-				'showUid' => $realtyObject->getUid(),
+				'showUid' => $objectUid,
 				'recordPosition' => 0,
 				'listViewType' => 'realty_list',
 			))
