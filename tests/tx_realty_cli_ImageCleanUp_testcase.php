@@ -53,6 +53,9 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->setUploadFolderPath(PATH_site);
+		tx_oelib_MapperRegistry::getInstance()
+			->activateTestingMode($this->testingFramework);
+
 		$this->fixture = new tx_realty_cli_ImageCleanUp();
 		$this->uploadFolder = str_replace(
 			PATH_site, '',

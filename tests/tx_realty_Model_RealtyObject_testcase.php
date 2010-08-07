@@ -93,6 +93,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
+		tx_oelib_MapperRegistry::getInstance()
+			->activateTestingMode($this->testingFramework);
+
 		$geoFinder = new tx_realty_tests_fixtures_FakeGoogleMapsLookup();
 		$geoFinder->setCoordinates(self::LATITUDE, self::LONGITUDE);
 		tx_realty_googleMapsLookup::setInstance($geoFinder);
@@ -1208,7 +1211,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInsertImageEntriesInsertsNewEntryWithParentUid() {
+	/**
+	 * @test
+	 */
+	public function addImageRecordInsertsNewEntryWithParentUid() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 
 		$this->fixture->loadRealtyObject($this->objectUid);

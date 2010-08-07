@@ -82,7 +82,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
 
-		$this->globalConfiguration= tx_oelib_configurationProxy::getInstance('realty');
+		tx_oelib_MapperRegistry::getInstance()
+			->activateTestingMode($this->testingFramework);
+
+		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 
