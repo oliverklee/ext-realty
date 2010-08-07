@@ -76,7 +76,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		'employer',
 		'openimmo_anid',
 		'openimmo_obid',
-		'utilization',
 		'contact_person',
 		'contact_email'
 	);

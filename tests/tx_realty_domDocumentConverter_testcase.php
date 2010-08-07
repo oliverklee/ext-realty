@@ -488,50 +488,6 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getConvertedDataForSaleTrueCreatesSaleObject() {
-		$node = $this->setRawDataToConvert(
-			'<openimmo>' .
-				'<anbieter>' .
-					'<immobilie>' .
-						'<objektkategorie>' .
-							'<vermarktungsart KAUF="true"/>' .
-						'</objektkategorie>' .
-					'</immobilie>' .
-				'</anbieter>' .
-			'</openimmo>'
-		);
-
-		$this->assertEquals(
-			array(array('object_type' => REALTY_FOR_SALE)),
-			$this->fixture->getConvertedData($node)
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getConvertedDataForRentTrueCreatesRentObject() {
-		$node = $this->setRawDataToConvert(
-			'<openimmo>' .
-				'<anbieter>' .
-					'<immobilie>' .
-						'<objektkategorie>' .
-							'<vermarktungsart MIETE_PACHT="true"/>' .
-						'</objektkategorie>' .
-					'</immobilie>' .
-				'</anbieter>' .
-			'</openimmo>'
-		);
-
-		$this->assertEquals(
-			array(array('object_type' => REALTY_FOR_RENTING)),
-			$this->fixture->getConvertedData($node)
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function getConvertedDataForSaleTrueAndRentFalseCreatesSaleObject() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
@@ -561,6 +517,50 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 					'<immobilie>' .
 						'<objektkategorie>' .
 							'<vermarktungsart KAUF="false" MIETE_PACHT="true"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('object_type' => REALTY_FOR_RENTING)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForSaleOneAndRentZeroCreatesSaleObject() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<vermarktungsart KAUF="1" MIETE_PACHT="0"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('object_type' => REALTY_FOR_SALE)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForSaleZeroAndRentOneCreatesRentObject() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<vermarktungsart KAUF="0" MIETE_PACHT="1"/>' .
 						'</objektkategorie>' .
 					'</immobilie>' .
 				'</anbieter>' .
@@ -822,81 +822,6 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataReplacesLowercasedBooleanStringsWithTrueBooleans() {
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<geo>'
-							.'<strasse>true</strasse>'
-							.'<plz>false</plz>'
-						.'</geo>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$this->assertEquals(
-			array(
-				array(
-					'street' => TRUE,
-					'zip' => FALSE
-				)
-			),
-			$this->fixture->getConvertedData($node)
-		);
-	}
-
-	public function testGetConvertedDataReplacesUppercasedBooleanStringsWithTrueBooleans() {
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<geo>'
-							.'<strasse>TRUE</strasse>'
-							.'<plz>FALSE</plz>'
-						.'</geo>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$this->assertEquals(
-			array(
-				array(
-					'street' => TRUE,
-					'zip' => FALSE
-				)
-			),
-			$this->fixture->getConvertedData($node)
-		);
-	}
-
-	public function testGetConvertedDataReplacesQuotedBooleanStringsWithTrueBooleans() {
-		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<geo>'
-							.'<strasse>"true"</strasse>'
-							.'<plz>"false"</plz>'
-						.'</geo>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
-		);
-
-		$this->assertEquals(
-			array(
-				array(
-					'street' => TRUE,
-					'zip' => FALSE
-				)
-			),
-			$this->fixture->getConvertedData($node)
-		);
-	}
-
 	public function testGetConvertedDataGetsStateIfValidStateProvided() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
@@ -1129,14 +1054,41 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 * @test
 	 *
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=4057
 	 */
-	public function getConvertedDataCanImportLivingUsage() {
+	public function getConvertedDataCanImportLivingUsageUsingTrueFalseAttributeValues() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
 						'<objektkategorie>' .
 							'<nutzungsart WOHNEN="true" GEWERBE="false"/>' .
+						'</objektkategorie>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			$this->fixture->getConvertedData($node),
+			array(array('utilization' => 'Wohnen'))
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=4057
+	 */
+	public function getConvertedDataCanImportLivingUsageUsingOneZeroAttributeValues() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<objektkategorie>' .
+							'<nutzungsart WOHNEN="1" GEWERBE="0"/>' .
 						'</objektkategorie>' .
 					'</immobilie>' .
 				'</anbieter>' .
@@ -1905,7 +1857,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			array(array('show_address' => 1)),
+			array(array('show_address' => TRUE)),
 			$this->fixture->getConvertedData($node)
 		);
 	}
@@ -1924,7 +1876,7 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			array(array('show_address' => 0)),
+			array(array('show_address' => FALSE)),
 			$this->fixture->getConvertedData($node)
 		);
 	}
