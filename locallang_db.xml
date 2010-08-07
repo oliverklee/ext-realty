@@ -99,6 +99,10 @@
 			<label index="tx_realty_objects.state.19">vacant</label>
 			<label index="tx_realty_objects.state.20">partly rented</label>
 			<label index="tx_realty_objects.state.21">has building permit</label>
+			<label index="tx_realty_objects.furnishing_category">Furnishing category</label>
+			<label index="tx_realty_objects.furnishing_category.1">standard</label>
+			<label index="tx_realty_objects.furnishing_category.2">upmarket</label>
+			<label index="tx_realty_objects.furnishing_category.3">luxurious</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>
@@ -250,6 +254,10 @@
 			<label index="tx_realty_objects.state.19">leer stehend</label>
 			<label index="tx_realty_objects.state.20">teilvermietet</label>
 			<label index="tx_realty_objects.state.21">mit Baugenehmigung</label>
+			<label index="tx_realty_objects.furnishing_category">Ausstattungs-Kategorie</label>
+			<label index="tx_realty_objects.furnishing_category.1">Standard</label>
+			<label index="tx_realty_objects.furnishing_category.2">gehoben</label>
+			<label index="tx_realty_objects.furnishing_category.3">Luxus</label>
 			<label index="tx_realty_objects.balcony">Balkon/Terrasse</label>
 			<label index="tx_realty_objects.garden">Garten(-mitbenutzung)</label>
 			<label index="tx_realty_objects.elevator">Personenaufzug</label>
@@ -1007,6 +1015,10 @@
 			<label index="tx_realty_objects.state.19" type="integer">141770829</label>
 			<label index="tx_realty_objects.state.20" type="integer">180193091</label>
 			<label index="tx_realty_objects.state.21" type="integer">41136802</label>
+			<label index="tx_realty_objects.furnishing_category" type="integer">178306573</label>
+			<label index="tx_realty_objects.furnishing_category.1" type="integer">201388228</label>
+			<label index="tx_realty_objects.furnishing_category.2" type="integer">34044309</label>
+			<label index="tx_realty_objects.furnishing_category.3" type="integer">183822674</label>
 			<label index="tx_realty_objects.balcony" type="integer">143910655</label>
 			<label index="tx_realty_objects.garden" type="integer">237814086</label>
 			<label index="tx_realty_objects.elevator" type="integer">157509981</label>
@@ -1765,6 +1777,10 @@
 			<label index="tx_realty_objects.state.19">vacant</label>
 			<label index="tx_realty_objects.state.20">partly rented</label>
 			<label index="tx_realty_objects.state.21">has building permit</label>
+			<label index="tx_realty_objects.furnishing_category">Furnishing category</label>
+			<label index="tx_realty_objects.furnishing_category.1">standard</label>
+			<label index="tx_realty_objects.furnishing_category.2">upmarket</label>
+			<label index="tx_realty_objects.furnishing_category.3">luxurious</label>
 			<label index="tx_realty_objects.balcony">Balcony/patio</label>
 			<label index="tx_realty_objects.garden">Garden (usage)</label>
 			<label index="tx_realty_objects.elevator">Elevator</label>

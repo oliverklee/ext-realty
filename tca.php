@@ -18,10 +18,10 @@ $TCA['tx_realty_objects'] = array(
 			'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,' .
 			'bathrooms,heating_type,has_air_conditioning,garage_type,parking_spaces,garage_rent,' .
 			'garage_price,pets,construction_year,old_or_new_building,state,' .
-			'balcony,garden,elevator,barrier_free,assisted_living,' .
-			'fitted_kitchen, has_pool,has_community_pool,teaser,description,' .
-			'equipment,layout,location,misc,details_page,images,employer,' .
-			'openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
+			'furnishing_category,balcony,garden,elevator,barrier_free,' .
+			'assisted_living,fitted_kitchen, has_pool,has_community_pool,teaser,' .
+			'description,equipment,layout,location,misc,details_page,images,' .
+			'employer,openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
 			'contact_person,contact_email,phone_switchboard,' .
 			'phone_direct_extension,owner,language,currency,' .
 			'exact_coordinates_are_cached,exact_longitude,exact_latitude,' .
@@ -840,6 +840,19 @@ $TCA['tx_realty_objects'] = array(
 				),
 			),
 		),
+		'furnishing_category' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', '0'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.1', 1),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.2', 2),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.3', 3),
+				),
+			),
+		),
 		'balcony' => array(
 			'exclude' => 0,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony',
@@ -1147,7 +1160,7 @@ $TCA['tx_realty_objects'] = array(
 				'apartment_type, house_type, floor, floors, bedrooms, ' .
 				'bathrooms, heating_type, has_air_conditioning, garage_type, parking_spaces, ' .
 				'garage_rent, pets, construction_year, old_or_new_building, ' .
-				'state, balcony, garden, elevator, barrier_free, ' .
+				'state, furnishing_category, balcony, garden, elevator, barrier_free, ' .
 				'assisted_living, fitted_kitchen, has_pool, has_community_pool,' .
 				'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
 					'bold|italic|underline|left|center|right|orderedlist|' .
@@ -1190,7 +1203,7 @@ $TCA['tx_realty_objects'] = array(
 				'buying_price, hoa_fee, extra_charges, year_rent, rented, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, bathrooms, ' .
 				'heating_type, has_air_conditioning, garage_type, parking_spaces, garage_price, ' .
-				'construction_year, old_or_new_building, state, balcony, garden, ' .
+				'construction_year, old_or_new_building, state, furnishing_category, balcony, garden, ' .
 				'elevator, barrier_free, fitted_kitchen, has_pool, ' .
 				'has_community_pool, ' .
 				'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
