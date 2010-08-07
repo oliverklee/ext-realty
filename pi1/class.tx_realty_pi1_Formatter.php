@@ -268,7 +268,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			) as $suffix
 		) {
 			if ($suffix >= 1) {
-				$locallangKey = 'label_' . $key . '.' . $suffix;
+				$locallangKey = 'label_' . $key . '_' . $suffix;
 				$translatedLabel = $this->translate($locallangKey);
 				$localizedStrings[] = ($translatedLabel != $locallangKey)
 					? $translatedLabel

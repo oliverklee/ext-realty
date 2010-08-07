@@ -176,45 +176,45 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
-			<label index="label_heating_type.1">district heating</label>
-			<label index="label_heating_type.2">central heating</label>
-			<label index="label_heating_type.3">electric heating</label>
-			<label index="label_heating_type.4">floor heating</label>
-			<label index="label_heating_type.5">gas heating</label>
-			<label index="label_heating_type.6">green fuel heating</label>
-			<label index="label_heating_type.7">heat pump heating</label>
-			<label index="label_heating_type.8">oil heating</label>
-			<label index="label_heating_type.9">self-contained central heating</label>
-			<label index="label_heating_type.10">solar heating</label>
-			<label index="label_heating_type.11">heating by stove</label>
-			<label index="label_heating_type.12">zone heating</label>
+			<label index="label_heating_type_1">district heating</label>
+			<label index="label_heating_type_2">central heating</label>
+			<label index="label_heating_type_3">electric heating</label>
+			<label index="label_heating_type_4">floor heating</label>
+			<label index="label_heating_type_5">gas heating</label>
+			<label index="label_heating_type_6">green fuel heating</label>
+			<label index="label_heating_type_7">heat pump heating</label>
+			<label index="label_heating_type_8">oil heating</label>
+			<label index="label_heating_type_9">self-contained central heating</label>
+			<label index="label_heating_type_10">solar heating</label>
+			<label index="label_heating_type_11">heating by stove</label>
+			<label index="label_heating_type_12">zone heating</label>
 			<label index="label_garage_type">Parking space type</label>
 			<label index="label_parking_spaces">Number of parking spaces</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>
 			<label index="label_state">Condition</label>
-			<label index="label_state.1">bare brickwork</label>
-			<label index="label_state.2">by arrangement</label>
-			<label index="label_state.3">dilapidated</label>
-			<label index="label_state.4">first occupancy</label>
-			<label index="label_state.5">for demolition</label>
-			<label index="label_state.6">gutted</label>
-			<label index="label_state.7">modernized</label>
-			<label index="label_state.8">neat</label>
-			<label index="label_state.9">in need of renovation</label>
-			<label index="label_state.10">reconditioned</label>
-			<label index="label_state.11">renovated</label>
-			<label index="label_state.12">sanitated</label>
-			<label index="label_state.13">planned</label>
-			<label index="label_state.14">not renovated</label>
-			<label index="label_state.15">partly renovated</label>
-			<label index="label_state.16">currently being planned</label>
-			<label index="label_state.17">in need of renovation</label>
-			<label index="label_state.18">fully rented</label>
-			<label index="label_state.19">vacant</label>
-			<label index="label_state.20">partly rented</label>
-			<label index="label_state.21">has building permit</label>
+			<label index="label_state_1">bare brickwork</label>
+			<label index="label_state_2">by arrangement</label>
+			<label index="label_state_3">dilapidated</label>
+			<label index="label_state_4">first occupancy</label>
+			<label index="label_state_5">for demolition</label>
+			<label index="label_state_6">gutted</label>
+			<label index="label_state_7">modernized</label>
+			<label index="label_state_8">neat</label>
+			<label index="label_state_9">in need of renovation</label>
+			<label index="label_state_10">reconditioned</label>
+			<label index="label_state_11">renovated</label>
+			<label index="label_state_12">sanitated</label>
+			<label index="label_state_13">planned</label>
+			<label index="label_state_14">not renovated</label>
+			<label index="label_state_15">partly renovated</label>
+			<label index="label_state_16">currently being planned</label>
+			<label index="label_state_17">in need of renovation</label>
+			<label index="label_state_18">fully rented</label>
+			<label index="label_state_19">vacant</label>
+			<label index="label_state_20">partly rented</label>
+			<label index="label_state_21">has building permit</label>
 			<label index="label_furnishing_category">Furnishing category</label>
 			<label index="label_furnishing_category_1">standard</label>
 			<label index="label_furnishing_category_2">upmarket</label>
@@ -546,45 +546,45 @@
 			<label index="label_bedrooms">Anzahl Schlafzimmer</label>
 			<label index="label_bathrooms">Anzahl Badezimmer</label>
 			<label index="label_heating_type">Heizungsart und Befeuerung</label>
-			<label index="label_heating_type.1">Fernwärme</label>
-			<label index="label_heating_type.2">Zentralheizung</label>
-			<label index="label_heating_type.3">Elektroheizung</label>
-			<label index="label_heating_type.4">Fußbodenheizung</label>
-			<label index="label_heating_type.5">Gasheizung</label>
-			<label index="label_heating_type.6">Alternativheizung</label>
-			<label index="label_heating_type.7">Wärmepumpenheizung</label>
-			<label index="label_heating_type.8">Ölheizung</label>
-			<label index="label_heating_type.9">Etagenheizung</label>
-			<label index="label_heating_type.10">Solarheizung</label>
-			<label index="label_heating_type.11">Ofen</label>
-			<label index="label_heating_type.12">Blockheizung</label>
+			<label index="label_heating_type_1">Fernwärme</label>
+			<label index="label_heating_type_2">Zentralheizung</label>
+			<label index="label_heating_type_3">Elektroheizung</label>
+			<label index="label_heating_type_4">Fußbodenheizung</label>
+			<label index="label_heating_type_5">Gasheizung</label>
+			<label index="label_heating_type_6">Alternativheizung</label>
+			<label index="label_heating_type_7">Wärmepumpenheizung</label>
+			<label index="label_heating_type_8">Ölheizung</label>
+			<label index="label_heating_type_9">Etagenheizung</label>
+			<label index="label_heating_type_10">Solarheizung</label>
+			<label index="label_heating_type_11">Ofen</label>
+			<label index="label_heating_type_12">Blockheizung</label>
 			<label index="label_garage_type">Stellplatzart</label>
 			<label index="label_parking_spaces">Anzahl Stellplätze</label>
 			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
 			<label index="label_garage_price">Kaufpreis für Garage/Stellplatz</label>
 			<label index="label_pets">Haustiere</label>
 			<label index="label_state">Zustand</label>
-			<label index="label_state.1">Rohbau</label>
-			<label index="label_state.2">nach Vereinbarung</label>
-			<label index="label_state.3">baufällig</label>
-			<label index="label_state.4">Erstbezug</label>
-			<label index="label_state.5">Abrissobjekt</label>
-			<label index="label_state.6">entkernt</label>
-			<label index="label_state.7">modernisiert</label>
-			<label index="label_state.8">gepflegt</label>
-			<label index="label_state.9">renovierungsbedürftig</label>
-			<label index="label_state.10">neuwertig</label>
-			<label index="label_state.11">renoviert</label>
-			<label index="label_state.12">saniert</label>
-			<label index="label_state.13">projektiert</label>
-			<label index="label_state.14">unsaniert</label>
-			<label index="label_state.15">teilsaniert</label>
-			<label index="label_state.16">in Projektierung</label>
-			<label index="label_state.17">sanierungsbedürftig</label>
-			<label index="label_state.18">vollständig vermietet</label>
-			<label index="label_state.19">leer stehend</label>
-			<label index="label_state.20">teilvermietet</label>
-			<label index="label_state.21">mit Baugenehmigung</label>
+			<label index="label_state_1">Rohbau</label>
+			<label index="label_state_2">nach Vereinbarung</label>
+			<label index="label_state_3">baufällig</label>
+			<label index="label_state_4">Erstbezug</label>
+			<label index="label_state_5">Abrissobjekt</label>
+			<label index="label_state_6">entkernt</label>
+			<label index="label_state_7">modernisiert</label>
+			<label index="label_state_8">gepflegt</label>
+			<label index="label_state_9">renovierungsbedürftig</label>
+			<label index="label_state_10">neuwertig</label>
+			<label index="label_state_11">renoviert</label>
+			<label index="label_state_12">saniert</label>
+			<label index="label_state_13">projektiert</label>
+			<label index="label_state_14">unsaniert</label>
+			<label index="label_state_15">teilsaniert</label>
+			<label index="label_state_16">in Projektierung</label>
+			<label index="label_state_17">sanierungsbedürftig</label>
+			<label index="label_state_18">vollständig vermietet</label>
+			<label index="label_state_19">leer stehend</label>
+			<label index="label_state_20">teilvermietet</label>
+			<label index="label_state_21">mit Baugenehmigung</label>
 			<label index="label_furnishing_category">Ausstattungs-Kategorie</label>
 			<label index="label_furnishing_category_1">Standard</label>
 			<label index="label_furnishing_category_2">gehoben</label>
@@ -902,44 +902,44 @@
 			<label index="label_bedrooms">Aantal slaapkamers</label>
 			<label index="label_bathrooms">Aantal badkamers</label>
 			<label index="label_heating_type">Soort verwarming</label>
-			<label index="label_heating_type.1">Stadverwarming</label>
-			<label index="label_heating_type.2">Centrale verwarming</label>
-			<label index="label_heating_type.3">Electrische verwarming</label>
-			<label index="label_heating_type.4">Vloerverwarming</label>
-			<label index="label_heating_type.5">Gasverwarming</label>
-			<label index="label_heating_type.6">Alternatieve verwarming</label>
-			<label index="label_heating_type.7">Aardwarmtepomp</label>
-			<label index="label_heating_type.8">Olie verwarming</label>
-			<label index="label_heating_type.9">Etage verwarming</label>
-			<label index="label_heating_type.10">Solar verwarming</label>
-			<label index="label_heating_type.11">Kachel verwarming</label>
-			<label index="label_heating_type.12">Zone verwarming</label>
+			<label index="label_heating_type_1">Stadverwarming</label>
+			<label index="label_heating_type_2">Centrale verwarming</label>
+			<label index="label_heating_type_3">Electrische verwarming</label>
+			<label index="label_heating_type_4">Vloerverwarming</label>
+			<label index="label_heating_type_5">Gasverwarming</label>
+			<label index="label_heating_type_6">Alternatieve verwarming</label>
+			<label index="label_heating_type_7">Aardwarmtepomp</label>
+			<label index="label_heating_type_8">Olie verwarming</label>
+			<label index="label_heating_type_9">Etage verwarming</label>
+			<label index="label_heating_type_10">Solar verwarming</label>
+			<label index="label_heating_type_11">Kachel verwarming</label>
+			<label index="label_heating_type_12">Zone verwarming</label>
 			<label index="label_garage_type">Garage/parkeerplaats</label>
 			<label index="label_garage_rent">Huur voor garage/parkeerplaats</label>
 			<label index="label_garage_price">Koopprijs voor garage/parkeerplaats</label>
 			<label index="label_pets">Huisdieren</label>
 			<label index="label_state">Staat van onderhoud</label>
-			<label index="label_state.1">Ruwbouw</label>
-			<label index="label_state.2">Volgens afspraak</label>
-			<label index="label_state.3">Bouwvallig</label>
-			<label index="label_state.4">Nieuw</label>
-			<label index="label_state.5">Afbraakpand</label>
-			<label index="label_state.6">Gestript</label>
-			<label index="label_state.7">Gemoderniseerd</label>
-			<label index="label_state.8">Normaal</label>
-			<label index="label_state.9">Renovatie nodig</label>
-			<label index="label_state.10">Zo goed als nieuw</label>
-			<label index="label_state.11">Gerenoveerd</label>
-			<label index="label_state.12">Gesaneerd</label>
-			<label index="label_state.13">Bouwplannen aanwezig</label>
-			<label index="label_state.14">niet gerenoveerd</label>
-			<label index="label_state.15">gedeeltelijk gerenoveerd</label>
-			<label index="label_state.16">Renovatie gepland</label>
-			<label index="label_state.17">Renovatie noodzakelijk</label>
-			<label index="label_state.18">Volledig verhuurd</label>
-			<label index="label_state.19">Vrij</label>
-			<label index="label_state.20">Gedeeltelijk verhuurd</label>
-			<label index="label_state.21">Bouwvergunning aanwezig</label>
+			<label index="label_state_1">Ruwbouw</label>
+			<label index="label_state_2">Volgens afspraak</label>
+			<label index="label_state_3">Bouwvallig</label>
+			<label index="label_state_4">Nieuw</label>
+			<label index="label_state_5">Afbraakpand</label>
+			<label index="label_state_6">Gestript</label>
+			<label index="label_state_7">Gemoderniseerd</label>
+			<label index="label_state_8">Normaal</label>
+			<label index="label_state_9">Renovatie nodig</label>
+			<label index="label_state_10">Zo goed als nieuw</label>
+			<label index="label_state_11">Gerenoveerd</label>
+			<label index="label_state_12">Gesaneerd</label>
+			<label index="label_state_13">Bouwplannen aanwezig</label>
+			<label index="label_state_14">niet gerenoveerd</label>
+			<label index="label_state_15">gedeeltelijk gerenoveerd</label>
+			<label index="label_state_16">Renovatie gepland</label>
+			<label index="label_state_17">Renovatie noodzakelijk</label>
+			<label index="label_state_18">Volledig verhuurd</label>
+			<label index="label_state_19">Vrij</label>
+			<label index="label_state_20">Gedeeltelijk verhuurd</label>
+			<label index="label_state_21">Bouwvergunning aanwezig</label>
 			<label index="label_weofferyou_formal">Wij bieden U de navolgende objecten aan:</label>
 			<label index="label_weofferyou_informal">Wij bieden U het navolgende object aan:</label>
 			<label index="label_yourfavorites_formal">U heeft de navolgende objecten op uw favorietenlijst:</label>
@@ -1152,36 +1152,36 @@
 			<label index="label_bedrooms">Antal soveværelser</label>
 			<label index="label_bathrooms">Antal badeværelser</label>
 			<label index="label_heating_type">Opvarmningstype</label>
-			<label index="label_heating_type.1">Fjernvarme</label>
-			<label index="label_heating_type.2">Centralvarme</label>
-			<label index="label_heating_type.3">Elvarme</label>
-			<label index="label_heating_type.4">Gulvvarme</label>
-			<label index="label_heating_type.5">Gasvarmer</label>
-			<label index="label_heating_type.6">Alternativ varme</label>
-			<label index="label_heating_type.7">Varmepumpevarme</label>
-			<label index="label_heating_type.8">Oliefyr</label>
-			<label index="label_heating_type.9">Etageopvarmning</label>
-			<label index="label_heating_type.10">Solcelleopvarmning</label>
-			<label index="label_heating_type.11">Ovnopvarmning</label>
-			<label index="label_heating_type.12">Blokvarme</label>
+			<label index="label_heating_type_1">Fjernvarme</label>
+			<label index="label_heating_type_2">Centralvarme</label>
+			<label index="label_heating_type_3">Elvarme</label>
+			<label index="label_heating_type_4">Gulvvarme</label>
+			<label index="label_heating_type_5">Gasvarmer</label>
+			<label index="label_heating_type_6">Alternativ varme</label>
+			<label index="label_heating_type_7">Varmepumpevarme</label>
+			<label index="label_heating_type_8">Oliefyr</label>
+			<label index="label_heating_type_9">Etageopvarmning</label>
+			<label index="label_heating_type_10">Solcelleopvarmning</label>
+			<label index="label_heating_type_11">Ovnopvarmning</label>
+			<label index="label_heating_type_12">Blokvarme</label>
 			<label index="label_garage_type">Garage/Parkeringsplads</label>
 			<label index="label_garage_rent">Lejepris for garage</label>
 			<label index="label_garage_price">Købspris for garage/pakeringsplads</label>
 			<label index="label_pets">Husdyr</label>
 			<label index="label_state">Tilstand</label>
-			<label index="label_state.1">Efter kundens ønsker</label>
-			<label index="label_state.2">Efter aftale</label>
-			<label index="label_state.3">Nedrivningsobjekt</label>
-			<label index="label_state.4">Nyopført</label>
-			<label index="label_state.5">Nedrivningsobjekt</label>
-			<label index="label_state.6">Kernefjernet</label>
-			<label index="label_state.7">Moderniseret</label>
-			<label index="label_state.8">Vedligeholdt</label>
-			<label index="label_state.9">Håndværkertilbud</label>
-			<label index="label_state.10">Nyistandsat</label>
-			<label index="label_state.11">Renoveret</label>
-			<label index="label_state.12">Saneret</label>
-			<label index="label_state.13">Planlagt</label>
+			<label index="label_state_1">Efter kundens ønsker</label>
+			<label index="label_state_2">Efter aftale</label>
+			<label index="label_state_3">Nedrivningsobjekt</label>
+			<label index="label_state_4">Nyopført</label>
+			<label index="label_state_5">Nedrivningsobjekt</label>
+			<label index="label_state_6">Kernefjernet</label>
+			<label index="label_state_7">Moderniseret</label>
+			<label index="label_state_8">Vedligeholdt</label>
+			<label index="label_state_9">Håndværkertilbud</label>
+			<label index="label_state_10">Nyistandsat</label>
+			<label index="label_state_11">Renoveret</label>
+			<label index="label_state_12">Saneret</label>
+			<label index="label_state_13">Planlagt</label>
 			<label index="label_weofferyou_formal">Vi kan tilbyde dem følgende projekter/ejendomme:</label>
 			<label index="label_weofferyou_informal">Vi kan tilbyde dem følgende projekter/ejendomme:</label>
 			<label index="label_yourfavorites_formal">Du har følgende projekter i din oversigt:</label>
@@ -1650,36 +1650,36 @@
 			<label index="label_bedrooms">Numero di letti</label>
 			<label index="label_bathrooms">Numero di bagni</label>
 			<label index="label_heating_type">Tipo di riscladamento</label>
-			<label index="label_heating_type.1">teleriscaldamento</label>
-			<label index="label_heating_type.2">riscaldamento centralizzato</label>
-			<label index="label_heating_type.3">riscaldamento elettrico</label>
-			<label index="label_heating_type.4">riscaldamento a pavimento</label>
-			<label index="label_heating_type.5">riscaldamento a gas</label>
-			<label index="label_heating_type.6">riscaldamento a combustibile verde</label>
-			<label index="label_heating_type.7">riscaldamento con pompa di calore</label>
-			<label index="label_heating_type.8">riscaldamento ad olio</label>
-			<label index="label_heating_type.9">riscaldamento autonomo</label>
-			<label index="label_heating_type.10">riscaldamento solare</label>
-			<label index="label_heating_type.11">riscaldamento con stufa</label>
-			<label index="label_heating_type.12">riscaldamento a zone</label>
+			<label index="label_heating_type_1">teleriscaldamento</label>
+			<label index="label_heating_type_2">riscaldamento centralizzato</label>
+			<label index="label_heating_type_3">riscaldamento elettrico</label>
+			<label index="label_heating_type_4">riscaldamento a pavimento</label>
+			<label index="label_heating_type_5">riscaldamento a gas</label>
+			<label index="label_heating_type_6">riscaldamento a combustibile verde</label>
+			<label index="label_heating_type_7">riscaldamento con pompa di calore</label>
+			<label index="label_heating_type_8">riscaldamento ad olio</label>
+			<label index="label_heating_type_9">riscaldamento autonomo</label>
+			<label index="label_heating_type_10">riscaldamento solare</label>
+			<label index="label_heating_type_11">riscaldamento con stufa</label>
+			<label index="label_heating_type_12">riscaldamento a zone</label>
 			<label index="label_garage_type">Garage/parcheggio</label>
 			<label index="label_garage_rent">Prezzo per l'affitto del garage/parcheggio</label>
 			<label index="label_garage_price">Prezzo per l'acquisto del garage/parcheggio</label>
 			<label index="label_pets">Animali</label>
 			<label index="label_state">Condizione</label>
-			<label index="label_state.1">nuda muratura</label>
-			<label index="label_state.2">da concordare</label>
-			<label index="label_state.3">fatiscente</label>
-			<label index="label_state.4">prima occupazione</label>
-			<label index="label_state.5">da demolire</label>
-			<label index="label_state.6">eviscerato</label>
-			<label index="label_state.7">modernizzato</label>
-			<label index="label_state.8">pulito</label>
-			<label index="label_state.9">da ristrutturare</label>
-			<label index="label_state.10">ristrutturato</label>
-			<label index="label_state.11">rinnovato</label>
-			<label index="label_state.12">sanitated</label>
-			<label index="label_state.13">previsto</label>
+			<label index="label_state_1">nuda muratura</label>
+			<label index="label_state_2">da concordare</label>
+			<label index="label_state_3">fatiscente</label>
+			<label index="label_state_4">prima occupazione</label>
+			<label index="label_state_5">da demolire</label>
+			<label index="label_state_6">eviscerato</label>
+			<label index="label_state_7">modernizzato</label>
+			<label index="label_state_8">pulito</label>
+			<label index="label_state_9">da ristrutturare</label>
+			<label index="label_state_10">ristrutturato</label>
+			<label index="label_state_11">rinnovato</label>
+			<label index="label_state_12">sanitated</label>
+			<label index="label_state_13">previsto</label>
 			<label index="label_weofferyou_formal">Vi offriamo i seguenti immobili:</label>
 			<label index="label_weofferyou_informal">Offriamo i seguenti immobili:</label>
 			<label index="label_yourfavorites_formal">Lei ha i seguenti immobili nella sua lista dei favoriti:</label>
@@ -1985,44 +1985,44 @@
 			<label index="label_bedrooms" type="integer">265698466</label>
 			<label index="label_bathrooms" type="integer">187944950</label>
 			<label index="label_heating_type" type="integer">7498189</label>
-			<label index="label_heating_type.1" type="integer">58692590</label>
-			<label index="label_heating_type.2" type="integer">184452105</label>
-			<label index="label_heating_type.3" type="integer">147311804</label>
-			<label index="label_heating_type.4" type="integer">117557325</label>
-			<label index="label_heating_type.5" type="integer">201138506</label>
-			<label index="label_heating_type.6" type="integer">161522935</label>
-			<label index="label_heating_type.7" type="integer">235360048</label>
-			<label index="label_heating_type.8" type="integer">13139931</label>
-			<label index="label_heating_type.9" type="integer">236775939</label>
-			<label index="label_heating_type.10" type="integer">90902450</label>
-			<label index="label_heating_type.11" type="integer">161251937</label>
-			<label index="label_heating_type.12" type="integer">5073316</label>
+			<label index="label_heating_type_1" type="integer">58692590</label>
+			<label index="label_heating_type_2" type="integer">184452105</label>
+			<label index="label_heating_type_3" type="integer">147311804</label>
+			<label index="label_heating_type_4" type="integer">117557325</label>
+			<label index="label_heating_type_5" type="integer">201138506</label>
+			<label index="label_heating_type_6" type="integer">161522935</label>
+			<label index="label_heating_type_7" type="integer">235360048</label>
+			<label index="label_heating_type_8" type="integer">13139931</label>
+			<label index="label_heating_type_9" type="integer">236775939</label>
+			<label index="label_heating_type_10" type="integer">90902450</label>
+			<label index="label_heating_type_11" type="integer">161251937</label>
+			<label index="label_heating_type_12" type="integer">5073316</label>
 			<label index="label_garage_type" type="integer">162953662</label>
 			<label index="label_garage_rent" type="integer">32433980</label>
 			<label index="label_garage_price" type="integer">57868081</label>
 			<label index="label_pets" type="integer">122743082</label>
 			<label index="label_state" type="integer">165843995</label>
-			<label index="label_state.1" type="integer">540352</label>
-			<label index="label_state.2" type="integer">93660376</label>
-			<label index="label_state.3" type="integer">178520122</label>
-			<label index="label_state.4" type="integer">116091427</label>
-			<label index="label_state.5" type="integer">142785661</label>
-			<label index="label_state.6" type="integer">202590932</label>
-			<label index="label_state.7" type="integer">74796736</label>
-			<label index="label_state.8" type="integer">48584873</label>
-			<label index="label_state.9" type="integer">112726903</label>
-			<label index="label_state.10" type="integer">125161683</label>
-			<label index="label_state.11" type="integer">6435587</label>
-			<label index="label_state.12" type="integer">149392355</label>
-			<label index="label_state.13" type="integer">59756617</label>
-			<label index="label_state.14" type="integer">59326879</label>
-			<label index="label_state.15" type="integer">104896764</label>
-			<label index="label_state.16" type="integer">24698282</label>
-			<label index="label_state.17" type="integer">112726903</label>
-			<label index="label_state.18" type="integer">24647912</label>
-			<label index="label_state.19" type="integer">141770829</label>
-			<label index="label_state.20" type="integer">180193091</label>
-			<label index="label_state.21" type="integer">41136802</label>
+			<label index="label_state_1" type="integer">540352</label>
+			<label index="label_state_2" type="integer">93660376</label>
+			<label index="label_state_3" type="integer">178520122</label>
+			<label index="label_state_4" type="integer">116091427</label>
+			<label index="label_state_5" type="integer">142785661</label>
+			<label index="label_state_6" type="integer">202590932</label>
+			<label index="label_state_7" type="integer">74796736</label>
+			<label index="label_state_8" type="integer">48584873</label>
+			<label index="label_state_9" type="integer">112726903</label>
+			<label index="label_state_10" type="integer">125161683</label>
+			<label index="label_state_11" type="integer">6435587</label>
+			<label index="label_state_12" type="integer">149392355</label>
+			<label index="label_state_13" type="integer">59756617</label>
+			<label index="label_state_14" type="integer">59326879</label>
+			<label index="label_state_15" type="integer">104896764</label>
+			<label index="label_state_16" type="integer">24698282</label>
+			<label index="label_state_17" type="integer">112726903</label>
+			<label index="label_state_18" type="integer">24647912</label>
+			<label index="label_state_19" type="integer">141770829</label>
+			<label index="label_state_20" type="integer">180193091</label>
+			<label index="label_state_21" type="integer">41136802</label>
 			<label index="label_furnishing_category" type="integer">178306573</label>
 			<label index="label_furnishing_category_1" type="integer">201388228</label>
 			<label index="label_furnishing_category_2" type="integer">34044309</label>
@@ -2376,29 +2376,29 @@
 			<label index="realty.pi_flexform.templateFile" type="integer">79001514</label>
 			<label index="realty.pi_flexform.sheet_feeditor" type="integer">18177806</label>
 			<label index="label_hoa_fee" type="integer">111222682</label>
-			<label index="label_heating_type.1" type="integer">58692590</label>
-			<label index="label_heating_type.2" type="integer">184452105</label>
-			<label index="label_heating_type.3" type="integer">147311804</label>
-			<label index="label_heating_type.4" type="integer">117557325</label>
-			<label index="label_heating_type.5" type="integer">201138506</label>
-			<label index="label_heating_type.6" type="integer">161522935</label>
-			<label index="label_heating_type.7" type="integer">235360048</label>
-			<label index="label_heating_type.8" type="integer">13139931</label>
-			<label index="label_heating_type.9" type="integer">236775939</label>
-			<label index="label_heating_type.10" type="integer">90902450</label>
-			<label index="label_heating_type.11" type="integer">161251937</label>
-			<label index="label_heating_type.12" type="integer">5073316</label>
-			<label index="label_state.1" type="integer">540352</label>
-			<label index="label_state.2" type="integer">93660376</label>
-			<label index="label_state.4" type="integer">116091427</label>
-			<label index="label_state.5" type="integer">142785661</label>
-			<label index="label_state.7" type="integer">74796736</label>
-			<label index="label_state.8" type="integer">48584873</label>
-			<label index="label_state.9" type="integer">112726903</label>
-			<label index="label_state.10" type="integer">125161683</label>
-			<label index="label_state.11" type="integer">6435587</label>
-			<label index="label_state.12" type="integer">149392355</label>
-			<label index="label_state.13" type="integer">59756617</label>
+			<label index="label_heating_type_1" type="integer">58692590</label>
+			<label index="label_heating_type_2" type="integer">184452105</label>
+			<label index="label_heating_type_3" type="integer">147311804</label>
+			<label index="label_heating_type_4" type="integer">117557325</label>
+			<label index="label_heating_type_5" type="integer">201138506</label>
+			<label index="label_heating_type_6" type="integer">161522935</label>
+			<label index="label_heating_type_7" type="integer">235360048</label>
+			<label index="label_heating_type_8" type="integer">13139931</label>
+			<label index="label_heating_type_9" type="integer">236775939</label>
+			<label index="label_heating_type_10" type="integer">90902450</label>
+			<label index="label_heating_type_11" type="integer">161251937</label>
+			<label index="label_heating_type_12" type="integer">5073316</label>
+			<label index="label_state_1" type="integer">540352</label>
+			<label index="label_state_2" type="integer">93660376</label>
+			<label index="label_state_4" type="integer">116091427</label>
+			<label index="label_state_5" type="integer">142785661</label>
+			<label index="label_state_7" type="integer">74796736</label>
+			<label index="label_state_8" type="integer">48584873</label>
+			<label index="label_state_9" type="integer">112726903</label>
+			<label index="label_state_10" type="integer">125161683</label>
+			<label index="label_state_11" type="integer">6435587</label>
+			<label index="label_state_12" type="integer">149392355</label>
+			<label index="label_state_13" type="integer">59756617</label>
 			<label index="message_no_valid_longitude_degree" type="integer">72814247</label>
 			<label index="message_no_valid_latitude_degree" type="integer">55186029</label>
 			<label index="message_object_number_exists" type="integer">184908158</label>
@@ -2432,8 +2432,8 @@
 			<label index="label_has_pool_short" type="integer">185641152</label>
 			<label index="label_has_community_pool" type="integer">7430612</label>
 			<label index="label_has_community_pool_short" type="integer">163260767</label>
-			<label index="label_state.3" type="integer">178520122</label>
-			<label index="label_state.6" type="integer">202590932</label>
+			<label index="label_state_3" type="integer">178520122</label>
+			<label index="label_state_6" type="integer">202590932</label>
 			<label index="label_enter_object_number" type="integer">68185886</label>
 			<label index="label_enter_uid" type="integer">34884428</label>
 			<label index="message_noResultsFound_offererList" type="integer">43641388</label>
@@ -2495,14 +2495,14 @@
 			<label index="realty.pi_flexform.imageThumbnails" type="integer">94064961</label>
 			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
 			<label index="realty.pi_flexform.googleMaps" type="integer">81136306</label>
-			<label index="label_state.14" type="integer">59326879</label>
-			<label index="label_state.15" type="integer">104896764</label>
-			<label index="label_state.16" type="integer">24698282</label>
-			<label index="label_state.17" type="integer">112726903</label>
-			<label index="label_state.18" type="integer">24647912</label>
-			<label index="label_state.19" type="integer">141770829</label>
-			<label index="label_state.20" type="integer">180193091</label>
-			<label index="label_state.21" type="integer">41136802</label>
+			<label index="label_state_14" type="integer">59326879</label>
+			<label index="label_state_15" type="integer">104896764</label>
+			<label index="label_state_16" type="integer">24698282</label>
+			<label index="label_state_17" type="integer">112726903</label>
+			<label index="label_state_18" type="integer">24647912</label>
+			<label index="label_state_19" type="integer">141770829</label>
+			<label index="label_state_20" type="integer">180193091</label>
+			<label index="label_state_21" type="integer">41136802</label>
 			<label index="label_objects_already_entered" type="integer">163866602</label>
 			<label index="label_no_objects_left" type="integer">95559120</label>
 			<label index="label_one_object_left" type="integer">255809018</label>
@@ -2634,31 +2634,31 @@
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
 			<label index="message_please_login_formal" type="integer">64977327</label>
 			<label index="message_please_login_informal" type="integer">64977327</label>
-			<label index="label_heating_type.1" type="integer">58692590</label>
-			<label index="label_heating_type.2" type="integer">184452105</label>
-			<label index="label_heating_type.3" type="integer">147311804</label>
-			<label index="label_heating_type.4" type="integer">117557325</label>
-			<label index="label_heating_type.5" type="integer">201138506</label>
-			<label index="label_heating_type.6" type="integer">161522935</label>
-			<label index="label_heating_type.7" type="integer">235360048</label>
-			<label index="label_heating_type.8" type="integer">13139931</label>
-			<label index="label_heating_type.9" type="integer">236775939</label>
-			<label index="label_heating_type.10" type="integer">90902450</label>
-			<label index="label_heating_type.11" type="integer">161251937</label>
-			<label index="label_heating_type.12" type="integer">5073316</label>
-			<label index="label_state.1" type="integer">540352</label>
-			<label index="label_state.2" type="integer">93660376</label>
-			<label index="label_state.3" type="integer">178520122</label>
-			<label index="label_state.4" type="integer">116091427</label>
-			<label index="label_state.5" type="integer">142785661</label>
-			<label index="label_state.6" type="integer">202590932</label>
-			<label index="label_state.7" type="integer">74796736</label>
-			<label index="label_state.8" type="integer">48584873</label>
-			<label index="label_state.9" type="integer">112726903</label>
-			<label index="label_state.10" type="integer">125161683</label>
-			<label index="label_state.11" type="integer">6435587</label>
-			<label index="label_state.12" type="integer">149392355</label>
-			<label index="label_state.13" type="integer">59756617</label>
+			<label index="label_heating_type_1" type="integer">58692590</label>
+			<label index="label_heating_type_2" type="integer">184452105</label>
+			<label index="label_heating_type_3" type="integer">147311804</label>
+			<label index="label_heating_type_4" type="integer">117557325</label>
+			<label index="label_heating_type_5" type="integer">201138506</label>
+			<label index="label_heating_type_6" type="integer">161522935</label>
+			<label index="label_heating_type_7" type="integer">235360048</label>
+			<label index="label_heating_type_8" type="integer">13139931</label>
+			<label index="label_heating_type_9" type="integer">236775939</label>
+			<label index="label_heating_type_10" type="integer">90902450</label>
+			<label index="label_heating_type_11" type="integer">161251937</label>
+			<label index="label_heating_type_12" type="integer">5073316</label>
+			<label index="label_state_1" type="integer">540352</label>
+			<label index="label_state_2" type="integer">93660376</label>
+			<label index="label_state_3" type="integer">178520122</label>
+			<label index="label_state_4" type="integer">116091427</label>
+			<label index="label_state_5" type="integer">142785661</label>
+			<label index="label_state_6" type="integer">202590932</label>
+			<label index="label_state_7" type="integer">74796736</label>
+			<label index="label_state_8" type="integer">48584873</label>
+			<label index="label_state_9" type="integer">112726903</label>
+			<label index="label_state_10" type="integer">125161683</label>
+			<label index="label_state_11" type="integer">6435587</label>
+			<label index="label_state_12" type="integer">149392355</label>
+			<label index="label_state_13" type="integer">59756617</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -3094,36 +3094,36 @@
 			<label index="label_bedrooms" type="integer">265698466</label>
 			<label index="label_bathrooms" type="integer">187944950</label>
 			<label index="label_heating_type" type="integer">7498189</label>
-			<label index="label_heating_type.1" type="integer">58692590</label>
-			<label index="label_heating_type.2" type="integer">184452105</label>
-			<label index="label_heating_type.3" type="integer">147311804</label>
-			<label index="label_heating_type.4" type="integer">117557325</label>
-			<label index="label_heating_type.5" type="integer">201138506</label>
-			<label index="label_heating_type.6" type="integer">161522935</label>
-			<label index="label_heating_type.7" type="integer">235360048</label>
-			<label index="label_heating_type.8" type="integer">13139931</label>
-			<label index="label_heating_type.9" type="integer">236775939</label>
-			<label index="label_heating_type.10" type="integer">90902450</label>
-			<label index="label_heating_type.11" type="integer">161251937</label>
-			<label index="label_heating_type.12" type="integer">5073316</label>
+			<label index="label_heating_type_1" type="integer">58692590</label>
+			<label index="label_heating_type_2" type="integer">184452105</label>
+			<label index="label_heating_type_3" type="integer">147311804</label>
+			<label index="label_heating_type_4" type="integer">117557325</label>
+			<label index="label_heating_type_5" type="integer">201138506</label>
+			<label index="label_heating_type_6" type="integer">161522935</label>
+			<label index="label_heating_type_7" type="integer">235360048</label>
+			<label index="label_heating_type_8" type="integer">13139931</label>
+			<label index="label_heating_type_9" type="integer">236775939</label>
+			<label index="label_heating_type_10" type="integer">90902450</label>
+			<label index="label_heating_type_11" type="integer">161251937</label>
+			<label index="label_heating_type_12" type="integer">5073316</label>
 			<label index="label_garage_type" type="integer">97055949</label>
 			<label index="label_garage_rent" type="integer">32433980</label>
 			<label index="label_garage_price" type="integer">57868081</label>
 			<label index="label_pets" type="integer">122743082</label>
 			<label index="label_state" type="integer">165843995</label>
-			<label index="label_state.1" type="integer">540352</label>
-			<label index="label_state.2" type="integer">93660376</label>
-			<label index="label_state.3" type="integer">178520122</label>
-			<label index="label_state.4" type="integer">116091427</label>
-			<label index="label_state.5" type="integer">142785661</label>
-			<label index="label_state.6" type="integer">202590932</label>
-			<label index="label_state.7" type="integer">74796736</label>
-			<label index="label_state.8" type="integer">48584873</label>
-			<label index="label_state.9" type="integer">112726903</label>
-			<label index="label_state.10" type="integer">125161683</label>
-			<label index="label_state.11" type="integer">6435587</label>
-			<label index="label_state.12" type="integer">149392355</label>
-			<label index="label_state.13" type="integer">59756617</label>
+			<label index="label_state_1" type="integer">540352</label>
+			<label index="label_state_2" type="integer">93660376</label>
+			<label index="label_state_3" type="integer">178520122</label>
+			<label index="label_state_4" type="integer">116091427</label>
+			<label index="label_state_5" type="integer">142785661</label>
+			<label index="label_state_6" type="integer">202590932</label>
+			<label index="label_state_7" type="integer">74796736</label>
+			<label index="label_state_8" type="integer">48584873</label>
+			<label index="label_state_9" type="integer">112726903</label>
+			<label index="label_state_10" type="integer">125161683</label>
+			<label index="label_state_11" type="integer">6435587</label>
+			<label index="label_state_12" type="integer">149392355</label>
+			<label index="label_state_13" type="integer">59756617</label>
 			<label index="label_weofferyou_formal" type="integer">89755002</label>
 			<label index="label_weofferyou_informal" type="integer">89755002</label>
 			<label index="label_yourfavorites_formal" type="integer">210319328</label>
@@ -3429,44 +3429,44 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
-			<label index="label_heating_type.1">district heating</label>
-			<label index="label_heating_type.2">central heating</label>
-			<label index="label_heating_type.3">electric heating</label>
-			<label index="label_heating_type.4">floor heating</label>
-			<label index="label_heating_type.5">gas heating</label>
-			<label index="label_heating_type.6">green fuel heating</label>
-			<label index="label_heating_type.7">heat pump heating</label>
-			<label index="label_heating_type.8">oil heating</label>
-			<label index="label_heating_type.9">self-contained central heating</label>
-			<label index="label_heating_type.10">solar heating</label>
-			<label index="label_heating_type.11">heating by stove</label>
-			<label index="label_heating_type.12">zone heating</label>
+			<label index="label_heating_type_1">district heating</label>
+			<label index="label_heating_type_2">central heating</label>
+			<label index="label_heating_type_3">electric heating</label>
+			<label index="label_heating_type_4">floor heating</label>
+			<label index="label_heating_type_5">gas heating</label>
+			<label index="label_heating_type_6">green fuel heating</label>
+			<label index="label_heating_type_7">heat pump heating</label>
+			<label index="label_heating_type_8">oil heating</label>
+			<label index="label_heating_type_9">self-contained central heating</label>
+			<label index="label_heating_type_10">solar heating</label>
+			<label index="label_heating_type_11">heating by stove</label>
+			<label index="label_heating_type_12">zone heating</label>
 			<label index="label_garage_type">Parking space type</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>
 			<label index="label_state">Condition</label>
-			<label index="label_state.1">bare brickwork</label>
-			<label index="label_state.2">by arrangement</label>
-			<label index="label_state.3">dilapidated</label>
-			<label index="label_state.4">first occupancy</label>
-			<label index="label_state.5">for demolition</label>
-			<label index="label_state.6">gutted</label>
-			<label index="label_state.7">modernized</label>
-			<label index="label_state.8">neat</label>
-			<label index="label_state.9">in need of renovation</label>
-			<label index="label_state.10">reconditioned</label>
-			<label index="label_state.11">renovated</label>
-			<label index="label_state.12">sanitated</label>
-			<label index="label_state.13">planned</label>
-			<label index="label_state.14">not renovated</label>
-			<label index="label_state.15">partly renovated</label>
-			<label index="label_state.16">currently being planned</label>
-			<label index="label_state.17">in need of renovation</label>
-			<label index="label_state.18">fully rented</label>
-			<label index="label_state.19">vacant</label>
-			<label index="label_state.20">partly rented</label>
-			<label index="label_state.21">has building permit</label>
+			<label index="label_state_1">bare brickwork</label>
+			<label index="label_state_2">by arrangement</label>
+			<label index="label_state_3">dilapidated</label>
+			<label index="label_state_4">first occupancy</label>
+			<label index="label_state_5">for demolition</label>
+			<label index="label_state_6">gutted</label>
+			<label index="label_state_7">modernized</label>
+			<label index="label_state_8">neat</label>
+			<label index="label_state_9">in need of renovation</label>
+			<label index="label_state_10">reconditioned</label>
+			<label index="label_state_11">renovated</label>
+			<label index="label_state_12">sanitated</label>
+			<label index="label_state_13">planned</label>
+			<label index="label_state_14">not renovated</label>
+			<label index="label_state_15">partly renovated</label>
+			<label index="label_state_16">currently being planned</label>
+			<label index="label_state_17">in need of renovation</label>
+			<label index="label_state_18">fully rented</label>
+			<label index="label_state_19">vacant</label>
+			<label index="label_state_20">partly rented</label>
+			<label index="label_state_21">has building permit</label>
 			<label index="label_furnishing_category">Furnishing category</label>
 			<label index="label_furnishing_category_1">standard</label>
 			<label index="label_furnishing_category_2">upmarket</label>
@@ -3817,29 +3817,29 @@
 			<label index="realty.pi_flexform.templateFile">HTML template</label>
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="label_hoa_fee">HOA fee</label>
-			<label index="label_heating_type.1">district heating</label>
-			<label index="label_heating_type.2">central heating</label>
-			<label index="label_heating_type.3">electric heating</label>
-			<label index="label_heating_type.4">floor heating</label>
-			<label index="label_heating_type.5">gas heating</label>
-			<label index="label_heating_type.6">green fuel heating</label>
-			<label index="label_heating_type.7">heat pump heating</label>
-			<label index="label_heating_type.8">oil heating</label>
-			<label index="label_heating_type.9">self-contained central heating</label>
-			<label index="label_heating_type.10">solar heating</label>
-			<label index="label_heating_type.11">heating by stove</label>
-			<label index="label_heating_type.12">zone heating</label>
-			<label index="label_state.1">bare brickwork</label>
-			<label index="label_state.2">by arrangement</label>
-			<label index="label_state.4">first occupancy</label>
-			<label index="label_state.5">for demolition</label>
-			<label index="label_state.7">modernized</label>
-			<label index="label_state.8">neat</label>
-			<label index="label_state.9">in need of renovation</label>
-			<label index="label_state.10">reconditioned</label>
-			<label index="label_state.11">renovated</label>
-			<label index="label_state.12">sanitated</label>
-			<label index="label_state.13">planned</label>
+			<label index="label_heating_type_1">district heating</label>
+			<label index="label_heating_type_2">central heating</label>
+			<label index="label_heating_type_3">electric heating</label>
+			<label index="label_heating_type_4">floor heating</label>
+			<label index="label_heating_type_5">gas heating</label>
+			<label index="label_heating_type_6">green fuel heating</label>
+			<label index="label_heating_type_7">heat pump heating</label>
+			<label index="label_heating_type_8">oil heating</label>
+			<label index="label_heating_type_9">self-contained central heating</label>
+			<label index="label_heating_type_10">solar heating</label>
+			<label index="label_heating_type_11">heating by stove</label>
+			<label index="label_heating_type_12">zone heating</label>
+			<label index="label_state_1">bare brickwork</label>
+			<label index="label_state_2">by arrangement</label>
+			<label index="label_state_4">first occupancy</label>
+			<label index="label_state_5">for demolition</label>
+			<label index="label_state_7">modernized</label>
+			<label index="label_state_8">neat</label>
+			<label index="label_state_9">in need of renovation</label>
+			<label index="label_state_10">reconditioned</label>
+			<label index="label_state_11">renovated</label>
+			<label index="label_state_12">sanitated</label>
+			<label index="label_state_13">planned</label>
 			<label index="message_no_valid_longitude_degree">Please enter a valid longitude degree (-180 to 180).</label>
 			<label index="message_no_valid_latitude_degree">Please enter a valid latitude degree (-90 to 90).</label>
 			<label index="message_object_number_exists">The entered object number already exists in the database. Please enter a different object number.</label>
@@ -3873,8 +3873,8 @@
 			<label index="label_has_pool_short">pool</label>
 			<label index="label_has_community_pool">Community pool</label>
 			<label index="label_has_community_pool_short">community pool</label>
-			<label index="label_state.3">dilapidated</label>
-			<label index="label_state.6">gutted</label>
+			<label index="label_state_3">dilapidated</label>
+			<label index="label_state_6">gutted</label>
 			<label index="label_enter_object_number">Object number:</label>
 			<label index="label_enter_uid">Immo ID:</label>
 			<label index="message_noResultsFound_offererList">There are no offerers to display.</label>
@@ -3936,14 +3936,14 @@
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
-			<label index="label_state.14">not renovated</label>
-			<label index="label_state.15">partly renovated</label>
-			<label index="label_state.16">currently being planned</label>
-			<label index="label_state.17">in need of renovation</label>
-			<label index="label_state.18">fully rented</label>
-			<label index="label_state.19">vacant</label>
-			<label index="label_state.20">partly rented</label>
-			<label index="label_state.21">has building permit</label>
+			<label index="label_state_14">not renovated</label>
+			<label index="label_state_15">partly renovated</label>
+			<label index="label_state_16">currently being planned</label>
+			<label index="label_state_17">in need of renovation</label>
+			<label index="label_state_18">fully rented</label>
+			<label index="label_state_19">vacant</label>
+			<label index="label_state_20">partly rented</label>
+			<label index="label_state_21">has building permit</label>
 			<label index="label_objects_already_entered">You have already entered %u of %u objects.</label>
 			<label index="label_no_objects_left">You cannot enter any more objects.</label>
 			<label index="label_one_object_left">You can enter one more object.</label>
@@ -4078,31 +4078,31 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
-			<label index="label_heating_type.1">district heating</label>
-			<label index="label_heating_type.2">central heating</label>
-			<label index="label_heating_type.3">electric heating</label>
-			<label index="label_heating_type.4">floor heating</label>
-			<label index="label_heating_type.5">gas heating</label>
-			<label index="label_heating_type.6">green fuel heating</label>
-			<label index="label_heating_type.7">heat pump heating</label>
-			<label index="label_heating_type.8">oil heating</label>
-			<label index="label_heating_type.9">self-contained central heating</label>
-			<label index="label_heating_type.10">solar heating</label>
-			<label index="label_heating_type.11">heating by stove</label>
-			<label index="label_heating_type.12">zone heating</label>
-			<label index="label_state.1">bare brickwork</label>
-			<label index="label_state.2">by arrangement</label>
-			<label index="label_state.3">dilapidated</label>
-			<label index="label_state.4">first occupancy</label>
-			<label index="label_state.5">for demolition</label>
-			<label index="label_state.6">gutted</label>
-			<label index="label_state.7">modernized</label>
-			<label index="label_state.8">neat</label>
-			<label index="label_state.9">in need of renovation</label>
-			<label index="label_state.10">reconditioned</label>
-			<label index="label_state.11">renovated</label>
-			<label index="label_state.12">sanitated</label>
-			<label index="label_state.13">planned</label>
+			<label index="label_heating_type_1">district heating</label>
+			<label index="label_heating_type_2">central heating</label>
+			<label index="label_heating_type_3">electric heating</label>
+			<label index="label_heating_type_4">floor heating</label>
+			<label index="label_heating_type_5">gas heating</label>
+			<label index="label_heating_type_6">green fuel heating</label>
+			<label index="label_heating_type_7">heat pump heating</label>
+			<label index="label_heating_type_8">oil heating</label>
+			<label index="label_heating_type_9">self-contained central heating</label>
+			<label index="label_heating_type_10">solar heating</label>
+			<label index="label_heating_type_11">heating by stove</label>
+			<label index="label_heating_type_12">zone heating</label>
+			<label index="label_state_1">bare brickwork</label>
+			<label index="label_state_2">by arrangement</label>
+			<label index="label_state_3">dilapidated</label>
+			<label index="label_state_4">first occupancy</label>
+			<label index="label_state_5">for demolition</label>
+			<label index="label_state_6">gutted</label>
+			<label index="label_state_7">modernized</label>
+			<label index="label_state_8">neat</label>
+			<label index="label_state_9">in need of renovation</label>
+			<label index="label_state_10">reconditioned</label>
+			<label index="label_state_11">renovated</label>
+			<label index="label_state_12">sanitated</label>
+			<label index="label_state_13">planned</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
@@ -4538,36 +4538,36 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
-			<label index="label_heating_type.1">district heating</label>
-			<label index="label_heating_type.2">central heating</label>
-			<label index="label_heating_type.3">electric heating</label>
-			<label index="label_heating_type.4">floor heating</label>
-			<label index="label_heating_type.5">gas heating</label>
-			<label index="label_heating_type.6">green fuel heating</label>
-			<label index="label_heating_type.7">heat pump heating</label>
-			<label index="label_heating_type.8">oil heating</label>
-			<label index="label_heating_type.9">self-contained central heating</label>
-			<label index="label_heating_type.10">solar heating</label>
-			<label index="label_heating_type.11">heating by stove</label>
-			<label index="label_heating_type.12">zone heating</label>
+			<label index="label_heating_type_1">district heating</label>
+			<label index="label_heating_type_2">central heating</label>
+			<label index="label_heating_type_3">electric heating</label>
+			<label index="label_heating_type_4">floor heating</label>
+			<label index="label_heating_type_5">gas heating</label>
+			<label index="label_heating_type_6">green fuel heating</label>
+			<label index="label_heating_type_7">heat pump heating</label>
+			<label index="label_heating_type_8">oil heating</label>
+			<label index="label_heating_type_9">self-contained central heating</label>
+			<label index="label_heating_type_10">solar heating</label>
+			<label index="label_heating_type_11">heating by stove</label>
+			<label index="label_heating_type_12">zone heating</label>
 			<label index="label_garage_type">Garage/parking space</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>
 			<label index="label_state">Condition</label>
-			<label index="label_state.1">bare brickwork</label>
-			<label index="label_state.2">by arrangement</label>
-			<label index="label_state.3">dilapidated</label>
-			<label index="label_state.4">first occupancy</label>
-			<label index="label_state.5">for demolition</label>
-			<label index="label_state.6">gutted</label>
-			<label index="label_state.7">modernized</label>
-			<label index="label_state.8">neat</label>
-			<label index="label_state.9">in need of renovation</label>
-			<label index="label_state.10">reconditioned</label>
-			<label index="label_state.11">renovated</label>
-			<label index="label_state.12">sanitated</label>
-			<label index="label_state.13">planned</label>
+			<label index="label_state_1">bare brickwork</label>
+			<label index="label_state_2">by arrangement</label>
+			<label index="label_state_3">dilapidated</label>
+			<label index="label_state_4">first occupancy</label>
+			<label index="label_state_5">for demolition</label>
+			<label index="label_state_6">gutted</label>
+			<label index="label_state_7">modernized</label>
+			<label index="label_state_8">neat</label>
+			<label index="label_state_9">in need of renovation</label>
+			<label index="label_state_10">reconditioned</label>
+			<label index="label_state_11">renovated</label>
+			<label index="label_state_12">sanitated</label>
+			<label index="label_state_13">planned</label>
 			<label index="label_weofferyou_formal">We offer you the following objects:</label>
 			<label index="label_weofferyou_informal">We offer you the following objects:</label>
 			<label index="label_yourfavorites_formal">You have the following objects on your favorites list:</label>

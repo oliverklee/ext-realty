@@ -127,7 +127,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		$this->realtyObject->setProperty('state', 8);
 
 		$this->assertEquals(
-			$this->fixture->translate('label_state.8'),
+			$this->fixture->translate('label_state_8'),
 			$this->fixture->getProperty('state')
 		);
 	}
@@ -152,7 +152,7 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		$this->realtyObject->setProperty('heating_type', '1');
 
 		$this->assertEquals(
-			$this->fixture->translate('label_heating_type.1'),
+			$this->fixture->translate('label_heating_type_1'),
 			$this->fixture->getProperty('heating_type')
 		);
 	}
@@ -161,9 +161,9 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		$this->realtyObject->setProperty('heating_type', '1,3,4');
 
 		$this->assertEquals(
-			$this->fixture->translate('label_heating_type.1') . ', ' .
-				$this->fixture->translate('label_heating_type.3') . ', ' .
-				$this->fixture->translate('label_heating_type.4'),
+			$this->fixture->translate('label_heating_type_1') . ', ' .
+				$this->fixture->translate('label_heating_type_3') . ', ' .
+				$this->fixture->translate('label_heating_type_4'),
 			$this->fixture->getProperty('heating_type')
 		);
 	}
