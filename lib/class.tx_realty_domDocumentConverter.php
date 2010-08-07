@@ -300,7 +300,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchRent();
 
 		$this->replaceImportedBooleanLikeStrings();
-		$this->substitudeSurplusDecimals();
+		$this->substituteSurplusDecimals();
 
 		return $this->importedData;
 	}
@@ -353,7 +353,7 @@ class tx_realty_domDocumentConverter {
 	 * Handles the "zip" column as a special case since here leading zeros are
 	 * allowed. So the ZIP will not be intvaled.
 	 */
-	private function substitudeSurplusDecimals() {
+	private function substituteSurplusDecimals() {
 		foreach ($this->importedData as $key => $value) {
 			if (is_numeric($value) && ((int) $value) == $value
 				&& ($key != 'zip')
