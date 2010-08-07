@@ -106,7 +106,7 @@ CREATE TABLE tx_realty_objects (
 	storage_area decimal(8,2) DEFAULT '0.00' NOT NULL,
 	office_space decimal(8,2) DEFAULT '0.00' NOT NULL,
 	site_occupancy_index decimal(5,2) DEFAULT '0.00' NOT NULL,
-	floor_space_index (5,2) DEFAULT '0.00' NOT NULL,
+	floor_space_index decimal(5,2) DEFAULT '0.00' NOT NULL,
 	parking_spaces int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
