@@ -1176,6 +1176,79 @@
 			</validators>
 		</renderlet:TEXT>
 
+		<renderlet:CHECKBOX name="flooring" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring">
+			<data>
+				<items>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.1</caption>
+						<value>1</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.2</caption>
+						<value>2</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.3</caption>
+						<value>3</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.4</caption>
+						<value>4</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.5</caption>
+						<value>5</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.6</caption>
+						<value>6</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.7</caption>
+						<value>7</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.8</caption>
+						<value>8</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.9</caption>
+						<value>9</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.10</caption>
+						<value>10</value>
+					</item>
+					<item>
+						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.11</caption>
+						<value>11</value>
+					</item>
+				</items>
+			</data>
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isIntegerInRange</method>
+						<params>
+							<data name="range" value="1-11"/>
+							<data name="multiple" value="1"/>
+						</params>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="flooring"/>
+									<data name="label" value="message_value_not_allowed"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:CHECKBOX>
+
 		<renderlet:CHECKBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
 			<data>
 				<items>

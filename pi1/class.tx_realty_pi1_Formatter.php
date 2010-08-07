@@ -108,6 +108,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
 
 		switch($key) {
+			case 'flooring':
+				// The fallthrough is intended.
 			case 'heating_type':
 				// The fallthrough is intended.
 			case 'furnishing_category':

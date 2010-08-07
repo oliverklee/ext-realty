@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4000] Feature: Add a field "Bodenbelag" (flooring)
 - [#3999] Feature: Add a field "Ausstattungs-Kategorie" (furnishing category)
 - [#4057] Fix: Test failures in the OpenImmo import testcase
 - [#4058] Fix: Typo in the DOM document converter: substitudeSurplusDecimals

@@ -497,6 +497,50 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getPropertyForExistingFlooringReturnsFlooringLabel() {
+		$this->realtyObject->setProperty('flooring', 1);
+
+		$this->assertEquals(
+			$this->fixture->translate('label_flooring_1'),
+			$this->fixture->getProperty('flooring')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForTwoFlooringsReturnsBothFlooringLabels() {
+		$this->realtyObject->setProperty('flooring', '1,2');
+
+		$property = $this->fixture->getProperty('flooring');
+
+		$this->assertContains(
+			$this->fixture->translate('label_flooring_1'),
+			$property,
+			'First flooring label was not found.'
+		);
+		$this->assertContains(
+			$this->fixture->translate('label_flooring_2'),
+			$property,
+			'Second flooring label was not found.'
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForInvalidFlooringReturnsEmptyString() {
+		$this->realtyObject->setProperty('flooring', 42);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getProperty('flooring')
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concerning formatDecimal

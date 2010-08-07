@@ -769,7 +769,7 @@ p.tx-realty-pi1-objekt-nr {
 }
 
 /*CHECKBOXES HEATINGTYPE*/
-#tx_realty_frontEndEditor .heatingcheckbox {
+#tx_realty_frontEndEditor .multicheckboxes {
 	margin: 0 0 10px 0;
 	line-height: 30px;
 }
