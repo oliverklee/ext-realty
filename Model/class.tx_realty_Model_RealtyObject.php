@@ -736,16 +736,29 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$mapper->delete($image);
  		}
 
-		foreach ($this->getAllImageData() as $imageData) {
-			// Creates a relation to the parent realty object for each image.
-			$imageData['object'] = $this->getUid();
+		$pageUid = ($overridePid > 0)
+			? $overridePid
+			: tx_oelib_configurationProxy::getInstance('realty')
+				->getAsInteger('pidForRealtyObjectsAndImages');
 
-			if ($imageData['caption'] == '') {
-				$imageData['caption'] = $imageData['image'];
+		$sorting = 0;
+		foreach ($this->getAllImageData() as $imageData) {
+			if ($imageData['deleted'] == 1) {
+				continue;
 			}
-			$this->createNewDatabaseEntry(
-				$imageData, REALTY_TABLE_IMAGES, $overridePid
-			);
+			$fileName = $imageData['image'];
+			$title = ($imageData['caption'] != '')
+				? $imageData['caption'] : $fileName;
+
+			$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
+			$image->setFileName($fileName);
+			$image->setTitle($title);
+			$image->setObject($this);
+			$image->setPageUid($pageUid);
+			$image->setSorting($sorting);
+
+			$mapper->save($image);
+			$sorting++;
 		}
 	}
 
@@ -880,10 +893,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$dataToInsert = $realtyData;
 		$pid = tx_oelib_configurationProxy::getInstance('realty')->
 			getAsInteger('pidForAuxiliaryRecords');
-		if (($pid == 0)
-			|| ($table == REALTY_TABLE_IMAGES)
-			|| ($table == REALTY_TABLE_OBJECTS)
-		) {
+		if (($pid == 0) || ($table == REALTY_TABLE_OBJECTS)) {
 			if ($overridePid > 0) {
 				$pid = $overridePid;
 			} else {
@@ -909,21 +919,17 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *
 	 * @param array database column names as keys to update an already existing
 	 *              entry, must at least contain an element with the key 'uid'
-	 * @param string name of the database table, must not be empty
 	 */
-	protected function updateDatabaseEntry(
-		array $realtyData,
-		$table = REALTY_TABLE_OBJECTS
-	) {
+	protected function updateDatabaseEntry(array $realtyData) {
 		if ($realtyData['uid'] <= 0) {
 			return;
 		}
 
 		$dataForUpdate = $realtyData;
-		$dataForUpdate['tstamp'] = mktime();
+		$dataForUpdate['tstamp'] = $GLOBALS['SIM_EXEC_TIME'];
 
 		tx_oelib_db::update(
-			$table,
+			'tx_realty_objects',
 			'uid = ' . $dataForUpdate['uid'],
 			$dataForUpdate
 		);
