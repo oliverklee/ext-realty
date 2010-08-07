@@ -318,17 +318,21 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateNewDatabaseEntryIfAnArrayWithNonZeroUidIsGiven() {
-		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $realtyData.'
-		);
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function createNewDatabaseEntryForArrayWithNonZeroUidThrowsException() {
 		$this->fixture->createNewDatabaseEntry(array('uid' => 1234));
 	}
 
-	public function testCreateNewDatabaseEntryIfAnArrayWithZeroUidIsGiven() {
-		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $realtyData.'
-		);
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function createNewDatabaseEntryForArrayWithZeroUidThrowsException() {
 		$this->fixture->createNewDatabaseEntry(array('uid' => 0));
 	}
 
@@ -375,8 +379,12 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFetchDatabaseResultIfDbResultIsFalse() {
-		$this->setExpectedException('Exception', DATABASE_QUERY_ERROR);
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function fetchDatabaseResultForDbResultFalseThrowsException() {
 		$this->fixture->fetchDatabaseResult(FALSE);
 	}
 
@@ -992,10 +1000,14 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetPropertyThrowsAnExeptionIfTheKeyToSetIsUid() {
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function setPropertyKeySetToUidThrowsException() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 
-		$this->setExpectedException('Exception', 'The key must not be "uid".');
 		$this->fixture->setProperty('uid', 12345);
 	}
 
@@ -1572,6 +1584,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAddImageRecordForLoadedObject() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 
@@ -1584,6 +1597,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAddImageRecordForLoadedObjectReturnsKeyWhereTheRecordIsStored() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 		$this->fixture->loadRealtyObject($this->objectUid);
 
 		$this->assertEquals(
@@ -1592,11 +1606,14 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddImageRecordIfNoObjectIsLoaded() {
-		$this->setExpectedException(
-			'Exception',
-			'A realty record must be loaded before images can be appended.'
-		);
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function addImageRecordForNoObjectLoadedThrowsException() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 	}
 
@@ -1633,6 +1650,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMarkImageRecordAsDeleted() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->markImageRecordAsDeleted(
 			$this->fixture->addImageRecord('foo', 'foo.jpg')
@@ -1646,22 +1665,28 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkImageRecordAsDeletedIfNoObjectIsLoaded() {
-		$this->setExpectedException(
-			'Exception',
-			'A realty record must be loaded before images can be appended.'
-		);
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function markImageRecordAsDeletedForNoObjectLoadedThrowsException() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->markImageRecordAsDeleted(
 			$this->fixture->addImageRecord('foo', 'foo.jpg')
 		);
 	}
 
-	public function testMarkImageRecordAsDeletedForNonExistingRecord() {
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function markImageRecordAsDeletedForNonExistingRecordThrowsException() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->setExpectedException(
-			'Exception',
-			'The image record does not exist.'
-		);
 		$this->fixture->markImageRecordAsDeleted(
 			$this->fixture->addImageRecord('foo', 'foo.jpg') + 1
 		);
@@ -1733,6 +1758,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseNotAddsImageRecordWithDeletedFlagSet() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->markImageRecordAsDeleted(
 			$this->fixture->addImageRecord('foo', 'foo.jpg')
@@ -1748,6 +1775,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testImportANewRecordWithImagesAndTheDeletedFlagBeingSetReturnsMarkedAsDeletedMessage() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject(
 			array('object_number' => 'foo-bar', 'deleted' => 1)
 		);
@@ -2503,6 +2532,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveCoordinatesDoesNotChangeImagesPidWhenAddingCoordinatesToTheDatabase() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
 			'zip' => '53111',
@@ -2522,6 +2553,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
 
 	////////////////////////////
 	// Tests concerning getUid
@@ -2652,14 +2684,12 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	// Tests concerning getForeignPropertyField
 	/////////////////////////////////////////////
 
-	public function testGetForeignPropertyFieldThrowsExeptionForNonAllowedField() {
-		$this->setExpectedException(
-			'Exception',
-			'$key must be within "city", "apartment_type", "house_type", ' .
-				'"district", "pets", "garage_type", "country", but actually is ' .
-				'"floor".'
-		);
-
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function getForeignPropertyFieldForNonAllowedFieldThrowsException() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->getForeignPropertyField('floor');
 	}
