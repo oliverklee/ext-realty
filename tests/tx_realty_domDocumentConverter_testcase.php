@@ -1269,6 +1269,121 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanGetOneValidFlooringType() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<boden FLIESEN="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('flooring' => 1)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanGetMultipleValidFlooringTypesFromFlooringNode() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<boden STEIN="true" TEPPICH="true" PARKETT="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('flooring' => '2,3,4')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataDoesNotGetInvalidFlooringFromFlooringNode() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<boden RAUHFAHSER="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataOnlyGetsValidFlooringsIfValidAndInvalidFlooringsProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<boden FERTIGPARKETT="true" LAMINAT="true" FENSTER="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('flooring' => '5,6')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForValidButFalseFlooringDoesNotImportThisFlooring() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<boden FERTIGPARKETT="false" LINOLEUM="true" />' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('flooring' => '11')),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 
 	////////////////////////////////////////////
 	// Tests concerning createRecordsForImages

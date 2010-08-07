@@ -309,6 +309,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchEquipmentAttributes();
 		$this->fetchCategoryAttributes();
 		$this->fetchState();
+		$this->fetchFlooring();
 		$this->fetchFurnishingCategory();
 		$this->fetchValueForOldOrNewBuilding();
 		$this->fetchAction();
@@ -786,6 +787,44 @@ class tx_realty_domDocumentConverter {
 				'state', $possibleStates[$attributes['zustand_art']]
 			);
 		}
+	}
+
+	/**
+	 * Fetches the 'boden' and stores it with the corresponding database
+	 * column name 'flooring' as key in $this->importedData.
+	 */
+	private function fetchFlooring() {
+		$flooringNode = $this->findFirstGrandchild('ausstattung', 'boden');
+		$attributes = $this->fetchLowercasedDomAttributes($flooringNode);
+
+		// The fetched flooring types are always German. In the database they
+		// are stored as a sorted list of keys which refer to localized strings.
+		$validKeys = array(
+			1 => 'fliesen',
+			2 => 'stein',
+			3 => 'teppich',
+			4 => 'parkett',
+			5 => 'fertigparkett',
+			6 => 'laminat',
+			7 => 'dielen',
+			8 => 'kunststoff',
+			9 => 'estrich',
+			10 => 'doppelboden',
+			11 => 'linoleum',
+		);
+
+		$keys = array();
+		foreach ($validKeys as $key => $value) {
+			if (isset($attributes[$value])
+				&& $this->isBooleanLikeStringTrue($attributes[$value])
+			) {
+				$keys[] = $key;
+			}
+		}
+
+		$this->addImportedDataIfValueIsNonEmpty(
+			'flooring', implode(',', $keys)
+		);
 	}
 
 	/**
