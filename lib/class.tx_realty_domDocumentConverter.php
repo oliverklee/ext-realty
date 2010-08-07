@@ -309,6 +309,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchEquipmentAttributes();
 		$this->fetchCategoryAttributes();
 		$this->fetchState();
+		$this->fetchFurnishingCategory();
 		$this->fetchValueForOldOrNewBuilding();
 		$this->fetchAction();
 		$this->fetchHeatingType();
@@ -783,6 +784,31 @@ class tx_realty_domDocumentConverter {
 		) {
 			$this->addImportedData(
 				'state', $possibleStates[$attributes['zustand_art']]
+			);
+		}
+	}
+
+	/**
+	 * Fetches the value for 'ausstatt_kategorie' and stores it with the
+	 * corresponding database column name as key in $this->importedData.
+	 */
+	private function fetchFurnishingCategory() {
+		$nodeWithAttributes = $this->findFirstGrandchild(
+			'ausstattung', 'ausstatt_kategorie'
+		);
+		$furnishingCategory = strtolower($nodeWithAttributes->nodeValue);
+
+		$possibleStates = array(
+			'standard' => 1,
+			'gehoben' => 2,
+			'luxus' => 3,
+		);
+
+		if (($furnishingCategory != '')
+			&& isset($possibleStates[$furnishingCategory])
+		) {
+			$this->addImportedData(
+				'furnishing_category', $possibleStates[$furnishingCategory]
 			);
 		}
 	}

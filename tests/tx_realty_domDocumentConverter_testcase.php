@@ -1177,6 +1177,98 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getConvertedDataGetsFurnishingCategoryForStandardCategoryProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<ausstatt_kategorie>STANDARD</ausstatt_kategorie>' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('furnishing_category' => 1)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataGetsFurnishingCategoryForUpmarketCategoryProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<ausstatt_kategorie>GEHOBEN</ausstatt_kategorie>' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('furnishing_category' => 2)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataGetsFurnishingCategoryForLuxuryCategoryProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<ausstatt_kategorie>LUXUS</ausstatt_kategorie>' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array('furnishing_category' => 3)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataDoesNotGetFurnishingCategoryIfInvalidCategoryProvided() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<ausstattung>' .
+							'<ausstatt_kategorie>FOO</ausstatt_kategorie>' .
+						'</ausstattung>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$this->fixture->setRawRealtyData($node);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 
 	////////////////////////////////////////////
 	// Tests concerning createRecordsForImages
