@@ -71,9 +71,5 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	public function getAllProperties() {
 		return parent::getAllProperties();
 	}
-
-	public function getAllImageData() {
-		return parent::getAllImageData();
-	}
 }
 ?>

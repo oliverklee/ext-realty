@@ -1302,10 +1302,10 @@ class tx_realty_openImmoImport {
 	 * of an existent realty object to load from the database. If the data is of
 	 * an invalid type the realty object stays empty.
 	 *
-	 * @param mixed data for the realty object as an array, a database
-	 *              result row, or UID of an existing record
+	 * @param array $data
+	 *        data for the realty object as an array
 	 */
-	protected function loadRealtyObject($data) {
+	protected function loadRealtyObject(array $data) {
 		if (is_object($this->realtyObject)) {
 			$this->realtyObject->__destruct();
 		}

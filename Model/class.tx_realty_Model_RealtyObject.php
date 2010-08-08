@@ -54,11 +54,25 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	const CROP_SIZE = 32;
 
 	/**
-	 * @var array<array>
-	 *      records of images are stored here until they are inserted to the
-	 *      database
+	 * the images related to this realty object
+	 *
+	 * @var tx_oelib_List<tx_realty_Model_Image>
 	 */
-	private $images = array();
+	private $images = NULL;
+
+	/**
+	 * whether the image records need to get saved
+	 *
+	 * @var boolean
+	 */
+	private $imagesNeedToGetSaved = FALSE;
+
+	/**
+	 * whether the old image records associated with this model need to get deleted
+	 *
+	 * @var boolean
+	 */
+	private $oldImagesNeedToGetDeleted = FALSE;
 
 	/**
 	 * @var array the owner record is cached in order to improve performance
@@ -123,13 +137,15 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$this->isDummyRecord = $createDummyRecords;
 
 		$this->initializeCharsetConversion();
+
+		$this->images = new tx_oelib_List();
 	}
 
 	/**
 	 * Destructor.
 	 */
 	public function __destruct() {
-		unset($this->charsetConversion, $this->owner);
+		unset($this->charsetConversion, $this->owner, $this->images);
 
 		parent::__destruct();
 	}
@@ -180,7 +196,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			parent::setData($this->isolateImageRecords($realtyData));
 		} else {
 			parent::setData($realtyData);
-			$this->images = $this->getAttachedImages();
+			$this->retrieveAttachedImages();
 		}
 	}
 
@@ -196,11 +212,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Checks the type of data input. Returns the type if it is valid, else
 	 * returns an empty string.
 	 *
-	 * @param mixed data for the realty object, an array, a UID (of
-	 *              integer > 0) or a database result row
+	 * @param mixed $realtyData
+	 *        data for the realty object: an array or a UID (of integer > 0)
 	 *
-	 * @return string type of data: 'array', 'uid', 'dbResult' or empty in
-	 *                 case of any other type
+	 * @return string
+	 *         type of data: 'array', 'uid' or empty in case case of any other
+	 *         type
 	 */
 	protected function getDataType($realtyData) {
 		if ($realtyData === null) {
@@ -213,10 +230,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$result = 'array';
 		} elseif (is_numeric($realtyData)) {
 			$result = 'uid';
-		} elseif (is_resource($realtyData)
-			&& (get_resource_type($realtyData) == 'mysql result')
-		) {
-			$result = 'dbResult';
 		}
 
 		return $result;
@@ -262,9 +275,27 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$imageMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
 
-		if (is_array($realtyDataArray['images'])) {
-			$this->images = $realtyDataArray['images'];
+		if (is_array($realtyDataArray['images'])
+			&& !empty($realtyDataArray['images'])
+		) {
 			$result['images'] = count($realtyDataArray['images']);
+
+			$this->images = tx_oelib_ObjectFactory::make('tx_oelib_List');
+
+			foreach ($realtyDataArray['images'] as $imageData) {
+				$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
+				if ($imageData['caption'] != '') {
+					$image->setTitle($imageData['caption']);
+				}
+				$image->setFileName($imageData['image']);
+				$image->setPageUid(intval($imageData['pid']));
+				$image->setSorting(intval($imageData['sorting']));
+
+				$this->images->add($image);
+			}
+
+			$this->oldImagesNeedToGetDeleted = TRUE;
+			$this->imagesNeedToGetSaved = TRUE;
 		}
 
 		return $result;
@@ -331,6 +362,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			if (!$this->getAsBoolean('deleted')) {
 				$this->updateDatabaseEntry($this->getAllProperties());
 			} else {
+				$this->discardExistingImages();
 				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 					->delete($this);
 				$errorMessage = 'message_deleted_flag_causes_deletion';
@@ -732,10 +764,15 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                configuration)
 	 */
 	private function refreshImageEntries($overridePid = 0) {
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
-		foreach ($mapper->findAllByRelation($this, 'object') as $image) {
-			$mapper->delete($image);
+ 		if ($this->oldImagesNeedToGetDeleted) {
+ 			$this->discardExistingImages();
  		}
+
+		if (!$this->imagesNeedToGetSaved) {
+			return;
+		}
+
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
 
 		$pageUid = ($overridePid > 0)
 			? $overridePid
@@ -743,17 +780,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				->getAsInteger('pidForRealtyObjectsAndImages');
 
 		$sorting = 0;
-		foreach ($this->getAllImageData() as $imageData) {
-			if ($imageData['deleted'] == 1) {
+		foreach ($this->getAllNewImageData() as $image) {
+			if ($image->isDead()) {
 				continue;
 			}
-			$fileName = $imageData['image'];
-			$title = ($imageData['caption'] != '')
-				? $imageData['caption'] : $fileName;
-
-			$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
-			$image->setFileName($fileName);
-			$image->setTitle($title);
 			$image->setObject($this);
 			$image->setPageUid($pageUid);
 			$image->setSorting($sorting);
@@ -761,6 +791,24 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$mapper->save($image);
 			$sorting++;
 		}
+
+		$this->imagesNeedToGetSaved = FALSE;
+	}
+
+	/**
+	 * Deletes all images that are related to this realty object from the
+	 * database.
+	 *
+	 * This function does not affect in-memory images that have not been
+	 * persisted to the database yet.
+	 */
+	protected function discardExistingImages() {
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		foreach ($mapper->findAllByRelation($this, 'object') as $image) {
+			$mapper->delete($image);
+ 		}
+
+ 		$this->oldImagesNeedToGetDeleted = FALSE;
 	}
 
 	/**
@@ -769,6 +817,28 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @return array images data, may be empty
 	 */
 	public function getAllImageData() {
+		$result = array();
+
+		foreach ($this->getAllNewImageData() as $image) {
+			if ($image->isDead() || $image->isDeleted()) {
+				continue;
+			}
+
+			$result[] = array(
+				'caption' => $image->getTitle(),
+				'image' => $image->getFileName(),
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns an array of data for each image.
+	 *
+	 * @return tx_oelib_List<tx_realty_Model_Image> the attached images
+	 */
+	public function getAllNewImageData() {
 		return $this->images;
 	}
 
@@ -783,31 +853,18 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
  	/**
-	 * Returns the images of the current realty object.
- 	 *
-	 * @return array<array>
-	 *         appended images in a two-dimensional array, each inner element
-	 *         will contain the keys 'caption' and 'image', will be empty if
-	 *         there are no images
+	 * Reads the images attached to this realty object into $this->images.
  	 */
-	private function getAttachedImages() {
+	private function retrieveAttachedImages() {
 		if (!$this->identifyObjectAndSetUid()) {
 			return array();
 		}
 
-		$imageMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
-		$images = $imageMapper->findAllByRelation($this, 'object');
+		$images = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image')
+			->findAllByRelation($this, 'object');
 		$images->sortBySorting();
 
-		$result = array();
-		foreach ($images as $image) {
-			$result[] = array(
-				'caption' => $image->getTitle(),
-				'image' => $image->getFileName(),
-			);
-		}
-
-		return $result;
+		$this->images = $images;
 	}
 
 	/**
@@ -831,9 +888,20 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$this->markAsLoaded();
 
 		$this->set('images', $this->getAsInteger('images') + 1);
-		$this->images[] = array('caption' => $caption, 'image' => $fileName);
 
-		return count($this->images) - 1;
+		$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
+		$title = ($caption != '') ? $caption : $fileName;
+		if ($title != '') {
+			$image->setTitle($title);
+		}
+		if ($fileName != '') {
+			$image->setFileName($fileName);
+		}
+		$this->images->add($image);
+
+		$this->imagesNeedToGetSaved = TRUE;
+
+		return $this->images->count() - 1;
 	}
 
 	/**
@@ -851,11 +919,13 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 					'as deleted.'
 			);
 		}
-		if (!isset($this->images[$imageKey])) {
+		$image = $this->images->at($imageKey);
+		if ($image == null) {
 			throw new Exception('The image record does not exist.');
 		}
 
-		$this->images[$imageKey]['deleted'] = 1;
+		tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image')->delete($image);
+
 		$this->set('images', $this->getAsInteger('images') - 1);
 	}
 

@@ -117,7 +117,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			try {
 				// The ID-prefix is "attached_image_" which are 15 charachters.
 				$this->realtyObject->markImageRecordAsDeleted(
-					substr($imageId, 15)
+					intval(substr($imageId, 15))
 				);
 			} catch (Exception $noSuchImageRecord) {
 			}

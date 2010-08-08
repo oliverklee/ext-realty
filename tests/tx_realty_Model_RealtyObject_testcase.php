@@ -346,22 +346,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetDataTypeWhenDatabaseResultGiven() {
-		$dbResult = tx_oelib_db::select(
-			'*',
-			REALTY_TABLE_OBJECTS,
-			'uid = ' . $this->objectUid
-		);
-
-		$result = $this->fixture->getDataType($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		$this->assertEquals(
-			'dbResult',
-			$result
-		);
-	}
-
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
@@ -374,10 +358,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 
 		$this->assertEquals(
-			array(
-				array('caption' => 'foo', 'image' => 'foo.jpg')
-			),
-			$this->fixture->getAllImageData()
+			'foo',
+			$this->fixture->getAllNewImageData()->first()->getTitle()
 		);
 	}
 
@@ -402,10 +384,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->setData(array('uid' => $this->objectUid, 'images' => 1));
 
 		$this->assertEquals(
-			array(
-				array('caption' => 'foo', 'image' => 'foo.jpg')
-			),
-			$this->fixture->getAllImageData()
+			'foo',
+			$this->fixture->getAllNewImageData()->first()->getTitle()
 		);
 	}
 
@@ -420,10 +400,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			array(
-				array('caption' => 'test', 'image' => 'test.jpg')
-			),
-			$this->fixture->getAllImageData()
+			'test',
+			$this->fixture->getAllNewImageData()->first()->getTitle()
 		);
 	}
 
@@ -457,6 +435,40 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 				array('caption' => 'second', 'image' => 'second.jpg'),
 			),
 			$this->fixture->getAllImageData()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllNewImageDataReturnsTheCurrentObjectsImagesOrderedBySorting() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'second',
+				'image' => 'second.jpg',
+				'object' => $this->objectUid,
+				'sorting' => 2,
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'first',
+				'image' => 'first.jpg',
+				'object' => $this->objectUid,
+				'sorting' => 1,
+			)
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$titles = array();
+		foreach ($this->fixture->getAllNewImageData() as $image) {
+			$titles[] = $image->getTitle();
+		}
+		$this->assertEquals(
+			array('first', 'second'),
+			$titles
 		);
 	}
 
@@ -1548,10 +1560,8 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 
 		$this->assertEquals(
-			array(
-				array('caption' => 'foo', 'image' => 'foo.jpg')
-			),
-			$this->fixture->getAllImageData()
+			'foo',
+			$this->fixture->getAllNewImageData()->first()->getTitle()
 		);
 	}
 
@@ -1617,9 +1627,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			array(
-				array('caption' => 'foo', 'image' => 'foo.jpg', 'deleted' => 1)
-			),
+			array(),
 			$this->fixture->getAllImageData()
 		);
 	}
