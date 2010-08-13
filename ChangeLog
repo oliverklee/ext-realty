@@ -1,4 +1,4 @@
-0.5.1 - currently working on
+0.5.1 - released 2010-08-13
 - [#4010] Fix: Part 9: Mark the image and house type tables as dirty and use @expectedException
 - [#4057] Fix: Test failures in the OpenImmo import testcase
 - [#4058] Fix: Typo in the DOM document converter: substitudeSurplusDecimals
