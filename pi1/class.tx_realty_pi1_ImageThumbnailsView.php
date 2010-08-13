@@ -33,6 +33,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
@@ -72,15 +73,15 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		);
 
 		$result = '';
-		$counter = 0;
 
-		$currentImage = $this->getLinkedImage();
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
+		$images = $realtyObject->getAllImages();
 
-		while ($currentImage != '') {
-			$counter++;
+		foreach ($images as $image) {
+			$currentImage = $this->getLinkedImage($image);
 			$this->setMarker('one_image_tag', $currentImage);
 			$result .= $this->getSubpart('ONE_IMAGE_CONTAINER');
-			$currentImage = $this->getLinkedImage($counter);
 		}
 
 		return $result;
@@ -97,21 +98,19 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * If no image is found, an empty string is returned.
 	 *
-	 * @param integer the number of the image to retrieve, must be >= 0
+	 * @param tx_realty_Model_Image $image
+	 *        the image to render
 	 *
 	 * @return string image tag wrapped in a link, will be empty if there is no
 	 *                image with the provided number
 	 */
-	private function getLinkedImage($imageNumber = 0) {
-		$imageRecord = $this->getImage($imageNumber);
-
-		if (empty($imageRecord)) {
-			return '';
-		}
+	private function getLinkedImage(tx_realty_Model_Image $image) {
+		$title = $image->getTitle();
+		$path = tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName();
 
 		$imagePath = array();
 		$imageWithTag = $this->createRestrictedImage(
-			tx_realty_Model_Image::UPLOAD_FOLDER . $imageRecord['image'],
+			$path,
 			'',
 			$this->getConfValueInteger('lightboxImageWidthMax'),
 			$this->getConfValueInteger('lightboxImageHeightMax')
@@ -119,43 +118,20 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
 
 		$linkAttribute = ' rel="lightbox[objectGallery]" title="' .
-				$imageRecord['caption'] . '"';
+				htmlspecialchars($title) . '"';
 
 		$fullSizeImageUrl = $imagePath[1];
 		$thumbnailUrl = $this->createRestrictedImage(
-			tx_realty_Model_Image::UPLOAD_FOLDER . $imageRecord['image'],
-			$imageRecord['caption'],
+			$path,
+			htmlspecialchars($title),
 			$this->getConfValueInteger('singleImageMaxX'),
 			$this->getConfValueInteger('singleImageMaxY'),
 			0,
-			$imageRecord['caption']
+			$title
 		);
 
 		return '<a href="' . $fullSizeImageUrl . '"' . $linkAttribute . '>' .
 			$thumbnailUrl . '</a>';
-	}
-
-	/**
-	 * Returns an image record of the realty object.
-	 *
-	 * @param integer the number of the image to retrieve, must be >= 0
-	 *
-	 * @return array the image's file name and htmlspecialchared caption in an
-	 *               associative array, will be empty if the image with the
-	 *               requested number does not exist
-	 */
-	private function getImage($imageNumber = 0) {
-		$images = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->getUid())->getAllImageData();
-
-		if (isset($images[$imageNumber])) {
-			$result = $images[$imageNumber];
-			$result['caption'] = htmlspecialchars($result['caption']);
-		} else {
-			$result = array();
-		}
-
-		return $result;
 	}
 
 	/**

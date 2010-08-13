@@ -32,6 +32,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	/**
@@ -66,11 +67,12 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		$this->processTemplate($result);
 		$this->setLabels();
 
-		$allImageData = $this->realtyObject->getAllImageData();
-		if (!empty($allImageData)) {
+		$images = $this->realtyObject->getAllImages();
+
+		if (!$images->isEmpty()) {
 			$this->setSubpart(
 				'single_attached_image',
-				$this->getRenderedImageList($allImageData)
+				$this->getRenderedImageList($images)
 			);
 		} else {
 			$this->hideSubparts('images_to_delete', 'wrapper');
@@ -230,45 +232,50 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	/**
 	 * Returns HTML for the images as list items with their thumbnails.
 	 *
-	 * @param array two-dimensional array of image records, each inner array
-	 *              represents one image record and is an associative array with
-	 *              the keys 'caption' and 'image', must not be empty
+	 * @param tx_oelib_List<tx_realty_Model_Image> $images
+	 *        the images to render, may be empty
 	 *
 	 * @return string listed images with thumbnails in HTML, will not be empty
 	 */
-	private function getRenderedImageList(array $imageData) {
+	private function getRenderedImageList(tx_oelib_List $images) {
 		$result = '';
-		foreach ($imageData as $key => $imageRecord) {
-			$imagePath = tx_realty_Model_Image::UPLOAD_FOLDER . $imageRecord['image'];
+
+		$index = 0;
+		foreach ($images as $image) {
+			$imagePath = tx_realty_Model_Image::UPLOAD_FOLDER .
+				$image->getFileName();
 			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
 					$this->cObj->typoLink_URL(array('parameter' => $imagePath))
 			));
+			$title = $image->getTitle;
 			$imageTag = $this->createRestrictedImage(
 				$imagePath,
 				'',
 				$this->getConfValueInteger('imageUploadThumbnailWidth'),
 				$this->getConfValueInteger('imageUploadThumbnailHeight'),
 				0,
-				$imageRecord['caption']
+				$title
 			);
 
 			$this->setMarker(
 				'single_image_item',
 				'<a href="' . $imageUrl . '" rel="lightbox[objectGallery]" ' .
-					'title="' . htmlspecialchars($imageRecord['caption']) . '"' .
+					'title="' . htmlspecialchars($title) . '"' .
 					'>' . $imageTag . '</a>'
 			);
 			$this->setMarker(
-				'image_title', htmlspecialchars($imageRecord['caption'])
+				'image_title', htmlspecialchars($title)
 			);
 			$this->setMarker(
 				'image_title_for_js',
-				htmlspecialchars(addslashes($imageRecord['caption']))
+				htmlspecialchars(addslashes($title))
 			);
 			$this->setMarker(
-				'single_attached_image_id', 'attached_image_' . $key
+				'single_attached_image_id', 'attached_image_' . $index
 			);
 			$result .= $this->getSubpart('SINGLE_ATTACHED_IMAGE');
+
+			$index++;
 		}
 
 		return $result;

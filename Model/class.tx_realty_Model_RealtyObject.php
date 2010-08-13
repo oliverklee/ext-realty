@@ -780,7 +780,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				->getAsInteger('pidForRealtyObjectsAndImages');
 
 		$sorting = 0;
-		foreach ($this->getAllNewImageData() as $image) {
+		foreach ($this->getAllImages() as $image) {
 			if ($image->isDead()) {
 				continue;
 			}
@@ -812,33 +812,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Returns an array of data for each image.
-	 *
-	 * @return array images data, may be empty
-	 */
-	public function getAllImageData() {
-		$result = array();
-
-		foreach ($this->getAllNewImageData() as $image) {
-			if ($image->isDead() || $image->isDeleted()) {
-				continue;
-			}
-
-			$result[] = array(
-				'caption' => $image->getTitle(),
-				'image' => $image->getFileName(),
-			);
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Returns an array of data for each image.
+	 * Gets the images attached to this object.
 	 *
 	 * @return tx_oelib_List<tx_realty_Model_Image> the attached images
 	 */
-	public function getAllNewImageData() {
+	public function getAllImages() {
 		return $this->images;
 	}
 
