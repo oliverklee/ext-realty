@@ -191,6 +191,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'floors':
 				// The fallthrough is intended.
+			case 'parking_spaces':
+				// The fallthrough is intended.
 			case 'construction_year':
 				$number = $realtyObject->getProperty($key);
 				$result = ($number != 0) ? ((string) $number) : '';
