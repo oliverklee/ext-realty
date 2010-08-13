@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4062] Feature: Add a sorting column to the documents
 - [#4014] Feature: Add a Model and Mapper for related documents
 - [#4010] Change: Use the mapper to save imported images
 - [#4000] Feature: Add a field "Bodenbelag" (flooring)

@@ -1032,6 +1032,7 @@ $TCA['tx_realty_objects'] = array(
 				'type'=> 'inline',
 				'foreign_table' => 'tx_realty_documents',
 				'foreign_field' => 'object',
+				'foreign_sortby' => 'sorting',
 				'minitems' => 0,
 				'maxitems' => 99,
 				'appearance' => array(

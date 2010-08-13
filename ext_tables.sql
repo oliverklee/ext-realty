@@ -288,6 +288,7 @@ CREATE TABLE tx_realty_documents (
 	l18n_parent int(11) DEFAULT '0' NOT NULL,
 	l18n_diffsource mediumblob NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+	sorting int(11) DEFAULT '0' NOT NULL,
 	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext NOT NULL,
 	filename tinytext NOT NULL,
