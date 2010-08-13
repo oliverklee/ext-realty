@@ -43,7 +43,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	/**
 	 * Gets this image's title (caption).
 	 *
-	 * @return string the image's title, will be empty if no title has been set
+	 * @return string the image's title, might be empty
 	 */
 	public function getTitle() {
 		return $this->getAsString('caption');
@@ -52,13 +52,9 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	/**
 	 * Sets this images title (caption).
 	 *
-	 * @param string $title the title to set, must not be empty
+	 * @param string $title the title to set, may be empty
 	 */
 	public function setTitle($title) {
-		if ($title == '') {
-			throw new InvalidArgumentException('$title must not be empty.');
-		}
-
 		$this->setAsString('caption', $title);
 	}
 

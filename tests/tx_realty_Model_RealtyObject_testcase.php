@@ -1187,7 +1187,10 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInsertImageEntriesInsertsNewImageWithFileNameAsTitleIfNoTitleIsSet() {
+	/**
+	 * @test
+	 */
+	public function insertImageEntriesInsertsImageWithEmptyTitleIfNoTitleIsSet() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1195,7 +1198,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
-			array('caption' => 'foo.jpg', 'image' => 'foo.jpg'),
+			array('caption' => '', 'image' => 'foo.jpg'),
 			tx_oelib_db::selectSingle(
 				'caption, image',
 				REALTY_TABLE_IMAGES,

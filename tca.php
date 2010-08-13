@@ -1558,7 +1558,7 @@ $TCA['tx_realty_images'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
-				'eval' => 'required',
+				'eval' => 'trim',
 			),
 		),
 		'image' => array(

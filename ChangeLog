@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4063] Change: Allow images with an empty title
 - [#4065] Change: Reorder the fields in the overview table
 - [#4018] Cleanup: Use the mapper for getting the images for the gallery and the FE image upload
 - [#4062] Feature: Add a sorting column to the documents

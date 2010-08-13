@@ -78,11 +78,14 @@ class tx_realty_Model_ImageTest extends tx_phpunit_testcase {
 
 	/**
 	 * @test
-	 *
-	 * @expectedException InvalidArgumentException
 	 */
-	public function setTitleForEmptyTitleThrowsException() {
+	public function setTitleForEmptyTitleSetsEmptyTitle() {
 		$this->fixture->setTitle('');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getTitle()
+		);
 	}
 
 

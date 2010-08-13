@@ -284,9 +284,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 			foreach ($realtyDataArray['images'] as $imageData) {
 				$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
-				if ($imageData['caption'] != '') {
-					$image->setTitle($imageData['caption']);
-				}
+				$image->setTitle($imageData['caption']);
 				$image->setFileName($imageData['image']);
 				$image->setPageUid(intval($imageData['pid']));
 				$image->setSorting(intval($imageData['sorting']));
@@ -868,10 +866,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$this->set('images', $this->getAsInteger('images') + 1);
 
 		$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
-		$title = ($caption != '') ? $caption : $fileName;
-		if ($title != '') {
-			$image->setTitle($title);
-		}
+		$image->setTitle($caption);
 		if ($fileName != '') {
 			$image->setFileName($fileName);
 		}
