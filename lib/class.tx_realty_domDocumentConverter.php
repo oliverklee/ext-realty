@@ -130,7 +130,11 @@ class tx_realty_domDocumentConverter {
 	/** @var array cached countries */
 	private static $cachedCountries = array();
 
-	/** @var tx_realty_fileNameMapper gets the unique names tor the images*/
+	/**
+	 * the mapper that creates unique file names for images and documents
+	 *
+	 * @var tx_realty_fileNameMapper
+	 */
 	private $fileNameMapper = null;
 
 	/**
@@ -141,8 +145,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Constructor.
 	 *
-	 * @param tx_realty_fileNameMapper mapper to receive unique file names for
-	 *                                 the image records, must not be null
+	 * @param tx_realty_fileNameMapper $fileNameMapper
+	 *        mapper to receive unique file names for the images and documents
 	 *
 	 */
 	public function __construct(tx_realty_fileNameMapper $fileNameMapper) {
@@ -161,8 +165,13 @@ class tx_realty_domDocumentConverter {
 	 * found in the DOMDocument as values of an array. Each of this values is an
 	 * array with column names like in the database table 'tx_realty_objects' as
 	 * keys and their corresponding values fetched from the DOMDocument.
+	 *
 	 * As images need to be inserted to a separate database table, all image
 	 * data is stored in an inner array in the element 'images' of each record.
+	 *
+	 * All document data is stored in an inner array in the element 'documents'
+	 * of each record.
+	 *
 	 * The returned array is empty if the given DOMDocument could not be
 	 * converted.
 	 *
@@ -306,6 +315,7 @@ class tx_realty_domDocumentConverter {
 	private function getRealtyArray() {
 		$this->fetchNodeValues();
 		$this->fetchImages();
+		$this->fetchDocuments();
 		$this->fetchEquipmentAttributes();
 		$this->fetchCategoryAttributes();
 		$this->fetchState();
@@ -497,7 +507,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Creates an array of image records for one realty record.
 	 *
-	 * @return array image records, will be empty if there were none
+	 * @return array image records, will be empty if there are none
 	 */
 	protected function createRecordsForImages() {
 		$imageExtensions = t3lib_div::trimExplode(
@@ -517,11 +527,11 @@ class tx_realty_domDocumentConverter {
 			return array();
 		}
 
-		$annexes = $this->getNodeListFromRawData(
+		$attachments = $this->getNodeListFromRawData(
 			'anhang', '', $listedRealties->item($this->recordNumber)
 		);
 
-		foreach ($annexes as $contextNode) {
+		foreach ($attachments as $contextNode) {
 			$titleNodeList = $this->getNodeListFromRawData(
 				'anhangtitel', '', $contextNode
 			);
@@ -549,6 +559,61 @@ class tx_realty_domDocumentConverter {
 		}
 
 		return $images;
+	}
+
+	/**
+	 * Fetches information about documents from $openImmoNode of an OpenImmo
+	 * record and stores them as an inner array in $this->importedData.
+	 */
+	private function fetchDocuments() {
+		$this->addImportedDataIfValueIsNonEmpty(
+			'documents',
+			$this->importDocuments()
+		);
+	}
+
+	/**
+	 * Creates an array of document records for one realty record.
+	 *
+	 * @return array
+	 *         document records, will be empty if there are none
+	 */
+	protected function importDocuments() {
+		$listedRealties = $this->getListedRealties();
+		if (!$listedRealties) {
+			return array();
+		}
+
+		$attachments = $this->getNodeListFromRawData(
+			'anhang', '', $listedRealties->item($this->recordNumber)
+		);
+
+		$documents = array();
+		foreach ($attachments as $contextNode) {
+			$titleNodeList = $this->getNodeListFromRawData(
+				'anhangtitel', '', $contextNode
+			);
+			$fileNameNodeList = $this->getNodeListFromRawData(
+				'daten', 'pfad', $contextNode
+			);
+
+			if (!$titleNodeList->item(0) || !$fileNameNodeList->item(0)) {
+				continue;
+			}
+
+			$title = $titleNodeList->item(0)->nodeValue;
+			$rawFileName = $fileNameNodeList->item(0)->nodeValue;
+
+			if (($title != '') && preg_match('/\.pdf$/i', $rawFileName)) {
+				$fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(
+					basename($rawFileName)
+				);
+
+				$documents[] = array('title' => $title, 'filename' => $fileName);
+			}
+		}
+
+		return $documents;
 	}
 
 	/**

@@ -237,7 +237,7 @@ class tx_realty_openImmoImport {
 		);
 
 		if (!empty($recordsToInsert)) {
-			$this->copyImagesFromExtractedZip($currentZip, $recordsToInsert);
+			$this->copyImagesAndDocumentsFromExtractedZip($currentZip, $recordsToInsert);
 			// Only ZIP archives that have a valid owner and therefore can be
 			// imported are marked as deletable.
 			// The owner is the same for each record within one ZIP archive.
@@ -1160,33 +1160,47 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Copies images for OpenImmo records to the local upload folder.
+	 * Copies images and documents for OpenImmo records to the local upload
+	 * folder.
 	 *
 	 * @param string $pathOfZip
 	 *        path of the extracted ZIP archive, must not be empty
 	 * @param array $realtyRecords
 	 *        realty record data derived from the XML file, must not be empty
 	 */
-	public function copyImagesFromExtractedZip($pathOfZip, array $realtyRecords) {
+	public function copyImagesAndDocumentsFromExtractedZip($pathOfZip, array $realtyRecords) {
 		$folderWithImages = $this->getNameForExtractionFolder($pathOfZip);
-		$imagesNotToCopy = $this->findImageNamesOfDeletedRecords($realtyRecords);
-		$fileExtensions = $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] .
-			',' . strtoupper($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']);
+		$imagesNotToCopy = $this->findFileNamesOfDeletedRecords($realtyRecords);
 
-		foreach (explode(',', $fileExtensions) as $pattern) {
-			$images = glob($folderWithImages . '*.' . $pattern);
-			if (!is_array($images)) {
+		$lowercaseFileExtensions = t3lib_div::trimExplode(
+			',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE
+		);
+		if (!in_array('pdf', $lowercaseFileExtensions)) {
+			$lowercaseFileExtensions[] = 'pdf';
+		}
+		if (in_array('ps', $lowercaseFileExtensions)) {
+			unset($lowercaseFileExtensions[array_search('ps', $lowercaseFileExtensions)]);
+		}
+
+		$allCaseFileExtensions = $lowercaseFileExtensions;
+		foreach ($lowercaseFileExtensions as $extension) {
+			$allCaseFileExtensions[] = strtoupper($extension);
+		}
+
+		foreach ($allCaseFileExtensions as $extension) {
+			$files = glob($folderWithImages . '*.' . $extension);
+			if (!is_array($files)) {
 				continue;
 			}
 
-			foreach ($images as $image) {
+			foreach ($files as $file) {
 				$uniqueFileNames = $this->fileNameMapper->releaseMappedFileNames(
-					basename($image)
+					basename($file)
 				);
 
 				foreach ($uniqueFileNames as $uniqueName) {
 					if (!in_array($uniqueName, $imagesNotToCopy)) {
-						copy($image, $this->uploadDirectory . $uniqueName);
+						copy($file, $this->uploadDirectory . $uniqueName);
 					}
 				}
 			}
@@ -1194,25 +1208,29 @@ class tx_realty_openImmoImport {
 	}
 
 	/**
-	 * Finds file names of images which must not be copied into the uploads
-	 * folder because their corresponding realty records are marked as deleted.
+	 * Finds file names of images and documents which must not be copied into
+	 * the uploads folder because their corresponding realty records are marked
+	 * as deleted.
 	 *
 	 * @param array $records realty records, must not be empty
 	 *
-	 * @return array file names of the images which must not be copied
+	 * @return array names files which must not be copied
 	 */
-	private function findImageNamesOfDeletedRecords(array $records) {
-		$imagesNotToCopy = array();
+	private function findFileNamesOfDeletedRecords(array $records) {
+		$filesNotToCopy = array();
 
 		foreach ($records as $record) {
 			if ($record['deleted'] && is_array($record['images'])) {
 				foreach ($record['images'] as $image) {
-					$imagesNotToCopy[] = $image['image'];
+					$filesNotToCopy[] = $image['image'];
+				}
+				foreach ($record['documents'] as $document) {
+					$filesNotToCopy[] = $document['filename'];
 				}
 			}
 		}
 
-		return $imagesNotToCopy;
+		return $filesNotToCopy;
 	}
 
 	/**

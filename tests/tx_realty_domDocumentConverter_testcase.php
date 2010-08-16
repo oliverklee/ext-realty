@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_domDocumentConverter class in the 'realty'
+ * Unit tests for the tx_realty_domDocumentConverter class in the "realty"
  * extension.
  *
  * @package TYPO3
@@ -1679,6 +1679,276 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 				'image' => 'tx_realty_image_test_00.jpg'
 			),
 			$result[1]['images'][0]
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning importDocuments
+	/////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsIgnoresAppendixWithoutFileName() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>foo</anhangtitel>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsForLowercasePdfWithTitleReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>tx_realty_document_test.pdf</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(
+				array(
+					'title' => 'bar',
+					'filename' => 'tx_realty_document_test.pdf'
+				)
+			),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsForUppercasePdfWithTitleReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>tx_realty_document_test.PDF</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(
+				array(
+					'title' => 'bar',
+					'filename' => 'tx_realty_document_test.PDF'
+				)
+			),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsForJpgWithTitleNotReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>layout.jpg</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsForPsWithTitleNotReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>layout.ps</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsForExeWithTitleNotReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>evil-virus.exe</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsForPdfWithoutTitleNotReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel/>'
+					.'<daten>'
+						.'<pfad>tx_realty_document_test.pdf</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsCanInportTwoDocuments() {
+		$this->setRawDataToConvert(
+			'<immobilie>'
+				.'<anhang>'
+					.'<anhangtitel>bar</anhangtitel>'
+					.'<daten>'
+						.'<pfad>tx_realty_document_test2.pdf</pfad>'
+					.'</daten>'
+				.'</anhang>'
+				.' <anhang>'
+					.'<anhangtitel>foo</anhangtitel>'
+					.'<daten>'
+						.'<pfad>tx_realty_document_test.pdf</pfad>'
+					.'</daten>'
+				.'</anhang>'
+			.'</immobilie>'
+		);
+		$documents = $this->fixture->importDocuments();
+
+		$this->assertEquals(
+			array(
+				'title' => 'bar',
+				'filename' => 'tx_realty_document_test2.pdf'
+			),
+			$documents[0]
+		);
+		$this->assertEquals(
+			array(
+				'title' => 'foo',
+				'filename' => 'tx_realty_document_test.pdf'
+			),
+			$documents[1]
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsOfTwoObjectsWithOneDocumentEachCreatesOneDocumentPerObject() {
+		$this->setRawDataToConvert(
+			'<openimmo>'
+				.'<immobilie>'
+					.'<anhang>'
+						.'<anhangtitel>bar</anhangtitel>'
+						.'<daten>'
+							.'<pfad>tx_realty_document_test2.pdf</pfad>'
+						.'</daten>'
+					.'</anhang>'
+				.'</immobilie>'
+				.'<immobilie>'
+					.' <anhang>'
+						.'<anhangtitel>foo</anhangtitel>'
+						.'<daten>'
+							.'<pfad>tx_realty_document_test.pdf</pfad>'
+						.'</daten>'
+					.'</anhang>'
+				.'</immobilie>'
+			.'</openimmo>'
+		);
+
+		$this->assertEquals(
+			1,
+			count($this->fixture->importDocuments())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importDocumentsOfTwoObjectsWithIdenticallyNamedDocumentsCreatesDifferentFileNames() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<immobilie>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</immobilie>' .
+				'<immobilie>' .
+					'<anhang>' .
+						'<anhangtitel>foo</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</immobilie>' .
+			'</openimmo>'
+		);
+		$result = $this->fixture->getConvertedData($node);
+
+		$this->assertEquals(
+			array(
+				'title' => 'bar',
+				'filename' => 'tx_realty_document_test.pdf'
+			),
+			$result[0]['documents'][0]
+		);
+		$this->assertEquals(
+			array(
+				'title' => 'foo',
+				'filename' => 'tx_realty_document_test_00.pdf'
+			),
+			$result[1]['documents'][0]
 		);
 	}
 

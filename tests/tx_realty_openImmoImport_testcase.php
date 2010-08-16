@@ -353,10 +353,15 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	////////////////////////////////////////////////////////////
+	// Tests concerning copyImagesAndDocumentsFromExtractedZip
+	////////////////////////////////////////////////////////////
+
 	/**
 	 * @test
 	 */
-	public function copyImagesFromExtractedZipCopiesJpgImagesIntoTheUploadFolder() {
+	public function copyImagesAndDocumentsFromExtractedZipCopiesJpgImagesIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -373,13 +378,13 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function copyImagesFromExtractedZipNotCopiesPdfFilesIntoTheUploadFolder() {
+	public function copyImagesAndDocumentsFromExtractedZipCopiesPdfFilesIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('pdf.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertFalse(
+		$this->assertTrue(
 			file_exists($this->importFolder . 'foo.pdf')
 		);
 	}
@@ -387,7 +392,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function copyImagesFromExtractedZipNotCopiesPsFilesIntoTheUploadFolder() {
+	public function copyImagesAndDocumentsFromExtractedZipNotCopiesPsFilesIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('ps.zip');
@@ -401,7 +406,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function copyImagesFromExtractedZipCopiesJpgImagesWithUppercasedExtensionsIntoTheUploadFolder() {
+	public function copyImagesAndDocumentsFromExtractedZipCopiesJpgImagesWithUppercasedExtensionsIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo-uppercased.zip');
@@ -415,7 +420,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function copyImagesFromExtractedZipTwiceCopiesImagesUniquelyNamedIntoTheUploadFolder() {
+	public function copyImagesAndDocumentsFromExtractedZipTwiceCopiesImagesUniquelyNamedIntoTheUploadFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -433,7 +438,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function copyImagesFromExtractedZipCopiesImagesForRealtyRecord() {
+	public function copyImagesAndDocumentsFromExtractedZipCopiesImagesForRealtyRecord() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -450,7 +455,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function copyImagesFromExtractedZipNotCopiesImagesForRecordWithDeletionFlagSet() {
+	public function copyImagesAndDocumentsFromExtractedZipNotCopiesImagesForRecordWithDeletionFlagSet() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo-deleted.zip');

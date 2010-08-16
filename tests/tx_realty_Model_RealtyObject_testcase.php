@@ -346,6 +346,20 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSetDataSetsTheRealtyObjectsTitle() {
+		$this->fixture->setData(array('title' => 'foo'));
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getTitle()
+		);
+	}
+
+
+	////////////////////////////////
+	// Tests concerning the images
+	////////////////////////////////
+
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
@@ -360,15 +374,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'foo',
 			$this->fixture->getImages()->first()->getTitle()
-		);
-	}
-
-	public function testSetDataSetsTheRealtyObjectsTitle() {
-		$this->fixture->setData(array('title' => 'foo'));
-
-		$this->assertEquals(
-			'foo',
-			$this->fixture->getTitle()
 		);
 	}
 
@@ -438,6 +443,111 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			$titles
 		);
 	}
+
+
+	///////////////////////////////////
+	// Tests concerning the documents
+	///////////////////////////////////
+
+	/**
+	 * @ŧest
+	 */
+	public function loadRealtyObjectByUidLoadsDocuments() {
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array(
+				'title' => 'foo',
+				'filename' => 'foo.pdf',
+				'object' => $this->objectUid,
+			)
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getDocuments()->first()->getTitle()
+		);
+	}
+
+	/**
+	 * @ŧest
+	 */
+	public function setDataSetsTheDataForDocumentFromDatabase() {
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array(
+				'title' => 'foo',
+				'filename' => 'foo.pdf',
+				'object' => $this->objectUid,
+			)
+		);
+		$this->fixture->setData(
+			array('uid' => $this->objectUid, 'documents' => 1)
+		);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getDocuments()->first()->getTitle()
+		);
+	}
+
+	/**
+	 * @ŧest
+	 */
+	public function setDataSetsTheDataForDocumentFromArray() {
+		$this->fixture->setData(
+			array(
+				'object_number' => self::$otherObjectNumber,
+				'documents' => array(
+					array('title' => 'test', 'filename' => 'test.pdf')
+				)
+			)
+		);
+
+		$this->assertEquals(
+			'test',
+			$this->fixture->getDocuments()->first()->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDocumentsReturnsTheCurrentObjectsDocumentsOrderedBySorting() {
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array(
+				'title' => 'second',
+				'filename' => 'second.pdf',
+				'object' => $this->objectUid,
+				'sorting' => 2,
+			)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array(
+				'title' => 'first',
+				'filename' => 'first.pdf',
+				'object' => $this->objectUid,
+				'sorting' => 1,
+			)
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$titles = array();
+		foreach ($this->fixture->getDocuments() as $document) {
+			$titles[] = $document->getTitle();
+		}
+		$this->assertEquals(
+			array('first', 'second'),
+			$titles
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning writeToDatabase
+	/////////////////////////////////////
 
 	public function testWriteToDatabaseUpdatesEntryIfUidExistsInDb() {
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1524,6 +1634,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
+	////////////////////////////////////
+	// Tests concerning addImageRecord
+	////////////////////////////////////
+
 	public function testAddImageRecordForLoadedObject() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1563,13 +1678,17 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->addImageRecord('foo1', 'foo1.jpg');
 		$this->fixture->addImageRecord('foo2', 'foo2.jpg');
 		$this->fixture->addImageRecord('foo3', 'foo3.jpg');
-		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
 			3,
 			$this->fixture->getProperty('images')
 		);
 	}
+
+
+	//////////////////////////////////////////////
+	// Tests concerning markImageRecordAsDeleted
+	//////////////////////////////////////////////
 
 	public function testMarkImageRecordAsDeletedUpdatesTheNumberOfCurrentlyAppendedImagesForTheRealtyObject() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
@@ -1580,7 +1699,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->markImageRecordAsDeleted(
 			$this->fixture->addImageRecord('foo', 'foo.jpg')
 		);
-		$this->fixture->writeToDatabase();
 
 		$this->assertEquals(
 			2,
@@ -1614,6 +1732,11 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			$this->fixture->addImageRecord('foo', 'foo.jpg') + 1
 		);
 	}
+
+
+	/////////////////////////////////////////////////
+	// Tests concerning writeToDatabase with images
+	/////////////////////////////////////////////////
 
 	public function testWriteToDatabaseMarksImageRecordToDeleteAsDeleted() {
 		$imageUid = $this->testingFramework->createRecord(
@@ -1697,13 +1820,253 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportANewRecordWithImagesAndTheDeletedFlagBeingSetReturnsMarkedAsDeletedMessage() {
+	public function testImportANewRecordWithImagesAndTheDeletedFlagBeingSetReturnsMarkedAsDeletedMessageKey() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 
 		$this->fixture->loadRealtyObject(
 			array('object_number' => 'foo-bar', 'deleted' => 1)
 		);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
+
+		$this->assertEquals(
+			'message_deleted_flag_set',
+			$this->fixture->writeToDatabase()
+		);
+	}
+
+
+	/////////////////////////////////
+	// Tests concerning addDocument
+	/////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function numberOfAppendedDocumentsInitiallyIsZero() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getProperty('documents')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addDocumentMakesDocumentAvailableViaGetDocuments() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addDocument('foo', 'foo.pdf');
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getDocuments()->first()->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addDocumentForFirstDocumentsReturnsZeroIndex() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->addDocument('foo', 'foo.pdf')
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function addDocumentForNoObjectLoadedThrowsException() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->addDocument('foo', 'foo.pdf');
+	}
+
+	/**
+	 * @test
+	 */
+	public function addDocumentUpdatesTheNumberOfAppendedDocuments() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addDocument('foo1', 'foo1.pdf');
+		$this->fixture->addDocument('foo2', 'foo2.pdf');
+		$this->fixture->addDocument('foo3', 'foo3.pdf');
+
+		$this->assertEquals(
+			3,
+			$this->fixture->getProperty('documents')
+		);
+	}
+
+
+	////////////////////////////////////
+	// Tests concerning deleteDocument
+	////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function deleteDocumentUpdatesTheNumberOfAppendedDocuments() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addDocument('foo1', 'foo1.pdf');
+		$this->fixture->addDocument('foo2', 'foo2.pdf');
+		$this->fixture->deleteDocument(
+			$this->fixture->addDocument('foo', 'foo.pdf')
+		);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->getProperty('documents')
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function deleteDocumentForNoObjectLoadedThrowsException() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->deleteDocument(
+			$this->fixture->addDocument('foo', 'foo.pdf')
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function deleteDocumentForNonExistingRecordThrowsException() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$documentKey = $this->fixture->addDocument('foo', 'foo.pdf') + 1;
+
+		$this->fixture->deleteDocument($documentKey);
+	}
+
+
+	////////////////////////////////////////////////////
+	// Tests concerning writeToDatabase with documents
+	////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseMarksDocumentRecordToDeleteAsDeleted() {
+		$documentUid = $this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array(
+				'title' => 'foo',
+				'filename' => 'foo.pdf',
+				'object' => $this->objectUid
+			)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->deleteDocument(0);
+		$this->fixture->writeToDatabase();
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_realty_documents',
+				'uid = ' . $documentUid . ' AND deleted = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseCreatesNewDocumentRecordIfTheSameRecordExistsButIsDeleted() {
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array(
+				'title' => 'foo',
+				'filename' => 'foo.pdf',
+				'object' => $this->objectUid,
+				'deleted' => 1,
+			)
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addDocument('foo', 'foo.pdf');
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			1,
+			$this->testingFramework->countRecords(
+				'tx_realty_documents', 'filename = "foo.pdf" AND deleted = 0'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseDeletesExistingDocumentFromFileSystem() {
+		$fileName = $this->testingFramework->createDummyFile('foo.pdf');
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array(
+				'title' => 'foo',
+				'filename' => basename($fileName),
+				'object' => $this->objectUid,
+			)
+		);
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->deleteDocument(0);
+		$this->fixture->writeToDatabase();
+
+		$this->assertFalse(
+			file_exists($fileName)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseNotAddsDeletedDocumentRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->deleteDocument(
+			$this->fixture->addDocument('foo', 'foo.pdf')
+		);
+		$this->fixture->writeToDatabase();
+
+		$this->assertEquals(
+			0,
+			$this->testingFramework->countRecords(
+				'tx_realty_documents', 'deleted = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function importANewRecordWithDocumentsAndTheDeletedFlagBeingSetReturnsMarkedAsDeletedMessageKey() {
+		$this->testingFramework->markTableAsDirty('tx_realty_documents');
+
+		$this->fixture->loadRealtyObject(
+			array('object_number' => 'foo-bar', 'deleted' => 1)
+		);
+		$this->fixture->addDocument('foo', 'foo.pdf');
 
 		$this->assertEquals(
 			'message_deleted_flag_set',

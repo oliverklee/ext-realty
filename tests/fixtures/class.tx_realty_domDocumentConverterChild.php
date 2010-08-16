@@ -32,6 +32,7 @@
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentConverter {
 	public function addElementToArray(&$arrayToExpand, $keyToInsert, $valueToInsert) {
@@ -40,6 +41,10 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 
 	public function createRecordsForImages() {
 		return parent::createRecordsForImages();
+	}
+
+	public function importDocuments() {
+		return parent::importDocuments();
 	}
 
 	public function findFirstGrandchild($nameOfChild, $nameOfGrandchild) {
