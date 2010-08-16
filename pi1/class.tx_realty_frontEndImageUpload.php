@@ -67,7 +67,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		$this->processTemplate($result);
 		$this->setLabels();
 
-		$images = $this->realtyObject->getAllImages();
+		$images = $this->realtyObject->getImages();
 
 		if (!$images->isEmpty()) {
 			$this->setSubpart(

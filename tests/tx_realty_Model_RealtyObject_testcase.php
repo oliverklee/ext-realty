@@ -359,7 +359,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getAllImages()->first()->getTitle()
+			$this->fixture->getImages()->first()->getTitle()
 		);
 	}
 
@@ -385,7 +385,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getAllImages()->first()->getTitle()
+			$this->fixture->getImages()->first()->getTitle()
 		);
 	}
 
@@ -401,14 +401,14 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'test',
-			$this->fixture->getAllImages()->first()->getTitle()
+			$this->fixture->getImages()->first()->getTitle()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getAllImagesReturnsTheCurrentObjectsImagesOrderedBySorting() {
+	public function getImagesReturnsTheCurrentObjectsImagesOrderedBySorting() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -430,7 +430,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 
 		$titles = array();
-		foreach ($this->fixture->getAllImages() as $image) {
+		foreach ($this->fixture->getImages() as $image) {
 			$titles[] = $image->getTitle();
 		}
 		$this->assertEquals(
@@ -1531,7 +1531,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getAllImages()->first()->getTitle()
+			$this->fixture->getImages()->first()->getTitle()
 		);
 	}
 
@@ -3255,24 +3255,6 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'555-123456',
 			$this->fixture->getContactDirectExtension()
-		);
-	}
-
-
-	///////////////////////////////
-	// Tests concerning getImages
-	///////////////////////////////
-
-	/**
-	 * @test
-	 */
-	public function getImagesReturnsImages() {
-		$images = new tx_oelib_List();
-		$this->fixture->setData(array('images' => $images));
-
-		$this->assertSame(
-			$images,
-			$this->fixture->getImages()
 		);
 	}
 }
