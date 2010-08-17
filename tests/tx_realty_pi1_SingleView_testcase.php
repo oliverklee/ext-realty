@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	/**
@@ -69,9 +70,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay',
-			'heading,address,description,furtherDescription,price,overviewTable,' .
-				'imageThumbnails,addToFavoritesButton,contactButton,offerer,' .
-				'backButton,printPageButton'
+			'heading,address,description,documents,furtherDescription,price,' .
+				'overviewTable,imageThumbnails,addToFavoritesButton,' .
+				'contactButton,offerer,printPageButton,backButton'
 		);
 		$this->dummyCityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES
@@ -174,6 +175,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
 		$this->assertContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
@@ -198,6 +203,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'description'
+		);
+
 		$this->assertContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
@@ -214,6 +223,42 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'foo',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTheDocumentsOfARealtyObjectIfEnabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array());
+		$realtyObject->addDocument('new document', 'readme.pdf');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'documents'
+		);
+
+		$this->assertContains(
+			'new document',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTheDocumentsOfARealtyObjectIfDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array());
+		$realtyObject->addDocument('new document', 'readme.pdf');
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
+			'new document',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -252,6 +297,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('equipment' => 'foo'));
 
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'furtherDescription'
+		);
+
 		$this->assertContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
@@ -278,6 +327,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	public function singleViewDisplaysTheAddToFavoritesButtonIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'addToFavoritesButton'
+		);
 
 		$this->assertContains(
 			'class="button singleViewAddToFavorites"',
@@ -308,6 +361,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	public function singleViewDisplaysThePrintPageButtonIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'printPageButton'
+		);
 
 		$this->assertContains(
 			'class="button printPage"',
@@ -492,6 +549,9 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			->getLoadedTestingModel(array('has_air_conditioning' => '1'));
 
 		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'overviewTable'
+		);
+		$this->fixture->setConfigurationValue(
 			'fieldsInSingleViewTable', 'has_air_conditioning'
 		);
 
@@ -521,6 +581,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 	public function testSingleViewDisplaysTheAddressOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'address'
+		);
 
 		$this->assertContains(
 			'12345',
@@ -573,6 +637,10 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 				'exact_longitude' => 7.10211,
 				'show_address' => 1,
 		));
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
 
 		$this->assertNotContains(
 			'<div id="tx_realty_map"',

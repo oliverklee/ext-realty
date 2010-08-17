@@ -292,7 +292,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'be an empty page if no value is provided.',
 			array(
 				'nextPreviousButtons', 'heading', 'address', 'description',
-				'price', 'overviewTable', 'contactButton',
+				'documents', 'price', 'overviewTable', 'contactButton',
 				'addToFavoritesButton', 'furtherDescription', 'imageThumbnails',
 				'offerer', 'googleMaps', 'printPageButton', 'backButton',
 			)

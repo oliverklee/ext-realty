@@ -316,47 +316,51 @@
 										<numIndex index="1">description</numIndex>
 									</numIndex>
 									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.documents</numIndex>
+										<numIndex index="1">documents</numIndex>
+									</numIndex>
+									<numIndex index="5" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.price</numIndex>
 										<numIndex index="1">price</numIndex>
 									</numIndex>
-									<numIndex index="5" type="array">
+									<numIndex index="6" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.overviewTable</numIndex>
 										<numIndex index="1">overviewTable</numIndex>
 									</numIndex>
-									<numIndex index="6" type="array">
+									<numIndex index="7" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.contactButton</numIndex>
 										<numIndex index="1">contactButton</numIndex>
 									</numIndex>
-									<numIndex index="7" type="array">
+									<numIndex index="8" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.addToFavoritesButton</numIndex>
 										<numIndex index="1">addToFavoritesButton</numIndex>
 									</numIndex>
-									<numIndex index="8" type="array">
+									<numIndex index="9" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.printPageButton</numIndex>
 										<numIndex index="1">printPageButton</numIndex>
 									</numIndex>
-									<numIndex index="9" type="array">
+									<numIndex index="10" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.backButton</numIndex>
 										<numIndex index="1">backButton</numIndex>
 									</numIndex>
-									<numIndex index="10" type="array">
+									<numIndex index="11" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.furtherDescription</numIndex>
 										<numIndex index="1">furtherDescription</numIndex>
 									</numIndex>
-									<numIndex index="11" type="array">
+									<numIndex index="12" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.imageThumbnails</numIndex>
 										<numIndex index="1">imageThumbnails</numIndex>
 									</numIndex>
-									<numIndex index="12" type="array">
+									<numIndex index="13" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.offerer</numIndex>
 										<numIndex index="1">offerer</numIndex>
 									</numIndex>
-									<numIndex index="13" type="array">
+									<numIndex index="14" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMaps</numIndex>
 										<numIndex index="1">googleMaps</numIndex>
 									</numIndex>
 								</items>
-								<maxitems>14</maxitems>
+								<maxitems>15</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

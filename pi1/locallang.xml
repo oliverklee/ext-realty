@@ -97,6 +97,7 @@
 			<label index="realty.pi_flexform.heading">heading</label>
 			<label index="realty.pi_flexform.address">address</label>
 			<label index="realty.pi_flexform.description">description</label>
+			<label index="realty.pi_flexform.documents">documents</label>
 			<label index="realty.pi_flexform.price">rent/buying price</label>
 			<label index="realty.pi_flexform.overviewTable">overview table</label>
 			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>
@@ -479,6 +480,7 @@
 			<label index="realty.pi_flexform.heading">Überschrift</label>
 			<label index="realty.pi_flexform.address">Adresse</label>
 			<label index="realty.pi_flexform.description">Beschreibung</label>
+			<label index="realty.pi_flexform.documents">Dokumente</label>
 			<label index="realty.pi_flexform.price">Miete/Kaufpreis</label>
 			<label index="realty.pi_flexform.overviewTable">Übersichtstabelle</label>
 			<label index="realty.pi_flexform.contactButton">Button &quot;Kontakt aufnehmen&quot;</label>
@@ -1937,6 +1939,7 @@
 			<label index="realty.pi_flexform.heading" type="integer">259323193</label>
 			<label index="realty.pi_flexform.address" type="integer">142924160</label>
 			<label index="realty.pi_flexform.description" type="integer">108900242</label>
+			<label index="realty.pi_flexform.documents" type="integer">35611866</label>
 			<label index="realty.pi_flexform.price" type="integer">232449975</label>
 			<label index="realty.pi_flexform.overviewTable" type="integer">232367950</label>
 			<label index="realty.pi_flexform.contactButton" type="integer">205238602</label>
@@ -3393,6 +3396,7 @@
 			<label index="realty.pi_flexform.heading">heading</label>
 			<label index="realty.pi_flexform.address">address</label>
 			<label index="realty.pi_flexform.description">description</label>
+			<label index="realty.pi_flexform.documents">documents</label>
 			<label index="realty.pi_flexform.price">rent/buying price</label>
 			<label index="realty.pi_flexform.overviewTable">overview table</label>
 			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>

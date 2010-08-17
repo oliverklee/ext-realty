@@ -253,6 +253,25 @@
 	margin: 0;
 	padding: 0;
 }
+
+.tx-realty-pi1 .single-view .documents ul {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+	margin: 16px 0;
+}
+
+.tx-realty-pi1 .single-view .documents li {
+	display: inline;
+	padding-right: 10px;
+}
+
+.tx-realty-pi1 .single-view .documents li a {
+	background: url(../Resources/Public/Icons/Pdf.png) 0 center no-repeat;
+	padding-left: 28px;
+	white-space: nowrap;
+}
+
 .tx-realty-pi1 .single-view .text-pane .further-description {
 	clear: left;
 }

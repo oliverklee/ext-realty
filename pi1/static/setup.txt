@@ -100,7 +100,7 @@ plugin.tx_realty_pi1 {
 	# whether the link to the contact form should be displayed in the favorites view
 	showContactPageLink = 0
 	# single view parts to display
-	singleViewPartsToDisplay = heading,address,description,furtherDescription,price,overviewTable,imageThumbnails,addToFavoritesButton,contactButton,offerer,googleMaps,printPageButton,backButton
+	singleViewPartsToDisplay = heading,address,description,documents,furtherDescription,price,overviewTable,imageThumbnails,addToFavoritesButton,contactButton,offerer,printPageButton,backButton
 
 	# name of the DB field to create the search filter checkboxes from
 	checkboxesFilter =

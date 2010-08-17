@@ -31,6 +31,7 @@
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
@@ -128,10 +129,10 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		);
 
 		foreach (array(
-			'nextPreviousButtons', 'heading', 'address', 'description', 'price',
-			'overviewTable', 'offerer', 'contactButton', 'googleMaps',
-			'addToFavoritesButton', 'furtherDescription', 'imageThumbnails',
-			'backButton', 'printPageButton',
+			'nextPreviousButtons', 'heading', 'address', 'description',
+			'documents', 'price', 'overviewTable', 'offerer', 'contactButton',
+			'googleMaps', 'addToFavoritesButton', 'furtherDescription',
+			'imageThumbnails', 'backButton', 'printPageButton',
 		) as $key) {
 			$viewContent = in_array($key, $configuredViews)
 				? $this->getView($uid, $key)
