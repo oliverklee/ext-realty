@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4074] Feature: Add a field "position" to the images record
 - [#4072] Feature: The clean-up script should also clean up PDFs
 - [#3079] Change: Only load the related images and documents from the DB if the relation counter is > 0
 - [#4078] Feature: Allow to select the HTML template in the flexforms

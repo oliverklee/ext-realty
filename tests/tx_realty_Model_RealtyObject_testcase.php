@@ -397,6 +397,27 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function setDataSetsImagePositionForImageFromDatabase() {
+		$this->testingFramework->createRecord(
+			'tx_realty_images',
+			array(
+				'caption' => 'foo',
+				'image' => 'foo.jpg',
+				'object' => $this->objectUid,
+				'position' => 4,
+			)
+		);
+		$this->fixture->setData(array('uid' => $this->objectUid, 'images' => 1));
+
+		$this->assertEquals(
+			4,
+			$this->fixture->getImages()->first()->getPosition()
+		);
+	}
+
 	public function testSetDataSetsTheImageDataForImageFromArray() {
 		$this->fixture->setData(
 			array(

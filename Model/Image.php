@@ -125,6 +125,25 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	public function setSorting($sorting) {
 		return $this->setAsInteger('sorting', $sorting);
 	}
+
+	/**
+	 * Sets the sorting of this image.
+	 *
+	 * @param integer $position
+	 *        the position of this image, must be between 0 and 4
+	 */
+	public function setPosition($position) {
+		$this->setAsInteger('position', $position);
+	}
+
+	/*
+	 * Gets the position of this image.
+	 *
+	 * @return integer the position of this image, will be between 0 and 4
+	 */
+	public function getPosition() {
+		return $this->getAsInteger('position');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Model/Image.php']) {

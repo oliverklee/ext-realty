@@ -197,5 +197,46 @@ class tx_realty_Model_ImageTest extends tx_phpunit_testcase {
 			$this->fixture->getSorting()
 		);
 	}
+
+
+	///////////////////////////////////////////////
+	// Tests concerning the position of the image
+	///////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getPositionWithoutDataSetReturnsZero() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getPosition()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPositionWithPositionSetReturnsPosition() {
+		$this->fixture->setData(array('position' => 1));
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getPosition()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPositionSetsPosition() {
+		$this->fixture->setPosition(5);
+
+		$this->assertEquals(
+			5,
+			$this->fixture->getPosition()
+		);
+	}
 }
 ?>

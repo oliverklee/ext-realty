@@ -315,6 +315,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$image->setFileName($imageData['image']);
 			$image->setPageUid(intval($imageData['pid']));
 			$image->setSorting(intval($imageData['sorting']));
+			$image->setPosition(intval($imageData['position']));
 
 			$this->images->add($image);
 		}

@@ -160,6 +160,12 @@
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
+			<label index="tx_realty_images.position">Position</label>
+			<label index="tx_realty_images.position.0">Standard</label>
+			<label index="tx_realty_images.position.1">Position 1</label>
+			<label index="tx_realty_images.position.2">Position 2</label>
+			<label index="tx_realty_images.position.3">Position 3</label>
+			<label index="tx_realty_images.position.4">Position 4</label>
 			<label index="tx_realty_documents">Document</label>
 			<label index="tx_realty_documents.title">Title</label>
 			<label index="tx_realty_documents.filename">File</label>
@@ -327,6 +333,12 @@
 			<label index="tx_realty_images">Bild</label>
 			<label index="tx_realty_images.caption">Bildunterschrift</label>
 			<label index="tx_realty_images.image">Bild</label>
+			<label index="tx_realty_images.position">Position</label>
+			<label index="tx_realty_images.position.0">Standart</label>
+			<label index="tx_realty_images.position.1">Position 1</label>
+			<label index="tx_realty_images.position.2">Position 2</label>
+			<label index="tx_realty_images.position.3">Position 3</label>
+			<label index="tx_realty_images.position.4">Position 4</label>
 			<label index="tx_realty_documents">Dokument</label>
 			<label index="tx_realty_documents.title">Titel</label>
 			<label index="tx_realty_documents.filename">Datei</label>
@@ -1097,6 +1109,12 @@
 			<label index="tx_realty_images" type="integer">199571973</label>
 			<label index="tx_realty_images.caption" type="integer">41073277</label>
 			<label index="tx_realty_images.image" type="integer">199571973</label>
+			<label index="tx_realty_images.position" type="integer">86990347</label>
+			<label index="tx_realty_images.position.0" type="integer">246864046</label>
+			<label index="tx_realty_images.position.1" type="integer">169832149</label>
+			<label index="tx_realty_images.position.2" type="integer">92614913</label>
+			<label index="tx_realty_images.position.3" type="integer">234009763</label>
+			<label index="tx_realty_images.position.4" type="integer">128985931</label>
 			<label index="tx_realty_documents" type="integer">9720665</label>
 			<label index="tx_realty_documents.title" type="integer">192455458</label>
 			<label index="tx_realty_documents.filename" type="integer">11696408</label>
@@ -1871,6 +1889,12 @@
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
+			<label index="tx_realty_images.position">Position</label>
+			<label index="tx_realty_images.position.0">Standard</label>
+			<label index="tx_realty_images.position.1">Position 1</label>
+			<label index="tx_realty_images.position.2">Position 2</label>
+			<label index="tx_realty_images.position.3">Position 3</label>
+			<label index="tx_realty_images.position.4">Position 4</label>
 			<label index="tx_realty_documents">Document</label>
 			<label index="tx_realty_documents.title">Title</label>
 			<label index="tx_realty_documents.filename">File</label>

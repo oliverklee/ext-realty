@@ -1499,7 +1499,7 @@ $TCA['tx_realty_pets'] = array(
 $TCA['tx_realty_images'] = array(
 	'ctrl' => $TCA['tx_realty_images']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,hidden,caption,image'
+		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,hidden,caption,image,position'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -1576,9 +1576,23 @@ $TCA['tx_realty_images'] = array(
 				'maxitems' => 1,
 			),
 		),
+		'position' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images.position',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.0', '0'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.1', '1'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.2', '2'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.3', '3'),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.4', '4'),
+				),
+			),
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, caption, image'),
+		'0' => array('showitem' => 'sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, caption, image, position'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),

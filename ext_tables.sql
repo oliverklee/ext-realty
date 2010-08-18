@@ -222,6 +222,7 @@ CREATE TABLE tx_realty_images (
 	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	caption tinytext NOT NULL,
 	image tinytext NOT NULL,
+	position tinyint(1) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
