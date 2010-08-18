@@ -361,6 +361,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	////////////////////////////////
 
 	public function testLoadRealtyObjectByUidAlsoLoadsImages() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 1)
+		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -414,6 +417,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getImagesReturnsTheCurrentObjectsImagesOrderedBySorting() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 2)
+		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -453,6 +459,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	 * @ŧest
 	 */
 	public function loadRealtyObjectByUidLoadsDocuments() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('documents' => 1)
+		);
 		$this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array(
@@ -514,6 +523,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getDocumentsReturnsTheCurrentObjectsDocumentsOrderedBySorting() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('documents' => 2)
+		);
 		$this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array(
@@ -1547,6 +1559,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadingAnExistingRecordWithAnImageAndWritingItToTheDatabaseDoesNotDuplicateTheImage() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 1)
+		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('object' => $this->objectUid, 'image' => 'test.jpg')
@@ -1562,6 +1577,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoadingAnExistingRecordWithAnImageByArrayAndWritingItWithAnotherImageToTheDatabaseDeletesTheExistingImage() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 1)
+		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array('object' => $this->objectUid, 'image' => 'test.jpg')
@@ -1584,6 +1602,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testImportARecordWithAnImageThatAlreadyExistsForAnotherRecordDoesNotChangeTheOriginalObjectUid() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 1)
+		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -1739,6 +1760,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////////////////
 
 	public function testWriteToDatabaseMarksImageRecordToDeleteAsDeleted() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 1)
+		);
 		$imageUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -1762,6 +1786,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testWriteToDatabaseCreatesNewImageRecordIfTheSameRecordExistsButIsDeleted() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 1)
+		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -1785,6 +1812,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 
 	public function testWriteToDatabaseDeletesExistingImageFromTheFileSystem() {
 		$fileName = $this->testingFramework->createDummyFile('foo.jpg');
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 1)
+		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -1968,6 +1998,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function writeToDatabaseMarksDocumentRecordToDeleteAsDeleted() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('documents' => 1)
+		);
 		$documentUid = $this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array(
@@ -1993,6 +2026,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function writeToDatabaseCreatesNewDocumentRecordIfTheSameRecordExistsButIsDeleted() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('documents' => 1)
+		);
 		$this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array(
@@ -2019,6 +2055,9 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	 */
 	public function writeToDatabaseDeletesExistingDocumentFromFileSystem() {
 		$fileName = $this->testingFramework->createDummyFile('foo.pdf');
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('documents' => 1)
+		);
 		$this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array(

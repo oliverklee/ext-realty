@@ -919,6 +919,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		if (!$this->identifyObjectAndSetUid()) {
 			return;
 		}
+		if (!$this->hasInteger('images')) {
+			return;
+		}
 
 		$images = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image')
 			->findAllByRelation($this, 'object');
@@ -932,6 +935,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
  	 */
 	private function retrieveAttachedDocuments() {
 		if (!$this->identifyObjectAndSetUid()) {
+			return;
+		}
+		if (!$this->hasInteger('documents')) {
 			return;
 		}
 
