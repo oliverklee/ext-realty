@@ -1117,8 +1117,26 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the settings for the gallery image when using the lightbox.
 	 */
 	private function checkLightboxImageConfiguration() {
-		$this->checkLightboxImageWidthMax();
-		$this->checkLightboxImageHeightMax();
+		$this->checkEnableLightbox();
+		if ($this->objectToCheck->getConfValueBoolean('enableLightbox')) {
+			$this->checkLightboxImageWidthMax();
+			$this->checkLightboxImageHeightMax();
+		}
+	}
+
+	/**
+	 * Checks the value of enableLightbox.
+	 */
+	private function checkEnableLightbox() {
+		$this->checkIfBoolean(
+			'enableLightbox',
+			FALSE,
+			'',
+			'This value specifies whether the Lightbox for the images in the ' .
+				'single view should be enabled. If this is not set correctly ' .
+				'the Lighbtox might not be enabled although it should be ' .
+				'(or vice versa).'
+			);
 	}
 
 	/**

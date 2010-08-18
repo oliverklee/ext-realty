@@ -49,7 +49,10 @@ class tx_realty_pi1_ImageThumbnailsView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->fixture = new tx_realty_pi1_ImageThumbnailsView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+			array(
+				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'enableLightbox' => 1,
+			),
 			$GLOBALS['TSFE']->cObj
 		);
 	}
@@ -212,6 +215,96 @@ class tx_realty_pi1_ImageThumbnailsView_testcase extends tx_phpunit_testcase {
 					'/contrib/scriptaculous.js?load=effects,builder"></script>',
 				$GLOBALS['TSFE']->additionalHeaderData
 			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForDisabledLightboxIncludesLightboxJsFile() {
+		$this->fixture->setConfigurationValue('enableLightbox' , 0);
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg');
+
+		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
+
+		$this->assertTrue(
+			in_array(
+				'<script type="text/javascript" src="../typo3conf/ext/realty' .
+					'/pi1/contrib/lightbox.js" ></script>',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForDisabledLightboxIncludesLightboxCssFile() {
+		$this->fixture->setConfigurationValue('enableLightbox' , 0);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg');
+
+		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
+
+		$this->assertTrue(
+			in_array(
+				'<link rel="stylesheet" type="text/css" href="..' .
+					'/typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
+				$GLOBALS['TSFE']->additionalHeaderData
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForDisabledLightboxNotAddsLightboxAttributeToImage() {
+		$this->fixture->setConfigurationValue('enableLightbox' , 0);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg');
+
+
+		$this->assertNotContains(
+			'rel="lightbox',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForDisabledLightboxShowsImage() {
+		$this->fixture->setConfigurationValue('enableLightbox' , 0);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
+
+		$this->assertContains(
+			'fooBar',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForDisabledLightboxNotLinksImage() {
+		$this->fixture->setConfigurationValue('enableLightbox' , 0);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
+
+		$this->assertNotContains(
+			'<a href',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 }

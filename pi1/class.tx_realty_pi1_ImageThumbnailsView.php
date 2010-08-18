@@ -77,9 +77,21 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		$realtyObject = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
 		$images = $realtyObject->getImages();
+		$isLightBoxEnabled = $this->getConfValueBoolean('enableLightbox');
 
 		foreach ($images as $image) {
-			$currentImage = $this->getLinkedImage($image);
+			if ($isLightBoxEnabled) {
+				$currentImage = $this->getLinkedImage($image);
+			} else {
+				$currentImage = $this->createRestrictedImage(
+					tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
+					htmlspecialchars($image->getTitle()),
+					$this->getConfValueInteger('singleImageMaxX'),
+					$this->getConfValueInteger('singleImageMaxY'),
+					0,
+					$image->getTitle()
+				);
+			}
 			$this->setMarker('one_image_tag', $currentImage);
 			$result .= $this->getSubpart('ONE_IMAGE_CONTAINER');
 		}
