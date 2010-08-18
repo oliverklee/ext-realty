@@ -27,12 +27,13 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Unit tests for the tx_realty_cli_ImageCleanUp class in the 'realty' extension.
+ * Unit tests for the tx_realty_cli_ImageCleanUp class in the "realty" extension.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	/**
@@ -88,9 +89,9 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	public function checkUploadFolder_forNonExistingWritableFolderThrowsException() {
 		$this->setExpectedException(
 			Exception,
-			'The folder ' .  PATH_site . 'uploads_tx_realty_test/no_folder/' .
-				' with the uploaded realty images does not exist.' .
-				' Please check your configuration and restart the clean-up.'
+			'The folder ' .  PATH_site . 'uploads_tx_realty_test/no_folder/ ' .
+				'with the uploaded realty files does not exist. ' .
+				'Please check your configuration and restart the clean-up.'
 		);
 		$this->fixture->setTestMode('uploads_tx_realty_test/no_folder');
 		$this->fixture->checkUploadFolder();
@@ -194,14 +195,111 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////
-	// Testing deleteUnusedImageFiles()
-	/////////////////////////////////////
+	////////////////////////////////////////
+	// Testing deleteUnusedDocumentRecords
+	////////////////////////////////////////
 
 	/**
 	 * @test
 	 */
-	public function deleteUnusedImageFiles_deletesImageFileReferencedByDeletedImageRecord() {
+	public function deleteUnusedDocumentRecordsKeepsDocumentReferencingNonDeletedRealtyRecord() {
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array('object' => $this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('documents' => 1)
+			))
+		);
+
+		$this->fixture->deleteUnusedDocumentRecords();
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				'tx_realty_documents', 'deleted = 0'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedDocumentRecordsKeepsDocumentReferencingHiddenRealtyRecord() {
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array('object' => $this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('documents' => 1, 'hidden' => 1)
+			))
+		);
+
+		$this->fixture->deleteUnusedDocumentRecords();
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				'tx_realty_documents', 'deleted = 0'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedDocumentRecordsDeletesDocumentReferencingDeletedRealtyRecord() {
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array('object' => $this->testingFramework->createRecord(
+				REALTY_TABLE_OBJECTS, array('documents' => 1, 'deleted' => 1)
+			))
+		);
+
+		$this->fixture->deleteUnusedDocumentRecords();
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				'tx_realty_documents', 'deleted = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedDocumentRecordsDeletesDocumentReferencingNoRealtyRecord() {
+		$this->testingFramework->createRecord('tx_realty_documents');
+
+		$this->fixture->deleteUnusedDocumentRecords();
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				'tx_realty_documents', 'deleted = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedDocumentRecordsDeletesTwoDocumentsReferencingNoRealtyRecords() {
+		$this->testingFramework->createRecord('tx_realty_documents');
+		$this->testingFramework->createRecord('tx_realty_documents');
+
+		$this->fixture->deleteUnusedDocumentRecords();
+
+		$this->assertEquals(
+			2,
+			$this->testingFramework->countRecords(
+				'tx_realty_documents', 'deleted = 1'
+			)
+		);
+	}
+
+
+	//////////////////////////////
+	// Testing deleteUnusedFiles
+	//////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedFilesDeletesImageFileReferencedByDeletedImageRecord() {
 		$fileName = $this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/image.jpg'
 		);
@@ -210,7 +308,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 			array('deleted' => 1, 'image' => basename($fileName))
 		);
 
-		$this->fixture->deleteUnusedImageFiles();
+		$this->fixture->deleteUnusedFiles();
 
 		$this->assertFalse(
 			file_exists($fileName)
@@ -220,12 +318,12 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function deleteUnusedImageFiles_deletesImageFileReferencedByNoImageRecord() {
+	public function deleteUnusedFilesDeletesImageFileReferencedByNoImageRecord() {
 		$fileName = $this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/image.jpg'
 		);
 
-		$this->fixture->deleteUnusedImageFiles();
+		$this->fixture->deleteUnusedFiles();
 
 		$this->assertFalse(
 			file_exists($fileName)
@@ -235,7 +333,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function deleteUnusedImageFiles_notDeletesImageFileReferencedByHiddenImageRecord() {
+	public function deleteUnusedFilesKeepsImageFileReferencedByHiddenImageRecord() {
 		$fileName = $this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/image.jpg'
 		);
@@ -244,7 +342,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 			array('hidden' =>  1, 'image' => basename($fileName))
 		);
 
-		$this->fixture->deleteUnusedImageFiles();
+		$this->fixture->deleteUnusedFiles();
 
 		$this->assertTrue(
 			file_exists($fileName)
@@ -254,14 +352,14 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function deleteUnusedImageFiles_notDeletesNonImageFile() {
+	public function deleteUnusedFilesDeletesTextFile() {
 		$fileName = $this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/test.txt'
 		);
 
-		$this->fixture->deleteUnusedImageFiles();
+		$this->fixture->deleteUnusedFiles();
 
-		$this->assertTrue(
+		$this->assertFalse(
 			file_exists($fileName)
 		);
 	}
@@ -269,7 +367,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function deleteUnusedImageFiles_notDeletesImageFileReferencedByEnabledImageRecord() {
+	public function deleteUnusedFilesKeepsImageFileReferencedByEnabledImageRecord() {
 		$fileName = $this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/image.jpg'
 		);
@@ -277,7 +375,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES, array('image' => basename($fileName))
 		);
 
-		$this->fixture->deleteUnusedImageFiles();
+		$this->fixture->deleteUnusedFiles();
 
 		$this->assertTrue(
 			file_exists($fileName)
@@ -287,7 +385,7 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function deleteUnusedImageFiles_deletesTwoImageFilesReferencedByNoImageRecords() {
+	public function deleteUnusedFilesDeletesTwoImageFilesReferencedByNoImageRecords() {
 		$fileName1 = $this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/image.jpg'
 		);
@@ -295,13 +393,65 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 			$this->uploadFolder . '/image.jpg'
 		);
 
-		$this->fixture->deleteUnusedImageFiles();
+		$this->fixture->deleteUnusedFiles();
 
 		$this->assertFalse(
 			file_exists($fileName1)
 		);
 		$this->assertFalse(
 			file_exists($fileName2)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedFilesDeletesDocumentFileReferencedByDeletedDocumentRecord() {
+		$fileName = $this->testingFramework->createDummyFile(
+			$this->uploadFolder . '/document.pdf'
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_documents',
+			array('deleted' => 1, 'filename' => basename($fileName))
+		);
+
+		$this->fixture->deleteUnusedFiles();
+
+		$this->assertFalse(
+			file_exists($fileName)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedFilesDeletesDocumentFileReferencedByNoDocumentRecord() {
+		$fileName = $this->testingFramework->createDummyFile(
+			$this->uploadFolder . '/document.pdf'
+		);
+
+		$this->fixture->deleteUnusedFiles();
+
+		$this->assertFalse(
+			file_exists($fileName)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteUnusedFilesKeepsDocumentFileReferencedByNonDeletedDocumentRecord() {
+		$fileName = $this->testingFramework->createDummyFile(
+			$this->uploadFolder . '/document.pdf'
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_documents', array('filename' => basename($fileName))
+		);
+
+		$this->fixture->deleteUnusedFiles();
+
+		$this->assertTrue(
+			file_exists($fileName)
 		);
 	}
 
@@ -313,15 +463,15 @@ class tx_realty_cli_ImageCleanUp_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getStatistics_afterDeletingAnImageFileReturnsImageFileDeletedInformation() {
+	public function getStatisticsAfterDeletingFileReturnsFileDeletedInformation() {
 		$fileName = $this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/image.jpg'
 		);
 
-		$this->fixture->deleteUnusedImageFiles();
+		$this->fixture->deleteUnusedFiles();
 
 		$this->assertContains(
-			'Image files deleted: 1',
+			'Files deleted: 1',
 			$this->fixture->getStatistics()
 		);
 	}

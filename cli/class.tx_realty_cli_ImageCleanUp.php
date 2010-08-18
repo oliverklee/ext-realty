@@ -23,14 +23,15 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_cli_ImageCleanUp' for the 'realty' extension.
+ * Class tx_realty_cli_ImageCleanUp for the "realty" extension.
  *
- * This class removes unused images from the Realty upload folder.
+ * This class removes unused files from the realty upload folder.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_cli_ImageCleanUp {
 	/**
@@ -60,9 +61,9 @@ class tx_realty_cli_ImageCleanUp {
 		$absolutePath = PATH_site . $this->uploadFolder;
 		if (!@is_dir($absolutePath)){
 			throw new Exception(
-				'The folder ' .  $absolutePath .
-					' with the uploaded realty images does not exist.' .
-					' Please check your configuration and restart the clean-up.'
+				'The folder ' .  $absolutePath . ' ' .
+					'with the uploaded realty files does not exist. ' .
+					'Please check your configuration and restart the clean-up.'
 			);
 		}
 		if (!@is_writable($absolutePath)) {
@@ -87,13 +88,7 @@ class tx_realty_cli_ImageCleanUp {
 	 * this image.
 	 */
 	public function hideUnusedImagesInDatabase() {
-		$dbResult = tx_oelib_db::selectColumnForMultiple(
-			'uid', REALTY_TABLE_OBJECTS,
-			'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1) .
-				$this->additionalWhereClause
-		);
-
-		$nonDeletedRealtyRecordUids = implode(',', $dbResult);
+		$nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
 		$imagesForRealtyRecords = ($nonDeletedRealtyRecordUids == '')
 			? array()
 			: tx_oelib_db::selectColumnForMultiple(
@@ -127,46 +122,107 @@ class tx_realty_cli_ImageCleanUp {
 	}
 
 	/**
-	 * Deletes all image files from the Realty upload folder which do not have a
-	 * corresponding database record.
+	 * Deletes unused document records. Documents in the database are
+	 * considered as unused if there is no non-deleted realty record related to
+	 * this document.
+	 */
+	public function deleteUnusedDocumentRecords() {
+		$nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
+		$documentsWithRealtyRecords = ($nonDeletedRealtyRecordUids == '')
+			? array()
+			: tx_oelib_db::selectColumnForMultiple(
+				'uid', 'tx_realty_documents',
+				'object IN (' . $nonDeletedRealtyRecordUids . ')' .
+					tx_oelib_db::enableFields('tx_realty_documents', 1) .
+					$this->additionalWhereClause
+			);
+		$this->addToStatistics(
+			'Enabled document records with references to realty records',
+			count($documentsWithRealtyRecords)
+		);
+
+		$numberOfDeletedDocumentRecords = tx_oelib_db::update(
+			'tx_realty_documents', (empty($documentsWithRealtyRecords)
+					? '1=1'
+					: 'uid NOT IN (' . implode(',', $documentsWithRealtyRecords) . ')'
+				) . $this->additionalWhereClause,
+			array('deleted' => 1)
+		);
+		$this->addToStatistics(
+			'Total deleted document records', $numberOfDeletedDocumentRecords
+		);
+	}
+
+	/**
+	 * Gets a comma-separated list of UIDs of non-deleted (but potentially
+	 * hidden) realty records in the database.
+	 *
+	 * @return string
+	 *         comma-separated list of UIDs, will be empty if there are no
+	 *         matching records
+	 */
+	private function retrieveRealtyObjectUids() {
+		$uids = tx_oelib_db::selectColumnForMultiple(
+			'uid', REALTY_TABLE_OBJECTS,
+			'1=1' . tx_oelib_db::enableFields('tx_realty_objects', 1) .
+				$this->additionalWhereClause
+		);
+
+		return implode(',', $uids);
+	}
+
+	/**
+	 * Deletes all files from the realty upload folder which do not have a
+	 * corresponding image or document record.
 	 * (Subfolders, such as /rte, remain untouched.)
 	 */
-	public function deleteUnusedImageFiles() {
+	public function deleteUnusedFiles() {
 		$absolutePath = PATH_site . $this->uploadFolder;
-		$imageFilesInUploadFolder = t3lib_div::getFilesInDir(
-			$absolutePath, $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+		$filesInUploadFolder = t3lib_div::getFilesInDir($absolutePath);
+		$this->addToStatistics(
+			'Files in upload folder', count($filesInUploadFolder)
 		);
-		$imageFileNamesInDatabase = array_unique(
-			tx_oelib_db::selectColumnForMultiple(
-				'image', REALTY_TABLE_IMAGES,
-				'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_IMAGES, 1) .
-					$this->additionalWhereClause
-			)
+
+		$imageFileNamesInDatabase = tx_oelib_db::selectColumnForMultiple(
+			'image', REALTY_TABLE_IMAGES,
+			'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_IMAGES, 1) .
+				$this->additionalWhereClause
 		);
 		$this->addToStatistics(
-			'Image files in upload folder', count($imageFilesInUploadFolder)
-		);
-		$this->addToStatistics(
-			'Image files with corresponding image record',
+			'Files with corresponding image record',
 			count($imageFileNamesInDatabase)
 		);
-		$imagesToDelete = array_diff(
-			$imageFilesInUploadFolder, $imageFileNamesInDatabase
+
+		$documentFileNamesInDatabase = tx_oelib_db::selectColumnForMultiple(
+			'filename', 'tx_realty_documents',
+			'1=1' . tx_oelib_db::enableFields('tx_realty_documents', 1) .
+				$this->additionalWhereClause
 		);
-		$this->addToStatistics('Image files deleted', count($imagesToDelete));
-		foreach ($imagesToDelete as $image) {
-			t3lib_div::rmdir($absolutePath . $image);
-		}
-		$imagesOnlyInDatabase = array_diff(
-			$imageFileNamesInDatabase, $imageFilesInUploadFolder
-		);
-		$numberOfImagesOnlyInDatabase = count($imagesOnlyInDatabase);
 		$this->addToStatistics(
-			'Image records without image file', $numberOfImagesOnlyInDatabase .
-				(($numberOfImagesOnlyInDatabase > 0)
-					? ', file names: ' . LF . TAB .
-						implode(LF . TAB, $imagesOnlyInDatabase)
-					: '')
+			'Files with corresponding document record',
+			count($documentFileNamesInDatabase)
+		);
+
+		$filesToDelete = array_diff(
+			$filesInUploadFolder,
+			$imageFileNamesInDatabase, $documentFileNamesInDatabase
+		);
+		$this->addToStatistics('Files deleted', count($filesToDelete));
+		foreach ($filesToDelete as $image) {
+			unlink($absolutePath . $image);
+		}
+
+		$filesOnlyInDatabase = array_diff(
+			array_merge($imageFileNamesInDatabase, $documentFileNamesInDatabase),
+			$filesInUploadFolder
+		);
+		$numberOfFilesOnlyInDatabase = count($filesOnlyInDatabase);
+		$this->addToStatistics(
+			'Image and documents records without image file',
+			$numberOfFilesOnlyInDatabase . (($numberOfFilesOnlyInDatabase > 0)
+				? ', file names: ' . LF . TAB .
+					implode(LF . TAB, $filesOnlyInDatabase)
+				: '')
 		);
 	}
 

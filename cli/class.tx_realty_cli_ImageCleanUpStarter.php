@@ -53,7 +53,8 @@ class tx_realty_cli_ImageCleanUpStarter {
 			$cleanUp = t3lib_div::makeInstance('tx_realty_cli_ImageCleanUp');
 			$cleanUp->checkUploadFolder();
 			$cleanUp->hideUnusedImagesInDatabase();
-			$cleanUp->deleteUnusedImageFiles();
+			$cleanUp->deleteUnusedDocumentRecords();
+			$cleanUp->deleteUnusedFiles();
 			echo $cleanUp->getStatistics() . LF . LF;
 		} catch (Exception $exception) {
 			echo 'An error has occurred during the clean-up: ' . LF .
