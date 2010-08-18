@@ -8,7 +8,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="realty.pi_flexform.templateFile">HTML template</label>
+			<label index="realty.pi_flexform.templateFile">HTML template:</label>
 			<label index="realty.pi_flexform.sheet_general">General</label>
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
@@ -109,7 +109,6 @@
 			<label index="realty.pi_flexform.offerer">offerer information</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
-			<label index="realty.pi_flexform.templateFile">HTML template:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -393,7 +392,7 @@
 			<label index="label_this_owners_objects">All objects by this offerer</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="realty.pi_flexform.templateFile">HTML-Template</label>
+			<label index="realty.pi_flexform.templateFile">HTML-Template:</label>
 			<label index="realty.pi_flexform.sheet_general">Allgemein</label>
 			<label index="realty.pi_flexform.what_to_display">Was soll angezeigt werden:</label>
 			<label index="realty.pi_flexform.realty_list">Immobilienliste</label>
@@ -494,7 +493,6 @@
 			<label index="realty.pi_flexform.offerer">Anbieterinformationen</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
-			<label index="realty.pi_flexform.templateFile">HTML-Template:</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -1854,7 +1852,7 @@
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
-			<label index="realty.pi_flexform.templateFile" type="integer">79001514</label>
+			<label index="realty.pi_flexform.templateFile" type="integer">91851136</label>
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
 			<label index="realty.pi_flexform.what_to_display" type="integer">97910403</label>
 			<label index="realty.pi_flexform.realty_list" type="integer">175133151</label>
@@ -1955,7 +1953,6 @@
 			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
 			<label index="realty.pi_flexform.googleMaps" type="integer">81136306</label>
 			<label index="realty.pi_flexform.sheet_template_and_special" type="integer">132093617</label>
-			<label index="realty.pi_flexform.templateFile" type="integer">91851136</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -3313,7 +3310,7 @@
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
-			<label index="realty.pi_flexform.templateFile">HTML template</label>
+			<label index="realty.pi_flexform.templateFile">HTML template:</label>
 			<label index="realty.pi_flexform.sheet_general">General</label>
 			<label index="realty.pi_flexform.what_to_display">What should be displayed:</label>
 			<label index="realty.pi_flexform.realty_list">Realty List</label>
@@ -3414,7 +3411,6 @@
 			<label index="realty.pi_flexform.offerer">offerer information</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
-			<label index="realty.pi_flexform.templateFile">HTML template:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
