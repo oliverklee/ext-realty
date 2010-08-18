@@ -416,6 +416,28 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function setDataWithDocumentAndImageSetsTheDataForImagesFromArray() {
+		$this->fixture->setData(
+			array(
+				'object_number' => self::$otherObjectNumber,
+				'images' => array(
+					array('caption' => 'test image', 'image' => 'test.jpg')
+				),
+				'documents' => array(
+					array('title' => 'test document', 'filename' => 'test.pdf')
+				),
+			)
+		);
+
+		$this->assertEquals(
+			'test image',
+			$this->fixture->getImages()->first()->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getImagesReturnsTheCurrentObjectsImagesOrderedBySorting() {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects', $this->objectUid, array('images' => 2)
@@ -456,7 +478,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	///////////////////////////////////
 
 	/**
-	 * @ŧest
+	 * @test
 	 */
 	public function loadRealtyObjectByUidLoadsDocuments() {
 		$this->testingFramework->changeRecord(
@@ -479,7 +501,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * @ŧest
+	 * @test
 	 */
 	public function setDataSetsTheDataForDocumentFromDatabase() {
 		$this->testingFramework->createRecord(
@@ -501,7 +523,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * @ŧest
+	 * @test
 	 */
 	public function setDataSetsTheDataForDocumentFromArray() {
 		$this->fixture->setData(
@@ -509,12 +531,34 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 				'object_number' => self::$otherObjectNumber,
 				'documents' => array(
 					array('title' => 'test', 'filename' => 'test.pdf')
-				)
+				),
 			)
 		);
 
 		$this->assertEquals(
 			'test',
+			$this->fixture->getDocuments()->first()->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDataWithDocumentAndImageSetsTheDataForDocumentFromArray() {
+		$this->fixture->setData(
+			array(
+				'object_number' => self::$otherObjectNumber,
+				'images' => array(
+					array('caption' => 'test image', 'image' => 'test.jpg')
+				),
+				'documents' => array(
+					array('title' => 'test document', 'filename' => 'test.pdf')
+				),
+			)
+		);
+
+		$this->assertEquals(
+			'test document',
 			$this->fixture->getDocuments()->first()->getTitle()
 		);
 	}

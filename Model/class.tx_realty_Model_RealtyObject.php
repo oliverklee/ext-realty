@@ -215,8 +215,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @param array data for the realty object
 	 */
 	public function setData(array $realtyData) {
-		if (is_array($realtyData['images'])) {
-			parent::setData($this->isolateImageRecords($realtyData));
+		if (is_array($realtyData['images']) || is_array($realtyData['documents'])) {
+			$dataWithImages = $this->isolateImageRecords($realtyData);
+			$dataWithImagesAndDocuments = $this->isolateDocumentRecords(
+				$dataWithImages
+			);
+			parent::setData($dataWithImagesAndDocuments);
 		} else {
 			parent::setData($realtyData);
 			$this->retrieveAttachedImages();
@@ -289,36 +293,71 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * to the imported data array instead as this number is expected by the
 	 * database configuration.
 	 *
-	 * @param array realty record to be loaded as a realty object, may be empty
+	 * @param array $data
+	 *        realty record to be loaded as a realty object, may be empty
 	 *
-	 * @return array realty record ready to load, image records got
-	 *               separated, empty if the given array was empty
+	 * @return array
+	 *         realty record ready to load, image records got separated, will be
+	 *         empty if the given array was empty
 	 */
-	private function isolateImageRecords(array $realtyDataArray) {
-		$result = $realtyDataArray;
-
-		$imageMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
-
-		if (is_array($realtyDataArray['images'])
-			&& !empty($realtyDataArray['images'])
-		) {
-			$result['images'] = count($realtyDataArray['images']);
-
-			$this->images = tx_oelib_ObjectFactory::make('tx_oelib_List');
-
-			foreach ($realtyDataArray['images'] as $imageData) {
-				$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
-				$image->setTitle($imageData['caption']);
-				$image->setFileName($imageData['image']);
-				$image->setPageUid(intval($imageData['pid']));
-				$image->setSorting(intval($imageData['sorting']));
-
-				$this->images->add($image);
-			}
-
-			$this->oldImagesNeedToGetDeleted = TRUE;
-			$this->imagesNeedToGetSaved = TRUE;
+	private function isolateImageRecords(array $data) {
+		if (!is_array($data['images'])) {
+			return $data;
 		}
+
+		$result = $data;
+		$result['images'] = count($data['images']);
+		$this->images = tx_oelib_ObjectFactory::make('tx_oelib_List');
+
+		foreach ($data['images'] as $imageData) {
+			$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
+			$image->setTitle($imageData['caption']);
+			$image->setFileName($imageData['image']);
+			$image->setPageUid(intval($imageData['pid']));
+			$image->setSorting(intval($imageData['sorting']));
+
+			$this->images->add($image);
+		}
+
+		$this->oldImagesNeedToGetDeleted = TRUE;
+		$this->imagesNeedToGetSaved = TRUE;
+
+		return $result;
+	}
+
+	/**
+	 * Stores the document records to $this->documents and writes the number of
+	 * documents to the imported data array instead as this number is expected
+	 * by the database configuration.
+	 *
+	 * @param array $data
+	 *        realty record to be loaded as a realty object, may be empty
+	 *
+	 * @return array
+	 *         realty record ready to load, document records got separated, will
+	 *         be empty if the given array was empty
+	 */
+	private function isolateDocumentRecords(array $data) {
+		if (!is_array($data['documents'])) {
+			return $data;
+		}
+
+		$result = $data;
+		$result['documents'] = count($data['documents']);
+		$this->documents = tx_oelib_ObjectFactory::make('tx_oelib_List');
+
+		foreach ($data['documents'] as $documentData) {
+			$document = tx_oelib_ObjectFactory::make('tx_realty_Model_Document');
+			$document->setTitle($documentData['title']);
+			$document->setFileName($documentData['filename']);
+			$document->setPageUid(intval($documentData['pid']));
+			$document->setSorting(intval($documentData['sorting']));
+
+			$this->documents->add($document);
+		}
+
+		$this->oldDocumentsNeedToGetDeleted = TRUE;
+		$this->documentsNeedToGetSaved = TRUE;
 
 		return $result;
 	}
