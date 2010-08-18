@@ -108,6 +108,8 @@
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
+			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="realty.pi_flexform.templateFile">HTML template:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -491,6 +493,8 @@
 			<label index="realty.pi_flexform.imageThumbnails">Bilder</label>
 			<label index="realty.pi_flexform.offerer">Anbieterinformationen</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
+			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="realty.pi_flexform.templateFile">HTML-Template:</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -1950,6 +1954,8 @@
 			<label index="realty.pi_flexform.imageThumbnails" type="integer">94064961</label>
 			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
 			<label index="realty.pi_flexform.googleMaps" type="integer">81136306</label>
+			<label index="realty.pi_flexform.sheet_template_and_special" type="integer">132093617</label>
+			<label index="realty.pi_flexform.templateFile" type="integer">91851136</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -3407,6 +3413,8 @@
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
+			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="realty.pi_flexform.templateFile">HTML template:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>

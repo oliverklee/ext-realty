@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4078] Feature: Allow to select the HTML template in the flexforms
 - [#4012] Feature: Provide attached PDFs for download in the single view
 - [#4016] Feature: Import attached documents (PDFs)
 - [#4063] Change: Allow images with an empty title
