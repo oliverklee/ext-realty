@@ -294,7 +294,7 @@ class tx_realty_domDocumentConverter {
 	private function getNumberOfRecords() {
 		$nodeList = $this->getListedRealties();
 
-		if ($nodeList) {
+		if ($nodeList !== null) {
 			$result = $nodeList->length;
 		} else {
 			$result = 0;
@@ -523,7 +523,7 @@ class tx_realty_domDocumentConverter {
 
 		$images = array();
 		$listedRealties = $this->getListedRealties();
-		if (!$listedRealties) {
+		if ($listedRealties === NULL) {
 			return array();
 		}
 
@@ -580,7 +580,7 @@ class tx_realty_domDocumentConverter {
 	 */
 	protected function importDocuments() {
 		$listedRealties = $this->getListedRealties();
-		if (!$listedRealties) {
+		if ($listedRealties === NULL) {
 			return array();
 		}
 
@@ -1106,8 +1106,8 @@ class tx_realty_domDocumentConverter {
 	) {
 		$listedRealties = $this->getListedRealties();
 
-		if (!$listedRealties) {
-			return null;
+		if ($listedRealties === NULL) {
+			return NULL;
 		}
 
 		$contextNode = $listedRealties->item($this->recordNumber);

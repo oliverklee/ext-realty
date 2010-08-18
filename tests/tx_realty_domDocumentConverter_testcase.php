@@ -1391,11 +1391,13 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 	public function testCreateRecordsForImagesIfOneImageAppendixWithoutAnImagePathIsGiven() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>foo</anhangtitel>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>foo</anhangtitel>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1409,14 +1411,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function createRecordsForImagesForLowercaseJpgWithCaptionReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_image_test.jpg</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1435,14 +1439,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function createRecordsForImagesForUppercaseJpgWithCaptionReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_image_test.JPG</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test.JPG</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1461,14 +1467,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function createRecordsForImagesForPdfWithCaptionNotReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>layout.pdf</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>layout.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1482,14 +1490,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function createRecordsForImagesForPsWithCaptionNotReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>layout.ps</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>layout.ps</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1503,14 +1513,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function createRecordsForImagesForExeWithCaptionNotReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>evil-virus.exe</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>evil-virus.exe</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1524,14 +1536,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function createRecordsForImagesForJpgWithoutCaptionReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel/>'
-					.'<daten>'
-						.'<pfad>tx_realty_image_test.jpg</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel/>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1547,20 +1561,22 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 	public function testCreateRecordsForImagesIfTwoValidImageAppendixesAreGiven() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_image_test2.jpg</pfad>'
-					.'</daten>'
-				.'</anhang>'
-				.' <anhang>'
-					.'<anhangtitel>foo</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_image_test.jpg</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test2.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+					'<anhang>' .
+						'<anhangtitel>foo</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 		$images = $this->fixture->createRecordsForImages();
 
@@ -1582,20 +1598,22 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 	public function testCreateRecordsForImagesIfTwoImageAppendixesWithTheSameTitleAreGiven() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_image_test2.jpg</pfad>'
-					.'</daten>'
-				.'</anhang>'
-				.' <anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_image_test.jpg</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test2.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_image_test.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 		$images = $this->fixture->createRecordsForImages();
 
@@ -1617,24 +1635,28 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 
 	public function testCreateRecordsForImagesOfTwoRealtyObjectsWithOneImageEachCreatesOneImageRecordPerImage() {
 		$this->setRawDataToConvert(
-			'<openimmo>'
-				.'<immobilie>'
-					.'<anhang>'
-						.'<anhangtitel>bar</anhangtitel>'
-						.'<daten>'
-							.'<pfad>tx_realty_image_test2.jpg</pfad>'
-						.'</daten>'
-					.'</anhang>'
-				.'</immobilie>'
-				.'<immobilie>'
-					.' <anhang>'
-						.'<anhangtitel>foo</anhangtitel>'
-						.'<daten>'
-							.'<pfad>tx_realty_image_test.jpg</pfad>'
-						.'</daten>'
-					.'</anhang>'
-				.'</immobilie>'
-			.'</openimmo>'
+			'<openimmo>' .
+				'<immobilie>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>bar</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_image_test2.jpg</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
+				'</immobilie>' .
+				'<immobilie>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>foo</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_image_test.jpg</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
+				'</immobilie>' .
+			'</openimmo>'
 		);
 
 		$this->assertEquals(
@@ -1647,20 +1669,24 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<immobilie>' .
-					'<anhang>' .
-						'<anhangtitel>bar</anhangtitel>' .
-						'<daten>' .
-							'<pfad>tx_realty_image_test.jpg</pfad>' .
-						'</daten>' .
-					'</anhang>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>bar</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_image_test.jpg</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
 				'</immobilie>' .
 				'<immobilie>' .
-					'<anhang>' .
-						'<anhangtitel>foo</anhangtitel>' .
-						'<daten>' .
-							'<pfad>tx_realty_image_test.jpg</pfad>' .
-						'</daten>' .
-					'</anhang>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>foo</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_image_test.jpg</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
 				'</immobilie>' .
 			'</openimmo>'
 		);
@@ -1692,11 +1718,13 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsIgnoresAppendixWithoutFileName() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>foo</anhangtitel>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>foo</anhangtitel>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1710,14 +1738,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsForLowercasePdfWithTitleReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_document_test.pdf</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1736,14 +1766,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsForUppercasePdfWithTitleReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_document_test.PDF</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test.PDF</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1760,16 +1792,47 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function importDocumentsForAttachmentWithAttributesAndFormatTagReturnsRecord() {
+		$this->setRawDataToConvert(
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang location="EXTERN" gruppe="TITELBILD">' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<format>PDF</format>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
+		);
+
+		$this->assertEquals(
+			array(
+				array(
+					'title' => 'bar',
+					'filename' => 'tx_realty_document_test.pdf'
+				)
+			),
+			$this->fixture->importDocuments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function importDocumentsForJpgWithTitleNotReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>layout.jpg</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>layout.jpg</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1783,14 +1846,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsForPsWithTitleNotReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>layout.ps</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>layout.ps</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1804,14 +1869,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsForExeWithTitleNotReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>evil-virus.exe</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>evil-virus.exe</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1825,14 +1892,16 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsForPdfWithoutTitleNotReturnsRecord() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel/>'
-					.'<daten>'
-						.'<pfad>tx_realty_document_test.pdf</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel/>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+			'</immobilie>'
 		);
 
 		$this->assertEquals(
@@ -1846,20 +1915,22 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsCanInportTwoDocuments() {
 		$this->setRawDataToConvert(
-			'<immobilie>'
-				.'<anhang>'
-					.'<anhangtitel>bar</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_document_test2.pdf</pfad>'
-					.'</daten>'
-				.'</anhang>'
-				.' <anhang>'
-					.'<anhangtitel>foo</anhangtitel>'
-					.'<daten>'
-						.'<pfad>tx_realty_document_test.pdf</pfad>'
-					.'</daten>'
-				.'</anhang>'
-			.'</immobilie>'
+			'<immobilie>' .
+				'<anhaenge>' .
+					'<anhang>' .
+						'<anhangtitel>bar</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test2.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+					'<anhang>' .
+						'<anhangtitel>foo</anhangtitel>' .
+						'<daten>' .
+							'<pfad>tx_realty_document_test.pdf</pfad>' .
+						'</daten>' .
+					'</anhang>' .
+				'</anhaenge>' .
+		'</immobilie>'
 		);
 		$documents = $this->fixture->importDocuments();
 
@@ -1884,24 +1955,28 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 	 */
 	public function importDocumentsOfTwoObjectsWithOneDocumentEachCreatesOneDocumentPerObject() {
 		$this->setRawDataToConvert(
-			'<openimmo>'
-				.'<immobilie>'
-					.'<anhang>'
-						.'<anhangtitel>bar</anhangtitel>'
-						.'<daten>'
-							.'<pfad>tx_realty_document_test2.pdf</pfad>'
-						.'</daten>'
-					.'</anhang>'
-				.'</immobilie>'
-				.'<immobilie>'
-					.' <anhang>'
-						.'<anhangtitel>foo</anhangtitel>'
-						.'<daten>'
-							.'<pfad>tx_realty_document_test.pdf</pfad>'
-						.'</daten>'
-					.'</anhang>'
-				.'</immobilie>'
-			.'</openimmo>'
+			'<openimmo>' .
+				'<immobilie>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>bar</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_document_test2.pdf</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
+				'</immobilie>' .
+				'<immobilie>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>foo</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_document_test.pdf</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
+				'</immobilie>' .
+			'</openimmo>'
 		);
 
 		$this->assertEquals(
@@ -1917,20 +1992,24 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<immobilie>' .
-					'<anhang>' .
-						'<anhangtitel>bar</anhangtitel>' .
-						'<daten>' .
-							'<pfad>tx_realty_document_test.pdf</pfad>' .
-						'</daten>' .
-					'</anhang>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>bar</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_document_test.pdf</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
 				'</immobilie>' .
 				'<immobilie>' .
-					'<anhang>' .
-						'<anhangtitel>foo</anhangtitel>' .
-						'<daten>' .
-							'<pfad>tx_realty_document_test.pdf</pfad>' .
-						'</daten>' .
-					'</anhang>' .
+					'<anhaenge>' .
+						'<anhang>' .
+							'<anhangtitel>foo</anhangtitel>' .
+							'<daten>' .
+								'<pfad>tx_realty_document_test.pdf</pfad>' .
+							'</daten>' .
+						'</anhang>' .
+					'</anhaenge>' .
 				'</immobilie>' .
 			'</openimmo>'
 		);

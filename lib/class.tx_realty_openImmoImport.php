@@ -1296,8 +1296,10 @@ class tx_realty_openImmoImport {
 	 * @return array realty records in an array, will be empty if the
 	 *               data was not convertible
 	 */
-	protected function convertDomDocumentToArray($realtyRecords) {
-		if (!$realtyRecords) {
+	protected function convertDomDocumentToArray(
+		DOMDocument $realtyRecords = null
+	) {
+		if ($realtyRecords === null) {
 			return array();
 		}
 
