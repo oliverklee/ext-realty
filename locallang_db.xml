@@ -334,7 +334,7 @@
 			<label index="tx_realty_images.caption">Bildunterschrift</label>
 			<label index="tx_realty_images.image">Bild</label>
 			<label index="tx_realty_images.position">Position</label>
-			<label index="tx_realty_images.position.0">Standart</label>
+			<label index="tx_realty_images.position.0">Standard</label>
 			<label index="tx_realty_images.position.1">Position 1</label>
 			<label index="tx_realty_images.position.2">Position 2</label>
 			<label index="tx_realty_images.position.3">Position 3</label>
