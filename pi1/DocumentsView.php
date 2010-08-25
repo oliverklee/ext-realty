@@ -35,7 +35,7 @@
  */
 class tx_realty_pi1_DocumentsView extends tx_realty_pi1_FrontEndView {
 	/**
-	 * Returns the documents view as HTML.
+	 * Returns the rendered view.
 	 *
 	 * @param array $piVars
 	 *        piVars, must contain the key "showUid" with a valid realty object
