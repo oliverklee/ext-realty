@@ -41,8 +41,8 @@ class tx_realty_pi1_DocumentsView extends tx_realty_pi1_FrontEndView {
 	 *        piVars, must contain the key "showUid" with a valid realty object
 	 *        UID as value
 	 *
-	 * @return string HTML for the documents view or an empty string if the
-	 *                realty object with the provided UID has no documents
+	 * @return string HTML for this view or an empty string if the realty object
+	 *                with the provided UID has no documents
 	 */
 	public function render(array $piVars = array()) {
 		$documents = tx_oelib_MapperRegistry
