@@ -67,7 +67,7 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Renders the view and returns its content.
+	 * Renders this view and returns its content.
 	 *
 	 * @param array form data array (piVars)
 	 *

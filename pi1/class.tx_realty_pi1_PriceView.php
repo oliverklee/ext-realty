@@ -37,14 +37,14 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 	/**
-	 * Returns the price view as HTML.
+	 * Returns this view as HTML.
 	 *
 	 * @param array piVars array, must contain the key "showUid" with a valid
 	 *              realty object UID as value
 	 *
-	 * @return string HTML for the price view, will be empty if the realty
-	 *                object with the provided UID has no prices for the
-	 *                defined object type
+	 * @return string HTML for this view, will be empty if the realty object
+	 *                with the provided UID has no prices for the defined object
+	 *                type
 	 */
 	public function render(array $piVars = array()) {
 		$hasValidContent = TRUE;

@@ -34,13 +34,13 @@
  */
 class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	/**
-	 * Returns the overview table as HTML.
+	 * Returns this view as HTML.
 	 *
 	 * @param array piVars array, must contain the key "showUid" with a valid
 	 *              realty object UID as value
 	 *
-	 * @return string HTML for the overview table or an empty string if the
-	 *                realty object with the provided UID has no data to show
+	 * @return string HTML for this view or an empty string if the realty object
+	 *                with the provided UID has no data to show
 	 */
 	public function render(array $piVars = array()) {
 		$objectNumber = htmlspecialchars(
