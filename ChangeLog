@@ -1,4 +1,5 @@
 0.5.2 - currently working on
+- [#4094] Fix: Use empty configurations in the unit tests
 
 0.5.1 - released 2010-08-13
 - [#4010] Fix: Part 9: Mark the image and house type tables as dirty and use @expectedException
