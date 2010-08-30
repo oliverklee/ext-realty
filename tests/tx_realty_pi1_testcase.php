@@ -126,6 +126,27 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
+		$configurationRegistry = tx_oelib_ConfigurationRegistry::getInstance();
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1.views.realty_list', new tx_oelib_Configuration()
+		);
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1.views.single_view', new tx_oelib_Configuration()
+		);
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1.views.my_objects', new tx_oelib_Configuration()
+		);
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1.views.offerer_list', new tx_oelib_Configuration()
+		);
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1.views.favorites', new tx_oelib_Configuration()
+		);
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1.views.objects_by_owner',
+			new tx_oelib_Configuration()
+		);
+
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
