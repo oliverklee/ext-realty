@@ -1513,7 +1513,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Builds the address for later formatting with the granularity defined in
 	 * the field "show_address".
 	 *
-	 * @return array the htmlspeciachared address in an array, will not be empty
+	 * @return array the htmlspecialchared address in an array, will not be empty
 	 */
 	private function getAddressParts() {
 		$result = array();
