@@ -295,21 +295,59 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsMessageYesForRentedIfRentedIsSet() {
-		$this->realtyObject->setProperty('rented', 1);
+	/**
+	 * @test
+	 */
+	public function getPropertyForStatusVacantReturnsVacantLabel() {
+		$this->realtyObject->setProperty(
+			'status', tx_realty_Model_RealtyObject::STATUS_VACANT
+		);
 
 		$this->assertEquals(
-			$this->fixture->translate('message_yes'),
-			$this->fixture->getProperty('rented')
+			$this->fixture->translate('label_status_0'),
+			$this->fixture->getProperty('status')
 		);
 	}
 
-	public function testGetPropertyReturnsAnEmptyStringForRentedIfRentedIsNotSet() {
-		$this->realtyObject->setProperty('rented', 0);
+	/**
+	 * @test
+	 */
+	public function getPropertyForStatusReservedReturnsReservedLabel() {
+		$this->realtyObject->setProperty(
+			'status', tx_realty_Model_RealtyObject::STATUS_RESERVED
+		);
 
 		$this->assertEquals(
-			'',
-			$this->fixture->getProperty('rented')
+			$this->fixture->translate('label_status_1'),
+			$this->fixture->getProperty('status')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForStatusSoldReturnsSoldLabel() {
+		$this->realtyObject->setProperty(
+			'status', tx_realty_Model_RealtyObject::STATUS_SOLD
+		);
+
+		$this->assertEquals(
+			$this->fixture->translate('label_status_2'),
+			$this->fixture->getProperty('status')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForStatusRentedReturnsRentedLabel() {
+		$this->realtyObject->setProperty(
+			'status', tx_realty_Model_RealtyObject::STATUS_RENTED
+		);
+
+		$this->assertEquals(
+			$this->fixture->translate('label_status_3'),
+			$this->fixture->getProperty('status')
 		);
 	}
 

@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4072] Feature: Replace the "rented" field with a "status" field
 - [#4094] Fix: Use empty configurations in the unit tests
 - [#4074] Feature: Add a field "position" to the images record
 - [#4075] Feature: Add an "enableLightbox" TS setup switch

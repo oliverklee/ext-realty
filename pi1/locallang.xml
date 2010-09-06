@@ -182,7 +182,11 @@
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_hoa_fee">HOA fee</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
+			<label index="label_status">Status</label>
+			<label index="label_status_0">vacant</label>
+			<label index="label_status_1">reserved</label>
+			<label index="label_status_2">sold</label>
+			<label index="label_status_3">rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>
@@ -566,7 +570,11 @@
 			<label index="label_buying_price">Kaufpreis</label>
 			<label index="label_hoa_fee">Hausgeld</label>
 			<label index="label_year_rent">Nettojahresmiete</label>
-			<label index="label_rented">Vermietet</label>
+			<label index="label_status">Status</label>
+			<label index="label_status_0">frei</label>
+			<label index="label_status_1">reserviert</label>
+			<label index="label_status_2">verkauft</label>
+			<label index="label_status_3">vermietet</label>
 			<label index="label_apartment_type">Wohnungstyp</label>
 			<label index="label_house_type">Haustyp</label>
 			<label index="label_floor">Etage</label>
@@ -922,7 +930,6 @@
 			<label index="label_buying_price">Koopprijs</label>
 			<label index="label_hoa_fee">VVE bijdrage</label>
 			<label index="label_year_rent">Netto huuropbrengst p/j</label>
-			<label index="label_rented">Verhuurde staat</label>
 			<label index="label_apartment_type">Woningtype</label>
 			<label index="label_house_type">Huistype</label>
 			<label index="label_floor">Verdieping</label>
@@ -1172,7 +1179,6 @@
 			<label index="label_provision">Provision/Courtage</label>
 			<label index="label_buying_price">Købspris</label>
 			<label index="label_year_rent">Netto husleje (årligt)</label>
-			<label index="label_rented">Udlejet</label>
 			<label index="label_apartment_type">Lejlighedstype</label>
 			<label index="label_house_type">Hustype</label>
 			<label index="label_floor">Etage</label>
@@ -1293,7 +1299,6 @@
 			<label index="label_provision">Оплата услуг агентства</label>
 			<label index="label_buying_price">Цена покупки</label>
 			<label index="label_year_rent">Стоимость с выплатой (в год)</label>
-			<label index="label_rented">Сдано</label>
 			<label index="label_apartment_type">Квартира</label>
 			<label index="label_house_type">Дом</label>
 			<label index="label_floor">Этаж</label>
@@ -1390,7 +1395,6 @@
 			<label index="label_provision">Emlak Provizyonu</label>
 			<label index="label_buying_price">Satış fiyatı</label>
 			<label index="label_year_rent">Yıllık Net Kira</label>
-			<label index="label_rented">Kiralandı</label>
 			<label index="label_apartment_type">Konut tipi</label>
 			<label index="label_house_type">Ev tipi</label>
 			<label index="label_floor">Kat</label>
@@ -1484,7 +1488,6 @@
 			<label index="label_provision">Provisiones / Comisiones</label>
 			<label index="label_buying_price">Precio de venta</label>
 			<label index="label_year_rent">Renta neta anual</label>
-			<label index="label_rented">Alquilado</label>
 			<label index="label_apartment_type">Tipo de apartamento</label>
 			<label index="label_house_type">Tipo de casa</label>
 			<label index="label_floor">Planta</label>
@@ -1670,7 +1673,6 @@
 			<label index="label_buying_price">Prezzo di vendita</label>
 			<label index="label_hoa_fee">HOA fee</label>
 			<label index="label_year_rent">Affitto per anno</label>
-			<label index="label_rented">Affittato</label>
 			<label index="label_apartment_type">Tipo appartamento</label>
 			<label index="label_house_type">Tipo casa</label>
 			<label index="label_floor">Piano</label>
@@ -2019,7 +2021,11 @@
 			<label index="label_buying_price" type="integer">1292258</label>
 			<label index="label_hoa_fee" type="integer">111222682</label>
 			<label index="label_year_rent" type="integer">196759698</label>
-			<label index="label_rented" type="integer">233415579</label>
+			<label index="label_status" type="integer">247806604</label>
+			<label index="label_status_0" type="integer">141770829</label>
+			<label index="label_status_1" type="integer">133170627</label>
+			<label index="label_status_2" type="integer">121183715</label>
+			<label index="label_status_3" type="integer">129930439</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
 			<label index="label_house_type" type="integer">11148572</label>
 			<label index="label_floor" type="integer">255814915</label>
@@ -2314,7 +2320,6 @@
 			<label index="label_provision" type="integer">224380131</label>
 			<label index="label_buying_price" type="integer">1292258</label>
 			<label index="label_year_rent" type="integer">196759698</label>
-			<label index="label_rented" type="integer">233415579</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
 			<label index="label_house_type" type="integer">11148572</label>
 			<label index="label_floor" type="integer">255814915</label>
@@ -2633,7 +2638,6 @@
 			<label index="label_provision" type="integer">224380131</label>
 			<label index="label_buying_price" type="integer">1292258</label>
 			<label index="label_year_rent" type="integer">196759698</label>
-			<label index="label_rented" type="integer">233415579</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
 			<label index="label_house_type" type="integer">11148572</label>
 			<label index="label_floor" type="integer">255814915</label>
@@ -2754,7 +2758,6 @@
 			<label index="label_provision" type="integer">224380131</label>
 			<label index="label_buying_price" type="integer">1292258</label>
 			<label index="label_year_rent" type="integer">196759698</label>
-			<label index="label_rented" type="integer">233415579</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
 			<label index="label_house_type" type="integer">11148572</label>
 			<label index="label_floor" type="integer">255814915</label>
@@ -2848,7 +2851,6 @@
 			<label index="label_provision" type="integer">224380131</label>
 			<label index="label_buying_price" type="integer">1292258</label>
 			<label index="label_year_rent" type="integer">196759698</label>
-			<label index="label_rented" type="integer">233415579</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
 			<label index="label_house_type" type="integer">11148572</label>
 			<label index="label_floor" type="integer">255814915</label>
@@ -2942,7 +2944,6 @@
 			<label index="label_provision" type="integer">224380131</label>
 			<label index="label_buying_price" type="integer">1292258</label>
 			<label index="label_year_rent" type="integer">196759698</label>
-			<label index="label_rented" type="integer">233415579</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
 			<label index="label_house_type" type="integer">11148572</label>
 			<label index="label_floor" type="integer">255814915</label>
@@ -3128,7 +3129,6 @@
 			<label index="label_buying_price" type="integer">1292258</label>
 			<label index="label_hoa_fee" type="integer">111222682</label>
 			<label index="label_year_rent" type="integer">196759698</label>
-			<label index="label_rented" type="integer">233415579</label>
 			<label index="label_apartment_type" type="integer">220566396</label>
 			<label index="label_house_type" type="integer">11148572</label>
 			<label index="label_floor" type="integer">255814915</label>
@@ -3477,7 +3477,11 @@
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_hoa_fee">HOA fee</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
+			<label index="label_status">Status</label>
+			<label index="label_status_0">vacant</label>
+			<label index="label_status_1">reserved</label>
+			<label index="label_status_2">sold</label>
+			<label index="label_status_3">rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>
@@ -3772,7 +3776,6 @@
 			<label index="label_provision">Provision/broker's fee</label>
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>
@@ -4091,7 +4094,6 @@
 			<label index="label_provision">Provision/broker's fee</label>
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>
@@ -4212,7 +4214,6 @@
 			<label index="label_provision">Provision/broker's fee</label>
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>
@@ -4306,7 +4307,6 @@
 			<label index="label_provision">Provision/broker's fee</label>
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>
@@ -4400,7 +4400,6 @@
 			<label index="label_provision">Provision/broker's fee</label>
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>
@@ -4586,7 +4585,6 @@
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_hoa_fee">HOA fee</label>
 			<label index="label_year_rent">Net rent per year</label>
-			<label index="label_rented">Rented</label>
 			<label index="label_apartment_type">Apartment type</label>
 			<label index="label_house_type">House type</label>
 			<label index="label_floor">Floor</label>

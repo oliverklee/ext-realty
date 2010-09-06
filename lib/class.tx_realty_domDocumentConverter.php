@@ -83,7 +83,6 @@ class tx_realty_domDocumentConverter {
 
 		// OpenImmo tag for 'usable_from' could possibly be 'abdatum'.
 		'usable_from' => array('verwaltung_objekt' => 'verfuegbar_ab'),
-		'rented' => array('verwaltung_objekt' => 'vermietet'),
 		'floor' => array('geo' => 'etage'),
 		'floors' => array('geo' => 'anzahl_etagen'),
 		'pets' => array('verwaltung_objekt' => 'haustiere'),
@@ -107,7 +106,7 @@ class tx_realty_domDocumentConverter {
 	 * @var array<string>
 	 */
 	private static $booleanFields = array(
-		'show_address', 'heating_included', 'rented', 'garden', 'barrier_free',
+		'show_address', 'heating_included', 'garden', 'barrier_free',
 		'elevator', 'has_air_conditioning', 'assisted_living', 'fitted_kitchen',
 		'has_pool', 'has_community_pool',
 	);
@@ -319,6 +318,7 @@ class tx_realty_domDocumentConverter {
 		$this->fetchEquipmentAttributes();
 		$this->fetchCategoryAttributes();
 		$this->fetchState();
+		$this->fetchStatus();
 		$this->fetchFlooring();
 		$this->fetchFurnishingCategory();
 		$this->fetchValueForOldOrNewBuilding();
@@ -852,6 +852,26 @@ class tx_realty_domDocumentConverter {
 				'state', $possibleStates[$attributes['zustand_art']]
 			);
 		}
+	}
+
+	/**
+	 * Fetches the status of this object (vacant or rented).
+	 */
+	private function fetchStatus() {
+		$node = $nodeWithAttributes = $this->findFirstGrandchild(
+			'verwaltung_objekt', 'vermietet'
+		);
+		if ($node === null) {
+			return;
+		}
+
+		$status = $this->isBooleanLikeStringTrue($node->nodeValue)
+			? tx_realty_Model_RealtyObject::STATUS_RENTED
+			: tx_realty_Model_RealtyObject::STATUS_VACANT;
+
+		$this->addImportedData(
+			'status', $status
+		);
 	}
 
 	/**

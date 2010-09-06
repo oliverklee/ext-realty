@@ -39,6 +39,34 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
+	 * status code meaning "vacant"
+	 *
+	 * @var integer
+	 */
+	const STATUS_VACANT = 0;
+
+	/**
+	 * status code meaning "reserved"
+	 *
+	 * @var integer
+	 */
+	const STATUS_RESERVED = 1;
+
+	/**
+	 * status code meaning "sold"
+	 *
+	 * @var integer
+	 */
+	const STATUS_SOLD = 2;
+
+	/**
+	 * status code meaning "rented"
+	 *
+	 * @var integer
+	 */
+	const STATUS_RENTED = 3;
+
+	/**
 	 * @var string the charset that is used for the output
 	 */
 	private $renderCharset = 'utf-8';
@@ -1708,6 +1736,28 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function getContactDirectExtension() {
 		return $this->getAsString('phone_direct_extension');
+	}
+
+	/**
+	 * Gets this object's status.
+	 *
+	 * @return integer
+	 *         this object's status, will be either STATUS_VACANT,
+	 *         STATUS_RESERVED, STATUS_SOLD or STATUS_RENTED
+	 */
+	public function getStatus() {
+		return $this->getAsInteger('status');
+	}
+
+	/**
+	 * Checks whether this object is rented or sold.
+	 *
+	 * @return boolean
+	 *         TRUE if this object is rented or sold, FALSE otherwise
+	 */
+	public function isRentedOrSold() {
+		return ($this->getStatus() == self::STATUS_RENTED)
+			|| ($this->getStatus() == self::STATUS_SOLD);
 	}
 }
 

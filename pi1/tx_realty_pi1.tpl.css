@@ -819,8 +819,7 @@ p.tx-realty-pi1-objekt-nr {
 
 /*CHECKBOXES*/
 #tx_realty_frontEndEditor #tx_realty_frontEndEditor_emphasized,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_included,
-#tx_realty_frontEndEditor #tx_realty_frontEndEditor_rented {
+#tx_realty_frontEndEditor #tx_realty_frontEndEditor_heating_included {
 	width: 15px;
 	margin: 5px 5px 0 0;
 	padding: 0;

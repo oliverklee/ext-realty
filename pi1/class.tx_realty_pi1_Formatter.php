@@ -108,6 +108,11 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
 
 		switch($key) {
+			case 'status':
+				$result = $this->getLabelForValidProperty(
+					'status', $realtyObject->getStatus()
+				);
+				break;
 			case 'flooring':
 				// The fallthrough is intended.
 			case 'heating_type':
@@ -115,7 +120,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'furnishing_category':
 				// The fallthrough is intended.
 			case 'state':
-				$result = $this->getLabelForValidProperty($key);
+				$result = $this->getLabelForValidNonZeroProperty($key);
 				break;
 			case 'pets':
 				// The fallthrough is intended.
@@ -205,8 +210,6 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'has_community_pool':
 				// The fallthrough is intended.
-			case 'rented':
-				// The fallthrough is intended.
 			case 'balcony':
 				// The fallthrough is intended.
 			case 'garden':
@@ -256,13 +259,13 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *               suffix for the label to get, must not be empty
 	 *
 	 * @return string localized string for the label
-	 *                "label_[$key] . [value of $key]", will be a
+	 *                "label_[$key][value of $key]", will be a
 	 *                comma-separated list of localized strings if
 	 *                the value of $key was a comma-separated list of suffixes,
 	 *                will be empty if the value of $key combined with
 	 *                label_[$key] is not a locallang key
 	 */
-	private function getLabelForValidProperty($key) {
+	private function getLabelForValidNonZeroProperty($key) {
 		$localizedStrings = array();
 
 		foreach (
@@ -271,18 +274,38 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 					->find($this->getUid())->getProperty($key),
 				TRUE
-			) as $suffix
+			) as $value
 		) {
-			if ($suffix >= 1) {
-				$locallangKey = 'label_' . $key . '_' . $suffix;
-				$translatedLabel = $this->translate($locallangKey);
-				$localizedStrings[] = ($translatedLabel != $locallangKey)
-					? $translatedLabel
-					: '';
+			if ($value >= 1) {
+				$localizedStrings[] = $this->getLabelForValidProperty(
+					$key, $value
+				);
 			}
 		}
 
 		return implode(', ', $localizedStrings);
+	}
+
+	/**
+	 * Returns the label for "label_[$key]_[$value]" or an empty string
+	 * if $value combined with label_[$key] is not a locallang key.
+	 *
+	 * @param string $key
+	 *        key of the current record's field that contains the suffix for the
+	 *        label to get, must not be empty
+	 * @param string $value
+	 *        the value to fetch the label for, must not be empty
+	 *
+	 * @return string
+	 *        localized string for the label "label_[$key]_[$value]",
+	 *        will be empty if $value combined with label_[$key] is not a
+	 *        locallang key
+	 */
+	private function getLabelForValidProperty($key, $value) {
+		$locallangKey = 'label_' . $key . '_' . $value;
+		$translatedLabel = $this->translate($locallangKey);
+
+		return ($translatedLabel != $locallangKey) ? $translatedLabel : '';
 	}
 
 	/**

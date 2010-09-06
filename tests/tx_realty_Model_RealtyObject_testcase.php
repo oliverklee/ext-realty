@@ -3724,5 +3724,95 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 			$this->fixture->getContactDirectExtension()
 		);
 	}
+
+
+	////////////////////////////////
+	// Tests concerning the status
+	////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getStatusForNoStatusSetReturnsVacant() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array(), array()
+		);
+
+		$this->assertEquals(
+			tx_realty_Model_RealtyObject::STATUS_VACANT,
+			$this->fixture->getStatus()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getStatusForStatusSetReturnsStatus() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array(),
+			array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)
+		);
+
+		$this->assertEquals(
+			tx_realty_Model_RealtyObject::STATUS_RENTED,
+			$this->fixture->getStatus()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isRentedOrSoldForStatusVacantReturnsFalse() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array(),
+			array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)
+		);
+
+		$this->assertFalse(
+			$this->fixture->isRentedOrSold()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isRentedOrSoldForStatusReservedReturnsFalse() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array(),
+			array('status' => tx_realty_Model_RealtyObject::STATUS_RESERVED)
+		);
+
+		$this->assertFalse(
+			$this->fixture->isRentedOrSold()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isRentedOrSoldForStatusSoldReturnsTrue() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array(),
+			array('status' => tx_realty_Model_RealtyObject::STATUS_SOLD)
+		);
+
+		$this->assertTrue(
+			$this->fixture->isRentedOrSold()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isRentedOrSoldForStatusRentedReturnsTrue() {
+		$this->loadRealtyObjectAndSetOwner(
+			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array(),
+			array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)
+		);
+
+		$this->assertTrue(
+			$this->fixture->isRentedOrSold()
+		);
+	}
 }
 ?>

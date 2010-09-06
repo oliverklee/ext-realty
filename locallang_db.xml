@@ -47,7 +47,11 @@
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
+			<label index="tx_realty_objects.status">Status</label>
+			<label index="tx_realty_objects.status.0">vacant</label>
+			<label index="tx_realty_objects.status.1">reserved</label>
+			<label index="tx_realty_objects.status.2">sold</label>
+			<label index="tx_realty_objects.status.3">rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>
@@ -220,7 +224,11 @@
 			<label index="tx_realty_objects.buying_price">Kaufpreis</label>
 			<label index="tx_realty_objects.hoa_fee">Hausgeld</label>
 			<label index="tx_realty_objects.year_rent">Jahresnettomiete</label>
-			<label index="tx_realty_objects.rented">Vermietet</label>
+			<label index="tx_realty_objects.status">Status</label>
+			<label index="tx_realty_objects.status.0">frei</label>
+			<label index="tx_realty_objects.status.1">reserviert</label>
+			<label index="tx_realty_objects.status.2">verkauft</label>
+			<label index="tx_realty_objects.status.3">vermietet</label>
 			<label index="tx_realty_objects.apartment_type">Wohnungstyp</label>
 			<label index="tx_realty_objects.house_type">Haustyp</label>
 			<label index="tx_realty_objects.floor">Etage</label>
@@ -376,7 +384,6 @@
 			<label index="tx_realty_objects.usable_from">Освобождается с</label>
 			<label index="tx_realty_objects.buying_price">Цена покупки</label>
 			<label index="tx_realty_objects.year_rent">Цена при оплате на год вперед</label>
-			<label index="tx_realty_objects.rented">В аренде</label>
 			<label index="tx_realty_objects.apartment_type">Тип квартиры</label>
 			<label index="tx_realty_objects.house_type">Тип дома</label>
 			<label index="tx_realty_objects.floor">Этаж</label>
@@ -443,7 +450,6 @@
 			<label index="tx_realty_objects.usable_from">Şu andan itibaren kullanılabilir</label>
 			<label index="tx_realty_objects.buying_price">Alış Fiyatı</label>
 			<label index="tx_realty_objects.year_rent">Yıllık net kira</label>
-			<label index="tx_realty_objects.rented">kiralandı</label>
 			<label index="tx_realty_objects.apartment_type">Konut tipi</label>
 			<label index="tx_realty_objects.house_type">Ev tipi</label>
 			<label index="tx_realty_objects.floor">Kat</label>
@@ -520,7 +526,6 @@
 			<label index="tx_realty_objects.buying_price">Koopprijs</label>
 			<label index="tx_realty_objects.hoa_fee">VVE bijdrage</label>
 			<label index="tx_realty_objects.year_rent">Netto huur per jaar</label>
-			<label index="tx_realty_objects.rented">Verhuurd</label>
 			<label index="tx_realty_objects.apartment_type">Type appartement</label>
 			<label index="tx_realty_objects.house_type">Type huis</label>
 			<label index="tx_realty_objects.floor">Verdieping</label>
@@ -648,7 +653,6 @@
 			<label index="tx_realty_objects.usable_from">Indflytningsklar fra</label>
 			<label index="tx_realty_objects.buying_price">Købspris</label>
 			<label index="tx_realty_objects.year_rent">Årlig husleje</label>
-			<label index="tx_realty_objects.rented">Udlejet</label>
 			<label index="tx_realty_objects.apartment_type">Lejlighedstype</label>
 			<label index="tx_realty_objects.house_type">Ejendomstype</label>
 			<label index="tx_realty_objects.floor">Etage</label>
@@ -742,7 +746,6 @@
 			<label index="tx_realty_objects.buying_price">Precio de venta</label>
 			<label index="tx_realty_objects.hoa_fee">Impuesto I.V.A</label>
 			<label index="tx_realty_objects.year_rent">Renta neta anual</label>
-			<label index="tx_realty_objects.rented">Alquilado</label>
 			<label index="tx_realty_objects.apartment_type">Tipo de apartamento</label>
 			<label index="tx_realty_objects.house_type">Tipo de casa</label>
 			<label index="tx_realty_objects.floor">Planta</label>
@@ -863,7 +866,6 @@
 			<label index="tx_realty_objects.buying_price">Prezzo di acquisto</label>
 			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.year_rent">Affitto per anno</label>
-			<label index="tx_realty_objects.rented">Affittato</label>
 			<label index="tx_realty_objects.apartment_type">Tipo appartamento</label>
 			<label index="tx_realty_objects.house_type">Tipo casa</label>
 			<label index="tx_realty_objects.floor">Piano</label>
@@ -1000,7 +1002,11 @@
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
 			<label index="tx_realty_objects.hoa_fee" type="integer">111222682</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
-			<label index="tx_realty_objects.rented" type="integer">233415579</label>
+			<label index="tx_realty_objects.status" type="integer">247806604</label>
+			<label index="tx_realty_objects.status.0" type="integer">141770829</label>
+			<label index="tx_realty_objects.status.1" type="integer">133170627</label>
+			<label index="tx_realty_objects.status.2" type="integer">121183715</label>
+			<label index="tx_realty_objects.status.3" type="integer">129930439</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
 			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
 			<label index="tx_realty_objects.floor" type="integer">255814915</label>
@@ -1059,9 +1065,9 @@
 			<label index="tx_realty_objects.state.15" type="integer">104896764</label>
 			<label index="tx_realty_objects.state.16" type="integer">24698282</label>
 			<label index="tx_realty_objects.state.17" type="integer">112726903</label>
-			<label index="tx_realty_objects.state.18" type="integer">24647912</label>
+			<label index="tx_realty_objects.state.18" type="integer">31077979</label>
 			<label index="tx_realty_objects.state.19" type="integer">141770829</label>
-			<label index="tx_realty_objects.state.20" type="integer">180193091</label>
+			<label index="tx_realty_objects.state.20" type="integer">240975082</label>
 			<label index="tx_realty_objects.state.21" type="integer">41136802</label>
 			<label index="tx_realty_objects.furnishing_category" type="integer">178306573</label>
 			<label index="tx_realty_objects.furnishing_category.1" type="integer">201388228</label>
@@ -1156,7 +1162,6 @@
 			<label index="tx_realty_objects.usable_from" type="integer">250200731</label>
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
-			<label index="tx_realty_objects.rented" type="integer">233415579</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
 			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
 			<label index="tx_realty_objects.floor" type="integer">255814915</label>
@@ -1223,7 +1228,6 @@
 			<label index="tx_realty_objects.usable_from" type="integer">250200731</label>
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
-			<label index="tx_realty_objects.rented" type="integer">233415579</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
 			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
 			<label index="tx_realty_objects.floor" type="integer">255814915</label>
@@ -1298,7 +1302,6 @@
 			<label index="tx_realty_objects.usable_from" type="integer">250200731</label>
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
-			<label index="tx_realty_objects.rented" type="integer">233415579</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
 			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
 			<label index="tx_realty_objects.floor" type="integer">255814915</label>
@@ -1428,7 +1431,6 @@
 			<label index="tx_realty_objects.usable_from" type="integer">250200731</label>
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
-			<label index="tx_realty_objects.rented" type="integer">233415579</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
 			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
 			<label index="tx_realty_objects.floor" type="integer">255814915</label>
@@ -1513,7 +1515,6 @@
 			<label index="tx_realty_objects.usable_from" type="integer">250200731</label>
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
-			<label index="tx_realty_objects.rented" type="integer">233415579</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
 			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
 			<label index="tx_realty_objects.floor" type="integer">255814915</label>
@@ -1643,7 +1644,6 @@
 			<label index="tx_realty_objects.buying_price" type="integer">1292258</label>
 			<label index="tx_realty_objects.hoa_fee" type="integer">111222682</label>
 			<label index="tx_realty_objects.year_rent" type="integer">196759698</label>
-			<label index="tx_realty_objects.rented" type="integer">233415579</label>
 			<label index="tx_realty_objects.apartment_type" type="integer">220566396</label>
 			<label index="tx_realty_objects.house_type" type="integer">11148572</label>
 			<label index="tx_realty_objects.floor" type="integer">255814915</label>
@@ -1780,7 +1780,11 @@
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
+			<label index="tx_realty_objects.status">Status</label>
+			<label index="tx_realty_objects.status.0">vacant</label>
+			<label index="tx_realty_objects.status.1">reserved</label>
+			<label index="tx_realty_objects.status.2">sold</label>
+			<label index="tx_realty_objects.status.3">rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>
@@ -1936,7 +1940,6 @@
 			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>
@@ -2003,7 +2006,6 @@
 			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>
@@ -2078,7 +2080,6 @@
 			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>
@@ -2208,7 +2209,6 @@
 			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>
@@ -2293,7 +2293,6 @@
 			<label index="tx_realty_objects.usable_from">Can be used starting at</label>
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>
@@ -2423,7 +2422,6 @@
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
-			<label index="tx_realty_objects.rented">Rented</label>
 			<label index="tx_realty_objects.apartment_type">Apartment type</label>
 			<label index="tx_realty_objects.house_type">House type</label>
 			<label index="tx_realty_objects.floor">Floor</label>

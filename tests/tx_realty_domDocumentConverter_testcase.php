@@ -1384,6 +1384,71 @@ class tx_realty_domDocumentConverter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsRentedTrueAsStatusRented() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<verwaltung_objekt>' .
+							'<vermietet>true</vermietet>' .
+						'</verwaltung_objekt>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsRentedFalseAsStatusVacant() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<verwaltung_objekt>' .
+							'<vermietet>false</vermietet>' .
+						'</verwaltung_objekt>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForRentedMissingNotSetsStatus() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<verwaltung_objekt>' .
+						'</verwaltung_objekt>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$this->assertEquals(
+			array(array()),
+			$this->fixture->getConvertedData($node)
+		);
+	}
+
 
 	////////////////////////////////////////////
 	// Tests concerning createRecordsForImages

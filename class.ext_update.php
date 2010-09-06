@@ -41,8 +41,8 @@ class ext_update {
 	/**
 	 * Returns the update module content.
 	 *
-	 * @return string the update module content, will be empty if nothing was
-	 *                updated
+	 * @return string
+	 *         the update module content, will be empty if nothing was updated
 	 */
 	public function main() {
 		$result = '';
@@ -54,6 +54,9 @@ class ext_update {
 			if ($this->needsToUpdateImages()) {
 				$result .= $this->updateImages();
 			}
+			if ($this->needsToUpdateStatus()) {
+				$result .= $this->updateStatus();
+			}
 		} catch (tx_oelib_Exception_Database $exception) {
 		}
 
@@ -63,7 +66,8 @@ class ext_update {
 	/**
 	 * Returns whether the update module may be accessed.
 	 *
-	 * @return boolean TRUE if the update module may be accessed, FALSE otherwise
+	 * @return boolean
+	 *         TRUE if the update module may be accessed, FALSE otherwise
 	 */
 	public function access() {
 		if (
@@ -81,7 +85,7 @@ class ext_update {
 
 		try {
 			$result = $this->needsToUpdateDistricts()
-				|| $this->needsToUpdateImages();
+				|| $this->needsToUpdateImages() || $this->needsToUpdateStatus();
 		} catch (tx_oelib_Exception_Database $exception) {
 			$result = FALSE;
 		}
@@ -110,7 +114,7 @@ class ext_update {
 	 * @return string output of the update function, will not be empty
 	 */
 	private function updateDistricts() {
-		$result = '<h2>Updating district-city relations:</h2>' . LF .
+		$result = '<h2>Updating district-city relations</h2>' . LF .
 			'<table summary="districts and cities">' . LF .
 			'<thead>' . LF .
 			'<tr><th>District</th><th>City</th></tr>' . LF .
@@ -201,7 +205,7 @@ class ext_update {
 	 * @return string output of the update function, will not be empty
 	 */
 	private function updateImages() {
-		$result = '<h2>Updating image-object relations:</h2>' . LF;
+		$result = '<h2>Updating image-object relations</h2>' . LF;
 
 		$GLOBALS['TYPO3_DB']->sql_query(
 			'UPDATE tx_realty_images SET object = realty_object_uid ' .
@@ -213,6 +217,44 @@ class ext_update {
 
 		return $result;
 	}
+
+	/**
+	 * Checks whether the status field need to be updated.
+	 *
+	 * @return boolean TRUE if the status needs to be updated, FALSE otherwise
+	 */
+	private function needsToUpdateStatus() {
+		if (!tx_oelib_db::tableHasColumn('tx_realty_objects', 'rented')
+			|| !tx_oelib_db::tableHasColumn('tx_realty_objects', 'status')
+		) {
+			return FALSE;
+		}
+
+		return tx_oelib_db::existsRecord(
+			'tx_realty_objects', 'rented = 1 AND status = 0'
+		);
+	}
+
+	/**
+	 * Updates the "status" field (from the "rented" field).
+	 *
+	 * @return string output of the update function, will not be empty
+	 */
+	private function updateStatus() {
+		$result = '<h2>Updating the object status</h2>' . LF;
+
+		$GLOBALS['TYPO3_DB']->sql_query(
+			'UPDATE tx_realty_objects SET status = ' .
+				tx_realty_Model_RealtyObject::STATUS_RENTED .
+				' WHERE rented = 1 AND status = 0'
+		);
+		$numberOfAffectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
+
+		$result .= '<p>Updated ' . $numberOfAffectedRows . ' object records.</p>';
+
+		return $result;
+	}
+
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/class.ext_update.php']) {

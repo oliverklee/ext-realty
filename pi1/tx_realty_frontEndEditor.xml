@@ -478,7 +478,16 @@
 		<renderlet:CHECKSINGLE name="heating_included" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included"/>
 		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
 		<renderlet:TEXT name="year_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_rent"/>
-		<renderlet:CHECKSINGLE name="rented" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented"/>
+		<renderlet:LISTBOX name="status" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status">
+			<data defaultvalue="0">
+				<items>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.0" value="0"/>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.1" value="1"/>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.2" value="2"/>
+					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.3" value="3"/>
+				</items>
+			</data>
+		</renderlet:LISTBOX>
 		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
 			<data>
 				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="false" allowmanualedition="true"/>

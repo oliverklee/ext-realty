@@ -15,7 +15,7 @@ $TCA['tx_realty_objects'] = array(
 			'office_space,estate_size,site_occupancy_index,floor_space_index,' .
 			'rent_excluding_bills,rent_per_square_meter,extra_charges,' .
 			'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
-			'year_rent,rented,apartment_type,house_type,floor,floors,bedrooms,' .
+			'year_rent,status,apartment_type,house_type,floor,floors,bedrooms,' .
 			'bathrooms,heating_type,has_air_conditioning,garage_type,parking_spaces,garage_rent,' .
 			'garage_price,pets,flooring,construction_year,old_or_new_building,' .
 			'state,furnishing_category,balcony,garden,elevator,barrier_free,' .
@@ -499,11 +499,17 @@ $TCA['tx_realty_objects'] = array(
 				'eval' => 'double2',
 			),
 		),
-		'rented' => array(
+		'status' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rented',
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status',
 			'config' => array(
-				'type' => 'check',
+				'type' => 'select',
+				'items' => array(
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.0', 0),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.1', 1),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.2', 2),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.3', 3),
+				),
 			),
 		),
 		'apartment_type' => array(
@@ -1180,7 +1186,7 @@ $TCA['tx_realty_objects'] = array(
 				'living_area, total_area, shop_area, total_usable_area, ' .
 				'storage_area, office_space, estate_size, site_occupancy_index, floor_space_index, ' .
 				'rent_excluding_bills, rent_per_square_meter,' .
-				'extra_charges, heating_included, deposit, provision, usable_from, ' .
+				'extra_charges, heating_included, deposit, provision, usable_from, status, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, ' .
 				'bathrooms, heating_type, has_air_conditioning, garage_type, parking_spaces, ' .
 				'garage_rent, pets, flooring, construction_year, old_or_new_building, ' .
@@ -1224,7 +1230,7 @@ $TCA['tx_realty_objects'] = array(
 				'living_area, total_area, shop_area, total_usable_area, ' .
 				'storage_area, office_space, estate_size, site_occupancy_index, ' .
 				'floor_space_index, provision, usable_from, ' .
-				'buying_price, hoa_fee, extra_charges, year_rent, rented, ' .
+				'buying_price, hoa_fee, extra_charges, year_rent, status, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, bathrooms, ' .
 				'heating_type, has_air_conditioning, garage_type, parking_spaces, garage_price, ' .
 				'flooring, construction_year, old_or_new_building, state, ' .
