@@ -32,6 +32,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 	/**
@@ -49,10 +50,12 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->fixture = new tx_realty_pi1_OverviewTableView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+			array(
+				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'fieldsInSingleViewTable', '',
+			),
 			$GLOBALS['TSFE']->cObj
 		);
-		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', '');
 	}
 
 	public function tearDown() {
@@ -307,6 +310,138 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			$this->fixture->translate('label_heating_type'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+
+	///////////////////////////////////
+	// Tests concerning getFieldNames
+	///////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getFieldNamesByDefaultReturnsAllFieldsNamesFromConfiguration() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array());
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+				'provision,buying_price,hoa_fee,year_rent,' .
+				'rent_per_square_meter,garage_rent,garage_price,pets'
+		);
+
+		$this->assertEquals(
+			array(
+				'heating_type', 'rent_excluding_bills', 'extra_charges',
+				'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
+				'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets'
+			),
+			$this->fixture->getFieldNames($realtyObject->getUid())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getFieldNamesWithPriceOnlyIfAvailableForVacantObjectReturnsAllFieldsNamesFromConfiguration() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(
+				array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)
+			);
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+				'provision,buying_price,hoa_fee,year_rent,' .
+				'rent_per_square_meter,garage_rent,garage_price,pets'
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertEquals(
+			array(
+				'heating_type', 'rent_excluding_bills', 'extra_charges',
+				'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
+				'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets'
+			),
+			$this->fixture->getFieldNames($realtyObject->getUid())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getFieldNamesWithPriceOnlyIfAvailableForReservedObjectReturnsAllFieldsNamesFromConfiguration() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(
+				array('status' => tx_realty_Model_RealtyObject::STATUS_RESERVED)
+			);
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+				'provision,buying_price,hoa_fee,year_rent,' .
+				'rent_per_square_meter,garage_rent,garage_price,pets'
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertEquals(
+			array(
+				'heating_type', 'rent_excluding_bills', 'extra_charges',
+				'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
+				'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets'
+			),
+			$this->fixture->getFieldNames($realtyObject->getUid())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getFieldNamesWithPriceOnlyIfAvailableForSoldObjectDropsPriceRelatedFields() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(
+				array('status' => tx_realty_Model_RealtyObject::STATUS_SOLD)
+			);
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+				'provision,buying_price,hoa_fee,year_rent,' .
+				'rent_per_square_meter,garage_rent,garage_price,pets'
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertEquals(
+			array(
+				'heating_type', 'pets'
+			),
+			$this->fixture->getFieldNames($realtyObject->getUid())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getFieldNamesWithPriceOnlyIfAvailableForRentedObjectDropsPriceRelatedFields() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(
+				array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)
+			);
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable',
+			'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+				'provision,buying_price,hoa_fee,year_rent,' .
+				'rent_per_square_meter,garage_rent,garage_price,pets'
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertEquals(
+			array(
+				'heating_type', 'pets'
+			),
+			$this->fixture->getFieldNames($realtyObject->getUid())
 		);
 	}
 }

@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 	/**
@@ -51,7 +52,10 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->fixture = new tx_realty_pi1_PriceView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+			array(
+				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'priceOnlyIfAvailable' => FALSE,
+			),
 			$GLOBALS['TSFE']->cObj
 		);
 	}
@@ -125,6 +129,63 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function renderWithPriceOnlyIfAvailableForVacantObjectForSaleReturnsBuyingPrice() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'buying_price' => '123',
+				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT
+		));
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertContains(
+			'123',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithPriceOnlyIfAvailableForReservedObjectForSaleReturnsBuyingPrice() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'buying_price' => '123',
+				'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED
+		));
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertContains(
+			'123',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithPriceOnlyIfAvailableForSoldObjectForSaleReturnsEmptyString() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_SALE,
+				'buying_price' => '123',
+				'status' => tx_realty_Model_RealtyObject::STATUS_SOLD
+		));
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
 	public function testRenderNotReturnsTheRealtyObjectsBuyingPriceForObjectForRenting() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
@@ -147,6 +208,63 @@ class tx_realty_pi1_PriceView_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'123',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithPriceOnlyIfAvailableForVacantObjectForRentReturnsBuyingPrice() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_RENTING,
+				'rent_excluding_bills' => '123',
+				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT
+		));
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertContains(
+			'123',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithPriceOnlyIfAvailableForReservedObjectForRentReturnsBuyingPrice() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_RENTING,
+				'rent_excluding_bills' => '123',
+				'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED
+		));
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertContains(
+			'123',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithPriceOnlyIfAvailableForRentedObjectForRentReturnsEmptyString() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array(
+				'object_type' => REALTY_FOR_RENTING,
+				'rent_excluding_bills' => '123',
+				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED
+		));
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertEquals(
+			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}

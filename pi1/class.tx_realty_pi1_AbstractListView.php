@@ -419,6 +419,17 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				break;
 		}
 
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')
+			->find($this->internal['currentRow']['uid']);
+		if ($this->getConfValueBoolean('priceOnlyIfAvailable')
+			&& $realtyObject->isRentedOrSold()
+		) {
+			$this->hideSubparts(
+				'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
+			);
+		}
+
 		$this->setViewSpecificListRowContents();
 
 		return $this->getSubpart('LIST_ITEM');

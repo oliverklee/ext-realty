@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4089] Feature: Add an option to hide the rent and price in the list view and single view depending on the object status
 - [#4087] Feature: Add a single view subpart for the status
 - [#4100] Feature: Fill status markers in the list view
 - [#4072] Feature: Replace the "rented" field with a "status" field

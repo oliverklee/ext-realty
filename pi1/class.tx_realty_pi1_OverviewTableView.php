@@ -31,6 +31,7 @@
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	/**
@@ -111,18 +112,32 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 * @return array field names with which to fill the overview table, will be
 	 *               empty if none are configured
 	 */
-	private function getFieldNames($uid) {
+	public function getFieldNames($uid) {
 		if (!$this->hasConfValueString('fieldsInSingleViewTable')) {
 			return array();
 		}
 
-		$result = array();
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($uid);
 
+		if ($this->getConfValueBoolean('priceOnlyIfAvailable')
+			&& $realtyObject->isRentedOrSold()
+		) {
+			$fieldsToHide = array(
+				'rent_excluding_bills', 'extra_charges', 'deposit', 'provision',
+				'buying_price', 'hoa_fee', 'year_rent', 'rent_per_square_meter',
+				'garage_rent', 'garage_price'
+			);
+		} else {
+			$fieldsToHide = array();
+		}
+
+		$result = array();
 		foreach (t3lib_div::trimExplode(
 			',', $this->getConfValueString('fieldsInSingleViewTable'), TRUE
 		) as $key) {
-			if (tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($uid)->isAllowedKey($key)
+			if ($realtyObject->isAllowedKey($key)
+				&& !in_array($key, $fieldsToHide)
 			) {
 				$result[] = $key;
 			}

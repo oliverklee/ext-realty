@@ -136,6 +136,7 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'defaultCountryUID' => self::DE,
+				'priceOnlyIfAvailable' => FALSE,
 			),
 			$this->createContentMock(),
 			TRUE
@@ -733,6 +734,192 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		);
 
 		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForRentedObjectWithRentShowsRentByDefault() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+				'rent_excluding_bills' => '123',
+			)
+		);
+
+		$this->assertContains(
+			'123',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewWithPriceOnlyIfAvailableForVacantObjectWithRentShowsRent() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+				'rent_excluding_bills' => '123',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertContains(
+			'123',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewWithPriceOnlyIfAvailableForRentedObjectWithRentNotShowsRent() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+				'rent_excluding_bills' => '12334',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertNotContains(
+			'12334',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForRentedObjectWithExtraChargesShowsExtraChargesByDefault() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+				'extra_charges' => '281',
+			)
+		);
+
+		$this->assertContains(
+			'281',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewWithPriceOnlyIfAvailableForVacantObjectWithExtraChargesShowsExtraCharges() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+				'extra_charges' => '281',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertContains(
+			'281',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewWithPriceOnlyIfAvailableForRentedObjectWithExtraChargesNotShowsExtraCharges() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+				'extra_charges' => '281',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertNotContains(
+			'281',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForSoldObjectWithBuyingPriceShowsBuyingPriceByDefault() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'object_type' => REALTY_FOR_SALE,
+				'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
+				'buying_price' => '504',
+			)
+		);
+
+		$this->assertContains(
+			'504',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewWithPriceOnlyIfAvailableForVacantObjectWithBuyingPriceShowsBuyingPrice() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'object_type' => REALTY_FOR_SALE,
+				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+				'buying_price' => '504',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertContains(
+			'504',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewWithPriceOnlyIfAvailableForSoldObjectWithBuyingPriceNotShowsBuyingPrice() {
+		$this->testingFramework->changeRecord(
+			REALTY_TABLE_OBJECTS,
+			$this->firstRealtyUid,
+			array(
+				'object_type' => REALTY_FOR_SALE,
+				'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
+				'buying_price' => '504',
+			)
+		);
+
+		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
+
+		$this->assertNotContains(
+			'504',
+			$this->fixture->render()
+		);
 	}
 
 	public function testCreateListViewReturnsPricesWithTheCurrencyProvidedByTheObjectIfNoCurrencyIsSetInTsSetup() {

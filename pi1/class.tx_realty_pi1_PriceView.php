@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 	/**
@@ -47,11 +48,17 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 	 *                type
 	 */
 	public function render(array $piVars = array()) {
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')->find($piVars['showUid']);
+		if ($this->getConfValueBoolean('priceOnlyIfAvailable')
+			&& $realtyObject->isRentedOrSold()
+		) {
+			return '';
+		}
+
 		$hasValidContent = TRUE;
 
-		switch (tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($piVars['showUid'])->getProperty('object_type')
-		) {
+		switch ($realtyObject->getProperty('object_type')) {
 			case REALTY_FOR_SALE:
 				$keyToShow = 'buying_price';
 				$keyToHide = 'rent_excluding_bills';

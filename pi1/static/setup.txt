@@ -55,6 +55,10 @@ plugin.tx_realty_pi1 {
 	# PID of the system folder for FE-created auxiliary records
 	sysFolderForFeCreatedAuxiliaryRecords =
 
+	# whether the price (buying price or rent) should only be visible if an
+	# object is vacant or reserved, but not if it is sold of rented
+	priceOnlyIfAvailable = 0
+
 	# whether to show the next and previous buttons in the single view
 	enableNextPreviousButtons = 0
 
