@@ -565,6 +565,176 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewFillsStatusMarkerWithStatusLabel() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'pages' => $this->systemFolderPid,
+				'showGoogleMaps' => 0,
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			$fixture->translate('label_status_3'),
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForVacantStatusSetsVacantStatusClass() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'pages' => $this->systemFolderPid,
+				'showGoogleMaps' => 0,
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			'class="status_vacant"',
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForReservedStatusSetsReservedStatusClass() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'pages' => $this->systemFolderPid,
+				'showGoogleMaps' => 0,
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			'class="status_reserved"',
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForSoldStatusSetsSoldStatusClass() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'pages' => $this->systemFolderPid,
+				'showGoogleMaps' => 0,
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			'class="status_sold"',
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForRentedStatusSetsRentedStatusClass() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'pages' => $this->systemFolderPid,
+				'showGoogleMaps' => 0,
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			'class="status_rented"',
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
 	public function testCreateListViewReturnsPricesWithTheCurrencyProvidedByTheObjectIfNoCurrencyIsSetInTsSetup() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,

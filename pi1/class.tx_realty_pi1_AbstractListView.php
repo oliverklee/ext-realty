@@ -386,12 +386,25 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 		foreach (array(
 			'city', 'district', 'living_area', 'number_of_rooms', 'heating_type',
-			'buying_price', 'extra_charges', 'rent_excluding_bills',
+			'buying_price', 'extra_charges', 'rent_excluding_bills', 'status',
 		) as $key) {
 			$this->setOrDeleteMarkerIfNotEmpty(
 				$key, $this->getFormatter()->getProperty($key), '', 'wrapper'
 			);
 		}
+
+		$realtyObject = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_RealtyObject')
+			->find($this->internal['currentRow']['uid']);
+		$statusClasses = array(
+			tx_realty_Model_RealtyObject::STATUS_VACANT => 'vacant',
+			tx_realty_Model_RealtyObject::STATUS_RESERVED => 'reserved',
+			tx_realty_Model_RealtyObject::STATUS_SOLD => 'sold',
+			tx_realty_Model_RealtyObject::STATUS_RENTED => 'rented',
+		);
+		$this->setMarker(
+			'statusclass', $statusClasses[$realtyObject->getStatus()]
+		);
 
 		switch ($this->internal['currentRow']['object_type']) {
 			case REALTY_FOR_SALE:
