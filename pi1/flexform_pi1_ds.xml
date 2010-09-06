@@ -356,11 +356,15 @@
 										<numIndex index="1">offerer</numIndex>
 									</numIndex>
 									<numIndex index="14" type="array">
+										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.status</numIndex>
+										<numIndex index="1">status</numIndex>
+									</numIndex>
+									<numIndex index="15" type="array">
 										<numIndex index="0">LLL:EXT:realty/pi1/locallang.xml:realty.pi_flexform.googleMaps</numIndex>
 										<numIndex index="1">googleMaps</numIndex>
 									</numIndex>
 								</items>
-								<maxitems>15</maxitems>
+								<maxitems>16</maxitems>
 								<minitems>0</minitems>
 								<renderMode>checkbox</renderMode>
 							</config>

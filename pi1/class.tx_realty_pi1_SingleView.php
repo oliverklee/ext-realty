@@ -132,7 +132,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			'nextPreviousButtons', 'heading', 'address', 'description',
 			'documents', 'price', 'overviewTable', 'offerer', 'contactButton',
 			'googleMaps', 'addToFavoritesButton', 'furtherDescription',
-			'imageThumbnails', 'backButton', 'printPageButton',
+			'imageThumbnails', 'backButton', 'printPageButton', 'status',
 		) as $key) {
 			$viewContent = in_array($key, $configuredViews)
 				? $this->getView($uid, $key)

@@ -107,6 +107,7 @@
 			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
+			<label index="realty.pi_flexform.status">object status</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
 			<label index="label_title">Title</label>
@@ -495,6 +496,7 @@
 			<label index="realty.pi_flexform.furtherDescription">Felder &quot;Ausstattung&quot;, &quot;Lage&quot; und &quot;Sonstiges&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">Bilder</label>
 			<label index="realty.pi_flexform.offerer">Anbieterinformationen</label>
+			<label index="realty.pi_flexform.status">Objektstatus</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
 			<label index="label_title">Titel</label>
@@ -1953,6 +1955,7 @@
 			<label index="realty.pi_flexform.furtherDescription" type="integer">175943160</label>
 			<label index="realty.pi_flexform.imageThumbnails" type="integer">94064961</label>
 			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
+			<label index="realty.pi_flexform.status" type="integer">236294577</label>
 			<label index="realty.pi_flexform.googleMaps" type="integer">81136306</label>
 			<label index="realty.pi_flexform.sheet_template_and_special" type="integer">132093617</label>
 			<label index="label_title" type="integer">192455458</label>
@@ -3409,6 +3412,7 @@
 			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
+			<label index="realty.pi_flexform.status">object status</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
 			<label index="label_title">Title</label>

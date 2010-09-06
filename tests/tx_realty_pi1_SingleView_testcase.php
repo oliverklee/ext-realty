@@ -72,7 +72,7 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 			'singleViewPartsToDisplay',
 			'heading,address,description,documents,furtherDescription,price,' .
 				'overviewTable,imageThumbnails,addToFavoritesButton,' .
-				'contactButton,offerer,printPageButton,backButton'
+				'contactButton,offerer,status,printPageButton,backButton'
 		);
 		$this->dummyCityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES
@@ -540,6 +540,40 @@ class tx_realty_pi1_SingleView_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			$this->fixture->translate('label_offerer'),
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysStatusIfThisIsEnabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array());
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'status'
+		);
+
+		$this->assertContains(
+			'tx-realty-pi1-status',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysStatusIfThisIsDisabled() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array());
+
+		$this->fixture->setConfigurationValue(
+			'singleViewPartsToDisplay', 'heading'
+		);
+
+		$this->assertNotContains(
+			'tx-realty-pi1-status',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
