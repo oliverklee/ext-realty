@@ -33,7 +33,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_pi1_DocumentsViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_pi1_DocumentsView
 	 */
