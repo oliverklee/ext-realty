@@ -37,7 +37,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
+class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_Model_RealtyObjectChild
 	 */

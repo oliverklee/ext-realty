@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4047] Cleanup: Rename all test classes from *_testcase to *Test
 - [#4103] Feature: Allow to upload a separate thumbnail image for the images
 - [#4109] Change: Change tx_realty_Model_RealtyObject::getAddressParts from private to protected
 - [#4077] Feature: Provide a "floor" subpart & marker in the list view

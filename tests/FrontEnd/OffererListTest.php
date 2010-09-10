@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_offererList class in the 'realty'
+ * Unit tests for the tx_realty_offererList class in the "realty"
  * extension.
  *
  * @package TYPO3
@@ -33,7 +33,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_offererList_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_testingFramework
 	 */

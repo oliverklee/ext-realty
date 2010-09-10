@@ -27,7 +27,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Unit tests for the tx_realty_openImmoImport class in the 'realty' extension.
+ * Unit tests for the tx_realty_openImmoImport class in the "realty" extension.
  *
  * @package TYPO3
  * @subpackage tx_realty
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
+class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_openImmoImport instance to be tested
 	 */

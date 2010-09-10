@@ -33,7 +33,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1_AddToFavoritesButtonView_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_pi1_AddToFavoritesButtonView
 	 */

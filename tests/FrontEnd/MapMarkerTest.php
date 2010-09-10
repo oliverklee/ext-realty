@@ -25,14 +25,14 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_mapMarker class in the 'realty' extension.
+ * Unit tests for the tx_realty_mapMarker class in the "realty" extension.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_mapMarker_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_mapMarker
 	 */

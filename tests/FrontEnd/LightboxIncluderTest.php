@@ -32,7 +32,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_lightboxIncluder_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function setUp() {
 		$GLOBALS['TSFE'] = $this->getMock('tslib_fe', array(), array(), '', FALSE);
 	}
