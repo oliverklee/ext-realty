@@ -164,6 +164,7 @@
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
+			<label index="tx_realty_images.thumbnail">Thumbnail</label>
 			<label index="tx_realty_images.position">Position</label>
 			<label index="tx_realty_images.position.0">Standard</label>
 			<label index="tx_realty_images.position.1">Position 1</label>
@@ -341,6 +342,7 @@
 			<label index="tx_realty_images">Bild</label>
 			<label index="tx_realty_images.caption">Bildunterschrift</label>
 			<label index="tx_realty_images.image">Bild</label>
+			<label index="tx_realty_images.thumbnail">Thumbnail</label>
 			<label index="tx_realty_images.position">Position</label>
 			<label index="tx_realty_images.position.0">Standard</label>
 			<label index="tx_realty_images.position.1">Position 1</label>
@@ -1115,6 +1117,7 @@
 			<label index="tx_realty_images" type="integer">199571973</label>
 			<label index="tx_realty_images.caption" type="integer">41073277</label>
 			<label index="tx_realty_images.image" type="integer">199571973</label>
+			<label index="tx_realty_images.thumbnail" type="integer">192681499</label>
 			<label index="tx_realty_images.position" type="integer">86990347</label>
 			<label index="tx_realty_images.position.0" type="integer">246864046</label>
 			<label index="tx_realty_images.position.1" type="integer">169832149</label>
@@ -1893,6 +1896,7 @@
 			<label index="tx_realty_images">Image</label>
 			<label index="tx_realty_images.caption">Caption</label>
 			<label index="tx_realty_images.image">Image</label>
+			<label index="tx_realty_images.thumbnail">Thumbnail</label>
 			<label index="tx_realty_images.position">Position</label>
 			<label index="tx_realty_images.position.0">Standard</label>
 			<label index="tx_realty_images.position.1">Position 1</label>

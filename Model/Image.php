@@ -85,6 +85,29 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	}
 
 	/**
+	 * Gets the thumbnail file name of this image (relative to the extension's
+	 * upload directory).
+	 *
+	 * @return string
+	 *         the thumbnail file name, will be empty if no file name has been
+	 *         set
+	 */
+	public function getThumbnailFileName() {
+		return $this->getAsString('thumbnail');
+	}
+
+	/**
+	 * Checks whether this image has a non-empty thumbnail file name.
+	 *
+	 * @return boolean
+	 *         TRUE if this image has a non-empty thumbnail file name, FALSE
+	 *         otherwise
+	 */
+	public function hasThumbnailFileName() {
+		return $this->hasString('thumbnail');
+	}
+
+	/**
 	 * Gets the realty object this image is related to.
 	 *
 	 * @return tx_realty_Model_RealtyObject the related object, will be null

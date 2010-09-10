@@ -127,6 +127,45 @@ class tx_realty_Model_ImageTest extends tx_phpunit_testcase {
 	}
 
 
+	/////////////////////////////////////////////
+	// Tests concerning the thumbnail file name
+	/////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getThumbnailFileNameReturnsThumbnailFileName() {
+		$this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+
+		$this->assertEquals(
+			'foo.jpg',
+			$this->fixture->getThumbnailFileName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasThumbnailFileNameForNoThumbnailReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasThumbnailFileName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasThumbnailFileNameForNonEmptyThumbnailReturnsFalse() {
+		$this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+
+		$this->assertTrue(
+			$this->fixture->hasThumbnailFileName()
+		);
+	}
+
+
 	///////////////////////////////////////////////////////
 	// Tests concerning the relation to the realty object
 	///////////////////////////////////////////////////////
