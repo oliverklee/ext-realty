@@ -555,6 +555,74 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewFillsFloorMarkerWithFloor() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'floor' => 3,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'pages' => $this->systemFolderPid,
+				'showGoogleMaps' => 0,
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			$fixture->translate('label_floor') . ' 3',
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForZeroFloorNotContainsFloorLabel() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'floor' => 0,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'pages' => $this->systemFolderPid,
+				'showGoogleMaps' => 0,
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertNotContains(
+			$fixture->translate('label_floor'),
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
 	public function testListViewFillsMarkerForObjectNumber() {
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
