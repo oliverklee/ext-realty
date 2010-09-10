@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_pi1_ObjectsByOwnerListView_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase {
 	/**
 	 * @var string the title of a dummy object for the tests
 	 */

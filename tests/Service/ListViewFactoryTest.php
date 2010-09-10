@@ -25,14 +25,15 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the tx_realty_pi1_ListViewFactory class in the "realty" extension.
+ * Testcase for the tx_realty_pi1_ListViewFactory class in the "realty"
+ * extension.
  *
  * @package TYPO3
  * @subpackage tx_realty
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1_ListViewFactory_testcase extends tx_phpunit_testcase {
+class tx_realty_Service_ListViewFactoryTest extends tx_phpunit_testcase {
 	/**
 	 * @var tslib_cObj a mocked content object
 	 */

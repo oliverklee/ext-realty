@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_pi1_FurtherDescriptionView class in the 'realty'
+ * Unit tests for the tx_realty_pi1_HeadingView class in the "realty"
  * extension.
  *
  * @package TYPO3
@@ -33,9 +33,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_pi1_FurtherDescriptionView_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_HeadingViewTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_pi1_FurtherDescriptionView
+	 * @var tx_realty_pi1_HeadingView
 	 */
 	private $fixture;
 
@@ -48,7 +48,7 @@ class tx_realty_pi1_FurtherDescriptionView_testcase extends tx_phpunit_testcase 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->fixture = new tx_realty_pi1_FurtherDescriptionView(
+		$this->fixture = new tx_realty_pi1_HeadingView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
 			$GLOBALS['TSFE']->cObj
 		);
@@ -62,13 +62,13 @@ class tx_realty_pi1_FurtherDescriptionView_testcase extends tx_phpunit_testcase 
 	}
 
 
-	/////////////////////////////////////////
-	// Testing the further-description view
-	/////////////////////////////////////////
+	/////////////////////////////
+	// Testing the heading view
+	/////////////////////////////
 
 	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('misc' => 'foo'));
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->assertNotEquals(
 			'',
@@ -78,7 +78,7 @@ class tx_realty_pi1_FurtherDescriptionView_testcase extends tx_phpunit_testcase 
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('equipment' => 'foo'));
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$result = $this->fixture->render(
 			array('showUid' => $realtyObject->getUid())
@@ -94,49 +94,29 @@ class tx_realty_pi1_FurtherDescriptionView_testcase extends tx_phpunit_testcase 
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsLocationForValidRealtyObject() {
+	public function testRenderReturnsTheRealtyObjectsTitleForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('location' => 'foo'));
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->assertContains(
-			'foo',
+			'test title',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsEquipmentForValidRealtyObject() {
+	public function testRenderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('equipment' => 'foo'));
+			->getLoadedTestingModel(array('title' => 'test</br>title'));
 
 		$this->assertContains(
-			'foo',
+			htmlspecialchars('test</br>title'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsMiscForValidRealtyObject() {
+	public function testRenderReturnsEmptyResultForEmptyTitleOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('misc' => 'foo'));
-
-		$this->assertContains(
-			'foo',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
-	public function testRenderReturnsTheRealtyObjectsFurtherDescriptionNonHtmlspecialchared() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('misc' => 'foo</br>bar'));
-
-		$this->assertContains(
-			'foo</br>bar',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
-	public function testRenderReturnsEmptyResultForEmptyFurtherDescriptionOfValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('misc' => ''));
+			->getLoadedTestingModel(array('title' => ''));
 
 		$this->assertEquals(
 			'',

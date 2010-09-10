@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_pi1_OverviewTableView class in the 'realty'
+ * Unit tests for the tx_realty_pi1_OverviewTableView class in the "realty"
  * extension.
  *
  * @package TYPO3
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_pi1_OverviewTableView
 	 */

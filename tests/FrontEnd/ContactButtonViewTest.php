@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Unit tests for the tx_realty_pi1_DescriptionView class in the 'realty'
+ * Unit tests for the tx_realty_pi1_ContactButtonView class in the "realty"
  * extension.
  *
  * @package TYPO3
@@ -33,9 +33,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_pi1_DescriptionView_testcase extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_pi1_DescriptionView
+	 * @var tx_realty_pi1_ContactButtonView
 	 */
 	private $fixture;
 
@@ -48,9 +48,12 @@ class tx_realty_pi1_DescriptionView_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->fixture = new tx_realty_pi1_DescriptionView(
+		$this->fixture = new tx_realty_pi1_ContactButtonView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
 			$GLOBALS['TSFE']->cObj
+		);
+		$this->fixture->setConfigurationValue(
+			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
 	}
 
@@ -62,65 +65,59 @@ class tx_realty_pi1_DescriptionView_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////
-	// Testing the description view
-	/////////////////////////////////
+	////////////////////////////////////
+	// Testing the contact button view
+	////////////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
+	public function testRenderReturnsNonEmptyResultForZeroShowUid() {
+		$this->assertNotEquals(
+			'',
+			$this->fixture->render(array('showUid' => 0))
+		);
+	}
+
+	public function testRenderReturnsNonEmptyResultForShowUidOfRealtyRecordProvided() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('description' => 'foo'));
+			->getLoadedTestingModel(array('title' => 'test title'));
 
 		$this->assertNotEquals(
 			'',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	public function testRenderReturnsProvidedShowUidOfRealtyRecordAsLinkParameter() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('title' => 'test title'));
+
+		$this->assertContains(
+			'tx_realty_pi1[showUid]=' . $realtyObject->getUid(),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
 
 	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('description' => 'foo'));
-
-		$result = $this->fixture->render(
-			array('showUid' => $realtyObject->getUid())
-		);
-
-		$this->assertNotEquals(
-			'',
-			$result
-		);
 		$this->assertNotContains(
 			'###',
-			$result
+			$this->fixture->render(array('showUid' => 0))
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsDescriptionForValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('description' => 'foo'));
-
-		$this->assertContains(
-			'foo',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
-	public function testRenderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('description' => 'foo</br>bar'));
-
-		$this->assertContains(
-			'foo</br>bar',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
-		);
-	}
-
-	public function testRenderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array('description' => ''));
+	public function testRenderReturnsEmptyResultForTheCurrentPageBeingTheSameAsTheConfiguredContactPid() {
+		$this->fixture->setConfigurationValue('contactPID', $GLOBALS['TSFE']->id);
 
 		$this->assertEquals(
 			'',
-			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+			$this->fixture->render(array('showUid' => 0))
+		);
+	}
+
+	public function testRenderReturnsEmptyResultForNoContactPidConfigured() {
+		$this->fixture->setConfigurationValue('contactPID', '');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->render(array('showUid' => 0))
 		);
 	}
 }
