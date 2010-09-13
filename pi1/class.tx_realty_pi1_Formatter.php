@@ -33,6 +33,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	/**
@@ -178,18 +179,19 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'garage_price':
 				$result = $this->getFormattedPrice($key);
 				break;
-			case 'usable_from':
-				$result = htmlspecialchars($realtyObject->getProperty($key));
-				break;
 			case 'bedrooms':
 				// The fallthrough is intended.
 			case 'bathrooms':
 				// The fallthrough is intended.
+			case 'number_of_rooms':
+				$result = $this->getFormattedDecimal($key, 1);
+				break;
+			case 'usable_from':
+				$result = htmlspecialchars($realtyObject->getProperty($key));
+				break;
 			case 'site_occupancy_index':
 				// The fallthrough is intended.
 			case 'floor_space_index':
-				// The fallthrough is intended.
-			case 'number_of_rooms':
 				$result = $this->getFormattedDecimal($key);
 				break;
 			case 'floor':
@@ -394,12 +396,14 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * system's locale and strips zeros on the end of the value.
 	 *
 	 * @param string $key name of a database column, must not be empty
+	 * @param integer $decimals
+	 *        the number of decimals after the decimal point, must be >= 0
 	 *
 	 * @return string the number in the field formatted using the system's
 	 *                locale and stripped of trailing zeros, will be empty if
 	 *                the value is zero.
 	 */
-	private function getFormattedDecimal($key) {
+	private function getFormattedDecimal($key, $decimals = 2) {
 		$value = str_replace(
 			',',
 			'.',
@@ -407,7 +411,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				->find($this->getUid())->getProperty($key)
 		);
 
-		return self::formatDecimal(floatval($value));
+		return self::formatDecimal(floatval($value), $decimals);
 	}
 
 	/**
@@ -415,22 +419,23 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * if neccessary.
 	 *
 	 * @param float $number the number to format
+	 * @param integer $decimals
+	 *        the number of decimals after the decimal point, must be >= 0
 	 *
 	 * @return $string the formatted float, will be empty if zero was given
 	 */
-	public static function formatDecimal($number) {
-		if ($number == 0) {
+	public static function formatDecimal($number, $decimals = 2) {
+		if ($number == 0.0) {
 			return '';
+		}
+		if ($number === round($number)) {
+			return (string) round($number);
 		}
 
 		$localeConvention = localeconv();
 		$decimalPoint = $localeConvention['decimal_point'];
-		$formattedNumber = number_format($number, 2, $decimalPoint, '');
 
-		return preg_replace('/\\' . $decimalPoint . '?0+$/',
-			'',
-			$formattedNumber
-		);
+		return number_format($number, $decimals, $decimalPoint, '');
 	}
 }
 

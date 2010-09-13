@@ -1172,13 +1172,16 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndDataWithTrailingZeros_RemovesTrailingZerosFromInput() {
+	/**
+	 * @test
+	 */
+	public function searchFormForNumberOfRoomsWithTwoDecimalsRoundsToOneDecimal() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
 
 		$output = $this->fixture->render(
-			array('numberOfRoomsTo' => '15.20')
+			array('numberOfRoomsTo' => '15.22')
 		);
 
 		$this->assertContains(
@@ -1193,11 +1196,11 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 
 		$output = $this->fixture->render(
-			array('numberOfRoomsTo' => '15,25')
+			array('numberOfRoomsTo' => '15,2')
 		);
 
 		$this->assertContains(
-			'value="15.25"',
+			'value="15.2"',
 			$output
 		);
 	}

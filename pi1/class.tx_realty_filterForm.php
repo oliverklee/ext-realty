@@ -175,7 +175,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 					$commaFreeValue = $this->replaceCommasWithDots($rawValue);
 					$this->filterFormData[$key]
 						= tx_realty_pi1_Formatter::formatDecimal(
-							floatval($commaFreeValue)
+							floatval($commaFreeValue), 1
 						);
 				default:
 					break;

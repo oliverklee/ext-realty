@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4119] Change: Drop all-zero positions after the decimal point in the FE display of areas, lengths and prices
 - [#4118] Feature: Add some more area fields
 - [#4117] Change: In the list view, put the first of two images in the left position
 - [#4090] Feature: Add additional image subparts in the single view
