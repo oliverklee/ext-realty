@@ -368,16 +368,11 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	private function getFormattedNumber($key, $unit) {
 		$rawValue = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($this->getUid())->getProperty($key);
-		if (($rawValue == '') || (intval($rawValue) == 0)) {
+		if (($rawValue == '') || (floatval($rawValue) == 0.0)) {
 			return '';
 		}
 
-		$localeConvention = localeconv();
-		$decimals = intval($this->getConfValueString('numberOfDecimals'));
-
-		$formattedNumber = number_format(
-			$rawValue, $decimals, $localeConvention['decimal_point'], ' '
-		);
+		$formattedNumber = self::formatDecimal(floatval($rawValue));
 
 		return $formattedNumber . '&nbsp;' . $unit;
 	}

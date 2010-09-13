@@ -1143,15 +1143,18 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewFormatsPriceUsingSpaceAsThousandsSeparator() {
+	/**
+	 * @test
+	 */
+	public function listViewFormatsPriceUsingNoThousandsSeparator() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '1234567', 'object_type' => REALTY_FOR_SALE)
+			array('buying_price' => 1234567.00, 'object_type' => REALTY_FOR_SALE)
 		);
 
 		$this->assertContains(
-			'1 234 567',
+			'1234567',
 			$this->fixture->render()
 		);
 	}

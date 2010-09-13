@@ -231,23 +231,55 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsEstateSizeAsFormattedAreaWithDecimals() {
-		$this->realtyObject->setProperty('estate_size', 12345);
+	/**
+	 * @test
+	 */
+	public function getPropertyFormatsEstateSizeWithTwoDecimals() {
+		$this->realtyObject->setProperty('estate_size', 12345.50);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12 345' . $localeConvention['decimal_point'] . '00&nbsp;' .
+			'12345' . $localeConvention['decimal_point'] . '50&nbsp;' .
 				$this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('estate_size')
 		);
 	}
 
-	public function testGetPropertyReturnsHoaFeeAsFormattedPriceWithDecimals() {
-		$this->realtyObject->setProperty('hoa_fee', 12345);
+	/**
+	 * @test
+	 */
+	public function getPropertyForEstateSizeCutsOffAllZeroDecimals() {
+		$this->realtyObject->setProperty('estate_size', 12345.00);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12 345' . $localeConvention['decimal_point'] . '00&nbsp;&euro;',
+			'12345' . '&nbsp;' . $this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('estate_size')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsFormatsHoaFeeFormattedWithTwoWithDecimals() {
+		$this->realtyObject->setProperty('hoa_fee', 12345.67);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12345' . $localeConvention['decimal_point'] . '67&nbsp;&euro;',
+			$this->fixture->getProperty('hoa_fee')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForHoaFeeCutsOffAllZeroDecimals() {
+		$this->realtyObject->setProperty('hoa_fee', 12345.00);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12345&nbsp;&euro;',
 			$this->fixture->getProperty('hoa_fee')
 		);
 	}
@@ -408,11 +440,25 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyForTotalUsableAreaReturnsItAsFormattedArea() {
-		$this->realtyObject->setProperty('total_usable_area', '123');
+		$this->realtyObject->setProperty('total_usable_area', 123.45);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'123' . $localeConvention['decimal_point'] . '00&nbsp;' .
+			'123' . $localeConvention['decimal_point'] . '45&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('total_usable_area')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForTotalUsableAreaCutsOffAllZeroDecimals() {
+		$this->realtyObject->setProperty('total_usable_area', 123.00);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'123&nbsp;' .
 				$this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('total_usable_area')
 		);
@@ -422,11 +468,11 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyForOfficeSpaceReturnsItAsFormattedArea() {
-		$this->realtyObject->setProperty('office_space', '58');
+		$this->realtyObject->setProperty('office_space', 58.23);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'58' . $localeConvention['decimal_point'] . '00&nbsp;' .
+			'58' . $localeConvention['decimal_point'] . '23&nbsp;' .
 				$this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('office_space')
 		);
@@ -436,7 +482,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyForShopAreaReturnsItAsFormattedArea() {
-		$this->realtyObject->setProperty('shop_area', '12.34');
+		$this->realtyObject->setProperty('shop_area', 12.34);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
@@ -450,7 +496,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyForStorageAreaReturnsItAsFormattedArea() {
-		$this->realtyObject->setProperty('storage_area', '18.4');
+		$this->realtyObject->setProperty('storage_area', 18.4);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
@@ -464,11 +510,11 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyForSiteOccupancyIndexReturnsItAsFormattedDecimal() {
-		$this->realtyObject->setProperty('site_occupancy_index', '19.40');
+		$this->realtyObject->setProperty('site_occupancy_index', 19.40);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'19' . $localeConvention['decimal_point'] . '4',
+			'19' . $localeConvention['decimal_point'] . '40',
 			$this->fixture->getProperty('site_occupancy_index')
 		);
 	}
@@ -477,7 +523,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyForFloorSpaceIndexReturnsItAsFormattedDecimal() {
-		$this->realtyObject->setProperty('floor_space_index', '19.48');
+		$this->realtyObject->setProperty('floor_space_index', 19.48);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
@@ -490,11 +536,24 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyReturnsRentPerSquareMeterAsFormattedPriceWithDecimals() {
-		$this->realtyObject->setProperty('rent_per_square_meter', 12345);
+		$this->realtyObject->setProperty('rent_per_square_meter', 12345.67);
 		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12 345' . $localeConvention['decimal_point'] . '00&nbsp;&euro;',
+			'12345' . $localeConvention['decimal_point'] . '67&nbsp;&euro;',
+			$this->fixture->getProperty('rent_per_square_meter')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForRentPerSquareMeterCutsOffAllZeroDecimals() {
+		$this->realtyObject->setProperty('rent_per_square_meter', 12345.00);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12345&nbsp;&euro;',
 			$this->fixture->getProperty('rent_per_square_meter')
 		);
 	}
