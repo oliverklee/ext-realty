@@ -703,6 +703,38 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function listViewForNegativeFloorShowsFloor() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'floor' => -3,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			$fixture->translate('label_floor') . ' -3',
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
 	public function listViewForZeroFloorNotContainsFloorLabel() {
 		$systemFolder = $this->testingFramework->createSystemFolder();
 		$this->testingFramework->createRecord(

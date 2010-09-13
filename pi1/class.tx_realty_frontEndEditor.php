@@ -277,6 +277,19 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	////////////////////////////
 
 	/**
+	 * Checks whether a number is a valid non-negative number and does not have
+	 * decimal digits.
+	 *
+	 * @param array array with one element named "value" that contains
+	 *              the number to check, this number may also be empty
+	 *
+	 * @return boolean TRUE if the number is a non-negative integer or empty
+	 */
+	public function isValidNonNegativeIntegerNumber(array $formData) {
+		return $this->isValidNumber($formData['value'], FALSE);
+	}
+
+	/**
 	 * Checks whether a number is valid and does not have decimal digits.
 	 *
 	 * @param array array with one element named "value" that contains
@@ -285,7 +298,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return boolean TRUE if the number is an integer or empty
 	 */
 	public function isValidIntegerNumber(array $formData) {
-		return $this->isValidNumber($formData['value'], FALSE);
+		$value = (substr($formData['value'], 0, 1) == '-')
+			? substr($formData['value'], 1)
+			: $formData['value'];
+
+		return $this->isValidNumber($value, FALSE);
 	}
 
 	/**
@@ -329,7 +346,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			: array($formData['value']);
 
 		foreach ($valuesToCheck as $value) {
-			if (!$this->isValidIntegerNumber(array('value' => $value))) {
+			if (
+				!$this->isValidNonNegativeIntegerNumber(array('value' => $value))
+			) {
 				$result = FALSE;
 			}
 		}

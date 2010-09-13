@@ -968,7 +968,7 @@
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isValidIntegerNumber</method>
+						<method>isValidNonNegativeIntegerNumber</method>
 						<message>
 							<userobj>
 								<extension>this</extension>
@@ -1029,7 +1029,7 @@
 				<validator:STANDARD>
 					<userobj>
 						<extension>this</extension>
-						<method>isValidIntegerNumber</method>
+						<method>isValidNonNegativeIntegerNumber</method>
 						<message>
 							<userobj>
 								<extension>this</extension>
