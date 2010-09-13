@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4117] Change: In the list view, put the first of two images in the left position
 - [#4090] Feature: Add additional image subparts in the single view
 - [#4084] Feature: Add a configuration about which JavaScript libraries to include in the single view and image upload
 - [#4047] Cleanup: Rename all test classes from *_testcase to *Test

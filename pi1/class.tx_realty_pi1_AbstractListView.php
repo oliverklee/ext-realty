@@ -372,14 +372,30 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarker('class_position_in_list', $position);
 
+		$numberOfImages = $this->internal['currentRow']['images'];
+		switch ($numberOfImages) {
+			case 0:
+				$leftImage = '';
+				$rightImage = '';
+				break;
+			case 1:
+				$leftImage = '';
+				$rightImage = $this->getImageLinkedToSingleView('listImageMax');
+				break;
+			default:
+				$leftImage = $this->getImageLinkedToSingleView('listImageMax');
+				$rightImage = $this->getImageLinkedToSingleView('listImageMax', 1);
+				break;
+		}
+
 		foreach (array(
 			'uid' => $this->internal['currentRow']['uid'],
 			'object_number' => $this->internal['currentRow']['object_number'],
 			'teaser' => $this->internal['currentRow']['teaser'],
 			'linked_title' => $this->getLinkedTitle(),
 			'features' => $this->getFeatureList(),
-			'list_image_right' => $this->getImageLinkedToSingleView('listImageMax'),
-			'list_image_left' => $this->getImageLinkedToSingleView('listImageMax', 1),
+			'list_image_left' => $leftImage,
+			'list_image_right' => $rightImage,
 		) as $key => $value) {
 			$this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper');
 		}

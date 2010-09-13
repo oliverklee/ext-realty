@@ -440,13 +440,20 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	// Tests for the images in the list view
 	//////////////////////////////////////////
 
-	public function testListViewContainsEnabledImage() {
+	/**
+	 * @test
+	 */
+	public function listViewContainsRelatedImage() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'test image',
 				'object' => $this->firstRealtyUid,
 			)
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 1)
 		);
 
 		$this->assertContains(
@@ -455,7 +462,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewDoesNotContainDeletedImage() {
+	/**
+	 * @test
+	 */
+	public function listViewNotContainsRelatedDeletedImage() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -464,13 +474,21 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'deleted' => 1,
 			)
 		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 1)
+		);
+
 		$this->assertNotContains(
 			'test image',
 			$this->fixture->render()
 		);
 	}
 
-	public function testListViewDoesNotContainHiddenImage() {
+	/**
+	 * @test
+	 */
+	public function listViewNotContainsRelatedHiddenImage() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -479,13 +497,21 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'hidden' => 1,
 			)
 		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 1)
+		);
+
 		$this->assertNotContains(
 			'test image',
 			$this->fixture->render()
 		);
 	}
 
-	public function testImagesInTheListViewAreLinkedToTheSingleView() {
+	/**
+	 * @test
+	 */
+	public function imagesInTheListViewAreLinkedToTheSingleView() {
 		// Titles are set to '' to ensure there are no other links to the
 		// single view page in the result.
 		$this->testingFramework->changeRecord(
@@ -496,7 +522,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('images' => '1', 'title' => '')
+			array('images' => 1, 'title' => '')
 		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
@@ -511,6 +537,90 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->assertContains(
 			'?id=' . $this->singlePid,
 			$output
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForOneImagePutsImageInRightPosition() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'single test image',
+				'object' => $this->firstRealtyUid,
+			)
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 1)
+		);
+
+		$this->assertRegExp(
+			'/<td class="image imageRight"><a [^>]+>single test image<\/a><\/td>/',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForTwoImagesPutsFirstImageInLeftPosition() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'first image',
+				'object' => $this->firstRealtyUid,
+				'sorting' => 1,
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'second image',
+				'object' => $this->firstRealtyUid,
+				'sorting' => 2,
+			)
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 2)
+		);
+
+		$this->assertRegExp(
+			'/<td class="image imageLeft"><a [^>]+>first image<\/a><\/td>/',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForTwoImagesPutsSecondImageInRightPosition() {
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'first image',
+				'object' => $this->firstRealtyUid,
+				'sorting' => 1,
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'second image',
+				'object' => $this->firstRealtyUid,
+				'sorting' => 2,
+			)
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 2)
+		);
+
+		$this->assertRegExp(
+			'/<td class="image imageRight"><a [^>]+>second image<\/a><\/td>/',
+			$this->fixture->render()
 		);
 	}
 
