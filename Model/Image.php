@@ -97,6 +97,17 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	}
 
 	/**
+	 * Sets the name of the separate thumbnail file.
+	 *
+	 * @param string $fileName
+	 *        the name of the thumbnail file relative to the extension's upload
+	 *        directory, may be empty
+	 */
+	public function setThumbnailFileName($fileName) {
+		$this->setAsString('thumbnail', $fileName);
+	}
+
+	/**
 	 * Checks whether this image has a non-empty thumbnail file name.
 	 *
 	 * @return boolean

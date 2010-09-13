@@ -1827,6 +1827,34 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function addImageRecordByDefaultSetsEmptyThumbnailFileName() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getImages()->first()->getThumbnailFileName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addImageRecordCanSetNonEmptyThumbnailFileName() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg', 0, 'bar.jpg');
+
+		$this->assertEquals(
+			'bar.jpg',
+			$this->fixture->getImages()->first()->getThumbnailFileName()
+		);
+	}
+
 
 	//////////////////////////////////////////////
 	// Tests concerning markImageRecordAsDeleted
