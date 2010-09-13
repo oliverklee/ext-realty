@@ -259,7 +259,13 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			array(array()),
+			array(
+				array(
+					'sales_area' => 0.0,
+					'other_area' => 0.0,
+					'window_bank' => 0.0,
+				),
+			),
 			$this->fixture->getConvertedData($node)
 		);
 	}
@@ -279,8 +285,16 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(
-				array(),
-				array(),
+				array(
+					'sales_area' => 0.0,
+					'other_area' => 0.0,
+					'window_bank' => 0.0,
+				),
+				array(
+					'sales_area' => 0.0,
+					'other_area' => 0.0,
+					'window_bank' => 0.0,
+				),
 			),
 			$this->fixture->getConvertedData($node)
 		);
@@ -599,7 +613,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getConvertedDataReturnsUniversalDataInEachRecord() {
+	public function getConvertedDataReturnsUniversalDataAndDefaultValuesInEachRecord() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -611,19 +625,24 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
-		$universalData = array(
+		$universalDataAndDefaultValues = array(
+			'sales_area' => 0.0,
+			'other_area' => 0.0,
+			'window_bank' => 0.0,
 			'employer' => 'foo',
 			'openimmo_anid' => 'bar',
 		);
 		$result = $this->fixture->getConvertedData($node);
 
 		$this->assertEquals(
-			$universalData,
-			$result[0]
+			$universalDataAndDefaultValues,
+			$result[0],
+			'The first record has been imported incorrectly.'
 		);
 		$this->assertEquals(
-			$universalData,
-			$result[1]
+			$universalDataAndDefaultValues,
+			$result[1],
+			'The second record has been imported incorrectly.'
 		);
 	}
 
@@ -2726,6 +2745,29 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function getConvertedDataImportsSalesArea() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<verkaufsflaeche>123.45</verkaufsflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			123.45,
+			$result[0]['sales_area']
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getConvertedDataImportsStorageArea() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
@@ -2766,6 +2808,52 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			123.45,
 			$result[0]['office_space']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsOtherArea() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<sonstflaeche>123.45</sonstflaeche>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			123.45,
+			$result[0]['other_area']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsWindowBank() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<flaechen>' .
+							'<fensterfront>12.34</fensterfront>' .
+						'</flaechen>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			12.34,
+			$result[0]['window_bank']
 		);
 	}
 

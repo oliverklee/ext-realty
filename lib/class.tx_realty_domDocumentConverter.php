@@ -101,6 +101,17 @@ class tx_realty_domDocumentConverter {
 	);
 
 	/**
+	 * fields that should be imported as decimals
+	 *
+	 * @var array<array>
+	 */
+	private static $decimalFields = array(
+		'sales_area' => array('flaechen' => 'verkaufsflaeche'),
+		'other_area' => array('flaechen' => 'sonstflaeche'),
+		'window_bank' => array('flaechen' => 'fensterfront'),
+	);
+
+	/**
 	 * the keys of the fields that are of boolean type
 	 *
 	 * @var array<string>
@@ -404,14 +415,21 @@ class tx_realty_domDocumentConverter {
 	 * column names as keys in $this->importedData.
 	 */
 	private function fetchNodeValues() {
-		foreach (self::$propertyArray as $databaseColumnName => $openImmoNames) {
+		foreach (self::$propertyArray as $key => $path) {
 			$currentDomNode = $this->findFirstGrandchild(
-				key($openImmoNames),
-				implode($openImmoNames)
+				key($path),
+				implode($path)
 			);
-			$this->addImportedData(
-				$databaseColumnName, $currentDomNode->nodeValue
+			$this->addImportedData($key, $currentDomNode->nodeValue);
+		}
+		foreach (self::$decimalFields as $key => $path) {
+			$currentDomNode = $this->findFirstGrandchild(
+				key($path),
+				implode($path)
 			);
+			$value = ($currentDomNode !== NULL)
+				? floatval($currentDomNode->nodeValue) : 0.0;
+			$this->addImportedData($key, $value);
 		}
 
 		$this->appendStreetNumber();
