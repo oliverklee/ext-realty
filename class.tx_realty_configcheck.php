@@ -70,6 +70,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
 		$this->checkEnableNextPreviousButtons();
+		$this->checkPriceOnlyIfAvailable();
 	}
 
 	/**
@@ -120,6 +121,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkGroupsWithSpeciallyDisplayedContactInformation();
 		$this->checkOffererImageConfiguration();
 		$this->checkEnableNextPreviousButtonsForSingleView();
+		$this->checkPriceOnlyIfAvailable();
 	}
 
 	/**
@@ -927,6 +929,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the PID of the system folder for FE-created ' .
 				'auxiliary records. New cities and districts will be stored on' .
 				'the root page if this value is invalid.'
+		);
+	}
+
+	/**
+	 * Checks the setting of the configuration value priceOnlyIfAvailable.
+	 */
+	private function checkPriceOnlyIfAvailable() {
+		$this->checkIfBoolean(
+			'priceOnlyIfAvailable',
+			FALSE,
+			'',
+			'This value specifies whether a the price will be shown for sold ' .
+				'or rented objects. If this value is set incorrectly, the ' .
+				'price might get shown although this is not intended (or ' .
+				'vice versa).'
 		);
 	}
 
