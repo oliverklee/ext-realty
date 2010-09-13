@@ -31,9 +31,12 @@
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
 			<label index="tx_realty_objects.shop_area">Shop area in m²</label>
+			<label index="tx_realty_objects.sales_area">Sales area in m²</label>
 			<label index="tx_realty_objects.total_usable_area">Total usable area in m²</label>
 			<label index="tx_realty_objects.storage_area">Storage area in m²</label>
 			<label index="tx_realty_objects.office_space">Office space in m²</label>
+			<label index="tx_realty_objects.other_area">Other area in m²</label>
+			<label index="tx_realty_objects.window_bank">Window bank in m</label>
 			<label index="tx_realty_objects.estate_size">Estate size in m²</label>
 			<label index="tx_realty_objects.site_occupancy_index">Site occupancy index</label>
 			<label index="tx_realty_objects.floor_space_index">Floor-space index</label>
@@ -209,9 +212,12 @@
 			<label index="tx_realty_objects.living_area">Wohnfläche ca. in m²</label>
 			<label index="tx_realty_objects.total_area">Gesamtfläche ca. in m²</label>
 			<label index="tx_realty_objects.shop_area">Ladenfläche ca. in m²</label>
+			<label index="tx_realty_objects.sales_area">Verkaufsfläche ca. in m²</label>
 			<label index="tx_realty_objects.total_usable_area">Nutzfläche ca. in m²</label>
 			<label index="tx_realty_objects.storage_area">Lagerfläche ca. in m²</label>
 			<label index="tx_realty_objects.office_space">Bürofläche ca. in m²</label>
+			<label index="tx_realty_objects.other_area">Sonstige Fläche ca. in m²</label>
+			<label index="tx_realty_objects.window_bank">Fensterfront ca. in m</label>
 			<label index="tx_realty_objects.estate_size">Grundstücksfläche in m²</label>
 			<label index="tx_realty_objects.site_occupancy_index">Grundflächenzahl (GRZ)</label>
 			<label index="tx_realty_objects.floor_space_index">Geschossflächenzahl (GFZ)</label>
@@ -1067,9 +1073,9 @@
 			<label index="tx_realty_objects.state.15" type="integer">104896764</label>
 			<label index="tx_realty_objects.state.16" type="integer">24698282</label>
 			<label index="tx_realty_objects.state.17" type="integer">112726903</label>
-			<label index="tx_realty_objects.state.18" type="integer">31077979</label>
+			<label index="tx_realty_objects.state.18" type="integer">24647912</label>
 			<label index="tx_realty_objects.state.19" type="integer">141770829</label>
-			<label index="tx_realty_objects.state.20" type="integer">240975082</label>
+			<label index="tx_realty_objects.state.20" type="integer">180193091</label>
 			<label index="tx_realty_objects.state.21" type="integer">41136802</label>
 			<label index="tx_realty_objects.furnishing_category" type="integer">178306573</label>
 			<label index="tx_realty_objects.furnishing_category.1" type="integer">201388228</label>
@@ -1141,6 +1147,9 @@
 			<label index="tx_realty_objects.has_community_pool" type="integer">7430612</label>
 			<label index="tx_realty_objects.teaser" type="integer">124178563</label>
 			<label index="fe_users.tx_realty_maximum_objects" type="integer">97532292</label>
+			<label index="tx_realty_objects.sales_area" type="integer">184736607</label>
+			<label index="tx_realty_objects.other_area" type="integer">202191494</label>
+			<label index="tx_realty_objects.window_bank" type="integer">189120873</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -1920,6 +1929,9 @@
 			<label index="tx_realty_objects.has_community_pool">Community pool</label>
 			<label index="tx_realty_objects.teaser">Teaser</label>
 			<label index="fe_users.tx_realty_maximum_objects">Maximum number of objects</label>
+			<label index="tx_realty_objects.sales_area">Sales area in m²</label>
+			<label index="tx_realty_objects.other_area">Other area in m²</label>
+			<label index="tx_realty_objects.window_bank">Window bank in m</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Realty object</label>

@@ -10,9 +10,10 @@ $TCA['tx_realty_objects'] = array(
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .
 			'hidden,starttime,endtime,object_number,object_type,title,sorting,' .
-			'emphasized,show_address,street,zip,city,district,country,number_of_rooms,' .
-			'living_area,total_area,shop_area,total_usable_area,storage_area,' .
-			'office_space,estate_size,site_occupancy_index,floor_space_index,' .
+			'emphasized,show_address,street,zip,city,district,country,' .
+			'number_of_rooms,living_area,total_area,shop_area,sales_area,' .
+			'total_usable_area,storage_area,office_space,other_area,window_bank' .
+			'estate_size,site_occupancy_index,floor_space_index,' .
 			'rent_excluding_bills,rent_per_square_meter,extra_charges,' .
 			'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
 			'year_rent,status,apartment_type,house_type,floor,floors,bedrooms,' .
@@ -351,6 +352,16 @@ $TCA['tx_realty_objects'] = array(
 				'checkbox' => '0.00',
 			),
 		),
+		'sales_area' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.sales_area',
+			'config' => array(
+				'type' => 'input',
+				'size' => '8',
+				'eval' => 'double2',
+				'checkbox' => '0.00',
+			),
+		),
 		'total_usable_area' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_usable_area',
@@ -374,6 +385,26 @@ $TCA['tx_realty_objects'] = array(
 		'office_space' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.office_space',
+			'config' => array(
+				'type' => 'input',
+				'size' => '8',
+				'eval' => 'double2',
+				'checkbox' => '0.00',
+			),
+		),
+		'other_area' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.other_area',
+			'config' => array(
+				'type' => 'input',
+				'size' => '8',
+				'eval' => 'double2',
+				'checkbox' => '0.00',
+			),
+		),
+		'window_bank' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.window_bank',
 			'config' => array(
 				'type' => 'input',
 				'size' => '8',
@@ -1183,8 +1214,9 @@ $TCA['tx_realty_objects'] = array(
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'utilization, title;;;;2-2-2, emphasized, sorting, ' .
 				'show_address;;;;2-2-2, street, zip, city, district, country, number_of_rooms, ' .
-				'living_area, total_area, shop_area, total_usable_area, ' .
-				'storage_area, office_space, estate_size, site_occupancy_index, floor_space_index, ' .
+				'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
+				'storage_area, office_space, other_area, window_bank, ' .
+				'estate_size, site_occupancy_index, floor_space_index, ' .
 				'rent_excluding_bills, rent_per_square_meter,' .
 				'extra_charges, heating_included, deposit, provision, usable_from, status, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, ' .
@@ -1227,8 +1259,9 @@ $TCA['tx_realty_objects'] = array(
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'title;;;;2-2-2, emphasized, sorting, ' .
 				'show_address;;;;2-2-2, street, zip, city, district, country, number_of_rooms, ' .
-				'living_area, total_area, shop_area, total_usable_area, ' .
-				'storage_area, office_space, estate_size, site_occupancy_index, ' .
+				'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
+				'storage_area, office_space, other_area, window_bank, ' .
+				'estate_size, site_occupancy_index, ' .
 				'floor_space_index, provision, usable_from, ' .
 				'buying_price, hoa_fee, extra_charges, year_rent, status, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, bathrooms, ' .

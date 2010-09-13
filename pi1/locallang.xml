@@ -171,9 +171,12 @@
 			<label index="label_living_area">Living area</label>
 			<label index="label_total_area">Total area</label>
 			<label index="label_shop_area">Shop area</label>
+			<label index="label_sales_area">Sales area</label>
 			<label index="label_total_usable_area">Total usable area</label>
 			<label index="label_storage_area">Storage area</label>
 			<label index="label_office_space">Office space</label>
+			<label index="label_other_area">Other area</label>
+			<label index="label_window_bank">Window bank</label>
 			<label index="label_estate_size">Estate size</label>
 			<label index="label_site_occupancy_index">Site occupancy index</label>
 			<label index="label_floor_space_index">Floor-space index</label>
@@ -560,9 +563,12 @@
 			<label index="label_living_area">Wohnfläche ca.</label>
 			<label index="label_total_area">Gesamtfläche ca.</label>
 			<label index="label_shop_area">Ladenfläche ca.</label>
+			<label index="label_sales_area">Verkaufsfläche ca.</label>
 			<label index="label_total_usable_area">Nutzfläche ca.</label>
 			<label index="label_storage_area">Lagerfläche ca.</label>
 			<label index="label_office_space">Bürofläche ca.</label>
+			<label index="label_other_area">Sonstige Fläche ca.</label>
+			<label index="label_window_bank">Fensterfront ca.</label>
 			<label index="label_estate_size">Grundstücksfläche ca.</label>
 			<label index="label_site_occupancy_index">Grundflächenzahl (GRZ)</label>
 			<label index="label_floor_space_index">Geschossflächenzahl (GFZ)</label>
@@ -2243,6 +2249,9 @@
 			<label index="label_site_occupancy_index" type="integer">46976993</label>
 			<label index="label_floor_space_index" type="integer">14617497</label>
 			<label index="label_parking_spaces" type="integer">166780875</label>
+			<label index="label_sales_area" type="integer">169313512</label>
+			<label index="label_other_area" type="integer">33322750</label>
+			<label index="label_window_bank" type="integer">255986329</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -3700,6 +3709,9 @@
 			<label index="label_site_occupancy_index">Site occupancy index</label>
 			<label index="label_floor_space_index">Floor-space index</label>
 			<label index="label_parking_spaces">Number of parking spaces</label>
+			<label index="label_sales_area">Sales area</label>
+			<label index="label_other_area">Other area</label>
+			<label index="label_window_bank">Window bank</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>
