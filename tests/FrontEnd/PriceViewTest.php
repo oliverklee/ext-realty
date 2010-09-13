@@ -54,6 +54,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1_PriceView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'currencyUnit' => '&euro;',
 				'priceOnlyIfAvailable' => FALSE,
 			),
 			$GLOBALS['TSFE']->cObj
@@ -124,7 +125,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		));
 
 		$this->assertContains(
-			'123',
+			'123&nbsp;&euro;',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -143,7 +144,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertContains(
-			'123',
+			'123&nbsp;&euro;',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -207,7 +208,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		));
 
 		$this->assertContains(
-			'123',
+			'123&nbsp;&euro;',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -226,7 +227,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertContains(
-			'123',
+			'123&nbsp;&euro;',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -245,7 +246,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertContains(
-			'123',
+			'123&nbsp;&euro;',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -277,7 +278,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		));
 
 		$this->assertNotContains(
-			'123',
+			'123&nbsp;&euro;',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
