@@ -734,6 +734,46 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture->__destruct();
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewWithTwoObjectsOneWithOneWithoutFloorShowsFloorOfSecondObject() {
+		$systemFolder = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $this->systemFolder,
+				'floor' => 0,
+			)
+		);
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_OBJECTS,
+			array(
+				'city' => $this->firstCityUid,
+				'pid' => $systemFolder,
+				'floor' => 3,
+			)
+		);
+
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
+			array(
+				'templateFile'
+					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'pages' => $systemFolder,
+			),
+			$this->createContentMock(),
+			TRUE
+		);
+
+		$this->assertContains(
+			$fixture->translate('label_floor') . ' 3',
+			$fixture->render()
+		);
+
+		$fixture->__destruct();
+	}
+
 	public function testListViewFillsMarkerForObjectNumber() {
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
