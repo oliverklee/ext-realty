@@ -624,6 +624,94 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewForRelatedImageWithoutThumbnailFileUsesImageFile() {
+		$fixture = $this->getMock(
+			'tx_realty_tests_fixtures_TestingListView',
+			array('createRestrictedImage'),
+			array(
+				array(
+					'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+					'pages' => $this->systemFolderPid,
+					'listImageMaxX' => 98,
+					'listImageMaxY' => 98,
+				),
+				$this->createContentMock(),
+				TRUE
+			)
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+			'test image',
+			98,
+			98
+		);
+
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'test image',
+				'object' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+				'thumbnail' => '',
+			)
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 1)
+		);
+
+		$fixture->render();
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewForRelatedImageWithThumbnailFileUsesThumbnailFile() {
+		$fixture = $this->getMock(
+			'tx_realty_tests_fixtures_TestingListView',
+			array('createRestrictedImage'),
+			array(
+				array(
+					'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+					'pages' => $this->systemFolderPid,
+					'listImageMaxX' => 98,
+					'listImageMaxY' => 98,
+				),
+				$this->createContentMock(),
+				TRUE
+			)
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
+			'test image',
+			98,
+			98
+		);
+
+		$this->testingFramework->createRecord(
+			REALTY_TABLE_IMAGES,
+			array(
+				'caption' => 'test image',
+				'object' => $this->firstRealtyUid,
+				'image' => 'foo.jpg',
+				'thumbnail' => 'thumbnail.jpg',
+			)
+		);
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->firstRealtyUid,
+			array('images' => 1)
+		);
+
+		$fixture->render();
+
+		$fixture->__destruct();
+	}
+
 
 	////////////////////////////////////
 	// Tests for data in the list view

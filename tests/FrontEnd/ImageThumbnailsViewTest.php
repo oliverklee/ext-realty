@@ -709,5 +709,32 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 			$result
 		);
 	}
+
+
+	/////////////////////////////////////////////
+	// Tests concerning the separate thumbnails
+	/////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function renderWithSeparateThumbnailUsesThumbnailImage() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 0, 'thumbnail.jpg');
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
+			'fooBar',
+			102,
+			77
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
 }
 ?>

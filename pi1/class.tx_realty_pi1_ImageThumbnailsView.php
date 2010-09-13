@@ -161,8 +161,11 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 			$image->getPosition()
 		);
 
+		$fileName = ($image->hasThumbnailFileName())
+			? $image->getThumbnailFileName() : $image->getFileName();
+
 		return $this->createRestrictedImage(
-			tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
+			tx_realty_Model_Image::UPLOAD_FOLDER . $fileName,
 			htmlspecialchars($image->getTitle()),
 			$configuration['thumbnailSizeX'],
 			$configuration['thumbnailSizeY'],
