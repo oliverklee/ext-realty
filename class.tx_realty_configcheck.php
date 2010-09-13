@@ -201,6 +201,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkFeEditorRedirectPid();
 		$this->checkLoginPid();
 		$this->checkImageUploadThumbnailConfiguration();
+		$this->checkIncludeJavaScriptLibraries();
 	}
 
 	/**
@@ -1122,6 +1123,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			$this->checkLightboxImageWidthMax();
 			$this->checkLightboxImageHeightMax();
 		}
+		// The inclusion of JavaScript libraries is not influenced by the
+		// enableLightbox configuration.
+		$this->checkIncludeJavaScriptLibraries();
 	}
 
 	/**
@@ -1133,7 +1137,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			FALSE,
 			'',
 			'This value specifies whether the Lightbox for the images in the ' .
-				'single view should be enabled. If this is not set correctly ' .
+				'single view should be enabled. If this is not set correctly, ' .
 				'the Lighbtox might not be enabled although it should be ' .
 				'(or vice versa).'
 			);
@@ -1164,6 +1168,21 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the height of the gallery images in the ' .
 				'lightbox window. If it is not configured properly, the ' .
 				'images will be shown in their original size.'
+		);
+	}
+
+	/**
+	 * Checks the value of includeJavaScriptLibraries.
+	 */
+	private function checkIncludeJavaScriptLibraries() {
+		$this->checkIfMultiInSetOrEmpty(
+			'includeJavaScriptLibraries',
+			FALSE,
+			'',
+			'This value specifies which Lightbox-related JavaScript libraries ' .
+				'get included. If this value is not set correctly, the ' .
+				'Lightbox will not work.',
+			array('prototype', 'scriptaculous', 'lightbox')
 		);
 	}
 

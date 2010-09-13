@@ -59,26 +59,34 @@ class tx_realty_lightboxIncluder {
 	 * Includes the files needed for the Lightbox.
 	 */
 	static public function includeLightboxFiles() {
-		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightboxcss']
-			= '<link rel="stylesheet" type="text/css" href="' .
-			t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
-			'pi1/contrib/lightbox.css" />';
+		$configuration = tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+			->getAsTrimmedArray('includeJavaScriptLibraries');
 
-		self::includePrototype();
+		if (in_array('prototype', $configuration)) {
+			self::includePrototype();
+		}
 
-		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_scriptaculous']
-			= '<script type="text/javascript"' .
-			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
-			'pi1/contrib/scriptaculous.js?load=effects,builder">' .
-			'</script>';
+		if (in_array('scriptaculous', $configuration)) {
+			$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_scriptaculous']
+				= '<script type="text/javascript"' .
+				'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+				'pi1/contrib/scriptaculous.js?load=effects,builder">' .
+				'</script>';
+		}
 
-		self::addLightboxConfigurationToHeader();
+		if (in_array('lightbox', $configuration)) {
+			self::addLightboxConfigurationToHeader();
 
-		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox']
-			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
-			'pi1/contrib/lightbox.js" >' .
-			'</script>';
+			$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox']
+				= '<script type="text/javascript" ' .
+				'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+				'pi1/contrib/lightbox.js" >' .
+				'</script>';
+			$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightboxcss']
+				= '<link rel="stylesheet" type="text/css" href="' .
+				t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+				'pi1/contrib/lightbox.css" />';
+		}
 	}
 
 	/**

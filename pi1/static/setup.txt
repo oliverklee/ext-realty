@@ -62,6 +62,10 @@ plugin.tx_realty_pi1 {
 	# whether to show the next and previous buttons in the single view
 	enableNextPreviousButtons = 0
 
+	# which Lightbox-related JavaScript libraries to include on the single view
+	# page and the image upload dialog
+	includeJavaScriptLibraries = prototype, scriptaculous, lightbox
+
 
 	##########################################################################
 	# The following variable can also be set using flexforms. Non-empty values

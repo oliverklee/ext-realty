@@ -48,6 +48,14 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
+		$this->configuration = new tx_oelib_Configuration();
+		$this->configuration->setData(array(
+			'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox',
+		));
+		tx_oelib_ConfigurationRegistry::getInstance()->set(
+			'plugin.tx_realty_pi1', $this->configuration
+		);
+
 		$this->fixture = new tx_realty_pi1_ImageThumbnailsView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
