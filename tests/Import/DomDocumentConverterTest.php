@@ -230,7 +230,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	// Tests concerning getConvertedData
 	//////////////////////////////////////
 
-	public function testGetConvertedDataWhenNoRecordsAreGiven() {
+	/**
+	 * @test
+	 */
+	public function testGetConvertedDataForNoRecordsReturnsEmptyArray() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter/>'
@@ -243,7 +246,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataWhenOneRecordIsGiven() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForOneEmptyRecordReturnsDefaultValues() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -258,54 +264,59 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataWhenSeveralRecordsAreGiven() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForSeveralEmptyRecordsReturnsArrayOfDefaultValues() {
 		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie/>'
-					.'<immobilie/>'
-					.'<immobilie/>'
-					.'<immobilie/>'
-				.'</anbieter>'
-			.'</openimmo>'
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie/>' .
+					'<immobilie/>' .
+				'</anbieter>' .
+			'</openimmo>'
 		);
 
 		$this->assertEquals(
 			array(
 				array(),
 				array(),
-				array(),
-				array()
 			),
 			$this->fixture->getConvertedData($node)
 		);
 	}
 
-	public function testGetConvertedDataWhenSeveralRecordsAreGivenAndContainContent() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanImportSeveralObjects() {
 		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<geo>'
-							.'<strasse>bar</strasse>'
-							.'<plz>bar</plz>'
-						.'</geo>'
-					.'</immobilie>'
-					.'<immobilie>'
-						.'<geo>'
-							.'<strasse>foo</strasse>'
-						.'</geo>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>foo</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<objekttitel>bar</objekttitel>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(
-				array('street' => 'bar', 'zip' => 'bar'),
-				array('street' => 'foo'),
-			),
-			$this->fixture->getConvertedData($node)
+			'foo',
+			$importedData[0]['title'],
+			'The first object is missing.'
+		);
+		$this->assertEquals(
+			'bar',
+			$importedData[1]['title'],
+			'The second object is missing.'
 		);
 	}
 
@@ -325,9 +336,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'klein und teuer')),
-			$this->fixture->getConvertedData($node)
+			'klein und teuer',
+			$importedData[0]['title']
 		);
 	}
 
@@ -347,9 +359,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'foo bar')),
-			$this->fixture->getConvertedData($node)
+			'foo bar',
+			$importedData[0]['title']
 		);
 	}
 
@@ -369,9 +382,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'foo bar')),
-			$this->fixture->getConvertedData($node)
+			'foo bar',
+			$importedData[0]['title']
 		);
 	}
 
@@ -391,9 +405,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'foo bar')),
-			$this->fixture->getConvertedData($node)
+			'foo bar',
+			$importedData[0]['title']
 		);
 	}
 
@@ -413,9 +428,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'foo bar')),
-			$this->fixture->getConvertedData($node)
+			'foo bar',
+			$importedData[0]['title']
 		);
 	}
 
@@ -435,9 +451,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'foo bar')),
-			$this->fixture->getConvertedData($node)
+			'foo bar',
+			$importedData[0]['title']
 		);
 	}
 
@@ -457,9 +474,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'foo bar')),
-			$this->fixture->getConvertedData($node)
+			'foo bar',
+			$importedData[0]['title']
 		);
 	}
 
@@ -479,9 +497,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('title' => 'foo bar')),
-			$this->fixture->getConvertedData($node)
+			'foo bar',
+			$importedData[0]['title']
 		);
 	}
 
@@ -501,9 +520,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('object_type' => REALTY_FOR_SALE)),
-			$this->fixture->getConvertedData($node)
+			REALTY_FOR_SALE,
+			$importedData[0]['object_type']
 		);
 	}
 
@@ -523,9 +543,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('object_type' => REALTY_FOR_RENTING)),
-			$this->fixture->getConvertedData($node)
+			REALTY_FOR_RENTING,
+			$importedData[0]['object_type']
 		);
 	}
 
@@ -545,9 +566,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('object_type' => REALTY_FOR_SALE)),
-			$this->fixture->getConvertedData($node)
+			REALTY_FOR_SALE,
+			$importedData[0]['object_type']
 		);
 	}
 
@@ -567,13 +589,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('object_type' => REALTY_FOR_RENTING)),
-			$this->fixture->getConvertedData($node)
+			REALTY_FOR_RENTING,
+			$importedData[0]['object_type']
 		);
 	}
 
-	public function testGetConvertedDataReturnsUniversalDataInEachRecord() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataReturnsUniversalDataInEachRecord() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -587,7 +613,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$universalData = array(
 			'employer' => 'foo',
-			'openimmo_anid' => 'bar'
+			'openimmo_anid' => 'bar',
 		);
 		$result = $this->fixture->getConvertedData($node);
 
@@ -601,32 +627,41 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataWhenSeveralPropertiesAreGiven() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanImportSeveralProperties() {
 		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<geo>'
-							.'<strasse>foobar</strasse>'
-							.'<plz>bar</plz>'
-						.'</geo>'
-						.'<freitexte>'
-							.'<lage>foo</lage>'
-						.'</freitexte>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<geo>' .
+							'<strasse>foobar</strasse>' .
+							'<plz>bar</plz>' .
+						'</geo>' .
+						'<freitexte>' .
+							'<lage>foo</lage>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(
-				array(
-					'street' => 'foobar',
-					'zip' => 'bar',
-					'location' => 'foo'
-				)
-			),
-			$this->fixture->getConvertedData($node)
+			'foobar',
+			$importedData[0]['street'],
+			'The street is missing.'
+		);
+		$this->assertEquals(
+			'bar',
+			$importedData[0]['zip'],
+			'The ZIP is missing.'
+		);
+		$this->assertEquals(
+			'foo',
+			$importedData[0]['location'],
+			'The location is missing.'
 		);
 	}
 
@@ -670,7 +705,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataSubstitudesSurplusDecimalsWhenAPositiveNumberIsGiven() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataSubstitutesSurplusDecimalsWhenAPositiveNumberIsGiven() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -683,13 +721,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('street' => '1')),
-			$this->fixture->getConvertedData($node)
+			'1',
+			$result[0]['street']
 		);
 	}
 
-	public function testGetConvertedDataSubstitudesSurplusDecimalsWhenANegativeNumberIsGiven() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataSubstitutesSurplusDecimalsWhenANegativeNumberIsGiven() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -702,13 +744,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('street' => '-1')),
-			$this->fixture->getConvertedData($node)
+			'-1',
+			$result[0]['street']
 		);
 	}
 
-	public function testGetConvertedDataSubstitudesTwoSurplusDecimalsWhenZeroIsGiven() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataSubstitutesTwoSurplusDecimalsWhenZeroIsGiven() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -721,13 +767,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('street' => '0')),
-			$this->fixture->getConvertedData($node)
+			'0',
+			$result[0]['street']
 		);
 	}
 
-	public function testGetConvertedDataSubstitudesOneSurplusDecimalWhenZeroIsGiven() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataSubstitutesOneSurplusDecimalWhenZeroIsGiven() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -740,13 +790,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('street' => '0')),
-			$this->fixture->getConvertedData($node)
+			'0',
+			$result[0]['street']
 		);
 	}
 
-	public function testGetConvertedDataNotSubstitudesTwoNonSurplusDecimalsFromAPositiveNumber() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataNotSubstitutesTwoNonSurplusDecimalsFromAPositiveNumber() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -759,13 +813,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('street' => '1.11')),
-			$this->fixture->getConvertedData($node)
+			'1.11',
+			$result[0]['street']
 		);
 	}
 
-	public function testGetConvertedDataNotSubstitudesTwoNonSurplusDecimalsFromANegativeNumber() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataNotSubstitutesTwoNonSurplusDecimalsFromANegativeNumber() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -778,13 +836,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('street' => '-1.11')),
-			$this->fixture->getConvertedData($node)
+			'-1.11',
+			$result[0]['street']
 		);
 	}
 
-	public function testGetConvertedDataNotSubstitudesOneNonSurplusDecimals() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataNotSubstitutesOneNonSurplusDecimals() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -797,9 +859,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('street' => '1.1')),
-			$this->fixture->getConvertedData($node)
+			'1.1',
+			$result[0]['street']
 		);
 	}
 
@@ -809,16 +872,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 				.'<anbieter>'
 					.'<immobilie>'
 						.'<kontaktperson>'
-							.'<email_direkt>any-email@address.org</email_direkt>'
+							.'<email_direkt>any-email@example.com</email_direkt>'
 						.'</kontaktperson>'
 					.'</immobilie>'
 				.'</anbieter>'
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('contact_email' => 'any-email@address.org')),
-			$this->fixture->getConvertedData($node)
+			'any-email@example.com',
+			$result[0]['contact_email']
 		);
 	}
 
@@ -836,9 +900,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('state' => 8)),
-			$this->fixture->getConvertedData($node)
+			8,
+			$result[0]['state']
 		);
 	}
 
@@ -856,9 +921,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['state'])
 		);
 	}
 
@@ -876,9 +941,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('heating_type' => 2)),
-			$this->fixture->getConvertedData($node)
+			'2',
+			$result[0]['heating_type']
 		);
 	}
 
@@ -896,9 +962,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('heating_type' => '2,9,11')),
-			$this->fixture->getConvertedData($node)
+			'2,9,11',
+			$result[0]['heating_type']
 		);
 	}
 
@@ -916,9 +983,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('heating_type' => '5,8,12')),
-			$this->fixture->getConvertedData($node)
+			'5,8,12',
+			$result[0]['heating_type']
 		);
 	}
 
@@ -937,9 +1005,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('heating_type' => '11,12')),
-			$this->fixture->getConvertedData($node)
+			'11,12',
+			$result[0]['heating_type']
 		);
 	}
 
@@ -957,9 +1026,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['heating_type'])
 		);
 	}
 
@@ -977,9 +1046,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['heating_type'])
 		);
 	}
 
@@ -997,9 +1066,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('heating_type' => '2,4')),
-			$this->fixture->getConvertedData($node)
+			'2,4',
+			$result[0]['heating_type']
 		);
 	}
 
@@ -1021,9 +1091,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		$this->fixture->setRawRealtyData($node);
 
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('phone_switchboard' => 1234567))
+			'1234567',
+			$result[0]['phone_switchboard']
 		);
 	}
 
@@ -1044,9 +1115,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('phone_direct_extension' => '1234567'))
+			'1234567',
+			$result[0]['phone_direct_extension']
 		);
 	}
 
@@ -1070,9 +1142,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('utilization' => 'Wohnen'))
+			'Wohnen',
+			$result[0]['utilization']
 		);
 	}
 
@@ -1096,9 +1169,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('utilization' => 'Wohnen'))
+			'Wohnen',
+			$result[0]['utilization']
 		);
 	}
 
@@ -1121,9 +1195,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('utilization' => 'Gewerbe'))
+			'Gewerbe',
+			$result[0]['utilization']
 		);
 	}
 
@@ -1146,9 +1221,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array('utilization' => 'Wohnen, Gewerbe'))
+			'Wohnen, Gewerbe',
+			$result[0]['utilization']
 		);
 	}
 
@@ -1171,9 +1247,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
-		$this->assertEquals(
-			$this->fixture->getConvertedData($node),
-			array(array())
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['utilization'])
 		);
 	}
 
@@ -1194,9 +1270,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('furnishing_category' => 1)),
-			$this->fixture->getConvertedData($node)
+			1,
+			$result[0]['furnishing_category']
 		);
 	}
 
@@ -1217,9 +1294,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('furnishing_category' => 2)),
-			$this->fixture->getConvertedData($node)
+			2,
+			$result[0]['furnishing_category']
 		);
 	}
 
@@ -1240,16 +1318,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('furnishing_category' => 3)),
-			$this->fixture->getConvertedData($node)
+			3,
+			$result[0]['furnishing_category']
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getConvertedDataDoesNotGetFurnishingCategoryIfInvalidCategoryProvided() {
+	public function getConvertedDataNotGetsFurnishingCategoryIfInvalidCategoryProvided() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1263,9 +1342,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['furnishing_category'])
 		);
 	}
 
@@ -1286,9 +1365,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('flooring' => 1)),
-			$this->fixture->getConvertedData($node)
+			'1',
+			$result[0]['flooring']
 		);
 	}
 
@@ -1309,16 +1389,17 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('flooring' => '2,3,4')),
-			$this->fixture->getConvertedData($node)
+			'2,3,4',
+			$result[0]['flooring']
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function getConvertedDataDoesNotGetInvalidFlooringFromFlooringNode() {
+	public function getConvertedDataNotGetsInvalidFlooringFromFlooringNode() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1332,9 +1413,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['flooring'])
 		);
 	}
 
@@ -1355,9 +1436,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('flooring' => '5,6')),
-			$this->fixture->getConvertedData($node)
+			'5,6',
+			$result[0]['flooring']
 		);
 	}
 
@@ -1378,9 +1460,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setRawRealtyData($node);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('flooring' => '11')),
-			$this->fixture->getConvertedData($node)
+			'11',
+			$result[0]['flooring']
 		);
 	}
 
@@ -1400,9 +1483,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)),
-			$this->fixture->getConvertedData($node)
+			tx_realty_Model_RealtyObject::STATUS_RENTED,
+			$result[0]['status']
 		);
 	}
 
@@ -1422,9 +1506,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)),
-			$this->fixture->getConvertedData($node)
+			tx_realty_Model_RealtyObject::STATUS_VACANT,
+			$result[0]['status']
 		);
 	}
 
@@ -1443,9 +1528,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['status'])
 		);
 	}
 
@@ -2115,14 +2200,16 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(
-				array(
-					'elevator' => FALSE,
-					'fitted_kitchen' => TRUE
-				)
-			),
-			$this->fixture->getConvertedData($node)
+			FALSE,
+			$result[0]['elevator'],
+			'The value for "elevator" is incorrect.'
+		);
+		$this->assertEquals(
+			TRUE,
+			$result[0]['fitted_kitchen'],
+			'The value for "fitted_kitchen" is incorrect.'
 		);
 	}
 
@@ -2139,9 +2226,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('hoa_fee' => '12345')),
-			$this->fixture->getConvertedData($node)
+			12345.00,
+			$result[0]['hoa_fee']
 		);
 	}
 
@@ -2158,9 +2246,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('rent_excluding_bills' => '12345')),
-			$this->fixture->getConvertedData($node)
+			12345.00,
+			$result[0]['rent_excluding_bills']
 		);
 	}
 
@@ -2178,9 +2267,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('rent_excluding_bills' => '12345')),
-			$this->fixture->getConvertedData($node)
+			12345.00,
+			$result[0]['rent_excluding_bills']
 		);
 	}
 
@@ -2197,9 +2287,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('rent_excluding_bills' => '54321')),
-			$this->fixture->getConvertedData($node)
+			54321.00,
+			$result[0]['rent_excluding_bills']
 		);
 	}
 
@@ -2217,9 +2308,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('rent_excluding_bills' => '54321')),
-			$this->fixture->getConvertedData($node)
+			54321.00,
+			$result[0]['rent_excluding_bills']
 		);
 	}
 
@@ -2238,9 +2330,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('language' => 'foo')),
-			$this->fixture->getConvertedData($node)
+			'foo',
+			$result[0]['language']
 		);
 	}
 
@@ -2250,22 +2343,24 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 				'<anbieter>' .
 					'<immobilie>' .
 						'<geo>' .
-							'<geokoordinaten laengengrad="foo" breitengrad="bar"/>' .
+							'<geokoordinaten laengengrad="1.23" breitengrad="4.56"/>' .
 						'</geo>' .
 					'</immobilie>' .
 				'</anbieter>' .
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertTrue(
+			$result[0]['exact_coordinates_are_cached']
+		);
 		$this->assertEquals(
-			array(
-				array(
-					'exact_longitude' => 'foo',
-					'exact_latitude' => 'bar',
-					'exact_coordinates_are_cached' => TRUE,
-				)
-			),
-			$this->fixture->getConvertedData($node)
+			1.23,
+			$result[0]['exact_longitude']
+		);
+		$this->assertEquals(
+			4.56,
+			$result[0]['exact_latitude']
 		);
 	}
 
@@ -2275,16 +2370,16 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 				'<anbieter>' .
 					'<immobilie>' .
 						'<geo>' .
-							'<geokoordinaten laengengrad="foo"/>' .
+							'<geokoordinaten laengengrad="1.23"/>' .
 						'</geo>' .
 					'</immobilie>' .
 				'</anbieter>' .
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['exact_coordinates_are_cached'])
 		);
 	}
 
@@ -2294,16 +2389,16 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 				'<anbieter>' .
 					'<immobilie>' .
 						'<geo>' .
-							'<geokoordinaten laengengrad="foo" breitengrad=""/>' .
+							'<geokoordinaten laengengrad="1.23" breitengrad=""/>' .
 						'</geo>' .
 					'</immobilie>' .
 				'</anbieter>' .
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['exact_coordinates_are_cached'])
 		);
 	}
 
@@ -2320,9 +2415,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('country' => self::DE)),
-			$this->fixture->getConvertedData($node)
+			self::DE,
+			$result[0]['country']
 		);
 	}
 
@@ -2344,9 +2440,16 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('country' => self::DE), array('country' => self::DE)),
-			$this->fixture->getConvertedData($node)
+			self::DE,
+			$result[0]['country'],
+			'The first country is incorrect.'
+		);
+		$this->assertEquals(
+			self::DE,
+			$result[1]['country'],
+			'The second country is incorrect.'
 		);
 	}
 
@@ -2363,9 +2466,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['country'])
 		);
 	}
 
@@ -2382,9 +2485,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['country'])
 		);
 	}
 
@@ -2401,9 +2504,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('currency' => 'EUR')),
-			$this->fixture->getConvertedData($node)
+			'EUR',
+			$result[0]['currency']
 		);
 	}
 
@@ -2420,9 +2524,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('old_or_new_building' => 1)),
-			$this->fixture->getConvertedData($node)
+			1,
+			$result[0]['old_or_new_building']
 		);
 	}
 
@@ -2439,9 +2544,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('old_or_new_building' => 2)),
-			$this->fixture->getConvertedData($node)
+			2,
+			$result[0]['old_or_new_building']
 		);
 	}
 
@@ -2458,9 +2564,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			.'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array()),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['old_or_new_building'])
 		);
 	}
 
@@ -2477,9 +2583,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array('show_address' => TRUE)),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertTrue(
+			$result[0]['show_address']
 		);
 	}
 
@@ -2496,9 +2602,9 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
-			array(array('show_address' => FALSE)),
-			$this->fixture->getConvertedData($node)
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			$result[0]['show_address']
 		);
 	}
 
@@ -2518,9 +2624,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('rent_per_square_meter' => 12.34)),
-			$this->fixture->getConvertedData($node)
+			12.34,
+			$result[0]['rent_per_square_meter']
 		);
 	}
 
@@ -2540,9 +2647,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('living_area' => 123.45)),
-			$this->fixture->getConvertedData($node)
+			123.45,
+			$result[0]['living_area']
 		);
 	}
 
@@ -2562,9 +2670,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('total_usable_area' => 123.45)),
-			$this->fixture->getConvertedData($node)
+			123.45,
+			$result[0]['total_usable_area']
 		);
 	}
 
@@ -2584,9 +2693,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('total_area' => 123.45)),
-			$this->fixture->getConvertedData($node)
+			123.45,
+			$result[0]['total_area']
 		);
 	}
 
@@ -2606,9 +2716,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('shop_area' => 123.45)),
-			$this->fixture->getConvertedData($node)
+			123.45,
+			$result[0]['shop_area']
 		);
 	}
 
@@ -2628,9 +2739,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('storage_area' => 123.45)),
-			$this->fixture->getConvertedData($node)
+			123.45,
+			$result[0]['storage_area']
 		);
 	}
 
@@ -2650,9 +2762,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('office_space' => 123.45)),
-			$this->fixture->getConvertedData($node)
+			123.45,
+			$result[0]['office_space']
 		);
 	}
 
@@ -2672,9 +2785,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('floor_space_index' => 0.12)),
-			$this->fixture->getConvertedData($node)
+			0.12,
+			$result[0]['floor_space_index']
 		);
 	}
 
@@ -2694,9 +2808,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('site_occupancy_index' => 0.12)),
-			$this->fixture->getConvertedData($node)
+			0.12,
+			$result[0]['site_occupancy_index']
 		);
 	}
 
@@ -2716,9 +2831,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$result = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('estate_size' => 123.45)),
-			$this->fixture->getConvertedData($node)
+			123.45,
+			$result[0]['estate_size']
 		);
 	}
 
@@ -2738,9 +2854,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('number_of_rooms' => 3.5)),
-			$this->fixture->getConvertedData($node)
+			3.5,
+			$importedData[0]['number_of_rooms']
 		);
 	}
 
@@ -2760,9 +2877,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('bedrooms' => 2)),
-			$this->fixture->getConvertedData($node)
+			2,
+			$importedData[0]['bedrooms']
 		);
 	}
 
@@ -2782,9 +2900,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('bathrooms' => 2)),
-			$this->fixture->getConvertedData($node)
+			2,
+			$importedData[0]['bathrooms']
 		);
 	}
 
@@ -2804,9 +2923,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('balcony' => 1)),
-			$this->fixture->getConvertedData($node)
+			1,
+			$importedData[0]['balcony']
 		);
 	}
 
@@ -2826,9 +2946,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'</openimmo>'
 		);
 
+		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			array(array('parking_spaces' => 2)),
-			$this->fixture->getConvertedData($node)
+			2,
+			$importedData[0]['parking_spaces']
 		);
 	}
 
