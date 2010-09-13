@@ -495,6 +495,20 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function getPropertyForSalesAreaReturnsItAsFormattedArea() {
+		$this->realtyObject->setProperty('sales_area', 12.34);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('sales_area')
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getPropertyForStorageAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('storage_area', 18.4);
 		$localeConvention = localeconv();
@@ -503,6 +517,20 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 			'18' . $localeConvention['decimal_point'] . '40&nbsp;' .
 				$this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('storage_area')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForOtherAreaReturnsItAsFormattedArea() {
+		$this->realtyObject->setProperty('other_area', 12.34);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
+				$this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('other_area')
 		);
 	}
 
@@ -529,6 +557,20 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'19' . $localeConvention['decimal_point'] . '48',
 			$this->fixture->getProperty('floor_space_index')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForWindowBankReturnsItAsFormattedWidth() {
+		$this->realtyObject->setProperty('window_bank', 12.34);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
+				$this->fixture->translate('label_meter'),
+			$this->fixture->getProperty('window_bank')
 		);
 	}
 

@@ -255,6 +255,7 @@
 			<label index="label_page">Page</label>
 			<label index="label_approx">approx.</label>
 			<label index="label_squareMeters">m²</label>
+			<label index="label_meter">m</label>
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>
@@ -647,6 +648,7 @@
 			<label index="label_page">Seite</label>
 			<label index="label_approx">ca.</label>
 			<label index="label_squareMeters">m²</label>
+			<label index="label_meter">m</label>
 			<label index="label_back">Zurück</label>
 			<label index="label_add_to_favorites">Auf den Merkzettel</label>
 			<label index="label_remove_from_favorites">Vom Merkzettel löschen</label>
@@ -2098,6 +2100,7 @@
 			<label index="label_page" type="integer">26464201</label>
 			<label index="label_approx" type="integer">91206380</label>
 			<label index="label_squareMeters" type="integer">174340796</label>
+			<label index="label_meter" type="integer">116979063</label>
 			<label index="label_back" type="integer">8374236</label>
 			<label index="label_add_to_favorites" type="integer">152078420</label>
 			<label index="label_remove_from_favorites" type="integer">119046790</label>
@@ -3558,6 +3561,7 @@
 			<label index="label_page">Page</label>
 			<label index="label_approx">approx.</label>
 			<label index="label_squareMeters">m²</label>
+			<label index="label_meter">m</label>
 			<label index="label_back">Back to the list</label>
 			<label index="label_add_to_favorites">Add to favorites</label>
 			<label index="label_remove_from_favorites">Remove from favorites</label>

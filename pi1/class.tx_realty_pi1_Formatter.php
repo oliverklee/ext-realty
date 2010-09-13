@@ -155,12 +155,21 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'shop_area':
 				// The fallthrough is intended.
+			case 'sales_area':
+				// The fallthrough is intended.
 			case 'storage_area':
 				// The fallthrough is intended.
 			case 'living_area':
 				// The fallthrough is intended.
+			case 'other_area':
+				// The fallthrough is intended.
 			case 'estate_size':
 				$result = $this->getFormattedArea($key);
+				break;
+			case 'window_bank':
+				$result = $this->getFormattedNumber(
+					$key, $this->translate('label_meter')
+				);
 				break;
 			case 'rent_excluding_bills':
 				// The fallthrough is intended.
@@ -315,8 +324,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * If the field's value is empty or its intval is zero, an empty string will
 	 * be returned.
 	 *
-	 * @param string key of the field to retrieve (the name of a database
-	 *               column), must not be empty
+	 * @param string $key
+	 *        key of the field to retrieve (the name of a database column),
+	 *        must not be empty
 	 *
 	 * @return string HTML for the number in the field formatted using
 	 *                decimalSeparator and areaUnit from the TS setup, may
