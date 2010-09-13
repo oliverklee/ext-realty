@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_pi1_ImageThumbnailsView' for the 'realty' extension.
+ * Class tx_realty_pi1_ImageThumbnailsView for the "realty" extension.
  *
  * This class renders the images for one realty object as thumbnails.
  *
@@ -42,6 +42,22 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	private $showUid = 0;
 
 	/**
+	 * size and lightbox configuration for the images using the image position
+	 * number (0...n) as first-level array keys
+	 *
+	 * @var array<array>
+	 */
+	private $imageConfiguration = array();
+
+	/**
+	 * the number of image subparts in the default HTML template which will be
+	 * be hidden if there are no images for that position
+	 *
+	 * @var integer
+	 */
+	const IMAGE_POSITIONS_IN_DEFAULT_TEMPLATE = 4;
+
+	/**
 	 * Returns the image thumbnails for one realty object as HTML.
 	 *
 	 * @param array piVars array, must contain the key "showUid" with a valid
@@ -53,97 +69,139 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	public function render(array $piVars = array()) {
 		$this->showUid = $piVars['showUid'];
 
-		$renderedImages = $this->createImages();
-		$this->setSubpart(
-			'one_image_container', $renderedImages
-		);
+		$this->createImageConfiguration();
 
-		return ($renderedImages != '')
+		return ($this->renderImages() > 0)
 			? $this->getSubpart('FIELD_WRAPPER_IMAGETHUMBNAILS') : '';
 	}
 
 	/**
-	 * Creates all images that are attached to the current record.
+	 * Creates all images that are attached to the current record and puts them
+	 * in their particular subparts.
 	 *
-	 * @return string HTML for the images, will be empty if there are no images
+	 * @return integer the total number of rendered images, will be >= 0
 	 */
-	private function createImages() {
+	private function renderImages() {
 		tx_realty_lightboxIncluder::includeLightboxFiles(
 			$this->prefixId, $this->extKey
 		);
 
-		$result = '';
+		$configuration = $this->getImageConfigurationForContainer(0);
+		$allImages = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getUid())->getImages();
 
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
-		$images = $realtyObject->getImages();
-		$isLightBoxEnabled = $this->getConfValueBoolean('enableLightbox');
-
-		foreach ($images as $image) {
-			if ($isLightBoxEnabled) {
-				$currentImage = $this->getLinkedImage($image);
-			} else {
-				$currentImage = $this->createRestrictedImage(
-					tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
-					htmlspecialchars($image->getTitle()),
-					$this->getConfValueInteger('singleImageMaxX'),
-					$this->getConfValueInteger('singleImageMaxY'),
-					0,
-					$image->getTitle()
-				);
-			}
-			$this->setMarker('one_image_tag', $currentImage);
-			$result .= $this->getSubpart('ONE_IMAGE_CONTAINER');
+		$imagesByPosition = array();
+		$usedPositions = max(
+			self::IMAGE_POSITIONS_IN_DEFAULT_TEMPLATE,
+			$this->findHighestConfiguredPositionIndex()
+		);
+		for ($i = 0; $i <= $usedPositions; $i++) {
+			$imagesByPosition[$i] = array();
 		}
 
-		return $result;
+		foreach ($allImages as $image) {
+			$position = $image->getPosition();
+
+			$imagesByPosition[$position][] = $image;
+		}
+
+		foreach ($imagesByPosition as $position => $images) {
+			$this->renderImagesInPosition($position, $images);
+		}
+
+		return $allImages->count();
 	}
 
 	/**
-	 * Gets an image from the current record's image list as a complete IMG tag
-	 * with alt text and title text, wrapped in a link pointing to the full-size
-	 * image and sized according do the configuration in "singleImageMaxX" and
-	 * "singleImageMaxY".
+	 * Renders all images for a given position and fills the corresponding
+	 * subpart in the template.
 	 *
-	 * The lightbox "rel" attribute will be added to the "a" tag and the URL
-	 * will link to the full-size picture.
-	 *
-	 * If no image is found, an empty string is returned.
+	 * @param integer $position the zero-based position index of the images
+	 * @param array<tx_realty_Model_Image> $images
+	 *        the images to render, must all be in position $position
+	 */
+	private function renderImagesInPosition($position, array $images) {
+		$containerSubpartName = ($position > 0)
+			? 'IMAGES_POSITION_' . $position : 'ONE_IMAGE_CONTAINER';
+		if (empty($images)) {
+			$this->hideSubparts($containerSubpartName);
+			return;
+		}
+
+		$itemSubpartName = ($position > 0)
+			? 'ONE_IMAGE_CONTAINER_' . $position : 'ONE_IMAGE_CONTAINER';
+
+		$result = '';
+		foreach ($images as $image) {
+			$configuration = $this->getImageConfigurationForContainer(
+				$position
+			);
+			$currentImage = $configuration['enableLightbox']
+				? $this->createLightboxThumbnail($image)
+				: $this->createThumbnail($image);
+			$this->setMarker('one_image_tag', $currentImage);
+			$result .= $this->getSubpart($itemSubpartName);
+		}
+
+		$this->setSubpart($itemSubpartName, $result);
+	}
+
+	/**
+	 * Creates a thumbnail (without Lightbox) of $image sized as per the
+	 * configuration.
 	 *
 	 * @param tx_realty_Model_Image $image
 	 *        the image to render
 	 *
-	 * @return string image tag wrapped in a link, will be empty if there is no
-	 *                image with the provided number
+	 * @return string
+	 *         image tag, will not be empty
 	 */
-	private function getLinkedImage(tx_realty_Model_Image $image) {
-		$title = $image->getTitle();
-		$path = tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName();
+	protected function createThumbnail(tx_realty_Model_Image $image) {
+		$configuration = $this->getImageConfigurationForContainer(
+			$image->getPosition()
+		);
+
+		return $this->createRestrictedImage(
+			tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
+			htmlspecialchars($image->getTitle()),
+			$configuration['thumbnailSizeX'],
+			$configuration['thumbnailSizeY'],
+			0,
+			$image->getTitle()
+		);
+	}
+
+	/**
+	 * Creates a Lightboxed thumbnail of $image sized as per the configuration.
+	 *
+	 * @param tx_realty_Model_Image $image
+	 *        the image to render
+	 *
+	 * @return string
+	 *         image tag wrapped in a Lightbox link, will not be empty
+	 */
+	protected function createLightboxThumbnail(tx_realty_Model_Image $image) {
+		$thumbnail = $this->createThumbnail($image);
+
+		$position = $image->getPosition();
+		$configuration = $this->getImageConfigurationForContainer($position);
 
 		$imagePath = array();
 		$imageWithTag = $this->createRestrictedImage(
-			$path,
+			tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
 			'',
-			$this->getConfValueInteger('lightboxImageWidthMax'),
-			$this->getConfValueInteger('lightboxImageHeightMax')
+			$configuration['lightboxSizeX'],
+			$configuration['lightboxSizeY']
 		);
 		preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
-
-		$linkAttribute = ' rel="lightbox[objectGallery]" title="' .
-				htmlspecialchars($title) . '"';
-
 		$fullSizeImageUrl = $imagePath[1];
-		$thumbnailUrl = $this->createRestrictedImage(
-			$path,
-			htmlspecialchars($title),
-			$this->getConfValueInteger('singleImageMaxX'),
-			$this->getConfValueInteger('singleImageMaxY'),
-			0,
-			$title
-		);
+
+		$lightboxGallerySuffix = ($position > 0) ? '_' . $position : '';
+		$linkAttribute = ' rel="lightbox[objectGallery' . $lightboxGallerySuffix .
+			']" title="' . htmlspecialchars($image->getTitle()) . '"';
 
 		return '<a href="' . $fullSizeImageUrl . '"' . $linkAttribute . '>' .
-			$thumbnailUrl . '</a>';
+			$thumbnail . '</a>';
 	}
 
 	/**
@@ -153,6 +211,98 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getUid() {
 		return $this->showUid;
+	}
+
+	/**
+	 * Gathers the image configuration for all configured image containers in
+	 * $this->imageConfiguration.
+	 */
+	private function createImageConfiguration() {
+		$configuration = tx_oelib_ConfigurationRegistry
+			::get('plugin.tx_realty_pi1');
+
+		$highestPositionIndex = $this->findHighestConfiguredPositionIndex();
+		for ($position = 0; $position <= $highestPositionIndex; $position++) {
+			$accumulatedConfiguration = array(
+				'enableLightbox'
+					=> $configuration->getAsBoolean('enableLightbox'),
+				'thumbnailSizeX'
+					=> $configuration->getAsInteger('singleImageMaxX'),
+				'thumbnailSizeY'
+					=> $configuration->getAsInteger('singleImageMaxY'),
+				'lightboxSizeX'
+					=> $configuration->getAsInteger('lightboxImageWidthMax'),
+				'lightboxSizeY'
+					 => $configuration->getAsInteger('lightboxImageHeightMax'),
+			);
+
+			if ($position > 0) {
+				$specificConfiguration = tx_oelib_ConfigurationRegistry
+					::get('plugin.tx_realty_pi1.images')
+					->getAsMultidimensionalArray($position . '.');
+				if (isset($specificConfiguration['enableLightbox'])) {
+					$accumulatedConfiguration['enableLightbox'] =
+					(boolean) $specificConfiguration['enableLightbox'];
+				}
+				if (isset($specificConfiguration['singleImageMaxX'])) {
+					$accumulatedConfiguration['thumbnailSizeX'] =
+						intval($specificConfiguration['singleImageMaxX']);
+				}
+				if (isset($specificConfiguration['singleImageMaxY'])) {
+					$accumulatedConfiguration['thumbnailSizeY'] =
+						intval($specificConfiguration['singleImageMaxY']);
+				}
+				if (isset($specificConfiguration['lightboxImageWidthMax'])) {
+					$accumulatedConfiguration['lightboxSizeX'] =
+						intval($specificConfiguration['lightboxImageWidthMax']);
+				}
+				if (isset($specificConfiguration['lightboxImageHeightMax'])) {
+					$accumulatedConfiguration['lightboxSizeY'] =
+						intval($specificConfiguration['lightboxImageHeightMax']);
+				}
+			}
+
+			$this->imageConfiguration[$position] = $accumulatedConfiguration;
+		}
+	}
+
+	/**
+	 * Gets the image configuration for the image container with the index
+	 * $containerIndex.
+	 *
+	 * @param integer $containerIndex
+	 *        index of the image container, must be >= 0
+	 *
+	 * @return array
+	 *         the configuration for the image container with the requested
+	 *         index using the array keys "enableLightbox", "singleImageMaxX",
+	 *         "singleImageMaxY", "lightboxImageWidthMax" and
+	 *         "lightboxImageHeightMax"
+	 *
+	 */
+	private function getImageConfigurationForContainer($containerIndex) {
+		return $this->imageConfiguration[$containerIndex];
+	}
+
+	/**
+	 * Finds the highest position index that has been configured via TS setup.
+	 *
+	 * @return integer the highest container index in use, will be >= 0
+	 */
+	private function findHighestConfiguredPositionIndex() {
+		$highestIndex = 0;
+
+		$imageConfigurations = tx_oelib_ConfigurationRegistry
+			::get('plugin.tx_realty_pi1')->getAsMultidimensionalArray('images.');
+
+		foreach (array_keys($imageConfigurations) as $key) {
+			$index = intval($key);
+			if ($index > $highestIndex) {
+				$highestIndex = $index;
+			}
+		}
+
+		return $highestIndex;
 	}
 }
 

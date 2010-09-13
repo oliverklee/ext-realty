@@ -1025,10 +1025,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *        caption for the new image record, may be empty
 	 * @param string $fileName
 	 *        name of the image in the upload directory, must not be empty
+	 * @param integer $position
+	 *        the position of the image, must be between 0 and 4
 	 *
 	 * @return integer key of the newly created record, will be >= 0
 	 */
-	public function addImageRecord($caption, $fileName) {
+	public function addImageRecord($caption, $fileName, $position = 0) {
 		if ($this->isVirgin()) {
 			throw new Exception(
 				'A realty record must be loaded before images can be appended.'
@@ -1044,6 +1046,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		if ($fileName != '') {
 			$image->setFileName($fileName);
 		}
+		$image->setPosition($position);
 		$this->images->add($image);
 
 		$this->imagesNeedToGetSaved = TRUE;

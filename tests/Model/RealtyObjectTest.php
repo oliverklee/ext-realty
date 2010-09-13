@@ -1771,6 +1771,62 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function addImageRecordByDefaultSetsPositionToZero() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg');
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getImages()->first()->getPosition()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addImageRecordCanSetPositionZero() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg', 0);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getImages()->first()->getPosition()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addImageRecordCanSetPositionOne() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg', 1);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getImages()->first()->getPosition()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addImageRecordCanSetPositionFour() {
+		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+		$this->fixture->loadRealtyObject($this->objectUid);
+		$this->fixture->addImageRecord('foo', 'foo.jpg', 4);
+
+		$this->assertEquals(
+			4,
+			$this->fixture->getImages()->first()->getPosition()
+		);
+	}
+
 
 	//////////////////////////////////////////////
 	// Tests concerning markImageRecordAsDeleted

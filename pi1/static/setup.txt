@@ -193,6 +193,17 @@ plugin.tx_realty_pi1 {
 			cache = 0
 		}
 	}
+
+	images {
+		1 {
+		}
+		2 {
+		}
+		3 {
+		}
+		4 {
+		}
+	}
 }
 
 plugin.tx_realty_pi1.listView {

@@ -44,6 +44,13 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	 */
 	private $testingFramework;
 
+	/**
+	 * TS Setup configuration for plugin.tx_realty_pi1
+	 *
+	 * @var tx_oelib_Configuration
+	 */
+	private $configuration = NULL;
+
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
@@ -57,11 +64,40 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->fixture = new tx_realty_pi1_ImageThumbnailsView(
-			array(
-				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-				'enableLightbox' => 1,
-			),
+			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
 			$GLOBALS['TSFE']->cObj
+		);
+
+		$configurationRegistry = tx_oelib_ConfigurationRegistry::getInstance();
+
+		$this->configuration = new tx_oelib_Configuration();
+		$this->configuration->setData(array(
+			'enableLightbox' => FALSE,
+			'singleImageMaxX' => 102,
+			'singleImageMaxY' => 77,
+			'lightboxImageWidthMax' => 1024,
+			'lightboxImageHeightMax' => 768,
+			'images.' => array(
+				'1.' => array(),
+				'2.' => array(),
+				'3.' => array(),
+				'4.' => array(),
+			),
+			'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox',
+		));
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1', $this->configuration
+		);
+
+		$imagesConfiguration = new tx_oelib_Configuration();
+		$imagesConfiguration->setData(array(
+			'1.' => array(),
+			'2.' => array(),
+			'3.' => array(),
+			'4.' => array(),
+		));
+		$configurationRegistry->set(
+			'plugin.tx_realty_pi1.images', $imagesConfiguration
 		);
 	}
 
@@ -69,7 +105,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
-		unset($this->fixture, $this->testingFramework);
+		unset($this->fixture, $this->configuration, $this->testingFramework);
 	}
 
 
@@ -100,7 +136,9 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderReturnsImageWithRelAttribute() {
+	public function renderForLightboxEnabledReturnsImageWithRelAttribute() {
+		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
+
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
@@ -230,7 +268,6 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForDisabledLightboxIncludesLightboxJsFile() {
-		$this->fixture->setConfigurationValue('enableLightbox' , 0);
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
@@ -250,8 +287,6 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForDisabledLightboxIncludesLightboxCssFile() {
-		$this->fixture->setConfigurationValue('enableLightbox' , 0);
-
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
@@ -271,15 +306,13 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForDisabledLightboxNotAddsLightboxAttributeToImage() {
-		$this->fixture->setConfigurationValue('enableLightbox' , 0);
-
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
 
 
 		$this->assertNotContains(
-			'rel="lightbox',
+			'rel="lightbox[objectGallery]"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
@@ -288,8 +321,6 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForDisabledLightboxShowsImage() {
-		$this->fixture->setConfigurationValue('enableLightbox' , 0);
-
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
@@ -304,8 +335,6 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForDisabledLightboxNotLinksImage() {
-		$this->fixture->setConfigurationValue('enableLightbox' , 0);
-
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
@@ -313,6 +342,371 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		$this->assertNotContains(
 			'<a href',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderSizesImageWithThumbnailSize() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', 'fooBar', 102, 77
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForEnabledLightboxSizesImageWithThumbnailSize() {
+		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', 'fooBar', 102, 77
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForEnabledLightboxAlsoSizesImageWithLightboxSize() {
+		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(1))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', '', 1024, 768
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+
+	/////////////////////////////////////////
+	// Tests concerning the image positions
+	/////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function renderForImageInPosition1AndNoSizesSetUsesGlobalThumbnailSizes() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', 'fooBar', 102, 77
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForImageInPosition1AndThumbnailSizesUsesPositionSpecificThumbnailSizes() {
+		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
+			->set('1.', array('singleImageMaxX' => 40, 'singleImageMaxY' => 30));
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', 'fooBar', 40, 30
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForImageInPosition2WithoutSpecificSettingsIsNotAffectedByPosition1Settings() {
+		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
+			->set('1.', array('singleImageMaxX' => 40, 'singleImageMaxY' => 30));
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 2);
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(1))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', 'fooBar', 102, 77
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForImageInPosition4AndThumbnailSizesSetUsesPositionSpecificThumbnailSizes() {
+		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
+			->set('4.', array('singleImageMaxX' => 40, 'singleImageMaxY' => 30));
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 4);
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', 'fooBar', 40, 30
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForImageInPosition1AndNoSizesSetAndLightboxEnabledSetUsesGlobalThumbnailSizes() {
+		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(1))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', '', 1024, 768
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForImageInPosition1AndThumbnailSizesSetAndLightboxEnabledSetUsesThumbnailSizesForPosition1() {
+		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
+		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
+			->set(
+				'1.',
+				array('lightboxImageWidthMax' => 40, 'lightboxImageHeightMax' => 30)
+			);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(1))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg', '', 40, 30
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForPosition1ImageAndLightboxGloballyDisabledNotAddsLightboxAttributeToImage() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
+
+		$this->assertNotContains(
+			'rel="lightbox[',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForPosition1ImageAndLightboxGloballyEnabledAddsLightboxAttributeToImage() {
+		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
+
+		$this->assertContains(
+			'rel="lightbox[objectGallery_1]"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForPosition1ImageAndLightboxGloballyDisabledAndLocallyEnabledAddsLightboxAttributeToImage() {
+		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
+			->set('1.', array('enableLightbox' => TRUE));
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
+
+		$this->assertContains(
+			'rel="lightbox[objectGallery_1]"',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForPosition1ImageAndLightboxGloballyEnabledAndLocallyDisabledNotAddsLightboxAttributeToImage() {
+		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
+		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
+			->set('1.', array('enableLightbox' => FALSE));
+
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
+
+		$this->assertNotContains(
+			'rel="lightbox[',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForImagePositionsTwoOneZeroRendersInZeroOneTwoOrder() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('2', '2.jpg', 2);
+		$realtyObject->addImageRecord('1', '1.jpg', 1);
+		$realtyObject->addImageRecord('0', '0.jpg', 0);
+
+		$fixture = $this->getMock(
+			'tx_realty_pi1_ImageThumbnailsView', array('createRestrictedImage'),
+			array(), '', FALSE
+		);
+		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . '0.jpg', '0', 102, 77
+		);
+		$fixture->expects($this->at(1))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . '1.jpg', '1', 102, 77
+		);
+		$fixture->expects($this->at(2))->method('createRestrictedImage')->with(
+			tx_realty_Model_Image::UPLOAD_FOLDER . '2.jpg', '2', 102, 77
+		);
+
+		$fixture->render(array('showUid' => $realtyObject->getUid()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForOnlyPositionZeroImageHidesPositionOneToFourSubparts() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg', 0);
+
+		$result = $this->fixture->render(
+			array('showUid' => $realtyObject->getUid())
+		);
+
+		$this->assertNotContains(
+			'class="images_position_1',
+			$result
+		);
+		$this->assertNotContains(
+			'class="images_position_2',
+			$result
+		);
+		$this->assertNotContains(
+			'class="images_position_3',
+			$result
+		);
+		$this->assertNotContains(
+			'class="images_position_4',
+			$result
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForOnlyPositionOneImageHidesDefaultSubpart() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
+
+		$result = $this->fixture->render(
+			array('showUid' => $realtyObject->getUid())
+		);
+
+		$this->assertNotContains(
+			'class="item',
+			$result
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForOnlyPositionOneImageHidesSubpartsTwoToFour() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getNewGhost();
+		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
+
+		$result = $this->fixture->render(
+			array('showUid' => $realtyObject->getUid())
+		);
+
+		$this->assertNotContains(
+			'class="images_position_2',
+			$result
+		);
+		$this->assertNotContains(
+			'class="images_position_3',
+			$result
+		);
+		$this->assertNotContains(
+			'class="images_position_4',
+			$result
 		);
 	}
 }
