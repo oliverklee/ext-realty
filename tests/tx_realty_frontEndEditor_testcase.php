@@ -457,37 +457,128 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	// * Validation functions.
 	////////////////////////////
 
-	public function testIsValidIntegerNumberReturnsTrueForAnIntegerInAString() {
+
+	/**
+	 * @test
+	 */
+	public function isValidNonNegativeIntegerNumberForIntegerReturnsTrue() {
+		$this->assertTrue(
+			$this->fixture->isValidNonNegativeIntegerNumber(array('value' => '12345'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidNonNegativeIntegerNumberForIntegerWithSpaceAsThousandsSeparatorReturnsTrue() {
+		$this->assertTrue(
+			$this->fixture->isValidNonNegativeIntegerNumber(array('value' => '12 345'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidNonNegativeIntegerNumberForEmptyStringReturnsTrue() {
+		$this->assertTrue(
+			$this->fixture->isValidNonNegativeIntegerNumber(array('value' => ''))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidNonNegativeIntegerNumberForNumberWithDotAsDecimalSeparatorReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->isValidNonNegativeIntegerNumber(array('value' => '123.45'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidNonNegativeIntegerNumberForNumberWithCommaAsDecimalSeparatorReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->isValidNonNegativeIntegerNumber(array('value' => '123,45') )
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidNonNegativeIntegerNumberForNegativeIntegerReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->isValidNonNegativeIntegerNumber(array('value' => '-123') )
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidNonNegativeIntegerNumberForNonNumericStringReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->isValidNonNegativeIntegerNumber(array('value' => 'string'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidIntegerNumberForIntegerReturnsTrue() {
 		$this->assertTrue(
 			$this->fixture->isValidIntegerNumber(array('value' => '12345'))
 		);
 	}
 
-	public function testIsValidIntegerNumberReturnsTrueForAnIntegerWithSpaceAsThousandsSeparator() {
+	/**
+	 * @test
+	 */
+	public function isValidIntegerNumberForIntegerWithSpaceAsThousandsSeparatorReturnsTrue() {
 		$this->assertTrue(
 			$this->fixture->isValidIntegerNumber(array('value' => '12 345'))
 		);
 	}
 
-	public function testIsValidIntegerNumberReturnsTrueForAnEmptyString() {
+	/**
+	 * @test
+	 */
+	public function isValidIntegerNumberForEmptyStringReturnsTrue() {
 		$this->assertTrue(
 			$this->fixture->isValidIntegerNumber(array('value' => ''))
 		);
 	}
 
-	public function testIsValidIntegerNumberReturnsFalseForANumberWithADotAsDecimalSeparator() {
+	/**
+	 * @test
+	 */
+	public function isValidIntegerNumberForNumberWithDotAsDecimalSeparatorReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->isValidIntegerNumber(array('value' => '123.45'))
 		);
 	}
 
-	public function testIsValidIntegerNumberReturnsFalseForANumberWithACommaAsDecimalSeparator() {
+	/**
+	 * @test
+	 */
+	public function isValidIntegerNumberForNumberWithCommaAsDecimalSeparatorReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->isValidIntegerNumber(array('value' => '123,45') )
 		);
 	}
 
-	public function testIsValidIntegerNumberReturnsFalseForANonNumericString() {
+	/**
+	 * @test
+	 */
+	public function isValidIntegerNumberForNegativeIntegerReturnsTrue() {
+		$this->assertTrue(
+			$this->fixture->isValidIntegerNumber(array('value' => '-123') )
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isValidIntegerNumberForNonNumericStringReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->isValidIntegerNumber(array('value' => 'string'))
 		);

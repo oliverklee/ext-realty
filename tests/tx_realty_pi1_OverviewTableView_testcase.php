@@ -309,5 +309,56 @@ class tx_realty_pi1_OverviewTableView_testcase extends tx_phpunit_testcase {
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function renderForNegativeFloorValueReturnsFloorRow() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('floor' => -1));
+
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'floor'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_floor'),
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForPositiveFloorValueReturnsFloorRow() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('floor' => 1));
+
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'floor'
+		);
+
+		$this->assertContains(
+			$this->fixture->translate('label_floor'),
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForFloorValueZeroHidesFloorRow() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('floor' => 0));
+
+		$this->fixture->setConfigurationValue(
+			'fieldsInSingleViewTable', 'floor'
+		);
+
+		$this->assertNotContains(
+			$this->fixture->translate('label_has_community_pool'),
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
 }
 ?>

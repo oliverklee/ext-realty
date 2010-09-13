@@ -295,6 +295,18 @@ class tx_realty_pi1_Formatter_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getPropertyForNegativeFloorValueReturnsThisValue() {
+		$this->realtyObject->setProperty('floor', -3);
+
+		$this->assertEquals(
+			'-3',
+			$this->fixture->getProperty('floor')
+		);
+	}
+
 	public function testGetPropertyReturnsMessageYesForRentedIfRentedIsSet() {
 		$this->realtyObject->setProperty('rented', 1);
 
