@@ -398,5 +398,62 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			$this->fixture->canAddNewObjects()
 		);
 	}
+
+
+	/////////////////////////////////////////////
+	// Tests concerning the OpenImmo offerer ID
+	/////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getOpenImmoOffererIdForNoDataReturnsEmptyString() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getOpenImmoOffererId()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getOpenImmoOffererIdReturnsOpenImmoOffererId() {
+		$this->fixture->setData(
+			array('tx_realty_openimmo_anid' => 'some complicated ID')
+		);
+
+		$this->assertEquals(
+			'some complicated ID',
+			$this->fixture->getOpenImmoOffererId()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasOpenImmoOffererIdForEmptyIdReturnsFalse() {
+		$this->fixture->setData(
+			array('tx_realty_openimmo_anid' => '')
+		);
+
+		$this->assertFalse(
+			$this->fixture->hasOpenImmoOffererId()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasOpenImmoOffererIdForNonEmptyIdReturnsTrue() {
+		$this->fixture->setData(
+			array('tx_realty_openimmo_anid' => 'some complicated ID')
+		);
+
+		$this->assertTrue(
+			$this->fixture->hasOpenImmoOffererId()
+		);
+	}
 }
 ?>

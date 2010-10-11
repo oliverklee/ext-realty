@@ -68,13 +68,10 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 			$whereClause = REALTY_TABLE_OBJECTS . '.owner=' . $this->getUid() .
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1);
 
-			$dbData = tx_oelib_db::selectSingle(
-				'COUNT(*) AS number',
-				REALTY_TABLE_OBJECTS,
+			$this->numberOfObjects = tx_oelib_db::count(
+				'tx_realty_objects',
 				$whereClause
 			);
-
-			$this->numberOfObjects = $dbData['number'];
 			$this->numberOfObjectsHasBeenCalculated = TRUE;
 		}
 
@@ -89,9 +86,13 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	 * @return integer the number of objects a user can enter, will be >= 0
 	 */
 	public function getObjectsLeftToEnter() {
+		$numberOfAllowedObjects = $this->getTotalNumberOfAllowedObjects();
+		if ($numberOfAllowedObjects == 0) {
+			return 0;
+		}
+
 		return max(
-			($this->getTotalNumberOfAllowedObjects()
-				- $this->getNumberOfObjects()),
+			($numberOfAllowedObjects - $this->getNumberOfObjects()),
 			0
 		);
 	}
@@ -113,6 +114,27 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	 */
 	public function resetObjectsHaveBeenCalculated() {
 		$this->numberOfObjectsHasBeenCalculated = FALSE;
+	}
+
+	/**
+	 * Gets this user's OpenImmo offerer ID.
+	 *
+	 * @return string
+	 *         the user's OpenImmo offerer ID, will be empty if non has been set
+	 */
+	public function getOpenImmoOffererId() {
+		return $this->getAsString('tx_realty_openimmo_anid');
+	}
+
+	/**
+	 * Checks whether this user has a non-empty OpenImmo offerer ID.
+	 *
+	 * @return boolean
+	 *         TRUE if this user has a non-empty OpenImmo offerer ID, FALSE
+	 *         otherwise
+	 */
+	public function hasOpenImmoOffererId() {
+		return $this->hasString('tx_realty_openimmo_anid');
 	}
 }
 
