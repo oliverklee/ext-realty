@@ -264,38 +264,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns a list row according to the current 'showUid'.
-	 *
-	 * @return array record to display in the single view, will be empty
-	 *               if the record to display does not exist
-	 */
-	private function getCurrentRowForShowUid() {
-		$showUid = 'uid=' . $this->piVars['showUid'];
-		$whereClause = '(' . $showUid .
-			tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) . ')';
-		// Logged-in users may also see their hidden objects in the single view.
-		if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
-			$whereClause .= ' OR (' . $showUid .
-				' AND owner=' . $this->getFeUserUid() .
-				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1) . ')';
-		}
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'*',
-			REALTY_TABLE_OBJECTS,
-			$whereClause
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return ($result !== FALSE) ? $result : array();
-	}
-
-	/**
 	 * Returns the current view.
 	 *
 	 * @return string Name of the current view ('realty_list',
@@ -327,17 +295,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Checks whether the showUid parameter is set and contains a positive
-	 * number.
-	 *
-	 * @return boolean TRUE if showUid is set and is a positive integer,
-	 *                 FALSE otherwise
-	 */
-	private function hasShowUidInUrl() {
-		return $this->piVars['showUid'] > 0;
 	}
 
 	/**
