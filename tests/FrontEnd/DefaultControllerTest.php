@@ -285,7 +285,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	////////////////////////////////////////////////
 
 	public function testAccessToSingleViewIsAllowedWithoutLoginPerDefault() {
-		$this->testingFramework->logoutFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -293,7 +293,8 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	}
 
 	public function testAccessToSingleViewIsAllowedWithLoginPerDefault() {
-		$this->testingFramework->createAndLoginFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()
+			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -302,7 +303,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithoutLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-		$this->testingFramework->logoutFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -311,7 +312,8 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-		$this->testingFramework->createAndLoginFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()
+			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -320,7 +322,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsDeniedWithoutLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$this->testingFramework->logoutFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
 		$this->assertFalse(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -329,7 +331,8 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 	public function testAccessToSingleViewIsAllowedWithLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		$this->testingFramework->createAndLoginFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()
+			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		$this->assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -402,7 +405,9 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	}
 
 	public function testErrorMessageIsDisplayedForRenderingTheSingleViewOfHiddenObjectForLoggedInNonOwner() {
-		$this->testingFramework->createAndLoginFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()
+			->logInUser(new tx_realty_Model_FrontEndUser());
+
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -551,7 +556,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	 */
 	public function myObjectsViewCanBeRendered() {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
-		$this->testingFramework->createAndLoginFrontEndUser();
+
+		$user = new tx_realty_Model_FrontEndUser();
+		$user->setData(array());
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->assertContains(
 			$this->fixture->translate('label_your_objects'),

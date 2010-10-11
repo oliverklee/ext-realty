@@ -452,7 +452,8 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function writeSummaryStringOfFavoritesToSessionForLoggedInFrontEndUserWritesDataToTemporarySession() {
-		$this->testingFramework->createAndLoginFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()
+			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		$this->session->setAsInteger(
 			tx_realty_pi1_FavoritesListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid

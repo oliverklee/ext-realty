@@ -46,10 +46,6 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer dummy FE user UID
-	 */
-	private $feUserUid;
-	/**
 	 * @var integer UID of the dummy object
 	 */
 	private $dummyObjectUid = 0;
@@ -95,18 +91,20 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	///////////////////////
 
 	/**
-	 * Creates dummy records in the DB.
+	 * Creates dummy records in the DB and logs in a front-end user.
 	 */
 	private function createDummyRecords() {
-		$this->feUserUid = $this->testingFramework->createAndLoginFrontEndUser(
-			'',
-			array(
-				'username' => 'test_user',
-				'name' => 'Mr. Test',
-				'email' => 'mr-test@valid-email.org',
-				'tx_realty_openimmo_anid' => 'test-user-anid',
-			)
-		);
+		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+			->getLoadedTestingModel(
+				array(
+					'username' => 'test_user',
+					'name' => 'Mr. Test',
+					'email' => 'mr-test@valid-email.org',
+					'tx_realty_openimmo_anid' => 'test-user-anid',
+				)
+			);
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS,
 			array(
@@ -161,7 +159,8 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->dummyObjectUid,
-			array('owner' => $this->feUserUid)
+			array('owner' => tx_oelib_FrontEndLoginManager::getInstance()
+				->getLoggedInUser()->getUid())
 		);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$this->fixture->deleteRecord();
@@ -1329,7 +1328,8 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$result = $this->fixture->modifyDataToInsert(array());
 
 		$this->assertEquals(
-			$this->feUserUid,
+			tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser()
+				->getUid(),
 			$result['owner']
 		);
 	}
@@ -1354,7 +1354,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	}
 
 	public function testAddAdministrativeDataAddsEmptyOpenImmoAnidForANewObjectIfUserHasNoAnid() {
-		$this->testingFramework->createAndLoginFrontEndUser();
+		$user = new tx_realty_Model_FrontEndUser();
+		$user->setData(array());
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
 

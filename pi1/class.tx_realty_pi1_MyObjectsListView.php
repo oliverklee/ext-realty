@@ -163,8 +163,9 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 *                specific WHERE clause parts are needed
 	 */
 	protected function getViewSpecificWhereClauseParts() {
-		return ' AND ' . REALTY_TABLE_OBJECTS . '.owner = ' .
-			$this->getFeUserUid();
+		return ' AND tx_realty_objects.owner = ' .
+			tx_oelib_FrontEndLoginManager::getInstance()
+			->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid();
 	}
 
 	/**

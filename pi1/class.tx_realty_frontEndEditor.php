@@ -896,10 +896,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return string body for the e-mail to send, will not be empty
 	 */
 	private function getFilledEmailBody() {
-		$frontEndUserData = $this->getFrontEndUserData('name, username');
+		$user = tx_oelib_FrontEndLoginManager::getInstance()
+			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+
 		foreach (array(
-			'username' => $frontEndUserData['username'],
-			'name' => $frontEndUserData['name'],
+			'username' => $user->getUserName(),
+			'name' => $user->getName(),
 			'object_number' => $this->getFormValue('object_number'),
 			'title' => $this->getFormValue('title'),
 			'uid' => $GLOBALS['TYPO3_DB']->sql_insert_id(),
@@ -917,9 +919,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *                will not be empty
 	 */
 	private function getFromLineForEmail() {
-		$frontEndUserData = $this->getFrontEndUserData('name, email');
-		return 'From: "' . $frontEndUserData['name'].'" ' .
-			'<' . $frontEndUserData['email'] . '>' . LF;
+		$user = tx_oelib_FrontEndLoginManager::getInstance()
+			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		return 'From: "' . $user->getName() . '" ' .
+			'<' . $user->getEMailAddress() . '>' . LF;
 	}
 
 	/**
@@ -1048,13 +1051,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
-			$frontEndUserAnid = $this->getFrontEndUserData('tx_realty_openimmo_anid');
+			$user = tx_oelib_FrontEndLoginManager::getInstance()
+				->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 
 			$formData['hidden'] = 1;
 			$formData['crdate'] = mktime();
-			$formData['owner'] = $this->getFeUserUid();
-			$formData['openimmo_anid']
-				= $frontEndUserAnid['tx_realty_openimmo_anid'];
+			$formData['owner'] = $user->getUid();
+			$formData['openimmo_anid'] = $user->getOpenImmoOffererId();
 			$formData['pid'] = $this->getConfValueString(
 				'sysFolderForFeCreatedRecords', 's_feeditor'
 			);
@@ -1278,45 +1281,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		return TRUE;
-	}
-
-	/**
-	 * Returns an associative array of selected keys of a FE user record.
-	 *
-	 * Note: This function requires a FE user to be logged in.
-	 *
-	 * @param string Comma-separated list of keys of the fe_users table
-	 *               for which to return the values for the current FE
-	 *               user or '*' for all keys. Will be used as SELECT for
-	 *               the database query, must not be empty.
-	 *
-	 * @return array associative array with the provided keys and their
-	 *               corresponding values, will not be empty
-	 */
-	private function getFrontEndUserData($keys) {
-		if ($keys == '') {
-			throw new Exception('$keys must not be empty.');
-		}
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$keys,
-			'fe_users',
-			'uid=' . $this->getFeUserUid()
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if ($result === FALSE) {
-			throw new Exception(
-				'The FE user data could not be fetched. Please ensure ' .
-				'a FE user to be logged in.'
-			);
-		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		return $result;
 	}
 
 	/**

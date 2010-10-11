@@ -119,13 +119,17 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewReturnsEmptyResultForShowUidOfHiddenRecordNonOwnerLoggedIn() {
+		$userMapper = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_FrontEndUser');
+		$owner = $userMapper->getNewGhost();
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'hidden' => 1,
-				'owner' => $this->testingFramework->createFrontEndUser()
-		));
+				'owner' => $owner->getUid(),
+			));
 
-		$this->testingFramework->createAndLoginFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()
+			->logInUser($userMapper->getNewGhost());
 
 		$this->assertEquals(
 			'',
@@ -134,11 +138,15 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	}
 
 	public function testSingleViewReturnsNonEmptyResultForShowUidOfHiddenRecordOwnerLoggedIn() {
+		$userMapper = tx_oelib_MapperRegistry
+			::get('tx_realty_Mapper_FrontEndUser');
+		$owner = $userMapper->getNewGhost();
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'hidden' => 1,
-				'owner' => $this->testingFramework->createAndLoginFrontEndUser()
-		));
+				'owner' => $owner->getUid(),
+			));
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($owner);
 
 		$this->assertNotEquals(
 			'',

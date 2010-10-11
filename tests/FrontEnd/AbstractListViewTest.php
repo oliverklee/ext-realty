@@ -224,7 +224,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'requireLoginForSingleViewPage', 1
 		);
-		$this->testingFramework->logoutFrontEndUser();
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}
 
 	/**
