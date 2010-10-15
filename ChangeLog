@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4169] Fix: Drop unused code and some unused variables
 - [#2628] Cleanup: Use frontEndLoginManager::loginUser
 - [#4156] Fix: Drop dead code from tx_realty_pi1
 - [#4132] Cleanup: Use the time constants from tx_oelib_Time

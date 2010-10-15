@@ -48,18 +48,6 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer PID of the single view page
-	 */
-	private $singlePid = 0;
-	/**
-	 * @var integer PID of the alternate single view page
-	 */
-	private $otherSinglePid = 0;
-	/**
-	 * @var integer PID of the favorites page
-	 */
-	private $favoritesPid = 0;
-	/**
 	 * @var integer login PID
 	 */
 	private $loginPid = 0;
@@ -97,24 +85,6 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	 * @var string title for the second dummy realty object
 	 */
 	private static $secondObjectTitle = 'another title';
-
-	/**
-	 * @var integer first dummy city UID
-	 */
-	private $firstCityUid = 0;
-	/**
-	 * @var string title for the first dummy city
-	 */
-	private static $firstCityTitle = 'Bonn';
-
-	/**
-	 * @var integer second dummy city UID
-	 */
-	private $secondCityUid = 0;
-	/**
-	 * @var string title for the second dummy city
-	 */
-	private static $secondCityTitle = 'bar city';
 
 	/**
 	 * @var integer static_info_tables UID of Germany

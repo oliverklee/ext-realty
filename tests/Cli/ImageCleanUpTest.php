@@ -464,7 +464,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getStatisticsAfterDeletingFileReturnsFileDeletedInformation() {
-		$fileName = $this->testingFramework->createDummyFile(
+		$this->testingFramework->createDummyFile(
 			$this->uploadFolder . '/image.jpg'
 		);
 

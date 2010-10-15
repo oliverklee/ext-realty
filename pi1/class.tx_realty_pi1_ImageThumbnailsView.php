@@ -86,7 +86,6 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 			$this->prefixId, $this->extKey
 		);
 
-		$configuration = $this->getImageConfigurationForContainer(0);
 		$allImages = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($this->getUid())->getImages();
 

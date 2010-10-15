@@ -3521,7 +3521,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getSelfUrlKeepsExistingPiVar() {
-		$pageId = $GLOBALS['TSFE']->id;
 		$this->fixture->piVars['pointer'] = 2;
 
 		$this->assertContains(
@@ -3534,7 +3533,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getSelfUrlNotKeepsExistingDataPiVar() {
-		$pageId = $GLOBALS['TSFE']->id;
 		$this->fixture->piVars['DATA'] = 'stuff';
 
 		$this->assertNotContains(
@@ -3547,7 +3545,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getSelfUrlWithKeepPiVarsFalseNotKeepsExistingPiVar() {
-		$pageId = $GLOBALS['TSFE']->id;
 		$this->fixture->piVars['pointer'] = 2;
 
 		$this->assertNotContains(
@@ -3560,7 +3557,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getSelfUrlWithPiVarInKeysToRemoveDropsExistingPiVar() {
-		$pageId = $GLOBALS['TSFE']->id;
 		$this->fixture->piVars['pointer'] = 2;
 
 		$this->assertNotContains(
@@ -3573,7 +3569,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getSelfUrlWithPiVarInKeysToRemoveKeepsOtherExistingPiVar() {
-		$pageId = $GLOBALS['TSFE']->id;
 		$this->fixture->piVars['uid'] = 42;
 		$this->fixture->piVars['pointer'] = 2;
 

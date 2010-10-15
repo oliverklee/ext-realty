@@ -350,7 +350,7 @@ class tx_realty_Mapper_DistrictTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByNameAndCityUidForZeroCityUidNotThrowsException() {
-		$district = $this->fixture->getLoadedTestingModel(
+		$this->fixture->getLoadedTestingModel(
 			array(
 				'title' => 'Kreuzberg',
 				'city' => 0,

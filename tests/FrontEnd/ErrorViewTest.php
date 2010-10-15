@@ -95,7 +95,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			urlencode('?id=' . $GLOBLS['TSFE']->id),
+			urlencode('?id=' . $GLOBALS['TSFE']->id),
 			$this->fixture->render(array('message_please_login'))
 		);
 	}

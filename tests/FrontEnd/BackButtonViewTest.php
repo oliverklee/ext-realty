@@ -273,10 +273,6 @@ class tx_realty_FrontEnd_BackButtonViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'nextPreviousButtons'
 		);
-		$listViewPageUid = $this->testingFramework->createFrontEndPage();
-		$listUid = $this->testingFramework->createContentElement(
-			$listViewPageUid
-		);
 		$this->fixture->piVars['listUid'] = 'fooo';
 
 		$this->assertNotContains(

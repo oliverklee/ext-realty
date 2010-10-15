@@ -876,7 +876,7 @@ class tx_realty_domDocumentConverter {
 	 * Fetches the status of this object (vacant or rented).
 	 */
 	private function fetchStatus() {
-		$node = $nodeWithAttributes = $this->findFirstGrandchild(
+		$node = $this->findFirstGrandchild(
 			'verwaltung_objekt', 'vermietet'
 		);
 		if ($node === null) {

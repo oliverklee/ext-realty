@@ -121,7 +121,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 				$this->realtyObject->markImageRecordAsDeleted(
 					intval(substr($imageId, 15))
 				);
-			} catch (Exception $noSuchImageRecord) {
+			} catch (Exception $exception) {
 			}
 		}
 

@@ -53,17 +53,12 @@ class tx_realty_tests_fixtures_FakeGoogleMapsLookup extends tx_realty_googleMaps
 	 * @param string the ZIP code of the address, may be empty
 	 * @param string the district of the address, may be empty
 	 * @param string the city of the address, may be empty
-	 * @param integer the country of the address as a UID from
-	 *                static_info_tables; if this is 0, the default
-	 *                country set in the configuration will be used
 	 *
 	 * @return array an array with the geo coordinates using the keys
 	 *               'longitude' and 'latitude' or an empty array if no fake
 	 *                coordinates have been set
 	 */
-	public function lookUp(
-		$street = '', $zip = '', $district = '', $city = '', $countryUid = 0
-	) {
+	public function lookUp($street = '', $zip = '', $district = '', $city = '') {
 		if (($zip . $district . $city) == '') {
 			return array();
 		}
