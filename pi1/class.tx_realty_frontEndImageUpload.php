@@ -247,7 +247,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
 					$this->cObj->typoLink_URL(array('parameter' => $imagePath))
 			));
-			$title = $image->getTitle;
+			$title = $image->getTitle();
 			$imageTag = $this->createRestrictedImage(
 				$imagePath,
 				'',
