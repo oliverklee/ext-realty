@@ -52,8 +52,17 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	);
 
 	/**
-	 * @var array cache by district name and city UID, using values from
-	 *            createCacheKeyFromNameAndCityUid as keys
+	 * the column names of additional string keys
+	 *
+	 * @var array<string>
+	 */
+	protected $additionalKeys = array('title');
+
+	/**
+	 * cache by district name and city UID, using values from
+	 * createCacheKeyFromNameAndCityUid as keys
+	 *
+	 * @var array<tx_realty_Model_District>
 	 */
 	private $cacheByNameAndCityUid = array();
 
@@ -93,6 +102,20 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 */
 	public function findAllByCityUidOrUnassigned($uid) {
 		return $this->findByWhereClause('city = 0 OR city = ' . $uid, 'title ASC');
+	}
+
+	/**
+	 * Finds a district by its name.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no district with the
+	 *                                     given name
+	 *
+	 * @param string $name the name of the district to find, must not be empty
+	 *
+	 * @return tx_oelib_Model_District the district with the given name
+	 */
+	public function findByName($name) {
+		return $this->findOneByKey('title', $name);
 	}
 
 	/**
@@ -157,7 +180,9 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * Caches a model by additional combined keys.
 	 *
 	 * @param tx_oelib_Model $model the model to cache
-	 * @param array $data the data of the model as it is in the DB, may be empty
+	 * @param array $data the data of the model as it is in the DB, must not be empty
+	 *
+	 * @return void
 	 */
 	protected function cacheModelByCombinedKeys(
 		tx_oelib_Model $model, array $data

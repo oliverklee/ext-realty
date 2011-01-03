@@ -200,5 +200,108 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 			$this->fixture->countByDistrict($district)
 		);
 	}
+
+
+	//////////////////////////////////////////////////////////////
+	// Tests concerning findByObjectNumberAndObjectIdAndLanguage
+	//////////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findByObjectNumberAndObjectIdAndLanguageForAllParametersEmptyNotThrowsException() {
+		$district = $this->fixture->getLoadedTestingModel(array());
+
+		$this->fixture->findByObjectNumberAndObjectIdAndLanguage('', '', '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByObjectNumberAndObjectIdAndLanguageReturnsRealtyObject() {
+		$this->fixture->getLoadedTestingModel(array(
+			'object_number' => 'FLAT0001',
+			'openimmo_obid' => 'abc01234',
+			'language' => 'de',
+		));
+
+		$this->assertTrue(
+			$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+				'FLAT0001', 'abc01234', 'de'
+			) instanceof tx_realty_Model_RealtyObject
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByObjectNumberAndObjectIdAndLanguageCanFindRealtyObjectWithMatchingDataFromDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => 'FLAT0001',
+				'openimmo_obid' => 'abc01234',
+				'language' => 'de',
+			)
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+				'FLAT0001', 'abc01234', 'de'
+			)->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectNumber() {
+		$this->fixture->getLoadedTestingModel(array(
+			'object_number' => 'FLAT0001',
+			'openimmo_obid' => 'abc01234',
+			'language' => 'de',
+		));
+
+		$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+			'FLAT0002', 'abc01234', 'de'
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectId() {
+		$this->fixture->getLoadedTestingModel(array(
+			'object_number' => 'FLAT0001',
+			'openimmo_obid' => 'abc01234',
+			'language' => 'de',
+		));
+
+		$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+			'FLAT0001', '9684654651', 'de'
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectLanguage() {
+		$this->fixture->getLoadedTestingModel(array(
+			'object_number' => 'FLAT0001',
+			'openimmo_obid' => 'abc01234',
+			'language' => 'de',
+		));
+
+		$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+			'FLAT0002', 'abc01234', 'en'
+		);
+	}
 }
 ?>

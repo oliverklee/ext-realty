@@ -131,7 +131,7 @@ class tx_realty_Mapper_CityTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function findByNameForInexistentThrowsException() {
+	public function findByNameForInexistentNameThrowsException() {
 		$this->setExpectedException('tx_oelib_Exception_NotFound');
 
 		$this->fixture->findByName('Hupflingen');

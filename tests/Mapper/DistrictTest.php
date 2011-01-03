@@ -320,6 +320,59 @@ class tx_realty_Mapper_DistrictTest extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////
+	// Tests concerning findByName
+	////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findByNameForEmptyValueThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$value must not be empty.'
+		);
+
+		$this->fixture->findByName('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameCanFindModelFromCache() {
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'Kleinwurzeling')
+		);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findByName('Kleinwurzeling')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameCanLoadModelFromDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_realty_districts', array('title' => 'Kleinwurzeling')
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByName('Kleinwurzeling')->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByNameForInexistentNameThrowsException() {
+		$this->setExpectedException('tx_oelib_Exception_NotFound');
+
+		$this->fixture->findByName('Hupflingen');
+	}
+
+
 	//////////////////////////////////////////
 	// Tests concerning findByNameAndCityUid
 	//////////////////////////////////////////
