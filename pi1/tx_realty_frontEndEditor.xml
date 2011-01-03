@@ -478,6 +478,26 @@
 		<renderlet:CHECKSINGLE name="heating_included" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included"/>
 		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
 		<renderlet:TEXT name="year_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_rent"/>
+		<renderlet:TEXT name="rental_income_target" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rental_income_target">
+			<validators>
+				<validator:STANDARD>
+					<userobj>
+						<extension>this</extension>
+						<method>isValidNumberWithDecimals</method>
+						<message>
+							<userobj>
+								<extension>this</extension>
+								<method>getMessageForRealtyObjectField</method>
+								<params>
+									<data name="fieldName" value="rental_income_target"/>
+									<data name="label" value="message_no_valid_price"/>
+								</params>
+							</userobj>
+						</message>
+					</userobj>
+				</validator:STANDARD>
+			</validators>
+		</renderlet:TEXT>
 		<renderlet:LISTBOX name="status" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status">
 			<data defaultvalue="0">
 				<items>
