@@ -131,12 +131,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 	 * Creates dummy records in the DB and logs in a front-end user.
 	 */
 	private function createDummyRecords() {
-		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getNewGhost();
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		$userUid = $this->testingFramework->createFrontEndUser();
 
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
-			'tx_realty_objects', array('owner' => $user->getUid())
+			'tx_realty_objects', array('owner' => $userUid)
 		);
 		$this->createImageRecords();
 	}
