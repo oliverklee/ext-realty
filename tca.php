@@ -16,7 +16,7 @@ $TCA['tx_realty_objects'] = array(
 			'estate_size,site_occupancy_index,floor_space_index,' .
 			'rent_excluding_bills,rent_per_square_meter,extra_charges,' .
 			'heating_included,deposit,provision,usable_from,buying_price,hoa_fee,' .
-			'year_rent,status,apartment_type,house_type,floor,floors,bedrooms,' .
+			'year_rent,rental_income_target,status,apartment_type,house_type,floor,floors,bedrooms,' .
 			'bathrooms,heating_type,has_air_conditioning,garage_type,parking_spaces,garage_rent,' .
 			'garage_price,pets,flooring,construction_year,old_or_new_building,' .
 			'state,furnishing_category,balcony,garden,elevator,barrier_free,' .
@@ -527,6 +527,15 @@ $TCA['tx_realty_objects'] = array(
 			'config' => array(
 				'type' => 'input',
 				'size' => '8',
+				'eval' => 'double2',
+			),
+		),
+		'rental_income_target' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rental_income_target',
+			'config' => array(
+				'type' => 'input',
+				'size' => '10',
 				'eval' => 'double2',
 			),
 		),
@@ -1263,7 +1272,7 @@ $TCA['tx_realty_objects'] = array(
 				'storage_area, office_space, other_area, window_bank, ' .
 				'estate_size, site_occupancy_index, ' .
 				'floor_space_index, provision, usable_from, ' .
-				'buying_price, hoa_fee, extra_charges, year_rent, status, ' .
+				'buying_price, hoa_fee, extra_charges, year_rent, rental_income_target, status, ' .
 				'apartment_type, house_type, floor, floors, bedrooms, bathrooms, ' .
 				'heating_type, has_air_conditioning, garage_type, parking_spaces, garage_price, ' .
 				'flooring, construction_year, old_or_new_building, state, ' .

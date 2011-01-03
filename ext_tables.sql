@@ -54,6 +54,7 @@ CREATE TABLE tx_realty_objects (
 	buying_price tinytext NOT NULL,
 	hoa_fee tinytext NOT NULL,
 	year_rent tinytext NOT NULL,
+	rental_income_target decimal(10,2) DEFAULT '0.00' NOT NULL,
 	status tinyint(3) DEFAULT '0' NOT NULL,
 	apartment_type int(11) DEFAULT '0' NOT NULL,
 	house_type int(11) DEFAULT '0' NOT NULL,

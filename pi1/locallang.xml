@@ -186,6 +186,7 @@
 			<label index="label_buying_price">Price for buying</label>
 			<label index="label_hoa_fee">HOA fee</label>
 			<label index="label_year_rent">Net rent per year</label>
+			<label index="label_rental_income_target">Rental income (target)</label>
 			<label index="label_status">Status</label>
 			<label index="label_status_0">vacant</label>
 			<label index="label_status_1">reserved</label>
@@ -579,6 +580,7 @@
 			<label index="label_buying_price">Kaufpreis</label>
 			<label index="label_hoa_fee">Hausgeld</label>
 			<label index="label_year_rent">Nettojahresmiete</label>
+			<label index="label_rental_income_target">Mieteinnahmen (Soll)</label>
 			<label index="label_status">Status</label>
 			<label index="label_status_0">frei</label>
 			<label index="label_status_1">reserviert</label>
@@ -2255,6 +2257,7 @@
 			<label index="label_sales_area" type="integer">169313512</label>
 			<label index="label_other_area" type="integer">33322750</label>
 			<label index="label_window_bank" type="integer">255986329</label>
+			<label index="label_rental_income_target" type="integer">24435045</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -3716,6 +3719,7 @@
 			<label index="label_sales_area">Sales area</label>
 			<label index="label_other_area">Other area</label>
 			<label index="label_window_bank">Window bank</label>
+			<label index="label_rental_income_target">Rental income (target)</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general">General</label>

@@ -50,6 +50,7 @@
 			<label index="tx_realty_objects.buying_price">Price for buying</label>
 			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.year_rent">Net rent per year</label>
+			<label index="tx_realty_objects.rental_income_target">Rental income (target)</label>
 			<label index="tx_realty_objects.status">Status</label>
 			<label index="tx_realty_objects.status.0">vacant</label>
 			<label index="tx_realty_objects.status.1">reserved</label>
@@ -231,6 +232,7 @@
 			<label index="tx_realty_objects.buying_price">Kaufpreis</label>
 			<label index="tx_realty_objects.hoa_fee">Hausgeld</label>
 			<label index="tx_realty_objects.year_rent">Jahresnettomiete</label>
+			<label index="tx_realty_objects.rental_income_target">Mieteinnahmen (Soll)</label>
 			<label index="tx_realty_objects.status">Status</label>
 			<label index="tx_realty_objects.status.0">frei</label>
 			<label index="tx_realty_objects.status.1">reserviert</label>
@@ -1150,6 +1152,7 @@
 			<label index="tx_realty_objects.sales_area" type="integer">184736607</label>
 			<label index="tx_realty_objects.other_area" type="integer">202191494</label>
 			<label index="tx_realty_objects.window_bank" type="integer">189120873</label>
+			<label index="tx_realty_objects.rental_income_target" type="integer">24435045</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects" type="integer">245590068</label>
@@ -1932,6 +1935,7 @@
 			<label index="tx_realty_objects.sales_area">Sales area in m²</label>
 			<label index="tx_realty_objects.other_area">Other area in m²</label>
 			<label index="tx_realty_objects.window_bank">Window bank in m</label>
+			<label index="tx_realty_objects.rental_income_target">Rental income (target)</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Realty object</label>
