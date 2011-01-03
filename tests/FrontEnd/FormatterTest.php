@@ -598,6 +598,19 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function getPropertyReturnsRentalIncomeTargetAsFormattedPriceWithDecimals() {
+		$this->realtyObject->setProperty('rental_income_target', 12345.67);
+		$localeConvention = localeconv();
+
+		$this->assertEquals(
+			'12345' . $localeConvention['decimal_point'] . '67&nbsp;&euro;',
+			$this->fixture->getProperty('rental_income_target')
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getPropertyReturnsParkingSpacesAsInteger() {
 		$this->realtyObject->setProperty('parking_spaces', 3);
 

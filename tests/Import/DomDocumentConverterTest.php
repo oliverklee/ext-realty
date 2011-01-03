@@ -264,6 +264,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 					'sales_area' => 0.0,
 					'other_area' => 0.0,
 					'window_bank' => 0.0,
+					'rental_income_target' => 0.0,
 				),
 			),
 			$this->fixture->getConvertedData($node)
@@ -289,11 +290,13 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 					'sales_area' => 0.0,
 					'other_area' => 0.0,
 					'window_bank' => 0.0,
+					'rental_income_target' => 0.0,
 				),
 				array(
 					'sales_area' => 0.0,
 					'other_area' => 0.0,
 					'window_bank' => 0.0,
+					'rental_income_target' => 0.0,
 				),
 			),
 			$this->fixture->getConvertedData($node)
@@ -629,6 +632,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'sales_area' => 0.0,
 			'other_area' => 0.0,
 			'window_bank' => 0.0,
+			'rental_income_target' => 0.0,
 			'employer' => 'foo',
 			'openimmo_anid' => 'bar',
 		);
@@ -3038,6 +3042,29 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$importedData[0]['parking_spaces']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsRentalIncomeTarget() {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<preise>' .
+							'<mieteinnahmen_soll>12345.67</mieteinnahmen_soll>' .
+						'</preise>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertEquals(
+			12345.67,
+			$result[0]['rental_income_target']
 		);
 	}
 

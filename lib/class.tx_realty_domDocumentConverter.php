@@ -25,9 +25,10 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_domDocumentConverter' for the 'realty' extension.
- * It converts DOMDocuments of OpenImmo data to arrays which have the columns of
- * the database table 'tx_realty_objects' as keys.
+ * Class tx_realty_domDocumentConverter for the "realty" extension.
+ *
+ * This class converts DOMDocuments of OpenImmo data to arrays which have the
+ * columns of the database table "tx_realty_objects" as keys.
  *
  * @package TYPO3
  * @subpackage tx_realty
@@ -109,6 +110,7 @@ class tx_realty_domDocumentConverter {
 		'sales_area' => array('flaechen' => 'verkaufsflaeche'),
 		'other_area' => array('flaechen' => 'sonstflaeche'),
 		'window_bank' => array('flaechen' => 'fensterfront'),
+		'rental_income_target' => array('preise' => 'mieteinnahmen_soll'),
 	);
 
 	/**

@@ -179,6 +179,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'year_rent':
 				// The fallthrough is intended.
+			case 'rental_income_target':
+				// The fallthrough is intended.
 			case 'garage_rent':
 				// The fallthrough is intended.
 			case 'hoa_fee':
