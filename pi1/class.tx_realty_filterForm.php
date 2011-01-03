@@ -173,10 +173,14 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 					// The fallthrough is intended.
 				case 'numberOfRoomsTo':
 					$commaFreeValue = $this->replaceCommasWithDots($rawValue);
-					$this->filterFormData[$key]
-						= tx_realty_pi1_Formatter::formatDecimal(
-							floatval($commaFreeValue), 1
+					if (floatval($commaFreeValue) == intval($commaFreeValue)) {
+						$formattedValue = $commaFreeValue;
+					} else {
+						$formattedValue = number_format(
+							$commaFreeValue, 1, $localeConvention['decimal_point'], ''
 						);
+					}
+					$this->filterFormData[$key] = $formattedValue;
 				default:
 					break;
 			}
