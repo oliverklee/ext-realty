@@ -382,7 +382,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			return '';
 		}
 
-		$formattedNumber = self::formatDecimal(floatval($rawValue));
+		$formattedNumber = $this->formatDecimal(floatval($rawValue));
 
 		return $formattedNumber . '&nbsp;' . $unit;
 	}
@@ -416,7 +416,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				->find($this->getUid())->getProperty($key)
 		);
 
-		return self::formatDecimal(floatval($value), $decimals);
+		return $this->formatDecimal(floatval($value), $decimals);
 	}
 
 	/**
@@ -429,7 +429,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *
 	 * @return $string the formatted float, will be empty if zero was given
 	 */
-	public static function formatDecimal($number, $decimals = 2) {
+	public function formatDecimal($number, $decimals = 2) {
 		if ($number == 0.0) {
 			return '';
 		}

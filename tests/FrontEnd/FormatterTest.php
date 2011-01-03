@@ -686,7 +686,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalForZeroReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			tx_realty_pi1_Formatter::formatDecimal(0)
+			$this->fixture->formatDecimal(0)
 		);
 	}
 
@@ -696,7 +696,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalForFloatWithAllZeroDecimalsReturnsNumberWithoutDecimals() {
 		$this->assertSame(
 			'4',
-			tx_realty_pi1_Formatter::formatDecimal(4.00)
+			$this->fixture->formatDecimal(4.00)
 		);
 	}
 
@@ -706,7 +706,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalForFloatWithOnceDecimalReturnsNumberWithTwoDecimals() {
 		$this->assertSame(
 			'4.50',
-			tx_realty_pi1_Formatter::formatDecimal(4.50)
+			$this->fixture->formatDecimal(4.50)
 		);
 	}
 
@@ -716,7 +716,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalForFloatWithTwoNonZeroDecimalsReturnsNumberWithBothDecimals() {
 		$this->assertEquals(
 			'4.55',
-			tx_realty_pi1_Formatter::formatDecimal(4.55)
+			$this->fixture->formatDecimal(4.55)
 		);
 	}
 
@@ -726,7 +726,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalForFloatWithThreeDecimalsLastDecimalLowerThanFiveReturnsNumberWithOnlyTwoDecimals() {
 		$this->assertEquals(
 			'4.55',
-			tx_realty_pi1_Formatter::formatDecimal(4.553)
+			$this->fixture->formatDecimal(4.553)
 		);
 	}
 
@@ -736,7 +736,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalForFloatWithThreeDecimalsLastDecimalFiveReturnsNumberWithLastDecimalRoundedUp() {
 		$this->assertEquals(
 			'4.56',
-			tx_realty_pi1_Formatter::formatDecimal(4.555)
+			$this->fixture->formatDecimal(4.555)
 		);
 	}
 
@@ -746,7 +746,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalCanRoundToOneDecimal() {
 		$this->assertEquals(
 			'4.1',
-			tx_realty_pi1_Formatter::formatDecimal(4.1234, 1)
+			$this->fixture->formatDecimal(4.1234, 1)
 		);
 	}
 
@@ -756,7 +756,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalCanRoundToTwoDecimals() {
 		$this->assertEquals(
 			'4.12',
-			tx_realty_pi1_Formatter::formatDecimal(4.1234, 2)
+			$this->fixture->formatDecimal(4.1234, 2)
 		);
 	}
 
@@ -766,7 +766,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function formatDecimalCanRoundToThreeDecimals() {
 		$this->assertEquals(
 			'4.123',
-			tx_realty_pi1_Formatter::formatDecimal(4.1234, 3)
+			$this->fixture->formatDecimal(4.1234, 3)
 		);
 	}
 }
