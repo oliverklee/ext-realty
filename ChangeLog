@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4180] Fix: test testDeleteRecordFromTheDatabase fails
 - [#4178] Fix: Test testProcessImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase crashes
 - [#4162] Add a field "Mieteinnahmen (Soll)"
 - [#4104] Fix: Empty image titles in the image upload dialog

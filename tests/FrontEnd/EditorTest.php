@@ -159,8 +159,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->dummyObjectUid,
-			array('owner' => tx_oelib_FrontEndLoginManager::getInstance()
-				->getLoggedInUser()->getUid())
+			array('owner' => $this->testingFramework->createFrontEndUser())
 		);
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$this->fixture->deleteRecord();
