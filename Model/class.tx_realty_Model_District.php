@@ -58,7 +58,7 @@ class tx_realty_Model_District extends tx_oelib_Model {
 	/**
 	 * Gets the city this district is part of.
 	 *
-	 * @return tx_realty_Model_City this district's city, will be null if no
+	 * @return tx_realty_Model_City this district's city, will be NULL if no
 	 *                              city is associated with this district
 	 */
 	public function getCity() {
@@ -68,9 +68,9 @@ class tx_realty_Model_District extends tx_oelib_Model {
 	/**
 	 * Sets this district's city.
 	 *
-	 * @param tx_realty_Model_City $city the city to set, may be null
+	 * @param tx_realty_Model_City $city the city to set, may be NULL
 	 */
-	public function setCity(tx_realty_Model_City $city = null) {
+	public function setCity(tx_realty_Model_City $city = NULL) {
 		$this->set('city', $city);
 	}
 }

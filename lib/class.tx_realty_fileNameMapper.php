@@ -49,7 +49,7 @@ class tx_realty_fileNameMapper {
 	/**
 	 * @var t3lib_basicFileFunctions
 	 */
-	private static $fileFunctions = null;
+	private static $fileFunctions = NULL;
 
 	/**
 	 * Constructor.

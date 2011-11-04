@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4281] Cleanup: Make true, false and null uppercase
 - [#4275] Cleanup: Convert the XCLASS code to use $GLOBALS
 - [#4177] Cleanup: Update the copyright to 2011
 - [#4274] Cleanup: Drop the XCLASS code from abstract classes

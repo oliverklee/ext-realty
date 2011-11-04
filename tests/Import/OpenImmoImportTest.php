@@ -1873,8 +1873,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 		$this->fixture->importFromZip();
 
-		$GLOBALS['typo3CacheManager'] = null;
-		$cachePages = null;
+		$GLOBALS['typo3CacheManager'] = NULL;
+		$cachePages = NULL;
 	}
 
 

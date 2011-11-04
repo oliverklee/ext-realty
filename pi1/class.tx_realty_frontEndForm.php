@@ -40,12 +40,12 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * @var tx_ameosformidable object that creates the form
 	 */
-	protected $formCreator = null;
+	protected $formCreator = NULL;
 
 	/**
 	 * @var tx_realty_Model_RealtyObject realty object
 	 */
-	protected $realtyObject = null;
+	protected $realtyObject = NULL;
 
 	/**
 	 * @var integer UID of the currently edited object, zero if the object is

@@ -36,7 +36,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	/**
 	 * @var tx_oelib_template template object
 	 */
-	private $template = null;
+	private $template = NULL;
 
 	/**
 	 * @var array localized error message for the errors occurred during the

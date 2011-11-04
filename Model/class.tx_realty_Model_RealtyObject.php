@@ -74,7 +74,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * @var t3lib_cs helper for charset conversion
 	 */
-	private $charsetConversion = null;
+	private $charsetConversion = NULL;
 
 	/**
 	 * @var integer the length of cropped titles
@@ -170,12 +170,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * @var t3lib_refindex a cached reference index instance
 	 */
-	private static $referenceIndex = null;
+	private static $referenceIndex = NULL;
 
 	/**
 	 * @var tx_realty_Model_FrontEndUser the owner of this object
 	 */
-	private $owner = null;
+	private $owner = NULL;
 
 	/**
 	 * Constructor.
@@ -276,7 +276,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *         type
 	 */
 	protected function getDataType($realtyData) {
-		if ($realtyData === null) {
+		if ($realtyData === NULL) {
 			return '';
 		}
 
@@ -589,7 +589,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                                     user with an ANID matching the
 	 *                                     current object's ANID
 	 *
-	 * @return tx_realty_Model_FrontEndUser owner of the current object, null
+	 * @return tx_realty_Model_FrontEndUser owner of the current object, NULL
 	 *                                      if there is none
 	 */
 	public function getOwner() {
@@ -667,7 +667,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @param string key of the value to set in current realty object,
 	 *               must not be empty and must not be 'uid'
 	 * @param mixed value to set, must be either numeric or a string
-	 *              (also empty) or of boolean, may not be null
+	 *              (also empty) or of boolean, may not be NULL
 	 */
 	public function setProperty($key, $value) {
 		$this->set($key, $value);
@@ -682,7 +682,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @param string key of the value to set in current realty object,
 	 *               must not be empty and must not be 'uid'
 	 * @param mixed value to set, must be either numeric or a string
-	 *              (also empty) or of boolean, may not be null
+	 *              (also empty) or of boolean, may not be NULL
 	 */
 	public function set($key, $value) {
 		if ($this->isVirgin()
@@ -1116,7 +1116,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$image = $this->images->at($imageKey);
 
-		if ($image == null) {
+		if ($image == NULL) {
 			throw new Exception('The image record does not exist.');
 		}
 
@@ -1143,7 +1143,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$document = $this->documents->at($key);
 
-		if ($document == null) {
+		if ($document == NULL) {
 			throw new Exception('The document does not exist.');
 		}
 
@@ -1698,7 +1698,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$this->getAsInteger('contact_data_source')
 				== REALTY_CONTACT_FROM_OWNER_ACCOUNT;
 
-		if ($useContactDataOfOwner && $this->owner === null) {
+		if ($useContactDataOfOwner && $this->owner === NULL) {
 			$this->owner
 				= tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 					->find($this->getAsInteger('owner'));

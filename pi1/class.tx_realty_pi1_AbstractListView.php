@@ -53,7 +53,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * @var tx_realty_pi1_Formatter formatter for prices, areas etc.
 	 */
-	private $formatter = null;
+	private $formatter = NULL;
 
 	/**
 	 * @var string the list view type to display
@@ -1027,7 +1027,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * $this->piVars['search'].
 	 *
 	 * @return array array of unique, int-safe values from
-	 *               $this->piVars['search'], may be empty, but not null
+	 *               $this->piVars['search'], may be empty, but not NULL
 	 */
 	private function getSearchSelection() {
 		$result = array();

@@ -694,7 +694,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 				.'<anbieter>'
 					.'<immobilie>'
 						.'<verwaltung_objekt>'
-							.'<haustiere>true</haustiere>'
+							.'<haustiere>TRUE</haustiere>'
 						.'</verwaltung_objekt>'
 					.'</immobilie>'
 				.'</anbieter>'
@@ -1499,7 +1499,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 				'<anbieter>' .
 					'<immobilie>' .
 						'<verwaltung_objekt>' .
-							'<vermietet>true</vermietet>' .
+							'<vermietet>TRUE</vermietet>' .
 						'</verwaltung_objekt>' .
 					'</immobilie>' .
 				'</anbieter>' .
@@ -1522,7 +1522,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 				'<anbieter>' .
 					'<immobilie>' .
 						'<verwaltung_objekt>' .
-							'<vermietet>false</vermietet>' .
+							'<vermietet>FALSE</vermietet>' .
 						'</verwaltung_objekt>' .
 					'</immobilie>' .
 				'</anbieter>' .

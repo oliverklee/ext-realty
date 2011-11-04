@@ -38,7 +38,7 @@ class tx_realty_googleMapsLookup {
 	/**
 	 * @var tx_realty_googleMapsLookup the Singleton GoogleMaps instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var string the base URL of the Google Maps geo coding service
@@ -116,7 +116,7 @@ class tx_realty_googleMapsLookup {
 			self::$instance->__destruct();
 		}
 
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

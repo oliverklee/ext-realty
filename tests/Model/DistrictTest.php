@@ -128,7 +128,7 @@ class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getCityAfterSetCityWithNullReturnsNull() {
-		$this->fixture->setCity(null);
+		$this->fixture->setCity(NULL);
 
 		$this->assertNull(
 			$this->fixture->getCity()

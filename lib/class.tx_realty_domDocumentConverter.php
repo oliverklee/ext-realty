@@ -125,7 +125,7 @@ class tx_realty_domDocumentConverter {
 	);
 
 	/** raw data of an OpenImmo record */
-	private $rawRealtyData = null;
+	private $rawRealtyData = NULL;
 
 	/** data which is the same for all realty records of one DOMDocument */
 	private $universalRealtyData = array();
@@ -147,12 +147,12 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * @var tx_realty_fileNameMapper
 	 */
-	private $fileNameMapper = null;
+	private $fileNameMapper = NULL;
 
 	/**
 	 * @var tx_realty_translator a translator for localized strings
 	 */
-	private static $translator = null;
+	private static $translator = NULL;
 
 	/**
 	 * Constructor.
@@ -187,7 +187,7 @@ class tx_realty_domDocumentConverter {
 	 * The returned array is empty if the given DOMDocument could not be
 	 * converted.
 	 *
-	 * @param DOMDocument data to convert, must not be null
+	 * @param DOMDocument data to convert, must not be NULL
 	 *
 	 * @return array data of each realty record, will be empty if the
 	 *               passed DOMDocument could not be converted
@@ -221,7 +221,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Loads the raw data from a DOMDocument.
 	 *
-	 * @param DOMDocument raw data to load, must not be null
+	 * @param DOMDocument raw data to load, must not be NULL
 	 */
 	protected function setRawRealtyData(DOMDocument $rawRealtyData) {
 		$this->rawRealtyData = new DOMXPath($rawRealtyData);
@@ -285,7 +285,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Substitutes XML namespaces from a node name and returns the name.
 	 *
-	 * @param DOMNode node, may be null
+	 * @param DOMNode node, may be NULL
 	 *
 	 * @return string node name without namespaces, may be empty
 	 */
@@ -306,7 +306,7 @@ class tx_realty_domDocumentConverter {
 	private function getNumberOfRecords() {
 		$nodeList = $this->getListedRealties();
 
-		if ($nodeList !== null) {
+		if ($nodeList !== NULL) {
 			$result = $nodeList->length;
 		} else {
 			$result = 0;
@@ -352,7 +352,7 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Replaces the strings 'true' and 'false' of the currently imported data
+	 * Replaces the strings 'TRUE' and 'FALSE' of the currently imported data
 	 * with real booleans. This replacement is not case sensitive.
 	 */
 	private function replaceImportedBooleanLikeStrings() {
@@ -881,7 +881,7 @@ class tx_realty_domDocumentConverter {
 		$node = $this->findFirstGrandchild(
 			'verwaltung_objekt', 'vermietet'
 		);
-		if ($node === null) {
+		if ($node === NULL) {
 			return;
 		}
 
@@ -1096,7 +1096,7 @@ class tx_realty_domDocumentConverter {
 	 * @param string node name, must not be empty
 	 * @param string child node name, may be empty, the elements are taken
 	 *               from the node named $nodeName then
-	 * @param DOMNode subnode to fetch a relative result, may be null, the
+	 * @param DOMNode subnode to fetch a relative result, may be NULL, the
 	 *                query is made on the root node then
 	 *
 	 *
@@ -1105,7 +1105,7 @@ class tx_realty_domDocumentConverter {
 	 *                     names do not exist
 	 */
 	private function getNodeListFromRawData(
-		$nodeName, $childNodeName = '', $contextNode = null
+		$nodeName, $childNodeName = '', $contextNode = NULL
 	) {
 		$queryString = '';
 		$isContextNodeValid = FALSE;
@@ -1132,12 +1132,12 @@ class tx_realty_domDocumentConverter {
 	 * Returns the first grandchild of an element inside the realty record
 	 * with the current record number specified by the child's and the
 	 * grandchild's name. If one of these names can not be found or there are no
-	 * realty records, null is returned.
+	 * realty records, NULL is returned.
 	 *
 	 * @param string name of child, must not be empty
 	 * @param string name of grandchild, must not be empty
 	 *
-	 * @return DOMNode first grandchild with this name, null if it does not
+	 * @return DOMNode first grandchild with this name, NULL if it does not
 	 *                 exist
 	 */
 	protected function findFirstGrandchild(
@@ -1161,7 +1161,7 @@ class tx_realty_domDocumentConverter {
 		if ($queryResult) {
 			$result = $queryResult->item(0);
 		} else {
-			$result = null;
+			$result = NULL;
 		}
 
 		return $result;
@@ -1183,10 +1183,10 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Returns a DOMNodeList of the realty records found in $realtyData or null
+	 * Returns a DOMNodeList of the realty records found in $realtyData or NULL
 	 * if there are none.
 	 *
-	 * @return DOMNodeList list of nodes named 'immobilie', null if none were
+	 * @return DOMNodeList list of nodes named 'immobilie', NULL if none were
 	 *                     found
 	 */
 	private function getListedRealties() {
@@ -1195,15 +1195,15 @@ class tx_realty_domDocumentConverter {
 
 	/**
 	 * Adds a new element $value to the array $arrayExpand, using the key $key.
-	 * The element will not be added if is null.
+	 * The element will not be added if is NULL.
 	 *
 	 * @param array $arrayToExpand
 	 *        array into which the new element should be inserted, may be empty
 	 * @param string $key the key to insert, must not be empty
-	 * @param mixed $value the value to insert, may be empty or even null
+	 * @param mixed $value the value to insert, may be empty or even NULL
 	 */
 	protected function addElementToArray(array &$arrayToExpand, $key, $value) {
-		if (!is_null($value)) {
+		if (!is_NULL($value)) {
 			if (is_string($value)) {
 				$cleanedValue = preg_replace(
 					'/[\r\n\t]+/', ' ', trim($value)
@@ -1219,7 +1219,7 @@ class tx_realty_domDocumentConverter {
 	 * Adds an element to $this->importedData.
 	 *
 	 * @param string $key the key to insert, must not be empty
-	 * @param mixed $value the value to insert, may be empty or even null
+	 * @param mixed $value the value to insert, may be empty or even NULL
 	 */
 	private function addImportedData($key, $value) {
 		$this->addElementToArray($this->importedData, $key, $value);
@@ -1259,7 +1259,7 @@ class tx_realty_domDocumentConverter {
 	 * Fetches an attribute from a given node and returns name/value pairs as an
 	 * array. If there are no attributes, the returned array will be empty.
 	 *
-	 * @param DOMNode node from where to fetch the attribute, may be null
+	 * @param DOMNode node from where to fetch the attribute, may be NULL
 	 *
 	 * @return array attributes and attribute values, empty if there are
 	 *               no attributes
@@ -1285,7 +1285,7 @@ class tx_realty_domDocumentConverter {
 	 * pairs as an array. If there are no attributes, the returned array will be
 	 * empty.
 	 *
-	 * @param DOMNode node from where to fetch the attribute, may be null
+	 * @param DOMNode node from where to fetch the attribute, may be NULL
 	 *
 	 * @return array lowercased attributes and attribute values, empty if
 	 *               there are no attributes

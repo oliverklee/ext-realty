@@ -91,7 +91,7 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	/**
 	 * Gets the realty object this document is related to.
 	 *
-	 * @return tx_realty_Model_RealtyObject the related object, will be null
+	 * @return tx_realty_Model_RealtyObject the related object, will be NULL
 	 *                                      if non has been assigned
 	 */
 	public function getObject() {

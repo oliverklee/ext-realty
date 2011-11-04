@@ -1772,8 +1772,8 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-		$GLOBALS['typo3CacheManager'] = null;
-		$cachePages = null;
+		$GLOBALS['typo3CacheManager'] = NULL;
+		$cachePages = NULL;
 	}
 
 

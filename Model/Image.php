@@ -121,7 +121,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	/**
 	 * Gets the realty object this image is related to.
 	 *
-	 * @return tx_realty_Model_RealtyObject the related object, will be null
+	 * @return tx_realty_Model_RealtyObject the related object, will be NULL
 	 *                                      if non has been assigned
 	 */
 	public function getObject() {

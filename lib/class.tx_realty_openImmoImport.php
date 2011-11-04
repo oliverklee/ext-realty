@@ -60,27 +60,27 @@ class tx_realty_openImmoImport {
 	/**
 	 * @var DOMDocument the current imported XML
 	 */
-	private $importedXml = null;
+	private $importedXml = NULL;
 
 	/**
 	 * @var tx_oelib_configuration_proxy to access the EM configuration
 	 */
-	private $globalConfiguration = null;
+	private $globalConfiguration = NULL;
 
 	/**
 	 * @var tx_realty_Model_RealtyObject inserts OpenImmo records to database
 	 */
-	private $realtyObject = null;
+	private $realtyObject = NULL;
 
 	/**
 	 * @var tx_realty_translator a cached translator instance
 	 */
-	private static $translator = null;
+	private static $translator = NULL;
 
 	/**
 	 * @var tx_realty_fileNameMapper gets the unique names tor the images
 	 */
-	private $fileNameMapper = null;
+	private $fileNameMapper = NULL;
 
 	/**
 	 * @var string the upload directory for images
@@ -1077,7 +1077,7 @@ class tx_realty_openImmoImport {
 	 * Returns the current content of the currently loaded XML file as a
 	 * DOMDocument.
 	 *
-	 * @return DOMDocument loaded XML file, may be null if no document was
+	 * @return DOMDocument loaded XML file, may be NULL if no document was
 	 *                     loaded e.g. due to validation errors
 	 */
 	protected function getImportedXml() {
@@ -1291,15 +1291,15 @@ class tx_realty_openImmoImport {
 	/**
 	 * Converts a DOMDocument to an array.
 	 *
-	 * @param DOMDocument which contains realty records, can be null
+	 * @param DOMDocument which contains realty records, can be NULL
 	 *
 	 * @return array realty records in an array, will be empty if the
 	 *               data was not convertible
 	 */
 	protected function convertDomDocumentToArray(
-		DOMDocument $realtyRecords = null
+		DOMDocument $realtyRecords = NULL
 	) {
-		if ($realtyRecords === null) {
+		if ($realtyRecords === NULL) {
 			return array();
 		}
 
