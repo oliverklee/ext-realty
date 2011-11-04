@@ -79,7 +79,7 @@ class tx_realty_Ajax_DistrictSelector {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Ajax/class.tx_realty_Ajax_DistrictSelector.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/Ajax/class.tx_realty_Ajax_DistrictSelector.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Ajax/class.tx_realty_Ajax_DistrictSelector.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Ajax/class.tx_realty_Ajax_DistrictSelector.php']);
 }
 ?>
