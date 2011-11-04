@@ -85,8 +85,4 @@ class tx_realty_tests_fixtures_FakeGoogleMapsLookup extends tx_realty_googleMaps
 		$this->coordinates = array();
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_tests_fixtures_FakeGoogleMapsLookup.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/tests/fixtures/class.tx_realty_tests_fixtures_FakeGoogleMapsLookup.php']);
-}
 ?>

@@ -74,8 +74,4 @@ class tx_realty_tests_fixtures_TestingListView extends tx_realty_pi1_AbstractLis
 		return parent::getSelfUrl($keepPiVars, $removeKeys);
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/tests/fixtures/class.tx_realty_tests_fixtures_TestingListView.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/realty/pi1/tests/fixtures/class.tx_realty_tests_fixtures_TestingListView.php']);
-}
 ?>
