@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext "realty".
 #
-# Auto generated 13-09-2010 19:09
+# Auto generated 13-09-2011 19:09
 #
 # Manual updates:
 # Only the data in the array - everything else is removed by next
