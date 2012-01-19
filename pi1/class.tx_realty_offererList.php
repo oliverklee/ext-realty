@@ -155,13 +155,19 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	private function listItemQuery($whereClause) {
 		$listItems = '';
 
+		if ($this->isLastNameAvailable()) {
+			$fieldOrder = 'usergroup,city,company,last_name,name,username,image';
+		} else {
+			$fieldOrder = 'usergroup,city,company,name,username,image';
+		}
+
 		$offererRecords = tx_oelib_db::selectMultiple(
 			'*',
 			'fe_users',
 			$whereClause . tx_oelib_db::enableFields('fe_users') .
 				$this->getWhereClauseForTesting(),
 			'',
-			'usergroup,city,company,last_name,name,username,image'
+			$fieldOrder
 		);
 		$offererList = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_FrontEndUser')
@@ -172,6 +178,15 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 		}
 
 		return $listItems;
+	}
+
+	/**
+	 * Checks whether the field last_name exists in the fe_users table.
+	 *
+	 * @return boolean TRUE if the field last_name exists, FALSE otherwise
+	 */
+	private function isLastNameAvailable() {
+		return tx_oelib_db::tableHasColumn('fe_users', 'last_name');
 	}
 
 	/**
