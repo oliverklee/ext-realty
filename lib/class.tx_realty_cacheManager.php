@@ -39,7 +39,10 @@ class tx_realty_cacheManager {
 	 * @see tslib_fe::clearPageCacheContent_pidList()
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
-		if ((t3lib_div::int_from_ver(TYPO3_version) >= 4003000)
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if (($version >= 4003000)
 			&& TYPO3_UseCachingFramework
 		) {
 			self::clearCacheWithCachingFramework();

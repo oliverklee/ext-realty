@@ -1838,7 +1838,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////
 
 	public function testImportFromZipClearsFrontEndCacheAfterImport() {
-		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version < 4003000) {
 			$this->markTestSkipped(
 				'This test is not applicable for TYPO3 versions lower than 4.3.'
 			);
