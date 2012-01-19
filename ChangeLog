@@ -1,4 +1,5 @@
 0.5.2 - currently working on
+- [#4282] Fix: LF and CRLF in RTE fields need to be imported
 - [#4293] Fix: Adapt all version number checks for 4.6
 - [#4197] Change: Make CSS Styled Content a requirement
 - [#4130] Fix: Set the numeric locale in our CLI scripts

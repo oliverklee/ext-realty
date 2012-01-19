@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/class.tx_realty_translator.p
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Benjamin Schulte <benj@minschulte.de>
  */
 class tx_realty_domDocumentConverter {
 	/**
@@ -100,6 +101,15 @@ class tx_realty_domDocumentConverter {
 		'show_address', 'heating_included', 'rented', 'garden', 'barrier_free',
 		'elevator', 'has_air_conditioning', 'assisted_living', 'fitted_kitchen',
 		'has_pool', 'has_community_pool',
+	);
+
+	/**
+	 * the keys of the fields that are of richtext type
+	 *
+	 * @var array<string>
+	 */
+	private static $richtextFields = array(
+		'description', 'equipment', 'location', 'misc'
 	);
 
 	/** raw data of an OpenImmo record */
@@ -1043,16 +1053,32 @@ class tx_realty_domDocumentConverter {
 	 * @param mixed $value the value to insert, may be empty or even null
 	 */
 	protected function addElementToArray(array &$arrayToExpand, $key, $value) {
-		if (!is_null($value)) {
-			if (is_string($value)) {
-				$cleanedValue = preg_replace(
-					'/[\r\n\t]+/', ' ', trim($value)
-				);
-			} else {
-				$cleanedValue = $value;
-			}
-			$arrayToExpand[$key] = $cleanedValue;
+		if ($value === NULL) {
+			return;
 		}
+
+		if ($this->isRichtextField($key)) {
+			$cleanedValue = (string) $value;
+		} elseif (is_string($value)) {
+			$cleanedValue = preg_replace(
+				'/[\r\n\t]+/', ' ', trim($value)
+			);
+		} else {
+			$cleanedValue = $value;
+		}
+
+		$arrayToExpand[$key] = $cleanedValue;
+	}
+
+	/**
+	 * Checks whether the key should be parsed as richtext field.
+	 *
+	 * @param string $key the key to check for, must not be empty
+	 *
+	 * @return boolean TRUE if the field is a richtext field. FALSE otherwise.
+	 */
+	protected function isRichtextField($key) {
+		return in_array($key, self::$richtextFields);
 	}
 
 	/**
