@@ -33,6 +33,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Benjamin Schulte <benj@minschulte.de>
  */
 class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
@@ -472,6 +473,104 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'foo bar',
 			$importedData[0]['title']
+		);
+	}
+
+	/**
+	 * data provider for all fields converted to HTML
+	 *
+	 * @return array
+	 */
+	public function htmlFieldsDataProvider() {
+		return array(
+			'location' => array('lage', 'location'),
+			'misc' => array('sonstige_angaben', 'misc'),
+			'equipment' => array('ausstatt_beschr', 'equipment'),
+			'description' => array('objektbeschreibung', 'description'),
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @param string $xmlKey the name of the XML tag
+	 * @param string $arrayKey the name of the array key
+	 *
+	 * @dataProvider htmlFieldsDataProvider
+	 */
+	public function getConvertedDataForCrLfReplacesCrLfWithLfInRichTextField($xmlKey, $arrayKey) {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<' . $xmlKey . '>foo' . CRLF .'bar 123</' . $xmlKey . '>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$importedData = $this->fixture->getConvertedData($node);
+
+		$this->assertEquals(
+			'foo' . LF .'bar 123',
+			$importedData[0][$arrayKey]
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @param string $xmlKey the name of the XML tag
+	 * @param string $arrayKey the name of the array key
+	 *
+	 * @dataProvider htmlFieldsDataProvider
+	 */
+	public function getConvertedDataForCrReplacesCrWithLfInRichTextField($xmlKey, $arrayKey) {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<' . $xmlKey . '>foo' . CR .'bar 123</' . $xmlKey . '>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$importedData = $this->fixture->getConvertedData($node);
+
+		$this->assertEquals(
+			'foo' . LF . 'bar 123',
+			$importedData[0][$arrayKey]
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @param string $xmlKey the name of the XML tag
+	 * @param string $arrayKey the name of the array key
+	 *
+	 * @dataProvider htmlFieldsDataProvider
+	 */
+	public function getConvertedDataForLfKeepsLfInRichTextField($xmlKey, $arrayKey) {
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<freitexte>' .
+							'<' . $xmlKey . '>foo' . LF .'bar 123</' . $xmlKey . '>' .
+						'</freitexte>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+		$importedData = $this->fixture->getConvertedData($node);
+
+		$this->assertEquals(
+			'foo' . LF . 'bar 123',
+			$importedData[0][$arrayKey]
 		);
 	}
 
