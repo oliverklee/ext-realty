@@ -89,6 +89,8 @@ class ext_update {
 
 	/**
 	 * Checks whether the district -> city relations need to be updated.
+	 *
+	 * @return boolean TRUE if the relations need to be updated, FALSE otherwise
 	 */
 	private function needsToUpdateDistricts() {
 		$districtsWithExactlyOneCity = $this->findDistrictsToAssignCity();

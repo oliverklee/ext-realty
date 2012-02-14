@@ -1,4 +1,5 @@
 0.5.2 - currently working on
+- [#4347] Fix: Fix missing/incorrect @return and return values
 - [#4326] Cleanup: Remove the Zend Studio metadata from all projects
 - [#2951] Fix: SQL error in the single view if the contact data source is set to "from owner" and sr_feuser_register is not installed
 - [#4282] Fix: LF and CRLF in RTE fields need to be imported
