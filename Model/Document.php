@@ -105,7 +105,7 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 *        the related object to assign
 	 */
 	public function setObject(tx_realty_Model_RealtyObject $realtyObject) {
-		return $this->set('object', $realtyObject);
+		$this->set('object', $realtyObject);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 * @param integer $sorting the sorting value of this document, must be >= 0
 	 */
 	public function setSorting($sorting) {
-		return $this->setAsInteger('sorting', $sorting);
+		$this->setAsInteger('sorting', $sorting);
 	}
 }
 
