@@ -230,7 +230,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * and the value of "descFlag". The very first records will always be those
 	 * with a value for "sorting" set within the record itself.
 	 *
-	 * @return pointer the realty records to list as a mysql result resource
+	 * @return resource the realty records to list as a mysql result resource
 	 */
 	private function initListView() {
 		$whereClause = $this->createWhereClause();
@@ -681,7 +681,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @param boolean $keepPiVars whether the current piVars should be kept
-	 * @param array $removeKeys
+	 * @param array $keysToRemove
 	 *        the keys to remove from the piVar data before processing the URL,
 	 *        may be empty
 	 *

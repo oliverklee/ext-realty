@@ -58,7 +58,7 @@ class tx_realty_Mapper_City extends tx_oelib_DataMapper {
 	 *
 	 * @param string $name the name of the city to find, must not be empty
 	 *
-	 * @return tx_oelib_Model_City the city with the given name
+	 * @return tx_realty_Model_City the city with the given name
 	 */
 	public function findByName($name) {
 		return $this->findOneByKey('title', $name);

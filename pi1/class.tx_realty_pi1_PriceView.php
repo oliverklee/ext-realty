@@ -40,8 +40,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns this view as HTML.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
-	 *              realty object UID as value
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid realty object UID as value
 	 *
 	 * @return string HTML for this view, will be empty if the realty object
 	 *                with the provided UID has no prices for the defined object

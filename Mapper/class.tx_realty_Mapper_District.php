@@ -112,7 +112,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 *
 	 * @param string $name the name of the district to find, must not be empty
 	 *
-	 * @return tx_oelib_Model_District the district with the given name
+	 * @return tx_realty_Model_District the district with the given name
 	 */
 	public function findByName($name) {
 		return $this->findOneByKey('title', $name);
@@ -129,7 +129,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * @param integer $cityUid
 	 *        the UID of the city of the district to find, must be >= 0
 	 *
-	 * @return tx_oelib_Model_District the district with the given name and city
+	 * @return tx_realty_Model_District the district with the given name and city
 	 */
 	public function findByNameAndCityUid($districtName, $cityUid) {
 		if ($districtName == '') {
@@ -163,7 +163,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * @param integer $cityUid
 	 *        the UID of the city of the district to find, must be >= 0
 	 *
-	 * @return tx_oelib_Model_District the district with the given name and city
+	 * @return tx_realty_Model_District the district with the given name and city
 	 */
 	private function findByNameAndCityUidFromCache($districtName, $cityUid) {
 		$cacheKey = $this->createCacheKeyFromNameAndCityUid(
@@ -225,7 +225,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * @param integer $cityUid
 	 *        the UID of the city of the district to find, must be >= 0
 	 *
-	 * @return tx_oelib_Model_District the district with the given name and city
+	 * @return tx_realty_Model_District the district with the given name and city
 	 */
 	private function findByNameAndCityUidFromDatabase($districtName, $cityUid) {
 		return $this->findSingleByWhereClause(array(

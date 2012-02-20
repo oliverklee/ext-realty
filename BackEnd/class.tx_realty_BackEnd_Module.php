@@ -231,11 +231,11 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	/**
 	 * Stores a localized error message in $this->errorMessages.
 	 *
-	 * @param string the locallang key of the error message to store, must be
-	 *               an existing locallang label without the prefix
-	 *              'error_message_'
-	 * @param mixed the value which should be included in the locallang message,
-	 *              must not be empty
+	 * @param string $message
+	 *        the locallang key of the error message to store,
+	 *        must be an existing locallang label without the prefix 'error_message_'
+	 * @param mixed $value
+	 *        the value which should be included in the locallang message, must not be empty
 	 */
 	private function storeErrorMessage($message, $value) {
 		$this->errorMessages[] = sprintf(

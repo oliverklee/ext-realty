@@ -114,7 +114,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * @param string $language
 	 *        the language code (any format) of the object to find, may be empty
 	 *
-	 * @return tx_oelib_Model_RealtyObject
+	 * @return tx_realty_Model_RealtyObject
 	 *         the realty object that matches all three parameters
 	 */
 	public function findByObjectNumberAndObjectIdAndLanguage(
@@ -147,7 +147,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * @param string $language
 	 *        the language code (any format) of the object to find, may be empty
 	 *
-	 * @return tx_oelib_Model_RealtyObject
+	 * @return tx_realty_Model_RealtyObject
 	 *         the realty object that matches all three parameters
 	 */
 	private function findByObjectNumberAndObjectIdAndLanguageFromCache(
@@ -222,7 +222,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * @param string $language
 	 *        the language code (any format) of the object to find, may be empty
 	 *
-	 * @return tx_oelib_Model_RealtyObject
+	 * @return tx_realty_Model_RealtyObject
 	 *         the realty object that matches all three parameters
 	 */
 	private function findByObjectNumberAndObjectIdAndLanguageFromDatabase(

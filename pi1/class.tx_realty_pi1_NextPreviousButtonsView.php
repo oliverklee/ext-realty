@@ -36,7 +36,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Renders the "previous" and "next" buttons.
 	 *
-	 * @param array piVars array, may be empty
+	 * @param array $piVars piVars array, may be empty
 	 *
 	 * @return string the HTML output for the "previous" and "next" buttons,
 	 *                will be empty if both buttons are hidden
@@ -152,9 +152,6 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sanitizes the listViewLimitation piVar, unserializes, and decodes it.
 	 *
-	 * @param string $listViewLimitation
-	 *        the content of the piVar listViewLimitation, may be empty
-	 *
 	 * @return array the data stored in the listViewLimitation string as array.
 	 */
 	private function sanitizeAndSplitListViewLimitation() {
@@ -223,6 +220,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			'uid = ' . intval($this->piVars['listUid']) .
 				tx_oelib_db::enableFields('tt_content')
 		);
+		/** @var $contentObject tslib_cObj */
 		$contentObject = tx_oelib_ObjectFactory::make('tslib_cObj');
 		$contentObject->start($contentData, 'tt_content');
 		$listView = tx_realty_pi1_ListViewFactory::make(

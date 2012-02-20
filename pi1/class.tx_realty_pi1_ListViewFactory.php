@@ -39,14 +39,12 @@ class tx_realty_pi1_ListViewFactory {
 	 * @param string $type
 	 *        the list view type to create, must be one of "favorites",
 	 *        "my_objects", "objects_by_owner" or "realty_list"
-	 * @param array $configuration TypoScript configuration for the plugin
+	 * @param array $conf TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
 	 *
-	 * @return object an instance of the list view, will be one of
-	 *                "tx_realty_pi1_FavoritesListView",
-	 *                "tx_realty_pi1_MyObjectsListView",
-	 *                "tx_realty_pi1_ObjectsByOwnerListView", or
-	 *                "tx_realty_pi1_DefaultListView"
+	 * @return tx_realty_pi1_AbstractListView
+	 *         an instance of the list view, will be one of "tx_realty_pi1_FavoritesListView", "tx_realty_pi1_MyObjectsListView",
+	 *         "tx_realty_pi1_ObjectsByOwnerListView", or "tx_realty_pi1_DefaultListView"
 	 */
 	static public function make($type, array $conf, tslib_cObj $cObj) {
 		switch ($type) {

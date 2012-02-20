@@ -82,8 +82,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * Loads an XML string, sets the raw realty data and returns a DOMDocument
 	 * of the provided string.
 	 *
-	 * @param string XML string to set for converting, must contain
-	 *               wellformed XML, must not be empty
+	 * @param string $xmlString XML string to set for converting, must contain wellformed XML, must not be empty
 	 *
 	 * @return DOMDocument DOMDocument of the provided XML string
 	 */

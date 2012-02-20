@@ -42,9 +42,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * The constructor.
 	 *
-	 * @param array TypoScript configuration for the plugin
-	 * @param tslib_cObj the parent cObj content, needed for the flexforms
-	 * @param boolean whether the class is instantiated in test mode
+	 * @param array $configuration TypoScript configuration for the plugin
+	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param boolean $isTestMode whether the class is instantiated in test mode
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
@@ -56,8 +56,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the single view as HTML.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
-	 *              realty object UID as value
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid object UID as value
 	 *
 	 * @return string HTML for the single view or an empty string if the
 	 *                provided UID is no UID of a valid realty object
@@ -80,7 +79,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * realty object that is either non-hidden, or the logged-in FE user owns
 	 * the object.
 	 *
-	 * @param integer UID of the realty object, must be >= 0
+	 * @param integer $uid UID of the realty object, must be >= 0
 	 *
 	 * @return boolean TRUE if the object has been loaded, FALSE otherwise
 	 */
@@ -117,8 +116,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Creates the single view.
 	 *
-	 * @param integer UID of the realty object for which to create the single
-	 *                view, must be > 0
+	 * @param integer $uid UID of the realty object for which to create the single view, must be > 0
 	 */
 	private function createSingleView($uid) {
 		$this->setPageTitle($uid);
@@ -161,8 +159,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * Sets the title of the page for display and for use in indexed search
 	 * results.
 	 *
-	 * @param integer UID of the realty object for which to set the title,
-	 *                must be > 0
+	 * @param integer $uid UID of the realty object for which to set the title, must be > 0
 	 */
 	private function setPageTitle($uid) {
 		$title = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
@@ -178,12 +175,11 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the result of tx_realty_pi1_[$viewName]View::render().
 	 *
-	 * @param integer UID of the realty object for which to create the view,
-	 *                must be > 0
-	 * @param string key of the view to get, must be a part of the class name of
-	 *               possible view: tx_realty_pi1_[$viewName]View, must be
-	 *               case-sensitive apart from the first letter, must not be
-	 *               empty
+	 * @param integer $uid
+	 *        UID of the realty object for which to create the view, must be > 0
+	 * @param string $viewName
+	 *        key of the view to get, must be a part of the class name of possible view: tx_realty_pi1_[$viewName]View, must be
+	 *        case-sensitive apart from the first letter, must not be empty
 	 *
 	 * @return string the result of tx_realty_pi1_[$viewName]View::render(),
 	 *                will be empty if there is no data to display for the

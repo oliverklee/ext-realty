@@ -66,7 +66,7 @@ class tx_realty_googleMapsLookup {
 	 * The constructor. Do not call this constructor directly. Use getInstance()
 	 * instead.
 	 *
-	 * @param tx_oelib_templatehelper the plugin configuration
+	 * @param tx_oelib_templatehelper $configuration the plugin configuration
 	 */
 	protected function __construct(tx_oelib_templatehelper $configuration) {
 		if (!$configuration->hasConfValueString(
@@ -83,8 +83,7 @@ class tx_realty_googleMapsLookup {
 	/**
 	 * Retrieves the Singleton instance of the GoogleMaps look-up.
 	 *
-	 * @param tx_oelib_templatehelper configuration, will only be used for
-	 *                                creating the initial Singleton object
+	 * @param tx_oelib_templatehelper $configuration configuration, will only be used for creating the initial Singleton object
 	 *
 	 * @return tx_realty_googleMapsLookup the Singleton GoogleMaps look-up
 	 */
@@ -101,8 +100,7 @@ class tx_realty_googleMapsLookup {
 	 *
 	 * Note: This function is to be used for testing only.
 	 *
-	 * @param tx_realty_googleMapsLookup the instance which getInstance()
-	 *                                   should return
+	 * @param tx_realty_googleMapsLookup $geoFinder the instance which getInstance() should return
 	 */
 	public static function setInstance(tx_realty_googleMapsLookup $geoFinder) {
 		self::$instance = $geoFinder;
@@ -129,13 +127,13 @@ class tx_realty_googleMapsLookup {
 	/**
 	 * Looks up the geo coordinates of an address.
 	 *
-	 * @param string the street of the address, may be empty
-	 * @param string the ZIP code of the address, may be empty
-	 * @param string the district of the address, may be empty
-	 * @param string the city of the address, may be empty
-	 * @param integer the country of the address as a UID from
-	 *                static_info_tables; if this is 0, the default
-	 *                country set in the configuration will be used
+	 * @param string $street the street of the address, may be empty
+	 * @param string $zip the ZIP code of the address, may be empty
+	 * @param string $district the district of the address, may be empty
+	 * @param string $city the city of the address, may be empty
+	 * @param integer $countryUid
+	 *        the country of the address as a UID from static_info_tables;
+	 *        if this is 0, the default country set in the configuration will be used
 	 *
 	 * @return array an array with the geo coordinates using the keys
 	 *               'longitude' and 'latitude' or an empty array if the
@@ -243,9 +241,9 @@ class tx_realty_googleMapsLookup {
 	 * Reads the default ISO 3166-1 alpha2 country code for a UID from
 	 * static_info_tables.
 	 *
-	 * @param integer a country UID from static_info_tables, will be used if it
-	 *                is > 0 otherwise the configuration of "defaultCountryUID"
-	 *                will be used
+	 * @param integer $uid
+	 *        a country UID from static_info_tables, will be used if it is > 0,
+	 *        otherwise the configuration of "defaultCountryUID" will be used
 	 *
 	 * @return string the ISO 3166-1 alpha 2 country code for the provided UID
 	 *                if it was > 0, otherwise the country code for the UID

@@ -31,7 +31,7 @@ class tx_realty_pi1_wizicon {
 	/**
 	 * Processing the wizard items array
 	 *
-	 * @param array the wizard items, may be empty
+	 * @param array $wizardItems the wizard items, may be empty
 	 *
 	 * @return array modified array with wizard items
 	 */
@@ -55,7 +55,7 @@ class tx_realty_pi1_wizicon {
 	 * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found
 	 * in that file.
 	 *
-	 * @return The array with language labels
+	 * @return array The array with language labels
 	 */
 	public function includeLocalLang() {
 		$llFile = t3lib_extMgm::extPath('realty') . 'locallang.xml';

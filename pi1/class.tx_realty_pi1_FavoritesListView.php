@@ -262,8 +262,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 *
 	 * Before storing, the list of favorites is clear of duplicates.
 	 *
-	 * @param array list of UIDs in the favorites list to store, must
-	 *              already be int-safe, may be empty
+	 * @param array $favorites list of UIDs in the favorites list to store, must already be int-safe, may be empty
 	 */
 	private function storeFavorites(array $favorites) {
 		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)

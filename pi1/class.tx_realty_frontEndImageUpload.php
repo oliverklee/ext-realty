@@ -53,7 +53,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * If there are no uploaded images for an object, the delete option will
 	 * be hidden.
 	 *
-	 * @param array unused
+	 * @param array $unused unused
 	 *
 	 * @return string HTML for the FE editor or an error view if the
 	 *                  requested object is not editable for the current user
@@ -102,7 +102,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * Deletes image records of the current record if images were checked to be
 	 * deleted in the form .
 	 *
-	 * @param array form data, must not be empty
+	 * @param array $formData form data, must not be empty
 	 */
 	public function processImageUpload(array $formData) {
 		if (($formData['caption'] != '') && ($formData['image']['name'] != '')) {
@@ -136,7 +136,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	/**
 	 * Checks whether the provided file is valid.
 	 *
-	 * @param array form data to check, must not be empty
+	 * @param array $valueToCheck  data to check, must not be empty
 	 *
 	 * @return boolean whether the provided file is a valid image
 	 */
@@ -202,7 +202,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 *
 	 * Note: In the test mode, just the input string will be returned.
 	 *
-	 * @param string file name derived from the form data, must not be empty
+	 * @param string $fileName file name derived from the form data, must not be empty
 	 *
 	 * @return string unique file name used under wich this file is stored
 	 *                in the upload directory, will not be empty

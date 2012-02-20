@@ -76,8 +76,8 @@ class tx_realty_mapMarker {
 	/**
 	 * Sets this marker's coordinates.
 	 *
-	 * @param string latitude, must not be empty
-	 * @param string longitude, must not empty
+	 * @param string $latitude latitude, must not be empty
+	 * @param string $longitude longitude, must not empty
 	 */
 	public function setCoordinates($latitude, $longitude) {
 		if ($latitude == '') {
@@ -109,7 +109,7 @@ class tx_realty_mapMarker {
 	/**
 	 * Sets this marker's title.
 	 *
-	 * @param string title, may be empty, must not be HTML-safe
+	 * @param string $title title, may be empty, must not be HTML-safe
 	 */
 	public function setTitle($title) {
 		$this->title = trim(addslashes(strip_tags($title)));
@@ -118,7 +118,7 @@ class tx_realty_mapMarker {
 	/**
 	 * Sets this marker's info window HTML
 	 *
-	 * @param string info window HTML, may be empty
+	 * @param string $html info window HTML, may be empty
 	 */
 	public function setInfoWindowHtml($html) {
 		// 1. escapes \ to \\

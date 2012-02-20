@@ -53,9 +53,9 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 	 * the flexforms, gets the template HTML code, sets the localized labels
 	 * and set the CSS classes from TypoScript.
 	 *
-	 * @param array TypoScript configuration for the plugin
-	 * @param tslib_cObj the parent cObj content, needed for the flexforms
-	 * @param boolean whether the class is instantiated in test mode
+	 * @param array $configuration TypoScript configuration for the plugin
+	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param boolean $isTestMode whether the class is instantiated in test mode
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
@@ -69,7 +69,7 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 	/**
 	 * Renders this view and returns its content.
 	 *
-	 * @param array form data array (piVars)
+	 * @param array $piVars form data array (piVars)
 	 *
 	 * @return string the view's content
 	 */

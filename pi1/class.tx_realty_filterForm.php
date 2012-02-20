@@ -58,8 +58,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the filter form in HTML.
 	 *
-	 * @param array current piVars, the elements "priceRange" and "site"
-	 *              will be used if they are available, may be empty
+	 * @param array $filterFormData
+	 *        current piVars, the elements "priceRange" and "site" will be used if they are available, may be empty
 	 *
 	 * @return string HTML of the filter form, will not be empty
 	 */
@@ -108,7 +108,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * "tx_realty_objects INNER JOIN tx_realty_cities
 	 * ON tx_realty_objects.city = tx_realty_cities.uid";
 	 *
-	 * @param array filter form data, may be empty
+	 * @param array $filterFormData filter form data, may be empty
 	 *
 	 * @return string WHERE clause part for the current filters beginning
 	 *                with " AND", will be empty if none were provided
@@ -132,7 +132,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Stores the provided data derived from the form. In case invalid data was
 	 * provided, an empty string will be stored.
 	 *
-	 * @param array filter form data, may be empty
+	 * @param array $formData filter form data, may be empty
 	 */
 	private function extractValidFilterFormData(array $formData) {
 		foreach ($formData as $key => $rawValue) {
@@ -190,7 +190,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Formats one price range.
 	 *
-	 * @param string price range of the format "number-number", may be empty
+	 * @param string $priceRange price range of the format "number-number", may be empty
 	 *
 	 * @return array array with one price range, consists of the two elements
 	 *               "upperLimit" and "lowerLimit", will be empty if no price
@@ -531,10 +531,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Fills the input box for the given search field if it is configured to be
 	 * displayed. Hides the form element if it is disabled by configuration.
 	 *
-	 * @param string the name of the search field, to hide or show, must be
-	 *               'livingArea' or 'rent'
-	 * @param string the name of the field name part of the searched marker,
-	 *               must not be empty
+	 * @param string $searchField the name of the search field, to hide or show, must be 'livingArea' or 'rent'
+	 * @param string $fieldMarkerPart the name of the field name part of the searched marker, must not be empty
 	 */
 	private function fillOrHideFromToSearchField(
 		$searchField, $fieldMarkerPart
@@ -591,10 +589,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Returns a formatted label for one price range according to the configured
 	 * currency unit.
 	 *
-	 * @param array range for which to receive the label, must have the elements
-	 *              "upperLimit" and "lowerLimit", both must have integers as
-	 *               values, only one of the elements' values may be 0, for an
-	 *               empty array the result will always be "&nbsp;"
+	 * @param array $range
+	 *        range for which to receive the label, must have the elements "upperLimit" and "lowerLimit",
+	 *        both must have integers as values, only one of the elements' values may be 0,
+	 *        for an empty array the result will always be "&nbsp;"
 	 *
 	 * @return string formatted label for the price range, will be "&nbsp;"
 	 *                if an empty array was provided (an empty string
@@ -833,7 +831,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether a given search field ID is set in displayedSearchFields
 	 *
-	 * @param string the search field name to check, must not be empty
+	 * @param string $fieldToCheck the search field name to check, must not be empty
 	 *
 	 * @return boolean TRUE if the given field should be displayed as set per
 	 *                 configuration, FALSE otherwise

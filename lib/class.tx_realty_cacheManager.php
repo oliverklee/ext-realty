@@ -49,7 +49,7 @@ class tx_realty_cacheManager {
 	/**
 	 * Returns the page UIDs of the pages with the realty plugin.
 	 *
-	 * @param string prefix for each UID, leave empty to set no prefix
+	 * @param string $prefix prefix for each UID, leave empty to set no prefix
 	 *
 	 * @return array page UIDs of the pages with the realty plugin, each will be
 	 *               prefixed with $prefix, will be empty if there are none

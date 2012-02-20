@@ -37,8 +37,7 @@ class tx_realty_pi1_FurtherDescriptionView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the further-description view as HTML.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
-	 *              realty object UID as value
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid realty object UID as value
 	 *
 	 * @return string HTML for the further-description view will be epmty if
 	 *                the realty object with the provided UID has neither data

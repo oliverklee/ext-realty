@@ -172,11 +172,11 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 * Copies a file or a folder from the extension's tests/fixtures/ folder
 	 * into the temporary test import folder.
 	 *
-	 * @param string File or folder to copy. Must be a relative path to
-	 *               existent files within the tests/fixtures/ folder.
-	 *               Leave empty to create an empty import folder.
-	 * @param string new file name in case it should be different from
-	 *               the original one, may be empty
+	 * @param string $fileName
+	 *        File or folder to copy. Must be a relative path to existent files within the tests/fixtures/ folder.
+	 *        Leave empty to create an empty import folder.
+	 * @param string $newFileName
+	 *        new file name in case it should be different from the original one, may be empty
 	 */
 	private function copyTestFileIntoImportFolder($fileName, $newFileName = '') {
 		// creates an import folder if there is none

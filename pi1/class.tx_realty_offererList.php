@@ -40,9 +40,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * The constructor.
 	 *
-	 * @param array TypoScript configuration for the plugin
-	 * @param tslib_cObj the parent cObj content, needed for the flexforms
-	 * @param boolean TRUE if this class is instantiated for testing, else FALSE
+	 * @param array $configuration TypoScript configuration for the plugin
+	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param boolean $isTestMode TRUE if this class is instantiated for testing, else FALSE
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
@@ -54,7 +54,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the offerer list in HTML.
 	 *
-	 * @param array unused
+	 * @param array $unused unused
 	 *
 	 * @return string HTML of the offerer list, will not be empty
 	 */
@@ -79,8 +79,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the HTML for one list item.
 	 *
-	 * @param integer UID of the FE user record for which to get the contact
-	 *                information, must be > 0
+	 * @param integer $offererUid UID of the FE user record for which to get the contact information, must be > 0
 	 *
 	 * @return string HTML for one contact data item, will be empty if
 	 *                $offererUid is not a UID of an enabled user
@@ -92,9 +91,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the HTML for one list item.
 	 *
-	 * @param array owner data array, the keys 'company', 'name', 'first_name',
-	 *              'last_name', 'address', 'zip', 'city', 'email', 'www'
-	 *              and 'telephone' will be used for the HTML
+	 * @param array $ownerData
+	 *        owner data array, the keys 'company', 'name', 'first_name', 'last_name', 'address', 'zip', 'city', 'email', 'www'
+	 *        and 'telephone' will be used for the HTML
 	 *
 	 * @return string HTML for one contact data item, will be empty if
 	 *                $ownerData did not contain data to use
@@ -107,6 +106,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			);
 		}
 
+		/** @var $frontEndUser tx_realty_Model_FrontEndUser */
 		$frontEndUser = tx_oelib_ObjectFactory::make('tx_realty_Model_FrontEndUser');
 
 		// setData() will not create the relations, but "usergroup" is expected
@@ -147,7 +147,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Gets the offerer records in an array.
 	 *
-	 * @param string WHERE clause for the query, must not be empty
+	 * @param string $whereClause WHERE clause for the query, must not be empty
 	 *
 	 * @return string HTML for each fetched offerer record, will be empty if
 	 *                none were found
@@ -192,7 +192,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns a single table row for the offerer list.
 	 *
-	 * @param tx_realty_Model_FrontEndUser FE user for which to create the row
+	 * @param tx_realty_Model_FrontEndUser $offerer FE user for which to create the row
 	 *
 	 * @return string HTML for one list row, will be empty if there is no
 	 *                no content (or only the user group) for the row
@@ -232,7 +232,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns an array of data for a list row.
 	 *
-	 * @param tx_realty_Model_FrontEndUser offerer for which to create the row
+	 * @param tx_realty_Model_FrontEndUser $offerer offerer for which to create the row
 	 *
 	 * @return array associative array with the marker names as keys and the
 	 *               content to replace them with as values, will not be empty
@@ -269,9 +269,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks wether an item of offerer information may be displayed.
 	 *
-	 * @param tx_realty_Model_FrontEndUser offerer
-	 * @param string key of the information for which to check visibility, must
-	 *               not be emtpy
+	 * @param tx_realty_Model_FrontEndUser $offerer offerer
+	 * @param string $keyOfInformation key of the information for which to check visibility, must not be emtpy
 	 *
 	 * @return boolean TRUE if it is configured to display the information of
 	 *                 the provided offerer, FALSE otherwise
@@ -304,7 +303,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * If none of these is provided, the user name will be returned.
 	 * FE user records are expected to have at least a user name.
 	 *
-	 * @param tx_realty_Model_FrontEndUser offerer of which to get the name
+	 * @param tx_realty_Model_FrontEndUser $offerer offerer of which to get the name
 	 *
 	 * @return string label for the owner with the first user group appended if
 	 *                no company will be displayed (which usually has the user
@@ -328,8 +327,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the company with the user group appended.
 	 *
-	 * @param tx_realty_Model_FrontEndUser the offerer of which to get the
-	 *                                     company, must not be empty
+	 * @param tx_realty_Model_FrontEndUser $offerer the offerer of which to get the company, must not be empty
 	 *
 	 * @return string the company with the user group appended if the offerer
 	 *                list is not used in the single view, will be empty if
@@ -347,10 +345,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * view is not single view and if the user group may be displayed and is
 	 * non-empty.
 	 *
-	 * @param string information to which the user group should be appended, may
-	 *               be empty, will be modified
-	 * @param tx_realty_Model_FrontEndUser the offerer of which to append the
-	 *                                     user group
+	 * @param string &$information information to which the user group should be appended, may be empty, will be modified
+	 * @param tx_realty_Model_FrontEndUser $offerer the offerer of which to append the user group
 	 */
 	private function appendUserGroup(
 		&$information, tx_realty_Model_FrontEndUser $offerer
@@ -368,8 +364,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * Returns the title of the first user group a user belongs to and which is
 	 * within the list of allowed user groups.
 	 *
-	 * @param tx_oelib_List the offerer's user groups of which to get the first
-	 *                      which is within the list of allowed user groups
+	 * @param tx_oelib_List $userGroups
+	 *        the offerer's user groups of which to get the first which is within the list of allowed user groups
 	 *
 	 * @return string title of the first allowed user group of the given
 	 *                FE user, will be empty if the user has no group
@@ -398,7 +394,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the URL to the list of objects by the provided owner.
 	 *
-	 * @param integer UID of the owner for which to create the URL, must be >= 0
+	 * @param integer $ownerUid UID of the owner for which to create the URL, must be >= 0
 	 *
 	 * @return string URL to the objects-by-owner list, will be empty if the
 	 *                owner UID is zero
@@ -438,7 +434,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * Returns the image tag for the offerer image with the image resized to the
 	 * maximum width and height as configured in TS Setup.
 	 *
-	 * @param tx_realty_Model_FrontEndUser the offerer to show the image for
+	 * @param tx_realty_Model_FrontEndUser $offerer the offerer to show the image for
 	 *
 	 * @return string the image tag with the image, will be empty if user has no
 	 *                image

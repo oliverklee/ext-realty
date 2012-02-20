@@ -197,7 +197,7 @@ class tx_realty_domDocumentConverter {
 	 * The returned array is empty if the given DOMDocument could not be
 	 * converted.
 	 *
-	 * @param DOMDocument data to convert, must not be NULL
+	 * @param DOMDocument $domDocument data to convert, must not be NULL
 	 *
 	 * @return array data of each realty record, will be empty if the
 	 *               passed DOMDocument could not be converted
@@ -231,7 +231,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Loads the raw data from a DOMDocument.
 	 *
-	 * @param DOMDocument raw data to load, must not be NULL
+	 * @param DOMDocument $rawRealtyData raw data to load, must not be NULL
 	 */
 	protected function setRawRealtyData(DOMDocument $rawRealtyData) {
 		$this->rawRealtyData = new DOMXPath($rawRealtyData);
@@ -249,7 +249,7 @@ class tx_realty_domDocumentConverter {
 	 * array. This data is the same for all realty records in one DOMDocument
 	 * and is fetched by $this->fetchUniversalData().
 	 *
-	 * @param array realty data, may be empty
+	 * @param array &$realtyDataArray realty data, may be empty
 	 */
 	private function addUniversalData(array &$realtyDataArray) {
 		$realtyDataArray = array_merge(
@@ -295,7 +295,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Substitutes XML namespaces from a node name and returns the name.
 	 *
-	 * @param DOMNode node, may be NULL
+	 * @param DOMNode $domNode node, may be NULL
 	 *
 	 * @return string node name without namespaces, may be empty
 	 */
@@ -1087,7 +1087,7 @@ class tx_realty_domDocumentConverter {
 	 * Returns a comma-separated list of an array. The first letter of each word
 	 * is uppercased.
 	 *
-	 * @param array data to format, must not be empty
+	 * @param array $dataToFormat data to format, must not be empty
 	 *
 	 * @return string formatted string
 	 */
@@ -1103,12 +1103,12 @@ class tx_realty_domDocumentConverter {
 	 * If $contextNode is set, the elements are fetched relatively from this
 	 * node.
 	 *
-	 * @param string node name, must not be empty
-	 * @param string child node name, may be empty, the elements are taken
-	 *               from the node named $nodeName then
-	 * @param DOMNode subnode to fetch a relative result, may be NULL, the
-	 *                query is made on the root node then
-	 *
+	 * @param string $nodeName
+	 *        node name, must not be empty
+	 * @param string $childNodeName
+	 *        child node name, may be empty, the elements are taken from the node named $nodeName then
+	 * @param DOMNode $contextNode
+	 *        subnode to fetch a relative result, may be NULL, the query is made on the root node then
 	 *
 	 * @return DOMNodeList all nodes which are named $childNodeName, $nodeName
 	 *                     if $childNodeName is not set, can be empty if these
@@ -1144,8 +1144,8 @@ class tx_realty_domDocumentConverter {
 	 * grandchild's name. If one of these names can not be found or there are no
 	 * realty records, NULL is returned.
 	 *
-	 * @param string name of child, must not be empty
-	 * @param string name of grandchild, must not be empty
+	 * @param string $nameOfChild name of child, must not be empty
+	 * @param string $nameOfGrandchild name of grandchild, must not be empty
 	 *
 	 * @return DOMNode first grandchild with this name, NULL if it does not
 	 *                 exist
@@ -1269,10 +1269,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Checks whether an element exists in an array and is non-empty.
 	 *
-	 * @param string key of the element that should be checked to exist
-	 *               and being non-empty, must not be empty
-	 * @param array array in which the existance of an element should be
-	 *              checked, may be empty
+	 * @param string $key key of the element that should be checked to exist and being non-empty, must not be empty
+	 * @param array $array array in which the existance of an element should be checked, may be empty
 	 *
 	 * @return boolean TRUE if the the element exists and is non-empty,
 	 *                 FALSE otherwise
@@ -1285,7 +1283,7 @@ class tx_realty_domDocumentConverter {
 	 * Fetches an attribute from a given node and returns name/value pairs as an
 	 * array. If there are no attributes, the returned array will be empty.
 	 *
-	 * @param DOMNode node from where to fetch the attribute, may be NULL
+	 * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
 	 *
 	 * @return array attributes and attribute values, empty if there are
 	 *               no attributes
@@ -1311,7 +1309,7 @@ class tx_realty_domDocumentConverter {
 	 * pairs as an array. If there are no attributes, the returned array will be
 	 * empty.
 	 *
-	 * @param DOMNode node from where to fetch the attribute, may be NULL
+	 * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
 	 *
 	 * @return array lowercased attributes and attribute values, empty if
 	 *               there are no attributes
@@ -1330,8 +1328,8 @@ class tx_realty_domDocumentConverter {
 	 * Caches the fetched countries in order to reduce the the number of
 	 * database queries.
 	 *
-	 * @param string ISO3166 code for the country, must not be empty
-	 * @param integer UID of the country, must match the UID in the static
+	 * @param string $key ISO3166 code for the country, must not be empty
+	 * @param integer $value UID of the country, must match the UID in the static
 	 *                countries table, must be >= 0
 	 */
 	private function cacheCountry($key, $value) {

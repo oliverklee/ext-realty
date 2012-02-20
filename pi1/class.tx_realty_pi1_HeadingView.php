@@ -36,7 +36,7 @@ class tx_realty_pi1_HeadingView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the heading view as HTML.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid
 	 *              realty object UID as value
 	 *
 	 * @return string HTML for the heading view or an empty string if the

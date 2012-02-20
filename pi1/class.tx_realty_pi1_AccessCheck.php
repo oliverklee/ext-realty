@@ -37,17 +37,17 @@ class tx_realty_pi1_AccessCheck {
 	/**
 	 * Checks access for the provided type of view and the current piVars.
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if access is denied, with the
-	 *                                         reason of denying as a locallang
-	 *                                         key
+	 * @param string $flavor
+	 *        the flavor for which to check the access, must be within the allowed values for "what_to_display"
+	 * @param array $piVars
+	 *        Form data array with the keys "showUid" and "delete" which can contain the UID of the object to check the access for.
+	 *        The fe_editor and image_upload can only be checked properly if "showUid" is provided. A UID provided with "delete"
+	 *        is needed for the my_objects view.
 	 *
-	 * @param string the flavor for which to check the access, must be within
-	 *               the allowed values for "what_to_display"
-	 * @param array Form data array with the keys "showUid" and "delete" which
-	 *              can contain the UID of the object to check the access for.
-	 *              The fe_editor and image_upload can only be checked properly
-	 *              if "showUid" is provided. A UID provided with "delete" is
-	 *              needed for the my_objects view.
+	 * @throws tx_oelib_Exception_AccessDenied
+	 *         if access is denied, with the reason of denying as a locallang key
+	 *
+	 * @return void
 	 */
 	public function checkAccess($flavor, array $piVars = array()) {
 		switch ($flavor) {
@@ -99,7 +99,7 @@ class tx_realty_pi1_AccessCheck {
 	 *
 	 * @throws tx_oelib_Exception_AccessDenied if the realty object UID is zero
 	 *
-	 * @param integer UID of the object, must be >= 0
+	 * @param integer $realtyObjectUid UID of the object, must be >= 0
 	 */
 	private function isRealtyObjectUidProvided($realtyObjectUid) {
 		if ($realtyObjectUid > 0) {
@@ -121,7 +121,7 @@ class tx_realty_pi1_AccessCheck {
 	 * @throws tx_oelib_Exception_AccessDenied if the realty object does not
 	 *                                         exist in the database
 	 *
-	 * @param integer UID of the object, must be >= 0
+	 * @param integer $realtyObjectUid UID of the object, must be >= 0
 	 */
 	private function realtyObjectExistsInDatabase($realtyObjectUid) {
 		if (($realtyObjectUid == 0)
@@ -143,11 +143,11 @@ class tx_realty_pi1_AccessCheck {
 	 * to access a realty record. New realty objects (with UID = 0) are
 	 * considered to be editable by every logged-in user.
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if the front-end user does not
-	 *                                         own the object
+	 * @param integer $realtyObjectUid UID of the realty object for which to check whether a user is authorized, must be >= 0
 	 *
-	 * @param integer UID of the realty object for which to check whether a user
-	 *                is authorized, must be >= 0
+	 * @throws tx_oelib_Exception_AccessDenied if the front-end user does not own the object
+	 *
+	 * @return void
 	 */
 	private function frontEndUserOwnsObject($realtyObjectUid) {
 		if (($realtyObjectUid == 0)
@@ -168,10 +168,11 @@ class tx_realty_pi1_AccessCheck {
 	/**
 	 * Checks if the logged-in front-end user is allowed to enter new objects.
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if the front-end user is not
-	 *                                         allowed to enter a new object
+	 * @param integer $realtyObjectUid UID of the object, must be >= 0
 	 *
-	 * @param integer UID of the object, must be >= 0
+	 * @throws tx_oelib_Exception_AccessDenied if the front-end user is not allowed to enter a new object
+	 *
+	 * @return void
 	 */
 	private function checkObjectLimit($realtyObjectUid) {
 		if ($realtyObjectUid > 0) {

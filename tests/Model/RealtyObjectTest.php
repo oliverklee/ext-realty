@@ -163,13 +163,13 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * Loads a realty object into the fixture and sets the owner of this object.
 	 *
-	 * @param integer the source of the owner data for the object, must be
-	 *                REALTY_CONTACT_FROM_OWNER_ACCOUNT or
-	 *                REALTY_CONTACT_FROM_REALTY_OBJECT
-	 * @param array additional data which should be stored into the owners data,
-	 *              may be empty
-	 * @param array additional data which should be stored into the object,
-	 *              may be empty
+	 * @param integer $ownerSource
+	 *        the source of the owner data for the object,
+	 *        must be REALTY_CONTACT_FROM_OWNER_ACCOUNT or REALTY_CONTACT_FROM_REALTY_OBJECT
+	 * @param array $userData
+	 *        additional data which should be stored into the owners data, may be empty
+	 * @param array $additionalObjectData
+	 *        additional data which should be stored into the object, may be empty
 	 */
 	private function loadRealtyObjectAndSetOwner(
 		$ownerSource,

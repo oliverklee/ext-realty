@@ -37,8 +37,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns this view as HTML.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
-	 *              realty object UID as value
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid realty object UID as value
 	 *
 	 * @return string HTML for this view or an empty string if the realty object
 	 *                with the provided UID has no data to show
@@ -64,8 +63,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 * record's database fields specified via the TS setup variable
 	 * "fieldsInSingleViewTable".
 	 *
-	 * @param integer UID of the realty object for which to create the table,
-	 *                must be > 0
+	 * @param integer $uid UID of the realty object for which to create the table, must be > 0
 	 *
 	 * @return boolean TRUE if at least one row has been filled, FALSE otherwise
 	 */
@@ -107,7 +105,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 * Returns the field names for which to create the overview table. They are
 	 * derived from the configuration in "fieldsInSingleViewTable".
 	 *
-	 * @param integer UID of the realty object, must be > 0
+	 * @param integer $uid UID of the realty object, must be > 0
 	 *
 	 * @return array field names with which to fill the overview table, will be
 	 *               empty if none are configured

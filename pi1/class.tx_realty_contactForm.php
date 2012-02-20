@@ -66,7 +66,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * If the request has been successfully sent, the HTML string will contain
 	 * a message about this, otherwise a specific error message.
 	 *
-	 * @param array contact form data, may be empty
+	 * @param array $contactFormData contact form data, may be empty
 	 *
 	 * @return string HTML of the contact form, will not be empty
 	 */
@@ -260,7 +260,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * Returns the e-mail body. It contains the request and the requester's
 	 * contact data.
 	 *
-	 * @param string name of the contact person, must not be empty
+	 * @param string $contactPerson name of the contact person, must not be empty
 	 *
 	 * @return string the body of the e-mail to send, contains the request and
 	 *                the contact data of the requester, will not be empty
@@ -416,8 +416,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * Returns an array of configuration value that is a comma-separated list in
 	 * the s_contactForm sheet.
 	 *
-	 * @param string key of the configuration value to get as an array, must not
-	 *               be empty
+	 * @param string $key key of the configuration value to get as an array, must not be empty
 	 *
 	 * @return array configuration of $key, empty if no configuration was found
 	 */
@@ -589,7 +588,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether an e-mail address is valid.
 	 *
-	 * @param string e-mail address to check, may be empty
+	 * @param string $emailAddress e-mail address to check, may be empty
 	 *
 	 * @return boolean TRUE if the e-mail address is valid, FALSE otherwise
 	 */
@@ -600,7 +599,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether a name is non-empty and valid.
 	 *
-	 * @param string the name to check, may be empty
+	 * @param string $name the name to check, may be empty
 	 *
 	 * @return boolean TRUE if the name is valid which means it does not contain
 	 *                 any characters that are indicative of header injection,
@@ -673,7 +672,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Stores the submitted contact form data locally.
 	 *
-	 * @param array contact form data, may be empty
+	 * @param array $contactFormData contact form data, may be empty
 	 */
 	private function storeContactFormData(array $contactFormData) {
 		foreach (

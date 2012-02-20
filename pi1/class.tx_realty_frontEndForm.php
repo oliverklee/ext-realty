@@ -71,13 +71,16 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * The constructor.
 	 *
-	 * @param array TypoScript configuration for the plugin
-	 * @param tslib_cObj the parent cObj content, needed for the flexforms
-	 * @param integer UID of the object to edit, set to 0 to create a new
-	 *                database record, must not be negative
-	 * @param string path of the XML for the form, relative to this extension,
-	 *               must not begin with a slash and must not be empty
-	 * @param boolean whether the FE editor is instantiated in test mode
+	 * @param array $configuration
+	 *        TypoScript configuration for the plugin
+	 * @param tslib_cObj $cObj
+	 *        the parent cObj content, needed for the flexforms
+	 * @param integer $uidOfObjectToEdit
+	 *        UID of the object to edit, set to 0 to create a new database record, must not be negative
+	 * @param string $xmlPath
+	 *        path of the XML for the form, relative to this extension, must not begin with a slash and must not be empty
+	 * @param boolean $isTestMode
+	 *        whether the FE editor is instantiated in test mode
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,
@@ -136,7 +139,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 * if the object to edit actually exists in the database. Otherwise the
 	 * result will be an error view.
 	 *
-	 * @param array unused
+	 * @param array $unused unused
 	 *
 	 * @return string HTML for the FE editor or an error view if the
 	 *                requested object is not editable for the current user
@@ -199,7 +202,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * Note: In test mode, this function will return faked values.
 	 *
-	 * @param string column name of tx_realty_objects as key, must not be empty
+	 * @param string $key column name of tx_realty_objects as key, must not be empty
 	 *
 	 * @return string form value or an empty string if the value does not exist
 	 */
@@ -238,9 +241,9 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * This function is for testing purposes.
 	 *
-	 * @param integer UID of the currently edited realty object. For
-	 *                creating a new database record, $uid must be zero.
-	 *                Provided values must not be negative.
+	 * @param integer $uid
+	 *        UID of the currently edited realty object. For creating a new database record, $uid must be zero.
+	 *        Provided values must not be negative.
 	 */
 	public function setRealtyObjectUid($uid) {
 		$this->realtyObjectUid = $uid;
@@ -260,8 +263,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * This function is for testing purposes.
 	 *
-	 * @param string column name of tx_realty_objects as key, must not be empty
-	 * @param string faked value
+	 * @param string $key column name of tx_realty_objects as key, must not be empty
+	 * @param string $value faked value
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;

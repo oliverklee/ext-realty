@@ -65,7 +65,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param boolean whether this class is called in the test mode
+	 * @param boolean $isTestMode whether this class is called in the test mode
 	 */
 	public function __construct($isTestMode = FALSE) {
 		$this->isTestMode = $isTestMode;
@@ -74,8 +74,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Displays the Realty Manager HTML.
 	 *
-	 * @param string (not used)
-	 * @param array TypoScript configuration for the plugin
+	 * @param string $unused (not used)
+	 * @param array $conf TypoScript configuration for the plugin
 	 *
 	 * @return string HTML for the plugin
 	 */

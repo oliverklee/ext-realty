@@ -60,8 +60,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the image thumbnails for one realty object as HTML.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
-	 *              realty object UID as value
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid realty object UID as value
 	 *
 	 * @return string HTML for the image thumbnails, will be empty if there are
 	 *                no images to render
@@ -209,7 +208,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the current "showUid".
 	 *
-	 * @return UID of the realty record to show
+	 * @return integer UID of the realty record to show
 	 */
 	private function getUid() {
 		return $this->showUid;

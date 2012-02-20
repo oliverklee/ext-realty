@@ -37,9 +37,11 @@ class tx_realty_tests_fixtures_testingFrontEndView extends tx_realty_pi1_FrontEn
 	/**
 	 * Renders the view and returns its content.
 	 *
+	 * @param array $piVars form data array (piVars)
+	 *
 	 * @return string the view's content
 	 */
-	public function render(array $formData = array()) {
+	public function render(array $piVars = array()) {
 		return 'Hi, I am the testingFrontEndView!';
 	}
 }

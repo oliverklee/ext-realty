@@ -38,8 +38,7 @@ class tx_realty_pi1_AddToFavoritesButtonView extends tx_realty_pi1_FrontEndView 
 	 *
 	 * "favoritesPID" is required to be configured.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
-	 *              realty object UID as value
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid realty object UID as value
 	 *
 	 * @return string HTML for the buttons, will not be empty
 	 */

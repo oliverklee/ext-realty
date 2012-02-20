@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 class tx_realty_FrontEnd_AbstractViewTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_testingFrontEndView the fixture to test
+	 * @var tx_realty_tests_fixtures_testingFrontEndView the fixture to test
 	 */
 	private $fixture;
 

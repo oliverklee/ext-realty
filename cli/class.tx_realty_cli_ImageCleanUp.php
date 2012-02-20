@@ -239,7 +239,9 @@ class tx_realty_cli_ImageCleanUp {
 	 * Stores an information about statistics.
 	 *
 	 * @param string $title title of the entry to add, must not be empty
-	 * @param array $value value to be added to the statistics, must not be empty
+	 * @param string $value value to be added to the statistics, must not be empty
+	 *
+	 * @return void
 	 */
 	private function addToStatistics($title, $value) {
 		$this->statistics[] = $title . ': ' . $value;

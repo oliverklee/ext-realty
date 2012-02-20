@@ -58,8 +58,7 @@ class tx_realty_translator {
 	/**
 	 * Retrieves the localized string for the local language key $key.
 	 *
-	 * @param string the local language key for which to return the value,
-	 *               must not be empty
+	 * @param string $key the local language key for which to return the value, must not be empty
 	 *
 	 * @return string the localized string for $key or just the key if
 	 *                there is no localized string for the requested key

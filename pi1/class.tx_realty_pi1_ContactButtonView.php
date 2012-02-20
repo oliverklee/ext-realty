@@ -37,10 +37,9 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView {
 	 * Returns the contact button as HTML. For this, requires a "contactPID" to
 	 * be configured.
 	 *
-	 * @param array PiVars array, must contain the key "showUid" with a valid
-	 *              realty object UID or zero as value. Note that for zero, the
-	 *              linked contact form will not contain any realty object
-	 *              information.
+	 * @param array $piVars
+	 *        PiVars array, must contain the key "showUid" with a valid realty object UID or zero as value. Note that for zero,
+	 *        the linked contact form will not contain any realty object information.
 	 *
 	 * @return string HTML for the contact button or an empty string if the
 	 *                configured "contactPID" equals the current page or is not

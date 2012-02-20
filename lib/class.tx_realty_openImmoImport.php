@@ -63,7 +63,7 @@ class tx_realty_openImmoImport {
 	private $importedXml = NULL;
 
 	/**
-	 * @var tx_oelib_configuration_proxy to access the EM configuration
+	 * @var tx_oelib_configurationProxy to access the EM configuration
 	 */
 	private $globalConfiguration = NULL;
 
@@ -110,8 +110,8 @@ class tx_realty_openImmoImport {
 	/**
 	 * Constructor.
 	 *
-	 * @param boolean whether the class ist tested and therefore only
-	 *                dummy records should be inserted into the database
+	 * @param boolean $isTestMode
+	 *        whether the class ist tested and therefore only dummy records should be inserted into the database
 	 */
 	public function __construct($isTestMode = FALSE) {
 		$this->isTestMode = $isTestMode;
@@ -220,8 +220,7 @@ class tx_realty_openImmoImport {
 	 * Success and failures are logged and an array with data for e-mails about
 	 * the proceedings is returned.
 	 *
-	 * @param string path of the current ZIP file, only used for log, may
-	 *               be empty
+	 * @param string $currentZip path of the current ZIP file, only used for log, may be empty
 	 *
 	 * @return array Two dimensional array of e-mail data. Each inner
 	 *               array has the elements 'recipient', 'objectNumber',
@@ -275,7 +274,7 @@ class tx_realty_openImmoImport {
 	 * Finds out whether a particular PID is configured for objects in the ZIP
 	 * with the given file name $fileName.
 	 *
-	 * @param string path of the ZIP to check
+	 * @param string $fileName path of the ZIP to check
 	 *
 	 * @return integer PID of the system folder to store the realty record
 	 *                 in or 0 if the default folder should be used
@@ -323,9 +322,8 @@ class tx_realty_openImmoImport {
 	 * record will not be inserted to the database. Success and failures are
 	 * logged.
 	 *
-	 * @param array record to insert, may be empty
-	 * @param integer PID for new records (omit this parameter to use
-	 *                the PID set in the global configuration)
+	 * @param array $realtyRecord record to insert, may be empty
+	 * @param integer $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
 	 */
 	protected function writeToDatabase(array $realtyRecord, $overridePid = 0) {
 		$this->loadRealtyObject($realtyRecord);
@@ -441,7 +439,7 @@ class tx_realty_openImmoImport {
 	 * This function is to be used for positive information only. Errors should
 	 * get logged through 'addToErrorLog()' instead.
 	 *
-	 * @param string message to log, may be empty
+	 * @param string $logFraction message to log, may be empty
 	 */
 	private function addToLogEntry($logFraction) {
 		$this->temporaryLogEntry .= $logFraction.LF;
@@ -451,7 +449,7 @@ class tx_realty_openImmoImport {
 	 * Logs errors to a special error log and also provides 'addToLogEntry()'
 	 * with the given string.
 	 *
-	 * @param string error message to log, may be empty
+	 * @param string $errorMessage error message to log, may be empty
 	 */
 	private function addToErrorLog($errorMessage) {
 		$this->temporaryErrorLog .= $errorMessage.LF;
@@ -475,7 +473,7 @@ class tx_realty_openImmoImport {
 	 * ZIP extraction is available and if the import directory is writable.
 	 * Otherwise, the result will be FALSE and the reason will be logged.
 	 *
-	 * @param string unified path of the import directory, must not be empty
+	 * @param string $importDirectory unified path of the import directory, must not be empty
 	 *
 	 * @return boolean TRUE if the requirements to start the import are
 	 *                 fullfilled, FALSE otherwise
@@ -497,7 +495,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks that the import directory exists and is readable and writable.
 	 *
-	 * @param string unified path of the import directory, must not be empty
+	 * @param string $importDirectory unified path of the import directory, must not be empty
 	 *
 	 * @return boolean TRUE if the import directory exists and is readable and
 	 *                 writable, FALSE otherwise
@@ -562,10 +560,8 @@ class tx_realty_openImmoImport {
 	/**
 	 * Adds the given error message to the error log.
 	 *
-	 * @param string locallang label for the error message to add to the log,
-	 *               must not be empty
-	 * @param string the path to be displayed in the error message, must not be
-	 *               empty
+	 * @param string $message locallang label for the error message to add to the log, must not be empty
+	 * @param string $path the path to be displayed in the error message, must not be empty
 	 */
 	private function addFolderAccessErrorMessage($message, $path) {
 		$ownerUid = fileowner($path);
@@ -587,7 +583,7 @@ class tx_realty_openImmoImport {
 	 * destination path accordingly. This path must be valid and absolute and
 	 * may end with a trailing slash.
 	 *
-	 * @param string absolute path of the upload directory, must not be empty
+	 * @param string $path absolute path of the upload directory, must not be empty
 	 */
 	protected function setUploadDirectory($path) {
 		$this->uploadDirectory = $this->unifyPath($path);
@@ -627,8 +623,8 @@ class tx_realty_openImmoImport {
 	 * Stores all information for an e-mail to an array with the keys
 	 * 'recipient', 'objectNumber', 'logEntry' and 'errorLog'.
 	 *
-	 * @param string e-mail address, may be empty
-	 * @param string object number, may be empty
+	 * @param string $email e-mail address, may be empty
+	 * @param string $objectNumber object number, may be empty
 	 *
 	 * @return array e-mail raw data, contains the elements 'recipient',
 	 *               'objectNumber', 'logEntry' and 'errorLog', will not
@@ -651,9 +647,9 @@ class tx_realty_openImmoImport {
 	 * If 'onlyErrors' is enabled in EM, the messages will just contain error
 	 * messages and no information about success.
 	 *
-	 * @param array Two-dimensional array of e-mail data. Each inner
-	 *              array has the elements 'recipient', 'objectNumber',
-	 *              'logEntry' and 'errorLog'. May be empty.
+	 * @param array $emailData
+	 *        Two-dimensional array of e-mail data. Each inner array has the elements 'recipient', 'objectNumber', 'logEntry' and
+	 *        'errorLog'. May be empty.
 	 *
 	 * @return array Three dimensional array with e-mail addresses as
 	 *               keys of the outer array. Innermost there is an array
@@ -705,10 +701,9 @@ class tx_realty_openImmoImport {
 	 * key and if those arrays contain the elements 'recipient', 'objectNumber',
 	 * 'logEntry' and 'errorLog' as keys.
 	 *
-	 * @param array e-mail data array to validate with arrays as values
-	 *              for each numeric key and if those arrays contain the
-	 *              elements 'recipient', 'objectNumber', 'logEntry' and
-	 *               'errorLog' as keys, may be empty
+	 * @param array $emailData
+	 *        e-mail data array to validate with arrays as values for each numeric key and if those arrays contain the elements
+	 *        'recipient', 'objectNumber', 'logEntry' and 'errorLog' as keys, may be empty
 	 *
 	 * @return boolean TRUE if the structure of the array is valid, FALSE
 	 *                 otherwise
@@ -746,7 +741,7 @@ class tx_realty_openImmoImport {
 	 * Messages could only be empty if 'onlyErrors' is activated in the EM
 	 * configuration.
 	 *
-	 * @param array prepared e-mail data, must not be empty
+	 * @param array &$emailData prepared e-mail data, must not be empty
 	 */
 	private function purgeRecordsWithoutLogMessages(array &$emailData) {
 		foreach ($emailData as $recipient => $data) {
@@ -762,7 +757,7 @@ class tx_realty_openImmoImport {
 	 * Deletes e-mail recipients from a $emailData if are no records to report
 	 * about.
 	 *
-	 * @param array prepared e-mail data, must not be empty
+	 * @param array &$emailData prepared e-mail data, must not be empty
 	 */
 	private function purgeRecipientsForEmptyMessages(array &$emailData) {
 		foreach ($emailData as $recipient => $data) {
@@ -776,10 +771,9 @@ class tx_realty_openImmoImport {
 	 * Fills a template file, which has already been included, with data for one
 	 * e-mail.
 	 *
-	 * @param array Wrapped message content for one e-mail: Each
-	 *              object number-message pair is wrapped by a
-	 *              numeric key as object numbers are not necessarily
-	 *              unique. Must not be empty
+	 * @param array $recordsForOneEmail
+	 *        Wrapped message content for one e-mail: Each object number-message pair is wrapped by a numeric key as object
+	 *        numbers are not necessarily unique. Must not be empty.
 	 *
 	 * @return string e-mail body
 	 */
@@ -830,12 +824,10 @@ class tx_realty_openImmoImport {
 	 * If there is no default address configured in the EM, no messages will be
 	 * sent at all.
 	 *
-	 * @param array Three dimensional array with e-mail addresses as
-	 *              keys of the outer array. Innermost there is an array
-	 *              with only one element: Object number as key and the
-	 *              corresponding log information as value. This array
-	 *              is wrapped by a numeric array as object numbers are
-	 *              not necessarily unique. Must not be empty.
+	 * @param array $addressesAndMessages
+	 *        Three-dimensional array with e-mail addresses as keys of the outer array. Innermost there is an array with only one
+	 *        element: Object number as key and the corresponding log information as value. This array is wrapped by a numeric
+	 *        array as object numbers are not necessarily unique. Must not be empty.
 	 */
 	private function sendEmails(array $addressesAndMessages) {
 		if ($this->getDefaultEmailAddress() == '') {
@@ -877,7 +869,7 @@ class tx_realty_openImmoImport {
 	 * Checks the correct punctuation of a path to a directory. Adds a slash if
 	 * missing and strips whitespaces.
 	 *
-	 * @param string path to be checked, must not be empty
+	 * @param string $directory path to be checked, must not be empty
 	 *
 	 * @return string checked path, possibly modified
 	 */
@@ -894,8 +886,7 @@ class tx_realty_openImmoImport {
 	 * Gets an array of the paths of all ZIP archives in the import folder
 	 * and its subfolders.
 	 *
-	 * @param string absolute path of the directory which contains the
-	 *               ZIPs, must not be empty
+	 * @param string $importDirectory absolute path of the directory which contains the ZIPs, must not be empty
 	 *
 	 * @return array absolute paths of ZIPs in the import folder,
 	 *               might be empty
@@ -917,7 +908,7 @@ class tx_realty_openImmoImport {
 	 * named like the ZIP archive without the suffix '.zip'.
 	 * Logs success and failures.
 	 *
-	 * @param string path to the ZIP archive to extract, must not be empty
+	 * @param string $zipToExtract path to the ZIP archive to extract, must not be empty
 	 */
 	public function extractZip($zipToExtract) {
 		if (!file_exists($zipToExtract)) {
@@ -948,7 +939,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Gets a name for a folder according to the ZIP archive to extract to it.
 	 *
-	 * @param string path of a ZIP archive, must not be empty
+	 * @param string $pathOfZip path of a ZIP archive, must not be empty
 	 *
 	 * @return string path for a folder named like the ZIP archive, empty
 	 *                if the passed string is empty
@@ -960,8 +951,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Creates a folder to extract a ZIP archive to.
 	 *
-	 * @param string path of a ZIP archive to get the folders name, must
-	 *               not be empty
+	 * @param string $pathOfZip path of a ZIP archive to get the folders name, must not be empty
 	 *
 	 * @return string path for folder named like the ZIP archive without
 	 *                the suffix '.zip', may be empty if the provided ZIP
@@ -1014,8 +1004,7 @@ class tx_realty_openImmoImport {
 	 * before. In case no or several XML files are found, an empty string is
 	 * returned and the error is logged.
 	 *
-	 * @param string absolute path where to find the ZIP archive which
-	 *               includes an XML file, must not be empty
+	 * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be empty
 	 *
 	 * @return string absolute path of the XML file, empty string on error
 	 */
@@ -1059,8 +1048,7 @@ class tx_realty_openImmoImport {
 	 * The ZIP archive must have been extracted to a folder named like the ZIP
 	 * without the suffix '.zip' before.
 	 *
-	 * @param string absolute path where to find the ZIP archive which
-	 *               includes an XML file, must not be empty
+	 * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be empty
 	 */
 	protected function loadXmlFile($pathOfZip) {
 		$xmlPath = $this->getPathForXml($pathOfZip);
@@ -1116,12 +1104,10 @@ class tx_realty_openImmoImport {
 	/**
 	 * Logs the validation result of the XML file.
 	 *
-	 * @param string result of the validation, can be either one of the
-	 *               locallang keys 'message_no_schema_file',
-	 *               'message_invalid_schema_file_path' or
-	 *               'message_validation_impossible' or an already localizeded
-	 *               error message or an empty string if success should be
-	 *               logged
+	 * @param string $validationResult
+	 *        result of the validation, can be either one of the locallang keys 'message_no_schema_file',
+	 *        'message_invalid_schema_file_path' or 'message_validation_impossible' or an already localized error message or an
+	 *        empty string if success should be logged
 	 */
 	private function logValidationResult($validationResult) {
 		switch ($validationResult) {
@@ -1238,8 +1224,7 @@ class tx_realty_openImmoImport {
 	 * have been created to extract the ZIP archives.
 	 * Logs which ZIP archives have been deleted.
 	 *
-	 * @param string absolute path of the folder which contains the ZIP
-	 *               archives, must not be empty
+	 * @param string $importDirectory absolute path of the folder which contains the ZIP archives, must not be empty
 	 */
 	public function cleanUp($importDirectory) {
 		if (!is_dir($importDirectory)) {
@@ -1273,7 +1258,7 @@ class tx_realty_openImmoImport {
 	 * Removes a file if it occurs in the list of files for which deletion is
 	 * allowed.
 	 *
-	 * @param string path of the file to delete, must not be empty
+	 * @param string $pathOfFile path of the file to delete, must not be empty
 	 *
 	 * @return string basename of the deleted file or an empty string if
 	 *                no file was deleted
@@ -1291,10 +1276,9 @@ class tx_realty_openImmoImport {
 	/**
 	 * Converts a DOMDocument to an array.
 	 *
-	 * @param DOMDocument which contains realty records, can be NULL
+	 * @param DOMDocument $realtyRecords which contains realty records, can be NULL
 	 *
-	 * @return array realty records in an array, will be empty if the
-	 *               data was not convertible
+	 * @return array $realtyRecords realty records in an array, will be empty if the data was not convertible
 	 */
 	protected function convertDomDocumentToArray(
 		DOMDocument $realtyRecords = NULL
@@ -1396,7 +1380,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Sets the contact e-mail address of a realty object.
 	 *
-	 * @param string contact e-mail address, must not be empty
+	 * @param string $address contact e-mail address, must not be empty
 	 */
 	private function setContactEmailOfRealtyObject($address) {
 		if (!is_object($this->realtyObject)) {

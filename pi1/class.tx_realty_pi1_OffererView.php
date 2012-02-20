@@ -39,8 +39,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the offerer view as HTML.
 	 *
-	 * @param array piVars array, must contain the key "showUid" with a valid
-	 *              realty object UID as value
+	 * @param array $piVars piVars array, must contain the key "showUid" with a valid realty object UID as value
 	 *
 	 * @return string HTML for the offerer view or an empty string if the
 	 *                realty object with the provided UID has no data to show
@@ -58,8 +57,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	 * Fetches the contact data from the source defined in the realty record and
 	 * returns it in an array.
 	 *
-	 * @param integer UID of the realty object for which to receive the contact
-	 *                data, must be > 0
+	 * @param integer $uid UID of the realty object for which to receive the contact data, must be > 0
 	 *
 	 * @return string the contact data as HTML, will be empty if none was found
 	 */

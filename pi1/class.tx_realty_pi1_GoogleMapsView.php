@@ -54,9 +54,9 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * The constructor.
 	 *
-	 * @param array TypoScript configuration for the plugin
-	 * @param tslib_cObj the parent cObj content, needed for the flexforms
-	 * @param boolean whether the class is instantiated in test mode
+	 * @param array $configuration TypoScript configuration for the plugin
+	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param boolean $isTestMode whether the class is instantiated in test mode
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
@@ -104,10 +104,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets a map marker for the realty object with $realtyObjectUid.
 	 *
-	 * @param integer UID of the realty object of which to collect the marker,
-	 *                must be > 0
-	 * @param boolean whether the detail page should be linked in the
-	 *                object title
+	 * @param integer $realtyObjectUid UID of the realty object of which to collect the marker, must be > 0
+	 * @param boolean $createLink whether the detail page should be linked in the object title
 	 */
 	public function setMapMarker($realtyObjectUid, $createLink = FALSE) {
 		$this->createMarkerFromCoordinates($realtyObjectUid, $createLink);
@@ -166,10 +164,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 * If the geo coordinates could not be retrieved, $this->mapMarkers will not
 	 * be changed.
 	 *
-	 * @param integer UID of the realty object for which to create the marker,
-	 *                must be > 0
-	 * @param boolean whether the detail page should be linked in the
-	 *                object title
+	 * @param integer $realtyObjectUid UID of the realty object for which to create the marker, must be > 0
+	 * @param boolean $createLink whether the detail page should be linked in the object title
 	 */
 	private function createMarkerFromCoordinates(
 		$realtyObjectUid, $createLink = FALSE
@@ -209,8 +205,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @throws Exception if the UID is not provided
 	 *
-	 * @param integer UID of the realty object for which to get the coordinates,
-	 *                must be > 0
+	 * @param integer $realtyObjectUid UID of the realty object for which to get the coordinates, must be > 0
 	 *
 	 * @return array the coordinates using the keys "latitude" and
 	 *               "longitude" or an empty array if the coordinates
@@ -246,8 +241,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 * Creates a link to the single view page. Therefore it uses the
 	 * configuration value "singlePID".
 	 *
-	 * @param string link text, may be "|" but not empty
-	 * @param integer UID of the realty object to link to, must be > 0
+	 * @param string $linkText link text, may be "|" but not empty
+	 * @param integer $realtyObjectUid UID of the realty object to link to, must be > 0
 	 *
 	 * @return string link tag, will be empty if no link text was provided
 	 */

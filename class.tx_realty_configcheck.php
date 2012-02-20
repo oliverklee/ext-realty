@@ -227,8 +227,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Returns whether $viewPart is enabled in the current configuration for
 	 * 'singleViewPartsToDisplay'.
 	 *
-	 * @param string key of the view part to check for visibility, must not be
-	 *               empty
+	 * @param string $viewPart
+	 *        key of the view part to check for visibility, must not be empty
 	 *
 	 * @return boolean TRUE if $viewPart is configured to become rendered, FALSE
 	 *                 otherwise
@@ -547,7 +547,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting of the configuration value objectsByOwnerPID.
 	 *
-	 * @param boolean TRUE if the configuration may be empty
+	 * @param boolean $mayBeEmpty TRUE if the configuration may be empty
 	 */
 	private function checkObjectsByOwnerPid($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {
@@ -586,7 +586,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting for displayedContactInformation.
 	 *
-	 * @param boolean TRUE if the configuration may be empty
+	 * @param boolean $mayBeEmpty TRUE if the configuration may be empty
 	 */
 	private function checkDisplayedContactInformation($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {

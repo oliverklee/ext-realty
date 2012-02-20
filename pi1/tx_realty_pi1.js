@@ -34,10 +34,8 @@
 /**
  * Marks the current attachment as deleted if the confirm becomes submitted.
  *
- * @param string ID of the list item with the attachment to delete, must not be
- *               empty
- * @param string localized confirm message for whether really to mark an
- *               attachment for deletion
+ * @param {string} listItemId ID of the list item with the attachment to delete, must not be empty
+ * @param {string} confirmMessage localized confirm message for whether really to mark an attachment for deletion
  */
 function markAttachmentAsDeleted(listItemId, confirmMessage) {
 	var listItem = document.getElementById(listItemId);
@@ -159,8 +157,8 @@ function updateDistrictsInEditor() {
 /**
  * Appends a district so that it is available for selection in the FE editor.
  *
- * @param integer uid the UID of the district to add, must be > 0
- * @param string title the title of the district, must not be empty
+ * @param {integer} uid the UID of the district to add, must be > 0
+ * @param {string} title the title of the district, must not be empty
  */
 function appendDistrictInEditor(uid, title) {
 	var container = $("tx_realty_frontEndEditor_district");

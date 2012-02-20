@@ -180,8 +180,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Constructor.
 	 *
-	 * @param boolean whether the database records to create are for
-	 *                testing purposes only
+	 * @param boolean $createDummyRecords whether the database records to create are for testing purposes only
 	 */
 	public function __construct($createDummyRecords = FALSE) {
 		$this->isDummyRecord = $createDummyRecords;
@@ -212,7 +211,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * @param mixed $realtyData
 	 *        data for the realty object: an array or a UID (of integer > 0) of
 	 *        an existing record, an array must not contain the key 'uid'
-	 * @param boolean whether hidden objects are loadable
+	 * @param boolean $canLoadHiddenObjects whether hidden objects are loadable
 	 *
 	 * @deprecated 2009-02-03 use setData() instead
 	 */
@@ -240,7 +239,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * UID of an existent realty object to load from the database. If the data
 	 * is of an invalid type, an empty array will be set.
 	 *
-	 * @param array data for the realty object
+	 * @param array $realtyData data for the realty object
 	 */
 	public function setData(array $realtyData) {
 		if (is_array($realtyData['images']) || is_array($realtyData['documents'])) {
@@ -295,7 +294,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Loads an existing realty object entry from the database. If
 	 * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
 	 *
-	 * @param integer UID of the database entry to load, must be > 0
+	 * @param integer $uid UID of the database entry to load, must be > 0
 	 *
 	 * @return array contents of the database entry, empty if database
 	 *               result could not be fetched
@@ -338,6 +337,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$this->images = tx_oelib_ObjectFactory::make('tx_oelib_List');
 
 		foreach ($data['images'] as $imageData) {
+			/** @var $image tx_realty_Model_Image */
 			$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
 			$image->setTitle($imageData['caption']);
 			$image->setFileName($imageData['image']);
@@ -376,6 +376,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$this->documents = tx_oelib_ObjectFactory::make('tx_oelib_List');
 
 		foreach ($data['documents'] as $documentData) {
+			/** @var $document tx_realty_Model_Document */
 			$document = tx_oelib_ObjectFactory::make('tx_realty_Model_Document');
 			$document->setTitle($documentData['title']);
 			$document->setFileName($documentData['filename']);
@@ -418,9 +419,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
 	 *
-	 * @param integer PID for new records (omit this parameter to use
-	 *                the PID set in the global configuration)
-	 * @param boolean TRUE if the owner may be set, FALSE otherwise
+	 * @param integer $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
+	 * @param boolean $setOwner TRUE if the owner may be set, FALSE otherwise
 	 *
 	 * @return string locallang key of an error message if the record was
 	 *                not written to database, an empty string if it was
@@ -627,8 +627,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Returns a value for a given key from a loaded realty object. If the key
 	 * does not exist or no object is loaded, an empty string is returned.
 	 *
-	 * @param string key of value to fetch from current realty object,
-	 *               must not be empty
+	 * @param string $key key of value to fetch from current realty object, must not be empty
 	 *
 	 * @return mixed corresponding value or an empty string if the key
 	 *               does not exist
@@ -664,10 +663,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * loaded.
 	 * Reloads the owner's data.
 	 *
-	 * @param string key of the value to set in current realty object,
-	 *               must not be empty and must not be 'uid'
-	 * @param mixed value to set, must be either numeric or a string
-	 *              (also empty) or of boolean, may not be NULL
+	 * @param string $key key of the value to set in current realty object, must not be empty and must not be 'uid'
+	 * @param mixed $value value to set, must be either numeric or a string (also empty) or of boolean, may not be NULL
 	 */
 	public function setProperty($key, $value) {
 		$this->set($key, $value);
@@ -679,10 +676,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * loaded.
 	 * Reloads the owner's data.
 	 *
-	 * @param string key of the value to set in current realty object,
-	 *               must not be empty and must not be 'uid'
-	 * @param mixed value to set, must be either numeric or a string
-	 *              (also empty) or of boolean, may not be NULL
+	 * @param string $key key of the value to set in current realty object, must not be empty and must not be 'uid'
+	 * @param mixed $value value to set, must be either numeric or a string (also empty) or of boolean, may not be NULL
 	 */
 	public function set($key, $value) {
 		if ($this->isVirgin()
@@ -709,7 +704,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Checks whether a value is either numeric or a string or of boolean.
 	 *
-	 * @param mixed value to check
+	 * @param mixed $value value to check
 	 *
 	 * @return boolean TRUE if the value is either numeric or a string
 	 *                 or of boolean, FALSE otherwise
@@ -740,8 +735,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Checks whether $key is in the list of allowed field names.
 	 *
-	 * @param string key to be checked for being an allowed field name, must not
-	 *               be empty
+	 * @param string $key key to be checked for being an allowed field name, must not be empty
 	 *
 	 * @return boolean TRUE if key is an allowed field name for a realty object,
 	 *                 FALSE otherwise
@@ -753,7 +747,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Sets the required fields for the current object.
 	 *
-	 * @param array required fields, may be empty
+	 * @param array $fields required fields, may be empty
 	 */
 	public function setRequiredFields(array $fields) {
 		$this->requiredFields = $fields;
@@ -812,10 +806,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * UID of the newly created record or an empty string if the value to insert
 	 * is not set.
 	 *
-	 * @param string key of property to insert from current realty
-	 *               object, must not be empty
-	 * @param string name of a table where to insert the property, must
-	 *               not be empty
+	 * @param string $key key of property to insert from current realty object, must not be empty
+	 * @param string $table name of a table where to insert the property, must not be empty
 	 *
 	 * @return integer UID of the newly created record, 0 if no record was
 	 *                 created
@@ -851,9 +843,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Inserts entries for images of the current realty object to the database
 	 * table 'tx_realty_images' and deletes all former image entries.
 	 *
-	 * @param integer PID for new object and image records (omit this
-	 *                parameter to use the PID set in the global
-	 *                configuration)
+	 * @param integer $overridePid
+	 *        PID for new object and image records (omit this parameter to use the PID set in the global configuration)
 	 */
 	private function refreshImageEntries($overridePid = 0) {
  		if ($this->oldImagesNeedToGetDeleted) {
@@ -1045,6 +1036,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$this->set('images', $this->getAsInteger('images') + 1);
 
+		/** @var $image tx_realty_Model_Image */
 		$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
 		$image->setTitle($caption);
 		if ($fileName != '') {
@@ -1084,6 +1076,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 
 		$this->set('documents', $this->getAsInteger('documents') + 1);
 
+		/** @var $document tx_realty_Model_Document */
 		$document = tx_oelib_ObjectFactory::make('tx_realty_Model_Document');
 		if ($title != '') {
 			$document->setTitle($title);
@@ -1103,8 +1096,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * record will be marked as deleted in the database when the object is
 	 * written to the database.
 	 *
-	 * @param integer key of the image record to mark as deleted, must be
-	 *                a key of the image data array and must be >= 0
+	 * @param integer $imageKey key of the image record to mark as deleted, must be a key of the image data array and must be >= 0
 	 */
 	public function markImageRecordAsDeleted($imageKey) {
 		if ($this->isVirgin()) {
@@ -1159,11 +1151,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * the database.
 	 * The values for PID, 'tstamp' and 'crdate' are provided by this function.
 	 *
-	 * @param array database column names as keys, must not be empty and
-	 *              must not contain the key 'uid'
-	 * @param string name of the database table, must not be empty
-	 * @param integer PID for new realty and image records (omit this parameter
-	 *                to use the PID set in the global configuration)
+	 * @param array $realtyData
+	 *        database column names as keys, must not be empty and must not contain the key 'uid'
+	 * @param string $table
+	 *        name of the database table, must not be empty
+	 * @param integer $overridePid PID
+	 *        for new realty and image records (omit this parameter to use the PID set in the global configuration)
 	 *
 	 * @return integer UID of the new database entry, will be zero if no new
 	 *                 record could be created, will be -1 if the deleted flag
@@ -1212,8 +1205,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *
 	 * The value for 'tstamp' is set automatically.
 	 *
-	 * @param array database column names as keys to update an already existing
-	 *              entry, must at least contain an element with the key 'uid'
+	 * @param array $realtyData
+	 *        database column names as keys to update an already existing entry,
+	 *        must at least contain an element with the key 'uid'
 	 */
 	protected function updateDatabaseEntry(array $realtyData) {
 		if ($realtyData['uid'] <= 0) {
@@ -1241,11 +1235,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * of $dataArray which correspond to the list of alternative keys match the
 	 * a database record.
 	 *
-	 * @param array Data array, with database column names and the corresponding
-	 *              values. The database match is searched by all these keys'
-	 *              values in case there is no UID within the array.
-	 * @param string name of table where to find out whether an entry yet
-	 *               exists, must not be empty
+	 * @param array $dataArray
+	 *        Data array with database column names and the corresponding values.
+	 *        The database match is searched by all these keys' values in case there is no UID within the array.
+	 * @param string $table
+	 *        name of table where to find out whether an entry yet exists, must not be empty
 	 *
 	 * @return boolean True if the UID in the data array equals an existing
 	 *                 entry or if the value of the alternative key was found in
@@ -1291,10 +1285,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * Returns the UID of a database record if all elements in $dataArray match
 	 * a database entry in $table.
 	 *
-	 * @param array the data of an entry which already exists in database by
-	 *              which the existence will be proven, must not be empty
-	 * @param string name of the table where to find out whether an entry
-	 *               already exists
+	 * @param array $dataArray
+	 *        the data of an entry which already exists in database by which the existence will be proven, must not be empty
+	 * @param string $table
+	 *        name of the table where to find out whether an entry already exists
 	 *
 	 * @return integer the UID of the record identified in the database, zero if
 	 *                 none was found
@@ -1315,11 +1309,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * $keys. $keys is a comma-separated list of the database collumns which
 	 * should be compared with the corresponding values in $dataArray.
 	 *
-	 * @param string list of fields to select from the database table (part of
-	 *               the sql-query right after SELECT), must not be empty
-	 * @param array data which to take for the database comparison, must not be
-	 *              empty
-	 * @param string table name, must not be empty
+	 * @param string $whatToSelect
+	 *        list of fields to select from the database table (part of the sql-query right after SELECT), must not be empty
+	 * @param array $dataArray
+	 *        data which to take for the database comparison, must not be empty
+	 * @param string $table
+	 *        table name, must not be empty
 	 *
 	 * @return array database result row in an array, will be empty if
 	 *               no matching record was found
@@ -1364,8 +1359,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * If this object already has cached geo coordinates, this function will do
 	 * nothing.
 	 *
-	 * @param tx_oelib_templatehelper object that contains the plugin
-	 *                                configuration
+	 * @param tx_oelib_templatehelper $configuration object that contains the plugin configuration
 	 *
 	 * @return array array with the keys "latitude" and "longitude" or
 	 *               an empty array if no coordinates could be retrieved
@@ -1416,8 +1410,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 *                   "house_type", "district", "pets", "garage_type" and
 	 *                   "country"
 	 *
-	 * @param string key of this object's property, must not be empty
-	 * @param string key of the property's field to get, must not be empty
+	 * @param string $key key of this object's property, must not be empty
+	 * @param string $titleField key of the property's field to get, must not be empty
 	 *
 	 * @return string the title of the related property with the UID found in
 	 *                in this object's field $key or an empty string if this
@@ -1465,8 +1459,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * This function only checks whether the "has cached coordinates" flag is
 	 * set, but not for non-emptiness or validity of the coordinates.
 	 *
-	 * @param string either "exact" or "rough" to indicate which
-	 *               coordinates to check
+	 * @param string $prefix either "exact" or "rough" to indicate which coordinates to check
 	 *
 	 * @return boolean TRUE if we have exact coordinates with the exactness
 	 *                 indicated by $prefix, FALSE otherwise
@@ -1478,8 +1471,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Gets this object's cached geo coordinates.
 	 *
-	 * @param string either "exact" or "rough" to indicate which
-	 *               coordinates to get
+	 * @param string $prefix either "exact" or "rough" to indicate which coordinates to get
 	 *
 	 * @return array the coordinates using the keys "latitude" and
 	 *               "longitude" or an empty array if no non-empty cached
@@ -1508,8 +1500,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Gets this object's title.
 	 *
-	 * @return string this object's title, will be empty if this object
-	 *                does not have a title
+	 * @return string this object's title, will be empty if this object does not have a title
 	 */
 	public function getTitle() {
 		return $this->getAsString('title');
@@ -1521,8 +1512,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 * characters. The title will get an ellipsis at the end if the full title
 	 * was long enough to be cropped.
 	 *
-	 * @param integer the number of characters after which the title should be
-	 *                cropped, must be >= 0
+	 * @param integer $cropSize the number of characters after which the title should be cropped, must be >= 0
 	 *
 	 * @return string this object's cropped title, will be empty if this
 	 *                object does not have a title

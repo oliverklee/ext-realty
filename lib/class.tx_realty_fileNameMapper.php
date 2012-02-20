@@ -69,7 +69,7 @@ class tx_realty_fileNameMapper {
 	 * Returns the unique file name for the provided file name within the
 	 * destination directory and maps both names internally.
 	 *
-	 * @param string file name to receive the unique name for, must not be empty
+	 * @param string $fileName file name to receive the unique name for, must not be empty
 	 *
 	 * @return string unique file name, will not be empty
 	 */
@@ -90,7 +90,7 @@ class tx_realty_fileNameMapper {
 	 * as it only can produce unique names for files which already exist in the
 	 * file system. Here, also the internal mapping has to be taken into account.
 	 *
-	 * @param string original file name, must not be empty
+	 * @param string $originalFileName original file name, must not be empty
 	 *
 	 * @return string cleaned original file name extended with a unique suffix,
 	 *                will not be empty
@@ -115,7 +115,7 @@ class tx_realty_fileNameMapper {
 	 * Returns the given file name body with any character not matching
 	 * [.a-zA-Z0-9_-] replaced by '_'.
 	 *
-	 * @param string file name body, must not be empty
+	 * @param string $fileNameBody file name body, must not be empty
 	 *
 	 * @return string cleaned file name body, will not be empty
 	 */
@@ -132,7 +132,7 @@ class tx_realty_fileNameMapper {
 	/**
 	 * Increases the appended number of the provided file name.
 	 *
-	 * @param string file name, will be modified, must not empty
+	 * @param string &$fileName file name, will be modified, must not empty
 	 */
 	private function createNewFileName(&$fileName) {
 		$splittedFileName = t3lib_div::split_fileref($fileName);
@@ -159,7 +159,7 @@ class tx_realty_fileNameMapper {
 	 * deletes the mappings for this name as they must not be used again to
 	 * ensure the uniqueness.
 	 *
-	 * @param string original file name, must not be empty
+	 * @param string $originalFileName original file name, must not be empty
 	 *
 	 * @return array mapped unique file names for one original file name, will
 	 *               be empty if there were no mappings
@@ -177,8 +177,7 @@ class tx_realty_fileNameMapper {
 	/**
 	 * Sets the destination folder where to check whether a file already exists.
 	 *
-	 * @param string absolute path of the destination folder, must end with a
-	 *               trailing slash and must not be empty
+	 * @param string $folder absolute path of the destination folder, must end with a trailing slash and must not be empty
 	 */
 	public function setDestinationFolder($folder) {
 		$this->destinationPath = $folder;

@@ -62,10 +62,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *
 	 * @throws Exception if $realtyObjectUid is not a UID of a realty object
 	 *
-	 * @param integer UID of the object of which to get formatted properties,
-	 *                must be > 0
-	 * @param array TypoScript configuration for the plugin
-	 * @param tslib_cObj the parent cObj content, needed for the flexforms
+	 * @param integer $realtyObjectUid UID of the object of which to get formatted properties, must be > 0
+	 * @param array $configuration TypoScript configuration for the plugin
+	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
 	 */
 	public function __construct(
 		$realtyObjectUid, array $configuration, tslib_cObj $cObj
@@ -268,8 +267,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * The value of $key may be a comma-separated list of suffixes. In this case,
 	 * a comma-separated list of the localized strings is returned.
 	 *
-	 * @param string key of the current record's field that contains the
-	 *               suffix for the label to get, must not be empty
+	 * @param string $key key of the current record's field that contains the suffix for the label to get, must not be empty
 	 *
 	 * @return string localized string for the label
 	 *                "label_[$key][value of $key]", will be a
@@ -348,7 +346,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * If the value of $key is zero after applying intval, an empty string
 	 * will be returned.
 	 *
-	 * @param string name of a database column, may not be empty
+	 * @param string $key name of a database column, may not be empty
 	 *
 	 * @return string HTML for the number in the field with a currency
 	 *                symbol appended, may be an empty string
@@ -369,9 +367,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * using the system's locale and appending $unit. If the field's value is
 	 * empty or its intval is zero, an empty string will be returned.
 	 *
-	 * @param string key of the field to retrieve (the name of a database
-	 *               column), must not be empty
-	 * @param string unit of the formatted number, must not be empty
+	 * @param string $key key of the field to retrieve (the name of a database column), must not be empty
+	 * @param string $unit unit of the formatted number, must not be empty
 	 *
 	 * @return string HTML for the number in the field formatted using the
 	 *                system's locale with $unit appended, may be an empty
@@ -392,7 +389,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	/**
 	 * Returns the current "showUid".
 	 *
-	 * @return UID of the realty record to show, will be > 0
+	 * @return integer UID of the realty record to show, will be > 0
 	 */
 	private function getUid() {
 		return $this->showUid;
@@ -426,10 +423,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * if neccessary.
 	 *
 	 * @param float $number the number to format
-	 * @param integer $decimals
-	 *        the number of decimals after the decimal point, must be >= 0
+	 * @param integer $decimals the number of decimals after the decimal point, must be >= 0
 	 *
-	 * @return $string the formatted float, will be empty if zero was given
+	 * @return string the formatted float, will be empty if zero was given
 	 */
 	public function formatDecimal($number, $decimals = 2) {
 		if ($number == 0.0) {
