@@ -47,6 +47,11 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
+	 * @var t3lib_cache_Manager
+	 */
+	private $cacheManagerBackup = NULL;
+
+	/**
 	 * @var integer dummy FE user UID
 	 */
 	private $feUserUid;
@@ -68,6 +73,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 		tx_oelib_ConfigurationRegistry::getInstance()
 			->set('plugin.tx_realty_pi1', new tx_oelib_Configuration());
 
+		$this->cacheManagerBackup = $GLOBALS['typo3CacheManager'];
+
 		$this->createDummyRecords();
 
 		$this->fixture = new tx_realty_frontEndEditor(
@@ -84,6 +91,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		$GLOBALS['typo3CacheManager'] = $this->cacheManagerBackup;
+
 		$this->testingFramework->cleanUp();
 
 		$this->fixture->__destruct();
