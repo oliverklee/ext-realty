@@ -756,7 +756,7 @@ class tx_realty_openImmoImport {
 	private function purgeRecordsWithoutLogMessages(array &$emailData) {
 		foreach ($emailData as $recipient => $data) {
 			foreach ($data as $key => $emailContent) {
-				if (implode(array_values($emailContent)) == '') {
+				if (implode('', $emailContent) === '') {
 					unset($emailData[$recipient][$key]);
 				}
 			}
@@ -807,7 +807,7 @@ class tx_realty_openImmoImport {
 		foreach ($recordsForOneEmail as $record) {
 			// $record is an array of the object number associated with the log
 			$templateHelper->setMarker('object_number', key($record));
-			$templateHelper->setMarker('log', implode($record));
+			$templateHelper->setMarker('log', implode('', $record));
 			$contentItem[] = $templateHelper->getSubpart('CONTENT_ITEM');
 		}
 
@@ -1035,7 +1035,7 @@ class tx_realty_openImmoImport {
 			$pathOfXml = glob($folderWithXml.'*.xml');
 
 			if (count($pathOfXml) == 1) {
-				$result = implode($pathOfXml);
+				$result = implode('', $pathOfXml);
 			} else {
 				if (count($pathOfXml) > 1) {
 					$errorMessage = 'message_too_many_xml';

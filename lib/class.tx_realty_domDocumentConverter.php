@@ -395,7 +395,7 @@ class tx_realty_domDocumentConverter {
 		foreach (self::$propertyArray as $databaseColumnName => $openImmoNames) {
 			$currentDomNode = $this->findFirstGrandchild(
 				key($openImmoNames),
-				implode($openImmoNames)
+				implode('', $openImmoNames)
 			);
 			$this->addImportedData(
 				$databaseColumnName, $currentDomNode->nodeValue
