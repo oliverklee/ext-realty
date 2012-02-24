@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4354] Fix: The OpenImmoImport class uses implode with only one argument
 - [#4276] Cleanup: Add the parameter name to all @param
 - [#4347] Fix: Fix missing/incorrect @return and return values
 - [#3987] Change: Require TYPO3 4.4

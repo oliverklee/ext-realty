@@ -430,14 +430,14 @@ class tx_realty_domDocumentConverter {
 		foreach (self::$propertyArray as $key => $path) {
 			$currentDomNode = $this->findFirstGrandchild(
 				key($path),
-				implode($path)
+				implode('', $path)
 			);
 			$this->addImportedData($key, $currentDomNode->nodeValue);
 		}
 		foreach (self::$decimalFields as $key => $path) {
 			$currentDomNode = $this->findFirstGrandchild(
 				key($path),
-				implode($path)
+				implode('', $path)
 			);
 			$value = ($currentDomNode !== NULL)
 				? floatval($currentDomNode->nodeValue) : 0.0;
