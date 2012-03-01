@@ -56,6 +56,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 	private $translator;
 
 	/**
+	 * @var t3lib_cache_Manager
+	 */
+	private $cacheManager;
+
+	/**
 	 * @var integer PID of the system folder where imported records will
 	 *              be stored
 	 */
@@ -85,6 +90,7 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
 
 		$this->globalConfiguration= tx_oelib_configurationProxy::getInstance('realty');
+		$this->cacheManager = $GLOBALS['typo3CacheManager'];
 
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 
@@ -99,9 +105,11 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->__destruct();
 
+		$GLOBALS['typo3CacheManager'] = $this->cacheManager;
+
 		unset(
 			$this->fixture, $this->translator, $this->testingFramework,
-			$this->globalConfiguration
+			$this->globalConfiguration, $this->cacheManager
 		);
 		$this->deleteTestImportFolder();
 
