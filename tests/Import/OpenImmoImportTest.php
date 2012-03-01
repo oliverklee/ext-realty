@@ -69,6 +69,11 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	private $testImportFolderExists = FALSE;
 
 	/**
+	 * @var t3lib_cache_Manager
+	 */
+	private $cacheManager;
+
+	/**
 	 * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
 	 *
 	 * @var array
@@ -90,6 +95,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 
 		$this->translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
+		$this->cacheManager = $GLOBALS['typo3CacheManager'];
 
 		$this->fixture = new tx_realty_openImmoImportChild(TRUE);
 		$this->setupStaticConditions();
@@ -100,9 +106,11 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 		$this->fixture->__destruct();
 
+		$GLOBALS['typo3CacheManager'] = $this->cacheManager;
+
 		unset(
 			$this->fixture, $this->translator, $this->testingFramework,
-			$this->globalConfiguration
+			$this->globalConfiguration, $this->cacheManager
 		);
 		$this->deleteTestImportFolder();
 
