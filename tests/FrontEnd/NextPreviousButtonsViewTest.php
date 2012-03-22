@@ -183,9 +183,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 		$this->fixture->piVars = array(
 			'showUid' => $realtyObject->getUid(),
 			'recordPosition' => 0,
-			'listViewLimitation' => base64_encode(
-				serialize(array('objectNumber' => 'ABC112'))
-			),
+			'listViewLimitation' => json_encode(array('objectNumber' => 'ABC112')),
 			'listViewType' => 'realty_list',
 			'listUid' => $this->listViewUid,
 		);
@@ -258,8 +256,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 		$this->fixture->piVars = array(
 			'showUid' => $objectUid,
 			'recordPosition' => 1,
-			'listViewLimitation'
-				=> base64_encode(serialize(array('objectNumber' => 'foo'))),
+			'listViewLimitation' => json_encode(array('objectNumber' => 'foo')),
 			'listViewType' => 'realty_list',
 			'listUid' => $this->listViewUid,
 		);
@@ -293,8 +290,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 			'showUid' => $objectUid2,
 			'recordPosition' => 1,
 			'listViewType' => 'realty_list',
-			'listViewLimitation'
-				=> base64_encode(serialize(array('objectNumber' => 'foo'))),
+			'listViewLimitation' => json_encode(array('objectNumber' => 'foo')),
 			'listUid' => $this->listViewUid,
 		);
 
@@ -327,8 +323,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 			'showUid' => $objectUid1,
 			'recordPosition' => 0,
 			'listViewType' => 'realty_list',
-			'listViewLimitation'
-				=> base64_encode(serialize(array('objectNumber' => 'foo'))),
+			'listViewLimitation' => json_encode(array('objectNumber' => 'foo')),
 			'listUid' => $this->listViewUid,
 		);
 
@@ -430,7 +425,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 		$objectUid = $this->createRealtyRecordWithCity();
 		$this->createRealtyRecordWithCity();
 
-		$listViewLimitation = base64_encode(serialize(array('objectNumber' => 'foo')));
+		$listViewLimitation = json_encode(array('objectNumber' => 'foo'));
 
 		$this->fixture->piVars = array(
 			'showUid' => $objectUid,
@@ -441,7 +436,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 		);
 
 		$this->assertContains(
-			'listViewLimitation]=' . $listViewLimitation,
+			'listViewLimitation]=' . urlencode($listViewLimitation),
 			$this->fixture->render()
 		);
 	}

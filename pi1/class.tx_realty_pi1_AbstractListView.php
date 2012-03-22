@@ -1312,9 +1312,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$parametersToSerialize['descFlag'] = $this->piVars['descFlag'];
 		}
 
-		$result['listViewLimitation'] = base64_encode
-			(serialize($parametersToSerialize)
-		);
+		$result['listViewLimitation'] = json_encode($parametersToSerialize);
 
 		$result['listUid'] = $this->cObj->data['uid'];
 		$result['listViewType'] = $this->currentView;

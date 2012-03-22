@@ -150,14 +150,12 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	}
 
 	/**
-	 * Sanitizes the listViewLimitation piVar, unserializes, and decodes it.
+	 * Sanitizes and decodes the listViewLimitation piVar.
 	 *
 	 * @return array the data stored in the listViewLimitation string as array.
 	 */
 	private function sanitizeAndSplitListViewLimitation() {
-		$rawData = unserialize(
-			base64_decode($this->piVars['listViewLimitation'])
-		);
+		$rawData = json_decode($this->piVars['listViewLimitation'], TRUE);
 		if (!is_array($rawData) || empty($rawData)) {
 			return array();
 		}

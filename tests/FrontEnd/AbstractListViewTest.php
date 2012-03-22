@@ -38,7 +38,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_tests_fixtures_testingListView
+	 * @var tx_realty_tests_fixtures_TestingListView
 	 */
 	private $fixture;
 
@@ -1720,9 +1720,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$listViewLimitation
 		);
 
-		$this->assertNotEquals(
-		   '',
-			base64_decode($listViewLimitation[1])
+		$this->assertNotSame(
+			'',
+			$listViewLimitation[1]
 		);
 	}
 
@@ -1738,9 +1738,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$listViewLimitation
 		);
 
-		$this->assertNotEquals(
-			'',
-			unserialize(base64_decode($listViewLimitation[1]))
+		$this->assertNotSame(
+			array(),
+			json_decode(urldecode($listViewLimitation[1]), TRUE)
 		);
 	}
 
@@ -1755,9 +1755,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$this->fixture->render(array('orderBy' => 'foo')),
 			$listViewLimitation
 		);
-		$this->assertContains(
+
+		$reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), TRUE);
+		$this->assertSame(
 			'foo',
-			unserialize(base64_decode($listViewLimitation[1]))
+			$reconstructedLimitations['orderBy']
 		);
 	}
 
@@ -1773,9 +1775,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$listViewLimitation
 		);
 
-		$this->assertContains(
+		$reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), TRUE);
+		$this->assertSame(
 			1,
-			unserialize(base64_decode($listViewLimitation[1]))
+			$reconstructedLimitations['descFlag']
 		);
 	}
 
@@ -1790,9 +1793,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$this->fixture->render(array('search' => array('0' => '42'))),
 			$listViewLimitation
 		);
-		$this->assertContains(
+
+		$reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), TRUE);
+		$this->assertSame(
 			array('0' => '42'),
-			unserialize(base64_decode($listViewLimitation[1]))
+			$reconstructedLimitations['search']
 		);
 	}
 
@@ -1808,9 +1813,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$listViewLimitation
 		);
 
-		$this->assertContains(
+		$reconstructedLimitations = json_decode(urldecode($listViewLimitation[1]), TRUE);
+		$this->assertSame(
 			self::$firstCityTitle,
-			unserialize(base64_decode($listViewLimitation[1]))
+			$reconstructedLimitations['site']
 		);
 	}
 
