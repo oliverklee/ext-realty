@@ -229,8 +229,7 @@ class tx_realty_pi1_BackButtonView_testcase extends tx_phpunit_testcase {
 		$listUid = $this->testingFramework->createContentElement(
 			$listViewPageUid
 		);
-		$listViewLimitation = base64_encode(
-			serialize(array('objectNumber' => 'foo')));
+		$listViewLimitation = json_encode(array('objectNumber' => 'foo'));
 		$this->fixture->piVars['listUid'] = $listUid;
 		$this->fixture->piVars['listViewLimitation'] = $listViewLimitation;
 

@@ -80,12 +80,8 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 
 		$additionalParameters = array();
 		if (isset($this->piVars['listViewLimitation'])) {
-			$unserializedParameters = unserialize(
-				base64_decode($this->piVars['listViewLimitation'])
-			);
-
-			$additionalParameters = (is_array($unserializedParameters))
-				? $unserializedParameters : array();
+			$decodedParameters = json_decode($this->piVars['listViewLimitation'], TRUE);
+			$additionalParameters = (is_array($decodedParameters)) ? $decodedParameters : array();
 		}
 
 		$urlParameter = array(

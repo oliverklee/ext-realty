@@ -1,4 +1,5 @@
 0.5.2 - currently working on
+- [#4373] Fix: Pass the filter limitations using JSON instead of serialization
 - [#4353] Fix: Test crash with lastest Core master concerning the cache manager
 - [#4349] Fix: Test crash with lastest Core master in tx_realty_FrontEnd_EditorTest
 - [#4354] Fix: The OpenImmoImport class uses implode with only one argument

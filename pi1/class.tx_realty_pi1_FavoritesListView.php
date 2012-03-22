@@ -120,8 +120,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 		}
 
 		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)->setAsString(
-			self::FAVORITES_SESSION_KEY_VERBOSE,
-			serialize($this->favoritesDataVerbose)
+			self::FAVORITES_SESSION_KEY_VERBOSE, json_encode($this->favoritesDataVerbose)
 		);
 	}
 
