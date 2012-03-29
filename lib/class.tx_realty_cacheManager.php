@@ -71,7 +71,7 @@ class tx_realty_cacheManager {
 	 * Uses the TYPO3 caching framework to clear the cache for the pages with
 	 * the realty plugin.
 	 *
-	 * Note: The caching framework is not avialable in TYPO3 versions lower than 4.3.
+	 * Note: The caching framework is not available in TYPO3 versions lower than 4.3.
 	 */
 	private static function clearCacheWithCachingFramework() {
 		if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
