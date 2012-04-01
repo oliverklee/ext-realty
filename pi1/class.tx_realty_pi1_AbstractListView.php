@@ -135,23 +135,17 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * Checks the member variables $listViewLabel and $currentView for
 	 * non-emptiness, and $isGoogleMapsAllowed if it is set.
 	 *
-	 * @throws Exception one of the three checked variables has illegal values
+	 * @throws BadMethodCallException one of the three checked variables has illegal values
 	 */
 	private function checkMemberVariables() {
 		if ($this->listViewLabel == '') {
-			throw new Exception(
-				'The member variable $listViewLabel must not be empty.'
-			);
+			throw new BadMethodCallException('The member variable $listViewLabel must not be empty.', 1333036318);
 		}
 		if ($this->currentView == '') {
-			throw new Exception(
-				'The member variable $currentView must not be empty.'
-			);
+			throw new BadMethodCallException('The member variable $currentView must not be empty.', 1333036327);
 		}
 		if (!isset($this->isGoogleMapsAllowed)) {
-			throw new Exception(
-				'The member variable $isGoogleMapsAllowed must be set.'
-			);
+			throw new BadMethodCallException('The member variable $isGoogleMapsAllowed must be set.', 1333036332);
 		}
 	}
 
@@ -630,7 +624,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Creates the LIMIT statement for initListView().
 	 *
-	 * @throws Exception if a database query error occurs
+	 * @throws tx_oelib_Exception_Database if a database query error occurs
 	 *
 	 * @param string $whereClause
 	 *        WHERE clause of the query for which the LIMIT statement will be,
@@ -902,7 +896,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Creates a formatter instance for $this->internal['currentRow']['uid'].
 	 *
-	 * @throws Exception if $this->internal['currentRow'] is not set or empty
+	 * @throws BadMethodCallException if $this->internal['currentRow'] is not set or empty
 	 *
 	 * @return tx_realty_pi1_Formatter a formatter for the current row
 	 */
@@ -910,9 +904,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		if (!isset($this->internal['currentRow'])
 			|| empty($this->internal['currentRow'])
 		) {
-			throw new Exception(
-				'$this->internal[\'currentRow\'] must not be empty.'
-			);
+			throw new BadMethodCallException('$this->internal[\'currentRow\'] must not be empty.', 1333036395);
 		}
 
 		$currentUid = $this->internal['currentRow']['uid'];
@@ -1172,7 +1164,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Returns an image record that is associated with the current realty record.
 	 *
-	 * @throws Exception if a database query error occurs
+	 * @throws tx_oelib_Exception_Database if a database query error occurs
 	 *
 	 * @param integer $offset
 	 *        the number of the image to retrieve (zero-based, may be zero)
@@ -1335,9 +1327,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	public function getUidForRecordNumber($recordPosition) {
 		if ($recordPosition < 0) {
-			throw new Exception(
-				'The record position must be a non-negative integer.'
-			);
+			throw new InvalidArgumentException('The record position must be a non-negative integer.', 1333036413);
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(

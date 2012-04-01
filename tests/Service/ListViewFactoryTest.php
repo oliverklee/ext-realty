@@ -101,7 +101,8 @@ class tx_realty_Service_ListViewFactoryTest extends tx_phpunit_testcase {
 	 */
 	public function throwsExceptionForInvalidViewType() {
 		$this->setExpectedException(
-			'Exception', 'The given list view type "foo" is invalid.'
+			'InvalidArgumentException',
+			'The given list view type "foo" is invalid.'
 		);
 
 		tx_realty_pi1_ListViewFactory::make('foo', array(), $this->cObjMock);

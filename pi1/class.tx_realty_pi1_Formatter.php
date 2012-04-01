@@ -60,7 +60,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * The constructor. Initializes the temlatehelper and loads the realty
 	 * object.
 	 *
-	 * @throws Exception if $realtyObjectUid is not a UID of a realty object
+	 * @throws InvalidArgumentException if $realtyObjectUid is not a UID of a realty object
 	 *
 	 * @param integer $realtyObjectUid UID of the object of which to get formatted properties, must be > 0
 	 * @param array $configuration TypoScript configuration for the plugin
@@ -70,15 +70,16 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		$realtyObjectUid, array $configuration, tslib_cObj $cObj
 	) {
 		if ($realtyObjectUid <= 0) {
-			throw new Exception('$realtyObjectUid must be greater than zero.');
+			throw new InvalidArgumentException('$realtyObjectUid must be greater than zero.', 1333036496);
 		}
 
 		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->existsModel($realtyObjectUid, TRUE)
 		) {
-			throw new Exception('There was no realty object to load with the ' .
-				'provided UID of ' . $realtyObjectUid . '. The formatter can ' .
-				'only work for existing, non-deleted realty objects.'
+			throw new InvalidArgumentException(
+				'There was no realty object to load with the provided UID of ' . $realtyObjectUid .
+					'. The formatter can only work for existing, non-deleted realty objects.',
+				1333036514
 			);
 		}
 
@@ -90,7 +91,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	/**
 	 * Returns the formatted content of a realty object field.
 	 *
-	 * @throws Exception if $key was empty
+	 * @throws InvalidArgumentException if $key was empty
 	 *
 	 * @param string $key
 	 *        key of the realty object's field of which to retrieve the
@@ -100,7 +101,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 */
 	public function getProperty($key) {
 		if ($key == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.', 1333036539);
 		}
 
 		$result = '';

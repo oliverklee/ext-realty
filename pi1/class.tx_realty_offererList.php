@@ -100,9 +100,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 */
 	public function renderOneItemWithTheDataProvided(array $ownerData) {
 		if (isset($ownerData['usergroup'])) {
-			throw new Exception(
-				'To process user group information you need to use render() or' .
-					'renderOneItem().'
+			throw new BadMethodCallException(
+				'To process user group information you need to use render() or renderOneItem().', 1333036231
 			);
 		}
 

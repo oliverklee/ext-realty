@@ -65,7 +65,7 @@ class tx_realty_translator {
 	 */
 	public function translate($key) {
 		if ($key == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.', 1333035608);
 		}
 
 		$result = $GLOBALS['LANG']->getLL($key);

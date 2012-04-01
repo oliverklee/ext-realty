@@ -53,31 +53,29 @@ class tx_realty_cli_ImageCleanUp {
 	/**
 	 * Checks whether the Realty upload folder exists and is writable.
 	 *
-	 * @throws Exception if the upload folder does not exist
+	 * @throws RuntimeException if the upload folder does not exist
 	 * @throws tx_oelib_Exception_AccessDenied if the upload folder is not
 	 *                                         writable
 	 */
 	public function checkUploadFolder() {
 		$absolutePath = PATH_site . $this->uploadFolder;
 		if (!@is_dir($absolutePath)){
-			throw new Exception(
-				'The folder ' .  $absolutePath . ' ' .
-					'with the uploaded realty files does not exist. ' .
-					'Please check your configuration and restart the clean-up.'
+			throw new RuntimeException(
+				'The folder ' .  $absolutePath . ' with the uploaded realty files does not exist. ' .
+					'Please check your configuration and restart the clean-up.',
+				1333035462
 			);
 		}
 		if (!@is_writable($absolutePath)) {
 			$ownerUid = fileowner($absolutePath);
 			$owner = posix_getpwuid($ownerUid);
 
-			throw new Exception(
-				'The folder ' .  $absolutePath .
-					' is not writable. Please fix file permissions and restart' .
-					' the import. The folder belongs to the user: ' .
-					$owner['name'] . ', ' . $ownerUid . ', and has the ' .
-					'following permissions: ' .
-					substr(decoct(fileperms($absolutePath)), 2) . '. The user ' .
-					'starting this import was: ' . get_current_user() . '.'
+			throw new tx_oelib_Exception_AccessDenied(
+				'The folder ' .  $absolutePath . ' is not writable. Please fix file permissions and restart' .
+					' the import. The folder belongs to the user: ' . $owner['name'] . ', ' . $ownerUid .
+					', and has the following permissions: ' . substr(decoct(fileperms($absolutePath)), 2) .
+					'. The user starting this import was: ' . get_current_user() . '.',
+				1333035471
 			);
 		}
 	}

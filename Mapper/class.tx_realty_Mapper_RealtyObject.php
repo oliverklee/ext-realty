@@ -157,7 +157,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 			$objectNumber, $openImmoObjectId, $language
 		);
 		if (!isset($this->cacheByObjectNumberAndObjectIdAndLanguage[$cacheKey])) {
-			throw new tx_oelib_Exception_NotFound();
+			throw new tx_oelib_Exception_NotFound('No model found.', 1333035741);
 		}
 
 		return $this->cacheByObjectNumberAndObjectIdAndLanguage[$cacheKey];

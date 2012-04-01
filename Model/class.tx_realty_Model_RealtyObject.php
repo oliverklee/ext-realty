@@ -606,9 +606,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$result = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 				->getModel($this->ownerData);
 		} catch (Exception $exception) {
-			throw new tx_oelib_Exception_NotFound(
-				'There is no owner for the current realty object.'
-			);
+			throw new tx_oelib_Exception_NotFound('There is no owner for the current realty object.', 1333035795);
 		}
 
 		return $result;
@@ -688,7 +686,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		if ($key == 'uid') {
-			throw new Exception('The key must not be "uid".');
+			throw new InvalidArgumentException('The key must not be "uid".', 1333035810);
 		}
 
 		parent::set($key, $value);
@@ -1027,9 +1025,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$caption, $fileName, $position = 0, $thumbnailFileName = ''
 	) {
 		if ($this->isVirgin()) {
-			throw new Exception(
-				'A realty record must be loaded before images can be appended.'
-			);
+			throw new BadMethodCallException('A realty record must be loaded before images can be appended.', 1333035831);
 		}
 
 		$this->markAsLoaded();
@@ -1067,9 +1063,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function addDocument($title, $fileName) {
 		if ($this->isVirgin()) {
-			throw new Exception(
-				'A realty record must be loaded before documents can be appended.'
-			);
+			throw new BadMethodCallException('A realty record must be loaded before documents can be appended.', 1333035851);
 		}
 
 		$this->markAsLoaded();
@@ -1100,16 +1094,15 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function markImageRecordAsDeleted($imageKey) {
 		if ($this->isVirgin()) {
-			throw new Exception(
-				'A realty record must be loaded before images can be marked ' .
-					'as deleted.'
+			throw new BadMethodCallException(
+				'A realty record must be loaded before images can be marked as deleted.', 1333035867
 			);
 		}
 
 		$image = $this->images->at($imageKey);
 
 		if ($image == NULL) {
-			throw new Exception('The image record does not exist.');
+			throw new tx_oelib_Exception_NotFound('The image record does not exist.', 1333035899);
 		}
 
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image')->delete($image);
@@ -1128,15 +1121,13 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function deleteDocument($key) {
 		if ($this->isVirgin()) {
-			throw new Exception(
-				'A realty record must be loaded before documents can be deleted.'
-			);
+			throw new BadMethodCallException('A realty record must be loaded before documents can be deleted.', 1333035926);
 		}
 
 		$document = $this->documents->at($key);
 
 		if ($document == NULL) {
-			throw new Exception('The document does not exist.');
+			throw new tx_oelib_Exception_NotFound('The document does not exist.', 1333035940);
 		}
 
 		tx_oelib_MapperRegistry::get('tx_realty_Mapper_Document')
@@ -1173,9 +1164,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		if (isset($realtyData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $realtyData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $realtyData.', 1333035957);
 		}
 
 		$dataToInsert = $realtyData;
@@ -1211,9 +1200,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	protected function updateDatabaseEntry(array $realtyData) {
 		if ($realtyData['uid'] <= 0) {
-			throw new InvalidArgumentException(
-				'$data needs to contain a UID > 0.'
-			);
+			throw new InvalidArgumentException('$data needs to contain a UID > 0.', 1333035969);
  		}
 
 		$dataForUpdate = $realtyData;
@@ -1406,9 +1393,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Gets a field of a related property of the object.
 	 *
-	 * @throws Exception if $key is not within "city", "apartment_type",
-	 *                   "house_type", "district", "pets", "garage_type" and
-	 *                   "country"
+	 * @throws InvalidArgumentException
+	 *         if $key is not within "city", "apartment_type", "house_type", "district", "pets", "garage_type" and "country"
 	 *
 	 * @param string $key key of this object's property, must not be empty
 	 * @param string $titleField key of the property's field to get, must not be empty
@@ -1422,9 +1408,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			? STATIC_COUNTRIES : array_search($key, self::$propertyTables);
 
 		if ($tableName === FALSE) {
-			throw new Exception('$key must be within "city", ' .
-				'"apartment_type", "house_type", "district", "pets", ' .
-				'"garage_type", "country", but actually is "' . $key . '".'
+			throw new InvalidArgumentException(
+				'$key must be within "city", "apartment_type", "house_type", "district", "pets", ' .
+					'"garage_type", "country", but actually is "' . $key . '".',
+				1333035988
 			);
 		}
 
@@ -1709,9 +1696,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$this->renderCharset = $GLOBALS['LANG']->charset;
 			$this->charsetConversion = $GLOBALS['LANG']->csConvObj;
 		} else {
-			throw new Exception(
-				'There was neither a front end nor a back end detected.'
-			);
+			throw new RuntimeException('There was neither a front end nor a back end detected.', 1333036016);
 		}
 	}
 

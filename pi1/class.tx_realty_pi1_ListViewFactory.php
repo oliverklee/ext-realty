@@ -61,9 +61,7 @@ class tx_realty_pi1_ListViewFactory {
 				$viewName = 'tx_realty_pi1_DefaultListView';
 				break;
 			default:
-				throw new Exception(
-					'The given list view type "' . $type . '" is invalid.'
-				);
+				throw new InvalidArgumentException('The given list view type "' . $type . '" is invalid.', 1333036578);
 		}
 
 		return tx_oelib_ObjectFactory::make($viewName, $conf, $cObj);

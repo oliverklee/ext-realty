@@ -1027,9 +1027,8 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 
 	public function testRenderOneItemWithTheDataProvidedForUsergroupProvidedThrowsException() {
 		$this->setExpectedException(
-			Exception,
-			'To process user group information you need to use render() or' .
-				'renderOneItem().'
+			'BadMethodCallException',
+			'To process user group information you need to use render() or renderOneItem().'
 		);
 
 		$this->fixture->renderOneItemWithTheDataProvided(array('usergroup' => 1));

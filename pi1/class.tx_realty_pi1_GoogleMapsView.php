@@ -203,7 +203,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Retrieves the geo coordinates for the realty object with $realtyObjectUid.
 	 *
-	 * @throws Exception if the UID is not provided
+	 * @throws InvalidArgumentException if the UID is not provided
 	 *
 	 * @param integer $realtyObjectUid UID of the realty object for which to get the coordinates, must be > 0
 	 *
@@ -213,9 +213,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function retrieveGeoCoordinates($realtyObjectUid) {
 		if ($realtyObjectUid == 0) {
-			throw new Exception(
-				'$realtyObjectUid must not be an integer greater than zero.'
-			);
+			throw new InvalidArgumentException('$realtyObjectUid must not be an integer greater than zero.', 1333036563);
 		}
 
 		try {

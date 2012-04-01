@@ -133,10 +133,10 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 */
 	public function findByNameAndCityUid($districtName, $cityUid) {
 		if ($districtName == '') {
-			throw new Exception('$districtName must not be empty.');
+			throw new InvalidArgumentException('$districtName must not be empty.', 1333035628);
 		}
 		if ($cityUid < 0) {
-			throw new Exception('$cityUid must be >= 0.');
+			throw new InvalidArgumentException('$cityUid must be >= 0.', 1333035639);
 		}
 
 		try {
@@ -155,8 +155,8 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	/**
 	 * Finds a district by its name and its associated city from the cache.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no district with the
-	 *                                     given name and city in the cache
+	 * @throws tx_oelib_Exception_NotFound
+	 *         if there is no district with the given name and city in the cache
 	 *
 	 * @param string $districtName
 	 *        the name of the district to find, must not be empty
@@ -170,7 +170,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 			$districtName, $cityUid
 		);
 		if (!isset($this->cacheByNameAndCityUid[$cacheKey])) {
-			throw new tx_oelib_Exception_NotFound();
+			throw new tx_oelib_Exception_NotFound('No model found.', 1333035709);
 		}
 
 		return $this->cacheByNameAndCityUid[$cacheKey];

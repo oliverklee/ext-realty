@@ -56,7 +56,7 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 */
 	public function setTitle($title) {
 		if ($title == '') {
-			throw new InvalidArgumentException('$title must not be empty.');
+			throw new InvalidArgumentException('$title must not be empty.', 1333036044);
 		}
 
 		$this->setAsString('title', $title);
@@ -82,7 +82,7 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 */
 	public function setFileName($fileName) {
 		if ($fileName == '') {
-			throw new InvalidArgumentException('$fileName must not be empty.');
+			throw new InvalidArgumentException('$fileName must not be empty.', 1333036052);
 		}
 
 		$this->setAsString('filename', $fileName);

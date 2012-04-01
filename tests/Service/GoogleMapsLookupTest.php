@@ -98,7 +98,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	 */
 	public function constructorThrowsExceptionIfGoogleMapsApiKeyIsMissing() {
 		$this->setExpectedException(
-			'Exception',
+			'RuntimeException',
 			'The Google Maps API key was missing from the configuration.'
 		);
 

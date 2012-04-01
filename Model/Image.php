@@ -78,7 +78,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 */
 	public function setFileName($fileName) {
 		if ($fileName == '') {
-			throw new InvalidArgumentException('$fileName must not be empty.');
+			throw new InvalidArgumentException('$fileName must not be empty.', 1333036064);
 		}
 
 		$this->setAsString('image', $fileName);

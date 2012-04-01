@@ -252,7 +252,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$titleColumn
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036102);
 		}
 
 		$items = array();
@@ -452,7 +452,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036127);
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
@@ -498,7 +498,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				) . '"' . tx_oelib_db::enableFields($formData['table'])
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036137);
 		}
 
 		$result = (boolean) $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -810,7 +810,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function checkForValidLocallangKey($label) {
 		if (!preg_match('/^([a-z_])+$/', $label)) {
-			throw new Exception('"' . $label . '" is not a valid locallang key.');
+			throw new InvalidArgumentException('"' . $label . '" is not a valid locallang key.', 1333036148);
 		}
 
 		return TRUE;
@@ -971,7 +971,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036158);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -1075,7 +1075,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'uid=' . $cityUid
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036169);
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -1242,9 +1242,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		if (!tx_oelib_db::tableHasColumn($tableName, $fieldName)) {
-			throw new Exception(
-				'"' . $fieldName . '" is not a valid column name for ' .
-				$tableName . '.'
+			throw new InvalidArgumentException(
+				'"' . $fieldName . '" is not a valid column name for ' . $tableName . '.', 1333036182
 			);
 		}
 
@@ -1257,14 +1256,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @param string $tableName table name to check, must not be empty
 	 *
-	 * @return boolean TRUE if the table name is allowed, an exception is
-	 *                 thrown otherwise
+	 * @return boolean TRUE if the table name is allowed, an exception is thrown otherwise
 	 */
 	private function checkForValidTableName($tableName) {
 		if (!in_array($tableName, self::$allowedTables)) {
-			throw new Exception(
-				'"' . $tableName . '" is not a valid table name.'
-			);
+			throw new InvalidArgumentException('"' . $tableName . '" is not a valid table name.', 1333036203);
 		}
 
 		return TRUE;
