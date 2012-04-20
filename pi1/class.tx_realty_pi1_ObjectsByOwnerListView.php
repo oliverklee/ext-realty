@@ -140,12 +140,12 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	private function getOwner() {
 		$ownerUid = intval($this->piVars['owner']);
 		if ($ownerUid <= 0) {
-			throw new tx_oelib_Exception_NotFound('No owner is selected.');
+			throw new tx_oelib_Exception_NotFound('No owner is selected.', 1333036590);
 		}
 
 		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
 		if (!$mapper->existsModel($ownerUid)) {
-			throw new tx_oelib_Exception_NotFound('The owner does not exist.');
+			throw new tx_oelib_Exception_NotFound('The owner does not exist.', 1333036603);
 		}
 
 		return $mapper->find($ownerUid);

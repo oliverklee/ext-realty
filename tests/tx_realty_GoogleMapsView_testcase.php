@@ -148,7 +148,7 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 
 	public function testSetMapMarkerForZeroCausesException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$realtyObjectUid must not be an integer greater than zero.'
 		);
 

@@ -329,7 +329,8 @@ class tx_realty_Mapper_District_testcase extends tx_phpunit_testcase {
 	 */
 	public function findByNameAndCityUidForEmptyNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$districtName must not be empty.'
+			'InvalidArgumentException',
+			'$districtName must not be empty.'
 		);
 
 		$this->fixture->findByNameAndCityUid('', 42);
@@ -340,7 +341,8 @@ class tx_realty_Mapper_District_testcase extends tx_phpunit_testcase {
 	 */
 	public function findByNameAndCityUidForNegativeCityUidThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$cityUid must be >= 0.'
+			'InvalidArgumentException',
+			'$cityUid must be >= 0.'
 		);
 
 		$this->fixture->findByNameAndCityUid('Kreuzberg', -1);

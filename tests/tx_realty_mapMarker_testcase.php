@@ -57,7 +57,8 @@ class tx_realty_mapMarker_testcase extends tx_phpunit_testcase {
 
 	public function testSetCoordinatesThrowsExceptionForEmptyLatitude() {
 		$this->setExpectedException(
-			'Exception', 'The latitude must not be empty.'
+			'InvalidArgumentException',
+			'The latitude must not be empty.'
 		);
 
 		$this->fixture->setCoordinates('', '7.10211');
@@ -65,7 +66,8 @@ class tx_realty_mapMarker_testcase extends tx_phpunit_testcase {
 
 	public function testSetCoordinatesThrowsExceptionForEmptyLongitude() {
 		$this->setExpectedException(
-			'Exception', 'The longitude must not be empty.'
+			'InvalidArgumentException',
+			'The longitude must not be empty.'
 		);
 
 		$this->fixture->setCoordinates('50.734343', '');

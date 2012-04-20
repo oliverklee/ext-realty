@@ -309,7 +309,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			$whereClause
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333283093);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -358,7 +358,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Returns an image record that is associated with the current realty record.
 	 *
-	 * @throws Exception if a database query error occurs
+	 * @throws tx_oelib_Exception_Database if a database query error occurs
 	 *
 	 * @param integer the number of the image to retrieve (zero-based,
 	 *                may be zero)
@@ -383,7 +383,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			intval($offset) . ',1'
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333283103);
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -411,7 +411,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				tx_oelib_db::enableFields(REALTY_TABLE_IMAGES)
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333283113);
 		}
 
 		$dbResultRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);

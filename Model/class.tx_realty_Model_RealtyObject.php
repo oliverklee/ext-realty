@@ -479,9 +479,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$result = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 				->getModel($this->ownerData);
 		} catch (Exception $exception) {
-			throw new tx_oelib_Exception_NotFound(
-				'There is no owner for the current realty object.'
-			);
+			throw new tx_oelib_Exception_NotFound('There is no owner for the current realty object.', 1333035795);
 		}
 
 		return $result;
@@ -566,7 +564,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		if ($key == 'uid') {
-			throw new Exception('The key must not be "uid".');
+			throw new InvalidArgumentException('The key must not be "uid".', 1333035810);
 		}
 
 		parent::set($key, $value);
@@ -766,9 +764,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				// because it is in the list of obsoletes, this aditionally
 				// deletes the image from the file system.
 				if (file_exists($fileName) && !@unlink($fileName)) {
-					throw new Exception(
-						'The file ' . $fileName . ' could not be deleted. ' .
-						'Probably the file permissions are not set correctly.'
+					throw new RuntimeException(
+						'The file ' . $fileName . ' could not be deleted. Probably the file permissions are not set correctly.',
+						1333282457
 					);
 				}
 			} else {
@@ -844,9 +842,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function addImageRecord($caption, $fileName) {
 		if ($this->isVirgin()) {
-			throw new Exception(
-				'A realty record must be loaded before images can be appended.'
-			);
+			throw new BadMethodCallException('A realty record must be loaded before images can be appended.', 1333035831);
 		}
 
 		$this->markAsLoaded();
@@ -867,13 +863,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	public function markImageRecordAsDeleted($imageKey) {
 		if ($this->isVirgin()) {
-			throw new Exception(
-				'A realty record must be loaded before images can be marked ' .
-					'as deleted.'
+			throw new BadMethodCallException(
+				'A realty record must be loaded before images can be marked as deleted.', 1333035867
 			);
 		}
 		if (!isset($this->images[$imageKey])) {
-			throw new Exception('The image record does not exist.');
+			throw new tx_oelib_Exception_NotFound('The image record does not exist.', 1333035899);
 		}
 
 		$this->images[$imageKey]['deleted'] = 1;
@@ -907,9 +902,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		}
 
 		if (isset($realtyData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $realtyData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $realtyData.', 1333035957);
 		}
 
 		$dataToInsert = $realtyData;
@@ -951,7 +944,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 		$table = REALTY_TABLE_OBJECTS
 	) {
 		if ($realtyData['uid'] <= 0) {
-			return;
+			throw new InvalidArgumentException('$data needs to contain a UID > 0.', 1333035969);
 		}
 
 		$dataForUpdate = $realtyData;
@@ -973,7 +966,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	 */
 	protected function fetchDatabaseResult($dbResult) {
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333283070);
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -1162,9 +1155,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	/**
 	 * Gets a field of a related property of the object.
 	 *
-	 * @throws Exception if $key is not within "city", "apartment_type",
-	 *                   "house_type", "district", "pets", "garage_type" and
-	 *                   "country"
+	 * @throws InvalidArgumentException
+	 *         if $key is not within "city", "apartment_type", "house_type", "district", "pets", "garage_type" and "country"
 	 *
 	 * @param string key of this object's property, must not be empty
 	 * @param string key of the property's field to get, must not be empty
@@ -1178,9 +1170,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			? STATIC_COUNTRIES : array_search($key, self::$propertyTables);
 
 		if ($tableName === FALSE) {
-			throw new Exception('$key must be within "city", ' .
-				'"apartment_type", "house_type", "district", "pets", ' .
-				'"garage_type", "country", but actually is "' . $key . '".'
+			throw new InvalidArgumentException(
+				'$key must be within "city", "apartment_type", "house_type", "district", "pets", ' .
+					'"garage_type", "country", but actually is "' . $key . '".',
+				1333035988
 			);
 		}
 
@@ -1455,9 +1448,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 			$this->renderCharset = $GLOBALS['LANG']->charset;
 			$this->charsetConversion = $GLOBALS['LANG']->csConvObj;
 		} else {
-			throw new Exception(
-				'There was neither a front end nor a back end detected.'
-			);
+			throw new RuntimeException('There was neither a front end nor a back end detected.', 1333036016);
 		}
 	}
 }

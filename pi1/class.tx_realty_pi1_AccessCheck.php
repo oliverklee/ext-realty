@@ -93,7 +93,7 @@ class tx_realty_pi1_AccessCheck {
 		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 				->addHeader('Status: 403 Forbidden');
-			throw new tx_oelib_Exception_AccessDenied('message_please_login');
+			throw new tx_oelib_Exception_AccessDenied('message_please_login', 1333036432);
 		}
 	}
 
@@ -111,9 +111,7 @@ class tx_realty_pi1_AccessCheck {
 
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 404 Not Found');
-		throw new tx_oelib_Exception_AccessDenied(
-			'message_noResultsFound_image_upload'
-		);
+		throw new tx_oelib_Exception_AccessDenied('message_noResultsFound_image_upload', 1333036450);
 	}
 
 	/**
@@ -136,9 +134,7 @@ class tx_realty_pi1_AccessCheck {
 
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 404 Not Found');
-		throw new tx_oelib_Exception_AccessDenied(
-			'message_noResultsFound_fe_editor'
-		);
+		throw new tx_oelib_Exception_AccessDenied('message_noResultsFound_fe_editor', 1333036458);
 	}
 
 	/**
@@ -165,7 +161,7 @@ class tx_realty_pi1_AccessCheck {
 
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 403 Forbidden');
-		throw new tx_oelib_Exception_AccessDenied('message_access_denied');
+		throw new tx_oelib_Exception_AccessDenied('message_access_denied', 1333036471);
 	}
 
 	/**
@@ -189,7 +185,7 @@ class tx_realty_pi1_AccessCheck {
 
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 403 Forbidden');
-		throw new tx_oelib_Exception_AccessDenied('message_no_objects_left');
+		throw new tx_oelib_Exception_AccessDenied('message_no_objects_left', 1333036483);
 	}
 }
 

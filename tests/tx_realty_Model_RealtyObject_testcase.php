@@ -321,7 +321,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException InvalidArgumentException
 	 */
 	public function createNewDatabaseEntryForArrayWithNonZeroUidThrowsException() {
 		$this->fixture->createNewDatabaseEntry(array('uid' => 1234));
@@ -330,7 +330,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException InvalidArgumentException
 	 */
 	public function createNewDatabaseEntryForArrayWithZeroUidThrowsException() {
 		$this->fixture->createNewDatabaseEntry(array('uid' => 0));
@@ -382,7 +382,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException tx_oelib_Exception_Database
 	 */
 	public function fetchDatabaseResultForDbResultFalseThrowsException() {
 		$this->fixture->fetchDatabaseResult(FALSE);
@@ -1003,7 +1003,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException InvalidArgumentException
 	 */
 	public function setPropertyKeySetToUidThrowsException() {
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1609,7 +1609,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException BadMethodCallException
 	 */
 	public function addImageRecordForNoObjectLoadedThrowsException() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
@@ -1668,7 +1668,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException BadMethodCallException
 	 */
 	public function markImageRecordAsDeletedForNoObjectLoadedThrowsException() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
@@ -1681,7 +1681,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException tx_oelib_Exception_NotFound
 	 */
 	public function markImageRecordAsDeletedForNonExistingRecordThrowsException() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
@@ -2687,7 +2687,7 @@ class tx_realty_Model_RealtyObject_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException InvalidArgumentException
 	 */
 	public function getForeignPropertyFieldForNonAllowedFieldThrowsException() {
 		$this->fixture->loadRealtyObject($this->objectUid);

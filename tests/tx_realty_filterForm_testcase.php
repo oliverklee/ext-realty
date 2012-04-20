@@ -1275,7 +1275,8 @@ class tx_realty_filterForm_testcase extends tx_phpunit_testcase {
 	 */
 	public function createDropDownItemsWithInvalidTypeThrowsException() {
 		$this->setExpectedException(
-			'Exception', '"foo" is not a valid type.'
+			'InvalidArgumentException',
+			'"foo" is not a valid type.'
 		);
 
 		$this->fixture->createDropDownItems('foo');

@@ -81,7 +81,8 @@ class tx_realty_Model_District_testcase extends tx_phpunit_testcase {
 	 */
 	public function setTitleWithEmptyStringThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The parameter $title must not be empty.'
+			'InvalidArgumentException',
+			'The parameter $title must not be empty.'
 		);
 
 		$this->fixture->setTitle('');

@@ -299,7 +299,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testPopulateListForInvalidTableThrowsAnExeption() {
 		$this->setExpectedException(
-			'Exception', '"invalid_table" is not a valid table name.'
+			'InvalidArgumentException',
+			'"invalid_table" is not a valid table name.'
 		);
 		$this->fixture->populateList(
 			array(), array('table' => 'invalid_table')
@@ -308,7 +309,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testPopulateListForInvalidTitleColumnThrowsAnExeption() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'"foo" is not a valid column name for ' . REALTY_TABLE_CITIES . '.'
 		);
 		$this->fixture->populateList(
@@ -355,7 +356,7 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetMessageForRealtyObjectThrowsAnExceptionForAnInvalidFieldName() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'"foo" is not a valid column name for ' . REALTY_TABLE_OBJECTS . '.'
 		);
 		$this->fixture->getMessageForRealtyObjectField(
@@ -365,14 +366,16 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testGetMessageForRealtyObjectFieldThrowsAnExceptionForInvalidLocallangKey() {
 		$this->setExpectedException(
-			'Exception', '"123" is not a valid locallang key.'
+			'InvalidArgumentException',
+			'"123" is not a valid locallang key.'
 		);
 		$this->fixture->getMessageForRealtyObjectField(array('label' => '123'));
 	}
 
 	public function testGetMessageForRealtyObjectFieldThrowsAnExceptionForEmptyLocallangKey() {
 		$this->setExpectedException(
-			'Exception', '"" is not a valid locallang key.'
+			'InvalidArgumentException',
+			'"" is not a valid locallang key.'
 		);
 		$this->fixture->getMessageForRealtyObjectField(array('label' => ''));
 	}
@@ -971,7 +974,8 @@ class tx_realty_frontEndEditor_testcase extends tx_phpunit_testcase {
 
 	public function testCheckKeyExistsInTableThrowsExceptionForInvalidTable() {
 		$this->setExpectedException(
-			'Exception', '"invalid_table" is not a valid table name.'
+			'InvalidArgumentException',
+			'"invalid_table" is not a valid table name.'
 		);
 		$this->fixture->checkKeyExistsInTable(array(
 			'value' => 1, 'table' => 'invalid_table'

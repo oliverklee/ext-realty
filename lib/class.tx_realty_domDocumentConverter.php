@@ -890,7 +890,7 @@ class tx_realty_domDocumentConverter {
 	 * Fetches the value for country, finds the corresponding UID in the static
 	 * countries table and stores it in $this->importedData.
 	 *
-	 * @throws Exception if the database query fails
+	 * @throws tx_oelib_Exception_Database if the database query fails
 	 */
 	private function fetchCountry() {
 		$nodeWithAttributes = $this->findFirstGrandchild('geo', 'land');

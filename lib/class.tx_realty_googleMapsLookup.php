@@ -69,12 +69,8 @@ class tx_realty_googleMapsLookup {
 	 * @param tx_oelib_templatehelper the plugin configuration
 	 */
 	protected function __construct(tx_oelib_templatehelper $configuration) {
-		if (!$configuration->hasConfValueString(
-			'googleMapsApiKey', 's_googlemaps'
-		)) {
-			throw new Exception(
-				'The Google Maps API key was missing from the configuration.'
-			);
+		if (!$configuration->hasConfValueString('googleMapsApiKey', 's_googlemaps')) {
+			throw new RuntimeException('The Google Maps API key was missing from the configuration.', 1333035530);
 		}
 
 		$this->configuration = $configuration;
@@ -167,9 +163,7 @@ class tx_realty_googleMapsLookup {
 			$this->throttle();
 			$rawResult = $this->sendRequest($addressParts);
 			if ($rawResult === FALSE) {
-				throw new Exception(
-					'There was an error connecting to the Google Maps server.'
-				);
+				throw new RuntimeException('There was an error connecting to the Google Maps server.', 1333035553);
 			}
 
 			$delay += 100000;

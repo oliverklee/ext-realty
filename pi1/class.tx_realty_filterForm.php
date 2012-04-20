@@ -415,7 +415,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	public function createDropDownItems($type, $selectedUid = 0) {
 		if (!in_array($type, array('city', 'district'))) {
-			throw new Exception('"' . $type . '" is not a valid type.');
+			throw new InvalidArgumentException('"' . $type . '" is not a valid type.', 1333036086);
 		}
 
 		$objectMapper =

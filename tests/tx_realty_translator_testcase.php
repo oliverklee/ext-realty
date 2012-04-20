@@ -99,7 +99,10 @@ class tx_realty_translator_testcase extends tx_phpunit_testcase {
 	public function testTranslatorThrowsAnExceptionForEmptyKey() {
 		$this->fixture = new tx_realty_translator();
 
-		$this->setExpectedException('Exception', '$key must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$key must not be empty.'
+		);
 		$this->fixture->translate('');
 	}
 }

@@ -81,10 +81,10 @@ class tx_realty_mapMarker {
 	 */
 	public function setCoordinates($latitude, $longitude) {
 		if ($latitude == '') {
-			throw new Exception('The latitude must not be empty.');
+			throw new InvalidArgumentException('The latitude must not be empty.', 1333035588);
 		}
 		if ($longitude == '') {
-			throw new Exception('The longitude must not be empty.');
+			throw new InvalidArgumentException('The longitude must not be empty.', 1333035594);
 		}
 
 		$this->latitude = $latitude;

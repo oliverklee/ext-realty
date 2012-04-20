@@ -94,7 +94,8 @@ class tx_realty_Mapper_City_testcase extends tx_phpunit_testcase {
 	 */
 	public function findByNameForEmptyValueThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$value must not be empty.'
+			'InvalidArgumentException',
+			'$value must not be empty.'
 		);
 
 		$this->fixture->findByName('');
