@@ -633,15 +633,25 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return string LIMIT statement for initListView(), will not be empty
 	 */
 	private function createLimitStatement($whereClause) {
-		// number of results to show in a listing
-		$this->internal['results_at_a_time'] = t3lib_div::intInRange(
-			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
-		);
-
-		// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
-		$this->internal['maxPages'] = t3lib_div::intInRange(
-			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
-		);
+		if (class_exists('t3lib_utility_Math')) {
+			// number of results to show in a listing
+			$this->internal['results_at_a_time'] = t3lib_utility_Math::forceIntegerInRange(
+				$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
+			);
+			// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
+			$this->internal['maxPages'] = t3lib_utility_Math::forceIntegerInRange(
+				$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
+			);
+		} else {
+			// number of results to show in a listing
+			$this->internal['results_at_a_time'] = t3lib_div::intInRange(
+				$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
+			);
+			// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
+			$this->internal['maxPages'] = t3lib_div::intInRange(
+				$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
+			);
+		}
 
 		$this->internal['res_count'] = tx_oelib_db::count(
 			self::TABLES, $whereClause
@@ -655,11 +665,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1
 		);
 
-		$lowerLimit
-			= $this->piVars['pointer'] * intval($this->internal['results_at_a_time']);
-		$upperLimit = t3lib_div::intInRange(
-			$this->internal['results_at_a_time'], 1, 1000
-		);
+		$lowerLimit = $this->piVars['pointer'] * intval($this->internal['results_at_a_time']);
+		if (class_exists('t3lib_utility_Math')) {
+			$upperLimit = t3lib_utility_Math::forceIntegerInRange($this->internal['results_at_a_time'], 1, 1000);
+		} else {
+			$upperLimit = t3lib_div::intInRange($this->internal['results_at_a_time'], 1, 1000);
+		}
 		$this->startingRecordNumber = $lowerLimit;
 
 		return $lowerLimit . ',' . $upperLimit;

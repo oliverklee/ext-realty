@@ -58,10 +58,16 @@ class tx_realty_pi1_wizicon {
 	 * @return array The array with language labels
 	 */
 	public function includeLocalLang() {
-		$llFile = t3lib_extMgm::extPath('realty') . 'locallang.xml';
-		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		$languageFile = t3lib_extMgm::extPath('realty') . 'locallang.xml';
+		if (class_exists('t3lib_l10n_parser_Llxml')) {
+			/** @var $xmlParser t3lib_l10n_parser_Llxml */
+			$xmlParser = t3lib_div::makeInstance('t3lib_l10n_parser_Llxml');
+			$localLanguage = $xmlParser->getParsedData($languageFile, $GLOBALS['LANG']->lang);
+		} else {
+			$localLanguage = t3lib_div::readLLXMLfile($languageFile, $GLOBALS['LANG']->lang);
+		}
 
-		return $LOCAL_LANG;
+		return $localLanguage;
 	}
 }
 
