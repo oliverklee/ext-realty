@@ -55,7 +55,6 @@ class tx_realty_translator {
 			/** @var $locales t3lib_l10n_Locales */
 			$locales = t3lib_div::makeInstance('t3lib_l10n_Locales');
 			$languageKey = in_array($cliLanguage, $locales->getLocales())? $cliLanguage : 'default';
-
 		}
 
 		$GLOBALS['LANG']->init($languageKey);
