@@ -75,22 +75,30 @@ class tx_realty_cacheManager {
 	/**
 	 * Uses the TYPO3 caching framework to clear the cache for the pages with
 	 * the realty plugin.
-	 *
-	 * Note: The caching framework is not available in TYPO3 versions lower than 4.3.
 	 */
 	private static function clearCacheWithCachingFramework() {
 		if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
 			t3lib_cache::initializeCachingFramework();
 		}
 
-		try {
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version < 4006000) {
+			try {
+				/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
+				$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');
+			} catch (t3lib_cache_exception_NoSuchCache $exception) {
+				t3lib_cache::initPageCache();
+			}
+			$pageCache->flushByTags(self::getPageUids('pageId_'));
+		} else {
+			/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
 			$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');
-		} catch(t3lib_cache_exception_NoSuchCache $exception) {
-			t3lib_cache::initPageCache();
-			$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');
+			foreach (self::getPageUids() as $pageUid) {
+				$pageCache->getBackend()->flushByTag('pageId_' . $pageUid);
+			}
 		}
-
-		$pageCache->flushByTags(self::getPageUids('pageId_'));
 	}
 
 	/**

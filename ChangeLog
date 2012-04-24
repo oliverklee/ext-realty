@@ -1,4 +1,5 @@
 0.5.4 - currently working on
+- [#4297] Fix: Fix all deprecation log warnings and version-specific unit test failures when running the unit tests on the current Core master
 - [#3815] Fix: Throw more meaningful Exceptions
 
 0.5.3 - released 2012-03-22
