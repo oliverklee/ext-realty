@@ -166,6 +166,10 @@ class tx_realty_openImmoImport_testcase extends tx_phpunit_testcase {
 		$this->globalConfiguration->setAsString(
 			'allowedFrontEndUserGroups', ''
 		);
+		$this->globalConfiguration->setAsString(
+			'emailTemplate',
+			'EXT:realty/lib/tx_realty_emailNotification.tmpl'
+		);
 	}
 
 	/**
