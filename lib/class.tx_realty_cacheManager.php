@@ -76,10 +76,7 @@ class tx_realty_cacheManager {
 			t3lib_cache::initializeCachingFramework();
 		}
 
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			try {
 				/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
 				$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');

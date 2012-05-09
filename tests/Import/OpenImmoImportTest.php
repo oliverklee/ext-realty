@@ -1859,10 +1859,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function importFromZipClearsFrontEndCacheAfterImportInOldTypo3() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$this->markTestSkipped('This test is not applicable for TYPO3 >= 4.6.');
 		}
 		if (!TYPO3_UseCachingFramework) {
@@ -1895,10 +1892,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function importFromZipClearsFrontEndCacheAfterImport() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			$this->markTestSkipped('This test is not applicable for TYPO3 < 4.6.');
 		}
 
