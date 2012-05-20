@@ -1,11 +1,12 @@
 0.6.0 - currently working on
+- [#4352] Change: Require PHP 5.3
 - [#4140] Change: Require TYPO3 4.5
 - [#3554] Fix: Failure in test case testSentEmail(...) with empty tables and no extension settings
 - [#4297] Fix: Fix all deprecation log warnings and version-specific unit test failures when running the unit tests on the current Core master
 - [#3815] Fix: Throw more meaningful Exceptions
 - [#4373] Fix: Pass the filter limitations using JSON instead of serialization
-- [#4353] Fix: Test crash with lastest Core master concerning the cache manager
-- [#4349] Fix: Test crash with lastest Core master in tx_realty_FrontEnd_EditorTest
+- [#4353] Fix: Test crash with latest Core master concerning the cache manager
+- [#4349] Fix: Test crash with latest Core master in tx_realty_FrontEnd_EditorTest
 - [#4354] Fix: The OpenImmoImport class uses implode with only one argument
 - [#4276] Cleanup: Add the parameter name to all @param
 - [#4347] Fix: Fix missing/incorrect @return and return values
