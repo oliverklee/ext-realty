@@ -252,7 +252,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$titleColumn
 		);
 		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036102);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		$items = array();
@@ -452,7 +452,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036127);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
@@ -498,7 +498,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				) . '"' . tx_oelib_db::enableFields($formData['table'])
 		);
 		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036137);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		$result = (boolean) $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -971,7 +971,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036158);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
@@ -1075,7 +1075,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'uid=' . $cityUid
 		);
 		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database(DATABASE_QUERY_ERROR, 1333036169);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
