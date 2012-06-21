@@ -3,8 +3,6 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-
 $TCA['tx_realty_objects'] = array(
 	'ctrl' => $TCA['tx_realty_objects']['ctrl'],
 	'interface' => array(

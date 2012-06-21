@@ -28,8 +28,6 @@ if (!defined('TYPO3_cliMode')) {
 
 setlocale(LC_NUMERIC, 'C');
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**

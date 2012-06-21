@@ -28,7 +28,6 @@
 				<path>
 					<userobj>
 						<php><![CDATA[
-							require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 							return tx_realty_frontEndForm::getTemplatePath();
 						]]></php>
 					</userobj>
@@ -138,7 +137,6 @@
 				</items>
 				<userobj>
 					<php><![CDATA[
-						require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 						return tx_realty_frontEndEditor::populateCityList();
 					]]></php>
 				</userobj>
@@ -242,7 +240,6 @@
 						</items>
 						<userobj>
 							<php><![CDATA[
-								require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 								return tx_realty_frontEndEditor::populateCityList();
 							]]></php>
 						</userobj>
@@ -261,7 +258,6 @@
 					<onclick runat="ajax" cache="false" params="newDistrictTitle, newDistrictCity">
 						<userobj>
 							<php><![CDATA[
-								require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 								return tx_realty_frontEndEditor::createNewDistrict($this);
 							]]></php>
 						</userobj>
