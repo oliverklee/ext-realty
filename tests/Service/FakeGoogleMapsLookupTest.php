@@ -93,7 +93,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('', '', '', '', 0)
+			$this->fixture->lookUp('', '', '', 0)
 		);
 	}
 
@@ -115,7 +115,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	public function lookUp_forAllParametersEmptyAndCoordinatesNotGivenReturnsEmptyArray() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('', '', '', '', 0)
+			$this->fixture->lookUp('', '', '', 0)
 		);
 	}
 
@@ -137,7 +137,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('', '', '', '', self::DE)
+			$this->fixture->lookUp('', '', '', self::DE)
 		);
 	}
 
@@ -149,7 +149,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('Am Hof 1', '', '', '', 0)
+			$this->fixture->lookUp('Am Hof 1', '', '', 0)
 		);
 	}
 
@@ -161,7 +161,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('Am Hof 1', '', '', '', self::DE)
+			$this->fixture->lookUp('Am Hof 1', '', '', self::DE)
 		);
 	}
 
@@ -174,7 +174,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE),
 			$this->fixture->lookUp(
-				'asdfas', '11111', 'sdgh', 'ljkasfda', self::DE
+				'asdfas', '11111', 'ljkasfda', self::DE
 			)
 		);
 	}
@@ -188,7 +188,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE),
 			$this->fixture->lookUp(
-				'Am Hof 1', '53113', 'Zentrum', 'Bonn', self::DE
+				'Am Hof 1', '53113', 'Bonn', self::DE
 			)
 		);
 	}
@@ -202,7 +202,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE),
 			$this->fixture->lookUp(
-				'1600 Amphitheatre', '94043', '', 'Mountain View', 'US'
+				'1600 Amphitheatre', '94043', 'Mountain View', 'US'
 			)
 		);
 	}
@@ -214,7 +214,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp(
-				'Am Hof 1', '53113', 'Zentrum', 'Bonn', self::DE
+				'Am Hof 1', '53113', 'Bonn', self::DE
 			)
 		);
 	}
@@ -229,7 +229,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp(
-				'Am Hof 1', '53113', 'Zentrum', 'Bonn', self::DE
+				'Am Hof 1', '53113', 'Bonn', self::DE
 			)
 		);
 	}

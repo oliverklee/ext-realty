@@ -125,7 +125,6 @@ class tx_realty_googleMapsLookup {
 	 *
 	 * @param string $street the street of the address, may be empty
 	 * @param string $zip the ZIP code of the address, may be empty
-	 * @param string $district the district of the address, may be empty
 	 * @param string $city the city of the address, may be empty
 	 * @param integer $countryUid
 	 *        the country of the address as a UID from static_info_tables;
@@ -136,15 +135,15 @@ class tx_realty_googleMapsLookup {
 	 *               lookup failed
 	 */
 	public function lookUp(
-		$street = '', $zip = '', $district = '', $city = '', $countryUid = 0
+		$street = '', $zip = '', $city = '', $countryUid = 0
 	) {
-		if (($zip . $district . $city) == '') {
+		if (($zip . $city) == '') {
 			return array();
 		}
 
 		$addressParts = array();
 		foreach (array(
-			$street, trim($zip . ' ' . $district), $city,
+			$street, trim($zip), $city,
 			$this->getCountryCode($countryUid),
 		) as $part) {
 			if ($part != '') {

@@ -51,15 +51,14 @@ class tx_realty_tests_fixtures_FakeGoogleMapsLookup extends tx_realty_googleMaps
 	 *
 	 * @param string $street the street of the address, may be empty
 	 * @param string $zip the ZIP code of the address, may be empty
-	 * @param string $district the district of the address, may be empty
 	 * @param string $city the city of the address, may be empty
 	 *
 	 * @return array an array with the geo coordinates using the keys
 	 *               'longitude' and 'latitude' or an empty array if no fake
 	 *                coordinates have been set
 	 */
-	public function lookUp($street = '', $zip = '', $district = '', $city = '') {
-		if (($zip . $district . $city) == '') {
+	public function lookUp($street = '', $zip = '', $city = '') {
+		if (($zip . $city) == '') {
 			return array();
 		}
 

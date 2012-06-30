@@ -1367,7 +1367,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 				::getInstance($configuration)->lookUp(
 					$street,
 					$this->getAsString('zip'),
-					$this->getForeignPropertyField('district'),
 					$this->getForeignPropertyField('city'),
 					$this->getAsInteger('country')
 				);

@@ -124,7 +124,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	public function lookUpReturnsEmptyArrayIfAllParametersAreEmpty() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('', '', '', '', 0)
+			$this->fixture->lookUp('', '', '', 0)
 		);
 	}
 
@@ -144,7 +144,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	public function lookUpReturnsEmptyArrayIfOnlyTheCountryIsProvided() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('', '', '', '', self::DE)
+			$this->fixture->lookUp('', '', '', self::DE)
 		);
 	}
 
@@ -154,7 +154,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	public function lookUpReturnsEmptyArrayIfOnlyTheStreetIsProvided() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('Am Hof 1', '', '', '', 0)
+			$this->fixture->lookUp('Am Hof 1', '', '', 0)
 		);
 	}
 
@@ -164,7 +164,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	public function lookUpReturnsEmptyArrayIfOnlyStreetAndCountryAreProvided() {
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('Am Hof 1', '', '', '', self::DE)
+			$this->fixture->lookUp('Am Hof 1', '', '', self::DE)
 		);
 	}
 
@@ -173,12 +173,12 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	 */
 	public function lookUpReturnsEmptyArrayForAGarbageAddress() {
 		$this->fixture->expects($this->once())->method('sendRequest')
-			->with(array('asdfas', '11111 sdgh', 'ljkasfda', 'DE'))
+			->with(array('asdfas', '11111', 'sdgh', 'DE'))
 			->will($this->returnValue('602'));
 
 		$this->assertEquals(
 			array(),
-			$this->fixture->lookUp('asdfas', '11111', 'sdgh', 'ljkasfda', self::DE)
+			$this->fixture->lookUp('asdfas', '11111', 'sdgh', self::DE)
 		);
 	}
 
@@ -197,7 +197,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 			->will($this->returnValue(self::GOOGLE_MAPS_API_KEY));
 
 		$coordinates = $fixture->lookUp(
-			'Am Hof 1', '53113', 'Zentrum', 'Bonn', self::DE
+			'Am Hof 1', '53113', 'Bonn', self::DE
 		);
 
 		$this->assertEquals(
@@ -219,7 +219,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('1600 Amphitheatre', '94043', 'Mountain View', 'US'));
 		$this->fixture->lookUp(
-			'1600 Amphitheatre', '94043', '', 'Mountain View', self::US
+			'1600 Amphitheatre', '94043', 'Mountain View', self::US
 		);
 	}
 
@@ -228,20 +228,9 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	 */
 	public function lookUpSendsRequestForAGermanAddressWithCityMissing() {
 		$this->fixture->expects($this->once())->method('sendRequest')
-			->with(array('Am Hof 1', '53113 Zentrum', 'DE'));
-		$this->fixture->lookUp(
-			'Am Hof 1', '53113', 'Zentrum', '', self::DE
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function lookUpSendsRequestForAGermanAddressWithCityAndDistrictMissing() {
-		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('Am Hof 1', '53113', 'DE'));
 		$this->fixture->lookUp(
-			'Am Hof 1', '53113', '', '', self::DE
+			'Am Hof 1', '53113', '', self::DE
 		);
 	}
 
@@ -250,20 +239,9 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	 */
 	public function lookUpSendsRequestForAGermanAddressWithZipMissing() {
 		$this->fixture->expects($this->once())->method('sendRequest')
-			->with(array('Am Hof 1', 'Zentrum', 'Bonn', 'DE'));
-		$this->fixture->lookUp(
-			'Am Hof 1', '', 'Zentrum', 'Bonn', self::DE
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function lookUpSendsRequestForAGermanAddressWithZipAndDistrictMissing() {
-		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('Am Hof 1', 'Bonn', 'DE'));
 		$this->fixture->lookUp(
-			'Am Hof 1', '', '', 'Bonn', self::DE
+			'Am Hof 1', '', 'Bonn', self::DE
 		);
 	}
 
@@ -274,7 +252,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('Bonn', 'DE'));
 		$this->fixture->lookUp(
-			'', '', '', 'Bonn', self::DE
+			'', '', 'Bonn', self::DE
 		);
 	}
 
@@ -285,7 +263,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('53111', 'DE'));
 		$this->fixture->lookUp(
-			'', '53111', '', '', self::DE
+			'', '53111', '', self::DE
 		);
 	}
 
@@ -304,8 +282,8 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 			->will($this->returnValue('200'));
 
 		$startTime = microtime(TRUE);
-		$fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
-		$fixture->lookUp('Am Hof 1', '53113', '', 'Bonn', self::DE);
+		$fixture->lookUp('Am Hof 1', '53113', 'Bonn', self::DE);
+		$fixture->lookUp('Am Hof 1', '53113', 'Bonn', self::DE);
 		$endTime = microtime(TRUE);
 
 		$this->assertGreaterThan(
@@ -323,7 +301,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('Texas', 'US'));
 
-		$this->fixture->lookUp('', '', '', 'Texas', 0);
+		$this->fixture->lookUp('', '', 'Texas', 0);
 	}
 }
 ?>
