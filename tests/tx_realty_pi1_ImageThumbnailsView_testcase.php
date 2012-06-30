@@ -107,14 +107,14 @@ class tx_realty_pi1_ImageThumbnailsView_testcase extends tx_phpunit_testcase {
 	public function testRenderReturnsHtmlspecialcharedImageCaptionForClassicGallery() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
-		$realtyObject->addImageRecord('foo</br>', 'foo.jpg');
+		$realtyObject->addImageRecord('foo<br/>', 'foo.jpg');
 
 		$this->fixture->setConfigurationValue(
 			'galleryPID', $this->testingFramework->createFrontEndPage()
 		);
 
 		$this->assertContains(
-			htmlspecialchars('foo</br>'),
+			htmlspecialchars('foo<br/>'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
 	}

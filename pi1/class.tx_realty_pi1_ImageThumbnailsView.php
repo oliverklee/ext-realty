@@ -139,8 +139,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		$galleryUrl = $this->createGalleryUrl($galleryLink, $imageNumber);
 
 		$linkAttribute = $useLightbox
-			? ' rel="lightbox[objectGallery]" title="' .
-				$imageRecord['caption'] . '"'
+			? ' rel="lightbox[objectGallery]" title="' . htmlspecialchars($imageRecord['caption']) . '"'
 			: $this->getGalleryPopUpParameters($galleryUrl);
 
 		$imageTag = $this->createRestrictedImage(
@@ -171,7 +170,6 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 
 		if (isset($images[$imageNumber])) {
 			$result = $images[$imageNumber];
-			$result['caption'] = htmlspecialchars($result['caption']);
 		} else {
 			$result = array();
 		}
