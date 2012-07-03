@@ -2471,15 +2471,18 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertTrue(
-			$result[0]['exact_coordinates_are_cached']
+			$result[0]['has_coordinates']
+		);
+		$this->assertFalse(
+			$result[0]['coordinates_problem']
 		);
 		$this->assertEquals(
 			1.23,
-			$result[0]['exact_longitude']
+			$result[0]['longitude']
 		);
 		$this->assertEquals(
 			4.56,
-			$result[0]['exact_latitude']
+			$result[0]['latitude']
 		);
 	}
 
@@ -2498,7 +2501,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertFalse(
-			isset($result[0]['exact_coordinates_are_cached'])
+			isset($result[0]['has_coordinates'])
 		);
 	}
 
@@ -2517,7 +2520,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertFalse(
-			isset($result[0]['exact_coordinates_are_cached'])
+			isset($result[0]['has_coordinates'])
 		);
 	}
 

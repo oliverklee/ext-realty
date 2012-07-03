@@ -70,12 +70,10 @@ function updateHideAndShow() {
 		$("contact-data").hide();
 	}
 
-	if ($("tx_realty_frontEndEditor_show_address").checked) {
-		$$(".exact-address").invoke("show");
-		$$(".rough-address").invoke("hide");
+	if ($("tx_realty_frontEndEditor_has_coordinates").checked) {
+		$$(".coordinates").invoke("show");
 	} else {
-		$$(".exact-address").invoke("hide");
-		$$(".rough-address").invoke("show");
+		$$(".coordinates").invoke("hide");
 	}
 }
 

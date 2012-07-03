@@ -216,16 +216,20 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			throw new InvalidArgumentException('$realtyObjectUid must not be an integer greater than zero.', 1333036563);
 		}
 
+		/** @var $realtyObject tx_realty_Model_RealtyObject */
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($realtyObjectUid);
 		try {
-			// retrieveCoordinatas() might change the object
+			// RetrieveCoordinates() might change the object.
 			if ($this->isTestMode) {
-				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-					->find($realtyObjectUid)->setTestMode();
+				$realtyObject->setTestMode();
 			}
-			$coordinates = tx_oelib_MapperRegistry
-				::get('tx_realty_Mapper_RealtyObject')
-				->find($realtyObjectUid)->retrieveCoordinates($this);
-		} catch (Exception $exception) {
+			$realtyObject->retrieveCoordinates($this);
+			if (!$realtyObject->hasGeoError()) {
+				$coordinates = $realtyObject->getGeoCoordinates();
+			} else {
+				$coordinates = array();
+			}
+		} catch (RuntimeException $exception) {
 			// RetrieveCoordinates will throw an exception if the Google Maps
 			// API key is missing. As this is checked by the configuration
 			// check, we don't need to act on this exception here.

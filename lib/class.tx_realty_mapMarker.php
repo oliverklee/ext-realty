@@ -44,6 +44,11 @@ class tx_realty_mapMarker {
 	private $longitude = '';
 
 	/**
+	 * @var boolean
+	 */
+	protected $coordinatesHaveBeenSet = FALSE;
+
+	/**
 	 * @var string this marker's title, quote- and tag-safe
 	 */
 	private $title = '';
@@ -76,19 +81,14 @@ class tx_realty_mapMarker {
 	/**
 	 * Sets this marker's coordinates.
 	 *
-	 * @param string $latitude latitude, must not be empty
-	 * @param string $longitude longitude, must not empty
+	 * @param float $latitude latitude
+	 * @param float $longitude longitude
 	 */
 	public function setCoordinates($latitude, $longitude) {
-		if ($latitude == '') {
-			throw new InvalidArgumentException('The latitude must not be empty.', 1333035588);
-		}
-		if ($longitude == '') {
-			throw new InvalidArgumentException('The longitude must not be empty.', 1333035594);
-		}
-
 		$this->latitude = $latitude;
 		$this->longitude = $longitude;
+
+		$this->coordinatesHaveBeenSet = TRUE;
 	}
 
 	/**
@@ -135,11 +135,10 @@ class tx_realty_mapMarker {
 	/**
 	 * Checks whether this marker has both latitude and longitude.
 	 *
-	 * @return boolean TRUE if this markes has both latitude and longitude,
-	 *                 FALSE otherwise
+	 * @return boolean TRUE if this marker has coordinates, FALSE otherwise
 	 */
 	private function hasCoordinates() {
-		return ($this->latitude != '') && ($this->longitude != '');
+		return $this->coordinatesHaveBeenSet;
 	}
 
 	/**

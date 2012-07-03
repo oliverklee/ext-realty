@@ -44,48 +44,39 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		unset($this->fixture);
 	}
 
-	public function testRenderReturnsEmptyStringIfSetCoordinatesHasNotBeenCalled() {
-		$this->assertEquals(
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyStringIfSetCoordinatesHasNotBeenCalled() {
+		$this->assertSame(
 			'',
 			$this->fixture->render()
 		);
 	}
 
-	public function testSetCoordinatesThrowsExceptionForEmptyLatitude() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'The latitude must not be empty.'
-		);
-
-		$this->fixture->setCoordinates('', '7.10211');
-	}
-
-	public function testSetCoordinatesThrowsExceptionForEmptyLongitude() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'The longitude must not be empty.'
-		);
-
-		$this->fixture->setCoordinates('50.734343', '');
-	}
-
-	public function testRenderContainsCoordinatesFromSetCoordinates() {
-		$latitude = '50.734343';
-		$longitude = '7.10211';
+	/**
+	 * @test
+	 */
+	public function renderContainsCoordinatesFromSetCoordinates() {
+		$latitude = 50.734343;
+		$longitude = 7.10211;
 		$this->fixture->setCoordinates($latitude, $longitude);
 
 		$this->assertContains(
-			$latitude,
+			(string) $latitude,
 			$this->fixture->render()
 		);
 		$this->assertContains(
-			$longitude,
+			(string) $longitude,
 			$this->fixture->render()
 		);
 	}
 
-	public function testRenderAfterSetCoordinatesAddsMarkerToMap() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function renderAfterSetCoordinatesAddsMarkerToMap() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 
 		$this->assertContains(
 			'.addOverlay(',
@@ -93,8 +84,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderDoesNotCreateTitleIfNoTitleHasBeenSet() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function renderDoesNotCreateTitleIfNoTitleHasBeenSet() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 
 		$this->assertNotContains(
 			'title:',
@@ -102,8 +96,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderAfterSetCoordinatesAndSetTitleIncludesTitle() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function renderAfterSetCoordinatesAndSetTitleIncludesTitle() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setTitle('Foo title');
 
 		$this->assertContains(
@@ -112,8 +109,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderWithTitleEscapesQuotes() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function renderWithTitleEscapesQuotes() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setTitle('Foo " title');
 
 		$this->assertContains(
@@ -122,8 +122,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderWithTitleStripsTags() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function renderWithTitleStripsTags() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setTitle('Foo <script>title</script>');
 
 		$this->assertContains(
@@ -132,30 +135,39 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCoordinatesReturnsEmptyStringForEmptyCoordinates() {
-		$this->assertEquals(
+	/**
+	 * @test
+	 */
+	public function getCoordinatesReturnsEmptyStringForNoCoordinates() {
+		$this->assertSame(
 			'',
 			$this->fixture->getCoordinates()
 		);
 	}
 
-	public function testGetCoordinatesContainsCoordinatesFromSetCoordinates() {
-		$latitude = '50.734343';
-		$longitude = '7.10211';
+	/**
+	 * @test
+	 */
+	public function getCoordinatesContainsCoordinatesFromSetCoordinates() {
+		$latitude = 50.734343;
+		$longitude = 7.10211;
 		$this->fixture->setCoordinates($latitude, $longitude);
 
 		$this->assertContains(
-			$latitude,
+			(string) $latitude,
 			$this->fixture->getCoordinates()
 		);
 		$this->assertContains(
-			$longitude,
+			(string) $longitude,
 			$this->fixture->getCoordinates()
 		);
 	}
 
-	public function testRenderDoesNotContainInfoWindowIfNoInfoWindowTextHasBeenSet() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function renderDoesNotContainInfoWindowIfNoInfoWindowTextHasBeenSet() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 
 		$this->assertNotContains(
 			'.bindInfoWindowHtml(',
@@ -163,8 +175,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderDoesNotContainInfoWindowIfEmptyInfoWindowTextHasBeenSet() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function renderDoesNotContainInfoWindowIfEmptyInfoWindowTextHasBeenSet() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('');
 
 		$this->assertNotContains(
@@ -173,8 +188,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInfoWindowContainsTextFromSetInfoWindowHtml() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function getInfoWindowContainsTextFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('foo');
 
 		$this->assertContains(
@@ -183,8 +201,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInfoWindowEscapesSingleQuotesFromSetInfoWindowHtml() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function getInfoWindowEscapesSingleQuotesFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('foo\'bar');
 
 		$this->assertContains(
@@ -193,8 +214,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInfoWindowEscapesBackslashesFromSetInfoWindowHtml() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function getInfoWindowEscapesBackslashesFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('foo\\bar');
 
 		$this->assertContains(
@@ -203,8 +227,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInfoWindowEscapesHtmlClosingTagsFromSetInfoWindowHtml() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function getInfoWindowEscapesHtmlClosingTagsFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('foo</bar');
 
 		$this->assertContains(
@@ -213,8 +240,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInfoWindowDoesNotEscapeDoubleQuotesFromSetInfoWindowHtml() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function getInfoWindowDoesNotEscapeDoubleQuotesFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('foo"bar');
 
 		$this->assertContains(
@@ -223,8 +253,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInfoWindowContainsTextWithHtmlFromSetInfoWindowHtml() {
-		$this->fixture->setCoordinates('50.734343', '7.10211');
+	/**
+	 * @test
+	 */
+	public function getInfoWindowContainsTextWithHtmlFromSetInfoWindowHtml() {
+		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('<strong>foo</strong><br />bar');
 
 		$this->assertContains(

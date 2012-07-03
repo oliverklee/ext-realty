@@ -23,8 +23,7 @@ $TCA['tx_realty_objects'] = array(
 			'employer,openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
 			'contact_person,contact_email,phone_switchboard,' .
 			'phone_direct_extension,owner,language,currency,' .
-			'exact_coordinates_are_cached,exact_longitude,exact_latitude,' .
-			'rough_coordinates_are_cached,rough_longitude,rough_latitude,' .
+			'has_coordinates,coordinates_problem,longitude,latitude,' .
 			'advertised_date'
 	),
 	'columns' => array(
@@ -258,54 +257,40 @@ $TCA['tx_realty_objects'] = array(
 				'maxitems' => 1,
 			),
 		),
-		'exact_coordinates_are_cached' => array(
+		'has_coordinates' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_coordinates_are_cached',
-			'config' => array(
-				'type' => 'check',
-			)
-		),
-		'exact_longitude' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_longitude',
-			'config' => array(
-				'type' => 'input',
-				'size' => '19',
-				'eval' => 'trim',
-			),
-		),
-		'exact_latitude' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.exact_latitude',
-			'config' => array(
-				'type' => 'input',
-				'size' => '19',
-				'eval' => 'trim',
-			),
-		),
-		'rough_coordinates_are_cached' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_coordinates_are_cached',
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_coordinates',
 			'config' => array(
 				'type' => 'check',
 			),
 		),
-		'rough_longitude' => array(
+		'coordinates_problem' => array(
 			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_longitude',
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.coordinates_problem',
 			'config' => array(
-				'type' => 'input',
-				'size' => '19',
-				'eval' => 'trim',
+				'type' => 'check',
 			),
 		),
-		'rough_latitude' => array(
+		'longitude' => array(
+			'displayCond' => 'FIELD:has_coordinates:!=:0',
 			'exclude' => 1,
-			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rough_latitude',
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.longitude',
 			'config' => array(
 				'type' => 'input',
 				'size' => '19',
 				'eval' => 'trim',
+				'default' => '0.000000',
+			),
+		),
+		'latitude' => array(
+			'displayCond' => 'FIELD:has_coordinates:!=:0',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.latitude',
+			'config' => array(
+				'type' => 'input',
+				'size' => '19',
+				'eval' => 'trim',
+				'default' => '0.000000',
 			),
 		),
 		'number_of_rooms' => array(
@@ -1256,8 +1241,9 @@ $TCA['tx_realty_objects'] = array(
 				'details_page, images, documents, contact_data_source, employer, ' .
 				'contact_person, contact_email, phone_switchboard, ' .
 				'phone_direct_extension, owner, language, currency, ' .
-				'exact_coordinates_are_cached;;2, ' .
-				'rough_coordinates_are_cached;;3, advertised_date;;;;2-2-2'
+				'advertised_date;;;;2-2-2, ' .
+				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.geo, ' .
+				'has_coordinates, coordinates_problem, longitude, latitude',
 		),
 		'1' => array(
 			// for sale
@@ -1301,14 +1287,13 @@ $TCA['tx_realty_objects'] = array(
 				'details_page, images, documents, contact_data_source, employer, '.
 				'contact_person, contact_email, phone_switchboard, ' .
 				'phone_direct_extension, owner, language, currency, ' .
-				'exact_coordinates_are_cached;;2, ' .
-				'rough_coordinates_are_cached;;3, advertised_date;;;;2-2-2'
+				'advertised_date;;;;2-2-2, ' .
+				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.geo, ' .
+				'has_coordinates, coordinates_problem, longitude, latitude',
 		)
 	),
 	'palettes' => array(
 		'1' => array('showitem' => 'starttime, endtime'),
-		'2' => array('showitem' => 'exact_longitude, exact_latitude'),
-		'3' => array('showitem' => 'rough_longitude, rough_latitude'),
 	),
 );
 

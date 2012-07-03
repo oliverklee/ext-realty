@@ -22,7 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
@@ -37,7 +36,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_RealtyObject extends tx_oelib_Model {
+class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_Interface_Geo {
 	/**
 	 * status code meaning "vacant"
 	 *
@@ -1337,56 +1336,101 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
+	 * Gets the street.
+	 *
+	 * @return string the street, might be empty
+	 */
+	public function getStreet() {
+		return $this->getAsString('street');
+	}
+
+	/**
+	 * Checks whether this object has a non-empty street set.
+	 *
+	 * @return boolean TRUE if this object has a street set, FALSE otherwise
+	 */
+	public function hasStreet() {
+		return $this->hasString('street');
+	}
+
+	/**
+	 * Sets the street.
+	 *
+	 * @param string $street the street, may be empty
+	 *
+	 * @return void
+	 */
+	public function setStreet($street) {
+		return $this->setAsString('street', $street);
+	}
+
+	/**
+	 * Gets this tender's ZIP.
+	 *
+	 * @return string the ZIP of this tender, will be empty if the tender has none
+	 */
+	public function getZip() {
+		return $this->getAsString('zip');
+	}
+
+	/**
+	 * Checks whether this tender has a non-empty ZIP code set.
+	 *
+	 * @return boolean TRUE if this tender has a ZIP code set, FALSE otherwise
+	 */
+	public function hasZip() {
+		return $this->hasString('zip');
+	}
+
+	/**
+	 * Sets the ZIP code.
+	 *
+	 * @param string $zip the ZIP code, may be empty
+	 *
+	 * @return void
+	 */
+	public function setZip($zip) {
+		$this->setAsString('zip', $zip);
+	}
+
+	/**
 	 * Tries to retrieve the geo coordinates for this object's address.
 	 *
-	 * If retrieving the coordinates was successfull, the object will be written
+	 * If retrieving the coordinates was successful, the object will be written
 	 * to the database. (Usually, the object should already exist in the DB, but
 	 * creating a new object will work fine as well.)
 	 *
-	 * If this object already has cached geo coordinates, this function will do
-	 * nothing.
+	 * If this object already has geo coordinates, this function will do nothing.
 	 *
-	 * @param tx_oelib_templatehelper $configuration object that contains the plugin configuration
+	 * @param tx_oelib_templatehelper $configuration the plugin configuration
 	 *
 	 * @return array array with the keys "latitude" and "longitude" or
 	 *               an empty array if no coordinates could be retrieved
 	 */
-	public function retrieveCoordinates(
-		tx_oelib_templatehelper $configuration
-	) {
+	public function retrieveCoordinates(tx_oelib_templatehelper $configuration) {
+		if ($this->hasGeoError() || $this->hasGeoCoordinates()) {
+			return $this->getGeoCoordinates();
+		}
+
 		if ($this->getAsBoolean('show_address')) {
-			$prefix = 'exact';
-			$street = $this->getAsString('street');
+			$street = $this->getStreet();
 		} else {
-			$prefix = 'rough';
 			$street = '';
 		}
 
-		if (!$this->hasCachedCoordinates($prefix)) {
-			$coordinates = tx_realty_googleMapsLookup
-				::getInstance($configuration)->lookUp(
-					$street,
-					$this->getAsString('zip'),
-					$this->getForeignPropertyField('city'),
-					$this->getAsInteger('country')
-				);
+		$coordinates = tx_realty_googleMapsLookup::getInstance($configuration)->lookUp(
+			$street, $this->getZip(), $this->getForeignPropertyField('city'), $this->getAsInteger('country')
+		);
 
-			if (!empty($coordinates)) {
-				$this->setProperty(
-					$prefix . '_coordinates_are_cached', 1
-				);
-				$this->setProperty(
-					$prefix . '_latitude', $coordinates['latitude']
-				);
-				$this->setProperty(
-					$prefix . '_longitude', $coordinates['longitude']
-				);
-				// The PID is provided so records do not change the location.
-				$this->writeToDatabase($this->getAsInteger('pid'));
-			}
+		if (!empty($coordinates)) {
+			$this->setGeoCoordinates($coordinates);
+			// The PID is provided. So records do not change the location.
+			$this->writeToDatabase($this->getAsInteger('pid'));
+		} else {
+			$this->setGeoError();
 		}
 
-		return $this->getCachedCoordinates($prefix);
+		return $this->getGeoCoordinates();
 	}
 
 	/**
@@ -1440,47 +1484,151 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model {
 	}
 
 	/**
-	 * Checks whether we already have cached geo coordinates.
+	 * Returns this object's address formatted for a geo lookup, for example "53117 Bonn, DE". Any part of this address might be
+	 * missing, though.
 	 *
-	 * This function only checks whether the "has cached coordinates" flag is
-	 * set, but not for non-emptiness or validity of the coordinates.
-	 *
-	 * @param string $prefix either "exact" or "rough" to indicate which coordinates to check
-	 *
-	 * @return boolean TRUE if we have exact coordinates with the exactness
-	 *                 indicated by $prefix, FALSE otherwise
+	 * @return string this object's address formatted for a geo lookup, will be empty if this object has no address
 	 */
-	private function hasCachedCoordinates($prefix) {
-		return $this->getAsBoolean($prefix . '_coordinates_are_cached');
+	public function getGeoAddress() {
+		throw new BadMethodCallException('This method currently has not been implemented yet.', 1340386845);
 	}
 
 	/**
-	 * Gets this object's cached geo coordinates.
+	 * Checks whether this object has a non-empty address suitable for a geo lookup.
 	 *
-	 * @param string $prefix either "exact" or "rough" to indicate which coordinates to get
-	 *
-	 * @return array the coordinates using the keys "latitude" and
-	 *               "longitude" or an empty array if no non-empty cached
-	 *               coordinates are available
+	 * @return boolean TRUE if this object has a non-empty address, FALSE otherwise
 	 */
-	private function getCachedCoordinates($prefix) {
-		if (!$this->hasCachedCoordinates($prefix)) {
+	public function hasGeoAddress() {
+		throw new BadMethodCallException('This method currently has not been implemented yet.', 1340386861);
+	}
+
+	/**
+	 * Retrieves this object's coordinates.
+	 *
+	 * @return array
+	 *         this object's geo coordinates using the keys "latitude" and "longitude",
+	 *         will be empty if this object has no coordinates
+	 */
+	public function getGeoCoordinates() {
+		if (!$this->hasGeoCoordinates()) {
 			return array();
 		}
 
-		$latitude = $this->getAsString($prefix . '_latitude');
-		$longitude = $this->getAsString($prefix . '_longitude');
+		return array(
+			'latitude' => $this->getLatitude(),
+			'longitude' => $this->getLongitude(),
+		);
+	}
 
-		if ($longitude != '' && $latitude != '') {
-			$result = array(
-				'latitude' => $latitude,
-				'longitude' => $longitude,
-			);
-		} else {
-			$result = array();
+	/**
+	 * Checks whether this object has non-empty coordinates.
+	 *
+	 * Note: This function does not check that there are no geo errors.
+	 *
+	 * @return boolean TRUE if this object has both a non-empty longitude and a non-empty latitude, FALSE otherwise
+	 */
+	public function hasGeoCoordinates() {
+		return $this->getAsBoolean('has_coordinates');
+	}
+
+	/**
+	 * Gets this object's latitude.
+	 *
+	 * @return float this object's latitude, will be 0.0 if no latitude has been set
+	 */
+	protected function getLatitude() {
+		return $this->getAsFloat('latitude');
+	}
+
+	/**
+	 * Gets this object's longitude.
+	 *
+	 * @return float this object's longitude, will be 0.0 if no longitude has been set
+	 */
+	protected function getLongitude() {
+		return $this->getAsFloat('longitude');
+	}
+
+	/**
+	 * Sets this objects's coordinates and sets the geo error flag to FALSE.
+	 *
+	 * @param array $coordinates the coordinates, using the keys "latitude" and "longitude", the array values must not be empty
+	 *
+	 * @return void
+	 */
+	public function setGeoCoordinates(array $coordinates) {
+		if (!isset($coordinates['latitude']) || !isset($coordinates['longitude'])) {
+			throw new InvalidArgumentException('setGeoCoordinates requires both a latitude and a longitude.', 1340376055);
 		}
 
-		return $result;
+		$this->setLatitude($coordinates['latitude']);
+		$this->setLongitude($coordinates['longitude']);
+		$this->setAsBoolean('has_coordinates', TRUE);
+		$this->clearGeoError();
+	}
+
+	/**
+	 * Sets this object's latitude.
+	 *
+	 * @param float $latitude this object's latitude
+	 *
+	 * @return void
+	 */
+	protected function setLatitude($latitude) {
+		$this->setAsFloat('latitude', $latitude);
+	}
+
+	/**
+	 * Sets this object's longitude.
+	 *
+	 * @param float $longitude this object's longitude
+	 *
+	 * @return void
+	 */
+	protected function setLongitude($longitude) {
+		$this->setAsFloat('longitude', $longitude);
+	}
+
+	/**
+	 * Purges this object's geo coordinates.
+	 *
+	 * Note: Calling this function has no influence on this object's geo error status.
+	 *
+	 * @return void
+	 */
+	public function clearGeoCoordinates() {
+		$this->setGeoCoordinates(array('latitude' => 0.0, 'longitude' => 0.0));
+		$this->setAsBoolean('has_coordinates', FALSE);
+	}
+
+	/**
+	 * Checks whether there has been a problem with this object's geo coordinates.
+	 *
+	 * Note: This function only checks whether there has been an error with the coordinates, not whether this object actually has
+	 * coordinates.
+	 *
+	 * @return boolean TRUE if there has been an error, FALSE otherwise
+	 */
+	public function hasGeoError() {
+		return $this->getAsBoolean('coordinates_problem');
+	}
+
+	/**
+	 * Marks this object as having an error with the geo coordinates.
+	 *
+	 * @return void
+	 */
+	public function setGeoError() {
+		$this->setAsBoolean('coordinates_problem', TRUE);
+	}
+
+	/**
+	 * Marks this object as not having an error with the geo coordinates.
+	 *
+	 * @return void
+	 */
+	public function clearGeoError() {
+		$this->setAsBoolean('coordinates_problem', FALSE);
 	}
 
 	/**

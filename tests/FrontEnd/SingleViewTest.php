@@ -654,10 +654,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	public function testSingleViewDisplaysMapForGoogleMapsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => '50.734343',
-				'exact_longitude' => '7.10211',
-				'show_address' => 1,
+				'has_coordinates' => TRUE,
+				'latitude' => 50.734343,
+				'longitude' => 7.10211,
+				'show_address' => TRUE,
 		));
 		$this->fixture->setConfigurationValue(
 			'singleViewPartsToDisplay', 'googleMaps'
@@ -672,10 +672,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	public function testSingleViewNotDisplaysMapForGoogleMapsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
+				'has_coordinates' => TRUE,
+				'latitude' => 50.734343,
+				'longitude' => 7.10211,
+				'show_address' => TRUE,
 		));
 
 		$this->fixture->setConfigurationValue(
@@ -691,10 +691,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	public function testGoogleMapsDoesNotLinkObjectTitleInMap() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
+				'has_coordinates' => TRUE,
+				'latitude' => 50.734343,
+				'longitude' => 7.10211,
+				'show_address' => TRUE,
 		));
 
 		$this->fixture->setConfigurationValue(
@@ -711,10 +711,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	public function test_singleViewForActivatedListViewGooglemaps_DoesNotShowGoogleMapsByDefault() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
+				'has_coordinates' => TRUE,
+				'latitude' => 50.734343,
+				'longitude' => 7.10211,
+				'show_address' => TRUE,
 		));
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);

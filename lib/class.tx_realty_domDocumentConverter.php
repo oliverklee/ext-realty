@@ -1028,21 +1028,21 @@ class tx_realty_domDocumentConverter {
 	}
 
 	/**
-	 * Fetches the values for the geo coordinates and stores it in
-	 * $this->importedData.
+	 * Fetches the values for the geo coordinates and stores it in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchGeoCoordinates() {
-		$geoCoordinatesNode = $this->findFirstGrandchild(
-			'geo', 'geokoordinaten'
-		);
+		$geoCoordinatesNode = $this->findFirstGrandchild('geo', 'geokoordinaten');
 		$attributes = $this->fetchLowercasedDomAttributes($geoCoordinatesNode);
 
 		if ($this->isElementSetAndNonEmpty('laengengrad', $attributes)
 			&& $this->isElementSetAndNonEmpty('breitengrad', $attributes)
 		) {
-			$this->addImportedData('exact_coordinates_are_cached', TRUE);
-			$this->addImportedData('exact_longitude', $attributes['laengengrad']);
-			$this->addImportedData('exact_latitude', $attributes['breitengrad']);
+			$this->addImportedData('has_coordinates', TRUE);
+			$this->addImportedData('coordinates_problem', FALSE);
+			$this->addImportedData('longitude', floatval($attributes['laengengrad']));
+			$this->addImportedData('latitude', floatval($attributes['breitengrad']));
 		}
 	}
 

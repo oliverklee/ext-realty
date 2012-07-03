@@ -21,12 +21,11 @@
 			<label index="tx_realty_objects.district">District</label>
 			<label index="tx_realty_objects.country">Country</label>
 			<label index="tx_realty_objects.show_address">Show exact address in front end</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact coordinates are synced with server</label>
-			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
-			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are synced with server</label>
-			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
-			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
+			<label index="tx_realty_objects.geo">Geo</label>
+			<label index="tx_realty_objects.has_coordinates">Has coordinates</label>
+			<label index="tx_realty_objects.coordinates_problem">Problem on retrieving the geo coordinates</label>
+			<label index="tx_realty_objects.longitude">Longitude</label>
+			<label index="tx_realty_objects.latitude">Latitude</label>
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
@@ -203,12 +202,11 @@
 			<label index="tx_realty_objects.district">Ortsteil</label>
 			<label index="tx_realty_objects.country">Land</label>
 			<label index="tx_realty_objects.show_address">Exakte Adresse im Frontend anzeigen</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Exakte Koordinaten sind mit dem Server abgeglichen</label>
-			<label index="tx_realty_objects.exact_longitude">Exakter Längengrad</label>
-			<label index="tx_realty_objects.exact_latitude">Exakter Breitengrad</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Ungefähre Koordinaten sind mit dem Server abgeglichen</label>
-			<label index="tx_realty_objects.rough_longitude">Ungefährer Längengrad</label>
-			<label index="tx_realty_objects.rough_latitude">Ungefährer Breitengrad</label>
+			<label index="tx_realty_objects.geo">Geo</label>
+			<label index="tx_realty_objects.has_coordinates">Hat Koordinaten</label>
+			<label index="tx_realty_objects.coordinates_problem">Problem beim Holen der Geo-Koordinaten</label>
+			<label index="tx_realty_objects.longitude">Längengrad</label>
+			<label index="tx_realty_objects.latitude">Breitengrad</label>
 			<label index="tx_realty_objects.number_of_rooms">Zimmeranzahl</label>
 			<label index="tx_realty_objects.living_area">Wohnfläche ca. in m²</label>
 			<label index="tx_realty_objects.total_area">Gesamtfläche ca. in m²</label>
@@ -517,12 +515,6 @@
 			<label index="tx_realty_objects.district">Regio</label>
 			<label index="tx_realty_objects.country">Land</label>
 			<label index="tx_realty_objects.show_address">Toon adres in FE</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Exacte Geo-coordinaten zijn gecahed</label>
-			<label index="tx_realty_objects.exact_longitude">Exacte lengtegraad</label>
-			<label index="tx_realty_objects.exact_latitude">Exacte breedtegraad</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Ongevere Geo-coordinaten</label>
-			<label index="tx_realty_objects.rough_longitude">Ongevere lengtegraad</label>
-			<label index="tx_realty_objects.rough_latitude">Ongevere breedtegraad</label>
 			<label index="tx_realty_objects.number_of_rooms">Aantal kamers</label>
 			<label index="tx_realty_objects.living_area">Woonoppervlakte</label>
 			<label index="tx_realty_objects.total_area">Totale oppervlakte</label>
@@ -737,12 +729,6 @@
 			<label index="tx_realty_objects.city">Ciudad</label>
 			<label index="tx_realty_objects.district">Distrito</label>
 			<label index="tx_realty_objects.country">País</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Coordenadas exactas se sincronizan con el servidor</label>
-			<label index="tx_realty_objects.exact_longitude">Longitud exacta</label>
-			<label index="tx_realty_objects.exact_latitude">Latitud exacta</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Coordenadas geo aproximadas se sincronizan con el servidor</label>
-			<label index="tx_realty_objects.rough_longitude">Longitud aproximada</label>
-			<label index="tx_realty_objects.rough_latitude">Latitud aproximada</label>
 			<label index="tx_realty_objects.number_of_rooms">Número de habitaciones</label>
 			<label index="tx_realty_objects.living_area">Superficie habitable en m²</label>
 			<label index="tx_realty_objects.total_area">Superficie total construida en m²</label>
@@ -857,12 +843,6 @@
 			<label index="tx_realty_objects.district">Zona</label>
 			<label index="tx_realty_objects.country">Nazione</label>
 			<label index="tx_realty_objects.show_address">Visualizza l'esatto indirizzo sul front end</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Le esatte coordinate sono sincronizzate con il server</label>
-			<label index="tx_realty_objects.exact_longitude">Esatta longitudine</label>
-			<label index="tx_realty_objects.exact_latitude">Esatta latitudine</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Le coordinate geografiche sono sincronizzate con il server</label>
-			<label index="tx_realty_objects.rough_longitude">Longitudine</label>
-			<label index="tx_realty_objects.rough_latitude">Latitudine</label>
 			<label index="tx_realty_objects.number_of_rooms">Numero di stanze</label>
 			<label index="tx_realty_objects.living_area">Area abitabile in m²</label>
 			<label index="tx_realty_objects.total_area">Area totale in m²</label>
@@ -986,12 +966,11 @@
 			<label index="tx_realty_objects.district" type="integer">235647734</label>
 			<label index="tx_realty_objects.country" type="integer">93787849</label>
 			<label index="tx_realty_objects.show_address" type="integer">32202296</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached" type="integer">144712181</label>
-			<label index="tx_realty_objects.exact_longitude" type="integer">42601450</label>
-			<label index="tx_realty_objects.exact_latitude" type="integer">104119238</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached" type="integer">32174182</label>
-			<label index="tx_realty_objects.rough_longitude" type="integer">217428841</label>
-			<label index="tx_realty_objects.rough_latitude" type="integer">42609168</label>
+			<label index="tx_realty_objects.geo" type="integer">36634259</label>
+			<label index="tx_realty_objects.has_coordinates" type="integer">148045697</label>
+			<label index="tx_realty_objects.coordinates_problem" type="integer">72379528</label>
+			<label index="tx_realty_objects.longitude" type="integer">162847420</label>
+			<label index="tx_realty_objects.latitude" type="integer">61926260</label>
 			<label index="tx_realty_objects.number_of_rooms" type="integer">151522303</label>
 			<label index="tx_realty_objects.living_area" type="integer">191559076</label>
 			<label index="tx_realty_objects.total_area" type="integer">79620667</label>
@@ -1299,12 +1278,6 @@
 			<label index="tx_realty_objects.city" type="integer">92079470</label>
 			<label index="tx_realty_objects.district" type="integer">235647734</label>
 			<label index="tx_realty_objects.country" type="integer">93787849</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached" type="integer">144712181</label>
-			<label index="tx_realty_objects.exact_longitude" type="integer">42601450</label>
-			<label index="tx_realty_objects.exact_latitude" type="integer">104119238</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached" type="integer">32174182</label>
-			<label index="tx_realty_objects.rough_longitude" type="integer">217428841</label>
-			<label index="tx_realty_objects.rough_latitude" type="integer">42609168</label>
 			<label index="tx_realty_objects.number_of_rooms" type="integer">151522303</label>
 			<label index="tx_realty_objects.living_area" type="integer">191559076</label>
 			<label index="tx_realty_objects.total_area" type="integer">79620667</label>
@@ -1574,12 +1547,6 @@
 			<label index="tx_realty_districts.title" type="integer">69265812</label>
 			<label index="tt_content.list_type_pi1" type="integer">56917018</label>
 			<label index="tx_realty_objects.country" type="integer">93787849</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached" type="integer">144712181</label>
-			<label index="tx_realty_objects.exact_longitude" type="integer">42601450</label>
-			<label index="tx_realty_objects.exact_latitude" type="integer">104119238</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached" type="integer">32174182</label>
-			<label index="tx_realty_objects.rough_longitude" type="integer">217428841</label>
-			<label index="tx_realty_objects.rough_latitude" type="integer">42609168</label>
 			<label index="tx_realty_objects.estate_size" type="integer">85968249</label>
 			<label index="tx_realty_objects.hoa_fee" type="integer">111222682</label>
 			<label index="tx_realty_objects.heating_type.1" type="integer">58692590</label>
@@ -1640,12 +1607,6 @@
 			<label index="tx_realty_objects.district" type="integer">235647734</label>
 			<label index="tx_realty_objects.country" type="integer">93787849</label>
 			<label index="tx_realty_objects.show_address" type="integer">32202296</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached" type="integer">144712181</label>
-			<label index="tx_realty_objects.exact_longitude" type="integer">42601450</label>
-			<label index="tx_realty_objects.exact_latitude" type="integer">104119238</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached" type="integer">32174182</label>
-			<label index="tx_realty_objects.rough_longitude" type="integer">217428841</label>
-			<label index="tx_realty_objects.rough_latitude" type="integer">42609168</label>
 			<label index="tx_realty_objects.number_of_rooms" type="integer">151522303</label>
 			<label index="tx_realty_objects.living_area" type="integer">191559076</label>
 			<label index="tx_realty_objects.total_area" type="integer">79620667</label>
@@ -1769,12 +1730,11 @@
 			<label index="tx_realty_objects.district">District</label>
 			<label index="tx_realty_objects.country">Country</label>
 			<label index="tx_realty_objects.show_address">Show exact address in front end</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact coordinates are synced with server</label>
-			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
-			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are synced with server</label>
-			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
-			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
+			<label index="tx_realty_objects.geo">Geo</label>
+			<label index="tx_realty_objects.has_coordinates">Has coordinates</label>
+			<label index="tx_realty_objects.coordinates_problem">Problem on retrieving the geo coordinates</label>
+			<label index="tx_realty_objects.longitude">Longitude</label>
+			<label index="tx_realty_objects.latitude">Latitude</label>
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
@@ -2082,12 +2042,6 @@
 			<label index="tx_realty_objects.city">City</label>
 			<label index="tx_realty_objects.district">District</label>
 			<label index="tx_realty_objects.country">Country</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact coordinates are synced with server</label>
-			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
-			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are synced with server</label>
-			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
-			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>
@@ -2357,12 +2311,6 @@
 			<label index="tx_realty_districts.title">The district's name</label>
 			<label index="tt_content.list_type_pi1">Realty Manager</label>
 			<label index="tx_realty_objects.country">Country</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact coordinates are synced with server</label>
-			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
-			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are synced with server</label>
-			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
-			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
 			<label index="tx_realty_objects.estate_size">Estate size in m²</label>
 			<label index="tx_realty_objects.hoa_fee">HOA fee</label>
 			<label index="tx_realty_objects.heating_type.1">district heating</label>
@@ -2423,12 +2371,6 @@
 			<label index="tx_realty_objects.district">District</label>
 			<label index="tx_realty_objects.country">Country</label>
 			<label index="tx_realty_objects.show_address">Show exact address in front end</label>
-			<label index="tx_realty_objects.exact_coordinates_are_cached">Exact coordinates are synced with server</label>
-			<label index="tx_realty_objects.exact_longitude">Exact longitude</label>
-			<label index="tx_realty_objects.exact_latitude">Exact latitude</label>
-			<label index="tx_realty_objects.rough_coordinates_are_cached">Rough geo coordinates are synced with server</label>
-			<label index="tx_realty_objects.rough_longitude">Rough longitude</label>
-			<label index="tx_realty_objects.rough_latitude">Rough latitude</label>
 			<label index="tx_realty_objects.number_of_rooms">Number of rooms</label>
 			<label index="tx_realty_objects.living_area">Living area in m²</label>
 			<label index="tx_realty_objects.total_area">Total area in m²</label>

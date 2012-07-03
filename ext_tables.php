@@ -14,6 +14,7 @@ $TCA['tx_realty_objects'] = array(
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'dividers2tabs' => TRUE,
 		'type' => 'object_type',
 		'versioningWS' => TRUE,
 		'origUid' => 't3_origuid',
@@ -29,7 +30,7 @@ $TCA['tx_realty_objects'] = array(
 		),
 		'dynamicConfigFile' => $extPath.'tca.php',
 		'iconfile' => $extIconRelPath.'icon_tx_realty_objects.gif',
-		'requestUpdate' => 'city',
+		'requestUpdate' => 'city,has_coordinates',
 	)
 );
 

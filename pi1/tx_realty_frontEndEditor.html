@@ -478,47 +478,36 @@
 
 		<div class="divider">&nbsp;</div>
 
-		<div class="column1">
-			<div class="columnleft1-dark">
-				<dl class="exact-address">
+		<div class="columndark">
+			<div class="columnleft">
+				<dl>
 					<dt>&nbsp;</dt>
 					<dd>
-						<span class="checkbox">{exact_coordinates_are_cached}&nbsp;{exact_coordinates_are_cached.label.tag}</span>
+						<span class="checkbox">{has_coordinates}&nbsp;{has_coordinates.label.tag}</span>
 					</dd>
 				</dl>
-				<dl class="exact-address">
-					<dt>{exact_longitude.label.tag}</dt>
-					<dd>{exact_longitude}</dd>
-				</dl>
-				<dl class="exact-address">
-					<dt>{exact_latitude.label.tag}</dt>
-					<dd>{exact_latitude}</dd>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd>
+						<span class="checkbox">{coordinates_problem}&nbsp;{coordinates_problem.label.tag}</span>
+					</dd>
 				</dl>
 			</div>
 
-			<div class="vertdivider">
-				<br /><br /><br /><br /><br /><br /><br /><br />
-			</div>
-
-			<div class="columnright1-dark">
-				<dl class="rough-address">
-					<dt>&nbsp;</dt>
-					<dd>
-						<span class="checkbox">{rough_coordinates_are_cached}</span>&nbsp;{rough_coordinates_are_cached.label.tag}
-					</dd>
+			<div class="columnright">
+				<dl class="coordinates">
+					<dt>{longitude.label.tag}</dt>
+					<dd>{longitude}</dd>
 				</dl>
-				<dl class="rough-address">
-					<dt>{rough_longitude.label.tag}</dt>
-					<dd>{rough_longitude}</dd>
-				</dl>
-				<dl class="rough-address">
-					<dt>{rough_latitude.label.tag}</dt>
-					<dd>{rough_latitude}</dd>
+				<dl class="coordinates">
+					<dt>{latitude.label.tag}</dt>
+					<dd>{latitude}</dd>
 				</dl>
 			</div>
 		</div>
+	</fieldset>
 
-		<div class="divider">&nbsp;</div>
+	<fieldset>
 		<div class="column-light">
 			<dl id="submit">
 				<dt>&nbsp;</dt>

@@ -3005,12 +3005,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	///////////////////////////////////////////
 
 	public function testListViewContainsMapForGoogleMapsEnabled() {
-		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
+		$this->fixture->setConfigurationValue('showGoogleMaps', TRUE);
 		$coordinates = array(
-			'exact_coordinates_are_cached' => 1,
-			'exact_latitude' => 50.734343,
-			'exact_longitude' => 7.10211,
-			'show_address' => 1,
+			'has_coordinates' => TRUE,
+			'latitude' => 50.734343,
+			'longitude' => 7.10211,
+			'show_address' => TRUE,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -3026,12 +3026,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 	public function testListViewDoesNotContainMapForGoogleMapsDisabled() {
-		$this->fixture->setConfigurationValue('showGoogleMaps', 0);
+		$this->fixture->setConfigurationValue('showGoogleMaps', FALSE);
 		$coordinates = array(
-			'exact_coordinates_are_cached' => 1,
-			'exact_latitude' => 50.734343,
-			'exact_longitude' => 7.10211,
-			'show_address' => 1,
+			'has_coordinates' => TRUE,
+			'latitude' => 50.734343,
+			'longitude' => 7.10211,
+			'show_address' => TRUE,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -3046,13 +3046,14 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewDoesNotContainMapIfAllObjectsHaveEmptyCachedCoordinates() {
+	/**
+	 * @test
+	 */
+	public function listViewDoesNotContainMapIfAllObjectsHaveGeoError() {
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 		$coordinates = array(
-			'exact_coordinates_are_cached' => 1,
-			'exact_latitude' => '',
-			'exact_longitude' => '',
-			'show_address' => 1,
+			'coordinates_problem' => TRUE,
+			'show_address' => TRUE,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
@@ -3067,24 +3068,25 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testListViewDoesNotContainMapIfObjectOnCurrentPageHasEmptyCachedCoordinatesAndObjectWithCoordinatesIsOnNextPage() {
+	/**
+	 * @test
+	 */
+	public function listViewForObjectOnCurrentPageHasGeoErrorAndObjectWithCoordinatesIsOnNextPageNotContainsMap() {
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid,
 			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => '',
-				'exact_longitude' => '',
-				'show_address' => 1,
+				'coordinates_problem' => TRUE,
+				'show_address' => TRUE,
 			)
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->secondRealtyUid,
 			array(
-				'exact_coordinates_are_cached' => 1,
-				'exact_latitude' => 50.734343,
-				'exact_longitude' => 7.10211,
-				'show_address' => 1,
+				'has_coordinates' => TRUE,
+				'latitude' => 50.734343,
+				'longitude' => 7.10211,
+				'show_address' => TRUE,
 			)
 		);
 
@@ -3102,10 +3104,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	public function testListViewContainsLinkToSingleViewPageInHtmlHeader() {
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 		$coordinates = array(
-			'exact_coordinates_are_cached' => 1,
-			'exact_latitude' => 50.734343,
-			'exact_longitude' => 7.10211,
-			'show_address' => 1,
+			'has_coordinates' => TRUE,
+			'latitude' => 50.734343,
+			'longitude' => 7.10211,
+			'show_address' => TRUE,
 		);
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, $coordinates
