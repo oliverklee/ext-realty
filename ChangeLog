@@ -1,4 +1,4 @@
-0.5.4 - currently working on
+0.5.4 - released 2012-07-06
 - [#4478] Fix: &nbsp; is shown in the drop-downs of the FE editor
 - [#4454] Fix: Test failures concerning the images in the current Core master
 - [#3554] Fix: Failure in test case testSentEmail(...) with empty tables and no extension settings
