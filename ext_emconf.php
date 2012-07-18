@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'php' => '5.2.0-0.0.0',
-			'typo3' => '4.2.4-0.0.0',
+			'typo3' => '4.2.4-4.7.99',
 			'css_styled_content' => '',
 			'oelib' => '0.7.0-',
 			'ameos_formidable' => '1.1.0-1.9.99',
@@ -48,7 +48,6 @@ $EM_CONF[$_EXTKEY] = array(
 		),
 	),
 	'suggests' => array(
-		'sr_feuser_register' => '',
 	),
 );
 
