@@ -2999,6 +2999,68 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function listViewSortedAscendingPreselectsAscendingRadioButton() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+
+		$this->assertRegExp(
+			'/sortOrderAsc[^>]+checked="checked"/',
+			$this->fixture->render(array('descFlag' => '0'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedDescendingPreselectsDescendingRadioButton() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+
+		$this->assertRegExp(
+			'/sortOrderDesc[^>]+checked="checked"/',
+			$this->fixture->render(array('descFlag' => '1'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedByCityPreselectsCityOptionInSelectionBox() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+
+		$this->assertRegExp(
+			'/value="city"[^>]+selected="selected"/',
+			$this->fixture->render(array('orderBy' => 'city'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedByCityPreselectsCityOptionInSelectionBoxOverwritingConfiguration() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+		$this->fixture->setConfigurationValue('orderBy', 'object_number');
+
+		$this->assertRegExp(
+			'/value="city"[^>]+selected="selected"/',
+			$this->fixture->render(array('orderBy' => 'city'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedByCityPreselectsFromConfiguration() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+		$this->fixture->setConfigurationValue('orderBy', 'city');
+
+		$this->assertRegExp(
+			'/value="city"[^>]+selected="selected"/',
+			$this->fixture->render()
+		);
+	}
+
 
 	///////////////////////////////////////////
 	// Tests for Google Maps in the list view
