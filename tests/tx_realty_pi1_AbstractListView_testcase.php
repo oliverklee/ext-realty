@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009-2010 Bernd Schönbach <bernd@oliverklee.de>
+* (c) 2009-2012 Bernd Schönbach <bernd@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -2344,6 +2344,68 @@ class tx_realty_pi1_AbstractListView_testcase extends tx_phpunit_testcase {
 		$this->assertGreaterThan(
 			strpos($result, self::$secondCityTitle),
 			strpos($result, self::$firstCityTitle)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedAscendingPreselectsAscendingRadioButton() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+
+		$this->assertRegExp(
+			'/sortOrderAsc[^>]+checked="checked"/',
+			$this->fixture->render(array('descFlag' => '0'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedDescendingPreselectsDescendingRadioButton() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+
+		$this->assertRegExp(
+			'/sortOrderDesc[^>]+checked="checked"/',
+			$this->fixture->render(array('descFlag' => '1'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedByCityPreselectsCityOptionInSelectionBox() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+
+		$this->assertRegExp(
+			'/value="city"[^>]+selected="selected"/',
+			$this->fixture->render(array('orderBy' => 'city'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedByCityPreselectsCityOptionInSelectionBoxOverwritingConfiguration() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+		$this->fixture->setConfigurationValue('orderBy', 'object_number');
+
+		$this->assertRegExp(
+			'/value="city"[^>]+selected="selected"/',
+			$this->fixture->render(array('orderBy' => 'city'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function listViewSortedByCityPreselectsFromConfiguration() {
+		$this->fixture->setConfigurationValue('sortCriteria', 'object_number,city');
+		$this->fixture->setConfigurationValue('orderBy', 'city');
+
+		$this->assertRegExp(
+			'/value="city"[^>]+selected="selected"/',
+			$this->fixture->render()
 		);
 	}
 

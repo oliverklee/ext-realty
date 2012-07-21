@@ -224,7 +224,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * and the value of "descFlag". The very first records will always be those
 	 * with a value for "sorting" set within the record itself.
 	 *
-	 * @return pointer the realty records to list as a mysql result resource
+	 * @throws tx_oelib_Exception_Database if a database query error occurs
+	 * @return resource the realty records to list as a mysql result resource
 	 */
 	private function initListView() {
 		$whereClause = $this->createWhereClause();
@@ -271,7 +272,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Adds a header for the list view.
 	 *
-	 * Overides the line Cache-control if POST data of realty has been sent.
+	 * Overrides the line Cache-control if POST data of realty has been sent.
 	 * This assures, that the page is loaded correctly after hitting the back
 	 * button in IE (see also Bug 2636).
 	 */
@@ -463,27 +464,32 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$options = array();
 		foreach ($selectedSortCriteria as $selectedSortCriterion) {
 			if (in_array($selectedSortCriterion, self::$sortCriteria)) {
-				if ($selectedSortCriterion == $this->internal['orderBy']) {
+				$sortCriterion = isset($this->piVars['orderBy'])
+					? $this->piVars['orderBy']
+					: $this->getConfValueString('orderBy');
+				if ($selectedSortCriterion === $sortCriterion) {
 					$selected = ' selected="selected"';
 				} else {
 					$selected = '';
 				}
 				$this->setMarker('sort_value', $selectedSortCriterion);
 				$this->setMarker('sort_selected', $selected);
-				$this->setMarker(
-					'sort_label',
-					$this->translate('label_' . $selectedSortCriterion)
-				);
+				$this->setMarker('sort_label', $this->translate('label_' . $selectedSortCriterion));
 				$options[] = $this->getSubpart('SORT_OPTION');
 			}
 		}
 		$this->setSubpart('sort_option', implode(LF, $options));
-		if (!$this->internal['descFlag']) {
-				$this->setMarker('sort_checked_asc', ' checked="checked"');
-				$this->setMarker('sort_checked_desc', '');
+
+		$descendingOrder = isset($this->piVars['descFlag'])
+			? (boolean) $this->piVars['descFlag']
+			: $this->getListViewConfValueBoolean('descFlag');
+
+		if ($descendingOrder) {
+			$this->setMarker('sort_checked_asc', '');
+			$this->setMarker('sort_checked_desc', ' checked="checked"');
 		} else {
-				$this->setMarker('sort_checked_asc', '');
-				$this->setMarker('sort_checked_desc', ' checked="checked"');
+			$this->setMarker('sort_checked_asc', ' checked="checked"');
+			$this->setMarker('sort_checked_desc', '');
 		}
 
 		return $this->getSubpart('WRAPPER_SORTING');
@@ -1284,11 +1290,13 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Retrieves the UID for the record a the provided position.
 	 *
-	 * The record position is zero based, so 0 is the first postion.
+	 * The record position is zero-based, so 0 is the first position.
 	 *
 	 * @param integer $recordPosition
 	 *        the position of the searched record, must be >= 0
 	 *
+	 * @throws tx_oelib_Exception_Database if a database query error occurs
+	 * @throws InvalidArgumentException if the record position is a negative integer
 	 * @return integer the record UID, will be zero if no record for the given
 	 *                 record number could be found
 	 */
