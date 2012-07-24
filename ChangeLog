@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4496] Fix: Checkboxes for the flooring misaligned (thanks to Michael Oehlhof)
 - [#3714] Fix: Sorting in the list view is broken (thanks to Michael Oehlhof)
 - [#4485] Fix: Add TYPO3 maximum version to ext_emconf.php
 - [#3774] Cleanup: Implement the Geo interface for realty

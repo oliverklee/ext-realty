@@ -812,7 +812,8 @@ p.tx-realty-pi1-objekt-nr {
 	margin: 0 5px 0 0;
 }
 
-#tx_realty_frontEndEditor .checkbox input {
+#tx_realty_frontEndEditor .checkbox input,
+#tx_realty_frontEndEditor .multicheckboxes input {
 	margin-right: 3px;
 	width: 15px;
 }
