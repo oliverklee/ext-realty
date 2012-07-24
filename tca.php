@@ -8,7 +8,7 @@ $TCA['tx_realty_objects'] = array(
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .
 			'hidden,starttime,endtime,object_number,object_type,title,sorting,' .
-			'emphasized,show_address,street,zip,city,district,country,' .
+			'emphasized,show_address,street,zip,city,district,country,distance_to_the_sea,' .
 			'number_of_rooms,living_area,total_area,shop_area,sales_area,' .
 			'total_usable_area,storage_area,office_space,other_area,window_bank' .
 			'estate_size,site_occupancy_index,floor_space_index,' .
@@ -255,6 +255,16 @@ $TCA['tx_realty_objects'] = array(
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
+			),
+		),
+		'distance_to_the_sea' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.distance_to_the_sea',
+			'config' => array(
+				'type' => 'input',
+				'size' => '5',
+				'eval' => 'num',
+				'checkbox' => '0',
 			),
 		),
 		'has_coordinates' => array(
@@ -1205,7 +1215,7 @@ $TCA['tx_realty_objects'] = array(
 				'l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'utilization, title;;;;2-2-2, emphasized, sorting, ' .
-				'show_address;;;;2-2-2, street, zip, city, district, country, number_of_rooms, ' .
+				'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, number_of_rooms, ' .
 				'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
 				'storage_area, office_space, other_area, window_bank, ' .
 				'estate_size, site_occupancy_index, floor_space_index, ' .
@@ -1251,7 +1261,7 @@ $TCA['tx_realty_objects'] = array(
 				'l18n_parent, l18n_diffsource, hidden;;1, ' .
 				'object_number, openimmo_anid, openimmo_obid, object_type, ' .
 				'title;;;;2-2-2, emphasized, sorting, ' .
-				'show_address;;;;2-2-2, street, zip, city, district, country, number_of_rooms, ' .
+				'show_address;;;;2-2-2, street, zip, city, district, country, distance_to_the_sea, number_of_rooms, ' .
 				'living_area, total_area, shop_area, sales_area, total_usable_area, ' .
 				'storage_area, office_space, other_area, window_bank, ' .
 				'estate_size, site_occupancy_index, ' .

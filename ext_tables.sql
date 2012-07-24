@@ -39,6 +39,7 @@ CREATE TABLE tx_realty_objects (
 	coordinates_problem tinyint(1) DEFAULT '0' NOT NULL,
 	longitude float(9,6) DEFAULT '0.000000' NOT NULL,
 	latitude float(9,6) DEFAULT '0.000000' NOT NULL,
+	distance_to_the_sea int(11) unsigned DEFAULT '0' NOT NULL,
 	number_of_rooms decimal(5,2) DEFAULT '0.00' NOT NULL,
 	living_area tinytext NOT NULL,
 	total_area tinytext NOT NULL,
