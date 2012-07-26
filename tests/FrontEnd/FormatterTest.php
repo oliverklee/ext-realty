@@ -689,6 +689,33 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsDistanceToTheSeaAsIntegerWithUnit() {
+		$this->realtyObject->setDistanceToTheSea(42);
+
+		$this->realtyObject->setProperty('window_bank', 12.34);
+		$localeConvention = localeconv();
+
+		$this->assertSame(
+			'42&nbsp;' . $this->fixture->translate('label_meter'),
+			$this->fixture->getProperty('distance_to_the_sea')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForZeroDistanceToTheSeaReturnsEmptyString() {
+		$this->realtyObject->setDistanceToTheSea(0);
+
+		$this->assertSame(
+			'',
+			$this->fixture->getProperty('distance_to_the_sea')
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concerning formatDecimal

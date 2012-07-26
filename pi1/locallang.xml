@@ -134,6 +134,7 @@
 			<label index="label_has_pool_short">pool</label>
 			<label index="label_has_community_pool">Community pool</label>
 			<label index="label_has_community_pool_short">community pool</label>
+			<label index="label_distance_to_the_sea">Distance to the sea</label>
 			<label index="label_barrier_free">Accessible</label>
 			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
@@ -528,6 +529,7 @@
 			<label index="label_has_pool_short">Pool</label>
 			<label index="label_has_community_pool">Gemeinschaftspool</label>
 			<label index="label_has_community_pool_short">Gemeinschaftspool</label>
+			<label index="label_distance_to_the_sea">Entfernung zum Meer</label>
 			<label index="label_barrier_free">Rollstuhlgerecht</label>
 			<label index="label_barrier_free_short">rollstuhlgerecht</label>
 			<label index="label_assisted_living">Betreutes Wohnen</label>
@@ -1991,6 +1993,7 @@
 			<label index="label_has_pool_short" type="integer">185641152</label>
 			<label index="label_has_community_pool" type="integer">7430612</label>
 			<label index="label_has_community_pool_short" type="integer">163260767</label>
+			<label index="label_distance_to_the_sea" type="integer">231761085</label>
 			<label index="label_barrier_free" type="integer">184564619</label>
 			<label index="label_barrier_free_short" type="integer">79575979</label>
 			<label index="label_assisted_living" type="integer">208122748</label>
@@ -3453,6 +3456,7 @@
 			<label index="label_has_pool_short">pool</label>
 			<label index="label_has_community_pool">Community pool</label>
 			<label index="label_has_community_pool_short">community pool</label>
+			<label index="label_distance_to_the_sea">Distance to the sea</label>
 			<label index="label_barrier_free">Accessible</label>
 			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>

@@ -171,6 +171,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 					$key, $this->translate('label_meter')
 				);
 				break;
+			case 'distance_to_the_sea':
+				$result = $this->getFormattedNumber($key, $this->translate('label_meter'));
+				break;
 			case 'rent_excluding_bills':
 				// The fallthrough is intended.
 			case 'extra_charges':

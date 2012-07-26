@@ -1891,6 +1891,43 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		return ($this->getStatus() == self::STATUS_RENTED)
 			|| ($this->getStatus() == self::STATUS_SOLD);
 	}
+
+	/**
+	 * Gets the distance to the sea in meters.
+	 *
+	 * @return integer the distance to the sea, will be > 0 if has been set or 0 if none has been set
+	 */
+	public function getDistanceToTheSea() {
+		return $this->getAsInteger('distance_to_the_sea');
+	}
+
+	/**
+	 * Checks whether this object has a non-zero distance to the sea.
+	 *
+	 * @return boolean TRUE if this object has a non-zero distance to the sea, FALSE otherwise
+	 */
+	public function hasDistanceToTheSea() {
+		return $this->hasInteger('distance_to_the_sea');
+	}
+
+	/**
+	 * Sets the distance to the sea in meters.
+	 *
+	 * @param integer $distanceInMeters the distance to the sea in meters, must be >= 0
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @return void
+	 */
+	public function setDistanceToTheSea($distanceInMeters) {
+		if ($distanceInMeters < 0) {
+			throw new InvalidArgumentException(
+				'$distanceInMeters must be >= 0, but actually is: ' . $distanceInMeters, 1342813877
+			);
+		}
+
+		$this->setAsInteger('distance_to_the_sea', $distanceInMeters);
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_RealtyObject.php']) {

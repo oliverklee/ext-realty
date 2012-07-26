@@ -3847,5 +3847,78 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			$this->fixture->hasGeoError()
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getDistanceToTheSeaInitiallyReturnsZero() {
+		$this->fixture->setData(array());
+
+		$this->assertSame(
+			0,
+			$this->fixture->getDistanceToTheSea()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDistanceToTheSeaReturnsDistanceToTheSea() {
+		$distance = 42;
+
+		$this->fixture->setData(array('distance_to_the_sea' => $distance));
+
+		$this->assertSame(
+			$distance,
+			$this->fixture->getDistanceToTheSea()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasDistanceToTheSeaForZeroReturnsFalse() {
+		$this->fixture->setData(array('distance_to_the_sea' => 0));
+
+		$this->assertFalse(
+			$this->fixture->hasDistanceToTheSea()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasDistanceToTheSeaForPositiveNumberReturnsTrue() {
+		$this->fixture->setData(array('distance_to_the_sea' => 9));
+
+		$this->assertTrue(
+			$this->fixture->hasDistanceToTheSea()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDistanceToTheSeaSetsDistanceToTheSea() {
+		$distance = 9;
+
+		$this->fixture->setData(array());
+		$this->fixture->setDistanceToTheSea($distance);
+
+		$this->assertSame(
+			$distance,
+			$this->fixture->getDistanceToTheSea()
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function setDistanceToTheSeaWithNegativeNumberThrowsException() {
+		$this->fixture->setData(array());
+		$this->fixture->setDistanceToTheSea(-1);
+	}
 }
 ?>
