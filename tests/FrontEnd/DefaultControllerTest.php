@@ -142,6 +142,8 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
+
+		setlocale(LC_NUMERIC, 'C');
 	}
 
 
