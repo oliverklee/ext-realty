@@ -1,4 +1,5 @@
 0.5.5 - currently working on
+- [#4500] Fix: Failures in tx_realty_FrontEnd_FormatterTest occur when running all tests
 - [#3714] Fix: Sorting in the list view is broken (thanks to Michael Oehlhof)
 - [#4485] Fix: Add TYPO3 maximum version to ext_emconf.php
 

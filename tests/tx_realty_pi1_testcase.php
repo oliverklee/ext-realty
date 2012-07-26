@@ -154,6 +154,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
+
+		setlocale(LC_NUMERIC, 'C');
 	}
 
 
