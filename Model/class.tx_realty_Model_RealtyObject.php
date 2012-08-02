@@ -200,6 +200,41 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
+	 * Gets allowed image file extensions.
+	 *
+	 * @return array<string> lowercased allowed image file extensions, might be empty
+	 */
+	protected function getAllowedImageExtensions() {
+		$allowedImageExtensions = t3lib_div::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), TRUE);
+
+		return array_filter($allowedImageExtensions, array($this, 'isNotPdfOrPs'));
+	}
+
+	/**
+	 * Callback function for array_filter to remove PDF and PS from the extension list.
+	 *
+	 * @param string $fileExtension the extension to check
+	 *
+	 * @return boolean TRUE if the $fileExtension is not "pdf" or "ps", FALSE otherwise
+	 */
+	protected function isNotPdfOrPs($fileExtension) {
+		return !in_array($fileExtension, array('pdf', 'ps'));
+	}
+
+	/**
+	 * Checks if the file extension $imageExtension is of an allowed image file type.
+	 *
+	 * @param string $imageExtension the file extension is to be checked.
+	 *
+	 * @return boolean
+	 *         TRUE if the file extension $imageExtension is included in the list of allowed image extensions,
+	 *         FALSE otherwise.
+	 */
+	protected function isValidImageExtension($imageExtension) {
+		return in_array(strtolower($imageExtension), $this->getAllowedImageExtensions());
+	}
+
+	/**
 	 * Receives the data for a new realty object to load.
 	 *
 	 * The received data can either be a database result row or an array which
@@ -675,6 +710,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @param string $key key of the value to set in current realty object, must not be empty and must not be 'uid'
 	 * @param mixed $value value to set, must be either numeric or a string (also empty) or of boolean, may not be NULL
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @return void
 	 */
 	public function set($key, $value) {
 		if ($this->isVirgin()
@@ -950,10 +989,24 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Gets the images attached to this object.
 	 *
+	 * All images attached to this object are returned, except images of file type PDF or PS.
+	 *
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3716
+	 *
 	 * @return tx_oelib_List<tx_realty_Model_Image>
 	 *         the attached images, will be empty if this object has no images
 	 */
 	public function getImages() {
+		/** @var $image tx_realty_Model_Image */
+		foreach ($this->images as $image) {
+			if (!$image->isDead()) {
+				$imageExtension = pathinfo($image->getFileName(), PATHINFO_EXTENSION);
+				if (!$this->isValidImageExtension($imageExtension)) {
+					$this->images->purgeCurrent();
+				}
+			}
+		}
+
 		return $this->images;
 	}
 
@@ -1018,6 +1071,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param string $thumbnailFileName
 	 *        name of the separate thumbnail in the upload directory
 	 *
+	 * @throws BadMethodCallException
+	 *
 	 * @return integer key of the newly created record, will be >= 0
 	 */
 	public function addImageRecord(
@@ -1057,6 +1112,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param string $fileName
 	 *        name of the PDF document in the upload directory, must not be empty
 	 *
+	 * @throws BadMethodCallException
+	 *
 	 * @return integer
 	 *         zero-based index of the newly created document, will be >= 0
 	 */
@@ -1090,6 +1147,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * written to the database.
 	 *
 	 * @param integer $imageKey key of the image record to mark as deleted, must be a key of the image data array and must be >= 0
+	 *
+	 * @throws BadMethodCallException
+	 * @throws tx_oelib_Exception_NotFound
+	 *
+	 * @return void
 	 */
 	public function markImageRecordAsDeleted($imageKey) {
 		if ($this->isVirgin()) {
@@ -1117,6 +1179,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param integer $key
 	 *        key of the document record to mark as deleted, must be a key of
 	 *        the document data array and must be >= 0
+	 *
+	 * @throws BadMethodCallException
+	 * @throws tx_oelib_Exception_NotFound
+	 *
+	 * @return void
 	 */
 	public function deleteDocument($key) {
 		if ($this->isVirgin()) {
@@ -1147,6 +1214,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *        name of the database table, must not be empty
 	 * @param integer $overridePid PID
 	 *        for new realty and image records (omit this parameter to use the PID set in the global configuration)
+	 *
+	 * @throws InvalidArgumentException
 	 *
 	 * @return integer UID of the new database entry, will be zero if no new
 	 *                 record could be created, will be -1 if the deleted flag
@@ -1196,6 +1265,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param array $realtyData
 	 *        database column names as keys to update an already existing entry,
 	 *        must at least contain an element with the key 'uid'
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @return void
 	 */
 	protected function updateDatabaseEntry(array $realtyData) {
 		if ($realtyData['uid'] <= 0) {
@@ -1487,6 +1560,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Returns this object's address formatted for a geo lookup, for example "53117 Bonn, DE". Any part of this address might be
 	 * missing, though.
 	 *
+	 * @throws BadMethodCallException
+	 *
 	 * @return string this object's address formatted for a geo lookup, will be empty if this object has no address
 	 */
 	public function getGeoAddress() {
@@ -1495,6 +1570,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 	/**
 	 * Checks whether this object has a non-empty address suitable for a geo lookup.
+	 *
+	 * @throws BadMethodCallException
 	 *
 	 * @return boolean TRUE if this object has a non-empty address, FALSE otherwise
 	 */
@@ -1553,6 +1630,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Sets this objects's coordinates and sets the geo error flag to FALSE.
 	 *
 	 * @param array $coordinates the coordinates, using the keys "latitude" and "longitude", the array values must not be empty
+	 *
+	 * @throws InvalidArgumentException
 	 *
 	 * @return void
 	 */

@@ -446,6 +446,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'test image',
+				'image' => 'foo.jpg',
 				'object' => $this->firstRealtyUid,
 			)
 		);
@@ -524,7 +525,11 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
-			array('caption' => 'foo', 'object' => $this->firstRealtyUid)
+			array(
+				'caption' => 'foo',
+				'image' => 'foo.jpg',
+				'object' => $this->firstRealtyUid,
+			)
 		);
 		$output = $this->fixture->render();
 
@@ -546,6 +551,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'single test image',
+				'image' => 'single.jpg',
 				'object' => $this->firstRealtyUid,
 			)
 		);
@@ -568,6 +574,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'first image',
+				'image' => 'first.jpg',
 				'object' => $this->firstRealtyUid,
 				'sorting' => 1,
 			)
@@ -576,6 +583,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'second image',
+				'image' => 'second.jpg',
 				'object' => $this->firstRealtyUid,
 				'sorting' => 2,
 			)
@@ -599,6 +607,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'first image',
+				'image' => 'first.jpg',
 				'object' => $this->firstRealtyUid,
 				'sorting' => 1,
 			)
@@ -607,6 +616,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			REALTY_TABLE_IMAGES,
 			array(
 				'caption' => 'second image',
+				'image' => 'second.jpg',
 				'object' => $this->firstRealtyUid,
 				'sorting' => 2,
 			)

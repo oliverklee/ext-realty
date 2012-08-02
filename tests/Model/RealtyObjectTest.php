@@ -73,6 +73,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	private static $otherObjectNumber = '100001';
 
 	/**
+	 * @var array
+	 */
+	private $configurationVariablesBackup = array();
+
+	/**
 	 * @var integer static_info_tables UID of Germany
 	 */
 	const DE = 54;
@@ -107,9 +112,14 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setRequiredFields(array());
 		tx_oelib_configurationProxy::getInstance('realty')->
 			setAsInteger('pidForRealtyObjectsAndImages', $this->pageUid);
+
+		$this->configurationVariablesBackup = $GLOBALS['TYPO3_CONF_VARS'];
+		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'jpg,tif,tiff,pdf,png,ps,gif';
 	}
 
 	public function tearDown() {
+		$GLOBALS['TYPO3_CONF_VARS'] = $this->configurationVariablesBackup;
+
 		$this->cleanUpDatabase();
 
 		tx_realty_googleMapsLookup::purgeInstance();
@@ -488,6 +498,72 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array('first', 'second'),
 			$titles
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImagesReturnsTheCurrentObjectsImagesWithoutPdf() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 2)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_images',
+			array(
+				'caption' => 'pdf',
+				'image' => 'foo.pdf',
+				'object' => $this->objectUid,
+				'sorting' => 1,
+			)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_images',
+			array(
+				'caption' => 'jpg',
+				'image' => 'foo.jpg',
+				'object' => $this->objectUid,
+				'sorting' => 2,
+			)
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertSame(
+			'jpg',
+			$this->fixture->getImages()->first()->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getImagesReturnsTheCurrentObjectsImagesWithoutPs() {
+		$this->testingFramework->changeRecord(
+			'tx_realty_objects', $this->objectUid, array('images' => 2)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_images',
+			array(
+				'caption' => 'ps',
+				'image' => 'foo.ps',
+				'object' => $this->objectUid,
+				'sorting' => 1,
+			)
+		);
+		$this->testingFramework->createRecord(
+			'tx_realty_images',
+			array(
+				'caption' => 'jpg',
+				'image' => 'foo.jpg',
+				'object' => $this->objectUid,
+				'sorting' => 2,
+			)
+		);
+		$this->fixture->loadRealtyObject($this->objectUid);
+
+		$this->assertSame(
+			'jpg',
+			$this->fixture->getImages()->first()->getTitle()
 		);
 	}
 
@@ -1476,7 +1552,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject(
 			array(
 				'object_number' => self::$otherObjectNumber,
-				'images' => array(array('caption' => 'foo', 'image' => 'bar'))
+				'images' => array(array('caption' => 'foo', 'image' => 'bar.jpg'))
 			)
 		);
 		$this->fixture->writeToDatabase($this->otherPageUid);

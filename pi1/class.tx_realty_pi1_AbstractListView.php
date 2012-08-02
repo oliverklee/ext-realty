@@ -97,6 +97,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	private $startingRecordNumber = 0;
 
 	/**
+	 * @var tx_realty_Model_RealtyObject the Realty object of the actual row
+	 */
+	protected $realtyObject = NULL;
+
+	/**
 	 * @var string the table statement for the SQL query to retrieve the
 	 *             list entries
 	 */
@@ -125,8 +130,32 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		if ($this->formatter) {
 			$this->formatter->__destruct();
 		}
-		unset($this->formatter);
+		unset($this->formatter, $this->realtyObject);
 		parent::__destruct();
+	}
+
+	/**
+	 * Sets the realty object of the actual row.
+	 *
+	 * @param integer $realtyObjectUid the uid of the Realty object of the actual row, must be >= 0
+	 *
+	 * @return void
+	 */
+	protected function setRealtyObjectFromUid($realtyObjectUid) {
+		// @todo This needs to be changed to use the data mapper.
+		$this->realtyObject = tx_oelib_ObjectFactory::make(
+			'tx_realty_Model_RealtyObject', $this->isTestMode
+		);
+		$this->realtyObject->loadRealtyObject($realtyObjectUid, TRUE);
+	}
+
+	/**
+	 * Gets the realty object of the actual row.
+	 *
+	 * @return tx_realty_Model_RealtyObject the Realty object of the actual row
+	 */
+	protected function getRealtyObject() {
+		return $this->realtyObject;
 	}
 
 	/**
@@ -367,7 +396,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$position = ($rowCounter == 0) ? 'first' : '';
 		$this->setMarker('class_position_in_list', $position);
 
-		$numberOfImages = $this->internal['currentRow']['images'];
+		$this->setRealtyObjectFromUid($this->internal['currentRow']['uid']);
+
+		$images = $this->getRealtyObject()->getImages();
+		$numberOfImages = $images->count();
 		switch ($numberOfImages) {
 			case 0:
 				$leftImage = '';
@@ -404,9 +436,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			);
 		}
 
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')
-			->find($this->internal['currentRow']['uid']);
 		$statusClasses = array(
 			tx_realty_Model_RealtyObject::STATUS_VACANT => 'vacant',
 			tx_realty_Model_RealtyObject::STATUS_RESERVED => 'reserved',
@@ -414,7 +443,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			tx_realty_Model_RealtyObject::STATUS_RENTED => 'rented',
 		);
 		$this->setMarker(
-			'statusclass', $statusClasses[$realtyObject->getStatus()]
+			'statusclass', $statusClasses[$this->getRealtyObject()->getStatus()]
 		);
 
 		switch ($this->internal['currentRow']['object_type']) {
@@ -430,11 +459,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				break;
 		}
 
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')
-			->find($this->internal['currentRow']['uid']);
 		if ($this->getConfValueBoolean('priceOnlyIfAvailable')
-			&& $realtyObject->isRentedOrSold()
+			&& $this->getRealtyObject()->isRentedOrSold()
 		) {
 			$this->hideSubparts(
 				'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
@@ -1171,7 +1197,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				? $image['thumbnail'] : $image['image'];
 
 			$result = $this->createImageTag(
-				$fileName, $maxSizeVariable, $image['caption'], $id
+					$fileName, $maxSizeVariable, $image['caption'], $id
 			);
 		}
 
