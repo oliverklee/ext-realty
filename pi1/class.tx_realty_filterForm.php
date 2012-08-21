@@ -253,11 +253,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	private function setTargetUrlMarker() {
 		$this->setMarker(
 			'target_url',
-			t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
+			htmlspecialchars(t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
 				'parameter' => $this->getConfValueInteger(
 					'filterTargetPID', 's_searchForm'
 				),
-			)))
+			))))
 		);
 	}
 

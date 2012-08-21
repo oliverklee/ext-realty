@@ -287,8 +287,10 @@
 		<div class="buttons">
 			<!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
 			<form id="addToFavorites" method="post" action="###FAVORITES_URL###">
-				<input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
-				<a href="#" class="button singleViewAddToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+				<div>
+					<input type="hidden" name="tx_realty_pi1[favorites][]" value="###UID###"/>
+					<a href="#" class="button singleViewAddToFavorites" onclick="document.forms['addToFavorites'].submit(); return false;"><span>###LABEL_ADD_TO_FAVORITES###</span></a>
+				</div>
 			</form>
 			<!-- ###FIELD_WRAPPER_ADDTOFAVORITESBUTTON### -->
 			<!-- ###FIELD_WRAPPER_PRINTPAGEBUTTON### -->
