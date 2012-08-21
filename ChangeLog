@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4048] Fix: Use $dataHandler->getThisFormData instead of ->__aFormData
 - [#4064] Fix: HTML validation errors in the list view
 - [#3716] Fix: Only render image records with an image file type in the list view, single view, image upload dialog and both galleries
 - [#4500] Fix: Failures in tx_realty_FrontEnd_FormatterTest occur when running all tests

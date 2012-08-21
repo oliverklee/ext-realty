@@ -209,11 +209,11 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	protected function getFormValue($key) {
 		$this->makeFormCreator();
 
-		$dataSource = ($this->isTestMode)
-			? $this->fakedFormValues
-			: $this->formCreator->oDataHandler->__aFormData;
-
-		return isset($dataSource[$key]) ? $dataSource[$key] : '';
+		if ($this->isTestMode) {
+			return $this->getFakedFormValue($key);
+		} else {
+			return $this->formCreator->oDataHandler->getThisFormData($key);
+		}
 	}
 
 	/**
@@ -268,6 +268,20 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;
+	}
+
+	/**
+	 * Gets a faked form data value that is usually provided by the FORMidable
+	 * object.
+	 *
+	 * This function is for testing purposes.
+	 *
+	 * @param string $key column name of tx_realty_objects as key, must not be empty
+	 *
+	 * @return string faked value
+	 */
+	public function getFakedFormValue($key) {
+		return isset($this->fakedFormValues[$key]) ? $this->fakedFormValues[$key] : '';
 	}
 }
 
