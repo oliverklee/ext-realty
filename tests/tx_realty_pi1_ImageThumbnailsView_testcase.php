@@ -257,7 +257,7 @@ class tx_realty_pi1_ImageThumbnailsView_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			in_array(
-				'<script type="text/javascript" src="../typo3conf/ext/realty' .
+				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/lightbox.js" ></script>',
 				$GLOBALS['TSFE']->additionalHeaderData
 			)
@@ -274,8 +274,8 @@ class tx_realty_pi1_ImageThumbnailsView_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			in_array(
-				'<link rel="stylesheet" type="text/css" href="..' .
-					'/typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
+				'<link rel="stylesheet" type="text/css" href="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
+					'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
 				$GLOBALS['TSFE']->additionalHeaderData
 			)
 		);
@@ -291,7 +291,7 @@ class tx_realty_pi1_ImageThumbnailsView_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			in_array(
-				'<script type="text/javascript" src="../typo3conf/ext/realty' .
+				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/prototype.js"></script>',
 				$GLOBALS['TSFE']->additionalHeaderData
 			)
@@ -308,7 +308,7 @@ class tx_realty_pi1_ImageThumbnailsView_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			in_array(
-				'<script type="text/javascript"src="../typo3conf/ext/realty/pi1' .
+				'<script type="text/javascript"src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty/pi1' .
 					'/contrib/scriptaculous.js?load=effects,builder"></script>',
 				$GLOBALS['TSFE']->additionalHeaderData
 			)

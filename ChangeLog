@@ -1,4 +1,5 @@
 0.5.5 - currently working on
+- [#4208] Fix: URLs to included CSS and JS files are wrong if TYPO3 is installed in a subdirectory of the website root
 - [#4064] Fix: HTML validation errors in the list view
 - [#4048] Fix: Use $dataHandler->getThisFormData instead of ->__aFormData
 - [#4500] Fix: Failures in tx_realty_FrontEnd_FormatterTest occur when running all tests

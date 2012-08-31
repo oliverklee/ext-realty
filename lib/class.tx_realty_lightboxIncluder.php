@@ -52,9 +52,9 @@ class tx_realty_lightboxIncluder {
 	 */
 	static public function includeMainJavaScript() {
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID]
-			= '<script src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
-				'pi1/tx_realty_pi1.js" type="text/javascript">' .
-				'</script>';
+			= '<script src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
+			'pi1/tx_realty_pi1.js" type="text/javascript">' .
+			'</script>';
 	}
 
 	/**
@@ -63,14 +63,14 @@ class tx_realty_lightboxIncluder {
 	static public function includeLightboxFiles() {
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightboxcss']
 			= '<link rel="stylesheet" type="text/css" href="' .
-			t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+			t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/lightbox.css" />';
 
 		self::includePrototype();
 
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_scriptaculous']
 			= '<script type="text/javascript"' .
-			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+			'src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/scriptaculous.js?load=effects,builder">' .
 			'</script>';
 
@@ -78,7 +78,7 @@ class tx_realty_lightboxIncluder {
 
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox']
 			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+			'src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/lightbox.js" >' .
 			'</script>';
 	}
@@ -89,7 +89,7 @@ class tx_realty_lightboxIncluder {
 	static public function includePrototype() {
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_prototype']
 			= '<script type="text/javascript" ' .
-			'src="' . t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+			'src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/prototype.js">' .
 			'</script>';
 	}
@@ -105,10 +105,10 @@ class tx_realty_lightboxIncluder {
 			= '<script type="text/javascript">/*<![CDATA[*/' .
 			'LightboxOptions = Object.extend({' .
 				'fileLoadingImage: \''.
-					t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+					t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 					'pi1/images/loading.gif\',' .
 				'fileBottomNavCloseImage: \'' .
-					t3lib_extMgm::extRelPath(self::EXTENSION_KEY) .
+					t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 					'pi1/images/closelabel.gif\',' .
 				// controls transparency of shadow overlay
 				'overlayOpacity: 0.8,' .

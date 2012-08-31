@@ -649,8 +649,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 		$this->fixture->main('', array());
 
 		$this->assertEquals(
-			'<script src="' . t3lib_extMgm::extRelPath('realty') .
-				'pi1/tx_realty_pi1.js" type="text/javascript">' .
+			'<script src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
+				'typo3conf/ext/realty/pi1/tx_realty_pi1.js" type="text/javascript">' .
 				'</script>',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1']
 		);
