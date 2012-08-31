@@ -603,21 +603,27 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return '&nbsp;';
 		}
 
-		$currencySymbol = $this->getConfValueString('currencyUnit');
+		$currency = $this->getConfValueString('currencyUnit');
+
+		$priceViewHelper = tx_oelib_ObjectFactory::make(
+			'tx_oelib_ViewHelper_Price'
+		);
+		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 
 		if ($range['lowerLimit'] == 0) {
-			$result = $this->translate('label_less_than') . ' ' .
-				$range['upperLimit'] . $currencySymbol;
+			$priceViewHelper->setValue($range['upperLimit']);
+			$result = $this->translate('label_less_than') . ' ' . $priceViewHelper->render();
 		} elseif ($range['upperLimit'] == 0) {
-			$result = $this->translate('label_greater_than') . ' ' .
-				$range['lowerLimit'] . $currencySymbol;
+			$priceViewHelper->setValue($range['lowerLimit']);
+			$result = $this->translate('label_greater_than') . ' ' . $priceViewHelper->render();
 		} else {
-			$result = $range['lowerLimit'] . $currencySymbol . ' ' .
-				$this->translate('label_to') . ' ' .
-				$range['upperLimit'] . $currencySymbol;
+			$priceViewHelper->setValue($range['lowerLimit']);
+			$result = $priceViewHelper->render() . ' ' . $this->translate('label_to') . ' ';
+			$priceViewHelper->setValue($range['upperLimit']);
+			$result .= $priceViewHelper->render();
 		}
 
-		return $result;
+		return htmlentities($result, ENT_QUOTES, 'utf-8');
 	}
 
 

@@ -134,7 +134,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'defaultCountryUID' => self::DE,
-				'currencyUnit' => '&euro;',
+				'currencyUnit' => 'EUR',
 				'priceOnlyIfAvailable' => FALSE,
 			),
 			$this->createContentMock(),
@@ -1097,7 +1097,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'123&nbsp;&euro;',
+			'&euro; 123,00',
 			$this->fixture->render()
 		);
 	}
@@ -1118,7 +1118,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertContains(
-			'123&nbsp;&euro;',
+			'&euro; 123,00',
 			$this->fixture->render()
 		);
 	}
@@ -1139,7 +1139,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertNotContains(
-			'134&nbsp;&euro;',
+			'&euro; 134,00',
 			$this->fixture->render()
 		);
 	}
@@ -1158,7 +1158,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'281&nbsp;&euro;',
+			'&euro; 281,00',
 			$this->fixture->render()
 		);
 	}
@@ -1179,7 +1179,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertContains(
-			'281&nbsp;&euro;',
+			'&euro; 281,00',
 			$this->fixture->render()
 		);
 	}
@@ -1200,7 +1200,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertNotContains(
-			'281&nbsp;&euro;',
+			'&euro; 281,00',
 			$this->fixture->render()
 		);
 	}
@@ -1220,7 +1220,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'504&nbsp;&euro;',
+			'&euro; 504,00',
 			$this->fixture->render()
 		);
 	}
@@ -1242,7 +1242,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertContains(
-			'504&nbsp;&euro;',
+			'&euro; 504,00',
 			$this->fixture->render()
 		);
 	}
@@ -1264,7 +1264,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
 		$this->assertNotContains(
-			'504&nbsp;&euro;',
+			'&euro; 504,00',
 			$this->fixture->render()
 		);
 	}
@@ -1273,7 +1273,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => '&euro;',)
+			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => 'EUR',)
 		);
 		$this->fixture->setConfigurationValue('currencyUnit', '');
 
@@ -1287,7 +1287,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
-			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => '&euro;',)
+			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE, 'currency' => 'EUR',)
 		);
 		$this->fixture->setConfigurationValue('currencyUnit', 'foo');
 
@@ -1303,7 +1303,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$this->firstRealtyUid,
 			array('buying_price' => '9', 'object_type' => REALTY_FOR_SALE)
 		);
-		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
+		$this->fixture->setConfigurationValue('currencyUnit', 'EUR');
 
 		$this->assertContains(
 			'&euro;',
@@ -1314,7 +1314,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function listViewFormatsPriceUsingNoThousandsSeparator() {
+	public function listViewFormatsPriceUsingThousandsSeparator() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -1322,7 +1322,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			'1234567',
+			'1.234.567,00',
 			$this->fixture->render()
 		);
 	}

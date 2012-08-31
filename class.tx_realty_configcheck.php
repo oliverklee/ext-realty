@@ -66,7 +66,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		$this->checkRecursive();
 		$this->checkOrderBy();
 		$this->checkSortCriteria();
-		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkSingleViewPid();
 		$this->checkEnableNextPreviousButtons();
@@ -92,7 +91,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	public function check_tx_realty_pi1_single_view() {
 		$this->checkCommonFrontEndSettings();
 		$this->checkSingleViewPartsToDisplay();
-		$this->checkNumberOfDecimals();
 		$this->checkCurrencyUnit();
 		$this->checkRequireLoginForSingleViewPage();
 		if ($this->objectToCheck->getConfValueBoolean(
@@ -303,17 +301,27 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	}
 
 	/**
-	 * Checks the setting for the currency unit.
+	 * Checks if a record for the currency unit exists in the static_currencies table.
+	 *
+	 * @return void
 	 */
-	private function checkCurrencyUnit() {
-		$this->checkForNonEmptyString(
-			'currencyUnit',
-			FALSE,
-			'',
-			'This value specifies the currency of displayed prices. ' .
-				'If this value is empty, prices of objects that do not provide' .
-				'their own currency will be displayed without a currency.'
-		);
+	protected function checkCurrencyUnit() {
+		if (!tx_oelib_db::existsRecord(
+				'static_currencies',
+				'cu_iso_3 = "' .
+					$GLOBALS['TYPO3_DB']->quoteStr($this->objectToCheck->getConfValueString('currencyUnit'), 'static_currencies') .
+					'"'
+				)
+			) {
+			$this->setErrorMessageAndRequestCorrection(
+				'currencyUnit',
+				FALSE,
+				'This value specifies the ISO alpha 3 code of the currency used for displayed prices. ' .
+					'If this value is empty, prices of objects that do not provide ' .
+					'their own currency will be displayed without a currency. ' .
+					'You have set it to a non valid ISO code, or the table static_currencies is not installed.'
+			);
+		}
 	}
 
 	/**
@@ -327,17 +335,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This determines the way dates and times are displayed. '
 				.'If this is not set correctly, dates and times might '
 				.'be mangled or not get displayed at all.'
-		);
-	}
-
-	private function checkNumberOfDecimals() {
-		$this->checkIfPositiveIntegerOrZero(
-			'numberOfDecimals',
-			TRUE,
-			'sDEF',
-			'This value specifies the number of decimal digits for formatting '
-				.'prices. If this value is invalid, the standard value of the '
-				.'current locale is taken.'
 		);
 	}
 

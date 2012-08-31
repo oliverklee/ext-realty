@@ -10,10 +10,8 @@ plugin.tx_realty_pi1 {
 	# whether to use formal or informal language
 	salutation = formal
 
-	# currency symbol
-	currencyUnit = &euro;
-	# number of decimal digits for formatting prices
-	numberOfDecimals = 2
+	# currency symbol, must be a valid ISO alpha 3 code, e.g. "EUR" for Euro, "USD" for US dollars.
+	currencyUnit = EUR
 	# format for all dates (as required for strftime)
 	dateFormat = %d.%m.%Y
 

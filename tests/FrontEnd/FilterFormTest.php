@@ -148,10 +148,8 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	}
 
 	public function testPriceRangeIsDisplayedWithCurrency() {
-		$this->fixture->setConfigurationValue(
-			'displayedSearchWidgetFields', 'priceRanges'
-		);
-		$this->fixture->setConfigurationValue('currencyUnit', '&euro;');
+		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', 'priceRanges');
+		$this->fixture->setConfigurationValue('currencyUnit', 'EUR');
 		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
 		$this->assertContains(
@@ -161,15 +159,12 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	}
 
 	public function testOptionWithLowerAndUpperPriceLimitCanBeDisplayed() {
-		$this->fixture->setConfigurationValue(
-			'displayedSearchWidgetFields', 'priceRanges'
-		);
-		$this->fixture->setConfigurationValue(
-			'priceRangesForFilterForm', '1-100'
-		);
+		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', 'priceRanges');
+		$this->fixture->setConfigurationValue('currencyUnit', 'EUR');
+		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
 		$this->assertContains(
-			'1 ' . $this->fixture->translate('label_to') . ' 100',
+			'&euro; 1,00 ' . $this->fixture->translate('label_to') . ' &euro; 100,00',
 			$this->fixture->render()
 		);
 	}

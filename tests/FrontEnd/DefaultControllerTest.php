@@ -207,7 +207,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 			'pages' => $this->systemFolderPid
 		));
 		// ensures there is at least one configuration error to report
-		$this->fixture->setConfigurationValue('numberOfDecimals', -1);
+		$this->fixture->setConfigurationValue('currencyUnit', 'foo');
 
 		$this->assertContains(
 			'Configuration check warning',
@@ -227,7 +227,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 			'pages' => $this->systemFolderPid
 		));
 		// ensures there is at least one configuration error to report
-		$this->fixture->setConfigurationValue('numberOfDecimals', -1);
+		$this->fixture->setConfigurationValue('currencyUnit', 'ABC');
 
 		$this->assertNotContains(
 			'Configuration check warning',

@@ -66,8 +66,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 			$this->realtyObject->getUid(),
 			array(
 				'defaultCountryUID' => self::DE,
-				'currencyUnit' => '&euro;',
-				'numberOfDecimals' => 2,
+				'currencyUnit' => 'EUR',
 			),
 			$GLOBALS['TSFE']->cObj
 		);
@@ -263,10 +262,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyReturnsFormatsHoaFeeFormattedWithTwoWithDecimals() {
 		$this->realtyObject->setProperty('hoa_fee', 12345.67);
-		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12345' . $localeConvention['decimal_point'] . '67&nbsp;&euro;',
+			'&euro; 12.345,67',
 			$this->fixture->getProperty('hoa_fee')
 		);
 	}
@@ -274,11 +272,11 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getPropertyForHoaFeeCutsOffAllZeroDecimals() {
-		$this->realtyObject->setProperty('hoa_fee', 12345.00);
+	public function getPropertyForHoaFeeAddsZeroDecimals() {
+		$this->realtyObject->setProperty('hoa_fee', 12345);
 
 		$this->assertEquals(
-			'12345&nbsp;&euro;',
+			'&euro; 12.345,00',
 			$this->fixture->getProperty('hoa_fee')
 		);
 	}
@@ -576,10 +574,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyReturnsRentPerSquareMeterAsFormattedPriceWithDecimals() {
 		$this->realtyObject->setProperty('rent_per_square_meter', 12345.67);
-		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12345' . $localeConvention['decimal_point'] . '67&nbsp;&euro;',
+			'&euro; 12.345,67',
 			$this->fixture->getProperty('rent_per_square_meter')
 		);
 	}
@@ -587,11 +584,11 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getPropertyForRentPerSquareMeterCutsOffAllZeroDecimals() {
-		$this->realtyObject->setProperty('rent_per_square_meter', 12345.00);
+	public function getPropertyForRentPerSquareMeterAddsZeroDecimals() {
+		$this->realtyObject->setProperty('rent_per_square_meter', 12345);
 
 		$this->assertEquals(
-			'12345&nbsp;&euro;',
+			'&euro; 12.345,00',
 			$this->fixture->getProperty('rent_per_square_meter')
 		);
 	}
@@ -601,10 +598,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyReturnsRentalIncomeTargetAsFormattedPriceWithDecimals() {
 		$this->realtyObject->setProperty('rental_income_target', 12345.67);
-		$localeConvention = localeconv();
 
 		$this->assertEquals(
-			'12345' . $localeConvention['decimal_point'] . '67&nbsp;&euro;',
+			'&euro; 12.345,67',
 			$this->fixture->getProperty('rental_income_target')
 		);
 	}
@@ -696,7 +692,6 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		$this->realtyObject->setDistanceToTheSea(42);
 
 		$this->realtyObject->setProperty('window_bank', 12.34);
-		$localeConvention = localeconv();
 
 		$this->assertSame(
 			'42&nbsp;' . $this->fixture->translate('label_meter'),

@@ -191,7 +191,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'rent_per_square_meter':
 				// The fallthrough is intended.
 			case 'garage_price':
-				$result = $this->getFormattedPrice($key);
+				$result = htmlentities($this->getFormattedPrice($key), ENT_QUOTES, 'utf-8');
 				break;
 			case 'bedrooms':
 				// The fallthrough is intended.
@@ -347,6 +347,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * symbol appended. This symbol is the value of "currency" derived from
 	 * the same record or, if not available, "currencyUnit" set in the TS
 	 * setup.
+	 * Formats the $key using the oelib priceViewHelper for the given ISO alpha code.
 	 * If the value of $key is zero after applying intval, an empty string
 	 * will be returned.
 	 *
@@ -363,7 +364,19 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			$currency = $this->getConfValueString('currencyUnit');
 		}
 
-		return $this->getFormattedNumber($key, $currency);
+		$rawValue = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->find($this->getUid())->getProperty($key);
+		if (($rawValue === '') || (floatval($rawValue) === 0.0)) {
+			return '';
+		}
+
+		$priceViewHelper = tx_oelib_ObjectFactory::make(
+			'tx_oelib_ViewHelper_Price'
+		);
+		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
+		$priceViewHelper->setValue(floatval($rawValue));
+
+		return $priceViewHelper->render();
 	}
 
 	/**
