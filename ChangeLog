@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4179] Fix: Nonsense validation parameters for the rent_per_square_meter field
 - [#3686] Fix: For US dollars, the currency needs to be before the amount
 - [#4208] Fix: URLs to included CSS and JS files are wrong if TYPO3 is installed in a subdirectory of the website root
 - [#4048] Fix: Use $dataHandler->getThisFormData instead of ->__aFormData

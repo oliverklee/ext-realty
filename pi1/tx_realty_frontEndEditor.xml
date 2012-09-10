@@ -459,7 +459,7 @@
 								<extension>this</extension>
 								<method>getMessageForRealtyObjectField</method>
 								<params>
-									<data name="rent_per_square_meter" value="hoa_fee"/>
+									<data name="fieldName" value="rent_per_square_meter"/>
 									<data name="label" value="message_no_valid_price"/>
 								</params>
 							</userobj>
