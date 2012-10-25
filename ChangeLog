@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4587] Feature: Add a field "Sea view" to the realty objects
 - [#2671] Feature: Add model::isEmpty
 - [#4179] Fix: Nonsense validation parameters for the rent_per_square_meter field
 - [#3686] Fix: For US dollars, the currency needs to be before the amount

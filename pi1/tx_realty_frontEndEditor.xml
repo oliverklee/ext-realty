@@ -145,6 +145,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
+		<renderlet:CHECKSINGLE name="sea_view" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.sea_view"/>
 		<renderlet:LISTBOX name="city" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city">
 			<data>
 				<items>

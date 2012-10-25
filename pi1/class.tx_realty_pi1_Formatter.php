@@ -237,6 +237,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'assisted_living':
 				// The fallthrough is intended.
 			case 'fitted_kitchen':
+				// The fallthrough is intended.
+			case 'sea_view':
 				$result = ($realtyObject->getProperty($key) == 1)
 					? $this->translate('message_yes')
 					: '';

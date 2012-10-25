@@ -157,6 +157,7 @@
 			<label index="tx_realty_objects.sorting">Positioning in the list view</label>
 			<label index="tx_realty_objects.advertised_date">Advertised on</label>
 			<label index="tx_realty_objects.distance_to_the_sea">Distance to the sea (in meters)</label>
+			<label index="tx_realty_objects.sea_view">Sea view</label>
 			<label index="tx_realty_apartment_types">Apartment type</label>
 			<label index="tx_realty_apartment_types.title">Title</label>
 			<label index="tx_realty_house_types">House type</label>
@@ -339,6 +340,7 @@
 			<label index="tx_realty_objects.sorting">Positionierung in der Listenansicht</label>
 			<label index="tx_realty_objects.advertised_date">Inseriert am</label>
 			<label index="tx_realty_objects.distance_to_the_sea">Entfernung zum Meer (in Metern)</label>
+			<label index="tx_realty_objects.sea_view">Meerblick</label>
 			<label index="tx_realty_apartment_types">Wohnungstyp</label>
 			<label index="tx_realty_apartment_types.title">Titel</label>
 			<label index="tx_realty_house_types">Haustyp</label>
@@ -1096,6 +1098,7 @@
 			<label index="tx_realty_objects.sorting" type="integer">193306316</label>
 			<label index="tx_realty_objects.advertised_date" type="integer">33492913</label>
 			<label index="tx_realty_objects.distance_to_the_sea" type="integer">188492320</label>
+			<label index="tx_realty_objects.sea_view" type="integer">36679199</label>
 			<label index="tx_realty_apartment_types" type="integer">220566396</label>
 			<label index="tx_realty_apartment_types.title" type="integer">192455458</label>
 			<label index="tx_realty_house_types" type="integer">11148572</label>
@@ -1900,6 +1903,7 @@
 			<label index="tx_realty_objects.other_area">Other area in m²</label>
 			<label index="tx_realty_objects.window_bank">Window bank in m</label>
 			<label index="tx_realty_objects.rental_income_target">Rental income (target)</label>
+			<label index="tx_realty_objects.sea_view">Sea view</label>
 		</languageKey>
 		<languageKey index="ru" type="array">
 			<label index="tx_realty_objects">Realty object</label>

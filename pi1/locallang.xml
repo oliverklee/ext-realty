@@ -135,6 +135,7 @@
 			<label index="label_has_community_pool">Community pool</label>
 			<label index="label_has_community_pool_short">community pool</label>
 			<label index="label_distance_to_the_sea">Distance to the sea</label>
+			<label index="label_sea_view">Sea view</label>
 			<label index="label_barrier_free">Accessible</label>
 			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
@@ -530,6 +531,7 @@
 			<label index="label_has_community_pool">Gemeinschaftspool</label>
 			<label index="label_has_community_pool_short">Gemeinschaftspool</label>
 			<label index="label_distance_to_the_sea">Entfernung zum Meer</label>
+			<label index="label_sea_view">Meerblick</label>
 			<label index="label_barrier_free">Rollstuhlgerecht</label>
 			<label index="label_barrier_free_short">rollstuhlgerecht</label>
 			<label index="label_assisted_living">Betreutes Wohnen</label>
@@ -2261,6 +2263,7 @@
 			<label index="label_other_area" type="integer">33322750</label>
 			<label index="label_window_bank" type="integer">255986329</label>
 			<label index="label_rental_income_target" type="integer">24435045</label>
+			<label index="label_sea_view" type="integer">36679199</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.sheet_general" type="integer">14366585</label>
@@ -3457,6 +3460,7 @@
 			<label index="label_has_community_pool">Community pool</label>
 			<label index="label_has_community_pool_short">community pool</label>
 			<label index="label_distance_to_the_sea">Distance to the sea</label>
+			<label index="label_sea_view">Sea view</label>
 			<label index="label_barrier_free">Accessible</label>
 			<label index="label_barrier_free_short">accessible</label>
 			<label index="label_assisted_living">Assisted living</label>
