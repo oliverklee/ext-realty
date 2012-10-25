@@ -427,26 +427,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
-	 * Returns TRUE if the realty object is loaded without any data.
-	 *
-	 * @return boolean TRUE if the realty object is empty, FALSE otherwise
-	 */
-	public function isRealtyObjectDataEmpty() {
-		$result = TRUE;
-
-		foreach (
-			array_keys(tx_oelib_db::getColumnsInTable(REALTY_TABLE_OBJECTS))
-		as $key) {
-			if ($this->existsKey($key)) {
-				$result = FALSE;
-				break;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Writes a realty object to the database. Deletes keys which do not exist
 	 * in the database and inserts certain values to separate tables, as
 	 * associated in self::$propertyTables.
@@ -463,7 +443,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	public function writeToDatabase($overridePid = 0, $setOwner = FALSE) {
 		// If contact_email is the only field, the object is assumed to be not
 		// loaded.
-		if ($this->isRealtyObjectDataEmpty()
+		if ($this->isEmpty()
 			|| ($this->existsKey('contact_email')
 			&& (count($this->getAllProperties()) == 1))
 		) {

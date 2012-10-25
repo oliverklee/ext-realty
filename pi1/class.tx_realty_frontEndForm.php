@@ -228,7 +228,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 			return TRUE;
 		}
 
-		return !$this->realtyObject->isRealtyObjectDataEmpty();
+		return !$this->realtyObject->isEmpty();
 	}
 
 

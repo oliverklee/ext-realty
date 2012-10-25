@@ -299,7 +299,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid, FALSE);
 
 		$this->assertTrue(
-			$this->fixture->isRealtyObjectDataEmpty()
+			$this->fixture->isEmpty()
 		);
 	}
 
@@ -310,7 +310,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid, TRUE);
 
 		$this->assertFalse(
-			$this->fixture->isRealtyObjectDataEmpty()
+			$this->fixture->isEmpty()
 		);
 	}
 
@@ -1207,16 +1207,22 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setProperty('uid', 12345);
 	}
 
-	public function testIsRealtyObjectDataEmptyReturnsFalseIfObjectLoaded() {
+	/**
+	 * @test
+	 */
+	public function isEmptyWithObjectLoadedReturnsFalse() {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->assertFalse(
-			$this->fixture->isRealtyObjectDataEmpty()
+			$this->fixture->isEmpty()
 		);
 	}
 
-	public function testIsRealtyObjectDataEmptyReturnsTrueIfNoObjectLoaded() {
+	/**
+	 * @test
+	 */
+	public function isEmptyWithNoObjectLoadedReturnsTrue() {
 		$this->assertTrue(
-			$this->fixture->isRealtyObjectDataEmpty()
+			$this->fixture->isEmpty()
 		);
 	}
 
