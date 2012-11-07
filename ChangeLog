@@ -1,4 +1,5 @@
 0.5.5 - currently working on
+- [#4594] Fix: Google map coordinates are using a decimal comma if the PHP locale is not set correctly
 - [#4208] Fix: URLs to included CSS and JS files are wrong if TYPO3 is installed in a subdirectory of the website root
 - [#4064] Fix: HTML validation errors in the list view
 - [#4048] Fix: Use $dataHandler->getThisFormData instead of ->__aFormData
