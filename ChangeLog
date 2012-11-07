@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4594] Fix: Google map coordinates are using a decimal comma if the PHP locale is not set correctly
 - [#4587] Feature: Add a field "Sea view" to the realty objects
 - [#2671] Feature: Add model::isEmpty
 - [#4179] Fix: Nonsense validation parameters for the rent_per_square_meter field

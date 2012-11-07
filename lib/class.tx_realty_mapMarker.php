@@ -103,7 +103,7 @@ class tx_realty_mapMarker {
 			return '';
 		}
 
-		return 'new GLatLng(' . $this->latitude . ',' . $this->longitude . ')';
+		return 'new GLatLng(' . number_format($this->latitude, 6, '.', '') . ',' . number_format($this->longitude, 6, '.', '') . ')';
 	}
 
 	/**
