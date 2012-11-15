@@ -711,6 +711,30 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getPropertyForSeaViewReturnsYes() {
+		$this->realtyObject->setProperty('sea_view', 1);
+
+		$this->assertSame(
+			$this->fixture->translate('message_yes'),
+			$this->fixture->getProperty('sea_view')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyForNonSeaViewReturnsEmptyString() {
+		$this->realtyObject->setProperty('sea_view', 0);
+
+		$this->assertSame(
+			'',
+			$this->fixture->getProperty('sea_view')
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concerning formatDecimal
