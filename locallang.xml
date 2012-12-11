@@ -29,7 +29,7 @@
 		</languageKey>
 		<languageKey index="es" type="array">
 			<label index="pi1_title">Manager Inmobiliário</label>
-			<label index="pi1_description">Manager Inmobiliário</label>
+			<label index="pi1_description">Listado de immobiliarias en el FE</label>
 		</languageKey>
 	</data>
 	<orig_hash type="array">

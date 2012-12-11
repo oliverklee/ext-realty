@@ -22,6 +22,11 @@
 			<label index="mlang_labels_tabdescr">Questo modulo ti permette di gestire e importare immobili</label>
 			<label index="mlang_labels_tablabel">Realty</label>
 		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="mlang_tabs_tab">Immobiliarias</label>
+			<label index="mlang_labels_tabdescr">Con este modulo Vd. podrá importar y administrar objetos immobiliarios</label>
+			<label index="mlang_labels_tablabel">Immobiliarias</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
@@ -34,6 +39,11 @@
 			<label index="mlang_labels_tabdescr" type="integer">66780326</label>
 			<label index="mlang_labels_tablabel" type="integer">18908185</label>
 		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="mlang_tabs_tab" type="integer">18908185</label>
+			<label index="mlang_labels_tabdescr" type="integer">66780326</label>
+			<label index="mlang_labels_tablabel" type="integer">18908185</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
@@ -42,6 +52,11 @@
 			<label index="mlang_labels_tablabel">Realty</label>
 		</languageKey>
 		<languageKey index="it" type="array">
+			<label index="mlang_tabs_tab">Realty</label>
+			<label index="mlang_labels_tabdescr">This module allows you to manage and import realty objects</label>
+			<label index="mlang_labels_tablabel">Realty</label>
+		</languageKey>
+		<languageKey index="es" type="array">
 			<label index="mlang_tabs_tab">Realty</label>
 			<label index="mlang_labels_tabdescr">This module allows you to manage and import realty objects</label>
 			<label index="mlang_labels_tablabel">Realty</label>

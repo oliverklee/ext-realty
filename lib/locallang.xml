@@ -124,9 +124,15 @@
 		</languageKey>
 		<languageKey index="es" type="array">
 			<label index="message_zip_archive_not_installed">La importación fue abortada debido a que su instalación de PHP no adminte las funciones de archivos ZIP. Por favor, compilar PHP con soporte ZIP usando la opción de configuración &quot;- enable-zip&quot; . En un sistema SUSE los paquetes &quot;php-zip&quot; y &quot;php5-zip&quot; deben estar instalados.</label>
+			<label index="message_import_directory_not_existing">La importación de datos es imposible, porque la carpeta configurada &quot;%s&quot; no existe. Es posible que el  usuario actual no tengo permisos para dicha carpeta. Por favor controle la configuración</label>
+			<label index="message_import_directory_not_readable">La importación de datos es imposible, porque la carpeta configurada &quot;%s&quot; no se puede leer. Es posible que el  usuario actual no tengo permisos para dicha carpeta o la misma no tenga los derechos de lectura. Por favor controle la configuración y comience nuevamente la importación. La carpeta pertenece al usuario &quot;%s&quot;. La importación fué realizada por el usuario &quot;%s&quot;</label>
+			<label index="message_import_directory_not_writable">La importación de datos es imposible, porque en la carpeta configurada &quot;%s&quot; no se puede escribir. Es posible que el  usuario actual no tenga permisos para dicha carpeta o la misma no tenga los derechos de escritura. Por favor controle la configuración y comience nuevamente la importación. La carpeta pertenece al usuario &quot;%s&quot;. La importación fué realizada por el usuario &quot;%s&quot;</label>
+			<label index="message_upload_directory_not_existing">La importación no se puede realizar, porque la carpeta de subida en la Extensions Realty no existe. Por favor controle la configuración y reinicie de nuevo la importación</label>
+			<label index="message_upload_directory_not_writable">La importación no se puede realizar, porque la carpeta de subida en la Extensions Realty no tiene derechos de escritura. La carpeta pertenece a &quot;%s&quot; y tiene los siguentes permisos. El usuario que empezó la importación es &quot;%s&quot;</label>
 			<label index="message_no_zips">No existern archivos ZIPs a extraer. La carpeta configurada para la importación no contiene archivos ZIP. Por favor compruebe la ruta configurada en el administrador de extensiones y el econtenido de la carpeta.</label>
 			<label index="message_object_not_loaded">El registro no ha podido ser cargado. Debido a contenido inválido, el registro no ha sido cargado completamente.</label>
 			<label index="message_insertion_failed">Un error ha ocurrido en el intento de creación de un nuevo registro en la base de datos. Este registro no ha sido insertado en la base de datos.</label>
+			<label index="message_deleted_flag_causes_deletion">Esta archivo será reemplazado por el nuevo</label>
 			<label index="message_deleted_flag_set">Este registro esta seleccionado para su eliminación. Si existe en la base de datos, será eliminado. Si no es así, el registro será ignorado.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
 			<label index="message_fields_required">El registro no ha sido importado porque no se han definido los campos requeridos</label>
@@ -135,6 +141,8 @@
 			<label index="message_extracted_successfully">El archivo ZIP ha sido extraido satisfactoriamente.</label>
 			<label index="message_extraction_failed">La extracción de este fichero ZIP ha fallado. El archivo ZIP no puede abrirse. Es posible que el archivo este corrupto.</label>
 			<label index="message_surplus_folder">La carpeta que debe crearse para la importación ya existe en su directorio de importación. El registro no puede er importado mientras esta capeta exista. Por favor elimine esta carpeta.</label>
+			<label index="message_folder_creation_failed">La carpeta &quot;%s&quot;  no ha podido crearse. Por favor controle sus permisos</label>
+			<label index="message_folder_not_writable">La carpeta se ha creado correcatmente, pero no tiene permisos de escritura. Por favor controle su permisos de acceso</label>
 			<label index="message_invalid_xml_path">La ruta del fichero XML no es válida. No se encuentra la carpeta de extracción.	Existe un problema de permisos. Por favor comprueba si dispones de permisos de escritura en el directório de importación.</label>
 			<label index="message_too_many_xml">No tiene que haber mas que un fichero XML en el archivo ZIP. Por favor elimine los ficheros XML sobrantes del archivo ZIP.</label>
 			<label index="message_no_xml">No se ha encontrado el fichero XML en el archivo ZIP. Si existe algun fichero XML, por favor asegurate que el nombre termina en '.xml'.</label>
@@ -148,10 +156,13 @@
 			<label index="message_files_removed">Los siguientes archivos han sido eliminados</label>
 			<label index="message_introduction">Este es el resultado de la última importación de referéncias OpenImmo.</label>
 			<label index="message_explanation">Está recibiendo este e-mail puesto que es Ud. la persona de contacto de las referéncias OpenImmo siguientes.</label>
+			<label index="message_object_limit_reached">El objeto del usuario %s (UID: %u) no se pudo importar, debido a que ha llegado al máximo de sus objetos</label>
 			<label index="label_subject_openImmo_import">Importar OpenImmo</label>
 			<label index="label_object_number">Objecto Número</label>
 			<label index="label_allowed">Permitido</label>
 			<label index="label_not_allowed">No permitido</label>
+			<label index="label_lightbox_image">Imagen</label>
+			<label index="label_lightbox_of">de</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="message_zip_archive_not_installed">Importazione non possibile perch&amp;egrave; l'installazione di PHP non prevede le funzioni per i ZIP file. Si prega di compilare PHP con il supporto ZIP utilizzando le opzioni di configurazione &quot;--enable-zip&quot;. Su sistema SUSE i pacchetti &quot;php-zip&quot; o &quot;php5-zip&quot; devono essere installati.</label>
@@ -269,11 +280,11 @@
 			<label index="label_not_allowed" type="integer">95428607</label>
 		</languageKey>
 		<languageKey index="es" type="array">
-			<label index="message_zip_archive_not_installed" type="integer">185868903</label>
+			<label index="message_zip_archive_not_installed" type="integer">244067387</label>
 			<label index="message_no_zips" type="integer">105518736</label>
 			<label index="message_object_not_loaded" type="integer">56779241</label>
 			<label index="message_insertion_failed" type="integer">50157132</label>
-			<label index="message_deleted_flag_set" type="integer">232865486</label>
+			<label index="message_deleted_flag_set" type="integer">46487773</label>
 			<label index="message_written_to_database" type="integer">198437427</label>
 			<label index="message_fields_required" type="integer">127661848</label>
 			<label index="message_openimmo_anid_not_matches_allowed_fe_user" type="integer">182565751</label>
@@ -298,6 +309,17 @@
 			<label index="label_object_number" type="integer">180539649</label>
 			<label index="label_allowed" type="integer">196476508</label>
 			<label index="label_not_allowed" type="integer">95428607</label>
+			<label index="message_import_directory_not_existing" type="integer">219502235</label>
+			<label index="message_import_directory_not_readable" type="integer">256871324</label>
+			<label index="message_import_directory_not_writable" type="integer">212022356</label>
+			<label index="message_upload_directory_not_existing" type="integer">235037657</label>
+			<label index="message_upload_directory_not_writable" type="integer">132546299</label>
+			<label index="message_folder_creation_failed" type="integer">237886324</label>
+			<label index="message_folder_not_writable" type="integer">237916578</label>
+			<label index="message_object_limit_reached" type="integer">206506953</label>
+			<label index="message_deleted_flag_causes_deletion" type="integer">253725718</label>
+			<label index="label_lightbox_image" type="integer">199571973</label>
+			<label index="label_lightbox_of" type="integer">146770004</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="message_zip_archive_not_installed" type="integer">244067387</label>
@@ -415,11 +437,11 @@
 			<label index="label_not_allowed">Unwelcome</label>
 		</languageKey>
 		<languageKey index="es" type="array">
-			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php5-zlib&quot; and &quot;dietzlib&quot; must be installed for this.</label>
+			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</label>
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
-			<label index="message_deleted_flag_set">This record is marked to be deleted. If it exists in the database, it will be deleted there. Otherwise this record will be ignored.</label>
+			<label index="message_deleted_flag_set">This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</label>
 			<label index="message_written_to_database">The record was written to the database.</label>
 			<label index="message_fields_required">The record was not imported because the required fields are not set</label>
 			<label index="message_openimmo_anid_not_matches_allowed_fe_user">The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</label>
@@ -444,6 +466,17 @@
 			<label index="label_object_number">Object Number</label>
 			<label index="label_allowed">Allowed</label>
 			<label index="label_not_allowed">Unwelcome</label>
+			<label index="message_import_directory_not_existing">Importing is impossible because the configured import directory &quot;%s&quot; does not exist. It is also possible that the current user &quot;%s&quot; has no read permissions on one of the parent folders. Please check your configuration and restart the import.</label>
+			<label index="message_import_directory_not_readable">Importing is impossible because the configured import directory &quot;%s&quot; is not readable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
+			<label index="message_import_directory_not_writable">Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
+			<label index="message_upload_directory_not_existing">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
+			<label index="message_upload_directory_not_writable">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
+			<label index="message_folder_creation_failed">The folder &quot;%s&quot; could not be created. Please check your access rights.</label>
+			<label index="message_folder_not_writable">The folder &quot;%s&quot; has been created successfully, but is not writable. Please check your access rights.</label>
+			<label index="message_object_limit_reached">The record for the user %s (UID: %u) was not imported because the user's object limit of %u has been reached.</label>
+			<label index="message_deleted_flag_causes_deletion">Updating this record deletes the record.</label>
+			<label index="label_lightbox_image">Image</label>
+			<label index="label_lightbox_of">of</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="message_zip_archive_not_installed">Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</label>

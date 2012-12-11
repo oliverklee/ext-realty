@@ -37,6 +37,16 @@
 			<label index="error_message_auxiliary_pid">Non hai i permessi di scrittura alla directory con PID %u che e' impostata nella configurazione dell'estensione &amp;quot;pidForAuxiliaryRecords&amp;quot; dell'estensione realty. Per favore modifica i permessi di accesso ad uno dei gruppi utenti di BE.</label>
 			<label index="error_message_table_access">Non hai i permessi di creare records nella tabella &amp;quot;%s&amp;quot; necessaria per importare immobili. Per favore modifica i permessi di accesso ad uno dei gruppi utenti di BE.</label>
 		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="title">Immobiliaria</label>
+			<label index="import_tab">Importacion de immobiliarias</label>
+			<label index="start_import_button">Comenzar la importación</label>
+			<label index="label_import_in_progress">Archivos estan siendo importados</label>
+			<label index="message_no_permission">Vd. no tiene acceso a este modulo</label>
+			<label index="error_message_objects_pid">Vd. no tiene permisos de escritura al Archivo con el PID%, que esta pre-programado en la variable &amp;quot;pidForRealtyObjectsAndImages&amp;quot. Por favor reestablezca los permisos de escritura para este archivo.</label>
+			<label index="error_message_auxiliary_pid">Vd. no tiene permisos de escritura al Archivo con el PID%, que esta pre-programado en la variable &amp;quot;pidForRealtyObjectsAndImages&amp;quot. Por favor reestablezca los permisos de escritura para este archivo.</label>
+			<label index="error_message_table_access">Vd no tiene permisos para crear datos en la tabla %quot;%s&amp;quot; que es necesario para importar objetos. Por favor cambio los permisos en el BE para este usuario, para que tenga derecho a escrituro en este archivo</label>
+		</languageKey>
 	</data>
 	<orig_hash type="array">
 		<languageKey index="de" type="array">
@@ -59,6 +69,16 @@
 			<label index="error_message_auxiliary_pid" type="integer">38880630</label>
 			<label index="error_message_table_access" type="integer">194401389</label>
 		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="title" type="integer">18908185</label>
+			<label index="import_tab" type="integer">191942723</label>
+			<label index="start_import_button" type="integer">115192825</label>
+			<label index="label_import_in_progress" type="integer">256155829</label>
+			<label index="message_no_permission" type="integer">174353886</label>
+			<label index="error_message_objects_pid" type="integer">82557402</label>
+			<label index="error_message_auxiliary_pid" type="integer">38880630</label>
+			<label index="error_message_table_access" type="integer">194401389</label>
+		</languageKey>
 	</orig_hash>
 	<orig_text type="array">
 		<languageKey index="de" type="array">
@@ -72,6 +92,16 @@
 			<label index="error_message_table_access">You are not allowed to create records in the table &amp;quot;%s&amp;quot; which is neccessary to import realty objects. Please edit one of the BE user's user groups and grant write access to this table.</label>
 		</languageKey>
 		<languageKey index="it" type="array">
+			<label index="title">Realty</label>
+			<label index="import_tab">OpenImmo import</label>
+			<label index="start_import_button">Start OpenImmo import</label>
+			<label index="label_import_in_progress">Data is being imported &amp;#8230;</label>
+			<label index="message_no_permission">You don't have the permissions to access this module.</label>
+			<label index="error_message_objects_pid">You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForRealtyObjectsAndImages&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</label>
+			<label index="error_message_auxiliary_pid">You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForAuxiliaryRecords&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</label>
+			<label index="error_message_table_access">You are not allowed to create records in the table &amp;quot;%s&amp;quot; which is neccessary to import realty objects. Please edit one of the BE user's user groups and grant write access to this table.</label>
+		</languageKey>
+		<languageKey index="es" type="array">
 			<label index="title">Realty</label>
 			<label index="import_tab">OpenImmo import</label>
 			<label index="start_import_button">Start OpenImmo import</label>

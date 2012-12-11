@@ -1453,24 +1453,118 @@
 			<label index="message_invalidImage_informal">Bu resim veri bankamızda kullanıma açık değil. Lütfen yazdığın adresi kontrol et. Eğer bu sayfaya bir linkı takip ederek geldiysen, link yanlış ya da eski olabilir.</label>
 		</languageKey>
 		<languageKey index="es" type="array">
+			<label index="realty.pi_flexform.templateFile">HTML TEmplate</label>
 			<label index="realty.pi_flexform.sheet_general">General</label>
 			<label index="realty.pi_flexform.what_to_display">Cuáles deberían ser mostradas</label>
 			<label index="realty.pi_flexform.realty_list">Listado Inmobiliário</label>
 			<label index="realty.pi_flexform.favorites">Favoritos</label>
+			<label index="realty.pi_flexform.single_view">Vista única</label>
+			<label index="realty.pi_flexform.filter_form">Formulario de busqueda</label>
+			<label index="realty.pi_flexform.contact_form">Formulario de Coctacto</label>
+			<label index="realty.pi_flexform.my_objects">mis objetos</label>
+			<label index="realty.pi_flexform.offerer_list">Listado de proveedores</label>
+			<label index="realty.pi_flexform.objects_by_owner">Objetos de un proveedor</label>
+			<label index="realty.pi_flexform.fe_editor">FE Editor</label>
+			<label index="realty.pi_flexform.image_upload">Cargar imagen</label>
 			<label index="realty.pi_flexform.staticSqlFilter">Consulta SQL</label>
+			<label index="realty.pi_flexform.sheet_contactForm">Formulario de contacto</label>
+			<label index="realty.pi_flexform.defaultContactEmail">Dirección correo electrónico, en el caso no existiese en el contacto</label>
+			<label index="realty.pi_flexform.blindCarbonCopyAddress">Dirección de correo electrónico para envio de copia oculta por cada petición</label>
+			<label index="realty.pi_flexform.requiredContactFormFields">Campo obligatorio</label>
+			<label index="realty.pi_flexform.visibleContactFormFields">Campos a mostrar</label>
+			<label index="realty.pi_flexform.request">Mensaje de Texto</label>
+			<label index="realty.pi_flexform.viewing">Checkbox- Concertar visita</label>
+			<label index="realty.pi_flexform.information">Checkbox -Información del objeto</label>
+			<label index="realty.pi_flexform.callback">Checkbox - Devolución de llamada</label>
+			<label index="realty.pi_flexform.terms">Checkbox - Condiciones Generales</label>
+			<label index="realty.pi_flexform.law">Nota concerniente ley competencia desleal</label>
+			<label index="realty.pi_flexform.termsPID">Página con las condiciones generales</label>
+			<label index="realty.pi_flexform.showContactPageLink">Mostrar Link al formulacio de contacto en el bloc de notas</label>
 			<label index="realty.pi_flexform.checkboxesFilter">Campo de la base de datos para mostrar opciones de búsqueda</label>
+			<label index="realty.pi_flexform.orderBy">Mostrar listado segun criterios:</label>
 			<label index="realty.pi_flexform.sortCriteria">Campos de la Base da datos con los que el usuario podrá ordenar los resultados</label>
+			<label index="realty.pi_flexform.random">al azar</label>
+			<label index="realty.pi_flexform.fromTsSetup">(del TS- Setup)</label>
+			<label index="realty.pi_flexform.hide">esconder</label>
+			<label index="realty.pi_flexform.show">mostrar</label>
 			<label index="realty.pi_flexform.singlePID">Página para mostrar la ficha técnica</label>
 			<label index="realty.pi_flexform.favoritesPID">Página para favoritos</label>
+			<label index="realty.pi_flexform.editorPID">Página con el FE-Editor</label>
+			<label index="realty.pi_flexform.imageUploadPID">Página para subir las Imagenes del FE</label>
+			<label index="realty.pi_flexform.objectsByOwnerPID">Página con los objetos de un proveedor</label>
+			<label index="realty.pi_flexform.userGroupsForOffererList">Grupo de Usuarios del FE para la lista del proveedor</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">Carpeta de sistema para los objetos creados</label>
+			<label index="realty.pi_flexform.feEditorRedirectPid">Página FE después de crear un objeto</label>
+			<label index="realty.pi_flexform.feEditorNotifyEmail">Correo electronico que recibira un mensaje cada vez que se cree un nuevo objeto</label>
+			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
+			<label index="realty.pi_flexform.sheet_googlemaps">Mapas Google</label>
+			<label index="realty.pi_flexform.showGoogleMaps">Mostrar Mapas de Google en el listado</label>
+			<label index="realty.pi_flexform.googleMapsApiKey">Clave API de Mapas Google</label>
+			<label index="realty.pi_flexform.defaultCountry">Pais Standart de los objetos</label>
+			<label index="realty.pi_flexform.sheet_searchForm">Formulario de busqueda</label>
+			<label index="realty.pi_flexform.displayedSearchWidgetFields">Campos del formulario de busqueda</label>
+			<label index="realty.pi_flexform.displaySite">Ciudad y Codigo postal</label>
+			<label index="realty.pi_flexform.displayCity">Ciudad Drop-Down</label>
+			<label index="realty.pi_flexform.displayDistrict">Distrito Drop-Down</label>
+			<label index="realty.pi_flexform.displayHouseType">Tipo de casa Drop-Down</label>
+			<label index="realty.pi_flexform.displayRent">Campo del precio</label>
+			<label index="realty.pi_flexform.displayPriceRange">Alquiler - Compra Drop-Down</label>
+			<label index="realty.pi_flexform.displayObjectNumber">Nro. del Objeto</label>
+			<label index="realty.pi_flexform.displayUid">Immo ID</label>
+			<label index="realty.pi_flexform.displayObjectType">Campo Radio Compra/Alquiler</label>
+			<label index="realty.pi_flexform.displayNumberOfRooms">Nro. de habitaciones</label>
+			<label index="realty.pi_flexform.displayLivingArea">Salon</label>
 			<label index="realty.pi_flexform.filterTargetPID">Página de destino para el selector de ciudades</label>
+			<label index="realty.pi_flexform.priceRangesForFilterForm">Preis entre y para el Menu Drop-Down</label>
+			<label index="realty.pi_flexform.objectNumber">Nro Objeto</label>
+			<label index="realty.pi_flexform.uid">Immo ID</label>
+			<label index="realty.pi_flexform.sheet_offererInformation">Information proveedor</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Campos de contacto, para todos los usuarios del grupo</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">Grupo de usuarios del FE con otros datos de contacto</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Campos de contacto a mostar para estos usuarios</label>
+			<label index="realty.pi_flexform.firstUserGroup">Primer grupo de usuarios</label>
+			<label index="realty.pi_flexform.company">compañia</label>
+			<label index="realty.pi_flexform.offererLabel">Apellidos</label>
+			<label index="realty.pi_flexform.street">calle</label>
+			<label index="realty.pi_flexform.city">ciudad</label>
+			<label index="realty.pi_flexform.zip_and_city">ciudad y codigo postal</label>
+			<label index="realty.pi_flexform.telephone">telefono</label>
+			<label index="realty.pi_flexform.email">dirección de correo</label>
+			<label index="realty.pi_flexform.homepage">Página de inicio</label>
+			<label index="realty.pi_flexform.image">imagen</label>
+			<label index="realty.pi_flexform.objectsByOwnerLink">Link a la página con los objetos del proveedor</label>
+			<label index="realty.pi_flexform.sheet_advertisements">Anuncios publicitarios</label>
+			<label index="realty.pi_flexform.advertisementPID">Página con el formulario para los anuncios</label>
+			<label index="realty.pi_flexform.advertisementParameterForObjectUid">Parametros GET para el UID del objeto:</label>
+			<label index="realty.pi_flexform.advertisementExpirationInDays">Duración del anuncio (en dias):</label>
+			<label index="realty.pi_flexform.singleViewPartsToDisplay">Vista parcial del objeto</label>
+			<label index="realty.pi_flexform.nextPreviousButtons">Button átras/próximo</label>
+			<label index="realty.pi_flexform.heading">Cabecera</label>
+			<label index="realty.pi_flexform.address">Dirección</label>
+			<label index="realty.pi_flexform.description">Descripcion</label>
+			<label index="realty.pi_flexform.documents">Documento</label>
+			<label index="realty.pi_flexform.price">Precio Alquiler/Compra</label>
+			<label index="realty.pi_flexform.overviewTable">Tabla principal</label>
+			<label index="realty.pi_flexform.contactButton">button &quot; Contactar&quot;</label>
+			<label index="realty.pi_flexform.addToFavoritesButton">button &quot;Añadir a favoritos&quot;</label>
+			<label index="realty.pi_flexform.printPageButton">button &quot;Imprimir&quot;</label>
+			<label index="realty.pi_flexform.backButton">button &quot; Atras&quot;</label>
+			<label index="realty.pi_flexform.furtherDescription">Campos &quot;Equipamiento&quot;, &quot;Situación&quot; y &quot;Otros&quot;</label>
+			<label index="realty.pi_flexform.imageThumbnails">imagen</label>
+			<label index="realty.pi_flexform.offerer">Informacion del proveedor</label>
+			<label index="realty.pi_flexform.status">Status del objeto</label>
+			<label index="realty.pi_flexform.googleMaps">Mapas Google</label>
+			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
 			<label index="label_title">Título</label>
 			<label index="label_city">Ciudad</label>
 			<label index="label_district">Provincia</label>
+			<label index="label_country">Pais</label>
 			<label index="label_tstamp">Fecha del último cambio</label>
 			<label index="label_extra_charges">Cargas extras</label>
 			<label index="label_extra_charges_short">Cargas extras</label>
 			<label index="label_rent_excluding_bills">Alquiler sin gastos adicionales</label>
 			<label index="label_rent_excluding_bills_short">Alquiler sin gastos adicionales</label>
+			<label index="label_rent_per_square_meter">Alquiler pro m</label>
 			<label index="label_number_of_rooms">Número de habitaciones</label>
 			<label index="label_number_of_rooms_short">habitaciones</label>
 			<label index="label_balcony">Balcón/Terraza</label>
@@ -1479,19 +1573,43 @@
 			<label index="label_garden_short">jardín</label>
 			<label index="label_elevator">Ascensor</label>
 			<label index="label_elevator_short">ascensor</label>
+			<label index="label_has_air_conditioning">Aire Acondicionado</label>
+			<label index="label_has_air_conditioning_short">aire acondicionado</label>
+			<label index="label_has_pool">Piscina</label>
+			<label index="label_has_pool_short">Piscina</label>
+			<label index="label_has_community_pool">Piscina comunitaria</label>
+			<label index="label_has_community_pool_short">Piscina comunitaria</label>
+			<label index="label_distance_to_the_sea">Distancia al mar</label>
+			<label index="label_sea_view">Vista al mar</label>
 			<label index="label_barrier_free">Acceso discapacitados</label>
 			<label index="label_barrier_free_short">acceso discapacitados</label>
 			<label index="label_assisted_living">Portero automático</label>
 			<label index="label_assisted_living_short">portero automático</label>
 			<label index="label_fitted_kitchen">Cocina equipada</label>
 			<label index="label_fitted_kitchen_short">cocina equipada</label>
+			<label index="label_flooring">Tipo de suelo</label>
+			<label index="label_flooring_1">Ceramica</label>
+			<label index="label_flooring_2">Piedra</label>
+			<label index="label_flooring_3">tapiz</label>
+			<label index="label_flooring_4">parquet</label>
+			<label index="label_flooring_5">parquet</label>
+			<label index="label_flooring_6">laminado</label>
+			<label index="label_flooring_7">tarima</label>
+			<label index="label_flooring_8">PVC</label>
+			<label index="label_flooring_9">Buhardilla</label>
+			<label index="label_flooring_10">Doble suelo</label>
+			<label index="label_flooring_11">linoleo</label>
 			<label index="label_construction_year">Año de construcción</label>
 			<label index="label_construction_year_short">año de construcción</label>
+			<label index="label_old_or_new_building_1">Nueva construcción</label>
+			<label index="label_old_or_new_building_2">Casa de antigua construcción</label>
 			<label index="label_usable_from">Habitable a partir de</label>
 			<label index="label_usable_from_short">habitable a partir de</label>
 			<label index="label_object_number">Ref.:</label>
 			<label index="label_address">Dirección</label>
 			<label index="label_description">Descripción</label>
+			<label index="label_offerer">Proveedor</label>
+			<label index="label_phone">Teléfono</label>
 			<label index="label_equipment">Equipamiento</label>
 			<label index="label_overview">Descripción general</label>
 			<label index="label_location">Ubicación</label>
@@ -1499,11 +1617,28 @@
 			<label index="label_layout">Plantilla</label>
 			<label index="label_living_area">Área del comedor</label>
 			<label index="label_total_area">Área total</label>
+			<label index="label_shop_area">Área del local ca.</label>
+			<label index="label_sales_area">Área de ventas ca.</label>
+			<label index="label_total_usable_area">Área utilizable ca-</label>
+			<label index="label_storage_area">Almacen ca.</label>
+			<label index="label_office_space">Área oficinas ca.</label>
+			<label index="label_other_area">Otras áreas</label>
+			<label index="label_window_bank">Ventanal</label>
+			<label index="label_estate_size">Superficie del terreno ca.</label>
+			<label index="label_site_occupancy_index">Indice de ocupación del sitio</label>
+			<label index="label_floor_space_index">Nro. de pisos</label>
 			<label index="label_heating_included">Calefacción incluida en gastos extras</label>
 			<label index="label_deposit">Déposito de garantía</label>
 			<label index="label_provision">Provisiones / Comisiones</label>
 			<label index="label_buying_price">Precio de venta</label>
+			<label index="label_hoa_fee">Comunidad</label>
 			<label index="label_year_rent">Renta neta anual</label>
+			<label index="label_rental_income_target">Entradas por alquiler (Debe)</label>
+			<label index="label_status">Status</label>
+			<label index="label_status_0">libre</label>
+			<label index="label_status_1">reservado</label>
+			<label index="label_status_2">vendido</label>
+			<label index="label_status_3">alquilado</label>
 			<label index="label_apartment_type">Tipo de apartamento</label>
 			<label index="label_house_type">Tipo de casa</label>
 			<label index="label_floor">Planta</label>
@@ -1511,24 +1646,89 @@
 			<label index="label_bedrooms">Número de habitaciones</label>
 			<label index="label_bathrooms">Número de baños</label>
 			<label index="label_heating_type">Tipo de calefacción</label>
+			<label index="label_heating_type_1">Calefacción de distrito</label>
+			<label index="label_heating_type_2">Calefacción central</label>
+			<label index="label_heating_type_3">Cafelacción eléctrica</label>
+			<label index="label_heating_type_4">Calefacción por suelo radiante</label>
+			<label index="label_heating_type_5">Caleffación a gas</label>
+			<label index="label_heating_type_6">Calefacción alternativa</label>
+			<label index="label_heating_type_7">Bomba de calor</label>
+			<label index="label_heating_type_8">Calefacción de aceite</label>
+			<label index="label_heating_type_9">Calefacción por pisos</label>
+			<label index="label_heating_type_10">Caleffación solar</label>
+			<label index="label_heating_type_11">Estufas</label>
+			<label index="label_heating_type_12">Calefacción de zona</label>
 			<label index="label_garage_type">Garage / Plaza(s) de parking</label>
+			<label index="label_parking_spaces">Nro de plazas de parking exteriores</label>
 			<label index="label_garage_rent">Precio de alquiler del garage/plaza(s) de parking</label>
 			<label index="label_garage_price">Precio de venta del garage/plaza(s) de parking</label>
 			<label index="label_pets">Animales domésticos</label>
 			<label index="label_state">Estado</label>
+			<label index="label_state_1">Obra bruta</label>
+			<label index="label_state_2">a concordar</label>
+			<label index="label_state_3">en mal estado</label>
+			<label index="label_state_4">Primera ocupación</label>
+			<label index="label_state_5">para demoler</label>
+			<label index="label_state_6">vaciada</label>
+			<label index="label_state_7">modernizada</label>
+			<label index="label_state_8">necesita arreglos</label>
+			<label index="label_state_9">para total renovación</label>
+			<label index="label_state_10">reacondicionada</label>
+			<label index="label_state_11">renovada</label>
+			<label index="label_state_12">saneada</label>
+			<label index="label_state_13">proyectada</label>
+			<label index="label_state_14">parcialmente renovada</label>
+			<label index="label_state_15">parcialmente saneada</label>
+			<label index="label_state_16">saneamiento planeado</label>
+			<label index="label_state_17">necesita renovacion</label>
+			<label index="label_state_18">totalmente alquilada</label>
+			<label index="label_state_19">esta vacia</label>
+			<label index="label_state_20">parcialmente alquilada</label>
+			<label index="label_state_21">con permisos de obra</label>
+			<label index="label_furnishing_category">Categoria del mobiliario</label>
+			<label index="label_furnishing_category_1">stadart</label>
+			<label index="label_furnishing_category_2">superior</label>
+			<label index="label_furnishing_category_3">lujoso</label>
 			<label index="label_weofferyou_formal">Le ofrecemos los siguientes objetos:</label>
 			<label index="label_weofferyou_informal">Te ofrecemos los siguientes objetos:</label>
 			<label index="label_yourfavorites_formal">Los siguientes objetos se encuentran en su lista de favoritos.</label>
 			<label index="label_yourfavorites_informal">Los siguientes objetos se encuentran en tu lista de favoritos.</label>
+			<label index="label_your_objects_formal">Sus objetos:</label>
+			<label index="label_your_objects_informal">Tus obejtos:</label>
+			<label index="label_objects_already_entered">Ya ha metido %u del total %u de objetos</label>
+			<label index="label_no_objects_left">Ya no puedo meter mas objetos</label>
+			<label index="label_one_object_left">Solo puede meter un solo objeto más</label>
+			<label index="label_multiple_objects_left">Solo puede meter %u objetos</label>
 			<label index="label_searchin">Buscar en</label>
 			<label index="label_page">Página</label>
 			<label index="label_approx">aprox.</label>
 			<label index="label_squareMeters">m²</label>
+			<label index="label_meter">m</label>
 			<label index="label_back">Volver al listado</label>
 			<label index="label_add_to_favorites">Añadir a mis favoritos</label>
 			<label index="label_remove_from_favorites">Borrar de mis favoritos</label>
 			<label index="label_on_favorites_list">Objetos en mi lista de favoritos</label>
+			<label index="label_print_page">Imprimir página</label>
+			<label index="label_filter_form">Criterios de busqueda</label>
+			<label index="label_enter_zip_or_city">Ciudad o codigo postal:</label>
+			<label index="label_enter_object_number">Nro. del objeto:</label>
+			<label index="label_enter_uid">Immo-ID:</label>
+			<label index="label_select_city">Ciudad</label>
 			<label index="label_pleaseselectcity">&amp;#8212; Seleccionar ciudad &amp;#8212;</label>
+			<label index="label_select_district">Distrito</label>
+			<label index="label_pleaseselectdistrict">&amp;#8212; Por favor seleccione distrito &amp;#8212;</label>
+			<label index="label_select_house_type">Tipo de casa:</label>
+			<label index="label_pleaseselecthousetype">&amp;#8212; Por favor seleccione tipo de casa &amp;#8212;</label>
+			<label index="label_select_price_range">Alquiler/Precio compra:</label>
+			<label index="label_enter_rent">Alquiler/precio compra desde:</label>
+			<label index="label_enter_living_area">Sala de estar desde:</label>
+			<label index="label_select_object_type">Solo objetos:</label>
+			<label index="label_select_rent">para alquilar</label>
+			<label index="label_select_sale">para vender</label>
+			<label index="label_enter_number_of_rooms">Nro de habitaciones</label>
+			<label index="label_less_than">menos de</label>
+			<label index="label_greater_than">más de</label>
+			<label index="label_to">hasta</label>
 			<label index="label_next_image">ir a la próxima imágen</label>
 			<label index="label_sorry">Lo sentimos!</label>
 			<label index="label_ascending">ascendente</label>
@@ -1536,19 +1736,117 @@
 			<label index="label_sort">mostrar</label>
 			<label index="label_search">buscar</label>
 			<label index="label_sortby">Mostrar resultados por</label>
+			<label index="label_random">al azar</label>
 			<label index="label_contact">Contacte con nosotros</label>
 			<label index="label_close_window">Cerrar ventana</label>
+			<label index="label_objects">objetos</label>
+			<label index="label_previous_page">objeto anterior</label>
+			<label index="label_next_page">próximo objeto</label>
 			<label index="message_yes">si</label>
 			<label index="message_noResultsFound_realty_list_formal">No se han encontrado resultados con estos parámetros. Por favor redefina su búsqueda</label>
 			<label index="message_noResultsFound_realty_list_informal">No se han encontrado resultados con estos parámetros. Por favor redefine tu búsqueda</label>
 			<label index="message_noResultsFound_favorites_formal">Su listado de favoritos se encuentra vacio.</label>
 			<label index="message_noResultsFound_favorites_informal">Tu listado de favoritos se encuentra vacio.</label>
+			<label index="message_noResultsFound_contact_form_formal">El objeto a contactar deseado por Vd. ya no existe</label>
+			<label index="message_noResultsFound_contact_form_informal">El objeto a contactar deseado por ti ya no exite</label>
+			<label index="message_noResultsFound_fe_editor_formal">El objeto deseado ya no existen en la base de datos. Por favor elija otro objeto.</label>
+			<label index="message_noResultsFound_fe_editor_informal">El objeto deseado ya no existen en la base de datos. Por favor elije otro objeto.</label>
+			<label index="message_noResultsFound_image_upload">Sólo puedes subir imágenes de un objeto especificado . Haga clic en el botón de carga de la imagen en la lista de mis objetos</label>
 			<label index="message_noResultsFound_single_view_formal">URL inválida. El objeto no está disponible. Contacte con el Webmaster</label>
 			<label index="message_noResultsFound_single_view_informal">URL inválida. El objeto no está disponible. Contacta con el Webmaster</label>
+			<label index="message_noResultsFound_my_objects_formal">Vd. no tiene ningún objeto</label>
+			<label index="message_noResultsFound_my_objects_informal">Tu no tienes nigún objeto</label>
+			<label index="message_noResultsFound_offererList">Por el momento no existen objetos</label>
+			<label index="message_noResultsFound_objects_by_owner">Este proveedor no tiene objetos</label>
+			<label index="message_access_denied_formal">Usted no tiene permisos para modificar este objeto. Solo el propietario del mismo puede modificarlo.</label>
+			<label index="message_access_denied_informal">Tu no tienes permisos para modificar este objeto. Solo el propietario del mismo puede modificarlo.</label>
 			<label index="message_invalidImage_formal">La imágen no está disponible en nuestra base de datos. Por favor compruebe si la dirección que introdujo es correcta. Si ha seguido un enlace hasta esta página, o el enlace es incorrecto o caducado,</label>
 			<label index="message_invalidImage_informal">La imágen no está disponible en nuestra base de datos. Por favor comprueba si la dirección que introdujiste es correcta. Si has seguido un enlace hasta esta página, o el enlace es incorrecto o caducado,</label>
 			<label index="message_please_login_formal">Por favor, identifíquese para ver esta página</label>
 			<label index="message_please_login_informal">Por favor, identifícate para ver esta página</label>
+			<label index="message_no_objects_left">Vd ya no puede meter mas datos, ya que llego al máximo permitido.</label>
+			<label index="label_salutation">Hola</label>
+			<label index="label_uid">ID Banco de Datos</label>
+			<label index="label_user_text">escribio  la siguiente  petición</label>
+			<label index="label_user_contact_information">Datos de contacto</label>
+			<label index="label_email_subject_specialized">Solicitud de información para el objeto</label>
+			<label index="label_email_subject_general">Peticion de immobiliarias</label>
+			<label index="label_contact_form_description_formal">Aqui puede Vd. enviar un mensaje el proveedor</label>
+			<label index="label_contact_form_description_informal">Aqui puedes enviar un mensjae al proveedor</label>
+			<label index="label_requested_object">Tu objeto requerido:</label>
+			<label index="label_requester_data_is_uneditable_formal">Utilizamos los datos de su cuenta</label>
+			<label index="label_requester_data_is_uneditable_informal">Utilizamos los datos de tu cuenta</label>
+			<label index="label_your_name">Nombre</label>
+			<label index="label_street">Calle</label>
+			<label index="label_zip">Codigo Postal</label>
+			<label index="label_zip_and_city">Codigo Postal y Ciudad</label>
+			<label index="label_your_email">Correo electrónico</label>
+			<label index="label_your_phone">Nro. de teléfono</label>
+			<label index="label_your_request">Petición</label>
+			<label index="label_viewing">Concertar una cita para ver el objeto conmigo</label>
+			<label index="label_information">Por favor envieme más informaciones del objeto</label>
+			<label index="label_callback">Por favor devuelvame la llamada</label>
+			<label index="label_terms">He leido y acepto las %s terms %s</label>
+			<label index="label_law">Desde el 01 de agosto de 2009 son las llamadas sin consentimiento en virtud del artículo 7 párrafo 2 no. 2 de la ley contra la publicidad de Telefónica ilegal de competencia desleal (UWG). Le pedimos que nos otorga su consentimiento para las llamadas de teléfono, para que podamos informarle en el futuro personalmente en este punto.</label>
+			<label index="label_submit">Enviar</label>
+			<label index="label_save">Grabar</label>
+			<label index="label_cancel">Anular</label>
+			<label index="label_save_and_close">Grabar y cerrar</label>
+			<label index="label_no_contact_person">Esta petición no puede ser enviada por faltar la persona de contacto de este objeto.</label>
+			<label index="label_set_name_formal">Por favor introduzca su nombre si caracteres especiales</label>
+			<label index="label_set_name_informal">Por favor introduce tu nombre sin caracteres especiales</label>
+			<label index="label_set_valid_email_address_formal">Por favor introduzca un dirección de correo electrónico válida</label>
+			<label index="label_set_valid_email_address_informal">Por favor introduce una dirección de correo valida</label>
+			<label index="message_required_field_request">En que podemos ayudarle:</label>
+			<label index="message_required_field_terms">Solo lo podemos ayudar si ha leeido y aceptado nuestras condiciones generales. Por favor cheque el respectivo cuadrito</label>
+			<label index="label_thank_you_formal">Gracias por su petición</label>
+			<label index="label_thank_you_informal">Gracias por tu petición</label>
+			<label index="label_message_sent_formal">Su petición ha sido enviada</label>
+			<label index="label_message_sent_informal">Tu petición ha sido enviada</label>
+			<label index="label_has_request">ha enviado la siguiente petición</label>
+			<label index="label_summary_string_of_favorites">Los siguientes objetos estabán tu bloc de notas</label>
+			<label index="label_sender_contact">La direccion de contacto del remitente</label>
+			<label index="label_append_images">Importa imagines</label>
+			<label index="label_edit">Modificar</label>
+			<label index="label_new_record">Crear un nuevo objeto</label>
+			<label index="label_delete">Borrar</label>
+			<label index="label_really_delete">Esta Vd. seguro de querer borrar este objeto.</label>
+			<label index="label_published">Publicado</label>
+			<label index="label_pending">Pendiente</label>
+			<label index="label_advertise">Anunciar</label>
+			<label index="label_advertised">Anunciado</label>
+			<label index="message_no_valid_number">Por favor introduzca un número válido</label>
+			<label index="message_no_valid_price">Por favor introduzca un precio válido</label>
+			<label index="message_no_valid_year">Por favor introduzca una fecha en el pasado</label>
+			<label index="message_no_valid_longitude_degree">Por favor introduzca las coordenadas de longitud (-180 hasta 180)</label>
+			<label index="message_no_valid_latitude_degree">Por favor introduzca las coordenadas de latitude (-90 hasta  90)</label>
+			<label index="message_object_number_exists">El objeto que quiere introducir ya existe el el banco de datos. Por favor meta un nro. de obejto diferente</label>
+			<label index="message_required_field">Campo obligatorio. por favor introduzca un valor para este campo</label>
+			<label index="message_required_field_requesterZip">Por favor introduzca su codigo postal</label>
+			<label index="message_required_field_requesterCity">Por favor introduzca su ciudad</label>
+			<label index="message_value_not_allowed">El valor introducido no es valido para este campo. Por favor vuelva a intentarlo</label>
+			<label index="message_enter_valid_non_empty_buying_price">Por favor introduzca un precio real, ya que es un objeto para vender</label>
+			<label index="message_enter_valid_or_empty_buying_price">Por favor introduzca un precio real o deje el campo vacio</label>
+			<label index="message_enter_valid_non_empty_rent">Por favor introduzca un precio valido &lt;em&gt; para alquiler neto, ya que se trata de un objeto en alquiler</label>
+			<label index="message_enter_valid_or_empty_rent">Por favor introduzca un precio valido &lt;em&gt; para alquiler neto, ya que se trata de un objeto en alquiler o deje el campo vacio</label>
+			<label index="message_either_new_or_existing_record">Un objeto nuevo y otro existente no se pueden grabar en el mismo objeto. Por favor seleccione otro objeto a dele un nuevo titulo.</label>
+			<label index="message_emptyTitle">Por favor introducza un titulo</label>
+			<label index="message_emptyCity">Por favor seleccione una ciudad</label>
+			<label index="label_new_city">Por favor cree una nueva ciudad</label>
+			<label index="label_new_district">Por favor cree un nuevo distrito</label>
+			<label index="label_email_subject_fe_editor">Un nuevo objeto immobiliario ha sido creado en el FE</label>
+			<label index="label_new_object_created">Un nevo dato ha sido anexado en la base de datos</label>
+			<label index="label_name">Nombre</label>
+			<label index="label_username">Nombre usuario</label>
+			<label index="label_image_upload">Subir imagen</label>
+			<label index="label_image_list">Imagenes subidas actualmente</label>
+			<label index="message_image_too_large">La imagen que quiere subir es muy grande. Por favor escoja una mas pequeña o reduzca esta y pruebe de nuevo.</label>
+			<label index="message_invalid_type">La imagen que quiere subir tiene un tipo invalido. Las extensiones permitîdas son : JPG, JPEG, GIF, PNG.</label>
+			<label index="message_empty_caption">Por favor introduzca un título para la foto</label>
+			<label index="label_offerings_by">Ofertas de</label>
+			<label index="message_no_such_owner">El proveedor elegido no existe en nuestra base de datos</label>
+			<label index="label_offerer_list">Listado de proveedores.</label>
+			<label index="label_this_owners_objects">Todos los objetos de este proveedor.</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="realty.pi_flexform.templateFile">Template HTML</label>
@@ -2926,7 +3224,7 @@
 			<label index="realty.pi_flexform.sortCriteria" type="integer">112117943</label>
 			<label index="realty.pi_flexform.singlePID" type="integer">118250655</label>
 			<label index="realty.pi_flexform.favoritesPID" type="integer">68624332</label>
-			<label index="realty.pi_flexform.filterTargetPID" type="integer">265563004</label>
+			<label index="realty.pi_flexform.filterTargetPID" type="integer">140369544</label>
 			<label index="label_title" type="integer">192455458</label>
 			<label index="label_city" type="integer">92079470</label>
 			<label index="label_district" type="integer">235647734</label>
@@ -2961,7 +3259,7 @@
 			<label index="label_location" type="integer">216383317</label>
 			<label index="label_misc" type="integer">59226864</label>
 			<label index="label_layout" type="integer">247307244</label>
-			<label index="label_living_area" type="integer">38494779</label>
+			<label index="label_living_area" type="integer">135838058</label>
 			<label index="label_total_area" type="integer">109266585</label>
 			<label index="label_heating_included" type="integer">150189013</label>
 			<label index="label_deposit" type="integer">254246076</label>
@@ -2975,7 +3273,7 @@
 			<label index="label_bedrooms" type="integer">265698466</label>
 			<label index="label_bathrooms" type="integer">187944950</label>
 			<label index="label_heating_type" type="integer">7498189</label>
-			<label index="label_garage_type" type="integer">97055949</label>
+			<label index="label_garage_type" type="integer">162953662</label>
 			<label index="label_garage_rent" type="integer">32433980</label>
 			<label index="label_garage_price" type="integer">57868081</label>
 			<label index="label_pets" type="integer">122743082</label>
@@ -3013,6 +3311,304 @@
 			<label index="message_invalidImage_informal" type="integer">24179165</label>
 			<label index="message_please_login_formal" type="integer">64977327</label>
 			<label index="message_please_login_informal" type="integer">64977327</label>
+			<label index="realty.pi_flexform.templateFile" type="integer">91851136</label>
+			<label index="realty.pi_flexform.single_view" type="integer">260903848</label>
+			<label index="realty.pi_flexform.filter_form" type="integer">184654558</label>
+			<label index="realty.pi_flexform.contact_form" type="integer">208018679</label>
+			<label index="realty.pi_flexform.my_objects" type="integer">163878655</label>
+			<label index="realty.pi_flexform.offerer_list" type="integer">34082678</label>
+			<label index="realty.pi_flexform.objects_by_owner" type="integer">150515545</label>
+			<label index="realty.pi_flexform.fe_editor" type="integer">19240936</label>
+			<label index="realty.pi_flexform.image_upload" type="integer">134278786</label>
+			<label index="realty.pi_flexform.sheet_contactForm" type="integer">208018679</label>
+			<label index="realty.pi_flexform.defaultContactEmail" type="integer">182509551</label>
+			<label index="realty.pi_flexform.blindCarbonCopyAddress" type="integer">45504295</label>
+			<label index="realty.pi_flexform.requiredContactFormFields" type="integer">258996908</label>
+			<label index="realty.pi_flexform.visibleContactFormFields" type="integer">75148715</label>
+			<label index="realty.pi_flexform.request" type="integer">134566013</label>
+			<label index="realty.pi_flexform.viewing" type="integer">105103097</label>
+			<label index="realty.pi_flexform.information" type="integer">133952677</label>
+			<label index="realty.pi_flexform.callback" type="integer">232306093</label>
+			<label index="realty.pi_flexform.terms" type="integer">17445587</label>
+			<label index="realty.pi_flexform.law" type="integer">12130417</label>
+			<label index="realty.pi_flexform.termsPID" type="integer">105763576</label>
+			<label index="realty.pi_flexform.showContactPageLink" type="integer">75125315</label>
+			<label index="realty.pi_flexform.orderBy" type="integer">58678595</label>
+			<label index="realty.pi_flexform.random" type="integer">131986222</label>
+			<label index="realty.pi_flexform.fromTsSetup" type="integer">136988657</label>
+			<label index="realty.pi_flexform.hide" type="integer">176746587</label>
+			<label index="realty.pi_flexform.show" type="integer">176017707</label>
+			<label index="realty.pi_flexform.editorPID" type="integer">135203367</label>
+			<label index="realty.pi_flexform.imageUploadPID" type="integer">221590091</label>
+			<label index="realty.pi_flexform.objectsByOwnerPID" type="integer">110151346</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords" type="integer">3674712</label>
+			<label index="realty.pi_flexform.feEditorRedirectPid" type="integer">1493962</label>
+			<label index="realty.pi_flexform.feEditorNotifyEmail" type="integer">147420665</label>
+			<label index="realty.pi_flexform.sheet_feeditor" type="integer">18177806</label>
+			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
+			<label index="realty.pi_flexform.showGoogleMaps" type="integer">32573731</label>
+			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
+			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
+			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
+			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
+			<label index="realty.pi_flexform.displaySite" type="integer">139764782</label>
+			<label index="realty.pi_flexform.displayCity" type="integer">28144317</label>
+			<label index="realty.pi_flexform.displayDistrict" type="integer">29634777</label>
+			<label index="realty.pi_flexform.displayHouseType" type="integer">168489798</label>
+			<label index="realty.pi_flexform.displayRent" type="integer">41653638</label>
+			<label index="realty.pi_flexform.displayPriceRange" type="integer">249449843</label>
+			<label index="realty.pi_flexform.displayObjectNumber" type="integer">95425847</label>
+			<label index="realty.pi_flexform.displayUid" type="integer">68380357</label>
+			<label index="realty.pi_flexform.displayObjectType" type="integer">200190647</label>
+			<label index="realty.pi_flexform.displayNumberOfRooms" type="integer">151522303</label>
+			<label index="realty.pi_flexform.displayLivingArea" type="integer">135838058</label>
+			<label index="realty.pi_flexform.priceRangesForFilterForm" type="integer">218493474</label>
+			<label index="realty.pi_flexform.objectNumber" type="integer">61076220</label>
+			<label index="realty.pi_flexform.uid" type="integer">68380357</label>
+			<label index="realty.pi_flexform.sheet_offererInformation" type="integer">18133343</label>
+			<label index="realty.pi_flexform.displayedContactInformation" type="integer">239504017</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation" type="integer">105139586</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial" type="integer">77650611</label>
+			<label index="realty.pi_flexform.firstUserGroup" type="integer">231779503</label>
+			<label index="realty.pi_flexform.company" type="integer">154956575</label>
+			<label index="realty.pi_flexform.offererLabel" type="integer">184977713</label>
+			<label index="realty.pi_flexform.street" type="integer">32811368</label>
+			<label index="realty.pi_flexform.city" type="integer">82664750</label>
+			<label index="realty.pi_flexform.zip_and_city" type="integer">162235930</label>
+			<label index="realty.pi_flexform.telephone" type="integer">194754535</label>
+			<label index="realty.pi_flexform.email" type="integer">59414938</label>
+			<label index="realty.pi_flexform.homepage" type="integer">195270797</label>
+			<label index="realty.pi_flexform.image" type="integer">126354850</label>
+			<label index="realty.pi_flexform.objectsByOwnerLink" type="integer">200525925</label>
+			<label index="realty.pi_flexform.sheet_advertisements" type="integer">222790078</label>
+			<label index="realty.pi_flexform.advertisementPID" type="integer">61630174</label>
+			<label index="realty.pi_flexform.advertisementParameterForObjectUid" type="integer">251235559</label>
+			<label index="realty.pi_flexform.advertisementExpirationInDays" type="integer">103100612</label>
+			<label index="realty.pi_flexform.singleViewPartsToDisplay" type="integer">235944602</label>
+			<label index="realty.pi_flexform.nextPreviousButtons" type="integer">187413106</label>
+			<label index="realty.pi_flexform.heading" type="integer">259323193</label>
+			<label index="realty.pi_flexform.address" type="integer">142924160</label>
+			<label index="realty.pi_flexform.description" type="integer">108900242</label>
+			<label index="realty.pi_flexform.documents" type="integer">35611866</label>
+			<label index="realty.pi_flexform.price" type="integer">232449975</label>
+			<label index="realty.pi_flexform.overviewTable" type="integer">232367950</label>
+			<label index="realty.pi_flexform.contactButton" type="integer">205238602</label>
+			<label index="realty.pi_flexform.addToFavoritesButton" type="integer">75420222</label>
+			<label index="realty.pi_flexform.printPageButton" type="integer">179729703</label>
+			<label index="realty.pi_flexform.backButton" type="integer">244687441</label>
+			<label index="realty.pi_flexform.furtherDescription" type="integer">175943160</label>
+			<label index="realty.pi_flexform.imageThumbnails" type="integer">94064961</label>
+			<label index="realty.pi_flexform.offerer" type="integer">222956230</label>
+			<label index="realty.pi_flexform.status" type="integer">236294577</label>
+			<label index="realty.pi_flexform.googleMaps" type="integer">81136306</label>
+			<label index="realty.pi_flexform.sheet_template_and_special" type="integer">132093617</label>
+			<label index="label_country" type="integer">93787849</label>
+			<label index="label_rent_per_square_meter" type="integer">72503072</label>
+			<label index="label_has_air_conditioning" type="integer">108854663</label>
+			<label index="label_has_air_conditioning_short" type="integer">121370947</label>
+			<label index="label_has_pool" type="integer">233780919</label>
+			<label index="label_has_pool_short" type="integer">185641152</label>
+			<label index="label_has_community_pool" type="integer">7430612</label>
+			<label index="label_has_community_pool_short" type="integer">163260767</label>
+			<label index="label_distance_to_the_sea" type="integer">231761085</label>
+			<label index="label_sea_view" type="integer">36679199</label>
+			<label index="label_flooring" type="integer">78339923</label>
+			<label index="label_flooring_1" type="integer">126158472</label>
+			<label index="label_flooring_2" type="integer">11026671</label>
+			<label index="label_flooring_3" type="integer">58485426</label>
+			<label index="label_flooring_4" type="integer">97027146</label>
+			<label index="label_flooring_5" type="integer">178570794</label>
+			<label index="label_flooring_6" type="integer">17579188</label>
+			<label index="label_flooring_7" type="integer">36591041</label>
+			<label index="label_flooring_8" type="integer">77398825</label>
+			<label index="label_flooring_9" type="integer">144264349</label>
+			<label index="label_flooring_10" type="integer">214374921</label>
+			<label index="label_flooring_11" type="integer">186118125</label>
+			<label index="label_old_or_new_building_1" type="integer">241425363</label>
+			<label index="label_offerer" type="integer">172702595</label>
+			<label index="label_phone" type="integer">108244482</label>
+			<label index="label_shop_area" type="integer">218773450</label>
+			<label index="label_sales_area" type="integer">169313512</label>
+			<label index="label_total_usable_area" type="integer">40520553</label>
+			<label index="label_storage_area" type="integer">104170328</label>
+			<label index="label_office_space" type="integer">93012222</label>
+			<label index="label_other_area" type="integer">33322750</label>
+			<label index="label_window_bank" type="integer">255986329</label>
+			<label index="label_status_1" type="integer">133170627</label>
+			<label index="label_status_2" type="integer">121183715</label>
+			<label index="label_status_3" type="integer">129930439</label>
+			<label index="label_estate_size" type="integer">133635012</label>
+			<label index="label_floor_space_index" type="integer">14617497</label>
+			<label index="label_hoa_fee" type="integer">111222682</label>
+			<label index="label_rental_income_target" type="integer">24435045</label>
+			<label index="label_status" type="integer">247806604</label>
+			<label index="label_status_0" type="integer">141770829</label>
+			<label index="label_heating_type_1" type="integer">58692590</label>
+			<label index="label_heating_type_2" type="integer">184452105</label>
+			<label index="label_heating_type_3" type="integer">147311804</label>
+			<label index="label_heating_type_4" type="integer">117557325</label>
+			<label index="label_heating_type_5" type="integer">201138506</label>
+			<label index="label_heating_type_6" type="integer">161522935</label>
+			<label index="label_heating_type_7" type="integer">235360048</label>
+			<label index="label_heating_type_8" type="integer">13139931</label>
+			<label index="label_heating_type_9" type="integer">236775939</label>
+			<label index="label_heating_type_10" type="integer">90902450</label>
+			<label index="label_heating_type_11" type="integer">161251937</label>
+			<label index="label_heating_type_12" type="integer">5073316</label>
+			<label index="label_parking_spaces" type="integer">166780875</label>
+			<label index="label_state_2" type="integer">93660376</label>
+			<label index="label_state_3" type="integer">178520122</label>
+			<label index="label_state_4" type="integer">116091427</label>
+			<label index="label_state_5" type="integer">142785661</label>
+			<label index="label_state_6" type="integer">202590932</label>
+			<label index="label_state_7" type="integer">74796736</label>
+			<label index="label_state_8" type="integer">48584873</label>
+			<label index="label_state_9" type="integer">112726903</label>
+			<label index="label_state_10" type="integer">125161683</label>
+			<label index="label_state_11" type="integer">6435587</label>
+			<label index="label_state_12" type="integer">149392355</label>
+			<label index="label_state_13" type="integer">59756617</label>
+			<label index="label_state_14" type="integer">59326879</label>
+			<label index="label_state_15" type="integer">104896764</label>
+			<label index="label_state_16" type="integer">24698282</label>
+			<label index="label_state_17" type="integer">112726903</label>
+			<label index="label_state_18" type="integer">24647912</label>
+			<label index="label_state_19" type="integer">141770829</label>
+			<label index="label_state_20" type="integer">180193091</label>
+			<label index="label_state_21" type="integer">41136802</label>
+			<label index="label_furnishing_category" type="integer">178306573</label>
+			<label index="label_furnishing_category_1" type="integer">201388228</label>
+			<label index="label_furnishing_category_2" type="integer">34044309</label>
+			<label index="label_furnishing_category_3" type="integer">183822674</label>
+			<label index="label_your_objects_formal" type="integer">174688664</label>
+			<label index="label_your_objects_informal" type="integer">174688664</label>
+			<label index="label_objects_already_entered" type="integer">163866602</label>
+			<label index="label_no_objects_left" type="integer">95559120</label>
+			<label index="label_one_object_left" type="integer">255809018</label>
+			<label index="label_multiple_objects_left" type="integer">109683844</label>
+			<label index="label_meter" type="integer">116979063</label>
+			<label index="label_print_page" type="integer">184576193</label>
+			<label index="label_filter_form" type="integer">174419877</label>
+			<label index="label_enter_zip_or_city" type="integer">209168872</label>
+			<label index="label_enter_object_number" type="integer">68185886</label>
+			<label index="label_enter_uid" type="integer">34884428</label>
+			<label index="label_select_city" type="integer">201307921</label>
+			<label index="label_select_district" type="integer">136160888</label>
+			<label index="label_pleaseselectdistrict" type="integer">264912688</label>
+			<label index="label_select_house_type" type="integer">164551701</label>
+			<label index="label_pleaseselecthousetype" type="integer">124573177</label>
+			<label index="label_select_price_range" type="integer">34243254</label>
+			<label index="label_enter_rent" type="integer">49656040</label>
+			<label index="label_enter_living_area" type="integer">63089449</label>
+			<label index="label_select_object_type" type="integer">188049544</label>
+			<label index="label_select_rent" type="integer">61764923</label>
+			<label index="label_select_sale" type="integer">70955112</label>
+			<label index="label_enter_number_of_rooms" type="integer">212051686</label>
+			<label index="label_less_than" type="integer">165614130</label>
+			<label index="label_greater_than" type="integer">199111175</label>
+			<label index="label_to" type="integer">1797664</label>
+			<label index="label_random" type="integer">131986222</label>
+			<label index="label_objects" type="integer">92872098</label>
+			<label index="label_previous_page" type="integer">8645519</label>
+			<label index="label_next_page" type="integer">171965462</label>
+			<label index="message_noResultsFound_contact_form_formal" type="integer">112812831</label>
+			<label index="message_noResultsFound_contact_form_informal" type="integer">112812831</label>
+			<label index="message_noResultsFound_fe_editor_formal" type="integer">36101137</label>
+			<label index="message_noResultsFound_fe_editor_informal" type="integer">36101137</label>
+			<label index="message_noResultsFound_image_upload" type="integer">116529898</label>
+			<label index="message_noResultsFound_my_objects_formal" type="integer">231455062</label>
+			<label index="message_noResultsFound_my_objects_informal" type="integer">231455062</label>
+			<label index="message_noResultsFound_offererList" type="integer">43641388</label>
+			<label index="message_noResultsFound_objects_by_owner" type="integer">164681102</label>
+			<label index="message_access_denied_formal" type="integer">155310287</label>
+			<label index="message_access_denied_informal" type="integer">155310287</label>
+			<label index="realty.pi_flexform.userGroupsForOffererList" type="integer">26463750</label>
+			<label index="label_old_or_new_building_2" type="integer">97928723</label>
+			<label index="label_site_occupancy_index" type="integer">46976993</label>
+			<label index="label_state_1" type="integer">540352</label>
+			<label index="message_no_objects_left" type="integer">263673405</label>
+			<label index="label_salutation" type="integer">145861013</label>
+			<label index="label_uid" type="integer">169261614</label>
+			<label index="label_user_text" type="integer">258596858</label>
+			<label index="label_user_contact_information" type="integer">98817744</label>
+			<label index="label_email_subject_specialized" type="integer">217444631</label>
+			<label index="label_email_subject_general" type="integer">88417728</label>
+			<label index="label_contact_form_description_formal" type="integer">76871856</label>
+			<label index="label_contact_form_description_informal" type="integer">76871856</label>
+			<label index="label_requested_object" type="integer">244291644</label>
+			<label index="label_requester_data_is_uneditable_formal" type="integer">127937111</label>
+			<label index="label_requester_data_is_uneditable_informal" type="integer">127937111</label>
+			<label index="label_your_name" type="integer">77521672</label>
+			<label index="label_street" type="integer">224521181</label>
+			<label index="label_zip" type="integer">70553491</label>
+			<label index="label_zip_and_city" type="integer">162235930</label>
+			<label index="label_your_email" type="integer">146136420</label>
+			<label index="label_your_phone" type="integer">33039901</label>
+			<label index="label_your_request" type="integer">22818181</label>
+			<label index="label_viewing" type="integer">262501325</label>
+			<label index="label_information" type="integer">163099863</label>
+			<label index="label_callback" type="integer">39605535</label>
+			<label index="label_terms" type="integer">62117634</label>
+			<label index="label_law" type="integer">47120756</label>
+			<label index="label_submit" type="integer">155805401</label>
+			<label index="label_save" type="integer">211601612</label>
+			<label index="label_cancel" type="integer">245659783</label>
+			<label index="label_save_and_close" type="integer">125326617</label>
+			<label index="label_no_contact_person" type="integer">231672500</label>
+			<label index="label_set_name_formal" type="integer">124059229</label>
+			<label index="label_set_name_informal" type="integer">124059229</label>
+			<label index="label_set_valid_email_address_formal" type="integer">115392064</label>
+			<label index="label_set_valid_email_address_informal" type="integer">115392064</label>
+			<label index="message_required_field_request" type="integer">151709982</label>
+			<label index="message_required_field_terms" type="integer">181095852</label>
+			<label index="label_thank_you_formal" type="integer">231839047</label>
+			<label index="label_thank_you_informal" type="integer">231839047</label>
+			<label index="label_message_sent_formal" type="integer">162249641</label>
+			<label index="label_message_sent_informal" type="integer">162249641</label>
+			<label index="label_has_request" type="integer">233711688</label>
+			<label index="label_summary_string_of_favorites" type="integer">199641813</label>
+			<label index="label_sender_contact" type="integer">23661526</label>
+			<label index="label_append_images" type="integer">260019087</label>
+			<label index="label_edit" type="integer">131916066</label>
+			<label index="label_new_record" type="integer">249043974</label>
+			<label index="label_delete" type="integer">254438473</label>
+			<label index="label_really_delete" type="integer">262411721</label>
+			<label index="label_published" type="integer">163174569</label>
+			<label index="label_pending" type="integer">47267318</label>
+			<label index="label_advertise" type="integer">263703499</label>
+			<label index="label_advertised" type="integer">152926975</label>
+			<label index="message_no_valid_number" type="integer">179177779</label>
+			<label index="message_no_valid_price" type="integer">19191144</label>
+			<label index="message_no_valid_year" type="integer">38026596</label>
+			<label index="message_no_valid_longitude_degree" type="integer">72814247</label>
+			<label index="message_no_valid_latitude_degree" type="integer">55186029</label>
+			<label index="message_object_number_exists" type="integer">184908158</label>
+			<label index="message_required_field" type="integer">28575007</label>
+			<label index="message_required_field_requesterZip" type="integer">55741989</label>
+			<label index="message_required_field_requesterCity" type="integer">40317843</label>
+			<label index="message_value_not_allowed" type="integer">32064893</label>
+			<label index="message_enter_valid_non_empty_buying_price" type="integer">104449172</label>
+			<label index="message_enter_valid_or_empty_buying_price" type="integer">130513175</label>
+			<label index="message_enter_valid_non_empty_rent" type="integer">164774428</label>
+			<label index="message_enter_valid_or_empty_rent" type="integer">122811280</label>
+			<label index="message_either_new_or_existing_record" type="integer">106518866</label>
+			<label index="message_emptyTitle" type="integer">174051111</label>
+			<label index="message_emptyCity" type="integer">140614102</label>
+			<label index="label_new_city" type="integer">129803662</label>
+			<label index="label_new_district" type="integer">155755436</label>
+			<label index="label_email_subject_fe_editor" type="integer">99521102</label>
+			<label index="label_new_object_created" type="integer">72866041</label>
+			<label index="label_name" type="integer">77521672</label>
+			<label index="label_username" type="integer">159898854</label>
+			<label index="label_image_upload" type="integer">134278786</label>
+			<label index="label_image_list" type="integer">256801546</label>
+			<label index="message_image_too_large" type="integer">183582394</label>
+			<label index="message_invalid_type" type="integer">48986434</label>
+			<label index="message_empty_caption" type="integer">1491457</label>
+			<label index="label_offerings_by" type="integer">56224175</label>
+			<label index="message_no_such_owner" type="integer">71788074</label>
+			<label index="label_offerer_list" type="integer">34082678</label>
+			<label index="label_this_owners_objects" type="integer">163900489</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="realty.pi_flexform.templateFile" type="integer">79001514</label>
@@ -4390,7 +4986,7 @@
 			<label index="realty.pi_flexform.sortCriteria">DB fields by which a FE user can sort the list view:</label>
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
-			<label index="realty.pi_flexform.filterTargetPID">Target page for the search form and the city selector:</label>
+			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -4425,7 +5021,7 @@
 			<label index="label_location">Location</label>
 			<label index="label_misc">Miscellaneous</label>
 			<label index="label_layout">Layout</label>
-			<label index="label_living_area">Size of the living area</label>
+			<label index="label_living_area">Living area</label>
 			<label index="label_total_area">Total area</label>
 			<label index="label_heating_included">Extra charges include heating</label>
 			<label index="label_deposit">Security deposit</label>
@@ -4439,7 +5035,7 @@
 			<label index="label_bedrooms">Number of bedrooms</label>
 			<label index="label_bathrooms">Number of bathrooms</label>
 			<label index="label_heating_type">Type of heating</label>
-			<label index="label_garage_type">Garage/parking space</label>
+			<label index="label_garage_type">Parking space type</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
 			<label index="label_garage_price">Price for buying the garage/parking space</label>
 			<label index="label_pets">Pets</label>
@@ -4477,6 +5073,304 @@
 			<label index="message_invalidImage_informal">This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</label>
 			<label index="message_please_login_formal">Please log in to view this page.</label>
 			<label index="message_please_login_informal">Please log in to view this page.</label>
+			<label index="realty.pi_flexform.templateFile">HTML template:</label>
+			<label index="realty.pi_flexform.single_view">Single view</label>
+			<label index="realty.pi_flexform.filter_form">Search form</label>
+			<label index="realty.pi_flexform.contact_form">Contact form</label>
+			<label index="realty.pi_flexform.my_objects">My objects</label>
+			<label index="realty.pi_flexform.offerer_list">Offerer list</label>
+			<label index="realty.pi_flexform.objects_by_owner">Objects by offerer</label>
+			<label index="realty.pi_flexform.fe_editor">FE editor</label>
+			<label index="realty.pi_flexform.image_upload">Image upload</label>
+			<label index="realty.pi_flexform.sheet_contactForm">Contact form</label>
+			<label index="realty.pi_flexform.defaultContactEmail">E-mail address for contact requests if the realty object's contact data cannot be used:</label>
+			<label index="realty.pi_flexform.blindCarbonCopyAddress">E-mail address for a blind carbon copy of each request:</label>
+			<label index="realty.pi_flexform.requiredContactFormFields">Required form fields:</label>
+			<label index="realty.pi_flexform.visibleContactFormFields">Form fields to show:</label>
+			<label index="realty.pi_flexform.request">message text</label>
+			<label index="realty.pi_flexform.viewing">checkbox about a viewing</label>
+			<label index="realty.pi_flexform.information">checkbox about object information</label>
+			<label index="realty.pi_flexform.callback">checkbox about object a callback</label>
+			<label index="realty.pi_flexform.terms">checkbox for the terms</label>
+			<label index="realty.pi_flexform.law">note concerning the law against unfair competition</label>
+			<label index="realty.pi_flexform.termsPID">Page with the terms:</label>
+			<label index="realty.pi_flexform.showContactPageLink">Show link to the contact form in the favorites view:</label>
+			<label index="realty.pi_flexform.orderBy">Initially, sort list view by:</label>
+			<label index="realty.pi_flexform.random">random</label>
+			<label index="realty.pi_flexform.fromTsSetup">(from TS setup)</label>
+			<label index="realty.pi_flexform.hide">hide</label>
+			<label index="realty.pi_flexform.show">show</label>
+			<label index="realty.pi_flexform.editorPID">Page with the FE editor:</label>
+			<label index="realty.pi_flexform.imageUploadPID">Page with the FE image upload:</label>
+			<label index="realty.pi_flexform.objectsByOwnerPID">Page with list of objects by one owner:</label>
+			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
+			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
+			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
+			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
+			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
+			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
+			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
+			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
+			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
+			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
+			<label index="realty.pi_flexform.displaySite">city and ZIP</label>
+			<label index="realty.pi_flexform.displayCity">city drop-down</label>
+			<label index="realty.pi_flexform.displayDistrict">district drop-down</label>
+			<label index="realty.pi_flexform.displayHouseType">house type drop-down</label>
+			<label index="realty.pi_flexform.displayRent">price input fields</label>
+			<label index="realty.pi_flexform.displayPriceRange">rent/buying price drop-down</label>
+			<label index="realty.pi_flexform.displayObjectNumber">object number</label>
+			<label index="realty.pi_flexform.displayUid">Immo ID</label>
+			<label index="realty.pi_flexform.displayObjectType">Radiobuttons rent/sale</label>
+			<label index="realty.pi_flexform.displayNumberOfRooms">Number of rooms</label>
+			<label index="realty.pi_flexform.displayLivingArea">Living area</label>
+			<label index="realty.pi_flexform.priceRangesForFilterForm">Price ranges for the price selector:</label>
+			<label index="realty.pi_flexform.objectNumber">Object number</label>
+			<label index="realty.pi_flexform.uid">Immo ID</label>
+			<label index="realty.pi_flexform.sheet_offererInformation">Offerer information</label>
+			<label index="realty.pi_flexform.displayedContactInformation">Contact data to show for all FE user groups:</label>
+			<label index="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation">FE user groups with different contact data:</label>
+			<label index="realty.pi_flexform.displayedContactInformationSpecial">Contact data to show for these FE user groups:</label>
+			<label index="realty.pi_flexform.firstUserGroup">first user group</label>
+			<label index="realty.pi_flexform.company">company</label>
+			<label index="realty.pi_flexform.offererLabel">name</label>
+			<label index="realty.pi_flexform.street">street</label>
+			<label index="realty.pi_flexform.city">city</label>
+			<label index="realty.pi_flexform.zip_and_city">ZIP and city</label>
+			<label index="realty.pi_flexform.telephone">telephone</label>
+			<label index="realty.pi_flexform.email">e-mail address</label>
+			<label index="realty.pi_flexform.homepage">homepage</label>
+			<label index="realty.pi_flexform.image">image</label>
+			<label index="realty.pi_flexform.objectsByOwnerLink">link to page with list of objects by one owner</label>
+			<label index="realty.pi_flexform.sheet_advertisements">Advertisements</label>
+			<label index="realty.pi_flexform.advertisementPID">Page with the advertisement form:</label>
+			<label index="realty.pi_flexform.advertisementParameterForObjectUid">GET parameter for the object UID:</label>
+			<label index="realty.pi_flexform.advertisementExpirationInDays">Expiration period of advertisements (in days):</label>
+			<label index="realty.pi_flexform.singleViewPartsToDisplay">Single view parts to display:</label>
+			<label index="realty.pi_flexform.nextPreviousButtons">next/previous buttons</label>
+			<label index="realty.pi_flexform.heading">heading</label>
+			<label index="realty.pi_flexform.address">address</label>
+			<label index="realty.pi_flexform.description">description</label>
+			<label index="realty.pi_flexform.documents">documents</label>
+			<label index="realty.pi_flexform.price">rent/buying price</label>
+			<label index="realty.pi_flexform.overviewTable">overview table</label>
+			<label index="realty.pi_flexform.contactButton">button &quot;contact&quot;</label>
+			<label index="realty.pi_flexform.addToFavoritesButton">button &quot;add to favorites&quot;</label>
+			<label index="realty.pi_flexform.printPageButton">button &quot;print&quot;</label>
+			<label index="realty.pi_flexform.backButton">buttons &quot;back&quot;</label>
+			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
+			<label index="realty.pi_flexform.imageThumbnails">images</label>
+			<label index="realty.pi_flexform.offerer">offerer information</label>
+			<label index="realty.pi_flexform.status">object status</label>
+			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
+			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="label_country">Country</label>
+			<label index="label_rent_per_square_meter">Rent/m²</label>
+			<label index="label_has_air_conditioning">Air conditioning</label>
+			<label index="label_has_air_conditioning_short">air conditioning</label>
+			<label index="label_has_pool">Pool</label>
+			<label index="label_has_pool_short">pool</label>
+			<label index="label_has_community_pool">Community pool</label>
+			<label index="label_has_community_pool_short">community pool</label>
+			<label index="label_distance_to_the_sea">Distance to the sea</label>
+			<label index="label_sea_view">Sea view</label>
+			<label index="label_flooring">Flooring</label>
+			<label index="label_flooring_1">tiled</label>
+			<label index="label_flooring_2">stone</label>
+			<label index="label_flooring_3">carpet</label>
+			<label index="label_flooring_4">parquet</label>
+			<label index="label_flooring_5">prefinished floor</label>
+			<label index="label_flooring_6">laminate</label>
+			<label index="label_flooring_7">timber piling</label>
+			<label index="label_flooring_8">PVC</label>
+			<label index="label_flooring_9">screed</label>
+			<label index="label_flooring_10">double floor</label>
+			<label index="label_flooring_11">linoleum</label>
+			<label index="label_old_or_new_building_1">new building</label>
+			<label index="label_offerer">Offerer</label>
+			<label index="label_phone">Phone:</label>
+			<label index="label_shop_area">Shop area</label>
+			<label index="label_sales_area">Sales area</label>
+			<label index="label_total_usable_area">Total usable area</label>
+			<label index="label_storage_area">Storage area</label>
+			<label index="label_office_space">Office space</label>
+			<label index="label_other_area">Other area</label>
+			<label index="label_window_bank">Window bank</label>
+			<label index="label_status_1">reserved</label>
+			<label index="label_status_2">sold</label>
+			<label index="label_status_3">rented</label>
+			<label index="label_estate_size">Estate size</label>
+			<label index="label_floor_space_index">Floor-space index</label>
+			<label index="label_hoa_fee">HOA fee</label>
+			<label index="label_rental_income_target">Rental income (target)</label>
+			<label index="label_status">Status</label>
+			<label index="label_status_0">vacant</label>
+			<label index="label_heating_type_1">district heating</label>
+			<label index="label_heating_type_2">central heating</label>
+			<label index="label_heating_type_3">electric heating</label>
+			<label index="label_heating_type_4">floor heating</label>
+			<label index="label_heating_type_5">gas heating</label>
+			<label index="label_heating_type_6">green fuel heating</label>
+			<label index="label_heating_type_7">heat pump heating</label>
+			<label index="label_heating_type_8">oil heating</label>
+			<label index="label_heating_type_9">self-contained central heating</label>
+			<label index="label_heating_type_10">solar heating</label>
+			<label index="label_heating_type_11">heating by stove</label>
+			<label index="label_heating_type_12">zone heating</label>
+			<label index="label_parking_spaces">Number of parking spaces</label>
+			<label index="label_state_2">by arrangement</label>
+			<label index="label_state_3">dilapidated</label>
+			<label index="label_state_4">first occupancy</label>
+			<label index="label_state_5">for demolition</label>
+			<label index="label_state_6">gutted</label>
+			<label index="label_state_7">modernized</label>
+			<label index="label_state_8">neat</label>
+			<label index="label_state_9">in need of renovation</label>
+			<label index="label_state_10">reconditioned</label>
+			<label index="label_state_11">renovated</label>
+			<label index="label_state_12">sanitated</label>
+			<label index="label_state_13">planned</label>
+			<label index="label_state_14">not renovated</label>
+			<label index="label_state_15">partly renovated</label>
+			<label index="label_state_16">currently being planned</label>
+			<label index="label_state_17">in need of renovation</label>
+			<label index="label_state_18">fully rented</label>
+			<label index="label_state_19">vacant</label>
+			<label index="label_state_20">partly rented</label>
+			<label index="label_state_21">has building permit</label>
+			<label index="label_furnishing_category">Furnishing category</label>
+			<label index="label_furnishing_category_1">standard</label>
+			<label index="label_furnishing_category_2">upmarket</label>
+			<label index="label_furnishing_category_3">luxurious</label>
+			<label index="label_your_objects_formal">Your objects:</label>
+			<label index="label_your_objects_informal">Your objects:</label>
+			<label index="label_objects_already_entered">You have already entered %u of %u objects.</label>
+			<label index="label_no_objects_left">You cannot enter any more objects.</label>
+			<label index="label_one_object_left">You can enter one more object.</label>
+			<label index="label_multiple_objects_left">You can enter %u more objects.</label>
+			<label index="label_meter">m</label>
+			<label index="label_print_page">Print page</label>
+			<label index="label_filter_form">Search criteria</label>
+			<label index="label_enter_zip_or_city">City or ZIP code:</label>
+			<label index="label_enter_object_number">Object number:</label>
+			<label index="label_enter_uid">Immo ID:</label>
+			<label index="label_select_city">City:</label>
+			<label index="label_select_district">District:</label>
+			<label index="label_pleaseselectdistrict">&amp;#8212; Please select district &amp;#8212;</label>
+			<label index="label_select_house_type">House type:</label>
+			<label index="label_pleaseselecthousetype">&amp;#8212; Please select house type &amp;#8212;</label>
+			<label index="label_select_price_range">Rent/buying price:</label>
+			<label index="label_enter_rent">Rent/buying price from:</label>
+			<label index="label_enter_living_area">Living area from:</label>
+			<label index="label_select_object_type">Only objects:</label>
+			<label index="label_select_rent">for rent</label>
+			<label index="label_select_sale">for sale</label>
+			<label index="label_enter_number_of_rooms">Number of rooms:</label>
+			<label index="label_less_than">less than</label>
+			<label index="label_greater_than">greater than</label>
+			<label index="label_to">to</label>
+			<label index="label_random">random</label>
+			<label index="label_objects">objects</label>
+			<label index="label_previous_page">previous object</label>
+			<label index="label_next_page">next object</label>
+			<label index="message_noResultsFound_contact_form_formal">The object you requested contact for does not exist.</label>
+			<label index="message_noResultsFound_contact_form_informal">The object you requested contact for does not exist.</label>
+			<label index="message_noResultsFound_fe_editor_formal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_noResultsFound_fe_editor_informal">The object does not exist in the database. Please choose another object or enter a new one.</label>
+			<label index="message_noResultsFound_image_upload">You can only upload images for a specified realty object. Click the image upload button in the &quot;my objects&quot; list.</label>
+			<label index="message_noResultsFound_my_objects_formal">You do not have any objects.</label>
+			<label index="message_noResultsFound_my_objects_informal">You do not have any objects.</label>
+			<label index="message_noResultsFound_offererList">There are no offerers to display.</label>
+			<label index="message_noResultsFound_objects_by_owner">This offerer currently does not have any objects.</label>
+			<label index="message_access_denied_formal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
+			<label index="message_access_denied_informal">You do not have access to the editing mode for this object. Only this object's owner may edit this record.</label>
+			<label index="realty.pi_flexform.userGroupsForOffererList">FE user groups for the offerer list:</label>
+			<label index="label_old_or_new_building_2">old building</label>
+			<label index="label_site_occupancy_index">Site occupancy index</label>
+			<label index="label_state_1">bare brickwork</label>
+			<label index="message_no_objects_left">You have reached the number of objects you are allowed to enter and cannot enter any more objects.</label>
+			<label index="label_salutation">Hello</label>
+			<label index="label_uid">Database ID</label>
+			<label index="label_user_text">wrote the following</label>
+			<label index="label_user_contact_information">Contact information</label>
+			<label index="label_email_subject_specialized">Request concerning object #</label>
+			<label index="label_email_subject_general">Realty request</label>
+			<label index="label_contact_form_description_formal">Here you can write a message to the offerer.</label>
+			<label index="label_contact_form_description_informal">Here you can write a message to the offerer.</label>
+			<label index="label_requested_object">The requested object:</label>
+			<label index="label_requester_data_is_uneditable_formal">We are using the contact data from your account here.</label>
+			<label index="label_requester_data_is_uneditable_informal">We are using the contact data from your account here.</label>
+			<label index="label_your_name">Name</label>
+			<label index="label_street">Street</label>
+			<label index="label_zip">ZIP</label>
+			<label index="label_zip_and_city">ZIP and city</label>
+			<label index="label_your_email">E-mail address</label>
+			<label index="label_your_phone">Phone number</label>
+			<label index="label_your_request">Request</label>
+			<label index="label_viewing">Please arrange a date for viewing the object with me.</label>
+			<label index="label_information">Please send me some information material.</label>
+			<label index="label_callback">Please call me back.</label>
+			<label index="label_terms">I have read and agree to the %s terms %s.</label>
+			<label index="label_law">If you would like us to call you back, please give us explicit permission to do so.</label>
+			<label index="label_submit">Send</label>
+			<label index="label_save">Save</label>
+			<label index="label_cancel">Cancel</label>
+			<label index="label_save_and_close">Save and close</label>
+			<label index="label_no_contact_person">The request cannot be sent because no contact person was entered for this object.</label>
+			<label index="label_set_name_formal">Please provide your name without special characters.</label>
+			<label index="label_set_name_informal">Please provide your name without special characters.</label>
+			<label index="label_set_valid_email_address_formal">Please provide a valid e-mail address.</label>
+			<label index="label_set_valid_email_address_informal">Please provide a valid e-mail address.</label>
+			<label index="message_required_field_request">Please enter a request.</label>
+			<label index="message_required_field_terms">For processing your request, we need you to explicitly accept our terms and conditions. Please check the checkbox below.</label>
+			<label index="label_thank_you_formal">Thank you for your request.</label>
+			<label index="label_thank_you_informal">Thank you for your request.</label>
+			<label index="label_message_sent_formal">Your request was sent.</label>
+			<label index="label_message_sent_informal">Your request was sent.</label>
+			<label index="label_has_request">has written the following request:</label>
+			<label index="label_summary_string_of_favorites">The following objects were on the requester's favorites list:</label>
+			<label index="label_sender_contact">The sender's contact data:</label>
+			<label index="label_append_images">Append images</label>
+			<label index="label_edit">Edit</label>
+			<label index="label_new_record">Create new object</label>
+			<label index="label_delete">Delete</label>
+			<label index="label_really_delete">Do you really want to delete this record?</label>
+			<label index="label_published">Published</label>
+			<label index="label_pending">Pending</label>
+			<label index="label_advertise">Advertise</label>
+			<label index="label_advertised">Advertised</label>
+			<label index="message_no_valid_number">Please enter a valid number.</label>
+			<label index="message_no_valid_price">Please enter a valid price.</label>
+			<label index="message_no_valid_year">Please enter a year that lies in the past.</label>
+			<label index="message_no_valid_longitude_degree">Please enter a valid longitude degree (-180 to 180).</label>
+			<label index="message_no_valid_latitude_degree">Please enter a valid latitude degree (-90 to 90).</label>
+			<label index="message_object_number_exists">The entered object number already exists in the database. Please enter a different object number.</label>
+			<label index="message_required_field">Please enter a value for this field.</label>
+			<label index="message_required_field_requesterZip">Please enter your ZIP code.</label>
+			<label index="message_required_field_requesterCity">Please enter your city.</label>
+			<label index="message_value_not_allowed">The provided value is not within the set of allowed values.</label>
+			<label index="message_enter_valid_non_empty_buying_price">Please enter a valid price because this is an object to buy.</label>
+			<label index="message_enter_valid_or_empty_buying_price">Please enter a valid price or leave this field empty.</label>
+			<label index="message_enter_valid_non_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</label>
+			<label index="message_enter_valid_or_empty_rent">Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</label>
+			<label index="message_either_new_or_existing_record">A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</label>
+			<label index="message_emptyTitle">Please enter a title.</label>
+			<label index="message_emptyCity">Please select a city.</label>
+			<label index="label_new_city">Create new city</label>
+			<label index="label_new_district">Create new district</label>
+			<label index="label_email_subject_fe_editor">A new realty record has been created in the FE.</label>
+			<label index="label_new_object_created">A new record has been added to the database.</label>
+			<label index="label_name">Name</label>
+			<label index="label_username">User name</label>
+			<label index="label_image_upload">Image upload</label>
+			<label index="label_image_list">Currently appended images</label>
+			<label index="message_image_too_large">The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</label>
+			<label index="message_invalid_type">The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</label>
+			<label index="message_empty_caption">Please provide a caption for the image.</label>
+			<label index="label_offerings_by">Offerings by</label>
+			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
+			<label index="label_offerer_list">Offerer list</label>
+			<label index="label_this_owners_objects">All objects by this offerer</label>
 		</languageKey>
 		<languageKey index="it" type="array">
 			<label index="realty.pi_flexform.templateFile">HTML template</label>
