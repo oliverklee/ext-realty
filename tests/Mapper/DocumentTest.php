@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2010-2012 Bernd Schönbach <bernd.schoenbach@googlemail.com>
+* (c) 2010-2013 Bernd Schönbach <bernd.schoenbach@googlemail.com>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
