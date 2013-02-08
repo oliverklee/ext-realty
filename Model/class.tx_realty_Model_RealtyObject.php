@@ -248,6 +248,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param boolean $canLoadHiddenObjects whether hidden objects are loadable
 	 *
 	 * @deprecated 2009-02-03 use setData() instead
+	 *
+	 * @return void
 	 */
 	public function loadRealtyObject($realtyData, $canLoadHiddenObjects = FALSE) {
 		$this->canLoadHiddenObjects = $canLoadHiddenObjects;
@@ -274,6 +276,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * is of an invalid type, an empty array will be set.
 	 *
 	 * @param array $realtyData data for the realty object
+	 *
+	 * @return void
 	 */
 	public function setData(array $realtyData) {
 		if (is_array($realtyData['images']) || is_array($realtyData['documents'])) {
@@ -292,6 +296,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Sets the test mode. If this mode is enabled, all data written to the
 	 * database will receive the dummy record flag.
+	 *
+	 * @return void
 	 */
 	public function setTestMode() {
 		$this->isDummyRecord = TRUE;
@@ -518,6 +524,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 	/**
 	 * Loads the owner's database record into $this->ownerData.
+	 *
+	 * @return void
 	 */
 	private function loadOwnerRecord() {
 		if (!$this->hasOwner() && ($this->getAsString('openimmo_anid') == '')) {
@@ -549,6 +557,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * one. The owner is identified by their OpenImmo ANID.
 	 * Sets whether to use the FE user's contact data or the data provided
 	 * within the realty record, according to the configuration.
+	 *
+	 * @return void
 	 */
 	private function processOwnerData() {
 		$this->addRealtyRecordsOwner();
@@ -563,6 +573,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * If the current record already has an owner or if no matching ANID was
 	 * found, no owner will be set.
+	 *
+	 * @return void
 	 */
 	private function addRealtyRecordsOwner() {
 		// Saves an existing owner from being overwritten.
@@ -677,6 +689,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @param string $key key of the value to set in current realty object, must not be empty and must not be 'uid'
 	 * @param mixed $value value to set, must be either numeric or a string (also empty) or of boolean, may not be NULL
+	 *
+	 * @return void
 	 */
 	public function setProperty($key, $value) {
 		$this->set($key, $value);
@@ -712,6 +726,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 	/**
 	 * Sets the current realty object to deleted.
+	 *
+	 * @return void
 	 */
 	public function setToDeleted() {
 		parent::setToDeleted();
@@ -764,6 +780,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Sets the required fields for the current object.
 	 *
 	 * @param array $fields required fields, may be empty
+	 *
+	 * @return void
 	 */
 	public function setRequiredFields(array $fields) {
 		$this->requiredFields = $fields;
@@ -785,6 +803,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * 'district', 'pets' and 'garage_type', in case they are defined, as
 	 * records to their own tables and stores the UID of the record instead of
 	 * the value.
+	 *
+	 * @return void
 	 */
 	protected function prepareInsertionAndInsertRelations() {
 		foreach (self::$propertyTables as $currentTable => $currentProperty) {
@@ -861,6 +881,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @param integer $overridePid
 	 *        PID for new object and image records (omit this parameter to use the PID set in the global configuration)
+	 *
+	 * @return void
 	 */
 	private function refreshImageEntries($overridePid = 0) {
  		if ($this->oldImagesNeedToGetDeleted) {
@@ -900,6 +922,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * This function does not affect in-memory images that have not been
 	 * persisted to the database yet.
+	 *
+	 * @return void
 	 */
 	protected function discardExistingImages() {
 		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
@@ -917,6 +941,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param integer $overridePid
 	 *        PID for new object, image and documents records (omit this
 	 *        parameter to use the PID set in the global configuration)
+	 *
+	 * @return void
 	 */
 	private function refreshDocumentEntries($overridePid = 0) {
  		if ($this->oldDocumentsNeedToGetDeleted) {
@@ -956,6 +982,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * This function does not affect in-memory documents that have not been
 	 * persisted to the database yet.
+	 *
+	 * @return void
 	 */
 	protected function discardExistingDocuments() {
 		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Document');
@@ -1003,7 +1031,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 	/**
 	 * Reads the images attached to this realty object into $this->images.
- 	 */
+	 *
+	 * @return void
+	 */
 	private function retrieveAttachedImages() {
 		if (!$this->identifyObjectAndSetUid()) {
 			return;
@@ -1021,7 +1051,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 	/**
 	 * Reads the documents attached to this realty object into $this->documents.
- 	 */
+	 *
+	 * @return void
+	 */
 	private function retrieveAttachedDocuments() {
 		if (!$this->identifyObjectAndSetUid()) {
 			return;
@@ -1893,6 +1925,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Sets the current charset in $this->renderCharset and the charset
 	 * conversion instance in $this->$charsetConversion.
+	 *
+	 * @return void
 	 */
 	private function initializeCharsetConversion() {
 		if (isset($GLOBALS['TSFE'])) {

@@ -88,6 +88,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * Deletes the currently loaded realty record.
 	 *
 	 * Note: This function does not check whether a FE user is authorized.
+	 *
+	 * @return void
 	 */
 	public function deleteRecord() {
 		if ($this->realtyObjectUid == 0) {
@@ -848,6 +850,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * Sends an e-mail if a new object hase been createed.
 	 *
 	 * Clears the FE cache for pages with the realty plugin.
+	 *
+	 * @return void
 	 */
 	public function sendEmailForNewObjectAndClearFrontEndCache() {
 		$this->sendEmailForNewObject();
@@ -856,6 +860,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Sends an e-mail if a new object has been created.
+	 *
+	 * @return void
 	 */
 	private function sendEmailForNewObject() {
 		if (($this->realtyObjectUid > 0)
@@ -919,6 +925,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * auxiliary records.
 	 *
 	 * @param array &$formData form data, will be modified, must not be empty
+	 *
+	 * @return void
 	 */
 	private function purgeNonRealtyObjectFields(array &$formData) {
 		foreach (array_keys($formData) as $key) {
@@ -935,6 +943,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * The UIDs of the new records are written to the form data.
 	 *
 	 * @param array &$formData form data, will be modified, must not be empty
+	 *
+	 * @return void
 	 */
 	private function storeNewAuxiliaryRecords(array &$formData) {
 		$table = REALTY_TABLE_CITIES;
@@ -1015,6 +1025,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * Unifies all numbers before they get inserted into the database.
 	 *
 	 * @param array &$formData form data, will be modified, must not be empty
+	 *
+	 * @return void
 	 */
 	private function unifyNumbersToInsert(array &$formData) {
 		foreach (self::$numericFields as $key) {
@@ -1033,6 +1045,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * For objects to update, just the 'tstamp' will be refreshed.
 	 *
 	 * @param array &$formData form data, will be modified, must not be empty
+	 *
+	 * @return void
 	 */
 	private function addAdministrativeData(array &$formData) {
 		$formData['tstamp'] = mktime();
@@ -1273,6 +1287,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 	/**
 	 * Adds an onload handler (which calls updateHideAndShow) to the page header.
+	 *
+	 * @return void
 	 */
 	public function addOnLoadHandler() {
 		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
@@ -1289,6 +1305,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * This function writes the array of faked form values to the database and
 	 * is for testing purposes.
+	 *
+	 * @return void
 	 */
 	public function writeFakedFormDataToDatabase() {
 		// The faked record is marked as a test record and no fields are

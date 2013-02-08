@@ -93,6 +93,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Includes the extension's main JavaScript and Prototype in the page header
 	 * if this is needed.
+	 *
+	 * @return void
 	 */
 	private function includeJavaScript() {
 		if ($this->hasSearchField('city') && $this->hasSearchField('district')) {
@@ -133,6 +135,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * provided, an empty string will be stored.
 	 *
 	 * @param array $formData filter form data, may be empty
+	 *
+	 * @return void
 	 */
 	private function extractValidFilterFormData(array $formData) {
 		foreach ($formData as $key => $rawValue) {
@@ -249,6 +253,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 	/**
 	 * Sets the target URL marker.
+	 *
+	 * @return void
 	 */
 	private function setTargetUrlMarker() {
 		$this->setMarker(
@@ -269,6 +275,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Fills the input box for zip code or city if there is data for it. Hides
 	 * the input if it is disabled by configuration.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideSiteSearch() {
 		if ($this->hasSearchField('site')) {
@@ -283,6 +291,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Fills the price range drop-down with the configured ranges if it is
 	 * enabled in the configuration, hides it otherwise.
+	 *
+	 * @return void
 	 */
 	private function fillOrHidePriceRangeDropDown() {
 		if (!$this->hasSearchField('priceRanges')) {
@@ -316,6 +326,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Fills the input box for the UID search if it is configured to be
 	 * displayed. Hides the form element if it is disabled by
 	 * configuration.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideUidSearch() {
 		if (!$this->hasSearchField('uid')) {
@@ -335,6 +347,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Fills the input box for the object number search if it is configured to
 	 * be displayed. Hides the form element if it is disabled by configuration.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideObjectNumberSearch() {
 		if (!$this->hasSearchField('objectNumber')) {
@@ -350,6 +364,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 	/**
 	 * Shows the city selector if enabled via configuration, otherwise hides it.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideCitySearch() {
 		$onChange = $this->hasSearchField('district')
@@ -361,6 +377,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Shows the district selector if enabled via configuration, otherwise
 	 * hides it.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideDistrictSearch() {
 		$this->createAndSetDropDown(
@@ -388,6 +406,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @param string $onChange
 	 *        onchange attribute, must either start with " onchange" (including
 	 *        the leading space) or be empty
+	 *
+	 * @return void
 	 */
 	private function createAndSetDropDown($type, $onChange = '') {
 		if (!$this->hasSearchField($type)) {
@@ -448,6 +468,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Shows a drop down menu for selecting house types if enabled via
 	 * configuration, otherwise hides it.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideHouseTypeSearch() {
 		$this->fillOrHideAuxiliaryRecordSearch(
@@ -469,6 +491,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @param string $columnName
 	 *        column name in the realty records table which corresponds to the
 	 *        provided table name, must not be empty
+	 *
+	 * @return void
 	 */
 	private function fillOrHideAuxiliaryRecordSearch(
 		$searchKey, $tableName, $columnName
@@ -508,6 +532,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Shows the rent/sale radiobuttons if enabled via configuration, otherwise
 	 * hides them.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideObjectTypeSelect() {
 		if (!$this->hasSearchField('objectType')) {
@@ -533,6 +559,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string $searchField the name of the search field, to hide or show, must be 'livingArea' or 'rent'
 	 * @param string $fieldMarkerPart the name of the field name part of the searched marker, must not be empty
+	 *
+	 * @return void
 	 */
 	private function fillOrHideFromToSearchField(
 		$searchField, $fieldMarkerPart

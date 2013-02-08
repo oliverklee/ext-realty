@@ -248,6 +248,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 	/**
 	 * Sets the view to an empty result message specific for the requested view.
+	 *
+	 * @return void
 	 */
 	private function setEmptyResultView() {
 		$view = $this->getCurrentView();

@@ -54,6 +54,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 
 	/**
 	 * Initializes some view-specific data.
+	 *
+	 * @return void
 	 */
 	protected function initializeView() {
 		$this->unhideSubparts(
@@ -75,6 +77,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 *
 	 * This function should only be called when a user is logged-in at the front
 	 * end.
+	 *
+	 * @return void
 	 */
 	private function setLimitHeading() {
 		$user = tx_oelib_FrontEndLoginManager::getInstance()
@@ -122,6 +126,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 *
 	 * This function should only be called when a user is logged in at the front
 	 * end.
+	 *
+	 * @return void
 	 */
 	private function setEditorLinkMarker() {
 		if (tx_oelib_FrontEndLoginManager::getInstance()
@@ -139,6 +145,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 
 	/**
 	 * Processes the deletion of a realty record.
+	 *
+	 * @return void
 	 */
 	private function processDeletion() {
 		// no need for a front-end editor if there is nothing to delete
@@ -170,6 +178,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 
 	/**
 	 * Sets the row contents specific to this view.
+	 *
+	 * @return void
 	 */
 	protected function setViewSpecificListRowContents() {
 		$this->setMarker(
@@ -250,6 +260,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 
 	/**
 	 * Sets the markers for the "advertise" link for one row.
+	 *
+	 * @return void
 	 */
 	private function setAdvertisementMarkers() {
 		if (!$this->hasConfValueInteger(

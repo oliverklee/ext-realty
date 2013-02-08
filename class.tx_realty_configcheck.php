@@ -38,6 +38,8 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the configuration for the filter form of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_filter_form() {
 		$this->checkCommonFrontEndSettings();
@@ -48,6 +50,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the list view of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_realty_list() {
 		$this->checkListViewRelatedConfiguration();
@@ -57,6 +61,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks all list view related configuration of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function checkListViewRelatedConfiguration() {
 		$this->checkCommonFrontEndSettings();
@@ -74,6 +80,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the favorites view of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_favorites() {
 		$this->check_tx_realty_pi1_realty_list();
@@ -87,6 +95,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the single view of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_single_view() {
 		$this->checkCommonFrontEndSettings();
@@ -124,6 +134,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the contact form of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_contact_form() {
 		$this->checkCommonFrontEndSettings();
@@ -138,6 +150,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the my objects view of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_my_objects() {
 		$this->checkListViewRelatedConfiguration();
@@ -156,6 +170,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the configuration for the Realty Manager's list view of objects by
 	 * a certain owner.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_objects_by_owner() {
 		$this->check_tx_realty_pi1_realty_list();
@@ -163,6 +179,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the Realty Manager's offerer list.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_offerer_list() {
 		$this->checkCommonFrontEndSettings();
@@ -176,6 +194,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the FE editor of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_fe_editor() {
 		// TODO: Check the FE editor template file once we can check other
@@ -191,6 +211,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for the FE editor of the Realty Manager.
+	 *
+	 * @return void
 	 */
 	public function check_tx_realty_pi1_image_upload() {
 		// TODO: Check the FE editor template file once we can check other
@@ -208,6 +230,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the settings that are common to all FE plug-in variations of this
 	 * extension: CSS styled content, static TypoScript template included,
 	 * template file, CSS file, salutation mode, CSS class names and the locale.
+	 *
+	 * @return void
 	 */
 	private function checkCommonFrontEndSettings() {
 		$this->checkStaticIncluded();
@@ -243,6 +267,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for Google Maps.
+	 *
+	 * @return void
 	 */
 	private function checkGoogleMaps() {
 		$this->checkShowGoogleMaps();
@@ -256,6 +282,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting of the configuration value what_to_display.
+	 *
+	 * @return void
 	 */
 	private function checkWhatToDisplay() {
 		$this->checkIfSingleInSetNotEmpty(
@@ -282,6 +310,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for 'singleViewPartsToDisplay'.
+	 *
+	 * @return void
 	 */
 	private function checkSingleViewPartsToDisplay() {
 		$this->checkIfMultiInSetNotEmpty(
@@ -326,6 +356,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the date format.
+	 *
+	 * @return void
 	 */
 	private function checkDateFormat() {
 		$this->checkForNonEmptyString(
@@ -340,6 +372,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks whether values for image sizes in the list view are set.
+	 *
+	 * @return void
 	 */
 	private function checkImageSizeValuesForListView() {
 		$imageSizeItems =  array (
@@ -358,8 +392,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		}
 	}
 
-		/**
+	/**
 	 * Checks whether values for image sizes in the single view are set.
+	 *
+	 * @return void
 	 */
 	private function checkImageSizeValuesForSingleView() {
 		$imageSizeItems =  array (
@@ -380,6 +416,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings of fields in the overview table.
+	 *
+	 * @return void
 	 */
 	private function checkFieldsInSingleViewTable() {
 		$this->checkIfMultiInSetNotEmpty(
@@ -396,6 +434,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings of favorite fields which should be stored in the
 	 * session.
+	 *
+	 * @return void
 	 */
 	private function checkFavoriteFieldsInSession() {
 		$this->checkIfMultiInSetOrEmpty(
@@ -413,6 +453,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting of the configuration value
 	 * requireLoginForSingleViewPage.
+	 *
+	 * @return void
 	 */
 	private function checkRequireLoginForSingleViewPage() {
 		$this->checkIfBoolean(
@@ -427,6 +469,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the login PID.
+	 *
+	 * @return void
 	 */
 	private function checkLoginPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -441,6 +485,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting of the configuration value showContactPageLink.
+	 *
+	 * @return void
 	 */
 	private function checkShowContactPageLink() {
 		$this->checkIfBoolean(
@@ -455,6 +501,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the contact PID.
+	 *
+	 * @return void
 	 */
 	private function checkContactPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -469,6 +517,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for displayedSearchWidgetFields.
+	 *
+	 * @return void
 	 */
 	private function checkDisplayedSearchWidgetFields() {
 		$this->checkIfMultiInSetNotEmpty(
@@ -487,6 +537,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the price ranges for the filter form.
+	 *
+	 * @return void
 	 */
 	private function checkPriceRangesForFilterForm() {
 		$displayedWidgetFields = t3lib_div::trimExplode(
@@ -514,6 +566,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting of the pages that contain realty records to be
 	 * displayed.
+	 *
+	 * @return void
 	 */
 	private function checkPagesToDisplay() {
 		$this->checkIfPidListNotEmpty(
@@ -528,6 +582,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the recursion level for the pages list.
+	 *
+	 * @return void
 	 */
 	private function checkRecursive() {
 		$this->checkIfPositiveIntegerOrZero(
@@ -545,6 +601,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting of the configuration value objectsByOwnerPID.
 	 *
 	 * @param boolean $mayBeEmpty TRUE if the configuration may be empty
+	 *
+	 * @return void
 	 */
 	private function checkObjectsByOwnerPid($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {
@@ -567,6 +625,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting of the configuration value userGroupsForOffererList.
+	 *
+	 * @return void
 	 */
 	private function checkUserGroupsForOffererList() {
 		$this->checkIfPidListOrEmpty(
@@ -584,6 +644,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * Checks the setting for displayedContactInformation.
 	 *
 	 * @param boolean $mayBeEmpty TRUE if the configuration may be empty
+	 *
+	 * @return void
 	 */
 	private function checkDisplayedContactInformation($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {
@@ -608,6 +670,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for displayedContactInformationSpecial.
+	 *
+	 * @return void
 	 */
 	private function checkDisplayedContactInformationSpecial() {
 		$this->checkIfMultiInSetOrEmpty(
@@ -629,9 +693,11 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for displayedContactInformationSpecial.
+	 *
+	 * @return void
 	 */
 	private function checkGroupsWithSpeciallyDisplayedContactInformation() {
-		// checkIfPidListOrEmpty checks for a comma separated list of integers
+		// checkIfPidListOrEmpty checks for a comma-separated list of integers
 		$this->checkIfPidListOrEmpty(
 			'groupsWithSpeciallyDisplayedContactInformation',
 			TRUE,
@@ -645,6 +711,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the default contact e-mail address.
+	 *
+	 * @return void
 	 */
 	private function checkDefaultContactEmail() {
 		$this->checkIsValidEmailNotEmpty(
@@ -661,6 +729,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the BCC e-mail address.
+	 *
+	 * @return void
 	 */
 	private function checkBlindCarbonCopyAddress() {
 		$this->checkIsValidEmailOrEmpty(
@@ -675,6 +745,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for visibleContactFormFields.
+	 *
+	 * @return void
 	 */
 	private function checkVisibleContactFormFields() {
 		$this->checkIfMultiInSetOrEmpty(
@@ -710,6 +782,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration for requiredContactFormFields.
+	 *
+	 * @return void
 	 */
 	private function checkRequiredContactFormFields() {
 		$this->checkIfMultiInSetOrEmpty(
@@ -751,6 +825,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the variable termsPID.
+	 *
+	 * @return void
 	 */
 	private function checkTermsPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -765,6 +841,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting of the checkboxes filter.
+	 *
+	 * @return void
 	 */
 	private function checkCheckboxesFilter() {
 		$this->checkIfSingleInTableOrEmpty(
@@ -780,6 +858,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for orderBy.
+	 *
+	 * @return void
 	 */
 	private function checkOrderBy() {
 		$this->checkIfSingleInSetOrEmpty(
@@ -806,6 +886,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the sort criteria.
+	 *
+	 * @return void
 	 */
 	private function checkSortCriteria() {
 		$this->checkIfMultiInSetOrEmpty(
@@ -832,6 +914,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the PID for the single view.
+	 *
+	 * @return void
 	 */
 	private function checkSingleViewPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -846,6 +930,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the PID for the favorites view.
+	 *
+	 * @return void
 	 */
 	private function checkFavoritesPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -859,6 +945,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the PID for the FE editor.
+	 *
+	 * @return void
 	 */
 	private function checkEditorPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -873,6 +961,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings for the target PID for the filter form and the
 	 * city selector.
+	 *
+	 * @return void
 	 */
 	private function checkFilterTargetPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -887,6 +977,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the PID for the FE image upload.
+	 *
+	 * @return void
 	 */
 	private function checkImageUploadPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -902,6 +994,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings for the PID of the system folder for FE-created
 	 * records.
+	 *
+	 * @return void
 	 */
 	private function checkSysFolderForFeCreatedRecords() {
 		$this->checkIfSingleSysFolderNotEmpty(
@@ -917,6 +1011,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings for the PID of the system folder for FE-created
 	 * records.
+	 *
+	 * @return void
 	 */
 	private function checkSysFolderForFeCreatedAuxiliaryRecords() {
 		$this->checkIfSingleSysFolderNotEmpty(
@@ -931,6 +1027,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting of the configuration value priceOnlyIfAvailable.
+	 *
+	 * @return void
 	 */
 	private function checkPriceOnlyIfAvailable() {
 		$this->checkIfBoolean(
@@ -947,6 +1045,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings for the PID of the FE page where to redirect to after
 	 * saving a FE-created record.
+	 *
+	 * @return void
 	 */
 	private function checkFeEditorRedirectPid() {
 		$this->checkIfSingleFePageNotEmpty(
@@ -962,6 +1062,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the setting for the FE editor's notification e-mail address.
+	 *
+	 * @return void
 	 */
 	private function checkFeEditorNotifyEmail() {
 		$this->checkIsValidEmailNotEmpty(
@@ -977,6 +1079,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the default country.
+	 *
+	 * @return void
 	 */
 	private function checkDefaultCountry() {
 		$this->checkIfPositiveInteger(
@@ -991,6 +1095,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration value showGoogleMaps.
+	 *
+	 * @return void
 	 */
 	private function checkShowGoogleMaps() {
 		$this->checkIfBoolean(
@@ -1005,6 +1111,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the Google Maps API key.
+	 *
+	 * @return void
 	 */
 	private function checkGoogleMapsApiKey() {
 		$this->checkForNonEmptyString(
@@ -1019,6 +1127,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings for the thumbnail images in the front-end image
 	 * upload.
+	 *
+	 * @return void
 	 */
 	private function checkImageUploadThumbnailConfiguration() {
 		$this->checkImageUploadThumbnailWidth();
@@ -1028,6 +1138,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings of the maximum width of the thumbnail images at the
 	 * front-end image upload.
+	 *
+	 * @return void
 	 */
 	private function checkImageUploadThumbnailWidth() {
 		$this->checkIfPositiveInteger(
@@ -1043,6 +1155,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings of the maximum height of the thumbnail images at the
 	 * front-end image upload.
+	 *
+	 * @return void
 	 */
 	private function checkImageUploadThumbnailHeight() {
 		$this->checkIfPositiveInteger(
@@ -1057,6 +1171,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration value advertisementPID.
+	 *
+	 * @return void
 	 */
 	private function checkAdvertisementPid() {
 		$this->checkIfSingleFePageOrEmpty(
@@ -1071,6 +1187,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration value advertisementParameterForObjectUid.
+	 *
+	 * @return void
 	 */
 	private function checkAdvertisementParameterForObjectUid() {
 		// Nothing to do - every string is allowed.
@@ -1078,6 +1196,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration value advertisementExpirationInDays.
+	 *
+	 * @return void
 	 */
 	private function checkAdvertisementExpirationInDays() {
 		$this->checkIfPositiveIntegerOrZero(
@@ -1092,6 +1212,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the offerer image.
+	 *
+	 * @return void
 	 */
 	private function checkOffererImageConfiguration() {
 		$this->checkOffererImageWidth();
@@ -1100,6 +1222,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the value of offererImageMaxWidth.
+	 *
+	 * @return void
 	 */
 	private function checkOffererImageWidth() {
 		$this->checkIfPositiveInteger(
@@ -1115,6 +1239,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the value of offererImageMaxHeight.
+	 *
+	 * @return void
 	 */
 	private function checkOffererImageHeight() {
 		$this->checkIfPositiveInteger(
@@ -1130,6 +1256,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the settings for the gallery image when using the lightbox.
+	 *
+	 * @return void
 	 */
 	private function checkLightboxImageConfiguration() {
 		$this->checkEnableLightbox();
@@ -1144,6 +1272,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the value of enableLightbox.
+	 *
+	 * @return void
 	 */
 	private function checkEnableLightbox() {
 		$this->checkIfBoolean(
@@ -1159,6 +1289,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the value of lightboxImageWidthMax.
+	 *
+	 * @return void
 	 */
 	private function checkLightboxImageWidthMax() {
 		$this->checkIfPositiveInteger(
@@ -1173,6 +1305,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the value of lightboxImageHeightMax.
+	 *
+	 * @return void
 	 */
 	private function checkLightboxImageHeightMax() {
 		$this->checkIfPositiveInteger(
@@ -1187,6 +1321,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the value of includeJavaScriptLibraries.
+	 *
+	 * @return void
 	 */
 	private function checkIncludeJavaScriptLibraries() {
 		$this->checkIfMultiInSetOrEmpty(
@@ -1202,6 +1338,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the value of enableNextPreviousButtons.
+	 *
+	 * @return void
 	 */
 	private function checkEnableNextPreviousButtons() {
 		$this->checkIfBoolean(
@@ -1218,6 +1356,8 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 
 	/**
 	 * Checks the configuration of the next previous buttons for the single view.
+	 *
+	 * @return void
 	 */
 	private function checkEnableNextPreviousButtonsForSingleView() {
 		$this->checkEnableNextPreviousButtons();

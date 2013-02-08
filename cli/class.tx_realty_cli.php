@@ -44,6 +44,8 @@ setlocale(LC_NUMERIC, 'C');
 class tx_realty_cli {
 	/**
 	 * Calls the OpenImmo importer.
+	 *
+	 * @return void
 	 */
 	public function main() {
 		try {

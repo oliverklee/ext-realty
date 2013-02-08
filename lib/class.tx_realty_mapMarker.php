@@ -83,6 +83,8 @@ class tx_realty_mapMarker {
 	 *
 	 * @param float $latitude latitude
 	 * @param float $longitude longitude
+	 *
+	 * @return void
 	 */
 	public function setCoordinates($latitude, $longitude) {
 		$this->latitude = $latitude;
@@ -110,6 +112,8 @@ class tx_realty_mapMarker {
 	 * Sets this marker's title.
 	 *
 	 * @param string $title title, may be empty, must not be HTML-safe
+	 *
+	 * @return void
 	 */
 	public function setTitle($title) {
 		$this->title = trim(addslashes(strip_tags($title)));
@@ -119,6 +123,8 @@ class tx_realty_mapMarker {
 	 * Sets this marker's info window HTML
 	 *
 	 * @param string $html info window HTML, may be empty
+	 *
+	 * @return void
 	 */
 	public function setInfoWindowHtml($html) {
 		// 1. escapes \ to \\

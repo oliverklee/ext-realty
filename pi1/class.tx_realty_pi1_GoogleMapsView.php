@@ -106,6 +106,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param integer $realtyObjectUid UID of the realty object of which to collect the marker, must be > 0
 	 * @param boolean $createLink whether the detail page should be linked in the object title
+	 *
+	 * @return void
 	 */
 	public function setMapMarker($realtyObjectUid, $createLink = FALSE) {
 		$this->createMarkerFromCoordinates($realtyObjectUid, $createLink);
@@ -114,6 +116,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Creates the necessary Google Map entries in the HTML head for all
 	 * map markers in $this->mapMarkers.
+	 *
+	 * @return void
 	 */
 	private function addGoogleMapToHtmlHead() {
 		$generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
@@ -166,6 +170,8 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param integer $realtyObjectUid UID of the realty object for which to create the marker, must be > 0
 	 * @param boolean $createLink whether the detail page should be linked in the object title
+	 *
+	 * @return void
 	 */
 	private function createMarkerFromCoordinates(
 		$realtyObjectUid, $createLink = FALSE

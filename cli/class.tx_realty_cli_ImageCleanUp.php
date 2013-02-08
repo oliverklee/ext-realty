@@ -56,6 +56,8 @@ class tx_realty_cli_ImageCleanUp {
 	 * @throws RuntimeException if the upload folder does not exist
 	 * @throws tx_oelib_Exception_AccessDenied if the upload folder is not
 	 *                                         writable
+	 *
+	 * @return void
 	 */
 	public function checkUploadFolder() {
 		$absolutePath = PATH_site . $this->uploadFolder;
@@ -84,6 +86,8 @@ class tx_realty_cli_ImageCleanUp {
 	 * Hides unused images in the database. Images in the database are
 	 * considered as unused if there is no non-deleted realty record related to
 	 * this image.
+	 *
+	 * @return void
 	 */
 	public function hideUnusedImagesInDatabase() {
 		$nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
@@ -123,6 +127,8 @@ class tx_realty_cli_ImageCleanUp {
 	 * Deletes unused document records. Documents in the database are
 	 * considered as unused if there is no non-deleted realty record related to
 	 * this document.
+	 *
+	 * @return void
 	 */
 	public function deleteUnusedDocumentRecords() {
 		$nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
@@ -173,6 +179,8 @@ class tx_realty_cli_ImageCleanUp {
 	 * Deletes all files from the realty upload folder which do not have a
 	 * corresponding image or document record.
 	 * (Subfolders, such as /rte, remain untouched.)
+	 *
+	 * @return void
 	 */
 	public function deleteUnusedFiles() {
 		$absolutePath = PATH_site . $this->uploadFolder;
@@ -252,6 +260,8 @@ class tx_realty_cli_ImageCleanUp {
 	 *               folder to use as upload folder for testing, must be
 	 *               relative to PATH_site, a trailing slash will be appended,
 	 *               must not be empty
+	 *
+	 * @return void
 	 */
 	public function setTestMode($uploadFolder) {
 		$this->uploadFolder = $uploadFolder . '/';

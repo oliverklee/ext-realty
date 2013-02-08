@@ -103,6 +103,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * deleted in the form .
 	 *
 	 * @param array $formData form data, must not be empty
+	 *
+	 * @return void
 	 */
 	public function processImageUpload(array $formData) {
 		if (($formData['caption'] != '') && ($formData['image']['name'] != '')) {

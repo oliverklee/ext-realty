@@ -157,6 +157,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy realty objects in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyObjects() {
 		$this->createDummyCities();
@@ -188,6 +190,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy city records in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyCities() {
 		$this->firstCityUid = $this->testingFramework->createRecord(
@@ -202,6 +206,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy FE pages (like login and single view).
+	 *
+	 * @return void
 	 */
 	private function createDummyPages() {
 		$this->loginPid = $this->testingFramework->createFrontEndPage();
@@ -217,6 +223,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	/**
 	 * Denies access to the details page by requiring logon to display that page
 	 * and then logging out any logged-in FE users.
+	 *
+	 * @return void
 	 */
 	private function denyAccess() {
 		$this->fixture->setConfigurationValue(
@@ -226,8 +234,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * Allows access to the details page by not requiring logon to display that
-	 * page.
+	 * Allows access to the details page by not requiring logon to display that page.
+	 *
+	 * @return void
 	 */
 	private function allowAccess() {
 		$this->fixture->setConfigurationValue(

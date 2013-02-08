@@ -47,6 +47,8 @@ class tx_realty_lightboxIncluder {
 
 	/**
 	 * Includes the extension's main JavaScript file.
+	 *
+	 * @return void
 	 */
 	static public function includeMainJavaScript() {
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID]
@@ -57,6 +59,8 @@ class tx_realty_lightboxIncluder {
 
 	/**
 	 * Includes the files needed for the Lightbox.
+	 *
+	 * @return void
 	 */
 	static public function includeLightboxFiles() {
 		$configuration = tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
@@ -91,6 +95,8 @@ class tx_realty_lightboxIncluder {
 
 	/**
 	 * Includes the Prototype files.
+	 *
+	 * @return void
 	 */
 	static public function includePrototype() {
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_prototype']
@@ -103,6 +109,8 @@ class tx_realty_lightboxIncluder {
 	/**
 	 * Adds the configuration for the Lightbox to the header. This function
 	 * must be called before the lightbox.js file ist added to the header.
+	 *
+	 * @return void
 	 */
 	static private function addLightboxConfigurationToHeader() {
 		$translator = tx_oelib_ObjectFactory::make('tx_realty_translator');

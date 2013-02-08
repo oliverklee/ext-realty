@@ -70,6 +70,8 @@ class tx_realty_tests_fixtures_FakeGoogleMapsLookup extends tx_realty_googleMaps
 	 *
 	 * @param float $latitude latitude coordinate
 	 * @param float $longitude longitude coordinate
+	 *
+	 * @return void
 	 */
 	public function setCoordinates($latitude, $longitude) {
 		$this->coordinates = array(
@@ -79,6 +81,8 @@ class tx_realty_tests_fixtures_FakeGoogleMapsLookup extends tx_realty_googleMaps
 
 	/**
 	 * Resets the fake coordinates.
+	 *
+	 * @return void
 	 */
 	public function clearCoordinates() {
 		$this->coordinates = array();

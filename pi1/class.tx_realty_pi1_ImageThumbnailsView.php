@@ -117,6 +117,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * @param integer $position the zero-based position index of the images
 	 * @param array<tx_realty_Model_Image> $images
 	 *        the images to render, must all be in position $position
+	 *
+	 * @return void
 	 */
 	private function renderImagesInPosition($position, array $images) {
 		$containerSubpartName = ($position > 0)
@@ -217,6 +219,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Gathers the image configuration for all configured image containers in
 	 * $this->imageConfiguration.
+	 *
+	 * @return void
 	 */
 	private function createImageConfiguration() {
 		$configuration = tx_oelib_ConfigurationRegistry

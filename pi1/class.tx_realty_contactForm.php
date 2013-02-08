@@ -114,6 +114,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 
 	/**
 	 * Hides form fields that are not configured to be visible.
+	 *
+	 * @return void
 	 */
 	private function hideNonVisibleFormFields() {
 		$visibleFields = $this->getVisibleFields();
@@ -375,6 +377,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets the requester's data if the requester is a logged in user. Does
 	 * nothing if no user is logged in.
+	 *
+	 * @return void
 	 */
 	private function setDataForLoggedInUser() {
 		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
@@ -539,6 +543,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Declares the fields for the requester's contact data as not editable and
 	 * fills them with the current FE user's data if a user is logged in.
+	 *
+	 * @return void
 	 */
 	private function fillContactInformationFieldsForLoggedInUser() {
 		$readonlyMarkerContent = '';
@@ -558,6 +564,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *        associative array with the fields where the error occured as keys
 	 *        and the locallang key of an error message as value if there was
 	 *        one, must not be empty
+	 *
+	 * @return void
 	 */
 	private function setErrorMessageContent(array $errors) {
 		foreach ($errors as $formFieldName => $locallangKey) {
@@ -620,6 +628,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * This function is a no-op if the "terms" checkbox is not configured to be
 	 * displayed.
+	 *
+	 * @return void
 	 */
 	private function createTermsLink() {
 		if (!in_array(
@@ -643,6 +653,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets the form fields' values to the currently stored form data.
 	 * Therefore converts special characters to HTML entities.
+	 *
+	 * @return void
 	 */
 	private function setFormValues() {
 		foreach (array(
@@ -673,6 +685,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * Stores the submitted contact form data locally.
 	 *
 	 * @param array $contactFormData contact form data, may be empty
+	 *
+	 * @return void
 	 */
 	private function storeContactFormData(array $contactFormData) {
 		foreach (

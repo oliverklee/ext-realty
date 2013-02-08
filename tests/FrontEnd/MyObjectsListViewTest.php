@@ -94,6 +94,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 *
 	 * @param array $userData
 	 *        data with which the user should be created, may be empty
+	 *
+	 * @return void
 	 */
 	private function prepareMyObjects(array $userData = array()) {
 		$user = $this->getMock(

@@ -123,6 +123,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
 	 * Sets the global configuration values which need to be static during the
 	 * tests.
+	 *
+	 * @return void
 	 */
 	private function setupStaticConditions() {
 		// avoids using the extension's real upload folder
@@ -173,6 +175,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 	/**
 	 * Disables the XML validation.
+	 *
+	 * @return void
 	 */
 	private function disableValidation() {
 		$this->globalConfiguration->setAsString('openImmoSchema', '');
@@ -187,6 +191,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 *        Leave empty to create an empty import folder.
 	 * @param string $newFileName
 	 *        new file name in case it should be different from the original one, may be empty
+	 *
+	 * @return void
 	 */
 	private function copyTestFileIntoImportFolder($fileName, $newFileName = '') {
 		// creates an import folder if there is none
@@ -208,6 +214,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
 	 * Deletes the test import folder if it has been created during the tests.
 	 * Otherwise does nothing.
+	 *
+	 * @return void
 	 */
 	private function deleteTestImportFolder() {
 		if ($this->testImportFolderExists) {
@@ -219,6 +227,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
 	 * Checks if the ZIPArchive class is available. If it is not available, the
 	 * current test will be marked as skipped.
+	 *
+	 * @return void
 	 */
 	private function checkForZipArchive() {
 		if (!in_array('zip', get_loaded_extensions())) {

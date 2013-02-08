@@ -346,6 +346,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string &$information information to which the user group should be appended, may be empty, will be modified
 	 * @param tx_realty_Model_FrontEndUser $offerer the offerer of which to append the user group
+	 *
+	 * @return void
 	 */
 	private function appendUserGroup(
 		&$information, tx_realty_Model_FrontEndUser $offerer

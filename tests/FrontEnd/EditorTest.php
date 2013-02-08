@@ -100,6 +100,8 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy records in the DB and logs in a front-end user.
+	 *
+	 * @return void
 	 */
 	private function createDummyRecords() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
@@ -125,6 +127,8 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates one dummy record in each table for auxiliary records.
+	 *
+	 * @return void
 	 */
 	private function createAuxiliaryRecords() {
 		$realtyObject = new tx_realty_Model_RealtyObject(TRUE);

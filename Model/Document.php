@@ -53,6 +53,8 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 * Sets this document's title.
 	 *
 	 * @param string $title the title to set, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setTitle($title) {
 		if ($title == '') {
@@ -79,6 +81,8 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 * @param string $fileName
 	 *        the name of the file relative to the extension's upload
 	 *        directory, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setFileName($fileName) {
 		if ($fileName == '') {
@@ -103,6 +107,8 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 *
 	 * @param tx_realty_Model_RealtyObject $realtyObject
 	 *        the related object to assign
+	 *
+	 * @return void
 	 */
 	public function setObject(tx_realty_Model_RealtyObject $realtyObject) {
 		$this->set('object', $realtyObject);
@@ -125,6 +131,8 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 * This is the sorting as used in the back end.
 	 *
 	 * @param integer $sorting the sorting value of this document, must be >= 0
+	 *
+	 * @return void
 	 */
 	public function setSorting($sorting) {
 		$this->setAsInteger('sorting', $sorting);

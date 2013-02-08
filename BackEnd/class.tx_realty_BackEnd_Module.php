@@ -51,6 +51,8 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 
 	/**
 	 * Initializes the module.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		parent::init();
@@ -96,6 +98,8 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 
 	/**
 	 * Initializes the template objects.
+	 *
+	 * @return void
 	 */
 	private function initializeTemplate() {
 		$this->doc = t3lib_div::makeInstance('bigDoc');
@@ -236,6 +240,8 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 *        must be an existing locallang label without the prefix 'error_message_'
 	 * @param mixed $value
 	 *        the value which should be included in the locallang message, must not be empty
+	 *
+	 * @return void
 	 */
 	private function storeErrorMessage($message, $value) {
 		$this->errorMessages[] = sprintf(

@@ -117,6 +117,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * Creates the single view.
 	 *
 	 * @param integer $uid UID of the realty object for which to create the single view, must be > 0
+	 *
+	 * @return void
 	 */
 	private function createSingleView($uid) {
 		$this->setPageTitle($uid);
@@ -160,6 +162,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * results.
 	 *
 	 * @param integer $uid UID of the realty object for which to set the title, must be > 0
+	 *
+	 * @return void
 	 */
 	private function setPageTitle($uid) {
 		$title = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
@@ -207,6 +211,8 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * 'addToFavorites', 'printPage' and 'back' are hidden.
 	 *
 	 * @param array $displayedViews the views which are displayed, may be empty
+	 *
+	 * @return void
 	 */
 	private function hideActionButtonsIfNeccessary(array $displayedViews) {
 		$visibilityTree = tx_oelib_ObjectFactory::make(

@@ -50,6 +50,8 @@ class tx_realty_tests_fixtures_TestingListView extends tx_realty_pi1_AbstractLis
 
 	/**
 	 * Initializes some view-specific data.
+	 *
+	 * @return void
 	 */
 	protected function initializeView() {}
 

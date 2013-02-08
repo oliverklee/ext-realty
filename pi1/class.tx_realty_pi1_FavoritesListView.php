@@ -69,6 +69,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 
 	/**
 	 * Initializes data for the favorites view.
+	 *
+	 * @return void
 	 */
 	protected function initializeView() {
 		$this->unhideSubparts(
@@ -84,6 +86,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * Fills the wrapper with the link to the contact form if displaying contact
 	 * information is enabled for the favorites view. Otherwise hides the
 	 * complete wrapper.
+	 *
+	 * @return void
 	 */
 	private function fillOrHideContactWrapper() {
 		if (!$this->hasConfValueInteger('contactPID')) {
@@ -113,6 +117,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 
 	/**
 	 * Sets the current session data for the favorites.
+	 *
+	 * @return void
 	 */
 	private function setFavoritesSessionData() {
 		if (!$this->hasConfValueString('favoriteFieldsInSession')) {
@@ -149,6 +155,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * If $this->piVars['remove'] is set to "1", the submitted items will be
 	 * removed from the list of favorites.
 	 * Otherwise, these items will get added to the list of favorites.
+	 *
+	 * @return void
 	 */
 	private function processSubmittedFavorites() {
 		if (isset($this->piVars['favorites']) && !empty($this->piVars['favorites'])) {
@@ -170,6 +178,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * @param array $itemsToRemove
 	 *        list of realty object UIDs to to remove (will be intvaled by this
 	 *        function), may be empty
+	 *
+	 * @return void
 	 */
 	private function removeFromFavorites(array $itemsToRemove) {
 		if (empty($itemsToRemove)) {
@@ -198,6 +208,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * @param array $itemsToAdd
 	 *        list of realty object UIDs to add (will be intvaled by this
 	 *        function), may be empty
+	 *
+	 * @return void
 	 */
 	public function addToFavorites(array $itemsToAdd) {
 		if (empty($itemsToAdd)) {
@@ -262,6 +274,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * Before storing, the list of favorites is clear of duplicates.
 	 *
 	 * @param array $favorites list of UIDs in the favorites list to store, must already be int-safe, may be empty
+	 *
+	 * @return void
 	 */
 	private function storeFavorites(array $favorites) {
 		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
@@ -271,6 +285,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * Writes a formatted string containing object numbers and titles of objects
 	 * on the favorites list to the session.
+	 *
+	 * @return void
 	 */
 	public function writeSummaryStringOfFavoritesToSession() {
 		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
@@ -316,6 +332,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 
 	/**
 	 * Sets the row contents specific to this view.
+	 *
+	 * @return void
 	 */
 	protected function setViewSpecificListRowContents() {
 		if (!$this->hasConfValueString('favoriteFieldsInSession')) {

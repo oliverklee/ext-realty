@@ -135,6 +135,8 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy system folders and realty objects in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyRecords() {
 		$this->pageUid = $this->testingFramework->createSystemFolder();
@@ -153,6 +155,8 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 
 	/**
 	 * Cleans up the tables in which dummy records are created during the tests.
+	 *
+	 * @return void
 	 */
 	private function cleanUpDatabase() {
 		// Inserting images causes an entry to 'sys_refindex' which is currently
@@ -178,6 +182,8 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	 *        additional data which should be stored into the owners data, may be empty
 	 * @param array $additionalObjectData
 	 *        additional data which should be stored into the object, may be empty
+	 *
+	 * @return void
 	 */
 	private function loadRealtyObjectAndSetOwner(
 		$ownerSource,

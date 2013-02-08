@@ -97,6 +97,8 @@ class tx_realty_googleMapsLookup {
 	 * Note: This function is to be used for testing only.
 	 *
 	 * @param tx_realty_googleMapsLookup $geoFinder the instance which getInstance() should return
+	 *
+	 * @return void
 	 */
 	public static function setInstance(tx_realty_googleMapsLookup $geoFinder) {
 		self::$instance = $geoFinder;
@@ -104,6 +106,8 @@ class tx_realty_googleMapsLookup {
 
 	/**
 	 * Purges the current GoogleMaps look-up instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (is_object(self::$instance)) {
@@ -215,6 +219,8 @@ class tx_realty_googleMapsLookup {
 	/**
 	 * Makes sure the necessary amount of time has passed since the last
 	 * geocoding request.
+	 *
+	 * @return void
 	 */
 	protected function throttle() {
 		if (self::$lastGeocodingTimestamp > 0) {

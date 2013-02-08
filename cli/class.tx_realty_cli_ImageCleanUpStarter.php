@@ -47,6 +47,8 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 class tx_realty_cli_ImageCleanUpStarter {
 	/**
 	 * Starts the clean-up.
+	 *
+	 * @return void
 	 */
 	public function main() {
 		try {

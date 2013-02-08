@@ -165,6 +165,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * non-emptiness, and $isGoogleMapsAllowed if it is set.
 	 *
 	 * @throws BadMethodCallException one of the three checked variables has illegal values
+	 *
+	 * @return void
 	 */
 	private function checkMemberVariables() {
 		if ($this->listViewLabel == '') {
@@ -210,11 +212,15 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 	/**
 	 * Initializes some view-specific data.
+	 *
+	 * @return void
 	 */
 	abstract protected function initializeView();
 
 	/**
 	 * Fills in the data for each list row.
+	 *
+	 * @return void
 	 */
 	private function fillListRows() {
 		$dbResult = $this->initListView();
@@ -304,6 +310,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * Overrides the line Cache-control if POST data of realty has been sent.
 	 * This assures, that the page is loaded correctly after hitting the back
 	 * button in IE (see also Bug 2636).
+	 *
+	 * @return void
 	 */
 	private function addHeaderForListView() {
 		$postValues = t3lib_div::_POST();
@@ -342,6 +350,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Sets a redirect header if there is only one record in the list and if
 	 * this is because an ID filter was applied in the search form.
+	 *
+	 * @return void
 	 */
 	private function setRedirectHeaderForSingleResult() {
 		if (($this->internal['res_count'] != 1)
@@ -361,6 +371,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 	/**
 	 * Sets the view to an empty result message specific for the requested view.
+	 *
+	 * @return void
 	 */
 	private function setEmptyResultView() {
 		$this->setMarker(
@@ -474,6 +486,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 	/**
 	 * Sets the row contents specific to this view.
+	 *
+	 * @return void
 	 */
 	protected function setViewSpecificListRowContents() {}
 
@@ -826,6 +840,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * All subparts that are conditionally displayed, depending on the data of
 	 * each list item are affected.
+	 *
+	 * @return void
 	 */
 	private function resetListViewSubparts() {
 		$this->unhideSubparts(
@@ -1294,6 +1310,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @param array $shownObjectsUids
 	 *        the UIDs of the objects to show on the map, may be empty
+	 *
+	 * @return void
 	 */
 	private function showGoogleMapsIfEnabled(array $shownObjectsUids) {
 		if (!$this->isGoogleMapsAllowed || !$this->getConfValueBoolean(
@@ -1393,6 +1411,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * Sets the piVars.
 	 *
 	 * @param array $piVars the piVar array to store, may be empty
+	 *
+	 * @return void
 	 */
 	public function setPiVars(array $piVars) {
 		$this->piVars = $piVars;

@@ -37,6 +37,8 @@ class tx_realty_cacheManager {
 	 * Clears the FE cache for pages with a realty plugin.
 	 *
 	 * @see tslib_fe::clearPageCacheContent_pidList()
+	 *
+	 * @return void
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
 		if (TYPO3_UseCachingFramework) {
@@ -70,6 +72,8 @@ class tx_realty_cacheManager {
 	/**
 	 * Uses the TYPO3 caching framework to clear the cache for the pages with
 	 * the realty plugin.
+	 *
+	 * @return void
 	 */
 	private static function clearCacheWithCachingFramework() {
 		if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
@@ -95,6 +99,8 @@ class tx_realty_cacheManager {
 
 	/**
 	 * Deletes the cache entries in the cache table to clear the cache.
+	 *
+	 * @return void
 	 */
 	private static function deleteCacheInTable() {
 		$pageUids = self::getPageUids();

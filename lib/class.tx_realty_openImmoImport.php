@@ -324,6 +324,8 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param array $realtyRecord record to insert, may be empty
 	 * @param integer $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
+	 *
+	 * @return void
 	 */
 	protected function writeToDatabase(array $realtyRecord, $overridePid = 0) {
 		$this->loadRealtyObject($realtyRecord);
@@ -440,6 +442,8 @@ class tx_realty_openImmoImport {
 	 * get logged through 'addToErrorLog()' instead.
 	 *
 	 * @param string $logFraction message to log, may be empty
+	 *
+	 * @return void
 	 */
 	private function addToLogEntry($logFraction) {
 		$this->temporaryLogEntry .= $logFraction.LF;
@@ -450,6 +454,8 @@ class tx_realty_openImmoImport {
 	 * with the given string.
 	 *
 	 * @param string $errorMessage error message to log, may be empty
+	 *
+	 * @return void
 	 */
 	private function addToErrorLog($errorMessage) {
 		$this->temporaryErrorLog .= $errorMessage.LF;
@@ -459,6 +465,8 @@ class tx_realty_openImmoImport {
 	/**
 	 * Stores available log messages to be returned at the end of the import.
 	 * This function is needed to use only parts of the log.
+	 *
+	 * @return void
 	 */
 	private function storeLogsAndClearTemporaryLog() {
 		$this->errorLog .= $this->temporaryErrorLog;
@@ -562,6 +570,8 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $message locallang label for the error message to add to the log, must not be empty
 	 * @param string $path the path to be displayed in the error message, must not be empty
+	 *
+	 * @return void
 	 */
 	private function addFolderAccessErrorMessage($message, $path) {
 		$ownerUid = fileowner($path);
@@ -584,6 +594,8 @@ class tx_realty_openImmoImport {
 	 * may end with a trailing slash.
 	 *
 	 * @param string $path absolute path of the upload directory, must not be empty
+	 *
+	 * @return void
 	 */
 	protected function setUploadDirectory($path) {
 		$this->uploadDirectory = $this->unifyPath($path);
@@ -742,6 +754,8 @@ class tx_realty_openImmoImport {
 	 * configuration.
 	 *
 	 * @param array &$emailData prepared e-mail data, must not be empty
+	 *
+	 * @return void
 	 */
 	private function purgeRecordsWithoutLogMessages(array &$emailData) {
 		foreach ($emailData as $recipient => $data) {
@@ -758,6 +772,8 @@ class tx_realty_openImmoImport {
 	 * about.
 	 *
 	 * @param array &$emailData prepared e-mail data, must not be empty
+	 *
+	 * @return void
 	 */
 	private function purgeRecipientsForEmptyMessages(array &$emailData) {
 		foreach ($emailData as $recipient => $data) {
@@ -828,6 +844,8 @@ class tx_realty_openImmoImport {
 	 *        Three-dimensional array with e-mail addresses as keys of the outer array. Innermost there is an array with only one
 	 *        element: Object number as key and the corresponding log information as value. This array is wrapped by a numeric
 	 *        array as object numbers are not necessarily unique. Must not be empty.
+	 *
+	 * @return void
 	 */
 	private function sendEmails(array $addressesAndMessages) {
 		if ($this->getDefaultEmailAddress() == '') {
@@ -855,6 +873,8 @@ class tx_realty_openImmoImport {
 	 * whether there is a valid contact e-mail for the current record. Inserts
 	 * the default address configured in EM if 'contact_email' if the current
 	 * record's contact e-mail is empty or invalid.
+	 *
+	 * @return void
 	 */
 	protected function ensureContactEmail() {
 		$address = $this->getContactEmailFromRealtyObject();
@@ -909,6 +929,8 @@ class tx_realty_openImmoImport {
 	 * Logs success and failures.
 	 *
 	 * @param string $zipToExtract path to the ZIP archive to extract, must not be empty
+	 *
+	 * @return void
 	 */
 	public function extractZip($zipToExtract) {
 		if (!file_exists($zipToExtract)) {
@@ -1049,6 +1071,8 @@ class tx_realty_openImmoImport {
 	 * without the suffix '.zip' before.
 	 *
 	 * @param string $pathOfZip absolute path where to find the ZIP archive which includes an XML file, must not be empty
+	 *
+	 * @return void
 	 */
 	protected function loadXmlFile($pathOfZip) {
 		$xmlPath = $this->getPathForXml($pathOfZip);
@@ -1078,6 +1102,8 @@ class tx_realty_openImmoImport {
 	 * against is taken from the path in '$this- >schemaFile'. If this path is
 	 * empty or invalid, validation is considered to be successful and the
 	 * absence of a schema file is logged.
+	 *
+	 * @return void
 	 */
 	private function validateXml() {
 		$validationResult = '';
@@ -1108,6 +1134,8 @@ class tx_realty_openImmoImport {
 	 *        result of the validation, can be either one of the locallang keys 'message_no_schema_file',
 	 *        'message_invalid_schema_file_path' or 'message_validation_impossible' or an already localized error message or an
 	 *        empty string if success should be logged
+	 *
+	 * @return void
 	 */
 	private function logValidationResult($validationResult) {
 		switch ($validationResult) {
@@ -1153,6 +1181,8 @@ class tx_realty_openImmoImport {
 	 *        path of the extracted ZIP archive, must not be empty
 	 * @param array $realtyRecords
 	 *        realty record data derived from the XML file, must not be empty
+	 *
+	 * @return void
 	 */
 	public function copyImagesAndDocumentsFromExtractedZip($pathOfZip, array $realtyRecords) {
 		$folderWithImages = $this->getNameForExtractionFolder($pathOfZip);
@@ -1225,6 +1255,8 @@ class tx_realty_openImmoImport {
 	 * Logs which ZIP archives have been deleted.
 	 *
 	 * @param string $importDirectory absolute path of the folder which contains the ZIP archives, must not be empty
+	 *
+	 * @return void
 	 */
 	public function cleanUp($importDirectory) {
 		if (!is_dir($importDirectory)) {
@@ -1308,6 +1340,8 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param array $data
 	 *        data for the realty object as an array
+	 *
+	 * @return void
 	 */
 	protected function loadRealtyObject(array $data) {
 		if (is_object($this->realtyObject)) {
@@ -1381,6 +1415,8 @@ class tx_realty_openImmoImport {
 	 * Sets the contact e-mail address of a realty object.
 	 *
 	 * @param string $address contact e-mail address, must not be empty
+	 *
+	 * @return void
 	 */
 	private function setContactEmailOfRealtyObject($address) {
 		if (!is_object($this->realtyObject)) {

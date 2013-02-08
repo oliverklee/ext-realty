@@ -53,6 +53,8 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 * Sets this images title (caption).
 	 *
 	 * @param string $title the title to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setTitle($title) {
 		$this->setAsString('caption', $title);
@@ -75,6 +77,8 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 * @param string $fileName
 	 *        the name of the image file relative to the extension's upload
 	 *        directory, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setFileName($fileName) {
 		if ($fileName == '') {
@@ -102,6 +106,8 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 * @param string $fileName
 	 *        the name of the thumbnail file relative to the extension's upload
 	 *        directory, may be empty
+	 *
+	 * @return void
 	 */
 	public function setThumbnailFileName($fileName) {
 		$this->setAsString('thumbnail', $fileName);
@@ -133,6 +139,8 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 *
 	 * @param tx_realty_Model_RealtyObject $realtyObject
 	 *        the related object to assign
+	 *
+	 * @return void
 	 */
 	public function setObject(tx_realty_Model_RealtyObject $realtyObject) {
 		$this->set('object', $realtyObject);
@@ -155,6 +163,8 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 * This is the sorting as used in the back end.
 	 *
 	 * @param integer $sorting the sorting value of this image, must be >= 0
+	 *
+	 * @return void
 	 */
 	public function setSorting($sorting) {
 		$this->setAsInteger('sorting', $sorting);
@@ -165,12 +175,14 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 *
 	 * @param integer $position
 	 *        the position of this image, must be between 0 and 4
+	 *
+	 * @return void
 	 */
 	public function setPosition($position) {
 		$this->setAsInteger('position', $position);
 	}
 
-	/*
+	/**
 	 * Gets the position of this image.
 	 *
 	 * @return integer the position of this image, will be between 0 and 4

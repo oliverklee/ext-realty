@@ -60,6 +60,8 @@ class tx_realty_Mapper_Image extends tx_oelib_DataMapper {
 	 * @param tx_realty_Model_Image $image
 	 *        the image model  to delete, must not be a memory-only dummy, must
 	 *        not be read-only
+	 *
+	 * @return void
 	 */
 	public function delete(tx_realty_Model_Image $image) {
 		if ($image->isDead()) {

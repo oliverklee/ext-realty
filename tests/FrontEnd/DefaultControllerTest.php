@@ -153,6 +153,8 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy FE pages (like login and single view).
+	 *
+	 * @return void
 	 */
 	private function createDummyPages() {
 		$this->loginPid = $this->testingFramework->createFrontEndPage();
@@ -164,6 +166,8 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy realty objects in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyObjects() {
 		$this->firstRealtyUid = $this->testingFramework->createRecord(

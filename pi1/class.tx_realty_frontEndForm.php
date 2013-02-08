@@ -115,6 +115,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 * Instantiates $this->formCreator (if it hasn't been created yet).
 	 *
 	 * This function does nothing if this object is running in test mode.
+	 *
+	 * @return void
 	 */
 	protected function makeFormCreator() {
 		if ($this->formCreator || $this->isTestMode) {
@@ -153,7 +155,9 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Adds an onload handler to the page header.
 	 *
-	 * This function is intended to be overriden by subclasses if needed.
+	 * This function is intended to be overridden by subclasses if needed.
+	 *
+	 * @return void
 	 */
 	public function addOnLoadHandler() {
 	}
@@ -244,6 +248,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 * @param integer $uid
 	 *        UID of the currently edited realty object. For creating a new database record, $uid must be zero.
 	 *        Provided values must not be negative.
+	 *
+	 * @return void
 	 */
 	public function setRealtyObjectUid($uid) {
 		$this->realtyObjectUid = $uid;
@@ -265,6 +271,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string $key column name of tx_realty_objects as key, must not be empty
 	 * @param string $value faked value
+	 *
+	 * @return void
 	 */
 	public function setFakedFormValue($key, $value) {
 		$this->fakedFormValues[$key] = $value;

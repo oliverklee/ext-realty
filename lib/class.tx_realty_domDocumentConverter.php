@@ -169,7 +169,6 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * @param tx_realty_fileNameMapper $fileNameMapper
 	 *        mapper to receive unique file names for the images and documents
-	 *
 	 */
 	public function __construct(tx_realty_fileNameMapper $fileNameMapper) {
 		$this->fileNameMapper = $fileNameMapper;
@@ -232,6 +231,8 @@ class tx_realty_domDocumentConverter {
 	 * Loads the raw data from a DOMDocument.
 	 *
 	 * @param DOMDocument $rawRealtyData raw data to load, must not be NULL
+	 *
+	 * @return void
 	 */
 	protected function setRawRealtyData(DOMDocument $rawRealtyData) {
 		$this->rawRealtyData = new DOMXPath($rawRealtyData);
@@ -239,6 +240,8 @@ class tx_realty_domDocumentConverter {
 
 	/**
 	 * Resets the imported data.
+	 *
+	 * @return void
 	 */
 	private function resetImportedData() {
 		$this->importedData = array();
@@ -250,6 +253,8 @@ class tx_realty_domDocumentConverter {
 	 * and is fetched by $this->fetchUniversalData().
 	 *
 	 * @param array &$realtyDataArray realty data, may be empty
+	 *
+	 * @return void
 	 */
 	private function addUniversalData(array &$realtyDataArray) {
 		$realtyDataArray = array_merge(
@@ -261,6 +266,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches data which is the same for the whole set of realty records in
 	 * the current OpenImmo record and stores it to $this->universalRealtyData.
+	 *
+	 * @return void
 	 */
 	private function fetchUniversalData() {
 		$this->universalRealtyData = $this->fetchEmployerAndAnid();
@@ -364,6 +371,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Replaces the strings 'TRUE' and 'FALSE' of the currently imported data
 	 * with real booleans. This replacement is not case sensitive.
+	 *
+	 * @return void
 	 */
 	private function replaceImportedBooleanLikeStrings() {
 		foreach (self::$booleanFields as $key) {
@@ -411,6 +420,8 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * Handles the "zip" column as a special case since here leading zeros are
 	 * allowed. So the ZIP will not be intvaled.
+	 *
+	 * @return void
 	 */
 	private function substituteSurplusDecimals() {
 		foreach ($this->importedData as $key => $value) {
@@ -425,6 +436,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches node values and stores them with their corresponding database
 	 * column names as keys in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchNodeValues() {
 		foreach (self::$propertyArray as $key => $path) {
@@ -453,6 +466,8 @@ class tx_realty_domDocumentConverter {
 	 * Fetches 'hausnummer' and appends it to the string in the array element
 	 * 'street' of $this->importedData. If 'street' is empty or does not exist,
 	 * nothing is changed at all.
+	 *
+	 * @return void
 	 */
 	private function appendStreetNumber() {
 		if (!$this->importedData['street']
@@ -475,6 +490,8 @@ class tx_realty_domDocumentConverter {
 	 * 'pets' is boolean in OpenImmo records. But in the database the value for
 	 * 'pets' is inserted to a separate table and displayed with this value as
 	 * title in the FE.
+	 *
+	 * @return void
 	 */
 	private function setTitleForPets() {
 		if (!isset($this->importedData['pets'])) {
@@ -507,6 +524,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the contact e-mail from the tag 'email_direct' if the e-mail
 	 * address has not been imported yet.
+	 *
+	 * @return void
 	 */
 	private function trySecondContactEmailIfEmailNotFound() {
 		if (isset($this->importedData['contact_email'])) {
@@ -526,6 +545,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches information about images from $openImmoNode of an OpenImmo record
 	 * and stores them as an inner array in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchImages() {
 		$this->addImportedDataIfValueIsNonEmpty(
@@ -594,6 +615,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches information about documents from $openImmoNode of an OpenImmo
 	 * record and stores them as an inner array in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchDocuments() {
 		$this->addImportedDataIfValueIsNonEmpty(
@@ -649,6 +672,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches attributes about equipment and stores them with their
 	 * corresponding database column names as keys in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchEquipmentAttributes() {
 		$rawAttributes = array();
@@ -682,6 +707,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches attributes about 'objektkategorie' and stores them with their
 	 * corresponding database column names as keys in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchCategoryAttributes() {
 		$this->fetchHouseType();
@@ -728,6 +755,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the 'objektart' and stores it with the corresponding database
 	 * column name 'house_type' as key in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchHouseType() {
 		$nodeContainingAttributeNode = $this->findFirstGrandchild(
@@ -763,6 +792,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the 'heizungsart' and stores it with the corresponding database
 	 * column name 'heating_type' as key in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchHeatingType() {
 		$heatingTypeNode = $this->findFirstGrandchild('ausstattung', 'heizungsart');
@@ -799,6 +830,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the 'stellplatzart' and stores it with the corresponding database
 	 * column name 'garage_type' as key in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchParkingSpaceType() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
@@ -815,6 +848,8 @@ class tx_realty_domDocumentConverter {
 	 * Fetches the attribute for 'stellplatzmiete' and 'stellplatzkaufpreis' and
 	 * stores them with the corresponding database column name as key in
 	 * $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchGaragePrice() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
@@ -838,6 +873,8 @@ class tx_realty_domDocumentConverter {
 
 	/**
 	 * Fetches the attribute 'currency' and stores it in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchCurrency() {
 		$nodeWithAttributes = $this->findFirstGrandchild('preise', 'waehrung');
@@ -853,6 +890,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the attributes for 'zustand' and stores them with the
 	 * corresponding database column name as key in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchState() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
@@ -886,6 +925,8 @@ class tx_realty_domDocumentConverter {
 
 	/**
 	 * Fetches the status of this object (vacant or rented).
+	 *
+	 * @return void
 	 */
 	private function fetchStatus() {
 		$node = $this->findFirstGrandchild(
@@ -907,6 +948,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the 'boden' and stores it with the corresponding database
 	 * column name 'flooring' as key in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchFlooring() {
 		$flooringNode = $this->findFirstGrandchild('ausstattung', 'boden');
@@ -945,6 +988,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the value for 'ausstatt_kategorie' and stores it with the
 	 * corresponding database column name as key in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchFurnishingCategory() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
@@ -970,6 +1015,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the value for 'old_or_new_building' and stores it in
 	 * $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchValueForOldOrNewBuilding() {
 		$attributesArray = $this->fetchLowercasedDomAttributes(
@@ -986,6 +1033,8 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Fetches the attribute 'aktion' and stores it with the corresponding
 	 * database column name as key in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchAction() {
 		$nodeWithAttributes = $this->findFirstGrandchild(
@@ -1007,6 +1056,8 @@ class tx_realty_domDocumentConverter {
 
 	/**
 	 * Fetches the value for 'language' and stores it in $this->importedData.
+	 *
+	 * @return void
 	 */
 	private function fetchLanguage() {
 		$userDefinedAnyfieldNode = $this->findFirstGrandchild(
@@ -1051,6 +1102,8 @@ class tx_realty_domDocumentConverter {
 	 * countries table and stores it in $this->importedData.
 	 *
 	 * @throws tx_oelib_Exception_Database if the database query fails
+	 *
+	 * @return void
 	 */
 	private function fetchCountry() {
 		$nodeWithAttributes = $this->findFirstGrandchild('geo', 'land');
@@ -1211,6 +1264,8 @@ class tx_realty_domDocumentConverter {
 	 *        array into which the new element should be inserted, may be empty
 	 * @param string $key the key to insert, must not be empty
 	 * @param mixed $value the value to insert, may be empty or even NULL
+	 *
+	 * @return void
 	 */
 	protected function addElementToArray(array &$arrayToExpand, $key, $value) {
 		if ($value === NULL) {
@@ -1246,6 +1301,8 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * @param string $key the key to insert, must not be empty
 	 * @param mixed $value the value to insert, may be empty or even NULL
+	 *
+	 * @return void
 	 */
 	private function addImportedData($key, $value) {
 		$this->addElementToArray($this->importedData, $key, $value);
@@ -1257,6 +1314,8 @@ class tx_realty_domDocumentConverter {
 	 * @param string $key the key for the element to add, must not be empty
 	 * @param mixed $value
 	 *        the value for the element to add, will not be added if it is empty
+	 *
+	 * @return void
 	 */
 	private function addImportedDataIfValueIsNonEmpty($key, $value) {
 		if (empty($value)) {
@@ -1331,6 +1390,8 @@ class tx_realty_domDocumentConverter {
 	 * @param string $key ISO3166 code for the country, must not be empty
 	 * @param integer $value UID of the country, must match the UID in the static
 	 *                countries table, must be >= 0
+	 *
+	 * @return void
 	 */
 	private function cacheCountry($key, $value) {
 		self::$cachedCountries[$key] = $value;
@@ -1341,6 +1402,8 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * Rent excluding bills will be fetched from 'nettokaltmiete' if it is
 	 * present and not empty, otherwise it will be fetched from 'kaltmiete'.
+	 *
+	 * @return void
 	 */
 	private function fetchRent() {
 		$nodeWithAttributes = $this->findFirstGrandchild(

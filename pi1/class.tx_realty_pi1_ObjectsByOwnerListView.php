@@ -51,6 +51,8 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 
 	/**
 	 * Initializes some view-specific data.
+	 *
+	 * @return void
 	 */
 	protected function initializeView() {
 		$this->listViewLabel = $this->getTitleForTheObjectsByOwnerList();

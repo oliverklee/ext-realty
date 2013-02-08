@@ -46,6 +46,8 @@ class tx_realty_Model_City extends tx_oelib_Model {
 	 * Sets our title.
 	 *
 	 * @param string $title our title to set, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setTitle($title) {
 		if ($title == '') {

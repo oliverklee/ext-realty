@@ -95,6 +95,8 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates a dummy user group and a dummy offerer record in the database.
+	 *
+	 * @return void
 	 */
 	private function createDummyRecords() {
 		$this->feUserGroupUid = $this->testingFramework->createFrontEndUserGroup(

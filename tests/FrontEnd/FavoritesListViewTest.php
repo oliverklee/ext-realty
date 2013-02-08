@@ -118,6 +118,8 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	/**
 	 * Creates dummy FE pages for favorites list and a system folder for the
 	 * storage of realty objects.
+	 *
+	 * @return void
 	 */
 	private function createDummyPages() {
 		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
@@ -126,6 +128,8 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy realty objects in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyObjects() {
 		$this->cityUid = $this->testingFramework->createRecord(

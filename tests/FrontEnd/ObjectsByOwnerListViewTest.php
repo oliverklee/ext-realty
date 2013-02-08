@@ -102,6 +102,8 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	 *
 	 * @param array $userData
 	 *        data with which the user should be created, may be empty
+	 *
+	 * @return void
 	 */
 	private function createObjectWithOwner(array $userData = array()) {
 		$owner = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')

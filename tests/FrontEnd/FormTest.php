@@ -92,6 +92,8 @@ class tx_realty_FrontEnd_FormTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy records in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyRecords() {
 		$this->feUserUid = $this->testingFramework->createFrontEndUser();

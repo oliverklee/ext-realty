@@ -109,8 +109,9 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	}
 
 	/**
-	 * Forces the function getNumberOfObjects to recalculate the number of
-	 * objects.
+	 * Forces the function getNumberOfObjects to recalculate the number of objects.
+	 *
+	 * @return void
 	 */
 	public function resetObjectsHaveBeenCalculated() {
 		$this->numberOfObjectsHasBeenCalculated = FALSE;

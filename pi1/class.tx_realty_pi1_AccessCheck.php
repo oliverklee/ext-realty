@@ -85,6 +85,8 @@ class tx_realty_pi1_AccessCheck {
 	 * throws the corresponding error message key if no user is logged in.
 	 *
 	 * @throws tx_oelib_Exception_AccessDenied if no front-end user is logged in
+	 *
+	 * @return void
 	 */
 	private function isFrontEndUserLoggedIn() {
 		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
@@ -100,6 +102,8 @@ class tx_realty_pi1_AccessCheck {
 	 * @throws tx_oelib_Exception_AccessDenied if the realty object UID is zero
 	 *
 	 * @param integer $realtyObjectUid UID of the object, must be >= 0
+	 *
+	 * @return void
 	 */
 	private function isRealtyObjectUidProvided($realtyObjectUid) {
 		if ($realtyObjectUid > 0) {
@@ -120,6 +124,8 @@ class tx_realty_pi1_AccessCheck {
 	 *                                         exist in the database
 	 *
 	 * @param integer $realtyObjectUid UID of the object, must be >= 0
+	 *
+	 * @return void
 	 */
 	private function realtyObjectExistsInDatabase($realtyObjectUid) {
 		if (($realtyObjectUid == 0)

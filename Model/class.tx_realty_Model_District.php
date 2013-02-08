@@ -46,6 +46,8 @@ class tx_realty_Model_District extends tx_oelib_Model {
 	 * Sets our title.
 	 *
 	 * @param string $title our title to set, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setTitle($title) {
 		if ($title == '') {
@@ -69,6 +71,8 @@ class tx_realty_Model_District extends tx_oelib_Model {
 	 * Sets this district's city.
 	 *
 	 * @param tx_realty_Model_City $city the city to set, may be NULL
+	 *
+	 * @return void
 	 */
 	public function setCity(tx_realty_Model_City $city = NULL) {
 		$this->set('city', $city);

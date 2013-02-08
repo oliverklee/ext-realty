@@ -60,6 +60,8 @@ class tx_realty_Mapper_Document extends tx_oelib_DataMapper {
 	 * @param tx_realty_Model_Document $document
 	 *        the document model to delete, must not be a memory-only dummy, must
 	 *        not be read-only
+	 *
+	 * @return void
 	 */
 	public function delete(tx_realty_Model_Document $document) {
 		if ($document->isDead()) {

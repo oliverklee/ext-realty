@@ -112,6 +112,8 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy realty objects in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyObjects() {
 		$this->createDummyCities();
@@ -135,6 +137,8 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 
 	/**
 	 * Creates dummy city records in the DB.
+	 *
+	 * @return void
 	 */
 	private function createDummyCities() {
 		$this->firstCityUid = $this->testingFramework->createRecord(
