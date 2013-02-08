@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_Mapper_City' for the 'realty' extension.
- *
  * This class represents a mapper for cities.
  *
  * @package TYPO3

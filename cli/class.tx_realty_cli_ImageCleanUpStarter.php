@@ -31,8 +31,6 @@ setlocale(LC_NUMERIC, 'C');
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_cli_ImageCleanUpStarter' for the 'realty' extension.
- *
  * This class provides access via command-line interface and starts the
  * removal of unused images from the Realty upload folder.
  *

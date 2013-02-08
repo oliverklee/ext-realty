@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_Model_Document for the "realty" extension.
- *
  * This class represents an attached document.
  *
  * @package TYPO3

@@ -23,8 +23,7 @@
 ***************************************************************/
 
 /**
- * Unit tests for the tx_realty_pi1_FurtherDescriptionView class in the "realty"
- * extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_realty

@@ -23,9 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_tests_fixtures_FakeGoogleMapsLookup' for the 'realty'
- * extension.
- *
  * This class represents a faked service to look up geo coordinates.
  *
  * @package TYPO3

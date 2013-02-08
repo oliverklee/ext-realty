@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_BackButtonView for the "realty" extension.
- *
  * This class renders the back button.
  *
  * @package TYPO3

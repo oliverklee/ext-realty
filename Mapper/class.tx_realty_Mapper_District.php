@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_Mapper_District' for the 'realty' extension.
- *
  * This class represents a mapper for districts.
  *
  * @package TYPO3

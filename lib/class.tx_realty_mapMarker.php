@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_mapMarker' for the 'realty' extension.
- *
  * This class represents a marker on a Google Map.
  *
  * @package TYPO3

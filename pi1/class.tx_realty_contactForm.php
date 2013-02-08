@@ -23,7 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_contactForm' for the 'realty' extension.
  * This class provides a contact form for the realty plugin.
  *
  * @package TYPO3

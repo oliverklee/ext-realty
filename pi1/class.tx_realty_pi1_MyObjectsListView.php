@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_MyObjectsListView for the "realty" extension.
- *
  * This class represents the "my objects" list view.
  *
  * This view may only be rendered if a user is logged-in at the front end.

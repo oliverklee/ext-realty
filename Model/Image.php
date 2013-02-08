@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_Model_Image for the "image" extension.
- *
  * This class represents a titled image.
  *
  * @package TYPO3

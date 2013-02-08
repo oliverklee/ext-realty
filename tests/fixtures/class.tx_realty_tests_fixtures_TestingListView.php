@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_tests_fixtures_testingListView for the "realty" extension.
- *
  * This class represents a list view for testing purposes.
  *
  * @package TYPO3

@@ -23,7 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_offererList' for the 'realty' extension.
  * This class provides a list of offerers for the realty plugin.
  *
  * @package TYPO3

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_SingleView' for the 'realty' extension.
- *
  * This class renders the single view.
  *
  * @package TYPO3

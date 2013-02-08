@@ -25,9 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_fileNameMapper' for the 'realty' extension.
- *
- * This class maps file names to their unique correspondants in the file system.
+ * This class maps file names to their unique correspondences in the file system.
  *
  * @package TYPO3
  * @subpackage tx_realty

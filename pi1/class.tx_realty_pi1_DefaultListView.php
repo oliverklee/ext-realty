@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_RealtyListView for the "realty" extension.
- *
  * This class represents the "realty list" view.
  *
  * @package TYPO3

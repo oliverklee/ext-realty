@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_Mapper_Document for the "realty" extension.
- *
  * This class represents a mapper for related documents.
  *
  * @package TYPO3

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_OverviewTableView' for the 'realty' extension.
- *
  * This class renders the overview table view.
  *
  * @package TYPO3

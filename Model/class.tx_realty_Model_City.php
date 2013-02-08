@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_Model_City' for the 'realty' extension.
- *
  * This class represents a city.
  *
  * @package TYPO3

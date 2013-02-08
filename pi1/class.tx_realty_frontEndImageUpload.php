@@ -25,8 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_frontEndImageUpload' for the 'realty' extension. This class
- * assumes the image upload for the FE editor in the realty plugin.
+ * This class assumes the image upload for the FE editor in the realty plugin.
  *
  * @package TYPO3
  * @subpackage tx_realty

@@ -23,9 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_tests_fixtures_testingFrontEndView' for the 'realty'
- * extension.
- *
  * This class represents a view for testing purposes.
  *
  * @package TYPO3

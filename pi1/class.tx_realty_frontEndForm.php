@@ -27,8 +27,7 @@ require_once(PATH_formidableapi);
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_frontEndForm' for the 'realty' extension. This class
- * provides functions used in the realty plugin's forms.
+ * This class provides functions used in the realty plugin's forms.
  *
  * @package TYPO3
  * @subpackage tx_realty

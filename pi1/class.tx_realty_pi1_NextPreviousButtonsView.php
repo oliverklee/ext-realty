@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_NextPreviousButtonsView for the "realty" extension.
- *
  * This class renders the "next" and "previous" buttons.
  *
  * @package TYPO3

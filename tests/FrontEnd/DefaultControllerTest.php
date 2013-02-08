@@ -27,7 +27,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
 
 /**
- * Testcase for the tx_realty_pi1 class in the "realty" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_realty

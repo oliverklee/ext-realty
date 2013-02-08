@@ -25,8 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Unit tests for the tx_realty_pi1_Formatter class in the "realty"
- * extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_realty

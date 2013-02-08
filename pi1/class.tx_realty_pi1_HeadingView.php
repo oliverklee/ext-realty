@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_HeadingView' for the 'realty' extension.
- *
  * This class renders the heading of a single realty object.
  *
  * @package TYPO3

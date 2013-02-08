@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Backend module for the 'realty' extension.
+ * Backend module.
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  *

@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_configcheck' for the 'realty' extension.
- *
  * This class checks the Realty Manager configuration for basic sanity.
  *
  * @package TYPO3

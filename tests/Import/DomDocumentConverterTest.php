@@ -23,8 +23,7 @@
 ***************************************************************/
 
 /**
- * Unit tests for the tx_realty_domDocumentConverter class in the "realty"
- * extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_realty

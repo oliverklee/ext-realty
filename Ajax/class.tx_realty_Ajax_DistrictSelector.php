@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_Ajax_DistrictSelector for the "realty" extension.
- *
  * This class creates a district drop-down for a selected city.
  *
  * @package TYPO3

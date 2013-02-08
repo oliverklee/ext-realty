@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_openImmoImport' for the 'realty' extension.
- *
  * This class imports ZIPs containing OpenImmo records.
  *
  * @package TYPO3

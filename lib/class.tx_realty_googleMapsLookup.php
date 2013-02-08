@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_googleMapsLookup' for the 'realty' extension.
- *
  * This class represents a service to look up geo coordinates via Google Maps.
  *
  * @package TYPO3

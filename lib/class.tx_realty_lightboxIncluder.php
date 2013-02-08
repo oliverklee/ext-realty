@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_lightboxIncluder' for the 'realty' extension.
- *
  * This class includes JavaScript and CSS files, for example the main JavaScript
  * file, Prototype, Scriptaculous and Lightbox.
  *

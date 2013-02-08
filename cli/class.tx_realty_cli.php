@@ -29,8 +29,6 @@ if (!defined('TYPO3_cliMode')) {
 setlocale(LC_NUMERIC, 'C');
 
 /**
- * Class 'tx_realty_cli' for the 'realty' extension.
- *
  * This class provides access via command-line interface.
  *
  * To run this script, use the following command in a console: '/[absolute path

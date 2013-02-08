@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_Model_FrontEndUser' for the 'realty' extension.
- *
  * This class represents a front-end user and adds functions to check the number
  * of objects a user has or can enter.
  *

@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_pi1_PriceView' for the 'realty' extension.
- *
  * This class renders the buying price or rent (depending on the object type)
  * of a single realty object.
  *

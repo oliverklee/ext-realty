@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_ContactButtonView' for the 'realty' extension.
- *
  * This class renders the contact button.
  *
  * @package TYPO3

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_Tca for the "realty" extension.
- *
  * This class provides functions for the TCA.
  *
  * @package TYPO3

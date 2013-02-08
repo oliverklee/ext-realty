@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_FavoritesListView for the "realty" extension.
- *
  * This class represents the favorites list view.
  *
  * @package TYPO3

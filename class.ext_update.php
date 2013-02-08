@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class ext_update for the "realty" extension.
- *
  * This class offers functions to update the database from one version to
  * another and to reorganize the district-city relations.
  *

@@ -23,9 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_translator' for the 'realty' extension.
- *
- * This class translates localized strings used in this extenstion's lib/
+ * This class translates localized strings used in this extension's lib/
  * directory.
  *
  * @package TYPO3

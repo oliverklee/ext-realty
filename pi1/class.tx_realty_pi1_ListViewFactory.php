@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_ListViewFactory for the "realty" extension.
- *
  * This class can instantiate list views.
  *
  * @package TYPO3

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_PrintPageButtonView for the "realty" extension.
- *
  * This class renders the print button.
  *
  * @package TYPO3

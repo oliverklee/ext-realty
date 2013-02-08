@@ -23,7 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_cacheManager' for the 'realty' extension.
  * This class provides a function to clear the FE cache for pages with the
  * realty plugin.
  *

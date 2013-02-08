@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_DocumentsView for the "realty" extension.
- *
- * This class represents a view that contains the PDF documents attached to an
- * object.
+ * This class represents a view that contains the PDF documents attached to an object.
  *
  * @package TYPO3
  * @subpackage tx_realty

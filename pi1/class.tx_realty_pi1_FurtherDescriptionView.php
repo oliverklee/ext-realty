@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_FurtherDescriptionView' for the 'realty' extension.
- *
  * This class renders the description of "equipment" and "location" and the
  * "misc" text field of a single realty object.
  *

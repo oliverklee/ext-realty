@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_realty_Mapper_District class in the "realty" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_realty

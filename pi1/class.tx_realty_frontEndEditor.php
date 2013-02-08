@@ -25,8 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class tx_realty_frontEndEditor for the "realty" extension. This class
- * provides a FE editor the realty plugin.
+ * This class provides an FE editor the realty plugin.
  *
  * @package TYPO3
  * @subpackage tx_realty

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_FrontEndView' for the 'realty' extension.
- *
  * This class represents a basic view.
  *
  * @package TYPO3

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_StatusView for the "realty" extension.
- *
  * This class represents a view that contains the status of an object.
  *
  * @package TYPO3

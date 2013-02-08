@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_AccessCheck' for the 'realty' extension.
- *
  * This class provides functionality to check whether a front-end user has
  * access to a front-end page.
  *

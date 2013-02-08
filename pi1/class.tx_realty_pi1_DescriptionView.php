@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_DescriptionView' for the 'realty' extension.
- *
  * This class renders the description of a single realty object.
  *
  * @package TYPO3

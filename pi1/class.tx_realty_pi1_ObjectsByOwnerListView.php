@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_ObjectsByOwnerListView for the "realty" extension.
- *
  * This class creates a list of objects by a given owner (FE user).
  *
  * @package TYPO3

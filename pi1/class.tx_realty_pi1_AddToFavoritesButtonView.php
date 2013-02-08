@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_pi1_AddToFavoritesButtonView for the "realty" extension.
- *
  * This class renders the add-to-favorites button.
  *
  * @package TYPO3

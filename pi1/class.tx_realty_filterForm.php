@@ -25,9 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_filterForm' for the 'realty' extension. This class
- * provides a form to enter filter criteria for the realty list in the realty
- * plugin.
+ * This class provides a form to enter filter criteria for the realty list in the realty plugin.
  *
  * @package TYPO3
  * @subpackage tx_realty

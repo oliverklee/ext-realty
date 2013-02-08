@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * File tx_realty_Ajax_Dispatcher for the "realty" extension.
- *
  * This script acts as a dispatcher for AJAX requests.
  *
  * @package TYPO3

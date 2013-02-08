@@ -25,10 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_Model_RealtyObjectChild' for the 'realty' extension.
- *
- * This is mere a class used for unit tests of the 'realty' extension. Don't
- * use it for any other purpose.
+ * This is merely a class used for unit tests. Don't use it for any other purpose.
  *
  * @package TYPO3
  * @subpackage tx_realty

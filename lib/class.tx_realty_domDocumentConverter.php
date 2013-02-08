@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class tx_realty_domDocumentConverter for the "realty" extension.
- *
  * This class converts DOMDocuments of OpenImmo data to arrays which have the
  * columns of the database table "tx_realty_objects" as keys.
  *

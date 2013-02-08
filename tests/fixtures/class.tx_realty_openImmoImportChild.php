@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_openImmoImportChild' for the 'realty' extension.
- *
- * This is mere a class used for unit tests of the 'realty' extension. Don't
- * use it for any other purpose.
+ * This is merely a class used for unit tests. Don't use it for any other purpose.
  *
  * @package TYPO3
  * @subpackage tx_realty

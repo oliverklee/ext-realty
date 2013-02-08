@@ -23,9 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_ListView' for the 'realty' extension.
- *
- * This class is the basic class for all list views in the front end.
+ * This class is the base class for all list views in the front end.
  *
  * @package TYPO3
  * @subpackage tx_realty

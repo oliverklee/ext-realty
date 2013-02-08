@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_ErrorView' for the 'realty' extension.
- *
  * This class renders error messages.
  *
  * @package TYPO3

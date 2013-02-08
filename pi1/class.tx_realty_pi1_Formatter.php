@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Class 'tx_realty_pi1_Formatter' for the 'realty' extension.
- *
  * This class returns formatted realty object properties.
  *
  * @package TYPO3

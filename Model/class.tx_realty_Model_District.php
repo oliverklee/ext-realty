@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_Model_District' for the 'realty' extension.
- *
  * This class represents a district.
  *
  * @package TYPO3

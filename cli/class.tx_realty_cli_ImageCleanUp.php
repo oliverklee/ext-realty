@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_realty_cli_ImageCleanUp for the "realty" extension.
- *
  * This class removes unused files from the realty upload folder.
  *
  * @package TYPO3

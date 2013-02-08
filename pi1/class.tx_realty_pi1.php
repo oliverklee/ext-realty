@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
 
 /**
- * Plugin 'Realty List' for the 'realty' extension.
+ * Plugin "Realty List".
  *
  * @package TYPO3
  * @subpackage tx_realty

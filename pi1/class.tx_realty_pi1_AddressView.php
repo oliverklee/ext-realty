@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_realty_pi1_AddressView' for the 'realty' extension.
- *
  * This class renders the address of a single realty object.
  *
  * @package TYPO3
