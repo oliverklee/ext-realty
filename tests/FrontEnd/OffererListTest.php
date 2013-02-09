@@ -872,7 +872,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_OffererListItem_IfPageConfiguredAndConfigurationSet_ContainsConfiguredPageUidInTheLinkToTheObjectsByOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListItemIfPageConfiguredAndConfigurationSetContainsConfiguredPageUidInTheLinkToTheObjectsByOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
 		$this->fixture->setConfigurationValue(
@@ -885,7 +888,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_OffererListItem_IfPageConfiguredAndConfigurationSet_ContainsOwnerUidInTheLinkToTheObjectsByOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListItemIfPageConfiguredAndConfigurationSetContainsOwnerUidInTheLinkToTheObjectsByOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
 		$this->fixture->setConfigurationValue(
@@ -898,7 +904,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_OffererListItem_ForDisabledObjectsByOwnerLink_HidesLinkToTheOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListItemForDisabledObjectsByOwnerLinkHidesLinkToTheOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
 		$this->fixture->setConfigurationValue(
@@ -911,7 +920,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_OffererListItem_ForDisabledSpecialObjectsByOwnerLinkAndOffererInSpecialGroup_HidesLinkToTheOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListItemForDisabledSpecialObjectsByOwnerLinkAndOffererInSpecialGroupHidesLinkToTheOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
 		$this->fixture->setConfigurationValue(
@@ -928,7 +940,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_OffererListItem_ForEnabledObjectsByOwnerLinkAndOffererNotInSpecialGroup_ShowsLinkToTheOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListItemForEnabledObjectsByOwnerLinkAndOffererNotInSpecialGroupShowsLinkToTheOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
 		$this->fixture->setConfigurationValue(
@@ -948,7 +963,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_OffererListItem_ForEnabledSpecialOwnerLinkAndOffererInSpecialGroup_ShowsLinkToTheOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListItemForEnabledSpecialOwnerLinkAndOffererInSpecialGroupShowsLinkToTheOffererList() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
 		$this->fixture->setConfigurationValue(
@@ -980,7 +998,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderOneItemReturnsAnEmptyStringForAUidOfADisabledOfferer() {
+	/**
+	 * @test
+	 */
+	public function renderOneItemReturnsEmptyStringForUidOfDisabledOfferer() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('deleted' => 1)
 		);

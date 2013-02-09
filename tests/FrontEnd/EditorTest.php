@@ -193,7 +193,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	// * Functions concerning the rendering.
 	//////////////////////////////////////////
 
-	public function testIsObjectNumberReadonlyReturnsFalseForANewObject() {
+	/**
+	 * @test
+	 */
+	public function isObjectNumberReadonlyReturnsFalseForNewObject() {
 		$this->assertFalse(
 			$this->fixture->isObjectNumberReadonly()
 		);
@@ -595,49 +598,73 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimal() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsTrueForNumberWithOneDecimal() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(array('value' => '1234.5'))
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithOneDecimalAndASpace() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsTrueForNumberWithOneDecimalAndSpace() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(array('value' => '1 234.5'))
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimalsSeparatedByDot() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsTrueForNumberWithTwoDecimalsSeparatedByDot() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(array('value' => '123.45'))
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithTwoDecimalsSeparatedByComma() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsTrueForNumberWithTwoDecimalsSeparatedByComma() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(array('value' => '123,45'))
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForANumberWithoutDecimals() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsTrueForNumberWithoutDecimals() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(array('value' => '12345'))
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsTrueForAnEmptyString() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsTrueForAnEmptyString() {
 		$this->assertTrue(
 			$this->fixture->isValidNumberWithDecimals(array('value' => ''))
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsFalseForANumberWithMoreThanTwoDecimals() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsFalseForNumberWithMoreThanTwoDecimals() {
 		$this->assertFalse(
 			$this->fixture->isValidNumberWithDecimals(array('value' => '12.345'))
 		);
 	}
 
-	public function testIsValidNumberWithDecimalsReturnsFalseForANonNumericString() {
+	/**
+	 * @test
+	 */
+	public function isValidNumberWithDecimalsReturnsFalseForNonNumericString() {
 		$this->assertFalse(
 			$this->fixture->isValidNumberWithDecimals(array('value' => 'string'))
 		);
@@ -719,7 +746,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function isValidYearReturnsTrueForAFormerYear() {
+	public function isValidYearReturnsTrueForFormerYear() {
 		$this->assertTrue(
 			$this->fixture->isValidYear(array('value' => '2000'))
 		);
@@ -728,7 +755,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function isValidYearReturnsTrueForAFutureYear() {
+	public function isValidYearReturnsTrueForFutureYear() {
 		$this->assertTrue(
 			$this->fixture->isValidYear(array('value' => '2100'))
 		);
@@ -1208,7 +1235,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	// ** addAdministrativeData().
 	////////////////////////////////
 
-	public function testAddAdministrativeDataAddsTheTimeStampForAnExistingObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsTheTimeStampForExistingObject() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
 		$result = $this->fixture->modifyDataToInsert(array());
@@ -1221,7 +1251,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsTimeStampForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsTimeStampForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertTrue(
@@ -1229,7 +1262,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsDateForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsDateForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertTrue(
@@ -1237,7 +1273,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsPidForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsPidForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertTrue(
@@ -1245,7 +1284,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsHiddenFlagForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsHiddenFlagForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertTrue(
@@ -1253,7 +1295,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsObjectTypeForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsObjectTypeForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertTrue(
@@ -1261,7 +1306,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsOwnerForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsOwnerForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertTrue(
@@ -1269,7 +1317,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsOpenImmoAnidForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsOpenImmoAnidForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 
 		$this->assertTrue(
@@ -1277,7 +1328,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsDefaultPidForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsDefaultPidForNewObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$this->fixture->setConfigurationValue(
 			'sysFolderForFeCreatedRecords', $systemFolderPid
@@ -1291,7 +1345,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataNotAddsDefaultPidForAnExistingObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataNotAddsDefaultPidForExistingObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$this->fixture->setConfigurationValue(
 			'sysFolderForFeCreatedRecords', $systemFolderPid
@@ -1305,7 +1362,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsPidDerivedFromCityRecordForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsPidDerivedFromCityRecordForNewObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES, array('save_folder' => $systemFolderPid)
@@ -1320,7 +1380,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsPidDerivedFromCityRecordForAnExistentObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsPidDerivedFromCityRecordForExistentObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES, array('save_folder' => $systemFolderPid)
@@ -1338,7 +1401,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsFrontEndUserUidForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsFrontEndUserUidForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
 
@@ -1349,7 +1415,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataNotAddsFrontEndUserUidForAnObjectToUpdate() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataNotAddsFrontEndUserUidForObjectToUpdate() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$result = $this->fixture->modifyDataToInsert(array());
 
@@ -1358,7 +1427,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsFrontEndUsersOpenImmoAnidForANewObject() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsFrontEndUsersOpenImmoAnidForNewObject() {
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
 
@@ -1368,7 +1440,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddAdministrativeDataAddsEmptyOpenImmoAnidForANewObjectIfUserHasNoAnid() {
+	/**
+	 * @test
+	 */
+	public function addAdministrativeDataAddsEmptyOpenImmoAnidForNewObjectIfUserHasNoAnid() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array());
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -1511,7 +1586,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStoreNewAuxiliaryRecordsCreatesANewRecordForANewTitle() {
+	/**
+	 * @test
+	 */
+	public function storeNewAuxiliaryRecordsCreatesANewRecordForNewTitle() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$this->fixture->modifyDataToInsert(array('new_city' => 'new city'));
 
@@ -1632,7 +1710,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	// ** sendEmailForNewObjectAndClearFrontEndCache().
 	/////////////////////////////////////////////////////
 
-	public function testSendEmailForNewObjectSendsToTheConfiguredRecipient() {
+	/**
+	 * @test
+	 */
+	public function sendEmailForNewObjectSendsToTheConfiguredRecipient() {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(

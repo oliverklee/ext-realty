@@ -291,7 +291,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function displaysNoResultsViewForAFeUserWithoutObjects() {
+	public function displaysNoResultsViewForFeUserWithoutObjects() {
 		$this->assertContains(
 			$this->fixture->translate('message_noResultsFound_objects_by_owner'),
 			$this->fixture->render(
@@ -303,7 +303,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function displaysNoResultsViewForAFeUserWhoOnlyHasAHiddenObject() {
+	public function displaysNoResultsViewForFeUserWhoOnlyHasAHiddenObject() {
 		$this->createObjectWithOwner();
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
@@ -426,7 +426,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function displaysNoSuchOwnerMessageForAZeroOwnerUid() {
+	public function displaysNoSuchOwnerMessageForZeroOwnerUid() {
 		$this->assertContains(
 			$this->fixture->translate('message_no_such_owner'),
 			$this->fixture->render(array('owner' => 0))
@@ -436,7 +436,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function displaysLabelSorryForAZeroOwnerUid() {
+	public function displaysLabelSorryForZeroOwnerUid() {
 		$this->assertContains(
 			$this->fixture->translate('label_sorry'),
 			$this->fixture->render(array('owner' => 0))
@@ -446,7 +446,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function notDisplaysLabelOfferingsByForAZeroOwnerUid() {
+	public function notDisplaysLabelOfferingsByForZeroOwnerUid() {
 		$this->assertNotContains(
 			$this->fixture->translate('label_offerings_by'),
 			$this->fixture->render(array('owner' => 0))
@@ -456,7 +456,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function notDisplaysObjectWithoutOwnerForAZeroOwnerUid() {
+	public function notDisplaysObjectWithoutOwnerForZeroOwnerUid() {
 		 $this->testingFramework->createRecord(
 			'tx_realty_objects',
 			array(
@@ -481,7 +481,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function displaysNoSuchOwnerMessageForANonExistingOwner() {
+	public function displaysNoSuchOwnerMessageForNonExistingOwner() {
 		$ownerUid = $this->testingFramework->getAutoIncrement('fe_users');
 
 		$this->assertContains(
@@ -493,7 +493,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function displaysNoSuchOwnerMessageForADeletedFeUserWithObject() {
+	public function displaysNoSuchOwnerMessageForDeletedFeUserWithObject() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('deleted' => 1)
 		);
@@ -536,7 +536,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @test
 	 */
-	public function displaysLabelSorryForADeletedFeUserWithAnObject() {
+	public function displaysLabelSorryForDeletedFeUserWithAnObject() {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('deleted' => 1)
 		);

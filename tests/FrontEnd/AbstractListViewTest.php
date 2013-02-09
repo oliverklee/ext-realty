@@ -2228,35 +2228,50 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListView_FilteredByRentStatus_DisplaysObjectsForRenting() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByRentStatusDisplaysObjectsForRenting() {
 		$this->assertContains(
 			self::$firstObjectTitle,
 			$this->fixture->render(array('objectType' => 'forRent'))
 		);
 	}
 
-	public function test_ListView_FilteredByRentStatus_DoesNotDisplaysObjectsForSale() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByRentStatusDoesNotDisplaysObjectsForSale() {
 		$this->assertNotContains(
 			self::$secondObjectTitle,
 			$this->fixture->render(array('objectType' => 'forRent'))
 		);
 	}
 
-	public function test_ListView_FilteredBySaleStatus_DisplaysObjectsForSale() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredBySaleStatusDisplaysObjectsForSale() {
 		$this->assertContains(
 			self::$secondObjectTitle,
 			$this->fixture->render(array('objectType' => 'forSale'))
 		);
 	}
 
-	public function test_ListView_FilteredBySaleStatus_DoesNotDisplaysObjectsForRenting() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredBySaleStatusDoesNotDisplaysObjectsForRenting() {
 		$this->assertNotContains(
 			self::$firstObjectTitle,
 			$this->fixture->render(array('objectType' => 'forSale'))
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_AndSetLowerLimit_DisplaysRealtyObjectWithLivingAreaGreaterThanTheLowerLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaAndSetLowerLimitDisplaysRealtyObjectWithLivingAreaGreaterThanTheLowerLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2269,7 +2284,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_AndSetUpperLimit_DisplaysRealtyObjectWithLivingAreaLowerThanTheGreaterLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaAndSetUpperLimitDisplaysRealtyObjectWithLivingAreaLowerThanTheGreaterLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2282,7 +2300,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_ForSetUpperLimitAndNotSetLowerLimit_DisplaysRealtyObjectWithLivingAreaZero() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithLivingAreaZero() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2295,7 +2316,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectBelowLivingAreaLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowLivingAreaLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
@@ -2310,7 +2334,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectWithLivingAreaGreaterThanLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithLivingAreaGreaterThanLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
@@ -2325,7 +2352,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DisplaysRealtyObjectWithLivingAreaEqualToLowerLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToLowerLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2340,7 +2370,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_ForUpperAndLowerLimitSet_DisplaysRealtyObjectWithLivingAreaEqualToUpperLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaForUpperAndLowerLimitSetDisplaysRealtyObjectWithLivingAreaEqualToUpperLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2355,7 +2388,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByLivingArea_ForUpperLimitSet_CanDisplayTwoRealtyObjectsWithTheLivingAreaInRange() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByLivingAreaForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheLivingAreaInRange() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2383,7 +2419,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	// Tests concerning the list view filtered by number of rooms
 	///////////////////////////////////////////////////////////////
 
-	public function test_ListViewFilteredByNumberOfRoomsAndSetLowerLimit_DisplaysRealtyObjectWithNumberOfRoomsGreaterThanTheLowerLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsAndSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsGreaterThanTheLowerLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2396,7 +2435,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsAndSetUpperLimit_DisplaysRealtyObjectWithNumberOfRoomsLowerThanTheGreaterLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsAndSetUpperLimitDisplaysRealtyObjectWithNumberOfRoomsLowerThanTheGreaterLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2409,7 +2451,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForSetUpperLimitAndNotSetLowerLimit_DisplaysRealtyObjectWithNumberOfRoomsZero() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForSetUpperLimitAndNotSetLowerLimitDisplaysRealtyObjectWithNumberOfRoomsZero() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2422,7 +2467,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectBelowNumberOfRoomsLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectBelowNumberOfRoomsLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
@@ -2437,7 +2485,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DoesNotDisplayRealtyObjectWithNumberOfRoomsGreaterThanLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDoesNotDisplayRealtyObjectWithNumberOfRoomsGreaterThanLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->secondRealtyUid,
@@ -2452,7 +2503,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DisplaysRealtyObjectWithNumberOfRoomsEqualToLowerLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToLowerLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2467,7 +2521,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitSet_DisplaysRealtyObjectWithNumberOfRoomsEqualToUpperLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitSetDisplaysRealtyObjectWithNumberOfRoomsEqualToUpperLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2482,7 +2539,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperLimitSet_CanDisplayTwoRealtyObjectsWithTheNumberOfRoomsInRange() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperLimitSetCanDisplayTwoRealtyObjectsWithTheNumberOfRoomsInRange() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2505,7 +2565,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqual_HidesRealtyObjectWithNumberOfRoomsHigherThanLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualHidesRealtyObjectWithNumberOfRoomsHigherThanLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2520,7 +2583,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualAndCommaAsDecimalSeparator_HidesRealtyObjectWithNumberOfRoomsLowerThanLimit() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitEqualAndCommaAsDecimalSeparatorHidesRealtyObjectWithNumberOfRoomsLowerThanLimit() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2535,7 +2601,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListViewFilteredByNumberOfRoomsForUpperAndLowerLimitFourPointFive_DisplaysObjectWithFourPointFiveRooms() {
+	/**
+	 * @test
+	 */
+	public function listViewFilteredByNumberOfRoomsForUpperAndLowerLimitFourPointFiveDisplaysObjectWithFourPointFiveRooms() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->firstRealtyUid,
@@ -2555,7 +2624,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	// Tests concerning the sorting in the list view
 	//////////////////////////////////////////////////
 
-	public function testListViewIsSortedAscendinglyByObjectNumberWhenNumbersToSortAreIntegers() {
+	/**
+	 * @test
+	 */
+	public function listViewIsSortedInAscendingOrderByObjectNumberWhenNumbersToSortAreIntegers() {
 		$this->fixture->setConfigurationValue('orderBy', 'object_number');
 		$this->fixture->setConfigurationValue('listView.', array('descFlag' => 0));
 
@@ -3204,7 +3276,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ListView_forActivatedGoogleMapsAndNoEntry_HidesGoogleMapsSubpart() {
+	/**
+	 * @test
+	 */
+	public function listViewForActivatedGoogleMapsAndNoEntryHidesGoogleMapsSubpart() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '53111')
 		);

@@ -125,7 +125,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFilterForm_ForConfiguredFilterOptionsButDisplayedSearchFieldsEmpty_HidesPricesSelectbox() {
+	/**
+	 * @test
+	 */
+	public function filterFormForConfiguredFilterOptionsButDisplayedSearchFieldsEmptyHidesPricesSelect() {
 		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', '');
 		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
@@ -135,7 +138,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFilterFormHasPricesSelectboxForConfiguredFilterOptions() {
+	/**
+	 * @test
+	 */
+	public function filterFormHasPricesSelectForConfiguredFilterOptions() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'priceRanges'
 		);
@@ -195,7 +201,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_PriceRange_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function priceRangeForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'priceRanges'
 		);
@@ -209,7 +218,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_PriceRange_ForNoOtherDisplayedSearchFields_HasSubmitButton() {
+	/**
+	 * @test
+	 */
+	public function priceRangeForNoOtherDisplayedSearchFieldsHasSubmitButton() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'priceRanges'
 		);
@@ -223,7 +235,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_PriceRange_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function priceRangeForOtherDisplayedSearchFieldDoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'priceRanges, uid'
 		);
@@ -242,7 +257,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Testing the rendering of the UID search
 	////////////////////////////////////////////
 
-	public function test_SearchForm_ForDisplayedSearchWidgetFieldsEmpty_HidesUidSearchField() {
+	/**
+	 * @test
+	 */
+	public function searchFormForDisplayedSearchWidgetFieldsEmptyHidesUidSearchField() {
 		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', '');
 
 		$this->assertNotContains(
@@ -251,7 +269,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForDisplayedSearchWidgetFieldsSetToUid_ContainsUidSearchField() {
+	/**
+	 * @test
+	 */
+	public function searchFormForDisplayedSearchWidgetFieldsSetToUidContainsUidSearchField() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'uid'
 		);
@@ -262,7 +283,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForDisplayedSearchWidgetFieldsSetToUidAndSetUid_SetsUidAsValueForInputField() {
+	/**
+	 * @test
+	 */
+	public function searchFormForDisplayedSearchWidgetFieldsSetToUidAndSetUidSetsUidAsValueForInputField() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'uid'
 		);
@@ -273,7 +297,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForDisplayedSearchWidgetFieldsSetToUidAndUidSetAsString_SetsEmptyValue() {
+	/**
+	 * @test
+	 */
+	public function searchFormForDisplayedSearchWidgetFieldsSetToUidAndUidSetAsStringSetsEmptyValue() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'uid'
 		);
@@ -289,7 +316,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Testing the rendering of the object number search
 	//////////////////////////////////////////////////////
 
-	public function test_SearchForm_ForDisplayedSearchWidgetFieldsEmpty_HidesObjectNumberSearchField() {
+	/**
+	 * @test
+	 */
+	public function searchFormForDisplayedSearchWidgetFieldsEmptyHidesObjectNumberSearchField() {
 		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', '');
 
 		$this->assertNotContains(
@@ -298,7 +328,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForDisplayedSearchWidgetFieldsSetToObjectNumber_ContainsObjectNumberSearchField() {
+	/**
+	 * @test
+	 */
+	public function searchFormForDisplayedSearchWidgetFieldsSetToObjectNumberContainsObjectNumberSearchField() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectNumber'
 		);
@@ -309,7 +342,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForDisplayedSearchWidgetFieldsSetToObjectNumberAndGivenObjectNumber_SetsValueOfObjectNumberField() {
+	/**
+	 * @test
+	 */
+	public function searchFormForDisplayedSearchWidgetFieldsSetToObjectNumberAndGivenObjectNumberSetsValueOfObjectNumberField() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectNumber'
 		);
@@ -320,7 +356,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForEmptydisplayedSearchWidgetFields_IsHidden() {
+	/**
+	 * @test
+	 */
+	public function searchFormForEmptyDisplayedSearchWidgetFieldsIsHidden() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', ''
 		);
@@ -373,7 +412,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function citySelectorForNoOtherDisplayedSearchFields_GetsOnChangeSubmit() {
+	public function citySelectorForNoOtherDisplayedSearchFieldsGetsOnChangeSubmit() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city'
 		);
@@ -387,7 +426,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function citySelectorForOtherDisplayedSearchField_DoesNotHaveOnChangeSubmit() {
+	public function citySelectorForOtherDisplayedSearchFieldDoesNotHaveOnChangeSubmit() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'city, priceRanges'
 		);
@@ -528,7 +567,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function displayedSearchWidgetSetToDistrictSearc_ShowsDistrictSearch() {
+	public function displayedSearchWidgetSetToDistrictSearcShowsDistrictSearch() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
 		);
@@ -562,7 +601,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function districtSelectorForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	public function districtSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district'
 		);
@@ -576,7 +615,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function districtSelectorForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+	public function districtSelectorForOtherDisplayedSearchFieldDoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'district, priceRanges'
 		);
@@ -639,7 +678,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Tests concerning the rendering of the house type search
 	////////////////////////////////////////////////////////////
 
-	public function test_SearchForm_DisplayedSearchWidgetSetToHouseTypeSearch_ShowsHouseTypeSearch() {
+	/**
+	 * @test
+	 */
+	public function searchFormWithDisplayedSearchWidgetSetToHouseTypeSearchShowsHouseTypeSearch() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'houseType'
 		);
@@ -650,7 +692,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_DisplayedSearchWidgetSetToHouseTypeSearch_ShowsHouseTypeOfEnteredObject() {
+	/**
+	 * @test
+	 */
+	public function searchFormWithDisplayedSearchWidgetSetToHouseTypeSearchShowsHouseTypeOfEnteredObject() {
 		$houseTypeUid = $this->testingFramework->createRecord(
 			'tx_realty_house_types', array('title' => 'Foo house type')
 		);
@@ -667,7 +712,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_HouseTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function houseTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'houseType'
 		);
@@ -678,7 +726,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_HouseTypeSelector_ForOtherDisplayedSearchField_DoesNotHaveOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function houseTypeSelectorForOtherDisplayedSearchFieldDoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'houseType, priceRanges'
 		);
@@ -694,7 +745,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Tests concerning the rendering of the objectType radio buttons
 	///////////////////////////////////////////////////////////////////
 
-	public function test_ObjectTypeSelector_ForDisplayedSeachrWidgetFieldsSetToObjectType_DisplaysRadioButtons() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForDisplayedSearchWidgetFieldsSetToObjectTypeDisplaysRadioButtons() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType'
 		);
@@ -705,7 +759,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ObjectTypeSelector_ForDisplayedSeachrWidgetFieldsSetToObjectType_HasNoDefaultSelectRadiobuttons() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForDisplayedSearchWidgetFieldsSetToObjectTypeHasNoDefaultSelectRadioButtons() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType'
 		);
@@ -716,7 +773,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ObjectTypeSelector_ForObjectTypeSetToRent_PreselectsRentRadiobutton() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForObjectTypeSetToRentPreselectsRentRadioButton() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType'
 		);
@@ -727,7 +787,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ObjectTypeSelector_ForObjectTypeSetToSale_PreselectsSaleRadiobutton() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForObjectTypeSetToSalePreselectsSaleRadioButton() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType'
 		);
@@ -738,7 +801,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ObjectTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType'
 		);
@@ -749,7 +815,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ObjectTypeSelector_ForOtherDisplayedSearchFields_DoesNotHaveOnChangeAttribute() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForOtherDisplayedSearchFieldsDoesNotHaveOnChangeAttribute() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType,city'
 		);
@@ -760,7 +829,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ObjectTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttributeOnForRentRadiobutton() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttributeOnForRentRadioButton() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType'
 		);
@@ -771,7 +843,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ObjectTypeSelector_ForNoOtherDisplayedSearchFields_GetsOnChangeAttributeOnForSaleRadiobutton() {
+	/**
+	 * @test
+	 */
+	public function objectTypeSelectorForNoOtherDisplayedSearchFieldsGetsOnChangeAttributeOnForSaleRadioButton() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'objectType'
 		);
@@ -787,7 +862,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Tests concerning the rendering of the rent/buying price input fields
 	/////////////////////////////////////////////////////////////////////////
 
-	public function test_SearchForm_ForSetRentInputFields_DisplaysRentInputFields() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetRentInputFieldsDisplaysRentInputFields() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'rent'
 		);
@@ -798,7 +876,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForSetRentInputFieldsAndSentData_EntersSentDataIntoInputFields() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetRentInputFieldsAndSentDataEntersSentDataIntoInputFields() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'rent'
 		);
@@ -822,7 +903,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Tests concerning the rendering of the living area input fields
 	///////////////////////////////////////////////////////////////////
 
-	public function test_SearchForm_ForSetLivingAreaInputFields_DisplaysLivingAreaInputFields() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetLivingAreaInputFieldsDisplaysLivingAreaInputFields() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'livingArea'
 		);
@@ -833,7 +917,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForSetLivingAreaInputFieldsAndSentData_EntersSentDataIntoInputFields() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetLivingAreaInputFieldsAndSentDataEntersSentDataIntoInputFields() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'livingArea'
 		);
@@ -1016,7 +1103,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_GetWhereClausePartForObjectTypeSelector_WithSaleSelected_ReturnsSaleWhereclausePart() {
+	/**
+	 * @test
+	 */
+	public function getWhereClausePartForObjectTypeSelectorWithSaleSelectedReturnsSaleWhereClausePart() {
 		$this->assertEquals(
 			' AND tx_realty_objects.object_type = ' .
 				REALTY_FOR_SALE,
@@ -1024,7 +1114,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_GetWhereClausePartForObjectTypeSelector_WithRentSelected_ReturnsRentWhereclausePart() {
+	/**
+	 * @test
+	 */
+	public function getWhereClausePartForObjectTypeSelectorWithRentSelectedReturnsRentWhereClausePart() {
 		$this->assertEquals(
 			' AND tx_realty_objects.object_type = ' .
 				REALTY_FOR_RENTING,
@@ -1032,14 +1125,20 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_GetWhereClausePartForObjectTypeSelector_WithNothingSelected_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getWhereClausePartForObjectTypeSelectorWithNothingSelectedReturnsEmptyString() {
 		$this->assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('objectType' => ''))
 		);
 	}
 
-	public function test_WhereClause_OnlyForLowerRentLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseOnlyForLowerRentLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1) ' .
 				'OR (tx_realty_objects.buying_price >= 1))',
@@ -1047,7 +1146,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_OnlyForUpperRentLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseOnlyForUpperRentLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills > 0 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
@@ -1059,7 +1161,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_ForUpperPlusLowerRentLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseForUpperPlusLowerRentLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
@@ -1071,7 +1176,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_ForUpperPlusLowerRentAndPriceLimit_OverwritesPriceLimitWithRentLimit() {
+	/**
+	 * @test
+	 */
+	public function whereClauseForUpperPlusLowerRentAndPriceLimitOverwritesPriceLimitWithRentLimit() {
 		$this->assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
@@ -1088,21 +1196,30 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Tests concerning the WHERE clause part for the living area
 	///////////////////////////////////////////////////////////////
 
-	public function test_WhereClause_OnlyForLowerLivingAreaLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseOnlyForLowerLivingAreaLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.living_area >= 1)',
 			$this->fixture->getWhereClausePart(array('livingAreaFrom' => '1'))
 		);
 	}
 
-	public function test_WhereClause_OnlyForUpperLivingAreaLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseOnlyForUpperLivingAreaLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.living_area <= 10)',
 			$this->fixture->getWhereClausePart(array('livingAreaTo' => '10'))
 		);
 	}
 
-	public function test_WhereClause_ForUpperPlusLowerLivingAreaLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseForUpperPlusLowerLivingAreaLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.living_area >= 1)' .
 			' AND (tx_realty_objects.living_area <= 10)',
@@ -1117,7 +1234,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Tests concerning the rendering of the numberOfRooms input fields
 	/////////////////////////////////////////////////////////////////////
 
-	public function test_SearchForm_ForSetNumberOfRoomsInputFields_DisplaysNumberOfRoomsInputFields() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetNumberOfRoomsInputFieldsDisplaysNumberOfRoomsInputFields() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
@@ -1128,7 +1248,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndRoomsFromSet_EntersSentDataIntoInputFields() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetNumberOfRoomsInputFieldsAndRoomsFromSetEntersSentDataIntoInputFields() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
@@ -1139,7 +1262,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndRoomsToSet_EntersSentDataIntoInputFields() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetNumberOfRoomsInputFieldsAndRoomsToSetEntersSentDataIntoInputFields() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
@@ -1150,7 +1276,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndRoomsFromZero_SetsEmptyValueForRoomsFromInput() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetNumberOfRoomsInputFieldsAndRoomsFromZeroSetsEmptyValueForRoomsFromInput() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
@@ -1183,7 +1312,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SearchForm_ForSetNumberOfRoomsInputFieldsAndDataWithCommaAsDecimalSeparator_KeepsDecimalAfterSeparator() {
+	/**
+	 * @test
+	 */
+	public function searchFormForSetNumberOfRoomsInputFieldsAndDataWithCommaAsDecimalSeparatorKeepsDecimalAfterSeparator() {
 		$this->fixture->setConfigurationValue(
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
@@ -1203,7 +1335,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	// Tests concerning the WHERE clause part for the number of rooms
 	///////////////////////////////////////////////////////////////////
 
-	public function test_WhereClause_OnlyForLowerNumberOfRoomsLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseOnlyForLowerNumberOfRoomsLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1)',
 			$this->fixture->getWhereClausePart(
@@ -1212,7 +1347,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_OnlyForUpperNumberOfRoomsLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseOnlyForUpperNumberOfRoomsLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.number_of_rooms <= 10)',
 			$this->fixture->getWhereClausePart(
@@ -1221,7 +1359,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_ForUpperPlusLowerNumberOfRoomsLimit_CanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function whereClauseForUpperPlusLowerNumberOfRoomsLimitCanBeCreated() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1)' .
 			' AND (tx_realty_objects.number_of_rooms <= 10)',
@@ -1231,7 +1372,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_ForLowerNumberOfRoomsLimitWithDecimals_CreatesWhereClauseWithCompleteNumber() {
+	/**
+	 * @test
+	 */
+	public function whereClauseForLowerNumberOfRoomsLimitWithDecimalsCreatesWhereClauseWithCompleteNumber() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1.5)',
 			$this->fixture->getWhereClausePart(
@@ -1240,7 +1384,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_ForLowerNumberOfRoomsLimitString_DoesNotAddWhereClause() {
+	/**
+	 * @test
+	 */
+	public function whereClauseForLowerNumberOfRoomsLimitStringDoesNotAddWhereClause() {
 		$this->assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(
@@ -1249,7 +1396,10 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_WhereClause_ForLowerNumberOfRoomsLimitWithCommaAsDecimalSeparator_ReplacesCommaWithDot() {
+	/**
+	 * @test
+	 */
+	public function whereClauseForLowerNumberOfRoomsLimitWithCommaAsDecimalSeparatorReplacesCommaWithDot() {
 		$this->assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1.8)',
 			$this->fixture->getWhereClausePart(

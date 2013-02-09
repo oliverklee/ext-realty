@@ -1183,7 +1183,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function importIso8859_1FileWithCorrectUmlauts() {
+	public function importIso88591FileWithCorrectUmlauts() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -1975,7 +1975,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipReturnsLogMessageThatNoRecordWasLoadedForAZipWithNonOpenImmoXml() {
+	public function testImportFromZipReturnsLogMessageThatNoRecordWasLoadedForZipWithNonOpenImmoXml() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('bar.zip');
@@ -1999,7 +1999,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ImportFromZip_ForNonExistingImportFolder_ReturnsFolderNotExistingErrorMessage() {
+	/**
+	 * @test
+	 */
+	public function importFromZipForNonExistingImportFolderReturnsFolderNotExistingErrorMessage() {
 		$this->checkForZipArchive();
 
 		$path = '/any/not/existing/import-path/';
@@ -2019,7 +2022,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ImportFromZip_ForNonExistingUploadFolder_ReturnsFolderNotExistingErrorMessage() {
+	/**
+	 * @test
+	 */
+	public function importFromZipForNonExistingUploadFolderReturnsFolderNotExistingErrorMessage() {
 		$this->checkForZipArchive();
 		$this->copyTestFileIntoImportFolder('foo.zip');
 

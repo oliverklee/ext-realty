@@ -87,7 +87,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forAllParametersEmptyAndCoordinatesGivenReturnsEmptyArray() {
+	public function lookUpForAllParametersEmptyAndCoordinatesGivenReturnsEmptyArray() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -99,7 +99,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forNoParametersGivenAndCoordinatesGivenReturnsEmptyArray() {
+	public function lookUpForNoParametersGivenAndCoordinatesGivenReturnsEmptyArray() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -111,7 +111,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forAllParametersEmptyAndCoordinatesNotGivenReturnsEmptyArray() {
+	public function lookUpForAllParametersEmptyAndCoordinatesNotGivenReturnsEmptyArray() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp('', '', '', 0)
@@ -121,7 +121,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forNoParametersGivenAndCoordinatesNotGivenReturnsEmptyArray() {
+	public function lookUpForNoParametersGivenAndCoordinatesNotGivenReturnsEmptyArray() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp()
@@ -131,7 +131,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forOnlyCountryCodeGivenAndCoordinatesGivenReturnsEmptyArray() {
+	public function lookUpForOnlyCountryCodeGivenAndCoordinatesGivenReturnsEmptyArray() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -143,7 +143,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forOnlyStreetGivenAndCoordinatesGivenReturnsEmptyArray() {
+	public function lookUpForOnlyStreetGivenAndCoordinatesGivenReturnsEmptyArray() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -155,7 +155,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forOnlyStreetAndCountryCodeGivenAndCoordinatesGivenReturnsEmptyArray() {
+	public function lookUpForOnlyStreetAndCountryCodeGivenAndCoordinatesGivenReturnsEmptyArray() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -167,7 +167,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forGarbageAddressReturnsFakedCoordinates() {
+	public function lookUpForGarbageAddressReturnsFakedCoordinates() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -181,7 +181,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forAFullGermanAddressReturnsFakedCoordinates() {
+	public function lookUpForFullGermanAddressReturnsFakedCoordinates() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -195,7 +195,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forAFullUSAddressReturnsFakedCoordinates() {
+	public function lookUpForFullUSAddressReturnsFakedCoordinates() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 
 		$this->assertEquals(
@@ -209,7 +209,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forAFullGermanAddressReturnsAndNoFakedCoordinatesReturnsEmptyArray() {
+	public function lookUpForFullGermanAddressReturnsAndNoFakedCoordinatesReturnsEmptyArray() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->lookUp(
@@ -221,7 +221,7 @@ class tx_realty_Service_FakeGoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUp_forAFullGermanAddressReturnsAndResetFakedCoordinatesReturnsEmptyArray() {
+	public function lookUpForFullGermanAddressReturnsAndResetFakedCoordinatesReturnsEmptyArray() {
 		$this->fixture->setCoordinates(self::LATITUDE, self::LONGITUDE);
 		$this->fixture->clearCoordinates();
 

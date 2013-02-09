@@ -170,7 +170,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpReturnsEmptyArrayForAGarbageAddress() {
+	public function lookUpReturnsEmptyArrayForGarbageAddress() {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('asdfas', '11111', 'sdgh', 'DE'))
 			->will($this->returnValue('602'));
@@ -184,7 +184,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpReturnsCorrectCoordinatesForAFullGermanAddress() {
+	public function lookUpReturnsCorrectCoordinatesForFullGermanAddress() {
 		$fixture = $this->getMock(
 			'tx_realty_googleMapsLookup',
 			array('throttle', 'getGoogleMapsApiKey'),
@@ -214,7 +214,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpSendsRequestForAFullUsAddress() {
+	public function lookUpSendsRequestForFullUsAddress() {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('1600 Amphitheatre', '94043', 'Mountain View', 'US'));
 		$this->fixture->lookUp(
@@ -225,7 +225,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpSendsRequestForAGermanAddressWithCityMissing() {
+	public function lookUpSendsRequestForGermanAddressWithCityMissing() {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('Am Hof 1', '53113', 'DE'));
 		$this->fixture->lookUp(
@@ -236,7 +236,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpSendsRequestForAGermanAddressWithZipMissing() {
+	public function lookUpSendsRequestForGermanAddressWithZipMissing() {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('Am Hof 1', 'Bonn', 'DE'));
 		$this->fixture->lookUp(
@@ -247,7 +247,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpSendsRequestForAGermanCity() {
+	public function lookUpSendsRequestForGermanCity() {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('Bonn', 'DE'));
 		$this->fixture->lookUp(
@@ -258,7 +258,7 @@ class tx_realty_Service_GoogleMapsLookupTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpSendsRequestForAGermanZip() {
+	public function lookUpSendsRequestForGermanZip() {
 		$this->fixture->expects($this->once())->method('sendRequest')
 			->with(array('53111', 'DE'));
 		$this->fixture->lookUp(

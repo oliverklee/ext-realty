@@ -353,7 +353,10 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_Render_ForDisabledOptionAndOwnerSet_HidesObjectsByOwnerLink() {
+	/**
+	 * @test
+	 */
+	public function renderForDisabledOptionAndOwnerSetHidesObjectsByOwnerLink() {
 		$realtyObject = $this->getRealtyObjectWithOwner(
 			array('username' => 'foo')
 		);
@@ -371,7 +374,10 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderNotReturnsLinkToTheObjectsByOwnerListForEnabledOptionAndNoOwnerSet() {
+	/**
+	 * @test
+	 */
+	public function renderNotReturnsLinkToTheObjectsByOwnerListForEnabledOptionAndNoOwnerSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT
@@ -406,7 +412,10 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_Render_ForNoObjectsByOwnerPidSetAndOwnerSet_ReturnsLinkWithoutId() {
+	/**
+	 * @test
+	 */
+	public function renderForNoObjectsByOwnerPidSetAndOwnerSetReturnsLinkWithoutId() {
 		$realtyObject = $this->getRealtyObjectWithOwner(array('username' => 'foo'));
 
 		$this->fixture->setConfigurationValue(

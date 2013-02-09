@@ -2393,7 +2393,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNoOwnerIsAddedForARealtyRecordWithoutOpenImmoAnid() {
+	/**
+	 * @test
+	 */
+	public function noOwnerIsAddedForRealtyRecordWithoutOpenImmoAnid() {
 		$this->testingFramework->createFrontEndUser(
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
@@ -3016,7 +3019,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getAddressAsSingleLine
 	////////////////////////////////////////////
 
-	public function test_getAddressAsSingleLine_ForShowAddressFalse_ReturnsAddressWithoutStreet() {
+	/**
+	 * @test
+	 */
+	public function getAddressAsSingleLineForShowAddressFalseReturnsAddressWithoutStreet() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Main Street',
 			'zip' => '12345',
@@ -3031,7 +3037,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getAddressAsSingleLine_ForShowAddressTrue_ReturnsCompleteAddress() {
+	/**
+	 * @test
+	 */
+	public function getAddressAsSingleLineForShowAddressTrueReturnsCompleteAddress() {
 		$this->fixture->loadRealtyObject(array(
 			'show_address' => 1,
 			'street' => 'Main Street',
@@ -3047,7 +3056,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getAddressAsSingleLine_ForNoCountrySetAndShowAddressTrue_ReturnsAddressWithoutCountry() {
+	/**
+	 * @test
+	 */
+	public function getAddressAsSingleLineForNoCountrySetAndShowAddressTrueReturnsAddressWithoutCountry() {
 		$this->fixture->loadRealtyObject(array(
 			'show_address' => 1,
 			'street' => 'Main Street',
@@ -3062,7 +3074,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getAddressAsSingleLine_ForNoStreetSetAndShowAddressTrue_ReturnsAddressWithoutStreet() {
+	/**
+	 * @test
+	 */
+	public function getAddressAsSingleLineForNoStreetSetAndShowAddressTrueReturnsAddressWithoutStreet() {
 			$this->fixture->loadRealtyObject(array(
 			'show_address' => 1,
 			'zip' => '12345',
@@ -3077,7 +3092,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getAddressAsSingleLine_ForShowAddressTrue_ReturnsCompleteAddressWithoutHtmlTags() {
+	/**
+	 * @test
+	 */
+	public function getAddressAsSingleLineForShowAddressTrueReturnsCompleteAddressWithoutHtmlTags() {
 		$this->fixture->loadRealtyObject(array(
 			'show_address' => 1,
 			'street' => 'Main Street',
@@ -3121,7 +3139,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getOwner
 	//////////////////////////////
 
-	public function test_getOwner_ForObjectWithOwner_ReturnsFrontEndUserModel() {
+	/**
+	 * @test
+	 */
+	public function getOwnerForObjectWithOwnerReturnsFrontEndUserModel() {
 		$this->fixture->loadRealtyObject(
 			array(
 				'owner' => $this->testingFramework->createFrontEndUser()
@@ -3142,7 +3163,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getContactName
 	////////////////////////////////////
 
-	public function test_getContactName_ForOwnerFromObjectAndWithoutName_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactNameForOwnerFromObjectAndWithoutNameReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3151,7 +3175,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactName_ForOwnerFromFeUserWithName_ReturnsOwnerName() {
+	/**
+	 * @test
+	 */
+	public function getContactNameForOwnerFromFeUserWithNameReturnsOwnerName() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('name' => 'foo')
 		);
@@ -3162,7 +3189,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactName_ForOwnerFromObjectWithName_ReturnsOwnerName() {
+	/**
+	 * @test
+	 */
+	public function getContactNameForOwnerFromObjectWithNameReturnsOwnerName() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_REALTY_OBJECT, array(),
 			array('contact_person' => 'foo')
@@ -3179,7 +3209,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getContactEMailAddress
 	////////////////////////////////////////////
 
-	public function test_getContactEMailAddress_ForOwnerFromFeUserAndWithoutEMailAddress_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactEMailAddressForOwnerFromFeUserAndWithoutEMailAddressReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
 
 		$this->assertEquals(
@@ -3188,7 +3221,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactEMailAddress_ForOwnerFromObjectAndWithoutEMailAddress_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactEMailAddressForOwnerFromObjectAndWithoutEMailAddressReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3197,7 +3233,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactEMailAddress_ForOwnerFromFeUserWithEMailAddress_ReturnsEMailAddress() {
+	/**
+	 * @test
+	 */
+	public function getContactEMailAddressForOwnerFromFeUserWithEMailAddressReturnsEMailAddress() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('email' => 'foo@bar.com')
 		);
@@ -3208,7 +3247,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactEMailAddress_ForOwnerFromObjectWithContactEMailAddress_ReturnsContactEMailAddress() {
+	/**
+	 * @test
+	 */
+	public function getContactEMailAddressForOwnerFromObjectWithContactEMailAddressReturnsContactEMailAddress() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_REALTY_OBJECT, array(),
 			array('contact_email' => 'bar@foo.com')
@@ -3225,7 +3267,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getContactCity
 	////////////////////////////////////
 
-	public function test_getContactCity_ForOwnerFromFeUserAndWithoutCity_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactCityForOwnerFromFeUserAndWithoutCityReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
 
 		$this->assertEquals(
@@ -3234,7 +3279,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactCity_ForOwnerFromObject_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactCityForOwnerFromObjectReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3243,7 +3291,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactCity_ForOwnerFromFeUserWithCity_ReturnsCity() {
+	/**
+	 * @test
+	 */
+	public function getContactCityForOwnerFromFeUserWithCityReturnsCity() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('city' => 'footown')
 		);
@@ -3259,7 +3310,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getContactStreet
 	//////////////////////////////////////
 
-	public function test_getContactStreet_ForOwnerFromFeUserAndWithoutStreet_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactStreetForOwnerFromFeUserAndWithoutStreetReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
 
 		$this->assertEquals(
@@ -3268,7 +3322,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactStreet_ForOwnerFromObject_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactStreetForOwnerFromObjectReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3277,7 +3334,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactStreet_ForOwnerFromFeUserWithStreet_ReturnsStreet() {
+	/**
+	 * @test
+	 */
+	public function getContactStreetForOwnerFromFeUserWithStreetReturnsStreet() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('address' => 'foo')
 		);
@@ -3293,7 +3353,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getContactZip
 	///////////////////////////////////
 
-	public function test_getContactZip_ForOwnerFromFeUserAndWithoutZip_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactZipForOwnerFromFeUserAndWithoutZipReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
 
 		$this->assertEquals(
@@ -3302,7 +3365,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactZip_ForOwnerFromObject_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactZipForOwnerFromObjectReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3311,7 +3377,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactZip_ForOwnerFromFeUserWithZip_ReturnsZip() {
+	/**
+	 * @test
+	 */
+	public function getContactZipForOwnerFromFeUserWithZipReturnsZip() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('zip' => '12345')
 		);
@@ -3327,7 +3396,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning getContactHomepage
 	////////////////////////////////////////
 
-	public function test_getContactHomepage_ForOwnerFromFeUserAndWithoutHomepage_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactHomepageForOwnerFromFeUserAndWithoutHomepageReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
 
 		$this->assertEquals(
@@ -3336,7 +3408,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactHomepage_ForOwnerFromObject_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getContactHomepageForOwnerFromObjectReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3345,7 +3420,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getContactHomepage_ForOwnerFromFeUserWithHomepage_ReturnsHomepage() {
+	/**
+	 * @test
+	 */
+	public function getContactHomepageForOwnerFromFeUserWithHomepageReturnsHomepage() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('www' => 'www.foo.de')
 		);
@@ -3364,7 +3442,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getContactPhoneNumber_ForOwnerFromFeUserAndWithoutPhoneNumber_ReturnsEmptyString() {
+	public function getContactPhoneNumberForOwnerFromFeUserAndWithoutPhoneNumberReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_OWNER_ACCOUNT);
 
 		$this->assertEquals(
@@ -3376,7 +3454,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getContactPhoneNumber_ForOwnerFromObjectAndWithoutPhoneNumber_ReturnsEmptyString() {
+	public function getContactPhoneNumberForOwnerFromObjectAndWithoutPhoneNumberReturnsEmptyString() {
 		$this->loadRealtyObjectAndSetOwner(REALTY_CONTACT_FROM_REALTY_OBJECT);
 
 		$this->assertEquals(
@@ -3388,7 +3466,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getContactPhoneNumber_ForOwnerFromFeUserWithPhoneNumber_ReturnsPhoneNumber() {
+	public function getContactPhoneNumberForOwnerFromFeUserWithPhoneNumberReturnsPhoneNumber() {
 		$this->loadRealtyObjectAndSetOwner(
 			REALTY_CONTACT_FROM_OWNER_ACCOUNT, array('telephone' => '555-123456')
 		);

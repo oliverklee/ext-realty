@@ -707,7 +707,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_singleViewForActivatedListViewGooglemaps_DoesNotShowGoogleMapsByDefault() {
+	/**
+	 * @test
+	 */
+	public function singleViewForActivatedListViewGoogleMapsDoesNotShowGoogleMapsByDefault() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'has_coordinates' => TRUE,
