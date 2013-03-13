@@ -63,7 +63,10 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 	// Testing the further-description view
 	/////////////////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('misc' => 'foo'));
 
@@ -73,7 +76,10 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('equipment' => 'foo'));
 
@@ -91,7 +97,10 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsLocationForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsLocationForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('location' => 'foo'));
 
@@ -101,7 +110,10 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsEquipmentForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsEquipmentForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('equipment' => 'foo'));
 
@@ -111,7 +123,10 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsMiscForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsMiscForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('misc' => 'foo'));
 
@@ -121,7 +136,10 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsFurtherDescriptionNonHtmlspecialchared() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsFurtherDescriptionNonHtmlspecialchared() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('misc' => 'foo</br>bar'));
 
@@ -131,7 +149,10 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForEmptyFurtherDescriptionOfValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForEmptyFurtherDescriptionOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('misc' => ''));
 

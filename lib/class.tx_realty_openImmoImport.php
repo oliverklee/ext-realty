@@ -1331,6 +1331,7 @@ class tx_realty_openImmoImport {
 
 	/**
 	 * Loads a realty object.
+	 *
 	 * The data can either be a database result row or an array which has
 	 * database column names as keys (may be empty). The data can also be a UID
 	 * of an existent realty object to load from the database. If the data is of

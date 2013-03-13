@@ -122,14 +122,20 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	// Tests for the Google Maps view
 	///////////////////////////////////
 
-	public function testRenderGoogleMapsViewWithNoCollectedMarkersReturnsEmptyResult() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewWithNoCollectedMarkersReturnsEmptyResult() {
 		$this->assertEquals(
 			'',
 			$this->fixture->render()
 		);
 	}
 
-	public function testRenderGoogleMapsViewWithCollectedMarkerReturnsNonEmptyResult() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewWithCollectedMarkerReturnsNonEmptyResult() {
 		$this->fixture->setMapMarker($this->realtyUid);
 
 		$this->assertContains(
@@ -138,7 +144,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewWithCollectedMarkerReturnsNoUnreplacedMarkers() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewWithCollectedMarkerReturnsNoUnreplacedMarkers() {
 		$this->fixture->setMapMarker($this->realtyUid);
 
 		$this->assertNotContains(
@@ -147,7 +156,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMapMarkerForZeroCausesException() {
+	/**
+	 * @test
+	 */
+	public function setMapMarkerForZeroCausesException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$realtyObjectUid must not be an integer greater than zero.'
@@ -424,7 +436,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewReturnsCroppedObjectTitleAsInfoWindowForGoogleMaps() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewReturnsCroppedObjectTitleAsInfoWindowForGoogleMaps() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -446,7 +461,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewHasTheObjectsCityAndDistrictAsInfoWindowForGoogleMaps() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewHasTheObjectsCityAndDistrictAsInfoWindowForGoogleMaps() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -471,7 +489,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewHasStreetAsInfoWindowForGoogleMapsForDetailedAddress() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewHasStreetAsInfoWindowForGoogleMapsForDetailedAddress() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -493,7 +514,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewWithMapMarkerWithoutCreateLinkOptiontDoesNotLinkObjectTitleInMap() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewWithMapMarkerWithoutCreateLinkOptiontDoesNotLinkObjectTitleInMap() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -518,7 +542,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewWithMapMarkerWithCreateLinkOptionLinksObjectTitleInMap() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewWithMapMarkerWithCreateLinkOptionLinksObjectTitleInMap() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -543,7 +570,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderGoogleMapsViewOmitsStreetAsInfoWindowForGoogleMapsForRoughAddress() {
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewOmitsStreetAsInfoWindowForGoogleMapsForRoughAddress() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS,
 			$this->realtyUid,
@@ -565,7 +595,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRetrievingGeoCoordinatesDoesNotDeleteAppendedImage() {
+	/**
+	 * @test
+	 */
+	public function retrievingGeoCoordinatesDoesNotDeleteAppendedImage() {
 		$this->testingFramework->createRecord(
 			REALTY_TABLE_IMAGES,
 			array(
@@ -636,7 +669,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderSetsFullTitlesOfTwoObjectsInHeader() {
+	/**
+	 * @test
+	 */
+	public function renderSetsFullTitlesOfTwoObjectsInHeader() {
 		$cityUid = $this->testingFramework->createRecord(
 			REALTY_TABLE_CITIES, array('title' => 'Test Town')
 		);
@@ -692,7 +728,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderSetsAutoZoomForTwoObjectsWithCoordinates() {
+	/**
+	 * @test
+	 */
+	public function renderSetsAutoZoomForTwoObjectsWithCoordinates() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
@@ -724,7 +763,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderSetsDoesNotSetAutoZoomForOnlyOneObjectWithCoordinates() {
+	/**
+	 * @test
+	 */
+	public function renderSetsDoesNotSetAutoZoomForOnlyOneObjectWithCoordinates() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(

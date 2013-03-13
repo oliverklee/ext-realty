@@ -160,7 +160,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 	// Tests for the functions called in the XML form.
 	////////////////////////////////////////////////////
 
-	public function testProcessImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase() {
+	/**
+	 * @test
+	 */
+	public function processImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase() {
 		$this->fixture->processImageUpload(
 			array(
 				'caption' => 'test image',
@@ -177,7 +180,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testProcessImageUploadStoresCurrentObjectUidAsParentForTheImage() {
+	/**
+	 * @test
+	 */
+	public function processImageUploadStoresCurrentObjectUidAsParentForTheImage() {
 		$this->fixture->processImageUpload(
 			array(
 				'caption' => 'test image',
@@ -195,7 +201,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testProcessImageUploadDoesNotInsertAnImageIfOnlyACaptionProvided() {
+	/**
+	 * @test
+	 */
+	public function processImageUploadDoesNotInsertAnImageIfOnlyACaptionProvided() {
 		$this->fixture->processImageUpload(
 			array(
 				'caption' => 'test image',
@@ -213,7 +222,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testProcessImageUploadDeletesImageRecordForCurrentObjectFromTheDatabase() {
+	/**
+	 * @test
+	 */
+	public function processImageUploadDeletesImageRecordForCurrentObjectFromTheDatabase() {
 		$this->fixture->processImageUpload(
 			array('imagesToDelete' => 'attached_image_0,')
 		);
@@ -227,7 +239,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testProcessImageUploadDeletesImageTwoRecordsForCurrentObjectFromTheDatabase() {
+	/**
+	 * @test
+	 */
+	public function processImageUploadDeletesImageTwoRecordsForCurrentObjectFromTheDatabase() {
 		$this->fixture->processImageUpload(
 			array('imagesToDelete' => 'attached_image_0,attached_image_1,')
 		);
@@ -371,7 +386,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetImageUploadErrorMessageForEmptyCaption() {
+	/**
+	 * @test
+	 */
+	public function getImageUploadErrorMessageForEmptyCaption() {
 		$this->fixture->checkFile(
 			array('value' => array('name' => 'foo.jpg', 'size' => 1))
 		);
@@ -382,7 +400,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetImageUploadErrorMessageForInvalidExtension() {
+	/**
+	 * @test
+	 */
+	public function getImageUploadErrorMessageForInvalidExtension() {
 		$this->fixture->setFakedFormValue('caption', 'foo');
 		$this->fixture->checkFile(
 			array('value' => array('name' => 'foo.foo', 'size' => 1))
@@ -394,7 +415,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetImageUploadErrorMessageForTooLargeImage() {
+	/**
+	 * @test
+	 */
+	public function getImageUploadErrorMessageForTooLargeImage() {
 		$tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024) + 1;
 		$this->fixture->setFakedFormValue('caption', 'foo');
 		$this->fixture->checkFile(
@@ -412,7 +436,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 	// Tests concerning functions used after submit.
 	//////////////////////////////////////////////////
 
-	public function testGetRedirectUrlReturnsUrlWithCurrentPageIdAsTargetPageIfProceedUploadWasTrue() {
+	/**
+	 * @test
+	 */
+	public function getRedirectUrlReturnsUrlWithCurrentPageIdAsTargetPageIfProceedUploadWasTrue() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('feEditorRedirectPid', $pageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
@@ -423,7 +450,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetRedirectUrlReturnsUrlShowUidInUrlIfProceedUploadWasTrue() {
+	/**
+	 * @test
+	 */
+	public function getRedirectUrlReturnsUrlShowUidInUrlIfProceedUploadWasTrue() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('feEditorRedirectPid', $pageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
@@ -434,7 +464,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetRedirectUrlReturnsUrlWithCurrentConfiguredRedirectPageIdAsTargetPageIfProceedUploadWasFalse() {
+	/**
+	 * @test
+	 */
+	public function getRedirectUrlReturnsUrlWithCurrentConfiguredRedirectPageIdAsTargetPageIfProceedUploadWasFalse() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('feEditorRedirectPid', $pageUid);
 		$this->fixture->setFakedFormValue('proceed_image_upload', 0);

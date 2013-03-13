@@ -67,7 +67,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 	// Testing the overview table view
 	////////////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => '12345'));
 
@@ -77,7 +80,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => '12345'));
 
@@ -93,7 +99,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsObjectNumberForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsObjectNumberForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => '12345'));
 
@@ -103,7 +112,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => '12345</br>'));
 
@@ -113,7 +125,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForValidRealtyObjectWithoutData() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForValidRealtyObjectWithoutData() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array());
 
@@ -128,7 +143,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 	// Testing the contents of the overview table
 	///////////////////////////////////////////////
 
-	public function testRenderReturnsHasAirConditioningRowForTrue() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsHasAirConditioningRowForTrue() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_air_conditioning' => 1));
 
@@ -142,7 +160,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderNotReturnsHasAirConditioningRowForFalse() {
+	/**
+	 * @test
+	 */
+	public function renderNotReturnsHasAirConditioningRowForFalse() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_air_conditioning' => 0));
 
@@ -156,7 +177,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsHasPoolRowForTrue() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsHasPoolRowForTrue() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_pool' => 1));
 
@@ -170,7 +194,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderNotReturnsHasPoolRowForFalse() {
+	/**
+	 * @test
+	 */
+	public function renderNotReturnsHasPoolRowForFalse() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_pool' => 0));
 
@@ -184,7 +211,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsHasCommunityPoolRowForTrue() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsHasCommunityPoolRowForTrue() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_community_pool' => 1));
 
@@ -198,7 +228,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderNotReturnsHasCommunityPoolRowForFalse() {
+	/**
+	 * @test
+	 */
+	public function renderNotReturnsHasCommunityPoolRowForFalse() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_community_pool' => 0));
 
@@ -212,7 +245,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheLabelForStateIfAValidStateIsSet() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheLabelForStateIfAValidStateIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('state' => 8));
 
@@ -224,7 +260,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheStateIfAValidStateIsSet() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheStateIfAValidStateIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('state' => 8));
 
@@ -236,7 +275,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderNotReturnsTheLabelForStateIfNoStateIsSet() {
+	/**
+	 * @test
+	 */
+	public function renderNotReturnsTheLabelForStateIfNoStateIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('state' => 0));
 
@@ -248,7 +290,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderNotReturnsTheLabelForStateIfTheStateIsInvalid() {
+	/**
+	 * @test
+	 */
+	public function renderNotReturnsTheLabelForStateIfTheStateIsInvalid() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('state' => 10000000));
 
@@ -260,7 +305,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheLabelForHeatingTypeIfOneValidHeatingTypeIsSet() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheLabelForHeatingTypeIfOneValidHeatingTypeIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('heating_type' => '1'));
 
@@ -272,7 +320,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheHeatingTypeIfOneValidHeatingTypeIsSet() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheHeatingTypeIfOneValidHeatingTypeIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('heating_type' => '1'));
 
@@ -284,7 +335,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsAHeatingTypeListIfMultipleValidHeatingTypesAreSet() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsAHeatingTypeListIfMultipleValidHeatingTypesAreSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('heating_type' => '1,3,4'));
 
@@ -298,7 +352,10 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderNotReturnsTheHeatingTypeLabelIfOnlyAnInvalidHeatingTypeIsSet() {
+	/**
+	 * @test
+	 */
+	public function renderNotReturnsTheHeatingTypeLabelIfOnlyAnInvalidHeatingTypeIsSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('heating_type' => '100'));
 

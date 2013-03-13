@@ -110,7 +110,10 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	// Testing the image thumbnails view
 	//////////////////////////////////////
 
-	public function testRenderReturnsEmptyResultForUidOfObjectWithoutImagesProvided() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForUidOfObjectWithoutImagesProvided() {
 		$this->assertEquals(
 			'',
 			$this->fixture->render(array(
@@ -119,7 +122,10 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
@@ -146,7 +152,10 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsHtmlspecialcharedImageCaptionForLightboxStyledGallery() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsHtmlspecialcharedImageCaptionForLightboxStyledGallery() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo</br>', 'foo.jpg');
@@ -157,7 +166,10 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoNonHtmlspecialcharedImageCaptionForLightboxStyledGallery() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoNonHtmlspecialcharedImageCaptionForLightboxStyledGallery() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->addImageRecord('foo</br>', 'foo.jpg');

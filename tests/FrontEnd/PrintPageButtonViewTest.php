@@ -63,7 +63,10 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends tx_phpunit_testcase {
 	// Testing the basic functionality
 	////////////////////////////////////
 
-	public function testRenderReturnsButtonPrint() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsButtonPrint() {
 		$this->assertContains(
 			'class="button printPage"',
 			$this->fixture->render(array('showUid' => 0))

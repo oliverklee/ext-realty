@@ -55,7 +55,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		unset($this->fixture, $this->testingFramework);
 	}
 
-	public function testFixtureIsInstanceOfOelibFrontEndUser() {
+	/**
+	 * @test
+	 */
+	public function fixtureIsInstanceOfOelibFrontEndUser() {
 		$this->assertTrue(
 			$this->fixture instanceof tx_oelib_Model_FrontEndUser
 		);
@@ -90,7 +93,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning createDummyObject
 	///////////////////////////////////////
 
-	public function testCreateObjectCreatesObjectInDatabase() {
+	/**
+	 * @test
+	 */
+	public function createObjectCreatesObjectInDatabase() {
 		$createdObjectUid = $this->createObject();
 
 		$this->assertTrue(
@@ -100,7 +106,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateObjectReturnsPositiveUid() {
+	/**
+	 * @test
+	 */
+	public function createObjectReturnsPositiveUid() {
 		$createdObjectUid = $this->createObject();
 
 		$this->assertGreaterThan(
@@ -109,7 +118,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateObjectCreatesObjectRecordWithGivenOwnerUid() {
+	/**
+	 * @test
+	 */
+	public function createObjectCreatesObjectRecordWithGivenOwnerUid() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->createObject($userUid);
 
@@ -121,7 +133,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateObjectCanCreateTwoObjectRecords() {
+	/**
+	 * @test
+	 */
+	public function createObjectCanCreateTwoObjectRecords() {
 		$this->createObject();
 		$this->createObject();
 
@@ -139,7 +154,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getTotalNumberOfAllowedObjects
 	////////////////////////////////////////////////////
 
-	public function testGetTotalNumberOfAllowedObjectsForUserWithNoMaximumObjectsSetReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getTotalNumberOfAllowedObjectsForUserWithNoMaximumObjectsSetReturnsZero() {
 		$this->fixture->setData(array());
 
 		$this->assertEquals(
@@ -148,7 +166,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetTotalNumberOfAllowedObjectsForUserWithNonZeroMaximumObjectsReturnsMaximumObjectsValue() {
+	/**
+	 * @test
+	 */
+	public function getTotalNumberOfAllowedObjectsForUserWithNonZeroMaximumObjectsReturnsMaximumObjectsValue() {
 		$this->fixture->setData(array('tx_realty_maximum_objects' => 42));
 
 		$this->assertEquals(
@@ -162,7 +183,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the getNumberOfObjects function.
 	//////////////////////////////////////////////////////
 
-	public function testGetNumberOfObjectsForUserWithNoObjectsReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getNumberOfObjectsForUserWithNoObjectsReturnsZero() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(array('uid' => $userUid));
 
@@ -172,7 +196,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNumberOfObjectsForUserWithOneObjectReturnsOne() {
+	/**
+	 * @test
+	 */
+	public function getNumberOfObjectsForUserWithOneObjectReturnsOne() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(array('uid' => $userUid));
 		$this->createObject($userUid);
@@ -183,7 +210,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNumberOfObjectsForUserWithTwoObjectReturnsTwo() {
+	/**
+	 * @test
+	 */
+	public function getNumberOfObjectsForUserWithTwoObjectReturnsTwo() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(array('uid' => $userUid));
 		$this->createObject($userUid);
@@ -200,7 +230,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getObjectsLeftToEnter
 	///////////////////////////////////////////
 
-	public function testGetObjectsLeftToEnterForUserWithNoObjectsAndNoMaximumNumberOfObjectsReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getObjectsLeftToEnterForUserWithNoObjectsAndNoMaximumNumberOfObjectsReturnsZero() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(array('uid' => $userUid));
 		$this->fixture->getNumberOfObjects();
@@ -211,7 +244,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetObjectsLeftToEnterForUserWithOneObjectAndLimitSetToOneObjectReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getObjectsLeftToEnterForUserWithOneObjectAndLimitSetToOneObjectReturnsZero() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -228,7 +264,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetObjectsLeftToEnterForUserWithTwoObjectsAndLimitSetToOneObjectReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getObjectsLeftToEnterForUserWithTwoObjectsAndLimitSetToOneObjectReturnsZero() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -246,7 +285,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetObjectsLeftToEnterForUserWithNoObjectsAndLimitSetToTwoReturnsTwo() {
+	/**
+	 * @test
+	 */
+	public function getObjectsLeftToEnterForUserWithNoObjectsAndLimitSetToTwoReturnsTwo() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -262,7 +304,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetObjectsLeftToEnterForUserWithOneObjectAndLimitSetToTwoReturnsOne() {
+	/**
+	 * @test
+	 */
+	public function getObjectsLeftToEnterForUserWithOneObjectAndLimitSetToTwoReturnsOne() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -284,7 +329,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning canAddNewObjects
 	//////////////////////////////////////
 
-	public function testCanAddNewObjectsForUserWithMaximumObjectsSetToZeroReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function canAddNewObjectsForUserWithMaximumObjectsSetToZeroReturnsTrue() {
 		$this->fixture->setData(
 			array(
 				'uid' => $this->testingFramework->createFrontEndUser(),
@@ -297,7 +345,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCanAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToZeroReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function canAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToZeroReturnsTrue() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -312,7 +363,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCanAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToTwoReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function canAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToTwoReturnsTrue() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -327,7 +381,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCanAddNewObjectsForUserWithTwoObjectsAndMaximumObjectsSetToOneReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function canAddNewObjectsForUserWithTwoObjectsAndMaximumObjectsSetToOneReturnsFalse() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -343,7 +400,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCanAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToOneReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function canAddNewObjectsForUserWithOneObjectAndMaximumObjectsSetToOneReturnsFalse() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -363,7 +423,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the calculation of the number of objects
 	//////////////////////////////////////////////////////////////
 
-	public function testCanAddNewObjectsDoesNotRecalculateObjectLimit() {
+	/**
+	 * @test
+	 */
+	public function canAddNewObjectsDoesNotRecalculateObjectLimit() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(
@@ -379,7 +442,10 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCanAddNewObjectsAfterResetObjectsHaveBeenCalculatedIsCalledRecalculatesObjectLimit() {
+	/**
+	 * @test
+	 */
+	public function canAddNewObjectsAfterResetObjectsHaveBeenCalculatedIsCalledRecalculatesObjectLimit() {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(
 			array(

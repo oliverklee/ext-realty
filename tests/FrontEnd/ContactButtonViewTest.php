@@ -66,14 +66,20 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 	// Testing the contact button view
 	////////////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForZeroShowUid() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForZeroShowUid() {
 		$this->assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfRealtyRecordProvided() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForShowUidOfRealtyRecordProvided() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
@@ -83,7 +89,10 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsProvidedShowUidOfRealtyRecordAsLinkParameter() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsProvidedShowUidOfRealtyRecordAsLinkParameter() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
@@ -93,14 +102,20 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$this->assertNotContains(
 			'###',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForTheCurrentPageBeingTheSameAsTheConfiguredContactPid() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForTheCurrentPageBeingTheSameAsTheConfiguredContactPid() {
 		$this->fixture->setConfigurationValue('contactPID', $GLOBALS['TSFE']->id);
 
 		$this->assertEquals(
@@ -109,7 +124,10 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForNoContactPidConfigured() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForNoContactPidConfigured() {
 		$this->fixture->setConfigurationValue('contactPID', '');
 
 		$this->assertEquals(

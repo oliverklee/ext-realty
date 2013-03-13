@@ -60,7 +60,10 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning the basic functions
 	/////////////////////////////////////////
 
-	public function testFindWithUidOfExistingRecordReturnsRealtyObjectInstance() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsRealtyObjectInstance() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_realty_objects', array('title' => 'foo')
 		);
@@ -70,7 +73,10 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetOwnerForMappedModelReturnsFrontEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function getOwnerForMappedModelReturnsFrontEndUserInstance() {
 		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$objectUid = $this->testingFramework->createRecord(
 			'tx_realty_objects', array('title' => 'foo', 'owner' => $ownerUid)

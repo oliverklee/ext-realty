@@ -63,7 +63,10 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 	// Testing the address view
 	/////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecordWithZip() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForShowUidOfExistingRecordWithZip() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
@@ -73,7 +76,10 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
@@ -91,7 +97,10 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsAddressForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsAddressForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
@@ -101,7 +110,10 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForEmptyAddressDataOfValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForEmptyAddressDataOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array());
 

@@ -88,14 +88,20 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	// Testing the conditions to render the single view
 	/////////////////////////////////////////////////////
 
-	public function testSingleViewReturnsEmptyResultForZeroShowUid() {
+	/**
+	 * @test
+	 */
+	public function singleViewReturnsEmptyResultForZeroShowUid() {
 		$this->assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}
 
-	public function testSingleViewReturnsEmptyResultForShowUidOfDeletedRecord() {
+	/**
+	 * @test
+	 */
+	public function singleViewReturnsEmptyResultForShowUidOfDeletedRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 		$realtyObject->setToDeleted();
@@ -106,7 +112,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewReturnsEmptyResultForShowUidOfHiddenRecordAndNoUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function singleViewReturnsEmptyResultForShowUidOfHiddenRecordAndNoUserLoggedIn() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('hidden' => 1));
 		$this->assertEquals(
@@ -115,7 +124,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewReturnsEmptyResultForShowUidOfHiddenRecordNonOwnerLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function singleViewReturnsEmptyResultForShowUidOfHiddenRecordNonOwnerLoggedIn() {
 		$userMapper = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_FrontEndUser');
 		$owner = $userMapper->getNewGhost();
@@ -134,7 +146,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewReturnsNonEmptyResultForShowUidOfHiddenRecordOwnerLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function singleViewReturnsNonEmptyResultForShowUidOfHiddenRecordOwnerLoggedIn() {
 		$userMapper = tx_oelib_MapperRegistry
 			::get('tx_realty_Mapper_FrontEndUser');
 		$owner = $userMapper->getNewGhost();
@@ -151,7 +166,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewReturnsNonEmptyResultForShowUidOfExistingRecord() {
+	/**
+	 * @test
+	 */
+	public function singleViewReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -161,7 +179,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function singleViewReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -176,7 +197,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	// Testing the different view parts displayed
 	///////////////////////////////////////////////
 
-	public function testSingleViewDisplaysTheTitleOfARealtyObjectIfEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTheTitleOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -190,7 +214,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysTheTitleOfARealtyObjectIfDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTheTitleOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -204,7 +231,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheDescriptionOfARealtyObjectIfEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTheDescriptionOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
@@ -218,7 +248,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysTheDescriptionOfARealtyObjectIfDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTheDescriptionOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
@@ -268,7 +301,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysThePriceOfARealtyObjectIfEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysThePriceOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'object_type' => REALTY_FOR_SALE,
@@ -281,7 +317,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysThePriceOfARealtyObjectIfDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysThePriceOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'object_type' => REALTY_FOR_SALE,
@@ -298,7 +337,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheEquipmentDescriptionOfARealtyObjectIfEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTheEquipmentDescriptionOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('equipment' => 'foo'));
 
@@ -312,7 +354,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysTheEquipmentDescriptionOfARealtyObjectIfDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTheEquipmentDescriptionOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('equipment' => 'foo'));
 
@@ -441,7 +486,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysTextPaneDivIfOnlyImagesShouldBeDisplayed() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTextPaneDivIfOnlyImagesShouldBeDisplayed() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -455,7 +503,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTextPaneDivAndWithImagesClassNameImagesAndTextShouldBeDisplayed() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTextPaneDivAndWithImagesClassNameImagesAndTextShouldBeDisplayed() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -469,7 +520,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysWithImagesClassNameIfOnlyTextShouldBeDisplayed() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysWithImagesClassNameIfOnlyTextShouldBeDisplayed() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'foo'));
 
@@ -484,7 +538,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	}
 
 
-	public function testSingleViewDisplaysContactButtonIfThisIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysContactButtonIfThisIsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
@@ -498,7 +555,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysContactButtonIfThisIsDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysContactButtonIfThisIsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
@@ -515,7 +575,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysOffererInformationIfThisIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysOffererInformationIfThisIsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
@@ -532,7 +595,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysOffererInformationIfThisIsDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysOffererInformationIfThisIsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
@@ -583,7 +649,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysOverviewTableRowIfEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysOverviewTableRowIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_air_conditioning' => '1'));
 
@@ -600,7 +669,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysOverviewTableRowIfDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysOverviewTableRowIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('has_air_conditioning' => '1'));
 
@@ -617,7 +689,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewDisplaysTheAddressOfARealtyObjectIfEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysTheAddressOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
@@ -631,7 +706,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysTheAddressOfARealtyObjectIfDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysTheAddressOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
@@ -650,7 +728,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	// Tests for Google Maps in the single view
 	/////////////////////////////////////////////
 
-	public function testSingleViewDisplaysMapForGoogleMapsEnabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewDisplaysMapForGoogleMapsEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'has_coordinates' => TRUE,
@@ -668,7 +749,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSingleViewNotDisplaysMapForGoogleMapsDisabled() {
+	/**
+	 * @test
+	 */
+	public function singleViewNotDisplaysMapForGoogleMapsDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'has_coordinates' => TRUE,
@@ -687,7 +771,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGoogleMapsDoesNotLinkObjectTitleInMap() {
+	/**
+	 * @test
+	 */
+	public function googleMapsDoesNotLinkObjectTitleInMap() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'has_coordinates' => TRUE,

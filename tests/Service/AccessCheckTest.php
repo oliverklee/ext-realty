@@ -70,7 +70,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 	// Tests concerning access to the FE editor.
 	//////////////////////////////////////////////
 
-	public function testCheckAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -82,7 +85,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function testCheckAccessForFeEditorThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidUidAndAUserLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -98,7 +104,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function test404HeaderIsSentWhenCheckAccessForFeEditorThrowsExceptionWithObjectDoesNotExistMessage() {
+	/**
+	 * @test
+	 */
+	public function header404IsSentWhenCheckAccessForFeEditorThrowsExceptionWithObjectDoesNotExistMessage() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -118,7 +127,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -126,7 +138,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
 	}
 
-	public function testCheckAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -136,7 +151,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForFeEditorThrowsExceptionWithAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorThrowsExceptionWithAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -150,7 +168,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test403HeaderIsSentWhenCheckAccessForFeEditorThrowsExceptionWithAccessDeniedMessage() {
+	/**
+	 * @test
+	 */
+	public function header403IsSentWhenCheckAccessForFeEditorThrowsExceptionWithAccessDeniedMessage() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -168,7 +189,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForFeEditorDoesNotThrowAnExceptionIfTheObjectExistsAndTheUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorDoesNotThrowAnExceptionIfTheObjectExistsAndTheUserIsLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -184,7 +208,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForFeEditorDoesNotThrowAnExceptionIfTheNonPublishedObjectExistsAndTheUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorDoesNotThrowAnExceptionIfTheNonPublishedObjectExistsAndTheUserIsLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -203,7 +230,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForFeEditorDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getLoadedTestingModel(array());
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -211,7 +241,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
 	}
 
-	public function testCheckAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterThrowsExceptionWithNoObjectsLeftMessage() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterThrowsExceptionWithNoObjectsLeftMessage() {
 		$user = $this->getMock(
 			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
 		);
@@ -227,7 +260,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
 	}
 
-	public function testCheckAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterAndEditingAnExistingObjectDoesNotThrowException() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorForLoggedInUserWithNoObjectsLeftToEnterAndEditingAnExistingObjectDoesNotThrowException() {
 		$user = $this->getMock(
 			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
 		);
@@ -243,7 +279,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('fe_editor', array('showUid' => $objectUid));
 	}
 
-	public function testCheckAccessForFeEditorForLoggedInUserWithObjectsLeftToEnterThrowsNoException() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForFeEditorForLoggedInUserWithObjectsLeftToEnterThrowsNoException() {
 		$user = $this->getMock(
 			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
 		);
@@ -260,7 +299,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 	// Tests concerning access to the image upload.
 	/////////////////////////////////////////////////
 
-	public function testCheckAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -272,7 +314,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function testCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessageForZeroObjectUidAndAUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessageForZeroObjectUidAndAUserLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -284,7 +329,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('image_upload', array('showUid' => 0));
 	}
 
-	public function testCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidObjectUidAndAUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidObjectUidAndAUserLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -300,7 +348,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function test404HeaderIsSentWhenCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessage() {
+	/**
+	 * @test
+	 */
+	public function header404IsSentWhenCheckAccessForImageUploadThrowsExceptionWithObjectDoesNotExistMessage() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -320,7 +371,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -328,7 +382,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('image_upload', array('showUid' => 0));
 	}
 
-	public function testCheckAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -338,7 +395,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function testCheckAccessForImageUploadThrowsExceptionWithAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForImageUploadThrowsExceptionWithAccessDeniedMessageWhenLoggedInUserAttemptsToEditAnObjectHeDoesNotOwn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -352,7 +412,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test403HeaderIsSentWhenCheckAccessForImageUploadThrowsExceptionWithAccessDeniedMessage() {
+	/**
+	 * @test
+	 */
+	public function header403IsSentWhenCheckAccessForImageUploadThrowsExceptionWithAccessDeniedMessage() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -370,7 +433,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForImageUploadDoesNotThrowAnExceptionIfTheObjectExistsAndTheUserIsOwner() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForImageUploadDoesNotThrowAnExceptionIfTheObjectExistsAndTheUserIsOwner() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -391,7 +457,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 	// Tests concerning access to the my-objects view.
 	////////////////////////////////////////////////////
 
-	public function testCheckAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -403,7 +472,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function testCheckAccessForMyObjectsThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidObjectToDeleteUidAndAUserLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForMyObjectsThrowsExceptionWithObjectDoesNotExistMessageForAnInvalidObjectToDeleteUidAndAUserLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -419,7 +491,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function test404HeaderIsSentWhenCheckAccessForMyObjectsThrowsExceptionWithObjectDoesNotExistMessage() {
+	/**
+	 * @test
+	 */
+	public function header404IsSentWhenCheckAccessForMyObjectsThrowsExceptionWithObjectDoesNotExistMessage() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -439,7 +514,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageIfNoUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -447,7 +525,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('my_objects', array('delete' => 0));
 	}
 
-	public function testCheckAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageWhenNotLoggedInUserAttemptsToDeleteAnObject() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageWhenNotLoggedInUserAttemptsToDeleteAnObject() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -457,7 +538,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForMyObjectsThrowsExceptionWithAccessDeniedMessageWhenLoggedInUserAttemptsToDeleteAnObjectHeDoesNotOwn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForMyObjectsThrowsExceptionWithAccessDeniedMessageWhenLoggedInUserAttemptsToDeleteAnObjectHeDoesNotOwn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -471,7 +555,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test403HeaderIsSentWhenCheckAccessForMyObjectsThrowsExceptionWithAccessDeniedMessage() {
+	/**
+	 * @test
+	 */
+	public function header403IsSentWhenCheckAccessForMyObjectsThrowsExceptionWithAccessDeniedMessage() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -489,7 +576,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForMyObjectsDoesNotThrowAnExceptionIfTheObjectToDeleteExistsAndTheOwnerIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForMyObjectsDoesNotThrowAnExceptionIfTheObjectToDeleteExistsAndTheOwnerIsLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -505,7 +595,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckAccessForMyObjectsDoesNotThrowAnExceptionIfNoObjectToDeleteIsSetAndTheUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForMyObjectsDoesNotThrowAnExceptionIfNoObjectToDeleteIsSetAndTheUserIsLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -518,7 +611,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 	// Tests concerning access to the single view.
 	////////////////////////////////////////////////
 
-	public function testCheckAccessForSingleViewThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForSingleViewThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_AccessDenied', 'message_please_login'
 		);
@@ -526,7 +622,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('single_view', array());
 	}
 
-	public function testCheckAccessForSingleViewDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForSingleViewDoesNotThrowAnExceptionIfTheObjectIsNewAndTheUserIsLoggedIn() {
 		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
@@ -539,7 +638,10 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 	// Test concerning access to any other view.
 	//////////////////////////////////////////////
 
-	public function testCheckAccessForOtherViewDoesNotThrowAnException() {
+	/**
+	 * @test
+	 */
+	public function checkAccessForOtherViewDoesNotThrowAnException() {
 		$this->fixture->checkAccess('other', array());
 	}
 }

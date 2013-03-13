@@ -59,7 +59,10 @@ class tx_realty_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the basic functions
 	/////////////////////////////////////////
 
-	public function testFindWithUidOfExistingRecordReturnsFrontEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsFrontEndUserInstance() {
 		$uid = $this->testingFramework->createFrontEndUser();
 
 		$this->assertTrue(

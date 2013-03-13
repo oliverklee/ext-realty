@@ -744,7 +744,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
-	 * Checks wether all required fields are set in the realty object.
+	 * Checks whether all required fields are set in the realty object.
 	 * $this->requiredFields must have already been loaded.
 	 *
 	 * @return array array of missing required fields, empty if all

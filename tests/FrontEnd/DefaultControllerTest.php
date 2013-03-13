@@ -199,7 +199,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	// Tests for the configuration check
 	//////////////////////////////////////
 
-	public function testConfigurationCheckIsActiveWhenEnabled() {
+	/**
+	 * @test
+	 */
+	public function configurationCheckIsActiveWhenEnabled() {
 		// The configuration check is created during initialization, therefore
 		// the object to test is recreated for this test.
 		unset($this->fixture);
@@ -219,7 +222,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testConfigurationCheckIsNotActiveWhenDisabled() {
+	/**
+	 * @test
+	 */
+	public function configurationCheckIsNotActiveWhenDisabled() {
 		// The configuration check is created during initialization, therefore
 		// the object to test is recreated for this test.
 		unset($this->fixture);
@@ -244,7 +250,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	// Tests for the basic functionality
 	//////////////////////////////////////
 
-	public function testPi1MustBeInitialized() {
+	/**
+	 * @test
+	 */
+	public function pi1MustBeInitialized() {
 		$this->assertNotNull(
 			$this->fixture
 		);
@@ -258,7 +267,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	// Tests for the access-restricted single view
 	////////////////////////////////////////////////
 
-	public function testAccessToSingleViewIsAllowedWithoutLoginPerDefault() {
+	/**
+	 * @test
+	 */
+	public function accessToSingleViewIsAllowedWithoutLoginPerDefault() {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
 		$this->assertTrue(
@@ -266,7 +278,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAccessToSingleViewIsAllowedWithLoginPerDefault() {
+	/**
+	 * @test
+	 */
+	public function accessToSingleViewIsAllowedWithLoginPerDefault() {
 		tx_oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
@@ -275,7 +290,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAccessToSingleViewIsAllowedWithoutLoginIfNotDeniedPerConfiguration() {
+	/**
+	 * @test
+	 */
+	public function accessToSingleViewIsAllowedWithoutLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
@@ -284,7 +302,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAccessToSingleViewIsAllowedWithLoginIfNotDeniedPerConfiguration() {
+	/**
+	 * @test
+	 */
+	public function accessToSingleViewIsAllowedWithLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
 		tx_oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
@@ -294,7 +315,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAccessToSingleViewIsDeniedWithoutLoginIfDeniedPerConfiguration() {
+	/**
+	 * @test
+	 */
+	public function accessToSingleViewIsDeniedWithoutLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
@@ -303,7 +327,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAccessToSingleViewIsAllowedWithLoginIfDeniedPerConfiguration() {
+	/**
+	 * @test
+	 */
+	public function accessToSingleViewIsAllowedWithLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
 		tx_oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
@@ -318,7 +345,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	// Testing the single view
 	////////////////////////////
 
-	public function testSingleViewIsDisplayedForValidRealtyObjectAndAccessAllowed() {
+	/**
+	 * @test
+	 */
+	public function singleViewIsDisplayedForValidRealtyObjectAndAccessAllowed() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
 
@@ -328,7 +358,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNoResultViewIsDisplayedForRenderingTheSingleViewOfNonExistentObject() {
+	/**
+	 * @test
+	 */
+	public function noResultViewIsDisplayedForRenderingTheSingleViewOfNonExistentObject() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -340,7 +373,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testErrorMessageIsDisplayedForRenderingTheSingleViewOfNonExistentObject() {
+	/**
+	 * @test
+	 */
+	public function errorMessageIsDisplayedForRenderingTheSingleViewOfNonExistentObject() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -352,7 +388,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testErrorMessageIsDisplayedForRenderingTheSingleViewOfHiddenObject() {
+	/**
+	 * @test
+	 */
+	public function errorMessageIsDisplayedForRenderingTheSingleViewOfHiddenObject() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('hidden' => 1)
 		);
@@ -365,7 +404,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testErrorMessageIsDisplayedForRenderingTheSingleViewOfDeletedObject() {
+	/**
+	 * @test
+	 */
+	public function errorMessageIsDisplayedForRenderingTheSingleViewOfDeletedObject() {
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('deleted' => 1)
 		);
@@ -378,7 +420,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testErrorMessageIsDisplayedForRenderingTheSingleViewOfHiddenObjectForLoggedInNonOwner() {
+	/**
+	 * @test
+	 */
+	public function errorMessageIsDisplayedForRenderingTheSingleViewOfHiddenObjectForLoggedInNonOwner() {
 		tx_oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
@@ -399,7 +444,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHeaderIsSetIfRenderingTheSingleViewLeadsToNoResultsMessage() {
+	/**
+	 * @test
+	 */
+	public function headerIsSetIfRenderingTheSingleViewLeadsToNoResultsMessage() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
 			REALTY_TABLE_OBJECTS, array('deleted' => 1)
@@ -414,10 +462,13 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 
 
 	/////////////////////////////////////////////////////////
-	// Tests concering the access to the "my objects" list.
+	// Tests concerning the access to the "my objects" list.
 	/////////////////////////////////////////////////////////
 
-	public function testAccessToMyObjectsViewIsForbiddenForNotLoggedInUser() {
+	/**
+	 * @test
+	 */
+	public function accessToMyObjectsViewIsForbiddenForNotLoggedInUser() {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 
@@ -433,7 +484,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAccessToMyObjectsViewContainsRedirectUrlWithPidIfAccessDenied() {
+	/**
+	 * @test
+	 */
+	public function accessToMyObjectsViewContainsRedirectUrlWithPidIfAccessDenied() {
 		$myObjectsPid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createFakeFrontEnd($myObjectsPid);
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
@@ -451,7 +505,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHeaderIsSentWhenTheMyObjectsViewShowsPleaseLoginMessage() {
+	/**
+	 * @test
+	 */
+	public function headerIsSentWhenTheMyObjectsViewShowsPleaseLoginMessage() {
 		$this->fixture->setConfigurationValue('what_to_display', 'my_objects');
 		$this->fixture->setConfigurationValue('loginPID', $this->loginPid);
 
@@ -471,7 +528,10 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	// Testing the offerer list
 	/////////////////////////////
 
-	public function testOffererListIsDisplayedIfWhatToDisplayIsOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListIsDisplayedIfWhatToDisplayIsOffererList() {
 		$groupId = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($groupId);
 

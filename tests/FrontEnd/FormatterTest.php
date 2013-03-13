@@ -83,7 +83,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	// Tests for the constructor
 	//////////////////////////////
 
-	public function testConstructAnExceptionIfCalledWithAZeroRealtyObjectUid() {
+	/**
+	 * @test
+	 */
+	public function constructAnExceptionIfCalledWithAZeroRealtyObjectUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$realtyObjectUid must be greater than zero.'
@@ -94,7 +97,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testConstructThrowsAnExceptionIfCalledWithAUidOfADeletedRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function constructThrowsAnExceptionIfCalledWithAUidOfADeletedRealtyObject() {
 		$this->realtyObject->markAsDead();
 
 		$this->setExpectedException(
@@ -113,7 +119,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	// Tests for getting formatted properties
 	///////////////////////////////////////////
 
-	public function testGetPropertyThrowsExceptionForEmptyKey() {
+	/**
+	 * @test
+	 */
+	public function getPropertyThrowsExceptionForEmptyKey() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -122,7 +131,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		$this->fixture->getProperty('');
 	}
 
-	public function testGetPropertyReturnsTheLabelOfAValidState() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsTheLabelOfAValidState() {
 		$this->realtyObject->setProperty('state', 8);
 
 		$this->assertEquals(
@@ -131,14 +143,20 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsAnEmptyStringIfTheStateIsNotSet() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsAnEmptyStringIfTheStateIsNotSet() {
 		$this->assertEquals(
 			'',
 			$this->fixture->getProperty('state')
 		);
 	}
 
-	public function testGetPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForState() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForState() {
 		$this->realtyObject->setProperty('state', 1000000);
 
 		$this->assertEquals(
@@ -147,7 +165,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsTheLabelOfAValidHeatingType() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsTheLabelOfAValidHeatingType() {
 		$this->realtyObject->setProperty('heating_type', '1');
 
 		$this->assertEquals(
@@ -156,7 +177,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsTheLabelsOfAListOfValidHeatingTypes() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsTheLabelsOfAListOfValidHeatingTypes() {
 		$this->realtyObject->setProperty('heating_type', '1,3,4');
 
 		$this->assertEquals(
@@ -167,14 +191,20 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsAnEmptyStringIfTheHeatingTypeIsNotSet() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsAnEmptyStringIfTheHeatingTypeIsNotSet() {
 		$this->assertEquals(
 			'',
 			$this->fixture->getProperty('heating_type')
 		);
 	}
 
-	public function testGetPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForHeatingType() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForHeatingType() {
 		$this->realtyObject->setProperty('heating_type', 10000);
 
 		$this->assertEquals(
@@ -183,7 +213,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsEmptyStringForCountrySameAsDefaultCountry() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsEmptyStringForCountrySameAsDefaultCountry() {
 		$this->realtyObject->setProperty('country', self::DE);
 
 		$this->assertEquals(
@@ -192,7 +225,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsTheCountryNameForCountryDifferentFromDefaultCountry() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsTheCountryNameForCountryDifferentFromDefaultCountry() {
 		// randomly chosen the country UID of Australia
 		$this->realtyObject->setProperty('country', 14);
 
@@ -202,7 +238,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsTitleOfCity() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsTitleOfCity() {
 		$this->realtyObject->setProperty(
 				'city',
 				$this->testingFramework->createRecord(
@@ -216,7 +255,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsHtmlSpecialcharedTitleOfCity() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsHtmlSpecialcharedTitleOfCity() {
 		$this->realtyObject->setProperty(
 				'city',
 				$this->testingFramework->createRecord(
@@ -280,14 +322,20 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsEmptyStringForUsableFromIfNoValueIsSet() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsEmptyStringForUsableFromIfNoValueIsSet() {
 		$this->assertEquals(
 			'',
 			$this->fixture->getProperty('usable_from')
 		);
 	}
 
-	public function testGetPropertyReturnsValueOfUsableFrom() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsValueOfUsableFrom() {
 		$this->realtyObject->setProperty('usable_from', '1.1.');
 
 		$this->assertEquals(
@@ -296,7 +344,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsHtmlspecialcharedValueOfUsableFrom() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsHtmlspecialcharedValueOfUsableFrom() {
 		$this->realtyObject->setProperty('usable_from', '1.<br/>1.');
 
 		$this->assertEquals(
@@ -305,7 +356,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsNonZeroValueOfFloor() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsNonZeroValueOfFloor() {
 		$this->realtyObject->setProperty('floor', 3);
 
 		$this->assertEquals(
@@ -314,7 +368,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsEmptyStringForZeroValueOfFloor() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsEmptyStringForZeroValueOfFloor() {
 		$this->realtyObject->setProperty('floor', 0);
 
 		$this->assertEquals(
@@ -379,7 +436,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPropertyReturnsAddress() {
+	/**
+	 * @test
+	 */
+	public function getPropertyReturnsAddress() {
 		$this->realtyObject->setProperty('show_address', 1);
 		$this->realtyObject->setProperty('street', 'Main Street');
 		$this->realtyObject->setProperty('zip', '12345');

@@ -111,21 +111,30 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing the configuration for the user groups to display
 	/////////////////////////////////////////////////////////////
 
-	public function testOffererListDisplaysOffererWhoIsOnlyInTheConfiguredGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysOffererWhoIsOnlyInTheConfiguredGroup() {
 		$this->assertContains(
 			self::FE_USER_NAME,
 			$this->fixture->render()
 		);
 	}
 
-	public function testOffererListDisplaysNoUnreplacedMarkers() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysNoUnreplacedMarkers() {
 		$this->assertNotContains(
 			'###',
 			$this->fixture->render()
 		);
 	}
 
-	public function testOffererListNotDisplaysDeletedOffererAlthoughHeIsInTheConfiguredGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListNotDisplaysDeletedOffererAlthoughHeIsInTheConfiguredGroup() {
 		$this->testingFramework->changeRecord(
 			'fe_users',
 			$this->offererUid,
@@ -138,7 +147,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysOffererWhoIsInTwoGroupsWithTheConfiguredGroupFirst() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysOffererWhoIsInTwoGroupsWithTheConfiguredGroupFirst() {
 		$otherGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->changeRecord(
 			'fe_users',
@@ -152,7 +164,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysOffererWhoIsInThreeGroupsWithTheConfiguredGroupSecond() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysOffererWhoIsInThreeGroupsWithTheConfiguredGroupSecond() {
 		$firstGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$thirdGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->changeRecord(
@@ -168,7 +183,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysOffererWhoIsInThreeGroupsWithTheConfiguredGroupLast() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysOffererWhoIsInThreeGroupsWithTheConfiguredGroupLast() {
 		$firstGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$secondGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->changeRecord(
@@ -184,7 +202,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysTwoOfferersWhoAreInTheSameConfiguredGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysTwoOfferersWhoAreInTheSameConfiguredGroup() {
 		$this->testingFramework->createFrontEndUser(
 			$this->feUserGroupUid, array('username' => 'other user')
 		);
@@ -200,7 +221,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysTwoOfferersWhoAreInDifferentConfiguredGroups() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysTwoOfferersWhoAreInDifferentConfiguredGroups() {
 		$secondFeUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->fixture->setConfigurationValue(
 			'userGroupsForOffererList',
@@ -221,7 +245,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysFeUserRecordIfNoUserGroupRestrictionIsConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysFeUserRecordIfNoUserGroupRestrictionIsConfigured() {
 		$this->fixture->setConfigurationValue('userGroupsForOffererList', '');
 		$this->testingFramework->createFrontEndUser(
 			'', array('username' => 'other user')
@@ -238,7 +265,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererDisplaysGrouplessFeUserRecordIfNoUserGroupRestrictionIsConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererDisplaysGrouplessFeUserRecordIfNoUserGroupRestrictionIsConfigured() {
 		// This test is to document that there is no crash if there is such a
 		// record in the database.
 		$this->fixture->setConfigurationValue('userGroupsForOffererList', '');
@@ -252,7 +282,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysTwoOfferersWhoAreInDifferentConfiguredGroupsOrderedByGroupUid() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysTwoOfferersWhoAreInDifferentConfiguredGroupsOrderedByGroupUid() {
 		$secondFeUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->fixture->setConfigurationValue(
 			'userGroupsForOffererList',
@@ -269,7 +302,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListNotDisplaysOffererWhoIsOnlyInANonConfiguredGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListNotDisplaysOffererWhoIsOnlyInANonConfiguredGroup() {
 		$this->testingFramework->createFrontEndUser(
 			'', array('username' => 'other user')
 		);
@@ -280,7 +316,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListDisplaysNoResultViewForNoOffererInTheConfiguredGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListDisplaysNoResultViewForNoOffererInTheConfiguredGroup() {
 		$this->fixture->setConfigurationValue(
 			'userGroupsForOffererList',
 			$this->testingFramework->createFrontEndUserGroup()
@@ -297,14 +336,20 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing the offerer label
 	//////////////////////////////
 
-	public function testOffererListItemContainsTestUserName() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTestUserName() {
 		$this->assertContains(
 			self::FE_USER_NAME,
 			$this->fixture->render()
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersName() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersName() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('name' => 'Mr. Test')
 		);
@@ -315,7 +360,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheUserNameIfTheOffererNameIsSet() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheUserNameIfTheOffererNameIsSet() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('name' => 'Mr. Test')
 		);
@@ -326,7 +374,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersLastNameIfNoFirstNameIsSet() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersLastNameIfNoFirstNameIsSet() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('last_name' => 'User')
 		);
@@ -337,7 +388,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersLastNameWithLeadingCommaIfNoCompanyIsSet() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersLastNameWithLeadingCommaIfNoCompanyIsSet() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('last_name' => 'User')
 		);
@@ -348,7 +402,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersFirstAndLastName() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersFirstAndLastName() {
 		$this->testingFramework->changeRecord(
 			'fe_users',
 			$this->offererUid,
@@ -361,7 +418,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheUserNameIfLastNameIsSet() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheUserNameIfLastNameIsSet() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('last_name' => 'User')
 		);
@@ -377,14 +437,20 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing the displayed user groups
 	//////////////////////////////////////
 
-	public function testOffererListItemContainsTheOfferersFirstUserGroupNameForOffererWithOneUserGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersFirstUserGroupNameForOffererWithOneUserGroup() {
 		$this->assertContains(
 			self::FE_USER_GROUP_NAME,
 			$this->fixture->render()
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersFirstUserGroupNameForTheOfferersFirstGroupMatchingConfiguration() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersFirstUserGroupNameForTheOfferersFirstGroupMatchingConfiguration() {
 		$otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
 			array('title' => 'other group')
 		);
@@ -400,7 +466,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersSecondUserGroupNameForTheOfferersSecondGroupMatchingConfiguration() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersSecondUserGroupNameForTheOfferersSecondGroupMatchingConfiguration() {
 		$otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
 			array('title' => 'other group')
 		);
@@ -416,7 +485,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersFirstUserGroupNameForTheOfferersSecondGroupMatchingConfiguration() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersFirstUserGroupNameForTheOfferersSecondGroupMatchingConfiguration() {
 		$otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
 			array('title' => 'other group')
 		);
@@ -432,7 +504,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsNoBranchesIfTheOfferersFirstUserGroupIsNameless() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsNoBranchesIfTheOfferersFirstUserGroupIsNameless() {
 		$this->testingFramework->changeRecord(
 			'fe_groups', $this->feUserGroupUid, array('title' => '')
 		);
@@ -443,7 +518,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersFirstUserGroupNameWhenACompanyIsSetButHiddenByConfiguration() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersFirstUserGroupNameWhenACompanyIsSetButHiddenByConfiguration() {
 		$otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
 			array('title' => 'other group')
 		);
@@ -460,7 +538,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsOfferersFirstUserGroupBeforeTitleIfWhatToDisplayIsSingleView() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsOfferersFirstUserGroupBeforeTitleIfWhatToDisplayIsSingleView() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 
 		$result = $this->fixture->render();
@@ -470,7 +551,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsOfferersFirstUserGroupAfterTitleIfWhatToDisplayIsOffererList() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsOfferersFirstUserGroupAfterTitleIfWhatToDisplayIsOffererList() {
 		$result = $this->fixture->render();
 		$this->assertGreaterThan(
 			strpos($result, self::FE_USER_NAME),
@@ -483,7 +567,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing conditionally displayed information for normal offerers
 	////////////////////////////////////////////////////////////////////
 
-	public function testOffererListItemNotContainsTheOfferersUserNameIfTheConfigurationIsEmpty() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersUserNameIfTheConfigurationIsEmpty() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 
 		$this->assertNotContains(
@@ -492,7 +579,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersUserGroupIfConfiguredButNeitherNameNorCompanyEnabled() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersUserGroupIfConfiguredButNeitherNameNorCompanyEnabled() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'usergroup'
 		);
@@ -503,7 +593,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersUserGroupIfUserGroupAndNameAreEnabledByConfiguration() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersUserGroupIfUserGroupAndNameAreEnabledByConfiguration() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'usergroup,offerer_label'
 		);
@@ -514,7 +607,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersUserGroupIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersUserGroupIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 
 		$this->assertNotContains(
@@ -523,7 +619,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersCompanyIfConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersCompanyIfConfigured() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'company'
 		);
@@ -537,7 +636,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersCompanyIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersCompanyIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('company' => 'Test Company')
@@ -549,7 +651,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsCompanyWithClassEmphasizedForEnabledCompany() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsCompanyWithClassEmphasizedForEnabledCompany() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'company'
 		);
@@ -563,7 +668,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersLabelIfConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersLabelIfConfigured() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'offerer_label'
 		);
@@ -574,7 +682,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersLabelIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersLabelIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 
 		$this->assertNotContains(
@@ -583,7 +694,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsOffererTitleWithoutClassEmphasizedForEnabledCompany() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsOffererTitleWithoutClassEmphasizedForEnabledCompany() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'company,offerer_label'
 		);
@@ -597,7 +711,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsFirstUserGroupWithoutClassEmphasizedForEnabledCompany() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsFirstUserGroupWithoutClassEmphasizedForEnabledCompany() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'company,offerer_label,usergroup'
 		);
@@ -611,7 +728,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsOffererTitleWithClassEmphasizedForDisabledCompany() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsOffererTitleWithClassEmphasizedForDisabledCompany() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'offerer_label'
 		);
@@ -625,7 +745,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersStreetIfConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersStreetIfConfigured() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'street'
 		);
@@ -639,7 +762,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersStreetIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersStreetIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('address' => 'Main Street')
@@ -651,7 +777,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersCityAndZipIfConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersCityAndZipIfConfigured() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'city'
 		);
@@ -666,7 +795,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersCityIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersCityIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('city' => 'City Title')
@@ -678,7 +810,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsCityWrapperContentIfCityNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsCityWrapperContentIfCityNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid,
@@ -691,7 +826,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsCityWrapperContentIfCityIsConfiguredButEmpty() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsCityWrapperContentIfCityIsConfiguredButEmpty() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'offerer_label,city'
 		);
@@ -702,7 +840,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersPhoneNumberIfConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersPhoneNumberIfConfigured() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'telephone'
 		);
@@ -716,7 +857,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersPhoneNumberIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersPhoneNumberIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('telephone' => '1234-56789')
@@ -728,7 +872,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsHtmlSpecialCharedPhoneNumber() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsHtmlSpecialCharedPhoneNumber() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'telephone'
 		);
@@ -742,7 +889,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersEmailIfConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersEmailIfConfigured() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'email'
 		);
@@ -756,7 +906,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersEmailIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersEmailIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('email' => 'offerer@company.org')
@@ -768,7 +921,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersLinkedWebsiteIfConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersLinkedWebsiteIfConfigured() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'www'
 		);
@@ -782,7 +938,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemContainsTheOfferersLinkedWebsiteWithEscapedAmpersand() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheOfferersLinkedWebsiteWithEscapedAmpersand() {
 		$this->fixture->setConfigurationValue(
 			'displayedContactInformation', 'www'
 		);
@@ -796,7 +955,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersWebsiteIfNotConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersWebsiteIfNotConfigured() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('www' => 'http://www.company.org')
@@ -813,7 +975,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing the configuration to display special contact data for some groups
 	//////////////////////////////////////////////////////////////////////////////
 
-	public function testOffererListItemContainsTheSpecialOfferersPhoneNumberIfConfiguredAndOffererIsInSpecialGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsTheSpecialOfferersPhoneNumberIfConfiguredAndOffererIsInSpecialGroup() {
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
 		$this->fixture->setConfigurationValue('displayedContactInformationSpecial', 'telephone');
 		$this->fixture->setConfigurationValue('groupsWithSpeciallyDisplayedContactInformation', $this->feUserGroupUid);
@@ -827,7 +992,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheOfferersPhoneNumberIfConfiguredForSpecialOfferersAndOffererIsNormal() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheOfferersPhoneNumberIfConfiguredForSpecialOfferersAndOffererIsNormal() {
 		$this->fixture->setConfigurationValue('displayedContactInformationSpecial', 'telephone');
 
 		$this->testingFramework->changeRecord(
@@ -840,7 +1008,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOffererListItemNotContainsTheSpecialOfferersPhoneNumberIfNotConfiguredAndOffererIsInSpecialGroup() {
+	/**
+	 * @test
+	 */
+	public function offererListItemNotContainsTheSpecialOfferersPhoneNumberIfNotConfiguredAndOffererIsInSpecialGroup() {
 		$this->fixture->setConfigurationValue('displayedContactInformationSpecial', '');
 		$this->fixture->setConfigurationValue('groupsWithSpeciallyDisplayedContactInformation', $this->feUserGroupUid);
 		$this->testingFramework->changeRecord(
@@ -858,7 +1029,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing the link to the "objects by offerer" list
 	//////////////////////////////////////////////////////
 
-	public function testOffererListItemContainsLinkToTheObjectsByOffererListIfPageConfigured() {
+	/**
+	 * @test
+	 */
+	public function offererListItemContainsLinkToTheObjectsByOffererListIfPageConfigured() {
 		$this->fixture->setConfigurationValue(
 			'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -991,7 +1165,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing to get only one list item by UID
 	/////////////////////////////////////////////
 
-	public function testRenderOneItemReturnsHtmlForTheOffererWithTheProvidedUid() {
+	/**
+	 * @test
+	 */
+	public function renderOneItemReturnsHtmlForTheOffererWithTheProvidedUid() {
 		$this->assertContains(
 			self::FE_USER_NAME,
 			$this->fixture->renderOneItem($this->offererUid)
@@ -1017,35 +1194,50 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Testing to get only one list item with a data array provided
 	/////////////////////////////////////////////////////////////////
 
-	public function testRenderOneItemWithTheDataProvidedReturnsHtmlForTheListItemForValidData() {
+	/**
+	 * @test
+	 */
+	public function renderOneItemWithTheDataProvidedReturnsHtmlForTheListItemForValidData() {
 		$this->assertContains(
 			'test offerer',
 			$this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
 		);
 	}
 
-	public function testRenderOneItemWithTheDataProvidedReturnsAnEmptyStringForEmptyData() {
+	/**
+	 * @test
+	 */
+	public function renderOneItemWithTheDataProvidedReturnsAnEmptyStringForEmptyData() {
 		$this->assertEquals(
 			'',
 			$this->fixture->renderOneItemWithTheDataProvided(array())
 		);
 	}
 
-	public function testRenderOneItemWithTheDataProvidedReturnsAnEmptyStringForInvalidData() {
+	/**
+	 * @test
+	 */
+	public function renderOneItemWithTheDataProvidedReturnsAnEmptyStringForInvalidData() {
 		$this->assertEquals(
 			'',
 			$this->fixture->renderOneItemWithTheDataProvided(array('foo' => 'bar'))
 		);
 	}
 
-	public function testRenderOneItemWithTheDataProvidedReturnsHtmlWithoutTheLinkToTheObjectsByOwnerList() {
+	/**
+	 * @test
+	 */
+	public function renderOneItemWithTheDataProvidedReturnsHtmlWithoutTheLinkToTheObjectsByOwnerList() {
 		$this->assertNotContains(
 			'class="button objectsByOwner"',
 			$this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
 		);
 	}
 
-	public function testRenderOneItemWithTheDataProvidedForUsergroupProvidedThrowsException() {
+	/**
+	 * @test
+	 */
+	public function renderOneItemWithTheDataProvidedForUsergroupProvidedThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'To process user group information you need to use render() or renderOneItem().'
@@ -1060,7 +1252,10 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	// Tests concerning the sorting of the offerer list
 	/////////////////////////////////////////////////////
 
-	public function testOffererListIsSortedByCity() {
+	/**
+	 * @test
+	 */
+	public function offererListIsSortedByCity() {
 		$this->testingFramework->changeRecord(
 			'fe_users', $this->offererUid, array('city' => 'City A')
 		);

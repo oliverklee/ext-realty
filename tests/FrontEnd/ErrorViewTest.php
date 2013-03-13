@@ -59,14 +59,20 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 		unset($this->fixture, $this->testingFramework);
 	}
 
-	public function testRenderReturnsTranslatedMessage() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTranslatedMessage() {
 		$this->assertContains(
 			$this->fixture->translate('message_access_denied'),
 			$this->fixture->render(array('message_access_denied'))
 		);
 	}
 
-	public function testRenderReturnsLinkedPleaseLoginMessage() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsLinkedPleaseLoginMessage() {
 		$this->fixture->setConfigurationValue(
 			'loginPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -77,7 +83,10 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsPleaseLoginMessageWithLoginPidWithinTheLink() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsPleaseLoginMessageWithLoginPidWithinTheLink() {
 		$loginPid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('loginPID', $loginPid);
 
@@ -87,7 +96,10 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsPleaseLoginMessageWithRedirectUrl() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsPleaseLoginMessageWithRedirectUrl() {
 		$this->fixture->setConfigurationValue(
 			'loginPID', $this->testingFramework->createFrontEndPage()
 		);
@@ -98,14 +110,20 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsWrappingErrorViewSubpart() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsWrappingErrorViewSubpart() {
 		$this->assertContains(
 			'class="error"',
 			$this->fixture->render(array('message_access_denied'))
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkers() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkers() {
 		$this->assertNotContains(
 			'###',
 			$this->fixture->render(array('message_access_denied'))

@@ -63,7 +63,10 @@ class tx_realty_FrontEnd_HeadingViewTest extends tx_phpunit_testcase {
 	// Testing the heading view
 	/////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
@@ -73,7 +76,10 @@ class tx_realty_FrontEnd_HeadingViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
@@ -91,7 +97,10 @@ class tx_realty_FrontEnd_HeadingViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsTitleForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsTitleForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
@@ -101,7 +110,10 @@ class tx_realty_FrontEnd_HeadingViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsTitleHtmlspecialcharedForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test</br>title'));
 
@@ -111,7 +123,10 @@ class tx_realty_FrontEnd_HeadingViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForEmptyTitleOfValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForEmptyTitleOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => ''));
 

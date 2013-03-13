@@ -51,14 +51,20 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		unset($this->fixture, $this->testingFramework);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsTheOriginalFileNameIfNoFileWithThisNameExists() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsTheOriginalFileNameIfNoFileWithThisNameExists() {
 		$this->assertEquals(
 			'test.txt',
 			$this->fixture->getUniqueFileNameAndMapIt('test.txt')
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWith00SuffixIfAFileWithTheOriginalNameIsAlreadyMapped() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWith00SuffixIfAFileWithTheOriginalNameIsAlreadyMapped() {
 		$this->fixture->getUniqueFileNameAndMapIt('test.txt');
 
 		$this->assertEquals(
@@ -67,7 +73,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWhichBeginsWithNumbersWith00SuffixIfAFileWithTheOriginalNameIsAlreadyMapped() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWhichBeginsWithNumbersWith00SuffixIfAFileWithTheOriginalNameIsAlreadyMapped() {
 		$this->fixture->getUniqueFileNameAndMapIt('1234-test.txt');
 
 		$this->assertEquals(
@@ -76,7 +85,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWhichAlreadyHas99SuffixWith100SuffixIfAFileWithTheOriginalNameIsAlreadyMapped() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWhichAlreadyHas99SuffixWith100SuffixIfAFileWithTheOriginalNameIsAlreadyMapped() {
 		$this->fixture->getUniqueFileNameAndMapIt('test_99.txt');
 
 		$this->assertEquals(
@@ -85,14 +97,20 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfNoFileWithThisNameExists() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfNoFileWithThisNameExists() {
 		$this->assertEquals(
 			'test_foo.txt',
 			$this->fixture->getUniqueFileNameAndMapIt('test,foo.txt')
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfAFileWithTheOriginalNameIsAlreadyMapped() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWithTheSpecialCharactersRemovedIfAFileWithTheOriginalNameIsAlreadyMapped() {
 		$this->fixture->getUniqueFileNameAndMapIt('test,foo.txt');
 
 		$this->assertEquals(
@@ -101,7 +119,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyMapped() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyMapped() {
 		$this->fixture->getUniqueFileNameAndMapIt('test.txt');
 		$this->fixture->getUniqueFileNameAndMapIt('test_00.txt');
 
@@ -111,7 +132,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWith00SuffixIfAFileWithTheOriginalNameIsAlreadyStored() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWith00SuffixIfAFileWithTheOriginalNameIsAlreadyStored() {
 		$this->testingFramework->createDummyFile('test.txt');
 
 		$this->assertEquals(
@@ -120,7 +144,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyStored() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfAFileWithTheOriginalNameAndOneWithThe00SuffixAreAlreadyStored() {
 		$this->testingFramework->createDummyFile('test.txt');
 		$this->testingFramework->createDummyFile('test_00.txt');
 
@@ -130,7 +157,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUniqueFileNameAndMapItReturnsNameWith01SuffixIfTheOriginalFileNameExistsAndTheNameWithA00SuffixIsAlreadyMapped() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileNameAndMapItReturnsNameWith01SuffixIfTheOriginalFileNameExistsAndTheNameWithA00SuffixIsAlreadyMapped() {
 		$this->testingFramework->createDummyFile('test.txt');
 		$this->fixture->getUniqueFileNameAndMapIt('test_00.txt');
 
@@ -140,7 +170,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReleaseMappedFileNamesReturnsTheOriginalNameAsMappedFileNameInAnArrayIfNoFileWithThisFilenameExists() {
+	/**
+	 * @test
+	 */
+	public function releaseMappedFileNamesReturnsTheOriginalNameAsMappedFileNameInAnArrayIfNoFileWithThisFilenameExists() {
 		$this->fixture->getUniqueFileNameAndMapIt('test.txt');
 
 		$this->assertEquals(
@@ -149,7 +182,10 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReleaseMappedFileNamesReturnsTheUniqueMappedFileNameInAnArrayIfOneOriginalFileHasBeenMappedTwice() {
+	/**
+	 * @test
+	 */
+	public function releaseMappedFileNamesReturnsTheUniqueMappedFileNameInAnArrayIfOneOriginalFileHasBeenMappedTwice() {
 		$this->fixture->getUniqueFileNameAndMapIt('test.txt');
 		$this->fixture->getUniqueFileNameAndMapIt('test.txt');
 
@@ -159,14 +195,20 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReleaseMappedFileNamesReturnsAnEmptyArrayIfNoFileWithThisFilenameHasBeenMapped() {
+	/**
+	 * @test
+	 */
+	public function releaseMappedFileNamesReturnsAnEmptyArrayIfNoFileWithThisFilenameHasBeenMapped() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->releaseMappedFileNames('test.txt')
 		);
 	}
 
-	public function testReleaseMappedFileNamesReturnsAnEmptyArrayIfAMappedFileHasBeenFetchedBefore() {
+	/**
+	 * @test
+	 */
+	public function releaseMappedFileNamesReturnsAnEmptyArrayIfAMappedFileHasBeenFetchedBefore() {
 		$this->fixture->getUniqueFileNameAndMapIt('test.txt');
 		$this->fixture->releaseMappedFileNames('test.txt');
 

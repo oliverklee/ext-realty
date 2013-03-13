@@ -63,21 +63,30 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcas
 	// Testing the basic functionality
 	////////////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForZeroShowUidAndNoFavoritesPidConfigured() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForZeroShowUidAndNoFavoritesPidConfigured() {
 		$this->assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}
 
-	public function testRenderReturnsButtonAddToFavorites() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsButtonAddToFavorites() {
 		$this->assertContains(
 			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => 0))
 		);
 	}
 
-	public function testRenderReturnsProvidedShowUidOfRealtyRecordAsFormValue() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsProvidedShowUidOfRealtyRecordAsFormValue() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 
@@ -87,7 +96,10 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcas
 		);
 	}
 
-	public function testRenderReturnsConfiguredFavoritesPidAsLinkTarget() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsConfiguredFavoritesPidAsLinkTarget() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('favoritesPID', $pageUid);
 
@@ -97,7 +109,10 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcas
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$this->assertNotContains(
 			'###',
 			$this->fixture->render(array('showUid' => 0))

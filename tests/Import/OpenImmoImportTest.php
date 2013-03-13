@@ -243,7 +243,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// Tests concerning the ZIP extraction.
 	/////////////////////////////////////////
 
-	public function testGetPathsOfZipsToExtract() {
+	/**
+	 * @test
+	 */
+	public function getPathsOfZipsToExtract() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->copyTestFileIntoImportFolder('bar.zip');
 
@@ -255,7 +258,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForExtractionFolder() {
+	/**
+	 * @test
+	 */
+	public function getNameForExtractionFolder() {
 		$this->copyTestFileIntoImportFolder('bar.zip');
 
 		$this->assertEquals(
@@ -264,21 +270,30 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnifyPathDoesNotChangeCorrectPath() {
+	/**
+	 * @test
+	 */
+	public function unifyPathDoesNotChangeCorrectPath() {
 		$this->assertEquals(
 			'correct/path/',
 			$this->fixture->unifyPath('correct/path/')
 		);
 	}
 
-	public function testUnifyPathTrimsAndAddsNecessarySlash() {
+	/**
+	 * @test
+	 */
+	public function unifyPathTrimsAndAddsNecessarySlash() {
 		$this->assertEquals(
 			'incorrect/path/',
 			$this->fixture->unifyPath('incorrect/path')
 		);
 	}
 
-	public function testCreateExtractionFolderForExistingZip() {
+	/**
+	 * @test
+	 */
+	public function createExtractionFolderForExistingZip() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$dirName = $this->fixture->createExtractionFolder(
 			$this->importFolder . 'foo.zip'
@@ -293,7 +308,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateExtractionFolderForNonExistingZip() {
+	/**
+	 * @test
+	 */
+	public function createExtractionFolderForNonExistingZip() {
 		$this->copyTestFileIntoImportFolder('');
 		$dirName = $this->fixture->createExtractionFolder(
 			$this->importFolder . 'foobar.zip'
@@ -308,7 +326,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExtractZipIfOneZipToExtractExists() {
+	/**
+	 * @test
+	 */
+	public function extractZipIfOneZipToExtractExists() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -319,7 +340,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExtractZipIfZipDoesNotExist() {
+	/**
+	 * @test
+	 */
+	public function extractZipIfZipDoesNotExist() {
 		$this->copyTestFileIntoImportFolder('');
 		$this->fixture->extractZip($this->importFolder . 'foobar.zip');
 
@@ -328,7 +352,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPathForXmlIfFolderWithOneXmlExists() {
+	/**
+	 * @test
+	 */
+	public function getPathForXmlIfFolderWithOneXmlExists() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -340,7 +367,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPathForXmlIfFolderNotExists() {
+	/**
+	 * @test
+	 */
+	public function getPathForXmlIfFolderNotExists() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 
 		$this->assertEquals(
@@ -349,7 +379,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPathForXmlIfFolderWithTwoXmlExists() {
+	/**
+	 * @test
+	 */
+	public function getPathForXmlIfFolderWithTwoXmlExists() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('bar-bar.zip');
@@ -361,7 +394,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPathForXmlIfFolderWithoutXmlExists() {
+	/**
+	 * @test
+	 */
+	public function getPathForXmlIfFolderWithoutXmlExists() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('empty.zip');
@@ -494,7 +530,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// Tests concerning cleanUp().
 	////////////////////////////////
 
-	public function testCleanUpRemovesAFolderCreatedByTheImporter() {
+	/**
+	 * @test
+	 */
+	public function cleanUpRemovesAFolderCreatedByTheImporter() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->createExtractionFolder($this->importFolder . 'foo.zip');
 		$this->fixture->cleanUp($this->importFolder);
@@ -504,7 +543,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveAForeignFolderAlthoughItIsNamedLikeAZipToImport() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemoveAForeignFolderAlthoughItIsNamedLikeAZipToImport() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		t3lib_div::mkdir($this->importFolder . 'foo/');
 		$this->fixture->cleanUp($this->importFolder);
@@ -514,7 +556,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveZipThatIsNotMarkedAsDeletable() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemoveZipThatIsNotMarkedAsDeletable() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->cleanUp($this->importFolder . 'foo.zip');
 
@@ -523,7 +568,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpRemovesCreatedFolderAlthoughTheExtractedArchiveContainsAFolder() {
+	/**
+	 * @test
+	 */
+	public function cleanUpRemovesCreatedFolderAlthoughTheExtractedArchiveContainsAFolder() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('contains-folder.zip');
@@ -534,7 +582,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemovesZipWithOneXmlInItIfDeletingZipsIsDisabled() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemovesZipWithOneXmlInItIfDeletingZipsIsDisabled() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -548,7 +599,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpRemovesZipWithOneXmlInItIfDeletingZipsIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function cleanUpRemovesZipWithOneXmlInItIfDeletingZipsIsEnabled() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -562,7 +616,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveZipWithoutXmls() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemoveZipWithoutXmls() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('empty.zip');
@@ -573,7 +630,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveZipWithTwoXmls() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemoveZipWithTwoXmls() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('bar-bar.zip');
@@ -584,7 +644,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpRemovesZipFileInASubFolderOfTheImportFolder() {
+	/**
+	 * @test
+	 */
+	public function cleanUpRemovesZipFileInASubFolderOfTheImportFolder() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -606,7 +669,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveZipOfUnregisteredOwnerIfOwnerRestrictionIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemoveZipOfUnregisteredOwnerIfOwnerRestrictionIsEnabled() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -622,7 +688,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpRemovesZipOfRegisteredOwnerIfOwnerRestrictionIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function cleanUpRemovesZipOfRegisteredOwnerIfOwnerRestrictionIsEnabled() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -642,7 +711,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveZipIfOwnerWhichHasReachedObjectLimitDuringImport() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemoveZipIfOwnerWhichHasReachedObjectLimitDuringImport() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -674,7 +746,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDoesNotRemoveIfZipOwnerWhichHasNoObjectsLeftToEnter() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDoesNotRemoveIfZipOwnerWhichHasNoObjectsLeftToEnter() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -710,10 +785,13 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 
 	////////////////////////////////////////////////////////
-	// Tests concering loading and importing the XML file.
+	// Tests concerning loading and importing the XML file.
 	////////////////////////////////////////////////////////
 
-	public function testLoadXmlFileIfFolderWithOneXmlExists() {
+	/**
+	 * @test
+	 */
+	public function loadXmlFileIfFolderWithOneXmlExists() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -726,7 +804,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadXmlFileIfXmlIsValid() {
+	/**
+	 * @test
+	 */
+	public function loadXmlFileIfXmlIsValid() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -739,7 +820,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadXmlFileIfXmlIsInvalid() {
+	/**
+	 * @test
+	 */
+	public function loadXmlFileIfXmlIsInvalid() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('bar.zip');
@@ -752,7 +836,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportARecordAndImportItAgainAfterContentsHaveChanged() {
+	/**
+	 * @test
+	 */
+	public function importARecordAndImportItAgainAfterContentsHaveChanged() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -780,7 +867,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
+	/**
+	 * @test
+	 */
+	public function importFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -797,7 +887,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipImportsFromZipFileInASubFolderOfTheImportFolder() {
+	/**
+	 * @test
+	 */
+	public function importFromZipImportsFromZipFileInASubFolderOfTheImportFolder() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -823,7 +916,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRecordIsNotWrittenToTheDatabaseIfTheRequiredFieldsAreNotSet() {
+	/**
+	 * @test
+	 */
+	public function recordIsNotWrittenToTheDatabaseIfTheRequiredFieldsAreNotSet() {
 		$objectNumber = 'bar1234567';
 		$dummyDocument = DOMDocument::loadXML(
 			'<openimmo>'
@@ -857,7 +953,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRecordIsWrittenToTheDatabaseIfRequiredFieldsAreSet() {
+	/**
+	 * @test
+	 */
+	public function recordIsWrittenToTheDatabaseIfRequiredFieldsAreSet() {
 		$this->testingFramework->markTableAsDirty(
 			REALTY_TABLE_OBJECTS.','.REALTY_TABLE_HOUSE_TYPES
 		);
@@ -904,7 +1003,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistingNonHiddenRecordCanBeSetToDeletedInTheDatabase() {
+	/**
+	 * @test
+	 */
+	public function existingNonHiddenRecordCanBeSetToDeletedInTheDatabase() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
 
 		$objectNumber = 'bar1234567';
@@ -954,7 +1056,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistingHiddenRecordCanBeSetToDeletedInTheDatabase() {
+	/**
+	 * @test
+	 */
+	public function existingHiddenRecordCanBeSetToDeletedInTheDatabase() {
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
 
 		$objectNumber = 'bar1234567';
@@ -1008,7 +1113,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEnsureContactEmailNotChangesAddressIfValidAddressIsSet() {
+	/**
+	 * @test
+	 */
+	public function ensureContactEmailNotChangesAddressIfValidAddressIsSet() {
 		$this->fixture->loadRealtyObject(
 			array('contact_email' => 'foo-valid@email-address.org')
 		);
@@ -1020,7 +1128,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEnsureContactEmailSetsDefaultAddressIfEmptyAddressSet() {
+	/**
+	 * @test
+	 */
+	public function ensureContactEmailSetsDefaultAddressIfEmptyAddressSet() {
 		$this->globalConfiguration->setAsString(
 			'emailAddress',
 			'default_address@email-address.org'
@@ -1034,7 +1145,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEnsureContactEmailSetsDefaultAddressIfInvalidAddressIsSet() {
+	/**
+	 * @test
+	 */
+	public function ensureContactEmailSetsDefaultAddressIfInvalidAddressIsSet() {
 		$this->globalConfiguration->setAsString(
 			'emailAddress',
 			'default_address@email-address.org'
@@ -1048,7 +1162,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportStoresZipsWithLeadingZeroesIntoDb() {
+	/**
+	 * @test
+	 */
+	public function importStoresZipsWithLeadingZeroesIntoDb() {
 		$this->testingFramework->markTableAsDirty(
 			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
 		);
@@ -1097,7 +1214,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportStoresNumberOfRoomsWithDecimalsIntoDb() {
+	/**
+	 * @test
+	 */
+	public function importStoresNumberOfRoomsWithDecimalsIntoDb() {
 		$this->testingFramework->markTableAsDirty(
 			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
 		);
@@ -1148,7 +1268,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportUtf8FileWithCorrectUmlauts() {
+	/**
+	 * @test
+	 */
+	public function importUtf8FileWithCorrectUmlauts() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -1164,7 +1287,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportUtf8FileWithUtf8AsDefaultEncodingAndNoXmlPrologueWithCorrectUmlauts() {
+	/**
+	 * @test
+	 */
+	public function importUtf8FileWithUtf8AsDefaultEncodingAndNoXmlPrologueWithCorrectUmlauts() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -1204,7 +1330,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// Tests concerning the restricted import for registered owners.
 	//////////////////////////////////////////////////////////////////
 
-	public function testRecordWithAnidThatMatchesAnExistingFeUserIsImportedForEnabledOwnerRestriction() {
+	/**
+	 * @test
+	 */
+	public function recordWithAnidThatMatchesAnExistingFeUserIsImportedForEnabledOwnerRestriction() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -1227,7 +1356,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRecordWithAnidThatDoesNotMatchAnExistingFeUserIsNotImportedForEnabledOwnerRestriction() {
+	/**
+	 * @test
+	 */
+	public function recordWithAnidThatDoesNotMatchAnExistingFeUserIsNotImportedForEnabledOwnerRestriction() {
 		$this->checkForZipArchive();
 
 		$this->globalConfiguration->setAsBoolean(
@@ -1245,7 +1377,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRecordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction() {
+	/**
+	 * @test
+	 */
+	public function recordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -1272,7 +1407,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRecordWithAnidThatMatchesAnExistingFeUserInAForbiddenGroupIsNotImportedForEnabledOwnerAndGroupRestriction() {
+	/**
+	 * @test
+	 */
+	public function recordWithAnidThatMatchesAnExistingFeUserInAForbiddenGroupIsNotImportedForEnabledOwnerAndGroupRestriction() {
 		$this->checkForZipArchive();
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
@@ -1302,7 +1440,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// Tests concerning the object limit for users
 	////////////////////////////////////////////////
 
-	public function testWriteToDatabaseForUserWithObjectLimitReachedDoesNotImportAnyFurtherRecords() {
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseForUserWithObjectLimitReachedDoesNotImportAnyFurtherRecords() {
 		$this->testingFramework->markTableAsDirty(
 			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
 		);
@@ -1365,7 +1506,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseForUserWithObjectLimitNotReachedDoesImportRecords() {
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseForUserWithObjectLimitNotReachedDoesImportRecords() {
 		$this->testingFramework->markTableAsDirty(
 			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
 		);
@@ -1442,7 +1586,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseForUserWithoutObjectLimitDoesImportRecord() {
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseForUserWithoutObjectLimitDoesImportRecord() {
 		$this->testingFramework->markTableAsDirty(
 			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
 		);
@@ -1495,7 +1642,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testWriteToDatabaseForUserWithOneObjectLeftToLimitImportsOnlyOneRecord() {
+	/**
+	 * @test
+	 */
+	public function writeToDatabaseForUserWithOneObjectLeftToLimitImportsOnlyOneRecord() {
 		$this->testingFramework->markTableAsDirty(
 			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
 		);
@@ -1572,7 +1722,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipForUserWithObjectLimitReachedReturnsObjectLimitReachedErrorMessage() {
+	/**
+	 * @test
+	 */
+	public function importFromZipForUserWithObjectLimitReachedReturnsObjectLimitReachedErrorMessage() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -1612,7 +1765,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// Tests concerning the preparation of e-mails containing the log.
 	////////////////////////////////////////////////////////////////////
 
-	public function testPrepareEmailsReturnsEmptyArrayWhenEmptyArrayGiven() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsReturnsEmptyArrayWhenEmptyArrayGiven() {
 		$emailData = array();
 
 		$this->assertEquals(
@@ -1621,7 +1777,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsReturnsEmptyArrayWhenInvalidArrayGiven() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsReturnsEmptyArrayWhenInvalidArrayGiven() {
 		$emailData = array('invalid' => 'array');
 
 		$this->assertEquals(
@@ -1630,7 +1789,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsFillsEmptyEmailFieldWithDefaultAddressIfNotifyContactPersonsIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsFillsEmptyEmailFieldWithDefaultAddressIfNotifyContactPersonsIsEnabled() {
 		$this->globalConfiguration->setAsString(
 			'emailAddress',
 			'default_address@email-address.org'
@@ -1655,7 +1817,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsReplacesNonEmptyEmailAddressIfNotifyContactPersonsIsDisabled() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsReplacesNonEmptyEmailAddressIfNotifyContactPersonsIsDisabled() {
 		$this->globalConfiguration->setAsString(
 			'emailAddress',
 			'default_address@email-address.org'
@@ -1683,7 +1848,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsUsesLogEntryIfOnlyErrorsIsDisabled() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsUsesLogEntryIfOnlyErrorsIsDisabled() {
 		$this->globalConfiguration->setAsString(
 			'emailAddress',
 			'default_address@email-address.org'
@@ -1708,7 +1876,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsUsesLogEntryIfOnlyErrorsIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsUsesLogEntryIfOnlyErrorsIsEnabled() {
 		$this->globalConfiguration->setAsBoolean('onlyErrors', TRUE);
 		$this->globalConfiguration->setAsString(
 			'emailAddress',
@@ -1734,7 +1905,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsFillsEmptyObjectNumberFieldWithWrapper() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsFillsEmptyObjectNumberFieldWithWrapper() {
 		$emailData = array(
 			array(
 				'recipient' => 'foo',
@@ -1754,7 +1928,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsSortsMessagesForOneRecepientWhichHaveTheSameObjectNumber() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsSortsMessagesForOneRecepientWhichHaveTheSameObjectNumber() {
 		$emailData = array(
 			array(
 				'recipient' => 'foo',
@@ -1781,7 +1958,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsSortsMessagesForTwoRecepientWhichHaveTheSameObjectNumber() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsSortsMessagesForTwoRecepientWhichHaveTheSameObjectNumber() {
 		$emailData = array(
 			array(
 				'recipient' => 'foo',
@@ -1810,7 +1990,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsSnipsObjectNumbersWithNothingToReport() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsSnipsObjectNumbersWithNothingToReport() {
 		$emailData = array(
 			array(
 				'recipient' => 'foo',
@@ -1836,7 +2019,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testPrepareEmailsSnipsRecipientWhoDoesNotReceiveMessages() {
+	/**
+	 * @test
+	 */
+	public function prepareEmailsSnipsRecipientWhoDoesNotReceiveMessages() {
 		$emailData = array(
 			array(
 				'recipient' => 'foo',
@@ -1935,7 +2121,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// Tests concerning the log messages.
 	///////////////////////////////////////
 
-	public function testImportFromZipReturnsLogMessageNoSchemaFileIfTheSchemaFileWasNotSet() {
+	/**
+	 * @test
+	 */
+	public function importFromZipReturnsLogMessageNoSchemaFileIfTheSchemaFileWasNotSet() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -1948,7 +2137,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipReturnsLogMessageIncorrectSchemaFileIfTheSchemaFilePathWasIncorrect() {
+	/**
+	 * @test
+	 */
+	public function importFromZipReturnsLogMessageIncorrectSchemaFileIfTheSchemaFilePathWasIncorrect() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -1963,7 +2155,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipReturnsLogMessageMissingRequiredFields() {
+	/**
+	 * @test
+	 */
+	public function importFromZipReturnsLogMessageMissingRequiredFields() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('email.zip');
@@ -1975,7 +2170,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipReturnsLogMessageThatNoRecordWasLoadedForZipWithNonOpenImmoXml() {
+	/**
+	 * @test
+	 */
+	public function importFromZipReturnsLogMessageThatNoRecordWasLoadedForZipWithNonOpenImmoXml() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('bar.zip');
@@ -1987,7 +2185,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportFromZipReturnsMessageThatTheLogWasSentToTheDefaultAddressIfNoRecordWasLoaded() {
+	/**
+	 * @test
+	 */
+	public function importFromZipReturnsMessageThatTheLogWasSentToTheDefaultAddressIfNoRecordWasLoaded() {
 		$this->checkForZipArchive();
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -2048,7 +2249,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// Tests for setting the PID depending on the ZIP file name.
 	//////////////////////////////////////////////////////////////
 
-	public function testImportedRecordHasTheConfiguredPidByDefault() {
+	/**
+	 * @test
+	 */
+	public function importedRecordHasTheConfiguredPidByDefault() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2069,7 +2273,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportedRecordHasTheConfiguredPidIfTheFilenameHasNoMatches() {
+	/**
+	 * @test
+	 */
+	public function importedRecordHasTheConfiguredPidIfTheFilenameHasNoMatches() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2094,7 +2301,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheOnlyPattern() {
+	/**
+	 * @test
+	 */
+	public function importedRecordOverridesPidIfTheFilenameMatchesTheOnlyPattern() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2120,7 +2330,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOverridePidCanMatchTheStartOfAString() {
+	/**
+	 * @test
+	 */
+	public function overridePidCanMatchTheStartOfAString() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2146,7 +2359,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testOverridePidCanMatchTheEndOfAString() {
+	/**
+	 * @test
+	 */
+	public function overridePidCanMatchTheEndOfAString() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2172,7 +2388,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheFirstPattern() {
+	/**
+	 * @test
+	 */
+	public function importedRecordOverridesPidIfTheFilenameMatchesTheFirstPattern() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2200,7 +2419,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheLastPattern() {
+	/**
+	 * @test
+	 */
+	public function importedRecordOverridesPidIfTheFilenameMatchesTheLastPattern() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2228,7 +2450,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportedRecordOverridesPidIfTheFilenameMatchesTheMiddlePattern() {
+	/**
+	 * @test
+	 */
+	public function importedRecordOverridesPidIfTheFilenameMatchesTheMiddlePattern() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2257,7 +2482,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testImportedRecordOverridesPidStopsAtFirstMatchingPattern() {
+	/**
+	 * @test
+	 */
+	public function importedRecordOverridesPidStopsAtFirstMatchingPattern() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
@@ -2292,7 +2520,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// * Tests for the subject.
 	/////////////////////////////
 
-	public function testEmailSubjectIsSetCorrectly() {
+	/**
+	 * @test
+	 */
+	public function emailSubjectIsSetCorrectly() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2310,7 +2541,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// * Tests concerning the recipient.
 	//////////////////////////////////////
 
-	public function testEmailIsSentToContactEmailForValidContactEmailAndObjectAsContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToContactEmailForValidContactEmailAndObjectAsContactDataSource() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2323,7 +2557,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToDefaultEmailForInvalidContactEmailAndObjectAsContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToDefaultEmailForInvalidContactEmailAndObjectAsContactDataSource() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2336,7 +2573,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToDefaultAddressIfARecordIsNotLoadable() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToDefaultAddressIfARecordIsNotLoadable() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2349,7 +2589,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToOwnersAddressForMatchingAnidAndNoContactEmailProvidedAndOwnerAsContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToOwnersAddressForMatchingAnidAndNoContactEmailProvidedAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
@@ -2372,7 +2615,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToOwnersAddressForMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToOwnersAddressForMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
@@ -2395,7 +2641,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToContactAddressForNonMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToContactAddressForNonMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
@@ -2418,7 +2667,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToContactAddressForNoAnidAndSetContactEmailAndOwnerAsContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToContactAddressForNoAnidAndSetContactEmailAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
@@ -2441,7 +2693,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToDefaultAddressForNonMatchingAnidAndNoContactEmailAndOwnerContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToDefaultAddressForNonMatchingAnidAndNoContactEmailAndOwnerContactDataSource() {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
@@ -2464,7 +2719,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEmailIsSentToDefaultAddressForNeitherAnidNorContactEmailProvidedAndOwnerAsContactDataSource() {
+	/**
+	 * @test
+	 */
+	public function emailIsSentToDefaultAddressForNeitherAnidNorContactEmailProvidedAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
 		$this->testingFramework->createFrontendUser(
@@ -2492,7 +2750,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	// * Testing the e-mail contents.
 	///////////////////////////////////
 
-	public function testSentEmailContainsTheObjectNumberLabel() {
+	/**
+	 * @test
+	 */
+	public function sentEmailContainsTheObjectNumberLabel() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2505,7 +2766,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSentEmailContainsTheIntroductionMessage() {
+	/**
+	 * @test
+	 */
+	public function sentEmailContainsTheIntroductionMessage() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2518,7 +2782,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSentEmailContainsTheExplanationMessage() {
+	/**
+	 * @test
+	 */
+	public function sentEmailContainsTheExplanationMessage() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2531,7 +2798,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSentEmailContainsMessageThatARecordWasNotImportedForMismatchingAnidsAndEnabledOwnerRestriction() {
+	/**
+	 * @test
+	 */
+	public function sentEmailContainsMessageThatARecordWasNotImportedForMismatchingAnidsAndEnabledOwnerRestriction() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 
@@ -2547,7 +2817,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSentEmailForUserWhoReachedHisObjectLimitContainsMessageThatRecordWasNotImported() {
+	/**
+	 * @test
+	 */
+	public function sentEmailForUserWhoReachedHisObjectLimitContainsMessageThatRecordWasNotImported() {
 		$this->checkForZipArchive();
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);

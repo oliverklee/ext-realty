@@ -63,7 +63,10 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 	// Testing the description view
 	/////////////////////////////////
 
-	public function testRenderReturnsNonEmptyResultForShowUidOfExistingRecord() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
@@ -73,7 +76,10 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
@@ -91,7 +97,10 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsDescriptionForValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsDescriptionForValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
@@ -101,7 +110,10 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo</br>bar'));
 
@@ -111,7 +123,10 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRenderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject() {
+	/**
+	 * @test
+	 */
+	public function renderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => ''));
 

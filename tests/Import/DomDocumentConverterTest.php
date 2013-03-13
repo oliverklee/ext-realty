@@ -95,7 +95,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	// Testing the domDocumentConverter
 	/////////////////////////////////////
 
-	public function testFindFirstGrandchildReturnsGrandchildIfItExists() {
+	/**
+	 * @test
+	 */
+	public function findFirstGrandchildReturnsGrandchildIfItExists() {
 		$this->setRawDataToConvert(
 			'<immobilie>'
 				.'<child>'
@@ -110,7 +113,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindFirstGrandchildReturnsNullIfTheGrandchildDoesNotExists() {
+	/**
+	 * @test
+	 */
+	public function findFirstGrandchildReturnsNullIfTheGrandchildDoesNotExists() {
 		$this->setRawDataToConvert(
 			'<immobilie>'
 				.'<child/>'
@@ -122,7 +128,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindFirstGrandchildReturnsNullIfTheGivenDomnodeIsEmpty() {
+	/**
+	 * @test
+	 */
+	public function findFirstGrandchildReturnsNullIfTheGivenDomnodeIsEmpty() {
 		$this->setRawDataToConvert(
 			'<immobilie/>'
 		);
@@ -132,7 +141,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTheFirstGrandchildIsFoundAlthoughTheSecondChildAndItsChildAlsoMatch() {
+	/**
+	 * @test
+	 */
+	public function firstGrandchildIsFoundAlthoughTheSecondChildAndItsChildAlsoMatch() {
 		$this->setRawDataToConvert(
 			'<immobilie>'
 				.'<child>'
@@ -150,7 +162,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTheFirstGrandchildIsFoundAlthoughTheFirstChildHasTwoMatchingChildren() {
+	/**
+	 * @test
+	 */
+	public function firstGrandchildIsFoundAlthoughTheFirstChildHasTwoMatchingChildren() {
 		$this->setRawDataToConvert(
 			'<immobilie>'
 				.'<child>'
@@ -166,7 +181,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNodeNameDoesNotChangeNodeNameWithoutXmlNamespace() {
+	/**
+	 * @test
+	 */
+	public function getNodeNameDoesNotChangeNodeNameWithoutXmlNamespace() {
 		$node = new DOMDocument();
 		$child = $node->appendChild(
 			$node->createElement('foo')
@@ -178,7 +196,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNodeNameReturnsNameWithoutXmlNamespaceWhenNameWithXmlNamespaceGiven() {
+	/**
+	 * @test
+	 */
+	public function getNodeNameReturnsNameWithoutXmlNamespaceWhenNameWithXmlNamespaceGiven() {
 		$node = new DOMDocument();
 		$child = $node->appendChild(
 			$node->createElement('prefix:foo')
@@ -190,7 +211,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddOneElementToTheRealtyDataArray() {
+	/**
+	 * @test
+	 */
+	public function addOneElementToTheRealtyDataArray() {
 		$data = array();
 		$this->fixture->addElementToArray($data, 'foo', 'bar');
 
@@ -200,7 +224,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddTwoElementsToTheRealtyDataArray() {
+	/**
+	 * @test
+	 */
+	public function addTwoElementsToTheRealtyDataArray() {
 		$data = array();
 		$this->fixture->addElementToArray($data, 'foo', 'foo');
 		$this->fixture->addElementToArray($data, 'bar', 'bar');
@@ -211,7 +238,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddOneElementTwiceToTheRealtyDataArray() {
+	/**
+	 * @test
+	 */
+	public function addOneElementTwiceToTheRealtyDataArray() {
 		$data = array();
 		$this->fixture->addElementToArray($data, 'foo', 'foo');
 		$this->fixture->addElementToArray($data, 'foo', 'bar');
@@ -230,7 +260,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function testGetConvertedDataForNoRecordsReturnsEmptyArray() {
+	public function getConvertedDataForNoRecordsReturnsEmptyArray() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter/>'
@@ -783,7 +813,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataSetsLocalizedPetsTitleIfValueIsStringTrue() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataSetsLocalizedPetsTitleIfValueIsStringTrue() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -803,7 +836,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataSetsLocalizedPetsTitleIfValueIsOne() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataSetsLocalizedPetsTitleIfValueIsOne() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -984,7 +1020,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataFetchesAlternativeContactEmail() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesAlternativeContactEmail() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -1004,7 +1043,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataGetsStateIfValidStateProvided() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataGetsStateIfValidStateProvided() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1025,7 +1067,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataDoesNotGetStateIfInvalidStateProvided() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataDoesNotGetStateIfInvalidStateProvided() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1045,7 +1090,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataCanGetOneValidHeatingType() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanGetOneValidHeatingType() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1066,7 +1114,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataCanGetMultipleValidHeatingTypesFromHeatingTypeNode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanGetMultipleValidHeatingTypesFromHeatingTypeNode() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1087,7 +1138,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataCanGetMultipleValidHeatingTypesFromFiringNode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanGetMultipleValidHeatingTypesFromFiringNode() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1108,7 +1162,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataCanGetHeatingTypesFromFiringNodeAndHeatingTypeNode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataCanGetHeatingTypesFromFiringNodeAndHeatingTypeNode() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1130,7 +1187,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataDoesNotGetInvalidHeatingTypeFromHeatingTypeNode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataDoesNotGetInvalidHeatingTypeFromHeatingTypeNode() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1150,7 +1210,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataDoesNotGetInvalidHeatingTypeFromFiringNode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataDoesNotGetInvalidHeatingTypeFromFiringNode() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1170,7 +1233,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataOnlyGetsValidHeatingTypesIfValidAndInvalidTypesProvided() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataOnlyGetsValidHeatingTypesIfValidAndInvalidTypesProvided() {
 		$node = DOMDocument::loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -1657,7 +1723,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	// Tests concerning createRecordsForImages
 	////////////////////////////////////////////
 
-	public function testCreateRecordsForImagesIfOneImageAppendixWithoutAnImagePathIsGiven() {
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesIfOneImageAppendixWithoutAnImagePathIsGiven() {
 		$this->setRawDataToConvert(
 			'<immobilie>' .
 				'<anhaenge>' .
@@ -1827,7 +1896,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordsForImagesIfTwoValidImageAppendixesAreGiven() {
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesIfTwoValidImageAppendixesAreGiven() {
 		$this->setRawDataToConvert(
 			'<immobilie>' .
 				'<anhaenge>' .
@@ -1864,7 +1936,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordsForImagesIfTwoImageAppendixesWithTheSameTitleAreGiven() {
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesIfTwoImageAppendixesWithTheSameTitleAreGiven() {
 		$this->setRawDataToConvert(
 			'<immobilie>' .
 				'<anhaenge>' .
@@ -1901,7 +1976,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordsForImagesOfTwoRealtyObjectsWithOneImageEachCreatesOneImageRecordPerImage() {
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesOfTwoRealtyObjectsWithOneImageEachCreatesOneImageRecordPerImage() {
 		$this->setRawDataToConvert(
 			'<openimmo>' .
 				'<immobilie>' .
@@ -1933,7 +2011,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordsForImagesOfTwoRealtyObjectsInOneFileWithAnIdenticallyNamedImage() {
+	/**
+	 * @test
+	 */
+	public function createRecordsForImagesOfTwoRealtyObjectsInOneFileWithAnIdenticallyNamedImage() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<immobilie>' .
@@ -2304,7 +2385,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	// Tests concerning getConvertedData
 	//////////////////////////////////////
 
-	public function testGetConvertedDataImportsAttributeValuesCorrectly() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsAttributeValuesCorrectly() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -2331,7 +2415,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheHoaFee() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheHoaFee() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2351,7 +2438,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsRentExcludingBillsFromNettokaltmiete() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsRentExcludingBillsFromNettokaltmiete() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2371,7 +2461,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsRentExcludingBillsFromNettokaltmieteWhenKaltmieteIsPresent() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsRentExcludingBillsFromNettokaltmieteWhenKaltmieteIsPresent() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2392,7 +2485,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataForNettokaltmieteMissingAndExistingKaltmieteImportsRentExcludingBillsFromKaltmiete() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForNettokaltmieteMissingAndExistingKaltmieteImportsRentExcludingBillsFromKaltmiete() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2412,7 +2508,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataForNettokaltmieteEmptyAndNonEmptyKaltmieteImportsRentExcludingBillsFromKaltmiete() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataForNettokaltmieteEmptyAndNonEmptyKaltmieteImportsRentExcludingBillsFromKaltmiete() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2433,7 +2532,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheLanguage() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheLanguage() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -2455,7 +2557,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsLongitudeAndLatitudeAndSetsFlagIfBothAreProvided() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsLongitudeAndLatitudeAndSetsFlagIfBothAreProvided() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2485,7 +2590,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataNotImportsTheCoordinatesIfOnlyOneIsProvided() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataNotImportsTheCoordinatesIfOnlyOneIsProvided() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2504,7 +2612,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataNotImportsTheCoordinatesIfOneIsNonEmptyAndOneIsEmpty() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataNotImportsTheCoordinatesIfOneIsNonEmptyAndOneIsEmpty() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2523,7 +2634,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCode() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2543,7 +2657,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCodeTwice() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheCountryAsUidOfTheStaticCountryTableForValidCodeTwice() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2574,7 +2691,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataNotImportsTheCountryForInvalidCode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataNotImportsTheCountryForInvalidCode() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2593,7 +2713,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataNotImportsTheCountryForEmptyCode() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataNotImportsTheCountryForEmptyCode() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2612,7 +2735,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheCurrency() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheCurrency() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2632,7 +2758,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheValueForNewBuilding() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheValueForNewBuilding() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -2652,7 +2781,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheValueForOldBuilding() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheValueForOldBuilding() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -2672,7 +2804,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testConvertedDataDoesNotContainTheKeyOldOrNewBuildingIfNoValueWasSet() {
+	/**
+	 * @test
+	 */
+	public function convertedDataDoesNotContainTheKeyOldOrNewBuildingIfNoValueWasSet() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>'
 				.'<anbieter>'
@@ -2691,7 +2826,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheValueForShowAddressIfThisIsEnabled() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheValueForShowAddressIfThisIsEnabled() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -2710,7 +2848,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetConvertedDataImportsTheValueForShowAddressIfThisIsDisabled() {
+	/**
+	 * @test
+	 */
+	public function getConvertedDataImportsTheValueForShowAddressIfThisIsDisabled() {
 		$node = $this->setRawDataToConvert(
 			'<openimmo>' .
 				'<anbieter>' .
@@ -3171,7 +3312,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	// Tests concerning fetchDomAttributes
 	////////////////////////////////////////
 
-	public function testFetchDomAttributesIfValidNodeGiven() {
+	/**
+	 * @test
+	 */
+	public function fetchDomAttributesIfValidNodeGiven() {
 		$node = new DOMDocument();
 		$element = $node->appendChild(
 			$node->createElement('foo')
@@ -3184,7 +3328,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFetchDomAttributesIfNodeWithoutAttributesGiven() {
+	/**
+	 * @test
+	 */
+	public function fetchDomAttributesIfNodeWithoutAttributesGiven() {
 		$node = new DOMDocument();
 		$element = $node->appendChild(
 			$node->createElement('foo')

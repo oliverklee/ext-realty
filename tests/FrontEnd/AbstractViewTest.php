@@ -56,7 +56,10 @@ class tx_realty_FrontEnd_AbstractViewTest extends tx_phpunit_testcase {
 		unset($this->fixture, $this->testingFramework);
 	}
 
-	public function testRenderCanReturnAViewsContent() {
+	/**
+	 * @test
+	 */
+	public function renderCanReturnAViewsContent() {
 		$this->assertEquals(
 			'Hi, I am the testingFrontEndView!',
 			$this->fixture->render()
