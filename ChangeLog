@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4658] Fix: BE crash with SQL error in TYPO3 CMS >= 4.5.23
 - [#4626] Cleanup: Fix all instances of "Missing function doc comment"
 - [#4625] Cleanup: Fix all instances of "Underscores are not allowed in method names"
 - [#4631] Cleanup: Drop useless class comments
