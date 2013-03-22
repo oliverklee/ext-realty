@@ -1,4 +1,4 @@
-0.5.5 - currently working on
+0.5.5 - released 2013-03-22
 - [#4658] Fix: BE crash with SQL error in TYPO3 CMS >= 4.5.23
 - [#4611] Change: Increase the maximum image upload size from 500kB to 2MB
 - [#4594] Fix: Google map coordinates are using a decimal comma if the PHP locale is not set correctly
