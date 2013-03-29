@@ -574,13 +574,17 @@ class tx_realty_openImmoImport {
 	 */
 	private function addFolderAccessErrorMessage($message, $path) {
 		$ownerUid = fileowner($path);
-		$owner = posix_getpwuid($ownerUid);
+		if (function_exists('posix_getpwuid')) {
+			$ownerName = posix_getpwuid($ownerUid) . ', ' . $ownerUid;
+		} else {
+			$ownerName = $ownerUid;
+		}
 
 		$this->addToErrorLog(
 			sprintf(
 				$this->getTranslator()->translate($message),
 				$path,
-				$owner['name'] . ', ' . $ownerUid,
+				$ownerName,
 				substr(decoct(fileperms($path)), 2),
 				get_current_user()
 			)
