@@ -173,9 +173,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		if ($this->currentView == '') {
 			throw new BadMethodCallException('The member variable $currentView must not be empty.', 1333036327);
 		}
-		if (!isset($this->isGoogleMapsAllowed)) {
-			throw new BadMethodCallException('The member variable $isGoogleMapsAllowed must be set.', 1333036332);
-		}
 	}
 
 	/**
@@ -1312,9 +1309,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return void
 	 */
 	private function showGoogleMapsIfEnabled(array $shownObjectsUids) {
-		if (!$this->isGoogleMapsAllowed || !$this->getConfValueBoolean(
-			'showGoogleMaps', 's_googlemaps'
-		)) {
+		if (!$this->isGoogleMapsAllowed || !$this->getConfValueBoolean('showGoogleMaps', 's_googlemaps')) {
 			return;
 		}
 

@@ -171,76 +171,35 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @return void
 	 */
-	private function createMarkerFromCoordinates(
-		$realtyObjectUid, $createLink = FALSE
-	) {
-		$coordinates = $this->retrieveGeoCoordinates($realtyObjectUid);
-		if (empty($coordinates)) {
+	protected function createMarkerFromCoordinates($realtyObjectUid, $createLink = FALSE) {
+		/** @var $realtyObject tx_realty_Model_RealtyObject */
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($realtyObjectUid);
+		if ($realtyObject->hasGeoError()) {
+			return;
+		}
+
+		if (!$realtyObject->hasGeoCoordinates()) {
+			tx_oelib_Geocoding_Google::getInstance()->lookUp($realtyObject);
+			$realtyObject->writeToDatabase();
+		}
+		if ($realtyObject->hasGeoError() || !$realtyObject->hasGeoCoordinates()) {
 			return;
 		}
 
 		$mapMarker = tx_oelib_ObjectFactory::make('tx_realty_mapMarker');
-		$mapMarker->setCoordinates(
-			$coordinates['latitude'], $coordinates['longitude']
-		);
-		$mapMarker->setTitle(
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($realtyObjectUid)->getAddressAsSingleLine()
-		);
+		$coordinates = $realtyObject->getGeoCoordinates();
+		$mapMarker->setCoordinates($coordinates['latitude'], $coordinates['longitude']);
+		$mapMarker->setTitle($realtyObject->getAddressAsSingleLine());
 
-		$title = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($realtyObjectUid)->getCroppedTitle();
-
+		$mapMarkerTitle = $realtyObject->getCroppedTitle();
 		if ($createLink) {
-			$title = $this->createLinkToSingleViewPage($title, $realtyObjectUid);
+			$mapMarkerTitle = $this->createLinkToSingleViewPage($mapMarkerTitle, $realtyObjectUid);
 		}
 
 		$mapMarker->setInfoWindowHtml(
-			'<strong>' . $title .
-			'</strong><br />' .
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($realtyObjectUid)->getAddressAsHtml()
+			'<strong>' . $mapMarkerTitle . '</strong><br />' . $realtyObject->getAddressAsHtml()
 		);
 		$this->mapMarkers[] = $mapMarker;
-	}
-
-	/**
-	 * Retrieves the geo coordinates for the realty object with $realtyObjectUid.
-	 *
-	 * @throws InvalidArgumentException if the UID is not provided
-	 *
-	 * @param integer $realtyObjectUid UID of the realty object for which to get the coordinates, must be > 0
-	 *
-	 * @return array the coordinates using the keys "latitude" and
-	 *               "longitude" or an empty array if the coordinates
-	 *               could not be retrieved
-	 */
-	private function retrieveGeoCoordinates($realtyObjectUid) {
-		if ($realtyObjectUid == 0) {
-			throw new InvalidArgumentException('$realtyObjectUid must not be an integer greater than zero.', 1333036563);
-		}
-
-		/** @var $realtyObject tx_realty_Model_RealtyObject */
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($realtyObjectUid);
-		try {
-			// RetrieveCoordinates() might change the object.
-			if ($this->isTestMode) {
-				$realtyObject->setTestMode();
-			}
-			$realtyObject->retrieveCoordinates($this);
-			if (!$realtyObject->hasGeoError()) {
-				$coordinates = $realtyObject->getGeoCoordinates();
-			} else {
-				$coordinates = array();
-			}
-		} catch (RuntimeException $exception) {
-			// RetrieveCoordinates will throw an exception if the Google Maps
-			// API key is missing. As this is checked by the configuration
-			// check, we don't need to act on this exception here.
-			$coordinates = array();
-		}
-
-		return $coordinates;
 	}
 
 	/**

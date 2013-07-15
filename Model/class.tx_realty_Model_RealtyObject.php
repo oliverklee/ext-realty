@@ -1477,43 +1477,47 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
-	 * Tries to retrieve the geo coordinates for this object's address.
+	 * Returns the city of this object.
 	 *
-	 * If retrieving the coordinates was successful, the object will be written
-	 * to the database. (Usually, the object should already exist in the DB, but
-	 * creating a new object will work fine as well.)
-	 *
-	 * If this object already has geo coordinates, this function will do nothing.
-	 *
-	 * @param tx_oelib_templatehelper $configuration the plugin configuration
-	 *
-	 * @return array array with the keys "latitude" and "longitude" or
-	 *               an empty array if no coordinates could be retrieved
+	 * @return tx_realty_Model_City the related city, will be NULL if there is none
 	 */
-	public function retrieveCoordinates(tx_oelib_templatehelper $configuration) {
-		if ($this->hasGeoError() || $this->hasGeoCoordinates()) {
-			return $this->getGeoCoordinates();
+	public function getCity() {
+		if (!$this->hasCity()) {
+			return NULL;
 		}
 
-		if ($this->getAsBoolean('show_address')) {
-			$street = $this->getStreet();
-		} else {
-			$street = '';
+		return tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($this->getAsInteger('city'));
+	}
+
+	/**
+	 * Checks whether this object has a city assigned.
+	 *
+	 * @return boolean whether this object has a city assigned
+	 */
+	public function hasCity() {
+		return $this->hasInteger('city');
+	}
+
+	/**
+	 * Returns the country of this object.
+	 *
+	 * @return tx_realty_Model_Country the related country, will be NULL if there is none
+	 */
+	public function getCountry() {
+		if (!$this->hasCountry()) {
+			return NULL;
 		}
 
-		$coordinates = tx_realty_googleMapsLookup::getInstance($configuration)->lookUp(
-			$street, $this->getZip(), $this->getForeignPropertyField('city'), $this->getAsInteger('country')
-		);
+		return tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find($this->getAsInteger('country'));
+	}
 
-		if (!empty($coordinates)) {
-			$this->setGeoCoordinates($coordinates);
-			// The PID is provided. So records do not change the location.
-			$this->writeToDatabase($this->getAsInteger('pid'));
-		} else {
-			$this->setGeoError();
-		}
-
-		return $this->getGeoCoordinates();
+	/**
+	 * Checks whether this object has a country assigned.
+	 *
+	 * @return boolean whether this object has a country assigned
+	 */
+	public function hasCountry() {
+		return $this->hasInteger('country');
 	}
 
 	/**
@@ -1575,18 +1579,33 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @return string this object's address formatted for a geo lookup, will be empty if this object has no address
 	 */
 	public function getGeoAddress() {
-		throw new BadMethodCallException('This method currently has not been implemented yet.', 1340386845);
+		if (!$this->hasCity()) {
+			return '';
+		}
+		$zipAndCity = trim($this->getZip() . ' ' . $this->getCity()->getTitle());
+
+		$addressParts = array();
+
+		if ($this->getShowAddress() && $this->hasStreet()) {
+			$addressParts[] = $this->getStreet();
+		}
+
+		$addressParts[] = $zipAndCity;
+
+		if ($this->hasCountry()) {
+			$addressParts[] = $this->getCountry()->getIsoAlpha2Code();
+		}
+
+		return implode(', ', $addressParts);
 	}
 
 	/**
 	 * Checks whether this object has a non-empty address suitable for a geo lookup.
 	 *
-	 * @throws BadMethodCallException
-	 *
 	 * @return boolean TRUE if this object has a non-empty address, FALSE otherwise
 	 */
 	public function hasGeoAddress() {
-		throw new BadMethodCallException('This method currently has not been implemented yet.', 1340386861);
+		return $this->getGeoAddress() !== '';
 	}
 
 	/**
@@ -1730,6 +1749,17 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
+	 * Sets the title of this object.
+	 *
+	 * @param string $title the title to set, must not be empty
+	 *
+	 * @return void
+	 */
+	public function setTitle($title) {
+		$this->setAsString('title', $title);
+	}
+
+	/**
 	 * Gets this object's title, cropped after cropSize characters. If no
 	 * cropSize is given or if it is 0 the title will be cropped after CROP_SIZE
 	 * characters. The title will get an ellipsis at the end if the full title
@@ -1760,6 +1790,26 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
+	 * Returns whether the full address for this object should be visible.
+	 *
+	 * @return boolean whether the full address for this object should be visible
+	 */
+	public function getShowAddress() {
+		return $this->getAsBoolean('show_address');
+	}
+
+	/**
+	 * Sets whether the full address for this object should be visible.
+	 *
+	 * @param boolean $showIt whether the full address for this object should be visible
+	 *
+	 * @return void
+	 */
+	public function setShowAddress($showIt) {
+		$this->setAsBoolean('show_address', $showIt);
+	}
+
+	/**
 	 * Builds the address for later formatting with the granularity defined in
 	 * the field "show_address".
 	 *
@@ -1769,8 +1819,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	protected function getAddressParts() {
 		$result = array();
 
-		if ($this->getAsBoolean('show_address')
-			&& ($this->getAsString('street') != '')
+		if ($this->getShowAddress() && ($this->getAsString('street') != '')
 		) {
 			$result[] = htmlspecialchars($this->getAsString('street'));
 		}

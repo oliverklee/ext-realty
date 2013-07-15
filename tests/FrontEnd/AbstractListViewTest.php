@@ -3504,24 +3504,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	/**
-	 * @test
-	 */
-	public function listViewForActivatedGoogleMapsAndNoEntryHidesGoogleMapsSubpart() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('zip' => '53111')
-		);
-		$this->fixture->setConfigurationValue('showSiteSearchInFilterForm', 'show');
-		$this->fixture->setConfigurationValue('showGoogleMaps', TRUE);
-
-		$this->fixture->render();
-
-		$this->assertNotContains(
-			'tx_realty_map',
-			$this->fixture->render(array('site' => '8888'))
-		);
-	}
-
 
 	/////////////////////////////////////////////////////
 	// Tests concerning links to external details pages

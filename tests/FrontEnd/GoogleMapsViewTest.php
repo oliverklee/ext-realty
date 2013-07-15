@@ -31,6 +31,7 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
@@ -45,17 +46,22 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @var integer dummy realty object
 	 */
-	private $realtyUid = 0;
+	private $realtyUid = 42;
 
 	/**
-	 * @var integer dummy city UID
+	 * @var tx_realty_Mapper_RealtyObject|PHPUnit_Framework_MockObject_MockObject
 	 */
-	private $cityUid = 0;
+	protected $realtyMapper = NULL;
 
 	/**
-	 * @var string title for the dummy city
+	 * @var tx_realty_Model_RealtyObject|PHPUnit_Framework_MockObject_MockObject
 	 */
-	private static $cityTitle = 'Bonn';
+	protected $realtyObject = NULL;
+
+	/**
+	 * @var tx_oelib_Geocoding_Google|PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected $geoCoder = NULL;
 
 	/**
 	 * @var string a valid Google Maps API key for localhost
@@ -76,25 +82,30 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		tx_oelib_MapperRegistry::getInstance()
-			->activateTestingMode($this->testingFramework);
+		tx_oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
-		$this->cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('title' => self::$cityTitle)
-		);
-		$this->realtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
-			array(
-				'title' => 'test realty object',
-				'object_number' => '12345',
-				'pid' => $this->testingFramework->createFrontEndPage(),
-				'city' => $this->cityUid,
-			)
+		$realtyData = array(
+			'title' => 'test realty object',
+			'object_number' => '12345',
+			'pid' => $this->testingFramework->createFrontEndPage(),
+			'street' => 'Main Street',
+			'zip' => '12345',
+			'latitude' => self::LATITUDE,
+			'longitude' => self::LONGITUDE,
+			'has_coordinates' => TRUE,
+			'coordinates_problem' => FALSE,
 		);
 
-		$geoFinder = new tx_realty_tests_fixtures_FakeGoogleMapsLookup();
-		$geoFinder->setCoordinates(self::LATITUDE, self::LONGITUDE);
-		tx_realty_googleMapsLookup::setInstance($geoFinder);
+		$this->geoCoder = $this->getMock('tx_oelib_Geocoding_Dummy');
+		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+
+		$this->realtyMapper = $this->getMock('tx_realty_Mapper_RealtyObject');
+		tx_oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $this->realtyMapper);
+
+		$this->realtyObject = $this->getMock('tx_realty_Model_RealtyObject', array('writeToDatabase'));
+		$this->realtyObject->setData($realtyData);
+		$this->realtyMapper->expects($this->any())->method('find')->with($this->realtyUid)
+			->will($this->returnValue($this->realtyObject));
 
 		$this->fixture = new tx_realty_pi1_GoogleMapsView(
 			array(
@@ -112,9 +123,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->testingFramework->cleanUp();
 
-		tx_realty_googleMapsLookup::purgeInstance();
-
-		unset($this->fixture, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework, $this->geoCoder, $this->realtyMapper, $this->realtyObject);
 	}
 
 
@@ -126,7 +135,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderGoogleMapsViewWithNoCollectedMarkersReturnsEmptyResult() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->render()
 		);
@@ -159,55 +168,108 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function setMapMarkerForZeroCausesException() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'$realtyObjectUid must not be an integer greater than zero.'
-		);
+	public function setMapMarkerForObjectWithCoordinatesWithoutGeoErrorNotFetchesCoordinates() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
+		$this->realtyObject->clearGeoError();
 
-		$this->fixture->setMapMarker(0);
-	}
-
-	/**
-	 * @test
-	 */
-	public function renderGoogleMapsViewWhenEnabledAndExactAddressMarksCoordinatesAsCached() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'street' => 'Am Hof 1',
-				'city' => $this->cityUid,
-				'show_address' => TRUE,
-			)
-		);
+		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		$this->geoCoder->expects($this->never())->method('lookUp');
 
 		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->render();
-
-		$this->assertTrue(
-			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_OBJECTS,
-				'uid = ' . $this->realtyUid . ' AND has_coordinates = 1'
-			)
-		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewReturnsMapForObjectWithExactAddressAndGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-			)
-		);
+	public function setMapMarkerForObjectWithCoordinatesWithoutGeoErrorNotSavesObject() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
+		$this->realtyObject->clearGeoError();
 
+		$this->realtyObject->expects($this->never())->method('writeToDatabase');
+
+		$this->fixture->setMapMarker($this->realtyUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMapMarkerForObjectWithCoordinatesWithGeoErrorNotFetchesCoordinates() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
+		$this->realtyObject->setGeoError();
+
+		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		$this->geoCoder->expects($this->never())->method('lookUp');
+
+		$this->fixture->setMapMarker($this->realtyUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMapMarkerForObjectWithCoordinatesWithGeoErrorNotSavesObject() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
+		$this->realtyObject->setGeoError();
+
+		$this->realtyObject->expects($this->never())->method('writeToDatabase');
+
+		$this->fixture->setMapMarker($this->realtyUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMapMarkerForObjectWithoutCoordinatesWithGeoErrorNotFetchesCoordinates() {
+		$this->realtyObject->clearGeoCoordinates();
+		$this->realtyObject->setGeoError();
+
+		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		$this->geoCoder->expects($this->never())->method('lookUp');
+
+		$this->fixture->setMapMarker($this->realtyUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMapMarkerForObjectWithoutCoordinatesWithGeoErrorNotSavesObject() {
+		$this->realtyObject->clearGeoCoordinates();
+		$this->realtyObject->setGeoError();
+
+		$this->realtyObject->expects($this->never())->method('writeToDatabase');
+
+		$this->fixture->setMapMarker($this->realtyUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMapMarkerForObjectWithoutCoordinatesWithoutGeoErrorFetchesCoordinates() {
+		$this->realtyObject->clearGeoCoordinates();
+		$this->realtyObject->clearGeoError();
+
+		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		$this->geoCoder->expects($this->once())->method('lookUp')->with($this->realtyObject);
+
+		$this->fixture->setMapMarker($this->realtyUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setMapMarkerForObjectWithoutCoordinatesWithoutGeoErrorSavesObject() {
+		$this->realtyObject->clearGeoCoordinates();
+		$this->realtyObject->clearGeoError();
+
+		$this->realtyObject->expects($this->once())->method('writeToDatabase');
+
+		$this->fixture->setMapMarker($this->realtyUid);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderGoogleMapsViewReturnsMapForObjectWithCoordinatesAndGoogleMapsEnabledCreatesMapsDiv() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
 		$this->fixture->setMapMarker($this->realtyUid);
 
 		$this->assertContains(
@@ -219,18 +281,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewNotReturnsMapForObjectWithGeoErrorAndGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'coordinates_problem' => TRUE,
-			)
-		);
-
+	public function renderGoogleMapsViewForObjectWithGeoErrorAndGoogleMapsEnabledNotCreatesMapsDiv() {
+		$this->realtyObject->setGeoError();
 		$this->fixture->setMapMarker($this->realtyUid);
 
 		$this->assertNotContains(
@@ -242,18 +294,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewAddsGoogleMapsJavaScriptForObjectWithCachedAddressAndGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-			)
-		);
-
+	public function renderGoogleMapsViewForObjectWithCoordinatesAddsGoogleMapsJavaScript() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
@@ -265,19 +307,9 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewNotAddsGoogleMapsJavaScriptForObjectWithGeoErrorAndAddressAndGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'coordinates_problem' => TRUE,
-				'show_address' => TRUE,
-			)
-		);
-
+	public function renderGoogleMapsViewForObjectWithGeoErrorAndWithCoordinatesNotAddsGoogleMapsJavaScript() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
+		$this->realtyObject->setGeoError();
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
@@ -289,18 +321,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewAddsOnLoadForObjectWithCoordinatesAndGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-			)
-		);
-
+	public function renderGoogleMapsForObjectWithCoordinatesViewAddsOnLoad() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
@@ -314,18 +336,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewAddsOnUnloadForObjectWithCoordinatesAndGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-			)
-		);
-
+	public function renderGoogleMapsViewForObjectWithCoordinatesAddsOnUnload() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
@@ -339,18 +351,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewReturnsCoordinatesInJavaScriptForGoogleMapsEnabled() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-			)
-		);
-
+	public function renderGoogleMapsViewReturnsCoordinatesInJavaScript() {
+		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
@@ -368,34 +370,12 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderGoogleMapsViewForShowAddressTrueReturnsTheObjectsFullAddressAsTitleForGoogleMaps() {
-		$cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('title' => 'Test Town')
-		);
-		$districtUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_DISTRICTS, array('title' => 'District')
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'title' => 'foo',
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-				'street' => 'Main Street',
-				'zip' => '12345',
-				'city' => $cityUid,
-				'district' => $districtUid,
-				'country' => 54,
-			)
-		);
-
+		$this->realtyObject->setShowAddress(TRUE);
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
 		$this->assertContains(
-			'title: "Main Street, 12345 Test Town District, Deutschland"',
+			'title: "Main Street',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -404,34 +384,13 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderGoogleMapsViewForShowAddressFalseReturnsTheObjectsAddressWithoutStreetAsTitleForGoogleMaps() {
-		$cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('title' => 'Test Town')
-		);
-		$districtUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_DISTRICTS, array('title' => 'District')
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'title' => 'foo',
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => FALSE,
-				'street' => 'Main Street',
-				'zip' => '12345',
-				'city' => $cityUid,
-				'district' => $districtUid,
-				'country' => 54,
-			)
-		);
+		$this->realtyObject->setShowAddress(FALSE);
 
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
 		$this->assertContains(
-			'title: "12345 Test Town District, Deutschland"',
+			'title: "12345"',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -440,18 +399,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderGoogleMapsViewReturnsCroppedObjectTitleAsInfoWindowForGoogleMaps() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'title' => 'A really long title that is not too short.',
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-			)
-		);
-
+		$this->realtyObject->setTitle('A really long title that is not too short.');
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
@@ -464,52 +412,13 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewHasTheObjectsCityAndDistrictAsInfoWindowForGoogleMaps() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'district' => $this->testingFramework->createRecord(
-					REALTY_TABLE_DISTRICTS,
-					array('title' => 'Beuel')
-				),
-				'show_address' => TRUE,
-			)
-		);
-
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->render();
-
-		$this->assertRegExp(
-			'/bindInfoWindowHtml\(\'[^\']*' . self::$cityTitle . ' Beuel/',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function renderGoogleMapsViewHasStreetAsInfoWindowForGoogleMapsForDetailedAddress() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'street' => 'Foo road',
-				'show_address' => TRUE,
-			)
-		);
-
+		$this->realtyObject->setShowAddress(TRUE);
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
 		$this->assertRegExp(
-			'/bindInfoWindowHtml\(\'[^\']*Foo road/',
+			'/bindInfoWindowHtml\(\'[^\']*Main Street/',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -518,18 +427,6 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderGoogleMapsViewWithMapMarkerWithoutCreateLinkOptiontDoesNotLinkObjectTitleInMap() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'street' => 'Foo road',
-				'show_address' => TRUE,
-			)
-		);
-
 		$this->fixture->setConfigurationValue(
 			'singlePID', $this->testingFramework->createFrontEndPage()
 		);
@@ -546,18 +443,6 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderGoogleMapsViewWithMapMarkerWithCreateLinkOptionLinksObjectTitleInMap() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'street' => 'Foo road',
-				'show_address' => TRUE,
-			)
-		);
-
 		$this->fixture->setConfigurationValue(
 			'singlePID', $this->testingFramework->createFrontEndPage()
 		);
@@ -573,19 +458,8 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderGoogleMapsViewOmitsStreetAsInfoWindowForGoogleMapsForRoughAddress() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'street' => 'Foo road',
-				'show_address' => FALSE,
-			)
-		);
-
+	public function renderGoogleMapsViewOmitsStreetAsInfoWindowForGoogleMapsForShowAddressFalse() {
+		$this->realtyObject->setShowAddress(FALSE);
 		$this->fixture->setMapMarker($this->realtyUid);
 		$this->fixture->render();
 
@@ -598,162 +472,9 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function retrievingGeoCoordinatesDoesNotDeleteAppendedImage() {
-		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
-			array(
-				'caption'=>'foo.jpg',
-				'image' => 'foo.jpg',
-				'object' => $this->realtyUid,
-			)
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
-			$this->realtyUid,
-			array(
-				'street' => 'Am Hof 1',
-				'city' => $this->cityUid,
-				'show_address' => TRUE,
-				'images' => 1,
-			)
-		);
-
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->render();
-
-		$this->assertTrue(
-			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_IMAGES,
-				'caption="foo.jpg" AND image="foo.jpg" AND deleted=0'
-			)
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function renderSetsCachedCoordinatesOfTwoObjectsInHeader() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE,
-				'longitude' => self::LONGITUDE,
-				'show_address' => TRUE,
-			)
-		);
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->setMapMarker(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array(
-					'title' => 'second test object',
-					'object_number' => '6789',
-					'has_coordinates' => TRUE,
-					'latitude' => self::LATITUDE + 1,
-					'longitude' => self::LONGITUDE + 1,
-					'show_address' => TRUE,
-				)
-			)
-		);
-
-		$this->fixture->render();
-
-		// We need to allow for additional digits due to rounding errors.
-		$this->assertRegExp(
-			'/' . (self::LATITUDE + 1) . '\d*,' . (self::LONGITUDE + 1) . '/',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-		);
-		$this->assertRegExp(
-			'/' . self::LATITUDE . '\d*,' . self::LONGITUDE . '/',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function renderSetsFullTitlesOfTwoObjectsInHeader() {
-		$cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('title' => 'Test Town')
-		);
-		$districtUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_DISTRICTS, array('title' => 'District')
-		);
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE + 1,
-				'longitude' => self::LONGITUDE + 1,
-				'show_address' => TRUE,
-				'street' => 'foo street',
-				'zip' => '12345',
-				'city' => $cityUid,
-				'district' => $districtUid,
-				'country' => 54,
-			)
-		);
-		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->setMapMarker(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array(
-					'title' => 'second test object',
-					'object_number' => '6789',
-					'has_coordinates' => TRUE,
-					'latitude' => self::LATITUDE,
-					'longitude' => self::LONGITUDE,
-					'show_address' => TRUE,
-					'street' => 'bar street',
-					'zip' => '12345',
-					'city' => $cityUid,
-					'district' => $districtUid,
-					'country' => 54,
-				)
-			)
-		);
-
-		$this->fixture->render();
-
-		$this->assertTrue(
-			isset($GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'])
-		);
-
-		$this->assertContains(
-			'title: "foo street, 12345 Test Town District, Deutschland"',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-		);
-		$this->assertContains(
-			'title: "bar street, 12345 Test Town District, Deutschland"',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function renderSetsAutoZoomForTwoObjectsWithCoordinates() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'latitude' => self::LATITUDE + 1,
-				'longitude' => self::LONGITUDE + 1,
-				'show_address' => TRUE,
-			)
-		);
 		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->setMapMarker(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array(
-					'title' => 'second test object',
-					'object_number' => '6789',
-					'has_coordinates' => TRUE,
-					'latitude' => self::LATITUDE,
-					'longitude' => self::LONGITUDE,
-					'show_address' => TRUE,
-				)
-			)
-		);
+		$this->fixture->setMapMarker($this->realtyUid);
 
 		$this->fixture->render();
 
@@ -767,27 +488,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderSetsDoesNotSetAutoZoomForOnlyOneObjectWithCoordinates() {
-		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid,
-			array(
-				'has_coordinates' => TRUE,
-				'coordinates_problem' => TRUE,
-				'show_address' => TRUE,
-			)
-		);
 		$this->fixture->setMapMarker($this->realtyUid);
-		$this->fixture->setMapMarker(
-			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array(
-					'title' => 'second test object',
-					'object_number' => '6789',
-					'has_coordinates' => TRUE,
-					'latitude' => self::LATITUDE,
-					'longitude' => self::LONGITUDE,
-					'show_address' => TRUE,
-				)
-			)
-		);
 
 		$this->fixture->render();
 

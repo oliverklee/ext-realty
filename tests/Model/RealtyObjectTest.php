@@ -81,26 +81,12 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	const DE = 54;
 
-	/**
-	 * @var float latitude
-	 */
-	const LATITUDE = 50.7;
-
-	/**
-	 * @var float longitude
-	 */
-	const LONGITUDE = 7.1;
-
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
 		tx_oelib_MapperRegistry::getInstance()
 			->activateTestingMode($this->testingFramework);
-
-		$geoFinder = new tx_realty_tests_fixtures_FakeGoogleMapsLookup();
-		$geoFinder->setCoordinates(self::LATITUDE, self::LONGITUDE);
-		tx_realty_googleMapsLookup::setInstance($geoFinder);
 
 		$this->templateHelper = $this->getMock(
 			'tx_oelib_templatehelper', array('hasConfValueString', 'getConfValueString')
@@ -121,7 +107,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 
 		$this->cleanUpDatabase();
 
-		tx_realty_googleMapsLookup::purgeInstance();
 		$this->templateHelper->__destruct();
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->templateHelper, $this->testingFramework);
@@ -412,6 +397,47 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'foo',
+			$this->fixture->getTitle()
+		);
+	}
+
+	/**
+	 * Test concerning the title
+	 */
+
+	/**
+	 * @test
+	 */
+	public function getTitleInitiallyReturnsEmptyString() {
+		$this->fixture->setData(array());
+		$this->assertSame(
+			'',
+			$this->fixture->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTitleReturnsTitle() {
+		$title = 'A very nice house indeed.';
+		$this->fixture->setData(array('title' => $title));
+
+		$this->assertSame(
+			$title,
+			$this->fixture->getTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setTitleSetsTitle() {
+		$this->fixture->setData(array());
+		$this->fixture->setTitle('foo bar');
+
+		$this->assertSame(
+			'foo bar',
 			$this->fixture->getTitle()
 		);
 	}
@@ -2790,237 +2816,343 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////
-	// Tests for retrieveCoordinates
-	//////////////////////////////////
+	/*
+	 * Test concerning the show_address field
+	 */
 
 	/**
 	 * @test
 	 */
-	public function retrieveCoordinatesForValidAddressWithCityStringWritesObjectToDatabase() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
-			'city' => 'Bonn',
-			'country' => self::DE,
-		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
+	public function getShowAddressInitiallyReturnsFalse() {
+		$this->fixture->setData(array());
 
-		$this->assertGreaterThan(
-			0,
-			$this->fixture->getUid()
+		$this->assertFalse(
+			$this->fixture->getShowAddress()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function retrieveCoordinatesForValidAddressWithCityUidWritesObjectToDatabase() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
-			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => self::DE,
-		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
-
-		$this->assertGreaterThan(
-			0,
-			$this->fixture->getUid()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function retrieveCoordinatesForValidAddressWithCityUidAsStringWritesObjectToDatabase() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
-			'city' => (string) $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => self::DE,
-		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
-
-		$this->assertGreaterThan(
-			0,
-			$this->fixture->getUid()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function retrieveCoordinatesForInvalidAddressDoesNotWriteObjectToDatabase() {
-		tx_realty_googleMapsLookup::getInstance($this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'asgtqbt4q3 mkb 431',
-			'city' => 'Allk3q4öklbj',
-			'country' => self::DE,
-		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
-
-		$this->assertSame(
-			0,
-			$this->fixture->getUid()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function retrieveCoordinatesForInvalidAddressWithoutCoordinatesReturnsEmptyArray() {
-		tx_realty_googleMapsLookup::getInstance($this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'asgtqbt4q3 mkb 431',
-			'city' => 'Allk3q4öklbj',
-			'country' => self::DE,
-			'has_coordinates' => 0,
-			'coordinates_problem' => 0,
-		));
-
-		$this->assertSame(
-			array(),
-			$this->fixture->retrieveCoordinates($this->templateHelper)
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function retrieveCoordinatesForInvalidAddressSetsGeoErrorToTrue() {
-		tx_realty_googleMapsLookup::getInstance($this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'asgtqbt4q3 mkb 431',
-			'city' => 'Allk3q4öklbj',
-			'country' => self::DE,
-		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
+	public function getShowAddressReturnsShowAddress() {
+		$this->fixture->setData(array('show_address' => TRUE));
 
 		$this->assertTrue(
-			$this->fixture->hasGeoError()
+			$this->fixture->getShowAddress()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function retrieveCoordinatesForInvalidAddressAndExistingCoordinatesDoesNotChangeExistingCoordinates() {
-		$latitude = 2.3;
-		$longitude = 3.4;
+	public function setShowAddressSetsShowAddress() {
+		$this->fixture->setData(array());
+		$this->fixture->setShowAddress(TRUE);
+		$this->assertSame(
+			TRUE,
+			$this->fixture->getShowAddress()
+		);
+	}
 
-		tx_realty_googleMapsLookup::getInstance($this->getMock('tx_oelib_templatehelper'))->clearCoordinates();
+
+	/*
+	 * Tests concerning getGeoAddress and hasGeoAddress
+	 */
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForNoAddressDataReturnsEmptyString() {
 		$this->fixture->loadRealtyObject(array(
-			'street' => 'asgtqbt4q3 mkb 431',
-			'city' => 'Allk3q4öklbj',
-			'country' => self::DE,
-			'has_coordinates' => TRUE,
-			'latitude' => $latitude,
-			'longitude' => $longitude,
+			'street' => '',
+			'zip' => '',
+			'city' => 0,
+			'country' => 0,
 		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertSame(
-			array('latitude' => $latitude, 'longitude' => $longitude),
-			$this->fixture->getGeoCoordinates($this->templateHelper)
+			'',
+			$this->fixture->getGeoAddress()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function retrieveCoordinatesForValidAddressAndShowAddressTrueRetrievesExactCoordinates() {
+	public function getGeoAddressForCityOnlyReturnsCityName() {
 		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
+			'street' => '',
+			'zip' => '',
 			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => self::DE,
-			'show_address' => TRUE,
+			'country' => 0,
 		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertSame(
-			array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE),
-			$this->fixture->getGeoCoordinates($this->templateHelper)
+			'Bonn',
+			$this->fixture->getGeoAddress()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function retrieveCoordinatesForValidAddressAndShowAddressTrueSetsHasCoordinatesToTrue() {
+	public function getGeoAddressForZipCodeOnlyReturnsEmptyString() {
 		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
+			'street' => '',
 			'zip' => '53111',
-			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => self::DE,
-			'show_address' => TRUE,
+			'city' => 0,
+			'country' => 0,
 		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
-
-		$this->assertTrue(
-			$this->fixture->hasGeoCoordinates()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function retrieveCoordinatesForValidAddressAndShowAddressFalseRetrievesCoordinates() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
-			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => self::DE,
-			'show_address' => FALSE,
-		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
 
 		$this->assertSame(
-			array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE),
-			$this->fixture->getGeoCoordinates($this->templateHelper)
+			'',
+			$this->fixture->getGeoAddress()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function retrieveCoordinatesForValidAddressAndShowAddressFalseSetsHasCoordinatesToTrue() {
+	public function getGeoAddressForZipCodeAndCityReturnsZipCodeAndCity() {
 		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
+			'street' => '',
 			'zip' => '53111',
 			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => self::DE,
-			'show_address' => FALSE,
+			'country' => 0,
 		));
-		$this->fixture->retrieveCoordinates($this->templateHelper);
 
-		$this->assertTrue(
-			$this->fixture->hasGeoCoordinates()
+		$this->assertSame(
+			'53111 Bonn',
+			$this->fixture->getGeoAddress()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function retrieveCoordinatesDoesNotChangeImagesPidWhenAddingCoordinatesToTheDatabase() {
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+	public function getGeoAddressForStreetAndZipCodeAndCityAndShowAddressEnabledReturnsStreetAndZipCodeAndCity() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
+			'country' => 0,
+			'show_address' => 1,
+		));
 
+		$this->assertSame(
+			'Am Hof 1, 53111 Bonn',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForStreetAndZipCodeAndCityAndShowAddressDisabledReturnsZipCodeAndCity() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
+			'country' => 0,
+			'show_address' => 0,
+		));
+
+		$this->assertSame(
+			'53111 Bonn',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForOnlyStreetAndShowAddressEnabledReturnsEmptyString() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '',
+			'city' => 0,
+			'country' => 0,
+			'show_address' => 1,
+		));
+
+		$this->assertSame(
+			'',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForStreetAndZipCodeAndShowAddressEnabledReturnsEmptyString() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 0,
+			'country' => 0,
+			'show_address' => 1,
+		));
+
+		$this->assertSame(
+			'',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForStreetAndZipCodeAndShowAddressDisabledReturnsEmptyString() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => 0,
+			'country' => 0,
+			'show_address' => 0,
+		));
+
+		$this->assertSame(
+			'',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForStreetAndCityAndShowAddressEnabledReturnsStreetAndCity() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '',
+			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
+			'country' => 0,
+			'show_address' => 1,
+		));
+
+		$this->assertSame(
+			'Am Hof 1, Bonn',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForStreetAndCityAndShowAddressDisabledReturnsCity() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '',
+			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
+			'country' => 0,
+			'show_address' => 0,
+		));
+
+		$this->assertSame(
+			'Bonn',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForStreetAndZipCodeAndCityAndCountryAndShowAddressEnabledReturnsStreetAndZipCodeAndCityAndCountry() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
 			'zip' => '53111',
 			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
 			'country' => self::DE,
+			'show_address' => 1,
 		));
-		$this->fixture->addImageRecord('foo', 'foo.jpg');
-		$this->fixture->writeToDatabase($this->otherPageUid);
-		$this->fixture->retrieveCoordinates($this->templateHelper);
+
+		$this->assertSame(
+			'Am Hof 1, 53111 Bonn, DE',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForStreetAndZipCodeAndCityAndCountryAndShowAddressDisabledReturnsZipCodeAndCityAndCountry() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
+			'country' => self::DE,
+			'show_address' => 0,
+		));
+
+		$this->assertSame(
+			'53111 Bonn, DE',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForCityAndCountryReturnsCityAndCountry() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => '',
+			'zip' => '',
+			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
+			'country' => self::DE,
+		));
+
+		$this->assertSame(
+			'Bonn, DE',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getGeoAddressForOnlyCountryReturnsEmptyString() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => '',
+			'zip' => '',
+			'city' => 0,
+			'country' => self::DE,
+		));
+
+		$this->assertSame(
+			'',
+			$this->fixture->getGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasGeoAddressForNoAddressDataReturnsFalse() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => '',
+			'zip' => '',
+			'city' => 0,
+			'country' => 0,
+		));
+
+		$this->assertFalse(
+			$this->fixture->hasGeoAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasGeoAddressForFullAddressReturnsTrue() {
+		$this->fixture->loadRealtyObject(array(
+			'street' => 'Am Hof 1',
+			'zip' => '53111',
+			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
+			'country' => self::DE,
+			'show_address' => 1,
+		));
 
 		$this->assertTrue(
-			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_IMAGES,
-				'image="foo.jpg" AND pid=' . $this->otherPageUid
-			)
+			$this->fixture->hasGeoAddress()
 		);
 	}
 
@@ -4160,6 +4292,106 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->hasZip()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCityForNoCityReturnsNull() {
+		$this->fixture->setData(array());
+
+		$this->assertNull(
+			$this->fixture->getCity()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCityForExistingCityReturnsCity() {
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => 'Berlin')
+		);
+		$this->fixture->setData(array('city' => $cityUid));
+		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+
+		$this->assertSame(
+			$city,
+			$this->fixture->getCity()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasCityForNoCityReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasCity()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasCityForExistingCityReturnsTrue() {
+		$cityUid = $this->testingFramework->createRecord(
+			REALTY_TABLE_CITIES,
+			array('title' => 'Berlin')
+		);
+		$this->fixture->setData(array('city' => $cityUid));
+
+		$this->assertTrue(
+			$this->fixture->hasCity()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCountryForNoCountryReturnsNull() {
+		$this->fixture->setData(array());
+
+		$this->assertNull(
+			$this->fixture->getCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCountryForExistingCountryReturnsCountry() {
+		$this->fixture->setData(array('country' => self::DE));
+		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(self::DE);
+
+		$this->assertSame(
+			$country,
+			$this->fixture->getCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasCountryForNoCountryReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasCountryForExistingCountryReturnsTrue() {
+		$this->fixture->setData(array('country' => self::DE));
+
+		$this->assertTrue(
+			$this->fixture->hasCountry()
 		);
 	}
 
