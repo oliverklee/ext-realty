@@ -1683,7 +1683,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @return void
 	 */
 	protected function setLatitude($latitude) {
-		$this->setAsFloat('latitude', $latitude);
+		$this->setAsString('latitude', number_format($latitude, 6, '.', ''));
 	}
 
 	/**
@@ -1694,7 +1694,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @return void
 	 */
 	protected function setLongitude($longitude) {
-		$this->setAsFloat('longitude', $longitude);
+		$this->setAsString('longitude', number_format($longitude, 6, '.', ''));
 	}
 
 	/**
