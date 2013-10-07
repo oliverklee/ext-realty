@@ -158,6 +158,10 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'hoa_fee':
 				// The fallthrough is intended.
 			case 'garage_price':
+				// The fallthrough is intended.
+			case 'deposit':
+				// The fallthrough is intended.
+			case 'provision':
 				$result = $this->getFormattedPrice($key);
 				break;
 			case 'usable_from':

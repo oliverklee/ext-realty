@@ -1,4 +1,5 @@
 0.5.6 - currently working on
+- [#4737] Fix: Missing currency sign for deposit and provision
 - [#1927] Fix: Unit tests don't run properly on Windows
 
 0.5.5 - released 2013-03-22
