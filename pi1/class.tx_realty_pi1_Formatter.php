@@ -189,6 +189,10 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'rent_per_square_meter':
 				// The fallthrough is intended.
 			case 'garage_price':
+				// The fallthrough is intended.
+			case 'deposit':
+				// The fallthrough is intended.
+			case 'provision':
 				$result = htmlentities($this->getFormattedPrice($key), ENT_QUOTES, 'utf-8');
 				break;
 			case 'bedrooms':
