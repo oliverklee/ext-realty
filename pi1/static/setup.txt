@@ -143,8 +143,6 @@ plugin.tx_realty_pi1 {
 
 	# whether Google Maps should be displayed in the FE
 	showGoogleMaps = 0
-	# Google Maps API key
-	googleMapsApiKey =
 	# default country for objects that have no country set (a UID
 	# from the static_countries table, 54 = Germany)
 	defaultCountryUID = 54

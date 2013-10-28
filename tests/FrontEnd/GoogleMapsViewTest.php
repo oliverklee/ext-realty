@@ -64,11 +64,6 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	protected $geoCoder = NULL;
 
 	/**
-	 * @var string a valid Google Maps API key for localhost
-	 */
-	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
-
-	/**
 	 * @var float latitude
 	 */
 	const LATITUDE = 50.7;
@@ -110,7 +105,6 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1_GoogleMapsView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-				'googleMapsApiKey' => self::GOOGLE_MAPS_API_KEY,
 				'defaultCountryUID' => 54,
 			),
 			$GLOBALS['TSFE']->cObj,
@@ -404,7 +398,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertRegExp(
-			'/bindInfoWindowHtml\(\'[^\']*A really long title that is not …/',
+			'/myInfoWindow\.setContent\(\'[^\']*A really long title that is not …/',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -418,7 +412,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertRegExp(
-			'/bindInfoWindowHtml\(\'[^\']*Main Street/',
+			'/myInfoWindow\.setContent\(\'[^\']*Main Street/',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
@@ -479,21 +473,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertContains(
-			'setZoom',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function renderSetsDoesNotSetAutoZoomForOnlyOneObjectWithCoordinates() {
-		$this->fixture->setMapMarker($this->realtyUid);
-
-		$this->fixture->render();
-
-		$this->assertNotContains(
-			'setZoom',
+			'zoom:',
 			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}

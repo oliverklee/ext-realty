@@ -273,7 +273,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 		if ($this->objectToCheck->getConfValueBoolean(
 			'showGoogleMaps', 's_googlemaps'
 		)) {
-			$this->checkGoogleMapsApiKey();
 			$this->checkDefaultCountry();
 		}
 	}
@@ -1104,21 +1103,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies whether a Google Map of an object should be ' .
 				'shown. If this value is not set correctly, the map might not ' .
 				'get shown although it should be shown (or vice versa).'
-		);
-	}
-
-	/**
-	 * Checks the settings for the Google Maps API key.
-	 *
-	 * @return void
-	 */
-	private function checkGoogleMapsApiKey() {
-		$this->checkForNonEmptyString(
-			'googleMapsApiKey',
-			TRUE,
-			's_googlemaps',
-			'This determines the Google Maps API key. If this is not set ' .
-				'correctly, Google Maps will produce an error message.'
 		);
 	}
 

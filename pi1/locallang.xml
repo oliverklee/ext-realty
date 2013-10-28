@@ -54,7 +54,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
@@ -450,7 +449,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">FE-Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Zeige Google Maps in der Listenansicht:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google-Maps-API-Schlüssel:</label>
 			<label index="realty.pi_flexform.defaultCountry">Standard-Land der Objekte:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Suchformular</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Angezeigte Suchfelder:</label>
@@ -839,7 +837,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">FE-Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Toon Google Maps:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key</label>
 			<label index="realty.pi_flexform.defaultCountry">Default land voor objecten</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Zoekformulier</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Toon de zoekvelden:</label>
@@ -1499,7 +1496,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Mapas Google</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Mostrar Mapas de Google en el listado</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Clave API de Mapas Google</label>
 			<label index="realty.pi_flexform.defaultCountry">Pais Standart de los objetos</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Formulario de busqueda</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Campos del formulario de busqueda</label>
@@ -1888,7 +1884,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">Editor FE</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Mostra Google Maps:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Nazione di default degli immobili:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Modulo di ricerca</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Campi di ricerca da visualizzare:</label>
@@ -2214,7 +2209,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor" type="integer">18177806</label>
 			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
 			<label index="realty.pi_flexform.showGoogleMaps" type="integer">32573731</label>
-			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
@@ -2592,7 +2586,6 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords" type="integer">3674712</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid" type="integer">1493962</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail" type="integer">147420665</label>
-			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
 			<label index="realty.pi_flexform.showGoogleMaps" type="integer">32573731</label>
 			<label index="label_title" type="integer">192455458</label>
@@ -3347,7 +3340,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor" type="integer">18177806</label>
 			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
 			<label index="realty.pi_flexform.showGoogleMaps" type="integer">32573731</label>
-			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
@@ -3650,7 +3642,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor" type="integer">18177806</label>
 			<label index="realty.pi_flexform.sheet_googlemaps" type="integer">81136306</label>
 			<label index="realty.pi_flexform.showGoogleMaps" type="integer">83129911</label>
-			<label index="realty.pi_flexform.googleMapsApiKey" type="integer">96466718</label>
 			<label index="realty.pi_flexform.defaultCountry" type="integer">156493719</label>
 			<label index="realty.pi_flexform.sheet_searchForm" type="integer">184654558</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields" type="integer">264769610</label>
@@ -3976,7 +3967,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
@@ -4354,7 +4344,6 @@
 			<label index="realty.pi_flexform.sysFolderForFeCreatedRecords">System folder for FE-created records:</label>
 			<label index="realty.pi_flexform.feEditorRedirectPid">FE page displayed after saving a FE-created record:</label>
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
 			<label index="label_title">Title</label>
@@ -5109,7 +5098,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>
@@ -5412,7 +5400,6 @@
 			<label index="realty.pi_flexform.sheet_feeditor">FE Editor</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps:</label>
-			<label index="realty.pi_flexform.googleMapsApiKey">Google Maps API key:</label>
 			<label index="realty.pi_flexform.defaultCountry">Default country of objects:</label>
 			<label index="realty.pi_flexform.sheet_searchForm">Search form</label>
 			<label index="realty.pi_flexform.displayedSearchWidgetFields">Search fields to show:</label>

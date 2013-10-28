@@ -68,10 +68,14 @@ class tx_realty_mapMarker {
 			return '';
 		}
 
-		$result = 'marker = new GMarker(' . $this->getCoordinates() .
-			$this->getTitle() . ');' . LF .
-			$this->getInfoWindow() .
-			'map.addOverlay(marker);' . LF;
+		$result = 'var marker = new google.maps.Marker({' . LF .
+			'position: ' . $this->getCoordinates() . ',' . LF .
+			'map: map,' . LF .
+			'title: "' . $this->title . '"});' . LF .
+			'markersArray.push(marker);' . LF .
+			'google.maps.event.addListener(marker, \'click\', function() {' . LF .
+			'myInfoWindow.setContent(\'' . $this->infoWindowHtml . '\');' . LF .
+			'myInfoWindow.open(map,this);});' . LF;
 
 		return $result;
 	}
@@ -103,7 +107,8 @@ class tx_realty_mapMarker {
 			return '';
 		}
 
-		return 'new GLatLng(' . number_format($this->latitude, 6, '.', '') . ',' . number_format($this->longitude, 6, '.', '') . ')';
+		return 'new google.maps.LatLng(' . number_format($this->latitude, 6, '.', '') . ',' .
+			number_format($this->longitude, 6, '.', '') . ')';
 	}
 
 	/**
@@ -143,37 +148,6 @@ class tx_realty_mapMarker {
 	 */
 	private function hasCoordinates() {
 		return $this->coordinatesHaveBeenSet;
-	}
-
-	/**
-	 * Returns this object's title as a JavaScript object declaration, starting
-	 * with a comma.
-	 *
-	 * @return string a JavaScript object declaration for this marker's
-	 *                title starting with a comma, an empty string if this
-	 *                marker has no title
-	 */
-	private function getTitle() {
-		if ($this->title == '') {
-			return '';
-		}
-
-		return ', {title: "' . $this->title . '"}';
-	}
-
-	/**
-	 * Creates a JavaScript snippet for adding the info window HTML.
-	 *
-	 * @return string info window creation JavaScript with trailing LF,
-	 *                will be empty if this marker has no info window HTML
-	 */
-	private function getInfoWindow() {
-		if ($this->infoWindowHtml == '') {
-			return '';
-		}
-
-		return
-			'marker.bindInfoWindowHtml(\'' . $this->infoWindowHtml . '\');' . LF;
 	}
 }
 

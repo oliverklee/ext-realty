@@ -119,44 +119,36 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function addGoogleMapToHtmlHead() {
 		$generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
-			'src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' .
-			$this->getConfValueString(
-				'googleMapsApiKey', 's_googlemaps'
-			) . '"></script>' . LF;
+			'src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>' . LF;
 		$createMapJavaScript = '<script type="text/javascript">' . LF .
 			'/*<![CDATA[*/' . LF .
 			'function initializeMap() {' . LF .
-			'if (GBrowserIsCompatible()) {'. LF .
-			'var map = new GMap2(document.getElementById("tx_realty_map"));' . LF .
-			'map.setCenter(' . $this->mapMarkers[0]->getCoordinates() .
-				', ' . self::ZOOM_FOR_SINGLE_MARKER . ');' . LF .
-			'map.enableContinuousZoom();' . LF .
-			'map.addControl(new GLargeMapControl());' . LF .
-			'map.addControl(new GMapTypeControl());' . LF .
-			'var bounds = new GLatLngBounds();' . LF .
-			'var marker;' . LF;
+			'var mapOptions = {' . LF .
+			'zoom: ' . self::ZOOM_FOR_SINGLE_MARKER . ',' . LF .
+			'center: ' . $this->mapMarkers[0]->getCoordinates() . ',' . LF .
+    		'mapTypeControl: true,' . LF .
+   			'navigationControl: true,' . LF .
+   			'streetViewControl: false,' . LF .
+    		'mapTypeId: google.maps.MapTypeId.ROADMAP' . LF .
+			'}; ' . LF .
+			'var map = new google.maps.Map(document.getElementById("tx_realty_map"), mapOptions);' . LF .
+			'var myInfoWindow = new google.maps.InfoWindow({' . LF .
+                'content: "Loading …"' . LF .
+            '});' . LF .
+			'var bounds = new google.maps.LatLngBounds();' . LF .
+			'var markersArray = [];';
 
 		foreach ($this->mapMarkers as $mapMarker) {
 			$createMapJavaScript .= $mapMarker->render() . LF .
-			'bounds.extend(' . $mapMarker->getCoordinates() . ');' . LF;
+				'bounds.extend(' . $mapMarker->getCoordinates() . ');' . LF;
 		}
 
-		if (count($this->mapMarkers) > 1) {
-			$createMapJavaScript .=
-				'map.setZoom(map.getBoundsZoomLevel(bounds));' . LF .
-				'map.setCenter(bounds.getCenter());' . LF;
-		}
-		$createMapJavaScript .=  '}'. LF .
-			'}' . LF .
-			'/*]]>*/</script>';
+		$createMapJavaScript .= 'map.fitBounds(bounds);' . LF  . '}' . LF . '/*]]>*/</script>';
 
-		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
-			=  $generalGoogleMapsJavaScript . $createMapJavaScript;
+		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'] = $generalGoogleMapsJavaScript . $createMapJavaScript;
 
-		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_maps']
-			= 'initializeMap();';
-		$GLOBALS['TSFE']->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
-			= 'GUnload();';
+		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_maps'] = 'initializeMap();';
+		$GLOBALS['TSFE']->JSeventFuncCalls['onunload']['tx_realty_pi1_maps'] = 'GUnload();';
 	}
 
 	/**
@@ -216,8 +208,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		$separateSingleViewPage = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')
+		$separateSingleViewPage = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->find($realtyObjectUid)->getProperty('details_page');
 
 		if ($separateSingleViewPage != '') {
@@ -230,8 +221,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					$this->prefixId, array('showUid' => $realtyObjectUid)
 				),
-				'useCacheHash' => ($this->getConfValueString('what_to_display')
-					!= 'favorites'),
+				'useCacheHash' => ($this->getConfValueString('what_to_display') != 'favorites'),
 			));
 		}
 

@@ -79,19 +79,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		$this->fixture->setCoordinates(50.734343, 7.10211);
 
 		$this->assertContains(
-			'.addOverlay(',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function renderDoesNotCreateTitleIfNoTitleHasBeenSet() {
-		$this->fixture->setCoordinates(50.734343, 7.10211);
-
-		$this->assertNotContains(
-			'title:',
+			'google.maps.LatLng(',
 			$this->fixture->render()
 		);
 	}
@@ -166,37 +154,12 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function renderDoesNotContainInfoWindowIfNoInfoWindowTextHasBeenSet() {
-		$this->fixture->setCoordinates(50.734343, 7.10211);
-
-		$this->assertNotContains(
-			'.bindInfoWindowHtml(',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function renderDoesNotContainInfoWindowIfEmptyInfoWindowTextHasBeenSet() {
-		$this->fixture->setCoordinates(50.734343, 7.10211);
-		$this->fixture->setInfoWindowHtml('');
-
-		$this->assertNotContains(
-			'.bindInfoWindowHtml(',
-			$this->fixture->render()
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function getInfoWindowContainsTextFromSetInfoWindowHtml() {
 		$this->fixture->setCoordinates(50.734343, 7.10211);
 		$this->fixture->setInfoWindowHtml('foo');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml(\'foo\')',
+			'myInfoWindow.setContent(\'foo\')',
 			$this->fixture->render()
 		);
 	}
@@ -209,7 +172,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		$this->fixture->setInfoWindowHtml('foo\'bar');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml(\'foo\\\'bar\')',
+			'myInfoWindow.setContent(\'foo\\\'bar\')',
 			$this->fixture->render()
 		);
 	}
@@ -222,7 +185,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		$this->fixture->setInfoWindowHtml('foo\\bar');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml(\'foo\\\\bar\')',
+			'myInfoWindow.setContent(\'foo\\\\bar\')',
 			$this->fixture->render()
 		);
 	}
@@ -235,7 +198,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		$this->fixture->setInfoWindowHtml('foo</bar');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml(\'foo<\\/bar\')',
+			'myInfoWindow.setContent(\'foo<\\/bar\')',
 			$this->fixture->render()
 		);
 	}
@@ -248,7 +211,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		$this->fixture->setInfoWindowHtml('foo"bar');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml(\'foo"bar\')',
+			'myInfoWindow.setContent(\'foo"bar\')',
 			$this->fixture->render()
 		);
 	}
@@ -261,7 +224,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		$this->fixture->setInfoWindowHtml('<strong>foo</strong><br />bar');
 
 		$this->assertContains(
-			'.bindInfoWindowHtml(\'<strong>foo<\/strong><br />bar\')',
+			'myInfoWindow.setContent(\'<strong>foo<\/strong><br />bar\')',
 			$this->fixture->render()
 		);
 	}
