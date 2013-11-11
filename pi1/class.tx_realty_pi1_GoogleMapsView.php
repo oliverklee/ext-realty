@@ -143,8 +143,11 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 				'bounds.extend(' . $mapMarker->getCoordinates() . ');' . LF;
 		}
 
-		$createMapJavaScript .= 'map.fitBounds(bounds);' . LF  . '}' . LF . '/*]]>*/</script>';
+		if (count($this->mapMarkers) > 1) {
+			$createMapJavaScript .= 'map.fitBounds(bounds);' . LF;
+		}
 
+		$createMapJavaScript .= '}' . LF . '/*]]>*/</script>';
 		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'] = $generalGoogleMapsJavaScript . $createMapJavaScript;
 
 		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_maps'] = 'initializeMap();';
