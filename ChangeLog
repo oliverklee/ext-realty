@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4792] Bugfix: Error in tx_realty_Import_OpenImmoImportTest
 - [#4779] Bugfix: Single view Google Maps is zoomed in too far
 - [#4678] Feature: Switch to Google Maps V3 (initial patch by Judith Haffner)
 - [#4737] Fix: Missing currency sign for deposit and provision

@@ -1242,8 +1242,10 @@ class tx_realty_openImmoImport {
 				foreach ($record['images'] as $image) {
 					$filesNotToCopy[] = $image['image'];
 				}
-				foreach ($record['documents'] as $document) {
-					$filesNotToCopy[] = $document['filename'];
+				if (isset($record['documents']) && is_array($record['documents'])) {
+					foreach ($record['documents'] as $document) {
+						$filesNotToCopy[] = $document['filename'];
+					}
 				}
 			}
 		}
