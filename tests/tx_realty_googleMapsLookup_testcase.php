@@ -190,6 +190,8 @@ class tx_realty_googleMapsLookup_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function lookUpReturnsCorrectCoordinatesForAFullGermanAddress() {
+		$this->markTestSkipped('Google does not support geocoding V2 anymore.');
+
 		$fixture = $this->getMock(
 			'tx_realty_googleMapsLookup',
 			array('throttle', 'getGoogleMapsApiKey'),

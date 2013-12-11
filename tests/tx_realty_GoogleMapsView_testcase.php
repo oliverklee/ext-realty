@@ -591,6 +591,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRenderSetsExactCachedCoordinatesOfTwoObjectsInHeader() {
+		$this->markTestSkipped('Google does not support geocoding V2 anymore.');
+
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
@@ -627,6 +629,8 @@ class tx_realty_GoogleMapsView_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRenderSetsRoughCachedCoordinatesOfTwoObjectsInHeader() {
+		$this->markTestSkipped('Google does not support geocoding V2 anymore.');
+
 		$this->testingFramework->changeRecord(
 			REALTY_TABLE_OBJECTS, $this->realtyUid,
 			array(
