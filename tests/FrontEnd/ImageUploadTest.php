@@ -478,4 +478,3 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

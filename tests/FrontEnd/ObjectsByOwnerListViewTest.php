@@ -554,4 +554,3 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 		);
 	}
 }
-?>

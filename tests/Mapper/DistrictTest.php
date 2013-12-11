@@ -610,4 +610,3 @@ class tx_realty_Mapper_DistrictTest extends tx_phpunit_testcase {
 		$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid);
 	}
 }
-?>

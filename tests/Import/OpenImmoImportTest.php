@@ -2855,4 +2855,3 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

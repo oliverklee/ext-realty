@@ -488,4 +488,3 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

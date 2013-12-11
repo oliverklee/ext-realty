@@ -1667,4 +1667,3 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

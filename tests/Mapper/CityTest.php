@@ -136,4 +136,3 @@ class tx_realty_Mapper_CityTest extends tx_phpunit_testcase {
 		$this->fixture->findByName('Hupflingen');
 	}
 }
-?>

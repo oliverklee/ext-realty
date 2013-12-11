@@ -615,4 +615,3 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

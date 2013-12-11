@@ -162,4 +162,3 @@ class tx_realty_FrontEnd_FurtherDescriptionViewTest extends tx_phpunit_testcase 
 		);
 	}
 }
-?>

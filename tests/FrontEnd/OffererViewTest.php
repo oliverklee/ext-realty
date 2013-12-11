@@ -488,4 +488,3 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

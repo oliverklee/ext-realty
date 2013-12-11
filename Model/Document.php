@@ -140,4 +140,3 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/Document.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/Document.php']);
 }
-?>

@@ -231,4 +231,3 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 		return parent::setUploadDirectory($path);
 	}
 }
-?>

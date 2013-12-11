@@ -136,4 +136,3 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

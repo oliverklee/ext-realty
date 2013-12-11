@@ -218,4 +218,3 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

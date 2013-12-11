@@ -42,4 +42,3 @@ class tx_realty_tests_fixtures_testingFrontEndView extends tx_realty_pi1_FrontEn
 		return 'Hi, I am the testingFrontEndView!';
 	}
 }
-?>

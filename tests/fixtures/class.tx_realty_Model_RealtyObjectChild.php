@@ -147,4 +147,3 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 		return parent::getAllProperties();
 	}
 }
-?>

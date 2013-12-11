@@ -166,4 +166,3 @@ class tx_realty_FrontEnd_FormTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

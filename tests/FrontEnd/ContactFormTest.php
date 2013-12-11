@@ -2471,4 +2471,3 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

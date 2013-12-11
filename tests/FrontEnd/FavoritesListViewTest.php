@@ -548,4 +548,3 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 	}
 }
-?>

@@ -478,4 +478,3 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

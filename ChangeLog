@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4832] Cleanup: Remove the closing PHP tags
 - [#4792] Fix: Error in tx_realty_Import_OpenImmoImportTest
 - [#4779] Fix: Single view Google Maps is zoomed in too far
 - [#4678] Feature: Switch to Google Maps V3 (initial patch by Judith Haffner)

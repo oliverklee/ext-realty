@@ -199,4 +199,3 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

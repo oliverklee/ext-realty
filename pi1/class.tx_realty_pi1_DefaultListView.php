@@ -183,4 +183,3 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_DefaultListView.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_DefaultListView.php']);
 }
-?>

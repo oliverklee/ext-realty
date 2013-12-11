@@ -3343,4 +3343,3 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

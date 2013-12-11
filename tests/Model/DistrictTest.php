@@ -134,4 +134,3 @@ class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

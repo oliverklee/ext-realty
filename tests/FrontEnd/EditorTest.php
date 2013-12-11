@@ -2249,4 +2249,3 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

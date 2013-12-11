@@ -645,4 +645,3 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture->checkAccess('other', array());
 	}
 }
-?>

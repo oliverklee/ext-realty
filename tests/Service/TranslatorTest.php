@@ -117,4 +117,3 @@ class tx_realty_Service_TranslatorTest extends tx_phpunit_testcase {
 		$this->fixture->translate('');
 	}
 }
-?>

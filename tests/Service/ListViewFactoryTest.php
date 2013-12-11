@@ -105,4 +105,3 @@ class tx_realty_Service_ListViewFactoryTest extends tx_phpunit_testcase {
 		tx_realty_pi1_ListViewFactory::make('foo', array(), $this->cObjMock);
 	}
 }
-?>

@@ -238,4 +238,3 @@ if (TYPO3_MODE == 'BE') {
 		'web', 'txrealtyM1', '', t3lib_extMgm::extPath($_EXTKEY) . 'BackEnd/'
 	);
 }
-?>

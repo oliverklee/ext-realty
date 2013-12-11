@@ -229,4 +229,3 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

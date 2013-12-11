@@ -186,6 +186,4 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 			'The second title is missing.'
 		);
 	}
-
 }
-?>

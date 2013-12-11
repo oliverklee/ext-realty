@@ -86,4 +86,3 @@ class tx_realty_Model_CityTest extends tx_phpunit_testcase {
 		$this->fixture->setTitle('');
 	}
 }
-?>

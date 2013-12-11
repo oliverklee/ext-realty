@@ -117,4 +117,3 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 		return parent::setRawRealtyData($rawRealtyData);
 	}
 }
-?>

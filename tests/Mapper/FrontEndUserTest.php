@@ -70,4 +70,3 @@ class tx_realty_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

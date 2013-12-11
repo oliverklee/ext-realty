@@ -499,4 +499,3 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

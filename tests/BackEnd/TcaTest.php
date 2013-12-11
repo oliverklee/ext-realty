@@ -109,4 +109,3 @@ class tx_realty_BackEnd_TcaTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

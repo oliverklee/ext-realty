@@ -69,4 +69,3 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 }
 
 tx_oelib_ObjectFactory::make('tx_realty_cli_ImageCleanUpStarter')->main();
-?>

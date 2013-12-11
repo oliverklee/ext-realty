@@ -307,4 +307,3 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

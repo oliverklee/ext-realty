@@ -412,4 +412,3 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

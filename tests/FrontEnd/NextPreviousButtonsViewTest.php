@@ -574,4 +574,3 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 		);
 	}
 }
-?>

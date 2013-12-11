@@ -317,4 +317,3 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

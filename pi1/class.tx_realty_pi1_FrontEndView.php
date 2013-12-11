@@ -73,4 +73,3 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 	 */
 	abstract public function render(array $piVars = array());
 }
-?>

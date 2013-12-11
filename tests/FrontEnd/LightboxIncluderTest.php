@@ -306,4 +306,3 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

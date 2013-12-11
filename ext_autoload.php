@@ -126,4 +126,3 @@ return array(
 	'tx_realty_tests_fixtures_testinglistview' => $extensionPath . 'tests/fixtures/class.tx_realty_tests_fixtures_TestingListView.php',
 	'tx_realty_tests_fixtures_testingfrontendview' => $extensionPath . 'tests/fixtures/class.tx_realty_tests_fixtures_testingFrontEndView.php',
 );
-?>

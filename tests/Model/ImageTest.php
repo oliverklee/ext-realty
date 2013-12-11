@@ -301,4 +301,3 @@ class tx_realty_Model_ImageTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

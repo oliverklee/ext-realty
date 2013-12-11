@@ -34,4 +34,3 @@ foreach($SOBE->include_once as $INC_FILE) {
 }
 
 echo $SOBE->render();
-?>

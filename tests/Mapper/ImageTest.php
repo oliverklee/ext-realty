@@ -147,4 +147,3 @@ class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
 		$this->fixture->delete($this->fixture->find($uid));
 	}
 }
-?>

@@ -746,4 +746,3 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		$fixture->render(array('showUid' => $realtyObject->getUid()));
 	}
 }
-?>

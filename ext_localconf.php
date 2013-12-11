@@ -117,5 +117,3 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['GLOBAL']['cliKeys']['cleanUpRealtyImages']
 // registers the eID functions for AJAX
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY]
 	= 'EXT:' . $_EXTKEY . '/Ajax/tx_realty_Ajax_Dispatcher.php';
-
-?>

@@ -193,4 +193,3 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/Image.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/Image.php']);
 }
-?>

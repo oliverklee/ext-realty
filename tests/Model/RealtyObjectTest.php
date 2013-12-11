@@ -4669,4 +4669,3 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setDistanceToTheSea(-1);
 	}
 }
-?>

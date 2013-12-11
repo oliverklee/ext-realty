@@ -2073,4 +2073,3 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_RealtyObject.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_RealtyObject.php']);
 }
-?>

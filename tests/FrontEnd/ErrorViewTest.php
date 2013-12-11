@@ -130,4 +130,3 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>

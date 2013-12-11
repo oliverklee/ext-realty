@@ -73,4 +73,3 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends tx_phpunit_testcase {
 		);
 	}
 }
-?>
