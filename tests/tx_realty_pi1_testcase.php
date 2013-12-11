@@ -123,6 +123,8 @@ class tx_realty_pi1_testcase extends tx_phpunit_testcase {
 	const DE = 54;
 
 	public function setUp() {
+		tx_oelib_configurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', FALSE);
+
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
