@@ -114,6 +114,7 @@ $TCA['tx_realty_images'] = array(
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY object',
 		'delete' => 'deleted',
+		'hideTable' => TRUE,
 		'enablecolumns' => array(
 			'disabled' => 'hidden'
 		),
@@ -134,6 +135,7 @@ $TCA['tx_realty_documents'] = array(
 		'transOrigDiffSourceField' => 'l18n_diffsource',
 		'default_sortby' => 'ORDER BY object',
 		'delete' => 'deleted',
+		'hideTable' => TRUE,
 		'enablecolumns' => array(),
 		'dynamicConfigFile' => $extPath . 'tca.php',
 		'iconfile' => $extIconRelPath . 'icon_tx_realty_documents.gif'
