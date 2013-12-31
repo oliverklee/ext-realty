@@ -1,3 +1,5 @@
+0.5.7 - currently working on
+
 0.5.6 - released 2013-12-31
 - [#4848] Change: Skip the Google Maps unit tests
 - [#4363] Fix: Skip the configuration check in the unit tests
