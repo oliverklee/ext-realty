@@ -54,7 +54,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * cache by object number, OpenImmo object ID and language, using values
 	 * from createCacheKeyFromObjectNumberAndObjectIdAndLanguage as keys
 	 *
-	 * @var array<tx_realty_Model_RealtyObject>
+	 * @var tx_realty_Model_RealtyObject[]
 	 */
 	private $cacheByObjectNumberAndObjectIdAndLanguage = array();
 

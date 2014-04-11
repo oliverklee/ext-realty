@@ -1223,7 +1223,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @param integer $offset
 	 *        the number of the image to retrieve (zero-based, may be zero)
 	 *
-	 * @return array<string>
+	 * @return string[]
 	 *         the image's caption, file name and thumbnail file name in an
 	 *         associative array, will be empty if no current row was set or if
 	 *         the queried image does not exist

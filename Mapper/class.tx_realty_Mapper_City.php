@@ -44,7 +44,7 @@ class tx_realty_Mapper_City extends tx_oelib_DataMapper {
 	/**
 	 * the column names of additional string keys
 	 *
-	 * @var array<string>
+	 * @var string[]
 	 */
 	protected $additionalKeys = array('title');
 

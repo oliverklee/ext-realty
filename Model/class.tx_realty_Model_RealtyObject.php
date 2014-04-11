@@ -200,7 +200,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Gets allowed image file extensions.
 	 *
-	 * @return array<string> lowercased allowed image file extensions, might be empty
+	 * @return string[] lowercased allowed image file extensions, might be empty
 	 */
 	protected function getAllowedImageExtensions() {
 		$allowedImageExtensions = t3lib_div::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), TRUE);
@@ -1813,7 +1813,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Builds the address for later formatting with the granularity defined in
 	 * the field "show_address".
 	 *
-	 * @return array<string>
+	 * @return string[]
 	 *         the htmlspecialchared address parts, will not be empty
 	 */
 	protected function getAddressParts() {

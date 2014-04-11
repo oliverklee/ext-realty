@@ -43,7 +43,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * size and lightbox configuration for the images using the image position
 	 * number (0...n) as first-level array keys
 	 *
-	 * @var array<array>
+	 * @var array[]
 	 */
 	private $imageConfiguration = array();
 

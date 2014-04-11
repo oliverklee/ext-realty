@@ -103,7 +103,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * fields that should be imported as decimals
 	 *
-	 * @var array<array>
+	 * @var array[]
 	 */
 	private static $decimalFields = array(
 		'sales_area' => array('flaechen' => 'verkaufsflaeche'),
@@ -115,7 +115,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * the keys of the fields that are of boolean type
 	 *
-	 * @var array<string>
+	 * @var string[]
 	 */
 	private static $booleanFields = array(
 		'show_address', 'heating_included', 'garden', 'barrier_free',
@@ -126,7 +126,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * the keys of the fields that are of richtext type
 	 *
-	 * @var array<string>
+	 * @var string[]
 	 */
 	private static $richtextFields = array(
 		'description', 'equipment', 'location', 'misc'
