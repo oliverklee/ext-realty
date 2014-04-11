@@ -101,18 +101,15 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		$this->fixture->__destruct();
+		$this->deleteTestImportFolder();
 
 		$GLOBALS['typo3CacheManager'] = $this->cacheManager;
+		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 
 		unset(
 			$this->fixture, $this->translator, $this->testingFramework,
-			$this->globalConfiguration, $this->cacheManager
+			$this->globalConfiguration, $this->cacheManager, $this->graphicsConfigurationBackup
 		);
-		$this->deleteTestImportFolder();
-
-		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 
 

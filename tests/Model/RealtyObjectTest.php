@@ -107,8 +107,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 
 		$this->cleanUpDatabase();
 
-		$this->templateHelper->__destruct();
-		$this->fixture->__destruct();
 		unset($this->fixture, $this->templateHelper, $this->testingFramework);
 	}
 
@@ -1940,7 +1938,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			array('object_number' => self::$objectNumber), TRUE
 		);
 		$realtyObject->writeToDatabase();
-		$realtyObject->__destruct();
 
 		$this->assertEquals(
 			1,
@@ -3171,8 +3168,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			0,
 			$realtyObject->getUid()
 		);
-
-		$realtyObject->__destruct();
 	}
 
 	/**
@@ -3203,8 +3198,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			'',
 			$realtyObject->getTitle()
 		);
-
-		$realtyObject->__destruct();
 	}
 
 	/**
@@ -3237,8 +3230,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			'',
 			$realtyObject->getCroppedTitle()
 		);
-
-		$realtyObject->__destruct();
 	}
 
 	/**

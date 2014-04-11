@@ -135,7 +135,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					'tx_realty_filterForm', $this->conf, $this->cObj
 				);
 				$result = $filterForm->render($this->piVars);
-				$filterForm->__destruct();
 				break;
 			case 'single_view':
 				$singleView = t3lib_div::makeInstance(
@@ -143,7 +142,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$this->isTestMode
 				);
 				$result = $singleView->render($this->piVars);
-				$singleView->__destruct();
 
 				// TODO: This can be moved to the single view class when
 				// Bug #2432 is fixed.
@@ -164,9 +162,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				$formData['summaryStringOfFavorites']
 					= $favoritesList->createSummaryStringOfFavorites();
-				$favoritesList->__destruct();
 				$result = $contactForm->render($formData);
-				$contactForm->__destruct();
 				break;
 			case 'fe_editor':
 				$frontEndEditor = t3lib_div::makeInstance(
@@ -174,7 +170,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$this->piVars['showUid'], 'pi1/tx_realty_frontEndEditor.xml'
 				);
 				$result = $frontEndEditor->render();
-				$frontEndEditor->__destruct();
 				break;
 			case 'image_upload':
 				$imageUpload = t3lib_div::makeInstance(
@@ -182,14 +177,12 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 					$this->piVars['showUid'], 'pi1/tx_realty_frontEndImageUpload.xml'
 				);
 				$result = $imageUpload->render();
-				$imageUpload->__destruct();
 				break;
 			case 'offerer_list':
 				$offererList = t3lib_div::makeInstance(
 					'tx_realty_offererList', $this->conf, $this->cObj
 				);
 				$result = $offererList->render();
-				$offererList->__destruct();
 				break;
 			case 'favorites':
 				$listViewType = 'favorites';
@@ -202,14 +195,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 			default:
 				$listViewType = 'realty_list';
-				break;
+				$result = '';
 		}
 		if ($listViewType != '') {
 			$listView = tx_realty_pi1_ListViewFactory::make(
 				$listViewType, $this->conf, $this->cObj
 			);
 			$result = $listView->render($this->piVars);
-			$listView->__destruct();
 		}
 
 		return $result;
@@ -240,7 +232,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				'tx_realty_pi1_ErrorView', $this->conf, $this->cObj
 			);
 			$result = $errorView->render(array($exception->getMessage()));
-			$errorView->__destruct();
 		}
 
 		return $result;

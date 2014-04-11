@@ -1311,7 +1311,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// The faked record is marked as a test record and no fields are
 		// required to be set.
 		$this->setFakedFormValue('is_dummy_record', 1);
-		$this->realtyObject->__destruct();
 		$this->realtyObject = t3lib_div::makeInstance(
 			'tx_realty_Model_RealtyObject', $this->isTestMode
 		);

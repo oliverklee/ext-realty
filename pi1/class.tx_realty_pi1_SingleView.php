@@ -198,10 +198,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			$view->setMapMarker($uid);
 		}
 
-		$result = $view->render(array('showUid' => $uid));
-		$view->__destruct();
-
-		return $result;
+		return $view->render(array('showUid' => $uid));
 	}
 
 	/**
@@ -225,7 +222,6 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$this->hideSubpartsArray(
 			$visibilityTree->getKeysOfHiddenSubparts(), 'FIELD_WRAPPER'
 		);
-		$visibilityTree->__destruct();
 	}
 }
 

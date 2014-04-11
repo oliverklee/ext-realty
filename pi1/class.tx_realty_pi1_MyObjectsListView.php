@@ -159,7 +159,6 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 			$this->isTestMode
 		);
 		$frontEndEditor->deleteRecord();
-		$frontEndEditor->__destruct();
 	}
 
 	/**

@@ -78,7 +78,6 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
 	}
 

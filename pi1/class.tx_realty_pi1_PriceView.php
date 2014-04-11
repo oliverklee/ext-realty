@@ -81,7 +81,6 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 				'field_wrapper'
 			);
 			$this->hideSubparts($keyToHide, 'field_wrapper');
-			$formatter->__destruct();
 		}
 
 		return $hasValidContent ? $this->getSubpart('FIELD_WRAPPER_PRICE') : '';

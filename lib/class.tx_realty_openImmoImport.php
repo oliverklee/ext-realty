@@ -123,12 +123,6 @@ class tx_realty_openImmoImport {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		if (is_object($this->fileNameMapper)) {
-			$this->fileNameMapper->__destruct();
-		}
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
 		unset(
 			$this->globalConfiguration, $this->importedXml,
 			$this->realtyObject, $this->fileNameMapper
@@ -796,44 +790,41 @@ class tx_realty_openImmoImport {
 	 * @return string e-mail body
 	 */
 	private function fillEmailTemplate($recordsForOneEmail) {
-		$templateHelper = t3lib_div::makeInstance('tx_oelib_templatehelper');
-		$templateHelper->init(
+		/** @var $template Tx_Oelib_TemplateHelper */
+		$template = t3lib_div::makeInstance('Tx_Oelib_TemplateHelper');
+		$template->init(
 			array(
 				'templateFile' =>
 					$this->globalConfiguration->getAsString('emailTemplate')
 			)
 		);
-		$templateHelper->getTemplateCode();
+		$template->getTemplateCode();
 		$contentItem = array();
 
 		// collects data for the subpart 'CONTENT_ITEM'
-		$templateHelper->setMarker(
+		$template->setMarker(
 			'label_object_number',
 			$this->getTranslator()->translate('label_object_number')
 		);
 		foreach ($recordsForOneEmail as $record) {
 			// $record is an array of the object number associated with the log
-			$templateHelper->setMarker('object_number', key($record));
-			$templateHelper->setMarker('log', implode('', $record));
-			$contentItem[] = $templateHelper->getSubpart('CONTENT_ITEM');
+			$template->setMarker('object_number', key($record));
+			$template->setMarker('log', implode('', $record));
+			$contentItem[] = $template->getSubpart('CONTENT_ITEM');
 		}
 
 		// fills the subpart 'EMAIL_BODY'
-		$templateHelper->setMarker(
+		$template->setMarker(
 			'header', $this->getTranslator()->translate('message_introduction')
 		);
-		$templateHelper->setSubpart(
+		$template->setSubpart(
 			'CONTENT_ITEM', implode(LF, $contentItem)
 		);
-		$templateHelper->setMarker(
+		$template->setMarker(
 			'footer', $this->getTranslator()->translate('message_explanation')
 		);
 
-		$result = $templateHelper->getSubpart('EMAIL_BODY');
-
-		$templateHelper->__destruct();
-
-		return $result;
+		return $template->getSubpart('EMAIL_BODY');
 	}
 
 	/**
@@ -1327,12 +1318,7 @@ class tx_realty_openImmoImport {
 			'tx_realty_domDocumentConverter', $this->fileNameMapper
 		);
 
-		$result = $domDocumentConverter->getConvertedData($realtyRecords);
-
-		$domDocumentConverter->__destruct();
-		unset($domDocumentConverter);
-
-		return $result;
+		return $domDocumentConverter->getConvertedData($realtyRecords);
 	}
 
 	/**
@@ -1349,13 +1335,7 @@ class tx_realty_openImmoImport {
 	 * @return void
 	 */
 	protected function loadRealtyObject(array $data) {
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
-
-		$this->realtyObject = t3lib_div::makeInstance(
-			'tx_realty_Model_RealtyObject', $this->isTestMode
-		);
+		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data, TRUE);
 	}
 

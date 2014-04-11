@@ -83,10 +83,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 				break;
 			default:
 				$result = '';
-				break;
 		}
-
-		$offererList->__destruct();
 
 		return $result;
 	}

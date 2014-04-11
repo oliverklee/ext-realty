@@ -89,7 +89,6 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
 	}
 
@@ -143,7 +142,6 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		}
 
 		$realtyObject->writeToDatabase();
-		$realtyObject->__destruct();
 	}
 
 

@@ -63,8 +63,6 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-
 		unset($this->fixture);
 
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;

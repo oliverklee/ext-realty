@@ -75,8 +75,6 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			$visibilityTree->getKeysOfHiddenSubparts(), 'FIELD_WRAPPER'
 		);
 
-		$visibilityTree->__destruct();
-
 		return $this->getSubpart('FIELD_WRAPPER_NEXTPREVIOUSBUTTONS');
 	}
 
@@ -227,10 +225,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 
 		$listView->setPiVars($this->sanitizeAndSplitListViewLimitation());
 
-		$result = $listView->getUidForRecordNumber($recordPosition);
-		$listView->__destruct();
-
-		return $result;
+		return $listView->getUidForRecordNumber($recordPosition);
 	}
 
 

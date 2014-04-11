@@ -41,7 +41,6 @@ class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
 		unset($this->fixture);
 	}
 
@@ -103,8 +102,6 @@ class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
 			$city,
 			$this->fixture->getCity()
 		);
-
-		$city->__destruct();
 	}
 
 	/**
@@ -119,8 +116,6 @@ class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
 			$city,
 			$this->fixture->getCity()
 		);
-
-		$city->__destruct();
 	}
 
 	/**

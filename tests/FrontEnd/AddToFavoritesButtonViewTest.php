@@ -54,7 +54,6 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcas
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
 	}
 

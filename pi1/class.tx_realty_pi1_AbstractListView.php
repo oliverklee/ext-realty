@@ -125,9 +125,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		if ($this->formatter) {
-			$this->formatter->__destruct();
-		}
 		unset($this->formatter, $this->realtyObject);
 		parent::__destruct();
 	}
@@ -603,7 +600,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			'tx_realty_filterForm', $this->conf, $this->cObj
 		);
 		$whereClause .= $filterForm->getWhereClausePart($this->piVars);
-		$filterForm->__destruct();
 
 		return $whereClause;
 	}
@@ -955,25 +951,16 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return tx_realty_pi1_Formatter a formatter for the current row
 	 */
 	protected function getFormatter() {
-		if (!isset($this->internal['currentRow'])
-			|| empty($this->internal['currentRow'])
-		) {
+		if (!isset($this->internal['currentRow']) || empty($this->internal['currentRow'])) {
 			throw new BadMethodCallException('$this->internal[\'currentRow\'] must not be empty.', 1333036395);
 		}
 
-		$currentUid = $this->internal['currentRow']['uid'];
-		if ($this->formatter
-			&& ($this->formatter->getProperty('uid') != $currentUid)
-		) {
-			$this->formatter->__destruct();
-			unset($this->formatter);
+		$currentUid = (int) $this->internal['currentRow']['uid'];
+		if (($this->formatter !== NULL) && (((int) $this->formatter->getProperty('uid')) === $currentUid) ) {
+			return $this->formatter;
 		}
 
-		if (!$this->formatter) {
-			$this->formatter = t3lib_div::makeInstance(
-				'tx_realty_pi1_Formatter', $currentUid, $this->conf, $this->cObj
-			);
-		}
+		$this->formatter = t3lib_div::makeInstance('tx_realty_pi1_Formatter', $currentUid, $this->conf, $this->cObj);
 
 		return $this->formatter;
 	}
@@ -1322,7 +1309,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 		$this->unhideSubparts('google_map');
 		$this->setSubpart('google_map', $googleMapsView->render());
-		$googleMapsView->__destruct();
 	}
 
 	/**

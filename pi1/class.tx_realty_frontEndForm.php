@@ -101,10 +101,6 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		if (is_object($this->realtyObject)) {
-			$this->realtyObject->__destruct();
-		}
-
 		unset($this->formCreator, $this->realtyObject);
 
 		parent::__destruct();
@@ -254,7 +250,6 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObjectUid = $uid;
 
 		if ($this->realtyObject->getUid() != $uid) {
-			$this->realtyObject->__destruct();
 			$this->realtyObject = t3lib_div::makeInstance(
 				'tx_realty_Model_RealtyObject', $this->isTestMode
 			);

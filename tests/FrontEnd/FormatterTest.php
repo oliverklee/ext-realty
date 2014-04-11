@@ -74,7 +74,6 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
 		unset($this->realtyObject, $this->fixture, $this->testingFramework);
 	}
 

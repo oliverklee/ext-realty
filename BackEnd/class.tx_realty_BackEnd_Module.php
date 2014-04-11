@@ -81,7 +81,6 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 					'import_logs',
 					nl2br(htmlspecialchars($importer->importFromZip()))
 				);
-				$importer->__destruct();
 
 				$result .= $this->template->getSubpart('IMPORT_RESULT');
 			}

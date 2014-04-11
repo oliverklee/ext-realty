@@ -144,7 +144,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
 	}
 
@@ -680,8 +679,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$fixture->render();
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -724,8 +721,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$fixture->render();
-
-		$fixture->__destruct();
 	}
 
 
@@ -806,8 +801,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$fixture->translate('label_floor') . ' 3',
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -838,8 +831,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$fixture->translate('label_floor') . ' -3',
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -872,8 +863,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$fixture->translate('label_floor'),
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -912,8 +901,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$fixture->translate('label_floor') . ' 3',
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -960,8 +947,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			$fixture->translate('label_status_3'),
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -994,8 +979,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			'class="status_vacant"',
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -1028,8 +1011,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			'class="status_reserved"',
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -1062,8 +1043,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			'class="status_sold"',
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -1096,8 +1075,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			'class="status_rented"',
 			$fixture->render()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**

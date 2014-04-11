@@ -113,7 +113,6 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
 
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
@@ -150,7 +149,6 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$realtyObject->addImageRecord(self::$firstImageTitle, self::$firstImageFileName);
 		$realtyObject->addImageRecord(self::$secondImageTitle, self::$secondImageFileName);
 		$realtyObject->writeToDatabase();
-		$realtyObject->__destruct();
 
 		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
 	}
