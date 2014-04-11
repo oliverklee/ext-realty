@@ -830,8 +830,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
+		$translator = new tx_realty_translator();
+
 		$this->assertEquals(
-			tx_oelib_ObjectFactory::make('tx_realty_translator')->translate('label_allowed'),
+			$translator->translate('label_allowed'),
 			$result[0]['pets']
 		);
 	}
@@ -853,8 +855,10 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
+		$translator = new tx_realty_translator();
+
 		$this->assertEquals(
-			tx_oelib_ObjectFactory::make('tx_realty_translator')->translate('label_allowed'),
+			$translator->translate('label_allowed'),
 			$result[0]['pets']
 		);
 	}

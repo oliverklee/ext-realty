@@ -26,7 +26,7 @@
 $BE_USER->modAccess($MCONF, 1);
 $LANG->includeLLFile('EXT:realty/BackEnd/locallang.xml');
 
-$SOBE = tx_oelib_ObjectFactory::make('tx_realty_BackEnd_Module');
+$SOBE = t3lib_div::makeInstance('tx_realty_BackEnd_Module');
 $SOBE->init();
 
 foreach($SOBE->include_once as $INC_FILE) {

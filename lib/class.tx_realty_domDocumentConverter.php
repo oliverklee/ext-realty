@@ -513,7 +513,7 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function getTranslator() {
 		if (!self::$translator) {
-			self::$translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
+			self::$translator = t3lib_div::makeInstance('tx_realty_translator');
 		}
 
 		return self::$translator;

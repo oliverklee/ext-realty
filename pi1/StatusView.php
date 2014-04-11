@@ -55,7 +55,7 @@ class tx_realty_pi1_StatusView extends tx_realty_pi1_FrontEndView {
 			'statusclass', $statusClasses[$realtyObject->getStatus()]
 		);
 
-		$formatter = tx_oelib_ObjectFactory::make(
+		$formatter = t3lib_div::makeInstance(
 			'tx_realty_pi1_Formatter',
 			$piVars['showUid'], $this->conf, $this->cObj
 		);

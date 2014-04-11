@@ -45,7 +45,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		$visibilityTree = tx_oelib_ObjectFactory::make(
+		$visibilityTree = t3lib_div::makeInstance(
 			'tx_oelib_Visibility_Tree',
 			array('nextPreviousButtons' => array(
 				'previousButton' => FALSE, 'nextButton' => FALSE
@@ -217,7 +217,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 				tx_oelib_db::enableFields('tt_content')
 		);
 		/** @var $contentObject tslib_cObj */
-		$contentObject = tx_oelib_ObjectFactory::make('tslib_cObj');
+		$contentObject = t3lib_div::makeInstance('tslib_cObj');
 		$contentObject->start($contentData, 'tt_content');
 		$listView = tx_realty_pi1_ListViewFactory::make(
 			$this->piVars['listViewType'], $this->conf, $contentObject

@@ -92,7 +92,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 
-		$this->translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
+		$this->translator = new tx_realty_translator();
 		$this->cacheManager = $GLOBALS['typo3CacheManager'];
 
 		$this->fixture = new tx_realty_openImmoImportChild(TRUE);

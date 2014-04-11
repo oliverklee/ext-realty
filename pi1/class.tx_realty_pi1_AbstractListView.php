@@ -141,7 +141,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	protected function setRealtyObjectFromUid($realtyObjectUid) {
 		// @todo This needs to be changed to use the data mapper.
-		$this->realtyObject = tx_oelib_ObjectFactory::make(
+		$this->realtyObject = t3lib_div::makeInstance(
 			'tx_realty_Model_RealtyObject', $this->isTestMode
 		);
 		$this->realtyObject->loadRealtyObject($realtyObjectUid, TRUE);
@@ -599,7 +599,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				' IN (' . $searchSelection . ')';
 		}
 
-		$filterForm = tx_oelib_ObjectFactory::make(
+		$filterForm = t3lib_div::makeInstance(
 			'tx_realty_filterForm', $this->conf, $this->cObj
 		);
 		$whereClause .= $filterForm->getWhereClausePart($this->piVars);
@@ -970,7 +970,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		if (!$this->formatter) {
-			$this->formatter = tx_oelib_ObjectFactory::make(
+			$this->formatter = t3lib_div::makeInstance(
 				'tx_realty_pi1_Formatter', $currentUid, $this->conf, $this->cObj
 			);
 		}
@@ -1313,7 +1313,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			return;
 		}
 
-		$googleMapsView = tx_oelib_ObjectFactory::make(
+		$googleMapsView = t3lib_div::makeInstance(
 			'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj,
 			$this->isTestMode
 		);

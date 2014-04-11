@@ -1143,7 +1143,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		/** @var $district tx_realty_Model_District */
-		$district = tx_oelib_ObjectFactory::make('tx_realty_Model_District');
+		$district = t3lib_div::makeInstance('tx_realty_Model_District');
 		$district->setData(array('pid' => self::getPageIdForAuxiliaryRecords()));
 		$district->setTitle($title);
 		/** @var $city tx_realty_Model_City */
@@ -1312,7 +1312,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// required to be set.
 		$this->setFakedFormValue('is_dummy_record', 1);
 		$this->realtyObject->__destruct();
-		$this->realtyObject = tx_oelib_ObjectFactory::make(
+		$this->realtyObject = t3lib_div::makeInstance(
 			'tx_realty_Model_RealtyObject', $this->isTestMode
 		);
 		$this->realtyObject->setRequiredFields(array());

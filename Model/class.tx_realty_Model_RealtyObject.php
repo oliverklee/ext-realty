@@ -372,11 +372,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 		$result = $data;
 		$result['images'] = count($data['images']);
-		$this->images = tx_oelib_ObjectFactory::make('tx_oelib_List');
+		$this->images = t3lib_div::makeInstance('tx_oelib_List');
 
 		foreach ($data['images'] as $imageData) {
 			/** @var $image tx_realty_Model_Image */
-			$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
+			$image = t3lib_div::makeInstance('tx_realty_Model_Image');
 			$image->setTitle($imageData['caption']);
 			$image->setFileName($imageData['image']);
 			$image->setPageUid(intval($imageData['pid']));
@@ -411,11 +411,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 		$result = $data;
 		$result['documents'] = count($data['documents']);
-		$this->documents = tx_oelib_ObjectFactory::make('tx_oelib_List');
+		$this->documents = t3lib_div::makeInstance('tx_oelib_List');
 
 		foreach ($data['documents'] as $documentData) {
 			/** @var $document tx_realty_Model_Document */
-			$document = tx_oelib_ObjectFactory::make('tx_realty_Model_Document');
+			$document = t3lib_div::makeInstance('tx_realty_Model_Document');
 			$document->setTitle($documentData['title']);
 			$document->setFileName($documentData['filename']);
 			$document->setPageUid(intval($documentData['pid']));
@@ -1097,7 +1097,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		$this->set('images', $this->getAsInteger('images') + 1);
 
 		/** @var $image tx_realty_Model_Image */
-		$image = tx_oelib_ObjectFactory::make('tx_realty_Model_Image');
+		$image = t3lib_div::makeInstance('tx_realty_Model_Image');
 		$image->setTitle($caption);
 		if ($fileName != '') {
 			$image->setFileName($fileName);
@@ -1137,7 +1137,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		$this->set('documents', $this->getAsInteger('documents') + 1);
 
 		/** @var $document tx_realty_Model_Document */
-		$document = tx_oelib_ObjectFactory::make('tx_realty_Model_Document');
+		$document = t3lib_div::makeInstance('tx_realty_Model_Document');
 		if ($title != '') {
 			$document->setTitle($title);
 		}

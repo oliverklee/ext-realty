@@ -153,7 +153,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 		}
 
 		// For testing, the FE editor's FORMidable object must not be created.
-		$frontEndEditor = tx_oelib_ObjectFactory::make(
+		$frontEndEditor = t3lib_div::makeInstance(
 			'tx_realty_frontEndEditor', $this->conf, $this->cObj,
 			$this->piVars['delete'], 'pi1/tx_realty_frontEndEditor.xml',
 			$this->isTestMode

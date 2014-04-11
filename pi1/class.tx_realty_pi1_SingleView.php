@@ -188,7 +188,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *                requested view
 	 */
 	private function getView($uid, $viewName) {
-		$view = tx_oelib_ObjectFactory::make(
+		$view = t3lib_div::makeInstance(
 			'tx_realty_pi1_' . ucfirst($viewName) . 'View',
 			$this->conf, $this->cObj, $this->isTestMode
 		);
@@ -213,7 +213,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	private function hideActionButtonsIfNeccessary(array $displayedViews) {
-		$visibilityTree = tx_oelib_ObjectFactory::make(
+		$visibilityTree = t3lib_div::makeInstance(
 			'tx_oelib_Visibility_Tree',
 			array('actionButtons' => array(
 				'addToFavoritesButton' => FALSE,

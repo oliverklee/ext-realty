@@ -111,7 +111,7 @@ class tx_realty_lightboxIncluder {
 	 * @return void
 	 */
 	static private function addLightboxConfigurationToHeader() {
-		$translator = tx_oelib_ObjectFactory::make('tx_realty_translator');
+		$translator = t3lib_div::makeInstance('tx_realty_translator');
 
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox_config']
 			= '<script type="text/javascript">/*<![CDATA[*/' .

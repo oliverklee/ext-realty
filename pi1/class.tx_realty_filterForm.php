@@ -631,7 +631,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$currency = $this->getConfValueString('currencyUnit');
 
-		$priceViewHelper = tx_oelib_ObjectFactory::make(
+		$priceViewHelper = t3lib_div::makeInstance(
 			'tx_oelib_ViewHelper_Price'
 		);
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);

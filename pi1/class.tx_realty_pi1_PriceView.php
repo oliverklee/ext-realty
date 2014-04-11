@@ -70,7 +70,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 		}
 
 		if ($hasValidContent) {
-			$formatter = tx_oelib_ObjectFactory::make(
+			$formatter = t3lib_div::makeInstance(
 				'tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf,
 				$this->cObj
 			);

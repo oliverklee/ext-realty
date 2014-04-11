@@ -75,7 +75,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 
 		$rows = array();
 		$rowCounter = 0;
-		$formatter = tx_oelib_ObjectFactory::make(
+		$formatter = t3lib_div::makeInstance(
 			'tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj
 		);
 

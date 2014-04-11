@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4881] Cleanup: Use t3lib_div::makeInstance instead of ObjectFactory::make
 - [#4998] Cleanup: Use type[] instead of array<type>
 - [#4363] Fix: Skip the configuration check in the unit tests
 - [#4847] Fix: Hide the images and documents in the BE lists
