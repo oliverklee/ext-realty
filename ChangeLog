@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4572] Fix: Add .htaccess to all folders with private resources
 - [#3452] Change: Add the company name to ext_emconf.php
 - [#4648] Fix: Drop early __destruct calls
 - [#4881] Cleanup: Use t3lib_div::makeInstance instead of ObjectFactory::make
