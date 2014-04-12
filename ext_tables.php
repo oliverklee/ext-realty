@@ -176,7 +176,9 @@ $TCA['tx_realty_districts'] = array(
 	)
 );
 
-t3lib_div::loadTCA('fe_users');
+if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
+	t3lib_div::loadTCA('fe_users');
+}
 t3lib_extMgm::addTCAcolumns(
 	'fe_users',
 	array(
@@ -210,7 +212,9 @@ t3lib_extMgm::addTCAcolumns(
 );
 t3lib_extMgm::addToAllTCAtypes('fe_users','--div--;LLL:EXT:realty/locallang_db.xml:fe_users.tx_realty_tab,tx_realty_openimmo_anid,tx_realty_maximum_objects;;;;1-1-1,');
 
-t3lib_div::loadTCA('tt_content');
+if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
+	t3lib_div::loadTCA('tt_content');
+}
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']
 	= 'layout,select_key,pages,recursive';
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_pi1']
