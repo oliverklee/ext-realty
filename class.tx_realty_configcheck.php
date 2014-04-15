@@ -233,7 +233,6 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	private function checkCommonFrontEndSettings() {
 		$this->checkStaticIncluded();
-		$this->checkCssStyledContent();
 		$this->checkTemplateFile();
 		$this->checkSalutationMode();
 		$this->checkCssFileFromConstants();
