@@ -874,7 +874,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 			REALTY_TABLE_OBJECTS,
 			array(
 				'city' => $this->firstCityUid,
-				'pid' => $this->systemFolder,
+				'pid' => $systemFolder,
 				'floor' => 0,
 			)
 		);
