@@ -34,6 +34,11 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	/**
+	 * @var string
+	 */
+	const MODULE_NAME = 'web_txrealtyM1';
+
+	/**
 	 * @var tx_oelib_template template object
 	 */
 	private $template = NULL;
@@ -119,15 +124,13 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * @return string HTML for the OpenImmo tab, will not be empty
 	 */
 	private function createTab() {
-		$tabMenu = $this->doc->getTabMenu(
-			array('M' => 'web_txrealtyM1', 'id' => $this->id),
+		$moduleToken = t3lib_formprotection_Factory::get()->generateToken('moduleCall', self::MODULE_NAME);
+		return $this->doc->getTabMenu(
+			array('M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id),
 			'tab',
 			self::IMPORT_TAB,
 			array(self::IMPORT_TAB => $GLOBALS['LANG']->getLL('import_tab'))
 			) . $this->doc->spacer(5);
-
-		// $this->doc->getTabMenu adds a surplus ampersand after the "?".
-		return str_replace('mod.php?&amp;amp;M=', 'mod.php?M=', $tabMenu);
 	}
 
 	/**
@@ -137,7 +140,8 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * @return string the HTML output for the import button
 	 */
 	private function createImportButton() {
-		$this->template->setMarker('action_id', $this->id);
+		$moduleUrl = t3lib_BEfunc::getModuleUrl(self::MODULE_NAME, array('id' => $this->id));
+		$this->template->setMarker('module_url', htmlspecialchars($moduleUrl));
 		$this->template->setMarker(
 			'label_start_import',
 			$GLOBALS['LANG']->getLL('start_import_button')
