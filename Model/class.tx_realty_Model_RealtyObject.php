@@ -1586,7 +1586,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 		$addressParts = array();
 
-		if ($this->getShowAddress() && $this->hasStreet()) {
+		if ($this->hasStreet()) {
 			$addressParts[] = $this->getStreet();
 		}
 

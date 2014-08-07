@@ -2927,7 +2927,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getGeoAddressForStreetAndZipCodeAndCityAndShowAddressEnabledReturnsStreetAndZipCodeAndCity() {
+	public function getGeoAddressForStreetAndZipCodeAndCityReturnsStreetAndZipCodeAndCity() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
 			'zip' => '53111',
@@ -2945,25 +2945,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getGeoAddressForStreetAndZipCodeAndCityAndShowAddressDisabledReturnsZipCodeAndCity() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
-			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => 0,
-			'show_address' => 0,
-		));
-
-		$this->assertSame(
-			'53111 Bonn',
-			$this->fixture->getGeoAddress()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getGeoAddressForOnlyStreetAndShowAddressEnabledReturnsEmptyString() {
+	public function getGeoAddressForOnlyStreetReturnsEmptyString() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
 			'zip' => '',
@@ -2981,7 +2963,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getGeoAddressForStreetAndZipCodeAndShowAddressEnabledReturnsEmptyString() {
+	public function getGeoAddressForStreetAndZipCodeReturnsEmptyString() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
 			'zip' => '53111',
@@ -2999,25 +2981,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getGeoAddressForStreetAndZipCodeAndShowAddressDisabledReturnsEmptyString() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
-			'city' => 0,
-			'country' => 0,
-			'show_address' => 0,
-		));
-
-		$this->assertSame(
-			'',
-			$this->fixture->getGeoAddress()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getGeoAddressForStreetAndCityAndShowAddressEnabledReturnsStreetAndCity() {
+	public function getGeoAddressForStreetAndCityReturnsStreetAndCity() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
 			'zip' => '',
@@ -3035,25 +2999,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getGeoAddressForStreetAndCityAndShowAddressDisabledReturnsCity() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '',
-			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => 0,
-			'show_address' => 0,
-		));
-
-		$this->assertSame(
-			'Bonn',
-			$this->fixture->getGeoAddress()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getGeoAddressForStreetAndZipCodeAndCityAndCountryAndShowAddressEnabledReturnsStreetAndZipCodeAndCityAndCountry() {
+	public function getGeoAddressForStreetAndZipCodeAndCityAndCountryReturnsStreetAndZipCodeAndCityAndCountry() {
 		$this->fixture->loadRealtyObject(array(
 			'street' => 'Am Hof 1',
 			'zip' => '53111',
@@ -3064,24 +3010,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 
 		$this->assertSame(
 			'Am Hof 1, 53111 Bonn, DE',
-			$this->fixture->getGeoAddress()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getGeoAddressForStreetAndZipCodeAndCityAndCountryAndShowAddressDisabledReturnsZipCodeAndCityAndCountry() {
-		$this->fixture->loadRealtyObject(array(
-			'street' => 'Am Hof 1',
-			'zip' => '53111',
-			'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES, array('title' => 'Bonn')),
-			'country' => self::DE,
-			'show_address' => 0,
-		));
-
-		$this->assertSame(
-			'53111 Bonn, DE',
 			$this->fixture->getGeoAddress()
 		);
 	}

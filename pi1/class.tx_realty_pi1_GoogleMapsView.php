@@ -35,6 +35,13 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	/**
+	 * maximum fuzzing distance/radius
+	 *
+	 * @var float
+	 */
+	const GEO_FUZZING_DISTANCE = .15;
+
+	/**
 	 * @var array collected map markers for the current view
 	 */
 	private $mapMarkers = array();
@@ -171,6 +178,11 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 
 		if (!$realtyObject->hasGeoCoordinates()) {
 			tx_oelib_Geocoding_Google::getInstance()->lookUp($realtyObject);
+			if (!$realtyObject->getShowAddress()) {
+				/** @var tx_oelib_Geocoding_Calculator $geoCalculator */
+				$geoCalculator = t3lib_div::makeInstance('tx_oelib_Geocoding_Calculator');
+				$geoCalculator->moveInRandomDirection($realtyObject, self::GEO_FUZZING_DISTANCE);
+			}
 			$realtyObject->writeToDatabase();
 		}
 		if ($realtyObject->hasGeoError() || !$realtyObject->hasGeoCoordinates()) {
