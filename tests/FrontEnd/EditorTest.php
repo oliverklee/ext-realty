@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2013 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2008-2014 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,11 +37,11 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_frontEndEditor object to be tested
 	 */
-	private $fixture;
+	private $fixture = NULL;
 	/**
 	 * @var tx_oelib_testingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var integer UID of the dummy object
@@ -58,8 +58,12 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	private static $dummyStringValue = 'test value';
 
-	public function setUp() {
-		tx_oelib_mailerFactory::getInstance()->enableTestMode();
+	/**
+	 * @var t3lib_mail_Message
+	 */
+	private $message = NULL;
+
+	protected function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
@@ -74,22 +78,22 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_frontEndEditor(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-				'feEditorTemplateFile'
-					=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+				'feEditorTemplateFile' => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
 			),
-			$GLOBALS['TSFE']->cObj,
-			0,
-			'',
-			TRUE
+			$GLOBALS['TSFE']->cObj, 0, '', TRUE
 		);
+
+		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
+		t3lib_div::addInstance('t3lib_mail_Message', $this->message);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$GLOBALS['typo3CacheManager'] = $this->cacheManagerBackup;
 
 		$this->testingFramework->cleanUp();
+		t3lib_div::purgeInstances();
 
-		unset($this->fixture, $this->testingFramework);
+		unset($this->fixture, $this->testingFramework, $this->message);
 	}
 
 
@@ -108,7 +112,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 				array(
 					'username' => 'test_user',
 					'name' => 'Mr. Test',
-					'email' => 'mr-test@valid-email.org',
+					'email' => 'mr-test@example.com',
 					'tx_realty_openimmo_anid' => 'test-user-anid',
 				)
 			);
@@ -1985,12 +1989,13 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
-		$this->assertEquals(
-			'recipient@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+
+		$this->assertArrayHasKey(
+			'recipient@example.com',
+			$this->message->getTo()
 		);
 	}
 
@@ -2001,13 +2006,13 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-		$this->assertEquals(
-			'From: "Mr. Test" <mr-test@valid-email.org>'.LF,
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastHeaders()
+		$this->assertArrayHasKey(
+			'mr-test@example.com',
+			$this->message->getFrom()
 		);
 	}
 
@@ -2018,13 +2023,13 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
 			'Mr. Test',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2035,13 +2040,13 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		// This will create an empty dummy record.
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
 			'test_user',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2052,13 +2057,13 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('title', 'any title');
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
 			'any title',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2069,13 +2074,13 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', '1234');
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
 		$this->assertContains(
 			'1234',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2089,7 +2094,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('language', 'XY');
 		$this->fixture->writeFakedFormDataToDatabase();
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2101,7 +2106,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			(string) $expectedResult['uid'],
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2112,10 +2117,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('feEditorNotifyEmail', '');
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-		$this->assertEquals(
-			array(),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
-		);
+		$this->message->expects($this->never())->method('send');
 	}
 
 	/**
@@ -2124,14 +2126,11 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function noEmailIsSentForExistingObject() {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 		$this->fixture->setConfigurationValue(
-			'feEditorNotifyEmail', 'recipient@valid-email.org'
+			'feEditorNotifyEmail', 'recipient@example.com'
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-		$this->assertEquals(
-			array(),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastEmail()
-		);
+		$this->message->expects($this->never())->method('send');
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2013 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2007-2014 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -35,27 +35,31 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_openImmoImport instance to be tested
+	 * @var tx_realty_openImmoImport
 	 */
-	private $fixture;
+	private $fixture = NULL;
+
 	/**
 	 * @var tx_oelib_testingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
+
 	/**
 	 * @var tx_oelib_configurationProxy
 	 */
-	private $globalConfiguration;
+	private $globalConfiguration = NULL;
+
 	/**
 	 * @var tx_realty_translator
 	 */
-	private $translator;
+	private $translator = NULL;
 
 	/**
 	 * @var integer PID of the system folder where imported records will
 	 *              be stored
 	 */
 	private $systemFolderPid = 0;
+
 	/**
 	 * @var string path to the import folder
 	 */
@@ -69,7 +73,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
 	 * @var t3lib_cache_Manager
 	 */
-	private $cacheManager;
+	private $cacheManager = NULL;
 
 	/**
 	 * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
@@ -78,36 +82,42 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	private $graphicsConfigurationBackup;
 
-	public function setUp() {
+	/**
+	 * @var t3lib_mail_Message
+	 */
+	private $message = NULL;
+
+	protected function setUp() {
 		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
 
-		tx_oelib_MapperRegistry::getInstance()
-			->activateTestingMode($this->testingFramework);
+		tx_oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
-
-		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 
 		$this->translator = new tx_realty_translator();
 		$this->cacheManager = $GLOBALS['typo3CacheManager'];
 
 		$this->fixture = new tx_realty_openImmoImportChild(TRUE);
 		$this->setupStaticConditions();
+
+		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
+		t3lib_div::addInstance('t3lib_mail_Message', $this->message);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 		$this->deleteTestImportFolder();
+		t3lib_div::purgeInstances();
 
 		$GLOBALS['typo3CacheManager'] = $this->cacheManager;
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 
 		unset(
-			$this->fixture, $this->translator, $this->testingFramework,
+			$this->fixture, $this->translator, $this->testingFramework, $this->message,
 			$this->globalConfiguration, $this->cacheManager, $this->graphicsConfigurationBackup
 		);
 	}
@@ -132,7 +142,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			= 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
 
 		$this->globalConfiguration->setAsString(
-			'emailAddress', 'default-address@valid-email.org'
+			'emailAddress', 'default-address@example.org'
 		);
 		$this->globalConfiguration->setAsBoolean(
 			'onlyErrors', FALSE
@@ -2192,7 +2202,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->disableValidation();
 
 		$this->assertContains(
-			'default-address@valid-email.org',
+			'default-address@example.org',
 			$this->fixture->importFromZip()
 		);
 	}
@@ -2527,9 +2537,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->translator->translate('label_subject_openImmo_import'),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastSubject()
+			$this->message->getSubject()
 		);
 	}
 
@@ -2548,9 +2558,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('valid-email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		$this->assertArrayHasKey(
 			'contact-email-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+			$this->message->getTo()
 		);
 	}
 
@@ -2564,9 +2574,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
-			'default-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		$this->assertArrayHasKey(
+			'default-address@example.org',
+			$this->message->getTo()
 		);
 	}
 
@@ -2580,9 +2590,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
-			'default-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		$this->assertArrayHasKey(
+			'default-address@example.org',
+			$this->message->getTo()
 		);
 	}
 
@@ -2606,9 +2616,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		$this->assertArrayHasKey(
 			'owner-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+			$this->message->getTo()
 		);
 	}
 
@@ -2632,9 +2642,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		$this->assertArrayHasKey(
 			'owner-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+			$this->message->getTo()
 		);
 	}
 
@@ -2658,9 +2668,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		$this->assertArrayHasKey(
 			'contact-email-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+			$this->message->getTo()
 		);
 	}
 
@@ -2684,9 +2694,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('valid-email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		$this->assertArrayHasKey(
 			'contact-email-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+			$this->message->getTo()
 		);
 	}
 
@@ -2710,9 +2720,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
-			'default-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		$this->assertArrayHasKey(
+			'default-address@example.org',
+			$this->message->getTo()
 		);
 	}
 
@@ -2736,9 +2746,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
-			'default-address@valid-email.org',
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastRecipient()
+		$this->assertArrayHasKey(
+			'default-address@example.org',
+			$this->message->getTo()
 		);
 	}
 
@@ -2759,7 +2769,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->translator->translate('label_object_number'),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2775,7 +2785,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->translator->translate('message_introduction'),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2791,7 +2801,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->translator->translate('message_explanation'),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2810,7 +2820,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			$this->translator->translate('message_openimmo_anid_not_matches_allowed_fe_user'),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 
@@ -2848,7 +2858,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 				$this->translator->translate('message_object_limit_reached'),
 				'fooBar', $feUserUid, 1
 			),
-			tx_oelib_mailerFactory::getInstance()->getMailer()->getLastBody()
+			$this->message->getBody()
 		);
 	}
 }

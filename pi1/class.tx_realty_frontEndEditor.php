@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2013 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2008-2014 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -846,7 +846,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	}
 
 	/**
-	 * Sends an e-mail if a new object hase been createed.
+	 * Sends an e-mail if a new object has been created.
 	 *
 	 * Clears the FE cache for pages with the realty plugin.
 	 *
@@ -863,20 +863,20 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return void
 	 */
 	private function sendEmailForNewObject() {
-		if (($this->realtyObjectUid > 0)
-			|| !$this->hasConfValueString('feEditorNotifyEmail', 's_feeditor')
-		) {
+		if (($this->realtyObjectUid > 0) || !$this->hasConfValueString('feEditorNotifyEmail', 's_feeditor')) {
 			return;
 		}
 
-		tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
-			$this->getConfValueString('feEditorNotifyEmail', 's_feeditor'),
-			$this->translate('label_email_subject_fe_editor'),
-			$this->getFilledEmailBody(),
-			$this->getFromLineForEmail(),
-			'',
-			'UTF-8'
-		);
+		/** @var t3lib_mail_Message $email */
+		$email = t3lib_div::makeInstance('t3lib_mail_Message');
+		$email->setTo(array($this->getConfValueString('feEditorNotifyEmail', 's_feeditor') => ''));
+		$email->setSubject($this->translate('label_email_subject_fe_editor'));
+		$email->setBody($this->getFilledEmailBody());
+
+		$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		$email->setFrom(array($user->getEMailAddress() => $user->getName()));
+
+		$email->send();
 	}
 
 	/**
@@ -903,19 +903,6 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		return $this->getSubpart('FRONT_END_EDITOR_EMAIL');
-	}
-
-	/**
-	 * Returns the formatted "From:" header line for the e-mail to send.
-	 *
-	 * @return string formatted e-mail header line containing the sender,
-	 *                will not be empty
-	 */
-	private function getFromLineForEmail() {
-		$user = tx_oelib_FrontEndLoginManager::getInstance()
-			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-		return 'From: "' . $user->getName() . '" ' .
-			'<' . $user->getEMailAddress() . '>' . LF;
 	}
 
 	/**

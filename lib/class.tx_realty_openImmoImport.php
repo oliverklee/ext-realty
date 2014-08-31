@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2013 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2007-2014 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -846,17 +846,16 @@ class tx_realty_openImmoImport {
 		}
 
 		foreach ($addressesAndMessages as $address => $content) {
-			tx_oelib_mailerFactory::getInstance()->getMailer()->sendEmail(
-				$address,
-				$this->getTranslator()->translate('label_subject_openImmo_import'),
-				$this->fillEmailTemplate($content)
-			);
+			/** @var t3lib_mail_Message $email */
+			$email = t3lib_div::makeInstance('t3lib_mail_Message');
+			$email->setTo(array($address => ''));
+			$email->setSubject($this->getTranslator()->translate('label_subject_openImmo_import'));
+			$email->setBody($this->fillEmailTemplate($content));
 		}
 
 		if (!empty($addressesAndMessages)) {
 			$this->addToLogEntry(
-				$this->getTranslator()->translate('message_log_sent_to') .
-					': ' . implode(', ', array_keys($addressesAndMessages))
+				$this->getTranslator()->translate('message_log_sent_to') . ': ' . implode(', ', array_keys($addressesAndMessages))
 			);
 		}
 	}
