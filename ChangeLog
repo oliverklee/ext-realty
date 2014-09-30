@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#5147] Change: Sort the filter checkboxes in the list view by title
 - [#5069] Change: Rework the "inexact Google Maps" location feature
 - [#5083] Fix: Failing test in tx_realty_FrontEnd_AbstractListViewTest, thanks to Nicole Cordes
 - [#5063] Fix: Error about missing token when running the OpenImmo import from the BE module in 6.2

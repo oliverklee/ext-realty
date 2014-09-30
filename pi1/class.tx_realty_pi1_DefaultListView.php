@@ -149,9 +149,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
 			')' . tx_oelib_db::enableFields($currentTable);
 
-		$checkboxItems = tx_oelib_db::selectMultiple(
-			'uid, title', $currentTable, $whereClause
-		);
+		$checkboxItems = tx_oelib_db::selectMultiple('uid, title', $currentTable, $whereClause, '', 'title ASC');
 
 		foreach ($checkboxItems as $checkboxItem) {
 			if (in_array($checkboxItem['uid'], $currentSearch)) {
