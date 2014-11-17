@@ -54,6 +54,61 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	const STATUS_RENTED = 3;
 
 	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_TYPE_UNDEFINED = 0;
+
+	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_TYPE_REQUIREMENT = 1;
+
+	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_TYPE_CONSUMPTION = 2;
+
+	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_YEAR_UNDEFINED = 0;
+
+	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_YEAR_2008 = 1;
+
+	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_YEAR_2014 = 2;
+
+	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE = 3;
+
+	/**
+	 * @var int
+	 */
+	const ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED = 4;
+
+	/**
+	 * @var int
+	 */
+	const BUILDING_TYPE_UNDEFINED = 0;
+
+	/**
+	 * @var int
+	 */
+	const BUILDING_TYPE_RESIDENTIAL = 1;
+
+	/**
+	 * @var int
+	 */
+	const BUILDING_TYPE_BUSINESS = 2;
+
+	/**
 	 * @var string the charset that is used for the output
 	 */
 	private $renderCharset = 'utf-8';

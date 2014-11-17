@@ -3,8 +3,8 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-$TCA['tx_realty_objects'] = array(
-	'ctrl' => $TCA['tx_realty_objects']['ctrl'],
+$GLOBALS['TCA']['tx_realty_objects'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_objects']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .
 			'hidden,starttime,endtime,object_number,object_type,title,sorting,' .
@@ -24,7 +24,11 @@ $TCA['tx_realty_objects'] = array(
 			'contact_person,contact_email,phone_switchboard,' .
 			'phone_direct_extension,owner,language,currency,' .
 			'has_coordinates,coordinates_problem,longitude,latitude,' .
-			'advertised_date'
+			'advertised_date, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
+			'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
+			'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
+			'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
+			'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class'
 	),
 	'columns' => array(
 		'sys_language_uid' => array(
@@ -1214,6 +1218,181 @@ $TCA['tx_realty_objects'] = array(
 				'default' => '0',
 			),
 		),
+		'energy_certificate_type' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_type',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_UNDEFINED),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_type.requirement', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_REQUIREMENT),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_type.consumption', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION),
+				),
+			),
+		),
+		'energy_certificate_valid_until' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_valid_until',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'energy_consumption_characteristic' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_consumption_characteristic',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'with_hot_water' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.with_hot_water',
+			'config' => array(
+				'type' => 'check',
+				'default' => '0',
+			),
+		),
+		'ultimate_energy_demand' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.ultimate_energy_demand',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'primary_energy_carrier' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.primary_energy_carrier',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'electric_power_consumption_characteristic' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.electric_power_consumption_characteristic',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'heat_energy_consumption_characteristic' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heat_energy_consumption_characteristic',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'value_category' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.value_category',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'year_of_construction' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_of_construction',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'energy_certificate_issue_date' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_issue_date',
+			'config' => array(
+				'type' => 'input',
+				'size' => '8',
+				'max' => '20',
+				'eval' => 'date',
+				'default' => '0',
+				'checkbox' => '0',
+			),
+		),
+		'energy_certificate_year' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_year',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_UNDEFINED),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_year.2008', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2008),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_year.2014', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2014),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_year.not_available', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_year.not_required', tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED),
+				),
+			),
+		),
+		'building_type' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.building_type',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', tx_realty_Model_RealtyObject::BUILDING_TYPE_UNDEFINED),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.building_type.residential', tx_realty_Model_RealtyObject::BUILDING_TYPE_RESIDENTIAL),
+					array('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.building_type.business', tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS),
+				),
+			),
+		),
+		'energy_certificate_text' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate_text',
+			'config' => array(
+				'type' => 'text',
+				'cols' => '30',
+				'rows' => '5',
+			),
+		),
+		'heat_energy_requirement_value' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heat_energy_requirement_value',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'heat_energy_requirement_class' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heat_energy_requirement_class',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'total_energy_efficiency_value' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_energy_efficiency_value',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
+		'total_energy_efficiency_class' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_energy_efficiency_class',
+			'config' => array(
+				'type' => 'input',
+				'size' => 40,
+				'eval' => 'trim',
+			),
+		),
 	),
 	'types' => array(
 		'0' => array(
@@ -1260,7 +1439,13 @@ $TCA['tx_realty_objects'] = array(
 				'phone_direct_extension, owner, language, currency, ' .
 				'advertised_date;;;;2-2-2, ' .
 				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.geo, ' .
-				'has_coordinates, coordinates_problem, longitude, latitude',
+				'has_coordinates, coordinates_problem, longitude, latitude' .
+				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate, ' .
+				'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
+				'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
+				'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
+				'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
+				'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class'
 		),
 		'1' => array(
 			// for sale
@@ -1306,7 +1491,13 @@ $TCA['tx_realty_objects'] = array(
 				'phone_direct_extension, owner, language, currency, ' .
 				'advertised_date;;;;2-2-2, ' .
 				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.geo, ' .
-				'has_coordinates, coordinates_problem, longitude, latitude',
+				'has_coordinates, coordinates_problem, longitude, latitude, ' .
+				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate, ' .
+				'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
+				'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
+				'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
+				'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
+				'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class'
 		)
 	),
 	'palettes' => array(
@@ -1316,8 +1507,8 @@ $TCA['tx_realty_objects'] = array(
 
 
 
-$TCA['tx_realty_apartment_types'] = array(
-	'ctrl' => $TCA['tx_realty_apartment_types']['ctrl'],
+$GLOBALS['TCA']['tx_realty_apartment_types'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_apartment_types']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
@@ -1373,8 +1564,8 @@ $TCA['tx_realty_apartment_types'] = array(
 
 
 
-$TCA['tx_realty_house_types'] = array(
-	'ctrl' => $TCA['tx_realty_house_types']['ctrl'],
+$GLOBALS['TCA']['tx_realty_house_types'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_house_types']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
@@ -1430,8 +1621,8 @@ $TCA['tx_realty_house_types'] = array(
 
 
 
-$TCA['tx_realty_car_places'] = array(
-	'ctrl' => $TCA['tx_realty_car_places']['ctrl'],
+$GLOBALS['TCA']['tx_realty_car_places'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_car_places']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
@@ -1487,8 +1678,8 @@ $TCA['tx_realty_car_places'] = array(
 
 
 
-$TCA['tx_realty_pets'] = array(
-	'ctrl' => $TCA['tx_realty_pets']['ctrl'],
+$GLOBALS['TCA']['tx_realty_pets'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_pets']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
@@ -1544,8 +1735,8 @@ $TCA['tx_realty_pets'] = array(
 
 
 
-$TCA['tx_realty_images'] = array(
-	'ctrl' => $TCA['tx_realty_images']['ctrl'],
+$GLOBALS['TCA']['tx_realty_images'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_images']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,hidden,caption,image,thumbnail,position'
 	),
@@ -1664,8 +1855,8 @@ $TCA['tx_realty_images'] = array(
 
 
 
-$TCA['tx_realty_documents'] = array(
-	'ctrl' => $TCA['tx_realty_documents']['ctrl'],
+$GLOBALS['TCA']['tx_realty_documents'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_documents']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title,filename'
 	),
@@ -1746,8 +1937,8 @@ $TCA['tx_realty_documents'] = array(
 );
 
 
-$TCA['tx_realty_cities'] = array(
-	'ctrl' => $TCA['tx_realty_cities']['ctrl'],
+$GLOBALS['TCA']['tx_realty_cities'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_cities']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title'
 	),
@@ -1815,8 +2006,8 @@ $TCA['tx_realty_cities'] = array(
 
 
 
-$TCA['tx_realty_districts'] = array(
-	'ctrl' => $TCA['tx_realty_districts']['ctrl'],
+$GLOBALS['TCA']['tx_realty_districts'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_realty_districts']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title,city'
 	),
