@@ -54,16 +54,12 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * @param array $configuration TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
 	 */
-	public function __construct(
-		$realtyObjectUid, array $configuration, tslib_cObj $cObj
-	) {
+	public function __construct($realtyObjectUid, array $configuration, tslib_cObj $cObj) {
 		if ($realtyObjectUid <= 0) {
 			throw new InvalidArgumentException('$realtyObjectUid must be greater than zero.', 1333036496);
 		}
 
-		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->existsModel($realtyObjectUid, TRUE)
-		) {
+		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->existsModel($realtyObjectUid, TRUE)) {
 			throw new InvalidArgumentException(
 				'There was no realty object to load with the provided UID of ' . $realtyObjectUid .
 					'. The formatter can only work for existing, non-deleted realty objects.',
@@ -93,20 +89,25 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		$result = '';
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
+		$realtyObject = $this->getRealtyObject();
+		$uid = $this->getUid();
+		$rawProperty = ($key !== 'uid') ? $realtyObject->getProperty($key) : (string) $uid;
 
-		switch($key) {
+		switch ($key) {
 			case 'status':
-				$result = $this->getLabelForValidProperty(
-					'status', $realtyObject->getStatus()
-				);
+				$result = $this->getLabelForValidProperty('status', $realtyObject->getStatus());
 				break;
 			case 'flooring':
 				// The fallthrough is intended.
 			case 'heating_type':
 				// The fallthrough is intended.
 			case 'furnishing_category':
+				// The fallthrough is intended.
+			case 'energy_certificate_type':
+				// The fallthrough is intended.
+			case 'energy_certificate_year':
+				// The fallthrough is intended.
+			case 'building_type':
 				// The fallthrough is intended.
 			case 'state':
 				$result = $this->getLabelForValidNonZeroProperty($key);
@@ -122,17 +123,11 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'city':
 				// The fallthrough is intended.
 			case 'district':
-				$result = htmlspecialchars(
-					$realtyObject->getForeignPropertyField($key)
-				);
+				$result = htmlspecialchars($realtyObject->getForeignPropertyField($key));
 				break;
 			case 'country':
-				if ($realtyObject->getProperty($key)
-					!= $this->getConfValueInteger('defaultCountryUID')
-				) {
-					$result = $realtyObject->getForeignPropertyField(
-						$key, 'cn_short_local'
-					);
+				if ($rawProperty != $this->getConfValueInteger('defaultCountryUID')) {
+					$result = $realtyObject->getForeignPropertyField($key, 'cn_short_local');
 				}
 				break;
 			case 'total_area':
@@ -155,9 +150,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				$result = $this->getFormattedArea($key);
 				break;
 			case 'window_bank':
-				$result = $this->getFormattedNumber(
-					$key, $this->translate('label_meter')
-				);
+				$result = $this->getFormattedNumber($key, $this->translate('label_meter'));
 				break;
 			case 'distance_to_the_sea':
 				$result = $this->getFormattedNumber($key, $this->translate('label_meter'));
@@ -193,7 +186,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				$result = $this->getFormattedDecimal($key, 1);
 				break;
 			case 'usable_from':
-				$result = htmlspecialchars($realtyObject->getProperty($key));
+				$result = htmlspecialchars($rawProperty);
 				break;
 			case 'site_occupancy_index':
 				// The fallthrough is intended.
@@ -207,7 +200,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'parking_spaces':
 				// The fallthrough is intended.
 			case 'construction_year':
-				$number = $realtyObject->getProperty($key);
+				$number = (int) $rawProperty;
 				$result = ($number != 0) ? ((string) $number) : '';
 				break;
 			case 'heating_included':
@@ -230,10 +223,10 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 				// The fallthrough is intended.
 			case 'fitted_kitchen':
 				// The fallthrough is intended.
+			case 'with_hot_water':
+				// The fallthrough is intended.
 			case 'sea_view':
-				$result = ($realtyObject->getProperty($key) == 1)
-					? $this->translate('message_yes')
-					: '';
+				$result = ($rawProperty == 1) ? $this->translate('message_yes') : '';
 				break;
 			case 'description':
 				// The fallthrough is intended.
@@ -242,17 +235,20 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'location':
 				// The fallthrough is intended.
 			case 'misc':
-				$result = $this->pi_RTEcssText($realtyObject->getProperty($key));
+				$result = $this->pi_RTEcssText($rawProperty);
 				break;
 			case 'address':
 				$result = $realtyObject->getAddressAsHtml();
 				break;
 			case 'uid':
-				$result = $this->getUid();
+				$result = $uid;
+				break;
+			case 'energy_certificate_issue_date':
+				$timestamp = (int) $rawProperty;
+				$result = $this->formatDate($timestamp);
 				break;
 			default:
 				$result = htmlspecialchars($realtyObject->getProperty($key));
-				break;
 		}
 
 		return trim($result);
@@ -277,18 +273,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	private function getLabelForValidNonZeroProperty($key) {
 		$localizedStrings = array();
 
-		foreach (
-			t3lib_div::trimExplode(
-				',',
-				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-					->find($this->getUid())->getProperty($key),
-				TRUE
-			) as $value
-		) {
+		foreach (t3lib_div::trimExplode(',', $this->getRealtyObject()->getProperty($key), TRUE) as $value) {
 			if ($value >= 1) {
-				$localizedStrings[] = $this->getLabelForValidProperty(
-					$key, $value
-				);
+				$localizedStrings[] = $this->getLabelForValidProperty($key, $value);
 			}
 		}
 
@@ -299,11 +286,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * Returns the label for "label_[$key]_[$value]" or an empty string
 	 * if $value combined with label_[$key] is not a locallang key.
 	 *
-	 * @param string $key
-	 *        key of the current record's field that contains the suffix for the
-	 *        label to get, must not be empty
-	 * @param string $value
-	 *        the value to fetch the label for, must not be empty
+	 * @param string $key key of the current record's field that contains the suffix for the label to get, must not be empty
+	 * @param string $value the value to fetch the label for, must not be empty
 	 *
 	 * @return string
 	 *        localized string for the label "label_[$key]_[$value]",
@@ -331,9 +315,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *                be an empty string
 	 */
 	private function getFormattedArea($key) {
-		return $this->getFormattedNumber(
-			$key, $this->translate('label_squareMeters')
-		);
+		return $this->getFormattedNumber($key, $this->translate('label_squareMeters'));
 	}
 
 	/**
@@ -351,15 +333,13 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *                symbol appended, may be an empty string
 	 */
 	private function getFormattedPrice($key) {
-		$currency = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->getUid())->getProperty('currency');
+		$currency = $this->getRealtyObject()->getProperty('currency');
 
 		if ($currency == '') {
 			$currency = $this->getConfValueString('currencyUnit');
 		}
 
-		$rawValue = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->getUid())->getProperty($key);
+		$rawValue = $this->getRealtyObject()->getProperty($key);
 		if (($rawValue === '') || (floatval($rawValue) === 0.0)) {
 			return '';
 		}
@@ -386,8 +366,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *                string
 	 */
 	private function getFormattedNumber($key, $unit) {
-		$rawValue = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->getUid())->getProperty($key);
+		$rawValue = $this->getRealtyObject()->getProperty($key);
 		if (($rawValue == '') || (floatval($rawValue) == 0.0)) {
 			return '';
 		}
@@ -419,12 +398,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *                the value is zero.
 	 */
 	private function getFormattedDecimal($key, $decimals = 2) {
-		$value = str_replace(
-			',',
-			'.',
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($this->getUid())->getProperty($key)
-		);
+		$value = str_replace(',', '.', $this->getRealtyObject()->getProperty($key));
 
 		return $this->formatDecimal(floatval($value), $decimals);
 	}
@@ -450,6 +424,30 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		$decimalPoint = $localeConvention['decimal_point'];
 
 		return number_format($number, $decimals, $decimalPoint, '');
+	}
+
+	/**
+	 * Retrieves the realty object with the given UID.
+	 *
+	 * @return tx_realty_Model_RealtyObject
+	 */
+	protected function getRealtyObject() {
+		return tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
+	}
+
+	/**
+	 * Formats a timestamp as a date using the localized date format
+	 *
+	 * @param int $timestamp
+	 *
+	 * @return string the formatted date, will be empty if $timestamp is 0
+	 */
+	protected function formatDate($timestamp) {
+		if ($timestamp === 0) {
+			return '';
+		}
+
+		return date($this->translate('date_format'), $timestamp);
 	}
 }
 

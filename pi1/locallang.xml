@@ -109,6 +109,7 @@
 			<label index="realty.pi_flexform.status">object status</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="date_format">Y-m-d</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -401,6 +402,33 @@
 			<label index="message_no_such_owner">The selected offerer does not exist in the database.</label>
 			<label index="label_offerer_list">Offerer list</label>
 			<label index="label_this_owners_objects">All objects by this offerer</label>
+			<label index="label_energy_certificate">Energy certificate</label>
+			<label index="label_energy_certificate_type">Energy certificate type</label>
+			<label index="label_energy_certificate_type_1">requirement</label>
+			<label index="label_energy_certificate_type_2">consumption</label>
+			<label index="label_energy_certificate_valid_until">Energy certificate valid until</label>
+			<label index="label_energy_consumption_characteristic">Energy consumption characteristic</label>
+			<label index="label_with_hot_water">with hot water</label>
+			<label index="label_ultimate_energy_demand">Ultimate energy demand</label>
+			<label index="label_primary_energy_carrier">Primary energy carrier</label>
+			<label index="label_electric_power_consumption_characteristic">Electric power consumption characteristic</label>
+			<label index="label_heat_energy_consumption_characteristic">Heat energy consumption characteristic</label>
+			<label index="label_value_category">Value category according to EnEv 2014</label>
+			<label index="label_year_of_construction">Year of construction</label>
+			<label index="label_energy_certificate_issue_date">Energy certificate issue date</label>
+			<label index="label_energy_certificate_year">Energy certificate year</label>
+			<label index="label_energy_certificate_year_1">before 2014</label>
+			<label index="label_energy_certificate_year_2">after 2014-05-01</label>
+			<label index="label_energy_certificate_year_3">not available</label>
+			<label index="label_energy_certificate_year_4">not required</label>
+			<label index="label_building_type">Building type</label>
+			<label index="label_building_type_1">residential</label>
+			<label index="label_building_type_2">business</label>
+			<label index="label_energy_certificate_text">Energy certificate text</label>
+			<label index="label_heat_energy_requirement_value">Heat energy requirement value</label>
+			<label index="label_heat_energy_requirement_class">Heat energy requirement class</label>
+			<label index="label_total_energy_efficiency_value">Total energy efficiency value</label>
+			<label index="label_total_energy_efficiency_class">Total energy efficiency class</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="realty.pi_flexform.templateFile">HTML-Template:</label>
@@ -504,6 +532,7 @@
 			<label index="realty.pi_flexform.status">Objektstatus</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="date_format">d.m.Y</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
 			<label index="label_district">Ortsteil</label>
@@ -796,6 +825,33 @@
 			<label index="message_no_such_owner">Der gewählte Anbieter existiert leider nicht in der Datenbank.</label>
 			<label index="label_offerer_list">Anbieterliste</label>
 			<label index="label_this_owners_objects">Alle Objekte dieses Anbieters</label>
+			<label index="label_energy_certificate">Energieausweis</label>
+			<label index="label_energy_certificate_type">Energieausweisart</label>
+			<label index="label_energy_certificate_type_1">Bedarf</label>
+			<label index="label_energy_certificate_type_2">Verbrauch</label>
+			<label index="label_energy_certificate_valid_until">Energiepass gültig bis</label>
+			<label index="label_energy_consumption_characteristic">Energieverbrauchkennwert</label>
+			<label index="label_with_hot_water">mit Warmwasser</label>
+			<label index="label_ultimate_energy_demand">Endenergiebedarf</label>
+			<label index="label_primary_energy_carrier">Primärenergieträger</label>
+			<label index="label_electric_power_consumption_characteristic">Stromverbrauchskennwert</label>
+			<label index="label_heat_energy_consumption_characteristic">Heizenergieverbrauchskennwert</label>
+			<label index="label_value_category">Wertklasse gemäß EnEv 2014</label>
+			<label index="label_year_of_construction">Baujahr</label>
+			<label index="label_energy_certificate_issue_date">Energieausweis-Ausstellungsdatum</label>
+			<label index="label_energy_certificate_year">Energieausweis-Jahrgang</label>
+			<label index="label_energy_certificate_year_1">vor 2014</label>
+			<label index="label_energy_certificate_year_2">ab 1.5.2014</label>
+			<label index="label_energy_certificate_year_3">keiner vorhanden</label>
+			<label index="label_energy_certificate_year_4">nicht nötig</label>
+			<label index="label_building_type">Gebäudeart</label>
+			<label index="label_building_type_1">Wohngebäude</label>
+			<label index="label_building_type_2">Gewerbe</label>
+			<label index="label_energy_certificate_text">Energiepasstext</label>
+			<label index="label_heat_energy_requirement_value">Heizwärmebedarf-Wert</label>
+			<label index="label_heat_energy_requirement_class">Heizwärmebedarf-Klasse</label>
+			<label index="label_total_energy_efficiency_value">Gesamtenergieeffizienz-Wert</label>
+			<label index="label_total_energy_efficiency_class">Gesamtenergieeffizienz-Klasse</label>
 		</languageKey>
 		<languageKey index="nl" type="array">
 			<label index="realty.pi_flexform.templateFile">HTML Template</label>

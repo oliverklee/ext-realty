@@ -31,19 +31,14 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 *                with the provided UID has no data to show
 	 */
 	public function render(array $piVars = array()) {
-		$objectNumber = htmlspecialchars(
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($piVars['showUid'])->getProperty('object_number')
-		);
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($piVars['showUid']);
+		$objectNumber = htmlspecialchars($realtyObject->getProperty('object_number'));
 
-		$hasObjectNumber = $this->setOrDeleteMarkerIfNotEmpty(
-			'object_number', $objectNumber, '', 'field_wrapper'
-		);
+		$hasObjectNumber = $this->setOrDeleteMarkerIfNotEmpty('object_number', $objectNumber, '', 'field_wrapper');
 		$hasTableRows = $this->createTableRows($piVars['showUid']);
 
-		return ($hasObjectNumber || $hasTableRows)
-			? $this->getSubpart('FIELD_WRAPPER_OVERVIEWTABLE')
-			: '';
+		return ($hasObjectNumber || $hasTableRows) ? $this->getSubpart('FIELD_WRAPPER_OVERVIEWTABLE') : '';
 	}
 
 	/**
@@ -51,13 +46,12 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 * record's database fields specified via the TS setup variable
 	 * "fieldsInSingleViewTable".
 	 *
-	 * @param integer $uid UID of the realty object for which to create the table, must be > 0
+	 * @param int $uid UID of the realty object for which to create the table, must be > 0
 	 *
-	 * @return boolean TRUE if at least one row has been filled, FALSE otherwise
+	 * @return bool TRUE if at least one row has been filled, FALSE otherwise
 	 */
 	private function createTableRows($uid) {
 		$fieldNames = $this->getFieldNames($uid);
-
 		if (empty($fieldNames)) {
 			$this->hideSubparts('overview_row');
 			return FALSE;
@@ -65,19 +59,14 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 
 		$rows = array();
 		$rowCounter = 0;
-		$formatter = t3lib_div::makeInstance(
-			'tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj
-		);
+		/** @var tx_realty_pi1_Formatter $formatter */
+		$formatter = t3lib_div::makeInstance('tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj);
 
 		foreach ($fieldNames as $key) {
-			if ($this->setMarkerIfNotEmpty(
-				'data_current_row', $formatter->getProperty($key)
-			)) {
+			if ($this->setMarkerIfNotEmpty('data_current_row', $formatter->getProperty($key))) {
 				$position = ($rowCounter % 2) ? 'odd' : 'even';
 				$this->setMarker('class_position_in_list', $position);
-				$this->setMarker(
-					'label_current_row', $this->translate('label_' . $key)
-				);
+				$this->setMarker('label_current_row', $this->translate('label_' . $key));
 				$rows[] = $this->getSubpart('OVERVIEW_ROW');
 				$rowCounter++;
 			}
@@ -92,43 +81,41 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 * Returns the field names for which to create the overview table. They are
 	 * derived from the configuration in "fieldsInSingleViewTable".
 	 *
-	 * @param integer $uid UID of the realty object, must be > 0
+	 * @param int $uid UID of the realty object, must be > 0
 	 *
-	 * @return array field names with which to fill the overview table, will be
-	 *               empty if none are configured
+	 * @return string[] field names with which to fill the overview table, will be empty if none are configured
 	 */
 	public function getFieldNames($uid) {
 		if (!$this->hasConfValueString('fieldsInSingleViewTable')) {
 			return array();
 		}
 
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($uid);
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($uid);
 
-		if ($this->getConfValueBoolean('priceOnlyIfAvailable')
-			&& $realtyObject->isRentedOrSold()
-		) {
-			$fieldsToHide = array(
-				'rent_excluding_bills', 'extra_charges', 'deposit', 'provision',
-				'buying_price', 'hoa_fee', 'year_rent', 'rent_per_square_meter',
-				'garage_rent', 'garage_price'
+		if ($this->getConfValueBoolean('priceOnlyIfAvailable') && $realtyObject->isRentedOrSold()) {
+			$fieldsToHideForThisType = array(
+				'rent_excluding_bills', 'extra_charges', 'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
+				'rent_per_square_meter', 'garage_rent', 'garage_price'
 			);
 		} else {
-			$fieldsToHide = array();
+			$fieldsToHideForThisType = array();
 		}
 
-		$result = array();
-		foreach (t3lib_div::trimExplode(
-			',', $this->getConfValueString('fieldsInSingleViewTable'), TRUE
-		) as $key) {
-			if ($realtyObject->isAllowedKey($key)
-				&& !in_array($key, $fieldsToHide)
-			) {
-				$result[] = $key;
+		/** @var string[] $fieldNamesToShow */
+		$fieldNamesToShow = array();
+		/** @var string[] $fieldsConfiguredToShow */
+		$fieldsConfiguredToShow = t3lib_div::trimExplode(',', $this->getConfValueString('fieldsInSingleViewTable'), TRUE);
+
+		foreach ($fieldsConfiguredToShow as $key) {
+			$fieldIsAllowed = $realtyObject->isAllowedKey($key);
+			$fieldIsHidden = in_array($key, $fieldsToHideForThisType, TRUE);
+			if ($fieldIsAllowed && !$fieldIsHidden) {
+				$fieldNamesToShow[] = $key;
 			}
 		}
 
-		return $result;
+		return $fieldNamesToShow;
 	}
 }
 
