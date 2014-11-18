@@ -37,7 +37,7 @@ class tx_realty_domDocumentConverter {
 	 * The database column names are the keys of the outer array, their values
 	 * are arrays which have the category as key and the property as value.
 	 */
-	private static $propertyArray = array(
+	protected $propertyArray = array(
 		// OpenImmo tag for 'starttime' could possibly be 'beginn_bietzeit'.
 		'starttime' => array('bieterverfahren' => 'beginn_angebotsphase'),
 		'endtime' => array('bieterverfahren' => 'ende_bietzeit'),
@@ -88,6 +88,20 @@ class tx_realty_domDocumentConverter {
 		'contact_email' => array('kontaktperson' => 'email_zentrale'),
 		'phone_switchboard' => array('kontaktperson' => 'tel_zentrale'),
 		'phone_direct_extension' => array('kontaktperson' => 'tel_durchw'),
+		'with_hot_water' => array('energiepass' => 'mitwarmwasser'),
+		'energy_certificate_valid_until' => array('energiepass' => 'gueltig_bis'),
+		'energy_consumption_characteristic' => array('energiepass' => 'energieverbrauchkennwert'),
+		'ultimate_energy_demand' => array('energiepass' => 'endenergiebedarf'),
+		'primary_energy_carrier' => array('energiepass' => 'primaerenergietraeger'),
+		'electric_power_consumption_characteristic' => array('energiepass' => 'stromwert'),
+		'heat_energy_consumption_characteristic' => array('energiepass' => 'waermewert'),
+		'value_category' => array('energiepass' => 'wertklasse'),
+		'year_of_construction' => array('energiepass' => 'baujahr'),
+		'energy_certificate_text' => array('energiepass' => 'epasstext'),
+		'heat_energy_requirement_value' => array('energiepass' => 'hwbwert'),
+		'heat_energy_requirement_class' => array('energiepass' => 'hwbklasse'),
+		'total_energy_efficiency_value' => array('energiepass' => 'fgeewert'),
+		'total_energy_efficiency_class' => array('energiepass' => 'fgeeklasse'),
 	);
 
 	/**
@@ -110,7 +124,7 @@ class tx_realty_domDocumentConverter {
 	private static $booleanFields = array(
 		'show_address', 'heating_included', 'garden', 'barrier_free',
 		'elevator', 'has_air_conditioning', 'assisted_living', 'fitted_kitchen',
-		'has_pool', 'has_community_pool',
+		'has_pool', 'has_community_pool', 'with_hot_water'
 	);
 
 	/**
@@ -349,6 +363,10 @@ class tx_realty_domDocumentConverter {
 		$this->fetchGeoCoordinates();
 		$this->fetchCountry();
 		$this->fetchRent();
+		$this->fetchEnergyCertificateIssueDate();
+		$this->fetchEnergyCertificateType();
+		$this->fetchEnergyCertificateYear();
+		$this->fetchBuildingType();
 
 		$this->replaceImportedBooleanLikeStrings();
 		$this->substituteSurplusDecimals();
@@ -428,7 +446,7 @@ class tx_realty_domDocumentConverter {
 	 * @return void
 	 */
 	private function fetchNodeValues() {
-		foreach (self::$propertyArray as $key => $path) {
+		foreach ($this->propertyArray as $key => $path) {
 			$currentDomNode = $this->findFirstGrandchild(
 				key($path),
 				implode('', $path)
@@ -1122,6 +1140,91 @@ class tx_realty_domDocumentConverter {
 		}
 
 		$this->addImportedDataIfValueIsNonEmpty('country', $uid);
+	}
+
+	/**
+	 * Fetches the attribute 'ausstelldatum' and stores it in $this->importedData.
+	 *
+	 * @return void
+	 */
+	private function fetchEnergyCertificateIssueDate() {
+		$node = $this->findFirstGrandchild('energiepass', 'ausstelldatum');
+		$nodeValue = $node->nodeValue;
+		if ($nodeValue !== NULL) {
+			$result = strtotime($nodeValue);
+		} else {
+			$result = 0;
+		}
+
+		$this->addImportedData('energy_certificate_issue_date', $result);
+	}
+
+	/**
+	 * Fetches the attribute 'epart' and stores it in $this->importedData.
+	 *
+	 * @return void
+	 */
+	private function fetchEnergyCertificateType() {
+		$node = $this->findFirstGrandchild('energiepass', 'epart');
+		if ($node === NULL || $node->nodeValue === NULL) {
+			return;
+		}
+
+		$validValues = array(
+			'BEDARF' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_REQUIREMENT,
+			'VERBRAUCH' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
+		);
+
+		$nodeValue = $node->nodeValue;
+		if (isset($validValues[$nodeValue])) {
+			$this->addImportedData('energy_certificate_type', $validValues[$nodeValue]);
+		}
+	}
+
+	/**
+	 * Fetches the attribute 'jahrgang' and stores it in $this->importedData.
+	 *
+	 * @return void
+	 */
+	private function fetchEnergyCertificateYear() {
+		$node = $this->findFirstGrandchild('energiepass', 'jahrgang');
+		if ($node === NULL || $node->nodeValue === NULL) {
+			return;
+		}
+
+		$validValues = array(
+			'2008' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2008,
+			'2014' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2014,
+			'ohne' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE,
+			'nicht_noetig' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
+		);
+
+		$nodeValue = $node->nodeValue;
+		if (isset($validValues[$nodeValue])) {
+			$this->addImportedData('energy_certificate_year', $validValues[$nodeValue]);
+		}
+	}
+
+	/**
+	 * Fetches the attribute 'gebaeudeart' and stores it in $this->importedData.
+	 *
+	 * @return void
+	 */
+	private function fetchBuildingType() {
+		$node = $this->findFirstGrandchild('energiepass', 'gebaeudeart');
+		if ($node === NULL || $node->nodeValue === NULL) {
+			return;
+		}
+
+		$validValues = array(
+			'wohn' => tx_realty_Model_RealtyObject::BUILDING_TYPE_RESIDENTIAL,
+			'nichtwohn' => tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
+		);
+
+		$nodeValue = $node->nodeValue;
+		if (isset($validValues[$nodeValue])) {
+			$this->addImportedData('building_type', $validValues[$nodeValue]);
+		}
 	}
 
 	/**

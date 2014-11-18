@@ -26,7 +26,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_domDocumentConverter
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
 	 * static_info_tables UID of Germany
@@ -42,26 +42,23 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 */
 	private $graphicsConfigurationBackup;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
-		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-			= 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
+		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
 
-		$this->fixture = new tx_realty_domDocumentConverterChild(
-			new tx_realty_fileNameMapper()
-		);
+		$this->fixture = new tx_realty_domDocumentConverterChild(new tx_realty_fileNameMapper());
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->fixture);
 
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 
 
-	/////////////////////
-	// Utlity functions
-	/////////////////////
+	/*
+	 * Utility functions
+	 */
 
 	/**
 	 * Loads an XML string, sets the raw realty data and returns a DOMDocument
@@ -280,6 +277,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 					'other_area' => 0.0,
 					'window_bank' => 0.0,
 					'rental_income_target' => 0.0,
+					'energy_certificate_issue_date' => 0,
 				),
 			),
 			$this->fixture->getConvertedData($node)
@@ -306,12 +304,14 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 					'other_area' => 0.0,
 					'window_bank' => 0.0,
 					'rental_income_target' => 0.0,
+					'energy_certificate_issue_date' => 0,
 				),
 				array(
 					'sales_area' => 0.0,
 					'other_area' => 0.0,
 					'window_bank' => 0.0,
 					'rental_income_target' => 0.0,
+					'energy_certificate_issue_date' => 0,
 				),
 			),
 			$this->fixture->getConvertedData($node)
@@ -748,6 +748,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 			'rental_income_target' => 0.0,
 			'employer' => 'foo',
 			'openimmo_anid' => 'bar',
+			'energy_certificate_issue_date' => 0,
 		);
 		$result = $this->fixture->getConvertedData($node);
 
@@ -1707,6 +1708,716 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 		$result = $this->fixture->getConvertedData($node);
 		$this->assertFalse(
 			isset($result[0]['status'])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesHotWaterTrue() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<mitwarmwasser>true</mitwarmwasser>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertTrue(
+			$result[0]['with_hot_water']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesHotWaterFalse() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<mitwarmwasser>false</mitwarmwasser>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			$result[0]['with_hot_water']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesHotWaterMissing() {
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['with_hot_water'])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateValidUntil() {
+		$value = '11/2027';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<gueltig_bis>' . $value . '</gueltig_bis>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['energy_certificate_valid_until']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyConsumptionCharacteristic() {
+		$value = 'ABC';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<energieverbrauchkennwert>' . $value . '</energieverbrauchkennwert>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['energy_consumption_characteristic']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesUltimateEnergyDemand() {
+		$value = '24,2154 kwH';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<endenergiebedarf>' . $value . '</endenergiebedarf>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['ultimate_energy_demand']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesPrimaryEnergyCarrier() {
+		$value = 'GAS';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<primaerenergietraeger>' . $value . '</primaerenergietraeger>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['primary_energy_carrier']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesElectricPowerConsumptionCharacteristic() {
+		$value = 'C42-abc';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<stromwert>' . $value . '</stromwert>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['electric_power_consumption_characteristic']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesHeatEnergyConsumptionCharacteristic() {
+		$value = 'X42-abc';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<waermewert>' . $value . '</waermewert>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['heat_energy_consumption_characteristic']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesValueCategory() {
+		$value = 'C 44 C12';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<wertklasse>' . $value . '</wertklasse>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['value_category']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesYearOfConstruction() {
+		$value = '1963';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<baujahr>' . $value . '</baujahr>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			(int) $value,
+			$result[0]['year_of_construction']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateText() {
+		$value = 'My, this is a nice certificate!';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<epasstext>' . $value . '</epasstext>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['energy_certificate_text']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesHeatEnergyRequirementValue() {
+		$value = '123 a 45';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<hwbwert>' . $value . '</hwbwert>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['heat_energy_requirement_value']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesHeatEnergyRequirementClass() {
+		$value = '123 a 45';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<hwbklasse>' . $value . '</hwbklasse>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['heat_energy_requirement_class']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesTotalEnergyEfficiencyValue() {
+		$value = '123 a 45';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<fgeewert>' . $value . '</fgeewert>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['total_energy_efficiency_value']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesTotalEnergyEfficiencyClass() {
+		$value = '123 a 45';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<fgeeklasse>' . $value . '</fgeeklasse>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$value,
+			$result[0]['total_energy_efficiency_class']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateIssueDate() {
+		$value = '2014-02-20';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<ausstelldatum>' . $value . '</ausstelldatum>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			mktime(0, 0, 0, 2, 20, 2014),
+			$result[0]['energy_certificate_issue_date']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataSetsMissingEnergyCertificateIssueDateToZero() {
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			0,
+			$result[0]['energy_certificate_issue_date']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateTypeRequirement() {
+		$value = 'BEDARF';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<epart>' . $value . '</epart>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_REQUIREMENT,
+			$result[0]['energy_certificate_type']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateTypeConsumption() {
+		$value = 'VERBRAUCH';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<epart>' . $value . '</epart>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
+			$result[0]['energy_certificate_type']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataIgnoresInvalidEnergyCertificateType() {
+		$value = 'Kürbisbrot';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<epart>' . $value . '</epart>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['energy_certificate_type'])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateYear2008() {
+		$value = '2008';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<jahrgang>' . $value . '</jahrgang>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2008,
+			$result[0]['energy_certificate_year']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateYear2014() {
+		$value = '2014';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<jahrgang>' . $value . '</jahrgang>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2014,
+			$result[0]['energy_certificate_year']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateYearNotAvailable() {
+		$value = 'ohne';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<jahrgang>' . $value . '</jahrgang>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE,
+			$result[0]['energy_certificate_year']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesEnergyCertificateYearNotRequired() {
+		$value = 'nicht_noetig';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<jahrgang>' . $value . '</jahrgang>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
+			$result[0]['energy_certificate_year']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataIgnoresInvalidEnergyCertificateYear() {
+		$value = 'Kürbisbrot';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<jahrgang>' . $value . '</jahrgang>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['energy_certificate_year'])
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesBuildingTypeResidential() {
+		$value = 'wohn';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<gebaeudeart>' . $value . '</gebaeudeart>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::BUILDING_TYPE_RESIDENTIAL,
+			$result[0]['building_type']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesBuildingTypeBusiness() {
+		$value = 'nichtwohn';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<gebaeudeart>' . $value . '</gebaeudeart>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
+			$result[0]['building_type']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataIgnoresInvalidBuildingType() {
+		$value = 'Kürbisbrot';
+
+		$node = DOMDocument::loadXML(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<energiepass>' .
+							'<gebaeudeart>' . $value . '</gebaeudeart>' .
+						'</energiepass>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertFalse(
+			isset($result[0]['building_type'])
 		);
 	}
 

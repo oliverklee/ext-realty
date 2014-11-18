@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#5027] Feature: Import the fields for the "Energiepass"/"Energieausweis"
 - [#5027] Feature: Display the fields for the "Energiepass"/"Energieausweis"
 - [#5027] Feature: Add the fields for the "Energiepass"/"Energieausweis"
 - [#5014] Change: Convert the e-mail functions to SwiftMailer
