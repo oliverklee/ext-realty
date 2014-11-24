@@ -61,11 +61,6 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	private $testImportFolderExists = FALSE;
 
 	/**
-	 * @var t3lib_cache_Manager
-	 */
-	private $cacheManager = NULL;
-
-	/**
 	 * backup of $GLOBALS['TYPO3_CONF_VARS']['GFX']
 	 *
 	 * @var array
@@ -89,7 +84,6 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 
 		$this->translator = new tx_realty_translator();
-		$this->cacheManager = $GLOBALS['typo3CacheManager'];
 
 		$this->fixture = new tx_realty_openImmoImportChild(TRUE);
 		$this->setupStaticConditions();
@@ -107,7 +101,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 		$this->deleteTestImportFolder();
 
-		$GLOBALS['typo3CacheManager'] = $this->cacheManager;
+		tx_realty_cacheManager::purgeCacheManager();
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 
@@ -2089,6 +2083,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createContentElement($pageUid, array('list_type' => 'realty_pi1'));
 
+		/** @var $cacheFrontEnd t3lib_cache_frontend_AbstractFrontend|PHPUnit_Framework_MockObject_MockObject */
 		$cacheFrontEnd = $this->getMock(
 			't3lib_cache_frontend_AbstractFrontend',
 			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
@@ -2097,12 +2092,11 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$cacheFrontEnd->expects($this->once())->method('getIdentifier')->will($this->returnValue('cache_pages'));
 		$cacheFrontEnd->expects($this->atLeastOnce())->method('flushByTags');
 
-		$GLOBALS['typo3CacheManager'] = new t3lib_cache_Manager();
-		$GLOBALS['typo3CacheManager']->registerCache($cacheFrontEnd);
+		$cacheManager = new t3lib_cache_Manager();
+		$cacheManager->registerCache($cacheFrontEnd);
+		tx_realty_cacheManager::injectCacheManager($cacheManager);
 
 		$this->fixture->importFromZip();
-
-		$GLOBALS['typo3CacheManager'] = NULL;
 	}
 
 	/**
@@ -2131,12 +2125,11 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$cacheFrontEnd->expects($this->any())->method('getBackend')->will($this->returnValue($cacheBackEnd));
 		$cacheBackEnd->expects($this->atLeastOnce())->method('flushByTag');
 
-		$GLOBALS['typo3CacheManager'] = new t3lib_cache_Manager();
-		$GLOBALS['typo3CacheManager']->registerCache($cacheFrontEnd);
+		$cacheManager = new t3lib_cache_Manager();
+		$cacheManager->registerCache($cacheFrontEnd);
+		tx_realty_cacheManager::injectCacheManager($cacheManager);
 
 		$this->fixture->importFromZip();
-
-		$GLOBALS['typo3CacheManager'] = NULL;
 	}
 
 	/*

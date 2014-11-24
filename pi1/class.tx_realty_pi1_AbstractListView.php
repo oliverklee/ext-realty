@@ -1007,15 +1007,18 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$piVars = $this->piVars;
 			unset($piVars['DATA']);
 
+			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+				$additionalParameters = $piVars;
+				\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
+					$additionalParameters, array('pointer' => $pageNum)
+				);
+			} else {
+				$additionalParameters = t3lib_div::array_merge_recursive_overrule($piVars, array('pointer' => $pageNum));
+			}
 			$url = $this->cObj->typoLink_URL(
 				array(
 					'parameter' => $GLOBALS['TSFE']->id,
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
-						$this->prefixId,
-						t3lib_div::array_merge_recursive_overrule(
-							$piVars, array('pointer' => $pageNum)
-						)
-					),
+					'additionalParams' => t3lib_div::implodeArrayForUrl($this->prefixId, $additionalParameters),
 				)
 			);
 

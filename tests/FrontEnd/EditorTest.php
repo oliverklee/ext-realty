@@ -40,11 +40,6 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	private $dummyObjectUid = 0;
 
 	/**
-	 * @var t3lib_cache_Manager
-	 */
-	private $cacheManagerBackup = NULL;
-
-	/**
 	 * @var string dummy string value
 	 */
 	private static $dummyStringValue = 'test value';
@@ -61,8 +56,6 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		tx_oelib_ConfigurationRegistry::getInstance()
 			->set('plugin.tx_realty_pi1', new tx_oelib_Configuration());
-
-		$this->cacheManagerBackup = $GLOBALS['typo3CacheManager'];
 
 		$this->createDummyRecords();
 
@@ -84,7 +77,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		// Get any surplus instances added via t3lib_div::addInstance.
 		t3lib_div::makeInstance('t3lib_mail_Message');
 
-		$GLOBALS['typo3CacheManager'] = $this->cacheManagerBackup;
+		tx_realty_cacheManager::purgeCacheManager();
 
 		$this->testingFramework->cleanUp();
 	}
@@ -2177,12 +2170,11 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$cacheFrontEnd->expects($this->once())->method('getIdentifier')->will($this->returnValue('cache_pages'));
 		$cacheFrontEnd->expects($this->atLeastOnce())->method('flushByTags');
 
-		$GLOBALS['typo3CacheManager'] = new t3lib_cache_Manager();
-		$GLOBALS['typo3CacheManager']->registerCache($cacheFrontEnd);
+		$cacheManager = new t3lib_cache_Manager();
+		$cacheManager->registerCache($cacheFrontEnd);
+		tx_realty_cacheManager::injectCacheManager($cacheManager);
 
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
-
-		$GLOBALS['typo3CacheManager'] = NULL;
 	}
 
 	/**
@@ -2208,12 +2200,11 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$cacheFrontEnd->expects($this->any())->method('getBackend')->will($this->returnValue($cacheBackEnd));
 		$cacheBackEnd->expects($this->atLeastOnce())->method('flushByTag');
 
-		$GLOBALS['typo3CacheManager'] = new t3lib_cache_Manager();
-		$GLOBALS['typo3CacheManager']->registerCache($cacheFrontEnd);
+		$cacheManager = new t3lib_cache_Manager();
+		$cacheManager->registerCache($cacheFrontEnd);
+		tx_realty_cacheManager::injectCacheManager($cacheManager);
 
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
-
-		$GLOBALS['typo3CacheManager'] = NULL;
 	}
 
 	/*

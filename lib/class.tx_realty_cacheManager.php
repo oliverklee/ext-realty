@@ -23,6 +23,11 @@
  */
 class tx_realty_cacheManager {
 	/**
+	 * @var t3lib_cache_Manager
+	 */
+	private static $cacheManager = NULL;
+
+	/**
 	 * Clears the FE cache for pages with a realty plugin.
 	 *
 	 * @see tslib_fe::clearPageCacheContent_pidList()
@@ -65,21 +70,19 @@ class tx_realty_cacheManager {
 	 * @return void
 	 */
 	private static function clearCacheWithCachingFramework() {
-		if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
-			t3lib_cache::initializeCachingFramework();
-		}
-
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			try {
 				/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
-				$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');
+				$pageCache = self::getCacheManager()->getCache('cache_pages');
 			} catch (t3lib_cache_exception_NoSuchCache $exception) {
 				t3lib_cache::initPageCache();
+				/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
+				$pageCache = self::getCacheManager()->getCache('cache_pages');
 			}
 			$pageCache->flushByTags(self::getPageUids('pageId_'));
 		} else {
 			/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
-			$pageCache = $GLOBALS['typo3CacheManager']->getCache('cache_pages');
+			$pageCache = self::getCacheManager()->getCache('cache_pages');
 			foreach (self::getPageUids() as $pageUid) {
 				$pageCache->getBackend()->flushByTag('pageId_' . $pageUid);
 			}
@@ -109,6 +112,58 @@ class tx_realty_cacheManager {
 	 */
 	private static function isCachingFrameworkEnabled() {
 		return (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) || TYPO3_UseCachingFramework;
+	}
+
+	/**
+	 * Fetches the core cache manager.
+	 *
+	 * @return t3lib_cache_Manager
+	 *
+	 * @throws BadMethodCallException
+	 */
+	public static function getCacheManager() {
+		if (!self::isCachingFrameworkEnabled()) {
+			throw new BadMethodCallException('This method must only be called with an enabled caching framework.', 1416868334);
+		}
+
+		if (self::$cacheManager === NULL) {
+			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+				self::$cacheManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+					'TYPO3\\CMS\\Core\\Cache\\CacheManager'
+				);
+			} else {
+				if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
+					t3lib_cache::initializeCachingFramework();
+				}
+				self::$cacheManager = $GLOBALS['typo3CacheManager'];
+			}
+		}
+
+		return self::$cacheManager;
+	}
+
+	/**
+	 * Injects the core cache manager.
+	 *
+	 * This function is intended to be used mainly in unit tests.
+	 *
+	 * @param t3lib_cache_Manager $cacheManager
+	 *
+	 * @return void
+	 */
+	public static function injectCacheManager(t3lib_cache_Manager $cacheManager) {
+		self::$cacheManager = $cacheManager;
+	}
+
+	/**
+	 * Purges the reference to the core cache manager.
+	 *
+	 * This function is intended to be used mainly in unit tests.
+	 *
+	 * @return void
+	 */
+	public static function purgeCacheManager() {
+		self::$cacheManager = NULL;
 	}
 }
 
