@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#4696] Fix: Unit test crash about e-mail and caches in TYPO3 CMS 6.2
 - [#5027] Feature: Import the fields for the "Energiepass"/"Energieausweis"
 - [#5027] Feature: Display the fields for the "Energiepass"/"Energieausweis"
 - [#5027] Feature: Add the fields for the "Energiepass"/"Energieausweis"

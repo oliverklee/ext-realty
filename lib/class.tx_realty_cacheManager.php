@@ -30,7 +30,7 @@ class tx_realty_cacheManager {
 	 * @return void
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
-		if (TYPO3_UseCachingFramework) {
+		if (self::isCachingFrameworkEnabled()) {
 			self::clearCacheWithCachingFramework();
 		} else {
 			self::deleteCacheInTable();
@@ -100,6 +100,15 @@ class tx_realty_cacheManager {
 		tx_oelib_db::delete(
 			'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
 		);
+	}
+
+	/**
+	 * Checks whether the caching framework is enabled.
+	 *
+	 * @return bool
+	 */
+	private static function isCachingFrameworkEnabled() {
+		return (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) || TYPO3_UseCachingFramework;
 	}
 }
 

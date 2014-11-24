@@ -28,6 +28,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @var tx_realty_frontEndEditor object to be tested
 	 */
 	private $fixture = NULL;
+
 	/**
 	 * @var tx_oelib_testingFramework
 	 */
@@ -73,23 +74,25 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 			$GLOBALS['TSFE']->cObj, 0, '', TRUE
 		);
 
+		$finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
+			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance('t3lib_mail_Message', $this->message);
+		t3lib_div::addInstance($finalMailMessageClassName, $this->message);
 	}
 
 	protected function tearDown() {
+		// Get any surplus instances added via t3lib_div::addInstance.
+		t3lib_div::makeInstance('t3lib_mail_Message');
+
 		$GLOBALS['typo3CacheManager'] = $this->cacheManagerBackup;
 
 		$this->testingFramework->cleanUp();
-		t3lib_div::purgeInstances();
-
-		unset($this->fixture, $this->testingFramework, $this->message);
 	}
 
 
-	///////////////////////
-	// Utility functions.
-	///////////////////////
+	/*
+	 * Utility functions.
+	 */
 
 	/**
 	 * Creates dummy records in the DB and logs in a front-end user.
@@ -138,10 +141,38 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$realtyObject->writeToDatabase();
 	}
 
+	/**
+	 * Returns the class name of the cache backend to use.
+	 *
+	 * @return string
+	 *
+	 * @throws RuntimeException if no suitable cache backend can be found
+	 */
+	protected function getCacheBackendClassName() {
+		$classNames = array(
+			'TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface',
+			'TYPO3\\CMS\\Core\\Cache\\Backend\\BackendInterface',
+			't3lib_cache_backend_Backend',
+		);
 
-	/////////////////////////////////////////
-	// Tests concerning the basic functions
-	/////////////////////////////////////////
+		$existingClassName = '';
+		foreach ($classNames as $className ) {
+			if (class_exists($className, TRUE) || interface_exists($className, TRUE)) {
+				$existingClassName = $className;
+				break;
+			}
+		}
+		if ($existingClassName === '') {
+			throw new RuntimeException('No cache backend class name found.', 1416856902);
+		}
+
+		return $existingClassName;
+	}
+
+
+	/*
+	 * Tests concerning the basic functions
+	 */
 
 	/**
 	 * @test
@@ -2173,7 +2204,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 		$cacheFrontEnd->expects($this->once())->method('getIdentifier')->will($this->returnValue('cache_pages'));
 		/** @var $cacheBackEnd t3lib_cache_backend_Backend|PHPUnit_Framework_MockObject_MockObject */
-		$cacheBackEnd = $this->getMock('t3lib_cache_backend_Backend');
+		$cacheBackEnd = $this->getMock($this->getCacheBackendClassName());
 		$cacheFrontEnd->expects($this->any())->method('getBackend')->will($this->returnValue($cacheBackEnd));
 		$cacheBackEnd->expects($this->atLeastOnce())->method('flushByTag');
 
@@ -2185,10 +2216,9 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$GLOBALS['typo3CacheManager'] = NULL;
 	}
 
-
-	//////////////////////////////////////
-	// Tests concerning addOnloadHandler
-	//////////////////////////////////////
+	/*
+	 * Tests concerning addOnloadHandler
+	 */
 
 	/**
 	 * @test

@@ -94,28 +94,27 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_openImmoImportChild(TRUE);
 		$this->setupStaticConditions();
 
+		$finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
+			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance('t3lib_mail_Message', $this->message);
+		t3lib_div::addInstance($finalMailMessageClassName, $this->message);
 	}
 
 	protected function tearDown() {
+		// Get any surplus instances added via t3lib_div::addInstance.
+		t3lib_div::makeInstance('t3lib_mail_Message');
+
 		$this->testingFramework->cleanUp();
 		$this->deleteTestImportFolder();
-		t3lib_div::purgeInstances();
 
 		$GLOBALS['typo3CacheManager'] = $this->cacheManager;
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
-
-		unset(
-			$this->fixture, $this->translator, $this->testingFramework, $this->message,
-			$this->globalConfiguration, $this->cacheManager, $this->graphicsConfigurationBackup
-		);
 	}
 
 
-	///////////////////////
-	// Utility functions.
-	///////////////////////
+	/*
+	 * Utility functions.
+	 */
 
 	/**
 	 * Sets the global configuration values which need to be static during the
@@ -235,10 +234,37 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		}
 	}
 
+	/**
+	 * Returns the class name of the cache backend to use.
+	 *
+	 * @return string
+	 *
+	 * @throws RuntimeException if no suitable cache backend can be found
+	 */
+	protected function getCacheBackendClassName() {
+		$classNames = array(
+			'TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface',
+			'TYPO3\\CMS\\Core\\Cache\\Backend\\BackendInterface',
+			't3lib_cache_backend_Backend',
+		);
 
-	/////////////////////////////////////////
-	// Tests concerning the ZIP extraction.
-	/////////////////////////////////////////
+		$existingClassName = '';
+		foreach ($classNames as $className ) {
+			if (class_exists($className, TRUE) || interface_exists($className, TRUE)) {
+				$existingClassName = $className;
+				break;
+			}
+		}
+		if ($existingClassName === '') {
+			throw new RuntimeException('No cache backend class name found.', 1416856902);
+		}
+
+		return $existingClassName;
+	}
+
+	/*
+	 * Tests concerning the ZIP extraction.
+	 */
 
 	/**
 	 * @test
@@ -2101,7 +2127,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 		$cacheFrontEnd->expects($this->once())->method('getIdentifier')->will($this->returnValue('cache_pages'));
 		/** @var $cacheBackEnd t3lib_cache_backend_Backend|PHPUnit_Framework_MockObject_MockObject */
-		$cacheBackEnd = $this->getMock('t3lib_cache_backend_Backend');
+		$cacheBackEnd = $this->getMock($this->getCacheBackendClassName());
 		$cacheFrontEnd->expects($this->any())->method('getBackend')->will($this->returnValue($cacheBackEnd));
 		$cacheBackEnd->expects($this->atLeastOnce())->method('flushByTag');
 
@@ -2113,10 +2139,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$GLOBALS['typo3CacheManager'] = NULL;
 	}
 
-
-	///////////////////////////////////////
-	// Tests concerning the log messages.
-	///////////////////////////////////////
+	/*
+	 * Tests concerning the log messages.
+	 */
 
 	/**
 	 * @test
