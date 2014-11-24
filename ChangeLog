@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#5174] Fix:  Avoid feInterface deprecation warnings in 6.2
 - [#5057] Fix: Test error in tx_realty_FrontEnd_MyObjectsListViewTest
 - [#4696] Fix: Unit test crash about e-mail and caches in TYPO3 CMS 6.2
 - [#5027] Feature: Import the fields for the "Energiepass"/"Energieausweis"

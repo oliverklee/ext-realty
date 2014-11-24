@@ -179,6 +179,7 @@ $TCA['tx_realty_districts'] = array(
 if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
 	t3lib_div::loadTCA('fe_users');
 }
+$addToFeInterface = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000);
 t3lib_extMgm::addTCAcolumns(
 	'fe_users',
 	array(
@@ -208,7 +209,7 @@ t3lib_extMgm::addTCAcolumns(
 			),
 		)
 	),
-	TRUE
+	$addToFeInterface
 );
 t3lib_extMgm::addToAllTCAtypes('fe_users','--div--;LLL:EXT:realty/locallang_db.xml:fe_users.tx_realty_tab,tx_realty_openimmo_anid,tx_realty_maximum_objects;;;;1-1-1,');
 
