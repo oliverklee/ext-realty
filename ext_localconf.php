@@ -97,15 +97,25 @@ t3lib_extMgm::addPItoST43(
 	1
 );
 
-t3lib_extMgm::addTypoScript(
-	$_EXTKEY,
-	'setup',
-	'
-	tt_content.shortcut.20.0.conf.tx_realty_objects = < plugin.'.t3lib_extMgm::getCN($_EXTKEY).'_pi1
-	tt_content.shortcut.20.0.conf.tx_realty_objects.CMD = singleView
-',
-	43
-);
+if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+	t3lib_extMgm::addTypoScript(
+		$_EXTKEY,
+		'setup', '
+		tt_content.shortcut.20.conf.tx_realty_objects = < plugin.' . t3lib_extMgm::getCN($_EXTKEY) . '_pi1
+		tt_content.shortcut.20.conf.tx_realty_objects.CMD = singleView
+	',
+		43
+	);
+} else {
+	t3lib_extMgm::addTypoScript(
+		$_EXTKEY,
+		'setup', '
+		tt_content.shortcut.20.0.conf.tx_realty_objects = < plugin.' . t3lib_extMgm::getCN($_EXTKEY) . '_pi1
+		tt_content.shortcut.20.0.conf.tx_realty_objects.CMD = singleView
+	',
+		43
+	);
+}
 
 // registers the key for class.tx_realty_cli.php
 $TYPO3_CONF_VARS['SC_OPTIONS']['GLOBAL']['cliKeys']['openImmoImport']
