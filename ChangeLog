@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#5175] Fix: Update Prototype, Scriptaculous and Lightbox
 - [#5172] Fix: Fix core deprecation notices in TYPO3 CMS 6.2
 - [#5174] Fix: Avoid feInterface deprecation warnings in 6.2
 - [#5057] Fix: Test error in tx_realty_FrontEnd_MyObjectsListViewTest
