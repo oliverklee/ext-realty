@@ -836,7 +836,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function isValidYearReturnsTrueForTheCurrentYear() {
 		$this->assertTrue(
-			$this->fixture->isValidYear(array('value' => date('Y', mktime())))
+			$this->fixture->isValidYear(array('value' => date('Y', time())))
 		);
 	}
 

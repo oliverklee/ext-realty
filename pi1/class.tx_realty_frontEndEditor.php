@@ -980,8 +980,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			array(
 				'title' => $title,
 				'pid' => self::getPageIdForAuxiliaryRecords(),
-				'tstamp' => mktime(),
-				'crdate' => mktime(),
+				'tstamp' => time(),
+				'crdate' => time(),
 				'is_dummy_record' => $this->isTestMode
 			)
 		);
@@ -1025,7 +1025,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return void
 	 */
 	private function addAdministrativeData(array &$formData) {
-		$formData['tstamp'] = mktime();
+		$formData['tstamp'] = time();
 
 		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
@@ -1033,7 +1033,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 
 			$formData['hidden'] = 1;
-			$formData['crdate'] = mktime();
+			$formData['crdate'] = time();
 			$formData['owner'] = $user->getUid();
 			$formData['openimmo_anid'] = $user->getOpenImmoOffererId();
 			$formData['pid'] = $this->getConfValueString(
