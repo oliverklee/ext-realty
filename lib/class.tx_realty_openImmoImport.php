@@ -877,7 +877,7 @@ class tx_realty_openImmoImport {
 	 */
 	protected function unifyPath($directory) {
 		$checkedPath = trim($directory);
-		if (strpos($checkedPath, '/', strlen($checkedPath) - 1) === FALSE) {
+		if (substr($checkedPath, -1, 1) !== '/') {
 			$checkedPath .= '/';
 		}
 
