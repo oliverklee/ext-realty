@@ -41,6 +41,9 @@ class ext_update {
 			if ($this->needsToUpdateStatus()) {
 				$result .= $this->updateStatus();
 			}
+			if ($this->needsToUpdatePhoneNumbers()) {
+				$result .= $this->updatePhoneNumbers();
+			}
 		} catch (tx_oelib_Exception_Database $exception) {
 		}
 
@@ -50,7 +53,7 @@ class ext_update {
 	/**
 	 * Returns whether the update module may be accessed.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if the update module may be accessed, FALSE otherwise
 	 */
 	public function access() {
@@ -59,17 +62,17 @@ class ext_update {
 		) {
 			return FALSE;
 		}
-		if (!tx_oelib_db::existsTable('tx_realty_objects')
-			|| !tx_oelib_db::existsTable('tx_realty_cities')
-			|| !tx_oelib_db::existsTable('tx_realty_districts')
-			|| !tx_oelib_db::existsTable('tx_realty_images')
+		if (!Tx_Oelib_Db::existsTable('tx_realty_objects')
+			|| !Tx_Oelib_Db::existsTable('tx_realty_cities')
+			|| !Tx_Oelib_Db::existsTable('tx_realty_districts')
+			|| !Tx_Oelib_Db::existsTable('tx_realty_images')
 		) {
 			return FALSE;
 		}
 
 		try {
 			$result = $this->needsToUpdateDistricts()
-				|| $this->needsToUpdateImages() || $this->needsToUpdateStatus();
+				|| $this->needsToUpdateImages() || $this->needsToUpdateStatus() || $this->needsToUpdatePhoneNumbers();
 		} catch (tx_oelib_Exception_Database $exception) {
 			$result = FALSE;
 		}
@@ -80,10 +83,10 @@ class ext_update {
 	/**
 	 * Checks whether the district -> city relations need to be updated.
 	 *
-	 * @return boolean TRUE if the relation needs to be updated, FALSE otherwise
+	 * @return bool TRUE if the relation needs to be updated, FALSE otherwise
 	 */
 	private function needsToUpdateDistricts() {
-		if (!tx_oelib_db::tableHasColumn('tx_realty_districts', 'city')) {
+		if (!Tx_Oelib_Db::tableHasColumn('tx_realty_districts', 'city')) {
 			return FALSE;
 		}
 
@@ -111,16 +114,16 @@ class ext_update {
 			$districtUid = $uids['district'];
 			$cityUid = $uids['city'];
 
-			tx_oelib_db::update(
+			Tx_Oelib_Db::update(
 				'tx_realty_districts', 'uid = ' . $districtUid,
 				array('city' => $cityUid)
 			);
 
-			$district = tx_oelib_db::selectSingle(
+			$district = Tx_Oelib_Db::selectSingle(
 				'title', 'tx_realty_districts', 'uid = ' . $districtUid
 			);
 			if (!isset($cityCache[$cityUid])) {
-				$city = tx_oelib_db::selectSingle(
+				$city = Tx_Oelib_Db::selectSingle(
 					'title',  'tx_realty_cities', 'uid = ' . $cityUid
 				);
 
@@ -147,19 +150,19 @@ class ext_update {
 	 *               empty if there are no matches
 	 */
 	private function findDistrictsToAssignCity() {
-		$districtsWithoutCity = tx_oelib_db::selectColumnForMultiple(
+		$districtsWithoutCity = Tx_Oelib_Db::selectColumnForMultiple(
 			'uid', 'tx_realty_districts',
-			'city = 0' . tx_oelib_db::enableFields('tx_realty_districts')
+			'city = 0' . Tx_Oelib_Db::enableFields('tx_realty_districts')
 		);
 		if (empty($districtsWithoutCity)) {
 			return array();
 		}
 
-		return tx_oelib_db::selectMultiple(
+		return Tx_Oelib_Db::selectMultiple(
 			'city, district',
 			'tx_realty_objects',
 			'district IN ('. implode(',', $districtsWithoutCity) . ') AND city > 0' .
-				tx_oelib_db::enableFields('tx_realty_objects'),
+				Tx_Oelib_Db::enableFields('tx_realty_objects'),
 			'district HAVING COUNT(DISTINCT city) = 1',
 			'city'
 		);
@@ -168,16 +171,16 @@ class ext_update {
 	/**
 	 * Checks whether the image -> object relations need to be updated.
 	 *
-	 * @return boolean TRUE if the relation needs to be updated, FALSE otherwise
+	 * @return bool TRUE if the relation needs to be updated, FALSE otherwise
 	 */
 	private function needsToUpdateImages() {
-		if (!tx_oelib_db::tableHasColumn('tx_realty_images', 'realty_object_uid')
-			|| !tx_oelib_db::tableHasColumn('tx_realty_images', 'object')
+		if (!Tx_Oelib_Db::tableHasColumn('tx_realty_images', 'realty_object_uid')
+			|| !Tx_Oelib_Db::tableHasColumn('tx_realty_images', 'object')
 		) {
 			return FALSE;
 		}
 
-		return tx_oelib_db::existsRecord(
+		return Tx_Oelib_Db::existsRecord(
 			'tx_realty_images',
 			'realty_object_uid > 0 AND object = 0'
 		);
@@ -205,16 +208,16 @@ class ext_update {
 	/**
 	 * Checks whether the status field need to be updated.
 	 *
-	 * @return boolean TRUE if the status needs to be updated, FALSE otherwise
+	 * @return bool TRUE if the status needs to be updated, FALSE otherwise
 	 */
 	private function needsToUpdateStatus() {
-		if (!tx_oelib_db::tableHasColumn('tx_realty_objects', 'rented')
-			|| !tx_oelib_db::tableHasColumn('tx_realty_objects', 'status')
+		if (!Tx_Oelib_Db::tableHasColumn('tx_realty_objects', 'rented')
+			|| !Tx_Oelib_Db::tableHasColumn('tx_realty_objects', 'status')
 		) {
 			return FALSE;
 		}
 
-		return tx_oelib_db::existsRecord(
+		return Tx_Oelib_Db::existsRecord(
 			'tx_realty_objects', 'rented = 1 AND status = 0'
 		);
 	}
@@ -239,6 +242,43 @@ class ext_update {
 		return $result;
 	}
 
+	/**
+	 * Checks whether the phone numbers need to be updated.
+	 *
+	 * @return bool TRUE if the field
+	 */
+	private function needsToUpdatePhoneNumbers() {
+		$hasColumns = Tx_Oelib_Db::tableHasColumn('tx_realty_objects', 'phone_direct_extension')
+			&& Tx_Oelib_Db::tableHasColumn('tx_realty_objects', 'contact_phone');
+		if (!$hasColumns) {
+			return FALSE;
+		}
+
+		$hasDataToUpdate = Tx_Oelib_Db::existsRecord(
+			'tx_realty_objects',
+			'phone_direct_extension = "" AND contact_phone <> ""'
+		);
+		return $hasDataToUpdate;
+	}
+
+	/**
+	 * Copies contact_phone to phone_direct_extension.
+	 *
+	 * @return string output of the update function, will not be empty
+	 */
+	private function updatePhoneNumbers() {
+		$result = '<h2>Updating the phone numbers</h2>' . LF;
+
+		$GLOBALS['TYPO3_DB']->sql_query(
+			'UPDATE tx_realty_objects SET phone_direct_extension = contact_phone ' .
+				'WHERE phone_direct_extension = "" AND contact_phone <> ""'
+		);
+		$numberOfAffectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
+
+		$result .= '<p>Updated ' . $numberOfAffectedRows . ' object records.</p>';
+
+		return $result;
+	}
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/class.ext_update.php']) {
