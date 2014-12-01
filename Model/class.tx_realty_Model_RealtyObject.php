@@ -2030,6 +2030,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		} else {
 			throw new RuntimeException('There was neither a front end nor a back end detected.', 1333036016);
 		}
+
+		if ($this->renderCharset === NULL || $this->renderCharset === '') {
+			$this->renderCharset = 'UTF-8';
+		}
 	}
 
 	/**
