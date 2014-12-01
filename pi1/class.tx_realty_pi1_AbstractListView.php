@@ -36,7 +36,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * @var boolean whether this class is called in the test mode
 	 */
-	private $isTestMode = FALSE;
+	protected $isTestMode = FALSE;
 
 	/**
 	 * @var tx_realty_pi1_Formatter formatter for prices, areas etc.
