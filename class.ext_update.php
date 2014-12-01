@@ -174,9 +174,9 @@ class ext_update {
 	 * @return bool TRUE if the relation needs to be updated, FALSE otherwise
 	 */
 	private function needsToUpdateImages() {
-		if (!Tx_Oelib_Db::tableHasColumn('tx_realty_images', 'realty_object_uid')
-			|| !Tx_Oelib_Db::tableHasColumn('tx_realty_images', 'object')
-		) {
+		$hasBothColumns = Tx_Oelib_Db::tableHasColumn('tx_realty_images', 'realty_object_uid')
+			&& Tx_Oelib_Db::tableHasColumn('tx_realty_images', 'object');
+		if (!$hasBothColumns) {
 			return FALSE;
 		}
 
@@ -195,12 +195,17 @@ class ext_update {
 		$result = '<h2>Updating image-object relations</h2>' . LF;
 
 		$GLOBALS['TYPO3_DB']->sql_query(
-			'UPDATE tx_realty_images SET object = realty_object_uid ' .
-				'WHERE realty_object_uid > 0 AND object = 0'
+			'UPDATE tx_realty_images SET object = realty_object_uid WHERE realty_object_uid > 0 AND object = 0'
 		);
 		$numberOfAffectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
-
 		$result .= '<p>Updated ' . $numberOfAffectedRows . ' image records.</p>';
+
+		$GLOBALS['TYPO3_DB']->sql_query(
+			'UPDATE tx_realty_objects SET images = ' .
+				'(SELECT COUNT(*) FROM tx_realty_images WHERE object = tx_realty_objects.uid ' .
+				'AND tx_realty_images.deleted = 0 AND tx_realty_images.hidden = 0)'
+		);
+		$result .= '<p>Updated the image counter caches.</p>';
 
 		return $result;
 	}

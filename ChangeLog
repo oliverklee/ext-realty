@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#5094] Fix: Update script needs to update the number of images
 - [#5186] Feature: Add an automatic update function for contact_phone
 - [#5173] Fix: PHP crash in the BE module if no import path is set
 - [#5178] Fix: Use time() instead of mktime()
