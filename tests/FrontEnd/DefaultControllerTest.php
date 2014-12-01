@@ -12,10 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
-define('TX_REALTY_EXTERNAL_SINGLE_PAGE', 'www.oliverklee.de/');
-
 /**
  * Test case.
  *
@@ -162,7 +158,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	 */
 	private function createDummyObjects() {
 		$this->firstRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => self::$firstObjectTitle,
 				'object_number' => self::$firstObjectNumber,
@@ -171,16 +167,16 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 				'has_air_conditioning' => '0',
 				'has_pool' => '0',
 				'has_community_pool' => '0',
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			)
 		);
 		$this->secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => self::$secondObjectTitle,
 				'object_number' => self::$secondObjectNumber,
 				'pid' => $this->systemFolderPid,
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			)
 		);
 	}
@@ -355,7 +351,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	public function noResultViewIsDisplayedForRenderingTheSingleViewOfNonExistentObject() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			'tx_realty_objects', array('deleted' => 1)
 		);
 
 		$this->assertContains(
@@ -370,7 +366,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	public function errorMessageIsDisplayedForRenderingTheSingleViewOfNonExistentObject() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			'tx_realty_objects', array('deleted' => 1)
 		);
 
 		$this->assertContains(
@@ -384,7 +380,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	 */
 	public function errorMessageIsDisplayedForRenderingTheSingleViewOfHiddenObject() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('hidden' => 1)
+			'tx_realty_objects', $this->firstRealtyUid, array('hidden' => 1)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
@@ -400,7 +396,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	 */
 	public function errorMessageIsDisplayedForRenderingTheSingleViewOfDeletedObject() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('deleted' => 1)
+			'tx_realty_objects', $this->firstRealtyUid, array('deleted' => 1)
 		);
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->firstRealtyUid;
@@ -419,7 +415,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->firstRealtyUid,
 			array(
 				'hidden' => 1,
@@ -441,7 +437,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	public function headerIsSetIfRenderingTheSingleViewLeadsToNoResultsMessage() {
 		$this->fixture->setConfigurationValue('what_to_display', 'single_view');
 		$this->fixture->piVars['showUid'] = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('deleted' => 1)
+			'tx_realty_objects', array('deleted' => 1)
 		);
 		$this->fixture->main('', array());
 

@@ -82,9 +82,9 @@ class tx_realty_cli_ImageCleanUp {
 		$imagesForRealtyRecords = ($nonDeletedRealtyRecordUids == '')
 			? array()
 			: tx_oelib_db::selectColumnForMultiple(
-				'uid', REALTY_TABLE_IMAGES,
+				'uid', 'tx_realty_images',
 				'object IN (' . $nonDeletedRealtyRecordUids . ')' .
-					tx_oelib_db::enableFields(REALTY_TABLE_IMAGES, 1) .
+					tx_oelib_db::enableFields('tx_realty_images', 1) .
 					$this->additionalWhereClause
 			);
 		$this->addToStatistics(
@@ -93,14 +93,14 @@ class tx_realty_cli_ImageCleanUp {
 		);
 
 		$numberOfImagesHidden = tx_oelib_db::update(
-			REALTY_TABLE_IMAGES, (empty($imagesForRealtyRecords)
+			'tx_realty_images', (empty($imagesForRealtyRecords)
 					? '1=1'
 					: 'uid NOT IN (' . implode(',', $imagesForRealtyRecords) . ')'
 				) . $this->additionalWhereClause,
 			array('hidden' => 1)
 		);
 		$hiddenImageRecords = tx_oelib_db::selectSingle(
-			'COUNT(*) AS number', REALTY_TABLE_IMAGES,
+			'COUNT(*) AS number', 'tx_realty_images',
 			'hidden = 1 OR deleted = 1' . $this->additionalWhereClause
 		);
 		$this->addToStatistics(
@@ -155,7 +155,7 @@ class tx_realty_cli_ImageCleanUp {
 	 */
 	private function retrieveRealtyObjectUids() {
 		$uids = tx_oelib_db::selectColumnForMultiple(
-			'uid', REALTY_TABLE_OBJECTS,
+			'uid', 'tx_realty_objects',
 			'1=1' . tx_oelib_db::enableFields('tx_realty_objects', 1) .
 				$this->additionalWhereClause
 		);
@@ -178,8 +178,8 @@ class tx_realty_cli_ImageCleanUp {
 		);
 
 		$imageFileNamesInDatabase = tx_oelib_db::selectColumnForMultiple(
-			'image', REALTY_TABLE_IMAGES,
-			'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_IMAGES, 1) .
+			'image', 'tx_realty_images',
+			'1=1' . tx_oelib_db::enableFields('tx_realty_images', 1) .
 				$this->additionalWhereClause
 		);
 		$this->addToStatistics(

@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -43,7 +41,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS
+			'tx_realty_objects'
 		);
 
 		$this->fixture = new tx_realty_pi1_AccessCheck();
@@ -70,7 +68,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkAccess('fe_editor', array(
 			'showUid' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				'tx_realty_objects', array('deleted' => 1)
 			)
 		));
 	}
@@ -89,7 +87,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkAccess('fe_editor', array(
 			'showUid' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				'tx_realty_objects', array('deleted' => 1)
 			)
 		));
 	}
@@ -105,7 +103,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		try {
 			$this->fixture->checkAccess('fe_editor', array(
 				'showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				)
 			));
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
@@ -188,7 +186,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->dummyObjectUid,
 			array('owner' => $user->getUid())
 		);
@@ -207,7 +205,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->dummyObjectUid,
 			array(
 				'owner' => $user->getUid(),
@@ -263,7 +261,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('owner' => $user->getUid())
+			'tx_realty_objects', array('owner' => $user->getUid())
 		);
 
 		$this->fixture->checkAccess('fe_editor', array('showUid' => $objectUid));
@@ -299,7 +297,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkAccess('image_upload', array(
 			'showUid' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				'tx_realty_objects', array('deleted' => 1)
 			)
 		));
 	}
@@ -333,7 +331,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkAccess('image_upload', array(
 			'showUid' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				'tx_realty_objects', array('deleted' => 1)
 			)
 		));
 	}
@@ -349,7 +347,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		try {
 			$this->fixture->checkAccess('image_upload', array(
 				'showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				)
 			));
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
@@ -432,7 +430,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->dummyObjectUid,
 			array('owner' => $user->getUid())
 		);
@@ -457,7 +455,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkAccess('my_objects', array(
 			'delete' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				'tx_realty_objects', array('deleted' => 1)
 			)
 		));
 	}
@@ -476,7 +474,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkAccess('my_objects', array(
 			'delete' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('deleted' => 1)
+				'tx_realty_objects', array('deleted' => 1)
 			)
 		));
 	}
@@ -492,7 +490,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		try {
 			$this->fixture->checkAccess('my_objects', array(
 				'delete' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				)
 			));
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
@@ -575,7 +573,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->dummyObjectUid,
 			array('owner' => $user->getUid())
 		);

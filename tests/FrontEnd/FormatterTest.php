@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -234,7 +232,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		$this->realtyObject->setProperty(
 				'city',
 				$this->testingFramework->createRecord(
-					REALTY_TABLE_CITIES, array('title' => 'test city')
+					'tx_realty_cities', array('title' => 'test city')
 				)
 			);
 
@@ -251,7 +249,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		$this->realtyObject->setProperty(
 				'city',
 				$this->testingFramework->createRecord(
-					REALTY_TABLE_CITIES, array('title' => 'test<br/>city')
+					'tx_realty_cities', array('title' => 'test<br/>city')
 				)
 			);
 
@@ -435,7 +433,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		$this->realtyObject->setProperty(
 			'city',
 			$this->testingFramework->createRecord(
-				REALTY_TABLE_CITIES, array('title' => 'Test Town')
+				'tx_realty_cities', array('title' => 'Test Town')
 			)
 		);
 

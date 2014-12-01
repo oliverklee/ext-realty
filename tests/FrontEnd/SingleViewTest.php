@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -62,7 +60,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 				'contactButton,offerer,status,printPageButton,backButton'
 		);
 		$this->dummyCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES
+			'tx_realty_cities'
 		);
 	}
 
@@ -296,7 +294,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	public function singleViewDisplaysThePriceOfARealtyObjectIfEnabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'buying_price' => '123',
 		));
 
@@ -312,7 +310,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	public function singleViewNotDisplaysThePriceOfARealtyObjectIfDisabled() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'buying_price' => '123',
 		));
 
@@ -813,10 +811,10 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	 */
 	public function singleViewForEnabledNextPreviousButtonsShowsNextPreviousButtonsSubpart() {
 		$objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
 		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
@@ -843,7 +841,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	 */
 	public function singleViewForEnabledNextPreviousButtonsButNotSetDisplayPartHidesNextPreviousButtonsSubpart() {
 		$objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
 		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
@@ -870,7 +868,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	 */
 	public function singleViewForDisabledNextPreviousButtonsHidesNextPreviousButtonsSubpart() {
 		$objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
 		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 

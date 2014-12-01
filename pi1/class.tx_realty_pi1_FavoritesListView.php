@@ -129,7 +129,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 		$this->processSubmittedFavorites();
 
 		$result = ($this->getFavorites() != '')
-			? ' AND ' . REALTY_TABLE_OBJECTS . '.uid ' .
+			? ' AND ' . 'tx_realty_objects' . '.uid ' .
 				'IN(' . $this->getFavorites() . ')'
 			: ' AND 0 = 1';
 		$this->favoritesDataVerbose = array();

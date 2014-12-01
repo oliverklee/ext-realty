@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class renders the offerer view.
  *
@@ -57,12 +55,12 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 			::get('tx_realty_Mapper_RealtyObject')->find($uid);
 
 		switch ($realtyObject->getProperty('contact_data_source')) {
-			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
+			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT:
 				$result = $offererList->renderOneItem(
 					intval($realtyObject->getProperty('owner'))
 				);
 				break;
-			case REALTY_CONTACT_FROM_REALTY_OBJECT:
+			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT:
 				$result = $offererList->renderOneItemWithTheDataProvided(array(
 					'email' => $realtyObject->getProperty('contact_email'),
 					'company' => $realtyObject->getProperty('employer'),

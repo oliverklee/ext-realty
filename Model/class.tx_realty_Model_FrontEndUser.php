@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class represents a front-end user and adds functions to check the number
  * of objects a user has or can enter.
@@ -53,8 +51,8 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	 */
 	public function getNumberOfObjects() {
 		if (!$this->numberOfObjectsHasBeenCalculated) {
-			$whereClause = REALTY_TABLE_OBJECTS . '.owner=' . $this->getUid() .
-				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1);
+			$whereClause = 'tx_realty_objects' . '.owner=' . $this->getUid() .
+				tx_oelib_db::enableFields('tx_realty_objects', 1);
 
 			$this->numberOfObjects = tx_oelib_db::count(
 				'tx_realty_objects',

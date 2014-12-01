@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class renders the buying price or rent (depending on the object type)
  * of a single realty object.
@@ -46,11 +44,11 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 		$hasValidContent = TRUE;
 
 		switch ($realtyObject->getProperty('object_type')) {
-			case REALTY_FOR_SALE:
+			case tx_realty_Model_RealtyObject::TYPE_FOR_SALE:
 				$keyToShow = 'buying_price';
 				$keyToHide = 'rent_excluding_bills';
 				break;
-			case REALTY_FOR_RENTING:
+			case tx_realty_Model_RealtyObject::TYPE_FOR_RENT:
 				$keyToShow = 'rent_excluding_bills';
 				$keyToHide = 'buying_price';
 				break;

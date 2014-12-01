@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class represents a realty object.
  *
@@ -26,30 +24,32 @@ require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
  */
 class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_Interface_Geo {
 	/**
-	 * status code meaning "vacant"
-	 *
-	 * @var integer
+	 * @var int
+	 */
+	const TYPE_FOR_RENT = 0;
+
+	/**
+	 * @var int
+	 */
+	const TYPE_FOR_SALE = 1;
+
+	/**
+	 * @var int
 	 */
 	const STATUS_VACANT = 0;
 
 	/**
-	 * status code meaning "reserved"
-	 *
-	 * @var integer
+	 * @var int
 	 */
 	const STATUS_RESERVED = 1;
 
 	/**
-	 * status code meaning "sold"
-	 *
-	 * @var integer
+	 * @var int
 	 */
 	const STATUS_SOLD = 2;
 
 	/**
-	 * status code meaning "rented"
-	 *
-	 * @var integer
+	 * @var int
 	 */
 	const STATUS_RENTED = 3;
 
@@ -107,6 +107,16 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @var int
 	 */
 	const BUILDING_TYPE_BUSINESS = 2;
+
+	/**
+	 * @var int
+	 */
+	const CONTACT_DATA_FROM_REALTY_OBJECT = 0;
+
+	/**
+	 * @var int
+	 */
+	const CONTACT_DATA_FROM_OWNER_ACCOUNT = 1;
 
 	/**
 	 * @var string the charset that is used for the output
@@ -191,12 +201,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @var array associates property names and their corresponding tables
 	 */
 	private static $propertyTables = array(
-		REALTY_TABLE_CITIES => 'city',
-		REALTY_TABLE_APARTMENT_TYPES => 'apartment_type',
-		REALTY_TABLE_HOUSE_TYPES => 'house_type',
-		REALTY_TABLE_DISTRICTS => 'district',
-		REALTY_TABLE_PETS => 'pets',
-		REALTY_TABLE_CAR_PLACES => 'garage_type',
+		'tx_realty_cities' => 'city',
+		'tx_realty_apartment_types' => 'apartment_type',
+		'tx_realty_house_types' => 'house_type',
+		'tx_realty_districts' => 'district',
+		'tx_realty_pets' => 'pets',
+		'tx_realty_car_places' => 'garage_type',
 	);
 
 	/**
@@ -386,9 +396,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		try {
 			$result = tx_oelib_db::selectSingle(
 				'*',
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'uid=' . $uid . tx_oelib_db::enableFields(
-					REALTY_TABLE_OBJECTS, $this->canLoadHiddenObjects ? 1 : -1
+					'tx_realty_objects', $this->canLoadHiddenObjects ? 1 : -1
 				)
 			);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
@@ -525,7 +535,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			$errorMessage = 'message_object_limit_reached';
 		} else {
 			$newUid = $this->createNewDatabaseEntry(
-				$this->getAllProperties(), REALTY_TABLE_OBJECTS, $overridePid
+				$this->getAllProperties(), 'tx_realty_objects', $overridePid
 			);
 			switch ($newUid) {
 				case -1:
@@ -580,7 +590,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		} else {
 			$whereClause = 'tx_realty_openimmo_anid="' .
 				$GLOBALS['TYPO3_DB']->quoteStr(
-					$this->getAsString('openimmo_anid'), REALTY_TABLE_OBJECTS
+					$this->getAsString('openimmo_anid'), 'tx_realty_objects'
 				) . '" ';
 		}
 
@@ -712,7 +722,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		$result = array();
 
 		foreach (
-			array_keys(tx_oelib_db::getColumnsInTable(REALTY_TABLE_OBJECTS))
+			array_keys(tx_oelib_db::getColumnsInTable('tx_realty_objects'))
 		as $key) {
 			if ($this->existsKey($key)) {
 				$result[$key] = $this->get($key);
@@ -816,7 +826,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *                 FALSE otherwise
 	 */
 	public function isAllowedKey($key) {
-		return tx_oelib_db::tableHasColumn(REALTY_TABLE_OBJECTS, $key);
+		return tx_oelib_db::tableHasColumn('tx_realty_objects', $key);
 	}
 
 	/**
@@ -1277,7 +1287,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *                 was set
 	 */
 	protected function createNewDatabaseEntry(
-		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
+		array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
 	) {
 		if (empty($realtyData)) {
 			return 0;
@@ -1293,7 +1303,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		$dataToInsert = $realtyData;
 		$pid = tx_oelib_configurationProxy::getInstance('realty')->
 			getAsInteger('pidForAuxiliaryRecords');
-		if (($pid == 0) || ($table == REALTY_TABLE_OBJECTS)) {
+		if (($pid == 0) || ($table == 'tx_realty_objects')) {
 			if ($overridePid > 0) {
 				$pid = $overridePid;
 			} else {
@@ -1362,7 +1372,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *                 nor $alternativeKey were elements of $dataArray.
 	 */
 	protected function recordExistsInDatabase(
-		array $dataArray, $table = REALTY_TABLE_OBJECTS
+		array $dataArray, $table = 'tx_realty_objects'
 	) {
 		$databaseResult = $this->compareWithDatabase(
 			'COUNT(*) AS number', $dataArray, $table
@@ -1408,7 +1418,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *                 none was found
 	 */
 	private function getRecordUid(
-		array $dataArray, $table = REALTY_TABLE_OBJECTS
+		array $dataArray, $table = 'tx_realty_objects'
 	) {
 		$databaseResultRow = $this->compareWithDatabase(
 			'uid', $dataArray, $table
@@ -1445,7 +1455,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		$showHidden = -1;
-		if (($table == REALTY_TABLE_OBJECTS) && $this->canLoadHiddenObjects) {
+		if (($table == 'tx_realty_objects') && $this->canLoadHiddenObjects) {
 			$showHidden = 1;
 		}
 
@@ -1580,7 +1590,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 */
 	public function getForeignPropertyField($key, $titleField = 'title') {
 		$tableName = ($key == 'country')
-			? STATIC_COUNTRIES : array_search($key, self::$propertyTables);
+			? 'static_countries' : array_search($key, self::$propertyTables);
 
 		if ($tableName === FALSE) {
 			throw new InvalidArgumentException(
@@ -2003,7 +2013,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	private function usesContactDataOfOwner() {
 		$useContactDataOfOwner =
 			$this->getAsInteger('contact_data_source')
-				== REALTY_CONTACT_FROM_OWNER_ACCOUNT;
+				== self::CONTACT_DATA_FROM_OWNER_ACCOUNT;
 
 		if ($useContactDataOfOwner && $this->owner === NULL) {
 			$this->owner

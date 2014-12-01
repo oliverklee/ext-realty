@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -140,7 +138,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$realtyObject->addImageRecord(self::$secondImageTitle, self::$secondImageFileName);
 		$realtyObject->writeToDatabase();
 
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_IMAGES);
+		$this->testingFramework->markTableAsDirty('tx_realty_images');
 	}
 
 
@@ -162,7 +160,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
+				'tx_realty_images',
 				'image = "image.jpg" AND caption = "test image"'
 			)
 		);
@@ -182,7 +180,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
+				'tx_realty_images',
 				'object=' . $this->dummyObjectUid .
 					' AND caption="test image" AND image="image.jpg"'
 			)
@@ -203,7 +201,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
+				'tx_realty_images',
 				'object=' . $this->dummyObjectUid .
 					' AND caption="test image"'
 			)
@@ -221,8 +219,8 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_IMAGES)
+				'tx_realty_images',
+				'1=1' . tx_oelib_db::enableFields('tx_realty_images')
 			)
 		);
 	}
@@ -238,8 +236,8 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES,
-				'1=1' . tx_oelib_db::enableFields(REALTY_TABLE_IMAGES)
+				'tx_realty_images',
+				'1=1' . tx_oelib_db::enableFields('tx_realty_images')
 			)
 		);
 	}

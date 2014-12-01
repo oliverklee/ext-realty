@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Plugin "Realty List".
  *
@@ -87,7 +85,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		$this->getTemplateCode();
 		$this->setLabels();
 
-		$this->internal['currentTable'] = REALTY_TABLE_OBJECTS;
+		$this->internal['currentTable'] = 'tx_realty_objects';
 		$this->ensureIntegerPiVars(array(
 			'remove', 'showUid', 'delete', 'owner', 'uid'
 		));

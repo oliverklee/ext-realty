@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -106,19 +104,19 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	private function createDummyObjects() {
 		$this->createDummyCities();
 		$this->firstRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'pid' => $this->systemFolderPid,
 				'city' => $this->firstCityUid,
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			)
 		);
 		$this->secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'pid' => $this->systemFolderPid,
 				'city' => $this->secondCityUid,
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			)
 		);
 	}
@@ -130,11 +128,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	 */
 	private function createDummyCities() {
 		$this->firstCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
+			'tx_realty_cities',
 			array('title' => self::$firstCityTitle)
 		);
 		$this->secondCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
+			'tx_realty_cities',
 			array('title' => self::$secondCityTitle)
 		);
 	}
@@ -149,10 +147,10 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	 */
 	public function listFilterIsVisibleIfCheckboxesFilterSetToDistrictAndCitySelectorIsInactive() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->firstRealtyUid,
 			array('district' => $this->testingFramework->createRecord(
-				REALTY_TABLE_DISTRICTS, array('title' => 'test district')
+				'tx_realty_districts', array('title' => 'test district')
 			))
 		);
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
@@ -169,11 +167,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	public function checkboxesFilterDoesNotHaveUnreplacedMarkersForMinimalContent() {
 		$systemFolder = $this->testingFramework->createSystemFolder();
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				// A city is the minimum requirement for an object to be displayed,
 				// though the object is rendered empty because the city has no title.
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'city' => $this->testingFramework->createRecord('tx_realty_cities'),
 				'pid' => $systemFolder
 			)
 		);
@@ -196,10 +194,10 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	 */
 	public function listFilterIsVisibleIfCheckboxesFilterIsSetToDistrictAndCitySelectorIsActive() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->firstRealtyUid,
 			array('district' => $this->testingFramework->createRecord(
-				REALTY_TABLE_DISTRICTS, array('title' => 'test district')
+				'tx_realty_districts', array('title' => 'test district')
 			))
 		);
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
@@ -215,7 +213,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	 */
 	public function listFilterIsInvisibleIfCheckboxesFilterSetToDistrictAndNoRecordIsLinkedToADistrict() {
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_DISTRICTS, array('title' => 'test district')
+			'tx_realty_districts', array('title' => 'test district')
 		);
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
@@ -276,7 +274,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	 */
 	public function listFilterDoesNotDisplayUnlinkedCity() {
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('title' => 'unlinked city')
+			'tx_realty_cities', array('title' => 'unlinked city')
 		);
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
@@ -297,10 +295,10 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	 */
 	public function listFilterDoesNotDisplayDeletedCity() {
 		$deletedCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('title' => 'deleted city', 'deleted' => 1)
+			'tx_realty_cities', array('title' => 'deleted city', 'deleted' => 1)
 		);
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->firstRealtyUid, array('city' => $deletedCityUid)
+			'tx_realty_objects', $this->firstRealtyUid, array('city' => $deletedCityUid)
 		);
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 

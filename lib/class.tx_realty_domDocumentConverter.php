@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class converts DOMDocuments of OpenImmo data to arrays which have the
  * columns of the database table "tx_realty_objects" as keys.
@@ -734,9 +732,9 @@ class tx_realty_domDocumentConverter {
 			if (isset($objectTypeAttributes['kauf'])
 				&& $this->isBooleanLikeStringTrue($objectTypeAttributes['kauf'])
 			) {
-				$this->addImportedData('object_type', REALTY_FOR_SALE);
+				$this->addImportedData('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 			} else {
-				$this->addImportedData('object_type', REALTY_FOR_RENTING);
+				$this->addImportedData('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 			}
 		}
 
@@ -1127,9 +1125,9 @@ class tx_realty_domDocumentConverter {
 			try {
 				$row = tx_oelib_db::selectSingle(
 					'uid',
-					STATIC_COUNTRIES,
+					'static_countries',
 					'cn_iso_3 = "' . $GLOBALS['TYPO3_DB']->quoteStr(
-						$country, STATIC_COUNTRIES
+						$country, 'static_countries'
 					) . '"'
 				);
 				$uid = $row['uid'];

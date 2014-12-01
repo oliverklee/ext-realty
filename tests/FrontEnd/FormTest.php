@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -87,7 +85,7 @@ class tx_realty_FrontEnd_FormTest extends tx_phpunit_testcase {
 	private function createDummyRecords() {
 		$this->feUserUid = $this->testingFramework->createFrontEndUser();
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS
+			'tx_realty_objects'
 		);
 	}
 

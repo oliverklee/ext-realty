@@ -14,8 +14,6 @@
 
 require_once(PATH_formidableapi);
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class provides functions used in the realty plugin's forms.
  *

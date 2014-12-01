@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -121,11 +119,11 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	 */
 	private function createDummyObjects() {
 		$this->cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
+			'tx_realty_cities',
 			array('title' => 'Foo City')
 		);
 		$this->firstRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => self::$firstObjectTitle,
 				'object_number' => self::$firstObjectNumber,
@@ -148,7 +146,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 		$this->session->setAsInteger(
 			tx_realty_pi1_FavoritesListView::FAVORITES_SESSION_KEY,
 			$this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				array(
 					'city' => $this->cityUid,
 					'pid' => $systemFolder,
@@ -191,7 +189,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	 */
 	public function renderForTwoFavoritesShowsBothFavoritesTitles() {
 		$secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => 'another object',
 				'pid' => $this->systemFolderPid,
@@ -246,7 +244,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	 */
 	public function twoFavoritesCanBeDeletedAtOnce() {
 		$secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => 'another object',
 				'pid' => $this->systemFolderPid,
@@ -354,7 +352,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	 */
 	public function addToFavoritesWithTwoNewItemsCanAddBothItemsToEmptySession() {
 		$secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => 'another object',
 				'pid' => $this->systemFolderPid,
@@ -382,7 +380,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 			tx_realty_pi1_FavoritesListView::FAVORITES_SESSION_KEY, $this->firstRealtyUid
 		);
 		$secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => 'another object',
 				'pid' => $this->systemFolderPid,
@@ -501,7 +499,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	 */
 	public function createSummaryStringOfFavoritesForTwoStoredFavoritesReturnsBothFavorites() {
 		$secondRealtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => 'another object',
 				'pid' => $this->systemFolderPid,

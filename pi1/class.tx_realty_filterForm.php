@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class provides a form to enter filter criteria for the realty list in the realty plugin.
  *
@@ -462,7 +460,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function fillOrHideHouseTypeSearch() {
 		$this->fillOrHideAuxiliaryRecordSearch(
-			'houseType', REALTY_TABLE_HOUSE_TYPES, 'house_type'
+			'houseType', 'tx_realty_house_types', 'house_type'
 		);
 	}
 
@@ -493,10 +491,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$records = tx_oelib_db::selectMultiple(
 			$tableName . '.uid, ' . $tableName . '.title',
-			REALTY_TABLE_OBJECTS . ',' . $tableName,
-			REALTY_TABLE_OBJECTS . '.' . $columnName .
+			'tx_realty_objects' . ',' . $tableName,
+			'tx_realty_objects' . '.' . $columnName .
 				' = ' . $tableName . '.uid' .
-				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
+				tx_oelib_db::enableFields('tx_realty_objects') .
 				tx_oelib_db::enableFields($tableName),
 			'uid',
 			$tableName . '.title'
@@ -671,8 +669,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			// Additionally to the objects that have at least one non-zero price
 			// inferior to the lower lower limit, objects which have no price at
 			// all need to be found.
-			$whereClauseForObjectsForFree = ' OR (' . REALTY_TABLE_OBJECTS .
-				'.rent_excluding_bills = 0 AND ' . REALTY_TABLE_OBJECTS .
+			$whereClauseForObjectsForFree = ' OR (' . 'tx_realty_objects' .
+				'.rent_excluding_bills = 0 AND ' . 'tx_realty_objects' .
 				'.buying_price = 0)';
 		} else {
 			$equalSign = '=';
@@ -680,17 +678,17 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		}
 		// The WHERE clause part for the lower limit is always set, even if no
 		// lower limit was provided. The lower limit will just be zero then.
-		$lowerLimitRent = REALTY_TABLE_OBJECTS . '.rent_excluding_bills ' .
+		$lowerLimitRent = 'tx_realty_objects' . '.rent_excluding_bills ' .
 			'>' . $equalSign . ' ' . $priceRange['lowerLimit'];
-		$lowerLimitBuy = REALTY_TABLE_OBJECTS . '.buying_price ' .
+		$lowerLimitBuy = 'tx_realty_objects' . '.buying_price ' .
 			'>' . $equalSign . ' ' . $priceRange['lowerLimit'];
 
 		// The upper limit will be zero if no upper limit was provided. So zero
 		// means infinite here.
 		if ($priceRange['upperLimit'] != 0) {
-			$upperLimitRent = ' AND ' . REALTY_TABLE_OBJECTS .
+			$upperLimitRent = ' AND ' . 'tx_realty_objects' .
 				'.rent_excluding_bills <= ' . $priceRange['upperLimit'];
-			$upperLimitBuy = ' AND ' . REALTY_TABLE_OBJECTS .
+			$upperLimitBuy = ' AND ' . 'tx_realty_objects' .
 				'.buying_price <= ' . $priceRange['upperLimit'];
 		} else {
 			$upperLimitRent = '';
@@ -717,20 +715,20 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$zipSearchString = $GLOBALS['TYPO3_DB']->quoteStr(
 			$GLOBALS['TYPO3_DB']->escapeStrForLike(
 				substr($this->filterFormData['site'], 0, 2),
-				REALTY_TABLE_OBJECTS
+				'tx_realty_objects'
 			),
-			REALTY_TABLE_OBJECTS
+			'tx_realty_objects'
 		);
 		$citySearchString = $GLOBALS['TYPO3_DB']->quoteStr(
 			$GLOBALS['TYPO3_DB']->escapeStrForLike(
 				$this->filterFormData['site'],
-				REALTY_TABLE_CITIES
+				'tx_realty_cities'
 			),
-			REALTY_TABLE_CITIES
+			'tx_realty_cities'
 		);
 
-		return ' AND (' . REALTY_TABLE_OBJECTS . '.zip LIKE "' .
-			$zipSearchString . '%" OR ' . REALTY_TABLE_CITIES .
+		return ' AND (' . 'tx_realty_objects' . '.zip LIKE "' .
+			$zipSearchString . '%" OR ' . 'tx_realty_cities' .
 			'.title LIKE "%' . $citySearchString . '%")';
 	}
 
@@ -745,9 +743,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		return ' AND ' . REALTY_TABLE_OBJECTS . '.object_number="' .
+		return ' AND ' . 'tx_realty_objects' . '.object_number="' .
 			$GLOBALS['TYPO3_DB']->quoteStr(
-				$this->filterFormData['objectNumber'], REALTY_TABLE_OBJECTS
+				$this->filterFormData['objectNumber'], 'tx_realty_objects'
 			) . '"';
 	}
 
@@ -762,7 +760,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		return ' AND ' . REALTY_TABLE_OBJECTS . '.uid=' .
+		return ' AND ' . 'tx_realty_objects' . '.uid=' .
 			$this->filterFormData['uid'];
 	}
 
@@ -779,10 +777,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		}
 
 		$objectType = ($this->filterFormData['objectType'] == 'forRent')
-			? REALTY_FOR_RENTING
-			: REALTY_FOR_SALE;
+			? tx_realty_Model_RealtyObject::TYPE_FOR_RENT
+			: tx_realty_Model_RealtyObject::TYPE_FOR_SALE;
 
-		return ' AND ' . REALTY_TABLE_OBJECTS . '.object_type = ' . $objectType;
+		return ' AND ' . 'tx_realty_objects' . '.object_type = ' . $objectType;
 	}
 
 	/**
@@ -797,7 +795,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		return ' AND ' . REALTY_TABLE_OBJECTS . '.city = ' .
+		return ' AND ' . 'tx_realty_objects' . '.city = ' .
 			$this->filterFormData['city'];
 	}
 
@@ -813,7 +811,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		return ' AND ' . REALTY_TABLE_OBJECTS . '.district = ' .
+		return ' AND ' . 'tx_realty_objects' . '.district = ' .
 			$this->filterFormData['district'];
 	}
 
@@ -829,7 +827,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		return ' AND ' . REALTY_TABLE_OBJECTS . '.house_type = ' .
+		return ' AND ' . 'tx_realty_objects' . '.house_type = ' .
 			$this->filterFormData['houseType'];
 	}
 
@@ -842,11 +840,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getLivingAreaWhereClausePart() {
 		return (($this->filterFormData['livingAreaFrom'] != 0)
-				? ' AND (' . REALTY_TABLE_OBJECTS . '.living_area >= '
+				? ' AND (' . 'tx_realty_objects' . '.living_area >= '
 					. $this->filterFormData['livingAreaFrom'] . ')'
 				: '') .
 			(($this->filterFormData['livingAreaTo'] != 0)
-				? ' AND (' . REALTY_TABLE_OBJECTS . '.living_area <= '
+				? ' AND (' . 'tx_realty_objects' . '.living_area <= '
 					. $this->filterFormData['livingAreaTo'] . ')'
 				: '');
 	}
@@ -894,7 +892,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			$this->filterFormData['numberOfRoomsFrom']
 		);
 		if ($roomsFromWithDots != 0) {
-			$result .= ' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms >= '
+			$result .= ' AND (' . 'tx_realty_objects' . '.number_of_rooms >= '
 				. $roomsFromWithDots . ')';
 		}
 
@@ -902,7 +900,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			$this->filterFormData['numberOfRoomsTo']
 		);
 		if ($roomsToWithDots != 0) {
-			$result .= ' AND (' . REALTY_TABLE_OBJECTS . '.number_of_rooms <= '
+			$result .= ' AND (' . 'tx_realty_objects' . '.number_of_rooms <= '
 				. $roomsToWithDots . ')';
 		}
 

@@ -652,7 +652,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			REALTY_FOR_SALE,
+			tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			$importedData[0]['object_type']
 		);
 	}
@@ -675,7 +675,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			REALTY_FOR_RENTING,
+			tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			$importedData[0]['object_type']
 		);
 	}
@@ -698,7 +698,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			REALTY_FOR_SALE,
+			tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			$importedData[0]['object_type']
 		);
 	}
@@ -721,7 +721,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 
 		$importedData = $this->fixture->getConvertedData($node);
 		$this->assertEquals(
-			REALTY_FOR_RENTING,
+			tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			$importedData[0]['object_type']
 		);
 	}

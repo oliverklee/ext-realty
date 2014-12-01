@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -65,7 +63,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderReturnsNonEmptyResultForShowUidOfExistingRecord() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'rent_excluding_bills' => '123',
 		));
 
@@ -94,7 +92,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'rent_excluding_bills' => '123',
 		));
 
@@ -118,7 +116,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderReturnsTheRealtyObjectsBuyingPriceForObjectForSale() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'buying_price' => '123',
 		));
 
@@ -134,7 +132,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderWithPriceOnlyIfAvailableForVacantObjectForSaleReturnsBuyingPrice() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'buying_price' => '123',
 				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT
 		));
@@ -153,7 +151,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderWithPriceOnlyIfAvailableForReservedObjectForSaleReturnsBuyingPrice() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'buying_price' => '123',
 				'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED
 		));
@@ -172,7 +170,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderWithPriceOnlyIfAvailableForSoldObjectForSaleReturnsEmptyString() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'buying_price' => '123',
 				'status' => tx_realty_Model_RealtyObject::STATUS_SOLD
 		));
@@ -191,7 +189,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderNotReturnsTheRealtyObjectsBuyingPriceForObjectForRenting() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'buying_price' => '123',
 		));
 
@@ -207,7 +205,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderReturnsTheRealtyObjectsRentForObjectForRenting() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'rent_excluding_bills' => '123',
 		));
 
@@ -223,7 +221,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderWithPriceOnlyIfAvailableForVacantObjectForRentReturnsBuyingPrice() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'rent_excluding_bills' => '123',
 				'status' => tx_realty_Model_RealtyObject::STATUS_VACANT
 		));
@@ -242,7 +240,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderWithPriceOnlyIfAvailableForReservedObjectForRentReturnsBuyingPrice() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'rent_excluding_bills' => '123',
 				'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED
 		));
@@ -261,7 +259,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderWithPriceOnlyIfAvailableForRentedObjectForRentReturnsEmptyString() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'rent_excluding_bills' => '123',
 				'status' => tx_realty_Model_RealtyObject::STATUS_RENTED
 		));
@@ -280,7 +278,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderNotReturnsTheRealtyObjectsRentForObjectForSale() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'rent_excluding_bills' => '123',
 		));
 
@@ -296,7 +294,7 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 	public function renderReturnsEmptyResultForEmptyBuyingPriceOfObjectForSale() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'object_type' => REALTY_FOR_SALE,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 				'buying_price' => '',
 		));
 

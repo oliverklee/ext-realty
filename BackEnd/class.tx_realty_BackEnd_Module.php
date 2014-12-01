@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Backend module.
  *
@@ -204,14 +202,14 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	private function userHasAccessToTables() {
 		$userHasAccessToTables = TRUE;
 		$neededTables = array(
-			REALTY_TABLE_OBJECTS,
-			REALTY_TABLE_APARTMENT_TYPES,
-			REALTY_TABLE_CAR_PLACES,
-			REALTY_TABLE_CITIES,
-			REALTY_TABLE_DISTRICTS,
-			REALTY_TABLE_HOUSE_TYPES,
-			REALTY_TABLE_IMAGES,
-			REALTY_TABLE_PETS,
+			'tx_realty_objects',
+			'tx_realty_apartment_types',
+			'tx_realty_car_places',
+			'tx_realty_cities',
+			'tx_realty_districts',
+			'tx_realty_house_types',
+			'tx_realty_images',
+			'tx_realty_pets',
 		);
 
 		foreach ($neededTables as $table) {

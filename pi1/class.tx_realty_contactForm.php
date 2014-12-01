@@ -407,7 +407,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		// Gets the contact data from the chosen source. No data is fetched if
 		// the 'contact_data_source' is set to an invalid value.
 		switch ($this->getRealtyObject()->getProperty('contact_data_source')) {
-			case REALTY_CONTACT_FROM_OWNER_ACCOUNT:
+			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT:
 				try {
 					$owner = $this->getRealtyObject()->getOwner();
 					$result['email'] = $owner->getEMailAddress();
@@ -415,7 +415,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 				} catch (tx_oelib_Exception_NotFound $exception) {
 				}
 				break;
-			case REALTY_CONTACT_FROM_REALTY_OBJECT:
+			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT:
 				$result['email'] = $this->getRealtyObject()->getProperty('contact_email');
 				$result['name'] = $this->getRealtyObject()->getProperty('contact_person');
 				break;

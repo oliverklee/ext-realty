@@ -50,7 +50,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 			= $this->testingFramework->createFrontEndPage();
 		$this->listViewUid = $this->testingFramework->createContentElement();
 		$this->dummyCityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES
+			'tx_realty_cities'
 		);
 
 		$this->fixture = new tx_realty_pi1_NextPreviousButtonsView(
@@ -79,7 +79,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	 */
 	private function createRealtyRecordWithCity() {
 		return $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('city' => $this->dummyCityUid)
+			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
 	}
 
@@ -113,7 +113,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 		$objectUid = $this->createRealtyRecordWithCity();
 		$this->assertTrue(
 			$this->testingFramework->existsRecord(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'uid = ' . $objectUid . ' AND is_dummy_record = 1'
 			)
 		);
@@ -126,7 +126,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 		$objectUid = $this->createRealtyRecordWithCity();
 		$this->assertTrue(
 			$this->testingFramework->existsRecord(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'uid = ' . $objectUid . ' AND city > 0 AND is_dummy_record = 1'
 			)
 		);
@@ -225,17 +225,17 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	 */
 	public function renderForRecordPostionOneAndTwoRecordsNotReturnsNextButton() {
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => 'foo',
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES)
+				'city' => $this->testingFramework->createRecord('tx_realty_cities')
 			)
 		);
 		$objectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => 'foo',
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES)
+				'city' => $this->testingFramework->createRecord('tx_realty_cities')
 			)
 		);
 
@@ -258,17 +258,17 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	 */
 	public function renderAddsUidOfPreviousRecordToPreviousLink() {
 		$objectUid1 = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => 'foo',
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES)
+				'city' => $this->testingFramework->createRecord('tx_realty_cities')
 			)
 		);
 		$objectUid2 = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => 'foo',
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES)
+				'city' => $this->testingFramework->createRecord('tx_realty_cities')
 			)
 		);
 
@@ -291,17 +291,17 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	 */
 	public function renderAddsUidOfNextRecordToNextLink() {
 		$objectUid1 = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => 'foo',
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES)
+				'city' => $this->testingFramework->createRecord('tx_realty_cities')
 			)
 		);
 		$objectUid2 = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => 'foo',
-				'city' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES)
+				'city' => $this->testingFramework->createRecord('tx_realty_cities')
 			)
 		);
 

@@ -53,12 +53,10 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 	private $message = NULL;
 
 	protected function setUp() {
-		require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->realtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => self::REALTY_TITLE,
 				'object_number' => self::REALTY_OBJECT_NUMBER,
@@ -363,7 +361,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			'###',
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				))
 			)
 		);
@@ -377,7 +375,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				))
 			)
 		);
@@ -391,7 +389,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			$this->fixture->translate('label_title'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				))
 			)
 		);
@@ -405,7 +403,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			$this->fixture->translate('label_submit'),
 			$this->fixture->render(array(
 				'showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				))
 			)
 		);
@@ -419,7 +417,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			$this->fixture->translate('label_your_name'),
 			$this->fixture->render(array(
 				'showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				))
 			)
 		);
@@ -668,7 +666,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			$this->fixture->translate('message_noResultsFound_contact_form'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
-					REALTY_TABLE_OBJECTS, array('deleted' => 1)
+					'tx_realty_objects', array('deleted' => 1)
 				))
 			)
 		);
@@ -1330,10 +1328,10 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 	 */
 	public function specializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToRealtyObject() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_REALTY_OBJECT,
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
 				'contact_person' => 'any contact person',
 				'contact_email' => 'any-valid@email-address.org',
 			)
@@ -1362,10 +1360,10 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			'', array('email' => 'invalid-address')
 		);
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
 				'owner' => $ownerUid,
 			)
 		);
@@ -1390,7 +1388,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 	 */
 	public function specializedContactFormUsesTheDefaultEmailAddressIfTheContactPersonsAddressIsInvalid() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array(
 				'contact_person' => 'Mr.Contact',
@@ -1418,10 +1416,10 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 	 */
 	public function specializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToOwner() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
 				'owner' => $this->testingFramework->createFrontEndUser(
 					'', array('email' => 'frontend-user@example.com')
 				),
@@ -1458,10 +1456,10 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			)
 		);
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
 				'owner' => $deletedUserUid,
 			)
 		);
@@ -1486,10 +1484,10 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 	 */
 	public function specializedContactFormUsesDefaultEmailAddressForInvalidAddressFromOwnerAccount() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT,
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
 				'owner' => $this->testingFramework->createFrontEndUser(
 					'', array('email' => 'invalid-email')
 				),

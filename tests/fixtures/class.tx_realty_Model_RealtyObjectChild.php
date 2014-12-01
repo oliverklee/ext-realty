@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This is merely a class used for unit tests. Don't use it for any other purpose.
  *
@@ -45,7 +43,7 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	 *                 nor $alternativeKey were elements of $dataArray.
 	 */
 	public function recordExistsInDatabase(
-		$dataArray, $table = REALTY_TABLE_OBJECTS
+		$dataArray, $table = 'tx_realty_objects'
 	) {
 		return parent::recordExistsInDatabase($dataArray, $table);
 	}
@@ -70,7 +68,7 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	 *                 was set
 	 */
 	public function createNewDatabaseEntry(
-		array $realtyData, $table = REALTY_TABLE_OBJECTS, $overridePid = 0
+		array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
 	) {
 		return parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
 	}

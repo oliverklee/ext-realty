@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -95,9 +93,9 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	 */
 	public function hideUnusedImagesInDatabaseNotHidesImageReferencingEnabledRealtyRecord() {
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
+			'tx_realty_images',
 			array('object' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('images' => 1)
+				'tx_realty_objects', array('images' => 1)
 			))
 		);
 
@@ -105,7 +103,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_IMAGES, 'hidden = 0'
+				'tx_realty_images', 'hidden = 0'
 			)
 		);
 	}
@@ -115,9 +113,9 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	 */
 	public function hideUnusedImagesInDatabaseNotHidesImageReferencingHiddenRealtyRecord() {
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
+			'tx_realty_images',
 			array('object' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('images' => 1, 'hidden' => 1)
+				'tx_realty_objects', array('images' => 1, 'hidden' => 1)
 			))
 		);
 
@@ -125,7 +123,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_IMAGES, 'hidden = 0'
+				'tx_realty_images', 'hidden = 0'
 			)
 		);
 	}
@@ -135,9 +133,9 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	 */
 	public function hideUnusedImagesInDatabaseHidesImageReferencingDeletedRealtyRecord() {
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
+			'tx_realty_images',
 			array('object' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('images' => 1, 'deleted' => 1)
+				'tx_realty_objects', array('images' => 1, 'deleted' => 1)
 			))
 		);
 
@@ -145,7 +143,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_IMAGES, 'hidden = 1'
+				'tx_realty_images', 'hidden = 1'
 			)
 		);
 	}
@@ -154,13 +152,13 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function hideUnusedImagesInDatabaseHidesImageReferencingNoRealtyRecord() {
-		$this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRecord('tx_realty_images');
 
 		$this->fixture->hideUnusedImagesInDatabase();
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_IMAGES, 'hidden = 1'
+				'tx_realty_images', 'hidden = 1'
 			)
 		);
 	}
@@ -169,15 +167,15 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function hideUnusedImagesInDatabaseHidesTwoImagesReferencingNoRealtyRecords() {
-		$this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
-		$this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRecord('tx_realty_images');
+		$this->testingFramework->createRecord('tx_realty_images');
 
 		$this->fixture->hideUnusedImagesInDatabase();
 
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_IMAGES, 'hidden = 1'
+				'tx_realty_images', 'hidden = 1'
 			)
 		);
 	}
@@ -194,7 +192,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array('object' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('documents' => 1)
+				'tx_realty_objects', array('documents' => 1)
 			))
 		);
 
@@ -214,7 +212,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array('object' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('documents' => 1, 'hidden' => 1)
+				'tx_realty_objects', array('documents' => 1, 'hidden' => 1)
 			))
 		);
 
@@ -234,7 +232,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			'tx_realty_documents',
 			array('object' => $this->testingFramework->createRecord(
-				REALTY_TABLE_OBJECTS, array('documents' => 1, 'deleted' => 1)
+				'tx_realty_objects', array('documents' => 1, 'deleted' => 1)
 			))
 		);
 
@@ -292,7 +290,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 			$this->uploadFolder . '/image.jpg'
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
+			'tx_realty_images',
 			array('deleted' => 1, 'image' => basename($fileName))
 		);
 
@@ -326,7 +324,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 			$this->uploadFolder . '/image.jpg'
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES,
+			'tx_realty_images',
 			array('hidden' =>  1, 'image' => basename($fileName))
 		);
 
@@ -360,7 +358,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 			$this->uploadFolder . '/image.jpg'
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_IMAGES, array('image' => basename($fileName))
+			'tx_realty_images', array('image' => basename($fileName))
 		);
 
 		$this->fixture->deleteUnusedFiles();
@@ -468,7 +466,7 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getStatisticsAfterHidingAnImageRecordReturnsImageRecordDeletedInformation() {
-		$this->testingFramework->createRecord(REALTY_TABLE_IMAGES);
+		$this->testingFramework->createRecord('tx_realty_images');
 
 		$this->fixture->hideUnusedImagesInDatabase();
 

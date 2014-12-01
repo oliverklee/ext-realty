@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class provides an FE editor the realty plugin.
  *
@@ -28,13 +26,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @var array table names which are allowed as form values
 	 */
 	private static $allowedTables = array(
-		REALTY_TABLE_CITIES,
-		REALTY_TABLE_DISTRICTS,
-		REALTY_TABLE_APARTMENT_TYPES,
-		REALTY_TABLE_HOUSE_TYPES,
-		REALTY_TABLE_CAR_PLACES,
-		REALTY_TABLE_PETS,
-		STATIC_COUNTRIES,
+		'tx_realty_cities',
+		'tx_realty_districts',
+		'tx_realty_apartment_types',
+		'tx_realty_house_types',
+		'tx_realty_car_places',
+		'tx_realty_pets',
+		'static_countries',
 	);
 
 	/**
@@ -374,7 +372,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	public function isNonEmptyValidPriceForObjectForSale(array $formData) {
 		return $this->isValidPriceForObjectType(
-			$formData['value'], REALTY_FOR_SALE
+			$formData['value'], tx_realty_Model_RealtyObject::TYPE_FOR_SALE
 		);
 	}
 
@@ -401,8 +399,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			&& $this->isValidNumberWithDecimals(array('value' => $yearRent));
 
 		$oneValueMatchesObjectTypeConditions =
-			$this->isValidPriceForObjectType($formData['value'], REALTY_FOR_RENTING)
-			|| $this->isValidPriceForObjectType($yearRent, REALTY_FOR_RENTING);
+			$this->isValidPriceForObjectType($formData['value'], tx_realty_Model_RealtyObject::TYPE_FOR_RENT)
+			|| $this->isValidPriceForObjectType($yearRent, tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
 		return $twoValidValues && $oneValueMatchesObjectTypeConditions;
 	}
@@ -435,11 +433,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'language',
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			'object_number="' .
 				$GLOBALS['TYPO3_DB']->quoteStr(
-					$formData['value'], REALTY_TABLE_OBJECTS
-				) . '"' . tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1) .
+					$formData['value'], 'tx_realty_objects'
+				) . '"' . tx_oelib_db::enableFields('tx_realty_objects', 1) .
 				$this->getWhereClauseForTesting()
 		);
 		if (!$dbResult) {
@@ -513,7 +511,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$mayBeEmpty = ($this->getFormValue('new_city') == '') ? FALSE : TRUE;
 
 		return $this->checkKeyExistsInTable(array(
-				'value' => $formData['value'], 'table' => REALTY_TABLE_CITIES
+				'value' => $formData['value'], 'table' => 'tx_realty_cities'
 			),
 			$mayBeEmpty
 		);
@@ -564,7 +562,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	public function isNonEmptyOrOwnerDataUsed(array $formData) {
 		if ($this->getFormValue('contact_data_source')
-			== REALTY_CONTACT_FROM_OWNER_ACCOUNT
+			== tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
 		) {
 			return TRUE;
 		}
@@ -760,8 +758,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	public function getMessageForRealtyObjectField(array $formData) {
 		// This  will lead to an exception for an invalid non-empty field name.
 		$labelOfField = $this->checkForValidFieldName(
-				$formData['fieldName'], REALTY_TABLE_OBJECTS, TRUE
-			) ? 'LLL:EXT:realty/locallang_db.xml:' . REALTY_TABLE_OBJECTS . '.' .
+				$formData['fieldName'], 'tx_realty_objects', TRUE
+			) ? 'LLL:EXT:realty/locallang_db.xml:' . 'tx_realty_objects' . '.' .
 				$formData['fieldName']
 			: '';
 		// This will cause an exception if the locallang key was invalid.
@@ -906,7 +904,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function purgeNonRealtyObjectFields(array &$formData) {
 		foreach (array_keys($formData) as $key) {
-			if (!tx_oelib_db::tableHasColumn(REALTY_TABLE_OBJECTS, $key)) {
+			if (!tx_oelib_db::tableHasColumn('tx_realty_objects', $key)) {
 				unset($formData[$key]);
 			}
 		}
@@ -923,7 +921,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return void
 	 */
 	private function storeNewAuxiliaryRecords(array &$formData) {
-		$table = REALTY_TABLE_CITIES;
+		$table = 'tx_realty_cities';
 		$key = 'city';
 
 		$title = trim($formData['new_' . $key]);
@@ -1061,7 +1059,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	private function getPidFromCityRecord($cityUid) {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'save_folder',
-			REALTY_TABLE_CITIES,
+			'tx_realty_cities',
 			'uid=' . $cityUid
 		);
 		if (!$dbResult) {
@@ -1204,11 +1202,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	private function getObjectType() {
 		if (class_exists('t3lib_utility_Math')) {
 			$type = t3lib_utility_Math::forceIntegerInRange(
-				$this->getFormValue('object_type'), REALTY_FOR_RENTING, REALTY_FOR_SALE, REALTY_FOR_RENTING
+				$this->getFormValue('object_type'), tx_realty_Model_RealtyObject::TYPE_FOR_RENT, tx_realty_Model_RealtyObject::TYPE_FOR_SALE, tx_realty_Model_RealtyObject::TYPE_FOR_RENT
 			);
 		} else {
 			$type = t3lib_div::intInRange(
-				$this->getFormValue('object_type'), REALTY_FOR_RENTING, REALTY_FOR_SALE, REALTY_FOR_RENTING
+				$this->getFormValue('object_type'), tx_realty_Model_RealtyObject::TYPE_FOR_RENT, tx_realty_Model_RealtyObject::TYPE_FOR_SALE, tx_realty_Model_RealtyObject::TYPE_FOR_RENT
 			);
 		}
 
@@ -1229,7 +1227,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *                 realty objects table and non-empty, FALSE otherwise
 	 */
 	private function checkForValidFieldName(
-		$fieldName, $tableName = REALTY_TABLE_OBJECTS,
+		$fieldName, $tableName = 'tx_realty_objects',
 		$noExceptionIfEmpty = FALSE
 	) {
 		if ((trim($fieldName) == '') && $noExceptionIfEmpty) {

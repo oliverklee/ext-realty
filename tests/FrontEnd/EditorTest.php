@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -105,7 +103,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => self::$dummyStringValue,
 				'language' => self::$dummyStringValue
@@ -124,8 +122,8 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$realtyObject->loadRealtyObject($this->dummyObjectUid);
 
 		foreach (array(
-			'city' => REALTY_TABLE_CITIES,
-			'district' => REALTY_TABLE_DISTRICTS,
+			'city' => 'tx_realty_cities',
+			'district' => 'tx_realty_districts',
 		) as $key => $table) {
 			$realtyObject->setProperty($key, self::$dummyStringValue);
 			$this->testingFramework->markTableAsDirty($table);
@@ -188,7 +186,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function deleteRecordFromTheDatabase() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->dummyObjectUid,
 			array('owner' => $this->testingFramework->createFrontEndUser())
 		);
@@ -198,9 +196,9 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'uid=' . $this->dummyObjectUid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -316,7 +314,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function populateListForValidTableReturnsARecordsTitleAsCaption() {
 		$result = $this->fixture->populateList(
-			array(), array('table' => REALTY_TABLE_CITIES)
+			array(), array('table' => 'tx_realty_cities')
 		);
 
 		$this->assertEquals(
@@ -344,10 +342,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function populateListForInvalidTitleColumnThrowsAnExeption() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
-			'"foo" is not a valid column name for ' . REALTY_TABLE_CITIES . '.'
+			'"foo" is not a valid column name for ' . 'tx_realty_cities' . '.'
 		);
 		$this->fixture->populateList(
-			array(), array('title_column' => 'foo', 'table' => REALTY_TABLE_CITIES)
+			array(), array('title_column' => 'foo', 'table' => 'tx_realty_cities')
 		);
 	}
 
@@ -361,7 +359,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 				'caption' => 'Deutschland',
 			),
 			$this->fixture->populateList(array(), array(
-				'table' => STATIC_COUNTRIES,
+				'table' => 'static_countries',
 				'title_column' => 'cn_short_local',
 			))
 		);
@@ -403,7 +401,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function getMessageForRealtyObjectThrowsAnExceptionForAnInvalidFieldName() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
-			'"foo" is not a valid column name for ' . REALTY_TABLE_OBJECTS . '.'
+			'"foo" is not a valid column name for ' . 'tx_realty_objects' . '.'
 		);
 		$this->fixture->getMessageForRealtyObjectField(
 			array('fieldName' => 'foo', 'label' => 'message_no_valid_number')
@@ -436,7 +434,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToBuy() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
@@ -449,7 +447,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getNoValidPriceOrEmptyMessageForBuyingPriceFieldIfObjectToRent() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
@@ -462,7 +460,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getNoValidPriceOrEmptyMessageForRentFieldsIfObjectToRent() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
@@ -475,7 +473,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getNoValidPriceOrEmptyMessageForRentFieldsIfObjectToBuy() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
 		$this->assertEquals(
 			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
@@ -529,7 +527,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function getInvalidOrEmptyCityMessageForNonEmptyCity() {
 		$this->fixture->setFakedFormValue(
 			'city', $this->testingFramework->createRecord(
-				REALTY_TABLE_CITIES, array('deleted' => 1)
+				'tx_realty_cities', array('deleted' => 1)
 			)
 		);
 
@@ -871,7 +869,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsValid() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 		$this->assertTrue(
 			$this->fixture->isNonEmptyValidPriceForObjectForSale(
 				array('value' => '1234')
@@ -883,7 +881,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsInvalid() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 		$this->assertFalse(
 			$this->fixture->isNonEmptyValidPriceForObjectForSale(
 				array('value' => 'foo')
@@ -895,7 +893,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForSaleIfThePriceIsEmpty() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_SALE);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 		$this->assertFalse(
 			$this->fixture->isNonEmptyValidPriceForObjectForSale(
 				array('value' => '')
@@ -907,7 +905,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForRentIfOnePriceIsValidAndOneEmpty() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 		$this->fixture->setFakedFormValue('year_rent', '');
 
 		$this->assertTrue(
@@ -921,7 +919,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsValidAndOneEmpty() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 		$this->fixture->setFakedFormValue('year_rent', '1234');
 
 		$this->assertTrue(
@@ -935,7 +933,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreValid() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 		$this->fixture->setFakedFormValue('year_rent', '1234');
 
 		$this->assertTrue(
@@ -949,7 +947,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreInvalid() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 		$this->fixture->setFakedFormValue('year_rent', 'foo');
 
 		$this->assertFalse(
@@ -963,7 +961,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForRentIfBothPricesAreEmpty() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 		$this->fixture->setFakedFormValue('year_rent', '');
 
 		$this->assertFalse(
@@ -977,7 +975,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForRentIfOnePriceIsInvalidAndOneValid() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 		$this->fixture->setFakedFormValue('year_rent', '1234');
 
 		$this->assertFalse(
@@ -991,7 +989,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isNonEmptyValidPriceForObjectForRentIfTheOtherPriceIsInvalidAndOneValid() {
-		$this->fixture->setFakedFormValue('object_type', REALTY_FOR_RENTING);
+		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 		$this->fixture->setFakedFormValue('year_rent', 'foo');
 
 		$this->assertFalse(
@@ -1019,7 +1017,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function isObjectNumberUniqueForLanguageForHiddenRecordWithDifferensObjectNumber() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->dummyObjectUid, array('hidden' => '1')
+			'tx_realty_objects', $this->dummyObjectUid, array('hidden' => '1')
 		);
 
 		$this->assertTrue(
@@ -1034,7 +1032,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function isObjectNumberUniqueForLanguageForExistentCombination() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->dummyObjectUid, array('language' => '')
+			'tx_realty_objects', $this->dummyObjectUid, array('language' => '')
 		);
 
 		$this->assertFalse(
@@ -1049,7 +1047,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function isObjectNumberUniqueForLanguageForHiddenRecordWithSameObjectNumber() {
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->dummyObjectUid,
 			array('language' => '', 'hidden' => '1')
 		);
@@ -1078,7 +1076,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function isAllowedValueForCityReturnsTrueForAllowedValue() {
 		$this->assertTrue(
 			$this->fixture->isAllowedValueForCity(
-				array('value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES))
+				array('value' => $this->testingFramework->createRecord('tx_realty_cities'))
 			)
 		);
 	}
@@ -1114,7 +1112,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->assertFalse(
 			$this->fixture->isAllowedValueForCity(
 				array('value' => $this->testingFramework->createRecord(
-					REALTY_TABLE_CITIES, array('deleted' => 1)
+					'tx_realty_cities', array('deleted' => 1)
 				))
 			)
 		);
@@ -1127,8 +1125,8 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->fixture->checkKeyExistsInTable(
 				array(
-					'value' => $this->testingFramework->createRecord(REALTY_TABLE_DISTRICTS),
-					'table' => REALTY_TABLE_DISTRICTS,
+					'value' => $this->testingFramework->createRecord('tx_realty_districts'),
+					'table' => 'tx_realty_districts',
 				)
 			)
 		);
@@ -1140,7 +1138,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function checkKeyExistsInTableReturnsTrueForZero() {
 		$this->assertTrue(
 			$this->fixture->checkKeyExistsInTable(
-				array('value' => '0', 'table' => REALTY_TABLE_DISTRICTS)
+				array('value' => '0', 'table' => 'tx_realty_districts')
 			)
 		);
 	}
@@ -1153,9 +1151,9 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 			$this->fixture->checkKeyExistsInTable(
 				array(
 					'value' => $this->testingFramework->createRecord(
-						REALTY_TABLE_DISTRICTS, array('deleted' => 1)
+						'tx_realty_districts', array('deleted' => 1)
 					),
-					'table' => REALTY_TABLE_DISTRICTS
+					'table' => 'tx_realty_districts'
 				)
 			)
 		);
@@ -1413,7 +1411,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->isAtMostOneValueForAuxiliaryRecordProvided(array(
-				'value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'value' => $this->testingFramework->createRecord('tx_realty_cities'),
 				'fieldName' => 'city',
 			))
 		);
@@ -1423,11 +1421,11 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isAtMostOneValueForAuxiliaryRecordProvidedReturnsFalseForNonEmptyNewTitleAndExistingRecord() {
-		$this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord(REALTY_TABLE_CITIES));
+		$this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord('tx_realty_cities'));
 
 		$this->assertFalse(
 			$this->fixture->isAtMostOneValueForAuxiliaryRecordProvided(array(
-				'value' => $this->testingFramework->createRecord(REALTY_TABLE_CITIES),
+				'value' => $this->testingFramework->createRecord('tx_realty_cities'),
 				'fieldName' => 'city'
 			))
 		);
@@ -1438,7 +1436,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsOwner() {
 		$this->fixture->setFakedFormValue(
-			'contact_data_source', REALTY_CONTACT_FROM_OWNER_ACCOUNT
+			'contact_data_source', tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
 		);
 
 		$this->assertTrue(
@@ -1451,7 +1449,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsNonEmpty() {
 		$this->fixture->setFakedFormValue(
-			'contact_data_source', REALTY_CONTACT_FROM_REALTY_OBJECT
+			'contact_data_source', tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
 		);
 
 		$this->assertTrue(
@@ -1464,7 +1462,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsEmpty() {
 		$this->fixture->setFakedFormValue(
-			'contact_data_source', REALTY_CONTACT_FROM_REALTY_OBJECT
+			'contact_data_source', tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
 		);
 
 		$this->assertFalse(
@@ -1612,7 +1610,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function addAdministrativeDataAddsPidDerivedFromCityRecordForNewObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('save_folder' => $systemFolderPid)
+			'tx_realty_cities', array('save_folder' => $systemFolderPid)
 		);
 
 		$this->fixture->setRealtyObjectUid(0);
@@ -1630,10 +1628,10 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	public function addAdministrativeDataAddsPidDerivedFromCityRecordForExistentObject() {
 		$systemFolderPid = $this->testingFramework->createSystemFolder(1);
 		$cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES, array('save_folder' => $systemFolderPid)
+			'tx_realty_cities', array('save_folder' => $systemFolderPid)
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS, array('city' => $cityUid)
+			'tx_realty_objects', array('city' => $cityUid)
 		);
 
 		$this->fixture->setRealtyObjectUid(0);
@@ -1854,7 +1852,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_CITIES,
+				'tx_realty_cities',
 				'title = "' . self::$dummyStringValue . '"'
 			)
 		);
@@ -1870,7 +1868,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_CITIES, 'title = "new city"'
+				'tx_realty_cities', 'title = "new city"'
 			)
 		);
 	}
@@ -1894,7 +1892,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_CITIES,
+				'tx_realty_cities',
 				'title = "new city" AND pid = ' . $pid
 			)
 		);
@@ -1927,7 +1925,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			1,
-			$this->testingFramework->countRecords(REALTY_TABLE_CITIES)
+			$this->testingFramework->countRecords('tx_realty_cities')
 		);
 	}
 
@@ -1943,7 +1941,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_CITIES, 'title = "new city"'
+				'tx_realty_cities', 'title = "new city"'
 			)
 		);
 		$this->assertEquals(
@@ -2114,7 +2112,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		$expectedResult = tx_oelib_db::selectSingle(
 			'uid',
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			'object_number="1234" AND language="XY"'
 		);
 

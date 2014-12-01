@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -67,7 +65,7 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	 */
 	private function createObject($ownerUid = 0) {
 		return $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => 'foo',
 				'language' => 'foo',
@@ -90,7 +88,7 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsRecordWithUid(
-				REALTY_TABLE_OBJECTS, $createdObjectUid
+				'tx_realty_objects', $createdObjectUid
 			)
 		);
 	}
@@ -116,7 +114,7 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'title="foo" and owner=' . $userUid
 			)
 		);
@@ -132,7 +130,7 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'title="foo" and owner=0'
 			)
 		);

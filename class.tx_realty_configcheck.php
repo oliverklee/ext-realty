@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class checks the Realty Manager configuration for basic sanity.
  *
@@ -413,7 +411,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the fields which should be displayed in '
 				.'single view. If this value is empty, the single view only '
 				.'shows the title of an object.',
-			$this->getDbColumnNames(REALTY_TABLE_OBJECTS)
+			$this->getDbColumnNames('tx_realty_objects')
 		);
 	}
 
@@ -432,7 +430,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				.'session when displaying the favorites list. This value may be '
 				.'empty. Wrong values cause empty fields in the session data '
 				.'array.',
-			$this->getDbColumnNames(REALTY_TABLE_OBJECTS)
+			$this->getDbColumnNames('tx_realty_objects')
 		);
 	}
 
@@ -838,7 +836,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 			'This value specifies the name of the DB field to create the search ' .
 				'filter checkboxes from. Searching will not work properly if ' .
 				'non-database fields are set.',
-			REALTY_TABLE_OBJECTS
+			'tx_realty_objects'
 		);
 	}
 

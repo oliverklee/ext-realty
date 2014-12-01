@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -97,11 +95,11 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->cityUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_CITIES,
+			'tx_realty_cities',
 			array('title' => 'Bonn')
 		);
 		$this->realtyUid = $this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => self::$objectTitle,
 				'object_number' => '1',
@@ -111,7 +109,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 				'has_air_conditioning' => '0',
 				'has_pool' => '0',
 				'has_community_pool' => '0',
-				'object_type' => REALTY_FOR_RENTING,
+				'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 				'owner' => $user->getUid(),
 			)
 		);
@@ -141,7 +139,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsRecordWithUid(
-				REALTY_TABLE_OBJECTS, $this->realtyUid
+				'tx_realty_objects', $this->realtyUid
 			)
 		);
 	}
@@ -154,7 +152,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsRecordWithUid(
-				REALTY_TABLE_OBJECTS, $this->realtyUid, ' AND owner != 0'
+				'tx_realty_objects', $this->realtyUid, ' AND owner != 0'
 			)
 		);
 	}
@@ -227,7 +225,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'title' => 'another object',
 				'object_number' => '1',
@@ -321,7 +319,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 		);
 		$this->assertFalse(
 			tx_oelib_db::existsRecordWithUid(
-				REALTY_TABLE_OBJECTS, $this->realtyUid, ' AND deleted = 0'
+				'tx_realty_objects', $this->realtyUid, ' AND deleted = 0'
 			)
 		);
 	}
@@ -432,7 +430,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	public function renderDisplaysStatePending() {
 		$this->prepareMyObjects();
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS, $this->realtyUid, array('hidden' => 1)
+			'tx_realty_objects', $this->realtyUid, array('hidden' => 1)
 		);
 
 		$this->assertContains(
@@ -625,7 +623,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 		$this->prepareMyObjects();
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - tx_oelib_Time::SECONDS_PER_DAY)
 		);
@@ -651,7 +649,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 		$this->prepareMyObjects();
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 10)
 		);
@@ -677,7 +675,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 		$this->prepareMyObjects();
 
 		$this->testingFramework->changeRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			$this->realtyUid,
 			array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * tx_oelib_Time::SECONDS_PER_DAY)
 		);

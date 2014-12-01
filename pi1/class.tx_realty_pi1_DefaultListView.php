@@ -42,15 +42,15 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 	 * @var array the names of the database tables for foreign keys
 	 */
 	private $tableNames = array(
-		'objects' => REALTY_TABLE_OBJECTS,
-		'city' => REALTY_TABLE_CITIES,
-		'district' => REALTY_TABLE_DISTRICTS,
-		'country' => STATIC_COUNTRIES,
-		'apartment_type' => REALTY_TABLE_APARTMENT_TYPES,
-		'house_type' => REALTY_TABLE_HOUSE_TYPES,
-		'garage_type' => REALTY_TABLE_CAR_PLACES,
-		'pets' => REALTY_TABLE_PETS,
-		'images' => REALTY_TABLE_IMAGES,
+		'objects' => 'tx_realty_objects',
+		'city' => 'tx_realty_cities',
+		'district' => 'tx_realty_districts',
+		'country' => 'static_countries',
+		'apartment_type' => 'tx_realty_apartment_types',
+		'house_type' => 'tx_realty_house_types',
+		'garage_type' => 'tx_realty_car_places',
+		'pets' => 'tx_realty_pets',
+		'images' => 'tx_realty_images',
 	);
 
 	/**
@@ -132,11 +132,11 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 
 		$whereClause = 'EXISTS ' . '(' .
 			'SELECT * ' .
-			'FROM ' . REALTY_TABLE_OBJECTS . ' ' .
-			'WHERE ' . REALTY_TABLE_OBJECTS . '.' . $filterCriterion .
+			'FROM ' . 'tx_realty_objects' . ' ' .
+			'WHERE ' . 'tx_realty_objects' . '.' . $filterCriterion .
 				' = ' . $currentTable . '.uid ' .
 				parent::getWhereClausePartForPidList() .
-				tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS) .
+				tx_oelib_db::enableFields('tx_realty_objects') .
 			')' . tx_oelib_db::enableFields($currentTable);
 
 		$checkboxItems = tx_oelib_db::selectMultiple('uid, title', $currentTable, $whereClause, '', 'title ASC');

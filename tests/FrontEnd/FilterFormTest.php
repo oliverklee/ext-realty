@@ -1182,7 +1182,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	public function getWhereClausePartForObjectTypeSelectorWithSaleSelectedReturnsSaleWhereClausePart() {
 		$this->assertEquals(
 			' AND tx_realty_objects.object_type = ' .
-				REALTY_FOR_SALE,
+				tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			$this->fixture->getWhereClausePart(array('objectType' => 'forSale'))
 		);
 	}
@@ -1193,7 +1193,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 	public function getWhereClausePartForObjectTypeSelectorWithRentSelectedReturnsRentWhereClausePart() {
 		$this->assertEquals(
 			' AND tx_realty_objects.object_type = ' .
-				REALTY_FOR_RENTING,
+				tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			$this->fixture->getWhereClausePart(array('objectType' => 'forRent'))
 		);
 	}

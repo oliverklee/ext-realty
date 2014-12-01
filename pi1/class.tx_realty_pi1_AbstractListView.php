@@ -267,18 +267,18 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return string the SQL statement to retrieve the list view entries for.
 	 */
 	private function getSelectForListView($whereClause) {
-		$sortingColumn = REALTY_TABLE_OBJECTS . '.sorting';
+		$sortingColumn = 'tx_realty_objects' . '.sorting';
 		tx_oelib_db::enableQueryLogging();
 
 		return '(' .
-				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
+				'SELECT ' . 'tx_realty_objects' . '.*' .
 				' FROM ' . self::TABLES .
 				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '>0' .
 				' ORDER BY ' . $sortingColumn .
 				// ORDER BY within the SELECT call of a UNION requires a LIMIT.
 				' LIMIT 10000000000000' .
 			') UNION (' .
-				'SELECT ' . REALTY_TABLE_OBJECTS . '.*' .
+				'SELECT ' . 'tx_realty_objects' . '.*' .
 				' FROM ' . self::TABLES .
 				' WHERE ' . $whereClause . ' AND ' . $sortingColumn . '<1' .
 				' ORDER BY ' . $this->createOrderByStatement() .
@@ -446,12 +446,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		);
 
 		switch ($this->internal['currentRow']['object_type']) {
-			case REALTY_FOR_SALE:
+			case tx_realty_Model_RealtyObject::TYPE_FOR_SALE:
 				$this->hideSubparts(
 					'rent_excluding_bills,extra_charges', 'wrapper'
 				);
 				break;
-			case REALTY_FOR_RENTING:
+			case tx_realty_Model_RealtyObject::TYPE_FOR_RENT:
 				$this->hideSubparts('buying_price', 'wrapper');
 				break;
 			default:
@@ -575,8 +575,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		// The result may only contain non-deleted and non-hidden records except
 		// for the my objects view.
 		$whereClause .= tx_oelib_db::enableFields(
-			REALTY_TABLE_OBJECTS, $this->shouldShowHiddenObjects()
-		) . tx_oelib_db::enableFields(REALTY_TABLE_CITIES);
+			'tx_realty_objects', $this->shouldShowHiddenObjects()
+		) . tx_oelib_db::enableFields('tx_realty_cities');
 
 		$whereClause .= $this->getWhereClausePartForPidList();
 
@@ -586,7 +586,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 		$searchSelection = implode(',', $this->getSearchSelection());
 		if (!empty($searchSelection) && ($this->hasConfValueString('checkboxesFilter'))) {
-			$whereClause .= ' AND ' . REALTY_TABLE_OBJECTS .
+			$whereClause .= ' AND ' . 'tx_realty_objects' .
 				'.' . $this->getConfValueString('checkboxesFilter') .
 				' IN (' . $searchSelection . ')';
 		}
@@ -607,7 +607,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *                allowed sort criteria
 	 */
 	private function createOrderByStatement() {
-		$result = REALTY_TABLE_OBJECTS . '.uid';
+		$result = 'tx_realty_objects' . '.uid';
 
 		$sortCriterion = isset($this->piVars['orderBy'])
 			? $this->piVars['orderBy']
@@ -629,13 +629,13 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				case 'rent_excluding_bills':
 					// intended fall-through
 				case 'living_area':
-					$result = REALTY_TABLE_OBJECTS . '.' . $sortCriterion . ' +0';
+					$result = 'tx_realty_objects' . '.' . $sortCriterion . ' +0';
 					break;
 				// The objects' table only contains the cities' UIDs. The result
 				// needs to be sorted by the cities' titles which are in a
 				// separate table.
 				case 'city':
-					$result = REALTY_TABLE_CITIES . '.title';
+					$result = 'tx_realty_cities' . '.title';
 					break;
 				case 'random':
 					$result = 'RAND()';
@@ -643,7 +643,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				case 'number_of_rooms':
 					// intended fall-through
 				default:
-					$result = REALTY_TABLE_OBJECTS . '.' . $sortCriterion;
+					$result = 'tx_realty_objects' . '.' . $sortCriterion;
 					break;
 			}
 			$result .= ($descendingFlag ? ' DESC' : ' ASC');
@@ -1052,7 +1052,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		);
 
 		return !empty($pidList)
-			? ' AND ' . REALTY_TABLE_OBJECTS . '.pid IN (' . $pidList . ')'
+			? ' AND ' . 'tx_realty_objects' . '.pid IN (' . $pidList . ')'
 			: '';
 	}
 
@@ -1225,9 +1225,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		try {
 			$image = tx_oelib_db::selectSingle(
 				'image, caption, thumbnail',
-				REALTY_TABLE_IMAGES,
+				'tx_realty_images',
 				'object = ' . $this->internal['currentRow']['uid'] .
-					tx_oelib_db::enableFields(REALTY_TABLE_IMAGES),
+					tx_oelib_db::enableFields('tx_realty_images'),
 				'',
 				'sorting',
 				intval($offset)

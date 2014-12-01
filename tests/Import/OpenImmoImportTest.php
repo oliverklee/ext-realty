@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * Test case.
  *
@@ -604,8 +602,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function cleanUpDoesNotRemovesZipWithOneXmlInItIfDeletingZipsIsDisabled() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->globalConfiguration->setAsBoolean('deleteZipsAfterImport', FALSE);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -621,8 +619,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function cleanUpRemovesZipWithOneXmlInItIfDeletingZipsIsEnabled() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		// 'deleteZipsAfterImport' is set to TRUE during setUp()
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -666,8 +664,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function cleanUpRemovesZipFileInASubFolderOfTheImportFolder() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		// just to ensure the import folder exists
 		$this->copyTestFileIntoImportFolder('empty.zip');
@@ -691,7 +689,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function cleanUpDoesNotRemoveZipOfUnregisteredOwnerIfOwnerRestrictionIsEnabled() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		// 'deleteZipsAfterImport' is set to TRUE during setUp()
 		$this->globalConfiguration->setAsBoolean(
@@ -710,8 +708,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function cleanUpRemovesZipOfRegisteredOwnerIfOwnerRestrictionIsEnabled() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->testingFramework->createFrontendUser(
 			'', array('tx_realty_openimmo_anid' => 'foo')
@@ -733,8 +731,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function cleanUpDoesNotRemoveZipIfOwnerWhichHasReachedObjectLimitDuringImport() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontendUser(
@@ -768,8 +766,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function cleanUpDoesNotRemoveIfZipOwnerWhichHasNoObjectsLeftToEnter() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$feUserUid = $this->testingFramework->createFrontendUser(
@@ -783,7 +781,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array('owner' => $feUserUid)
 		);
 		$this->globalConfiguration->setAsBoolean(
@@ -858,15 +856,15 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importARecordAndImportItAgainAfterContentsHaveChanged() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->disableValidation();
 		$this->fixture->importFromZip();
 		$result = tx_oelib_db::selectSingle(
 			'uid',
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			'object_number = "bar1234567" AND zip = "zip"'
 		);
 
@@ -877,7 +875,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" AND zip="changed zip" '
 					.'AND uid='.$result['uid']
 			)
@@ -889,7 +887,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importFromZipSkipsRecordsIfAFolderNamedLikeTheRecordAlreadyExists() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		t3lib_div::mkdir($this->importFolder . 'foo/');
@@ -909,8 +907,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importFromZipImportsFromZipFileInASubFolderOfTheImportFolder() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		// just to ensure the import folder exists
 		$this->copyTestFileIntoImportFolder('empty.zip');
@@ -927,7 +925,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" AND zip="changed zip" '
 			)
 		);
@@ -963,9 +961,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -975,7 +973,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function recordIsWrittenToTheDatabaseIfRequiredFieldsAreSet() {
 		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_OBJECTS.','.REALTY_TABLE_HOUSE_TYPES
+			'tx_realty_objects'.','.'tx_realty_house_types'
 		);
 
 		$objectNumber = 'bar1234567';
@@ -1013,9 +1011,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1024,12 +1022,12 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function existingNonHiddenRecordCanBeSetToDeletedInTheDatabase() {
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$objectNumber = 'bar1234567';
 		$objectId = 'foo';
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array('object_number' => $objectNumber, 'openimmo_obid' => $objectId)
 		);
 		$dummyDocument = DOMDocument::loadXML(
@@ -1066,9 +1064,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1077,12 +1075,12 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function existingHiddenRecordCanBeSetToDeletedInTheDatabase() {
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$objectNumber = 'bar1234567';
 		$objectId = 'foo';
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array(
 				'object_number' => $objectNumber,
 				'openimmo_obid' => $objectId,
@@ -1123,9 +1121,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS, 1)
+					tx_oelib_db::enableFields('tx_realty_objects', 1)
 			)
 		);
 	}
@@ -1184,7 +1182,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importStoresZipsWithLeadingZeroesIntoDb() {
 		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+			'tx_realty_objects' . ',' . 'tx_realty_house_types'
 		);
 
 		$objectNumber = 'bar1234567';
@@ -1224,9 +1222,9 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="' . $objectNumber . '" AND zip="01234"' .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1236,7 +1234,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importStoresNumberOfRoomsWithDecimalsIntoDb() {
 		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+			'tx_realty_objects' . ',' . 'tx_realty_house_types'
 		);
 
 		$objectNumber = 'bar1234567';
@@ -1277,10 +1275,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="' . $objectNumber . '" AND ' .
 					'number_of_rooms = 1.25' .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1290,15 +1288,15 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importUtf8FileWithCorrectUmlauts() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->copyTestFileIntoImportFolder('charset-UTF8.zip');
 		$this->fixture->importFromZip();
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'openimmo_anid="test-anid-with-umlaut-ü"'
 			)
 		);
@@ -1309,15 +1307,15 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importUtf8FileWithUtf8AsDefaultEncodingAndNoXmlPrologueWithCorrectUmlauts() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->copyTestFileIntoImportFolder('charset-UTF8-default.zip');
 		$this->fixture->importFromZip();
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'openimmo_anid="test-anid-with-umlaut-ü"'
 			)
 		);
@@ -1328,15 +1326,15 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importIso88591FileWithCorrectUmlauts() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->copyTestFileIntoImportFolder('charset-ISO8859-1.zip');
 		$this->fixture->importFromZip();
 
 		$this->assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'openimmo_anid="test-anid-with-umlaut-ü"'
 			)
 		);
@@ -1352,8 +1350,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function recordWithAnidThatMatchesAnExistingFeUserIsImportedForEnabledOwnerRestriction() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserUid = $this->testingFramework->createFrontendUser(
 			'',	array('tx_realty_openimmo_anid' => 'foo')
@@ -1367,7 +1365,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'openimmo_anid="foo" AND owner=' . $feUserUid
 			)
 		);
@@ -1388,7 +1386,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'openimmo_anid="foo"'
 			)
 		);
@@ -1399,8 +1397,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function recordWithAnidThatMatchesAnExistingFeUserInAnAllowedGroupIsImportedForEnabledOwnerAndGroupRestriction() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$feUserUid = $this->testingFramework->createFrontendUser(
@@ -1418,7 +1416,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'openimmo_anid="foo" AND owner=' . $feUserUid
 			)
 		);
@@ -1446,7 +1444,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'openimmo_anid="foo" AND owner=' . $feUserUid
 			)
 		);
@@ -1462,7 +1460,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function writeToDatabaseForUserWithObjectLimitReachedDoesNotImportAnyFurtherRecords() {
 		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+			'tx_realty_objects' . ',' . 'tx_realty_house_types'
 		);
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
@@ -1474,7 +1472,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			)
 		);
 		$this->testingFramework->createRecord(
-			REALTY_TABLE_OBJECTS,
+			'tx_realty_objects',
 			array('owner' => $feUserUid)
 		);
 
@@ -1517,7 +1515,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'owner =' . $feUserUid
 			)
 		);
@@ -1528,7 +1526,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function writeToDatabaseForUserWithObjectLimitNotReachedDoesImportRecords() {
 		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+			'tx_realty_objects' . ',' . 'tx_realty_house_types'
 		);
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
@@ -1597,7 +1595,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			2,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'owner =' . $feUserUid
 			)
 		);
@@ -1608,7 +1606,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function writeToDatabaseForUserWithoutObjectLimitDoesImportRecord() {
 		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+			'tx_realty_objects' . ',' . 'tx_realty_house_types'
 		);
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$feUserUid = $this->testingFramework->createFrontendUser(
@@ -1653,7 +1651,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'owner =' . $feUserUid
 			)
 		);
@@ -1664,7 +1662,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function writeToDatabaseForUserWithOneObjectLeftToLimitImportsOnlyOneRecord() {
 		$this->testingFramework->markTableAsDirty(
-			REALTY_TABLE_OBJECTS . ',' . REALTY_TABLE_HOUSE_TYPES
+			'tx_realty_objects' . ',' . 'tx_realty_house_types'
 		);
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
@@ -1733,7 +1731,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'owner =' . $feUserUid
 			)
 		);
@@ -1744,8 +1742,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importFromZipForUserWithObjectLimitReachedReturnsObjectLimitReachedErrorMessage() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->testingFramework->createFrontEndUserGroup();
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
@@ -2077,7 +2075,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			$this->markTestSkipped('This test is not applicable if the caching framework is disabled.');
 		}
 
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$pageUid = $this->testingFramework->createFrontEndPage();
@@ -2107,7 +2105,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			$this->markTestSkipped('This test is not applicable for TYPO3 < 4.6.');
 		}
 
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$pageUid = $this->testingFramework->createFrontEndPage();
@@ -2141,7 +2139,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importFromZipReturnsLogMessageNoSchemaFileIfTheSchemaFileWasNotSet() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->globalConfiguration->setAsString('openImmoSchema', '');
@@ -2157,7 +2155,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importFromZipReturnsLogMessageIncorrectSchemaFileIfTheSchemaFilePathWasIncorrect() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->globalConfiguration->setAsString(
@@ -2269,8 +2267,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importedRecordHasTheConfiguredPidByDefault() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->disableValidation();
@@ -2280,10 +2278,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $this->systemFolderPid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2293,8 +2291,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importedRecordHasTheConfiguredPidIfTheFilenameHasNoMatches() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->disableValidation();
@@ -2308,10 +2306,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $this->systemFolderPid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2321,8 +2319,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importedRecordOverridesPidIfTheFilenameMatchesTheOnlyPattern() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->disableValidation();
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2337,10 +2335,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $pid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2350,8 +2348,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function overridePidCanMatchTheStartOfAString() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->disableValidation();
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2366,10 +2364,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $pid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2379,8 +2377,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function overridePidCanMatchTheEndOfAString() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->disableValidation();
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2395,10 +2393,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $pid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2408,8 +2406,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importedRecordOverridesPidIfTheFilenameMatchesTheFirstPattern() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->disableValidation();
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2426,10 +2424,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $pid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2439,8 +2437,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importedRecordOverridesPidIfTheFilenameMatchesTheLastPattern() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->disableValidation();
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2457,10 +2455,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $pid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2470,8 +2468,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importedRecordOverridesPidIfTheFilenameMatchesTheMiddlePattern() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->disableValidation();
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2489,10 +2487,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $pid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2502,8 +2500,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function importedRecordOverridesPidStopsAtFirstMatchingPattern() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$this->disableValidation();
 		$this->copyTestFileIntoImportFolder('same-name.zip');
@@ -2520,10 +2518,10 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->testingFramework->countRecords(
-				REALTY_TABLE_OBJECTS,
+				'tx_realty_objects',
 				'object_number="bar1234567" ' .
 					'AND pid=' . $pid .
-					tx_oelib_db::enableFields(REALTY_TABLE_OBJECTS)
+					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2540,7 +2538,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function emailSubjectIsSetCorrectly() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
@@ -2561,7 +2559,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function emailIsSentToContactEmailForValidContactEmailAndObjectAsContactDataSource() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('valid-email.zip');
 		$this->fixture->importFromZip();
@@ -2577,7 +2575,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function emailIsSentToDefaultEmailForInvalidContactEmailAndObjectAsContactDataSource() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
@@ -2593,7 +2591,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function emailIsSentToDefaultAddressIfARecordIsNotLoadable() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
@@ -2620,7 +2618,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->globalConfiguration->setAsBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
@@ -2646,7 +2644,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->globalConfiguration->setAsBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
@@ -2672,7 +2670,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->globalConfiguration->setAsBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
@@ -2698,7 +2696,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->globalConfiguration->setAsBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->copyTestFileIntoImportFolder('valid-email.zip');
 		$this->fixture->importFromZip();
 
@@ -2724,7 +2722,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->globalConfiguration->setAsBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
@@ -2750,7 +2748,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		$this->globalConfiguration->setAsBoolean(
 			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 		);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
 
@@ -2770,7 +2768,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function sentEmailContainsTheObjectNumberLabel() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
@@ -2786,7 +2784,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function sentEmailContainsTheIntroductionMessage() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
@@ -2802,7 +2800,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function sentEmailContainsTheExplanationMessage() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
@@ -2818,7 +2816,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function sentEmailContainsMessageThatARecordWasNotImportedForMismatchingAnidsAndEnabledOwnerRestriction() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->globalConfiguration->setAsBoolean(
 			'onlyImportForRegisteredFrontEndUsers', TRUE
@@ -2837,8 +2835,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function sentEmailForUserWhoReachedHisObjectLimitContainsMessageThatRecordWasNotImported() {
 		$this->checkForZipArchive();
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_OBJECTS);
-		$this->testingFramework->markTableAsDirty(REALTY_TABLE_HOUSE_TYPES);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects');
+		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$feUserUid = $this->testingFramework->createFrontendUser(

@@ -18,8 +18,6 @@ if (!defined('TYPO3_cliMode')) {
 
 setlocale(LC_NUMERIC, 'C');
 
-require_once(t3lib_extMgm::extPath('realty') . 'lib/tx_realty_constants.php');
-
 /**
  * This class provides access via command-line interface and starts the
  * removal of unused images from the Realty upload folder.

@@ -69,7 +69,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 				'owner' => $this->testingFramework->createFrontEndUser(
 					'', $ownerData
 				),
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
 		));
 	}
 
@@ -383,7 +383,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'owner' => $ownerUid,
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
 		));
 
 		$this->fixture->setConfigurationValue(
@@ -426,7 +426,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	public function renderNotReturnsLinkToTheObjectsByOwnerListForEnabledOptionAndNoOwnerSet() {
 		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
-				'contact_data_source' => REALTY_CONTACT_FROM_OWNER_ACCOUNT
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
 		));
 
 		$this->fixture->setConfigurationValue(
