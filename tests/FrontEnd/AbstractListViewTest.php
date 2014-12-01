@@ -283,7 +283,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'index.php?id=42',
-			$contentMock->typoLink_URL(array('parameter' => 42))
+			$contentMock->typoLink_URL(array('parameter' => 42, 'useCacheHash' => TRUE))
 		);
 	}
 
@@ -299,6 +299,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				array(
 					'parameter' => 1,
 					'additionalParams' => '&tx_seminars_pi1[seminar]=42',
+					'useCacheHash' => TRUE,
 				)
 			)
 		);

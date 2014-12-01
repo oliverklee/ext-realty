@@ -325,7 +325,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		return htmlspecialchars(
-			$this->cObj->typoLink_URL(array('parameter' => $pageId))
+			$this->cObj->typoLink_URL(
+				array(
+					'parameter' => $pageId,
+					'useCacheHash' => TRUE,
+				)
+			)
 		);
 	}
 
@@ -739,6 +744,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			array(
 				'parameter' => $GLOBALS['TSFE']->id,
 				'additionalParams' => $parameters,
+				'useCacheHash' => TRUE,
 			)
 		);
 
@@ -998,8 +1004,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$result = '';
 		$this->setMarker('linktext', $linkText);
 
+		$selectedPageNumber = (int) $this->piVars['pointer'];
 		// Don't link to the current page (for usability reasons).
-		if ($pageNum == $this->piVars['pointer']) {
+		if ($pageNum == $selectedPageNumber) {
 			if ($alsoShowNonLinks) {
 				$result = $this->getSubpart('NO_LINK_TO_CURRENT_PAGE');
 			}
@@ -1019,6 +1026,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				array(
 					'parameter' => $GLOBALS['TSFE']->id,
 					'additionalParams' => t3lib_div::implodeArrayForUrl($this->prefixId, $additionalParameters),
+					'useCacheHash' => TRUE,
 				)
 			);
 

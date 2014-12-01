@@ -96,6 +96,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					'', array($this->prefixId => $piVars)
 				),
+				'useCacheHash' => TRUE,
 			)));
 			$this->setMarker('contact_url', $contactUrl);
 		} else {

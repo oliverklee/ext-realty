@@ -77,7 +77,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 			'additionalParams' => t3lib_div::implodeArrayForUrl(
 				$this->prefixId, $additionalParameters
 			),
-			'useCacheHash' => FALSE,
+			'useCacheHash' => TRUE,
 		);
 
 		return htmlspecialchars($this->cObj->typoLink_URL($urlParameter));

@@ -251,6 +251,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 				'parameter' => $this->getConfValueInteger(
 					'filterTargetPID', 's_searchForm'
 				),
+				'useCacheHash' => TRUE,
 			))))
 		);
 	}

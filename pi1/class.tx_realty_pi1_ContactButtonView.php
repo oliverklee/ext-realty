@@ -46,6 +46,7 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView {
 				'',
 				array($this->prefixId => array('showUid' => $piVars['showUid']))
 			),
+			'useCacheHash' => TRUE,
 		)));
 		$this->setMarker('contact_url', $contactUrl);
 

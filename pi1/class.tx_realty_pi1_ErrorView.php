@@ -58,6 +58,7 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView {
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					$this->prefixId, $piVars, '', TRUE, TRUE
 				),
+				'useCacheHash' => TRUE,
 			))
 		);
 

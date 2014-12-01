@@ -163,6 +163,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 			'parameter' => $this->getConfValueInteger(
 				'feEditorRedirectPid', 's_feeditor'
 			),
+			'useCacheHash' => TRUE,
 		)));
 	}
 

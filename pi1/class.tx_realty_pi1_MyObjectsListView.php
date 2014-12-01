@@ -197,6 +197,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 						$this->prefixId,
 						array('delete' => $this->internal['currentRow']['uid'])
 					),
+					'useCacheHash' => TRUE,
 				)
 			)
 		);
@@ -240,6 +241,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 					'additionalParams' => t3lib_div::implodeArrayForUrl(
 						$this->prefixId, array('showUid' => $uid)
 					),
+					'useCacheHash' => TRUE,
 				)
 			)
 		);
@@ -291,6 +293,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 						'advertisementPID', 's_advertisements'
 					),
 					'additionalParams' => $linkParameters,
+					'useCacheHash' => TRUE,
 				)
 			)
 		);

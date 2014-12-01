@@ -217,6 +217,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			'additionalParams' => t3lib_div::implodeArrayForUrl('', array(
 				$this->prefixId => array('showUid' => $this->realtyObjectUid)
 			)),
+			'useCacheHash' => TRUE,
 		)));
 	}
 
@@ -236,7 +237,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			$imagePath = tx_realty_Model_Image::UPLOAD_FOLDER .
 				$image->getFileName();
 			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
-					$this->cObj->typoLink_URL(array('parameter' => $imagePath))
+					$this->cObj->typoLink_URL(array('parameter' => $imagePath, 'useCacheHash' => TRUE))
 			));
 			$title = $image->getTitle();
 			$imageTag = $this->createRestrictedImage(
