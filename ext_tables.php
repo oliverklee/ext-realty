@@ -7,7 +7,7 @@ $extPath = t3lib_extMgm::extPath($_EXTKEY);
 $extRelPath = t3lib_extMgm::extRelPath($_EXTKEY);
 $extIconRelPath = $extRelPath . 'icons/';
 
-$TCA['tx_realty_objects'] = array(
+$GLOBALS['TCA']['tx_realty_objects'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects',
 		'label' => 'title',
@@ -34,7 +34,7 @@ $TCA['tx_realty_objects'] = array(
 	)
 );
 
-$TCA['tx_realty_apartment_types'] = array(
+$GLOBALS['TCA']['tx_realty_apartment_types'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_apartment_types',
 		'label' => 'title',
@@ -51,7 +51,7 @@ $TCA['tx_realty_apartment_types'] = array(
 	)
 );
 
-$TCA['tx_realty_house_types'] = array(
+$GLOBALS['TCA']['tx_realty_house_types'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_house_types',
 		'label' => 'title',
@@ -68,7 +68,7 @@ $TCA['tx_realty_house_types'] = array(
 	)
 );
 
-$TCA['tx_realty_car_places'] = array(
+$GLOBALS['TCA']['tx_realty_car_places'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_car_places',
 		'label' => 'title',
@@ -85,7 +85,7 @@ $TCA['tx_realty_car_places'] = array(
 	)
 );
 
-$TCA['tx_realty_pets'] = array(
+$GLOBALS['TCA']['tx_realty_pets'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_pets',
 		'label' => 'title',
@@ -102,7 +102,7 @@ $TCA['tx_realty_pets'] = array(
 	)
 );
 
-$TCA['tx_realty_images'] = array(
+$GLOBALS['TCA']['tx_realty_images'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images',
 		'label' => 'caption',
@@ -123,7 +123,7 @@ $TCA['tx_realty_images'] = array(
 	)
 );
 
-$TCA['tx_realty_documents'] = array(
+$GLOBALS['TCA']['tx_realty_documents'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_documents',
 		'label' => 'title',
@@ -142,7 +142,7 @@ $TCA['tx_realty_documents'] = array(
 	)
 );
 
-$TCA['tx_realty_cities'] = array(
+$GLOBALS['TCA']['tx_realty_cities'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_cities',
 		'label' => 'title',
@@ -159,7 +159,7 @@ $TCA['tx_realty_cities'] = array(
 	)
 );
 
-$TCA['tx_realty_districts'] = array(
+$GLOBALS['TCA']['tx_realty_districts'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_districts',
 		'label' => 'title',
@@ -216,9 +216,9 @@ t3lib_extMgm::addToAllTCAtypes('fe_users','--div--;LLL:EXT:realty/locallang_db.x
 if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
 	t3lib_div::loadTCA('tt_content');
 }
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']
 	= 'layout,select_key,pages,recursive';
-$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_pi1']
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY.'_pi1']
 	= 'pi_flexform';
 
 t3lib_extMgm::addPiFlexFormValue($_EXTKEY.'_pi1', 'FILE:EXT:realty/pi1/flexform_pi1_ds.xml');
