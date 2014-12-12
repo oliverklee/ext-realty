@@ -218,6 +218,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @return array items for the select box, will be empty if there are no
 	 *               matching records or if the provided table name was invalid
+	 *
+	 * @throws tx_oelib_Exception_Database
 	 */
 	public function populateList(array $unused, array $formData) {
 		$this->checkForValidTableName($formData['table']);
@@ -414,9 +416,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param array $formData
 	 *        array with one element named "value" that contains the entered object number, this number may be empty
 	 *
-	 * @return boolean TRUE if the object number is non empty and unique
-	 *                 for the entered language, also TRUE if the object
-	 *                 already exists in the database
+	 * @return boolean TRUE if the object number is non empty and unique for the entered language,
+	 *                 also TRUE if the object already exists in the database
+	 *
+	 * @throws tx_oelib_Exception_Database
 	 */
 	public function isObjectNumberUniqueForLanguage(array $formData) {
 		// FE users cannot change the object number of existing objects anyway.
@@ -466,6 +469,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @return boolean TRUE if the form data value is actually the UID of
 	 *                 a record in a valid table, FALSE otherwise
+	 *
+	 * @throws tx_oelib_Exception_Database
 	 */
 	public function checkKeyExistsInTable(
 		array $formData, $mayBeEmptyOrZero = TRUE
@@ -944,8 +949,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param string $title title of an auxiliary record to search, must not be empty
 	 * @param string $table table where to search this title, must not be empty
 	 *
-	 * @return integer UID of the record with the title to search or zero
-	 *                 if there is no record with this title
+	 * @return integer UID of the record with the title to search or zero if there is no record with this title
+	 *
+	 * @throws tx_oelib_Exception_Database
 	 */
 	private function getUidIfAuxiliaryRecordExists($title, $table) {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -1053,8 +1059,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @param integer $cityUid UID of the city record from which to get the system folder ID, must be an integer > 0
 	 *
-	 * @return integer UID of the system folder where to store this city's
-	 *                 records, will be zero if no folder was set
+	 * @return integer UID of the system folder where to store this city's records, will be zero if no folder was set
+	 *
+	 * @throws tx_oelib_Exception_Database
 	 */
 	private function getPidFromCityRecord($cityUid) {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
