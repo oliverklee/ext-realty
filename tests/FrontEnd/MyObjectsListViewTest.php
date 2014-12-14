@@ -152,7 +152,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->testingFramework->existsRecordWithUid(
-				'tx_realty_objects', $this->realtyUid, ' AND owner != 0'
+				'tx_realty_objects', $this->realtyUid, ' AND owner <> 0'
 			)
 		);
 	}

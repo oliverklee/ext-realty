@@ -1841,7 +1841,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number=' . self::$otherObjectNumber .
-					' AND uid!=' . $uid .
+					' AND uid <> ' . $uid .
 					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
@@ -1906,7 +1906,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number=' . self::$objectNumber .
-					' AND uid!=' . $this->objectUid .
+					' AND uid <> ' . $this->objectUid .
 					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
@@ -1932,7 +1932,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number=' . self::$objectNumber .
-					' AND uid!=' . $this->objectUid .
+					' AND uid <> ' . $this->objectUid .
 					tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
@@ -2041,7 +2041,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_cities',
-				'title="foo" AND uid!=' . $cityUid .
+				'title="foo" AND uid <> ' . $cityUid .
 					tx_oelib_db::enableFields('tx_realty_cities')
 			)
 		);
