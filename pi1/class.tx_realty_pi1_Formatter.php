@@ -301,7 +301,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 
 	/**
 	 * Retrieves the value of the record field $key formatted as an area.
-	 * If the field's value is empty or its intval is zero, an empty string will
+	 * If the field's value is empty or its int value is zero, an empty string will
 	 * be returned.
 	 *
 	 * @param string $key
@@ -322,8 +322,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * the same record or, if not available, "currencyUnit" set in the TS
 	 * setup.
 	 * Formats the $key using the oelib priceViewHelper for the given ISO alpha code.
-	 * If the value of $key is zero after applying intval, an empty string
-	 * will be returned.
+	 * If the value of $key is zero after casting to int, an empty string will be returned.
 	 *
 	 * @param string $key name of a database column, may not be empty
 	 *
@@ -338,7 +337,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		$rawValue = $this->getRealtyObject()->getProperty($key);
-		if (($rawValue === '') || (floatval($rawValue) === 0.0)) {
+		if (($rawValue === '') || ((float)$rawValue === 0.0)) {
 			return '';
 		}
 
@@ -346,7 +345,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			'tx_oelib_ViewHelper_Price'
 		);
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
-		$priceViewHelper->setValue(floatval($rawValue));
+		$priceViewHelper->setValue((float)$rawValue);
 
 		return $priceViewHelper->render();
 	}
@@ -354,7 +353,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	/**
 	 * Retrieves the value of the record field $key and formats,
 	 * using the system's locale and appending $unit. If the field's value is
-	 * empty or its intval is zero, an empty string will be returned.
+	 * empty or its int value is zero, an empty string will be returned.
 	 *
 	 * @param string $key key of the field to retrieve (the name of a database column), must not be empty
 	 * @param string $unit unit of the formatted number, must not be empty
@@ -365,11 +364,11 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 */
 	private function getFormattedNumber($key, $unit) {
 		$rawValue = $this->getRealtyObject()->getProperty($key);
-		if (($rawValue == '') || (floatval($rawValue) == 0.0)) {
+		if (($rawValue == '') || ((float)$rawValue == 0.0)) {
 			return '';
 		}
 
-		$formattedNumber = $this->formatDecimal(floatval($rawValue));
+		$formattedNumber = $this->formatDecimal((float)$rawValue);
 
 		return $formattedNumber . '&nbsp;' . $unit;
 	}
@@ -398,7 +397,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	private function getFormattedDecimal($key, $decimals = 2) {
 		$value = str_replace(',', '.', $this->getRealtyObject()->getProperty($key));
 
-		return $this->formatDecimal(floatval($value), $decimals);
+		return $this->formatDecimal((float)$value, $decimals);
 	}
 
 	/**

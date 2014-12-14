@@ -423,7 +423,7 @@ class tx_realty_domDocumentConverter {
 	 * Substitutes decimals from the currently imported data if they are zero.
 	 *
 	 * Handles the "zip" column as a special case since here leading zeros are
-	 * allowed. So the ZIP will not be intvaled.
+	 * allowed. So the ZIP will not be cast to an int.
 	 *
 	 * @return void
 	 */
@@ -432,7 +432,7 @@ class tx_realty_domDocumentConverter {
 			if (is_numeric($value) && ((int) $value) == $value
 				&& ($key != 'zip')
 			) {
-				$this->importedData[$key] = intval($value);
+				$this->importedData[$key] = (int)$value;
 			}
 		}
 	}
@@ -456,8 +456,7 @@ class tx_realty_domDocumentConverter {
 				key($path),
 				implode('', $path)
 			);
-			$value = ($currentDomNode !== NULL)
-				? floatval($currentDomNode->nodeValue) : 0.0;
+			$value = ($currentDomNode !== NULL) ? (float)$currentDomNode->nodeValue : 0.0;
 			$this->addImportedData($key, $value);
 		}
 
@@ -1096,8 +1095,8 @@ class tx_realty_domDocumentConverter {
 		) {
 			$this->addImportedData('has_coordinates', TRUE);
 			$this->addImportedData('coordinates_problem', FALSE);
-			$this->addImportedData('longitude', floatval($attributes['laengengrad']));
-			$this->addImportedData('latitude', floatval($attributes['breitengrad']));
+			$this->addImportedData('longitude', (float)$attributes['laengengrad']);
+			$this->addImportedData('latitude', (float)$attributes['breitengrad']);
 		}
 	}
 

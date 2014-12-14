@@ -56,9 +56,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 
 		switch ($realtyObject->getProperty('contact_data_source')) {
 			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT:
-				$result = $offererList->renderOneItem(
-					intval($realtyObject->getProperty('owner'))
-				);
+				$result = $offererList->renderOneItem((int)$realtyObject->getProperty('owner'));
 				break;
 			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT:
 				$result = $offererList->renderOneItemWithTheDataProvided(array(

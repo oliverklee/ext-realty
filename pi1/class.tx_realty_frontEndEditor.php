@@ -199,7 +199,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *                 will be 0 if no city is selected
 	 */
 	private function getSelectedCityUid() {
-		return intval($this->getFormValue('city'));
+		return (int)$this->getFormValue('city');
 	}
 
 	/**
@@ -622,11 +622,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$unifiedValueToCheck = $this->unifyNumber($valueToCheck);
 
-		$valueContainsOnlyAllowedCharacters = (boolean) preg_match(
+		$valueContainsOnlyAllowedCharacters = (bool) preg_match(
 			'/^-?\d{1,3}(\.\d{1,14})?$/', $unifiedValueToCheck
 		);
-		$valueIsInAllowedRange = (floatval($unifiedValueToCheck) >= $minimum)
-			&& (floatval($unifiedValueToCheck) <= $maximum);
+		$valueIsInAllowedRange = ((float)$unifiedValueToCheck >= $minimum) && ((float)$unifiedValueToCheck <= $maximum);
 
 		return ($valueContainsOnlyAllowedCharacters && $valueIsInAllowedRange);
 	}
@@ -1047,7 +1046,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		// The PID might change also for existing records if the city changes
 		// and 'save_folder' is defined in the city record.
-		$pidFromCity = $this->getPidFromCityRecord(intval($formData['city']));
+		$pidFromCity = $this->getPidFromCityRecord((int)$formData['city']);
 		if ($pidFromCity != 0) {
 			$formData['pid'] = $pidFromCity;
 		}
@@ -1076,7 +1075,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
-		return intval($row['save_folder']);
+		return (int)$row['save_folder'];
 	}
 
 
@@ -1097,7 +1096,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	static public function createNewDistrict(tx_ameosformidable $formidable) {
 		$formData = $formidable->oMajixEvent->getParams();
 		$title = trim(strip_tags($formData['newDistrictTitle']));
-		$cityUid = intval($formData['newDistrictCity']);
+		$cityUid = (int)$formData['newDistrictCity'];
 
 		$validationErrors = self::validateDistrict(
 			$formidable, array(

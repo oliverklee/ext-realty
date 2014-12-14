@@ -697,7 +697,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			ceil($this->internal['res_count'] / $this->internal['results_at_a_time']) - 1
 		);
 
-		$lowerLimit = $this->piVars['pointer'] * intval($this->internal['results_at_a_time']);
+		$lowerLimit = $this->piVars['pointer'] * (int)$this->internal['results_at_a_time'];
 		if (class_exists('t3lib_utility_Math')) {
 			$upperLimit = t3lib_utility_Math::forceIntegerInRange($this->internal['results_at_a_time'], 1, 1000);
 		} else {
@@ -1068,7 +1068,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 		if ($this->searchSelectionExists()) {
 			foreach ($this->piVars['search'] as $currentItem) {
-				$result[] = intval($currentItem);
+				$result[] = (int)$currentItem;
 			}
 		}
 
@@ -1230,7 +1230,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 					tx_oelib_db::enableFields('tx_realty_images'),
 				'',
 				'sorting',
-				intval($offset)
+				(int)$offset
 			);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 			$image = array();

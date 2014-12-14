@@ -32,7 +32,7 @@ class tx_realty_Tca {
 		$items = array(array('', 0));
 
 		$districs = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-			->findAllByCityUidOrUnassigned(intval($data['row']['city']));
+			->findAllByCityUidOrUnassigned((int)$data['row']['city']);
 		foreach ($districs as $district) {
 			$items[] = array($district->getTitle(), $district->getUid());
 		}

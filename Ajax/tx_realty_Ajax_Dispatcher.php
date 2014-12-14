@@ -24,7 +24,7 @@
 tslib_eidtools::connectDB();
 tslib_eidtools::initTCA();
 
-$cityUid = intval(t3lib_div::_GET('city'));
+$cityUid = (int)t3lib_div::_GET('city');
 $showWithNumbers = (t3lib_div::_GET('type') == 'withNumber');
 if ($cityUid > 0) {
 	$output = tx_realty_Ajax_DistrictSelector::render($cityUid, $showWithNumbers);

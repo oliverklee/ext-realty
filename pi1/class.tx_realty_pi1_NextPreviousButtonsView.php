@@ -116,11 +116,9 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		$sanitizedPiVars = array();
 
 		$sanitizedPiVars['recordPosition'] = (isset($this->piVars['recordPosition']))
-			? intval($this->piVars['recordPosition'])
-			: -1;
+			? (int)$this->piVars['recordPosition'] : -1;
 		$sanitizedPiVars['listUid'] = (isset($this->piVars['listUid']))
-			? max(intval($this->piVars['listUid']), 0)
-			: 0;
+			? max((int)$this->piVars['listUid'], 0) : 0;
 
 		$sanitizedPiVars['listViewType'] = (isset($this->piVars['listViewType']))
 			? $this->piVars['listViewType']
@@ -201,8 +199,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	private function getRecordAtPosition($recordPosition) {
 		$contentData = tx_oelib_db::selectSingle(
 			'*', 'tt_content',
-			'uid = ' . intval($this->piVars['listUid']) .
-				tx_oelib_db::enableFields('tt_content')
+			'uid = ' . (int)$this->piVars['listUid'] . tx_oelib_db::enableFields('tt_content')
 		);
 		/** @var $contentObject tslib_cObj */
 		$contentObject = t3lib_div::makeInstance('tslib_cObj');

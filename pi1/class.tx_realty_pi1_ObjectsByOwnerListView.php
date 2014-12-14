@@ -128,7 +128,7 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	 * @return tx_realty_Model_FrontEndUser the selected owner
 	 */
 	private function getOwner() {
-		$ownerUid = intval($this->piVars['owner']);
+		$ownerUid = (int)$this->piVars['owner'];
 		if ($ownerUid <= 0) {
 			throw new tx_oelib_Exception_NotFound('No owner is selected.', 1333036590);
 		}

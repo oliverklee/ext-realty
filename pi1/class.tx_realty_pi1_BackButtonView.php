@@ -50,11 +50,11 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 	 *                set or zero in piVars
 	 */
 	private function getBackLinkUrl() {
-		if (intval($this->piVars['listUid']) == 0) {
+		if ((int)$this->piVars['listUid'] === 0) {
 			return '';
 		}
 
-		$listUid = intval($this->piVars['listUid']);
+		$listUid = (int)$this->piVars['listUid'];
 
 		try {
 			$listViewPage = tx_oelib_db::selectSingle(

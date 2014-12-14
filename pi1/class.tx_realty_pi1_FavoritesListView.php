@@ -165,8 +165,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * list, they will silently being ignored (no harm done here).
 	 *
 	 * @param array $itemsToRemove
-	 *        list of realty object UIDs to to remove (will be intvaled by this
-	 *        function), may be empty
+	 *        list of realty object UIDs to to remove (will be cast to int by this function), may be empty
 	 *
 	 * @return void
 	 */
@@ -195,8 +194,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * because the favorites list serves as a filter merely.
 	 *
 	 * @param array $itemsToAdd
-	 *        list of realty object UIDs to add (will be intvaled by this
-	 *        function), may be empty
+	 *        list of realty object UIDs to add (will be cast to int by this function), may be empty
 	 *
 	 * @return void
 	 */
@@ -208,7 +206,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 		$favorites = $this->getFavoritesArray();
 
 		foreach ($itemsToAdd as $currentItem) {
-			$favorites[] = intval($currentItem);
+			$favorites[] = (int)$currentItem;
 		}
 		$this->storeFavorites(array_unique($favorites));
 	}

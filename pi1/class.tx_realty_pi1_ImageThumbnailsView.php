@@ -232,24 +232,19 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 					::get('plugin.tx_realty_pi1.images')
 					->getAsMultidimensionalArray($position . '.');
 				if (isset($specificConfiguration['enableLightbox'])) {
-					$accumulatedConfiguration['enableLightbox'] =
-					(boolean) $specificConfiguration['enableLightbox'];
+					$accumulatedConfiguration['enableLightbox'] = (bool) $specificConfiguration['enableLightbox'];
 				}
 				if (isset($specificConfiguration['singleImageMaxX'])) {
-					$accumulatedConfiguration['thumbnailSizeX'] =
-						intval($specificConfiguration['singleImageMaxX']);
+					$accumulatedConfiguration['thumbnailSizeX'] = (int)$specificConfiguration['singleImageMaxX'];
 				}
 				if (isset($specificConfiguration['singleImageMaxY'])) {
-					$accumulatedConfiguration['thumbnailSizeY'] =
-						intval($specificConfiguration['singleImageMaxY']);
+					$accumulatedConfiguration['thumbnailSizeY'] = (int)$specificConfiguration['singleImageMaxY'];
 				}
 				if (isset($specificConfiguration['lightboxImageWidthMax'])) {
-					$accumulatedConfiguration['lightboxSizeX'] =
-						intval($specificConfiguration['lightboxImageWidthMax']);
+					$accumulatedConfiguration['lightboxSizeX'] = (int)$specificConfiguration['lightboxImageWidthMax'];
 				}
 				if (isset($specificConfiguration['lightboxImageHeightMax'])) {
-					$accumulatedConfiguration['lightboxSizeY'] =
-						intval($specificConfiguration['lightboxImageHeightMax']);
+					$accumulatedConfiguration['lightboxSizeY'] = (int)$specificConfiguration['lightboxImageHeightMax'];
 				}
 			}
 
@@ -287,7 +282,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 			::get('plugin.tx_realty_pi1')->getAsMultidimensionalArray('images.');
 
 		foreach (array_keys($imageConfigurations) as $key) {
-			$index = intval($key);
+			$index = (int)$key;
 			if ($index > $highestIndex) {
 				$highestIndex = $index;
 			}

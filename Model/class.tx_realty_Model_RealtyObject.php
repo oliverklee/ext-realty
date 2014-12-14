@@ -312,7 +312,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 				$this->setData($realtyData);
 				break;
 			case 'uid' :
-				$this->setData($this->loadDatabaseEntry(intval($realtyData)));
+				$this->setData($this->loadDatabaseEntry((int)$realtyData));
 				break;
 			default :
 				$this->setData(array());
@@ -434,9 +434,9 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			$image = t3lib_div::makeInstance('tx_realty_Model_Image');
 			$image->setTitle($imageData['caption']);
 			$image->setFileName($imageData['image']);
-			$image->setPageUid(intval($imageData['pid']));
-			$image->setSorting(intval($imageData['sorting']));
-			$image->setPosition(intval($imageData['position']));
+			$image->setPageUid((int)$imageData['pid']);
+			$image->setSorting((int)$imageData['sorting']);
+			$image->setPosition((int)$imageData['position']);
 
 			$this->images->add($image);
 		}
@@ -473,8 +473,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			$document = t3lib_div::makeInstance('tx_realty_Model_Document');
 			$document->setTitle($documentData['title']);
 			$document->setFileName($documentData['filename']);
-			$document->setPageUid(intval($documentData['pid']));
-			$document->setSorting(intval($documentData['sorting']));
+			$document->setPageUid((int)$documentData['pid']);
+			$document->setSorting((int)$documentData['sorting']);
 
 			$this->documents->add($document);
 		}

@@ -142,7 +142,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 				case 'livingAreaFrom':
 					// The fallthrough is intended.
 				case 'livingAreaTo':
-					$this->filterFormData[$key] = intval($rawValue);
+					$this->filterFormData[$key] = (int)$rawValue;
 					break;
 				case 'objectNumber':
 					// The fallthrough is intended.
@@ -163,12 +163,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 					// The fallthrough is intended.
 				case 'numberOfRoomsTo':
 					$commaFreeValue = $this->replaceCommasWithDots($rawValue);
-					if (floatval($commaFreeValue) == intval($commaFreeValue)) {
+					if ((float)$commaFreeValue == (int)$commaFreeValue) {
 						$formattedValue = $commaFreeValue;
 					} else {
-						$formattedValue = number_format(
-							$commaFreeValue, 1, $localeConvention['decimal_point'], ''
-						);
+						$formattedValue = number_format($commaFreeValue, 1, $localeConvention['decimal_point'], '');
 					}
 					$this->filterFormData[$key] = $formattedValue;
 				default:
@@ -193,7 +191,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$rangeLimits = t3lib_div::intExplode('-', $priceRange);
 
-		// intval() converts an empty string to 0. So for "-100" zero and 100
+		// (int) converts an empty string to 0. So for "-100" zero and 100
 		// will be stored as limits.
 		return array(
 			'lowerLimit' => $rangeLimits[0],
@@ -225,16 +223,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *                rentTo and rentFrom are empty
 	 */
 	private function processRentFilterFormData() {
-		$rentFrom = (!intval($this->filterFormData['rentFrom']))
-			? ''
-			: intval($this->filterFormData['rentFrom']);
-		$rentTo = (!intval($this->filterFormData['rentTo']))
-			? ''
-			: intval($this->filterFormData['rentTo']);
+		$rentFrom = ((int)$this->filterFormData['rentFrom'] === 0) ? '' : (int)$this->filterFormData['rentFrom'];
+		$rentTo = ((int)$this->filterFormData['rentTo'] === 0) ? '' : (int)$this->filterFormData['rentTo'];
 
-		return (($rentFrom != '') || ($rentTo != ''))
-			? $rentFrom . '-' . $rentTo
-			: '';
+		return (($rentFrom !== '') || ($rentTo !== '')) ? $rentFrom . '-' . $rentTo : '';
 	}
 
 	/**
@@ -324,9 +316,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$this->setMarker(
 			'searched_uid',
-			((intval($this->filterFormData['uid']) == 0)
-				? ''
-				: intval($this->filterFormData['uid'])
+			(((int)$this->filterFormData['uid'] === 0) ? '' : (int)$this->filterFormData['uid']
 			)
 		);
 	}
