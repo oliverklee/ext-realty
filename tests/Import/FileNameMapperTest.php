@@ -37,8 +37,6 @@ class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->fixture, $this->testingFramework);
 	}
 
 	/**

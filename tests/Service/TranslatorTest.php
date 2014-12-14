@@ -26,16 +26,6 @@ class tx_realty_Service_TranslatorTest extends tx_phpunit_testcase {
 	 */
 	private $fixture;
 
-	protected function setUp() {
-		// No instance to test is created here because different languages are
-		// set in the tests. The language must be set before the translator
-		// is created.
-	}
-
-	protected function tearDown() {
-		unset($this->fixture);
-	}
-
 	/**
 	 * @test
 	 */

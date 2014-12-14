@@ -63,8 +63,6 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->fixture, $this->testingFramework);
 	}
 
 

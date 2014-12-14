@@ -92,8 +92,6 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->fixture, $this->session, $this->testingFramework);
 	}
 
 

@@ -101,8 +101,6 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		unset($this->fixture, $this->testingFramework);
-
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 

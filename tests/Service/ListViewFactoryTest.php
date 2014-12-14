@@ -30,11 +30,6 @@ class tx_realty_Service_ListViewFactoryTest extends tx_phpunit_testcase {
 		$this->cObjMock = $this->getMock('tslib_cObj');
 	}
 
-	protected function tearDown() {
-		unset($this->cObjMock);
-	}
-
-
 	/////////////////////////////////////////////
 	// Tests concerning the basic functionality
 	/////////////////////////////////////////////

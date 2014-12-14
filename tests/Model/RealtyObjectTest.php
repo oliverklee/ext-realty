@@ -94,8 +94,6 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$GLOBALS['TYPO3_CONF_VARS'] = $this->configurationVariablesBackup;
 
 		$this->cleanUpDatabase();
-
-		unset($this->fixture, $this->templateHelper, $this->testingFramework);
 	}
 
 

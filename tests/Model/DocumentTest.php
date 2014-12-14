@@ -30,11 +30,6 @@ class tx_realty_Model_DocumentTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_Model_Document();
 	}
 
-	protected function tearDown() {
-		unset($this->fixture);
-	}
-
-
 	///////////////////////////////
 	// Tests concerning the title
 	///////////////////////////////

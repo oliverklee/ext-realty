@@ -48,8 +48,6 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->fixture, $this->testingFramework);
 	}
 
 

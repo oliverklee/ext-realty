@@ -39,8 +39,6 @@ class tx_realty_Mapper_CityTest extends tx_phpunit_testcase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->fixture, $this->testingFramework);
 	}
 
 

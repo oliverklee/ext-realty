@@ -30,10 +30,6 @@ class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_mapMarker();
 	}
 
-	protected function tearDown() {
-		unset($this->fixture);
-	}
-
 	/**
 	 * @test
 	 */

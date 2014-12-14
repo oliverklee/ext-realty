@@ -128,8 +128,6 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		unset($this->fixture, $this->testingFramework);
-
 		setlocale(LC_NUMERIC, 'C');
 	}
 

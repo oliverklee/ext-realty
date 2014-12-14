@@ -32,7 +32,6 @@ class tx_realty_Ajax_DistrictSelectorTest extends tx_phpunit_testcase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-		unset($this->testingFramework);
 	}
 
 

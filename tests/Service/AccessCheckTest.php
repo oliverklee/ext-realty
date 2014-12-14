@@ -49,8 +49,6 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->fixture, $this->testingFramework);
 	}
 
 
