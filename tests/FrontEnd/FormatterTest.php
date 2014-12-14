@@ -37,7 +37,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	private $realtyObject;
 
 	/**
-	 * @var integer static_info_tables UID of Germany
+	 * @var int static_info_tables UID of Germany
 	 */
 	const DE = 54;
 

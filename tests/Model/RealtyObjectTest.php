@@ -39,15 +39,15 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	private $templateHelper;
 
 	/**
-	 * @var integer UID of a dummy realty object
+	 * @var int UID of a dummy realty object
 	 */
 	private $objectUid = 0;
 	/**
-	 * @var integer page UID of a dummy FE page
+	 * @var int page UID of a dummy FE page
 	 */
 	private $pageUid = 0;
 	/**
-	 * @var integer page UID of another dummy FE page
+	 * @var int page UID of another dummy FE page
 	 */
 	private $otherPageUid = 0;
 	/**
@@ -65,7 +65,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	private $configurationVariablesBackup = array();
 
 	/**
-	 * @var integer static_info_tables UID of Germany
+	 * @var int static_info_tables UID of Germany
 	 */
 	const DE = 54;
 
@@ -145,7 +145,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	/**
 	 * Loads a realty object into the fixture and sets the owner of this object.
 	 *
-	 * @param integer $ownerSource
+	 * @param int $ownerSource
 	 *        the source of the owner data for the object,
 	 *        must be tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT or tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
 	 * @param array $userData

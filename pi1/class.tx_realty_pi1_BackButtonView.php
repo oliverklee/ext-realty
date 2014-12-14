@@ -86,7 +86,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether the display of the next/previous buttons is enabled.
 	 *
-	 * @return boolean TRUE if the buttons should be displayed, FALSE otherwise
+	 * @return bool TRUE if the buttons should be displayed, FALSE otherwise
 	 */
 	private function nextPreviousButtonsAreEnabled() {
 		if (!isset($this->piVars['listUid'])) {

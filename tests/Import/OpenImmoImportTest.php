@@ -43,7 +43,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	private $translator = NULL;
 
 	/**
-	 * @var integer PID of the system folder where imported records will
+	 * @var int PID of the system folder where imported records will
 	 *              be stored
 	 */
 	private $systemFolderPid = 0;
@@ -54,7 +54,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	private $importFolder = '';
 
 	/**
-	 * @var boolean whether an import folder has been created
+	 * @var bool whether an import folder has been created
 	 */
 	private $testImportFolderExists = FALSE;
 

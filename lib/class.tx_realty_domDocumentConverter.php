@@ -317,7 +317,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Gets the number of realties included in the current OpenImmo record.
 	 *
-	 * @return integer number of realties in the current OpenImmo record, 0
+	 * @return int number of realties in the current OpenImmo record, 0
 	 *                 if no realty data was found
 	 */
 	private function getNumberOfRecords() {
@@ -395,7 +395,7 @@ class tx_realty_domDocumentConverter {
 	 * @param string $booleanLikeString
 	 *        case-insensitive string to evaluate, may be surrounded by quotes
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if $booleanLikeString evaluates to TRUE, FALSE otherwise
 	 */
 	private function isBooleanLikeStringTrue($booleanLikeString) {
@@ -410,7 +410,7 @@ class tx_realty_domDocumentConverter {
 	 * @param string $booleanLikeString
 	 *        case-insensitive string to evaluate, may be surrounded by quotes
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if $booleanLikeString evaluates to FALSE, FALSE otherwise
 	 */
 	private function isBooleanLikeStringFalse($booleanLikeString) {
@@ -1323,7 +1323,7 @@ class tx_realty_domDocumentConverter {
 	 * Checks whether the OpenImmo record has a valid root node. The node must
 	 * be named 'openimmo' or 'immoxml'.
 	 *
-	 * @return boolean TRUE if the root node is named 'openimmo' or
+	 * @return bool TRUE if the root node is named 'openimmo' or
 	 *                 'immoxml', FALSE otherwise
 	 */
 	private function hasValidRootNode() {
@@ -1379,7 +1379,7 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * @param string $key the key to check for, must not be empty
 	 *
-	 * @return boolean TRUE if the field is a richtext field. FALSE otherwise.
+	 * @return bool TRUE if the field is a richtext field. FALSE otherwise.
 	 */
 	protected function isRichtextField($key) {
 		return in_array($key, self::$richtextFields);
@@ -1420,7 +1420,7 @@ class tx_realty_domDocumentConverter {
 	 * @param string $key key of the element that should be checked to exist and being non-empty, must not be empty
 	 * @param array $array array in which the existance of an element should be checked, may be empty
 	 *
-	 * @return boolean TRUE if the the element exists and is non-empty,
+	 * @return bool TRUE if the the element exists and is non-empty,
 	 *                 FALSE otherwise
 	 */
 	private function isElementSetAndNonEmpty($key, array $array) {
@@ -1477,7 +1477,7 @@ class tx_realty_domDocumentConverter {
 	 * database queries.
 	 *
 	 * @param string $key ISO3166 code for the country, must not be empty
-	 * @param integer $value UID of the country, must match the UID in the static
+	 * @param int $value UID of the country, must match the UID in the static
 	 *                countries table, must be >= 0
 	 *
 	 * @return void

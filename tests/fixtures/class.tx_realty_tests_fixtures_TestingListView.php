@@ -32,7 +32,7 @@ class tx_realty_tests_fixtures_TestingListView extends tx_realty_pi1_AbstractLis
 	protected $listViewLabel = 'label_weofferyou';
 
 	/**
-	 * @var boolean whether Google Maps should be shown in this view
+	 * @var bool whether Google Maps should be shown in this view
 	 */
 	protected $isGoogleMapsAllowed = TRUE;
 
@@ -52,7 +52,7 @@ class tx_realty_tests_fixtures_TestingListView extends tx_realty_pi1_AbstractLis
 	 *
 	 * The URL will already be htmlspecialchared.
 	 *
-	 * @param boolean $keepPiVars whether the current piVars should be kept
+	 * @param bool $keepPiVars whether the current piVars should be kept
 	 * @param array $removeKeys
 	 *        the keys to remove from the piVar data before processing the URL,
 	 *        may be empty

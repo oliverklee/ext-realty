@@ -43,7 +43,7 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
-	 * @param boolean $isTestMode whether the class is instantiated in test mode
+	 * @param bool $isTestMode whether the class is instantiated in test mode
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE

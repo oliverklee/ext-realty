@@ -43,7 +43,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	 * Fetches the contact data from the source defined in the realty record and
 	 * returns it in an array.
 	 *
-	 * @param integer $uid UID of the realty object for which to receive the contact data, must be > 0
+	 * @param int $uid UID of the realty object for which to receive the contact data, must be > 0
 	 *
 	 * @return string the contact data as HTML, will be empty if none was found
 	 */

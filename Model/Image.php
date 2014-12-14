@@ -104,7 +104,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	/**
 	 * Checks whether this image has a non-empty thumbnail file name.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if this image has a non-empty thumbnail file name, FALSE
 	 *         otherwise
 	 */
@@ -139,7 +139,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @return integer the sorting value of this image, will be >= 0
+	 * @return int the sorting value of this image, will be >= 0
 	 */
 	public function getSorting() {
 		return $this->getAsInteger('sorting');
@@ -150,7 +150,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @param integer $sorting the sorting value of this image, must be >= 0
+	 * @param int $sorting the sorting value of this image, must be >= 0
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	/**
 	 * Sets the sorting of this image.
 	 *
-	 * @param integer $position
+	 * @param int $position
 	 *        the position of this image, must be between 0 and 4
 	 *
 	 * @return void
@@ -173,7 +173,7 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	/**
 	 * Gets the position of this image.
 	 *
-	 * @return integer the position of this image, will be between 0 and 4
+	 * @return int the position of this image, will be between 0 and 4
 	 */
 	public function getPosition() {
 		return $this->getAsInteger('position');

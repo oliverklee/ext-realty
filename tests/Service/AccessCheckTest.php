@@ -31,7 +31,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer UID of the dummy object
+	 * @var int UID of the dummy object
 	 */
 	private $dummyObjectUid;
 

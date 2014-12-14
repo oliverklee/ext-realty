@@ -72,7 +72,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	 * Checks whether all preconditions are fulfilled for the rendering of the
 	 * buttons.
 	 *
-	 * @return boolean TRUE if the buttons can be rendered, FALSE otherwise
+	 * @return bool TRUE if the buttons can be rendered, FALSE otherwise
 	 */
 	private function canButtonsBeRendered() {
 		if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
@@ -172,7 +172,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	 * Before calling this function, ensure that $this->piVars['recordPosition']
 	 * is >= 1.
 	 *
-	 * @return integer the UID of the previous record, will be > 0
+	 * @return int the UID of the previous record, will be > 0
 	 */
 	private function getPreviousRecordUid() {
 		return $this->getRecordAtPosition($this->piVars['recordPosition'] - 1);
@@ -184,7 +184,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	 * A return value of 0 means that no record could be found at the given
 	 * position.
 	 *
-	 * @return integer the UID of the next record, will be >= 0
+	 * @return int the UID of the next record, will be >= 0
 	 */
 	private function getNextRecordUid() {
 		return $this->getRecordAtPosition($this->piVars['recordPosition'] + 1);
@@ -193,10 +193,10 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Retrieves the UID for the record at the given record position.
 	 *
-	 * @param integer $recordPosition
+	 * @param int $recordPosition
 	 *        the position of the record to find, must be >= 0
 	 *
-	 * @return integer the UID of the record at the given position, will be >= 0
+	 * @return int the UID of the record at the given position, will be >= 0
 	 */
 	private function getRecordAtPosition($recordPosition) {
 		$contentData = tx_oelib_db::selectSingle(
@@ -226,9 +226,9 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the URL for the buttons.
 	 *
-	 * @param integer $recordPosition
+	 * @param int $recordPosition
 	 *        the position of the record the URL points to
-	 * @param integer $recordUid
+	 * @param int $recordUid
 	 *        the UID of the record the URL points to
 	 *
 	 * @return string the htmlspecialchared URL for the button, will not be empty

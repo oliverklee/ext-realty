@@ -33,7 +33,7 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	protected $listViewLabel = 'label_offerings_by';
 
 	/**
-	 * @var boolean whether Google Maps should be shown in this view
+	 * @var bool whether Google Maps should be shown in this view
 	 */
 	protected $isGoogleMapsAllowed = TRUE;
 
@@ -145,7 +145,7 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	 * Checks whether a non-deleted, non-hidden user has been selected for
 	 * display.
 	 *
-	 * @return boolean TRUE if an existing user has been selected, FALSE otherwise
+	 * @return bool TRUE if an existing user has been selected, FALSE otherwise
 	 */
 	protected function existsOwner() {
 		try {

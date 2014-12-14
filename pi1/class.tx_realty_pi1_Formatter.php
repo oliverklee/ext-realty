@@ -38,7 +38,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	public $extKey = 'realty';
 
 	/**
-	 * @var integer UID of the realty object to show
+	 * @var int UID of the realty object to show
 	 */
 	private $showUid = 0;
 
@@ -48,7 +48,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *
 	 * @throws InvalidArgumentException if $realtyObjectUid is not a UID of a realty object
 	 *
-	 * @param integer $realtyObjectUid UID of the object of which to get formatted properties, must be > 0
+	 * @param int $realtyObjectUid UID of the object of which to get formatted properties, must be > 0
 	 * @param array $configuration TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
 	 */
@@ -377,7 +377,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	/**
 	 * Returns the current "showUid".
 	 *
-	 * @return integer UID of the realty record to show, will be > 0
+	 * @return int UID of the realty record to show, will be > 0
 	 */
 	private function getUid() {
 		return $this->showUid;
@@ -388,7 +388,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * system's locale and strips zeros on the end of the value.
 	 *
 	 * @param string $key name of a database column, must not be empty
-	 * @param integer $decimals
+	 * @param int $decimals
 	 *        the number of decimals after the decimal point, must be >= 0
 	 *
 	 * @return string the number in the field formatted using the system's
@@ -406,7 +406,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * if neccessary.
 	 *
 	 * @param float $number the number to format
-	 * @param integer $decimals the number of decimals after the decimal point, must be >= 0
+	 * @param int $decimals the number of decimals after the decimal point, must be >= 0
 	 *
 	 * @return string the formatted float, will be empty if zero was given
 	 */

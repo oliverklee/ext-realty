@@ -237,7 +237,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * @param string $viewPart
 	 *        key of the view part to check for visibility, must not be empty
 	 *
-	 * @return boolean TRUE if $viewPart is configured to become rendered, FALSE
+	 * @return bool TRUE if $viewPart is configured to become rendered, FALSE
 	 *                 otherwise
 	 */
 	private function isSingleViewPartToDisplay($viewPart) {
@@ -584,7 +584,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting of the configuration value objectsByOwnerPID.
 	 *
-	 * @param boolean $mayBeEmpty TRUE if the configuration may be empty
+	 * @param bool $mayBeEmpty TRUE if the configuration may be empty
 	 *
 	 * @return void
 	 */
@@ -627,7 +627,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the setting for displayedContactInformation.
 	 *
-	 * @param boolean $mayBeEmpty TRUE if the configuration may be empty
+	 * @param bool $mayBeEmpty TRUE if the configuration may be empty
 	 *
 	 * @return void
 	 */
@@ -750,7 +750,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks whether the "terms" checkbox is visible in the contact form.
 	 *
-	 * @return boolean TRUE if the "terms" checkbox is visible, FALSE otherwise
+	 * @return bool TRUE if the "terms" checkbox is visible, FALSE otherwise
 	 */
 	private function hasTermsInContactForm() {
 		$visibleFormFields = t3lib_div::trimExplode(

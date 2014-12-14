@@ -89,7 +89,7 @@ class tx_realty_pi1_AccessCheck {
 	 *
 	 * @throws tx_oelib_Exception_AccessDenied if the realty object UID is zero
 	 *
-	 * @param integer $realtyObjectUid UID of the object, must be >= 0
+	 * @param int $realtyObjectUid UID of the object, must be >= 0
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class tx_realty_pi1_AccessCheck {
 	 * @throws tx_oelib_Exception_AccessDenied if the realty object does not
 	 *                                         exist in the database
 	 *
-	 * @param integer $realtyObjectUid UID of the object, must be >= 0
+	 * @param int $realtyObjectUid UID of the object, must be >= 0
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class tx_realty_pi1_AccessCheck {
 	 * to access a realty record. New realty objects (with UID = 0) are
 	 * considered to be editable by every logged-in user.
 	 *
-	 * @param integer $realtyObjectUid UID of the realty object for which to check whether a user is authorized, must be >= 0
+	 * @param int $realtyObjectUid UID of the realty object for which to check whether a user is authorized, must be >= 0
 	 *
 	 * @throws tx_oelib_Exception_AccessDenied if the front-end user does not own the object
 	 *
@@ -158,7 +158,7 @@ class tx_realty_pi1_AccessCheck {
 	/**
 	 * Checks if the logged-in front-end user is allowed to enter new objects.
 	 *
-	 * @param integer $realtyObjectUid UID of the object, must be >= 0
+	 * @param int $realtyObjectUid UID of the object, must be >= 0
 	 *
 	 * @throws tx_oelib_Exception_AccessDenied if the front-end user is not allowed to enter a new object
 	 *

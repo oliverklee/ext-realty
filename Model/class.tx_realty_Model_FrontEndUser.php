@@ -23,19 +23,19 @@
  */
 class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	/**
-	 * @var integer the number of objects belonging to the current user
+	 * @var int the number of objects belonging to the current user
 	 */
 	private $numberOfObjects = 0;
 
 	/**
-	 * @var boolean whether the number of objects has already been calculated
+	 * @var bool whether the number of objects has already been calculated
 	 */
 	private $numberOfObjectsHasBeenCalculated = FALSE;
 
 	/**
 	 * Returns the maximum number of objects the user is allowed to enter.
 	 *
-	 * @return integer the maximum number of objects the user is allowed to
+	 * @return int the maximum number of objects the user is allowed to
 	 *                 enter, will be >= 0
 	 */
 	public function getTotalNumberOfAllowedObjects() {
@@ -46,7 +46,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	 * Returns the number of objects the user owns, including the hidden
 	 * ones.
 	 *
-	 * @return integer the number of objects belonging to this user, will be zero
+	 * @return int the number of objects belonging to this user, will be zero
 	 *                 if the user has no objects
 	 */
 	public function getNumberOfObjects() {
@@ -69,7 +69,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	 * maximum number set and the number of objects a user already has stored in
 	 * the DB.
 	 *
-	 * @return integer the number of objects a user can enter, will be >= 0
+	 * @return int the number of objects a user can enter, will be >= 0
 	 */
 	public function getObjectsLeftToEnter() {
 		$numberOfAllowedObjects = $this->getTotalNumberOfAllowedObjects();
@@ -86,7 +86,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	/**
 	 * Checks whether the user is allowed to enter any objects.
 	 *
-	 * @return boolean TRUE if the user is allowed to enter objects, FALSE
+	 * @return bool TRUE if the user is allowed to enter objects, FALSE
 	 *                 otherwise
 	 */
 	public function canAddNewObjects() {
@@ -116,7 +116,7 @@ class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
 	/**
 	 * Checks whether this user has a non-empty OpenImmo offerer ID.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if this user has a non-empty OpenImmo offerer ID, FALSE
 	 *         otherwise
 	 */

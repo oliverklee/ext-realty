@@ -32,12 +32,12 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	private $fixture;
 
 	/**
-	 * @var integer FE user group UID
+	 * @var int FE user group UID
 	 */
 	private $feUserGroupUid;
 
 	/**
-	 * @var integer FE user UID
+	 * @var int FE user UID
 	 */
 	private $offererUid;
 

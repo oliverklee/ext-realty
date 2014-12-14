@@ -22,7 +22,7 @@
  */
 class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
-	 * @var boolean whether this class is instantiated for testing
+	 * @var bool whether this class is instantiated for testing
 	 */
 	private $isTestMode = FALSE;
 
@@ -31,7 +31,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
-	 * @param boolean $isTestMode TRUE if this class is instantiated for testing, else FALSE
+	 * @param bool $isTestMode TRUE if this class is instantiated for testing, else FALSE
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
@@ -68,7 +68,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the HTML for one list item.
 	 *
-	 * @param integer $offererUid UID of the FE user record for which to get the contact information, must be > 0
+	 * @param int $offererUid UID of the FE user record for which to get the contact information, must be > 0
 	 *
 	 * @return string HTML for one contact data item, will be empty if
 	 *                $offererUid is not a UID of an enabled user
@@ -171,7 +171,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether the field last_name exists in the fe_users table.
 	 *
-	 * @return boolean TRUE if the field last_name exists, FALSE otherwise
+	 * @return bool TRUE if the field last_name exists, FALSE otherwise
 	 */
 	private function isLastNameAvailable() {
 		return tx_oelib_db::tableHasColumn('fe_users', 'last_name');
@@ -260,7 +260,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * @param tx_realty_Model_FrontEndUser $offerer offerer
 	 * @param string $keyOfInformation key of the information for which to check visibility, must not be emtpy
 	 *
-	 * @return boolean TRUE if it is configured to display the information of
+	 * @return bool TRUE if it is configured to display the information of
 	 *                 the provided offerer, FALSE otherwise
 	 */
 	private function mayDisplayInformation(
@@ -384,7 +384,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the URL to the list of objects by the provided owner.
 	 *
-	 * @param integer $ownerUid UID of the owner for which to create the URL, must be >= 0
+	 * @param int $ownerUid UID of the owner for which to create the URL, must be >= 0
 	 *
 	 * @return string URL to the objects-by-owner list, will be empty if the
 	 *                owner UID is zero

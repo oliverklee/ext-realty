@@ -34,7 +34,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 	/**
 	 * UID of the dummy object
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $dummyObjectUid = 0;
 

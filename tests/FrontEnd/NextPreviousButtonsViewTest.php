@@ -32,14 +32,14 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	private $testingFramework;
 
 	/**
-	 * @var integer the UID of the "list view" content object.
+	 * @var int the UID of the "list view" content object.
 	 */
 	private $listViewUid = 0;
 
 	/**
 	 * the UID of a dummy city for the object records
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $dummyCityUid = 0;
 
@@ -75,7 +75,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	/**
 	 * Creates a realty object with a city.
 	 *
-	 * @return integer the UID of the created realty object, will be > 0
+	 * @return int the UID of the created realty object, will be > 0
 	 */
 	private function createRealtyRecordWithCity() {
 		return $this->testingFramework->createRecord(

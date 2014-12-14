@@ -33,7 +33,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	private $testingFramework = NULL;
 
 	/**
-	 * @var integer UID of the dummy realty object
+	 * @var int UID of the dummy realty object
 	 */
 	private $realtyUid = 0;
 
@@ -48,7 +48,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	private static $objectTitle = 'a title';
 
 	/**
-	 * @var integer system folder PID
+	 * @var int system folder PID
 	 */
 	private $systemFolderPid = 0;
 

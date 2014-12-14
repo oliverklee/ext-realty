@@ -39,19 +39,19 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	public $extKey = 'realty';
 
 	/**
-	 * @var boolean whether to check cHash
+	 * @var bool whether to check cHash
 	 */
 	public $pi_checkCHash = TRUE;
 
 	/**
-	 * @var boolean whether this class is called in the test mode
+	 * @var bool whether this class is called in the test mode
 	 */
 	private $isTestMode = FALSE;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param boolean $isTestMode whether this class is called in the test mode
+	 * @param bool $isTestMode whether this class is called in the test mode
 	 */
 	public function __construct($isTestMode = FALSE) {
 		$this->isTestMode = $isTestMode;
@@ -279,7 +279,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	/**
 	 * Checks that we are properly initialized.
 	 *
-	 * @return boolean TRUE if we are properly initialized, FALSE otherwise
+	 * @return bool TRUE if we are properly initialized, FALSE otherwise
 	 */
 	public function isInitialized() {
 		return $this->isInitialized;
@@ -291,7 +291,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * configuration, access to the details page is allowed even when no user is
 	 * logged in.
 	 *
-	 * @return boolean TRUE if the details page is allowed to be viewed,
+	 * @return bool TRUE if the details page is allowed to be viewed,
 	 *                 FALSE otherwise
 	 */
 	public function isAccessToSingleViewPageAllowed() {

@@ -59,9 +59,9 @@ class tx_realty_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	/**
 	 * Creates a realty object record.
 	 *
-	 * @param integer $ownerUid UID of the owner of the realty object, must be >= 0
+	 * @param int $ownerUid UID of the owner of the realty object, must be >= 0
 	 *
-	 * @return integer the UID of the created object record, will be > 0
+	 * @return int the UID of the created object record, will be > 0
 	 */
 	private function createObject($ownerUid = 0) {
 		return $this->testingFramework->createRecord(

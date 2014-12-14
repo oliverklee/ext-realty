@@ -32,7 +32,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer dummy realty object
+	 * @var int dummy realty object
 	 */
 	private $realtyUid = 42;
 

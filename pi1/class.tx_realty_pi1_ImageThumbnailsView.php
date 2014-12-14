@@ -23,7 +23,7 @@
  */
 class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
-	 * @var integer UID of the realty object to show
+	 * @var int UID of the realty object to show
 	 */
 	private $showUid = 0;
 
@@ -39,7 +39,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * the number of image subparts in the default HTML template which will be
 	 * be hidden if there are no images for that position
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	const IMAGE_POSITIONS_IN_DEFAULT_TEMPLATE = 4;
 
@@ -64,7 +64,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * Creates all images that are attached to the current record and puts them
 	 * in their particular subparts.
 	 *
-	 * @return integer the total number of rendered images, will be >= 0
+	 * @return int the total number of rendered images, will be >= 0
 	 */
 	private function renderImages() {
 		tx_realty_lightboxIncluder::includeLightboxFiles(
@@ -100,7 +100,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * Renders all images for a given position and fills the corresponding
 	 * subpart in the template.
 	 *
-	 * @param integer $position the zero-based position index of the images
+	 * @param int $position the zero-based position index of the images
 	 * @param array<tx_realty_Model_Image> $images
 	 *        the images to render, must all be in position $position
 	 *
@@ -196,7 +196,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the current "showUid".
 	 *
-	 * @return integer UID of the realty record to show
+	 * @return int UID of the realty record to show
 	 */
 	private function getUid() {
 		return $this->showUid;
@@ -261,7 +261,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * Gets the image configuration for the image container with the index
 	 * $containerIndex.
 	 *
-	 * @param integer $containerIndex
+	 * @param int $containerIndex
 	 *        index of the image container, must be >= 0
 	 *
 	 * @return array
@@ -278,7 +278,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Finds the highest position index that has been configured via TS setup.
 	 *
-	 * @return integer the highest container index in use, will be >= 0
+	 * @return int the highest container index in use, will be >= 0
 	 */
 	private function findHighestConfiguredPositionIndex() {
 		$highestIndex = 0;

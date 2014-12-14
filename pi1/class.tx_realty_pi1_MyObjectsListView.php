@@ -36,7 +36,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	protected $listViewLabel = 'label_your_objects';
 
 	/**
-	 * @var boolean whether Google Maps should be shown in this view
+	 * @var bool whether Google Maps should be shown in this view
 	 */
 	protected $isGoogleMapsAllowed = FALSE;
 
@@ -216,7 +216,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 *
 	 * This will be used for tx_oelib_db::enableFields.
 	 *
-	 * @return integer 1 if hidden records should be shown, -1 otherwise
+	 * @return int 1 if hidden records should be shown, -1 otherwise
 	 */
 	protected function shouldShowHiddenObjects() {
 		return 1;
@@ -227,7 +227,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 *
 	 * @param string $pidKey
 	 *        key of the configuration value with the PID, must not be empty
-	 * @param integer $uid
+	 * @param int $uid
 	 *        UID of the object to be loaded for editing, must be >= 0
 	 *        (Zero will open the FE editor for a new record to insert.)
 	 *
@@ -303,7 +303,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 * Checks whether the current object is advertised and the advertisement
 	 * has not expired yet.
 	 *
-	 * @return boolean TRUE if the current object is advertised and the
+	 * @return bool TRUE if the current object is advertised and the
 	 *                 advertisement has not expired yet, FALSE otherwise
 	 */
 	private function isCurrentObjectAdvertised() {

@@ -127,7 +127,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 *
 	 * @param array $valueToCheck  data to check, must not be empty
 	 *
-	 * @return boolean whether the provided file is a valid image
+	 * @return bool whether the provided file is a valid image
 	 */
 	public function checkFile(array $valueToCheck) {
 		// nothing to check if there is no file

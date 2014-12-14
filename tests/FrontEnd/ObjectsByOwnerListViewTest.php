@@ -38,22 +38,22 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	private $testingFramework;
 
 	/**
-	 * @var integer the UID of a dummy object
+	 * @var int the UID of a dummy object
 	 */
 	private $objectUid = 0;
 
 	/**
-	 * @var integer the UID of a dummy city
+	 * @var int the UID of a dummy city
 	 */
 	private $cityUid = 0;
 
 	/**
-	 * @var integer the UID of the FE user who is the owner of the dummy object
+	 * @var int the UID of the FE user who is the owner of the dummy object
 	 */
 	private $ownerUid = 0;
 
 	/**
-	 * @var integer system folder PID
+	 * @var int system folder PID
 	 */
 	private $systemFolderPid = 0;
 

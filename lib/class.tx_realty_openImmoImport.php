@@ -76,7 +76,7 @@ class tx_realty_openImmoImport {
 	private $uploadDirectory = '';
 
 	/**
-	 * @var boolean whether the current zip file should be deleted
+	 * @var bool whether the current zip file should be deleted
 	 */
 	private $deleteCurrentZipFile = TRUE;
 
@@ -90,7 +90,7 @@ class tx_realty_openImmoImport {
 	private $filesToDelete = array();
 
 	/**
-	 * @var boolean whether the class is tested and only dummy records should
+	 * @var bool whether the class is tested and only dummy records should
 	 *              be created
 	 */
 	private $isTestMode = FALSE;
@@ -98,7 +98,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Constructor.
 	 *
-	 * @param boolean $isTestMode
+	 * @param bool $isTestMode
 	 *        whether the class ist tested and therefore only dummy records should be inserted into the database
 	 */
 	public function __construct($isTestMode = FALSE) {
@@ -258,7 +258,7 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $fileName path of the ZIP to check
 	 *
-	 * @return integer PID of the system folder to store the realty record
+	 * @return int PID of the system folder to store the realty record
 	 *                 in or 0 if the default folder should be used
 	 */
 	private function getOverridePidForZip($fileName) {
@@ -305,7 +305,7 @@ class tx_realty_openImmoImport {
 	 * logged.
 	 *
 	 * @param array $realtyRecord record to insert, may be empty
-	 * @param integer $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
+	 * @param int $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
 	 *
 	 * @return void
 	 */
@@ -389,7 +389,7 @@ class tx_realty_openImmoImport {
 	 * allowed FE user group.
 	 * Returns TRUE if this check is disabled by configuration.
 	 *
-	 * @return boolean TRUE if the current realty object's owner matches
+	 * @return bool TRUE if the current realty object's owner matches
 	 *                 an allowed FE user, also TRUE if this check is
 	 *                 disabled by configuration, FALSE otherwise
 	 */
@@ -465,7 +465,7 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $importDirectory unified path of the import directory, must not be empty
 	 *
-	 * @return boolean TRUE if the requirements to start the import are
+	 * @return bool TRUE if the requirements to start the import are
 	 *                 fullfilled, FALSE otherwise
 	 */
 	private function canStartImport($importDirectory) {
@@ -487,7 +487,7 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $importDirectory unified path of the import directory, must not be empty
 	 *
-	 * @return boolean TRUE if the import directory exists and is readable and
+	 * @return bool TRUE if the import directory exists and is readable and
 	 *                 writable, FALSE otherwise
 	 */
 	private function isImportDirectoryAccessible($importDirectory) {
@@ -521,7 +521,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks that the realty upload path exists and is writable.
 	 *
-	 * @return boolean TRUE if the realty upload path exists and is writable,
+	 * @return bool TRUE if the realty upload path exists and is writable,
 	 *                 FALSE otherwise
 	 */
 	private function isUploadDirectoryAccessible(){
@@ -591,7 +591,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks if the configuration in the EM enables sending errors only.
 	 *
-	 * @return boolean TRUE if 'onlyErrors' is enabled, FALSE otherwise
+	 * @return bool TRUE if 'onlyErrors' is enabled, FALSE otherwise
 	 */
 	private function isErrorLogOnlyEnabled() {
 		return $this->globalConfiguration->getAsBoolean('onlyErrors');
@@ -610,7 +610,7 @@ class tx_realty_openImmoImport {
 	 * Checks whether contact persons of each record should receive e-mails
 	 * about the import of their records.
 	 *
-	 * @return boolean TRUE if contact persons should receive e-mails,
+	 * @return bool TRUE if contact persons should receive e-mails,
 	 *                 FALSE otherwise
 	 */
 	private function isNotifyContactPersonsEnabled() {
@@ -703,7 +703,7 @@ class tx_realty_openImmoImport {
 	 *        e-mail data array to validate with arrays as values for each numeric key and if those arrays contain the elements
 	 *        'recipient', 'objectNumber', 'logEntry' and 'errorLog' as keys, may be empty
 	 *
-	 * @return boolean TRUE if the structure of the array is valid, FALSE
+	 * @return bool TRUE if the structure of the array is valid, FALSE
 	 *                 otherwise
 	 */
 	private function validateEmailDataArray(array $emailData) {
@@ -1376,7 +1376,7 @@ class tx_realty_openImmoImport {
 	/**
 	 * Checks whether the owner's data may be used.
 	 *
-	 * @return boolean TRUE it is allowed by configuration to use the
+	 * @return bool TRUE it is allowed by configuration to use the
 	 *                 owner's data, FALSE otherwise
 	 */
 	private function mayUseOwnerData() {

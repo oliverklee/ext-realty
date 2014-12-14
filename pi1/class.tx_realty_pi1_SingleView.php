@@ -23,7 +23,7 @@
  */
 class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
-	 * @var boolean whether the constructor is called in test mode
+	 * @var bool whether the constructor is called in test mode
 	 */
 	private $isTestMode = FALSE;
 
@@ -32,7 +32,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
-	 * @param boolean $isTestMode whether the class is instantiated in test mode
+	 * @param bool $isTestMode whether the class is instantiated in test mode
 	 */
 	public function __construct(
 		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
@@ -67,9 +67,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * realty object that is either non-hidden, or the logged-in FE user owns
 	 * the object.
 	 *
-	 * @param integer $uid UID of the realty object, must be >= 0
+	 * @param int $uid UID of the realty object, must be >= 0
 	 *
-	 * @return boolean TRUE if the object has been loaded, FALSE otherwise
+	 * @return bool TRUE if the object has been loaded, FALSE otherwise
 	 */
 	private function existsRealtyObject($uid) {
 		if ($uid <= 0) {
@@ -104,7 +104,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Creates the single view.
 	 *
-	 * @param integer $uid UID of the realty object for which to create the single view, must be > 0
+	 * @param int $uid UID of the realty object for which to create the single view, must be > 0
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * Sets the title of the page for display and for use in indexed search
 	 * results.
 	 *
-	 * @param integer $uid UID of the realty object for which to set the title, must be > 0
+	 * @param int $uid UID of the realty object for which to set the title, must be > 0
 	 *
 	 * @return void
 	 */
@@ -167,7 +167,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the result of tx_realty_pi1_[$viewName]View::render().
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        UID of the realty object for which to create the view, must be > 0
 	 * @param string $viewName
 	 *        key of the view to get, must be a part of the class name of possible view: tx_realty_pi1_[$viewName]View, must be

@@ -62,7 +62,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 *
 	 * @param tx_realty_Model_City $city the city for which to count the objects
 	 *
-	 * @return integer the number of objects in the given city, will be >= 0
+	 * @return int the number of objects in the given city, will be >= 0
 	 */
 	public function countByCity(tx_realty_Model_City $city) {
 		return tx_oelib_db::count(
@@ -78,7 +78,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * @param tx_realty_Model_District $district
 	 *        the district for which to count the objects
 	 *
-	 * @return integer the number of objects in the given district, will be >= 0
+	 * @return int the number of objects in the given district, will be >= 0
 	 */
 	public function countByDistrict(tx_realty_Model_District $district) {
 		return tx_oelib_db::count(

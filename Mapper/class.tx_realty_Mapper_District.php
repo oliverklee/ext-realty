@@ -68,7 +68,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 *
 	 * If $uid is zero, this function returns all districts without a city.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        the UID of the city for which to find the disctricts, must be >= 0
 	 *
 	 * @return tx_oelib_List the districts within the given city, may be empty
@@ -82,7 +82,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 *
 	 * If $uid is zero, this function returns all districts without a city.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        the UID of the city for which to find the disctricts, must be >= 0
 	 *
 	 * @return tx_oelib_List the districts within the given city or without a city,
@@ -114,7 +114,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 *
 	 * @param string $districtName
 	 *        the name of the district to find, must not be empty
-	 * @param integer $cityUid
+	 * @param int $cityUid
 	 *        the UID of the city of the district to find, must be >= 0
 	 *
 	 * @return tx_realty_Model_District the district with the given name and city
@@ -148,7 +148,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 *
 	 * @param string $districtName
 	 *        the name of the district to find, must not be empty
-	 * @param integer $cityUid
+	 * @param int $cityUid
 	 *        the UID of the city of the district to find, must be >= 0
 	 *
 	 * @return tx_realty_Model_District the district with the given name and city
@@ -193,7 +193,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 *
 	 * @param string $districtName
 	 *        the name of a district, must not be empty
-	 * @param integer $cityUid the UID of a city of a district, must be >= 0
+	 * @param int $cityUid the UID of a city of a district, must be >= 0
 	 *
 	 * @return string a cache key, will be unique for that name/city pair,
 	 *                will not be empty
@@ -210,7 +210,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 *
 	 * @param string $districtName
 	 *        the name of the district to find, must not be empty
-	 * @param integer $cityUid
+	 * @param int $cityUid
 	 *        the UID of the city of the district to find, must be >= 0
 	 *
 	 * @return tx_realty_Model_District the district with the given name and city

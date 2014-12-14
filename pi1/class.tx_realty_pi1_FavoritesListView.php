@@ -46,7 +46,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	private $favoritesDataVerbose;
 
 	/**
-	 * @var boolean whether Google Maps should be shown in this view
+	 * @var bool whether Google Maps should be shown in this view
 	 */
 	protected $isGoogleMapsAllowed = TRUE;
 
@@ -342,7 +342,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * Checks whether to use caching for the link to the single view page.
 	 *
-	 * @return boolean TRUE if caching should be used, FALSE otherwise
+	 * @return bool TRUE if caching should be used, FALSE otherwise
 	 */
 	protected function useCacheForSinglePageLink() {
 		return FALSE;

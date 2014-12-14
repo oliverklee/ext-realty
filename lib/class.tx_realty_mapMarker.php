@@ -32,7 +32,7 @@ class tx_realty_mapMarker {
 	private $longitude = '';
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $coordinatesHaveBeenSet = FALSE;
 
@@ -134,7 +134,7 @@ class tx_realty_mapMarker {
 	/**
 	 * Checks whether this marker has both latitude and longitude.
 	 *
-	 * @return boolean TRUE if this marker has coordinates, FALSE otherwise
+	 * @return bool TRUE if this marker has coordinates, FALSE otherwise
 	 */
 	private function hasCoordinates() {
 		return $this->coordinatesHaveBeenSet;

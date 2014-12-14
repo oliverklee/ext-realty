@@ -33,7 +33,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	private $testingFramework = NULL;
 
 	/**
-	 * @var integer UID of the dummy object
+	 * @var int UID of the dummy object
 	 */
 	private $dummyObjectUid = 0;
 

@@ -31,11 +31,11 @@ class tx_realty_FrontEnd_FormTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer dummy FE user UID
+	 * @var int dummy FE user UID
 	 */
 	private $feUserUid;
 	/**
-	 * @var integer UID of the dummy object
+	 * @var int UID of the dummy object
 	 */
 	private $dummyObjectUid = 0;
 

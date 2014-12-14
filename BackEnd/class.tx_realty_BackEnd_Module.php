@@ -38,7 +38,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	private $errorMessages = array();
 
 	/**
-	 * @var integer tab import
+	 * @var int tab import
 	 */
 	const IMPORT_TAB = 0;
 
@@ -147,7 +147,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * Checks if the current BE user has access to the necessary data to import
 	 * realty records.
 	 *
-	 * @return boolean TRUE if the BE user is an admin or if they have the
+	 * @return bool TRUE if the BE user is an admin or if they have the
 	 *                 rights to access the necessary data, FALSE otherwise
 	 */
 	private function hasAccess() {
@@ -162,7 +162,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * Checks if the user has write permissions on the pages configured in
 	 * "pidForRealtyObjectsAndImages" and "pidForAuxiliaryRecords".
 	 *
-	 * @return boolean TRUE if the user has write access to both pages, FALSE
+	 * @return bool TRUE if the user has write access to both pages, FALSE
 	 *                 otherwise
 	 */
 	private function userHasAccessToPages() {
@@ -196,7 +196,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * Checks if the user has write access to the database tables needed to
 	 * create realty objects and auxiliary records.
 	 *
-	 * @return boolean TRUE if the user has the needed DB table access
+	 * @return bool TRUE if the user has the needed DB table access
 	 *                 permissions, FALSE otherwise
 	 */
 	private function userHasAccessToTables() {

@@ -33,7 +33,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer UID of the first dummy realty object
+	 * @var int UID of the first dummy realty object
 	 */
 	private $firstRealtyUid = 0;
 
@@ -48,12 +48,12 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	private static $firstObjectTitle = 'a title';
 
 	/**
-	 * @var integer a city to relate realty objects to
+	 * @var int a city to relate realty objects to
 	 */
 	private $cityUid = 0;
 
 	/**
-	 * @var integer PID of the favorites page
+	 * @var int PID of the favorites page
 	 */
 	private $favoritesPid = 0;
 

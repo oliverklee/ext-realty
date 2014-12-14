@@ -129,7 +129,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	private $charsetConversion = NULL;
 
 	/**
-	 * @var integer the length of cropped titles
+	 * @var int the length of cropped titles
 	 */
 	const CROP_SIZE = 32;
 
@@ -143,14 +143,14 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * whether the image records need to get saved
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $imagesNeedToGetSaved = FALSE;
 
 	/**
 	 * whether the old image records associated with this model need to get deleted
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $oldImagesNeedToGetDeleted = FALSE;
 
@@ -164,7 +164,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * whether the related documents need to get saved
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $documentsNeedToGetSaved = FALSE;
 
@@ -172,7 +172,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * whether the old document records associated with this model need to get
 	 * deleted
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $oldDocumentsNeedToGetDeleted = FALSE;
 
@@ -210,12 +210,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	);
 
 	/**
-	 * @var boolean whether hidden objects are loadable
+	 * @var bool whether hidden objects are loadable
 	 */
 	private $canLoadHiddenObjects = TRUE;
 
 	/**
-	 * @var boolean whether a newly created record is for testing purposes only
+	 * @var bool whether a newly created record is for testing purposes only
 	 */
 	private $isDummyRecord = FALSE;
 
@@ -232,7 +232,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Constructor.
 	 *
-	 * @param boolean $createDummyRecords whether the database records to create are for testing purposes only
+	 * @param bool $createDummyRecords whether the database records to create are for testing purposes only
 	 */
 	public function __construct($createDummyRecords = FALSE) {
 		$this->isDummyRecord = $createDummyRecords;
@@ -268,7 +268,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @param string $fileExtension the extension to check
 	 *
-	 * @return boolean TRUE if the $fileExtension is not "pdf" or "ps", FALSE otherwise
+	 * @return bool TRUE if the $fileExtension is not "pdf" or "ps", FALSE otherwise
 	 */
 	protected function isNotPdfOrPs($fileExtension) {
 		return !in_array($fileExtension, array('pdf', 'ps'));
@@ -279,7 +279,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @param string $imageExtension the file extension is to be checked.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if the file extension $imageExtension is included in the list of allowed image extensions,
 	 *         FALSE otherwise.
 	 */
@@ -298,7 +298,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param mixed $realtyData
 	 *        data for the realty object: an array or a UID (of integer > 0) of
 	 *        an existing record, an array must not contain the key 'uid'
-	 * @param boolean $canLoadHiddenObjects whether hidden objects are loadable
+	 * @param bool $canLoadHiddenObjects whether hidden objects are loadable
 	 *
 	 * @deprecated 2009-02-03 use setData() instead
 	 *
@@ -387,7 +387,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Loads an existing realty object entry from the database. If
 	 * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
 	 *
-	 * @param integer $uid UID of the database entry to load, must be > 0
+	 * @param int $uid UID of the database entry to load, must be > 0
 	 *
 	 * @return array contents of the database entry, empty if database
 	 *               result could not be fetched
@@ -492,8 +492,8 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * A new record will only be inserted if all required fields occur as keys
 	 * in the realty object data to insert.
 	 *
-	 * @param integer $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
-	 * @param boolean $setOwner TRUE if the owner may be set, FALSE otherwise
+	 * @param int $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
+	 * @param bool $setOwner TRUE if the owner may be set, FALSE otherwise
 	 *
 	 * @return string locallang key of an error message if the record was
 	 *                not written to database, an empty string if it was
@@ -562,7 +562,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether an owner may add objects to the database.
 	 *
-	 * @return boolean TRUE if the current owner may add objects to the database
+	 * @return bool TRUE if the current owner may add objects to the database
 	 */
 	private function ownerMayAddObjects() {
 		if ($this->isOwnerDataUsable()) {
@@ -645,7 +645,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Returns whether the owner's data may be used in the FE according to the
 	 * current configuration.
 	 *
-	 * @return boolean TRUE if there is an owner and his data may be used in
+	 * @return bool TRUE if there is an owner and his data may be used in
 	 *                 the FE, FALSE otherwise
 	 */
 	private function isOwnerDataUsable() {
@@ -694,7 +694,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Returns whether an owner is set for the current realty object.
 	 *
-	 * @return boolean TRUE if the object has an owner, FALSE otherwise
+	 * @return bool TRUE if the object has an owner, FALSE otherwise
 	 */
 	public function hasOwner() {
 		return ($this->getAsInteger('owner') > 0);
@@ -791,7 +791,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @param mixed $value value to check
 	 *
-	 * @return boolean TRUE if the value is either numeric or a string
+	 * @return bool TRUE if the value is either numeric or a string
 	 *                 or of boolean, FALSE otherwise
 	 */
 	private function isAllowedValue($value) {
@@ -822,7 +822,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @param string $key key to be checked for being an allowed field name, must not be empty
 	 *
-	 * @return boolean TRUE if key is an allowed field name for a realty object,
+	 * @return bool TRUE if key is an allowed field name for a realty object,
 	 *                 FALSE otherwise
 	 */
 	public function isAllowedKey($key) {
@@ -898,7 +898,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param string $key key of property to insert from current realty object, must not be empty
 	 * @param string $table name of a table where to insert the property, must not be empty
 	 *
-	 * @return integer UID of the newly created record, 0 if no record was
+	 * @return int UID of the newly created record, 0 if no record was
 	 *                 created
 	 */
 	private function insertPropertyToOwnTable($key, $table) {
@@ -932,7 +932,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Inserts entries for images of the current realty object to the database
 	 * table 'tx_realty_images' and deletes all former image entries.
 	 *
-	 * @param integer $overridePid
+	 * @param int $overridePid
 	 *        PID for new object and image records (omit this parameter to use the PID set in the global configuration)
 	 *
 	 * @return void
@@ -991,7 +991,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Inserts entries for documents of the current realty object to the database
 	 * table 'tx_realty_documents' and deletes all former document entries.
 	 *
-	 * @param integer $overridePid
+	 * @param int $overridePid
 	 *        PID for new object, image and documents records (omit this
 	 *        parameter to use the PID set in the global configuration)
 	 *
@@ -1131,14 +1131,14 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *        caption for the new image record, may be empty
 	 * @param string $fileName
 	 *        name of the image in the upload directory, must not be empty
-	 * @param integer $position
+	 * @param int $position
 	 *        the position of the image, must be between 0 and 4
 	 * @param string $thumbnailFileName
 	 *        name of the separate thumbnail in the upload directory
 	 *
 	 * @throws BadMethodCallException
 	 *
-	 * @return integer key of the newly created record, will be >= 0
+	 * @return int key of the newly created record, will be >= 0
 	 */
 	public function addImageRecord(
 		$caption, $fileName, $position = 0, $thumbnailFileName = ''
@@ -1179,7 +1179,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @throws BadMethodCallException
 	 *
-	 * @return integer
+	 * @return int
 	 *         zero-based index of the newly created document, will be >= 0
 	 */
 	public function addDocument($title, $fileName) {
@@ -1211,7 +1211,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * record will be marked as deleted in the database when the object is
 	 * written to the database.
 	 *
-	 * @param integer $imageKey key of the image record to mark as deleted, must be a key of the image data array and must be >= 0
+	 * @param int $imageKey key of the image record to mark as deleted, must be a key of the image data array and must be >= 0
 	 *
 	 * @throws BadMethodCallException
 	 * @throws tx_oelib_Exception_NotFound
@@ -1241,7 +1241,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * record will be marked as deleted in the database when the object is
 	 * written to the database.
 	 *
-	 * @param integer $key
+	 * @param int $key
 	 *        key of the document record to mark as deleted, must be a key of
 	 *        the document data array and must be >= 0
 	 *
@@ -1277,12 +1277,12 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *        database column names as keys, must not be empty and must not contain the key 'uid'
 	 * @param string $table
 	 *        name of the database table, must not be empty
-	 * @param integer $overridePid PID
+	 * @param int $overridePid PID
 	 *        for new realty and image records (omit this parameter to use the PID set in the global configuration)
 	 *
 	 * @throws InvalidArgumentException
 	 *
-	 * @return integer UID of the new database entry, will be zero if no new
+	 * @return int UID of the new database entry, will be zero if no new
 	 *                 record could be created, will be -1 if the deleted flag
 	 *                 was set
 	 */
@@ -1365,7 +1365,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param string $table
 	 *        name of table where to find out whether an entry yet exists, must not be empty
 	 *
-	 * @return boolean True if the UID in the data array equals an existing
+	 * @return bool True if the UID in the data array equals an existing
 	 *                 entry or if the value of the alternative key was found in
 	 *                 the database. False in any other case, also if the
 	 *                 database result could not be fetched or if neither 'uid'
@@ -1385,7 +1385,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Sets the UID for a realty object if it exists in the database and has no
 	 * UID yet.
 	 *
-	 * @return boolean TRUE if the record has a UID, FALSE otherwise
+	 * @return bool TRUE if the record has a UID, FALSE otherwise
 	 */
 	private function identifyObjectAndSetUid() {
 		if ($this->hasUid()) {
@@ -1414,7 +1414,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @param string $table
 	 *        name of the table where to find out whether an entry already exists
 	 *
-	 * @return integer the UID of the record identified in the database, zero if
+	 * @return int the UID of the record identified in the database, zero if
 	 *                 none was found
 	 */
 	private function getRecordUid(
@@ -1485,7 +1485,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether this object has a non-empty street set.
 	 *
-	 * @return boolean TRUE if this object has a street set, FALSE otherwise
+	 * @return bool TRUE if this object has a street set, FALSE otherwise
 	 */
 	public function hasStreet() {
 		return $this->hasString('street');
@@ -1514,7 +1514,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether this tender has a non-empty ZIP code set.
 	 *
-	 * @return boolean TRUE if this tender has a ZIP code set, FALSE otherwise
+	 * @return bool TRUE if this tender has a ZIP code set, FALSE otherwise
 	 */
 	public function hasZip() {
 		return $this->hasString('zip');
@@ -1547,7 +1547,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether this object has a city assigned.
 	 *
-	 * @return boolean whether this object has a city assigned
+	 * @return bool whether this object has a city assigned
 	 */
 	public function hasCity() {
 		return $this->hasInteger('city');
@@ -1569,7 +1569,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether this object has a country assigned.
 	 *
-	 * @return boolean whether this object has a country assigned
+	 * @return bool whether this object has a country assigned
 	 */
 	public function hasCountry() {
 		return $this->hasInteger('country');
@@ -1657,7 +1657,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether this object has a non-empty address suitable for a geo lookup.
 	 *
-	 * @return boolean TRUE if this object has a non-empty address, FALSE otherwise
+	 * @return bool TRUE if this object has a non-empty address, FALSE otherwise
 	 */
 	public function hasGeoAddress() {
 		return $this->getGeoAddress() !== '';
@@ -1686,7 +1686,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * Note: This function does not check that there are no geo errors.
 	 *
-	 * @return boolean TRUE if this object has both a non-empty longitude and a non-empty latitude, FALSE otherwise
+	 * @return bool TRUE if this object has both a non-empty longitude and a non-empty latitude, FALSE otherwise
 	 */
 	public function hasGeoCoordinates() {
 		return $this->getAsBoolean('has_coordinates');
@@ -1770,7 +1770,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * Note: This function only checks whether there has been an error with the coordinates, not whether this object actually has
 	 * coordinates.
 	 *
-	 * @return boolean TRUE if there has been an error, FALSE otherwise
+	 * @return bool TRUE if there has been an error, FALSE otherwise
 	 */
 	public function hasGeoError() {
 		return $this->getAsBoolean('coordinates_problem');
@@ -1820,7 +1820,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * characters. The title will get an ellipsis at the end if the full title
 	 * was long enough to be cropped.
 	 *
-	 * @param integer $cropSize the number of characters after which the title should be cropped, must be >= 0
+	 * @param int $cropSize the number of characters after which the title should be cropped, must be >= 0
 	 *
 	 * @return string this object's cropped title, will be empty if this
 	 *                object does not have a title
@@ -1847,7 +1847,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Returns whether the full address for this object should be visible.
 	 *
-	 * @return boolean whether the full address for this object should be visible
+	 * @return bool whether the full address for this object should be visible
 	 */
 	public function getShowAddress() {
 		return $this->getAsBoolean('show_address');
@@ -1856,7 +1856,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Sets whether the full address for this object should be visible.
 	 *
-	 * @param boolean $showIt whether the full address for this object should be visible
+	 * @param bool $showIt whether the full address for this object should be visible
 	 *
 	 * @return void
 	 */
@@ -2007,7 +2007,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * If a front-end user should be used as owner, the owner will be stored in
 	 * $this->owner.
 	 *
-	 * @return boolean TRUE if the contact data should be fetched from the owner
+	 * @return bool TRUE if the contact data should be fetched from the owner
 	 *                 FE user, FALSE otherwise
 	 */
 	private function usesContactDataOfOwner() {
@@ -2072,7 +2072,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Gets this object's status.
 	 *
-	 * @return integer
+	 * @return int
 	 *         this object's status, will be either STATUS_VACANT,
 	 *         STATUS_RESERVED, STATUS_SOLD or STATUS_RENTED
 	 */
@@ -2083,7 +2083,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether this object is rented or sold.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if this object is rented or sold, FALSE otherwise
 	 */
 	public function isRentedOrSold() {
@@ -2094,7 +2094,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Gets the distance to the sea in meters.
 	 *
-	 * @return integer the distance to the sea, will be > 0 if has been set or 0 if none has been set
+	 * @return int the distance to the sea, will be > 0 if has been set or 0 if none has been set
 	 */
 	public function getDistanceToTheSea() {
 		return $this->getAsInteger('distance_to_the_sea');
@@ -2103,7 +2103,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Checks whether this object has a non-zero distance to the sea.
 	 *
-	 * @return boolean TRUE if this object has a non-zero distance to the sea, FALSE otherwise
+	 * @return bool TRUE if this object has a non-zero distance to the sea, FALSE otherwise
 	 */
 	public function hasDistanceToTheSea() {
 		return $this->hasInteger('distance_to_the_sea');
@@ -2112,7 +2112,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Sets the distance to the sea in meters.
 	 *
-	 * @param integer $distanceInMeters the distance to the sea in meters, must be >= 0
+	 * @param int $distanceInMeters the distance to the sea in meters, must be >= 0
 	 *
 	 * @throws InvalidArgumentException
 	 *

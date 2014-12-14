@@ -35,13 +35,13 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	protected $realtyObject = NULL;
 
 	/**
-	 * @var integer UID of the currently edited object, zero if the object is
+	 * @var int UID of the currently edited object, zero if the object is
 	 *              going to be a new database record.
 	 */
 	protected $realtyObjectUid = 0;
 
 	/**
-	 * @var boolean whether the constructor is called in test mode
+	 * @var bool whether the constructor is called in test mode
 	 */
 	protected $isTestMode = FALSE;
 
@@ -62,11 +62,11 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *        TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj
 	 *        the parent cObj content, needed for the flexforms
-	 * @param integer $uidOfObjectToEdit
+	 * @param int $uidOfObjectToEdit
 	 *        UID of the object to edit, set to 0 to create a new database record, must not be negative
 	 * @param string $xmlPath
 	 *        path of the XML for the form, relative to this extension, must not begin with a slash and must not be empty
-	 * @param boolean $isTestMode
+	 * @param bool $isTestMode
 	 *        whether the FE editor is instantiated in test mode
 	 */
 	public function __construct(
@@ -208,7 +208,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 * Checks whether the realty object exists in the database and is enabled.
 	 * For new objects, the result will always be TRUE.
 	 *
-	 * @return boolean TRUE if the realty object is available for editing,
+	 * @return bool TRUE if the realty object is available for editing,
 	 *                 FALSE otherwise
 	 */
 	private function realtyObjectExistsInDatabase() {
@@ -229,7 +229,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * This function is for testing purposes.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        UID of the currently edited realty object. For creating a new database record, $uid must be zero.
 	 *        Provided values must not be negative.
 	 *

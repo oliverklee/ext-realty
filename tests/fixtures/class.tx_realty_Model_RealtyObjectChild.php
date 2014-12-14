@@ -36,7 +36,7 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	 * @param string $table
 	 *        name of table where to find out whether an entry yet exists, must not be empty
 	 *
-	 * @return boolean True if the UID in the data array equals an existing
+	 * @return bool True if the UID in the data array equals an existing
 	 *                 entry or if the value of the alternative key was found in
 	 *                 the database. False in any other case, also if the
 	 *                 database result could not be fetched or if neither 'uid'
@@ -58,12 +58,12 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	 *        database column names as keys, must not be empty and must not contain the key 'uid'
 	 * @param string $table
 	 *        name of the database table, must not be empty
-	 * @param integer $overridePid PID
+	 * @param int $overridePid PID
 	 *        for new realty and image records (omit this parameter to use the PID set in the global configuration)
 	 *
 	 * @throws InvalidArgumentException
 	 *
-	 * @return integer UID of the new database entry, will be zero if no new
+	 * @return int UID of the new database entry, will be zero if no new
 	 *                 record could be created, will be -1 if the deleted flag
 	 *                 was set
 	 */
@@ -92,7 +92,7 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	 * Loads an existing realty object entry from the database. If
 	 * $enabledObjectsOnly is set, deleted or hidden records will not be loaded.
 	 *
-	 * @param integer $uid UID of the database entry to load, must be > 0
+	 * @param int $uid UID of the database entry to load, must be > 0
 	 *
 	 * @return array contents of the database entry, empty if database
 	 *               result could not be fetched

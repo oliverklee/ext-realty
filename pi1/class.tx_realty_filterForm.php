@@ -417,7 +417,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string $type
 	 *        the type of the selector, for example "city", must not be empty
-	 * @param integer $selectedUid
+	 * @param int $selectedUid
 	 *        the UID of the item that should be selected, must be >= 0,
 	 *        set to 0 to select no item
 	 *
@@ -854,7 +854,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string $fieldToCheck the search field name to check, must not be empty
 	 *
-	 * @return boolean TRUE if the given field should be displayed as set per
+	 * @return bool TRUE if the given field should be displayed as set per
 	 *                 configuration, FALSE otherwise
 	 */
 	private function hasSearchField($fieldToCheck) {

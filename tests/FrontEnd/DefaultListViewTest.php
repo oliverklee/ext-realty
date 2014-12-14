@@ -33,17 +33,17 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer UID of the first dummy realty object
+	 * @var int UID of the first dummy realty object
 	 */
 	private $firstRealtyUid = 0;
 
 	/**
-	 * @var integer second dummy realty object
+	 * @var int second dummy realty object
 	 */
 	private $secondRealtyUid = 0;
 
 	/**
-	 * @var integer first dummy city UID
+	 * @var int first dummy city UID
 	 */
 	private $firstCityUid = 0;
 	/**
@@ -52,7 +52,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	private static $firstCityTitle = 'Bonn';
 
 	/**
-	 * @var integer second dummy city UID
+	 * @var int second dummy city UID
 	 */
 	private $secondCityUid = 0;
 	/**
@@ -61,7 +61,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	private static $secondCityTitle = 'bar city';
 
 	/**
-	 * @var integer system folder PID
+	 * @var int system folder PID
 	 */
 	private $systemFolderPid = 0;
 

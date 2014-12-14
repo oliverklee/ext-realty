@@ -33,14 +33,14 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	/**
-	 * @var integer UID of the dummy realty object
+	 * @var int UID of the dummy realty object
 	 */
 	private $realtyUid = 0;
 
 	/**
 	 * the UID of a dummy city for the object records
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $dummyCityUid = 0;
 

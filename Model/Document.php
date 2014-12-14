@@ -107,7 +107,7 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @return integer the sorting value of this document, will be >= 0
+	 * @return int the sorting value of this document, will be >= 0
 	 */
 	public function getSorting() {
 		return $this->getAsInteger('sorting');
@@ -118,7 +118,7 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @param integer $sorting the sorting value of this document, must be >= 0
+	 * @param int $sorting the sorting value of this document, must be >= 0
 	 *
 	 * @return void
 	 */

@@ -31,7 +31,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
 	 * static_info_tables UID of Germany
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	const DE = 54;
 

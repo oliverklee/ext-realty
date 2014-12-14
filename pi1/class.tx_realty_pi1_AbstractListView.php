@@ -34,7 +34,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	public $scriptRelPath = 'pi1/class.tx_realty_pi1_AbstractListView.php';
 
 	/**
-	 * @var boolean whether this class is called in the test mode
+	 * @var bool whether this class is called in the test mode
 	 */
 	protected $isTestMode = FALSE;
 
@@ -70,17 +70,17 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	protected $listViewLabel = '';
 
 	/**
-	 * @var integer character length for cropped titles
+	 * @var int character length for cropped titles
 	 */
 	const CROP_SIZE = 74;
 
 	/**
-	 * @var boolean whether Google Maps should be shown in this view
+	 * @var bool whether Google Maps should be shown in this view
 	 */
 	protected $isGoogleMapsAllowed = TRUE;
 
 	/**
-	 * @var integer the start of the limit expression for the list query
+	 * @var int the start of the limit expression for the list query
 	 */
 	private $startingRecordNumber = 0;
 
@@ -100,7 +100,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
 	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
-	 * @param boolean $isTestMode
+	 * @param bool $isTestMode
 	 *        whether this class should be instantiated for testing
 	 */
 	public function __construct(
@@ -122,7 +122,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Sets the realty object of the actual row.
 	 *
-	 * @param integer $realtyObjectUid the uid of the Realty object of the actual row, must be >= 0
+	 * @param int $realtyObjectUid the uid of the Realty object of the actual row, must be >= 0
 	 *
 	 * @return void
 	 */
@@ -382,7 +382,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Returns a single table row for the list view.
 	 *
-	 * @param integer $rowCounter
+	 * @param int $rowCounter
 	 *       the row counter, starts at 0 (zero), and is used for alternating
 	 *       class values in the output rows, must be >= 0
 	 *
@@ -717,7 +717,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * The URL will already be htmlspecialchared.
 	 *
-	 * @param boolean $keepPiVars whether the current piVars should be kept
+	 * @param bool $keepPiVars whether the current piVars should be kept
 	 * @param array $keysToRemove
 	 *        the keys to remove from the piVar data before processing the URL,
 	 *        may be empty
@@ -762,7 +762,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @param string $linkText
 	 *        link text with or without the wrapper marker "|", may also be empty
-	 * @param integer $uid UID of the realty object to show, must be > 0
+	 * @param int $uid UID of the realty object to show, must be > 0
 	 * @param string $separateSingleViewPage
 	 *        PID or URL of the single view page, set to '' to use the default
 	 *        single view page
@@ -815,7 +815,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Checks whether to use caching for the link to the single view page.
 	 *
-	 * @return boolean TRUE if caching should be used, FALSE otherwise
+	 * @return bool TRUE if caching should be used, FALSE otherwise
 	 */
 	protected function useCacheForSinglePageLink() {
 		return TRUE;
@@ -925,7 +925,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @param string $maxSizeVariable
 	 *        prefix to the TS setup variables that define the max size, will be
 	 *        prepended to "X" and "Y", must not be empty
-	 * @param integer $offset
+	 * @param int $offset
 	 *        the number of the image to retrieve, zero-based, may be zero
 	 *
 	 * @return string IMG tag wrapped in a link, will be empty if no image
@@ -989,9 +989,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * with $linkText as link text. If $pageNum is the current page,
 	 * the text is not linked.
 	 *
-	 * @param integer $pageNum the page number to link to, must be >= 0
+	 * @param int $pageNum the page number to link to, must be >= 0
 	 * @param string $linkText link text, must not be empty
-	 * @param boolean $alsoShowNonLinks
+	 * @param bool $alsoShowNonLinks
 	 *        whether to output the link text nonetheless if $pageNum is the
 	 *        current page
 	 *
@@ -1078,7 +1078,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 /**
 	 * Checks whether a search selection exists.
 	 *
-	 * @return boolean TRUE if a search selection is provided in the
+	 * @return bool TRUE if a search selection is provided in the
 	 *                 current piVars, FALSE otherwise
 	 */
 	protected function searchSelectionExists() {
@@ -1092,7 +1092,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * configuration, access to the details page is allowed even when no user is
 	 * logged in.
 	 *
-	 * @return boolean TRUE if the details page is allowed to be viewed,
+	 * @return bool TRUE if the details page is allowed to be viewed,
 	 *                 FALSE otherwise
 	 */
 	private function isAccessToSingleViewPageAllowed() {
@@ -1107,7 +1107,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @param string $linkText
 	 *        link text, HTML tags will not be replaced, may be '|' but not
 	 *        empty
-	 * @param boolean $hasExternalSingleViewPage
+	 * @param bool $hasExternalSingleViewPage
 	 *        whether the redirect link needs to be created for an external
 	 *        single view page
 	 *
@@ -1146,7 +1146,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * redirect_url parameter to the single view page.
 	 *
 	 * @param string $linkText link text, must not be empty
-	 * @param integer $uid UID of the realty object to show, must be > 0
+	 * @param int $uid UID of the realty object to show, must be > 0
 	 * @param string $separateSingleViewPage
 	 *        PID or URL of the single view page, leave empty to use the default
 	 *        single view page
@@ -1180,7 +1180,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @param string $maxSizeVariable
 	 *        prefix to the TS setup variables that define the max size, will be
 	 *        prepended to "X" and "Y"
-	 * @param integer $offset
+	 * @param int $offset
 	 *        the number of the image to retrieve, zero-based, must be >= 0
 	 * @param string $id the id attribute, may be empty
 	 *
@@ -1208,7 +1208,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @throws tx_oelib_Exception_Database if a database query error occurs
 	 *
-	 * @param integer $offset
+	 * @param int $offset
 	 *        the number of the image to retrieve (zero-based, may be zero)
 	 *
 	 * @return string[]
@@ -1282,7 +1282,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * This will be used for tx_oelib_db::enableFields.
 	 *
-	 * @return integer 1 if hidden records should be shown, -1 otherwise
+	 * @return int 1 if hidden records should be shown, -1 otherwise
 	 */
 	protected function shouldShowHiddenObjects() {
 		return -1;
@@ -1315,7 +1315,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Gets the additional parameters to add to the link to the single view page.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        the UID of the object to create the link for, must be > 0
 	 *
 	 * @return array additional parameters to the single view page for usage
@@ -1360,12 +1360,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * The record position is zero-based, so 0 is the first position.
 	 *
-	 * @param integer $recordPosition
+	 * @param int $recordPosition
 	 *        the position of the searched record, must be >= 0
 	 *
 	 * @throws tx_oelib_Exception_Database if a database query error occurs
 	 * @throws InvalidArgumentException if the record position is a negative integer
-	 * @return integer the record UID, will be zero if no record for the given
+	 * @return int the record UID, will be zero if no record for the given
 	 *                 record number could be found
 	 */
 	public function getUidForRecordNumber($recordPosition) {

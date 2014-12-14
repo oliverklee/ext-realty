@@ -27,10 +27,10 @@ class tx_realty_Ajax_DistrictSelector {
 	 *
 	 * At the top, an empty option with the value 0 will always be included.
 	 *
-	 * @param integer $cityUid
+	 * @param int $cityUid
 	 *        the UID of a city for which to get the districts, must be > 0,
 	 *        may also point to an inexistent record
-	 * @param boolean $showWithNumbers
+	 * @param bool $showWithNumbers
 	 *        if TRUE, the number of matching objects will be displayed behind
 	 *        the district name, and districts without matches will be omitted;
 	 *        if FALSE, the number of matches will not be displayed, and

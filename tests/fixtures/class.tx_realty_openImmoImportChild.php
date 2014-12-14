@@ -96,7 +96,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * logged.
 	 *
 	 * @param array $realtyRecord record to insert, may be empty
-	 * @param integer $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
+	 * @param int $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
 	 *
 	 * @return void
 	 */
