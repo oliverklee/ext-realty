@@ -1330,7 +1330,7 @@ class tx_realty_domDocumentConverter {
 			'//*[local-name()="openimmo"] | //*[local-name()="immoxml"]'
 		);
 
-		return (boolean) $rootNode->item(0);
+		return (bool)$rootNode->item(0);
 	}
 
 	/**

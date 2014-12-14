@@ -548,8 +548,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$this->setSubpart('sort_option', implode(LF, $options));
 
 		$descendingOrder = isset($this->piVars['descFlag'])
-			? (boolean) $this->piVars['descFlag']
-			: $this->getListViewConfValueBoolean('descFlag');
+			? (bool)$this->piVars['descFlag'] : $this->getListViewConfValueBoolean('descFlag');
 
 		if ($descendingOrder) {
 			$this->setMarker('sort_checked_asc', '');
@@ -613,8 +612,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			? $this->piVars['orderBy']
 			: $this->getConfValueString('orderBy');
 		$descendingFlag = isset($this->piVars['descFlag'])
-			? (boolean) $this->piVars['descFlag']
-			: $this->getListViewConfValueBoolean('descFlag');
+			? (bool)$this->piVars['descFlag'] : $this->getListViewConfValueBoolean('descFlag');
 
 		// checks whether the sort criterion is allowed
 		if (in_array($sortCriterion, self::$sortCriteria)) {
@@ -879,7 +877,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			}
 		}
 
-		// get features set with (boolean) checkboxes
+		// get features set with (bool) checkboxes
 		foreach (array(
 			'balcony', 'garden', 'elevator', 'barrier_free',
 			'assisted_living', 'fitted_kitchen',)

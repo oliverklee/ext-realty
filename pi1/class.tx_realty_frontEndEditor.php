@@ -495,7 +495,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		$result = (boolean) $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult) !== FALSE;
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
@@ -652,7 +652,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$result = preg_match('/^[\d]*$/', $unifiedValueToCheck);
 		}
 
-		return (boolean) $result;
+		return (bool)$result;
 	}
 
 	/**
