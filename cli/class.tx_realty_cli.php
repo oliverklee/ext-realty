@@ -12,9 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-if (!defined('TYPO3_cliMode')) {
-	die('You cannot run this script directly!');
-}
+defined('TYPO3_cliMode') or die('You cannot run this script directly!');
 
 setlocale(LC_NUMERIC, 'C');
 

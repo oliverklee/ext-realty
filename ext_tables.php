@@ -1,7 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
-}
+defined('TYPO3_MODE') or die('Access denied.');
 
 $extPath = t3lib_extMgm::extPath($_EXTKEY);
 $extRelPath = t3lib_extMgm::extRelPath($_EXTKEY);

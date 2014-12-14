@@ -1,7 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
-}
+defined('TYPO3_MODE') or die('Access denied.');
 
 $GLOBALS['TCA']['tx_realty_objects'] = array(
 	'ctrl' => $GLOBALS['TCA']['tx_realty_objects']['ctrl'],
