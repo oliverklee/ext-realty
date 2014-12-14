@@ -61,7 +61,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	 */
 	const LONGITUDE = 7.1;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -100,7 +100,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework, $this->geoCoder, $this->realtyMapper, $this->realtyObject);

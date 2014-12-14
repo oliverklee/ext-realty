@@ -26,11 +26,11 @@ class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
 	 */
 	private $fixture;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->fixture = new tx_realty_Model_District();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->fixture);
 	}
 

@@ -21,7 +21,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
-	public function setUp() {
+	protected function setUp() {
 		$GLOBALS['TSFE'] = $this->getMock('tslib_fe', array(), array(), '', FALSE);
 
 		$configuration = new tx_oelib_Configuration();
@@ -33,7 +33,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$GLOBALS['TSFE'] = NULL;
 	}
 

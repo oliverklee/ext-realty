@@ -31,7 +31,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcas
 	 */
 	private $testingFramework;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -41,7 +41,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcas
 		);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);

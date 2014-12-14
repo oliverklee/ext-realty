@@ -75,7 +75,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 	 */
 	const DE = 54;
 
-	public function setUp() {
+	protected function setUp() {
 		tx_oelib_configurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', FALSE);
 
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
@@ -125,7 +125,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends tx_phpunit_testcase {
 		));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);

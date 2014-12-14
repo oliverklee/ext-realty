@@ -51,7 +51,7 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	 */
 	const FE_USER_NAME = 'test_offerer';
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -70,7 +70,7 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);

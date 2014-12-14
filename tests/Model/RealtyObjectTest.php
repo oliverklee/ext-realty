@@ -69,7 +69,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	const DE = 54;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->createDummyRecords();
 
@@ -90,7 +90,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'jpg,tif,tiff,pdf,png,ps,gif';
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$GLOBALS['TYPO3_CONF_VARS'] = $this->configurationVariablesBackup;
 
 		$this->cleanUpDatabase();

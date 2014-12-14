@@ -35,7 +35,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 	 */
 	private $dummyObjectUid;
 
-	public function setUp() {
+	protected function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
@@ -47,7 +47,7 @@ class tx_realty_Service_AccessCheckTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_realty_pi1_AccessCheck();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);

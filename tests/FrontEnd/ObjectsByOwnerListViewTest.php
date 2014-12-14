@@ -57,7 +57,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	 */
 	private $systemFolderPid = 0;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
@@ -72,7 +72,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 		);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);

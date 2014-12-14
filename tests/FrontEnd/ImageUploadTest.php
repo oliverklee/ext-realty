@@ -73,7 +73,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 	 */
 	private $graphicsConfigurationBackup;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
 		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
 			= 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
@@ -98,7 +98,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);
