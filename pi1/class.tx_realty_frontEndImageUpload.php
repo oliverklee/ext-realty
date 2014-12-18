@@ -231,9 +231,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		$result = '';
 
 		$index = 0;
+		/** @var tx_realty_Model_Image $image */
 		foreach ($images as $image) {
-			$imagePath = tx_realty_Model_Image::UPLOAD_FOLDER .
-				$image->getFileName();
+			$imagePath = tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName();
 			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
 					$this->cObj->typoLink_URL(array('parameter' => $imagePath, 'useCacheHash' => TRUE))
 			));

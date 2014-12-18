@@ -23,7 +23,7 @@
  */
 class tx_realty_cacheManager {
 	/**
-	 * @var t3lib_cache_Manager
+	 * @var t3lib_cache_Manager|TYPO3\CMS\Core\Cache\CacheManager
 	 */
 	private static $cacheManager = NULL;
 
@@ -47,7 +47,7 @@ class tx_realty_cacheManager {
 	 *
 	 * @param string $prefix prefix for each UID, leave empty to set no prefix
 	 *
-	 * @return array page UIDs of the pages with the realty plugin, each will be
+	 * @return string[] page UIDs of the pages with the realty plugin, each will be
 	 *               prefixed with $prefix, will be empty if there are none
 	 */
 	private static function getPageUids($prefix = '') {

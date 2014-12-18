@@ -39,7 +39,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 	protected $isGoogleMapsAllowed = TRUE;
 
 	/**
-	 * @var array the names of the database tables for foreign keys
+	 * @var string[] the names of the database tables for foreign keys
 	 */
 	private $tableNames = array(
 		'objects' => 'tx_realty_objects',
@@ -117,7 +117,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * Returns an array of checkbox items for the list filter.
 	 *
-	 * @return array HTML for each checkbox item in an array, will be
+	 * @return string[] HTML for each checkbox item in an array, will be
 	 *               empty if there are no entries found for the
 	 *               configured filter
 	 */

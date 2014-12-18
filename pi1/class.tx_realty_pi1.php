@@ -119,15 +119,14 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 		switch ($this->getCurrentView()) {
 			case 'filter_form':
-				$filterForm = t3lib_div::makeInstance(
-					'tx_realty_filterForm', $this->conf, $this->cObj
-				);
+				/** @var tx_realty_filterForm $filterForm */
+				$filterForm = t3lib_div::makeInstance('tx_realty_filterForm', $this->conf, $this->cObj);
 				$result = $filterForm->render($this->piVars);
 				break;
 			case 'single_view':
+				/** @var tx_realty_pi1_SingleView $singleView */
 				$singleView = t3lib_div::makeInstance(
-					'tx_realty_pi1_SingleView', $this->conf, $this->cObj,
-					$this->isTestMode
+					'tx_realty_pi1_SingleView', $this->conf, $this->cObj, $this->isTestMode
 				);
 				$result = $singleView->render($this->piVars);
 
@@ -141,18 +140,16 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				}
 				break;
 			case 'contact_form':
-				$contactForm = t3lib_div::makeInstance(
-					'tx_realty_contactForm', $this->conf, $this->cObj
-				);
+				/** @var tx_realty_contactForm $contactForm */
+				$contactForm = t3lib_div::makeInstance('tx_realty_contactForm', $this->conf, $this->cObj);
 				$formData = $this->piVars;
-				$favoritesList = t3lib_div::makeInstance(
-					'tx_realty_pi1_FavoritesListView', $this->conf, $this->cObj
-				);
-				$formData['summaryStringOfFavorites']
-					= $favoritesList->createSummaryStringOfFavorites();
+				/** @var tx_realty_pi1_FavoritesListView $favoritesList */
+				$favoritesList = t3lib_div::makeInstance('tx_realty_pi1_FavoritesListView', $this->conf, $this->cObj);
+				$formData['summaryStringOfFavorites'] = $favoritesList->createSummaryStringOfFavorites();
 				$result = $contactForm->render($formData);
 				break;
 			case 'fe_editor':
+				/** @var tx_realty_frontEndEditor $frontEndEditor */
 				$frontEndEditor = t3lib_div::makeInstance(
 					'tx_realty_frontEndEditor', $this->conf, $this->cObj,
 					$this->piVars['showUid'], 'pi1/tx_realty_frontEndEditor.xml'
@@ -160,6 +157,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $frontEndEditor->render();
 				break;
 			case 'image_upload':
+				/** @var tx_realty_frontEndImageUpload $imageUpload */
 				$imageUpload = t3lib_div::makeInstance(
 					'tx_realty_frontEndImageUpload', $this->conf, $this->cObj,
 					$this->piVars['showUid'], 'pi1/tx_realty_frontEndImageUpload.xml'
@@ -167,9 +165,8 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				$result = $imageUpload->render();
 				break;
 			case 'offerer_list':
-				$offererList = t3lib_div::makeInstance(
-					'tx_realty_offererList', $this->conf, $this->cObj
-				);
+				/** @var tx_realty_offererList $offererList */
+				$offererList = t3lib_div::makeInstance('tx_realty_offererList', $this->conf, $this->cObj);
 				$result = $offererList->render();
 				break;
 			case 'favorites':
@@ -211,14 +208,13 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 		}
 
 		try {
-			t3lib_div::makeInstance('tx_realty_pi1_AccessCheck')->checkAccess(
-				$this->getCurrentView(), $this->piVars
-			);
+			/** @var tx_realty_pi1_AccessCheck $accessCheck */
+			$accessCheck = t3lib_div::makeInstance('tx_realty_pi1_AccessCheck');
+			$accessCheck->checkAccess($this->getCurrentView(), $this->piVars);
 			$result = '';
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
-			$errorView = t3lib_div::makeInstance(
-				'tx_realty_pi1_ErrorView', $this->conf, $this->cObj
-			);
+			/** @var tx_realty_pi1_ErrorView $errorView */
+			$errorView = t3lib_div::makeInstance('tx_realty_pi1_ErrorView', $this->conf, $this->cObj);
 			$result = $errorView->render(array($exception->getMessage()));
 		}
 

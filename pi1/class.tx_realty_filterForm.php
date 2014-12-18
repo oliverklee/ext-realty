@@ -37,7 +37,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	);
 
 	/**
-	 * @var array the search fields which should be displayed in the search form
+	 * @var string[] the search fields which should be displayed in the search form
 	 */
 	private $displayedSearchFields = array();
 
@@ -180,7 +180,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string $priceRange price range of the format "number-number", may be empty
 	 *
-	 * @return array array with one price range, consists of the two elements
+	 * @return string[] array with one price range, consists of the two elements
 	 *               "upperLimit" and "lowerLimit", will be empty if no price
 	 *               range was provided in the form data
 	 */
@@ -202,7 +202,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the priceRange data stored in priceRange.
 	 *
-	 * @return array array with one price range, consists of the two elements
+	 * @return string[] array with one price range, consists of the two elements
 	 *               "upperLimit" and "lowerLimit", will be empty if no price
 	 *               range or rent data was set
 	 */
@@ -418,13 +418,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			throw new InvalidArgumentException('"' . $type . '" is not a valid type.', 1333036086);
 		}
 
-		$objectMapper =
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Mapper_RealtyObject $objectMapper */
+		$objectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		$countFunction = 'countBy' . ucfirst($type);
-		$models = tx_oelib_MapperRegistry::
-			get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
+		$models = tx_oelib_MapperRegistry::get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
 
 		$options = '';
+		/** @var Tx_Oelib_Model $model */
 		foreach ($models as $model) {
 			$numberOfMatches = $objectMapper->$countFunction($model);
 			if ($numberOfMatches == 0) {
@@ -560,7 +560,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns an array of configured price ranges.
 	 *
-	 * @return array Two-dimensional array of the possible price ranges. Each
+	 * @return array[] Two-dimensional array of the possible price ranges. Each
 	 *               inner array consists of two elements with the keys
 	 *               "lowerLimit" and "upperLimit". Note that the zero element
 	 *               will always be empty because the first option in the
@@ -594,7 +594,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * Returns a formatted label for one price range according to the configured
 	 * currency unit.
 	 *
-	 * @param array $range
+	 * @param int[] $range
 	 *        range for which to receive the label, must have the elements "upperLimit" and "lowerLimit",
 	 *        both must have integers as values, only one of the elements' values may be 0,
 	 *        for an empty array the result will always be "&nbsp;"
@@ -610,9 +610,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$currency = $this->getConfValueString('currencyUnit');
 
-		$priceViewHelper = t3lib_div::makeInstance(
-			'tx_oelib_ViewHelper_Price'
-		);
+		/** @var tx_oelib_ViewHelper_Price $priceViewHelper */
+		$priceViewHelper = t3lib_div::makeInstance('tx_oelib_ViewHelper_Price');
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 
 		if ($range['lowerLimit'] == 0) {
@@ -912,7 +911,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the allowed filter form piVar keys.
 	 *
-	 * @return array the allowed filter form piVar keys, will not be empty
+	 * @return string[] the allowed filter form piVar keys, will not be empty
 	 */
 	static public function getPiVarKeys() {
 		return array(

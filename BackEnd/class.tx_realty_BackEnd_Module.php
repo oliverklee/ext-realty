@@ -32,8 +32,9 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	private $template = NULL;
 
 	/**
-	 * @var array localized error message for the errors occurred during the
-	 *            access check
+	 * localized error message for the errors occurred during the access check
+	 *
+	 * @var string[]
 	 */
 	private $errorMessages = array();
 
@@ -69,6 +70,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 			);
 
 			if (t3lib_div::_GP('action') == 'startImport') {
+				/** @var tx_realty_openImmoImport $importer */
 				$importer = t3lib_div::makeInstance('tx_realty_openImmoImport');
 				$this->template->setMarker(
 					'import_logs',
@@ -229,7 +231,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * @param string $message
 	 *        the locallang key of the error message to store,
 	 *        must be an existing locallang label without the prefix 'error_message_'
-	 * @param mixed $value
+	 * @param string $value
 	 *        the value which should be included in the locallang message, must not be empty
 	 *
 	 * @return void

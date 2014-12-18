@@ -35,11 +35,10 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
+		/** @var tx_oelib_Visibility_Tree $visibilityTree */
 		$visibilityTree = t3lib_div::makeInstance(
 			'tx_oelib_Visibility_Tree',
-			array('nextPreviousButtons' => array(
-				'previousButton' => FALSE, 'nextButton' => FALSE
-			))
+			array('nextPreviousButtons' => array('previousButton' => FALSE, 'nextButton' => FALSE))
 		);
 
 		$recordPosition = $this->piVars['recordPosition'];
@@ -136,7 +135,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sanitizes and decodes the listViewLimitation piVar.
 	 *
-	 * @return array the data stored in the listViewLimitation string as array.
+	 * @return string[] the data stored in the listViewLimitation string as array.
 	 */
 	private function sanitizeAndSplitListViewLimitation() {
 		$rawData = json_decode($this->piVars['listViewLimitation'], TRUE);
@@ -201,7 +200,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			'*', 'tt_content',
 			'uid = ' . (int)$this->piVars['listUid'] . tx_oelib_db::enableFields('tt_content')
 		);
-		/** @var $contentObject tslib_cObj */
+		/** @var tslib_cObj $contentObject */
 		$contentObject = t3lib_div::makeInstance('tslib_cObj');
 		$contentObject->start($contentData, 'tt_content');
 		$listView = tx_realty_pi1_ListViewFactory::make(

@@ -24,16 +24,18 @@ class tx_realty_Tca {
 	/**
 	 * Gets the districts for a certain city.
 	 *
-	 * @param array $data the TCEforms data, must at least contain [row][city]
+	 * @param array[] $data the TCEforms data, must at least contain [row][city]
 	 *
-	 * @return array the TCEforms data with the districts added
+	 * @return array[] the TCEforms data with the districts added
 	 */
 	public function getDistrictsForCity(array $data) {
 		$items = array(array('', 0));
 
-		$districs = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-			->findAllByCityUidOrUnassigned((int)$data['row']['city']);
-		foreach ($districs as $district) {
+		/** @var tx_realty_Mapper_District $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District');
+		$districts = $mapper->findAllByCityUidOrUnassigned((int)$data['row']['city']);
+		/** @var tx_realty_Model_District $district */
+		foreach ($districts as $district) {
 			$items[] = array($district->getTitle(), $district->getUid());
 		}
 

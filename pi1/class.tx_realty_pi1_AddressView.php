@@ -30,8 +30,11 @@ class tx_realty_pi1_AddressView extends tx_realty_pi1_FrontEndView {
 	 *                realty object with the provided UID has no address at all
 	 */
 	public function render(array $piVars = array()) {
-		$address = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($piVars['showUid'])->getAddressAsHtml();
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $mapper->find($piVars['showUid']);
+		$address = $object->getAddressAsHtml();
 
 		$this->setOrDeleteMarkerIfNotEmpty(
 			'address', $address, '', 'field_wrapper'

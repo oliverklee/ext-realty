@@ -80,9 +80,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the HTML for one list item.
 	 *
-	 * @param array $ownerData
-	 *        owner data array, the keys 'company', 'name', 'first_name', 'last_name', 'address', 'zip', 'city', 'email', 'www'
-	 *        and 'telephone' will be used for the HTML
+	 * @param string[] $ownerData
+	 *        owner data array, the keys 'company', 'name', 'first_name', 'last_name', 'address', 'zip', 'city',
+	 *        'email', 'www' and 'telephone' will be used for the HTML
 	 *
 	 * @return string HTML for one contact data item, will be empty if
 	 *                $ownerData did not contain data to use
@@ -157,10 +157,11 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			'',
 			$fieldOrder
 		);
-		$offererList = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_FrontEndUser')
-			->getListOfModels($offererRecords);
+		/** @var tx_realty_Mapper_FrontEndUser $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+		$offererList = $mapper->getListOfModels($offererRecords);
 
+		/** @var tx_realty_Model_FrontEndUser $offerer */
 		foreach ($offererList as $offerer) {
 			$listItems .= $this->createListRow($offerer);
 		}
@@ -222,7 +223,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param tx_realty_Model_FrontEndUser $offerer offerer for which to create the row
 	 *
-	 * @return array associative array with the marker names as keys and the
+	 * @return string[] associative array with the marker names as keys and the
 	 *               content to replace them with as values, will not be empty
 	 */
 	private function getListRowContent(tx_realty_Model_FrontEndUser $offerer) {
@@ -371,6 +372,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			TRUE
 		);
 
+		/** @var Tx_Oelib_Model_FrontEndUserGroup $group */
 		foreach ($userGroups as $group) {
 			if (in_array($group->getUid(), $allowedGroups)) {
 				$result = $group->getTitle();

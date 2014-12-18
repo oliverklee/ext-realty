@@ -57,7 +57,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			throw new InvalidArgumentException('$realtyObjectUid must be greater than zero.', 1333036496);
 		}
 
-		if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->existsModel($realtyObjectUid, TRUE)) {
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		if (!$mapper->existsModel($realtyObjectUid, TRUE)) {
 			throw new InvalidArgumentException(
 				'There was no realty object to load with the provided UID of ' . $realtyObjectUid .
 					'. The formatter can only work for existing, non-deleted realty objects.',
@@ -341,9 +343,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			return '';
 		}
 
-		$priceViewHelper = t3lib_div::makeInstance(
-			'tx_oelib_ViewHelper_Price'
-		);
+		/** @var tx_oelib_ViewHelper_Price $priceViewHelper */
+		$priceViewHelper = t3lib_div::makeInstance('tx_oelib_ViewHelper_Price');
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 		$priceViewHelper->setValue((float)$rawValue);
 
@@ -429,7 +430,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * @return tx_realty_Model_RealtyObject
 	 */
 	protected function getRealtyObject() {
-		return tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($this->getUid());
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		return $mapper->find($this->getUid());
 	}
 
 	/**

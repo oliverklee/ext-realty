@@ -32,10 +32,9 @@ class tx_realty_Mapper_Document extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_realty_Model_Document';
 
 	/**
-	 * the (possible) relations of the created models in the format
-	 * DB column name => mapper name
+	 * the (possible) relations of the created models in the format DB column name => mapper name
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $relations = array(
 		'object' => 'tx_realty_Mapper_RealtyObject',

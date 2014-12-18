@@ -40,7 +40,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	protected $listViewLabel = 'label_yourfavorites';
 
 	/**
-	 * @var array the data of the currently displayed favorites using the keys
+	 * @var array[] the data of the currently displayed favorites using the keys
 	 *            [uid][fieldname]
 	 */
 	private $favoritesDataVerbose;
@@ -164,7 +164,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * session). If some of the UIDs in $itemsToRemove are not in the favorites
 	 * list, they will silently being ignored (no harm done here).
 	 *
-	 * @param array $itemsToRemove
+	 * @param string[] $itemsToRemove
 	 *        list of realty object UIDs to to remove (will be cast to int by this function), may be empty
 	 *
 	 * @return void
@@ -193,7 +193,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * there actually are objects with those UIDs. That case is harmless
 	 * because the favorites list serves as a filter merely.
 	 *
-	 * @param array $itemsToAdd
+	 * @param string[] $itemsToAdd
 	 *        list of realty object UIDs to add (will be cast to int by this function), may be empty
 	 *
 	 * @return void
@@ -243,7 +243,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * If the list is empty (or has not been created yet), an empty array will
 	 * be returned.
 	 *
-	 * @return array list of UIDs of the objects on the favorites list,
+	 * @return int[] list of UIDs of the objects on the favorites list,
 	 *               may be empty
 	 *
 	 * @see getFavorites
@@ -260,7 +260,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 *
 	 * Before storing, the list of favorites is clear of duplicates.
 	 *
-	 * @param array $favorites list of UIDs in the favorites list to store, must already be int-safe, may be empty
+	 * @param int[] $favorites list of UIDs in the favorites list to store, may be empty
 	 *
 	 * @return void
 	 */
@@ -303,14 +303,12 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 					tx_oelib_db::enableFields($table)
 			);
 
-			$summaryStringOfFavorites
-				= $this->translate('label_on_favorites_list') . LF;
+			$summaryStringOfFavorites = $this->translate('label_on_favorites_list') . LF;
 
 			foreach ($objects as $object) {
 				$objectNumber = $object['object_number'];
 				$objectTitle = $object['title'];
-				$summaryStringOfFavorites
-					.= '* ' . $objectNumber . ' ' . $objectTitle . LF;
+				$summaryStringOfFavorites .= '* ' . $objectNumber . ' ' . $objectTitle . LF;
 			}
 		}
 

@@ -32,21 +32,21 @@ class tx_realty_pi1_DocumentsView extends tx_realty_pi1_FrontEndView {
 	 *                with the provided UID has no documents
 	 */
 	public function render(array $piVars = array()) {
-		$documents = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($piVars['showUid'])
-			->getDocuments();
+		/** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
+		$realtyObjectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $realtyObjectMapper->find($piVars['showUid']);
+		$documents = $realtyObject->getDocuments();
 		if ($documents->isEmpty()) {
 			return '';
 		}
 
 		$result = '';
+		/** @var tx_realty_Model_Document $document */
 		foreach ($documents as $document) {
 			$link = $this->cObj->typoLink(
 				htmlspecialchars($document->getTitle()),
-				array(
-					'parameter' => tx_realty_Model_Document::UPLOAD_FOLDER .
-						$document->getFileName(),
-				)
+				array('parameter' => tx_realty_Model_Document::UPLOAD_FOLDER . $document->getFileName())
 			);
 
 			$this->setMarker('document_file', $link);

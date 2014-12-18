@@ -101,6 +101,7 @@ class tx_realty_lightboxIncluder {
 	 * @return void
 	 */
 	static private function addLightboxConfigurationToHeader() {
+		/** @var tx_realty_translator $translator */
 		$translator = t3lib_div::makeInstance('tx_realty_translator');
 
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox_config']

@@ -123,8 +123,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Retrieves the names of the visible fields.
 	 *
-	 * @return array the names of the visible fields, will be empty if no
-	 *               optional fields are visible
+	 * @return string[] the names of the visible fields, will be empty if no optional fields are visible
 	 */
 	private function getVisibleFields() {
 		return $this->getConfigurationArray('visibleContactFormFields');
@@ -133,7 +132,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Checks whether the form data is correctly filled.
 	 *
-	 * @param array $errorMessages
+	 * @param string[] $errorMessages
 	 *        associative array with field names as keys, locallang keys of
 	 *        error messages will be added as values by this function
 	 *
@@ -172,7 +171,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * Returns an array of the form data keys that have empty values but are
 	 * configured to be required fields.
 	 *
-	 * @return array keys of form fields that are empty but must not be empty,
+	 * @return string[] keys of form fields that are empty but must not be empty,
 	 *               will be empty if all required fields have been filled in
 	 */
 	private function getEmptyRequiredFields() {
@@ -353,7 +352,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param string $key key of the configuration value to get as an array, must not be empty
 	 *
-	 * @return array configuration of $key, empty if no configuration was found
+	 * @return string[] configuration of $key, empty if no configuration was found
 	 */
 	private function getConfigurationArray($key) {
 		return t3lib_div::trimExplode(',', $this->getConfValueString($key, 's_contactForm'), TRUE);
@@ -372,7 +371,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * If no contact person's data could be fetched and no default e-mail
 	 * address is configured, an empty array is returned.
 	 *
-	 * @return array owner or contact person and the corresponding
+	 * @return string[] owner or contact person and the corresponding
 	 *               e-mail address in an array, contains the default
 	 *               e-mail address if no valid address was found, empty
 	 *               if the expected contact data was not found
@@ -394,8 +393,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * Fetches the contact data from the source defined in the realty record and
 	 * returns it in an array.
 	 *
-	 * @return array contact data array, will always contain the two
-	 *               elements 'email' and 'name'
+	 * @return string[] contact data array, will always contain the two elements 'email' and 'name'
 	 */
 	private function fetchContactDataFromSource() {
 		if (!$this->isSpecializedView()) {
@@ -438,8 +436,9 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		if ($this->isSpecializedView()) {
 			$subpartsToHide = 'email_from_general_contact_form';
 
-			if (!tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->existsModel($this->getShowUid())
-			) {
+			/** @var tx_realty_Mapper_RealtyObject $mapper */
+			$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+			if (!$mapper->existsModel($this->getShowUid())) {
 				$wasSuccessful = FALSE;
 			} else {
 				foreach (array('object_number', 'title', 'uid') as $key) {
@@ -478,8 +477,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Sets an error message to the marker 'ERROR_MESSAGE'.
 	 *
-	 * @param array $errors
-	 *        associative array with the fields where the error occured as keys
+	 * @param string[] $errors
+	 *        associative array with the fields where the error occurred as keys
 	 *        and the locallang key of an error message as value if there was
 	 *        one, must not be empty
 	 *
@@ -633,7 +632,9 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * @return tx_realty_Model_RealtyObject realty object for current UID
 	 */
 	private function getRealtyObject() {
-		return  tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($this->getShowUid());
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		return $mapper->find($this->getShowUid());
 	}
 }
 

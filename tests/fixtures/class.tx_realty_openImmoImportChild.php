@@ -39,8 +39,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 *
 	 * @param string $importDirectory absolute path of the directory which contains the ZIPs, must not be empty
 	 *
-	 * @return array absolute paths of ZIPs in the import folder,
-	 *               might be empty
+	 * @return string[] absolute paths of ZIPs in the import folder, might be empty
 	 */
 	public function getPathsOfZipsToExtract($importDirectory) {
 		return parent::getPathsOfZipsToExtract($importDirectory);
@@ -100,8 +99,8 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 *
 	 * @return void
 	 */
-	public function writeToDatabase($domDocument, $overridePid = 0) {
-		return parent::writeToDatabase($domDocument, $overridePid);
+	public function writeToDatabase($realtyRecord, $overridePid = 0) {
+		return parent::writeToDatabase($realtyRecord, $overridePid);
 	}
 
 	/**
@@ -119,7 +118,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * Gets the required fields of a realty object.
 	 * This function is needed for unit testing only.
 	 *
-	 * @return array required fields, may be empty if no fields are
+	 * @return string[] required fields, may be empty if no fields are
 	 *               required or if the realty object is not initialized
 	 */
 	public function getRequiredFields() {
@@ -135,7 +134,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * @return void
 	 */
 	public function ensureContactEmail() {
-		return parent::ensureContactEmail();
+		parent::ensureContactEmail();
 	}
 
 	/**
@@ -146,11 +145,11 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * If 'onlyErrors' is enabled in EM, the messages will just contain error
 	 * messages and no information about success.
 	 *
-	 * @param array $emailData
+	 * @param array[] $emailData
 	 *        Two-dimensional array of e-mail data. Each inner array has the elements 'recipient', 'objectNumber', 'logEntry' and
 	 *        'errorLog'. May be empty.
 	 *
-	 * @return array Three dimensional array with e-mail addresses as
+	 * @return array[] Three dimensional array with e-mail addresses as
 	 *               keys of the outer array. Innermost there is an array
 	 *               with only one element: Object number as key and the
 	 *               corresponding log information as value. This array
@@ -194,7 +193,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * @return void
 	 */
 	public function loadRealtyObject($data) {
-		return parent::loadRealtyObject($data);
+		parent::loadRealtyObject($data);
 	}
 
 	/**
@@ -202,10 +201,10 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 *
 	 * @param DOMDocument $realtyRecords which contains realty records, can be NULL
 	 *
-	 * @return array $realtyRecords realty records in an array, will be empty if the data was not convertible
+	 * @return array[] $realtyRecords realty records in an array, will be empty if the data was not convertible
 	 */
-	public function convertDomDocumentToArray($domDocument) {
-		return parent::convertDomDocumentToArray($domDocument);
+	public function convertDomDocumentToArray($realtyRecords) {
+		return parent::convertDomDocumentToArray($realtyRecords);
 	}
 
 	/**
@@ -218,6 +217,6 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * @return void
 	 */
 	public function setUploadDirectory($path) {
-		return parent::setUploadDirectory($path);
+		parent::setUploadDirectory($path);
 	}
 }

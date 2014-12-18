@@ -22,8 +22,9 @@
  */
 class tx_realty_fileNameMapper {
 	/**
-	 * @var array associative array with the unique file name as key and the
-	 *            original file name as value
+	 * associative array with the unique file name as key and the original file name as value
+	 *
+	 * @var string[]
 	 */
 	private $fileNames = array();
 
@@ -106,10 +107,8 @@ class tx_realty_fileNameMapper {
 	 * @return string cleaned file name body, will not be empty
 	 */
 	private function getCleanedFileNameBody($fileNameBody) {
-		if (!self::$fileFunctions) {
-			self::$fileFunctions = t3lib_div::makeInstance(
-				't3lib_basicFileFunctions'
-			);
+		if (self::$fileFunctions === NULL) {
+			self::$fileFunctions = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 		}
 
 		return self::$fileFunctions->cleanFileName($fileNameBody);
@@ -149,7 +148,7 @@ class tx_realty_fileNameMapper {
 	 *
 	 * @param string $originalFileName original file name, must not be empty
 	 *
-	 * @return array mapped unique file names for one original file name, will
+	 * @return string[] mapped unique file names for one original file name, will
 	 *               be empty if there were no mappings
 	 */
 	public function releaseMappedFileNames($originalFileName) {

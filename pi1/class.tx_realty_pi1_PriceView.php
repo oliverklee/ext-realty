@@ -33,8 +33,10 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 	 *                type
 	 */
 	public function render(array $piVars = array()) {
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($piVars['showUid']);
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($piVars['showUid']);
 		if ($this->getConfValueBoolean('priceOnlyIfAvailable')
 			&& $realtyObject->isRentedOrSold()
 		) {
@@ -54,13 +56,12 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 				break;
 			default:
 				$hasValidContent = FALSE;
-				break;
 		}
 
 		if ($hasValidContent) {
+			/** @var tx_realty_pi1_Formatter $formatter */
 			$formatter = t3lib_div::makeInstance(
-				'tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf,
-				$this->cObj
+				'tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf, $this->cObj
 			);
 			$hasValidContent = $this->setOrDeleteMarkerIfNotEmpty(
 				$keyToShow,

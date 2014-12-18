@@ -145,7 +145,7 @@ class ext_update {
 	 * Finds all districts that have no city assigned yet, but have have exactly
 	 * one city in the objects table.
 	 *
-	 * @return array two-dimensional array, the second dimension having the keys
+	 * @return array[] two-dimensional array, the second dimension having the keys
 	 *               "city" and "district" with the corresponding UIDs, will be
 	 *               empty if there are no matches
 	 */

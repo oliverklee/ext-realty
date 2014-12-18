@@ -94,8 +94,7 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	 *
 	 * @param int $uid UID of the database entry to load, must be > 0
 	 *
-	 * @return array contents of the database entry, empty if database
-	 *               result could not be fetched
+	 * @return string[] contents of the database entry, empty if database result could not be fetched
 	 */
 	public function loadDatabaseEntry($uid) {
 		return parent::loadDatabaseEntry($uid);
@@ -105,8 +104,7 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
 	 * Checks whether all required fields are set in the realty object.
 	 * $this->requiredFields must have already been loaded.
 	 *
-	 * @return array array of missing required fields, empty if all
-	 *               required fields are set
+	 * @return string[] missing required fields, empty if all required fields are set
 	 */
 	public function checkForRequiredFields() {
 		return parent::checkForRequiredFields();

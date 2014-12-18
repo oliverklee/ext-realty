@@ -23,7 +23,7 @@
  */
 class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_openImmoImport
+	 * @var tx_realty_openImmoImportChild
 	 */
 	private $fixture = NULL;
 
@@ -63,7 +63,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 *
 	 * @var array
 	 */
-	private $graphicsConfigurationBackup;
+	private $graphicsConfigurationBackup = array();
 
 	/**
 	 * @var t3lib_mail_Message

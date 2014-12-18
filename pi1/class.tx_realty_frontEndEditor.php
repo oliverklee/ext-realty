@@ -23,7 +23,7 @@
  */
 class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
-	 * @var array table names which are allowed as form values
+	 * @var string[] table names which are allowed as form values
 	 */
 	private static $allowedTables = array(
 		'tx_realty_cities',
@@ -36,7 +36,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	);
 
 	/**
-	 * @var array field keys that are numeric
+	 * @var string[] field keys that are numeric
 	 */
 	private static $numericFields = array(
 		'number_of_rooms', 'living_area', 'total_area', 'estate_size',
@@ -133,18 +133,19 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
 	 * Creates a list of cities.
 	 *
-	 * @return array items for the city selector, will be empty if there are no
-	 *               cities in the database
+	 * @return array[] items for the city selector, will be empty if there are no cities in the database
 	 */
 	static public function populateCityList() {
 		$options = array();
 
-		$districts = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
-			->findAll('title');
-		foreach ($districts as $district) {
+		/** @var tx_realty_Mapper_City $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City');
+		$cities = $mapper->findAll('title');
+		/** @var tx_realty_Model_City $city */
+		foreach ($cities as $city) {
 			$options[] = array(
-				'value' => $district->getUid(),
-				'caption' => $district->getTitle(),
+				'value' => $city->getUid(),
+				'caption' => $city->getTitle(),
 			);
 		}
 
@@ -154,7 +155,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	/**
 	 * Creates a list of districts.
 	 *
-	 * @return array items for the district selector, will be empty if no city
+	 * @return array[] items for the district selector, will be empty if no city
 	 *               is selected of there are no districts for the selected city
 	 */
 	public function populateDistrictList() {
@@ -165,8 +166,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$options = array();
 
-		$districts = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-			->findAllByCityUidOrUnassigned($cityUid);
+		/** @var tx_realty_Mapper_District $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District');
+		$districts = $mapper->findAllByCityUidOrUnassigned($cityUid);
+		/** @var tx_realty_Model_District $district */
 		foreach ($districts as $district) {
 			$options[] = array(
 				'value' => $district->getUid(),
@@ -216,7 +219,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *        can be defined, If not set, the key 'title' is assumed to be the title. There may also be an element
 	 *        'has_dummy_column' which needs to be FALSE if the table has no column 'is_dummy_record'.
 	 *
-	 * @return array items for the select box, will be empty if there are no
+	 * @return array[] items for the select box, will be empty if there are no
 	 *               matching records or if the provided table name was invalid
 	 *
 	 * @throws tx_oelib_Exception_Database
@@ -335,9 +338,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			: array($formData['value']);
 
 		foreach ($valuesToCheck as $value) {
-			if (
-				!$this->isValidNonNegativeIntegerNumber(array('value' => $value))
-			) {
+			if (!$this->isValidNonNegativeIntegerNumber(array('value' => $value))) {
 				$result = FALSE;
 			}
 		}
@@ -1091,7 +1092,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @param tx_ameosformidable $formidable
 	 *        the FORMidable object for the AJAX call
 	 *
-	 * @return array calls to be executed on the client
+	 * @return array[] calls to be executed on the client
 	 */
 	static public function createNewDistrict(tx_ameosformidable $formidable) {
 		$formData = $formidable->oMajixEvent->getParams();
@@ -1112,9 +1113,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			);
 		};
 
+		/** @var tx_realty_Mapper_District $districtMapper */
+		$districtMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District');
+
 		try {
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-				->findByNameAndCityUid($title, $cityUid);
+			$districtMapper->findByNameAndCityUid($title, $cityUid);
 			// just closes the modal box; doesn't save the district if it
 			// already exists
 			return array(
@@ -1127,13 +1130,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$district = t3lib_div::makeInstance('tx_realty_Model_District');
 		$district->setData(array('pid' => self::getPageIdForAuxiliaryRecords()));
 		$district->setTitle($title);
+		/** @var tx_realty_Mapper_City $cityMapper */
+		$cityMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City');
 		/** @var $city tx_realty_Model_City */
-		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')->find(
-			$cityUid
-		);
+		$city = $cityMapper->find($cityUid);
 		$district->setCity($city);
 		$district->markAsDirty();
-		tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')->save($district);
+		$districtMapper->save($district);
 
 		return array(
 			$formidable->aORenderlets['newDistrictModalBox']->majixCloseBox(),
@@ -1153,8 +1156,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *        the entered form data, the key must be stripped of the
 	 *        "newDistrict" prefix, must not be empty
 	 *
-	 * @return array any error messages, will be empty if there are no
-	 *         validation errors
+	 * @return string[] any error messages, will be empty if there are no validation errors
 	 */
 	static private function validateDistrict(
 		tx_ameosformidable $formidable, array $formData
@@ -1292,9 +1294,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// The faked record is marked as a test record and no fields are
 		// required to be set.
 		$this->setFakedFormValue('is_dummy_record', 1);
-		$this->realtyObject = t3lib_div::makeInstance(
-			'tx_realty_Model_RealtyObject', $this->isTestMode
-		);
+		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->setRequiredFields(array());
 		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
 		$this->realtyObject->writeToDatabase();

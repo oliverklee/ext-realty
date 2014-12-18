@@ -24,7 +24,7 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView {
 	/**
 	 * Returns the HTML for an error view.
 	 *
-	 * @param array $errorMessage
+	 * @param string[] $errorMessage
 	 *        key of the error message to render (must be in the first element a numeric array, the rest is ignored)
 	 *
 	 * @return string HTML of the error message, will not be empty

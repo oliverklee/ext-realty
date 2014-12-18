@@ -35,6 +35,7 @@ class tx_realty_cli {
 	 */
 	public function main() {
 		try {
+			/** @var tx_realty_openImmoImport $importer */
 			$importer = t3lib_div::makeInstance('tx_realty_openImmoImport');
 			echo $importer->importFromZip();
 		} catch (Exception $exception) {
@@ -48,4 +49,6 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli.php']);
 }
 
-t3lib_div::makeInstance('tx_realty_cli')->main();
+/** @var tx_realty_cli $cli */
+$cli = t3lib_div::makeInstance('tx_realty_cli');
+$cli->main();

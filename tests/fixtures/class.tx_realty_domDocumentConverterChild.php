@@ -28,8 +28,8 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 	 *
 	 * @param array $arrayToExpand
 	 *        array into which the new element should be inserted, may be empty
-	 * @param string $key the key to insert, must not be empty
-	 * @param mixed $value the value to insert, may be empty or even NULL
+	 * @param string $keyToInsert the key to insert, must not be empty
+	 * @param mixed $valueToInsert the value to insert, may be empty or even NULL
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 	/**
 	 * Creates an array of image records for one realty record.
 	 *
-	 * @return array image records, will be empty if there are none
+	 * @return array[] image records, will be empty if there are none
 	 */
 	public function createRecordsForImages() {
 		return parent::createRecordsForImages();
@@ -49,7 +49,7 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 	/**
 	 * Creates an array of document records for one realty record.
 	 *
-	 * @return array
+	 * @return array[]
 	 *         document records, will be empty if there are none
 	 */
 	public function importDocuments() {
@@ -78,8 +78,7 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 	 *
 	 * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
 	 *
-	 * @return array attributes and attribute values, empty if there are
-	 *               no attributes
+	 * @return string[] attributes and attribute values, empty if there are no attributes
 	 */
 	public function fetchDomAttributes($nodeWithAttributes) {
 		return parent::fetchDomAttributes($nodeWithAttributes);

@@ -48,11 +48,12 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	 * @return string the contact data as HTML, will be empty if none was found
 	 */
 	private function fetchContactDataFromSource($uid) {
-		$offererList = t3lib_div::makeInstance(
-			'tx_realty_offererList', $this->conf, $this->cObj
-		);
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($uid);
+		/** @var tx_realty_offererList $offererList */
+		$offererList = t3lib_div::makeInstance('tx_realty_offererList', $this->conf, $this->cObj);
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($uid);
 
 		switch ($realtyObject->getProperty('contact_data_source')) {
 			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT:

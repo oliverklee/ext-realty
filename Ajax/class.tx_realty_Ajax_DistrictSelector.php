@@ -42,11 +42,13 @@ class tx_realty_Ajax_DistrictSelector {
 	static public function render($cityUid, $showWithNumbers = FALSE) {
 		$options = '<option value="0">&nbsp;</option>';
 
-		$objectMapper =
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Mapper_RealtyObject $objectMapper */
+		$objectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 
-		$districts = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-			->findAllByCityUidOrUnassigned($cityUid);
+		/** @var tx_realty_Mapper_District $districtMapper */
+		$districtMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District');
+		$districts = $districtMapper->findAllByCityUidOrUnassigned($cityUid);
+		/** @var tx_realty_Model_District $district */
 		foreach ($districts as $district) {
 			if ($showWithNumbers) {
 				$numberOfMatches = $objectMapper->countByDistrict($district);

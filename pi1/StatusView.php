@@ -31,8 +31,10 @@ class tx_realty_pi1_StatusView extends tx_realty_pi1_FrontEndView {
 	 * @return string HTML for this view, will not be empty
 	 */
 	public function render(array $piVars = array()) {
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->find($piVars['showUid']);
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($piVars['showUid']);
 
 		$statusClasses = array(
 			tx_realty_Model_RealtyObject::STATUS_VACANT => 'vacant',
@@ -45,6 +47,7 @@ class tx_realty_pi1_StatusView extends tx_realty_pi1_FrontEndView {
 			'statusclass', $statusClasses[$realtyObject->getStatus()]
 		);
 
+		/** @var tx_realty_pi1_Formatter $formatter */
 		$formatter = t3lib_div::makeInstance(
 			'tx_realty_pi1_Formatter',
 			$piVars['showUid'], $this->conf, $this->cObj

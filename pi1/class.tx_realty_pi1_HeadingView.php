@@ -31,10 +31,11 @@ class tx_realty_pi1_HeadingView extends tx_realty_pi1_FrontEndView {
 	 *                realty object with the provided UID has no title
 	 */
 	public function render(array $piVars = array()) {
-		$title = htmlspecialchars(
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($piVars['showUid'])->getProperty('title')
-		);
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($piVars['showUid']);
+		$title = htmlspecialchars($realtyObject->getProperty('title'));
 
 		$this->setOrDeleteMarkerIfNotEmpty('heading', $title, '', 'field_wrapper');
 

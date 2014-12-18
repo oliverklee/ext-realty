@@ -36,6 +36,7 @@ class tx_realty_cli_ImageCleanUpStarter {
 	 */
 	public function main() {
 		try {
+			/** @var tx_realty_cli_ImageCleanUp $cleanUp */
 			$cleanUp = t3lib_div::makeInstance('tx_realty_cli_ImageCleanUp');
 			$cleanUp->checkUploadFolder();
 			$cleanUp->hideUnusedImagesInDatabase();
@@ -54,4 +55,6 @@ if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php']);
 }
 
-t3lib_div::makeInstance('tx_realty_cli_ImageCleanUpStarter')->main();
+/** @var tx_realty_cli_ImageCleanUpStarter $starter */
+$starter = t3lib_div::makeInstance('tx_realty_cli_ImageCleanUpStarter');
+$starter->main();

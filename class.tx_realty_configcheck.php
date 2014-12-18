@@ -360,7 +360,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * @return void
 	 */
 	private function checkImageSizeValuesForListView() {
-		$imageSizeItems =  array (
+		$imageSizeItems = array(
 			'listImageMaxX',
 			'listImageMaxY'
 		);
@@ -382,7 +382,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * @return void
 	 */
 	private function checkImageSizeValuesForSingleView() {
-		$imageSizeItems =  array (
+		$imageSizeItems = array(
 			'singleImageMaxX',
 			'singleImageMaxY'
 		);

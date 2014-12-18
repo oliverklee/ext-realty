@@ -30,7 +30,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	const GEO_FUZZING_DISTANCE = .15;
 
 	/**
-	 * @var array collected map markers for the current view
+	 * @var tx_realty_mapMarker[]
 	 */
 	private $mapMarkers = array();
 
@@ -158,8 +158,10 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	protected function createMarkerFromCoordinates($realtyObjectUid, $createLink = FALSE) {
-		/** @var $realtyObject tx_realty_Model_RealtyObject */
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($realtyObjectUid);
+		/** @vartx_realty_Mapper_RealtyObject  $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($realtyObjectUid);
 		if ($realtyObject->hasGeoError()) {
 			return;
 		}
@@ -177,6 +179,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
+		/** @var tx_realty_mapMarker $mapMarker */
 		$mapMarker = t3lib_div::makeInstance('tx_realty_mapMarker');
 		$coordinates = $realtyObject->getGeoCoordinates();
 		$mapMarker->setCoordinates($coordinates['latitude'], $coordinates['longitude']);
@@ -207,8 +210,11 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		$separateSingleViewPage = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($realtyObjectUid)->getProperty('details_page');
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($realtyObjectUid);
+		$separateSingleViewPage = $realtyObject->getProperty('details_page');
 
 		if ($separateSingleViewPage != '') {
 			$result = $this->cObj->typoLink(

@@ -33,8 +33,9 @@ class tx_realty_cli_ImageCleanUp {
 	private $uploadFolder = tx_realty_Model_Image::UPLOAD_FOLDER;
 
 	/**
-	 * @var array associative array with statistical information collected
-	 *            during clean-up
+	 * associative array with statistical information collected during clean-up
+	 *
+	 * @var string[]
 	 */
 	private $statistics = array();
 

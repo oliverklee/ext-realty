@@ -116,15 +116,14 @@ class tx_realty_pi1_AccessCheck {
 	 * @return void
 	 */
 	private function realtyObjectExistsInDatabase($realtyObjectUid) {
-		if (($realtyObjectUid == 0)
-			|| tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->existsModel($realtyObjectUid, TRUE)
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		if (($realtyObjectUid == 0) || $mapper->existsModel($realtyObjectUid, TRUE)
 		) {
 			return;
 		}
 
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-			->addHeader('Status: 404 Not Found');
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader('Status: 404 Not Found');
 		throw new tx_oelib_Exception_AccessDenied('message_noResultsFound_fe_editor', 1333036458);
 	}
 
@@ -140,18 +139,21 @@ class tx_realty_pi1_AccessCheck {
 	 * @return void
 	 */
 	private function frontEndUserOwnsObject($realtyObjectUid) {
-		if (($realtyObjectUid == 0)
-			|| (tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-					->find($realtyObjectUid)->getProperty('owner')
-				== tx_oelib_FrontEndLoginManager::getInstance()
-					->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid()
-			)
-		) {
+		if ($realtyObjectUid == 0) {
 			return;
 		}
 
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-			->addHeader('Status: 403 Forbidden');
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $mapper->find($realtyObjectUid);
+		/** @var tx_realty_Model_FrontEndUser $loggedInUser */
+		$loggedInUser = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		if ($object->getProperty('owner') == $loggedInUser->getUid()) {
+			return;
+		}
+
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader('Status: 403 Forbidden');
 		throw new tx_oelib_Exception_AccessDenied('message_access_denied', 1333036471);
 	}
 

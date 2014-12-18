@@ -25,12 +25,12 @@ require_once(PATH_formidableapi);
  */
 class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	/**
-	 * @var tx_ameosformidable object that creates the form
+	 * @var tx_ameosformidable
 	 */
 	protected $formCreator = NULL;
 
 	/**
-	 * @var tx_realty_Model_RealtyObject realty object
+	 * @var tx_realty_Model_RealtyObject
 	 */
 	protected $realtyObject = NULL;
 
@@ -77,9 +77,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObjectUid = $uidOfObjectToEdit;
 		$this->xmlPath = $xmlPath;
 
-		$this->realtyObject = t3lib_div::makeInstance(
-			'tx_realty_Model_RealtyObject', $this->isTestMode
-		);
+		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, TRUE);
 
 		parent::__construct($configuration, $cObj);
@@ -239,9 +237,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObjectUid = $uid;
 
 		if ($this->realtyObject->getUid() != $uid) {
-			$this->realtyObject = t3lib_div::makeInstance(
-				'tx_realty_Model_RealtyObject', $this->isTestMode
-			);
+			$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 			$this->realtyObject->loadRealtyObject($this->realtyObjectUid, TRUE);
 		}
 	}

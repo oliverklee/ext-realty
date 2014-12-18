@@ -31,8 +31,10 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 *                with the provided UID has no data to show
 	 */
 	public function render(array $piVars = array()) {
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($piVars['showUid']);
+		$realtyObject = $mapper->find($piVars['showUid']);
 		$objectNumber = htmlspecialchars($realtyObject->getProperty('object_number'));
 
 		$hasObjectNumber = $this->setOrDeleteMarkerIfNotEmpty('object_number', $objectNumber, '', 'field_wrapper');
@@ -90,8 +92,10 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 			return array();
 		}
 
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->find($uid);
+		$realtyObject = $mapper->find($uid);
 
 		if ($this->getConfValueBoolean('priceOnlyIfAvailable') && $realtyObject->isRentedOrSold()) {
 			$fieldsToHideForThisType = array(

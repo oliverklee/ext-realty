@@ -49,7 +49,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	protected $currentView = '';
 
 	/**
-	 * @var array sort criteria that can be selected in the BE flexforms.
+	 * @var string[] sort criteria that can be selected in the BE flexforms.
 	 */
 	private static $sortCriteria = array(
 		'object_number',
@@ -128,9 +128,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	protected function setRealtyObjectFromUid($realtyObjectUid) {
 		// @todo This needs to be changed to use the data mapper.
-		$this->realtyObject = t3lib_div::makeInstance(
-			'tx_realty_Model_RealtyObject', $this->isTestMode
-		);
+		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->loadRealtyObject($realtyObjectUid, TRUE);
 	}
 
@@ -590,9 +588,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				' IN (' . $searchSelection . ')';
 		}
 
-		$filterForm = t3lib_div::makeInstance(
-			'tx_realty_filterForm', $this->conf, $this->cObj
-		);
+		/** @var tx_realty_filterForm $filterForm */
+		$filterForm = t3lib_div::makeInstance('tx_realty_filterForm', $this->conf, $this->cObj);
 		$whereClause .= $filterForm->getWhereClausePart($this->piVars);
 
 		return $whereClause;
@@ -716,7 +713,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * The URL will already be htmlspecialchared.
 	 *
 	 * @param bool $keepPiVars whether the current piVars should be kept
-	 * @param array $keysToRemove
+	 * @param string[] $keysToRemove
 	 *        the keys to remove from the piVar data before processing the URL,
 	 *        may be empty
 	 *
@@ -845,9 +842,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *                page, will not be empty
 	 */
 	private function getLinkedTitle() {
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')
-			->find($this->internal['currentRow']['uid']);
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($this->internal['currentRow']['uid']);
 
 		return $this->createLinkToSingleViewPage(
 			$realtyObject->getCroppedTitle(self::CROP_SIZE),
@@ -1058,8 +1056,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * Gets the selected values of the search checkboxes from
 	 * $this->piVars['search'].
 	 *
-	 * @return array array of unique, int-safe values from
-	 *               $this->piVars['search'], may be empty, but not NULL
+	 * @return int[] array of unique values from $this->piVars['search'], might be empty
 	 */
 	private function getSearchSelection() {
 		$result = array();
@@ -1289,7 +1286,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Sets the google maps marker content if it is enabled.
 	 *
-	 * @param array $shownObjectsUids
+	 * @param int[] $shownObjectsUids
 	 *        the UIDs of the objects to show on the map, may be empty
 	 *
 	 * @return void
@@ -1299,9 +1296,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			return;
 		}
 
+		/** @var tx_realty_pi1_GoogleMapsView $googleMapsView */
 		$googleMapsView = t3lib_div::makeInstance(
-			'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj,
-			$this->isTestMode
+			'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj, $this->isTestMode
 		);
 		foreach ($shownObjectsUids as $objectUid) {
 			$googleMapsView->setMapMarker($objectUid, TRUE);

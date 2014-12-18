@@ -76,24 +76,27 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			return FALSE;
 		}
 
-		$realtyObjectMapper = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject');
-
-		if (!$realtyObjectMapper->existsModel($uid, TRUE)
-			|| ($realtyObjectMapper->find($uid)->getProperty('deleted') == 1)
-		) {
+		/** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
+		$realtyObjectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		if (!$realtyObjectMapper->existsModel($uid, TRUE)) {
+			return FALSE;
+		}
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $realtyObjectMapper->find($uid);
+		if ($realtyObject->getProperty('deleted') == 1) {
 			return FALSE;
 		}
 
 		$result = FALSE;
 
-		if (!$realtyObjectMapper->find($uid)->isHidden()) {
+		if (!$realtyObject->isHidden()) {
 			$result = TRUE;
 		} else {
 			if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
-				$result = (tx_oelib_FrontEndLoginManager::getInstance()
-					->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid()
-					== $realtyObjectMapper->find($uid)->getProperty('owner')
+				/** @var tx_realty_Model_FrontEndUser $loggedInUser */
+				$loggedInUser = tx_oelib_FrontEndLoginManager::getInstance()
+					->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+				$result = ($loggedInUser->getUid() == $realtyObjectMapper->find($uid)->getProperty('owner')
 				);
 			}
 		}
@@ -132,7 +135,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			}
 		}
 
-		$this->hideActionButtonsIfNeccessary($configuredViews);
+		$this->hideActionButtonsIfNecessary($configuredViews);
 		// Sets an additional class name if the "image thumbnails" view
 		// is activated.
 		$this->setMarker(
@@ -154,8 +157,11 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	private function setPageTitle($uid) {
-		$title = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($uid)->getProperty('title');
+		/** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $mapper->find($uid);
+		$title = $realtyObject->getProperty('title');
 		if ($title == '') {
 			return;
 		}
@@ -178,6 +184,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 *                requested view
 	 */
 	private function getView($uid, $viewName) {
+		/** @var tx_realty_pi1_FrontEndView $view */
 		$view = t3lib_div::makeInstance(
 			'tx_realty_pi1_' . ucfirst($viewName) . 'View',
 			$this->conf, $this->cObj, $this->isTestMode
@@ -185,6 +192,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$view->piVars = $this->piVars;
 
 		if ($viewName == 'googleMaps') {
+			/** tx_realty_pi1_GoogleMapsView $view */
 			$view->setMapMarker($uid);
 		}
 
@@ -195,11 +203,12 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 * Hides the subpart actionButtons if the three action buttons
 	 * 'addToFavorites', 'printPage' and 'back' are hidden.
 	 *
-	 * @param array $displayedViews the views which are displayed, may be empty
+	 * @param string[] $displayedViews the views which are displayed, may be empty
 	 *
 	 * @return void
 	 */
-	private function hideActionButtonsIfNeccessary(array $displayedViews) {
+	private function hideActionButtonsIfNecessary(array $displayedViews) {
+		/** @var tx_oelib_Visibility_Tree $visibilityTree */
 		$visibilityTree = t3lib_div::makeInstance(
 			'tx_oelib_Visibility_Tree',
 			array('actionButtons' => array(

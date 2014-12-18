@@ -24,7 +24,7 @@
  */
 class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_realty_domDocumentConverter
+	 * @var tx_realty_domDocumentConverterChild
 	 */
 	private $fixture = NULL;
 
@@ -40,7 +40,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 *
 	 * @var array
 	 */
-	private $graphicsConfigurationBackup;
+	private $graphicsConfigurationBackup = array();
 
 	protected function setUp() {
 		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
@@ -491,7 +491,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
 	 * data provider for all fields converted to HTML
 	 *
-	 * @return array
+	 * @return array[]
 	 */
 	public function htmlFieldsDataProvider() {
 		return array(

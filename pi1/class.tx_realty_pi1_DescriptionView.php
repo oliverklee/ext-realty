@@ -30,10 +30,11 @@ class tx_realty_pi1_DescriptionView extends tx_realty_pi1_FrontEndView {
 	 *                realty object with the provided UID has no description
 	 */
 	public function render(array $piVars = array()) {
-		$description = $this->pi_RTEcssText(
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-				->find($piVars['showUid'])->getProperty('description')
-		);
+		/** @var tx_realty_Mapper_RealtyObject $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $mapper->find($piVars['showUid']);
+		$description = $this->pi_RTEcssText($object->getProperty('description'));
 
 		$this->setOrDeleteMarkerIfNotEmpty(
 			'description', $description, '', 'field_wrapper'

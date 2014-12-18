@@ -67,12 +67,13 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * @return int the total number of rendered images, will be >= 0
 	 */
 	private function renderImages() {
-		tx_realty_lightboxIncluder::includeLightboxFiles(
-			$this->prefixId, $this->extKey
-		);
+		tx_realty_lightboxIncluder::includeLightboxFiles($this->prefixId, $this->extKey);
 
-		$allImages = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->find($this->getUid())->getImages();
+		/** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
+		$realtyObjectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $realtyObjectMapper->find($this->getUid());
+		$allImages = $realtyObject->getImages();
 
 		$imagesByPosition = array();
 		$usedPositions = max(
@@ -83,12 +84,14 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 			$imagesByPosition[$i] = array();
 		}
 
+		/** @var tx_realty_Model_Image $image */
 		foreach ($allImages as $image) {
 			$position = $image->getPosition();
 
 			$imagesByPosition[$position][] = $image;
 		}
 
+		/** @var tx_realty_Model_Image[] $images */
 		foreach ($imagesByPosition as $position => $images) {
 			$this->renderImagesInPosition($position, $images);
 		}
@@ -101,7 +104,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * subpart in the template.
 	 *
 	 * @param int $position the zero-based position index of the images
-	 * @param array<tx_realty_Model_Image> $images
+	 * @param tx_realty_Model_Image[] $images
 	 *        the images to render, must all be in position $position
 	 *
 	 * @return void
@@ -119,9 +122,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 
 		$result = '';
 		foreach ($images as $image) {
-			$configuration = $this->getImageConfigurationForContainer(
-				$position
-			);
+			$configuration = $this->getImageConfigurationForContainer($position);
 			$currentImage = $configuration['enableLightbox']
 				? $this->createLightboxThumbnail($image)
 				: $this->createThumbnail($image);
@@ -259,7 +260,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * @param int $containerIndex
 	 *        index of the image container, must be >= 0
 	 *
-	 * @return array
+	 * @return string[]
 	 *         the configuration for the image container with the requested
 	 *         index using the array keys "enableLightbox", "singleImageMaxX",
 	 *         "singleImageMaxY", "lightboxImageWidthMax" and

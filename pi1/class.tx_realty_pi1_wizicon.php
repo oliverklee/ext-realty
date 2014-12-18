@@ -21,9 +21,9 @@ class tx_realty_pi1_wizicon {
 	/**
 	 * Processing the wizard items array
 	 *
-	 * @param array $wizardItems the wizard items, may be empty
+	 * @param array[] $wizardItems the wizard items, may be empty
 	 *
-	 * @return array modified array with wizard items
+	 * @return array[] modified array with wizard items
 	 */
 	public function proc(array $wizardItems) {
 		global $LANG;
@@ -45,12 +45,12 @@ class tx_realty_pi1_wizicon {
 	 * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found
 	 * in that file.
 	 *
-	 * @return array The array with language labels
+	 * @return array[] the language labels
 	 */
 	public function includeLocalLang() {
 		$languageFile = t3lib_extMgm::extPath('realty') . 'locallang.xml';
 		if (class_exists('t3lib_l10n_parser_Llxml')) {
-			/** @var $xmlParser t3lib_l10n_parser_Llxml */
+			/** @var t3lib_l10n_parser_Llxml $xmlParser */
 			$xmlParser = t3lib_div::makeInstance('t3lib_l10n_parser_Llxml');
 			$localLanguage = $xmlParser->getParsedData($languageFile, $GLOBALS['LANG']->lang);
 		} else {

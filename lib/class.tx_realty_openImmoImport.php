@@ -56,17 +56,17 @@ class tx_realty_openImmoImport {
 	private $globalConfiguration = NULL;
 
 	/**
-	 * @var tx_realty_Model_RealtyObject inserts OpenImmo records to database
+	 * @var tx_realty_Model_RealtyObject
 	 */
 	private $realtyObject = NULL;
 
 	/**
-	 * @var tx_realty_translator a cached translator instance
+	 * @var tx_realty_translator
 	 */
 	private static $translator = NULL;
 
 	/**
-	 * @var tx_realty_fileNameMapper gets the unique names tor the images
+	 * @var tx_realty_fileNameMapper
 	 */
 	private $fileNameMapper = NULL;
 
@@ -81,7 +81,7 @@ class tx_realty_openImmoImport {
 	private $deleteCurrentZipFile = TRUE;
 
 	/**
-	 * @var array ZIP archives which are deleted at the end of import and
+	 * @var string[] ZIP archives which are deleted at the end of import and
 	 *            folders which were created during the import.
 	 *            Archives are added to this array if they contain exactly one
 	 *            XML file as this is the criterion for trying to import the
@@ -188,7 +188,7 @@ class tx_realty_openImmoImport {
 	 * @return tx_realty_translator the cached translator object
 	 */
 	private function getTranslator() {
-		if (!self::$translator) {
+		if (self::$translator === NULL) {
 			self::$translator = t3lib_div::makeInstance('tx_realty_translator');
 		}
 
@@ -204,7 +204,7 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $currentZip path of the current ZIP file, only used for log, may be empty
 	 *
-	 * @return array Two dimensional array of e-mail data. Each inner
+	 * @return array[] Two-dimensional array of e-mail data. Each inner
 	 *               array has the elements 'recipient', 'objectNumber',
 	 *               'logEntry' and 'errorLog'. Will be empty if there
 	 *               are no records to insert.
@@ -624,7 +624,7 @@ class tx_realty_openImmoImport {
 	 * @param string $email e-mail address, may be empty
 	 * @param string $objectNumber object number, may be empty
 	 *
-	 * @return array e-mail raw data, contains the elements 'recipient',
+	 * @return string[] e-mail raw data, contains the elements 'recipient',
 	 *               'objectNumber', 'logEntry' and 'errorLog', will not
 	 *               be empty
 	 */
@@ -645,11 +645,11 @@ class tx_realty_openImmoImport {
 	 * If 'onlyErrors' is enabled in EM, the messages will just contain error
 	 * messages and no information about success.
 	 *
-	 * @param array $emailData
+	 * @param array[] $emailData
 	 *        Two-dimensional array of e-mail data. Each inner array has the elements 'recipient', 'objectNumber', 'logEntry' and
 	 *        'errorLog'. May be empty.
 	 *
-	 * @return array Three dimensional array with e-mail addresses as
+	 * @return array[] Three -dimensional array with e-mail addresses as
 	 *               keys of the outer array. Innermost there is an array
 	 *               with only one element: Object number as key and the
 	 *               corresponding log information as value. This array
@@ -699,9 +699,9 @@ class tx_realty_openImmoImport {
 	 * key and if those arrays contain the elements 'recipient', 'objectNumber',
 	 * 'logEntry' and 'errorLog' as keys.
 	 *
-	 * @param array $emailData
-	 *        e-mail data array to validate with arrays as values for each numeric key and if those arrays contain the elements
-	 *        'recipient', 'objectNumber', 'logEntry' and 'errorLog' as keys, may be empty
+	 * @param array[] $emailData
+	 *        e-mail data array to validate with arrays as values for each numeric key and if those arrays contain the
+	 *        elements 'recipient', 'objectNumber', 'logEntry' and 'errorLog' as keys, may be empty
 	 *
 	 * @return bool TRUE if the structure of the array is valid, FALSE
 	 *                 otherwise
@@ -739,7 +739,7 @@ class tx_realty_openImmoImport {
 	 * Messages could only be empty if 'onlyErrors' is activated in the EM
 	 * configuration.
 	 *
-	 * @param array &$emailData prepared e-mail data, must not be empty
+	 * @param array[] &$emailData prepared e-mail data, must not be empty
 	 *
 	 * @return void
 	 */
@@ -757,7 +757,7 @@ class tx_realty_openImmoImport {
 	 * Deletes e-mail recipients from a $emailData if are no records to report
 	 * about.
 	 *
-	 * @param array &$emailData prepared e-mail data, must not be empty
+	 * @param array[] &$emailData prepared e-mail data, must not be empty
 	 *
 	 * @return void
 	 */
@@ -773,7 +773,7 @@ class tx_realty_openImmoImport {
 	 * Fills a template file, which has already been included, with data for one
 	 * e-mail.
 	 *
-	 * @param array $recordsForOneEmail
+	 * @param array[] $recordsForOneEmail
 	 *        Wrapped message content for one e-mail: Each object number-message pair is wrapped by a numeric key as object
 	 *        numbers are not necessarily unique. Must not be empty.
 	 *
@@ -782,12 +782,7 @@ class tx_realty_openImmoImport {
 	private function fillEmailTemplate($recordsForOneEmail) {
 		/** @var $template Tx_Oelib_TemplateHelper */
 		$template = t3lib_div::makeInstance('Tx_Oelib_TemplateHelper');
-		$template->init(
-			array(
-				'templateFile' =>
-					$this->globalConfiguration->getAsString('emailTemplate')
-			)
-		);
+		$template->init(array('templateFile' => $this->globalConfiguration->getAsString('emailTemplate')));
 		$template->getTemplateCode();
 		$contentItem = array();
 
@@ -823,7 +818,7 @@ class tx_realty_openImmoImport {
 	 * If there is no default address configured in the EM, no messages will be
 	 * sent at all.
 	 *
-	 * @param array $addressesAndMessages
+	 * @param array[] $addressesAndMessages
 	 *        Three-dimensional array with e-mail addresses as keys of the outer array. Innermost there is an array with only one
 	 *        element: Object number as key and the corresponding log information as value. This array is wrapped by a numeric
 	 *        array as object numbers are not necessarily unique. Must not be empty.
@@ -890,16 +885,13 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $importDirectory absolute path of the directory which contains the ZIPs, must not be empty
 	 *
-	 * @return array absolute paths of ZIPs in the import folder,
-	 *               might be empty
+	 * @return string[] absolute paths of ZIPs in the import folder, might be empty
 	 */
 	protected function getPathsOfZipsToExtract($importDirectory) {
 		$result = array();
 
 		if (is_dir($importDirectory)) {
-			$result = t3lib_div::getAllFilesAndFoldersInPath(
-				array(), $importDirectory, 'zip'
-			);
+			$result = t3lib_div::getAllFilesAndFoldersInPath(array(), $importDirectory, 'zip');
 		}
 
 		return $result;
@@ -1099,9 +1091,9 @@ class tx_realty_openImmoImport {
 			$validationResult = 'message_validation_impossible';
 		} elseif (!$this->importedXml->schemaValidate($schemaFile)) {
 			$errors = libxml_get_errors();
+			/** @var LibXMLError $error */
 			foreach ($errors as $error) {
-				$validationResult
-					.= $this->getTranslator()->translate('message_line') .
+				$validationResult .= $this->getTranslator()->translate('message_line') .
 						' ' . $error->line . ': ' . $error->message;
 			}
 		}
@@ -1161,7 +1153,7 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $pathOfZip
 	 *        path of the extracted ZIP archive, must not be empty
-	 * @param array $realtyRecords
+	 * @param array[] $realtyRecords
 	 *        realty record data derived from the XML file, must not be empty
 	 *
 	 * @return void
@@ -1170,6 +1162,7 @@ class tx_realty_openImmoImport {
 		$folderWithImages = $this->getNameForExtractionFolder($pathOfZip);
 		$imagesNotToCopy = $this->findFileNamesOfDeletedRecords($realtyRecords);
 
+		/** @var string[] $lowercaseFileExtensions */
 		$lowercaseFileExtensions = t3lib_div::trimExplode(
 			',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE
 		);
@@ -1191,10 +1184,9 @@ class tx_realty_openImmoImport {
 				continue;
 			}
 
+			/** @var string $file */
 			foreach ($files as $file) {
-				$uniqueFileNames = $this->fileNameMapper->releaseMappedFileNames(
-					basename($file)
-				);
+				$uniqueFileNames = $this->fileNameMapper->releaseMappedFileNames(basename($file));
 
 				foreach ($uniqueFileNames as $uniqueName) {
 					if (!in_array($uniqueName, $imagesNotToCopy)) {
@@ -1210,9 +1202,9 @@ class tx_realty_openImmoImport {
 	 * the uploads folder because their corresponding realty records are marked
 	 * as deleted.
 	 *
-	 * @param array $records realty records, must not be empty
+	 * @param array[] $records realty records, must not be empty
 	 *
-	 * @return array names files which must not be copied
+	 * @return string[] names files which must not be copied
 	 */
 	private function findFileNamesOfDeletedRecords(array $records) {
 		$filesNotToCopy = array();
@@ -1223,6 +1215,7 @@ class tx_realty_openImmoImport {
 					$filesNotToCopy[] = $image['image'];
 				}
 				if (isset($record['documents']) && is_array($record['documents'])) {
+					/** @var string[] $document */
 					foreach ($record['documents'] as $document) {
 						$filesNotToCopy[] = $document['filename'];
 					}
@@ -1294,18 +1287,15 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param DOMDocument $realtyRecords which contains realty records, can be NULL
 	 *
-	 * @return array $realtyRecords realty records in an array, will be empty if the data was not convertible
+	 * @return array[] $realtyRecords realty records in an array, will be empty if the data was not convertible
 	 */
-	protected function convertDomDocumentToArray(
-		DOMDocument $realtyRecords = NULL
-	) {
+	protected function convertDomDocumentToArray(DOMDocument $realtyRecords = NULL) {
 		if ($realtyRecords === NULL) {
 			return array();
 		}
 
-		$domDocumentConverter = t3lib_div::makeInstance(
-			'tx_realty_domDocumentConverter', $this->fileNameMapper
-		);
+		/** @var tx_realty_domDocumentConverter $domDocumentConverter */
+		$domDocumentConverter = t3lib_div::makeInstance('tx_realty_domDocumentConverter', $this->fileNameMapper);
 
 		return $domDocumentConverter->getConvertedData($realtyRecords);
 	}
@@ -1404,7 +1394,7 @@ class tx_realty_openImmoImport {
 	 * Gets the required fields of a realty object.
 	 * This function is needed for unit testing only.
 	 *
-	 * @return array required fields, may be empty if no fields are
+	 * @return string[] required fields, may be empty if no fields are
 	 *               required or if the realty object is not initialized
 	 */
 	protected function getRequiredFields() {

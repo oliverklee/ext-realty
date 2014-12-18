@@ -80,6 +80,7 @@ class tx_realty_BackEnd_TcaTest extends tx_phpunit_testcase {
 		$cities = new tx_oelib_List();
 		$cities->add($city);
 
+		/** @var tx_realty_Mapper_District|PHPUnit_Framework_MockObject_MockObject $mapper */
 		$mapper = $this->getMock(
 			'tx_realty_Mapper_District', array('findAllByCityUidOrUnassigned')
 		);

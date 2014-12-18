@@ -32,8 +32,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_realty_Model_District';
 
 	/**
-	 * @var array the (possible) relations of the created models in the format
-	 *            DB column name => mapper name
+	 * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
 	 */
 	protected $relations = array(
 		'city' => 'tx_realty_Mapper_City',
@@ -168,7 +167,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * Caches a model by additional combined keys.
 	 *
 	 * @param tx_oelib_Model $model the model to cache
-	 * @param array $data the data of the model as it is in the DB, must not be empty
+	 * @param string[] $data the data of the model as it is in the DB, must not be empty
 	 *
 	 * @return void
 	 */

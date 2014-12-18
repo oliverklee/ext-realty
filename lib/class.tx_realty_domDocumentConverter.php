@@ -34,6 +34,8 @@ class tx_realty_domDocumentConverter {
 	 * name differ.
 	 * The database column names are the keys of the outer array, their values
 	 * are arrays which have the category as key and the property as value.
+	 *
+	 * @var array[]
 	 */
 	protected $propertyArray = array(
 		// OpenImmo tag for 'starttime' could possibly be 'beginn_bietzeit'.
@@ -149,7 +151,9 @@ class tx_realty_domDocumentConverter {
 	 */
 	private $recordNumber = 0;
 
-	/** @var array cached countries */
+	/**
+	 * @var int[]
+	 */
 	private static $cachedCountries = array();
 
 	/**
@@ -160,7 +164,7 @@ class tx_realty_domDocumentConverter {
 	private $fileNameMapper = NULL;
 
 	/**
-	 * @var tx_realty_translator a translator for localized strings
+	 * @var tx_realty_translator
 	 */
 	private static $translator = NULL;
 
@@ -198,8 +202,7 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * @param DOMDocument $domDocument data to convert, must not be NULL
 	 *
-	 * @return array data of each realty record, will be empty if the
-	 *               passed DOMDocument could not be converted
+	 * @return array[] data of each realty record, will be empty if the passed DOMDocument could not be converted
 	 */
 	public function getConvertedData(DOMDocument $domDocument) {
 		$this->setRawRealtyData($domDocument);
@@ -278,16 +281,16 @@ class tx_realty_domDocumentConverter {
 	 * returns them in an array. These nodes must only occur once in an OpenImmo
 	 * record.
 	 *
-	 * @return array contains the elements 'employer' and 'openimmo_anid', will
-	 *               be empty if the nodes were not found
+	 * @return string[] contains the elements 'employer' and 'openimmo_anid', will be empty if the nodes were not found
 	 */
 	private function fetchEmployerAndAnid() {
 		$result = array();
 
-		foreach (array(
+		$columnNames = array(
 			'firma' => 'employer',
-			'openimmo_anid' => 'openimmo_anid'
-		) as $grandchild => $columnName) {
+			'openimmo_anid' => 'openimmo_anid',
+		);
+		foreach ($columnNames as $grandchild => $columnName) {
 			$nodeList = $this->getNodeListFromRawData('anbieter', $grandchild);
 			$this->addElementToArray(
 				$result,
@@ -561,7 +564,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Creates an array of image records for one realty record.
 	 *
-	 * @return array image records, will be empty if there are none
+	 * @return array[] image records, will be empty if there are none
 	 */
 	protected function createRecordsForImages() {
 		$imageExtensions = t3lib_div::trimExplode(
@@ -585,6 +588,7 @@ class tx_realty_domDocumentConverter {
 			'anhang', '', $listedRealties->item($this->recordNumber)
 		);
 
+		/** @var DOMNode $contextNode */
 		foreach ($attachments as $contextNode) {
 			$titleNodeList = $this->getNodeListFromRawData(
 				'anhangtitel', '', $contextNode
@@ -631,8 +635,7 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Creates an array of document records for one realty record.
 	 *
-	 * @return array
-	 *         document records, will be empty if there are none
+	 * @return array[] document records, will be empty if there are none
 	 */
 	protected function importDocuments() {
 		$listedRealties = $this->getListedRealties();
@@ -645,6 +648,7 @@ class tx_realty_domDocumentConverter {
 		);
 
 		$documents = array();
+		/** @var DOMNode $contextNode */
 		foreach ($attachments as $contextNode) {
 			$titleNodeList = $this->getNodeListFromRawData(
 				'anhangtitel', '', $contextNode
@@ -742,7 +746,8 @@ class tx_realty_domDocumentConverter {
 			'objektkategorie',
 			'nutzungsart'
 		);
-		foreach ($this->fetchDomAttributes($nodes) as $key => $value) {
+		$domAttributes = $this->fetchDomAttributes($nodes);
+		foreach ($domAttributes as $key => $value) {
 			if ($this->isBooleanLikeStringTrue($value)) {
 				$utilizationAttributes[] = $key;
 			}
@@ -1228,7 +1233,7 @@ class tx_realty_domDocumentConverter {
 	 * Returns a comma-separated list of an array. The first letter of each word
 	 * is uppercased.
 	 *
-	 * @param array $dataToFormat data to format, must not be empty
+	 * @param string[] $dataToFormat data to format, must not be empty
 	 *
 	 * @return string formatted string
 	 */
@@ -1348,7 +1353,7 @@ class tx_realty_domDocumentConverter {
 	 * Adds a new element $value to the array $arrayExpand, using the key $key.
 	 * The element will not be added if is NULL.
 	 *
-	 * @param array $arrayToExpand
+	 * @param string[] $arrayToExpand
 	 *        array into which the new element should be inserted, may be empty
 	 * @param string $key the key to insert, must not be empty
 	 * @param mixed $value the value to insert, may be empty or even NULL
@@ -1417,7 +1422,7 @@ class tx_realty_domDocumentConverter {
 	 * Checks whether an element exists in an array and is non-empty.
 	 *
 	 * @param string $key key of the element that should be checked to exist and being non-empty, must not be empty
-	 * @param array $array array in which the existance of an element should be checked, may be empty
+	 * @param array $array array in which the existence of an element should be checked, may be empty
 	 *
 	 * @return bool TRUE if the the element exists and is non-empty,
 	 *                 FALSE otherwise
@@ -1432,8 +1437,7 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
 	 *
-	 * @return array attributes and attribute values, empty if there are
-	 *               no attributes
+	 * @return string[] attributes and attribute values, empty if there are no attributes
 	 */
 	protected function fetchDomAttributes($nodeWithAttributes) {
 		if (!$nodeWithAttributes) {
@@ -1443,6 +1447,7 @@ class tx_realty_domDocumentConverter {
 		$fetchedValues = array();
 		$attributeToFetch = $nodeWithAttributes->attributes;
 		if ($attributeToFetch) {
+			/** @var DOMAttr $domObject */
 			foreach ($attributeToFetch as $domObject) {
 				$fetchedValues[$domObject->name] = $domObject->value;
 			}
@@ -1458,7 +1463,7 @@ class tx_realty_domDocumentConverter {
 	 *
 	 * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
 	 *
-	 * @return array lowercased attributes and attribute values, empty if
+	 * @return string[] lowercased attributes and attribute values, empty if
 	 *               there are no attributes
 	 */
 	private function fetchLowercasedDomAttributes($nodeWithAttributes) {

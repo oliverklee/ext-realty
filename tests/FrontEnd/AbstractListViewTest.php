@@ -254,7 +254,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	/**
 	 * Callback function for creating mock typolink URLs.
 	 *
-	 * @param array $linkProperties
+	 * @param string[] $linkProperties
 	 *        TypoScript properties for "typolink", must at least contain the
 	 *        key 'parameter'
 	 *
