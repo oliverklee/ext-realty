@@ -68,9 +68,10 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 			'tx_realty_objects', array('title' => 'foo', 'owner' => $ownerUid)
 		);
 
+		/** @var tx_realty_Model_RealtyObject $model */
+		$model = $this->fixture->find($objectUid);
 		$this->assertTrue(
-			$this->fixture->find($objectUid)->getOwner()
-				instanceof tx_realty_Model_FrontEndUser
+			$model->getOwner() instanceof tx_realty_Model_FrontEndUser
 		);
 	}
 

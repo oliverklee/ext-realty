@@ -63,9 +63,11 @@ class tx_realty_Mapper_CityTest extends tx_phpunit_testcase {
 			'tx_realty_cities', array('title' => 'London')
 		);
 
+		/** @var tx_realty_Model_City $model */
+		$model = $this->fixture->find($uid);
 		$this->assertEquals(
 			'London',
-			$this->fixture->find($uid)->getTitle()
+			$model->getTitle()
 		);
 	}
 
@@ -108,9 +110,11 @@ class tx_realty_Mapper_CityTest extends tx_phpunit_testcase {
 			'tx_realty_cities', array('title' => 'Kleinwurzeling')
 		);
 
+		/** @var tx_realty_Model_City $model */
+		$model = $this->fixture->findByName('Kleinwurzeling');
 		$this->assertEquals(
 			$uid,
-			$this->fixture->findByName('Kleinwurzeling')->getUid()
+			$model->getUid()
 		);
 	}
 

@@ -171,16 +171,19 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	public function createObjectWithOwnerCanStoreUsernameForUser() {
 		$this->createObjectWithOwner(array('username' => 'foo'));
 
+		/** @var tx_realty_Mapper_FrontEndUser $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = $mapper->find($this->ownerUid);
 		$this->assertEquals(
 			'foo',
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-				->find($this->ownerUid)->getUserName()
+			$user->getUserName()
 		);
 	}
 
 
 	////////////////////////////////////////
-	// Tests concering basic functionality
+	// Tests concerning basic functionality
 	////////////////////////////////////////
 
 	/**

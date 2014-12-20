@@ -62,9 +62,11 @@ class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
 			'tx_realty_images', array('caption' => 'a nice green lawn')
 		);
 
+		/** @var tx_realty_Model_Image $model */
+		$model = $this->fixture->find($uid);
 		$this->assertEquals(
 			'a nice green lawn',
-			$this->fixture->find($uid)->getTitle()
+			$model->getTitle()
 		);
 	}
 

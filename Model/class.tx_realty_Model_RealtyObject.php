@@ -980,6 +980,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	protected function discardExistingImages() {
 		/** @var tx_realty_Mapper_Image $mapper */
 		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		/** @var tx_realty_Model_Image $image */
 		foreach ($mapper->findAllByRelation($this, 'object') as $image) {
 			$mapper->delete($image);
  		}

@@ -4220,7 +4220,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			array('title' => 'Berlin')
 		);
 		$this->fixture->setData(array('city' => $cityUid));
-		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+		/** @var tx_realty_Mapper_City $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City');
+		/** @var tx_realty_Model_City $city */
+		$city = $mapper->find($cityUid);
 
 		$this->assertSame(
 			$city,
@@ -4270,7 +4273,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	public function getCountryForExistingCountryReturnsCountry() {
 		$this->fixture->setData(array('country' => self::DE));
-		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(self::DE);
+		/** @var tx_oelib_Mapper_Country $mapper */
+		$mapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country');
+		/** @var tx_oelib_Model_Country $country */
+		$country = $mapper->find(self::DE);
 
 		$this->assertSame(
 			$country,

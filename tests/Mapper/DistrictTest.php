@@ -63,9 +63,11 @@ class tx_realty_Mapper_DistrictTest extends tx_phpunit_testcase {
 			'tx_realty_districts', array('title' => 'Bad Godesberg')
 		);
 
+		/** @var tx_realty_Model_District $model */
+		$model = $this->fixture->find($uid);
 		$this->assertEquals(
 			'Bad Godesberg',
-			$this->fixture->find($uid)->getTitle()
+			$model->getTitle()
 		);
 	}
 

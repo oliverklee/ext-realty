@@ -62,9 +62,11 @@ class tx_realty_Mapper_DocumentTest extends tx_phpunit_testcase {
 			'tx_realty_documents', array('title' => 'an important document')
 		);
 
+		/** @var tx_realty_Model_Document $model */
+		$model = $this->fixture->find($uid);
 		$this->assertEquals(
 			'an important document',
-			$this->fixture->find($uid)->getTitle()
+			$model->getTitle()
 		);
 	}
 
