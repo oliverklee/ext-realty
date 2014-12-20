@@ -112,7 +112,6 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		$generalGoogleMapsJavaScript = '<script type="text/javascript" ' .
 			'src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>' . LF;
 		$createMapJavaScript = '<script type="text/javascript">' . LF .
-			'/*<![CDATA[*/' . LF .
 			'function initializeMap() {' . LF .
 			'var mapOptions = {' . LF .
 			'zoom: ' . self::ZOOM_FOR_SINGLE_MARKER . ',' . LF .
@@ -138,7 +137,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			$createMapJavaScript .= 'map.fitBounds(bounds);' . LF;
 		}
 
-		$createMapJavaScript .= '}' . LF . '/*]]>*/</script>';
+		$createMapJavaScript .= '}' . LF . '</script>';
 		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'] = $generalGoogleMapsJavaScript . $createMapJavaScript;
 
 		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_maps'] = 'initializeMap();';

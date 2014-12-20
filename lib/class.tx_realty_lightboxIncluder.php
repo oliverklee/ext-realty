@@ -105,7 +105,7 @@ class tx_realty_lightboxIncluder {
 		$translator = t3lib_div::makeInstance('tx_realty_translator');
 
 		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox_config']
-			= '<script type="text/javascript">/*<![CDATA[*/' .
+			= '<script type="text/javascript">' .
 			'LightboxOptions = Object.extend({' .
 				'fileLoadingImage: \''.
 					t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
@@ -127,7 +127,7 @@ class tx_realty_lightboxIncluder {
 				'labelImage: "' . $translator->translate('label_lightbox_image') . '",' .
 				'labelOf: "'. $translator->translate('label_lightbox_of') .'"' .
 			'}, window.LightboxOptions || {});' .
-		'/*]]>*/</script>';
+		'</script>';
 
 		unset($translator);
 	}
