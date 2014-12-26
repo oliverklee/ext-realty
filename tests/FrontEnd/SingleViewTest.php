@@ -59,9 +59,12 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 				'overviewTable,imageThumbnails,addToFavoritesButton,' .
 				'contactButton,offerer,status,printPageButton,backButton'
 		);
-		$this->dummyCityUid = $this->testingFramework->createRecord(
-			'tx_realty_cities'
-		);
+		$this->dummyCityUid = $this->testingFramework->createRecord('tx_realty_cities');
+
+		$pluginConfiguration = new Tx_Oelib_Configuration();
+		Tx_Oelib_ConfigurationRegistry::getInstance()->set('plugin.tx_realty_pi1', $pluginConfiguration);
+		$imagesConfiguration = new Tx_Oelib_Configuration();
+		Tx_Oelib_ConfigurationRegistry::getInstance()->set('plugin.tx_realty_pi1.images', $imagesConfiguration);
 	}
 
 	protected function tearDown() {

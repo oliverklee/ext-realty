@@ -210,27 +210,20 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	private function createImageConfiguration() {
-		$configuration = tx_oelib_ConfigurationRegistry
-			::get('plugin.tx_realty_pi1');
+		$configuration = tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1');
 
 		$highestPositionIndex = $this->findHighestConfiguredPositionIndex();
 		for ($position = 0; $position <= $highestPositionIndex; $position++) {
 			$accumulatedConfiguration = array(
-				'enableLightbox'
-					=> $configuration->getAsBoolean('enableLightbox'),
-				'thumbnailSizeX'
-					=> $configuration->getAsInteger('singleImageMaxX'),
-				'thumbnailSizeY'
-					=> $configuration->getAsInteger('singleImageMaxY'),
-				'lightboxSizeX'
-					=> $configuration->getAsInteger('lightboxImageWidthMax'),
-				'lightboxSizeY'
-					 => $configuration->getAsInteger('lightboxImageHeightMax'),
+				'enableLightbox' => $configuration->getAsBoolean('enableLightbox'),
+				'thumbnailSizeX' => $configuration->getAsInteger('singleImageMaxX'),
+				'thumbnailSizeY' => $configuration->getAsInteger('singleImageMaxY'),
+				'lightboxSizeX' => $configuration->getAsInteger('lightboxImageWidthMax'),
+				'lightboxSizeY' => $configuration->getAsInteger('lightboxImageHeightMax'),
 			);
 
 			if ($position > 0) {
-				$specificConfiguration = tx_oelib_ConfigurationRegistry
-					::get('plugin.tx_realty_pi1.images')
+				$specificConfiguration = tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
 					->getAsMultidimensionalArray($position . '.');
 				if (isset($specificConfiguration['enableLightbox'])) {
 					$accumulatedConfiguration['enableLightbox'] = (bool) $specificConfiguration['enableLightbox'];
