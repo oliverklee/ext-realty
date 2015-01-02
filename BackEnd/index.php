@@ -20,8 +20,4 @@ $LANG->includeLLFile('EXT:realty/BackEnd/locallang.xml');
 $SOBE = t3lib_div::makeInstance('tx_realty_BackEnd_Module');
 $SOBE->init();
 
-foreach($SOBE->include_once as $INC_FILE) {
-	include_once($INC_FILE);
-}
-
 echo $SOBE->render();

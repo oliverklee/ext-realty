@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#5213] Cleanup: Remove SOBE->include_once
 - [#4343] Fix: Some unit tests read the real TS setup
 - [#5207] Cleanup: Drop unnecessary CDATA
 - [#4320] Cleanup: Enhance the @var/@param|@return type hinting
