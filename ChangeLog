@@ -1,11 +1,169 @@
 0.6.0 - currently working on
+
+Features:
+- [#5186] Add an automatic update function for contact_phone
+- [#5027] Import the fields for the "Energiepass"/"Energieausweis"
+- [#5027] Display the fields for the "Energiepass"/"Energieausweis"
+- [#5027] Add the fields for the "Energiepass"/"Energieausweis"
+- [#4678] Switch to Google Maps V3 (initial patch by Judith Haffner)
+- [#3822] Use the Google geocoding V3 from oelib in realty
+- [#4587] Add a field "Sea view" to the realty objects
+- [#2671] Add model::isEmpty
+- [#4413] Add a field "Distance to the sea" to the realty objects
+- [#4118] Add some more area fields
+- [#4090] Add additional image subparts in the single view
+- [#4084] Add a configuration about which JavaScript libraries to include in the single view and image upload
+- [#4103] Allow to upload a separate thumbnail image for the images
+- [#4077] Provide a "floor" subpart & marker in the list view
+- [#4089] Add an option to hide the rent and price in the list view and single view depending on the object status
+- [#4087] Add a single view subpart for the status
+- [#4100] Fill status markers in the list view
+- [#4072] Replace the "rented" field with a "status" field
+- [#4074] Add a field "position" to the images record
+- [#4075] Add an "enableLightbox" TS setup switch
+- [#4072] The clean-up script should also clean up PDFs
+- [#4078] Allow to select the HTML template in the flexforms
+- [#4012] Provide attached PDFs for download in the single view
+- [#4016] Import attached documents (PDFs)
+- [#4062] Add a sorting column to the documents
+- [#4014] Add a Model and Mapper for related documents
+- [#4000] Add a field "Bodenbelag" (flooring)
+- [#3999] Add a field "Ausstattungs-Kategorie" (furnishing category)
+- [#4017] Automatically make some content subtypes uncached
+- [#3998] Add, import and display some fields
+- [#4022] Add an icon for documents records to the BE
+- [#2876] Make images sortable in the BE, thanks to Christian Stupp
+- [#4011] Add a field for related documents (uploaded PDFs)
+- [#3725] Validate the terms checkbox in the contact form
+- [#3726] Include the checked checkboxes in the contact form e-mail
+- [#3724] Add some new fields to the contact form
+- [#3721] Add a TS setup configuration & flexforms for the FE page with the terms
+- [#3722] Add some checkboxes for displaying additional fields in the contact form
+- [#3602] In the contact data in the single view, display the new phone number fields
+- [#3601] Import the two new phone number fields
+- [#3600] Add the two new phone number fields to the FE editor
+- [#3599] Add two phone number fields to the DB and TCA
+- [#4162] Add a field "Mieteinnahmen (Soll)"
+
+Localization:
+- [#4606] Update the ES localization (thanks to Martin del Barco)
+- [#3997] Change some field titles in the FE and BE
+
+Bug fixes:
+- [#4343] Some unit tests read the real TS setup
+- [#4319} Change != to <> in SQL
+- [#5189] private field isTestMode is used in subclass
+- [#5182] cHash is missing from many links
+- [#5187] mb_strlen(): Unknown encoding in tx_realty_Model_RealtyObjectTest
+- [#5094] Update script needs to update the number of images
+- [#5173] PHP crash in the BE module if no import path is set
+- [#5178] Use time() instead of mktime()
+- [#5163] Make the insert record shortcut TS compatible with 6.2
+- [#5175] Update Prototype, Scriptaculous and Lightbox
+- [#5172] Fix core deprecation notices in TYPO3 CMS 6.2
+- [#5174] Avoid feInterface deprecation warnings in 6.2
+- [#5057] Test error in tx_realty_FrontEnd_MyObjectsListViewTest
+- [#4696] Unit test crash about e-mail and caches in TYPO3 CMS 6.2
+- [#5083] Failing test in tx_realty_FrontEnd_AbstractListViewTest, thanks to Nicole Cordes
+- [#5063] Error about missing token when running the OpenImmo import from the BE module in 6.2
+- [#5020] Error message: The extension CSS Styled Content is not loaded
+- [#5008] Call loadTCA only for TYPO3 CMS < 6.1
+- [#4572] Add .htaccess to all folders with private resources
+- [#4648] Drop early __destruct calls
+- [#4363] Skip the configuration check in the unit tests
+- [#4847] Hide the images and documents in the BE lists
+- [#4792] Error in tx_realty_Import_OpenImmoImportTest
+- [#4779] Single view Google Maps is zoomed in too far
+- [#4737] Missing currency sign for deposit and provision
+- [#1927] Unit tests don't run properly on Windows
+- [#4658] BE crash with SQL error in TYPO3 CMS >= 4.5.23
+- [#4594] Google map coordinates are using a decimal comma if the PHP locale is not set correctly
+- [#4179] Nonsense validation parameters for the rent_per_square_meter field
+- [#3686] For US dollars, the currency needs to be before the amount
+- [#4208] URLs to included CSS and JS files are wrong if TYPO3 is installed in a subdirectory of the website root
+- [#4048] Use $dataHandler->getThisFormData instead of ->__aFormData
+- [#4064] HTML validation errors in the list view
+- [#3716] Only render image records with an image file type in the list view, single view, image upload dialog and both galleries
+- [#4500] Failures in tx_realty_FrontEnd_FormatterTest occur when running all tests
+- [#4496] Checkboxes for the flooring misaligned (thanks to Michael Oehlhof)
+- [#3714] Sorting in the list view is broken (thanks to Michael Oehlhof)
+- [#4485] Add TYPO3 maximum version to ext_emconf.php
+- [#4478] &nbsp; is shown in the drop-downs of the FE editor
+- [#4454] Test failures concerning the images in the current Core master
+- [#3554] Failure in test case testSentEmail(...) with empty tables and no extension settings
+- [#4297] Fix all deprecation log warnings and version-specific unit test failures when running the unit tests on the current Core master
+- [#3815] Throw more meaningful Exceptions
+- [#4373] Pass the filter limitations using JSON instead of serialization
+- [#4353] Test crash with latest Core master concerning the cache manager
+- [#4349] Test crash with latest Core master in tx_realty_FrontEnd_EditorTest
+- [#4354] The OpenImmoImport class uses implode with only one argument
+- [#4347] Fix missing/incorrect @return and return values
+- [#2951] SQL error in the single view if the contact data source is set to "from owner" and sr_feuser_register is not installed
+- [#4282] LF and CRLF in RTE fields need to be imported
+- [#4180] test testDeleteRecordFromTheDatabase fails
+- [#4178] Test testProcessImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase crashes
+- [#4104] Empty image titles in the image upload dialog
+- [#4169] Drop unused code and some unused variables
+- [#4156] Drop dead code from tx_realty_pi1
+- [#4130] Set the numeric locale in our CLI scripts
+- [#4120] Floor value 0 hides all following floor values in the list view
+- [#4094] Use empty configurations in the unit tests
+- [#4057] Test failures in the OpenImmo import testcase
+- [#4058] Typo in the DOM document converter: substitudeSurplusDecimals
+- [#3800] Multiple tests concerning the next/previous buttons fail
+- [#3991] "objektkategorie nutzungsart" gets imported even if an attribute is set to false
+- [#3708] Non-image attachments get imported as images
+- [#3727] LF, CR and tab in the object title need to be replaced by spaces during the import
+- [#3799] Test getTemplatePathReturnsAbsolutePathFromTheConfiguration fails
+- [#3876] Evil unit tests create a folder in the TYPO3 root directory
+- [#3859] Fatal error in the favorites list: Call to private method
+- [#3848] Replace newRecordLinkPosition with levelLinksPosition in the TCA
+- [#3770] Pagination URLs are not htmlspecialchared
+- [#3660] Test failures with PHPUnit 3.4.7
+- [#3656] Don't use TYPO3_branch or compat_version
+- [#3630] The next/previous buttons view needs to create a separate cObj for the list view instance
+- [#3629] Remove superfluous intvals and parentheses
+- [#3628] Drop 'uid' from tx_realty_pi1_NextPreviousButtonsView::sanitizeAndSplitListViewLimitation
+- [#3625] Typo getSelectForListVew
+
+Changes:
+- [#5176] Update maximum PHP version to 5.6
+- [#5014] Convert the e-mail functions to SwiftMailer
+- [#5147] Sort the filter checkboxes in the list view by title
+- [#5069] Rework the "inexact Google Maps" location feature
+- [#3452] Add the company name to ext_emconf.php
+- [#4611] Increase the maximum image upload size from 500kB to 2MB
+- [#4470] Stop using the district in the geocoding
+- [#4352] Require PHP 5.3
+- [#4140] Require TYPO3 4.5
+- [#3987] Require TYPO3 4.4
+- [#4197] Make CSS Styled Content a requirement
+- [#4101] Also allow negative numbers for the floor in the BE and FE editor
+- [#4119] Drop all-zero positions after the decimal point in the FE display of areas, lengths and prices
+- [#4117] In the list view, put the first of two images in the left position
+- [#4109] Change tx_realty_Model_RealtyObject::getAddressParts from private to protected
+- [#3079] Only load the related images and documents from the DB if the relation counter is > 0
+- [#4063] Allow images with an empty title
+- [#4065] Reorder the fields in the overview table
+- [#4010] Use the mapper to save imported images
+- [#3097] Require TYPO3 4.3 for realty
+- [#2153] Drop the classic gallery
+- [#3723] Don't include the message text in the contact form e-mail if it is empty or not part of the form
+- [#3738] Require static_info_tables >= 2.1.0
+- [#3066] Use the new getters/setters when using the configuration proxy
+- [#3450] Mention in setup.txt that the admin should not copy'n'paste the complete template into the TS template
+- [#3720] In the contact form, make it optional to show the message text and to have it as a required field
+- [#3729] Provide ext_autoload for our extensions
+- [#3603] Remove the old phone number field
+- [#3648] Remove the manual setting of the configuration pidList and recursive in pi1
+- [#3641] Update all copyrights to 2010
+
+Cleanup:
 - [#5213] Cleanup: Remove SOBE->include_once
-- [#4343] Fix: Some unit tests read the real TS setup
 - [#5207] Cleanup: Drop unnecessary CDATA
 - [#4320] Cleanup: Enhance the @var/@param|@return type hinting
 - [#5206] Cleanup: Drop the unset from tearDown()
 - [#5198] Cleanup: Make setUp and tearDown protected
-- [#4319} Fix: Change != to <> in SQL
 - [#5203] Cleanup: Shorten the boolean casts
 - [#5201] Cleanup: Convert intval/float to casts
 - [#5200] Cleanup: boolean -> bool, integer -> int
@@ -14,183 +172,36 @@
 - [#5199] Cleanup: Use $GLOBALS['TCA'] instead of $TCA
 - [#5197] Cleanup: Use comments instead of PHPDoc style comments in copyright block
 - [#4019] Cleanup: Drop lib/tx_realty_constants.php
-- [#5189] Fix: private field isTestMode is used in subclass
-- [#5182] Fix: cHash is missing from many links
-- [#5187] Fix: mb_strlen(): Unknown encoding in tx_realty_Model_RealtyObjectTest
-- [#5094] Fix: Update script needs to update the number of images
-- [#5186] Feature: Add an automatic update function for contact_phone
-- [#5173] Fix: PHP crash in the BE module if no import path is set
-- [#5178] Fix: Use time() instead of mktime()
-- [#5176] Change: Update maximum PHP version to 5.6
-- [#5163] Fix: Make the insert record shortcut TS compatible with 6.2
-- [#5175] Fix: Update Prototype, Scriptaculous and Lightbox
-- [#5172] Fix: Fix core deprecation notices in TYPO3 CMS 6.2
-- [#5174] Fix: Avoid feInterface deprecation warnings in 6.2
-- [#5057] Fix: Test error in tx_realty_FrontEnd_MyObjectsListViewTest
-- [#4696] Fix: Unit test crash about e-mail and caches in TYPO3 CMS 6.2
-- [#5027] Feature: Import the fields for the "Energiepass"/"Energieausweis"
-- [#5027] Feature: Display the fields for the "Energiepass"/"Energieausweis"
-- [#5027] Feature: Add the fields for the "Energiepass"/"Energieausweis"
-- [#5014] Change: Convert the e-mail functions to SwiftMailer
-- [#5147] Change: Sort the filter checkboxes in the list view by title
-- [#5069] Change: Rework the "inexact Google Maps" location feature
-- [#5083] Fix: Failing test in tx_realty_FrontEnd_AbstractListViewTest, thanks to Nicole Cordes
-- [#5063] Fix: Error about missing token when running the OpenImmo import from the BE module in 6.2
-- [#5020] Fix: Error message: The extension CSS Styled Content is not loaded
-- [#5008] Fix: Call loadTCA only for TYPO3 CMS < 6.1
-- [#4572] Fix: Add .htaccess to all folders with private resources
-- [#3452] Change: Add the company name to ext_emconf.php
-- [#4648] Fix: Drop early __destruct calls
 - [#4881] Cleanup: Use t3lib_div::makeInstance instead of ObjectFactory::make
 - [#4998] Cleanup: Use type[] instead of array<type>
-- [#4363] Fix: Skip the configuration check in the unit tests
-- [#4847] Fix: Hide the images and documents in the BE lists
 - [#4842] Cleanup: Drop the todo.txt file
 - [#4832] Cleanup: Remove the closing PHP tags
-- [#4792] Fix: Error in tx_realty_Import_OpenImmoImportTest
-- [#4779] Fix: Single view Google Maps is zoomed in too far
-- [#4678] Feature: Switch to Google Maps V3 (initial patch by Judith Haffner)
-- [#4737] Fix: Missing currency sign for deposit and provision
-- [#3822] Feature: Use the Google geocoding V3 from oelib in realty
-- [#1927] Fix: Unit tests don't run properly on Windows
-- [#4658] Fix: BE crash with SQL error in TYPO3 CMS >= 4.5.23
 - [#4626] Cleanup: Fix all instances of "Missing function doc comment"
 - [#4625] Cleanup: Fix all instances of "Underscores are not allowed in method names"
 - [#4631] Cleanup: Drop useless class comments
 - [#4630] Cleanup: Update the copyright to 2013
 - [#4623] Cleanup: Fix all instances of "Missing @return tag in function comment"
-- [#4611] Change: Increase the maximum image upload size from 500kB to 2MB
-- [#4606] Localization: Update the ES localization (thanks to Martin del Barco)
-- [#4594] Fix: Google map coordinates are using a decimal comma if the PHP locale is not set correctly
-- [#4587] Feature: Add a field "Sea view" to the realty objects
-- [#2671] Feature: Add model::isEmpty
-- [#4179] Fix: Nonsense validation parameters for the rent_per_square_meter field
-- [#3686] Fix: For US dollars, the currency needs to be before the amount
-- [#4208] Fix: URLs to included CSS and JS files are wrong if TYPO3 is installed in a subdirectory of the website root
-- [#4048] Fix: Use $dataHandler->getThisFormData instead of ->__aFormData
-- [#4064] Fix: HTML validation errors in the list view
-- [#3716] Fix: Only render image records with an image file type in the list view, single view, image upload dialog and both galleries
-- [#4500] Fix: Failures in tx_realty_FrontEnd_FormatterTest occur when running all tests
-- [#4413] Feature: Add a field "Distance to the sea" to the realty objects
-- [#4496] Fix: Checkboxes for the flooring misaligned (thanks to Michael Oehlhof)
-- [#3714] Fix: Sorting in the list view is broken (thanks to Michael Oehlhof)
-- [#4485] Fix: Add TYPO3 maximum version to ext_emconf.php
 - [#3774] Cleanup: Implement the Geo interface for realty
-- [#4470] Change: Stop using the district in the geocoding
-- [#4478] Fix: &nbsp; is shown in the drop-downs of the FE editor
-- [#4454] Fix: Test failures concerning the images in the current Core master
 - [#3451] Cleanup: Use TYPO3's autoloader instead of oelib's autoloader
 - [#4278] Cleanup: Update the copyright to 2012
 - [#4452] Cleanup: Stop using the DATABASE_QUERY_ERROR and DATABASE_RESULT_ERROR constants
-- [#4352] Change: Require PHP 5.3
-- [#4140] Change: Require TYPO3 4.5
-- [#3554] Fix: Failure in test case testSentEmail(...) with empty tables and no extension settings
-- [#4297] Fix: Fix all deprecation log warnings and version-specific unit test failures when running the unit tests on the current Core master
-- [#3815] Fix: Throw more meaningful Exceptions
-- [#4373] Fix: Pass the filter limitations using JSON instead of serialization
-- [#4353] Fix: Test crash with latest Core master concerning the cache manager
-- [#4349] Fix: Test crash with latest Core master in tx_realty_FrontEnd_EditorTest
-- [#4354] Fix: The OpenImmoImport class uses implode with only one argument
 - [#4276] Cleanup: Add the parameter name to all @param
-- [#4347] Fix: Fix missing/incorrect @return and return values
-- [#3987] Change: Require TYPO3 4.4
 - [#4326] Cleanup: Remove the Zend Studio metadata from all projects
-- [#2951] Fix: SQL error in the single view if the contact data source is set to "from owner" and sr_feuser_register is not installed
-- [#4282] Fix: LF and CRLF in RTE fields need to be imported
 - [#4281] Cleanup: Make true, false and null uppercase
 - [#4275] Cleanup: Convert the XCLASS code to use $GLOBALS
 - [#4177] Cleanup: Update the copyright to 2011
 - [#4274] Cleanup: Drop the XCLASS code from abstract classes
-- [#4197] Change: Make CSS Styled Content a requirement
-- [#4180] Fix: test testDeleteRecordFromTheDatabase fails
-- [#4178] Fix: Test testProcessImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase crashes
-- [#4162] Add a field "Mieteinnahmen (Soll)"
-- [#4104] Fix: Empty image titles in the image upload dialog
-- [#4169] Fix: Drop unused code and some unused variables
 - [#2628] Cleanup: Use frontEndLoginManager::loginUser
-- [#4156] Fix: Drop dead code from tx_realty_pi1
 - [#4132] Cleanup: Use the time constants from tx_oelib_Time
-- [#4130] Fix: Set the numeric locale in our CLI scripts
-- [#4101] Change: Also allow negative numbers for the floor in the BE and FE editor
-- [#4120] Fix: Floor value 0 hides all following floor values in the list view
-- [#4119] Change: Drop all-zero positions after the decimal point in the FE display of areas, lengths and prices
-- [#4118] Feature: Add some more area fields
-- [#4117] Change: In the list view, put the first of two images in the left position
-- [#4090] Feature: Add additional image subparts in the single view
-- [#4084] Feature: Add a configuration about which JavaScript libraries to include in the single view and image upload
 - [#4047] Cleanup: Rename all test classes from *_testcase to *Test
-- [#4103] Feature: Allow to upload a separate thumbnail image for the images
-- [#4109] Change: Change tx_realty_Model_RealtyObject::getAddressParts from private to protected
-- [#4077] Feature: Provide a "floor" subpart & marker in the list view
-- [#4089] Feature: Add an option to hide the rent and price in the list view and single view depending on the object status
-- [#4087] Feature: Add a single view subpart for the status
-- [#4100] Feature: Fill status markers in the list view
-- [#4072] Feature: Replace the "rented" field with a "status" field
-- [#4094] Fix: Use empty configurations in the unit tests
-- [#4074] Feature: Add a field "position" to the images record
-- [#4075] Feature: Add an "enableLightbox" TS setup switch
-- [#4072] Feature: The clean-up script should also clean up PDFs
-- [#3079] Change: Only load the related images and documents from the DB if the relation counter is > 0
-- [#4078] Feature: Allow to select the HTML template in the flexforms
-- [#4012] Feature: Provide attached PDFs for download in the single view
-- [#4016] Feature: Import attached documents (PDFs)
-- [#4063] Change: Allow images with an empty title
-- [#4065] Change: Reorder the fields in the overview table
 - [#4018] Cleanup: Use the mapper for getting the images for the gallery and the FE image upload
-- [#4062] Feature: Add a sorting column to the documents
-- [#4014] Feature: Add a Model and Mapper for related documents
-- [#4010] Change: Use the mapper to save imported images
-- [#4000] Feature: Add a field "Bodenbelag" (flooring)
-- [#3999] Feature: Add a field "Ausstattungs-Kategorie" (furnishing category)
-- [#4057] Fix: Test failures in the OpenImmo import testcase
-- [#4058] Fix: Typo in the DOM document converter: substitudeSurplusDecimals
-- [#3800] Fix: Multiple tests concerning the next/previous buttons fail
-- [#3991] Fix: "objektkategorie nutzungsart" gets imported even if an attribute is set to false
-- [#4017] Feature: Automatically make some content subtypes uncached
-- [#3998] Feature: Add, import and display some fields
-- [#4022] Feature: Add an icon for documents records to the BE
-- [#2876] Feature: Make images sortable in the BE, thanks to Christian Stupp
-- [#4011] Feature: Add a field for related documents (uploaded PDFs)
 - [#2049] Cleanup: Drop our copy of t3lib_div::rmdir
-- [#3997] Localization: Change some field titles in the FE and BE
-- [#3708] Fix: Non-image attachments get imported as images
 - [#3863] Cleanup: Drop our own exception handlers in realty
-- [#3097] Change: Require TYPO3 4.3 for realty
 - [#3771] Cleanup: Clean up and unit-test tx_realty_pi1_AbstractListView::getSelfUrl
-- [#3727] Fix: LF, CR and tab in the object title need to be replaced by spaces during the import
-- [#3799] Fix: Test getTemplatePathReturnsAbsolutePathFromTheConfiguration fails
-- [#3876] Fix: Evil unit tests create a folder in the TYPO3 root directory
-- [#3859] Fix: Fatal error in the favorites list: Call to private method
-- [#3848] Fix: Replace newRecordLinkPosition with levelLinksPosition in the TCA
 - [#3434] Cleanup: Replace false/true with FALSE/TRUE
-- [#3725] Feature: Validate the terms checkbox in the contact form
-- [#3726] Feature: Include the checked checkboxes in the contact form e-mail
-- [#2153] Change: Drop the classic gallery
-- [#3770] Fix: Pagination URLs are not htmlspecialchared
-- [#3723] Change: Don't include the message text in the contact form e-mail if it is empty or not part of the form
-- [#3724] Feature: Add some new fields to the contact form
-- [#3721] Feature: Add a TS setup configuration & flexforms for the FE page with the terms
-- [#3738] Change: Require static_info_tables >= 2.1.0
-- [#3066] Change: Use the new getters/setters when using the configuration proxy
-- [#3450] Change: Mention in setup.txt that the admin should not copy'n'paste the complete template into the TS template
-- [#3722] Feature: Add some checkboxes for displaying additional fields in the contact form
-- [#3720] Change: In the contact form, make it optional to show the message text and to have it as a required field
-- [#3729] Change: Provide ext_autoload for our extensions
-- [#3603] Change: Remove the old phone number field
-- [#3602] Feature: In the contact data in the single view, display the new phone number fields
-- [#3660] Fix: Test failures with PHPUnit 3.4.7
-- [#3601] Feature: Import the two new phone number fields
-- [#3600] Feature: Add the two new phone number fields to the FE editor
-- [#3599] Feature: Add two phone number fields to the DB and TCA
-- [#3656] Fix: Don't use TYPO3_branch or compat_version
-- [#3630] Fix: The next/previous buttons view needs to create a separate cObj for the list view instance
-- [#3648] Change: Remove the manual setting of the configuration pidList and recursive in pi1
-- [#3629] Fix: Remove superfluous intvals and parentheses
-- [#3628] Fix: Drop 'uid' from tx_realty_pi1_NextPreviousButtonsView::sanitizeAndSplitListViewLimitation
-- [#3625] Fix: Typo getSelectForListVew
-- [#3641] Change: Update all copyrights to 2010
 
-0.5.0 - branched 2009-12-14
+
+0.5.0 - released 2010-02-23
 - [#3593] Fix: Config check warning on the single view page
 - [#3590] Localization: Update the NL localization
 - [#3589] Fix: Fix the spelling in the German search widget flexforms
