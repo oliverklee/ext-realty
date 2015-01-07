@@ -94,6 +94,8 @@ CREATE TABLE tx_realty_objects (
 	utilization text NOT NULL,
 	contact_data_source tinyint(1) DEFAULT '0' NOT NULL,
 	contact_person tinytext NOT NULL,
+	contact_person_first_name tinytext NOT NULL,
+	contact_person_salutation tinytext NOT NULL,
 	contact_email tinytext NOT NULL,
 	phone_switchboard tinytext NOT NULL,
 	phone_direct_extension tinytext NOT NULL,

@@ -20,6 +20,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	/**
@@ -63,13 +64,12 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @return tx_realty_Model_RealtyObject the realty object with the owner
 	 */
 	private function getRealtyObjectWithOwner(array $ownerData = array()) {
-		return tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array(
-				'owner' => $this->testingFramework->createFrontEndUser(
-					'', $ownerData
-				),
-				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
-		));
+		return tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
+			array(
+				'owner' => $this->testingFramework->createFrontEndUser('', $ownerData),
+				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
+			)
+		);
 	}
 
 
@@ -99,8 +99,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getRealtyObjectWithCanStoreDataToOwner() {
-		$owner = $this->getRealtyObjectWithOwner(array('name' => 'foo'))
-			->getOwner();
+		$owner = $this->getRealtyObjectWithOwner(array('name' => 'foo'))->getOwner();
 
 		$this->assertEquals(
 			'foo',
@@ -209,13 +208,51 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function renderReturnsBasicContactNameIfOffererDataIsEnabledAndInformationIsSetInTheRealtyObject() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+			->getLoadedTestingModel(array('contact_person' => 'Ali Baba'));
+
+		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+
+		$this->assertContains(
+			'Ali Baba',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderReturnsFullContactNameIfOffererDataIsEnabledAndInformationIsSetInTheRealtyObject() {
+		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
+				array(
+					'contact_person' => 'Green',
+					'contact_person_first_name' => 'Laci',
+					'contact_person_salutation' => 'Ms.',
+				)
+		);
+
+		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
+
+		$this->assertContains(
+			'Ms. Laci Green',
+			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function renderForDisplayContactTelephoneEnabledContactFromObjectAndDirectExtensionSetShowsDirectExtensionNumber() {
+		/** @var tx_realty_Model_RealtyObject|PHPUnit_Framework_MockObject_MockObject $model */
 		$model = $this->getMock(
 			'tx_realty_Model_RealtyObject',
 			array('getContactPhoneNumber', 'getProperty')
 		);
 		$model->expects($this->once())->method('getContactPhoneNumber');
+		$model->setData(array());
 
+		/** @var tx_realty_Mapper_RealtyObject|PHPUnit_Framework_MockObject_MockObject $mapper */
 		$mapper = $this->getMock('tx_realty_Mapper_RealtyObject', array('find'));
 		$mapper->expects($this->any())->method('find')
 			->will($this->returnValue($model));

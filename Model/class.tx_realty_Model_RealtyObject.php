@@ -1912,14 +1912,63 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
-	 * Returns the name of the contact person.
+	 * Returns the name of the contact person, depending on the object configuration either from the owner front-ent user or
+	 * the object.
 	 *
 	 * @return string the name of the contact person, might be empty
 	 */
 	public function getContactName() {
-		return ($this->usesContactDataOfOwner())
+		return $this->usesContactDataOfOwner()
 			? $this->owner->getName()
-			: $this->getAsString('contact_person');
+			: $this->getFullContactNameFromObject();
+	}
+
+	/**
+	 * Returns the full name of the contact person from this object (independent of the setting of the contact source).
+	 *
+	 * @return string the full name, might be empty
+	 */
+	protected function getFullContactNameFromObject() {
+		$nameParts = array(
+			$this->getContactSalutation(),
+			$this->getContactFirstName(),
+			$this->getContactLastOrFullName(),
+		);
+		$nonEmptyNameParts = array();
+		foreach ($nameParts as $namePart) {
+			if ($namePart !== '') {
+				$nonEmptyNameParts[] = $namePart;
+			}
+		}
+
+		return implode(' ', $nonEmptyNameParts);
+	}
+
+	/**
+	 * Returns the "contact name" (which might be either the full name or only the last name).
+	 *
+	 * @return string the name, might be empty
+	 */
+	protected function getContactLastOrFullName() {
+		return $this->getAsString('contact_person');
+	}
+
+	/**
+	 * Returns the first name of the contact person.
+	 *
+	 * @return string the name, might be empty
+	 */
+	protected function getContactFirstName() {
+		return $this->getAsString('contact_person_first_name');
+	}
+
+	/**
+	 * Returns the salutation of the contact person.
+	 *
+	 * @return string the salutation, might be empty
+	 */
+	protected function getContactSalutation() {
+		return $this->getAsString('contact_person_salutation');
 	}
 
 	/**

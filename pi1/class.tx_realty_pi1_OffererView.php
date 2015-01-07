@@ -20,6 +20,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	/**
@@ -60,13 +61,15 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 				$result = $offererList->renderOneItem((int)$realtyObject->getProperty('owner'));
 				break;
 			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT:
-				$result = $offererList->renderOneItemWithTheDataProvided(array(
-					'email' => $realtyObject->getProperty('contact_email'),
-					'company' => $realtyObject->getProperty('employer'),
-					'telephone' => $realtyObject->getContactPhoneNumber(),
-					'name' => $realtyObject->getProperty('contact_person'),
-					'image' => '',
-				));
+				$result = $offererList->renderOneItemWithTheDataProvided(
+					array(
+						'email' => $realtyObject->getContactEMailAddress(),
+						'company' => $realtyObject->getProperty('employer'),
+						'telephone' => $realtyObject->getContactPhoneNumber(),
+						'name' => $realtyObject->getContactName(),
+						'image' => '',
+					)
+				);
 				break;
 			default:
 				$result = '';

@@ -1326,13 +1326,15 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function specializedContactFormUsesTheCorrectContactDataWhenDataSourceIsSetToRealtyObject() {
+	public function specializedContactFormUsesFullContactNameAndEmailFromObjectWhenDataSourceIsSetToRealtyObject() {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
 			$this->realtyUid,
 			array(
 				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
-				'contact_person' => 'any contact person',
+				'contact_person_salutation' => 'Mr.',
+				'contact_person_first_name' => 'Larry',
+				'contact_person' => 'Page',
 				'contact_email' => 'any-valid@email-address.org',
 			)
 		);
@@ -1346,8 +1348,8 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->assertArrayHasKey(
-			'any-valid@email-address.org',
+		$this->assertSame(
+			array('any-valid@email-address.org' => 'Mr. Larry Page'),
 			$this->message->getTo()
 		);
 	}
@@ -1421,7 +1423,7 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			array(
 				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
 				'owner' => $this->testingFramework->createFrontEndUser(
-					'', array('email' => 'frontend-user@example.com')
+					'', array('name' => 'Trinity', 'email' => 'frontend-user@example.com')
 				),
 			)
 		);
@@ -1436,8 +1438,8 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 			)
 		);
 
-		$this->assertArrayHasKey(
-			'frontend-user@example.com',
+		$this->assertSame(
+			array('frontend-user@example.com' => 'Trinity'),
 			$this->message->getTo()
 		);
 	}

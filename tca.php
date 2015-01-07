@@ -19,7 +19,7 @@ $GLOBALS['TCA']['tx_realty_objects'] = array(
 			'assisted_living,fitted_kitchen, has_pool,has_community_pool,teaser,' .
 			'description,equipment,layout,location,misc,details_page,images,' .
 			'employer,openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
-			'contact_person,contact_email,phone_switchboard,' .
+			'contact_person,contact_person_first_name,contact_person_salutation,contact_email,phone_switchboard,' .
 			'phone_direct_extension,owner,language,currency,' .
 			'has_coordinates,coordinates_problem,longitude,latitude,' .
 			'advertised_date, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
@@ -1147,6 +1147,24 @@ $GLOBALS['TCA']['tx_realty_objects'] = array(
 				'eval' => 'trim',
 			),
 		),
+		'contact_person_first_name' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person_first_name',
+			'config' => array(
+				'type' => 'input',
+				'size' => '30',
+				'eval' => 'trim',
+			),
+		),
+		'contact_person_salutation' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person_salutation',
+			'config' => array(
+				'type' => 'input',
+				'size' => '5',
+				'eval' => 'trim',
+			),
+		),
 		'contact_email' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email',
@@ -1433,7 +1451,7 @@ $GLOBALS['TCA']['tx_realty_objects'] = array(
 					'chMode]' .
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'details_page, images, documents, contact_data_source, employer, ' .
-				'contact_person, contact_email, phone_switchboard, ' .
+				'contact_person;;2, contact_email, phone_switchboard, ' .
 				'phone_direct_extension, owner, language, currency, ' .
 				'advertised_date;;;;2-2-2, ' .
 				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.geo, ' .
@@ -1485,7 +1503,7 @@ $GLOBALS['TCA']['tx_realty_objects'] = array(
 					'chMode]' .
 					':rte_transform[mode=ts_css|imgpath=uploads/tx_realty/rte/], ' .
 				'details_page, images, documents, contact_data_source, employer, '.
-				'contact_person, contact_email, phone_switchboard, ' .
+				'contact_person;;2, contact_email, phone_switchboard, ' .
 				'phone_direct_extension, owner, language, currency, ' .
 				'advertised_date;;;;2-2-2, ' .
 				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.geo, ' .
@@ -1500,6 +1518,7 @@ $GLOBALS['TCA']['tx_realty_objects'] = array(
 	),
 	'palettes' => array(
 		'1' => array('showitem' => 'starttime, endtime'),
+		'2' => array('showitem' => 'contact_person_salutation, contact_person_first_name'),
 	),
 );
 

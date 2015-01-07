@@ -222,11 +222,12 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			return FALSE;
 		}
 
+		$contactName = $contactData['name'];
 		/** @var t3lib_mail_Message $email */
 		$email = t3lib_div::makeInstance('t3lib_mail_Message');
-		$email->setTo(array($contactData['email'] => ''));
+		$email->setTo(array($contactData['email'] => $contactName));
 		$email->setSubject($this->getEmailSubject());
-		$email->setBody($this->getFilledEmailBody($contactData['name']));
+		$email->setBody($this->getFilledEmailBody($contactName));
 		$email->setFrom(array($this->contactFormData['requesterEmail'] => $this->contactFormData['requesterName']));
 
 		if ($this->hasConfValueString('blindCarbonCopyAddress', 's_contactForm')) {
@@ -400,27 +401,17 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			return array('email' => '', 'name' => '');
 		}
 
-		$result = array('email' => '', 'name' => '');
-
-		// Gets the contact data from the chosen source. No data is fetched if
-		// the 'contact_data_source' is set to an invalid value.
-		switch ($this->getRealtyObject()->getProperty('contact_data_source')) {
-			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT:
-				try {
-					$owner = $this->getRealtyObject()->getOwner();
-					$result['email'] = $owner->getEMailAddress();
-					$result['name'] = $owner->getName();
-				} catch (tx_oelib_Exception_NotFound $exception) {
-				}
-				break;
-			case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT:
-				$result['email'] = $this->getRealtyObject()->getProperty('contact_email');
-				$result['name'] = $this->getRealtyObject()->getProperty('contact_person');
-				break;
-			default:
+		try {
+			$realtyObject = $this->getRealtyObject();
+			$contactData = array(
+				'email' => $realtyObject->getContactEMailAddress(),
+				'name' => $realtyObject->getContactName(),
+			);
+		} catch (tx_oelib_Exception_NotFound $exception) {
+			$contactData = array('email' => '', 'name' => '');
 		}
 
-		return $result;
+		return $contactData;
 	}
 
 	/**

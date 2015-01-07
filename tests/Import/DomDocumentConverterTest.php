@@ -1014,22 +1014,95 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getConvertedDataFetchesAlternativeContactEmail() {
+	public function getConvertedDataFetchesContactPersonName() {
+		$name = 'Jane Doe';
 		$node = $this->setRawDataToConvert(
-			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<kontaktperson>'
-							.'<email_direkt>any-email@example.com</email_direkt>'
-						.'</kontaktperson>'
-					.'</immobilie>'
-				.'</anbieter>'
-			.'</openimmo>'
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<kontaktperson>' .
+							'<name>' . $name . '</name>' .
+						'</kontaktperson>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
-			'any-email@example.com',
+		$this->assertSame(
+			$name,
+			$result[0]['contact_person']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesContactPersonFirstName() {
+		$name = 'Jane';
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<kontaktperson>' .
+							'<vorname>' . $name . '</vorname>' .
+						'</kontaktperson>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$name,
+			$result[0]['contact_person_first_name']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesContactPersonSalutation() {
+		$salutation = 'Frau';
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<kontaktperson>' .
+							'<anrede>' . $salutation . '</anrede>' .
+						'</kontaktperson>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$salutation,
+			$result[0]['contact_person_salutation']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getConvertedDataFetchesAlternativeContactEmail() {
+		$emailAddress = 'any-email@example.com';
+		$node = $this->setRawDataToConvert(
+			'<openimmo>' .
+				'<anbieter>' .
+					'<immobilie>' .
+						'<kontaktperson>' .
+							'<email_direkt>' . $emailAddress . '</email_direkt>' .
+						'</kontaktperson>' .
+					'</immobilie>' .
+				'</anbieter>' .
+			'</openimmo>'
+		);
+
+		$result = $this->fixture->getConvertedData($node);
+		$this->assertSame(
+			$emailAddress,
 			$result[0]['contact_email']
 		);
 	}

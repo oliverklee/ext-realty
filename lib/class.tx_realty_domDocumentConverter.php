@@ -85,6 +85,8 @@ class tx_realty_domDocumentConverter {
 		'misc' => array('freitexte' => 'sonstige_angaben'),
 		'openimmo_obid' => array('verwaltung_techn' => 'openimmo_obid'),
 		'contact_person' => array('kontaktperson' => 'name'),
+		'contact_person_first_name' => array('kontaktperson' => 'vorname'),
+		'contact_person_salutation' => array('kontaktperson' => 'anrede'),
 		'contact_email' => array('kontaktperson' => 'email_zentrale'),
 		'phone_switchboard' => array('kontaktperson' => 'tel_zentrale'),
 		'phone_direct_extension' => array('kontaktperson' => 'tel_durchw'),

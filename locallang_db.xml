@@ -148,6 +148,8 @@
 			<label index="tx_realty_objects.contact_data_source.I.0">This realty object</label>
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
+			<label index="tx_realty_objects.contact_person_first_name">First name of the contact person</label>
+			<label index="tx_realty_objects.contact_person_salutation">Salutation of the contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
 			<label index="tx_realty_objects.phone_switchboard">Contact phone (switchboard)</label>
 			<label index="tx_realty_objects.phone_direct_extension">Contact phone (direct extension)</label>
@@ -358,6 +360,8 @@
 			<label index="tx_realty_objects.contact_data_source.I.0">Dieses Immobilienobjekt</label>
 			<label index="tx_realty_objects.contact_data_source.I.1">Mein Benutzeraccount</label>
 			<label index="tx_realty_objects.contact_person">Kontaktperson</label>
+			<label index="tx_realty_objects.contact_person_first_name">Vorname der Kontaktperson</label>
+			<label index="tx_realty_objects.contact_person_salutation">Anrede der Kontaktperson</label>
 			<label index="tx_realty_objects.contact_email">Kontakt-E-Mail</label>
 			<label index="tx_realty_objects.phone_switchboard">Kontakt-Telefonnummer (Zentrale)</label>
 			<label index="tx_realty_objects.phone_direct_extension">Kontakt-Telefonnummer (Durchwahl)</label>
@@ -2049,6 +2053,8 @@
 			<label index="tx_realty_objects.contact_data_source.I.0">This realty object</label>
 			<label index="tx_realty_objects.contact_data_source.I.1">My account</label>
 			<label index="tx_realty_objects.contact_person">Contact person</label>
+			<label index="tx_realty_objects.contact_person_first_name">First name of the contact person</label>
+			<label index="tx_realty_objects.contact_person_salutation">Salutation of the contact person</label>
 			<label index="tx_realty_objects.contact_email">Contact e-mail</label>
 			<label index="tx_realty_objects.phone_switchboard">Contact phone (switchboard)</label>
 			<label index="tx_realty_objects.phone_direct_extension">Contact phone (direct extension)</label>

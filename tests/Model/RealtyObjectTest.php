@@ -3547,21 +3547,9 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	// Tests concerning the owner data getters
 	////////////////////////////////////////////
 
-	////////////////////////////////////
-	// Tests concerning getContactName
-	////////////////////////////////////
-
-	/**
-	 * @test
+	/*
+	 * Tests concerning getContactName
 	 */
-	public function getContactNameForOwnerFromObjectAndWithoutNameReturnsEmptyString() {
-		$this->loadRealtyObjectAndSetOwner(tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT);
-
-		$this->assertEquals(
-			'',
-			$this->fixture->getContactName()
-		);
-	}
 
 	/**
 	 * @test
@@ -3578,16 +3566,41 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * @test
+	 * @return array[]
 	 */
-	public function getContactNameForOwnerFromObjectWithNameReturnsOwnerName() {
+	public function contactPersonDataProvider() {
+		return array(
+			'everything empty' => array('', '', '', ''),
+			'only name' => array('Marissa Mayer', '', '', 'Marissa Mayer'),
+			'first and last name' => array('Malcovich', 'John', '', 'John Malcovich'),
+			'salutation and last name' => array('Malcovich', '', 'Mr.', 'Mr. Malcovich'),
+			'salutation, first name and last name' => array('Malcovich', 'John', 'Mr.', 'Mr. John Malcovich'),
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @dataProvider contactPersonDataProvider
+	 *
+	 * @param string $name
+	 * @param string $firstName
+	 * @param string $salutation
+	 * @param string $fullName
+	 */
+	public function getContactNameForOwnerFromObjectWithNameReturnsOwnerName($name, $firstName, $salutation, $fullName) {
 		$this->loadRealtyObjectAndSetOwner(
-			tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT, array(),
-			array('contact_person' => 'foo')
+			tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT,
+			array(),
+			array(
+				'contact_person' => $name,
+				'contact_person_first_name' => $firstName,
+				'contact_person_salutation' => $salutation,
+			)
 		);
 
-		$this->assertEquals(
-			'foo',
+		$this->assertSame(
+			$fullName,
 			$this->fixture->getContactName()
 		);
 	}
