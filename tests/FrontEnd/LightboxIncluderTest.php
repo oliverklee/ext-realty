@@ -37,6 +37,14 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 		$GLOBALS['TSFE'] = NULL;
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	///////////////////////////////////////////
 	// Tests concerning includeMainJavaScript
@@ -48,7 +56,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function includeMainJavaScriptIncludesMainFile() {
 		tx_realty_lightboxIncluder::includeMainJavaScript();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
@@ -69,7 +77,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function includeLightboxFilesIncludesLightboxCss() {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
@@ -92,7 +100,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
@@ -106,7 +114,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function includeLightboxFilesIncludesPrototype() {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
@@ -129,7 +137,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
@@ -143,7 +151,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function includeLightboxFilesIncludesScriptaculous() {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
@@ -166,7 +174,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
@@ -180,7 +188,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function includeLightboxFilesIncludesLightbox() {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
@@ -203,7 +211,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
@@ -217,7 +225,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function includeLightboxFilesIncludesLightboxConfiguration() {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
@@ -240,7 +248,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
@@ -259,7 +267,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 	public function includePrototypeIncludesPrototype() {
 		tx_realty_lightboxIncluder::includePrototype();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
@@ -282,7 +290,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
 
 		tx_realty_lightboxIncluder::includePrototype();
 
-		$additionalHeaderData = $GLOBALS['TSFE']->additionalHeaderData;
+		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
 		$this->assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'

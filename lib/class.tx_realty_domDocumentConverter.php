@@ -1130,9 +1130,7 @@ class tx_realty_domDocumentConverter {
 				$row = tx_oelib_db::selectSingle(
 					'uid',
 					'static_countries',
-					'cn_iso_3 = "' . $GLOBALS['TYPO3_DB']->quoteStr(
-						$country, 'static_countries'
-					) . '"'
+					'cn_iso_3 = "' . Tx_Oelib_Db::getDatabaseConnection()->quoteStr($country, 'static_countries') . '"'
 				);
 				$uid = $row['uid'];
 			} catch (tx_oelib_Exception_EmptyQueryResult $exception) {

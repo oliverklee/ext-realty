@@ -138,10 +138,11 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		$createMapJavaScript .= '}' . LF . '</script>';
-		$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'] = $generalGoogleMapsJavaScript . $createMapJavaScript;
+		$frontEndController = $this->getFrontEndController();
+		$frontEndController->additionalHeaderData['tx_realty_pi1_maps'] = $generalGoogleMapsJavaScript . $createMapJavaScript;
 
-		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_maps'] = 'initializeMap();';
-		$GLOBALS['TSFE']->JSeventFuncCalls['onunload']['tx_realty_pi1_maps'] = 'GUnload();';
+		$frontEndController->JSeventFuncCalls['onload']['tx_realty_pi1_maps'] = 'initializeMap();';
+		$frontEndController->JSeventFuncCalls['onunload']['tx_realty_pi1_maps'] = 'GUnload();';
 	}
 
 	/**

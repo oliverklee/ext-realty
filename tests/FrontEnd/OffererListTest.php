@@ -57,7 +57,8 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 
 		$this->createDummyRecords();
 
-		// TRUE enables the test mode
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_offererList(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
@@ -65,7 +66,8 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 				'userGroupsForOffererList' => $this->feUserGroupUid,
 				'displayedContactInformation' => 'usergroup,offerer_label',
 			),
-			$GLOBALS['TSFE']->cObj,
+			$frontEndController->cObj,
+			// TRUE enables the test mode
 			TRUE
 		);
 	}

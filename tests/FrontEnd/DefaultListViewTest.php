@@ -79,7 +79,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 			),
-			$GLOBALS['TSFE']->cObj,
+			$this->getFrontEndController()->cObj,
 			TRUE
 		);
 	}
@@ -93,6 +93,14 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 	// Utility functions.
 	///////////////////////
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	/**
 	 * Creates dummy realty objects in the DB.
@@ -367,7 +375,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
 		$this->assertContains(
-			'?id=' . $GLOBALS['TSFE']->id,
+			'?id=' . $this->getFrontEndController()->id,
 			$this->fixture->render()
 		);
 	}

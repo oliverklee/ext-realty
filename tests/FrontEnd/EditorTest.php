@@ -62,7 +62,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'feEditorTemplateFile' => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
 			),
-			$GLOBALS['TSFE']->cObj, 0, '', TRUE
+			$this->getFrontEndController()->cObj, 0, '', TRUE
 		);
 
 		$finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
@@ -84,6 +84,26 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	/*
 	 * Utility functions.
 	 */
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
+
+	/**
+	 * Translates a string using the sL function from the front-end controller.
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	private function translate($key) {
+		return $this->getFrontEndController()->sL($key);
+	}
 
 	/**
 	 * Creates dummy records in the DB and logs in a front-end user.
@@ -139,7 +159,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 *
 	 * @throws RuntimeException if no suitable cache backend can be found
 	 */
-	protected function getCacheBackendClassName() {
+	private function getCacheBackendClassName() {
 		$classNames = array(
 			'TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface',
 			'TYPO3\\CMS\\Core\\Cache\\Backend\\BackendInterface',
@@ -170,9 +190,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function viewIncludesMainJavaScript() {
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
 	}
 
@@ -375,7 +393,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 */
 	public function getMessageForRealtyObjectFieldCanReturnMessageForField() {
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor') . ': ' .
 				$this->fixture->translate('message_no_valid_number'),
 			$this->fixture->getMessageForRealtyObjectField(
 				array('fieldName' => 'floor', 'label' => 'message_no_valid_number')
@@ -437,7 +455,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
 				$this->fixture->translate('message_enter_valid_non_empty_buying_price'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
 		);
@@ -450,7 +468,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price') . ': ' .
 				$this->fixture->translate('message_enter_valid_or_empty_buying_price'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
 		);
@@ -463,7 +481,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_RENT);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
 				$this->fixture->translate('message_enter_valid_non_empty_rent'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
 		);
@@ -476,7 +494,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills') . ': ' .
 				$this->fixture->translate('message_enter_valid_or_empty_rent'),
 			$this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
 		);
@@ -489,7 +507,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', '');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number') . ': ' .
 				$this->fixture->translate('message_required_field'),
 			$this->fixture->getInvalidObjectNumberMessage()
 		);
@@ -502,7 +520,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('object_number', 'foo');
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number') . ': ' .
 				$this->fixture->translate('message_object_number_exists'),
 			$this->fixture->getInvalidObjectNumberMessage()
 		);
@@ -515,7 +533,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('city', 0);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city') . ': ' .
 				$this->fixture->translate('message_required_field'),
 			$this->fixture->getInvalidOrEmptyCityMessage()
 		);
@@ -532,7 +550,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			$GLOBALS['TSFE']->sL('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city') . ': ' .
+			$this->translate('LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city') . ': ' .
 				$this->fixture->translate('message_value_not_allowed'),
 			$this->fixture->getInvalidOrEmptyCityMessage()
 		);
@@ -2216,8 +2234,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->fixture->addOnLoadHandler();
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']
-				->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
+			isset($this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
 			)
 		);
 	}
@@ -2230,7 +2247,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'updateHideAndShow();',
-			$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
+			$this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
 		);
 	}
 

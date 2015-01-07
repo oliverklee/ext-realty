@@ -36,8 +36,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->fixture = new tx_realty_pi1_ContactButtonView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj
+			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $this->getFrontEndController()->cObj
 		);
 		$this->fixture->setConfigurationValue(
 			'contactPID', $this->testingFramework->createFrontEndPage()
@@ -48,6 +47,14 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	////////////////////////////////////
 	// Testing the contact button view
@@ -103,7 +110,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsEmptyResultForTheCurrentPageBeingTheSameAsTheConfiguredContactPid() {
-		$this->fixture->setConfigurationValue('contactPID', $GLOBALS['TSFE']->id);
+		$this->fixture->setConfigurationValue('contactPID', $this->getFrontEndController()->id);
 
 		$this->assertEquals(
 			'',

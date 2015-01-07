@@ -192,15 +192,17 @@ class ext_update {
 	 * @return string output of the update function, will not be empty
 	 */
 	private function updateImages() {
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+
 		$result = '<h2>Updating image-object relations</h2>' . LF;
 
-		$GLOBALS['TYPO3_DB']->sql_query(
+		$databaseConnection->sql_query(
 			'UPDATE tx_realty_images SET object = realty_object_uid WHERE realty_object_uid > 0 AND object = 0'
 		);
-		$numberOfAffectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
+		$numberOfAffectedRows = $databaseConnection->sql_affected_rows();
 		$result .= '<p>Updated ' . $numberOfAffectedRows . ' image records.</p>';
 
-		$GLOBALS['TYPO3_DB']->sql_query(
+		$databaseConnection->sql_query(
 			'UPDATE tx_realty_objects SET images = ' .
 				'(SELECT COUNT(*) FROM tx_realty_images WHERE object = tx_realty_objects.uid ' .
 				'AND tx_realty_images.deleted = 0 AND tx_realty_images.hidden = 0)'
@@ -235,12 +237,13 @@ class ext_update {
 	private function updateStatus() {
 		$result = '<h2>Updating the object status</h2>' . LF;
 
-		$GLOBALS['TYPO3_DB']->sql_query(
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$databaseConnection->sql_query(
 			'UPDATE tx_realty_objects SET status = ' .
 				tx_realty_Model_RealtyObject::STATUS_RENTED .
 				' WHERE rented = 1 AND status = 0'
 		);
-		$numberOfAffectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
+		$numberOfAffectedRows = $databaseConnection->sql_affected_rows();
 
 		$result .= '<p>Updated ' . $numberOfAffectedRows . ' object records.</p>';
 
@@ -272,20 +275,18 @@ class ext_update {
 	 * @return string output of the update function, will not be empty
 	 */
 	private function updatePhoneNumbers() {
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+
 		$result = '<h2>Updating the phone numbers</h2>' . LF;
 
-		$GLOBALS['TYPO3_DB']->sql_query(
+		$databaseConnection->sql_query(
 			'UPDATE tx_realty_objects SET phone_direct_extension = contact_phone ' .
 				'WHERE phone_direct_extension = "" AND contact_phone <> ""'
 		);
-		$numberOfAffectedRows = $GLOBALS['TYPO3_DB']->sql_affected_rows();
+		$numberOfAffectedRows = $databaseConnection->sql_affected_rows();
 
 		$result .= '<p>Updated ' . $numberOfAffectedRows . ' object records.</p>';
 
 		return $result;
 	}
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/class.ext_update.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/class.ext_update.php']);
 }

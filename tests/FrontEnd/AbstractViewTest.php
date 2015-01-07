@@ -34,9 +34,9 @@ class tx_realty_FrontEnd_AbstractViewTest extends tx_phpunit_testcase {
 	protected function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
-		$this->fixture = new tx_realty_tests_fixtures_testingFrontEndView(
-			array(), $GLOBALS['TSFE']->cObj
-		);
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
+		$this->fixture = new tx_realty_tests_fixtures_testingFrontEndView(array(), $frontEndController->cObj);
 	}
 
 	protected function tearDown() {

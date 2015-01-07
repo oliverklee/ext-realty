@@ -233,30 +233,29 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			: 'title';
 		$this->checkForValidFieldName($titleColumn, $formData['table']);
 
-		$hasDummyColumn = tx_oelib_db::tableHasColumn(
-			$formData['table'], 'is_dummy_record'
-		);
+		$hasDummyColumn = Tx_Oelib_Db::tableHasColumn($formData['table'], 'is_dummy_record');
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResult = $databaseConnection->exec_SELECTquery(
 			$titleColumn . ',uid',
 			$formData['table'],
-			'1=1' . tx_oelib_db::enableFields($formData['table']) .
-				($hasDummyColumn ? $this->getWhereClauseForTesting() : ''),
+			'1=1' . Tx_Oelib_Db::enableFields($formData['table']) . ($hasDummyColumn ? $this->getWhereClauseForTesting() : ''),
 			'',
 			$titleColumn
 		);
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
 		}
 
+		/** @var array[] $items */
 		$items = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+		while (($row = $databaseConnection->sql_fetch_assoc($dbResult))){
 			$items[] = array(
 				'value' => $row['uid'],
 				'caption' => $row[$titleColumn],
 			);
 		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		// Resets the array pointer as expected by FORMidable.
 		reset($items);
@@ -427,31 +426,28 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		if ($this->realtyObjectUid > 0) {
 			return TRUE;
 		}
-
 		// Empty object numbers are not allowed.
 		if ($formData['value'] == '') {
 			return FALSE;
 		}
 
-		$languages = array();
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$dbResult = $databaseConnection->exec_SELECTquery(
 			'language',
 			'tx_realty_objects',
 			'object_number="' .
-				$GLOBALS['TYPO3_DB']->quoteStr(
-					$formData['value'], 'tx_realty_objects'
-				) . '"' . tx_oelib_db::enableFields('tx_realty_objects', 1) .
-				$this->getWhereClauseForTesting()
+			$databaseConnection->quoteStr($formData['value'], 'tx_realty_objects') . '"' .
+				tx_oelib_db::enableFields('tx_realty_objects', 1) . $this->getWhereClauseForTesting()
 		);
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+		$languages = array();
+		while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
 			$languages[] = $row['language'];
 		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		// Initially, new objects will always have an empty language because
 		// FE users cannot set the language.
@@ -473,31 +469,25 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @throws tx_oelib_Exception_Database
 	 */
-	public function checkKeyExistsInTable(
-		array $formData, $mayBeEmptyOrZero = TRUE
-	) {
+	public function checkKeyExistsInTable(array $formData, $mayBeEmptyOrZero = TRUE) {
 		$this->checkForValidTableName($formData['table']);
-
-		if ($mayBeEmptyOrZero
-			&& (($formData['value'] === '0') || ($formData['value'] === ''))
-		) {
+		if ($mayBeEmptyOrZero && (($formData['value'] === '0') || ($formData['value'] === ''))) {
 			return TRUE;
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$dbResult = $databaseConnection->exec_SELECTquery(
 			'uid',
 			$formData['table'],
-			'uid="' .
-				$GLOBALS['TYPO3_DB']->quoteStr(
-					$formData['value'], $formData['table']
-				) . '"' . tx_oelib_db::enableFields($formData['table'])
+			'uid="' . $databaseConnection->quoteStr($formData['value'], $formData['table']) . '"' .
+				Tx_Oelib_Db::enableFields($formData['table'])
 		);
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult) !== FALSE;
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$result = $databaseConnection->sql_fetch_assoc($dbResult) !== FALSE;
+		$databaseConnection->sql_free_result($dbResult);
 
 		return $result;
 	}
@@ -787,7 +777,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function getMessageForField($labelOfField, $labelOfMessage) {
 		$localizedFieldName = ($labelOfField != '')
-			? ($GLOBALS['TSFE']->sL($labelOfField) . ': ')
+			? ($this->getFrontEndController()->sL($labelOfField) . ': ')
 			: '';
 
 		return $localizedFieldName . $this->translate($labelOfMessage);
@@ -882,15 +872,15 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return string body for the e-mail to send, will not be empty
 	 */
 	private function getFilledEmailBody() {
-		$user = tx_oelib_FrontEndLoginManager::getInstance()
-			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		$user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 
+		$insertId = Tx_Oelib_Db::getDatabaseConnection()->sql_insert_id();
 		foreach (array(
 			'username' => $user->getUserName(),
 			'name' => $user->getName(),
 			'object_number' => $this->getFormValue('object_number'),
 			'title' => $this->getFormValue('title'),
-			'uid' => $GLOBALS['TYPO3_DB']->sql_insert_id(),
+			'uid' => $insertId,
 		) as $marker => $value) {
 			$this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
 		}
@@ -909,7 +899,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 */
 	private function purgeNonRealtyObjectFields(array &$formData) {
 		foreach (array_keys($formData) as $key) {
-			if (!tx_oelib_db::tableHasColumn('tx_realty_objects', $key)) {
+			if (!Tx_Oelib_Db::tableHasColumn('tx_realty_objects', $key)) {
 				unset($formData[$key]);
 			}
 		}
@@ -954,18 +944,18 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @throws tx_oelib_Exception_Database
 	 */
 	private function getUidIfAuxiliaryRecordExists($title, $table) {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$dbResult = $databaseConnection->exec_SELECTquery(
 			'uid',
 			$table,
-			'title="' . $GLOBALS['TYPO3_DB']->quoteStr($title, $table) . '"' .
-				$this->getWhereClauseForTesting()
+			'title="' . $databaseConnection->quoteStr($title, $table) . '"' . $this->getWhereClauseForTesting()
 		);
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$result = $databaseConnection->sql_fetch_assoc($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		return ($result !== FALSE) ? $result['uid'] : 0;
 	}
@@ -1064,17 +1054,18 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @throws tx_oelib_Exception_Database
 	 */
 	private function getPidFromCityRecord($cityUid) {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$dbResult = $databaseConnection->exec_SELECTquery(
 			'save_folder',
 			'tx_realty_cities',
 			'uid=' . $cityUid
 		);
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$row = $databaseConnection->sql_fetch_assoc($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		return (int)$row['save_folder'];
 	}
@@ -1273,8 +1264,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return void
 	 */
 	public function addOnLoadHandler() {
-		$GLOBALS['TSFE']->JSeventFuncCalls['onload']['tx_realty_pi1_editor']
-			= 'updateHideAndShow();';
+		$this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_editor'] = 'updateHideAndShow();';
 	}
 
 

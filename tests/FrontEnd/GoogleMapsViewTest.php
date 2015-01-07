@@ -95,7 +95,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'defaultCountryUID' => 54,
 			),
-			$GLOBALS['TSFE']->cObj,
+			$this->getFrontEndController()->cObj,
 			TRUE
 		);
 	}
@@ -104,6 +104,14 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	///////////////////////////////////
 	// Tests for the Google Maps view
@@ -278,7 +286,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'])
+			isset($this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps'])
 		);
 	}
 
@@ -292,7 +300,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertFalse(
-			isset($GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps'])
+			isset($this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps'])
 		);
 	}
 
@@ -305,9 +313,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']
-				->JSeventFuncCalls['onload']['tx_realty_pi1_maps']
-			)
+			isset($this->getFrontEndController()->JSeventFuncCalls['onload']['tx_realty_pi1_maps'])
 		);
 	}
 
@@ -320,9 +326,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']
-				->JSeventFuncCalls['onunload']['tx_realty_pi1_maps']
-			)
+			isset($this->getFrontEndController()->JSeventFuncCalls['onunload']['tx_realty_pi1_maps'])
 		);
 	}
 
@@ -336,11 +340,11 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			(string) self::LATITUDE,
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 		$this->assertContains(
 			(string) self::LONGITUDE,
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -354,7 +358,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'title: "Main Street',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -369,7 +373,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'title: "12345"',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -383,7 +387,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertRegExp(
 			'/myInfoWindow\.setContent\(\'[^\']*A really long title that is not …/',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -397,7 +401,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertRegExp(
 			'/myInfoWindow\.setContent\(\'[^\']*Main Street/',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -413,7 +417,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertNotContains(
 			'href=',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -429,7 +433,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'href=',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -443,7 +447,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertNotRegExp(
 			'/bindInfoWindowHtml\(\'[^\']*Foo road/',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -458,7 +462,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'zoom:',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 }

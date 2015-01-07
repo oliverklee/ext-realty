@@ -145,6 +145,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 
 	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
+
+	/**
 	 * Creates dummy realty objects in the DB.
 	 *
 	 * @return void
@@ -3469,7 +3478,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$this->assertRegExp(
 			'/href="\?id=' . $this->singlePid . '/',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -3931,7 +3940,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getSelfUrlCreatesUrlForCurrentPage() {
-		$pageId = $GLOBALS['TSFE']->id;
+		$pageId = $this->getFrontEndController()->id;
 
 		$this->assertContains(
 			'?id=' . $pageId,

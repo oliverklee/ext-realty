@@ -700,16 +700,18 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+
 		// only the first two characters are used for a zip code search
-		$zipSearchString = $GLOBALS['TYPO3_DB']->quoteStr(
-			$GLOBALS['TYPO3_DB']->escapeStrForLike(
+		$zipSearchString = $databaseConnection->quoteStr(
+			$databaseConnection->escapeStrForLike(
 				substr($this->filterFormData['site'], 0, 2),
 				'tx_realty_objects'
 			),
 			'tx_realty_objects'
 		);
-		$citySearchString = $GLOBALS['TYPO3_DB']->quoteStr(
-			$GLOBALS['TYPO3_DB']->escapeStrForLike(
+		$citySearchString = $databaseConnection->quoteStr(
+			$databaseConnection->escapeStrForLike(
 				$this->filterFormData['site'],
 				'tx_realty_cities'
 			),
@@ -733,9 +735,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		}
 
 		return ' AND ' . 'tx_realty_objects' . '.object_number="' .
-			$GLOBALS['TYPO3_DB']->quoteStr(
-				$this->filterFormData['objectNumber'], 'tx_realty_objects'
-			) . '"';
+			Tx_Oelib_Db::getDatabaseConnection()->quoteStr($this->filterFormData['objectNumber'], 'tx_realty_objects') . '"';
 	}
 
 	/**

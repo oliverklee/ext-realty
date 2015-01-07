@@ -78,6 +78,8 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 			tx_oelib_Session::TYPE_TEMPORARY, $this->session
 		);
 
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_FavoritesListView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
@@ -85,7 +87,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 			),
-			$GLOBALS['TSFE']->cObj,
+			$frontEndController->cObj,
 			TRUE
 		);
 	}

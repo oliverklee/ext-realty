@@ -164,8 +164,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		$GLOBALS['TSFE']->page['title'] = $title;
-		$GLOBALS['TSFE']->indexedDocTitle = $title;
+		$frontEndController = $this->getFrontEndController();
+		$frontEndController->page['title'] = $title;
+		$frontEndController->indexedDocTitle = $title;
 	}
 
 	/**

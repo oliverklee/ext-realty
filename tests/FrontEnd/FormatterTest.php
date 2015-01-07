@@ -55,7 +55,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 				'defaultCountryUID' => self::DE,
 				'currencyUnit' => 'EUR',
 			),
-			$GLOBALS['TSFE']->cObj
+			$this->getFrontEndController()->cObj
 		);
 	}
 
@@ -63,6 +63,14 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	//////////////////////////////
 	// Tests for the constructor
@@ -77,9 +85,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 			'$realtyObjectUid must be greater than zero.'
 		);
 
-		$this->fixture = new tx_realty_pi1_Formatter(
-			0, array(), $GLOBALS['TSFE']->cObj
-		);
+		$this->fixture = new tx_realty_pi1_Formatter(0, array(), $this->getFrontEndController()->cObj);
 	}
 
 	/**
@@ -94,9 +100,7 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 				'. The formatter can only work for existing, non-deleted realty objects.'
 		);
 
-		new tx_realty_pi1_Formatter(
-			$this->realtyObject->getUid(), array(), $GLOBALS['TSFE']->cObj
-		);
+		new tx_realty_pi1_Formatter($this->realtyObject->getUid(), array(), $this->getFrontEndController()->cObj);
 	}
 
 

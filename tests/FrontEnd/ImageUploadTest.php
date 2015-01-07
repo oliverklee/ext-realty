@@ -90,7 +90,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 			array('feEditorTemplateFile'
 				=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html'
 			),
-			$GLOBALS['TSFE']->cObj,
+			$this->getFrontEndController()->cObj,
 			0,
 			'',
 			TRUE
@@ -104,6 +104,14 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$GLOBALS['TYPO3_CONF_VARS']['GFX'] = $this->graphicsConfigurationBackup;
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	///////////////////////
 	// Utility functions.
@@ -429,7 +437,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends tx_phpunit_testcase {
 		$this->fixture->setFakedFormValue('proceed_image_upload', 1);
 
 		$this->assertContains(
-			'?id=' . $GLOBALS['TSFE']->id,
+			'?id=' . $this->getFrontEndController()->id,
 			$this->fixture->getRedirectUrl()
 		);
 	}

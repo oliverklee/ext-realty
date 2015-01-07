@@ -51,8 +51,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->fixture = new tx_realty_pi1_ImageThumbnailsView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj
+			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $this->getFrontEndController()->cObj
 		);
 
 		$configurationRegistry = tx_oelib_ConfigurationRegistry::getInstance();
@@ -92,6 +91,14 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	//////////////////////////////////////
 	// Testing the image thumbnails view
@@ -179,7 +186,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			array_key_exists(
-				'tx_realty_pi1_lightbox_config', $GLOBALS['TSFE']->additionalHeaderData
+				'tx_realty_pi1_lightbox_config', $this->getFrontEndController()->additionalHeaderData
 			)
 		);
 	}
@@ -198,7 +205,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 			in_array(
 				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/lightbox.js" ></script>',
-				$GLOBALS['TSFE']->additionalHeaderData
+				$this->getFrontEndController()->additionalHeaderData
 			)
 		);
 	}
@@ -217,7 +224,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 			in_array(
 				'<link rel="stylesheet" type="text/css" href="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
 					'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
-				$GLOBALS['TSFE']->additionalHeaderData
+				$this->getFrontEndController()->additionalHeaderData
 			)
 		);
 	}
@@ -236,7 +243,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 			in_array(
 				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/prototype.js"></script>',
-				$GLOBALS['TSFE']->additionalHeaderData
+				$this->getFrontEndController()->additionalHeaderData
 			)
 		);
 	}
@@ -255,7 +262,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 			in_array(
 				'<script type="text/javascript"src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty/pi1' .
 					'/contrib/scriptaculous.js?load=effects,builder"></script>',
-				$GLOBALS['TSFE']->additionalHeaderData
+				$this->getFrontEndController()->additionalHeaderData
 			)
 		);
 	}
@@ -274,7 +281,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 			in_array(
 				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/lightbox.js" ></script>',
-				$GLOBALS['TSFE']->additionalHeaderData
+				$this->getFrontEndController()->additionalHeaderData
 			)
 		);
 	}
@@ -293,7 +300,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 			in_array(
 				'<link rel="stylesheet" type="text/css" href="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
 					'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
-				$GLOBALS['TSFE']->additionalHeaderData
+				$this->getFrontEndController()->additionalHeaderData
 			)
 		);
 	}

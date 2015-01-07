@@ -210,13 +210,18 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * @return string URL of the current page, will not be empty
 	 */
 	private function getUrlOfCurrentPage() {
-		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
-			'parameter' => $GLOBALS['TSFE']->id,
-			'additionalParams' => t3lib_div::implodeArrayForUrl('', array(
-				$this->prefixId => array('showUid' => $this->realtyObjectUid)
-			)),
-			'useCacheHash' => TRUE,
-		)));
+		return t3lib_div::locationHeaderUrl(
+			$this->cObj->typoLink_URL(
+				array(
+					'parameter' => $this->getFrontEndController()->id,
+					'additionalParams' => t3lib_div::implodeArrayForUrl(
+						'',
+						array($this->prefixId => array('showUid' => $this->realtyObjectUid))
+					),
+					'useCacheHash' => TRUE,
+				)
+			)
+		);
 	}
 
 	/**

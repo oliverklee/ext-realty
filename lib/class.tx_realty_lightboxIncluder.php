@@ -39,7 +39,8 @@ class tx_realty_lightboxIncluder {
 	 * @return void
 	 */
 	static public function includeMainJavaScript() {
-		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID]
+		$frontEndController = self::getFrontEndController();
+		$frontEndController->additionalHeaderData[self::PREFIX_ID]
 			= '<script src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 				'pi1/tx_realty_pi1.js" type="text/javascript">' .
 				'</script>';
@@ -51,30 +52,30 @@ class tx_realty_lightboxIncluder {
 	 * @return void
 	 */
 	static public function includeLightboxFiles() {
+		$frontEndController = self::getFrontEndController();
 		$configuration = tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->getAsTrimmedArray('includeJavaScriptLibraries');
-
 		if (in_array('prototype', $configuration)) {
 			self::includePrototype();
 		}
 
-		if (in_array('scriptaculous', $configuration)) {
-			$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_scriptaculous']
+		if (in_array('scriptaculous', $configuration, TRUE)) {
+			$frontEndController->additionalHeaderData[self::PREFIX_ID . '_scriptaculous']
 				= '<script type="text/javascript"' .
 				'src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 				'pi1/contrib/scriptaculous.js?load=effects,builder">' .
 				'</script>';
 		}
 
-		if (in_array('lightbox', $configuration)) {
+		if (in_array('lightbox', $configuration, TRUE)) {
 			self::addLightboxConfigurationToHeader();
 
-			$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox']
+			$frontEndController->additionalHeaderData[self::PREFIX_ID . '_lightbox']
 				= '<script type="text/javascript" ' .
 				'src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 				'pi1/contrib/lightbox.js" >' .
 				'</script>';
-			$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightboxcss']
+			$frontEndController->additionalHeaderData[self::PREFIX_ID . '_lightboxcss']
 				= '<link rel="stylesheet" type="text/css" href="' .
 					t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 				'pi1/contrib/lightbox.css" />';
@@ -87,7 +88,8 @@ class tx_realty_lightboxIncluder {
 	 * @return void
 	 */
 	static public function includePrototype() {
-		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_prototype']
+		$frontEndController = self::getFrontEndController();
+		$frontEndController->additionalHeaderData[self::PREFIX_ID . '_prototype']
 			= '<script type="text/javascript" ' .
 			'src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . t3lib_extMgm::siteRelPath(self::EXTENSION_KEY) .
 			'pi1/contrib/prototype.js">' .
@@ -104,7 +106,8 @@ class tx_realty_lightboxIncluder {
 		/** @var tx_realty_translator $translator */
 		$translator = t3lib_div::makeInstance('tx_realty_translator');
 
-		$GLOBALS['TSFE']->additionalHeaderData[self::PREFIX_ID . '_lightbox_config']
+		$frontEndController = self::getFrontEndController();
+		$frontEndController->additionalHeaderData[self::PREFIX_ID . '_lightbox_config']
 			= '<script type="text/javascript">' .
 			'LightboxOptions = Object.extend({' .
 				'fileLoadingImage: \''.
@@ -128,8 +131,15 @@ class tx_realty_lightboxIncluder {
 				'labelOf: "'. $translator->translate('label_lightbox_of') .'"' .
 			'}, window.LightboxOptions || {});' .
 		'</script>';
+	}
 
-		unset($translator);
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	static protected function getFrontEndController() {
+		return $GLOBALS['TSFE'];
 	}
 }
 

@@ -38,12 +38,21 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 
 		$this->fixture = new tx_realty_pi1_ErrorView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj
+			$this->getFrontEndController()->cObj
 		);
 	}
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
 	}
 
 	/**
@@ -92,7 +101,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertContains(
-			urlencode('?id=' . $GLOBALS['TSFE']->id),
+			urlencode('?id=' . $this->getFrontEndController()->id),
 			$this->fixture->render(array('message_please_login'))
 		);
 	}

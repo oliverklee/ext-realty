@@ -160,46 +160,47 @@ Changes:
 - [#3641] Update all copyrights to 2010
 
 Cleanup:
-- [#5213] Cleanup: Remove SOBE->include_once
-- [#5207] Cleanup: Drop unnecessary CDATA
-- [#4320] Cleanup: Enhance the @var/@param|@return type hinting
-- [#5206] Cleanup: Drop the unset from tearDown()
-- [#5198] Cleanup: Make setUp and tearDown protected
-- [#5203] Cleanup: Shorten the boolean casts
-- [#5201] Cleanup: Convert intval/float to casts
-- [#5200] Cleanup: boolean -> bool, integer -> int
-- [#5088] Cleanup: Shorten the die() line
-- [#4943] Cleanup: Add missing @throws annotations
-- [#5199] Cleanup: Use $GLOBALS['TCA'] instead of $TCA
-- [#5197] Cleanup: Use comments instead of PHPDoc style comments in copyright block
-- [#4019] Cleanup: Drop lib/tx_realty_constants.php
-- [#4881] Cleanup: Use t3lib_div::makeInstance instead of ObjectFactory::make
-- [#4998] Cleanup: Use type[] instead of array<type>
-- [#4842] Cleanup: Drop the todo.txt file
-- [#4832] Cleanup: Remove the closing PHP tags
-- [#4626] Cleanup: Fix all instances of "Missing function doc comment"
-- [#4625] Cleanup: Fix all instances of "Underscores are not allowed in method names"
-- [#4631] Cleanup: Drop useless class comments
-- [#4630] Cleanup: Update the copyright to 2013
-- [#4623] Cleanup: Fix all instances of "Missing @return tag in function comment"
-- [#3774] Cleanup: Implement the Geo interface for realty
-- [#3451] Cleanup: Use TYPO3's autoloader instead of oelib's autoloader
-- [#4278] Cleanup: Update the copyright to 2012
-- [#4452] Cleanup: Stop using the DATABASE_QUERY_ERROR and DATABASE_RESULT_ERROR constants
-- [#4276] Cleanup: Add the parameter name to all @param
-- [#4326] Cleanup: Remove the Zend Studio metadata from all projects
-- [#4281] Cleanup: Make true, false and null uppercase
-- [#4275] Cleanup: Convert the XCLASS code to use $GLOBALS
-- [#4177] Cleanup: Update the copyright to 2011
-- [#4274] Cleanup: Drop the XCLASS code from abstract classes
-- [#2628] Cleanup: Use frontEndLoginManager::loginUser
-- [#4132] Cleanup: Use the time constants from tx_oelib_Time
-- [#4047] Cleanup: Rename all test classes from *_testcase to *Test
-- [#4018] Cleanup: Use the mapper for getting the images for the gallery and the FE image upload
-- [#2049] Cleanup: Drop our copy of t3lib_div::rmdir
-- [#3863] Cleanup: Drop our own exception handlers in realty
-- [#3771] Cleanup: Clean up and unit-test tx_realty_pi1_AbstractListView::getSelfUrl
-- [#3434] Cleanup: Replace false/true with FALSE/TRUE
+- [#5205] Add wrappers for the GLOBALS
+- [#5213] Remove SOBE->include_once
+- [#5207] Drop unnecessary CDATA
+- [#4320] Enhance the @var/@param|@return type hinting
+- [#5206] Drop the unset from tearDown()
+- [#5198] Make setUp and tearDown protected
+- [#5203] Shorten the boolean casts
+- [#5201] Convert intval/float to casts
+- [#5200] boolean -> bool, integer -> int
+- [#5088] Shorten the die() line
+- [#4943] Add missing @throws annotations
+- [#5199] Use $GLOBALS['TCA'] instead of $TCA
+- [#5197] Use comments instead of PHPDoc style comments in copyright block
+- [#4019] Drop lib/tx_realty_constants.php
+- [#4881] Use t3lib_div::makeInstance instead of ObjectFactory::make
+- [#4998] Use type[] instead of array<type>
+- [#4842] Drop the todo.txt file
+- [#4832] Remove the closing PHP tags
+- [#4626] Fix all instances of "Missing function doc comment"
+- [#4625] Fix all instances of "Underscores are not allowed in method names"
+- [#4631] Drop useless class comments
+- [#4630] Update the copyright to 2013
+- [#4623] Fix all instances of "Missing @return tag in function comment"
+- [#3774] Implement the Geo interface for realty
+- [#3451] Use TYPO3's autoloader instead of oelib's autoloader
+- [#4278] Update the copyright to 2012
+- [#4452] Stop using the DATABASE_QUERY_ERROR and DATABASE_RESULT_ERROR constants
+- [#4276] Add the parameter name to all @param
+- [#4326] Remove the Zend Studio metadata from all projects
+- [#4281] Make true, false and null uppercase
+- [#4275] Convert the XCLASS code to use $GLOBALS
+- [#4177] Update the copyright to 2011
+- [#4274] Drop the XCLASS code from abstract classes
+- [#2628] Use frontEndLoginManager::loginUser
+- [#4132] Use the time constants from tx_oelib_Time
+- [#4047] Rename all test classes from *_testcase to *Test
+- [#4018] Use the mapper for getting the images for the gallery and the FE image upload
+- [#2049] Drop our copy of t3lib_div::rmdir
+- [#3863] Drop our own exception handlers in realty
+- [#3771] Clean up and unit-test tx_realty_pi1_AbstractListView::getSelfUrl
+- [#3434] Replace false/true with FALSE/TRUE
 
 
 0.5.0 - released 2010-02-23

@@ -62,12 +62,14 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 		$this->testingFramework->createFakeFrontEnd();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
 
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_ObjectsByOwnerListView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'pages' => $this->systemFolderPid,
 			),
-			$GLOBALS['TSFE']->cObj,
+			$frontEndController->cObj,
 			TRUE
 		);
 	}

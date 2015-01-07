@@ -233,7 +233,7 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 *
 	 * @throws RuntimeException if no suitable cache backend can be found
 	 */
-	protected function getCacheBackendClassName() {
+	private function getCacheBackendClassName() {
 		$classNames = array(
 			'TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface',
 			'TYPO3\\CMS\\Core\\Cache\\Backend\\BackendInterface',

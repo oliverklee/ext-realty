@@ -35,7 +35,7 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $piVars = array()) {
 		if (!$this->hasConfValueInteger('contactPID')
-			|| ($this->getConfValueInteger('contactPID') == $GLOBALS['TSFE']->id)
+			|| ($this->getConfValueInteger('contactPID') == (int)$this->getFrontEndController()->id)
 		) {
 			return '';
 		}

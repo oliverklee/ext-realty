@@ -125,7 +125,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * @return string the WHERE clause parts to add, will not be empty
 	 */
 	protected function getViewSpecificWhereClauseParts() {
-		$GLOBALS['TSFE']->set_no_cache();
+		$this->getFrontEndController()->set_no_cache();
 		$this->processSubmittedFavorites();
 
 		$result = ($this->getFavorites() != '')

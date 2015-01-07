@@ -23,27 +23,41 @@
  */
 class tx_realty_translator {
 	/**
+	 * @var language
+	 */
+	protected $languageService = NULL;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
 		// expected by the LANG object
 		global $TYPO3_CONF_VARS;
 
-		if (!is_object($GLOBALS['LANG'])) {
-			$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
+		if (is_object($GLOBALS['LANG'])) {
+			$this->languageService = $GLOBALS['LANG'];
+		} else {
+			$this->languageService = t3lib_div::makeInstance('language');
 		}
 		$cliLanguage = tx_oelib_configurationProxy::getInstance('realty')->getAsString('cliLanguage');
 		// "default" is used as language key if the configured language key is not within the set of available language keys.
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			$languageKey = (strpos(TYPO3_languages, '|' . $cliLanguage . '|') !== FALSE) ? $cliLanguage : 'default';
 		} else {
-			/** @var $locales t3lib_l10n_Locales */
+			/** @var t3lib_l10n_Locales $locales */
 			$locales = t3lib_div::makeInstance('t3lib_l10n_Locales');
 			$languageKey = in_array($cliLanguage, $locales->getLocales())? $cliLanguage : 'default';
 		}
 
-		$GLOBALS['LANG']->init($languageKey);
-		$GLOBALS['LANG']->includeLLFile('EXT:realty/lib/locallang.xml');
+		$this->languageService->init($languageKey);
+		$this->languageService->includeLLFile('EXT:realty/lib/locallang.xml');
+	}
+
+	/**
+	 * The destructor.
+	 */
+	public function __destruct() {
+		unset($this->languageService);
 	}
 
 	/**
@@ -59,7 +73,7 @@ class tx_realty_translator {
 			throw new InvalidArgumentException('$key must not be empty.', 1333035608);
 		}
 
-		$result = $GLOBALS['LANG']->getLL($key);
+		$result = $this->languageService->getLL($key);
 
 		return ($result != '') ? $result : $key;
 	}

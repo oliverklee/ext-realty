@@ -36,13 +36,15 @@ class tx_realty_FrontEnd_PriceViewTest extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_PriceView(
 			array(
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'currencyUnit' => 'EUR',
 				'priceOnlyIfAvailable' => FALSE,
 			),
-			$GLOBALS['TSFE']->cObj
+			$frontEndController->cObj
 		);
 	}
 

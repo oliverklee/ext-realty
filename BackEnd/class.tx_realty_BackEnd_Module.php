@@ -59,9 +59,9 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 *
 	 * @return string HTML for the module, will not be empty
 	 */
-	function render()	{
-		$result = $this->doc->startPage($GLOBALS['LANG']->getLL('title'));
-		$result .= $this->doc->header($GLOBALS['LANG']->getLL('title'));
+	function render() {
+		$title = $this->translate('title');
+		$result = $this->doc->startPage($title) . $this->doc->header($title);
 
 		if ($this->hasAccess()) {
 			$result .= $this->doc->section(
@@ -119,7 +119,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 			array('M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id),
 			'tab',
 			self::IMPORT_TAB,
-			array(self::IMPORT_TAB => $GLOBALS['LANG']->getLL('import_tab'))
+			array(self::IMPORT_TAB => $this->translate('import_tab'))
 			) . $this->doc->spacer(5);
 	}
 
@@ -134,12 +134,12 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$this->template->setMarker('module_url', htmlspecialchars($moduleUrl));
 		$this->template->setMarker(
 			'label_start_import',
-			$GLOBALS['LANG']->getLL('start_import_button')
+			$this->translate('start_import_button')
 		);
 		$this->template->setMarker('tab_number', self::IMPORT_TAB);
 		$this->template->setMarker(
 			'label_import_in_progress',
-			$GLOBALS['LANG']->getLL('label_import_in_progress')
+			$this->translate('label_import_in_progress')
 		);
 
 		return $this->template->getSubpart('IMPORT_BUTTON');
@@ -153,7 +153,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 *                 rights to access the necessary data, FALSE otherwise
 	 */
 	private function hasAccess() {
-		if ($GLOBALS['BE_USER']->isAdmin()) {
+		if ($this->getBackEndUserAuthentication()->isAdmin()) {
 			return TRUE;
 		}
 
@@ -173,14 +173,14 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$objectsPid = $configurationProxy->getAsInteger(
 			'pidForRealtyObjectsAndImages'
 		);
-		$canWriteObjectsPage = $GLOBALS['BE_USER']->doesUserHaveAccess(
+		$canWriteObjectsPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
 			t3lib_BEfunc::getRecord('pages', $objectsPid), 16
 		);
 
 		$auxiliaryPid = $configurationProxy->getAsInteger(
 			'pidForAuxiliaryRecords'
 		);
-		$canWriteAuxiliaryPage = $GLOBALS['BE_USER']->doesUserHaveAccess(
+		$canWriteAuxiliaryPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
 			t3lib_BEfunc::getRecord('pages', $auxiliaryPid), 16
 		);
 
@@ -215,7 +215,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		);
 
 		foreach ($neededTables as $table) {
-			if (!$GLOBALS['BE_USER']->check('tables_modify', $table)) {
+			if (!$this->getBackEndUserAuthentication()->check('tables_modify', $table)) {
 				$userHasAccessToTables = FALSE;
 				$this->storeErrorMessage('table_access', $table);
 				break;
@@ -238,7 +238,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 */
 	private function storeErrorMessage($message, $value) {
 		$this->errorMessages[] = sprintf(
-			$GLOBALS['LANG']->getLL('error_message_' . $message),
+			$this->translate('error_message_' . $message),
 			$value
 		);
 	}
@@ -257,13 +257,42 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		$this->template->setMarker(
 			'message_no_permissions',
 			$this->doc->spacer(5) .
-				$GLOBALS['LANG']->getLL('message_no_permission')
+				$this->translate('message_no_permission')
 
 		);
 		$errorList = implode('</li>' . LF . '<li>', $this->errorMessages);
 		$this->template->setMarker('error_list', '<li>' . $errorList .'</li>');
 
 		return $this->template->getSubpart('IMPORT_ERRORS');
+	}
+
+	/**
+	 * Returns $GLOBALS['BE_USER'].
+	 *
+	 * @return t3lib_beUserAuth|NULL
+	 */
+	protected function getBackEndUserAuthentication() {
+		return isset($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER'] : NULL;
+	}
+
+	/**
+	 * Returns $GLOBALS['LANG'].
+	 *
+	 * @return language
+	 */
+	protected function getLanguageService() {
+		return $GLOBALS['LANG'];
+	}
+
+	/**
+	 * Returns the localized string for $key.
+	 *
+	 * @param string $key the key of the localized string, must not be empty
+	 *
+	 * @return string
+	 */
+	protected function translate($key) {
+		return $this->getLanguageService()->getLL($key);
 	}
 }
 

@@ -591,13 +591,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			$whereClause = 'uid=' . $this->getAsInteger('owner');
 		} else {
 			$whereClause = 'tx_realty_openimmo_anid="' .
-				$GLOBALS['TYPO3_DB']->quoteStr(
-					$this->getAsString('openimmo_anid'), 'tx_realty_objects'
-				) . '" ';
+				Tx_Oelib_Db::getDatabaseConnection()->quoteStr($this->getAsString('openimmo_anid'), 'tx_realty_objects') . '" ';
 		}
 
 		try {
-			$row = tx_oelib_db::selectSingle(
+			$row = Tx_Oelib_Db::selectSingle(
 				'*',
 				'fe_users',
 				$whereClause . tx_oelib_db::enableFields('fe_users')
@@ -1451,15 +1449,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *
 	 * @return string[] database result row in an array, will be empty if no matching record was found
 	 */
-	private function compareWithDatabase(
-		$whatToSelect, array $dataArray, $table
-	) {
-		$result = FALSE;
-
+	private function compareWithDatabase($whatToSelect, array $dataArray, $table) {
 		$whereClauseParts = array();
 		foreach (array_keys($dataArray) as $key) {
 			$whereClauseParts[] = $key . '=' .
-				$GLOBALS['TYPO3_DB']->fullQuoteStr($dataArray[$key], $table);
+				Tx_Oelib_Db::getDatabaseConnection()->fullQuoteStr($dataArray[$key], $table);
 		}
 
 		$showHidden = -1;
@@ -1468,10 +1462,10 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		try {
-			$result = tx_oelib_db::selectSingle(
+			$result = Tx_Oelib_Db::selectSingle(
 				$whatToSelect,
 				$table,
-				implode(' AND ', $whereClauseParts) . tx_oelib_db::enableFields($table, $showHidden)
+				implode(' AND ', $whereClauseParts) . Tx_Oelib_Db::enableFields($table, $showHidden)
 			);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 			$result = array();
@@ -2037,18 +2031,19 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	}
 
 	/**
-	 * Sets the current charset in $this->renderCharset and the charset
-	 * conversion instance in $this->$charsetConversion.
+	 * Sets the current charset in $this->renderCharset and the charset conversion instance in $this->$charsetConversion.
 	 *
 	 * @return void
+	 *
+	 * @throws RuntimeException
 	 */
 	private function initializeCharsetConversion() {
-		if (isset($GLOBALS['TSFE'])) {
-			$this->renderCharset = $GLOBALS['TSFE']->renderCharset;
-			$this->charsetConversion = $GLOBALS['TSFE']->csConvObj;
-		} elseif (isset($GLOBALS['LANG'])) {
-			$this->renderCharset = $GLOBALS['LANG']->charset;
-			$this->charsetConversion = $GLOBALS['LANG']->csConvObj;
+		if ($this->getFrontEndController() !== NULL) {
+			$this->renderCharset = $this->getFrontEndController()->renderCharset;
+			$this->charsetConversion = $this->getFrontEndController()->csConvObj;
+		} elseif ($this->getLanguageService() !== NULL) {
+			$this->renderCharset = $this->getLanguageService()->charset;
+			$this->charsetConversion = $this->getLanguageService()->csConvObj;
 		} else {
 			throw new RuntimeException('There was neither a front end nor a back end detected.', 1333036016);
 		}
@@ -2056,6 +2051,24 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		if ($this->renderCharset === NULL || $this->renderCharset === '') {
 			$this->renderCharset = 'UTF-8';
 		}
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
+	}
+
+	/**
+	 * Returns $GLOBALS['LANG'].
+	 *
+	 * @return language|NULL
+	 */
+	protected function getLanguageService() {
+		return isset($GLOBALS['LANG']) ? $GLOBALS['LANG'] : NULL;
 	}
 
 	/**

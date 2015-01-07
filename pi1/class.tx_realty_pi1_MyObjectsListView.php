@@ -193,7 +193,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 			'delete_link',
 			$this->cObj->typoLink_URL(
 				array(
-					'parameter' => $GLOBALS['TSFE']->id,
+					'parameter' => $this->getFrontEndController()->id,
 					'additionalParams' => t3lib_div::implodeArrayForUrl(
 						$this->prefixId,
 						array('delete' => $this->internal['currentRow']['uid'])
@@ -320,10 +320,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 			return TRUE;
 		}
 
-		return (
-			($advertisementDate + $expiryInDays * tx_oelib_Time::SECONDS_PER_DAY)
-				< $GLOBALS['SIM_ACCESS_TIME']
-		);
+		return ($advertisementDate + $expiryInDays * tx_oelib_Time::SECONDS_PER_DAY) < $GLOBALS['SIM_ACCESS_TIME'];
 	}
 }
 

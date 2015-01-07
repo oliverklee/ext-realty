@@ -40,7 +40,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'displayedSearchWidgetFields' => 'site',
 			),
-			$GLOBALS['TSFE']->cObj
+			$this->getFrontEndController()->cObj
 		);
 	}
 
@@ -48,6 +48,14 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	///////////////////////////
 	// Testing the rendering.
@@ -480,9 +488,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertFalse(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
 
@@ -498,9 +504,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertFalse(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
 
@@ -516,9 +520,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
 
@@ -534,9 +536,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertFalse(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
 	}
 
@@ -552,9 +552,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertFalse(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
 	}
 
@@ -570,9 +568,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
 	}
 
@@ -684,9 +680,7 @@ class tx_realty_FrontEnd_FilterFormTest extends tx_phpunit_testcase {
 		$this->fixture->render();
 
 		$this->assertFalse(
-			isset($GLOBALS['TSFE']->additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
+			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
 

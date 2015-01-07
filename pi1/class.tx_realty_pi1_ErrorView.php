@@ -54,7 +54,7 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView {
 
 		$redirectUrl = t3lib_div::locationHeaderUrl(
 			$this->cObj->typoLink_URL(array(
-				'parameter' => $GLOBALS['TSFE']->id,
+				'parameter' => $this->getFrontEndController()->id,
 				'additionalParams' => t3lib_div::implodeArrayForUrl(
 					$this->prefixId, $piVars, '', TRUE, TRUE
 				),

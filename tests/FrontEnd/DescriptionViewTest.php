@@ -35,9 +35,10 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_DescriptionView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj
+			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj
 		);
 	}
 

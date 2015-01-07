@@ -46,16 +46,15 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	protected function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
-		$GLOBALS['TSFE']->cObj->data['pid']
-			= $this->testingFramework->createFrontEndPage();
+
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
+		$frontEndController->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 		$this->listViewUid = $this->testingFramework->createContentElement();
-		$this->dummyCityUid = $this->testingFramework->createRecord(
-			'tx_realty_cities'
-		);
+		$this->dummyCityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
 		$this->fixture = new tx_realty_pi1_NextPreviousButtonsView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj
+			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj
 		);
 
 		$this->fixture->setConfigurationValue('enableNextPreviousButtons', TRUE);

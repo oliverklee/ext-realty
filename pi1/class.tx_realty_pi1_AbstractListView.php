@@ -204,7 +204,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	private function fillListRows() {
 		$dbResult = $this->initListView();
-
 		if ($this->internal['res_count'] == 0) {
 			$this->setEmptyResultView();
 			return;
@@ -214,15 +213,15 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$rowCounter = 0;
 		$listedObjectsUids = array();
 
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
 			$this->internal['currentRow'] = $row;
-			$this->internal['currentRow']['recordPosition']
-				= $this->startingRecordNumber + $rowCounter;
+			$this->internal['currentRow']['recordPosition'] = $this->startingRecordNumber + $rowCounter;
 			$listItems .= $this->createListRow($rowCounter);
 			$listedObjectsUids[] = $this->internal['currentRow']['uid'];
 			$rowCounter++;
 		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		$this->setSubpart('list_item', $listItems);
 		$this->setSubpart('pagination', $this->createPagination());
@@ -245,12 +244,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	private function initListView() {
 		$whereClause = $this->createWhereClause();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			$this->getSelectForListView($whereClause) .
-				' LIMIT ' . $this->createLimitStatement($whereClause)
+		$dbResult = Tx_Oelib_Db::getDatabaseConnection()->sql_query(
+			$this->getSelectForListView($whereClause) . ' LIMIT ' . $this->createLimitStatement($whereClause)
 		);
 
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
 		}
 
@@ -318,8 +316,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	protected function getFavoritesUrl() {
 		$pageId = $this->getConfValueInteger('favoritesPID');
 
-		if (!$pageId) {
-			$pageId = $GLOBALS['TSFE']->id;
+		if ($pageId === 0) {
+			$pageId = $this->getFrontEndController()->id;
 		}
 
 		return htmlspecialchars(
@@ -737,7 +735,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		);
 		$url = $this->cObj->typoLink_URL(
 			array(
-				'parameter' => $GLOBALS['TSFE']->id,
+				'parameter' => $this->getFrontEndController()->id,
 				'additionalParams' => $parameters,
 				'useCacheHash' => TRUE,
 			)
@@ -1020,7 +1018,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			}
 			$url = $this->cObj->typoLink_URL(
 				array(
-					'parameter' => $GLOBALS['TSFE']->id,
+					'parameter' => $this->getFrontEndController()->id,
 					'additionalParams' => t3lib_div::implodeArrayForUrl($this->prefixId, $additionalParameters),
 					'useCacheHash' => TRUE,
 				)
@@ -1368,18 +1366,18 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			throw new InvalidArgumentException('The record position must be a non-negative integer.', 1333036413);
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$dbResult = $databaseConnection->sql_query(
 			$this->getSelectForListView($this->createWhereClause()) .
 				' LIMIT ' . $recordPosition . ',1'
 		);
-
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		$result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$result = $databaseConnection->sql_fetch_assoc($dbResult);
 
-		return (is_array($result)) ? $result['uid'] : 0;
+		return is_array($result) ? $result['uid'] : 0;
 	}
 
 	/**

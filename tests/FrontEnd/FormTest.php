@@ -57,9 +57,11 @@ class tx_realty_FrontEnd_FormTest extends tx_phpunit_testcase {
 
 		$this->createDummyRecords();
 
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_frontEndEditor(
 			array(),
-			$GLOBALS['TSFE']->cObj,
+			$frontEndController->cObj,
 			0,
 			'',
 			TRUE

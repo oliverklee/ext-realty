@@ -320,13 +320,10 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * @return void
 	 */
 	protected function checkCurrencyUnit() {
-		if (!tx_oelib_db::existsRecord(
-				'static_currencies',
-				'cu_iso_3 = "' .
-					$GLOBALS['TYPO3_DB']->quoteStr($this->objectToCheck->getConfValueString('currencyUnit'), 'static_currencies') .
-					'"'
-				)
-			) {
+		$quotedCurrencyUnit = Tx_Oelib_Db::getDatabaseConnection()->quoteStr(
+			$this->objectToCheck->getConfValueString('currencyUnit'), 'static_currencies'
+		);
+		if (!Tx_Oelib_Db::existsRecord('static_currencies', 'cu_iso_3 = "' . $quotedCurrencyUnit . '"')) {
 			$this->setErrorMessageAndRequestCorrection(
 				'currencyUnit',
 				FALSE,

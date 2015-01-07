@@ -50,7 +50,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 
 		$this->fixture = new tx_realty_pi1_SingleView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$GLOBALS['TSFE']->cObj,
+			$this->getFrontEndController()->cObj,
 			TRUE
 		);
 		$this->fixture->setConfigurationValue(
@@ -71,6 +71,14 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	/////////////////////////////////////////////////////
 	// Testing the conditions to render the single view
@@ -778,7 +786,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 		$this->assertNotContains(
 			'href=',
-			$GLOBALS['TSFE']->additionalHeaderData['tx_realty_pi1_maps']
+			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
 	}
 
@@ -817,7 +825,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord(
 			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
-		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
+		$this->getFrontEndController()->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
@@ -844,7 +852,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		$objectUid = $this->testingFramework->createRecord(
 			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
-		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
+		$this->getFrontEndController()->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', TRUE
@@ -871,7 +879,7 @@ class tx_realty_FrontEnd_SingleViewTest extends tx_phpunit_testcase {
 		$objectUid = $this->testingFramework->createRecord(
 			'tx_realty_objects', array('city' => $this->dummyCityUid)
 		);
-		$GLOBALS['TSFE']->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
+		$this->getFrontEndController()->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
 		$this->fixture->setConfigurationValue(
 			'enableNextPreviousButtons', FALSE
