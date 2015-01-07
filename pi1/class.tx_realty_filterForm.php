@@ -125,6 +125,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	private function extractValidFilterFormData(array $formData) {
+		$localeConvention = localeconv();
+
 		foreach ($formData as $key => $rawValue) {
 			switch($key) {
 				case 'uid':

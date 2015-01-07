@@ -50,6 +50,7 @@ Localization:
 - [#3997] Change some field titles in the FE and BE
 
 Bug fixes:
+- [#5224] Undefined variable $localeConvention in the filter form
 - [#4343] Some unit tests read the real TS setup
 - [#4319} Change != to <> in SQL
 - [#5189] private field isTestMode is used in subclass
