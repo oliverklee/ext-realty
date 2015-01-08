@@ -1,0 +1,6 @@
+﻿.. |img-11|     image:: ../../Images/manual_html_64f8659.png
+.. :align: left
+.. :border: 0
+.. :name: graphics2
+.. :width: 100%
+

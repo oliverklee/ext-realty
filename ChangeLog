@@ -129,6 +129,7 @@ Bug fixes:
 - [#3625] Typo getSelectForListVew
 
 Changes:
+- [#5227] Convert the manual to ReST
 - [#5220] Require oelib 0.8.0
 - [#5176] Update maximum PHP version to 5.6
 - [#5014] Convert the e-mail functions to SwiftMailer

@@ -1,0 +1,6 @@
+﻿.. |img-15|     image:: ../../Images/manual_html_76603495.png
+.. :align: left
+.. :border: 0
+.. :name: graphics4
+.. :width: 100%
+

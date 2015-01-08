@@ -1,0 +1,18 @@
+﻿.. |img-12|     image:: ../../Images/manual_html_m6d52c3d9.jpg
+.. :align: left
+.. :border: 0
+.. :name: graphics10
+.. :width: 100%
+
+.. |img-13|     image:: ../../Images/manual_html_m54aa3865.jpg
+.. :align: left
+.. :border: 0
+.. :name: graphics7
+.. :width: 100%
+
+.. |img-14|     image:: ../../Images/manual_html_4eab6aa6.jpg
+.. :align: left
+.. :border: 0
+.. :name: graphics8
+.. :width: 100%
+

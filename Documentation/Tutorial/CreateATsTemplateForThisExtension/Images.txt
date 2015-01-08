@@ -1,0 +1,24 @@
+﻿.. |img-7|      image:: ../../Images/manual_html_m288d4fce.jpg
+.. :align: left
+.. :border: 0
+.. :name: Grafik10
+.. :width: 100%
+
+.. |img-8|      image:: ../../Images/manual_html_14caa2b3.jpg
+.. :align: left
+.. :border: 0
+.. :name: Grafik11
+.. :width: 100%
+
+.. |img-9|      image:: ../../Images/manual_html_m2774f712.jpg
+.. :align: left
+.. :border: 0
+.. :name: Grafik12
+.. :width: 100%
+
+.. |img-10|     image:: ../../Images/manual_html_2384abf9.jpg
+.. :align: left
+.. :border: 0
+.. :name: Grafik13
+.. :width: 100%
+
