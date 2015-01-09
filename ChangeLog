@@ -1,6 +1,7 @@
 0.6.0 - currently working on
 
 Features:
+- [#4163] Add a decimal mark and thousands separator to the FE locallang
 - [#5225] Add first name and salutation for objects
 - [#5186] Add an automatic update function for contact_phone
 - [#5027] Import the fields for the "Energiepass"/"Energieausweis"

@@ -81,7 +81,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			return '';
 		}
 
-		$this->setLocaleConvention();
 		$this->getTemplateCode();
 		$this->setLabels();
 

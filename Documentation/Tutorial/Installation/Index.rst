@@ -20,12 +20,6 @@ Installation
 
 #. In the install tool, disable  **FE > pageNotFoundOnCHashError** .
 
-#. Make sure that the locales for your FE language are installed on your
-   web server. For example, if you are using a Dutch site for the
-   Netherlands, you need the nl\_NL locale on your server. For Swiss
-   German, you would need the de\_CH locale. This is setting for the
-   server  *system* , not a TYPO3 or PHP setting.
-
 #. If you want to use the OpenImmo import and your server uses SuSE
    Linux, please make sure that the package  *php5-zip* or  *php-zip* is
    installed
@@ -57,15 +51,15 @@ Installation
    You'll need the latest 1.x version of ameos\_formidable. If a version
    2.x is available from the TER, you'll need to select the latest 1.x
    version manually:
-   
+
    #. In  *Extension Manager > Import extensions* , type “ameos\_formidable”
       and click on  *Look up* .
-   
+
    #. In the list of results, click on the title  *Ameos Formidable* .
-   
+
    #. Under  *SELECT COMMAND* , choose the highest 1.x.y version from the
       drop-down list.
-   
+
    #. Click on  *Import/Update* .
 
 #. Install the Realty Manager extension.

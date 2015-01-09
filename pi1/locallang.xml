@@ -109,6 +109,8 @@
 			<label index="realty.pi_flexform.status">object status</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="date_format">Y-m-d</label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
@@ -532,6 +534,8 @@
 			<label index="realty.pi_flexform.status">Objektstatus</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="decimal_mark">,</label>
+			<label index="thousands_separator"></label>
 			<label index="date_format">d.m.Y</label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Ort</label>
@@ -945,6 +949,8 @@
 			<label index="realty.pi_flexform.imageThumbnails">Foto's</label>
 			<label index="realty.pi_flexform.offerer">Informatie van de aanbieder</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
+			<label index="decimal_mark">,</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">Plaats</label>
 			<label index="label_district">Stadsdeel</label>
@@ -1207,6 +1213,8 @@
 			<label index="realty.pi_flexform.singlePID">Side for enkelt visning:</label>
 			<label index="realty.pi_flexform.favoritesPID">Underside med favoritter:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Målside for en valgt by/område:</label>
+			<label index="decimal_mark">,</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Titel</label>
 			<label index="label_city">By</label>
 			<label index="label_district">Område</label>
@@ -1327,6 +1335,8 @@
 			<label index="realty.pi_flexform.singlePID">Страница для просмотра единственного елемента недвижимости (single):</label>
 			<label index="realty.pi_flexform.favoritesPID">Страница с избранными:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Страница с выбором недвижемости по городам:</label>
+			<label index="decimal_mark">,</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Заголовок</label>
 			<label index="label_city">Город</label>
 			<label index="label_district">Район</label>
@@ -1423,6 +1433,8 @@
 			<label index="realty.pi_flexform.singlePID">Sayfa Detaylı (tek)görünüşü</label>
 			<label index="realty.pi_flexform.favoritesPID">Sayfa favoriler</label>
 			<label index="realty.pi_flexform.filterTargetPID">Şehir seçicisi için Sayfa</label>
+			<label index="decimal_mark">,</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Başlık</label>
 			<label index="label_city">Şehir</label>
 			<label index="label_district">Semt</label>
@@ -1607,6 +1619,8 @@
 			<label index="realty.pi_flexform.status">Status del objeto</label>
 			<label index="realty.pi_flexform.googleMaps">Mapas Google</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="decimal_mark">,</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Título</label>
 			<label index="label_city">Ciudad</label>
 			<label index="label_district">Provincia</label>
@@ -1984,6 +1998,8 @@
 			<label index="realty.pi_flexform.furtherDescription">campi &quot;attrezzatura&quot;, &quot;localit&amp;agrave;&quot; e &quot;varie&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">immagini</label>
 			<label index="realty.pi_flexform.offerer">informazioni proprietario</label>
+			<label index="decimal_mark">,</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Titolo</label>
 			<label index="label_city">Citt&amp;agrave;</label>
 			<label index="label_district">Area</label>
@@ -4078,6 +4094,8 @@
 			<label index="realty.pi_flexform.status">object status</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -4402,6 +4420,8 @@
 			<label index="realty.pi_flexform.feEditorNotifyEmail">E-mail address that receives a message when a new record has been FE-created:</label>
 			<label index="realty.pi_flexform.sheet_googlemaps">Google Maps</label>
 			<label index="realty.pi_flexform.showGoogleMaps">Show Google Maps in list view:</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -4726,6 +4746,8 @@
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the filter form and the city selector:</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -4846,6 +4868,8 @@
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the city selector:</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -4939,6 +4963,8 @@
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the city selector:</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -5032,6 +5058,8 @@
 			<label index="realty.pi_flexform.singlePID">Page for the single view:</label>
 			<label index="realty.pi_flexform.favoritesPID">Page with the favorites list:</label>
 			<label index="realty.pi_flexform.filterTargetPID">Target page for the search widget:</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>
@@ -5208,6 +5236,8 @@
 			<label index="realty.pi_flexform.status">object status</label>
 			<label index="realty.pi_flexform.googleMaps">Google Maps</label>
 			<label index="realty.pi_flexform.sheet_template_and_special">Templates</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_country">Country</label>
 			<label index="label_rent_per_square_meter">Rent/m²</label>
 			<label index="label_has_air_conditioning">Air conditioning</label>
@@ -5500,6 +5530,8 @@
 			<label index="realty.pi_flexform.furtherDescription">fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</label>
 			<label index="realty.pi_flexform.imageThumbnails">images</label>
 			<label index="realty.pi_flexform.offerer">offerer information</label>
+			<label index="decimal_mark">.</label>
+			<label index="thousands_separator"></label>
 			<label index="label_title">Title</label>
 			<label index="label_city">City</label>
 			<label index="label_district">District</label>

@@ -265,12 +265,22 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyFormatsEstateSizeWithTwoDecimals() {
-		$this->realtyObject->setProperty('estate_size', 12345.50);
-		$localeConvention = localeconv();
+		$this->realtyObject->setProperty('estate_size', 123.40);
 
-		$this->assertEquals(
-			'12345' . $localeConvention['decimal_point'] . '50&nbsp;' .
-				$this->fixture->translate('label_squareMeters'),
+		$this->assertSame(
+			'123.40&nbsp;' . $this->fixture->translate('label_squareMeters'),
+			$this->fixture->getProperty('estate_size')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPropertyFormatsEstateSizeWithThousandSeparator() {
+		$this->realtyObject->setProperty('estate_size', 12345.00);
+
+		$this->assertContains(
+			"12&#x202f;345",
 			$this->fixture->getProperty('estate_size')
 		);
 	}
@@ -279,10 +289,10 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getPropertyForEstateSizeCutsOffAllZeroDecimals() {
-		$this->realtyObject->setProperty('estate_size', 12345.00);
+		$this->realtyObject->setProperty('estate_size', 123.00);
 
 		$this->assertEquals(
-			'12345' . '&nbsp;' . $this->fixture->translate('label_squareMeters'),
+			'123&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('estate_size')
 		);
 	}
@@ -486,11 +496,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForTotalUsableAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('total_usable_area', 123.45);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'123' . $localeConvention['decimal_point'] . '45&nbsp;' .
-				$this->fixture->translate('label_squareMeters'),
+		$this->assertSame(
+			'123.45&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('total_usable_area')
 		);
 	}
@@ -512,11 +520,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForOfficeSpaceReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('office_space', 58.23);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'58' . $localeConvention['decimal_point'] . '23&nbsp;' .
-				$this->fixture->translate('label_squareMeters'),
+		$this->assertSame(
+			'58.23&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('office_space')
 		);
 	}
@@ -526,11 +532,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForShopAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('shop_area', 12.34);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
-				$this->fixture->translate('label_squareMeters'),
+		$this->assertSame(
+			'12.34&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('shop_area')
 		);
 	}
@@ -540,11 +544,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForSalesAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('sales_area', 12.34);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
-				$this->fixture->translate('label_squareMeters'),
+		$this->assertSame(
+			'12.34&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('sales_area')
 		);
 	}
@@ -554,11 +556,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForStorageAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('storage_area', 18.4);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'18' . $localeConvention['decimal_point'] . '40&nbsp;' .
-				$this->fixture->translate('label_squareMeters'),
+		$this->assertSame(
+			'18.40&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('storage_area')
 		);
 	}
@@ -568,11 +568,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForOtherAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('other_area', 12.34);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
-				$this->fixture->translate('label_squareMeters'),
+		$this->assertSame(
+			'12.34&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('other_area')
 		);
 	}
@@ -582,10 +580,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForSiteOccupancyIndexReturnsItAsFormattedDecimal() {
 		$this->realtyObject->setProperty('site_occupancy_index', 19.40);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'19' . $localeConvention['decimal_point'] . '40',
+		$this->assertSame(
+			'19.40',
 			$this->fixture->getProperty('site_occupancy_index')
 		);
 	}
@@ -595,10 +592,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForFloorSpaceIndexReturnsItAsFormattedDecimal() {
 		$this->realtyObject->setProperty('floor_space_index', 19.48);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'19' . $localeConvention['decimal_point'] . '48',
+		$this->assertSame(
+			'19.48',
 			$this->fixture->getProperty('floor_space_index')
 		);
 	}
@@ -608,11 +604,9 @@ class tx_realty_FrontEnd_FormatterTest extends tx_phpunit_testcase {
 	 */
 	public function getPropertyForWindowBankReturnsItAsFormattedWidth() {
 		$this->realtyObject->setProperty('window_bank', 12.34);
-		$localeConvention = localeconv();
 
-		$this->assertEquals(
-			'12' . $localeConvention['decimal_point'] . '34&nbsp;' .
-				$this->fixture->translate('label_meter'),
+		$this->assertSame(
+			'12.34&nbsp;' . $this->fixture->translate('label_meter'),
 			$this->fixture->getProperty('window_bank')
 		);
 	}

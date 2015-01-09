@@ -402,8 +402,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Formats the given decimal removing trailing zeros and the decimal point
-	 * if neccessary.
+	 * Formats the given decimal removing trailing zeros and the decimal point if necessary.
 	 *
 	 * @param float $number the number to format
 	 * @param int $decimals the number of decimals after the decimal point, must be >= 0
@@ -411,17 +410,22 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 * @return string the formatted float, will be empty if zero was given
 	 */
 	public function formatDecimal($number, $decimals = 2) {
-		if ($number == 0.0) {
+		if ((float)$number === 0.0) {
 			return '';
 		}
-		if ($number === round($number)) {
-			return (string) round($number);
+		if ((float)$number !== round($number)) {
+			$realDecimals = $decimals;
+		} else {
+			$realDecimals = 0;
 		}
 
-		$localeConvention = localeconv();
-		$decimalPoint = $localeConvention['decimal_point'];
+		$decimalMark = $this->translate('decimal_mark');
+		$thousandsSeparator = $this->translate('thousands_separator');
+		if ($thousandsSeparator === '') {
+			$thousandsSeparator = '&#x202f;';
+		}
 
-		return number_format($number, $decimals, $decimalPoint, '');
+		return number_format($number, $realDecimals, $decimalMark, $thousandsSeparator);
 	}
 
 	/**
