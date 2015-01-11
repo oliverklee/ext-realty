@@ -29,8 +29,8 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 *
 	 * @return string checked path, possibly modified
 	 */
-	public function unifyPath($importDirectory) {
-		return parent::unifyPath($importDirectory);
+	public function unifyPath($directory) {
+		return parent::unifyPath($directory);
 	}
 
 	/**
@@ -82,7 +82,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * @return void
 	 */
 	public function loadXmlFile($pathOfZip) {
-		return parent::loadXmlFile($pathOfZip);
+		parent::loadXmlFile($pathOfZip);
 	}
 
 	/**
@@ -100,7 +100,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport {
 	 * @return void
 	 */
 	public function writeToDatabase($realtyRecord, $overridePid = 0) {
-		return parent::writeToDatabase($realtyRecord, $overridePid);
+		parent::writeToDatabase($realtyRecord, $overridePid);
 	}
 
 	/**

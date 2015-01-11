@@ -20,19 +20,19 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_AddToFavoritesButtonView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		/** @var tslib_fe $frontEndController */
@@ -75,7 +75,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends tx_phpunit_testcas
 	 * @test
 	 */
 	public function renderReturnsProvidedShowUidOfRealtyRecordAsFormValue() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 
 		$this->assertContains(

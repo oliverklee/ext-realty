@@ -21,7 +21,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_AbstractListViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var int static_info_tables UID of Germany
 	 */
@@ -35,12 +35,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_realty_tests_fixtures_TestingListView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var int UID of the first dummy realty object
@@ -123,7 +123,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 	protected function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->createContentMock();
 
@@ -805,7 +805,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
 				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
-				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
@@ -865,7 +864,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
 				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
-				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
@@ -947,7 +945,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
 				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
-				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
@@ -978,7 +975,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
 				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
-				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
@@ -1009,7 +1005,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
 				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
-				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
@@ -1040,7 +1035,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
 				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
-				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
@@ -1071,7 +1065,6 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
 				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
-				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),

@@ -428,7 +428,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 			$subpartsToHide = 'email_from_general_contact_form';
 
 			/** @var tx_realty_Mapper_RealtyObject $mapper */
-			$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+			$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 			if (!$mapper->existsModel($this->getShowUid())) {
 				$wasSuccessful = FALSE;
 			} else {
@@ -624,7 +624,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getRealtyObject() {
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		return $mapper->find($this->getShowUid());
 	}
 }

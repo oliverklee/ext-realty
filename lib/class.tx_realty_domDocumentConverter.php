@@ -130,26 +130,40 @@ class tx_realty_domDocumentConverter {
 	);
 
 	/**
-	 * the keys of the fields that are of richtext type
+	 * the keys of the fields that are of rich text type
 	 *
 	 * @var string[]
 	 */
-	private static $richtextFields = array(
+	private static $richTextFields = array(
 		'description', 'equipment', 'location', 'misc'
 	);
 
-	/** raw data of an OpenImmo record */
+	/**
+	 * raw data of an OpenImmo record
+	 *
+	 * @var DOMXPath
+	 */
 	private $rawRealtyData = NULL;
 
-	/** data which is the same for all realty records of one DOMDocument */
+	/**
+	 * data which is the same for all realty records of one DOMDocument
+	 *
+	 * @var string[]
+	 */
 	private $universalRealtyData = array();
 
-	/** imported data of a realty record */
+	/**
+	 * imported data of a realty record
+	 *
+	 * @var array
+	 */
 	private $importedData = array();
 
 	/**
 	 * Number of the current record. Sometimes there are several realties in one
 	 * OpenImmo record.
+	 *
+	 * @var int
 	 */
 	private $recordNumber = 0;
 
@@ -307,16 +321,16 @@ class tx_realty_domDocumentConverter {
 	/**
 	 * Substitutes XML namespaces from a node name and returns the name.
 	 *
-	 * @param DOMNode $domNode node, may be NULL
+	 * @param DOMNode|NULL $domNode node, may be NULL
 	 *
 	 * @return string node name without namespaces, may be empty
 	 */
-	protected function getNodeName($domNode) {
-		if (!is_a($domNode, 'DOMNode')) {
+	protected function getNodeName(DOMNode $domNode = NULL) {
+		if ($domNode === NULL) {
 			return '';
 		}
 
-		return preg_replace('/(.*)\:/', '', $domNode->nodeName);
+		return preg_replace('/(.*)\\:/', '', $domNode->nodeName);
 	}
 
 	/**
@@ -434,9 +448,7 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function substituteSurplusDecimals() {
 		foreach ($this->importedData as $key => $value) {
-			if (is_numeric($value) && ((int) $value) == $value
-				&& ($key != 'zip')
-			) {
+			if (is_numeric($value) && ((int) $value) == $value && ($key != 'zip')) {
 				$this->importedData[$key] = (int)$value;
 			}
 		}
@@ -478,9 +490,7 @@ class tx_realty_domDocumentConverter {
 	 * @return void
 	 */
 	private function appendStreetNumber() {
-		if (!$this->importedData['street']
-			|| ($this->importedData['street'] == '')
-		) {
+		if (!$this->importedData['street'] || ($this->importedData['street'] == '')) {
 			return;
 		}
 
@@ -488,7 +498,7 @@ class tx_realty_domDocumentConverter {
 		if ($streetNumberNode) {
 			$this->addImportedData(
 				'street',
-				$this->importedData['street'].' '.$streetNumberNode->nodeValue
+				$this->importedData['street'] .' '. $streetNumberNode->nodeValue
 			);
 		}
 	}
@@ -508,11 +518,9 @@ class tx_realty_domDocumentConverter {
 
 		$petsValue = strtolower($this->importedData['pets']);
 		if (($petsValue == 1) || $this->isBooleanLikeStringTrue($petsValue)) {
-			$this->importedData['pets']
-				= $this->getTranslator()->translate('label_allowed');
+			$this->importedData['pets'] = $this->getTranslator()->translate('label_allowed');
 		} else {
-			$this->importedData['pets']
-				= $this->getTranslator()->translate('label_not_allowed');
+			$this->importedData['pets'] = $this->getTranslator()->translate('label_not_allowed');
 		}
 	}
 
@@ -705,11 +713,13 @@ class tx_realty_domDocumentConverter {
 			'fitted_kitchen' => $rawAttributes['kueche']['ebk'],
 			// For realty records, the type of elevator is not relevant.
 			'elevator' => $rawAttributes['fahrstuhl']['lasten'],
-			'elevator' => $rawAttributes['fahrstuhl']['personen'],
 		) as $key => $value) {
 			if (isset($value)) {
 				$this->addImportedDataIfValueIsNonEmpty($key, $value);
 			}
+		}
+		if (isset($rawAttributes['fahrstuhl']['personen'])) {
+			$this->addImportedDataIfValueIsNonEmpty('elevator', $rawAttributes['fahrstuhl']['personen']);
 		}
 	}
 
@@ -788,8 +798,7 @@ class tx_realty_domDocumentConverter {
 			$attributes = $this->fetchDomAttributes($nodeWithAttributes);
 
 			if (!empty($attributes)) {
-				$value .= ': '
-					.$this->getFormattedString(array_values($attributes));
+				$value .= ': ' .$this->getFormattedString(array_values($attributes));
 			}
 
 			$this->addImportedData(
@@ -1386,7 +1395,7 @@ class tx_realty_domDocumentConverter {
 	 * @return bool TRUE if the field is a richtext field. FALSE otherwise.
 	 */
 	protected function isRichtextField($key) {
-		return in_array($key, self::$richtextFields);
+		return in_array($key, self::$richTextFields);
 	}
 
 	/**
@@ -1435,12 +1444,12 @@ class tx_realty_domDocumentConverter {
 	 * Fetches an attribute from a given node and returns name/value pairs as an
 	 * array. If there are no attributes, the returned array will be empty.
 	 *
-	 * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
+	 * @param DOMNode|DOMNodeList|NULL $nodeWithAttributes node from where to fetch the attribute, may be NULL
 	 *
 	 * @return string[] attributes and attribute values, empty if there are no attributes
 	 */
-	protected function fetchDomAttributes($nodeWithAttributes) {
-		if (!$nodeWithAttributes) {
+	protected function fetchDomAttributes($nodeWithAttributes = NULL) {
+		if ($nodeWithAttributes == NULL) {
 			return array();
 		}
 

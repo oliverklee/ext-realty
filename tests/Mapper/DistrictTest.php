@@ -20,19 +20,19 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_DistrictTest extends tx_phpunit_testcase {
+class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var tx_realty_Mapper_District
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 
 		$this->fixture = new tx_realty_Mapper_District();
 	}
@@ -80,16 +80,15 @@ class tx_realty_Mapper_DistrictTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getCityReturnsCityFromRelation() {
-		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
-			->getNewGhost();
+		/** @var tx_realty_Model_City $city */
+		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->getNewGhost();
 
-		$model = $this->fixture->getLoadedTestingModel(
-			array('city' => $city->getUid())
-		);
+		/** @var tx_realty_Model_District $district */
+		$district = $this->fixture->getLoadedTestingModel(array('city' => $city->getUid()));
 
 		$this->assertSame(
 			$city,
-			$model->getCity()
+			$district->getCity()
 		);
 	}
 
@@ -525,7 +524,7 @@ class tx_realty_Mapper_DistrictTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByNameAndCityUidCanFindDistrictWithThatNameAndCityFromCache() {
-		$cityUid = tx_oelib_MapperRegistry::get('tx_realty_Mapper_city')
+		$cityUid = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_city')
 			->getNewGhost()->getUid();
 		$district = $this->fixture->getLoadedTestingModel(
 			array(

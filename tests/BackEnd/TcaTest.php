@@ -20,19 +20,19 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_BackEnd_TcaTest extends tx_phpunit_testcase {
+class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_Tca
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->fixture = new tx_realty_Tca();
 	}
 
@@ -87,7 +87,7 @@ class tx_realty_BackEnd_TcaTest extends tx_phpunit_testcase {
 		$mapper->expects($this->once())
 			->method('findAllByCityUidOrUnassigned')->with(42)
 			->will($this->returnValue($cities));
-		tx_oelib_MapperRegistry::set('tx_realty_Mapper_District', $mapper);
+		Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_District', $mapper);
 
 		$result = $this->fixture->getDistrictsForCity(
 			array('row' => array('city' => 42))

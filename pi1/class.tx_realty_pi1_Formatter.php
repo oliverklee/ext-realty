@@ -58,7 +58,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		if (!$mapper->existsModel($realtyObjectUid, TRUE)) {
 			throw new InvalidArgumentException(
 				'There was no realty object to load with the provided UID of ' . $realtyObjectUid .
@@ -429,7 +429,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 */
 	protected function getRealtyObject() {
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		return $mapper->find($this->getUid());
 	}
 

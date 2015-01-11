@@ -21,14 +21,14 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_contactForm
 	 */
 	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
 	private $testingFramework = NULL;
 
@@ -48,12 +48,12 @@ class tx_realty_FrontEnd_ContactFormTest extends tx_phpunit_testcase {
 	const REALTY_OBJECT_NUMBER = '1234567';
 
 	/**
-	 * @var t3lib_mail_Message
+	 * @var t3lib_mail_Message|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $message = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->realtyUid = $this->testingFramework->createRecord(
 			'tx_realty_objects',

@@ -20,16 +20,16 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_ImageThumbnailsView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * TS Setup configuration for plugin.tx_realty_pi1
@@ -56,7 +56,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	private $realtyObjectMapper = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->contentObject = $this->getMock('tslib_cObj');
@@ -91,7 +91,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 		));
 		$configurationRegistry->set('plugin.tx_realty_pi1.images', $this->imagesConfiguration);
 
-		$this->realtyObjectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 	}
 
 	protected function tearDown() {

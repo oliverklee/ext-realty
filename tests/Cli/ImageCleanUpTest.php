@@ -21,16 +21,16 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
+class tx_realty_Cli_ImageCleanUpTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_cli_ImageCleanUp
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var string upload folder name
@@ -38,9 +38,9 @@ class tx_realty_Cli_ImageCleanUpTest extends tx_phpunit_testcase {
 	private $uploadFolder = 'uploads/tx_realty_test';
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->setUploadFolderPath(PATH_site);
-		tx_oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
+		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
 		$this->fixture = new tx_realty_cli_ImageCleanUp();
 		$this->uploadFolder = str_replace(

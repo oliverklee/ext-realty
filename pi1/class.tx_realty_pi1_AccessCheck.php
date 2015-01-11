@@ -117,7 +117,7 @@ class tx_realty_pi1_AccessCheck {
 	 */
 	private function realtyObjectExistsInDatabase($realtyObjectUid) {
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		if (($realtyObjectUid == 0) || $mapper->existsModel($realtyObjectUid, TRUE)
 		) {
 			return;
@@ -144,7 +144,7 @@ class tx_realty_pi1_AccessCheck {
 		}
 
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $object */
 		$object = $mapper->find($realtyObjectUid);
 		/** @var tx_realty_Model_FrontEndUser $loggedInUser */
@@ -170,10 +170,9 @@ class tx_realty_pi1_AccessCheck {
 		if ($realtyObjectUid > 0) {
 			return;
 		}
-		if (tx_oelib_FrontEndLoginManager::getInstance()
-			->getLoggedInUser('tx_realty_Mapper_FrontEndUser')
-			->canAddNewObjects()
-		) {
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		if ($user->canAddNewObjects()) {
 			return;
 		}
 

@@ -20,19 +20,19 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
+class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_Mapper_Image
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->fixture = new tx_realty_Mapper_Image();
 	}
 
@@ -79,8 +79,9 @@ class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getObjectReturnsRelatedRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry
-			::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
+		/** @var tx_realty_Model_Image $image */
 		$image = $this->fixture->getLoadedTestingModel(
 			array('object' => $realtyObject->getUid())
 		);
@@ -105,7 +106,9 @@ class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
 			'tx_realty_images', array('image' => basename($dummyFile))
 		);
 
-		$this->fixture->delete($this->fixture->find($uid));
+		/** @var tx_realty_Model_Image $model */
+		$model = $this->fixture->find($uid);
+		$this->fixture->delete($model);
 
 		$this->assertFalse(
 			file_exists($dummyFile)
@@ -122,7 +125,9 @@ class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
 			'tx_realty_images', array('image' => basename($dummyFile))
 		);
 
-		$this->fixture->delete($this->fixture->find($uid));
+		/** @var tx_realty_Model_Image $model */
+		$model = $this->fixture->find($uid);
+		$this->fixture->delete($model);
 	}
 
 	/**
@@ -133,6 +138,8 @@ class tx_realty_Mapper_ImageTest extends tx_phpunit_testcase {
 			'tx_realty_images', array('image' => '')
 		);
 
-		$this->fixture->delete($this->fixture->find($uid));
+		/** @var tx_realty_Model_Image $model */
+		$model = $this->fixture->find($uid);
+		$this->fixture->delete($model);
 	}
 }

@@ -21,14 +21,14 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
+class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_openImmoImportChild
 	 */
 	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
 	private $testingFramework = NULL;
 
@@ -73,11 +73,11 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	protected function setUp() {
 		$this->graphicsConfigurationBackup = $GLOBALS['TYPO3_CONF_VARS']['GFX'];
 
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder();
 		$this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
 
-		tx_oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
+		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
 
@@ -936,7 +936,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 	 */
 	public function recordIsNotWrittenToTheDatabaseIfTheRequiredFieldsAreNotSet() {
 		$objectNumber = 'bar1234567';
-		$dummyDocument = DOMDocument::loadXML(
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
 			'<openimmo>'
 				.'<anbieter>'
 					.'<immobilie>'
@@ -977,7 +978,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 
 		$objectNumber = 'bar1234567';
-		$dummyDocument = DOMDocument::loadXML(
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
 			'<openimmo>'
 				.'<anbieter>'
 					.'<immobilie>'
@@ -1030,7 +1032,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			'tx_realty_objects',
 			array('object_number' => $objectNumber, 'openimmo_obid' => $objectId)
 		);
-		$dummyDocument = DOMDocument::loadXML(
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1087,7 +1090,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 				'hidden' => TRUE,
 			)
 		);
-		$dummyDocument = DOMDocument::loadXML(
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1186,7 +1190,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 
 		$objectNumber = 'bar1234567';
-		$dummyDocument = DOMDocument::loadXML(
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1238,7 +1243,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 		);
 
 		$objectNumber = 'bar1234567';
-		$dummyDocument = DOMDocument::loadXML(
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1483,7 +1489,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 
-		$singleObject = DOMDocument::loadXML(
+		$singleObject = new DOMDocument();
+		$singleObject->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1545,7 +1552,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 
-		$multipleRecords = DOMDocument::loadXML(
+		$multipleRecords = new DOMDocument();
+		$multipleRecords->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1619,7 +1627,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 
-		$singleObject = DOMDocument::loadXML(
+		$singleObject = new DOMDocument();
+		$singleObject->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1681,7 +1690,8 @@ class tx_realty_Import_OpenImmoImportTest extends tx_phpunit_testcase {
 			'allowedFrontEndUserGroups', $feUserGroupUid
 		);
 
-		$multipleRecords = DOMDocument::loadXML(
+		$multipleRecords = new DOMDocument();
+		$multipleRecords->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .

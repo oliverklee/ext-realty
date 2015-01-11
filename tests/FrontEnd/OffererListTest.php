@@ -20,16 +20,16 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var tx_realty_offererList
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
 	 * @var int FE user group UID
@@ -52,7 +52,7 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 	const FE_USER_NAME = 'test_offerer';
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->createDummyRecords();
@@ -285,8 +285,8 @@ class tx_realty_FrontEnd_OffererListTest extends tx_phpunit_testcase {
 		);
 
 		$result = $this->fixture->render();
-		$this->assertEquals(
-			$this->userGroupUid < $secondFeUserGroupUid,
+		$this->assertSame(
+			$this->feUserGroupUid < $secondFeUserGroupUid,
 			strpos($result, self::FE_USER_NAME) < strpos($result, 'other user')
 		);
 	}

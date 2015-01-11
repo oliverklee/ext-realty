@@ -34,7 +34,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $piVars = array()) {
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $mapper->find($piVars['showUid']);
 		if ($this->getConfValueBoolean('priceOnlyIfAvailable')
@@ -42,8 +42,6 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 		) {
 			return '';
 		}
-
-		$hasValidContent = TRUE;
 
 		switch ($realtyObject->getProperty('object_type')) {
 			case tx_realty_Model_RealtyObject::TYPE_FOR_SALE:
@@ -55,14 +53,13 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 				$keyToHide = 'buying_price';
 				break;
 			default:
-				$hasValidContent = FALSE;
+				$keyToShow = '';
+				$keyToHide = '';
 		}
 
-		if ($hasValidContent) {
+		if (($keyToShow) !== '' && ($keyToHide !== '')) {
 			/** @var tx_realty_pi1_Formatter $formatter */
-			$formatter = t3lib_div::makeInstance(
-				'tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf, $this->cObj
-			);
+			$formatter = t3lib_div::makeInstance('tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf, $this->cObj);
 			$hasValidContent = $this->setOrDeleteMarkerIfNotEmpty(
 				$keyToShow,
 				$formatter->getProperty($keyToShow),
@@ -70,6 +67,8 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 				'field_wrapper'
 			);
 			$this->hideSubparts($keyToHide, 'field_wrapper');
+		} else {
+			$hasValidContent = FALSE;
 		}
 
 		return $hasValidContent ? $this->getSubpart('FIELD_WRAPPER_PRICE') : '';

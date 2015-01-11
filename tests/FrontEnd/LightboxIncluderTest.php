@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_LightboxIncluderTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	protected function setUp() {
 		$GLOBALS['TSFE'] = $this->getMock('tslib_fe', array(), array(), '', FALSE);
 

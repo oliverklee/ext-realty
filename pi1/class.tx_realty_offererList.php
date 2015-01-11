@@ -158,7 +158,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			$fieldOrder
 		);
 		/** @var tx_realty_Mapper_FrontEndUser $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
 		$offererList = $mapper->getListOfModels($offererRecords);
 
 		/** @var tx_realty_Model_FrontEndUser $offerer */

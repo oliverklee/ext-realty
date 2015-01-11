@@ -21,16 +21,21 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_FavoritesListViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_FavoritesListView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
+
+	/**
+	 * @var int
+	 */
+	private $systemFolderPid = 0;
 
 	/**
 	 * @var int UID of the first dummy realty object
@@ -63,7 +68,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends tx_phpunit_testcase {
 	private $session;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->createDummyPages();

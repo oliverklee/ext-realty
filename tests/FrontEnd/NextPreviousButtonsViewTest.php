@@ -20,16 +20,16 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_NextPreviousButtonsView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var int the UID of the "list view" content object.
@@ -44,7 +44,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	private $dummyCityUid = 0;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		/** @var tslib_fe $frontEndController */
@@ -138,7 +138,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForDisabledNextPreviousButtonsReturnsEmptyString() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => 'ABC112'));
 
 		$this->fixture->setConfigurationValue('enableNextPreviousButtons', FALSE);
@@ -160,7 +160,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 	 * @test
 	 */
 	public function renderForEnabledNextPreviousButtonsAndOnlyOneRecordReturnsEmptyString() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => 'ABC112'));
 
 		$this->fixture->piVars = array(
@@ -337,7 +337,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends tx_phpunit_testcase
 			0, array('pi_flexform' => $flexforms)
 		);
 
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('pid' => $sysFolder));
 
 		$this->fixture->piVars = array(

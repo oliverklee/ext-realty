@@ -128,9 +128,7 @@ class tx_realty_cacheManager {
 
 		if (self::$cacheManager === NULL) {
 			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
-				self::$cacheManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-					'TYPO3\\CMS\\Core\\Cache\\CacheManager'
-				);
+				self::$cacheManager = t3lib_div::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
 			} else {
 				if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
 					t3lib_cache::initializeCachingFramework();

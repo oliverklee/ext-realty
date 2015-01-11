@@ -20,18 +20,18 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_Import_FileNameMapperTest extends tx_phpunit_testcase {
+class tx_realty_Import_FileNameMapperTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_fileNameMapper instance to be tested
 	 */
-	private $fixture;
+	private $fixture = NULL;
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->fixture = new tx_realty_fileNameMapper();
 	}
 

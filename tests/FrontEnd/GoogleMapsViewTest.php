@@ -21,15 +21,15 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_GoogleMapsView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var int dummy realty object
@@ -62,10 +62,10 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 	const LONGITUDE = 7.1;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		tx_oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
+		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
 		$realtyData = array(
 			'title' => 'test realty object',
@@ -83,7 +83,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends tx_phpunit_testcase {
 		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
 
 		$this->realtyMapper = $this->getMock('tx_realty_Mapper_RealtyObject');
-		tx_oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $this->realtyMapper);
+		Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $this->realtyMapper);
 
 		$this->realtyObject = $this->getMock('tx_realty_Model_RealtyObject', array('writeToDatabase'));
 		$this->realtyObject->setData($realtyData);

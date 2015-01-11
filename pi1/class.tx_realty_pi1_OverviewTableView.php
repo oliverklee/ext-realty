@@ -32,7 +32,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $piVars = array()) {
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $mapper->find($piVars['showUid']);
 		$objectNumber = htmlspecialchars($realtyObject->getProperty('object_number'));
@@ -93,7 +93,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 		}
 
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $mapper->find($uid);
 

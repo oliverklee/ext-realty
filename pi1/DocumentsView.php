@@ -33,7 +33,7 @@ class tx_realty_pi1_DocumentsView extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $piVars = array()) {
 		/** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-		$realtyObjectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $realtyObjectMapper->find($piVars['showUid']);
 		$documents = $realtyObject->getDocuments();

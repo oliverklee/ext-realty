@@ -139,7 +139,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$options = array();
 
 		/** @var tx_realty_Mapper_City $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
 		$cities = $mapper->findAll('title');
 		/** @var tx_realty_Model_City $city */
 		foreach ($cities as $city) {
@@ -167,7 +167,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$options = array();
 
 		/** @var tx_realty_Mapper_District $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
 		$districts = $mapper->findAllByCityUidOrUnassigned($cityUid);
 		/** @var tx_realty_Model_District $district */
 		foreach ($districts as $district) {
@@ -1023,8 +1023,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
-			$user = tx_oelib_FrontEndLoginManager::getInstance()
-				->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+			/** @var tx_realty_Model_FrontEndUser $user */
+			$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 
 			$formData['hidden'] = 1;
 			$formData['crdate'] = time();
@@ -1086,7 +1086,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return array[] calls to be executed on the client
 	 */
 	static public function createNewDistrict(tx_ameosformidable $formidable) {
-		$formData = $formidable->oMajixEvent->getParams();
+		/** @var formidableajax $event */
+		$event = $formidable->oMajixEvent;
+		$formData = $event->getParams();
 		$title = trim(strip_tags($formData['newDistrictTitle']));
 		$cityUid = (int)$formData['newDistrictCity'];
 
@@ -1105,15 +1107,15 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		};
 
 		/** @var tx_realty_Mapper_District $districtMapper */
-		$districtMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District');
+		$districtMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
 
 		try {
 			$districtMapper->findByNameAndCityUid($title, $cityUid);
+			/** @var tx_rdtmodalbox $renderlet */
+			$renderlet = $formidable->aORenderlets['newDistrictModalBox'];
 			// just closes the modal box; doesn't save the district if it
 			// already exists
-			return array(
-				$formidable->aORenderlets['newDistrictModalBox']->majixCloseBox()
-			);
+			return array($renderlet->majixCloseBox());
 		} catch (tx_oelib_Exception_NotFound $exception) {
 		}
 
@@ -1122,18 +1124,19 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$district->setData(array('pid' => self::getPageIdForAuxiliaryRecords()));
 		$district->setTitle($title);
 		/** @var tx_realty_Mapper_City $cityMapper */
-		$cityMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City');
+		$cityMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
 		/** @var $city tx_realty_Model_City */
 		$city = $cityMapper->find($cityUid);
 		$district->setCity($city);
 		$district->markAsDirty();
 		$districtMapper->save($district);
 
+		/** @var tx_rdtmodalbox $renderlet */
+		$renderlet = $formidable->aORenderlets['newDistrictModalBox'];
 		return array(
-			$formidable->aORenderlets['newDistrictModalBox']->majixCloseBox(),
+			$renderlet->majixCloseBox(),
 			$formidable->majixExecJs(
-				'appendDistrictInEditor(' . $district->getUid() . ', "' .
-					addcslashes($district->getTitle(), '"\\') . '");'
+				'appendDistrictInEditor(' . $district->getUid() . ', "' . addcslashes($district->getTitle(), '"\\') . '");'
 			),
 		);
 	}

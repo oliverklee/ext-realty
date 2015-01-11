@@ -60,18 +60,15 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	}
 
 	/**
-	 * Sets the message how many objects the currently logged-in front-end user
-	 * still can enter.
+	 * Sets the message how many objects the currently logged-in front-end user still can enter.
 	 *
-	 * This function should only be called when a user is logged-in at the front
-	 * end.
+	 * This function should only be called when a user is logged-in at the front end.
 	 *
 	 * @return void
 	 */
 	private function setLimitHeading() {
-		$user = tx_oelib_FrontEndLoginManager::getInstance()
-			->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 		if ($user->getTotalNumberOfAllowedObjects() == 0) {
 			$this->hideSubparts('limit_heading');
 			return;
@@ -95,17 +92,10 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 				$labelLeftToEnter = $this->translate('label_one_object_left');
 				break;
 			default:
-				$labelLeftToEnter = sprintf(
-					$this->translate('label_multiple_objects_left'),
-					$objectsLeftToEnter
-				);
-				break;
+				$labelLeftToEnter = sprintf($this->translate('label_multiple_objects_left'), $objectsLeftToEnter);
 		}
 
-		$this->setMarker(
-			'objects_left_to_enter',
-			$labelLeftToEnter
-		);
+		$this->setMarker('objects_left_to_enter', $labelLeftToEnter);
 	}
 
 	/**
@@ -118,14 +108,10 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 * @return void
 	 */
 	private function setEditorLinkMarker() {
-		if (tx_oelib_FrontEndLoginManager::getInstance()
-			->getLoggedInUser('tx_realty_Mapper_FrontEndUser')
-			->canAddNewObjects()
-		) {
-			$this->setMarker(
-				'empty_editor_link',
-				$this->createLinkToFeEditorPage('editorPID', 0)
-			);
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		if ($user->canAddNewObjects()) {
+			$this->setMarker('empty_editor_link', $this->createLinkToFeEditorPage('editorPID', 0));
 		} else {
 			$this->hideSubparts('new_record_link');
 		}

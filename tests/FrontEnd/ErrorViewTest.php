@@ -20,18 +20,18 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_ErrorViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_ErrorView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd(
 			$this->testingFramework->createFrontEndPage()
 		);

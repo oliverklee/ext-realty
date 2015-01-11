@@ -196,10 +196,14 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->makeFormCreator();
 
 		if ($this->isTestMode) {
-			return $this->getFakedFormValue($key);
+			$result = $this->getFakedFormValue($key);
 		} else {
-			return $this->formCreator->oDataHandler->getThisFormData($key);
+			/** @var formidable_maindatahandler $dataHandler */
+			$dataHandler = $this->formCreator->oDataHandler;
+			$result = $dataHandler->getThisFormData($key);
 		}
+
+		return $result;
 	}
 
 	/**

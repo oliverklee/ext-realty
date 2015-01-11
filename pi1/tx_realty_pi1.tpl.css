@@ -256,7 +256,6 @@
 
 .tx-realty-pi1 .single-view .documents ul {
 	list-style: none;
-	margin-left: 0;
 	padding-left: 0;
 	margin: 16px 0;
 }
@@ -315,7 +314,7 @@
 .tx-realty-pi1 .tx-realty-pi1-offerer dl {
 	position: relative;
 	list-style-type: none;
-	margin-top: .5px;
+	margin-top: 1px;
 	width: 100%;
 }
 .tx-realty-pi1 .tx-realty-pi1-offerer dd {
@@ -427,7 +426,6 @@ p.tx-realty-pi1-objekt-nr {
 	width: 280px;
 	height: 19px;
 	line-height: 18px;
-	border-style: solid;
 	border: 1px solid #bdcad4;
 	background-color: #f0f4f7;
 	margin: 1px;
@@ -436,7 +434,7 @@ p.tx-realty-pi1-objekt-nr {
 
 #tx_realty_pi1-requesterZip {
 	width: 80px;
-	margin-right: 0px;
+	margin-right: 0;
 }
 #tx_realty_pi1-requesterCity {
 	width: 196px;
@@ -448,7 +446,6 @@ p.tx-realty-pi1-objekt-nr {
 	width: 280px;
 	height: 130px;
 	line-height: 18px;
-	border-style: solid;
 	border: 1px solid #bdcad4;
 	background-color: #f0f4f7;
 	margin: 1px;
@@ -702,7 +699,7 @@ p.tx-realty-pi1-objekt-nr {
 
 /*DIVIDER*/
 #tx_realty_frontEndEditor .vertdivider {
-	width: 0%;
+	width: 0;
 	float: left;
 	height: 100%;
 	display: table;

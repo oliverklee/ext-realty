@@ -22,16 +22,16 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
+class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_Model_RealtyObjectChild
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var tx_oelib_templatehelper
@@ -70,10 +70,10 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	const DE = 54;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->createDummyRecords();
 
-		tx_oelib_MapperRegistry::getInstance()
+		Tx_Oelib_MapperRegistry::getInstance()
 			->activateTestingMode($this->testingFramework);
 
 		$this->templateHelper = $this->getMock(
@@ -163,7 +163,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			array(
 				'contact_data_source' => $ownerSource,
 				'owner' =>
-					tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+					Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 						->getLoadedTestingModel($userData)->getUid(),
 			)
 		);
@@ -426,6 +426,19 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function setTitleCanSetEmptyTitle() {
+		$this->fixture->setData(array());
+		$this->fixture->setTitle('');
+
+		$this->assertSame(
+			'',
+			$this->fixture->getTitle()
+		);
+	}
+
 
 	////////////////////////////////
 	// Tests concerning the images
@@ -448,9 +461,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getImages()->first()->getTitle()
+			$firstImage->getTitle()
 		);
 	}
 
@@ -468,9 +483,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setData(array('uid' => $this->objectUid, 'images' => 1));
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getImages()->first()->getTitle()
+			$firstImage->getTitle()
 		);
 	}
 
@@ -489,9 +506,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setData(array('uid' => $this->objectUid, 'images' => 1));
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			4,
-			$this->fixture->getImages()->first()->getPosition()
+			$firstImage->getPosition()
 		);
 	}
 
@@ -508,9 +527,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			)
 		);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			'test',
-			$this->fixture->getImages()->first()->getTitle()
+			$firstImage->getTitle()
 		);
 	}
 
@@ -530,9 +551,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			)
 		);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			'test image',
-			$this->fixture->getImages()->first()->getTitle()
+			$firstImage->getTitle()
 		);
 	}
 
@@ -600,9 +623,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertSame(
 			'jpg',
-			$this->fixture->getImages()->first()->getTitle()
+			$firstImage->getTitle()
 		);
 	}
 
@@ -633,9 +658,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertSame(
 			'jpg',
-			$this->fixture->getImages()->first()->getTitle()
+			$firstImage->getTitle()
 		);
 	}
 
@@ -661,9 +688,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
 
+		/** @var tx_realty_Model_Document $firstDocument */
+		$firstDocument = $this->fixture->getDocuments()->first();
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getDocuments()->first()->getTitle()
+			$firstDocument->getTitle()
 		);
 	}
 
@@ -683,9 +712,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			array('uid' => $this->objectUid, 'documents' => 1)
 		);
 
+		/** @var tx_realty_Model_Document $firstDocument */
+		$firstDocument = $this->fixture->getDocuments()->first();
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getDocuments()->first()->getTitle()
+			$firstDocument->getTitle()
 		);
 	}
 
@@ -702,9 +733,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			)
 		);
 
+		/** @var tx_realty_Model_Document $firstDocument */
+		$firstDocument = $this->fixture->getDocuments()->first();
 		$this->assertEquals(
 			'test',
-			$this->fixture->getDocuments()->first()->getTitle()
+			$firstDocument->getTitle()
 		);
 	}
 
@@ -724,9 +757,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 			)
 		);
 
+		/** @var tx_realty_Model_Document $firstDocument */
+		$firstDocument = $this->fixture->getDocuments()->first();
 		$this->assertEquals(
 			'test document',
-			$this->fixture->getDocuments()->first()->getTitle()
+			$firstDocument->getTitle()
 		);
 	}
 
@@ -2058,9 +2093,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getImages()->first()->getTitle()
+			$firstImage->getTitle()
 		);
 	}
 
@@ -2113,9 +2150,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			0,
-			$this->fixture->getImages()->first()->getPosition()
+			$firstImage->getPosition()
 		);
 	}
 
@@ -2127,9 +2166,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg', 0);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			0,
-			$this->fixture->getImages()->first()->getPosition()
+			$firstImage->getPosition()
 		);
 	}
 
@@ -2141,9 +2182,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg', 1);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			1,
-			$this->fixture->getImages()->first()->getPosition()
+			$firstImage->getPosition()
 		);
 	}
 
@@ -2155,9 +2198,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg', 4);
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			4,
-			$this->fixture->getImages()->first()->getPosition()
+			$firstImage->getPosition()
 		);
 	}
 
@@ -2169,9 +2214,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg');
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			'',
-			$this->fixture->getImages()->first()->getThumbnailFileName()
+			$firstImage->getThumbnailFileName()
 		);
 	}
 
@@ -2183,9 +2230,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addImageRecord('foo', 'foo.jpg', 0, 'bar.jpg');
 
+		/** @var tx_realty_Model_Image $firstImage */
+		$firstImage = $this->fixture->getImages()->first();
 		$this->assertEquals(
 			'bar.jpg',
-			$this->fixture->getImages()->first()->getThumbnailFileName()
+			$firstImage->getThumbnailFileName()
 		);
 	}
 
@@ -2392,9 +2441,11 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->addDocument('foo', 'foo.pdf');
 
+		/** @var tx_realty_Model_Document $firstDocument */
+		$firstDocument = $this->fixture->getDocuments()->first();
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getDocuments()->first()->getTitle()
+			$firstDocument->getTitle()
 		);
 	}
 
@@ -4234,7 +4285,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->setData(array('city' => $cityUid));
 		/** @var tx_realty_Mapper_City $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
 		/** @var tx_realty_Model_City $city */
 		$city = $mapper->find($cityUid);
 
@@ -4287,7 +4338,7 @@ class tx_realty_Model_RealtyObjectTest extends tx_phpunit_testcase {
 	public function getCountryForExistingCountryReturnsCountry() {
 		$this->fixture->setData(array('country' => self::DE));
 		/** @var tx_oelib_Mapper_Country $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country');
 		/** @var tx_oelib_Model_Country $country */
 		$country = $mapper->find(self::DE);
 

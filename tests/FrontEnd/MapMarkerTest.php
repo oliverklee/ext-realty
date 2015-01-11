@@ -20,11 +20,11 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_MapMarkerTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_MapMarkerTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_mapMarker
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	protected function setUp() {
 		$this->fixture = new tx_realty_mapMarker();

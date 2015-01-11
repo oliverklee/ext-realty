@@ -21,7 +21,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var string the title of a dummy object for the tests
 	 */
@@ -30,12 +30,12 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	/**
 	 * @var tx_realty_pi1_ObjectsByOwnerListView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var int the UID of a dummy object
@@ -58,7 +58,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	private $systemFolderPid = 0;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
 
@@ -94,7 +94,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 	 * @return void
 	 */
 	private function createObjectWithOwner(array $userData = array()) {
-		$owner = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+		$owner = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 			->getLoadedTestingModel($userData);
 		$this->ownerUid = $owner->getUid();
 		$this->cityUid
@@ -148,7 +148,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 		$this->createObjectWithOwner();
 
 		$this->assertTrue(
-			tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
+			Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
 				->existsModel($this->ownerUid)
 		);
 	}
@@ -174,7 +174,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends tx_phpunit_testcase 
 		$this->createObjectWithOwner(array('username' => 'foo'));
 
 		/** @var tx_realty_Mapper_FrontEndUser $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
 		/** @var tx_realty_Model_FrontEndUser $user */
 		$user = $mapper->find($this->ownerUid);
 		$this->assertEquals(

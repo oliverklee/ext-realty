@@ -159,7 +159,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 	 */
 	protected function createMarkerFromCoordinates($realtyObjectUid, $createLink = FALSE) {
 		/** @vartx_realty_Mapper_RealtyObject  $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $mapper->find($realtyObjectUid);
 		if ($realtyObject->hasGeoError()) {
@@ -211,7 +211,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $mapper->find($realtyObjectUid);
 		$separateSingleViewPage = $realtyObject->getProperty('details_page');

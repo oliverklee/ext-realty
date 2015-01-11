@@ -20,19 +20,19 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_StatusView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		/** @var tslib_fe $frontEndController */
@@ -55,7 +55,7 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkers() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array());
 
 		$result = $this->fixture->render(
@@ -77,7 +77,7 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForVacantStatusContainsVacantLabel() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(
 				array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)
 			);
@@ -96,7 +96,7 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForRentedStatusContainsRentedLabel() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(
 				array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)
 			);
@@ -115,7 +115,7 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForVacantStatusContainsVacantClass() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(
 				array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)
 			);
@@ -134,7 +134,7 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForReservedStatusContainsReservedClass() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(
 				array('status' => tx_realty_Model_RealtyObject::STATUS_RESERVED)
 			);
@@ -153,7 +153,7 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForSoldStatusContainsSoldClass() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(
 				array('status' => tx_realty_Model_RealtyObject::STATUS_SOLD)
 			);
@@ -172,7 +172,7 @@ class tx_realty_FrontEnd_StatusViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForRentedStatusContainsRentedClass() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(
 				array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)
 			);

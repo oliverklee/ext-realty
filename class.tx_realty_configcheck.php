@@ -586,12 +586,12 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	private function checkObjectsByOwnerPid($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {
-			$checkFunction = checkIfSingleFePageOrEmpty;
+			$checkFunction = 'checkIfSingleFePageOrEmpty';
 			$errorText = 'This value specifies the page ID of the list of ' .
 				'objects by one offerer. The link to this list might not work ' .
 				'correctly if this value is misconfigured.';
 		} else {
-			$checkFunction = checkIfSingleFePageNotEmpty;
+			$checkFunction = 'checkIfSingleFePageNotEmpty';
 			$errorText = 'This value specifies the page ID of the list of ' .
 				'objects by one offerer. The link to this list will not be ' .
 				'displayed if this value is empty. The link might not work ' .
@@ -629,9 +629,9 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 */
 	private function checkDisplayedContactInformation($mayBeEmpty = TRUE) {
 		if ($mayBeEmpty) {
-			$checkFunction = checkIfMultiInSetOrEmpty;
+			$checkFunction = 'checkIfMultiInSetOrEmpty';
 		} else {
-			$checkFunction = checkIfMultiInSetNotEmpty;
+			$checkFunction = 'checkIfMultiInSetNotEmpty';
 		}
 
 		$this->$checkFunction(

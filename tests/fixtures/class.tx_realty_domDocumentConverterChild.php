@@ -76,7 +76,7 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 	 * Fetches an attribute from a given node and returns name/value pairs as an
 	 * array. If there are no attributes, the returned array will be empty.
 	 *
-	 * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
+	 * @param DOMNode|DOMNodeList|NULL $nodeWithAttributes node from where to fetch the attribute, may be NULL
 	 *
 	 * @return string[] attributes and attribute values, empty if there are no attributes
 	 */
@@ -87,11 +87,11 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 	/**
 	 * Substitutes XML namespaces from a node name and returns the name.
 	 *
-	 * @param DOMNode $domNode node, may be NULL
+	 * @param DOMNode|NULL $domNode node, may be NULL
 	 *
 	 * @return string node name without namespaces, may be empty
 	 */
-	public function getNodeName($domNode) {
+	public function getNodeName(DOMNode $domNode = NULL) {
 		return parent::getNodeName($domNode);
 	}
 
@@ -102,7 +102,7 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
 	 *
 	 * @return void
 	 */
-	public function setRawRealtyData($rawRealtyData) {
-		return parent::setRawRealtyData($rawRealtyData);
+	public function setRawRealtyData(DOMDocument $rawRealtyData) {
+		parent::setRawRealtyData($rawRealtyData);
 	}
 }

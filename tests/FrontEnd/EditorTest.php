@@ -21,14 +21,14 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_frontEndEditor object to be tested
 	 */
 	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
 	private $testingFramework = NULL;
 
@@ -43,13 +43,13 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	private static $dummyStringValue = 'test value';
 
 	/**
-	 * @var t3lib_mail_Message
+	 * @var t3lib_mail_Message|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $message = NULL;
 
 	protected function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		tx_oelib_ConfigurationRegistry::getInstance()
@@ -111,15 +111,15 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 	 * @return void
 	 */
 	private function createDummyRecords() {
-		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoadedTestingModel(
-				array(
-					'username' => 'test_user',
-					'name' => 'Mr. Test',
-					'email' => 'mr-test@example.com',
-					'tx_realty_openimmo_anid' => 'test-user-anid',
-				)
-			);
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(
+			array(
+				'username' => 'test_user',
+				'name' => 'Mr. Test',
+				'email' => 'mr-test@example.com',
+				'tx_realty_openimmo_anid' => 'test-user-anid',
+			)
+		);
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
@@ -2178,7 +2178,7 @@ class tx_realty_FrontEnd_EditorTest extends tx_phpunit_testcase {
 		$this->testingFramework->createContentElement($pageUid, array('list_type' => 'realty_pi1'));
 
 		/** @var $cacheFrontEnd t3lib_cache_frontend_AbstractFrontend|PHPUnit_Framework_MockObject_MockObject */
-		$cacheFrontEnd = $this->getMockFor(
+		$cacheFrontEnd = $this->getMock(
 			't3lib_cache_frontend_AbstractFrontend',
 			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
 			array(), '', FALSE

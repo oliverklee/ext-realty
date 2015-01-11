@@ -22,19 +22,19 @@
  * @author Bernd Schönbach <bernd@oliverklee.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_OffererView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		/** @var tslib_fe $frontEndController */
@@ -64,7 +64,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @return tx_realty_Model_RealtyObject the realty object with the owner
 	 */
 	private function getRealtyObjectWithOwner(array $ownerData = array()) {
-		return tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
+		return Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
 			array(
 				'owner' => $this->testingFramework->createFrontEndUser('', $ownerData),
 				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
@@ -116,7 +116,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNonEmptyResultForShowUidOfExistingRecord() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('employer' => 'foo'));
 
 		$this->assertNotEquals(
@@ -129,7 +129,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('employer' => 'foo'));
 
 		$result = $this->fixture->render(array('showUid' => $realtyObject->getUid()));
@@ -148,7 +148,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsTheRealtyObjectsEmployerForValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('employer' => 'foo'));
 
 		$this->assertContains(
@@ -161,7 +161,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsEmptyResultForValidRealtyObjectWithoutData() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array());
 
 		$this->assertEquals(
@@ -179,7 +179,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsContactInformationIfEnabledAndInformationIsSetInTheRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
@@ -194,7 +194,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsPhoneNumberIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
@@ -209,7 +209,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsBasicContactNameIfOffererDataIsEnabledAndInformationIsSetInTheRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('contact_person' => 'Ali Baba'));
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
@@ -224,7 +224,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsFullContactNameIfOffererDataIsEnabledAndInformationIsSetInTheRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
 				array(
 					'contact_person' => 'Green',
 					'contact_person_first_name' => 'Laci',
@@ -256,7 +256,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 		$mapper = $this->getMock('tx_realty_Mapper_RealtyObject', array('find'));
 		$mapper->expects($this->any())->method('find')
 			->will($this->returnValue($model));
-		tx_oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $mapper);
+		Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $mapper);
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
@@ -267,7 +267,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsCompanyIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('employer' => 'test company'));
 
 		$this->assertContains(
@@ -310,7 +310,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderNotReturnsContactInformationIfOptionIsDisabled() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('phone_switchboard' => '12345'));
 
 		$this->fixture->setConfigurationValue('displayedContactInformation', '');
@@ -416,7 +416,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 		$ownerUid = $this->testingFramework->createFrontEndUser(
 			'', array('username' => 'foo')
 		);
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'owner' => $ownerUid,
 				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
@@ -460,7 +460,7 @@ class tx_realty_FrontEnd_OffererViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderNotReturnsLinkToTheObjectsByOwnerListForEnabledOptionAndNoOwnerSet() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array(
 				'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
 		));

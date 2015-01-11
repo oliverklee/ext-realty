@@ -14,6 +14,7 @@ return array(
 	'tx_realty_mapper_district' => $extensionPath . 'Mapper/class.tx_realty_Mapper_District.php',
 	'tx_realty_mapper_frontenduser' => $extensionPath . 'Mapper/class.tx_realty_Mapper_FrontEndUser.php',
 	'tx_realty_mapper_realtyobject' => $extensionPath . 'Mapper/class.tx_realty_Mapper_RealtyObject.php',
+	'tx_realty_model_abstracttitledmodel' => $extensionPath . 'Model/AbstractTitledModel.php',
 	'tx_realty_model_document' => $extensionPath . 'Model/Document.php',
 	'tx_realty_model_image' => $extensionPath . 'Model/Image.php',
 	'tx_realty_model_city' => $extensionPath . 'Model/class.tx_realty_Model_City.php',

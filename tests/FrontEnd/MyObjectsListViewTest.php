@@ -21,14 +21,14 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_MyObjectsListView
 	 */
 	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
 	private $testingFramework = NULL;
 
@@ -54,7 +54,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 
 	protected function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
 
@@ -88,12 +88,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @return void
 	 */
 	private function prepareMyObjects(array $userData = array()) {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData($userData);
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->cityUid = $this->testingFramework->createRecord(
@@ -173,16 +171,16 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////
-	// Tests concering basic functionality
-	////////////////////////////////////////
+	/*
+	 * Tests concerning basic functionality
+	 */
 
 	/**
 	 * @test
 	 */
 	public function renderForLoggedInUserWhoHasNoObjectsDisplaysNoResultsFoundMessage() {
-		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(array());
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->assertContains(
@@ -208,8 +206,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 */
 	public function renderNotDisplaysObjectsOfOtherOwner() {
 		$this->prepareMyObjects();
-		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(array());
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->assertNotContains(
@@ -222,8 +220,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderNotDisplaysObjectsWithoutOwner() {
-		$user = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_FrontEndUser $user */
+		$user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(array());
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->testingFramework->createRecord(
@@ -330,14 +328,11 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForLoggedInUserWithoutLimitContainsCreateNewObjectLink() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 0));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
-
 
 		$this->fixture->setConfigurationValue(
 			'editorPID', $this->testingFramework->createFrontEndPage()
@@ -353,12 +348,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForLoggedInUserWithLimitButLessObjectsThanLimitContainsCreateNewObjectLink() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 2));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->setConfigurationValue(
@@ -375,12 +368,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForLoggedInUserNoObjectsLeftToEnterHidesCreateNewObjectLink() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 1));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->setConfigurationValue(
@@ -397,12 +388,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function createNewObjectLinkInTheMyObjectsViewContainsTheEditorPid() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array());
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(0));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(0));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$editorPid = $this->testingFramework->createFrontEndPage();
@@ -445,12 +434,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderHidesLimitHeadingForUserWithMaximumObjectsSetToZero() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 0));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 
@@ -464,12 +451,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderShowsLimitHeadingForUserWithMaximumObjectsSetToOne() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 1));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->assertContains(
@@ -482,12 +467,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForUserWithOneObjectAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 1));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->assertContains(
@@ -500,12 +483,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForUserWithTwoObjectsAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 1));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(2));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(2));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->assertContains(
@@ -518,14 +499,11 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForUserWithOneObjectAndMaximumObjectsSetToTwoShowsOneObjectLeftLabel() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 2));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(1));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
-
 
 		$this->assertContains(
 			$this->fixture->translate('label_one_object_left'),
@@ -537,12 +515,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForUserWithNoObjectAndMaximumObjectsSetToTwoShowsMultipleObjectsLeftLabel() {
-		$user = $this->getMock(
-			'tx_realty_Model_FrontEndUser', array('getNumberOfObjects')
-		);
+		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 2));
-		$user->expects($this->any())->method('getNumberOfObjects')
-			->will($this->returnValue(0));
+		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(0));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->assertContains(

@@ -20,7 +20,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Service_ListViewFactoryTest extends tx_phpunit_testcase {
+class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tslib_cObj a mocked content object
 	 */

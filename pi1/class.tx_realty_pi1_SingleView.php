@@ -77,7 +77,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		}
 
 		/** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-		$realtyObjectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		if (!$realtyObjectMapper->existsModel($uid, TRUE)) {
 			return FALSE;
 		}
@@ -156,7 +156,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function setPageTitle($uid) {
 		/** @var tx_realty_Mapper_RealtyObject $realtyObjectMapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $mapper->find($uid);
 		$title = $realtyObject->getProperty('title');
@@ -191,7 +191,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$view->piVars = $this->piVars;
 
 		if ($viewName == 'googleMaps') {
-			/** tx_realty_pi1_GoogleMapsView $view */
+			/** @var tx_realty_pi1_GoogleMapsView $view */
 			$view->setMapMarker($uid);
 		}
 

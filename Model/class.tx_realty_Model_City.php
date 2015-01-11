@@ -20,30 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_City extends tx_oelib_Model {
-	/**
-	 * Returns our title.
-	 *
-	 * @return string our title, will not be empty
-	 */
-	public function getTitle() {
-		return $this->getAsString('title');
-	}
-
-	/**
-	 * Sets our title.
-	 *
-	 * @param string $title our title to set, must not be empty
-	 *
-	 * @return void
-	 */
-	public function setTitle($title) {
-		if ($title == '') {
-			throw new InvalidArgumentException('The parameter $title must not be empty.', 1333035766);
-		}
-
-		$this->setAsString('title', $title);
-	}
+class tx_realty_Model_City extends tx_realty_Model_AbstractTitledModel {
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_City.php']) {

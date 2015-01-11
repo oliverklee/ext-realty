@@ -20,7 +20,7 @@
  *
  * @author Bernd Schönbach <bernd.schoenbach@googlemail.com>
  */
-class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interface_Sortable {
+class tx_realty_Model_Document extends tx_realty_Model_AbstractTitledModel implements tx_oelib_Interface_Sortable {
 	/**
 	 * the folder where uploaded documents get stored.
 	 *
@@ -29,35 +29,10 @@ class tx_realty_Model_Document extends tx_oelib_Model implements tx_oelib_Interf
 	const UPLOAD_FOLDER = 'uploads/tx_realty/';
 
 	/**
-	 * Gets this document's title.
-	 *
-	 * @return string this document's title, will be empty if no title has been set
-	 */
-	public function getTitle() {
-		return $this->getAsString('title');
-	}
-
-	/**
-	 * Sets this document's title.
-	 *
-	 * @param string $title the title to set, must not be empty
-	 *
-	 * @return void
-	 */
-	public function setTitle($title) {
-		if ($title == '') {
-			throw new InvalidArgumentException('$title must not be empty.', 1333036044);
-		}
-
-		$this->setAsString('title', $title);
-	}
-
-	/**
 	 * Gets the file name of this document (relative to the extension's upload
 	 * directory).
 	 *
-	 * @return string this document's file name, will be empty if no file name has
-	 *                been set
+	 * @return string this document's file name, will be empty if no file name has been set
 	 */
 	public function getFileName() {
 		return $this->getAsString('filename');

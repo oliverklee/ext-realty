@@ -20,11 +20,11 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
+class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_Model_District
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	protected function setUp() {
 		$this->fixture = new tx_realty_Model_District();
@@ -60,13 +60,9 @@ class tx_realty_Model_DistrictTest extends tx_phpunit_testcase {
 
 	/**
 	 * @test
+	 * @expectedException InvalidArgumentException
 	 */
 	public function setTitleWithEmptyStringThrowsException() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'The parameter $title must not be empty.'
-		);
-
 		$this->fixture->setTitle('');
 	}
 

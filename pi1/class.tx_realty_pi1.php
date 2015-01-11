@@ -66,8 +66,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 * @return string HTML for the plugin
 	 */
 	public function main($unused, array $conf) {
-		$result = '';
-
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
@@ -115,6 +113,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	 */
 	private function getHtmlForCurrentView() {
 		$listViewType = '';
+		$result = '';
 
 		switch ($this->getCurrentView()) {
 			case 'filter_form':
@@ -129,8 +128,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				);
 				$result = $singleView->render($this->piVars);
 
-				// TODO: This can be moved to the single view class when
-				// Bug #2432 is fixed.
 				if ($result == '') {
 					$this->setEmptyResultView();
 					tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
@@ -179,7 +176,6 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 				break;
 			default:
 				$listViewType = 'realty_list';
-				$result = '';
 		}
 		if ($listViewType != '') {
 			$listView = tx_realty_pi1_ListViewFactory::make(

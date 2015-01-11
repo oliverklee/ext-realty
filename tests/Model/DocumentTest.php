@@ -20,19 +20,19 @@
  *
  * @author Bernd Schönbach <bernd.schoenbach@googlemail.com>
  */
-class tx_realty_Model_DocumentTest extends tx_phpunit_testcase {
+class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_Model_Document
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	protected function setUp() {
 		$this->fixture = new tx_realty_Model_Document();
 	}
 
-	///////////////////////////////
-	// Tests concerning the title
-	///////////////////////////////
+	/*
+	 * Tests concerning the title
+	 */
 
 	/**
 	 * @test
@@ -60,7 +60,6 @@ class tx_realty_Model_DocumentTest extends tx_phpunit_testcase {
 
 	/**
 	 * @test
-	 *
 	 * @expectedException InvalidArgumentException
 	 */
 	public function setTitleForEmptyTitleThrowsException() {

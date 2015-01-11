@@ -20,20 +20,27 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_DocumentsView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
+
+	/**
+	 * @var tx_realty_Mapper_RealtyObject
+	 */
+	private $realtyObjectMapper = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
+
+		$this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 
 		/** @var tslib_fe $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
@@ -55,8 +62,8 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkers() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_RealtyObject $realtyObject */
+		$realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$realtyObject->addDocument('new document', 'readme.pdf');
 
 		$result = $this->fixture->render(
@@ -78,8 +85,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForObjectWithoutDocumentsReturnsEmptyString() {
-		$uid = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array())->getUid();
+		$uid = $this->realtyObjectMapper->getLoadedTestingModel(array())->getUid();
 
 		$this->assertEquals(
 			'',
@@ -91,8 +97,8 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForObjectWithDocumentContainsDocumentTitle() {
-		$object = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('object layout', 'foo.pdf');
 
 		$this->assertContains(
@@ -105,8 +111,8 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderHtmlspecialcharsDocumentTitle() {
-		$object = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('rise & shine', 'foo.pdf');
 
 		$this->assertContains(
@@ -119,8 +125,8 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForObjectWithTwoDocumentsContainsBothDocumentTitles() {
-		$object = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('object layout', 'foo.pdf');
 		$object->addDocument('object overview', 'bar.pdf');
 
@@ -142,8 +148,8 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderContainsLinkToDocumentFile() {
-		$object = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('object layout', 'foo.pdf');
 
 		$this->assertContains(
@@ -156,8 +162,8 @@ class tx_realty_FrontEnd_DocumentsViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderForObjectWithTwoDocumentsContainsBothDocumentLinks() {
-		$object = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-			->getLoadedTestingModel(array());
+		/** @var tx_realty_Model_RealtyObject $object */
+		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('object layout', 'foo.pdf');
 		$object->addDocument('object overview', 'bar.pdf');
 

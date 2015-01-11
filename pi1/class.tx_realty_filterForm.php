@@ -415,20 +415,19 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		}
 
 		/** @var tx_realty_Mapper_RealtyObject $objectMapper */
-		$objectMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
+		$objectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		$countFunction = 'countBy' . ucfirst($type);
-		$models = tx_oelib_MapperRegistry::get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
+		$models = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
 
 		$options = '';
-		/** @var Tx_Oelib_Model $model */
+		/** @var tx_realty_Model_AbstractTitledModel $model */
 		foreach ($models as $model) {
 			$numberOfMatches = $objectMapper->$countFunction($model);
 			if ($numberOfMatches == 0) {
 				continue;
 			}
 
-			$selected = ($selectedUid == $model->getUid())
-					? ' selected="selected"' : '';
+			$selected = ($selectedUid == $model->getUid()) ? ' selected="selected"' : '';
 
 			$options .= '<option value="' . $model->getUid() . '"' .
 				$selected . '>' . htmlspecialchars($model->getTitle()) . ' (' .
@@ -445,9 +444,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	private function fillOrHideHouseTypeSearch() {
-		$this->fillOrHideAuxiliaryRecordSearch(
-			'houseType', 'tx_realty_house_types', 'house_type'
-		);
+		$this->fillOrHideAuxiliaryRecordSearch('houseType', 'tx_realty_house_types', 'house_type');
 	}
 
 	/**
@@ -493,13 +490,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 					? 'selected="selected"' : '') .
 				'>' . htmlspecialchars($record['title']) . '</option>' . LF;
 		}
-		$this->setMarker(
-			'options_' . $columnName . '_search', $options
-		);
+		$this->setMarker('options_' . $columnName . '_search', $options);
 
-		$this->setMarker(
-			$columnName . '_select_on_change', $this->getOnChangeForSingleField()
-		);
+		$this->setMarker($columnName . '_select_on_change', $this->getOnChangeForSingleField());
 	}
 
 	/**
@@ -514,9 +507,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		foreach(array('forRent' => 'rent', 'forSale' => 'sale')
-			as $key => $markerPrefix
-		) {
+		foreach(array('forRent' => 'rent', 'forSale' => 'sale') as $key => $markerPrefix) {
 			$this->setMarker($markerPrefix . '_attributes',
 				(($this->filterFormData['objectType'] == $key)
 					? ' checked="checked"'
@@ -535,9 +526,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @return void
 	 */
-	private function fillOrHideFromToSearchField(
-		$searchField, $fieldMarkerPart
-	) {
+	private function fillOrHideFromToSearchField($searchField, $fieldMarkerPart) {
 		if (!$this->hasSearchField($searchField)) {
 			$this->hideSubparts('wrapper_' . $fieldMarkerPart . '_search');
 			return;

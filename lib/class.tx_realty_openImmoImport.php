@@ -1009,7 +1009,6 @@ class tx_realty_openImmoImport {
 
 		$errorMessage = '';
 		$folderWithXml = $this->getNameForExtractionFolder($pathOfZip);
-		$pathOfXml = array();
 
 		if (is_dir($folderWithXml)) {
 			$pathOfXml = glob($folderWithXml.'*.xml');
@@ -1055,7 +1054,8 @@ class tx_realty_openImmoImport {
 			return;
 		}
 
-		$this->importedXml = DOMDocument::load($xmlPath);
+		$this->importedXml = new DOMDocument();
+		$this->importedXml->load($xmlPath);
 		$this->validateXml();
 	}
 

@@ -20,19 +20,19 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_ImageTest extends tx_phpunit_testcase {
+class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_Model_Image
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	protected function setUp() {
 		$this->fixture = new tx_realty_Model_Image();
 	}
 
-	///////////////////////////////
-	// Tests concerning the title
-	///////////////////////////////
+	/*
+	 * Tests concerning the title
+	 */
 
 	/**
 	 * @test

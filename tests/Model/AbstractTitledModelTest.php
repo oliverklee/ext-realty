@@ -20,25 +20,36 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_CityTest extends Tx_Phpunit_TestCase {
+class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_realty_Model_City
+	 * @var tx_realty_Model_AbstractTitledModel
 	 */
-	private $fixture = NULL;
+	private $subject = NULL;
 
 	protected function setUp() {
-		$this->fixture = new tx_realty_Model_City();
+		$this->subject = $this->getMockForAbstractClass('tx_realty_Model_AbstractTitledModel');
+	}
+
+	/**
+	 * @test
+	 */
+	public function classIsModel() {
+		$this->assertInstanceOf(
+			'Tx_Oelib_Model',
+			$this->subject
+		);
 	}
 
 	/**
 	 * @test
 	 */
 	public function getTitleWithNonEmptyTitleReturnsTitle() {
-		$this->fixture->setData(array('title' => 'London'));
+		$title = 'God save McQueen!';
+		$this->subject->setData(array('title' => $title));
 
-		$this->assertEquals(
-			'London',
-			$this->fixture->getTitle()
+		$this->assertSame(
+			$title,
+			$this->subject->getTitle()
 		);
 	}
 
@@ -46,11 +57,12 @@ class tx_realty_Model_CityTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setTitleSetsTitle() {
-		$this->fixture->setTitle('London');
+		$title = 'The early bird needs coffee!';
+		$this->subject->setTitle($title);
 
-		$this->assertEquals(
-			'London',
-			$this->fixture->getTitle()
+		$this->assertSame(
+			$title,
+			$this->subject->getTitle()
 		);
 	}
 
@@ -59,6 +71,6 @@ class tx_realty_Model_CityTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function setTitleWithEmptyStringThrowsException() {
-		$this->fixture->setTitle('');
+		$this->subject->setTitle('');
 	}
 }

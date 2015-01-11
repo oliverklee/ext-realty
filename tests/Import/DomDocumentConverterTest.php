@@ -22,7 +22,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Benjamin Schulte <benj@minschulte.de>
  */
-class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
+class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_domDocumentConverterChild
 	 */
@@ -67,7 +67,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @return DOMDocument DOMDocument of the provided XML string
 	 */
 	private function setRawDataToConvert($xmlString) {
-		$loadedXml = DOMDocument::loadXML($xmlString);
+		$loadedXml = new DOMDocument();
+		$loadedXml->loadXML($xmlString);
 		$this->fixture->setRawRealtyData($loadedXml);
 
 		return $loadedXml;
@@ -1111,7 +1112,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataGetsStateIfValidStateProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1135,7 +1137,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataDoesNotGetStateIfInvalidStateProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1158,7 +1161,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataCanGetOneValidHeatingType() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1182,7 +1186,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataCanGetMultipleValidHeatingTypesFromHeatingTypeNode() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1206,7 +1211,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataCanGetMultipleValidHeatingTypesFromFiringNode() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1230,7 +1236,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataCanGetHeatingTypesFromFiringNodeAndHeatingTypeNode() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1255,7 +1262,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataDoesNotGetInvalidHeatingTypeFromHeatingTypeNode() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1278,7 +1286,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataDoesNotGetInvalidHeatingTypeFromFiringNode() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1301,7 +1310,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataOnlyGetsValidHeatingTypesIfValidAndInvalidTypesProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1325,7 +1335,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataFetchesSwitchboardPhoneNumber() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>'
 				.'<anbieter>'
 					.'<immobilie>'
@@ -1350,7 +1361,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataFetchesDirectExtensionPhoneNumber() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>'
 				.'<anbieter>'
 					.'<immobilie>'
@@ -1377,7 +1389,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=4057
 	 */
 	public function getConvertedDataCanImportLivingUsageUsingTrueFalseAttributeValues() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1404,7 +1417,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=4057
 	 */
 	public function getConvertedDataCanImportLivingUsageUsingOneZeroAttributeValues() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1430,7 +1444,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
 	 */
 	public function getConvertedDataCanImportCommercialUsage() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1456,7 +1471,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
 	 */
 	public function getConvertedDataCanImportLivingAndCommercialUsage() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1482,7 +1498,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3991
 	 */
 	public function getConvertedDataCanImportEmptyUsage() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1505,7 +1522,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataGetsFurnishingCategoryForStandardCategoryProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1529,7 +1547,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataGetsFurnishingCategoryForUpmarketCategoryProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1553,7 +1572,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataGetsFurnishingCategoryForLuxuryCategoryProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1577,7 +1597,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataNotGetsFurnishingCategoryIfInvalidCategoryProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1600,7 +1621,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataCanGetOneValidFlooringType() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1624,7 +1646,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataCanGetMultipleValidFlooringTypesFromFlooringNode() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1648,7 +1671,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataNotGetsInvalidFlooringFromFlooringNode() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1671,7 +1695,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataOnlyGetsValidFlooringsIfValidAndInvalidFlooringsProvided() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1695,7 +1720,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataForValidButFalseFlooringDoesNotImportThisFlooring() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1786,7 +1812,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataFetchesHotWaterTrue() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1808,7 +1835,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataFetchesHotWaterFalse() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1830,7 +1858,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataFetchesHotWaterMissing() {
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1853,7 +1882,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateValidUntil() {
 		$value = '11/2027';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1878,7 +1908,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyConsumptionCharacteristic() {
 		$value = 'ABC';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1903,7 +1934,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesUltimateEnergyDemand() {
 		$value = '24,2154 kwH';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1928,7 +1960,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesPrimaryEnergyCarrier() {
 		$value = 'GAS';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1953,7 +1986,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesElectricPowerConsumptionCharacteristic() {
 		$value = 'C42-abc';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -1978,7 +2012,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesHeatEnergyConsumptionCharacteristic() {
 		$value = 'X42-abc';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2003,7 +2038,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesValueCategory() {
 		$value = 'C 44 C12';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2028,7 +2064,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesYearOfConstruction() {
 		$value = '1963';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2053,7 +2090,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateText() {
 		$value = 'My, this is a nice certificate!';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2078,7 +2116,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesHeatEnergyRequirementValue() {
 		$value = '123 a 45';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2103,7 +2142,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesHeatEnergyRequirementClass() {
 		$value = '123 a 45';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2128,7 +2168,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesTotalEnergyEfficiencyValue() {
 		$value = '123 a 45';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2153,7 +2194,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesTotalEnergyEfficiencyClass() {
 		$value = '123 a 45';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2178,7 +2220,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateIssueDate() {
 		$value = '2014-02-20';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2201,8 +2244,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getConvertedDataSetsMissingEnergyCertificateIssueDateToZero() {
-
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2226,7 +2269,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateTypeRequirement() {
 		$value = 'BEDARF';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2251,7 +2295,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateTypeConsumption() {
 		$value = 'VERBRAUCH';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2276,7 +2321,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataIgnoresInvalidEnergyCertificateType() {
 		$value = 'Kürbisbrot';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2300,7 +2346,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateYear2008() {
 		$value = '2008';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2325,7 +2372,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateYear2014() {
 		$value = '2014';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2350,7 +2398,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateYearNotAvailable() {
 		$value = 'ohne';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2375,7 +2424,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesEnergyCertificateYearNotRequired() {
 		$value = 'nicht_noetig';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2400,7 +2450,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataIgnoresInvalidEnergyCertificateYear() {
 		$value = 'Kürbisbrot';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2424,7 +2475,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesBuildingTypeResidential() {
 		$value = 'wohn';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2449,7 +2501,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataFetchesBuildingTypeBusiness() {
 		$value = 'nichtwohn';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -2474,7 +2527,8 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	public function getConvertedDataIgnoresInvalidBuildingType() {
 		$value = 'Kürbisbrot';
 
-		$node = DOMDocument::loadXML(
+		$node = new DOMDocument();
+		$node->loadXML(
 			'<openimmo>' .
 				'<anbieter>' .
 					'<immobilie>' .
@@ -4091,6 +4145,7 @@ class tx_realty_Import_DomDocumentConverterTest extends tx_phpunit_testcase {
 	 */
 	public function fetchDomAttributesIfValidNodeGiven() {
 		$node = new DOMDocument();
+		/** @var DOMElement $element */
 		$element = $node->appendChild(
 			$node->createElement('foo')
 		);

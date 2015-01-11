@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface_Sortable {
+class tx_realty_Model_Image extends tx_realty_Model_AbstractTitledModel implements tx_oelib_Interface_Sortable {
 	/**
 	 * the folder where uploaded images get stored.
 	 *
@@ -29,24 +29,14 @@ class tx_realty_Model_Image extends tx_oelib_Model implements tx_oelib_Interface
 	const UPLOAD_FOLDER = 'uploads/tx_realty/';
 
 	/**
-	 * Gets this image's title (caption).
-	 *
-	 * @return string the image's title, might be empty
+	 * @var string
 	 */
-	public function getTitle() {
-		return $this->getAsString('caption');
-	}
+	protected $titleFieldName = 'caption';
 
 	/**
-	 * Sets this images title (caption).
-	 *
-	 * @param string $title the title to set, may be empty
-	 *
-	 * @return void
+	 * @var bool
 	 */
-	public function setTitle($title) {
-		$this->setAsString('caption', $title);
-	}
+	protected $allowEmptyTitle = TRUE;
 
 	/**
 	 * Gets the file name of this image (relative to the extension's upload

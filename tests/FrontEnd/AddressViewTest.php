@@ -20,19 +20,19 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_AddressViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_AddressView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		/** @var tslib_fe $frontEndController */
@@ -55,7 +55,7 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNonEmptyResultForShowUidOfExistingRecordWithZip() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$this->assertNotEquals(
@@ -68,7 +68,7 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$result = $this->fixture->render(
@@ -89,7 +89,7 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsTheRealtyObjectsAddressForValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('zip' => '12345'));
 
 		$this->assertContains(
@@ -102,7 +102,7 @@ class tx_realty_FrontEnd_AddressViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsEmptyResultForEmptyAddressDataOfValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array());
 
 		$this->assertEquals(

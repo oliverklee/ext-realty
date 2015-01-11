@@ -21,19 +21,19 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
+class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_Mapper_RealtyObject
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->fixture = new tx_realty_Mapper_RealtyObject();
 	}
 
@@ -85,8 +85,8 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	public function countByCityForNoMatchesReturnsZero() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
-			->find($cityUid);
+		/** @var tx_realty_Model_City $city */
+		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
 		$this->assertEquals(
 			0,
@@ -99,8 +99,8 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	public function countByCityWithOneMatchReturnsOne() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
-			->find($cityUid);
+		/** @var tx_realty_Model_City $city */
+		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
 		$this->testingFramework->createRecord(
 			'tx_realty_objects', array('city' => $cityUid)
@@ -117,8 +117,8 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	public function countByCityWithTwoMatchesReturnsTwo() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		$city = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City')
-			->find($cityUid);
+		/** @var tx_realty_Model_City $city */
+		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
 		$this->testingFramework->createRecord(
 			'tx_realty_objects', array('city' => $cityUid)
@@ -143,8 +143,8 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	public function countByDistrictForNoMatchesReturnsZero() {
 		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
-		$district = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-			->find($districtUid);
+		/** @var tx_realty_Model_District $district */
+		$district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
 		$this->assertEquals(
 			0,
@@ -157,8 +157,8 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	public function countByDistrictWithOneMatchReturnsOne() {
 		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
-		$district = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-			->find($districtUid);
+		/** @var tx_realty_Model_District $district */
+		$district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
 		$this->testingFramework->createRecord(
 			'tx_realty_objects', array('district' => $districtUid)
@@ -175,8 +175,8 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	 */
 	public function countByDistrictWithTwoMatchesReturnsTwo() {
 		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
-		$district = tx_oelib_MapperRegistry::get('tx_realty_Mapper_District')
-			->find($districtUid);
+		/** @var tx_realty_Model_District $district */
+		$district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
 		$this->testingFramework->createRecord(
 			'tx_realty_objects', array('district' => $districtUid)
@@ -200,8 +200,6 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByObjectNumberAndObjectIdAndLanguageForAllParametersEmptyNotThrowsException() {
-		$district = $this->fixture->getLoadedTestingModel(array());
-
 		$this->fixture->findByObjectNumberAndObjectIdAndLanguage('', '', '');
 	}
 
@@ -237,9 +235,7 @@ class tx_realty_Mapper_RealtyObjectTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			$uid,
-			$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-				'FLAT0001', 'abc01234', 'de'
-			)->getUid()
+			$this->fixture->findByObjectNumberAndObjectIdAndLanguage('FLAT0001', 'abc01234', 'de')->getUid()
 		);
 	}
 

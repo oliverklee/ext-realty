@@ -20,15 +20,15 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_FormTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_frontEndForm object to be tested
 	 */
-	private $fixture;
+	private $fixture = NULL;
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	/**
 	 * @var int dummy FE user UID
@@ -41,7 +41,7 @@ class tx_realty_FrontEnd_FormTest extends tx_phpunit_testcase {
 
 	protected function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		$configuration = new tx_oelib_Configuration();

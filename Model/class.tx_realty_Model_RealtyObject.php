@@ -22,7 +22,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_Interface_Geo {
+class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel implements tx_oelib_Interface_Geo {
 	/**
 	 * @var int
 	 */
@@ -117,6 +117,11 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @var int
 	 */
 	const CONTACT_DATA_FROM_OWNER_ACCOUNT = 1;
+
+	/**
+	 * @var bool
+	 */
+	protected $allowEmptyTitle = TRUE;
 
 	/**
 	 * @var string the charset that is used for the output
@@ -301,8 +306,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 *        data for the realty object: an array or a UID (of integer > 0) of
 	 *        an existing record, an array must not contain the key 'uid'
 	 * @param bool $canLoadHiddenObjects whether hidden objects are loadable
-	 *
-	 * @deprecated 2009-02-03 use setData() instead
 	 *
 	 * @return void
 	 */
@@ -530,7 +533,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			} else {
 				$this->discardExistingImages();
 				$this->discardExistingDocuments();
-				tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->delete($this);
+				Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->delete($this);
 				$errorMessage = 'message_deleted_flag_causes_deletion';
 			}
 		} elseif (!$ownerCanAddObjects) {
@@ -545,6 +548,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 					break;
 				case 0:
 					$errorMessage = 'message_insertion_failed';
+					break;
 				default:
 					$this->setUid($newUid);
 					break;
@@ -681,7 +685,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 		try {
 			/** @var tx_realty_Model_FrontEndUser $result */
-			$result = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getModel($this->ownerData);
+			$result = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getModel($this->ownerData);
 		} catch (Exception $exception) {
 			throw new tx_oelib_Exception_NotFound('There is no owner for the current realty object.', 1333035795);
 		}
@@ -912,7 +916,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		$propertyArray = array('title' => $this->getAsString($key));
-		$uidOfProperty = 0;
 
 		if ($this->recordExistsInDatabase($propertyArray, $table)) {
 			$uidOfProperty = $this->getRecordUid($propertyArray, $table);
@@ -942,7 +945,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_realty_Mapper_Image $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
 
 		$pageUid = ($overridePid > 0)
 			? $overridePid
@@ -977,7 +980,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 */
 	protected function discardExistingImages() {
 		/** @var tx_realty_Mapper_Image $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
 		/** @var tx_realty_Model_Image $image */
 		foreach ($mapper->findAllByRelation($this, 'object') as $image) {
 			$mapper->delete($image);
@@ -1006,7 +1009,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_realty_Mapper_Document $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
 
 		$pageUid = ($overridePid > 0)
 			? $overridePid
@@ -1041,7 +1044,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 */
 	protected function discardExistingDocuments() {
 		/** @var tx_realty_Mapper_Document $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
 		foreach ($mapper->findAllByRelation($this, 'object') as $document) {
 			$mapper->delete($document);
  		}
@@ -1098,7 +1101,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_realty_Mapper_Image $imageMapper */
-		$imageMapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		$imageMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
 		$images = $imageMapper->findAllByRelation($this, 'object');
 		$images->sortBySorting();
 
@@ -1119,7 +1122,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_realty_Mapper_Document $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
 		$documents = $mapper->findAllByRelation($this, 'object');
 		$documents->sortBySorting();
 
@@ -1229,6 +1232,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			);
 		}
 
+		/** @var tx_realty_Model_Image $image */
 		$image = $this->images->at($imageKey);
 
 		if ($image == NULL) {
@@ -1236,7 +1240,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_realty_Mapper_Image $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Image');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Image');
 		$mapper->delete($image);
 
 		$this->setAsInteger('images', $this->getAsInteger('images') - 1);
@@ -1261,6 +1265,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			throw new BadMethodCallException('A realty record must be loaded before documents can be deleted.', 1333035926);
 		}
 
+		/** @var tx_realty_Model_Document $document */
 		$document = $this->documents->at($key);
 
 		if ($document == NULL) {
@@ -1268,7 +1273,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_realty_Mapper_Document $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_Document');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_Document');
 		$mapper->delete($document);
 
 		$this->setAsInteger('documents', $this->getAsInteger('documents') - 1);
@@ -1500,7 +1505,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 * @return void
 	 */
 	public function setStreet($street) {
-		return $this->setAsString('street', $street);
+		$this->setAsString('street', $street);
 	}
 
 	/**
@@ -1543,7 +1548,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_realty_Mapper_City $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_City');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
 		return $mapper->find($this->getAsInteger('city'));
 	}
 
@@ -1559,7 +1564,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	/**
 	 * Returns the country of this object.
 	 *
-	 * @return tx_realty_Model_Country the related country, will be NULL if there is none
+	 * @return Tx_Oelib_Model_Country the related country, will be NULL if there is none
 	 */
 	public function getCountry() {
 		if (!$this->hasCountry()) {
@@ -1567,7 +1572,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 		}
 
 		/** @var tx_oelib_Mapper_Country $mapper */
-		$mapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country');
 		return $mapper->find($this->getAsInteger('country'));
 	}
 
@@ -1800,26 +1805,6 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 	 */
 	public function clearGeoError() {
 		$this->setAsBoolean('coordinates_problem', FALSE);
-	}
-
-	/**
-	 * Gets this object's title.
-	 *
-	 * @return string this object's title, will be empty if this object does not have a title
-	 */
-	public function getTitle() {
-		return $this->getAsString('title');
-	}
-
-	/**
-	 * Sets the title of this object.
-	 *
-	 * @param string $title the title to set, must not be empty
-	 *
-	 * @return void
-	 */
-	public function setTitle($title) {
-		$this->setAsString('title', $title);
 	}
 
 	/**
@@ -2072,7 +2057,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 
 		if ($useContactDataOfOwner && $this->owner === NULL) {
 			/** @var tx_realty_Mapper_FrontEndUser $mapper */
-			$mapper = tx_oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
+			$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
 			$this->owner = $mapper->find($this->getAsInteger('owner'));
 		}
 
@@ -2091,7 +2076,7 @@ class tx_realty_Model_RealtyObject extends tx_oelib_Model implements tx_oelib_In
 			$this->renderCharset = $this->getFrontEndController()->renderCharset;
 			$this->charsetConversion = $this->getFrontEndController()->csConvObj;
 		} elseif ($this->getLanguageService() !== NULL) {
-			$this->renderCharset = $this->getLanguageService()->charset;
+			$this->renderCharset = $this->getLanguageService()->charSet;
 			$this->charsetConversion = $this->getLanguageService()->csConvObj;
 		} else {
 			throw new RuntimeException('There was neither a front end nor a back end detected.', 1333036016);

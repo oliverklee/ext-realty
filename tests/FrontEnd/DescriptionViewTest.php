@@ -20,19 +20,19 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
+class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_realty_pi1_DescriptionView
 	 */
-	private $fixture;
+	private $fixture = NULL;
 
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
 		/** @var tslib_fe $frontEndController */
@@ -55,7 +55,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNonEmptyResultForShowUidOfExistingRecord() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
 		$this->assertNotEquals(
@@ -68,7 +68,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
 		$result = $this->fixture->render(
@@ -89,7 +89,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsTheRealtyObjectsDescriptionForValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo'));
 
 		$this->assertContains(
@@ -102,7 +102,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => 'foo</br>bar'));
 
 		$this->assertContains(
@@ -115,7 +115,7 @@ class tx_realty_FrontEnd_DescriptionViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject() {
-		$realtyObject = tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
+		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('description' => ''));
 
 		$this->assertEquals(
