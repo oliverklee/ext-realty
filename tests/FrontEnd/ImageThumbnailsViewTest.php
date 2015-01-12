@@ -339,8 +339,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);
@@ -364,8 +364,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);
@@ -416,8 +416,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);
@@ -441,8 +441,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 40,
-					'maxH' => 30,
+					'width' => '40c',
+					'height' => '30c',
 				),
 			)
 		);
@@ -467,8 +467,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);
@@ -492,8 +492,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 40,
-					'maxH' => 30,
+					'width' => '40c',
+					'height' => '30c',
 				),
 			)
 		);
@@ -531,7 +531,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 	 */
 	public function renderForImageInPosition1AndThumbnailSizesSetAndLightboxEnabledSetUsesThumbnailSizesForPosition1() {
 		$this->configuration->setAsBoolean('enableLightbox' , TRUE);
-		$this->imagesConfiguration->set('1.', array('lightboxImageWidthMax' => 40, 'lightboxImageHeightMax' => 30));
+		$this->imagesConfiguration->set('1.', array('lightboxImageWidthMax' => 400, 'lightboxImageHeightMax' => 300));
 
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
@@ -543,8 +543,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 40,
-					'maxH' => 30,
+					'maxW' => 400,
+					'maxH' => 300,
 				),
 			)
 		);
@@ -631,8 +631,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => '0',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '0.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);
@@ -642,8 +642,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => '1',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '1.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);
@@ -653,8 +653,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => '2',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '2.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);
@@ -754,8 +754,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends tx_phpunit_testcase {
 				'titleText' => 'fooBar',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
 				'file.' => array(
-					'maxW' => 102,
-					'maxH' => 77,
+					'width' => '102c',
+					'height' => '77c',
 				),
 			)
 		);

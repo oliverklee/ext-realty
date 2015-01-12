@@ -109,8 +109,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	private function renderImagesInPosition($position, array $images) {
-		$containerSubpartName = ($position > 0)
-			? 'IMAGES_POSITION_' . $position : 'ONE_IMAGE_CONTAINER';
+		$containerSubpartName = ($position > 0) ? 'IMAGES_POSITION_' . $position : 'ONE_IMAGE_CONTAINER';
 		if (empty($images)) {
 			$this->hideSubparts($containerSubpartName);
 			return;
@@ -153,8 +152,8 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 			'titleText' => $title,
 			'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $fileName,
 			'file.' => array(
-				'maxW' => $containerImageConfiguration['thumbnailSizeX'],
-				'maxH' => $containerImageConfiguration['thumbnailSizeY'],
+				'width' => $containerImageConfiguration['thumbnailSizeX'] . 'c',
+				'height' => $containerImageConfiguration['thumbnailSizeY'] . 'c',
 			),
 		);
 		return $this->cObj->IMAGE($imageConfiguration);
@@ -275,8 +274,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	private function findHighestConfiguredPositionIndex() {
 		$highestIndex = 0;
 
-		$imageConfigurations = tx_oelib_ConfigurationRegistry
-			::get('plugin.tx_realty_pi1')->getAsMultidimensionalArray('images.');
+		$imageConfigurations = tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')->getAsMultidimensionalArray('images.');
 
 		foreach (array_keys($imageConfigurations) as $key) {
 			$index = (int)$key;

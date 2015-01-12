@@ -1,6 +1,7 @@
 0.6.0 - currently working on
 
 Features:
+- [#3570] Use cropscale for generating thumbnails
 - [#4163] Add a decimal mark and thousands separator to the FE locallang
 - [#5225] Add first name and salutation for objects
 - [#5186] Add an automatic update function for contact_phone

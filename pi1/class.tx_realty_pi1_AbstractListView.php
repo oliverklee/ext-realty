@@ -1248,9 +1248,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @return string IMG tag
 	 */
-	private function createImageTag(
-		$filename, $maxSizeVariable, $caption = '', $id = ''
-	) {
+	private function createImageTag($filename, $maxSizeVariable, $caption = '', $id = '') {
 		$fullPath = tx_realty_Model_Image::UPLOAD_FOLDER . $filename;
 		$maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
 		$maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
@@ -1260,8 +1258,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			'titleText' => $caption,
 			'file' => $fullPath,
 			'file.' => array(
-				'maxW' => $maxWidth,
-				'maxH' => $maxHeight,
+				'width' => $maxWidth . 'c',
+				'height' => $maxHeight . 'c',
 			),
 		);
 		if ($id !== '') {

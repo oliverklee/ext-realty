@@ -249,8 +249,8 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 				'titleText' => $title,
 				'file' => $imagePath,
 				'file.' => array(
-					'maxW' => $this->getConfValueInteger('imageUploadThumbnailWidth'),
-					'maxH' => $this->getConfValueInteger('imageUploadThumbnailHeight'),
+					'width' => $this->getConfValueInteger('imageUploadThumbnailWidth') . 'c',
+					'height' => $this->getConfValueInteger('imageUploadThumbnailHeight') . 'c',
 				),
 			);
 			$imageTag = $this->cObj->IMAGE($imageConfiguration);

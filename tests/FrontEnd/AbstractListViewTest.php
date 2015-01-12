@@ -661,7 +661,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'pages' => $this->systemFolderPid,
 				'listImageMaxX' => 98,
-				'listImageMaxY' => 98,
+				'listImageMaxY' => 100,
 			),
 			$this->contentObject,
 			TRUE
@@ -688,8 +688,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'titleText' => 'test image',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
 				'file.' => array(
-					'maxW' => 98,
-					'maxH' => 98,
+					'width' => '98c',
+					'height' => '100c',
 				),
 			),
 			$this->imageConfigurations[0]
@@ -705,7 +705,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
 				'pages' => $this->systemFolderPid,
 				'listImageMaxX' => 98,
-				'listImageMaxY' => 98,
+				'listImageMaxY' => 100,
 			),
 			$this->contentObject,
 			TRUE
@@ -732,8 +732,8 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'titleText' => 'test image',
 				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
 				'file.' => array(
-					'maxW' => 98,
-					'maxH' => 98,
+					'width' => '98c',
+					'height' => '100c',
 				),
 			),
 			$this->imageConfigurations[0]
