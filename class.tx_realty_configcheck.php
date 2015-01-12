@@ -215,7 +215,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	/**
 	 * Checks the settings that are common to all FE plug-in variations of this
 	 * extension: CSS styled content, static TypoScript template included,
-	 * template file, CSS file, salutation mode, CSS class names and the locale.
+	 * template file, CSS file, salutation mode, and CSS class names.
 	 *
 	 * @return void
 	 */

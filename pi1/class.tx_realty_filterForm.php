@@ -125,9 +125,6 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 * @return void
 	 */
 	private function extractValidFilterFormData(array $formData) {
-		// @todo
-		$localeConvention = localeconv();
-
 		foreach ($formData as $key => $rawValue) {
 			switch($key) {
 				case 'uid':
@@ -153,27 +150,23 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 					$this->filterFormData[$key] = $rawValue;
 					break;
 				case 'objectType':
-					$this->filterFormData['objectType'] = in_array(
-						$rawValue, array('forSale', 'forRent')
-					) ?  $rawValue : '';
+					$this->filterFormData['objectType'] = in_array($rawValue, array('forSale', 'forRent'), TRUE) ?  $rawValue : '';
 					break;
 				case 'priceRange':
-					$this->filterFormData['priceRange'] = preg_match(
-						'/^(\d+-\d+|-\d+|\d+-)$/', $rawValue
-					) ? $rawValue : '';
+					$this->filterFormData['priceRange'] = preg_match('/^(\\d+-\\d+|-\\d+|\\d+-)$/', $rawValue) ? $rawValue : '';
 					break;
 				case 'numberOfRoomsFrom':
 					// The fallthrough is intended.
 				case 'numberOfRoomsTo':
-					$commaFreeValue = $this->replaceCommasWithDots($rawValue);
-					if ((float)$commaFreeValue == (int)$commaFreeValue) {
-						$formattedValue = $commaFreeValue;
+					$commaFreeValue = (float)$this->replaceCommasWithDots($rawValue);
+					if ($commaFreeValue !== round($commaFreeValue)) {
+						$decimals = 1;
 					} else {
-						$formattedValue = number_format($commaFreeValue, 1, $localeConvention['decimal_point'], '');
+						$decimals = 0;
 					}
-					$this->filterFormData[$key] = $formattedValue;
+					$decimalMark = $this->translate('decimal_mark');
+					$this->filterFormData[$key] = number_format($commaFreeValue, $decimals, $decimalMark, '');
 				default:
-					break;
 			}
 		}
 	}

@@ -352,16 +352,13 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Retrieves the value of the record field $key and formats,
-	 * using the system's locale and appending $unit. If the field's value is
+	 * Retrieves the value of the record field $key and formats it. If the field's value is
 	 * empty or its int value is zero, an empty string will be returned.
 	 *
 	 * @param string $key key of the field to retrieve (the name of a database column), must not be empty
 	 * @param string $unit unit of the formatted number, must not be empty
 	 *
-	 * @return string HTML for the number in the field formatted using the
-	 *                system's locale with $unit appended, may be an empty
-	 *                string
+	 * @return string HTML for the formatted number in the field, may be an empty string
 	 */
 	private function getFormattedNumber($key, $unit) {
 		$rawValue = $this->getRealtyObject()->getProperty($key);
@@ -384,16 +381,13 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Retrieves the value of the record field $key, formats it using the
-	 * system's locale and strips zeros on the end of the value.
+	 * Retrieves the value of the record field $key, formats it and strips zeros on the end of the value.
 	 *
 	 * @param string $key name of a database column, must not be empty
 	 * @param int $decimals
 	 *        the number of decimals after the decimal point, must be >= 0
 	 *
-	 * @return string the number in the field formatted using the system's
-	 *                locale and stripped of trailing zeros, will be empty if
-	 *                the value is zero.
+	 * @return string the number in the field formatted and stripped of trailing zeros, will be empty if the value is zero
 	 */
 	private function getFormattedDecimal($key, $decimals = 2) {
 		$value = str_replace(',', '.', $this->getRealtyObject()->getProperty($key));
