@@ -87,7 +87,6 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		/** @var tx_realty_Model_Image $image */
 		foreach ($allImages as $image) {
 			$position = $image->getPosition();
-
 			$imagesByPosition[$position][] = $image;
 		}
 
@@ -144,25 +143,25 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 *         image tag, will not be empty
 	 */
 	protected function createThumbnail(tx_realty_Model_Image $image) {
-		$configuration = $this->getImageConfigurationForContainer(
-			$image->getPosition()
-		);
+		$containerImageConfiguration = $this->getImageConfigurationForContainer($image->getPosition());
 
-		$fileName = ($image->hasThumbnailFileName())
-			? $image->getThumbnailFileName() : $image->getFileName();
+		$fileName = $image->hasThumbnailFileName() ? $image->getThumbnailFileName() : $image->getFileName();
+		$title = $image->getTitle();
 
-		return $this->createRestrictedImage(
-			tx_realty_Model_Image::UPLOAD_FOLDER . $fileName,
-			$image->getTitle(),
-			$configuration['thumbnailSizeX'],
-			$configuration['thumbnailSizeY'],
-			0,
-			$image->getTitle()
+		$imageConfiguration = array(
+			'altText' => $title,
+			'titleText' => $title,
+			'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $fileName,
+			'file.' => array(
+				'maxW' => $containerImageConfiguration['thumbnailSizeX'],
+				'maxH' => $containerImageConfiguration['thumbnailSizeY'],
+			),
 		);
+		return $this->cObj->IMAGE($imageConfiguration);
 	}
 
 	/**
-	 * Creates a Lightboxed thumbnail of $image sized as per the configuration.
+	 * Creates a Lightbox thumbnail of $image sized as per the configuration.
 	 *
 	 * @param tx_realty_Model_Image $image
 	 *        the image to render
@@ -171,18 +170,23 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 	 *         image tag wrapped in a Lightbox link, will not be empty
 	 */
 	protected function createLightboxThumbnail(tx_realty_Model_Image $image) {
-		$thumbnail = $this->createThumbnail($image);
+		$thumbnailTag = $this->createThumbnail($image);
 
 		$position = $image->getPosition();
 		$configuration = $this->getImageConfigurationForContainer($position);
 
-		$imagePath = array();
-		$imageWithTag = $this->createRestrictedImage(
-			tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
-			'',
-			$configuration['lightboxSizeX'],
-			$configuration['lightboxSizeY']
+		$imageConfiguration = array(
+			'altText' => $image->getTitle(),
+			'titleText' => $image->getTitle(),
+			'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
+			'file.' => array(
+				'maxW' => $configuration['lightboxSizeX'],
+				'maxH' => $configuration['lightboxSizeY'],
+			),
 		);
+		$imageWithTag = $this->cObj->IMAGE($imageConfiguration);
+
+		$imagePath = array();
 		preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
 		$fullSizeImageUrl = $imagePath[1];
 
@@ -190,8 +194,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView {
 		$linkAttribute = ' rel="lightbox[objectGallery' . $lightboxGallerySuffix .
 			']" title="' . htmlspecialchars($image->getTitle()) . '"';
 
-		return '<a href="' . $fullSizeImageUrl . '"' . $linkAttribute . '>' .
-			$thumbnail . '</a>';
+		return '<a href="' . $fullSizeImageUrl . '"' . $linkAttribute . '>' . $thumbnailTag . '</a>';
 	}
 
 	/**

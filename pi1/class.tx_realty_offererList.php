@@ -436,26 +436,24 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		$configuredUploadFolder = tx_oelib_configurationProxy::getInstance(
-				'sr_feuser_register'
-			)->getAsString('uploadFolder');
+		$configuredUploadFolder = tx_oelib_configurationProxy::getInstance('sr_feuser_register')->getAsString('uploadFolder');
 
-		$uploadFolder = ($configuredUploadFolder == '')
-			? 'uploads/tx_srfeuserregister'
-			: $configuredUploadFolder;
+		$uploadFolder = ($configuredUploadFolder == '') ? 'uploads/tx_srfeuserregister' : $configuredUploadFolder;
 
 		if (substr($uploadFolder, -1) != '/') {
 			$uploadFolder .= '/';
 		}
 
-		return $this->createRestrictedImage(
-			$uploadFolder . $offerer->getImage(),
-			'',
-			$this->getConfValueInteger('offererImageMaxWidth'),
-			$this->getConfValueInteger('offererImageMaxHeight'),
-			0,
-			$offerer->getName()
+		$imageConfiguration = array(
+			'altText' => '',
+			'titleText' => $offerer->getName(),
+			'file' => $uploadFolder . $offerer->getImage(),
+			'file.' => array(
+				'maxW' => $this->getConfValueInteger('offererImageMaxWidth'),
+				'maxH' => $this->getConfValueInteger('offererImageMaxHeight'),
+			),
 		);
+		return $this->cObj->IMAGE($imageConfiguration);
 	}
 }
 

@@ -23,6 +23,11 @@
  */
 class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	/**
+	 * @var int static_info_tables UID of Germany
+	 */
+	const DE = 54;
+
+	/**
 	 * @var string
 	 */
 	const TX_REALTY_EXTERNAL_SINGLE_PAGE = 'www.oliverklee.de/';
@@ -107,14 +112,21 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	private $subSystemFolderPid = 0;
 
 	/**
-	 * @var int static_info_tables UID of Germany
+	 * @var tslib_cObj|PHPUnit_Framework_MockObject_MockObject
 	 */
-	const DE = 54;
+	private $contentObject = NULL;
+
+	/**
+	 * @var array[]
+	 */
+	private $imageConfigurations = array();
 
 	protected function setUp() {
 		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new tx_oelib_testingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
+		$this->createContentMock();
+
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
@@ -129,7 +141,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 				'currencyUnit' => 'EUR',
 				'priceOnlyIfAvailable' => FALSE,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 	}
@@ -139,10 +151,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////
-	// Utility functions.
-	///////////////////////
-
+	/*
+	 * Utility functions.
+	 */
 
 	/**
 	 * Returns the current front-end instance.
@@ -213,9 +224,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		$this->otherSinglePid = $this->testingFramework->createFrontEndPage();
 		$this->favoritesPid = $this->testingFramework->createFrontEndPage();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
-		$this->subSystemFolderPid = $this->testingFramework->createSystemFolder(
-			$this->systemFolderPid
-		);
+		$this->subSystemFolderPid = $this->testingFramework->createSystemFolder($this->systemFolderPid);
 	}
 
 	/**
@@ -225,9 +234,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @return void
 	 */
 	private function denyAccess() {
-		$this->fixture->setConfigurationValue(
-			'requireLoginForSingleViewPage', 1
-		);
+		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', TRUE);
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}
 
@@ -237,27 +244,24 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @return void
 	 */
 	private function allowAccess() {
-		$this->fixture->setConfigurationValue(
-			'requireLoginForSingleViewPage', 0
-		);
+		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', FALSE);
 	}
 
 	/**
-	 * Creates a mock content object that can create URLs in the following
-	 * form:
+	 * Creates a mock content object that can create URLs in the following form:
 	 *
 	 * index.php?id=42
 	 *
 	 * The page ID isn't checked for existence. So any page ID can be used.
 	 *
-	 * @return tslib_cObj a mock content object
+	 * @return void
 	 */
 	private function createContentMock() {
-		$mock = $this->getMock('tslib_cObj', array('typoLink_URL'));
-		$mock->expects($this->any())->method('typoLink_URL')
+		$this->contentObject = $this->getMock('tslib_cObj', array('typoLink_URL', 'IMAGE'));
+		$this->contentObject->expects($this->any())->method('typoLink_URL')
 			->will($this->returnCallback(array($this, 'getTypoLinkUrl')));
-
-		return $mock;
+		$this->contentObject->expects($this->any())->method('IMAGE')
+			->will($this->returnCallback(array($this, 'imageCallback')));
 	}
 
 	/**
@@ -280,20 +284,30 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		return 'index.php?id=' . $pageId . $additionalParameters;
 	}
 
+	/**
+	 * Callback function for creating mock IMAGEs.
+	 *
+	 * @param string[] $imageConfiguration
+	 *
+	 * @return string faked image, will not be empty
+	 */
+	public function imageCallback(array $imageConfiguration) {
+		$this->imageConfigurations[] = $imageConfiguration;
+		return htmlspecialchars($imageConfiguration['altText']);
+	}
 
-	////////////////////////////////////
-	// Tests for the utility functions
-	////////////////////////////////////
+
+	/*
+	 * Tests for the utility functions
+	 */
 
 	/**
 	 * @test
 	 */
 	public function createTypoLinkInContentMockCreatesLinkToPageId() {
-		$contentMock = $this->createContentMock();
-
 		$this->assertContains(
 			'index.php?id=42',
-			$contentMock->typoLink_URL(array('parameter' => 42, 'useCacheHash' => TRUE))
+			$this->contentObject->typoLink_URL(array('parameter' => 42, 'useCacheHash' => TRUE))
 		);
 	}
 
@@ -301,11 +315,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function createTypoLinkInContentMockAddsParameters() {
-		$contentMock = $this->createContentMock();
-
 		$this->assertContains(
 			'&tx_seminars_pi1[seminar]=42',
-			$contentMock->typoLink_URL(
+			$this->contentObject->typoLink_URL(
 				array(
 					'parameter' => 1,
 					'additionalParams' => '&tx_seminars_pi1[seminar]=42',
@@ -316,9 +328,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////
-	// Tests concerning the pagination
-	////////////////////////////////////
+	/*
+	 * Tests concerning the pagination
+	 */
 
 	/**
 	 * @test
@@ -442,9 +454,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////
-	// Tests for the images in the list view
-	//////////////////////////////////////////
+	/*
+	 * Tests for the images in the list view
+	 */
 
 	/**
 	 * @test
@@ -569,7 +581,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertRegExp(
-			'/<td class="image imageRight"><a [^>]+>single test image<\/a><\/td>/',
+			'/<td class="image imageRight"><a [^>]+>single test image<\\/a><\\/td>/',
 			$this->fixture->render()
 		);
 	}
@@ -602,7 +614,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertRegExp(
-			'/<td class="image imageLeft"><a [^>]+>first image<\/a><\/td>/',
+			'/<td class="image imageLeft"><a [^>]+>first image<\\/a><\\/td>/',
 			$this->fixture->render()
 		);
 	}
@@ -635,7 +647,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$this->assertRegExp(
-			'/<td class="image imageRight"><a [^>]+>second image<\/a><\/td>/',
+			'/<td class="image imageRight"><a [^>]+>second image<\\/a><\\/td>/',
 			$this->fixture->render()
 		);
 	}
@@ -644,25 +656,15 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function listViewForRelatedImageWithoutThumbnailFileUsesImageFile() {
-		$fixture = $this->getMock(
-			'tx_realty_tests_fixtures_TestingListView',
-			array('createRestrictedImage'),
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				array(
-					'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-					'pages' => $this->systemFolderPid,
-					'listImageMaxX' => 98,
-					'listImageMaxY' => 98,
-				),
-				$this->createContentMock(),
-				TRUE
-			)
-		);
-		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
-			tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-			'test image',
-			98,
-			98
+				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'pages' => $this->systemFolderPid,
+				'listImageMaxX' => 98,
+				'listImageMaxY' => 98,
+			),
+			$this->contentObject,
+			TRUE
 		);
 
 		$this->testingFramework->createRecord(
@@ -680,31 +682,33 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$fixture->render();
+		$this->assertSame(
+			array(
+				'altText' => 'test image',
+				'titleText' => 'test image',
+				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
+				'file.' => array(
+					'maxW' => 98,
+					'maxH' => 98,
+				),
+			),
+			$this->imageConfigurations[0]
+		);
 	}
 
 	/**
 	 * @test
 	 */
 	public function listViewForRelatedImageWithThumbnailFileUsesThumbnailFile() {
-		$fixture = $this->getMock(
-			'tx_realty_tests_fixtures_TestingListView',
-			array('createRestrictedImage'),
+		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				array(
-					'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
-					'pages' => $this->systemFolderPid,
-					'listImageMaxX' => 98,
-					'listImageMaxY' => 98,
-				),
-				$this->createContentMock(),
-				TRUE
-			)
-		);
-		$fixture->expects($this->at(0))->method('createRestrictedImage')->with(
-			tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
-			'test image',
-			98,
-			98
+				'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
+				'pages' => $this->systemFolderPid,
+				'listImageMaxX' => 98,
+				'listImageMaxY' => 98,
+			),
+			$this->contentObject,
+			TRUE
 		);
 
 		$this->testingFramework->createRecord(
@@ -722,12 +726,24 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 		);
 
 		$fixture->render();
+		$this->assertSame(
+			array(
+				'altText' => 'test image',
+				'titleText' => 'test image',
+				'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
+				'file.' => array(
+					'maxW' => 98,
+					'maxH' => 98,
+				),
+			),
+			$this->imageConfigurations[0]
+		);
 	}
 
 
-	////////////////////////////////////
-	// Tests for data in the list view
-	////////////////////////////////////
+	/*
+	 * Tests for data in the list view
+	 */
 
 	/**
 	 * @test
@@ -788,13 +804,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -820,11 +835,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -850,13 +864,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -890,11 +903,10 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithFloor.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithFloor.html',
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -934,13 +946,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -966,13 +977,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -998,13 +1008,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -1030,13 +1039,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -1062,13 +1070,12 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 
 		$fixture = new tx_realty_tests_fixtures_TestingListView(
 			array(
-				'templateFile'
-					=> 'EXT:realty/tests/fixtures/listViewWithStatus.html',
+				'templateFile' => 'EXT:realty/tests/fixtures/listViewWithStatus.html',
 				'pages' => $this->systemFolderPid,
 				'showGoogleMaps' => 0,
 				'pages' => $systemFolder,
 			),
-			$this->createContentMock(),
+			$this->contentObject,
 			TRUE
 		);
 
@@ -1887,9 +1894,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////////////////
-	// Tests concerning additional header in list view
-	////////////////////////////////////////////////////
+	/*
+	 * Tests concerning additional header in list view
+	 */
 
 	/**
 	 * @test
@@ -1920,9 +1927,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////
-	// Testing filtered list views.
-	/////////////////////////////////
+	/*
+	 * Testing filtered list views.
+	 */
 
 	/**
 	 * @test
@@ -2552,9 +2559,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////////////////////////////////
-	// Tests concerning the list view filtered by number of rooms
-	///////////////////////////////////////////////////////////////
+	/*
+	 * Tests concerning the list view filtered by number of rooms
+	 */
 
 	/**
 	 * @test
@@ -2757,9 +2764,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////////////
-	// Tests concerning the sorting in the list view
-	//////////////////////////////////////////////////
+	/*
+	 * Tests concerning the sorting in the list view
+	 */
 
 	/**
 	 * @test
@@ -3349,9 +3356,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////////////
-	// Tests for Google Maps in the list view
-	///////////////////////////////////////////
+	/*
+	 * Tests for Google Maps in the list view
+	 */
 
 	/**
 	 * @test
@@ -3483,9 +3490,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////////////
-	// Tests concerning links to external details pages
-	/////////////////////////////////////////////////////
+	/*
+	 * Tests concerning links to external details pages
+	 */
 
 	/**
 	 * @test
@@ -3592,9 +3599,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////////////////////
-	// Tests concerning links to separate details pages
-	/////////////////////////////////////////////////////
+	/*
+	 * Tests concerning links to separate details pages
+	 */
 
 	/**
 	 * @test
@@ -3860,9 +3867,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////////////
-	// Tests concerning getUidForRecordNumber
-	///////////////////////////////////////////
+	/*
+	 * Tests concerning getUidForRecordNumber
+	 */
 
 	/**
 	 * @test
@@ -3932,9 +3939,9 @@ class tx_realty_FrontEnd_AbstractListViewTest extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////
-	// Tests concerning getSelfUrl
-	////////////////////////////////
+	/*
+	 * Tests concerning getSelfUrl
+	 */
 
 	/**
 	 * @test

@@ -1255,9 +1255,19 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
 		$maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
 
-		return $this->createRestrictedImage(
-			$fullPath, $caption, $maxWidth, $maxHeight, 0, $caption, $id
+		$imageConfiguration = array(
+			'altText' => $caption,
+			'titleText' => $caption,
+			'file' => $fullPath,
+			'file.' => array(
+				'maxW' => $maxWidth,
+				'maxH' => $maxHeight,
+			),
 		);
+		if ($id !== '') {
+			$imageConfiguration['params'] = 'id="' . $id . '"';
+		}
+		return $this->cObj->IMAGE($imageConfiguration);
 	}
 
 	/**

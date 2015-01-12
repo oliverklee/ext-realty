@@ -243,15 +243,17 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 					$this->cObj->typoLink_URL(array('parameter' => $imagePath, 'useCacheHash' => TRUE))
 			));
 			$title = $image->getTitle();
-			$imageTag = $this->createRestrictedImage(
-				$imagePath,
-				'',
-				$this->getConfValueInteger('imageUploadThumbnailWidth'),
-				$this->getConfValueInteger('imageUploadThumbnailHeight'),
-				0,
-				$title
-			);
 
+			$imageConfiguration = array(
+				'altText' => '',
+				'titleText' => $title,
+				'file' => $imagePath,
+				'file.' => array(
+					'maxW' => $this->getConfValueInteger('imageUploadThumbnailWidth'),
+					'maxH' => $this->getConfValueInteger('imageUploadThumbnailHeight'),
+				),
+			);
+			$imageTag = $this->cObj->IMAGE($imageConfiguration);
 			$this->setMarker(
 				'single_image_item',
 				'<a href="' . $imageUrl . '" rel="lightbox[objectGallery]" ' .
