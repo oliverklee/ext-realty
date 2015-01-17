@@ -3,4 +3,3 @@
 .. :border: 0
 .. :name: graphics4
 .. :width: 100%
-

@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -59,4 +57,3 @@ the default settings mentioned above for single image positions:
 
 If you do not specify any values for an image position, the global
 values will be used.
-

@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -84,4 +82,3 @@ Key features
 - the extension is actively developed
 
 - is tested with Firefox, Safari and IE7 and 8
-

@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -44,4 +42,3 @@ gallery now always uses Lightbox.
 
 #. In the extension manager, disable “Automatic configuration check”
    (this will improve performance).
-

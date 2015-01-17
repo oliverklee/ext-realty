@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -38,4 +36,3 @@ The configuration check slightly decreases the performance of this
 extension. When your configuration is finished and approved by the
 checking feature, you can disable the feature in the extension
 manager.
-

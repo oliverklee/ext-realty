@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -53,4 +51,3 @@ FlexForms or by setting
 “groupsWithSpeciallyDisplayedContactInformation” in the TS setup and
 set which data to display of these offerers by setting
 “displayedContactInformationSpecial”.
-

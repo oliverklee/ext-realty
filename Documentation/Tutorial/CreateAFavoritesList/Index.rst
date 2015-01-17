@@ -19,14 +19,14 @@ Create a favorites list
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 #. |img-16|  *Figure 16: create a FE page for the favorites list.*
-   
+
    Create a FE page for the favorites list.
 
 #. Create a new content element: Plugins > Realty Manager.
 
 #. |img-13|  *Figure 17: create a new content element: Plugins > Realty
    Manager*
-   
+
    In the content element, set “ **What should be displayed** ” to “ **Favorites list** ”.
 
 #. As a starting point, select the system folder for realty objects.
@@ -35,7 +35,7 @@ Create a favorites list
    your realty objects and then set the recursion depth to “infinite”.
 
 #. |img-14|  *Figure 18: select the system folder for realty objects*
-   
+
    Select the (existing) page for the single view. (This can also be done using TS setup instead of in the flexforms.)
 
 #. Save and close.
@@ -53,4 +53,3 @@ under the following two keys:
 - tx\_realty\_favorites\_verbose: the contents of realty objects fields
   that have been selected via the TS setup variable
   plug.tx\_realty\_pi1.favoriteFieldsInSession
-

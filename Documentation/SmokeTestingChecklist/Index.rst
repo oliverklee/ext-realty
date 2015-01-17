@@ -59,5 +59,3 @@ Smoke testing checklist
    and a notification e-mail that an object has been created in the FE.
 
 |img-17| EXT: Realty Manager - 22
-
-

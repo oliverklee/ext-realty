@@ -15,4 +15,3 @@
 .. :border: 0
 .. :name: Grafik7
 .. :width: 93%
-

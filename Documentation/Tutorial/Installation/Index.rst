@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -72,4 +70,3 @@ Installation
 
 #. In your TS setup, please set config.language and config.locale\_all so
    the extension will use the correct language in the front end.
-

@@ -29,4 +29,3 @@ Screenshots
 |img-5|  *Figure 5: back-end configuration of the front-end plug-in*
 
 |img-6|  *Figure 6: the automatic configuration check*
-

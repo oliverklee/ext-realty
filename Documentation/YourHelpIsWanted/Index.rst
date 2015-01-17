@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -37,5 +35,3 @@ pleas drop the extension author an e-mail:
 If you would like to help with some code-related tasks, this will be a
 great learning opportunity. We are proud of the quality extensions and
 can provide you with detailed, helpful feedback on your work.
-
-

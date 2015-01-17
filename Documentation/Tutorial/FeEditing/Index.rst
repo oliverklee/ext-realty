@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -88,4 +86,3 @@ record to this system folder.
 
 Note that FE-created record become marked as hidden by default and
 have to be unhidden by a BE user.
-

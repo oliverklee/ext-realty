@@ -26,7 +26,7 @@ contain the list of your realty objects*
 
 #. |img-13|  *Figure 13: create the a content element: Plugins > Realty
    Manager.*
-   
+
    On the list view page, create the a content element: Plugins > Realty Manager.
 
 #. For “What should be displayed”, select “Realty list”.
@@ -38,7 +38,7 @@ contain the list of your realty objects*
    set the recursion depth.
 
 #. |img-14|  *Figure 14: select the system folder for realty objects*
-   
+
    Select the page for the single view. (This can also be done using TS setup instead of in the flexforms.)
 
 #. Select the page for the favorites view.
@@ -56,4 +56,3 @@ for all list views.
 
 It is recommended to create separate list view pages for realties to
 rent and to buy.
-

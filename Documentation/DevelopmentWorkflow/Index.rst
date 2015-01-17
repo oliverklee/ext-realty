@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -27,4 +25,3 @@ Development Workflow
    ChangingOrCustomizingTheExtension/Index
    GettingTheExtensionFromGit/Index
    DevelopmentWorkflowAndCodingStyleGuidelines/Index
-

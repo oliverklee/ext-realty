@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -37,4 +35,3 @@ page.
 
 Note: The advertising form is not provided by the Realty Manager
 extension. You need to use your own plugin for this.
-

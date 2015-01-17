@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -25,5 +23,3 @@ To import the entries stored in the ZIP files in the import folder,
 just click the “Start OpenImmo-import” button.
 
 When the import is finished, the import log is shown.
-
-

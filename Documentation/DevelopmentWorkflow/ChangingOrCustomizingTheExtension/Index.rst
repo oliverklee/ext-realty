@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -29,4 +27,3 @@ project. This has several advantages:
   the other parts of the extension.
 
 - Other users of the extension can benefit from your contributions.
-

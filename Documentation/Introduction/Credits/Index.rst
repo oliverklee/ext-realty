@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -64,4 +62,3 @@ graphics or for doing code reviews:
 - Sven Braun (bug fixes)
 
 - Sven Wolfermann (DK localization)
-

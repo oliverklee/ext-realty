@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -46,4 +44,3 @@ Tutorial
    ChangeTheExtensionsLookFeel/Index
    ImportOpenimmoRecordsFromZipFiles/Index
    CleaningTheUploadFolderFromUnusedImageFiles/Index
-

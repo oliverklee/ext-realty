@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -40,4 +38,3 @@ favorites list into TYPO3’s standard e-mail form.
 Note: It is recommended to use the Realty Manager's own contact form.
 The summary of the favorites list is also provided there. (See section
 above.)
-

@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -31,4 +29,3 @@ you question and benefit from the answers as well.
    PaidServicesOfferedByTheAuthor/Index
    FreePublicSupport/Index
    FoundABug/Index
-

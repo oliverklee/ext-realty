@@ -54,4 +54,3 @@ will look like this:
 
 |img-11|  *Figure 11: BE folder structure with two streets and a
 folder for each street*
-

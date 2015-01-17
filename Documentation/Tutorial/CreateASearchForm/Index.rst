@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -48,16 +46,15 @@ To setup a search form, do the following:
 
 - “ **Price ranges for the search form** ” must be of the following
   format:
-  
+
   - Ranges are separated by “,”.
-  
+
   - Each range has an upper and a lower limit separated by “-”. If there
     is only an upper limit provided, the lower one is considered to be
     zero. If there is only lower limit, the other one is interpreted as
     infinitely high.
-  
+
   Example: “-100000,100001-300000,300001-” will create three options:
   “less than 100000”, “100001 to 300000”, “more than 300001”.
 
 #. Save and close.
-

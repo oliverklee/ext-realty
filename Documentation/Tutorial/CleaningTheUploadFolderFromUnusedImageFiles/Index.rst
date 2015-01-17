@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -37,4 +35,3 @@ Start this script by cronjob:
    tab that imports realty objects at three o’clock a.m. then could look
    like this:0 3 \* \* \* /var/www/typo3/cli\_dispatch.phpsh
    cleanUpRealtyImages
-

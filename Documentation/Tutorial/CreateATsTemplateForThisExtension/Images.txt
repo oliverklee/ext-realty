@@ -21,4 +21,3 @@
 .. :border: 0
 .. :name: Grafik13
 .. :width: 100%
-

@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -42,7 +40,7 @@ reader/>`_ r with these settings:
 
    a
          Server:
-   
+
    b
          lists.typo3.org
 
@@ -51,7 +49,7 @@ reader/>`_ r with these settings:
 
    a
          Port:
-   
+
    b
          119 (which is the default)
 
@@ -60,7 +58,7 @@ reader/>`_ r with these settings:
 
    a
          Group name:
-   
+
    b
          typo3.project.realty
 
@@ -69,4 +67,3 @@ reader/>`_ r with these settings:
 
 The mailing list and newsgroup are synced, so you just need one of
 them to stay informed.
-

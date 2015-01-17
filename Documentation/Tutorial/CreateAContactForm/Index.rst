@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -66,4 +64,3 @@ Configuration for the contact form
 #. Set “ **contactPID** ” in the TS setup to your FE page which now
    contains the realty plugin with the contact form:
    *plugin.tx\_realty\_pi1.contactPID =* [PID of the contact form]
-

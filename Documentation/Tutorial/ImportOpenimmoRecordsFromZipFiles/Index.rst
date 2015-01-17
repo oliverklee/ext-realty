@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -177,4 +175,3 @@ message that the record was not written to the database then).
 
 After a ZIP file has been successfully imported, it will automatically
 be deleted.
-

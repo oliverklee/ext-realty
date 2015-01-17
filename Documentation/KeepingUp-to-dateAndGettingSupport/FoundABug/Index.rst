@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -34,4 +32,3 @@ when reporting a bug:
 - what you expect to happen
 
 - what actually happens instead
-

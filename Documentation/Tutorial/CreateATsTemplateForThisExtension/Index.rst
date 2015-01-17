@@ -44,4 +44,3 @@ available in the flexforms or which you would like to set using TS
 setup, put them in the setup of this template. (In this manual's
 reference, you'll find all settings that are available in flexforms or
 TS setup.)
-

@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -53,4 +51,3 @@ organizations:
 - `Weber eBusiness Services GmbH <https://www.weber-ebusiness.de/>`_
 
 - `WVC Communications AG <http://www.wvc.ch/>`_
-

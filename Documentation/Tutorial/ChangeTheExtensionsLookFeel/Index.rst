@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -32,4 +30,3 @@ overwrite any changes you have made to the files.
 
 Also have a look at the reference to see how the extension can be
 configured using TS setup and flexforms.
-

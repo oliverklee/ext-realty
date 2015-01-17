@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -31,7 +29,7 @@ Some examples:
 
    filter
          filter
-   
+
    SQL
          SQL
 
@@ -40,7 +38,7 @@ Some examples:
 
    filter
          only objects that are for renting
-   
+
    SQL
          object\_type = 0
 
@@ -49,7 +47,7 @@ Some examples:
 
    filter
          only objects that are for sale
-   
+
    SQL
          object\_type = 1
 
@@ -58,7 +56,7 @@ Some examples:
 
    filter
          only objects near Berlin (if you use German ZIP codes)
-   
+
    SQL
          zip LIKE "10%"
 
@@ -67,7 +65,7 @@ Some examples:
 
    filter
          with at least 5 rooms
-   
+
    SQL
          number\_of\_rooms >= 5
 
@@ -76,7 +74,7 @@ Some examples:
 
    filter
          with a living area of less than 50 m²
-   
+
    SQL
          (living\_area != 0 AND living\_area < 50)
 
@@ -85,10 +83,9 @@ Some examples:
 
    filter
          only objects that are already rented
-   
+
    SQL
          rented = 1
 
 
 .. ###### END~OF~TABLE ######
-

@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -44,4 +42,3 @@ How to setup this list:
 Do not forget to provide this PID to the offerer list, and, if needed,
 to customize the single view, so the link to this list is visible
 there, too. (See section Create the single view.)
-

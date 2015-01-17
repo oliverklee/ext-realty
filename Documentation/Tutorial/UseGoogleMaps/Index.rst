@@ -1,6 +1,4 @@
-﻿
-
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -40,4 +38,3 @@ Use Google Maps
    be empty. You then can either manually fill in the coordinates. If the
    address is incomplete, you can complete it an remove the
    “synchronized” checkbox so the coordinates will be looked up again.
-
