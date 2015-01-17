@@ -70,3 +70,11 @@ Installation
 
 #. In your TS setup, please set config.language and config.locale\_all so
    the extension will use the correct language in the front end.
+
+#. Clear all caches.
+
+#. If the front-end labels of the extension are in English instead of your
+   configured language, please deleted the following files/directories:
+
+   - typo3temp/realty-l10n-*.zip
+   - typo3conf/l10n/*/realty/

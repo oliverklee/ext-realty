@@ -53,6 +53,7 @@ Localization:
 - [#3997] Change some field titles in the FE and BE
 
 Bug fixes:
+- [#5232] FE labels in 6.2 are in English instead of German
 - [#5190] Fix code inspection warnings
 - [#5224] Undefined variable $localeConvention in the filter form
 - [#4343] Some unit tests read the real TS setup
