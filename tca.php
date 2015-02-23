@@ -1455,7 +1455,7 @@ $GLOBALS['TCA']['tx_realty_objects'] = array(
 				'phone_direct_extension, owner, language, currency, ' .
 				'advertised_date;;;;2-2-2, ' .
 				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.geo, ' .
-				'has_coordinates, coordinates_problem, longitude, latitude' .
+				'has_coordinates, coordinates_problem, longitude, latitude, ' .
 				'--div--;LLL:EXT:realty/locallang_db.xml:tx_realty_objects.energy_certificate, ' .
 				'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
 				'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
