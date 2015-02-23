@@ -7,6 +7,7 @@ Localization:
 Bug fixes:
 
 Changes:
+- [#5254] Document the Prototype/jQuery clash
 
 Cleanup:
 

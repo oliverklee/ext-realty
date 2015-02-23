@@ -26,6 +26,10 @@ Setup the My objects list
 #. Create a FE page for the My objects list. Choose for which user groups
    this page should be accessible.
 
+# The front-end editor uses PrototypeJS.
+  If you are using jQuery on your site, you will either need to disable
+  it on the pages with the plugin or use jQuery in no-conflict mode.
+
 #. Create a new content element: Plugins > Realty Manager.
 
 #. In the content element, set “What should be displayed” to “My
