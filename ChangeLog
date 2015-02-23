@@ -5,6 +5,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5249] Missing comma in tca.php
 
 Changes:
 - [#5254] Document the Prototype/jQuery clash
