@@ -11,6 +11,7 @@ Changes:
 - [#5254] Document the Prototype/jQuery clash
 
 Cleanup:
+- [#5205] Drop global variables from pi1_wizicon
 
 
 0.6.0 - released 2015-01-17

@@ -26,14 +26,14 @@ class tx_realty_pi1_wizicon {
 	 * @return array[] modified array with wizard items
 	 */
 	public function proc(array $wizardItems) {
-		global $LANG;
+		$languageData = $this->includeLocalLang();
 
-		$LL = $this->includeLocalLang();
-
+		/** @var language $languageService */
+		$languageService = $GLOBALS['LANG'];
 		$wizardItems['plugins_tx_realty_pi1'] = array(
 			'icon' => t3lib_extMgm::extRelPath('realty') . 'pi1/ce_wiz.gif',
-			'title' => $LANG->getLLL('pi1_title', $LL),
-			'description' => $LANG->getLLL('pi1_description', $LL),
+			'title' => $languageService->getLLL('pi1_title', $languageData),
+			'description' => $languageService->getLLL('pi1_description', $languageData),
 			'params' => '&defVals[tt_content][CType]=list&' .
 				'defVals[tt_content][list_type]=realty_pi1'
 		);
