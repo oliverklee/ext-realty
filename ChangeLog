@@ -5,6 +5,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5280] Download link to FORMidable is split across several lines
 - [#5249] Missing comma in tca.php
 
 Changes:
