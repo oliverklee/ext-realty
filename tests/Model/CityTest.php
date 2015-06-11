@@ -36,7 +36,7 @@ class tx_realty_Model_CityTest extends Tx_Phpunit_TestCase {
 	public function getTitleWithNonEmptyTitleReturnsTitle() {
 		$this->fixture->setData(array('title' => 'London'));
 
-		$this->assertEquals(
+		self::assertEquals(
 			'London',
 			$this->fixture->getTitle()
 		);
@@ -48,7 +48,7 @@ class tx_realty_Model_CityTest extends Tx_Phpunit_TestCase {
 	public function setTitleSetsTitle() {
 		$this->fixture->setTitle('London');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'London',
 			$this->fixture->getTitle()
 		);

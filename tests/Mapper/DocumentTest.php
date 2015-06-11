@@ -49,7 +49,7 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidReturnsDocumentInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->find(1) instanceof tx_realty_Model_Document
 		);
 	}
@@ -64,7 +64,7 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase {
 
 		/** @var tx_realty_Model_Document $model */
 		$model = $this->fixture->find($uid);
-		$this->assertEquals(
+		self::assertEquals(
 			'an important document',
 			$model->getTitle()
 		);
@@ -86,7 +86,7 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase {
 			array('object' => $realtyObject->getUid())
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$realtyObject,
 			$document->getObject()
 		);
@@ -110,7 +110,7 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase {
 		$model = $this->fixture->find($uid);
 		$this->fixture->delete($model);
 
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($dummyFile)
 		);
 	}

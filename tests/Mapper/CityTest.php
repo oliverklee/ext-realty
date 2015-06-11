@@ -50,7 +50,7 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidReturnsCityInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->find(1) instanceof tx_realty_Model_City
 		);
 	}
@@ -65,7 +65,7 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase {
 
 		/** @var tx_realty_Model_City $model */
 		$model = $this->fixture->find($uid);
-		$this->assertEquals(
+		self::assertEquals(
 			'London',
 			$model->getTitle()
 		);
@@ -96,7 +96,7 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase {
 			array('title' => 'Kleinwurzeling')
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$model,
 			$this->fixture->findByName('Kleinwurzeling')
 		);
@@ -112,7 +112,7 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase {
 
 		/** @var tx_realty_Model_City $model */
 		$model = $this->fixture->findByName('Kleinwurzeling');
-		$this->assertEquals(
+		self::assertEquals(
 			$uid,
 			$model->getUid()
 		);

@@ -54,7 +54,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('title' => 'foo')
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->find($uid) instanceof tx_realty_Model_RealtyObject
 		);
 	}
@@ -70,7 +70,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		/** @var tx_realty_Model_RealtyObject $model */
 		$model = $this->fixture->find($objectUid);
-		$this->assertTrue(
+		self::assertTrue(
 			$model->getOwner() instanceof tx_realty_Model_FrontEndUser
 		);
 	}
@@ -88,7 +88,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_City $city */
 		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->countByCity($city)
 		);
@@ -106,7 +106,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('city' => $cityUid)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->fixture->countByCity($city)
 		);
@@ -127,7 +127,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('city' => $cityUid)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$this->fixture->countByCity($city)
 		);
@@ -146,7 +146,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_District $district */
 		$district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->countByDistrict($district)
 		);
@@ -164,7 +164,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('district' => $districtUid)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->fixture->countByDistrict($district)
 		);
@@ -185,7 +185,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('district' => $districtUid)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$this->fixture->countByDistrict($district)
 		);
@@ -213,7 +213,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'language' => 'de',
 		));
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
 				'FLAT0001', 'abc01234', 'de'
 			) instanceof tx_realty_Model_RealtyObject
@@ -233,7 +233,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$uid,
 			$this->fixture->findByObjectNumberAndObjectIdAndLanguage('FLAT0001', 'abc01234', 'de')->getUid()
 		);

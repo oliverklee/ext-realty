@@ -115,7 +115,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsEmptyResultForUidOfObjectWithoutImagesProvided() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $this->realtyObjectMapper->getNewGhost()->getUid()))
 		);
@@ -129,7 +129,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -145,7 +145,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
 
-		$this->assertContains(
+		self::assertContains(
 			'rel="lightbox[objectGallery]"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -159,7 +159,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('foo</br>', 'foo.jpg');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'foo</br>',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -175,7 +175,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertTrue(
+		self::assertTrue(
 			array_key_exists(
 				'tx_realty_pi1_lightbox_config', $this->getFrontEndController()->additionalHeaderData
 			)
@@ -192,7 +192,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(
 				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/lightbox.js" ></script>',
@@ -211,7 +211,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(
 				'<link rel="stylesheet" type="text/css" href="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
 					'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
@@ -230,7 +230,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(
 				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/prototype.js"></script>',
@@ -249,7 +249,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(
 				'<script type="text/javascript"src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty/pi1' .
 					'/contrib/scriptaculous.js?load=effects,builder"></script>',
@@ -268,7 +268,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(
 				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/lightbox.js" ></script>',
@@ -287,7 +287,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(
 				'<link rel="stylesheet" type="text/css" href="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
 					'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
@@ -305,7 +305,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject->addImageRecord('foo', 'foo.jpg');
 
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'rel="lightbox[objectGallery]"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -319,7 +319,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<a href',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -333,7 +333,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
 
-		$this->contentObject->expects($this->at(0))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(0))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -358,7 +358,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
 
-		$this->contentObject->expects($this->at(0))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(0))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -383,7 +383,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg');
 
-		$this->contentObject->expects($this->at(1))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(1))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -410,7 +410,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
-		$this->contentObject->expects($this->at(0))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(0))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -435,7 +435,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
-		$this->contentObject->expects($this->at(0))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(0))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -461,7 +461,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 2);
 
-		$this->contentObject->expects($this->at(1))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(1))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -486,7 +486,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 4);
 
-		$this->contentObject->expects($this->at(0))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(0))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -511,7 +511,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
-		$this->contentObject->expects($this->at(1))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(1))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -537,7 +537,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
-		$this->contentObject->expects($this->at(1))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(1))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',
@@ -560,7 +560,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'rel="lightbox[',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -576,7 +576,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
-		$this->assertContains(
+		self::assertContains(
 			'rel="lightbox[objectGallery_1]"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -592,7 +592,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
-		$this->assertContains(
+		self::assertContains(
 			'rel="lightbox[objectGallery_1]"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -609,7 +609,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'rel="lightbox[',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -625,7 +625,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject->addImageRecord('1', '1.jpg', 1);
 		$realtyObject->addImageRecord('0', '0.jpg', 0);
 
-		$this->contentObject->expects($this->at(0))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(0))->method('IMAGE')->with(
 			array(
 				'altText' => '0',
 				'titleText' => '0',
@@ -636,7 +636,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 				),
 			)
 		);
-		$this->contentObject->expects($this->at(1))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(1))->method('IMAGE')->with(
 			array(
 				'altText' => '1',
 				'titleText' => '1',
@@ -647,7 +647,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 				),
 			)
 		);
-		$this->contentObject->expects($this->at(2))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(2))->method('IMAGE')->with(
 			array(
 				'altText' => '2',
 				'titleText' => '2',
@@ -674,19 +674,19 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="images_position_1',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="images_position_2',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="images_position_3',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="images_position_4',
 			$result
 		);
@@ -704,7 +704,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="item',
 			$result
 		);
@@ -722,15 +722,15 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="images_position_2',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="images_position_3',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="images_position_4',
 			$result
 		);
@@ -748,7 +748,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->addImageRecord('fooBar', 'foo.jpg', 0, 'thumbnail.jpg');
 
-		$this->contentObject->expects($this->at(0))->method('IMAGE')->with(
+		$this->contentObject->expects(self::at(0))->method('IMAGE')->with(
 			array(
 				'altText' => 'fooBar',
 				'titleText' => 'fooBar',

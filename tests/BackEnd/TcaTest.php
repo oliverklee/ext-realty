@@ -53,7 +53,7 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase {
 			array('row' => array('city' => 0))
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			isset($result['items'])
 		);
 	}
@@ -66,7 +66,7 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase {
 			array('row' => array('city' => 0))
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(array('', 0), $result['items'])
 		);
 	}
@@ -84,16 +84,16 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase {
 		$mapper = $this->getMock(
 			'tx_realty_Mapper_District', array('findAllByCityUidOrUnassigned')
 		);
-		$mapper->expects($this->once())
+		$mapper->expects(self::once())
 			->method('findAllByCityUidOrUnassigned')->with(42)
-			->will($this->returnValue($cities));
+			->will(self::returnValue($cities));
 		Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_District', $mapper);
 
 		$result = $this->fixture->getDistrictsForCity(
 			array('row' => array('city' => 42))
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array(array('Kreuzberg', 2), $result['items'])
 		);
 	}

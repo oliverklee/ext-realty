@@ -55,7 +55,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
 	 * @test
 	 */
 	public function renderReturnsNonEmptyResultForZeroShowUidAndNoFavoritesPidConfigured() {
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -65,7 +65,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
 	 * @test
 	 */
 	public function renderReturnsButtonAddToFavorites() {
-		$this->assertContains(
+		self::assertContains(
 			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -78,7 +78,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getNewGhost();
 
-		$this->assertContains(
+		self::assertContains(
 			'value="' . $realtyObject->getUid() . '"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -91,7 +91,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('favoritesPID', $pageUid);
 
-		$this->assertContains(
+		self::assertContains(
 			'?id=' . $pageUid,
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -101,7 +101,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render(array('showUid' => 0))
 		);

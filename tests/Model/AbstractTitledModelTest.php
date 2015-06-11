@@ -34,7 +34,7 @@ class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function classIsModel() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			'Tx_Oelib_Model',
 			$this->subject
 		);
@@ -47,7 +47,7 @@ class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase {
 		$title = 'God save McQueen!';
 		$this->subject->setData(array('title' => $title));
 
-		$this->assertSame(
+		self::assertSame(
 			$title,
 			$this->subject->getTitle()
 		);
@@ -60,7 +60,7 @@ class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase {
 		$title = 'The early bird needs coffee!';
 		$this->subject->setTitle($title);
 
-		$this->assertSame(
+		self::assertSame(
 			$title,
 			$this->subject->getTitle()
 		);

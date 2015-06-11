@@ -64,7 +64,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsNonEmptyResultForZeroShowUid() {
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -77,7 +77,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -90,7 +90,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
-		$this->assertContains(
+		self::assertContains(
 			'tx_realty_pi1[showUid]=' . $realtyObject->getUid(),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -100,7 +100,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -112,7 +112,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase {
 	public function renderReturnsEmptyResultForTheCurrentPageBeingTheSameAsTheConfiguredContactPid() {
 		$this->fixture->setConfigurationValue('contactPID', $this->getFrontEndController()->id);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -124,7 +124,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase {
 	public function renderReturnsEmptyResultForNoContactPidConfigured() {
 		$this->fixture->setConfigurationValue('contactPID', '');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);

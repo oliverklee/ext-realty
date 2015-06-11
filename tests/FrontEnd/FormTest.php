@@ -103,7 +103,7 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase {
 		$fePageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('feEditorRedirectPid', $fePageUid);
 
-		$this->assertContains(
+		self::assertContains(
 			'?id=' . $fePageUid,
 			$this->fixture->getRedirectUrl()
 		);
@@ -120,7 +120,7 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase {
 			'feEditorRedirectPid', $nonExistingFePageUid
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'?id=' . $nonExistingFePageUid,
 			$this->fixture->getRedirectUrl()
 		);
@@ -132,7 +132,7 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase {
 	public function getRedirectUrlReturnsUrlWithoutRedirectPidForNonConfiguredRedirectPid() {
 		$this->fixture->setConfigurationValue('feEditorRedirectPid', '0');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'?id=0',
 			$this->fixture->getRedirectUrl()
 		);
@@ -147,7 +147,7 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTemplatePathReturnsAbsolutePathFromTheConfiguration() {
-		$this->assertRegExp(
+		self::assertRegExp(
 			'/\/typo3conf\/ext\/realty\/pi1\/tx_realty_frontEndEditor\.html$/',
 			tx_realty_frontEndForm::getTemplatePath()
 		);

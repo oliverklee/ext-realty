@@ -62,7 +62,7 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$result
 		);
@@ -86,7 +86,7 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_status_0'),
 			$result
 		);
@@ -105,7 +105,7 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_status_3'),
 			$result
 		);
@@ -124,7 +124,7 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="status_vacant"',
 			$result
 		);
@@ -143,7 +143,7 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="status_reserved"',
 			$result
 		);
@@ -162,7 +162,7 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="status_sold"',
 			$result
 		);
@@ -181,7 +181,7 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="status_rented"',
 			$result
 		);

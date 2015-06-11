@@ -91,7 +91,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			.'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$this->fixture->findFirstGrandchild('child', 'grandchild')->nodeValue
 		);
@@ -107,7 +107,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			.'</immobilie>'
 		);
 
-		$this->assertNull(
+		self::assertNull(
 			$this->fixture->findFirstGrandchild('child', 'grandchild')
 		);
 	}
@@ -120,7 +120,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'<immobilie/>'
 		);
 
-		$this->assertNull(
+		self::assertNull(
 			$this->fixture->findFirstGrandchild('child', 'grandchild')
 		);
 	}
@@ -140,7 +140,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			.'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$this->fixture->findFirstGrandchild('child', 'grandchild')->nodeValue
 		);
@@ -159,7 +159,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			.'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$this->fixture->findFirstGrandchild('child', 'grandchild')->nodeValue
 		);
@@ -174,7 +174,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			$node->createElement('foo')
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$this->fixture->getNodeName($child)
 		);
@@ -189,7 +189,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			$node->createElement('prefix:foo')
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$this->fixture->getNodeName($child)
 		);
@@ -202,7 +202,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$data = array();
 		$this->fixture->addElementToArray($data, 'foo', 'bar');
 
-		$this->assertEquals(
+		self::assertEquals(
 			array('foo' => 'bar'),
 			$data
 		);
@@ -216,7 +216,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->addElementToArray($data, 'foo', 'foo');
 		$this->fixture->addElementToArray($data, 'bar', 'bar');
 
-		$this->assertEquals(
+		self::assertEquals(
 			array('foo' => 'foo', 'bar' => 'bar'),
 			$data
 		);
@@ -230,7 +230,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->addElementToArray($data, 'foo', 'foo');
 		$this->fixture->addElementToArray($data, 'foo', 'bar');
 
-		$this->assertEquals(
+		self::assertEquals(
 			array('foo' => 'bar'),
 			$data
 		);
@@ -251,7 +251,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			.'</openimmo>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->getConvertedData($node)
 		);
@@ -269,7 +269,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			.'</openimmo>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'sales_area' => 0.0,
@@ -296,7 +296,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'sales_area' => 0.0,
@@ -339,12 +339,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$importedData[0]['title'],
 			'The first object is missing.'
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			'bar',
 			$importedData[1]['title'],
 			'The second object is missing.'
@@ -368,7 +368,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'klein und teuer',
 			$importedData[0]['title']
 		);
@@ -391,7 +391,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo bar',
 			$importedData[0]['title']
 		);
@@ -414,7 +414,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo bar',
 			$importedData[0]['title']
 		);
@@ -437,7 +437,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo bar',
 			$importedData[0]['title']
 		);
@@ -460,7 +460,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo bar',
 			$importedData[0]['title']
 		);
@@ -483,7 +483,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo bar',
 			$importedData[0]['title']
 		);
@@ -525,7 +525,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$importedData = $this->fixture->getConvertedData($node);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo' . LF .'bar 123',
 			$importedData[0][$arrayKey]
 		);
@@ -553,7 +553,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$importedData = $this->fixture->getConvertedData($node);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo' . LF . 'bar 123',
 			$importedData[0][$arrayKey]
 		);
@@ -581,7 +581,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$importedData = $this->fixture->getConvertedData($node);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo' . LF . 'bar 123',
 			$importedData[0][$arrayKey]
 		);
@@ -604,7 +604,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo bar',
 			$importedData[0]['title']
 		);
@@ -627,7 +627,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo bar',
 			$importedData[0]['title']
 		);
@@ -650,7 +650,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			$importedData[0]['object_type']
 		);
@@ -673,7 +673,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			$importedData[0]['object_type']
 		);
@@ -696,7 +696,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			$importedData[0]['object_type']
 		);
@@ -719,7 +719,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			$importedData[0]['object_type']
 		);
@@ -751,12 +751,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$result = $this->fixture->getConvertedData($node);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$universalDataAndDefaultValues,
 			$result[0],
 			'The first record has been imported incorrectly.'
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			$universalDataAndDefaultValues,
 			$result[1],
 			'The second record has been imported incorrectly.'
@@ -784,17 +784,17 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foobar',
 			$importedData[0]['street'],
 			'The street is missing.'
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			'bar',
 			$importedData[0]['zip'],
 			'The ZIP is missing.'
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$importedData[0]['location'],
 			'The location is missing.'
@@ -820,7 +820,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$result = $this->fixture->getConvertedData($node);
 		$translator = new tx_realty_translator();
 
-		$this->assertEquals(
+		self::assertEquals(
 			$translator->translate('label_allowed'),
 			$result[0]['pets']
 		);
@@ -845,7 +845,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$result = $this->fixture->getConvertedData($node);
 		$translator = new tx_realty_translator();
 
-		$this->assertEquals(
+		self::assertEquals(
 			$translator->translate('label_allowed'),
 			$result[0]['pets']
 		);
@@ -868,7 +868,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'1',
 			$result[0]['street']
 		);
@@ -891,7 +891,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'-1',
 			$result[0]['street']
 		);
@@ -914,7 +914,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'0',
 			$result[0]['street']
 		);
@@ -937,7 +937,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'0',
 			$result[0]['street']
 		);
@@ -960,7 +960,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'1.11',
 			$result[0]['street']
 		);
@@ -983,7 +983,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'-1.11',
 			$result[0]['street']
 		);
@@ -1006,7 +1006,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'1.1',
 			$result[0]['street']
 		);
@@ -1030,7 +1030,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$name,
 			$result[0]['contact_person']
 		);
@@ -1054,7 +1054,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$name,
 			$result[0]['contact_person_first_name']
 		);
@@ -1078,7 +1078,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$salutation,
 			$result[0]['contact_person_salutation']
 		);
@@ -1102,7 +1102,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$emailAddress,
 			$result[0]['contact_email']
 		);
@@ -1127,7 +1127,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			8,
 			$result[0]['state']
 		);
@@ -1152,7 +1152,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['state'])
 		);
 	}
@@ -1176,7 +1176,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'2',
 			$result[0]['heating_type']
 		);
@@ -1201,7 +1201,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'2,9,11',
 			$result[0]['heating_type']
 		);
@@ -1226,7 +1226,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'5,8,12',
 			$result[0]['heating_type']
 		);
@@ -1252,7 +1252,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'11,12',
 			$result[0]['heating_type']
 		);
@@ -1277,7 +1277,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['heating_type'])
 		);
 	}
@@ -1301,7 +1301,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['heating_type'])
 		);
 	}
@@ -1325,7 +1325,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'2,4',
 			$result[0]['heating_type']
 		);
@@ -1351,7 +1351,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'1234567',
 			$result[0]['phone_switchboard']
 		);
@@ -1376,7 +1376,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'1234567',
 			$result[0]['phone_direct_extension']
 		);
@@ -1404,7 +1404,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'Wohnen',
 			$result[0]['utilization']
 		);
@@ -1432,7 +1432,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'Wohnen',
 			$result[0]['utilization']
 		);
@@ -1459,7 +1459,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'Gewerbe',
 			$result[0]['utilization']
 		);
@@ -1486,7 +1486,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'Wohnen, Gewerbe',
 			$result[0]['utilization']
 		);
@@ -1513,7 +1513,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['utilization'])
 		);
 	}
@@ -1537,7 +1537,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$result[0]['furnishing_category']
 		);
@@ -1562,7 +1562,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$result[0]['furnishing_category']
 		);
@@ -1587,7 +1587,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			3,
 			$result[0]['furnishing_category']
 		);
@@ -1612,7 +1612,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['furnishing_category'])
 		);
 	}
@@ -1636,7 +1636,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'1',
 			$result[0]['flooring']
 		);
@@ -1661,7 +1661,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'2,3,4',
 			$result[0]['flooring']
 		);
@@ -1686,7 +1686,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['flooring'])
 		);
 	}
@@ -1710,7 +1710,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'5,6',
 			$result[0]['flooring']
 		);
@@ -1735,7 +1735,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setRawRealtyData($node);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'11',
 			$result[0]['flooring']
 		);
@@ -1758,7 +1758,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			tx_realty_Model_RealtyObject::STATUS_RENTED,
 			$result[0]['status']
 		);
@@ -1781,7 +1781,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			tx_realty_Model_RealtyObject::STATUS_VACANT,
 			$result[0]['status']
 		);
@@ -1803,7 +1803,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['status'])
 		);
 	}
@@ -1826,7 +1826,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertTrue(
+		self::assertTrue(
 			$result[0]['with_hot_water']
 		);
 	}
@@ -1849,7 +1849,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			$result[0]['with_hot_water']
 		);
 	}
@@ -1871,7 +1871,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['with_hot_water'])
 		);
 	}
@@ -1896,7 +1896,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['energy_certificate_valid_until']
 		);
@@ -1922,7 +1922,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['energy_consumption_characteristic']
 		);
@@ -1948,7 +1948,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['ultimate_energy_demand']
 		);
@@ -1974,7 +1974,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['primary_energy_carrier']
 		);
@@ -2000,7 +2000,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['electric_power_consumption_characteristic']
 		);
@@ -2026,7 +2026,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['heat_energy_consumption_characteristic']
 		);
@@ -2052,7 +2052,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['value_category']
 		);
@@ -2078,7 +2078,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			(int) $value,
 			$result[0]['year_of_construction']
 		);
@@ -2104,7 +2104,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['energy_certificate_text']
 		);
@@ -2130,7 +2130,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['heat_energy_requirement_value']
 		);
@@ -2156,7 +2156,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['heat_energy_requirement_class']
 		);
@@ -2182,7 +2182,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['total_energy_efficiency_value']
 		);
@@ -2208,7 +2208,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			$value,
 			$result[0]['total_energy_efficiency_class']
 		);
@@ -2234,7 +2234,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			mktime(0, 0, 0, 2, 20, 2014),
 			$result[0]['energy_certificate_issue_date']
 		);
@@ -2257,7 +2257,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			0,
 			$result[0]['energy_certificate_issue_date']
 		);
@@ -2283,7 +2283,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_REQUIREMENT,
 			$result[0]['energy_certificate_type']
 		);
@@ -2309,7 +2309,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
 			$result[0]['energy_certificate_type']
 		);
@@ -2335,7 +2335,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['energy_certificate_type'])
 		);
 	}
@@ -2360,7 +2360,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2008,
 			$result[0]['energy_certificate_year']
 		);
@@ -2386,7 +2386,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2014,
 			$result[0]['energy_certificate_year']
 		);
@@ -2412,7 +2412,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE,
 			$result[0]['energy_certificate_year']
 		);
@@ -2438,7 +2438,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
 			$result[0]['energy_certificate_year']
 		);
@@ -2464,7 +2464,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['energy_certificate_year'])
 		);
 	}
@@ -2489,7 +2489,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::BUILDING_TYPE_RESIDENTIAL,
 			$result[0]['building_type']
 		);
@@ -2515,7 +2515,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertSame(
+		self::assertSame(
 			tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
 			$result[0]['building_type']
 		);
@@ -2541,7 +2541,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['building_type'])
 		);
 	}
@@ -2565,7 +2565,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->createRecordsForImages()
 		);
@@ -2588,7 +2588,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'caption' => 'bar',
@@ -2616,7 +2616,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'caption' => 'bar',
@@ -2644,7 +2644,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->createRecordsForImages()
 		);
@@ -2667,7 +2667,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->createRecordsForImages()
 		);
@@ -2690,7 +2690,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->createRecordsForImages()
 		);
@@ -2713,7 +2713,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'caption' => '',
@@ -2748,14 +2748,14 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$images = $this->fixture->createRecordsForImages();
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'caption' => 'bar',
 				'image' => 'tx_realty_image_test2.jpg'
 			),
 			$images[0]
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'caption' => 'foo',
 				'image' => 'tx_realty_image_test.jpg'
@@ -2788,14 +2788,14 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$images = $this->fixture->createRecordsForImages();
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'caption' => 'bar',
 				'image' => 'tx_realty_image_test2.jpg'
 			),
 			$images[0]
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'caption' => 'bar',
 				'image' => 'tx_realty_image_test.jpg'
@@ -2833,7 +2833,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			count($this->fixture->createRecordsForImages())
 		);
@@ -2869,14 +2869,14 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$result = $this->fixture->getConvertedData($node);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'caption' => 'bar',
 				'image' => 'tx_realty_image_test.jpg'
 			),
 			$result[0]['images'][0]
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'caption' => 'foo',
 				'image' => 'tx_realty_image_test_00.jpg'
@@ -2904,7 +2904,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->importDocuments()
 		);
@@ -2927,7 +2927,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'title' => 'bar',
@@ -2955,7 +2955,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'title' => 'bar',
@@ -2984,7 +2984,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				array(
 					'title' => 'bar',
@@ -3012,7 +3012,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->importDocuments()
 		);
@@ -3035,7 +3035,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->importDocuments()
 		);
@@ -3058,7 +3058,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->importDocuments()
 		);
@@ -3081,7 +3081,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</immobilie>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->importDocuments()
 		);
@@ -3111,14 +3111,14 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$documents = $this->fixture->importDocuments();
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'title' => 'bar',
 				'filename' => 'tx_realty_document_test2.pdf'
 			),
 			$documents[0]
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'title' => 'foo',
 				'filename' => 'tx_realty_document_test.pdf'
@@ -3156,7 +3156,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			'</openimmo>'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			count($this->fixture->importDocuments())
 		);
@@ -3192,14 +3192,14 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$result = $this->fixture->getConvertedData($node);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'title' => 'bar',
 				'filename' => 'tx_realty_document_test.pdf'
 			),
 			$result[0]['documents'][0]
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'title' => 'foo',
 				'filename' => 'tx_realty_document_test_00.pdf'
@@ -3231,12 +3231,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			FALSE,
 			$result[0]['elevator'],
 			'The value for "elevator" is incorrect.'
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			TRUE,
 			$result[0]['fitted_kitchen'],
 			'The value for "fitted_kitchen" is incorrect.'
@@ -3260,7 +3260,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			12345.00,
 			$result[0]['hoa_fee']
 		);
@@ -3283,7 +3283,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			12345.00,
 			$result[0]['rent_excluding_bills']
 		);
@@ -3307,7 +3307,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			12345.00,
 			$result[0]['rent_excluding_bills']
 		);
@@ -3330,7 +3330,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			54321.00,
 			$result[0]['rent_excluding_bills']
 		);
@@ -3354,7 +3354,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			54321.00,
 			$result[0]['rent_excluding_bills']
 		);
@@ -3379,7 +3379,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'foo',
 			$result[0]['language']
 		);
@@ -3402,17 +3402,17 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertTrue(
+		self::assertTrue(
 			$result[0]['has_coordinates']
 		);
-		$this->assertFalse(
+		self::assertFalse(
 			$result[0]['coordinates_problem']
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			1.23,
 			$result[0]['longitude']
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			4.56,
 			$result[0]['latitude']
 		);
@@ -3435,7 +3435,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['has_coordinates'])
 		);
 	}
@@ -3457,7 +3457,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['has_coordinates'])
 		);
 	}
@@ -3479,7 +3479,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			self::DE,
 			$result[0]['country']
 		);
@@ -3507,12 +3507,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			self::DE,
 			$result[0]['country'],
 			'The first country is incorrect.'
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			self::DE,
 			$result[1]['country'],
 			'The second country is incorrect.'
@@ -3536,7 +3536,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['country'])
 		);
 	}
@@ -3558,7 +3558,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['country'])
 		);
 	}
@@ -3580,7 +3580,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			'EUR',
 			$result[0]['currency']
 		);
@@ -3603,7 +3603,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$result[0]['old_or_new_building']
 		);
@@ -3626,7 +3626,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$result[0]['old_or_new_building']
 		);
@@ -3649,7 +3649,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			isset($result[0]['old_or_new_building'])
 		);
 	}
@@ -3671,7 +3671,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertTrue(
+		self::assertTrue(
 			$result[0]['show_address']
 		);
 	}
@@ -3693,7 +3693,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertFalse(
+		self::assertFalse(
 			$result[0]['show_address']
 		);
 	}
@@ -3715,7 +3715,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			12.34,
 			$result[0]['rent_per_square_meter']
 		);
@@ -3738,7 +3738,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['living_area']
 		);
@@ -3761,7 +3761,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['total_usable_area']
 		);
@@ -3784,7 +3784,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['total_area']
 		);
@@ -3807,7 +3807,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['shop_area']
 		);
@@ -3830,7 +3830,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['sales_area']
 		);
@@ -3853,7 +3853,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['storage_area']
 		);
@@ -3876,7 +3876,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['office_space']
 		);
@@ -3899,7 +3899,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['other_area']
 		);
@@ -3922,7 +3922,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			12.34,
 			$result[0]['window_bank']
 		);
@@ -3945,7 +3945,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			0.12,
 			$result[0]['floor_space_index']
 		);
@@ -3968,7 +3968,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			0.12,
 			$result[0]['site_occupancy_index']
 		);
@@ -3991,7 +3991,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			123.45,
 			$result[0]['estate_size']
 		);
@@ -4014,7 +4014,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			3.5,
 			$importedData[0]['number_of_rooms']
 		);
@@ -4037,7 +4037,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$importedData[0]['bedrooms']
 		);
@@ -4060,7 +4060,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$importedData[0]['bathrooms']
 		);
@@ -4083,7 +4083,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$importedData[0]['balcony']
 		);
@@ -4106,7 +4106,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$importedData = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$importedData[0]['parking_spaces']
 		);
@@ -4129,7 +4129,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		$this->assertEquals(
+		self::assertEquals(
 			12345.67,
 			$result[0]['rental_income_target']
 		);
@@ -4151,7 +4151,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 		$element->setAttributeNode(new DOMAttr('foo', 'bar'));
 
-		$this->assertEquals(
+		self::assertEquals(
 			array('foo' => 'bar'),
 			$this->fixture->fetchDomAttributes($element)
 		);
@@ -4166,7 +4166,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			$node->createElement('foo')
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->fetchDomAttributes($element)
 		);

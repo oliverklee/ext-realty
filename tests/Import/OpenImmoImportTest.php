@@ -220,7 +220,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	private function checkForZipArchive() {
 		if (!in_array('zip', get_loaded_extensions())) {
-			$this->markTestSkipped(
+			self::markTestSkipped(
 				'This PHP installation does not provide the ZIPArchive class.'
 			);
 		}
@@ -265,7 +265,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->copyTestFileIntoImportFolder('bar.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			glob($this->importFolder . '*.zip'),
 			array_values(
 				$this->fixture->getPathsOfZipsToExtract($this->importFolder)
@@ -279,7 +279,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function getNameForExtractionFolder() {
 		$this->copyTestFileIntoImportFolder('bar.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'bar/',
 			$this->fixture->getNameForExtractionFolder('bar.zip')
 		);
@@ -289,7 +289,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function unifyPathDoesNotChangeCorrectPath() {
-		$this->assertEquals(
+		self::assertEquals(
 			'correct/path/',
 			$this->fixture->unifyPath('correct/path/')
 		);
@@ -299,7 +299,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function unifyPathTrimsAndAddsNecessarySlash() {
-		$this->assertEquals(
+		self::assertEquals(
 			'incorrect/path/',
 			$this->fixture->unifyPath('incorrect/path')
 		);
@@ -314,10 +314,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->importFolder . 'foo.zip'
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			is_dir($this->importFolder . 'foo/')
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			$this->importFolder . 'foo/',
 			$dirName
 		);
@@ -332,10 +332,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->importFolder . 'foobar.zip'
 		);
 
-		$this->assertFalse(
+		self::assertFalse(
 			is_dir($this->importFolder . 'foobar/')
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$dirName
 		);
@@ -350,7 +350,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 
-		$this->assertTrue(
+		self::assertTrue(
 			is_dir($this->importFolder . 'foo/')
 		);
 	}
@@ -362,7 +362,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('');
 		$this->fixture->extractZip($this->importFolder . 'foobar.zip');
 
-		$this->assertFalse(
+		self::assertFalse(
 			is_dir($this->importFolder . 'foobar/')
 		);
 	}
@@ -376,7 +376,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->importFolder . 'foo/foo.xml',
 			$this->fixture->getPathForXml($this->importFolder . 'foo.zip')
 		);
@@ -388,7 +388,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function getPathForXmlIfFolderNotExists() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getPathForXml($this->importFolder . 'foo.zip')
 		);
@@ -403,7 +403,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('bar-bar.zip');
 		$this->fixture->extractZip($this->importFolder . 'bar-bar.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getPathForXml($this->importFolder . 'bar-bar.zip')
 		);
@@ -418,7 +418,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('empty.zip');
 		$this->fixture->extractZip($this->importFolder . 'empty.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getPathForXml($this->importFolder . 'empty.zip')
 		);
@@ -438,10 +438,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'foo.jpg')
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'bar.jpg')
 		);
 	}
@@ -455,7 +455,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('pdf.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'foo.pdf')
 		);
 	}
@@ -469,7 +469,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('ps.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($this->importFolder . 'foo.ps')
 		);
 	}
@@ -483,7 +483,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo-uppercased.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'foo.JPG')
 		);
 	}
@@ -498,10 +498,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip', 'foo2.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'foo.jpg')
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'foo_00.jpg')
 		);
 	}
@@ -515,10 +515,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'foo.jpg')
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'bar.jpg')
 		);
 	}
@@ -532,10 +532,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo-deleted.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($this->importFolder . 'foo.jpg')
 		);
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($this->importFolder . 'bar.jpg')
 		);
 	}
@@ -553,7 +553,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->createExtractionFolder($this->importFolder . 'foo.zip');
 		$this->fixture->cleanUp($this->importFolder);
 
-		$this->assertFalse(
+		self::assertFalse(
 			is_dir($this->importFolder . 'foo/')
 		);
 	}
@@ -566,7 +566,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		t3lib_div::mkdir($this->importFolder . 'foo/');
 		$this->fixture->cleanUp($this->importFolder);
 
-		$this->assertTrue(
+		self::assertTrue(
 			is_dir($this->importFolder . 'foo/')
 		);
 	}
@@ -578,7 +578,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->cleanUp($this->importFolder . 'foo.zip');
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'foo.zip')
 		);
 	}
@@ -592,7 +592,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('contains-folder.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertFalse(
+		self::assertFalse(
 			is_dir($this->importFolder . 'contains-folder/')
 		);
 	}
@@ -609,7 +609,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
@@ -626,7 +626,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
@@ -640,7 +640,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('empty.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'empty.zip')
 		);
 	}
@@ -654,7 +654,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('bar-bar.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'bar-bar.zip')
 		);
 	}
@@ -679,7 +679,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($this->importFolder . 'changed-copy-of-same-name/same-name.zip')
 		);
 	}
@@ -698,7 +698,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
@@ -721,7 +721,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($this->importFolder . 'same-name.zip')
 		);
 	}
@@ -756,7 +756,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'two-objects.zip')
 		);
 	}
@@ -793,7 +793,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			file_exists($this->importFolder . 'two-objects.zip')
 		);
 	}
@@ -813,7 +813,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'DOMDocument',
 			get_class($this->fixture->getImportedXml())
 		);
@@ -829,7 +829,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'DOMDocument',
 			get_class($this->fixture->getImportedXml())
 		);
@@ -845,7 +845,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->extractZip($this->importFolder . 'bar.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'bar.zip');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'DOMDocument',
 			get_class($this->fixture->getImportedXml())
 		);
@@ -872,7 +872,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('changed-copy-of-same-name/same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -893,11 +893,11 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		t3lib_div::mkdir($this->importFolder . 'foo/');
 		$result = $this->fixture->importFromZip();
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_surplus_folder'),
 			$result
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			is_dir($this->importFolder . 'foo/')
 		);
 	}
@@ -922,7 +922,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -959,7 +959,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1010,7 +1010,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1064,7 +1064,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1122,7 +1122,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1141,7 +1141,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->ensureContactEmail();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo-valid@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
@@ -1158,7 +1158,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->loadRealtyObject(array('contact_email' => ''));
 		$this->fixture->ensureContactEmail();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'default_address@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
@@ -1175,7 +1175,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->loadRealtyObject(array('contact_email' => 'foo'));
 		$this->fixture->ensureContactEmail();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'default_address@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
@@ -1224,7 +1224,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1278,7 +1278,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1300,7 +1300,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('charset-UTF8.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
 				'tx_realty_objects',
 				'openimmo_anid="test-anid-with-umlaut-ü"'
@@ -1319,7 +1319,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('charset-UTF8-default.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
 				'tx_realty_objects',
 				'openimmo_anid="test-anid-with-umlaut-ü"'
@@ -1338,7 +1338,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('charset-ISO8859-1.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
 				'tx_realty_objects',
 				'openimmo_anid="test-anid-with-umlaut-ü"'
@@ -1368,7 +1368,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1389,7 +1389,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1419,7 +1419,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1447,7 +1447,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1519,7 +1519,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($singleObject);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1600,7 +1600,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->writeToDatabase($records[0]);
 		$this->fixture->writeToDatabase($records[1]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1657,7 +1657,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($singleObject);
 		$this->fixture->writeToDatabase($records[0]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1738,7 +1738,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->writeToDatabase($records[0]);
 		$this->fixture->writeToDatabase($records[1]);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1776,7 +1776,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		);
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 
-		$this->assertContains(
+		self::assertContains(
 			sprintf(
 				$this->translator->translate('message_object_limit_reached'),
 				'fooBar', $feUserUid, 1
@@ -1796,7 +1796,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function prepareEmailsReturnsEmptyArrayWhenEmptyArrayGiven() {
 		$emailData = array();
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->prepareEmails($emailData)
 		);
@@ -1808,7 +1808,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function prepareEmailsReturnsEmptyArrayWhenInvalidArrayGiven() {
 		$emailData = array('invalid' => 'array');
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->prepareEmails($emailData)
 		);
@@ -1832,7 +1832,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'bar')
@@ -1863,7 +1863,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'bar')
@@ -1891,7 +1891,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'log entry')
@@ -1920,7 +1920,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'error log')
@@ -1943,7 +1943,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'foo' => array(
 					array('------' => 'bar')
@@ -1972,7 +1972,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			),
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'foo' => array(
 					array('number' => 'bar'),
@@ -2002,7 +2002,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			),
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'foo' => array(
 					array('number' => 'foo')
@@ -2034,7 +2034,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'foo' => array(
 					array('number' => 'bar')
@@ -2063,7 +2063,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			),
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(),
 			$this->fixture->prepareEmails($emailData)
 		);
@@ -2079,10 +2079,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	public function importFromZipClearsFrontEndCacheAfterImportInOldTypo3() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$this->markTestSkipped('This test is not applicable for TYPO3 >= 4.6.');
+			self::markTestSkipped('This test is not applicable for TYPO3 >= 4.6.');
 		}
 		if (!TYPO3_UseCachingFramework) {
-			$this->markTestSkipped('This test is not applicable if the caching framework is disabled.');
+			self::markTestSkipped('This test is not applicable if the caching framework is disabled.');
 		}
 
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
@@ -2097,8 +2097,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
 			array(), '', FALSE
 		);
-		$cacheFrontEnd->expects($this->once())->method('getIdentifier')->will($this->returnValue('cache_pages'));
-		$cacheFrontEnd->expects($this->atLeastOnce())->method('flushByTags');
+		$cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
+		$cacheFrontEnd->expects(self::atLeastOnce())->method('flushByTags');
 
 		$cacheManager = new t3lib_cache_Manager();
 		$cacheManager->registerCache($cacheFrontEnd);
@@ -2112,7 +2112,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	public function importFromZipClearsFrontEndCacheAfterImport() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			$this->markTestSkipped('This test is not applicable for TYPO3 < 4.6.');
+			self::markTestSkipped('This test is not applicable for TYPO3 < 4.6.');
 		}
 
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
@@ -2127,11 +2127,11 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			array('getIdentifier', 'set', 'get', 'getByTag', 'getBackend'),
 			array(), '', FALSE
 		);
-		$cacheFrontEnd->expects($this->once())->method('getIdentifier')->will($this->returnValue('cache_pages'));
+		$cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
 		/** @var $cacheBackEnd t3lib_cache_backend_Backend|PHPUnit_Framework_MockObject_MockObject */
 		$cacheBackEnd = $this->getMock($this->getCacheBackendClassName());
-		$cacheFrontEnd->expects($this->any())->method('getBackend')->will($this->returnValue($cacheBackEnd));
-		$cacheBackEnd->expects($this->atLeastOnce())->method('flushByTag');
+		$cacheFrontEnd->expects(self::any())->method('getBackend')->will(self::returnValue($cacheBackEnd));
+		$cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 
 		$cacheManager = new t3lib_cache_Manager();
 		$cacheManager->registerCache($cacheFrontEnd);
@@ -2154,7 +2154,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->globalConfiguration->setAsString('openImmoSchema', '');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_no_schema_file'),
 			$this->fixture->importFromZip()
 		);
@@ -2172,7 +2172,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			'openImmoSchema', '/any/not/existing/path'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_invalid_schema_file_path'),
 			$this->fixture->importFromZip()
 		);
@@ -2187,7 +2187,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->disableValidation();
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_fields_required'),
 			$this->fixture->importFromZip()
 		);
@@ -2202,7 +2202,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('bar.zip');
 		$this->disableValidation();
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_object_not_loaded'),
 			$this->fixture->importFromZip()
 		);
@@ -2217,7 +2217,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->disableValidation();
 
-		$this->assertContains(
+		self::assertContains(
 			'default-address@example.org',
 			$this->fixture->importFromZip()
 		);
@@ -2234,7 +2234,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			'importFolder', $path
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			sprintf(
 				$this->translator->translate(
 					'message_import_directory_not_existing'
@@ -2256,7 +2256,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$path = '/any/not/existing/upload-path/';
 		$this->fixture->setUploadDirectory($path);
 
-		$this->assertContains(
+		self::assertContains(
 			sprintf(
 				$this->translator->translate(
 					'message_upload_directory_not_existing'
@@ -2285,7 +2285,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2313,7 +2313,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2342,7 +2342,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2371,7 +2371,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2400,7 +2400,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2431,7 +2431,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2462,7 +2462,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2494,7 +2494,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2525,7 +2525,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -2553,7 +2553,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertSame(
+		self::assertSame(
 			$this->translator->translate('label_subject_openImmo_import'),
 			$this->message->getSubject()
 		);
@@ -2574,7 +2574,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('valid-email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'contact-email-address@valid-email.org',
 			$this->message->getTo()
 		);
@@ -2590,7 +2590,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-address@example.org',
 			$this->message->getTo()
 		);
@@ -2606,7 +2606,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-address@example.org',
 			$this->message->getTo()
 		);
@@ -2632,7 +2632,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'owner-address@valid-email.org',
 			$this->message->getTo()
 		);
@@ -2658,7 +2658,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'owner-address@valid-email.org',
 			$this->message->getTo()
 		);
@@ -2684,7 +2684,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('with-email-and-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'contact-email-address@valid-email.org',
 			$this->message->getTo()
 		);
@@ -2710,7 +2710,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('valid-email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'contact-email-address@valid-email.org',
 			$this->message->getTo()
 		);
@@ -2736,7 +2736,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('with-openimmo-anid.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-address@example.org',
 			$this->message->getTo()
 		);
@@ -2762,7 +2762,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-address@example.org',
 			$this->message->getTo()
 		);
@@ -2783,7 +2783,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('label_object_number'),
 			$this->message->getBody()
 		);
@@ -2799,7 +2799,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_introduction'),
 			$this->message->getBody()
 		);
@@ -2815,7 +2815,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('email.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_explanation'),
 			$this->message->getBody()
 		);
@@ -2834,7 +2834,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertContains(
+		self::assertContains(
 			$this->translator->translate('message_openimmo_anid_not_matches_allowed_fe_user'),
 			$this->message->getBody()
 		);
@@ -2869,7 +2869,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 		$this->fixture->importFromZip();
 
-		$this->assertContains(
+		self::assertContains(
 			sprintf(
 				$this->translator->translate('message_object_limit_reached'),
 				'fooBar', $feUserUid, 1

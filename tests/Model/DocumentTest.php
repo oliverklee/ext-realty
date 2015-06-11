@@ -40,7 +40,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	public function getTitleReturnsTitle() {
 		$this->fixture->setData(array('title' => 'Just another document'));
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Just another document',
 			$this->fixture->getTitle()
 		);
@@ -52,7 +52,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	public function setTitleSetsTitle() {
 		$this->fixture->setTitle('Just another document');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Just another document',
 			$this->fixture->getTitle()
 		);
@@ -77,7 +77,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	public function getFileNameReturnsDocumentFileName() {
 		$this->fixture->setData(array('filename' => 'foo.pdf'));
 
-		$this->assertEquals(
+		self::assertEquals(
 			'foo.pdf',
 			$this->fixture->getFileName()
 		);
@@ -89,7 +89,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	public function setFileNameSetsFileName() {
 		$this->fixture->setFileName('bar.pdf');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'bar.pdf',
 			$this->fixture->getFileName()
 		);
@@ -116,7 +116,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 		$realtyObject = new tx_realty_Model_RealtyObject();
 		$this->fixture->setData(array('object' => $realtyObject));
 
-		$this->assertSame(
+		self::assertSame(
 			$realtyObject,
 			$this->fixture->getObject()
 		);
@@ -129,7 +129,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 		$realtyObject = new tx_realty_Model_RealtyObject();
 		$this->fixture->setObject($realtyObject);
 
-		$this->assertSame(
+		self::assertSame(
 			$realtyObject,
 			$this->fixture->getObject()
 		);
@@ -146,7 +146,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	public function getSortingInitiallyReturnsZero() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->getSorting()
 		);
@@ -158,7 +158,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	public function getSortingReturnsSorting() {
 		$this->fixture->setData(array('sorting' => 42));
 
-		$this->assertEquals(
+		self::assertEquals(
 			42,
 			$this->fixture->getSorting()
 		);
@@ -170,7 +170,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase {
 	public function setSortingSetsSorting() {
 		$this->fixture->setSorting(21);
 
-		$this->assertEquals(
+		self::assertEquals(
 			21,
 			$this->fixture->getSorting()
 		);

@@ -59,7 +59,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsTranslatedMessage() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_access_denied'),
 			$this->fixture->render(array('message_access_denied'))
 		);
@@ -73,7 +73,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase {
 			'loginPID', $this->testingFramework->createFrontEndPage()
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'<a href',
 			$this->fixture->render(array('message_please_login'))
 		);
@@ -86,7 +86,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase {
 		$loginPid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('loginPID', $loginPid);
 
-		$this->assertContains(
+		self::assertContains(
 			'?id=' . $loginPid,
 			$this->fixture->render(array('message_please_login'))
 		);
@@ -100,7 +100,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase {
 			'loginPID', $this->testingFramework->createFrontEndPage()
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			urlencode('?id=' . $this->getFrontEndController()->id),
 			$this->fixture->render(array('message_please_login'))
 		);
@@ -110,7 +110,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsWrappingErrorViewSubpart() {
-		$this->assertContains(
+		self::assertContains(
 			'class="error"',
 			$this->fixture->render(array('message_access_denied'))
 		);
@@ -120,7 +120,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkers() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render(array('message_access_denied'))
 		);

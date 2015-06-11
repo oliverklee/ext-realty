@@ -65,7 +65,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function filterFormHasSubmitButton() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_search'),
 			$this->fixture->render()
 		);
@@ -78,7 +78,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->fixture->setConfigurationValue('filterTargetPID', $pageUid);
 
-		$this->assertContains(
+		self::assertContains(
 			'?id=' . $pageUid,
 			$this->fixture->render()
 		);
@@ -88,7 +88,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsNoUnreplacedMarkers() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render()
 		);
@@ -105,7 +105,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function filterFormHasSiteSearchInputIfEnabledByConfiguration() {
 		// "showSiteSearchInFilterForm" is set to "show" during setup().
 
-		$this->assertContains(
+		self::assertContains(
 			'id="tx_realty_pi1-site"',
 			$this->fixture->render()
 		);
@@ -117,7 +117,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function filterFormHasNoSiteSearchInputIfDisabledByConfiguration() {
 		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'id="tx_realty_pi1-site"',
 			$this->fixture->render()
 		);
@@ -132,7 +132,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function filterFormHasNoPricesSelectboxForUnconfiguredFilter() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<select',
 			$this->fixture->render()
 		);
@@ -145,7 +145,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', '');
 		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<select',
 			$this->fixture->render()
 		);
@@ -160,7 +160,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
-		$this->assertContains(
+		self::assertContains(
 			'<select',
 			$this->fixture->render()
 		);
@@ -174,7 +174,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('currencyUnit', 'EUR');
 		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
-		$this->assertContains(
+		self::assertContains(
 			'&euro;',
 			$this->fixture->render()
 		);
@@ -188,7 +188,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('currencyUnit', 'EUR');
 		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-100');
 
-		$this->assertContains(
+		self::assertContains(
 			'&euro; 1,00 ' . $this->fixture->translate('label_to') . ' &euro; 100,00',
 			$this->fixture->render()
 		);
@@ -203,7 +203,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->setConfigurationValue('priceRangesForFilterForm', '1-');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_greater_than') . ' 1',
 			$this->fixture->render()
 		);
@@ -220,7 +220,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'priceRangesForFilterForm', '-100'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_less_than') . ' 100',
 			$this->fixture->render()
 		);
@@ -237,7 +237,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'priceRangesForFilterForm', '-100'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -254,7 +254,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'priceRangesForFilterForm', '-100'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_search'),
 			$this->fixture->render()
 		);
@@ -271,7 +271,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'priceRangesForFilterForm', '-100'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -288,7 +288,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function searchFormForDisplayedSearchWidgetFieldsEmptyHidesUidSearchField() {
 		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'name="tx_realty_pi1[uid]"',
 			$this->fixture->render()
 		);
@@ -302,7 +302,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'uid'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'name="tx_realty_pi1[uid]"',
 			$this->fixture->render()
 		);
@@ -316,7 +316,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'uid'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="42"',
 			$this->fixture->render(array('uid' => 42))
 		);
@@ -330,7 +330,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'uid'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value=""',
 			$this->fixture->render(array('uid' => 'foo'))
 		);
@@ -347,7 +347,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function searchFormForDisplayedSearchWidgetFieldsEmptyHidesObjectNumberSearchField() {
 		$this->fixture->setConfigurationValue('displayedSearchWidgetFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'name="tx_realty_pi1[objectNumber]"',
 			$this->fixture->render()
 		);
@@ -361,7 +361,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectNumber'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'name="tx_realty_pi1[objectNumber]"',
 			$this->fixture->render()
 		);
@@ -375,7 +375,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectNumber'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="Foo 22"',
 			$this->fixture->render(array('objectNumber' => 'Foo 22'))
 		);
@@ -389,7 +389,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', ''
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'id="tx_realty_pi1-idsearch"',
 			$this->fixture->render()
 		);
@@ -408,7 +408,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'city'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_select_city'),
 			$this->fixture->render()
 		);
@@ -428,7 +428,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'city'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Foo city',
 			$this->fixture->render()
 		);
@@ -442,7 +442,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'city'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'onchange="document.forms',
 			$this->fixture->render()
 		);
@@ -456,7 +456,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'city, priceRanges'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'onchange="document.forms',
 			$this->fixture->render()
 		);
@@ -470,7 +470,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'city, district'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'onchange="updateDistrictsInSearchWidget',
 			$this->fixture->render()
 		);
@@ -487,7 +487,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render();
 
-		$this->assertFalse(
+		self::assertFalse(
 			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
@@ -503,7 +503,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render();
 
-		$this->assertFalse(
+		self::assertFalse(
 			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
@@ -519,7 +519,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render();
 
-		$this->assertTrue(
+		self::assertTrue(
 			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
@@ -535,7 +535,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render();
 
-		$this->assertFalse(
+		self::assertFalse(
 			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
 	}
@@ -551,7 +551,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render();
 
-		$this->assertFalse(
+		self::assertFalse(
 			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
 	}
@@ -567,7 +567,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render();
 
-		$this->assertTrue(
+		self::assertTrue(
 			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
 	}
@@ -585,7 +585,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'district'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_select_district'),
 			$this->fixture->render()
 		);
@@ -605,7 +605,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'district'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Foo district',
 			$this->fixture->render()
 		);
@@ -619,7 +619,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'district'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -633,7 +633,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'district, priceRanges'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -647,7 +647,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'district'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'id="tx_realty_pi1_searchWidget_district" style="display: block;"',
 			$this->fixture->render()
 		);
@@ -661,7 +661,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'city,district'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'id="tx_realty_pi1_searchWidget_district" style="display: none;"',
 			$this->fixture->render()
 		);
@@ -679,7 +679,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->render();
 
-		$this->assertFalse(
+		self::assertFalse(
 			isset($this->getFrontEndController()->additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'])
 		);
 	}
@@ -697,7 +697,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'houseType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_select_house_type'),
 			$this->fixture->render()
 		);
@@ -717,7 +717,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'houseType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Foo house type',
 			$this->fixture->render()
 		);
@@ -731,7 +731,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'houseType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -745,7 +745,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'houseType, priceRanges'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -764,7 +764,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_select_object_type'),
 			$this->fixture->render()
 		);
@@ -778,7 +778,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'checked="checked"',
 			$this->fixture->render()
 		);
@@ -792,7 +792,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="forRent" checked="checked"',
 			$this->fixture->render(array('objectType' => 'forRent'))
 		);
@@ -806,7 +806,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="forSale" checked="checked"',
 			$this->fixture->render(array('objectType' => 'forSale'))
 		);
@@ -820,7 +820,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -834,7 +834,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType,city'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'onchange="',
 			$this->fixture->render()
 		);
@@ -848,7 +848,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="forRent" onchange="',
 			$this->fixture->render()
 		);
@@ -862,7 +862,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'objectType'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="forSale" onchange="',
 			$this->fixture->render()
 		);
@@ -881,7 +881,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'rent'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_enter_rent'),
 			$this->fixture->render()
 		);
@@ -899,11 +899,11 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			array('rentFrom' => '42', 'rentTo' => '100')
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="42"',
 			$output
 		);
-		$this->assertContains(
+		self::assertContains(
 			'value="100"',
 			$output
 		);
@@ -922,7 +922,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'livingArea'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_enter_living_area'),
 			$this->fixture->render()
 		);
@@ -940,11 +940,11 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			array('livingAreaFrom' => '42', 'livingAreaTo' => '100')
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="42"',
 			$output
 		);
-		$this->assertContains(
+		self::assertContains(
 			'value="100"',
 			$output
 		);
@@ -958,7 +958,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForLowerPriceLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1) ' .
 				'OR (tx_realty_objects.buying_price >= 1))',
 			$this->fixture->getWhereClausePart(array('priceRange' => '1-'))
@@ -969,7 +969,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForUpperPriceLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills > 0 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
 				'OR (tx_realty_objects.buying_price > 0 ' .
@@ -984,7 +984,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForUpperPlusLowerPriceLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
 				'OR (tx_realty_objects.buying_price >= 1 ' .
@@ -997,7 +997,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function searchStringForZipIsNotLongerThanTwoCharacters() {
-		$this->assertContains(
+		self::assertContains(
 			'tx_realty_objects.zip LIKE "fo%"',
 			$this->fixture->getWhereClausePart(array('site' => 'foo'))
 		);
@@ -1007,7 +1007,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function searchStringForSiteIsEscapedForLike() {
-		$this->assertContains(
+		self::assertContains(
 			'tx_realty_cities.title LIKE "%f\\\%oo%")',
 			$this->fixture->getWhereClausePart(array('site' => 'f%oo'))
 		);
@@ -1017,7 +1017,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForPriceRangeCanBeAppendedToSiteSearchWhereClause() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.zip LIKE "fo%" ' .
 				'OR tx_realty_cities.title LIKE "%foo%") ' .
 				'AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
@@ -1034,7 +1034,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseIsEmptyForInvalidNumericKeyForPriceRange() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('priceRange' => '-100-'))
 		);
@@ -1044,7 +1044,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseIsEmptyForInvalidStringKeyForPriceRange() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('priceRange' => 'foo'))
 		);
@@ -1054,7 +1054,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseIsEmptyForEmptySite() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('site' => ''))
 		);
@@ -1066,7 +1066,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForUidSearchWithNonZeroUidCanBeCreated() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'uid');
 
-		$this->assertEquals(
+		self::assertEquals(
 			' AND tx_realty_objects.uid=1',
 			$this->fixture->getWhereClausePart(array('uid' => 1))
 		);
@@ -1078,7 +1078,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForUidSearchWithZeroUidIsEmpty() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'uid');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('uid' => 0))
 		);
@@ -1090,7 +1090,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForCitySearchWithNonZeroCityCanBeCreated() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'city');
 
-		$this->assertEquals(
+		self::assertEquals(
 			' AND tx_realty_objects.city = 1',
 			$this->fixture->getWhereClausePart(array('city' => 1))
 		);
@@ -1102,7 +1102,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForDistrictSearchWithNonZeroDistrictCanBeCreated() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'district');
 
-		$this->assertEquals(
+		self::assertEquals(
 			' AND tx_realty_objects.district = 1',
 			$this->fixture->getWhereClausePart(array('district' => 1))
 		);
@@ -1114,7 +1114,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForHouseTypeSearchWithNonZeroHouseTypeCanBeCreated() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'houseType');
 
-		$this->assertEquals(
+		self::assertEquals(
 			' AND tx_realty_objects.house_type = 1',
 			$this->fixture->getWhereClausePart(array('houseType' => 1))
 		);
@@ -1126,7 +1126,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForCitySearchWithZeroCityIsEmpty() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'city');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('city' => 0))
 		);
@@ -1138,7 +1138,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForHouseTypeSearchWithZeroHouseTypeIsEmpty() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'houseType');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('houseType' => 0))
 		);
@@ -1150,7 +1150,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForObjectNumberSearchWithNonEmptyObjectNumberCanBeCreated() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
 
-		$this->assertEquals(
+		self::assertEquals(
 			' AND tx_realty_objects.object_number="foo"',
 			$this->fixture->getWhereClausePart(array('objectNumber' => 'foo'))
 		);
@@ -1162,7 +1162,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function whereClauseForObjectNumberSearchWithEmptyObjectNumberIsEmpty() {
 		$this->fixture->setConfigurationValue('showIdSearchInFilterForm', 'objectNumber');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('objectNumber' => ''))
 		);
@@ -1172,7 +1172,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getWhereClausePartForObjectTypeSelectorWithSaleSelectedReturnsSaleWhereClausePart() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND tx_realty_objects.object_type = ' .
 				tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
 			$this->fixture->getWhereClausePart(array('objectType' => 'forSale'))
@@ -1183,7 +1183,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getWhereClausePartForObjectTypeSelectorWithRentSelectedReturnsRentWhereClausePart() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND tx_realty_objects.object_type = ' .
 				tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			$this->fixture->getWhereClausePart(array('objectType' => 'forRent'))
@@ -1194,7 +1194,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getWhereClausePartForObjectTypeSelectorWithNothingSelectedReturnsEmptyString() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(array('objectType' => ''))
 		);
@@ -1204,7 +1204,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForLowerRentLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1) ' .
 				'OR (tx_realty_objects.buying_price >= 1))',
 			$this->fixture->getWhereClausePart(array('rentFrom' => '1'))
@@ -1215,7 +1215,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForUpperRentLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills > 0 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
 				'OR (tx_realty_objects.buying_price > 0 ' .
@@ -1230,7 +1230,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForUpperPlusLowerRentLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
 				'OR (tx_realty_objects.buying_price >= 1 ' .
@@ -1245,7 +1245,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForUpperPlusLowerRentAndPriceLimitOverwritesPriceLimitWithRentLimit() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND ((tx_realty_objects.rent_excluding_bills >= 1 ' .
 				'AND tx_realty_objects.rent_excluding_bills <= 10) ' .
 				'OR (tx_realty_objects.buying_price >= 1 ' .
@@ -1265,7 +1265,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForLowerLivingAreaLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.living_area >= 1)',
 			$this->fixture->getWhereClausePart(array('livingAreaFrom' => '1'))
 		);
@@ -1275,7 +1275,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForUpperLivingAreaLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.living_area <= 10)',
 			$this->fixture->getWhereClausePart(array('livingAreaTo' => '10'))
 		);
@@ -1285,7 +1285,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForUpperPlusLowerLivingAreaLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.living_area >= 1)' .
 			' AND (tx_realty_objects.living_area <= 10)',
 			$this->fixture->getWhereClausePart(
@@ -1307,7 +1307,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_enter_number_of_rooms'),
 			$this->fixture->render()
 		);
@@ -1321,7 +1321,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="1"',
 			$this->fixture->render(array('numberOfRoomsFrom' => '1'))
 		);
@@ -1335,7 +1335,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'displayedSearchWidgetFields', 'numberOfRooms'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="2"',
 			$this->fixture->render(array('numberOfRoomsTo' => '2'))
 		);
@@ -1353,7 +1353,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			array('numberOfRoomsFrom' => '0')
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value=""',
 			$output
 		);
@@ -1371,7 +1371,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			array('numberOfRoomsTo' => '15.22')
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="15.2"',
 			$output
 		);
@@ -1389,7 +1389,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			array('numberOfRoomsTo' => '15,2')
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="15.2"',
 			$output
 		);
@@ -1404,7 +1404,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForLowerNumberOfRoomsLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => 1)
@@ -1416,7 +1416,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseOnlyForUpperNumberOfRoomsLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.number_of_rooms <= 10)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsTo' => 10)
@@ -1428,7 +1428,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForUpperPlusLowerNumberOfRoomsLimitCanBeCreated() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1)' .
 			' AND (tx_realty_objects.number_of_rooms <= 10)',
 			$this->fixture->getWhereClausePart(
@@ -1441,7 +1441,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForLowerNumberOfRoomsLimitWithDecimalsCreatesWhereClauseWithCompleteNumber() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1.5)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => 1.5)
@@ -1453,7 +1453,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForLowerNumberOfRoomsLimitStringDoesNotAddWhereClause() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => 'foo')
@@ -1465,7 +1465,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function whereClauseForLowerNumberOfRoomsLimitWithCommaAsDecimalSeparatorReplacesCommaWithDot() {
-		$this->assertEquals(
+		self::assertEquals(
 			' AND (tx_realty_objects.number_of_rooms >= 1.8)',
 			$this->fixture->getWhereClausePart(
 				array('numberOfRoomsFrom' => '1,8')
@@ -1502,7 +1502,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Foo city',
 			$this->fixture->createDropDownItems('city')
 		);
@@ -1519,7 +1519,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="' . $cityUid . '"',
 			$this->fixture->createDropDownItems('city')
 		);
@@ -1539,7 +1539,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Foo city (2)',
 			$this->fixture->createDropDownItems('city')
 		);
@@ -1553,7 +1553,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_cities', array('title' => 'Foo city')
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'Foo city',
 			$this->fixture->createDropDownItems('city')
 		);
@@ -1570,7 +1570,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('city' => $cityUid)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'selected="selected"',
 			$this->fixture->createDropDownItems('city', 0)
 		);
@@ -1587,7 +1587,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="' . $cityUid . '" selected="selected"',
 			$this->fixture->createDropDownItems('city', $cityUid)
 		);
@@ -1604,7 +1604,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('district' => $districtUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Foo district',
 			$this->fixture->createDropDownItems('district')
 		);
@@ -1618,7 +1618,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('title' => 'Foo district')
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'Foo district',
 			$this->fixture->createDropDownItems('district')
 		);
@@ -1632,7 +1632,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPiVarKeysReturnsAnArray() {
-		$this->assertTrue(
+		self::assertTrue(
 			is_array(tx_realty_filterForm::getPiVarKeys())
 		);
 	}
@@ -1643,7 +1643,7 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase {
 	public function getPiVarKeysReturnsNonEmptyArray() {
 		$result = tx_realty_filterForm::getPiVarKeys();
 
-		$this->assertTrue(
+		self::assertTrue(
 			!empty($result)
 		);
 	}

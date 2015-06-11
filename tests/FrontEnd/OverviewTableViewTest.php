@@ -63,7 +63,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => '12345'));
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -78,11 +78,11 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$result = $this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$result
 		);
@@ -95,7 +95,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => '12345'));
 
-		$this->assertContains(
+		self::assertContains(
 			'12345',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -108,7 +108,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_number' => '12345</br>'));
 
-		$this->assertContains(
+		self::assertContains(
 			htmlspecialchars('12345</br>'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -121,7 +121,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array());
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -143,7 +143,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_air_conditioning'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_has_air_conditioning'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -160,7 +160,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_air_conditioning'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_has_air_conditioning'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -177,7 +177,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_pool'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_has_pool'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -194,7 +194,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_pool'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_has_pool'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -211,7 +211,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_community_pool'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_has_community_pool'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -228,7 +228,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_community_pool'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_has_community_pool'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -243,7 +243,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_state'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -258,7 +258,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_state_8'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -273,7 +273,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_state'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -288,7 +288,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'state');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_state'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -303,7 +303,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_heating_type'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -318,7 +318,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_heating_type_1'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -333,7 +333,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_heating_type_1') . ', ' .
 				$this->fixture->translate('label_heating_type_3') . ', ' .
 				$this->fixture->translate('label_heating_type_4'),
@@ -350,7 +350,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('fieldsInSingleViewTable', 'heating_type');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_heating_type'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -374,7 +374,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 				'rent_per_square_meter,garage_rent,garage_price,pets'
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'heating_type', 'rent_excluding_bills', 'extra_charges',
 				'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
@@ -401,7 +401,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'heating_type', 'rent_excluding_bills', 'extra_charges',
 				'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
@@ -428,7 +428,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'heating_type', 'rent_excluding_bills', 'extra_charges',
 				'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
@@ -455,7 +455,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'heating_type', 'pets'
 			),
@@ -480,7 +480,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertEquals(
+		self::assertEquals(
 			array(
 				'heating_type', 'pets'
 			),

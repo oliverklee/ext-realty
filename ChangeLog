@@ -13,6 +13,7 @@ Changes:
 - [#5254] Document the Prototype/jQuery clash
 
 Cleanup:
+- [#5335] Make the calls to static PHPUnit methods static
 - [#5205] Drop global variables from pi1_wizicon
 
 

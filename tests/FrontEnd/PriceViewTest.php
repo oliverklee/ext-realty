@@ -67,7 +67,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 				'rent_excluding_bills' => '123',
 		));
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -80,7 +80,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('object_type' => 2));
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -100,11 +100,11 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$result
 		);
@@ -120,7 +120,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 				'buying_price' => '123',
 		));
 
-		$this->assertContains(
+		self::assertContains(
 			'&euro; 123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -139,7 +139,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertContains(
+		self::assertContains(
 			'&euro; 123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -158,7 +158,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertContains(
+		self::assertContains(
 			'123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -177,7 +177,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -193,7 +193,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 				'buying_price' => '123',
 		));
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -209,7 +209,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 				'rent_excluding_bills' => '123',
 		));
 
-		$this->assertContains(
+		self::assertContains(
 			'&euro; 123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -228,7 +228,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertContains(
+		self::assertContains(
 			'&euro; 123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -247,7 +247,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertContains(
+		self::assertContains(
 			'&euro; 123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -266,7 +266,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('priceOnlyIfAvailable', TRUE);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -282,7 +282,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 				'rent_excluding_bills' => '123',
 		));
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'&euro; 123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -298,7 +298,7 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase {
 				'buying_price' => '',
 		));
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);

@@ -109,8 +109,8 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 */
 	private function createContentMock() {
 		$mock = $this->getMock('tslib_cObj', array('getTypoLink_URL'));
-		$mock->expects($this->any())->method('getTypoLink_URL')
-			->will($this->returnCallback(array($this, 'getTypoLinkUrl')));
+		$mock->expects(self::any())->method('getTypoLink_URL')
+			->will(self::returnCallback(array($this, 'getTypoLinkUrl')));
 
 		return $mock;
 	}
@@ -135,7 +135,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createContentMockCreatesContentInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->createContentMock() instanceof tslib_cObj
 		);
 	}
@@ -146,7 +146,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function createTypoLinkInContentMockCreatesUrlToPageId() {
 		$contentMock = $this->createContentMock();
 
-		$this->assertContains(
+		self::assertContains(
 			'index.php?id=42',
 			$contentMock->getTypoLink_URL(42)
 		);
@@ -161,7 +161,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormContainsObjectTitle() {
-		$this->assertContains(
+		self::assertContains(
 			self::REALTY_TITLE,
 			$this->fixture->render(
 				array('showUid' => $this->realtyUid)
@@ -173,7 +173,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormContainsObjectNumber() {
-		$this->assertContains(
+		self::assertContains(
 			self::REALTY_OBJECT_NUMBER,
 			$this->fixture->render(
 				array('showUid' => $this->realtyUid)
@@ -185,7 +185,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function generalContactFormDoesNotContainTitleLabelWithoutRealtyObjectSet() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_title'),
 			$this->fixture->render()
 		);
@@ -195,7 +195,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function generalContactFormDoesNotContainObjectNumberLabelWithoutRealtyObjectSet() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_object_number'),
 			$this->fixture->render()
 		);
@@ -205,7 +205,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormHasNoDisabledFieldsIfNotLoggedIn() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'disabled',
 			$this->fixture->render(array('showUid' => $this->realtyUid))
 		);
@@ -215,7 +215,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function generalContactFormHasNoDisabledFieldsIfNotLoggedIn() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'disabled',
 			$this->fixture->render()
 		);
@@ -229,7 +229,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$user->setData(array('name' => 'test user'));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="test user" disabled="disabled"',
 			 $this->fixture->render(array('showUid' => $this->realtyUid))
 		);
@@ -245,7 +245,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'value="test user"',
 			 $this->fixture->render(array('showUid' => $this->realtyUid))
 		);
@@ -259,7 +259,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$user->setData(array('email' => 'frontend-user@example.com'));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="frontend-user@example.com" disabled="disabled"',
 			 $this->fixture->render(array('showUid' => $this->realtyUid))
 		);
@@ -273,7 +273,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$user->setData(array('name' => 'test user'));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="test user" disabled="disabled"',
 			 $this->fixture->render()
 		);
@@ -287,7 +287,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$user->setData(array('email' => 'frontend-user@example.com'));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="frontend-user@example.com" disabled="disabled"',
 			 $this->fixture->render()
 		);
@@ -297,7 +297,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormHasNoDisabledInfomationIfNotLoggedIn() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render(array('showUid' => $this->realtyUid))
 		);
@@ -307,7 +307,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function generalContactHasNoDisabledInfomationIfNotLoggedIn() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render()
 		);
@@ -321,7 +321,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$user->setData(array('name' => 'test user'));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render(array('showUid' => $this->realtyUid))
 		);
@@ -335,7 +335,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$user->setData(array('name' => 'test user'));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
 			$this->fixture->render()
 		);
@@ -345,7 +345,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function contactFormDisplaysGeneralViewIfTheRealtyObjectUidWasNotNumeric() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(
 				array('showUid' => 'foo')
@@ -357,7 +357,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormNotDisplaysUnreplacedMarkersIfRealtyObjectDoesNotExist() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
@@ -371,7 +371,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormNotDisplaysObjectNumberLabelIfRealtyObjectDoesNotExist() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_object_number'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
@@ -385,7 +385,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormNotDisplaysTitleLabelIfRealtyObjectDoesNotExist() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_title'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
@@ -399,7 +399,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormNotDisplaysSubmitLabelIfRealtyObjectDoesNotExist() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_submit'),
 			$this->fixture->render(array(
 				'showUid' => $this->testingFramework->createRecord(
@@ -413,7 +413,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormNotDisplaysYourNameLabelIfRealtyObjectDoesNotExist() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_your_name'),
 			$this->fixture->render(array(
 				'showUid' => $this->testingFramework->createRecord(
@@ -427,7 +427,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function contactFormDisplaysYourNameLabelIfThisIsConfigured() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_your_name'),
 			$this->fixture->render()
 		);
@@ -439,7 +439,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormNotDisplaysYourNameLabelIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_your_name'),
 			$this->fixture->render()
 		);
@@ -449,7 +449,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function contactFormDisplaysRequestFieldIfThisIsConfigured() {
-		$this->assertContains(
+		self::assertContains(
 			'name="tx_realty_pi1[request]"',
 			$this->fixture->render()
 		);
@@ -461,7 +461,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormNotDisplaysRequestFieldIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'name="tx_realty_pi1[request]"',
 			$this->fixture->render()
 		);
@@ -474,7 +474,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'visibleContactFormFields', 'viewing'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'name="tx_realty_pi1[viewing]"',
 			$this->fixture->render()
 		);
@@ -486,7 +486,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormNotDisplaysViewingFieldIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'name="tx_realty_pi1[viewing]"',
 			$this->fixture->render()
 		);
@@ -500,7 +500,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'visibleContactFormFields', 'information'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'name="tx_realty_pi1[information]"',
 			$this->fixture->render()
 		);
@@ -512,7 +512,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormNotDisplaysInformationFieldIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'name="tx_realty_pi1[information]"',
 			$this->fixture->render()
 		);
@@ -526,7 +526,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'visibleContactFormFields', 'callback'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'name="tx_realty_pi1[callback]"',
 			$this->fixture->render()
 		);
@@ -538,7 +538,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormNotDisplaysCallbackFieldIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'name="tx_realty_pi1[callback]"',
 			$this->fixture->render()
 		);
@@ -552,7 +552,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'visibleContactFormFields', 'callback,law'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="tx-realty-pi1-law-asterisk"',
 			$this->fixture->render()
 		);
@@ -566,7 +566,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'visibleContactFormFields', 'callback'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="tx-realty-pi1-law-asterisk"',
 			$this->fixture->render()
 		);
@@ -578,7 +578,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormDisplaysTermsFieldIfThisIsConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
 
-		$this->assertContains(
+		self::assertContains(
 			'name="tx_realty_pi1[terms]"',
 			$this->fixture->render()
 		);
@@ -590,7 +590,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormNotDisplaysTermsFieldIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'name="tx_realty_pi1[terms]"',
 			$this->fixture->render()
 		);
@@ -602,7 +602,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormDisplaysLawTextIfThisIsConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'law');
 
-		$this->assertContains(
+		self::assertContains(
 			'class="tx-realty-pi1-law"',
 			$this->fixture->render()
 		);
@@ -614,7 +614,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormNotDisplaysLawTextIfThisIsNotConfigured() {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'name');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="tx-realty-pi1-law"',
 			$this->fixture->render()
 		);
@@ -633,7 +633,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('termsPID', $termsPid);
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
 
-		$this->assertContains(
+		self::assertContains(
 			'a href="index.php?id=' . $termsPid,
 			$this->fixture->render()
 		);
@@ -647,7 +647,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('termsPID', $termsPid);
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
 
-		$this->assertContains(
+		self::assertContains(
 			'onclick="window.open(\'index.php?id=' . $termsPid,
 			$this->fixture->render()
 		);
@@ -662,7 +662,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormDisplaysAnErrorIfRealtyObjectDoesNotExist() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_noResultsFound_contact_form'),
 			$this->fixture->render(
 				array('showUid' => $this->testingFramework->createRecord(
@@ -676,7 +676,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
 				array(
@@ -694,7 +694,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function generalContactFormDisplaysErrorAfterSubmittingIfNoValidEmailAddressWasProvided() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
 				array(
@@ -711,7 +711,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheEmailField() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_set_valid_email_address'),
 			$this->fixture->render(
 				array(
@@ -729,7 +729,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormDisplaysErrorAfterSubmittingIfHeaderInjectionWasAttemptedInTheNameField() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
 				array(
@@ -747,7 +747,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function contactFormDisplaysErrorAfterSubmittingIfAngleBracketsAreSetInTheNameField() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
 				array(
@@ -765,7 +765,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function contactFormDisplaysErrorAfterSubmittingIfQuotationMarksAreSetInTheNameField() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_set_name'),
 			$this->fixture->render(
 				array(
@@ -785,7 +785,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function specializedContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
@@ -805,7 +805,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function generalContactFormDisplaysErrorAfterSubmittingIfNoNameWasProvidedButIsRequired() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
@@ -826,7 +826,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'requiredContactFormFields', 'request'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field_request'),
 			$this->fixture->render(
 				array(
@@ -846,7 +846,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function generalContactFormForRequiredMessageDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'request');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field_request'),
 			$this->fixture->render(
 				array(
@@ -865,7 +865,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function generalContactFormWithoutRequiredMessageNotDisplaysErrorAfterSubmittingIfTheRequestWasEmpty() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('message_required_field_request'),
 			$this->fixture->render(
 				array(
@@ -884,7 +884,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function specializedContactFormDisplaysErrorAfterSubmittingIfTheObjectHasNoContactDataAndNoDefaultEmailWasSet() {
 		$this->fixture->setConfigurationValue('defaultContactEmail', '');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_no_contact_person'),
 			$this->fixture->render(
 				array(
@@ -904,7 +904,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function generalContactFormDisplaysAnErrorAfterSubmittingIfNoDefaultEmailAddressWasSet() {
 		$this->fixture->setConfigurationValue('defaultContactEmail', '');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_no_contact_person'),
 			$this->fixture->render(
 				array(
@@ -923,7 +923,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormDisplaysTwoErrorMessagesIfNameAndStreetAreRequiredButEmpty() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'name,street');
 
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			substr_count(
 				 $this->fixture->render(
@@ -953,15 +953,15 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field_request'),
 			$result
 		);
-		$this->assertContains(
+		self::assertContains(
 			self::REALTY_TITLE,
 			$result
 		);
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_your_request'),
 			$result
 		);
@@ -980,15 +980,15 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field_request'),
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			self::REALTY_TITLE,
 			$result
 		);
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_your_request'),
 			$result
 		);
@@ -998,7 +998,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormShowsSubmittedMessageIfAllContentIsValid() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_message_sent'),
 			$this->fixture->render(
 				array(
@@ -1016,7 +1016,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function generalContactFormShowsSubmittedMessageIfAllContentIsValid() {
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_message_sent'),
 			$this->fixture->render(
 				array(
@@ -1035,7 +1035,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormDisplaysErrorMessageForEmptyRequiredStreetField() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
@@ -1054,7 +1054,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormDisplaysErrorMessageForEmptyRequiredCityField() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'city');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field_requesterCity'),
 			$this->fixture->render(
 				array(
@@ -1073,7 +1073,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormDisplaysNoErrorMessageForNonEmptyRequiredField() {
 		$this->fixture->setConfigurationValue('requiredContactFormFields', 'street');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('message_required_field'),
 			$this->fixture->render(
 				array(
@@ -1093,7 +1093,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
 		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('message_required_field_terms'),
 			$this->fixture->render(
 				array(
@@ -1111,7 +1111,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', 'terms');
 		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('message_required_field_terms'),
 			$this->fixture->render(
 				array(
@@ -1130,7 +1130,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
 		$this->fixture->setConfigurationValue('requiredContactFormFields', '');
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('message_required_field_terms'),
 			$this->fixture->render(
 				array(
@@ -1150,7 +1150,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formWithMinimalContentDoesNotContainUnreplacedMarkers() {
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render()
 		);
@@ -1160,7 +1160,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formHasInputFieldForStreet() {
-		$this->assertContains(
+		self::assertContains(
 			'tx_realty_pi1[requesterStreet]',
 			$this->fixture->render()
 		);
@@ -1170,7 +1170,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formHasInputFieldForZip() {
-		$this->assertContains(
+		self::assertContains(
 			'tx_realty_pi1[requesterStreet]',
 			$this->fixture->render()
 		);
@@ -1180,7 +1180,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formHasInputFieldForCity() {
-		$this->assertContains(
+		self::assertContains(
 			'tx_realty_pi1[requesterStreet]',
 			$this->fixture->render()
 		);
@@ -1195,7 +1195,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function notSuccessfullySubmittedFormStillContainsSubmittedValueForRequest() {
-		$this->assertContains(
+		self::assertContains(
 			'>the request</textarea>',
 			$this->fixture->render(
 				array(
@@ -1210,7 +1210,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function notSuccessfullySubmittedFormStillContainsSubmittedValueForName() {
-		$this->assertContains(
+		self::assertContains(
 			'value="any name"',
 			$this->fixture->render(
 				array(
@@ -1225,7 +1225,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function notSuccessfullySubmittedFormStillContainsSubmittedValueForPhone() {
-		$this->assertContains(
+		self::assertContains(
 			'value="1234567"',
 			$this->fixture->render(
 				array(
@@ -1240,7 +1240,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function notSuccessfullySubmittedFormStillContainsSubmittedValueOfEmail() {
-		$this->assertContains(
+		self::assertContains(
 			'value="requester@example.com"',
 			$this->fixture->render(
 				array(
@@ -1255,7 +1255,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function notSuccessfullySubmittedFormStillContainsSubmittedValueOfFalseEmail() {
-		$this->assertContains(
+		self::assertContains(
 			'value="requester-invalid-email"',
 			$this->fixture->render(
 				array(
@@ -1270,7 +1270,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function notSuccessfullySubmittedFormStillContainsSubmittedValueWithHtmlSpecialCharedTags() {
-		$this->assertContains(
+		self::assertContains(
 			'>&lt;fieldset /&gt;the request&lt;script /&gt;</textarea>',
 			$this->fixture->render(
 				array(
@@ -1300,7 +1300,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-contact@example.com',
 			$this->message->getTo()
 		);
@@ -1310,7 +1310,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function specializedContactFormSendsEmail() {
-		$this->message->expects($this->once())->method('send');
+		$this->message->expects(self::once())->method('send');
 
 		$this->fixture->render(
 			array(
@@ -1348,7 +1348,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			array('any-valid@email-address.org' => 'Mr. Larry Page'),
 			$this->message->getTo()
 		);
@@ -1379,7 +1379,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-contact@example.com',
 			$this->message->getTo()
 		);
@@ -1407,7 +1407,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-contact@example.com',
 			$this->message->getTo()
 		);
@@ -1438,7 +1438,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			array('frontend-user@example.com' => 'Trinity'),
 			$this->message->getTo()
 		);
@@ -1475,7 +1475,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-contact@example.com',
 			$this->message->getTo()
 		);
@@ -1505,7 +1505,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-contact@example.com',
 			$this->message->getTo()
 		);
@@ -1515,7 +1515,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function generalContactFormSendsEmail() {
-		$this->message->expects($this->once())->method('send');
+		$this->message->expects(self::once())->method('send');
 
 		$this->fixture->render(
 			array(
@@ -1540,7 +1540,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'default-contact@example.com',
 			$this->message->getTo()
 		);
@@ -1559,7 +1559,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			array('requester@example.com' => 'any name'),
 			$this->message->getFrom()
 		);
@@ -1586,7 +1586,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			array('frontend-user@example.com' => 'test user'),
 			$this->message->getFrom()
 		);
@@ -1613,7 +1613,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'frontend-user@example.com',
 			$this->message->getFrom()
 		);
@@ -1642,7 +1642,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayNotHasKey(
+		self::assertArrayNotHasKey(
 			'test user',
 			$this->message->getFrom()
 		);
@@ -1664,7 +1664,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertArrayHasKey(
+		self::assertArrayHasKey(
 			'bcc-address@example.com',
 			$this->message->getBcc()
 		);
@@ -1683,7 +1683,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNull(
+		self::assertNull(
 			$this->message->getBcc()
 		);
 	}
@@ -1699,7 +1699,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->message->expects($this->never())->method('send');
+		$this->message->expects(self::never())->method('send');
 	}
 
 	/**
@@ -1716,7 +1716,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->message->getBody()
 		);
@@ -1737,7 +1737,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_has_request'),
 			$this->message->getBody()
 		);
@@ -1758,7 +1758,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_has_request'),
 			$this->message->getBody()
 		);
@@ -1778,7 +1778,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_has_request'),
 			$this->message->getBody()
 		);
@@ -1798,7 +1798,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			self::REALTY_TITLE,
 			$this->message->getBody()
 		);
@@ -1818,7 +1818,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			self::REALTY_OBJECT_NUMBER,
 			$this->message->getBody()
 		);
@@ -1838,7 +1838,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'summary of favorites',
 			$this->message->getBody()
 		);
@@ -1857,7 +1857,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'a name of a requester',
 			$this->message->getBody()
 		);
@@ -1876,7 +1876,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'requester@example.com',
 			$this->message->getBody()
 		);
@@ -1896,7 +1896,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'1234567',
 			$this->message->getBody()
 		);
@@ -1915,7 +1915,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_requester_phone'),
 			$this->message->getBody()
 		);
@@ -1935,7 +1935,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'main street',
 			$this->message->getBody()
 		);
@@ -1955,7 +1955,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'12345',
 			$this->message->getBody()
 		);
@@ -1975,7 +1975,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'a city',
 			$this->message->getBody()
 		);
@@ -1994,7 +1994,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_email_subject_general'),
 			$this->message->getSubject()
 		);
@@ -2014,7 +2014,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			self::REALTY_OBJECT_NUMBER,
 			$this->message->getSubject()
 		);
@@ -2034,7 +2034,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'viewing'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'checked="checked" name="tx_realty_pi1[viewing]"',
 			$this->fixture->render(
 				array(
@@ -2055,7 +2055,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'viewing'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'checked="checked" name="tx_realty_pi1[viewing]"',
 			$this->fixture->render(
 				array(
@@ -2077,7 +2077,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'information'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'checked="checked" name="tx_realty_pi1[information]"',
 			$this->fixture->render(
 				array(
@@ -2098,7 +2098,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'information'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'checked="checked" name="tx_realty_pi1[information]"',
 			$this->fixture->render(
 				array(
@@ -2120,7 +2120,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'callback'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'checked="checked" name="tx_realty_pi1[callback]"',
 			$this->fixture->render(
 				array(
@@ -2141,7 +2141,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'callback'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'checked="checked" name="tx_realty_pi1[callback]"',
 			$this->fixture->render(
 				array(
@@ -2163,7 +2163,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'terms'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'checked="checked" name="tx_realty_pi1[terms]"',
 			$this->fixture->render(
 				array(
@@ -2184,7 +2184,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'terms'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'checked="checked" name="tx_realty_pi1[terms]"',
 			$this->fixture->render(
 				array(
@@ -2221,7 +2221,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_viewing'),
 			$this->message->getBody()
 		);
@@ -2246,7 +2246,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_viewing'),
 			$this->message->getBody()
 		);
@@ -2271,7 +2271,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_information'),
 			$this->message->getBody()
 		);
@@ -2296,7 +2296,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_information'),
 			$this->message->getBody()
 		);
@@ -2321,7 +2321,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_callback'),
 			$this->message->getBody()
 		);
@@ -2346,7 +2346,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_callback'),
 			$this->message->getBody()
 		);
@@ -2374,7 +2374,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		$label = strip_tags(
 			str_replace(' %s', '', $this->fixture->translate('label_terms'))
 		);
-		$this->assertContains(
+		self::assertContains(
 			$label,
 			$this->message->getBody()
 		);
@@ -2399,7 +2399,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->message->expects($this->never())->method('send');
+		$this->message->expects(self::never())->method('send');
 	}
 
 	/**
@@ -2423,11 +2423,11 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 		);
 
 		$emailBody = $this->message->getBody();
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_information'),
 			$emailBody
 		);
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_callback'),
 			$emailBody
 		);

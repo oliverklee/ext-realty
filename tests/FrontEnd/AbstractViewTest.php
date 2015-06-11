@@ -47,7 +47,7 @@ class tx_realty_FrontEnd_AbstractViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderCanReturnAViewsContent() {
-		$this->assertEquals(
+		self::assertEquals(
 			'Hi, I am the testingFrontEndView!',
 			$this->fixture->render()
 		);

@@ -50,7 +50,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidReturnsDistrictInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->find(1) instanceof tx_realty_Model_District
 		);
 	}
@@ -65,7 +65,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 
 		/** @var tx_realty_Model_District $model */
 		$model = $this->fixture->find($uid);
-		$this->assertEquals(
+		self::assertEquals(
 			'Bad Godesberg',
 			$model->getTitle()
 		);
@@ -86,7 +86,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_District $district */
 		$district = $this->fixture->getLoadedTestingModel(array('city' => $city->getUid()));
 
-		$this->assertSame(
+		self::assertSame(
 			$city,
 			$district->getCity()
 		);
@@ -105,7 +105,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts'
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->findAllByCityUid(0)->hasUid($districtUid)
 		);
 	}
@@ -119,7 +119,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $cityUid)
 		);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->findAllByCityUid(0)->hasUid($districtUid)
 		);
 	}
@@ -133,7 +133,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $cityUid)
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->findAllByCityUid($cityUid)->hasUid($districtUid)
 		);
 	}
@@ -151,10 +151,10 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->findAllByCityUid($cityUid);
-		$this->assertTrue(
+		self::assertTrue(
 			$result->hasUid($districtUid1)
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			$result->hasUid($districtUid2)
 		);
 	}
@@ -167,7 +167,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts'
 		);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->findAllByCityUid(1)->hasUid($districtUid)
 		);
 	}
@@ -183,7 +183,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->findAllByCityUid($cityUid)->hasUid($districtUid)
 		);
 	}
@@ -203,7 +203,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			array('city'=> $cityUid, 'title' => 'Another District')
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$districtUid2,
 			$this->fixture->findAllByCityUid($cityUid)->first()->getUid()
 		);
@@ -222,7 +222,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts'
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->findAllByCityUidOrUnassigned(0)->hasUid($districtUid)
 		);
 	}
@@ -236,7 +236,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $cityUid)
 		);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->findAllByCityUidOrUnassigned(0)->hasUid($districtUid)
 		);
 	}
@@ -250,7 +250,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $cityUid)
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->findAllByCityUidOrUnassigned($cityUid)->hasUid($districtUid)
 		);
 	}
@@ -268,10 +268,10 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->findAllByCityUidOrUnassigned($cityUid);
-		$this->assertTrue(
+		self::assertTrue(
 			$result->hasUid($districtUid1)
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			$result->hasUid($districtUid2)
 		);
 	}
@@ -284,7 +284,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts'
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->findAllByCityUidOrUnassigned(1)->hasUid($districtUid)
 		);
 	}
@@ -300,7 +300,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->findAllByCityUidOrUnassigned($cityUid)->hasUid($districtUid)
 		);
 	}
@@ -330,7 +330,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			array('title' => 'Kleinwurzeling')
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$model,
 			$this->fixture->findByName('Kleinwurzeling')
 		);
@@ -344,7 +344,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('title' => 'Kleinwurzeling')
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$uid,
 			$this->fixture->findByName('Kleinwurzeling')->getUid()
 		);
@@ -413,7 +413,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->findByNameAndCityUid('Kreuzberg', 0)
 				instanceof tx_realty_Model_District
 		);
@@ -432,7 +432,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$districtUid,
 			$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid)->getUid()
 		);
@@ -533,7 +533,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$district,
 			$this->fixture->findByNameAndCityUid('Kreuzberg', $cityUid)
 		);

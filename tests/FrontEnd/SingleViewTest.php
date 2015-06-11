@@ -90,7 +90,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function singleViewReturnsEmptyResultForZeroShowUid() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -104,7 +104,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = $this->realtyObjectMapper->getNewGhost();
 		$realtyObject->setToDeleted();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -116,7 +116,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 	public function singleViewReturnsEmptyResultForShowUidOfHiddenRecordAndNoUserLoggedIn() {
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('hidden' => 1));
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -142,7 +142,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		$otherUser = $userMapper->getNewGhost();
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($otherUser);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -164,7 +164,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		);
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($owner);
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -177,7 +177,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -190,7 +190,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -212,7 +212,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -229,7 +229,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'description'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -246,7 +246,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'description'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -263,7 +263,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -281,7 +281,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'documents'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'new document',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -299,7 +299,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'new document',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -317,7 +317,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -339,7 +339,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'123',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -356,7 +356,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'furtherDescription'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -373,7 +373,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'foo',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -390,7 +390,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'addToFavoritesButton'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -407,7 +407,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'backButton'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="button singleViewAddToFavorites"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -424,7 +424,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'printPageButton'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="button printPage"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -441,7 +441,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'addToFavoritesButton'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="button printPage"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -454,7 +454,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_RealtyObject $realtyObject */
 		$realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
 
-		$this->assertContains(
+		self::assertContains(
 			'class="button singleViewBack"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -471,7 +471,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'printPageButton'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="button singleViewBack"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -489,7 +489,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->isSubpartVisible('FIELD_WRAPPER_ACTIONBUTTONS')
 		);
 	}
@@ -505,7 +505,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'imageThumbnails'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<div class="text-pane',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -522,7 +522,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading,imageThumbnails'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'<div class="text-pane with-images',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -539,7 +539,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'with-images',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -557,7 +557,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'class="button singleViewContact"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -577,7 +577,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'contactPID', $this->testingFramework->createFrontEndPage()
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'class="button singleViewContact"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -597,7 +597,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'displayedContactInformation', 'telephone'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_offerer'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -617,7 +617,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'displayedContactInformation', 'telephone'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_offerer'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -634,7 +634,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'status'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'tx-realty-pi1-status',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -651,7 +651,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'tx-realty-pi1-status',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -671,7 +671,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_air_conditioning'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_has_air_conditioning'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -691,7 +691,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'fieldsInSingleViewTable', 'has_air_conditioning'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			$this->fixture->translate('label_has_air_conditioning'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -708,7 +708,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'address'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'12345',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -725,7 +725,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'12345',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -753,7 +753,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'googleMaps'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'<div id="tx_realty_map"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -777,7 +777,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'heading'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<div id="tx_realty_map"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -802,7 +802,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->fixture->render(array('showUid' => $realtyObject->getUid()));
-		$this->assertNotContains(
+		self::assertNotContains(
 			'href=',
 			$this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
 		);
@@ -824,7 +824,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setConfigurationValue('showGoogleMaps', 1);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<div id="tx_realty_map"',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -854,7 +854,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'nextPreviousButtons'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'previousNextButtons',
 			$this->fixture->render(array(
 				'showUid' => $objectUid,
@@ -881,7 +881,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', ''
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'previousNextButtons',
 			$this->fixture->render(array(
 				'showUid' => $objectUid,
@@ -908,7 +908,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 			'singleViewPartsToDisplay', 'nextPreviousButtons'
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'previousNextButtons',
 			$this->fixture->render(array(
 				'showUid' => $objectUid,

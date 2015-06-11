@@ -89,7 +89,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 	 * @test
 	 */
 	public function createRealtyRecordWithCityReturnsNonZeroUid() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->createRealtyRecordWithCity() > 0
 		);
 	}
@@ -98,7 +98,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 	 * @test
 	 */
 	public function createRealtyRecordWithCityRunTwiceCreatesTwoDifferentRecords() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->createRealtyRecordWithCity() != $this->createRealtyRecordWithCity()
 		);
 	}
@@ -108,7 +108,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 	 */
 	public function createRealtyRecordWithCityCreatesRealtyObjectRecord() {
 		$objectUid = $this->createRealtyRecordWithCity();
-		$this->assertTrue(
+		self::assertTrue(
 			$this->testingFramework->existsRecord(
 				'tx_realty_objects',
 				'uid = ' . $objectUid . ' AND is_dummy_record = 1'
@@ -121,7 +121,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 	 */
 	public function createRealtyRecordWithCityAddsCityToRealtyObjectRecord() {
 		$objectUid = $this->createRealtyRecordWithCity();
-		$this->assertTrue(
+		self::assertTrue(
 			$this->testingFramework->existsRecord(
 				'tx_realty_objects',
 				'uid = ' . $objectUid . ' AND city > 0 AND is_dummy_record = 1'
@@ -150,7 +150,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -171,7 +171,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -191,7 +191,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'nextPage',
 			$this->fixture->render()
 		);
@@ -211,7 +211,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'previousPage',
 			$this->fixture->render()
 		);
@@ -244,7 +244,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'nextPage',
 			$this->fixture->render()
 		);
@@ -277,7 +277,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'showUid]=' . $objectUid1,
 			$this->fixture->render()
 		);
@@ -310,7 +310,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'showUid]=' . $objectUid2,
 			$this->fixture->render()
 		);
@@ -347,7 +347,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $listViewUid,
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -375,7 +375,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listViewType' => 'realty_list',
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'listUid]=' . $this->listViewUid,
 			$this->fixture->render()
 		);
@@ -395,7 +395,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'listViewType]=favorites',
 			$this->fixture->render()
 		);
@@ -418,7 +418,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'listViewLimitation]=' . urlencode($listViewLimitation),
 			$this->fixture->render()
 		);
@@ -434,7 +434,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -451,7 +451,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -468,7 +468,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -487,7 +487,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'recordPosition]=1',
 			$this->fixture->render()
 		);
@@ -504,7 +504,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listUid' => $this->listViewUid,
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'previousPage',
 			$this->fixture->render()
 		);
@@ -521,7 +521,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listViewType' => 'realty_list',
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -538,7 +538,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listViewType' => 'realty_list',
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);
@@ -554,7 +554,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 			'listViewType' => 'realty_list',
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render()
 		);

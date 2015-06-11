@@ -38,7 +38,7 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function canCreateARealtyListViewInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			tx_realty_pi1_ListViewFactory::make(
 				'realty_list', array(), $this->cObjMock
 			) instanceof tx_realty_pi1_DefaultListView
@@ -49,7 +49,7 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function canCreateAFavoritesListViewInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			tx_realty_pi1_ListViewFactory::make(
 				'favorites', array(), $this->cObjMock
 			) instanceof tx_realty_pi1_FavoritesListView
@@ -60,7 +60,7 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function canCreateAMyObjectsListViewInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			tx_realty_pi1_ListViewFactory::make(
 				'my_objects', array(), $this->cObjMock
 			) instanceof tx_realty_pi1_MyObjectsListView
@@ -71,7 +71,7 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function canCreateAnObjectsByOwnerListViewInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			tx_realty_pi1_ListViewFactory::make(
 				'objects_by_owner', array(), $this->cObjMock
 			) instanceof tx_realty_pi1_ObjectsByOwnerListView

@@ -45,7 +45,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 	public function renderForExistingCityPrependsEmptyOption() {
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
 
-		$this->assertContains(
+		self::assertContains(
 			'<option value="0">&nbsp;</option>',
 			tx_realty_Ajax_DistrictSelector::render($cityUid)
 		);
@@ -57,7 +57,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 	public function renderForInexistentCityPrependsEmptyOption() {
 		$cityUid = $this->testingFramework->getAutoIncrement('tx_realty_cities');
 
-		$this->assertContains(
+		self::assertContains(
 			'<option value="0">&nbsp;</option>',
 			tx_realty_Ajax_DistrictSelector::render($cityUid)
 		);
@@ -73,7 +73,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			array('title' => 'Kreuzberg', 'city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Kreuzberg',
 			tx_realty_Ajax_DistrictSelector::render($cityUid)
 		);
@@ -89,7 +89,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			array('title' => 'A & B', 'city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'A &amp; B',
 			tx_realty_Ajax_DistrictSelector::render($cityUid)
 		);
@@ -104,7 +104,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'<option value="' . $districtUid . '">',
 			tx_realty_Ajax_DistrictSelector::render($cityUid)
 		);
@@ -124,11 +124,11 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 
 		$output = tx_realty_Ajax_DistrictSelector::render($cityUid);
 
-		$this->assertContains(
+		self::assertContains(
 			'<option value="' . $districtUid1 . '">',
 			$output
 		);
-		$this->assertContains(
+		self::assertContains(
 			'<option value="' . $districtUid2 . '">',
 			$output
 		);
@@ -143,7 +143,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="' . $districtUid . '"',
 			tx_realty_Ajax_DistrictSelector::render($cityUid)
 		);
@@ -159,7 +159,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $otherCityUid)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'value="' . $districtUid . '"',
 			tx_realty_Ajax_DistrictSelector::render($cityUid)
 		);
@@ -185,7 +185,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('district' => $districtUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'Beuel (2)',
 			tx_realty_Ajax_DistrictSelector::render($cityUid, TRUE)
 		);
@@ -200,7 +200,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $cityUid)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'value="' . $districtUid . '"',
 			tx_realty_Ajax_DistrictSelector::render($cityUid, TRUE)
 		);
@@ -226,7 +226,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('district' => $districtUid)
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'Beuel (2)',
 			tx_realty_Ajax_DistrictSelector::render($cityUid, FALSE)
 		);
@@ -241,7 +241,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase {
 			'tx_realty_districts', array('city' => $cityUid)
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'value="' . $districtUid . '"',
 			tx_realty_Ajax_DistrictSelector::render($cityUid, FALSE)
 		);

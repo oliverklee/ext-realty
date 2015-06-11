@@ -55,7 +55,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsButtonBack() {
-		$this->assertContains(
+		self::assertContains(
 			'class="button singleViewBack"',
 			$this->fixture->render(array('showUid' => 0))
 		);
@@ -74,7 +74,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 			'enableNextPreviousButtons', FALSE
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'history.back();',
 			$this->fixture->render()
 		);
@@ -92,7 +92,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->piVars['listUid'] = $listUid;
 
-		$this->assertContains(
+		self::assertContains(
 			'history.back();',
 			$this->fixture->render()
 		);
@@ -113,7 +113,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->piVars['listUid'] = $listUid;
 
-		$this->assertContains(
+		self::assertContains(
 			'history.back();',
 			$this->fixture->render()
 		);
@@ -127,7 +127,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 			'enableNextPreviousButtons', TRUE
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'history.back();',
 			$this->fixture->render()
 		);
@@ -148,7 +148,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->piVars['listUid'] = $listUid;
 
-		$this->assertContains(
+		self::assertContains(
 			'history.back();',
 			$this->fixture->render()
 		);
@@ -172,7 +172,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		$this->fixture->piVars['listUid'] = $listUid;
 
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'history.back();',
 			$this->fixture->render()
 		);
@@ -194,7 +194,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->piVars['listUid'] = $listUid;
 
-		$this->assertContains(
+		self::assertContains(
 			'?id=' . $listViewPageUid,
 			$this->fixture->render()
 		);
@@ -218,7 +218,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		$this->fixture->piVars['listUid'] = $listUid;
 		$this->fixture->piVars['listViewLimitation'] = $listViewLimitation;
 
-		$this->assertContains(
+		self::assertContains(
 			'objectNumber]=foo',
 			$this->fixture->render()
 		);
@@ -241,7 +241,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		$this->fixture->piVars['listUid'] = $listUid;
 		$this->fixture->piVars['foo'] = 'bar';
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'foo',
 			$this->fixture->render()
 		);
@@ -259,7 +259,7 @@ class tx_realty_FrontEnd_BackButtonViewTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->piVars['listUid'] = 'fooo';
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'fooo',
 			$this->fixture->render()
 		);

@@ -126,7 +126,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsTheLabelOfAValidState() {
 		$this->realtyObject->setProperty('state', 8);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_state_8'),
 			$this->fixture->getProperty('state')
 		);
@@ -136,7 +136,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPropertyReturnsAnEmptyStringIfTheStateIsNotSet() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('state')
 		);
@@ -148,7 +148,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForState() {
 		$this->realtyObject->setProperty('state', 1000000);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('state')
 		);
@@ -160,7 +160,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsTheLabelOfAValidHeatingType() {
 		$this->realtyObject->setProperty('heating_type', '1');
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_heating_type_1'),
 			$this->fixture->getProperty('heating_type')
 		);
@@ -172,7 +172,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsTheLabelsOfAListOfValidHeatingTypes() {
 		$this->realtyObject->setProperty('heating_type', '1,3,4');
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_heating_type_1') . ', ' .
 				$this->fixture->translate('label_heating_type_3') . ', ' .
 				$this->fixture->translate('label_heating_type_4'),
@@ -184,7 +184,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPropertyReturnsAnEmptyStringIfTheHeatingTypeIsNotSet() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('heating_type')
 		);
@@ -196,7 +196,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsAnEmptyStringIfTheObjectHasAnInvalidValueForHeatingType() {
 		$this->realtyObject->setProperty('heating_type', 10000);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('heating_type')
 		);
@@ -208,7 +208,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsEmptyStringForCountrySameAsDefaultCountry() {
 		$this->realtyObject->setProperty('country', self::DE);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('country')
 		);
@@ -221,7 +221,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 		// randomly chosen the country UID of Australia
 		$this->realtyObject->setProperty('country', 14);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Australia',
 			$this->fixture->getProperty('country')
 		);
@@ -238,7 +238,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 				)
 			);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'test city',
 			$this->fixture->getProperty('city')
 		);
@@ -255,7 +255,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 				)
 			);
 
-		$this->assertEquals(
+		self::assertEquals(
 			htmlspecialchars('test<br/>city'),
 			$this->fixture->getProperty('city')
 		);
@@ -267,7 +267,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyFormatsEstateSizeWithTwoDecimals() {
 		$this->realtyObject->setProperty('estate_size', 123.40);
 
-		$this->assertSame(
+		self::assertSame(
 			'123.40&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('estate_size')
 		);
@@ -279,7 +279,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyFormatsEstateSizeWithThousandSeparator() {
 		$this->realtyObject->setProperty('estate_size', 12345.00);
 
-		$this->assertContains(
+		self::assertContains(
 			"12&#x202f;345",
 			$this->fixture->getProperty('estate_size')
 		);
@@ -291,7 +291,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForEstateSizeCutsOffAllZeroDecimals() {
 		$this->realtyObject->setProperty('estate_size', 123.00);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'123&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('estate_size')
 		);
@@ -303,7 +303,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsFormatsHoaFeeFormattedWithTwoWithDecimals() {
 		$this->realtyObject->setProperty('hoa_fee', 12345.67);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'&euro; 12.345,67',
 			$this->fixture->getProperty('hoa_fee')
 		);
@@ -315,7 +315,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForHoaFeeAddsZeroDecimals() {
 		$this->realtyObject->setProperty('hoa_fee', 12345);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'&euro; 12.345,00',
 			$this->fixture->getProperty('hoa_fee')
 		);
@@ -325,7 +325,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPropertyReturnsEmptyStringForUsableFromIfNoValueIsSet() {
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('usable_from')
 		);
@@ -337,7 +337,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsValueOfUsableFrom() {
 		$this->realtyObject->setProperty('usable_from', '1.1.');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'1.1.',
 			$this->fixture->getProperty('usable_from')
 		);
@@ -349,7 +349,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsHtmlspecialcharedValueOfUsableFrom() {
 		$this->realtyObject->setProperty('usable_from', '1.<br/>1.');
 
-		$this->assertEquals(
+		self::assertEquals(
 			htmlspecialchars('1.<br/>1.'),
 			$this->fixture->getProperty('usable_from')
 		);
@@ -361,7 +361,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsNonZeroValueOfFloor() {
 		$this->realtyObject->setProperty('floor', 3);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'3',
 			$this->fixture->getProperty('floor')
 		);
@@ -373,7 +373,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsEmptyStringForZeroValueOfFloor() {
 		$this->realtyObject->setProperty('floor', 0);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('floor')
 		);
@@ -387,7 +387,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 			'status', tx_realty_Model_RealtyObject::STATUS_VACANT
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_status_0'),
 			$this->fixture->getProperty('status')
 		);
@@ -401,7 +401,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 			'status', tx_realty_Model_RealtyObject::STATUS_RESERVED
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_status_1'),
 			$this->fixture->getProperty('status')
 		);
@@ -415,7 +415,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 			'status', tx_realty_Model_RealtyObject::STATUS_SOLD
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_status_2'),
 			$this->fixture->getProperty('status')
 		);
@@ -429,7 +429,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 			'status', tx_realty_Model_RealtyObject::STATUS_RENTED
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_status_3'),
 			$this->fixture->getProperty('status')
 		);
@@ -449,7 +449,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Main Street<br />12345 Test Town',
 			$this->fixture->getProperty('address')
 		);
@@ -461,7 +461,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForNumberOfRoomsWithTwoDecimalsReturnsNumberWithOneDecimal() {
 		$this->realtyObject->setProperty('number_of_rooms', 5.20);
 
-		$this->assertSame(
+		self::assertSame(
 			'5.2',
 			$this->fixture->getProperty('number_of_rooms')
 		);
@@ -473,7 +473,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForNumberOfBathroomsWithTwoDecimalsReturnsNumberWithOneDecimal() {
 		$this->realtyObject->setProperty('bathrooms', 5.20);
 
-		$this->assertSame(
+		self::assertSame(
 			'5.2',
 			$this->fixture->getProperty('bathrooms')
 		);
@@ -485,7 +485,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForNumberOfBedroomsWithTwoDecimalsReturnsNumberWithOneDecimal() {
 		$this->realtyObject->setProperty('bedrooms', 5.20);
 
-		$this->assertSame(
+		self::assertSame(
 			'5.2',
 			$this->fixture->getProperty('bedrooms')
 		);
@@ -497,7 +497,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForTotalUsableAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('total_usable_area', 123.45);
 
-		$this->assertSame(
+		self::assertSame(
 			'123.45&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('total_usable_area')
 		);
@@ -509,7 +509,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForTotalUsableAreaCutsOffAllZeroDecimals() {
 		$this->realtyObject->setProperty('total_usable_area', 123.00);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'123&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('total_usable_area')
 		);
@@ -521,7 +521,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForOfficeSpaceReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('office_space', 58.23);
 
-		$this->assertSame(
+		self::assertSame(
 			'58.23&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('office_space')
 		);
@@ -533,7 +533,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForShopAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('shop_area', 12.34);
 
-		$this->assertSame(
+		self::assertSame(
 			'12.34&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('shop_area')
 		);
@@ -545,7 +545,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForSalesAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('sales_area', 12.34);
 
-		$this->assertSame(
+		self::assertSame(
 			'12.34&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('sales_area')
 		);
@@ -557,7 +557,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForStorageAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('storage_area', 18.4);
 
-		$this->assertSame(
+		self::assertSame(
 			'18.40&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('storage_area')
 		);
@@ -569,7 +569,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForOtherAreaReturnsItAsFormattedArea() {
 		$this->realtyObject->setProperty('other_area', 12.34);
 
-		$this->assertSame(
+		self::assertSame(
 			'12.34&nbsp;' . $this->fixture->translate('label_squareMeters'),
 			$this->fixture->getProperty('other_area')
 		);
@@ -581,7 +581,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForSiteOccupancyIndexReturnsItAsFormattedDecimal() {
 		$this->realtyObject->setProperty('site_occupancy_index', 19.40);
 
-		$this->assertSame(
+		self::assertSame(
 			'19.40',
 			$this->fixture->getProperty('site_occupancy_index')
 		);
@@ -593,7 +593,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForFloorSpaceIndexReturnsItAsFormattedDecimal() {
 		$this->realtyObject->setProperty('floor_space_index', 19.48);
 
-		$this->assertSame(
+		self::assertSame(
 			'19.48',
 			$this->fixture->getProperty('floor_space_index')
 		);
@@ -605,7 +605,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForWindowBankReturnsItAsFormattedWidth() {
 		$this->realtyObject->setProperty('window_bank', 12.34);
 
-		$this->assertSame(
+		self::assertSame(
 			'12.34&nbsp;' . $this->fixture->translate('label_meter'),
 			$this->fixture->getProperty('window_bank')
 		);
@@ -617,7 +617,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsRentPerSquareMeterAsFormattedPriceWithDecimals() {
 		$this->realtyObject->setProperty('rent_per_square_meter', 12345.67);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'&euro; 12.345,67',
 			$this->fixture->getProperty('rent_per_square_meter')
 		);
@@ -629,7 +629,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForRentPerSquareMeterAddsZeroDecimals() {
 		$this->realtyObject->setProperty('rent_per_square_meter', 12345);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'&euro; 12.345,00',
 			$this->fixture->getProperty('rent_per_square_meter')
 		);
@@ -641,7 +641,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsRentalIncomeTargetAsFormattedPriceWithDecimals() {
 		$this->realtyObject->setProperty('rental_income_target', 12345.67);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'&euro; 12.345,67',
 			$this->fixture->getProperty('rental_income_target')
 		);
@@ -653,7 +653,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyReturnsParkingSpacesAsInteger() {
 		$this->realtyObject->setProperty('parking_spaces', 3);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'3',
 			$this->fixture->getProperty('parking_spaces')
 		);
@@ -665,7 +665,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForExistingFurnishingCategoryReturnsCategoryLabel() {
 		$this->realtyObject->setProperty('furnishing_category', 1);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_furnishing_category_1'),
 			$this->fixture->getProperty('furnishing_category')
 		);
@@ -677,7 +677,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForInvalidFurnishingCategoryReturnsEmptyString() {
 		$this->realtyObject->setProperty('furnishing_category', 42);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('furnishing_category')
 		);
@@ -689,7 +689,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForExistingFlooringReturnsFlooringLabel() {
 		$this->realtyObject->setProperty('flooring', 1);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$this->fixture->translate('label_flooring_1'),
 			$this->fixture->getProperty('flooring')
 		);
@@ -703,12 +703,12 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 
 		$property = $this->fixture->getProperty('flooring');
 
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_flooring_1'),
 			$property,
 			'First flooring label was not found.'
 		);
-		$this->assertContains(
+		self::assertContains(
 			$this->fixture->translate('label_flooring_2'),
 			$property,
 			'Second flooring label was not found.'
@@ -721,7 +721,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForInvalidFlooringReturnsEmptyString() {
 		$this->realtyObject->setProperty('flooring', 42);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getProperty('flooring')
 		);
@@ -735,7 +735,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 
 		$this->realtyObject->setProperty('window_bank', 12.34);
 
-		$this->assertSame(
+		self::assertSame(
 			'42&nbsp;' . $this->fixture->translate('label_meter'),
 			$this->fixture->getProperty('distance_to_the_sea')
 		);
@@ -747,7 +747,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForZeroDistanceToTheSeaReturnsEmptyString() {
 		$this->realtyObject->setDistanceToTheSea(0);
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->fixture->getProperty('distance_to_the_sea')
 		);
@@ -759,7 +759,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForSeaViewReturnsYes() {
 		$this->realtyObject->setProperty('sea_view', 1);
 
-		$this->assertSame(
+		self::assertSame(
 			$this->fixture->translate('message_yes'),
 			$this->fixture->getProperty('sea_view')
 		);
@@ -771,7 +771,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	public function getPropertyForNonSeaViewReturnsEmptyString() {
 		$this->realtyObject->setProperty('sea_view', 0);
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->fixture->getProperty('sea_view')
 		);
@@ -786,7 +786,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalForZeroReturnsEmptyString() {
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->fixture->formatDecimal(0)
 		);
@@ -796,7 +796,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalForFloatWithAllZeroDecimalsReturnsNumberWithoutDecimals() {
-		$this->assertSame(
+		self::assertSame(
 			'4',
 			$this->fixture->formatDecimal(4.00)
 		);
@@ -806,7 +806,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalForFloatWithOnceDecimalReturnsNumberWithTwoDecimals() {
-		$this->assertSame(
+		self::assertSame(
 			'4.50',
 			$this->fixture->formatDecimal(4.50)
 		);
@@ -816,7 +816,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalForFloatWithTwoNonZeroDecimalsReturnsNumberWithBothDecimals() {
-		$this->assertEquals(
+		self::assertEquals(
 			'4.55',
 			$this->fixture->formatDecimal(4.55)
 		);
@@ -826,7 +826,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalForFloatWithThreeDecimalsLastDecimalLowerThanFiveReturnsNumberWithOnlyTwoDecimals() {
-		$this->assertEquals(
+		self::assertEquals(
 			'4.55',
 			$this->fixture->formatDecimal(4.553)
 		);
@@ -836,7 +836,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalForFloatWithThreeDecimalsLastDecimalFiveReturnsNumberWithLastDecimalRoundedUp() {
-		$this->assertEquals(
+		self::assertEquals(
 			'4.56',
 			$this->fixture->formatDecimal(4.555)
 		);
@@ -846,7 +846,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalCanRoundToOneDecimal() {
-		$this->assertEquals(
+		self::assertEquals(
 			'4.1',
 			$this->fixture->formatDecimal(4.1234, 1)
 		);
@@ -856,7 +856,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalCanRoundToTwoDecimals() {
-		$this->assertEquals(
+		self::assertEquals(
 			'4.12',
 			$this->fixture->formatDecimal(4.1234, 2)
 		);
@@ -866,7 +866,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formatDecimalCanRoundToThreeDecimals() {
-		$this->assertEquals(
+		self::assertEquals(
 			'4.123',
 			$this->fixture->formatDecimal(4.1234, 3)
 		);

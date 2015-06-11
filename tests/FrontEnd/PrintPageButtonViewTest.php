@@ -56,7 +56,7 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderReturnsButtonPrint() {
-		$this->assertContains(
+		self::assertContains(
 			'class="button printPage"',
 			$this->fixture->render(array('showUid' => 0))
 		);

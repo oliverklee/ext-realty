@@ -44,7 +44,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function fixtureIsInstanceOfOelibFrontEndUser() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture instanceof tx_oelib_Model_FrontEndUser
 		);
 	}
@@ -84,7 +84,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function createObjectCreatesObjectInDatabase() {
 		$createdObjectUid = $this->createObject();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->testingFramework->existsRecordWithUid(
 				'tx_realty_objects', $createdObjectUid
 			)
@@ -97,7 +97,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function createObjectReturnsPositiveUid() {
 		$createdObjectUid = $this->createObject();
 
-		$this->assertGreaterThan(
+		self::assertGreaterThan(
 			0,
 			$createdObjectUid
 		);
@@ -110,7 +110,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->createObject($userUid);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->testingFramework->existsExactlyOneRecord(
 				'tx_realty_objects',
 				'title="foo" and owner=' . $userUid
@@ -125,7 +125,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->createObject();
 		$this->createObject();
 
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -145,7 +145,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getTotalNumberOfAllowedObjectsForUserWithNoMaximumObjectsSetReturnsZero() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->getTotalNumberOfAllowedObjects()
 		);
@@ -157,7 +157,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getTotalNumberOfAllowedObjectsForUserWithNonZeroMaximumObjectsReturnsMaximumObjectsValue() {
 		$this->fixture->setData(array('tx_realty_maximum_objects' => 42));
 
-		$this->assertEquals(
+		self::assertEquals(
 			42,
 			$this->fixture->getTotalNumberOfAllowedObjects()
 		);
@@ -175,7 +175,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$userUid = $this->testingFramework->createFrontEndUser();
 		$this->fixture->setData(array('uid' => $userUid));
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->getNumberOfObjects()
 		);
@@ -189,7 +189,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setData(array('uid' => $userUid));
 		$this->createObject($userUid);
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->fixture->getNumberOfObjects()
 		);
@@ -204,7 +204,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->createObject($userUid);
 		$this->createObject($userUid);
 
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$this->fixture->getNumberOfObjects()
 		);
@@ -223,7 +223,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setData(array('uid' => $userUid));
 		$this->fixture->getNumberOfObjects();
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->getObjectsLeftToEnter()
 		);
@@ -243,7 +243,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->createObject($userUid);
 		$this->fixture->getNumberOfObjects();
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->getObjectsLeftToEnter()
 		);
@@ -264,7 +264,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->createObject($userUid);
 		$this->fixture->getNumberOfObjects();
 
-		$this->assertEquals(
+		self::assertEquals(
 			0,
 			$this->fixture->getObjectsLeftToEnter()
 		);
@@ -283,7 +283,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->getNumberOfObjects();
 
-		$this->assertEquals(
+		self::assertEquals(
 			2,
 			$this->fixture->getObjectsLeftToEnter()
 		);
@@ -303,7 +303,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->createObject($userUid);
 		$this->fixture->getNumberOfObjects();
 
-		$this->assertEquals(
+		self::assertEquals(
 			1,
 			$this->fixture->getObjectsLeftToEnter()
 		);
@@ -325,7 +325,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->canAddNewObjects()
 		);
 	}
@@ -343,7 +343,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 		$this->createObject($userUid);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->canAddNewObjects()
 		);
 	}
@@ -361,7 +361,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 		$this->createObject($userUid);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->canAddNewObjects()
 		);
 	}
@@ -380,7 +380,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->createObject($userUid);
 		$this->createObject($userUid);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->canAddNewObjects()
 		);
 	}
@@ -398,7 +398,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 		$this->createObject($userUid);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->canAddNewObjects()
 		);
 	}
@@ -422,7 +422,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->fixture->canAddNewObjects();
 		$this->createObject($userUid);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->canAddNewObjects()
 		);
 	}
@@ -442,7 +442,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->createObject($userUid);
 		$this->fixture->resetObjectsHaveBeenCalculated();
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->canAddNewObjects()
 		);
 	}
@@ -458,7 +458,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getOpenImmoOffererIdForNoDataReturnsEmptyString() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->getOpenImmoOffererId()
 		);
@@ -472,7 +472,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			array('tx_realty_openimmo_anid' => 'some complicated ID')
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			'some complicated ID',
 			$this->fixture->getOpenImmoOffererId()
 		);
@@ -486,7 +486,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			array('tx_realty_openimmo_anid' => '')
 		);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->fixture->hasOpenImmoOffererId()
 		);
 	}
@@ -499,7 +499,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			array('tx_realty_openimmo_anid' => 'some complicated ID')
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->hasOpenImmoOffererId()
 		);
 	}

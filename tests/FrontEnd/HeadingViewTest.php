@@ -58,7 +58,7 @@ class tx_realty_FrontEnd_HeadingViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -75,11 +75,11 @@ class tx_realty_FrontEnd_HeadingViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertNotEquals(
+		self::assertNotEquals(
 			'',
 			$result
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$result
 		);
@@ -92,7 +92,7 @@ class tx_realty_FrontEnd_HeadingViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test title'));
 
-		$this->assertContains(
+		self::assertContains(
 			'test title',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -105,7 +105,7 @@ class tx_realty_FrontEnd_HeadingViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => 'test</br>title'));
 
-		$this->assertContains(
+		self::assertContains(
 			htmlspecialchars('test</br>title'),
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);
@@ -118,7 +118,7 @@ class tx_realty_FrontEnd_HeadingViewTest extends Tx_Phpunit_TestCase {
 		$realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
 			->getLoadedTestingModel(array('title' => ''));
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $realtyObject->getUid()))
 		);

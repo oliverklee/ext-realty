@@ -70,7 +70,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 			array('showUid' => $realtyObject->getUid())
 		);
 
-		$this->assertNotContains(
+		self::assertNotContains(
 			'###',
 			$result
 		);
@@ -87,7 +87,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 	public function renderForObjectWithoutDocumentsReturnsEmptyString() {
 		$uid = $this->realtyObjectMapper->getLoadedTestingModel(array())->getUid();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'',
 			$this->fixture->render(array('showUid' => $uid))
 		);
@@ -101,7 +101,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('object layout', 'foo.pdf');
 
-		$this->assertContains(
+		self::assertContains(
 			'object layout',
 			$this->fixture->render(array('showUid' => $object->getUid()))
 		);
@@ -115,7 +115,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('rise & shine', 'foo.pdf');
 
-		$this->assertContains(
+		self::assertContains(
 			'rise &amp; shine',
 			$this->fixture->render(array('showUid' => $object->getUid()))
 		);
@@ -132,12 +132,12 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 
 		$result = $this->fixture->render(array('showUid' => $object->getUid()));
 
-		$this->assertContains(
+		self::assertContains(
 			'object layout',
 			$result,
 			'The first title is missing.'
 		);
-		$this->assertContains(
+		self::assertContains(
 			'object overview',
 			$result,
 			'The second title is missing.'
@@ -152,7 +152,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 		$object = $this->realtyObjectMapper->getLoadedTestingModel(array());
 		$object->addDocument('object layout', 'foo.pdf');
 
-		$this->assertContains(
+		self::assertContains(
 			'foo.pdf"',
 			$this->fixture->render(array('showUid' => $object->getUid()))
 		);
@@ -169,12 +169,12 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 
 		$result = $this->fixture->render(array('showUid' => $object->getUid()));
 
-		$this->assertContains(
+		self::assertContains(
 			'foo.pdf',
 			$result,
 			'The first title is missing.'
 		);
-		$this->assertContains(
+		self::assertContains(
 			'bar.pdf',
 			$result,
 			'The second title is missing.'

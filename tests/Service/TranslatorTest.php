@@ -34,7 +34,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 			->setAsString('cliLanguage', 'de');
 		$this->fixture = new tx_realty_translator();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Erlaubt',
 			$this->fixture->translate('label_allowed')
 		);
@@ -48,7 +48,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 			->setAsString('cliLanguage', 'en');
 		$this->fixture = new tx_realty_translator();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Allowed',
 			$this->fixture->translate('label_allowed')
 		);
@@ -62,7 +62,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 			->setAsString('cliLanguage', 'xy');
 		$this->fixture = new tx_realty_translator();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Allowed',
 			$this->fixture->translate('label_allowed')
 		);
@@ -76,7 +76,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 			->setAsString('cliLanguage', '');
 		$this->fixture = new tx_realty_translator();
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Allowed',
 			$this->fixture->translate('label_allowed')
 		);

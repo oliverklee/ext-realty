@@ -40,7 +40,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase {
 	public function getTitleWithNonEmptyTitleReturnsTitle() {
 		$this->fixture->setData(array('title' => 'Bad Godesberg'));
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Bad Godesberg',
 			$this->fixture->getTitle()
 		);
@@ -52,7 +52,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase {
 	public function setTitleSetsTitle() {
 		$this->fixture->setTitle('Bad Godesberg');
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Bad Godesberg',
 			$this->fixture->getTitle()
 		);
@@ -79,7 +79,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setData(array('city' => $city));
 
-		$this->assertSame(
+		self::assertSame(
 			$city,
 			$this->fixture->getCity()
 		);
@@ -93,7 +93,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->setCity($city);
 
-		$this->assertSame(
+		self::assertSame(
 			$city,
 			$this->fixture->getCity()
 		);
@@ -105,7 +105,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase {
 	public function getCityAfterSetCityWithNullReturnsNull() {
 		$this->fixture->setCity(NULL);
 
-		$this->assertNull(
+		self::assertNull(
 			$this->fixture->getCity()
 		);
 	}

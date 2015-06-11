@@ -51,7 +51,7 @@ class tx_realty_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsFrontEndUserInstance() {
 		$uid = $this->testingFramework->createFrontEndUser();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->find($uid) instanceof tx_realty_Model_FrontEndUser
 		);
 	}

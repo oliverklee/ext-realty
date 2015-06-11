@@ -49,7 +49,7 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidReturnsImageInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->fixture->find(1) instanceof tx_realty_Model_Image
 		);
 	}
@@ -64,7 +64,7 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase {
 
 		/** @var tx_realty_Model_Image $model */
 		$model = $this->fixture->find($uid);
-		$this->assertEquals(
+		self::assertEquals(
 			'a nice green lawn',
 			$model->getTitle()
 		);
@@ -86,7 +86,7 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase {
 			array('object' => $realtyObject->getUid())
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$realtyObject,
 			$image->getObject()
 		);
@@ -110,7 +110,7 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase {
 		$model = $this->fixture->find($uid);
 		$this->fixture->delete($model);
 
-		$this->assertFalse(
+		self::assertFalse(
 			file_exists($dummyFile)
 		);
 	}

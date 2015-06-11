@@ -57,10 +57,10 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeMainJavaScript();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'tx_realty_pi1.js',
 			$additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID]
 		);
@@ -78,12 +78,12 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
 			])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'lightbox.css',
 			$additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
@@ -101,7 +101,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertFalse(
+		self::assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
 			])
@@ -115,12 +115,12 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
 			])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'prototype.js',
 			$additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
@@ -138,7 +138,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertFalse(
+		self::assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
 			])
@@ -152,12 +152,12 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
 			])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'scriptaculous.js',
 			$additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
@@ -175,7 +175,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertFalse(
+		self::assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
 			])
@@ -189,12 +189,12 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
 			])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'lightbox.js',
 			$additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
@@ -212,7 +212,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertFalse(
+		self::assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
 			])
@@ -226,12 +226,12 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
 			])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'LightboxOptions',
 			$additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
@@ -249,7 +249,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includeLightboxFiles();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertFalse(
+		self::assertFalse(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
 			])
@@ -268,12 +268,12 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includePrototype();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
 			])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'prototype.js',
 			$additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
@@ -291,12 +291,12 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 		tx_realty_lightboxIncluder::includePrototype();
 
 		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		$this->assertTrue(
+		self::assertTrue(
 			isset($additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
 			])
 		);
-		$this->assertContains(
+		self::assertContains(
 			'prototype.js',
 			$additionalHeaderData[
 				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'

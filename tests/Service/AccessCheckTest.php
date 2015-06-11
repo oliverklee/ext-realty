@@ -107,7 +107,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
 		}
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Status: 404 Not Found',
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
@@ -169,7 +169,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
 		}
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Status: 403 Forbidden',
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
@@ -234,7 +234,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 1));
-		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
+		$user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
@@ -251,7 +251,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 1));
-		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(1));
+		$user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$objectUid = $this->testingFramework->createRecord(
@@ -268,7 +268,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		/** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
 		$user->setData(array('tx_realty_maximum_objects' => 1));
-		$user->expects($this->any())->method('getNumberOfObjects')->will($this->returnValue(0));
+		$user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(0));
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
@@ -345,7 +345,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
 		}
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Status: 404 Not Found',
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
@@ -407,7 +407,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
 		}
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Status: 403 Forbidden',
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
@@ -488,7 +488,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
 		}
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Status: 404 Not Found',
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
@@ -550,7 +550,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		} catch (tx_oelib_Exception_AccessDenied $exception) {
 		}
 
-		$this->assertEquals(
+		self::assertEquals(
 			'Status: 403 Forbidden',
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->getLastAddedHeader()
 		);
