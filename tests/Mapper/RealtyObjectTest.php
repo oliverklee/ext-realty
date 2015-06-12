@@ -199,7 +199,9 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function findByObjectNumberAndObjectIdAndLanguageForAllParametersEmptyNotThrowsException() {
+	public function findByObjectNumberAndObjectIdAndLanguageForAllParametersEmptyAndExistingMatchNotThrowsException() {
+		$this->fixture->getLoadedTestingModel(array('object_number' => '', 'openimmo_obid' => '', 'language' => ''));
+
 		$this->fixture->findByObjectNumberAndObjectIdAndLanguage('', '', '');
 	}
 

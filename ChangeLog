@@ -5,6 +5,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5336] Test crash in the RealtyMapper tests with an empty DB
 - [#5333] Update the FORMidable download link
 - [#5280] Download link to FORMidable is split across several lines
 - [#5249] Missing comma in tca.php
