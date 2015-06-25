@@ -14,6 +14,7 @@ Changes:
 - [#5254] Document the Prototype/jQuery clash
 
 Cleanup:
+- [#5344] Clean up the OpenImmo import classes
 - [#5205] Drop global variables from pi1_wizicon
 
 
