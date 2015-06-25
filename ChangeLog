@@ -5,6 +5,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5337] Crash when deleting and updating an object in the same import
 - [#5336] Test crash in the RealtyMapper tests with an empty DB
 - [#5333] Update the FORMidable download link
 - [#5280] Download link to FORMidable is split across several lines

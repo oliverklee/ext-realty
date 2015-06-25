@@ -914,39 +914,171 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function recordIsWrittenToTheDatabaseIfRequiredFieldsAreSet() {
-		$this->testingFramework->markTableAsDirty(
-			'tx_realty_objects'.','.'tx_realty_house_types'
-		);
+	public function addWithAllRequiredFieldsSavesNewRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
 
 		$objectNumber = 'bar1234567';
 		$dummyDocument = new DOMDocument();
 		$dummyDocument->loadXML(
 			'<openimmo>'
-				.'<anbieter>'
-					.'<immobilie>'
-						.'<objektkategorie>'
-							.'<nutzungsart WOHNEN="1"/>'
-							.'<vermarktungsart KAUF="1"/>'
-							.'<objektart><zimmer/></objektart>'
-						.'</objektkategorie>'
-						.'<geo>'
-							.'<plz>bar</plz>'
-						.'</geo>'
-						.'<kontaktperson>'
-							.'<name>bar</name>'
-							.'<email_zentrale>bar</email_zentrale>'
-						.'</kontaktperson>'
-						.'<verwaltung_techn>'
-							.'<openimmo_obid>foo</openimmo_obid>'
-							.'<aktion/>'
-							.'<objektnr_extern>'.$objectNumber.'</objektnr_extern>'
-						.'</verwaltung_techn>'
-					.'</immobilie>'
-					.'<openimmo_anid>foo</openimmo_anid>'
-					.'<firma>bar</firma>'
-				.'</anbieter>'
-			.'</openimmo>'
+				. '<anbieter>'
+					. '<immobilie>'
+						. '<objektkategorie>'
+							. '<nutzungsart WOHNEN="1"/>'
+							. '<vermarktungsart KAUF="1"/>'
+							. '<objektart><zimmer/></objektart>'
+						. '</objektkategorie>'
+						. '<geo>'
+							. '<plz>bar</plz>'
+						. '</geo>'
+						. '<kontaktperson>'
+							. '<name>bar</name>'
+							. '<email_zentrale>bar</email_zentrale>'
+						. '</kontaktperson>'
+						. '<verwaltung_techn>'
+							. '<openimmo_obid>foo</openimmo_obid>'
+							. '<aktion/>'
+							. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+						. '</verwaltung_techn>'
+					. '</immobilie>'
+					. '<openimmo_anid>foo</openimmo_anid>'
+					. '<firma>bar</firma>'
+				. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertTrue(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function updateWithAllRequiredFieldsSavesNewRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+				. '<anbieter>'
+					. '<immobilie>'
+						. '<objektkategorie>'
+							. '<nutzungsart WOHNEN="1"/>'
+							. '<vermarktungsart KAUF="1"/>'
+							. '<objektart><zimmer/></objektart>'
+						. '</objektkategorie>'
+						. '<geo>'
+							. '<plz>bar</plz>'
+						. '</geo>'
+						. '<kontaktperson>'
+							. '<name>bar</name>'
+							. '<email_zentrale>bar</email_zentrale>'
+						. '</kontaktperson>'
+						. '<verwaltung_techn>'
+							. '<openimmo_obid>foo</openimmo_obid>'
+							. '<aktion aktionart="CHANGE"/>'
+							. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+						. '</verwaltung_techn>'
+					. '</immobilie>'
+					. '<openimmo_anid>foo</openimmo_anid>'
+					. '<firma>bar</firma>'
+				. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertTrue(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteWithAllRequiredFieldsWithoutRecordInDatabaseNotSavesNewRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+				. '<anbieter>'
+					. '<immobilie>'
+						. '<objektkategorie>'
+							. '<nutzungsart WOHNEN="1"/>'
+							. '<vermarktungsart KAUF="1"/>'
+							. '<objektart><zimmer/></objektart>'
+						. '</objektkategorie>'
+						. '<geo>'
+							. '<plz>bar</plz>'
+						. '</geo>'
+						. '<kontaktperson>'
+							. '<name>bar</name>'
+							. '<email_zentrale>bar</email_zentrale>'
+						. '</kontaktperson>'
+						. '<verwaltung_techn>'
+							. '<openimmo_obid>foo</openimmo_obid>'
+							. '<aktion aktionart="DELETE"/>'
+							. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+						. '</verwaltung_techn>'
+					. '</immobilie>'
+					. '<openimmo_anid>foo</openimmo_anid>'
+					. '<firma>bar</firma>'
+				. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertFalse(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectData = '<immobilie>'
+		. '<objektkategorie>'
+		. '<nutzungsart WOHNEN="1"/>'
+		. '<vermarktungsart KAUF="1"/>'
+		. '<objektart><zimmer/></objektart>'
+		. '</objektkategorie>'
+		. '<geo>'
+		. '<plz>bar</plz>'
+		. '</geo>'
+		. '<kontaktperson>'
+		. '<name>bar</name>'
+		. '<email_zentrale>bar</email_zentrale>'
+		. '</kontaktperson>'
+		. '<verwaltung_techn>'
+		. '<openimmo_obid>foo</openimmo_obid>'
+		. '<aktion/>'
+		. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+		. '</verwaltung_techn>'
+		. '</immobilie>';
+
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. $objectData . $objectData
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
 		);
 
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
@@ -954,73 +1086,108 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		self::assertSame(
 			1,
-			$this->testingFramework->countRecords(
-				'tx_realty_objects',
-				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
-			)
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function existingNonHiddenRecordCanBeSetToDeletedInTheDatabase() {
-		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
+	public function updateWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
 
 		$objectNumber = 'bar1234567';
-		$objectId = 'foo';
-		$this->testingFramework->createRecord(
-			'tx_realty_objects',
-			array('object_number' => $objectNumber, 'openimmo_obid' => $objectId)
-		);
+		$objectData = '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>';
+
 		$dummyDocument = new DOMDocument();
 		$dummyDocument->loadXML(
-			'<openimmo>' .
-				'<anbieter>' .
-					'<immobilie>' .
-						'<objektkategorie>' .
-							'<nutzungsart WOHNEN="1"/>' .
-							'<vermarktungsart KAUF="1"/>' .
-							'<objektart><zimmer/></objektart>' .
-						'</objektkategorie>' .
-						'<geo>' .
-							'<plz>bar</plz>' .
-						'</geo>' .
-						'<kontaktperson>' .
-							'<name>bar</name>' .
-							'<email_zentrale>bar</email_zentrale>' .
-						'</kontaktperson>' .
-						'<verwaltung_techn>' .
-							'<openimmo_obid>' . $objectId . '</openimmo_obid>' .
-							'<aktion aktionart="DELETE" />' .
-							'<objektnr_extern>' . $objectNumber . '</objektnr_extern>' .
-						'</verwaltung_techn>' .
-					'</immobilie>' .
-					'<openimmo_anid>foo</openimmo_anid>' .
-					'<firma>bar</firma>' .
-				'</anbieter>' .
-			'</openimmo>'
+			'<openimmo>'
+			. '<anbieter>'
+			. $objectData . $objectData
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
 		);
 
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
 		self::assertSame(
-			0,
-			$this->testingFramework->countRecords(
-				'tx_realty_objects',
-				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
-			)
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function existingHiddenRecordCanBeSetToDeletedInTheDatabase() {
-		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
+	public function deleteWithTwoIdenticalObjectsWithAllRequiredFieldsWithoutRecordInDatabaseNotSavesNewRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectData = '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="DELETE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>';
+
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. $objectData . $objectData
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertFalse(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addWithAllRequiredFieldsUpdatesMatchingExistingRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
 
 		$objectNumber = 'bar1234567';
 		$objectId = 'foo';
@@ -1029,36 +1196,752 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			array(
 				'object_number' => $objectNumber,
 				'openimmo_obid' => $objectId,
-				'hidden' => TRUE,
 			)
 		);
 		$dummyDocument = new DOMDocument();
 		$dummyDocument->loadXML(
-			'<openimmo>' .
-				'<anbieter>' .
-					'<immobilie>' .
-						'<objektkategorie>' .
-							'<nutzungsart WOHNEN="1"/>' .
-							'<vermarktungsart KAUF="1"/>' .
-							'<objektart><zimmer/></objektart>' .
-						'</objektkategorie>' .
-						'<geo>' .
-							'<plz>bar</plz>' .
-						'</geo>' .
-						'<kontaktperson>' .
-							'<name>bar</name>' .
-							'<email_zentrale>bar</email_zentrale>' .
-						'</kontaktperson>' .
-						'<verwaltung_techn>' .
-							'<openimmo_obid>' . $objectId . '</openimmo_obid>' .
-							'<aktion aktionart="DELETE" />' .
-							'<objektnr_extern>' . $objectNumber . '</objektnr_extern>' .
-						'</verwaltung_techn>' .
-					'</immobilie>' .
-					'<openimmo_anid>foo</openimmo_anid>' .
-					'<firma>bar</firma>' .
-				'</anbieter>' .
-			'</openimmo>'
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>' . $objectId .  '</openimmo_obid>'
+			. '<aktion/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function updateWithAllRequiredFieldsUpdatesMatchingExistingRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>' . $objectId . '</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteWithAllRequiredFieldsMarksMatchingExistingRecordAsDeleted() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>' . $objectId . '</openimmo_obid>'
+			. '<aktion aktionart="DELETE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertFalse(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+		);
+		self::assertTrue(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteTwoTimesWithAllRequiredFieldsMarksMatchingExistingRecordAsDeleted() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+			)
+		);
+
+		$objectData = '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>' . $objectId . '</openimmo_obid>'
+			. '<aktion aktionart="DELETE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>';
+
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. $objectData . $objectData
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertFalse(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+		);
+		self::assertTrue(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addWithAllRequiredFieldsAndMatchingExistingDeletedRecordCreatesNewRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+				'deleted' => 1,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>' . $objectId .  '</openimmo_obid>'
+			. '<aktion/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+		);
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function updateWithAllRequiredFieldsAndMatchingExistingDeletedRecordCreatesNewRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+				'deleted' => 1,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>' . $objectId . '</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+		);
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteWithAllRequiredFieldsWithMatchingExistingDeletedRecordNotAddsSecondDeletedRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+				'deleted' => 1,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>' . $objectId . '</openimmo_obid>'
+			. '<aktion aktionart="DELETE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertFalse(
+			$this->testingFramework->existsRecord('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0')
+		);
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addWithAllRequiredFieldsUpdatesMatchingExistingHiddenRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+				'hidden' => 1,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>' . $objectId .  '</openimmo_obid>'
+			. '<aktion/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 1')
+		);
+		self::assertSame(
+			0,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 0')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function updateWithAllRequiredFieldsUpdatesMatchingExistingHiddenRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+				'hidden' => 1,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>' . $objectId . '</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 1')
+		);
+		self::assertSame(
+			0,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '" AND hidden = 0')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteWithAllRequiredFieldsMarksMatchingExistingHiddenRecordAsDeleted() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$objectId = 'foo';
+		$this->testingFramework->createRecord(
+			'tx_realty_objects',
+			array(
+				'object_number' => $objectNumber,
+				'openimmo_obid' => $objectId,
+				'hidden' => 1,
+			)
+		);
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>' . $objectId . '</openimmo_obid>'
+			. '<aktion aktionart="DELETE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0 AND hidden = 1'
+			)
+		);
+		self::assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 0 AND hidden = 0'
+			)
+		);
+		self::assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1 AND hidden = 0'
+			)
+		);
+		self::assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_realty_objects', 'object_number="' . $objectNumber . '" AND deleted = 1 AND hidden = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addAndChangeWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function changeAndAddWithTwoIdenticalObjectsWithAllRequiredFieldsSavesExactlyOneRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteAndChangeWithTwoIdenticalObjectsWithAllRequiredFieldsSavesNoRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="DELETE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
 		);
 
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
@@ -1066,11 +1949,211 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		self::assertSame(
 			0,
-			$this->testingFramework->countRecords(
-				'tx_realty_objects',
-				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects', 1)
-			)
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function changeAndDeleteWithTwoIdenticalObjectsWithAllRequiredFieldsSavesOneRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>'
+			. '<anbieter>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="CHANGE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<immobilie>'
+			. '<objektkategorie>'
+			. '<nutzungsart WOHNEN="1"/>'
+			. '<vermarktungsart KAUF="1"/>'
+			. '<objektart><zimmer/></objektart>'
+			. '</objektkategorie>'
+			. '<geo>'
+			. '<plz>bar</plz>'
+			. '</geo>'
+			. '<kontaktperson>'
+			. '<name>bar</name>'
+			. '<email_zentrale>bar</email_zentrale>'
+			. '</kontaktperson>'
+			. '<verwaltung_techn>'
+			. '<openimmo_obid>foo</openimmo_obid>'
+			. '<aktion aktionart="DELETE"/>'
+			. '<objektnr_extern>' . $objectNumber . '</objektnr_extern>'
+			. '</verwaltung_techn>'
+			. '</immobilie>'
+			. '<openimmo_anid>foo</openimmo_anid>'
+			. '<firma>bar</firma>'
+			. '</anbieter>'
+			. '</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			1,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function changeAndAddDeleteWithTwoIdenticalObjectsWithAllRequiredFieldsAndContactDataNotSavesAnyRecord() {
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
+
+		$objectNumber = 'bar1234567';
+		$dummyDocument = new DOMDocument();
+		$dummyDocument->loadXML(
+			'<openimmo>
+			<uebertragung xmlns="" art="OFFLINE" umfang="TEIL" modus="CHANGE" version="1.2.4" sendersoftware="OOF" senderversion="$Rev: 49210 $" techn_email="heidi.loehr@lob-immobilien.de" timestamp="2015-06-22T13:55:07.0+00:00"/>
+			<anbieter xmlns="">
+			<firma>Doe Immobilien</firma>
+			<openimmo_anid>123456</openimmo_anid>
+
+			<immobilie>
+			<objektkategorie>
+			<nutzungsart WOHNEN="1" GEWERBE="0"/>
+			<vermarktungsart KAUF="1" MIETE_PACHT="0"/>
+			<objektart>
+			<wohnung wohnungtyp="ETAGE"/>
+			</objektart>
+			</objektkategorie>
+			<geo>
+			<plz>55127</plz>
+			<ort>Mainz / Lerchenberg</ort>
+			<strasse>Rubensallee</strasse>
+			<hausnummer>1</hausnummer>
+			<land iso_land="DEU"/>
+			<etage>3</etage>
+			<anzahl_etagen>7</anzahl_etagen>
+			</geo>
+			<kontaktperson>
+			<email_zentrale>offerer@example.com</email_zentrale>
+			<email_direkt>offerer@example.com</email_direkt>
+			<name>Doe</name>
+			<vorname>Jane</vorname>
+			<anrede>Frau</anrede>
+			<anrede_brief>Sehr geehrte Frau Doe,</anrede_brief>
+			<firma>Doe Immobilien</firma>
+			<zusatzfeld/>
+			<strasse>Dessauer Straße</strasse>
+			<hausnummer>1</hausnummer>
+			<plz>55000</plz>
+			<ort>Bad Kreuznach</ort>
+			<land iso_land="DEU"/>
+			<url>www.oliverklee.de</url>
+			</kontaktperson>
+			<preise>
+			<kaufpreis>149000.00</kaufpreis>
+			<hausgeld>345.00</hausgeld>
+			<aussen_courtage mit_mwst="1">5,95 % inkl. 19% MwSt.</aussen_courtage>
+			<waehrung iso_waehrung="EUR"/>
+			<stp_carport stellplatzmiete="0.00" anzahl="0"/>
+			<stp_duplex stellplatzmiete="0.00" anzahl="0"/>
+			<stp_freiplatz stellplatzmiete="0.00" anzahl="1"/>
+			<stp_garage stellplatzmiete="0.00" anzahl="0"/>
+			<stp_parkhaus stellplatzmiete="0.00" anzahl="0"/>
+			<stp_tiefgarage stellplatzmiete="0.00" anzahl="0"/>
+			<stp_sonstige platzart="SONSTIGES" stellplatzmiete="0.00" anzahl="0"/>
+			</preise>
+			<versteigerung/>
+			<flaechen>
+			<wohnflaeche>88.00</wohnflaeche>
+			<anzahl_zimmer>3.00</anzahl_zimmer>
+			<anzahl_badezimmer>1.00</anzahl_badezimmer>
+			<anzahl_sep_wc>1.00</anzahl_sep_wc>
+			<anzahl_stellplaetze>1</anzahl_stellplaetze>
+			</flaechen>
+			<ausstattung>
+			<heizungsart FERN="1"/>
+			<fahrstuhl PERSONEN="1"/>
+			<kabel_sat_tv>1</kabel_sat_tv>
+			<unterkellert keller="JA"/>
+			</ausstattung>
+			<zustand_angaben>
+			<baujahr>1971</baujahr>
+			<zustand zustand_art="GEPFLEGT"/>
+			<verkaufstatus stand="OFFEN"/>
+			</zustand_angaben>
+			<verwaltung_objekt>
+			<objektadresse_freigeben>0</objektadresse_freigeben>
+			<verfuegbar_ab>01.08.2015</verfuegbar_ab>
+			</verwaltung_objekt>
+			<verwaltung_techn>
+			<objektnr_intern>550</objektnr_intern>
+			<objektnr_extern>OR273</objektnr_extern>
+			<aktion aktionart="CHANGE"/>
+			<openimmo_obid>123456_550_OR273</openimmo_obid>
+			<kennung_ursprung>onOffice Software</kennung_ursprung>
+			<stand_vom>2015-06-22</stand_vom>
+			<weitergabe_generell>1</weitergabe_generell>
+			</verwaltung_techn>
+			</immobilie>
+
+			<immobilie>
+			<objektkategorie>
+			<nutzungsart WOHNEN="1" GEWERBE="0"/>
+			<vermarktungsart KAUF="1" MIETE_PACHT="0"/>
+			<objektart>
+			<wohnung wohnungtyp="ETAGE"/>
+			</objektart>
+			</objektkategorie>
+			<geo>
+			<plz>55127</plz>
+			<ort>Mainz / Lerchenberg</ort>
+			<geokoordinaten breitengrad="49.96550" laengengrad="8.18754"/>
+			</geo>
+			<kontaktperson>
+			<email_zentrale>offerer@example.com</email_zentrale>
+			<email_direkt>offerer@example.com</email_direkt>
+			<name>Doe</name>
+			<vorname>Jane</vorname>
+			<anrede>Frau</anrede>
+			<name/>
+			</kontaktperson>
+			<verwaltung_techn>
+			<objektnr_intern>550</objektnr_intern>
+			<objektnr_extern>OR273</objektnr_extern>
+			<aktion aktionart="DELETE"/>
+			<openimmo_obid>123456_550_OR273</openimmo_obid>
+			<kennung_ursprung>onOffice Software</kennung_ursprung>
+			<stand_vom>2015-06-22</stand_vom>
+			<weitergabe_generell>1</weitergabe_generell>
+			</verwaltung_techn>
+			</immobilie>
+
+			</anbieter>
+			</openimmo>'
+		);
+
+		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
+		$this->fixture->writeToDatabase($records[0]);
+
+		self::assertSame(
+			0,
+			$this->testingFramework->countRecords('tx_realty_objects', 'object_number="' . $objectNumber . '"')
 		);
 	}
 
