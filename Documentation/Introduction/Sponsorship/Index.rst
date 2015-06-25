@@ -35,11 +35,15 @@ organizations:
 
 - `maddesigns - Sven Wolfermann <http://www.maddesigns.de/>`_
 
+- `PARAPLAN - Römhild & Steger GbR <http://www.paraplan.de/>`_
+
 - Michael Pfannkuchen
 
 - `PEIS24.de <http://www.duitslandhypotheek.info/>`_
 
 - `plehn media <http://www.plehn-media.de/>`_
+
+- `pinkiwi GmbH & Co. KG <http://www.pinkiwi.de/>`_
 
 - `TRYFACTORY <http://www.tryfactory.com/>`_ `, Die Internetagentur
   <http://www.tryfactory.com/>`_
