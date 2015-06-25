@@ -119,46 +119,20 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->setUploadDirectory($this->importFolder);
 
 		// TYPO3 default configuration
-		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-			= 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
+		$GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'] = 'gif,jpg,jpeg,tif,tiff,bmp,pcx,tga,png,pdf,ai';
 
-		$this->globalConfiguration->setAsString(
-			'emailAddress', 'default-address@example.org'
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyErrors', FALSE
-		);
-		$this->globalConfiguration->setAsString(
-			'openImmoSchema', $this->importFolder . 'schema.xsd'
-		);
-		$this->globalConfiguration->setAsString(
-			'importFolder', $this->importFolder
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'deleteZipsAfterImport', TRUE
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'notifyContactPersons', TRUE
-		);
-		$this->globalConfiguration->setAsInteger(
-			'pidForRealtyObjectsAndImages', $this->systemFolderPid
-		);
-		$this->globalConfiguration->setAsString(
-			'pidsForRealtyObjectsAndImagesByFileName', ''
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', FALSE
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', FALSE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', ''
-		);
-		$this->globalConfiguration->setAsString(
-			'emailTemplate',
-			'EXT:realty/lib/tx_realty_emailNotification.tmpl'
-		);
+		$this->globalConfiguration->setAsString('emailAddress', 'default-address@example.org');
+		$this->globalConfiguration->setAsBoolean('onlyErrors', FALSE);
+		$this->globalConfiguration->setAsString('openImmoSchema', $this->importFolder . 'schema.xsd');
+		$this->globalConfiguration->setAsString('importFolder', $this->importFolder);
+		$this->globalConfiguration->setAsBoolean('deleteZipsAfterImport', TRUE);
+		$this->globalConfiguration->setAsBoolean('notifyContactPersons', TRUE);
+		$this->globalConfiguration->setAsInteger('pidForRealtyObjectsAndImages', $this->systemFolderPid);
+		$this->globalConfiguration->setAsString('pidsForRealtyObjectsAndImagesByFileName', '');
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', FALSE);
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', FALSE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', '');
+		$this->globalConfiguration->setAsString('emailTemplate', 'EXT:realty/lib/tx_realty_emailNotification.tmpl');
 	}
 
 	/**
@@ -189,12 +163,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		}
 		$this->testImportFolderExists = TRUE;
 
-		if ($fileName != '') {
+		if ($fileName !== '') {
 			copy(
-				t3lib_extMgm::extPath('realty') .
-					'tests/fixtures/tx_realty_fixtures/' . $fileName,
-				$this->importFolder .
-					(($newFileName != '') ? $newFileName : basename($fileName))
+				t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . $fileName,
+				$this->importFolder . (($newFileName !== '') ? $newFileName : basename($fileName))
 			);
 		}
 	}
@@ -219,10 +191,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @return void
 	 */
 	private function checkForZipArchive() {
-		if (!in_array('zip', get_loaded_extensions())) {
-			self::markTestSkipped(
-				'This PHP installation does not provide the ZIPArchive class.'
-			);
+		if (!in_array('zip', get_loaded_extensions(), TRUE)) {
+			self::markTestSkipped('This PHP installation does not provide the ZIPArchive class.');
 		}
 	}
 
@@ -265,11 +235,9 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->copyTestFileIntoImportFolder('bar.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			glob($this->importFolder . '*.zip'),
-			array_values(
-				$this->fixture->getPathsOfZipsToExtract($this->importFolder)
-			)
+			array_values($this->fixture->getPathsOfZipsToExtract($this->importFolder))
 		);
 	}
 
@@ -279,7 +247,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function getNameForExtractionFolder() {
 		$this->copyTestFileIntoImportFolder('bar.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			'bar/',
 			$this->fixture->getNameForExtractionFolder('bar.zip')
 		);
@@ -289,7 +257,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function unifyPathDoesNotChangeCorrectPath() {
-		self::assertEquals(
+		self::assertSame(
 			'correct/path/',
 			$this->fixture->unifyPath('correct/path/')
 		);
@@ -299,7 +267,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function unifyPathTrimsAndAddsNecessarySlash() {
-		self::assertEquals(
+		self::assertSame(
 			'incorrect/path/',
 			$this->fixture->unifyPath('incorrect/path')
 		);
@@ -310,14 +278,12 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createExtractionFolderForExistingZip() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$dirName = $this->fixture->createExtractionFolder(
-			$this->importFolder . 'foo.zip'
-		);
+		$dirName = $this->fixture->createExtractionFolder($this->importFolder . 'foo.zip');
 
 		self::assertTrue(
 			is_dir($this->importFolder . 'foo/')
 		);
-		self::assertEquals(
+		self::assertSame(
 			$this->importFolder . 'foo/',
 			$dirName
 		);
@@ -328,14 +294,12 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createExtractionFolderForNonExistingZip() {
 		$this->copyTestFileIntoImportFolder('');
-		$dirName = $this->fixture->createExtractionFolder(
-			$this->importFolder . 'foobar.zip'
-		);
+		$dirName = $this->fixture->createExtractionFolder($this->importFolder . 'foobar.zip');
 
 		self::assertFalse(
 			is_dir($this->importFolder . 'foobar/')
 		);
-		self::assertEquals(
+		self::assertSame(
 			'',
 			$dirName
 		);
@@ -376,7 +340,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			$this->importFolder . 'foo/foo.xml',
 			$this->fixture->getPathForXml($this->importFolder . 'foo.zip')
 		);
@@ -388,7 +352,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function getPathForXmlIfFolderNotExists() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			'',
 			$this->fixture->getPathForXml($this->importFolder . 'foo.zip')
 		);
@@ -403,7 +367,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('bar-bar.zip');
 		$this->fixture->extractZip($this->importFolder . 'bar-bar.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			'',
 			$this->fixture->getPathForXml($this->importFolder . 'bar-bar.zip')
 		);
@@ -418,7 +382,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('empty.zip');
 		$this->fixture->extractZip($this->importFolder . 'empty.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			'',
 			$this->fixture->getPathForXml($this->importFolder . 'empty.zip')
 		);
@@ -672,8 +636,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		// copyTestFileIntoImportFolder() cannot copy folders
 		t3lib_div::mkdir($this->importFolder . 'changed-copy-of-same-name/');
 		copy(
-			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
-				'changed-copy-of-same-name/same-name.zip',
+			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . 'changed-copy-of-same-name/same-name.zip',
 			$this->importFolder . 'changed-copy-of-same-name/same-name.zip'
 		);
 
@@ -692,9 +655,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		// 'deleteZipsAfterImport' is set to TRUE during setUp()
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
@@ -711,13 +672,9 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
-		$this->testingFramework->createFrontendUser(
-			'', array('tx_realty_openimmo_anid' => 'foo')
-		);
+		$this->testingFramework->createFrontEndUser('', array('tx_realty_openimmo_anid' => 'foo'));
 		// 'deleteZipsAfterImport' is set to TRUE during setUp()
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
@@ -735,7 +692,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$this->testingFramework->createFrontendUser(
+		$this->testingFramework->createFrontEndUser(
 			$feUserGroupUid,
 			array(
 				'tx_realty_openimmo_anid' => 'foo',
@@ -743,15 +700,9 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', TRUE);
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
 
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 		$this->fixture->importFromZip();
@@ -770,26 +721,17 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
+		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$feUserGroupUid,
 			array(
 				'tx_realty_openimmo_anid' => 'foo',
 				'tx_realty_maximum_objects' => 1,
 			)
 		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects',
-			array('owner' => $feUserUid)
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
+		$this->testingFramework->createRecord('tx_realty_objects', array('owner' => $feUserUid));
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', TRUE);
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 		$this->fixture->importFromZip();
 
@@ -813,7 +755,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			'DOMDocument',
 			get_class($this->fixture->getImportedXml())
 		);
@@ -829,7 +771,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->extractZip($this->importFolder . 'foo.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'foo.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			'DOMDocument',
 			get_class($this->fixture->getImportedXml())
 		);
@@ -845,7 +787,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->extractZip($this->importFolder . 'bar.zip');
 		$this->fixture->loadXmlFile($this->importFolder . 'bar.zip');
 
-		self::assertEquals(
+		self::assertSame(
 			'DOMDocument',
 			get_class($this->fixture->getImportedXml())
 		);
@@ -872,7 +814,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('changed-copy-of-same-name/same-name.zip');
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -922,7 +864,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -959,7 +901,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1010,7 +952,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1064,7 +1006,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1122,7 +1064,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1141,7 +1083,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->ensureContactEmail();
 
-		self::assertEquals(
+		self::assertSame(
 			'foo-valid@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
@@ -1158,7 +1100,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->loadRealtyObject(array('contact_email' => ''));
 		$this->fixture->ensureContactEmail();
 
-		self::assertEquals(
+		self::assertSame(
 			'default_address@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
@@ -1175,7 +1117,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->loadRealtyObject(array('contact_email' => 'foo'));
 		$this->fixture->ensureContactEmail();
 
-		self::assertEquals(
+		self::assertSame(
 			'default_address@email-address.org',
 			$this->fixture->getContactEmailFromRealtyObject()
 		);
@@ -1224,7 +1166,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1278,7 +1220,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($dummyDocument);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1359,16 +1301,12 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
-		$feUserUid = $this->testingFramework->createFrontendUser(
-			'',	array('tx_realty_openimmo_anid' => 'foo')
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
+		$feUserUid = $this->testingFramework->createFrontEndUser('', array('tx_realty_openimmo_anid' => 'foo'));
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1383,13 +1321,11 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function recordWithAnidThatDoesNotMatchAnExistingFeUserIsNotImportedForEnabledOwnerRestriction() {
 		$this->checkForZipArchive();
 
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1407,19 +1343,13 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
-			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
+		$feUserUid = $this->testingFramework->createFrontEndUser($feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo'));
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1435,19 +1365,13 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->checkForZipArchive();
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
-			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid + 1
-		);
+		$feUserUid = $this->testingFramework->createFrontEndUser($feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo'));
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid + 1);
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1465,12 +1389,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function writeToDatabaseForUserWithObjectLimitReachedDoesNotImportAnyFurtherRecords() {
-		$this->testingFramework->markTableAsDirty(
-			'tx_realty_objects' . ',' . 'tx_realty_house_types'
-		);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
+		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$feUserGroupUid,
 			array(
 				'tx_realty_openimmo_anid' => 'foo',
@@ -1482,12 +1404,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			array('owner' => $feUserUid)
 		);
 
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', TRUE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
 
 		$singleObject = new DOMDocument();
 		$singleObject->loadXML(
@@ -1519,7 +1437,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($singleObject);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1532,12 +1450,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function writeToDatabaseForUserWithObjectLimitNotReachedDoesImportRecords() {
-		$this->testingFramework->markTableAsDirty(
-			'tx_realty_objects' . ',' . 'tx_realty_house_types'
-		);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
+		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$feUserGroupUid,
 			array(
 				'tx_realty_openimmo_anid' => 'foo',
@@ -1545,12 +1461,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', TRUE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
 
 		$multipleRecords = new DOMDocument();
 		$multipleRecords->loadXML(
@@ -1600,7 +1512,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->writeToDatabase($records[0]);
 		$this->fixture->writeToDatabase($records[1]);
 
-		self::assertEquals(
+		self::assertSame(
 			2,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1613,19 +1525,11 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function writeToDatabaseForUserWithoutObjectLimitDoesImportRecord() {
-		$this->testingFramework->markTableAsDirty(
-			'tx_realty_objects' . ',' . 'tx_realty_house_types'
-		);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
-			$feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo')
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
+		$feUserUid = $this->testingFramework->createFrontEndUser($feUserGroupUid, array('tx_realty_openimmo_anid' => 'foo'));
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', TRUE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
 
 		$singleObject = new DOMDocument();
 		$singleObject->loadXML(
@@ -1657,7 +1561,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$records = $this->fixture->convertDomDocumentToArray($singleObject);
 		$this->fixture->writeToDatabase($records[0]);
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1670,12 +1574,10 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function writeToDatabaseForUserWithOneObjectLeftToLimitImportsOnlyOneRecord() {
-		$this->testingFramework->markTableAsDirty(
-			'tx_realty_objects' . ',' . 'tx_realty_house_types'
-		);
+		$this->testingFramework->markTableAsDirty('tx_realty_objects' . ',' . 'tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
+		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$feUserGroupUid,
 			array(
 				'tx_realty_openimmo_anid' => 'foo',
@@ -1683,12 +1585,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', TRUE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
 
 		$multipleRecords = new DOMDocument();
 		$multipleRecords->loadXML(
@@ -1738,7 +1636,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture->writeToDatabase($records[0]);
 		$this->fixture->writeToDatabase($records[1]);
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
@@ -1757,7 +1655,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->testingFramework->createFrontEndUserGroup();
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
+		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$feUserGroupUid,
 			array(
 				'tx_realty_openimmo_anid' => 'foo',
@@ -1765,15 +1663,9 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 				'username' => 'fooBar',
 			)
 		);
-		$this->globalConfiguration->setAsBoolean(
-			'onlyImportForRegisteredFrontEndUsers', TRUE
-		);
-		$this->globalConfiguration->setAsString(
-			'allowedFrontEndUserGroups', $feUserGroupUid
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
-		);
+		$this->globalConfiguration->setAsBoolean('onlyImportForRegisteredFrontEndUsers', TRUE);
+		$this->globalConfiguration->setAsString('allowedFrontEndUserGroups', $feUserGroupUid);
+		$this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', TRUE);
 		$this->copyTestFileIntoImportFolder('two-objects.zip');
 
 		self::assertContains(
@@ -1796,7 +1688,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function prepareEmailsReturnsEmptyArrayWhenEmptyArrayGiven() {
 		$emailData = array();
 
-		self::assertEquals(
+		self::assertSame(
 			array(),
 			$this->fixture->prepareEmails($emailData)
 		);
@@ -1808,7 +1700,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function prepareEmailsReturnsEmptyArrayWhenInvalidArrayGiven() {
 		$emailData = array('invalid' => 'array');
 
-		self::assertEquals(
+		self::assertSame(
 			array(),
 			$this->fixture->prepareEmails($emailData)
 		);
@@ -1818,10 +1710,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function prepareEmailsFillsEmptyEmailFieldWithDefaultAddressIfNotifyContactPersonsIsEnabled() {
-		$this->globalConfiguration->setAsString(
-			'emailAddress',
-			'default_address@email-address.org'
-		);
+		$this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
 
 		$emailData = array(
 			array(
@@ -1832,7 +1721,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'bar')
@@ -1846,14 +1735,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function prepareEmailsReplacesNonEmptyEmailAddressIfNotifyContactPersonsIsDisabled() {
-		$this->globalConfiguration->setAsString(
-			'emailAddress',
-			'default_address@email-address.org'
-		);
-		$this->globalConfiguration->setAsBoolean(
-			'notifyContactPersons',
-			FALSE
-		);
+		$this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
+		$this->globalConfiguration->setAsBoolean('notifyContactPersons', FALSE);
 		$emailData = array(
 			array(
 				'recipient' => 'foo-valid@email-address.org',
@@ -1863,7 +1746,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'bar')
@@ -1877,10 +1760,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function prepareEmailsUsesLogEntryIfOnlyErrorsIsDisabled() {
-		$this->globalConfiguration->setAsString(
-			'emailAddress',
-			'default_address@email-address.org'
-		);
+		$this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
 
 		$emailData = array(
 			array(
@@ -1891,7 +1771,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'log entry')
@@ -1906,10 +1786,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	public function prepareEmailsUsesLogEntryIfOnlyErrorsIsEnabled() {
 		$this->globalConfiguration->setAsBoolean('onlyErrors', TRUE);
-		$this->globalConfiguration->setAsString(
-			'emailAddress',
-			'default_address@email-address.org'
-		);
+		$this->globalConfiguration->setAsString('emailAddress', 'default_address@email-address.org');
 
 		$emailData = array(
 			array(
@@ -1920,7 +1797,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'default_address@email-address.org' => array(
 					array('foo' => 'error log')
@@ -1943,7 +1820,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'foo' => array(
 					array('------' => 'bar')
@@ -1972,7 +1849,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			),
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'foo' => array(
 					array('number' => 'bar'),
@@ -2002,7 +1879,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			),
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'foo' => array(
 					array('number' => 'foo')
@@ -2034,7 +1911,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(
 				'foo' => array(
 					array('number' => 'bar')
@@ -2063,7 +1940,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			),
 		);
 
-		self::assertEquals(
+		self::assertSame(
 			array(),
 			$this->fixture->prepareEmails($emailData)
 		);
@@ -2168,9 +2045,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		$this->globalConfiguration->setAsString(
-			'openImmoSchema', '/any/not/existing/path'
-		);
+		$this->globalConfiguration->setAsString('openImmoSchema', '/any/not/existing/path');
 
 		self::assertContains(
 			$this->translator->translate('message_invalid_schema_file_path'),
@@ -2230,15 +2105,11 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->checkForZipArchive();
 
 		$path = '/any/not/existing/import-path/';
-		$this->globalConfiguration->setAsString(
-			'importFolder', $path
-		);
+		$this->globalConfiguration->setAsString('importFolder', $path);
 
 		self::assertContains(
 			sprintf(
-				$this->translator->translate(
-					'message_import_directory_not_existing'
-				),
+				$this->translator->translate('message_import_directory_not_existing'),
 				$path,
 				get_current_user()
 			),
@@ -2258,9 +2129,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		self::assertContains(
 			sprintf(
-				$this->translator->translate(
-					'message_upload_directory_not_existing'
-				),
+				$this->translator->translate('message_upload_directory_not_existing'),
 				$path
 			),
 			$this->fixture->importFromZip()
@@ -2285,13 +2154,12 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
-				'object_number="bar1234567" ' .
-					'AND pid=' . $this->systemFolderPid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+				'object_number="bar1234567" '
+					. 'AND pid=' . $this->systemFolderPid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2308,18 +2176,15 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->disableValidation();
 
 		$pid = $this->testingFramework->createSystemFolder();
-		$this->globalConfiguration->setAsString(
-			'pidsForRealtyObjectsAndImagesByFileName', 'nomatch:'.$pid.';'
-		);
+		$this->globalConfiguration->setAsString('pidsForRealtyObjectsAndImagesByFileName', 'nomatch:' . $pid . ';');
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $this->systemFolderPid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $this->systemFolderPid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2336,19 +2201,16 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 
 		$pid = $this->testingFramework->createSystemFolder();
-		$this->globalConfiguration->setAsString(
-			'pidsForRealtyObjectsAndImagesByFileName', 'same:'.$pid.';'
-		);
+		$this->globalConfiguration->setAsString('pidsForRealtyObjectsAndImagesByFileName', 'same:' . $pid . ';');
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2365,19 +2227,16 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 
 		$pid = $this->testingFramework->createSystemFolder();
-		$this->globalConfiguration->setAsString(
-			'pidsForRealtyObjectsAndImagesByFileName', '^same:'.$pid.';'
-		);
+		$this->globalConfiguration->setAsString('pidsForRealtyObjectsAndImagesByFileName', '^same:' . $pid . ';');
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2394,19 +2253,16 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 
 		$pid = $this->testingFramework->createSystemFolder();
-		$this->globalConfiguration->setAsString(
-			'pidsForRealtyObjectsAndImagesByFileName', 'name$:'.$pid.';'
-		);
+		$this->globalConfiguration->setAsString('pidsForRealtyObjectsAndImagesByFileName', 'name$:' . $pid . ';');
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2425,19 +2281,17 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$pid = $this->testingFramework->createSystemFolder();
 		$this->globalConfiguration->setAsString(
 			'pidsForRealtyObjectsAndImagesByFileName',
-			'same:'.$pid.';'
-				.'nomatch:'.$this->systemFolderPid.';'
+			'same:' . $pid . ';' . 'nomatch:' . $this->systemFolderPid . ';'
 		);
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2456,19 +2310,17 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$pid = $this->testingFramework->createSystemFolder();
 		$this->globalConfiguration->setAsString(
 			'pidsForRealtyObjectsAndImagesByFileName',
-			'nomatch:'.$this->systemFolderPid.';'
-				.'same:'.$pid.';'
+			'nomatch:' . $this->systemFolderPid . ';' . 'same:' . $pid . ';'
 		);
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2487,20 +2339,19 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$pid = $this->testingFramework->createSystemFolder();
 		$this->globalConfiguration->setAsString(
 			'pidsForRealtyObjectsAndImagesByFileName',
-			'nomatch1:'.$this->systemFolderPid.';'
-				.'same:'.$pid.';'
-				.'nomatch2:'.$this->systemFolderPid.';'
+			'nomatch1:' . $this->systemFolderPid . ';'
+				.'same:' . $pid . ';'
+				.'nomatch2:' . $this->systemFolderPid . ';'
 		);
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2519,19 +2370,17 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$pid = $this->testingFramework->createSystemFolder();
 		$this->globalConfiguration->setAsString(
 			'pidsForRealtyObjectsAndImagesByFileName',
-			'sam:'.$pid.';'
-				.'same:'.$this->systemFolderPid.';'
+			'sam:' . $pid . ';' . 'same:' . $this->systemFolderPid . ';'
 		);
 
 		$this->fixture->importFromZip();
 
-		self::assertEquals(
+		self::assertSame(
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2618,7 +2467,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function emailIsSentToOwnersAddressForMatchingAnidAndNoContactEmailProvidedAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
-		$this->testingFramework->createFrontendUser(
+		$this->testingFramework->createFrontEndUser(
 			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
@@ -2644,7 +2493,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function emailIsSentToOwnersAddressForMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
-		$this->testingFramework->createFrontendUser(
+		$this->testingFramework->createFrontEndUser(
 			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
@@ -2670,7 +2519,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function emailIsSentToContactAddressForNonMatchingAnidAndSetContactEmailAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
-		$this->testingFramework->createFrontendUser(
+		$this->testingFramework->createFrontEndUser(
 			'',
 			array(
 				'tx_realty_openimmo_anid' => 'another-test-anid',
@@ -2696,7 +2545,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function emailIsSentToContactAddressForNoAnidAndSetContactEmailAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
-		$this->testingFramework->createFrontendUser(
+		$this->testingFramework->createFrontEndUser(
 			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
@@ -2722,7 +2571,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function emailIsSentToDefaultAddressForNonMatchingAnidAndNoContactEmailAndOwnerContactDataSource() {
 		$this->checkForZipArchive();
 
-		$this->testingFramework->createFrontendUser(
+		$this->testingFramework->createFrontEndUser(
 			'',
 			array(
 				'tx_realty_openimmo_anid' => 'another-test-anid',
@@ -2748,7 +2597,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	public function emailIsSentToDefaultAddressForNeitherAnidNorContactEmailProvidedAndOwnerAsContactDataSource() {
 		$this->checkForZipArchive();
 
-		$this->testingFramework->createFrontendUser(
+		$this->testingFramework->createFrontEndUser(
 			'',
 			array(
 				'tx_realty_openimmo_anid' => 'test-anid',
@@ -2849,7 +2698,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
-		$feUserUid = $this->testingFramework->createFrontendUser(
+		$feUserUid = $this->testingFramework->createFrontEndUser(
 			$feUserGroupUid, array(
 				'tx_realty_openimmo_anid' => 'foo',
 				'tx_realty_maximum_objects' => 1,
