@@ -158,7 +158,8 @@ class tx_realty_openImmoImport {
 			foreach ($zipsToExtract as $currentZip) {
 				$this->extractZip($currentZip);
 				$this->loadXmlFile($currentZip);
-				$emailData = array_merge($emailData, $this->processRealtyRecordInsertion($currentZip));
+				$recordData = $this->processRealtyRecordInsertion($currentZip);
+				$emailData = array_merge($emailData, $recordData);
 			}
 			$this->sendEmails($this->prepareEmails($emailData));
 		} else {
@@ -195,10 +196,9 @@ class tx_realty_openImmoImport {
 	 *
 	 * @param string $currentZip path of the current ZIP file, only used for log, may be empty
 	 *
-	 * @return array[] Two-dimensional array of e-mail data. Each inner
-	 *               array has the elements 'recipient', 'objectNumber',
-	 *               'logEntry' and 'errorLog'. Will be empty if there
-	 *               are no records to insert.
+	 * @return mixed[][]
+	 *         Two-dimensional array of e-mail data. Each inner array has the elements "recipient", "objectNumber",
+	 *         "logEntry" and "errorLog". Will be empty if there are no records to insert.
 	 */
 	private function processRealtyRecordInsertion($currentZip) {
 		$emailData = array();
@@ -224,10 +224,12 @@ class tx_realty_openImmoImport {
 		foreach ($recordsToInsert as $record) {
 			$this->writeToDatabase($record, $overridePid);
 
-			$emailData[] = $this->createEmailRawDataArray(
-				$this->getContactEmailFromRealtyObject(),
-				$this->getObjectNumberFromRealtyObject()
-			);
+			if (!$this->realtyObject->isDead()) {
+				$emailData[] = $this->createEmailRawDataArray(
+					$this->getContactEmailFromRealtyObject(),
+					$this->getObjectNumberFromRealtyObject()
+				);
+			}
 			$this->storeLogsAndClearTemporaryLog();
 		}
 
@@ -1216,7 +1218,7 @@ class tx_realty_openImmoImport {
 	 *                was set or if the realty object is not initialized
 	 */
 	private function getObjectNumberFromRealtyObject() {
-		if (!is_object($this->realtyObject)) {
+		if ($this->realtyObject === NULL || $this->realtyObject->isDead()) {
 			return '';
 		}
 
@@ -1238,7 +1240,7 @@ class tx_realty_openImmoImport {
 	 *                was found or if the realty object is not initialized
 	 */
 	protected function getContactEmailFromRealtyObject() {
-		if (!is_object($this->realtyObject)) {
+		if ($this->realtyObject === NULL || $this->realtyObject->isDead()) {
 			return '';
 		}
 
@@ -1261,9 +1263,7 @@ class tx_realty_openImmoImport {
 	 *                 owner's data, FALSE otherwise
 	 */
 	private function mayUseOwnerData() {
-		return $this->globalConfiguration->getAsBoolean(
-			'useFrontEndUserDataAsContactDataForImportedRecords'
-		);
+		return $this->globalConfiguration->getAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords');
 	}
 
 	/**
