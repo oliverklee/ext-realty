@@ -123,5 +123,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['cleanUpRealtyIma
 	= array('EXT:realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php', '_CLI_realty');
 
 // registers the eID functions for AJAX
-$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY]
-	= 'EXT:' . $_EXTKEY . '/Ajax/tx_realty_Ajax_Dispatcher.php';
+$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY] = 'EXT:' . $_EXTKEY . '/Ajax/tx_realty_Ajax_Dispatcher.php';
+
+// RealURL autoconfiguration
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['realty']
+	= 'Tx_Realty_Configuration_RealUrl_Configuration->addConfiguration';

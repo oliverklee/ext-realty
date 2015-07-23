@@ -55,3 +55,6 @@ Installation
 
    - typo3temp/realty-l10n-*.zip
    - typo3conf/l10n/*/realty/
+
+#. This extension provides a RealURL auto-configuration. If you are using the auto-generated
+   RealURL configuration, you need to re-generate it.
