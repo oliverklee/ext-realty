@@ -174,8 +174,6 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'garage_price':
 				// The fallthrough is intended.
 			case 'deposit':
-				// The fallthrough is intended.
-			case 'provision':
 				$result = htmlentities($this->getFormattedPrice($key), ENT_QUOTES, 'utf-8');
 				break;
 			case 'bedrooms':
@@ -185,6 +183,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			case 'number_of_rooms':
 				$result = $this->getFormattedDecimal($key, 1);
 				break;
+			case 'provision':
+				// The fallthrough is intended.
 			case 'usable_from':
 				$result = htmlspecialchars($rawProperty);
 				break;

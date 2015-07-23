@@ -5,6 +5,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5362] Display the provision as a free-text field
 
 Changes:
 
