@@ -777,6 +777,19 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getPropertyFormatsProvisionAsEncodedText() {
+		$provision = '3,57 % Inkl. MwSt. & Kaffee';
+		$this->realtyObject->setProperty('provision', $provision);
+
+		self::assertSame(
+			htmlspecialchars($provision),
+			$this->fixture->getProperty('provision')
+		);
+	}
+
 
 	/////////////////////////////////////////
 	// Tests concerning formatDecimal

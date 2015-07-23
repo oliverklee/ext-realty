@@ -6,6 +6,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5362] Display the provision as a free-text field
 - [#5337] Crash when deleting and updating an object in the same import
 - [#5336] Test crash in the RealtyMapper tests with an empty DB
 - [#5333] Update the FORMidable download link
