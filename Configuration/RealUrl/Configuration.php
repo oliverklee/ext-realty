@@ -93,13 +93,22 @@ class Tx_Realty_Configuration_RealUrl_Configuration {
 			),
 		);
 
+		$modeGetVariable = array('GETvar' => 'tx_realty_pi1[mode]', 'valueMap' => array('-' => '0'));
+		$removeGetVariable = array('GETvar' => 'tx_realty_pi1[remove]', 'valueMap' => array('remove' => '1', '-' => '0'));
+		$deleteGetVariable = array('GETvar' => 'tx_realty_pi1[delete]', 'valueMap' => array('remove' => '1', '-' => '0'));
+		$ownerGetVariable = array('GETvar' => 'tx_realty_pi1[owner]', 'valueMap' => array('-' => '0'));
+		$uidGetVariable = array('GETvar' => 'tx_realty_pi1[uid]', 'valueMap' => array('-' => '0'));
+
 		return array_merge_recursive(
 			$parameters['config'],
 			array(
 				'preVars' => $preVariables,
 				'postVarSets' => array(
 					'_DEFAULT' => array(
-						'immo' => array($paginationGetVariable, $realtyObjectGetVariable),
+						'immo' => array(
+							$paginationGetVariable, $realtyObjectGetVariable, $modeGetVariable, $removeGetVariable,
+							$deleteGetVariable, $ownerGetVariable, $uidGetVariable,
+						),
 					),
 				),
 			)
