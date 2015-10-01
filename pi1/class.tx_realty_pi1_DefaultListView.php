@@ -84,10 +84,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 		$items = $this->getCheckboxItems();
 		if (!empty($items)) {
 			$this->setSubpart('search_item', implode(LF, $items));
-			$this->setMarker(
-				'self_url_without_pivars',
-				$this->getSelfUrl(TRUE, array('search'))
-			);
+			$this->setMarker('self_url_without_pivars', $this->getSelfUrl(TRUE, array('search', 'pointer')));
 
 			$result = $this->getSubpart('LIST_FILTER');
 		} else {

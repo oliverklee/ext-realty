@@ -395,6 +395,18 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
+	public function listFiltersLinkDoesNotContainPointerPiVars() {
+		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
+
+		self::assertNotContains(
+			'pointer',
+			$this->fixture->render(array('pointer' => 1))
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function listFilterKeepsAlreadySetPiVars() {
 		$this->fixture->setConfigurationValue('what_to_display', 'realty_list');
 		$this->fixture->setConfigurationValue('checkboxesFilter', 'city');
