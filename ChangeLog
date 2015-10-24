@@ -10,6 +10,7 @@ Bug fixes:
 - [#5362] Display the provision as a free-text field
 
 Changes:
+- [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
 
