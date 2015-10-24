@@ -18,6 +18,7 @@ Bug fixes:
 
 Changes:
 - [#5254] Document the Prototype/jQuery clash
+- [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
 - [#5344] Clean up the OpenImmo import classes
