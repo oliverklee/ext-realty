@@ -1,4 +1,4 @@
-﻿.. ==================================================
+.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -23,7 +23,7 @@ Tutorial
    :glob:
 
    Installation/Index
-   UpgradingFromVersion05xTo06x/Index
+   UpgradingFromVersion06xTo10x/Index
    CreateATsTemplateForThisExtension/Index
    CreateSystemFoldersForRecords/Index
    CreateTheListView/Index
