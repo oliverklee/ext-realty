@@ -70,9 +70,9 @@ Key features
 
 - the code follows the TYPO3 coding guidelines
 
-- works with TYPO3 4.5.0 and up
+- works with TYPO3 CMS 6.2.0 and up
 
-- works with PHP 5.3 and up
+- works with PHP 5.5 and up
 
 - works with MySQL 5.0 and up
 
