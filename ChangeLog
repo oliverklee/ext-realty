@@ -1,8 +1,4 @@
-0.6.2 - currently working on
-
-Features:
-
-Localization:
+0.6.2 - released 2015-12-04
 
 Bug fixes:
 - [#5386] Submitting the search keeps the current pagination
@@ -11,8 +7,6 @@ Bug fixes:
 
 Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
-
-Cleanup:
 
 
 0.6.1 - released 2015-06-26
