@@ -238,8 +238,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * and the value of "descFlag". The very first records will always be those
 	 * with a value for "sorting" set within the record itself.
 	 *
+	 * @return mysqli_result the realty records to list
+	 *
 	 * @throws tx_oelib_Exception_Database if a database query error occurs
-	 * @return resource the realty records to list as a mysql result resource
 	 */
 	private function initListView() {
 		$whereClause = $this->createWhereClause();
@@ -658,25 +659,14 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return string LIMIT statement for initListView(), will not be empty
 	 */
 	private function createLimitStatement($whereClause) {
-		if (class_exists('t3lib_utility_Math')) {
-			// number of results to show in a listing
-			$this->internal['results_at_a_time'] = t3lib_utility_Math::forceIntegerInRange(
-				$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
-			);
-			// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
-			$this->internal['maxPages'] = t3lib_utility_Math::forceIntegerInRange(
-				$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
-			);
-		} else {
-			// number of results to show in a listing
-			$this->internal['results_at_a_time'] = t3lib_div::intInRange(
-				$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
-			);
-			// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
-			$this->internal['maxPages'] = t3lib_div::intInRange(
-				$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
-			);
-		}
+		// number of results to show in a listing
+		$this->internal['results_at_a_time'] = t3lib_utility_Math::forceIntegerInRange(
+			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
+		);
+		// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
+		$this->internal['maxPages'] = t3lib_utility_Math::forceIntegerInRange(
+			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
+		);
 
 		$this->internal['res_count'] = tx_oelib_db::count(
 			self::TABLES, $whereClause
@@ -691,11 +681,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		);
 
 		$lowerLimit = $this->piVars['pointer'] * (int)$this->internal['results_at_a_time'];
-		if (class_exists('t3lib_utility_Math')) {
-			$upperLimit = t3lib_utility_Math::forceIntegerInRange($this->internal['results_at_a_time'], 1, 1000);
-		} else {
-			$upperLimit = t3lib_div::intInRange($this->internal['results_at_a_time'], 1, 1000);
-		}
+		$upperLimit = t3lib_utility_Math::forceIntegerInRange($this->internal['results_at_a_time'], 1, 1000);
 		$this->startingRecordNumber = $lowerLimit;
 
 		return $lowerLimit . ',' . $upperLimit;
@@ -1008,14 +994,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$piVars = $this->piVars;
 			unset($piVars['DATA']);
 
-			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
-				$additionalParameters = $piVars;
-				\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
-					$additionalParameters, array('pointer' => $pageNum)
-				);
-			} else {
-				$additionalParameters = t3lib_div::array_merge_recursive_overrule($piVars, array('pointer' => $pageNum));
-			}
+			$additionalParameters = $piVars;
+			\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
+				$additionalParameters, array('pointer' => $pageNum)
+			);
 			$url = $this->cObj->typoLink_URL(
 				array(
 					'parameter' => $this->getFrontEndController()->id,

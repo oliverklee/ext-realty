@@ -80,10 +80,8 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'requiredContactFormFields', 'request'
 		);
 
-		$finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
-			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance($finalMailMessageClassName, $this->message);
+		t3lib_div::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
 	}
 
 	protected function tearDown() {

@@ -41,13 +41,9 @@ class tx_realty_translator {
 		}
 		$cliLanguage = tx_oelib_configurationProxy::getInstance('realty')->getAsString('cliLanguage');
 		// "default" is used as language key if the configured language key is not within the set of available language keys.
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			$languageKey = (strpos(TYPO3_languages, '|' . $cliLanguage . '|') !== FALSE) ? $cliLanguage : 'default';
-		} else {
-			/** @var t3lib_l10n_Locales $locales */
-			$locales = t3lib_div::makeInstance('t3lib_l10n_Locales');
-			$languageKey = in_array($cliLanguage, $locales->getLocales())? $cliLanguage : 'default';
-		}
+		/** @var t3lib_l10n_Locales $locales */
+		$locales = t3lib_div::makeInstance('t3lib_l10n_Locales');
+		$languageKey = in_array($cliLanguage, $locales->getLocales())? $cliLanguage : 'default';
 
 		$this->languageService->init($languageKey);
 		$this->languageService->includeLLFile('EXT:realty/lib/locallang.xml');

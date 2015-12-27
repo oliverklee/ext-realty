@@ -1202,17 +1202,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return int one if the object is for sale, zero if it is for rent
 	 */
 	private function getObjectType() {
-		if (class_exists('t3lib_utility_Math')) {
-			$type = t3lib_utility_Math::forceIntegerInRange(
-				$this->getFormValue('object_type'), tx_realty_Model_RealtyObject::TYPE_FOR_RENT, tx_realty_Model_RealtyObject::TYPE_FOR_SALE, tx_realty_Model_RealtyObject::TYPE_FOR_RENT
-			);
-		} else {
-			$type = t3lib_div::intInRange(
-				$this->getFormValue('object_type'), tx_realty_Model_RealtyObject::TYPE_FOR_RENT, tx_realty_Model_RealtyObject::TYPE_FOR_SALE, tx_realty_Model_RealtyObject::TYPE_FOR_RENT
-			);
-		}
-
-		return $type;
+		return t3lib_utility_Math::forceIntegerInRange(
+			$this->getFormValue('object_type'),
+			tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
+			tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
+			tx_realty_Model_RealtyObject::TYPE_FOR_RENT
+		);
 	}
 
 	/**

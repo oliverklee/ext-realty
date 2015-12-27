@@ -86,10 +86,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture = new tx_realty_openImmoImportChild(TRUE);
 		$this->setupStaticConditions();
 
-		$finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
-			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance($finalMailMessageClassName, $this->message);
+		t3lib_div::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
 	}
 
 	protected function tearDown() {
@@ -194,34 +192,6 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		if (!in_array('zip', get_loaded_extensions(), TRUE)) {
 			self::markTestSkipped('This PHP installation does not provide the ZIPArchive class.');
 		}
-	}
-
-	/**
-	 * Returns the class name of the cache backend to use.
-	 *
-	 * @return string
-	 *
-	 * @throws RuntimeException if no suitable cache backend can be found
-	 */
-	private function getCacheBackendClassName() {
-		$classNames = array(
-			'TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface',
-			'TYPO3\\CMS\\Core\\Cache\\Backend\\BackendInterface',
-			't3lib_cache_backend_Backend',
-		);
-
-		$existingClassName = '';
-		foreach ($classNames as $className ) {
-			if (class_exists($className, TRUE) || interface_exists($className, TRUE)) {
-				$existingClassName = $className;
-				break;
-			}
-		}
-		if ($existingClassName === '') {
-			throw new RuntimeException('No cache backend class name found.', 1416856902);
-		}
-
-		return $existingClassName;
 	}
 
 	/*
@@ -3037,44 +3007,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function importFromZipClearsFrontEndCacheAfterImportInOldTypo3() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			self::markTestSkipped('This test is not applicable for TYPO3 >= 4.6.');
-		}
-		if (!TYPO3_UseCachingFramework) {
-			self::markTestSkipped('This test is not applicable if the caching framework is disabled.');
-		}
-
-		$this->testingFramework->markTableAsDirty('tx_realty_objects');
-
-		$this->copyTestFileIntoImportFolder('foo.zip');
-		$pageUid = $this->testingFramework->createFrontEndPage();
-		$this->testingFramework->createContentElement($pageUid, array('list_type' => 'realty_pi1'));
-
-		/** @var $cacheFrontEnd t3lib_cache_frontend_AbstractFrontend|PHPUnit_Framework_MockObject_MockObject */
-		$cacheFrontEnd = $this->getMock(
-			't3lib_cache_frontend_AbstractFrontend',
-			array('getIdentifier', 'set', 'get', 'getByTag', 'flushByTags'),
-			array(), '', FALSE
-		);
-		$cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
-		$cacheFrontEnd->expects(self::atLeastOnce())->method('flushByTags');
-
-		$cacheManager = new t3lib_cache_Manager();
-		$cacheManager->registerCache($cacheFrontEnd);
-		tx_realty_cacheManager::injectCacheManager($cacheManager);
-
-		$this->fixture->importFromZip();
-	}
-
-	/**
-	 * @test
-	 */
 	public function importFromZipClearsFrontEndCacheAfterImport() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			self::markTestSkipped('This test is not applicable for TYPO3 < 4.6.');
-		}
-
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
@@ -3088,8 +3021,8 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			array(), '', FALSE
 		);
 		$cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
-		/** @var $cacheBackEnd t3lib_cache_backend_Backend|PHPUnit_Framework_MockObject_MockObject */
-		$cacheBackEnd = $this->getMock($this->getCacheBackendClassName());
+		/** @var \TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
+		$cacheBackEnd = $this->getMock('TYPO3\\CMS\\Core\\Cache\\Backend\\TaggableBackendInterface');
 		$cacheFrontEnd->expects(self::any())->method('getBackend')->will(self::returnValue($cacheBackEnd));
 		$cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 

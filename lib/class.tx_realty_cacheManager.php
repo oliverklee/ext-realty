@@ -23,7 +23,7 @@
  */
 class tx_realty_cacheManager {
 	/**
-	 * @var t3lib_cache_Manager|TYPO3\CMS\Core\Cache\CacheManager
+	 * @var TYPO3\CMS\Core\Cache\CacheManager
 	 */
 	private static $cacheManager = NULL;
 
@@ -35,11 +35,7 @@ class tx_realty_cacheManager {
 	 * @return void
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {
-		if (self::isCachingFrameworkEnabled()) {
-			self::clearCacheWithCachingFramework();
-		} else {
-			self::deleteCacheInTable();
-		}
+		self::clearCacheWithCachingFramework();
 	}
 
 	/**
@@ -70,71 +66,21 @@ class tx_realty_cacheManager {
 	 * @return void
 	 */
 	private static function clearCacheWithCachingFramework() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			try {
-				/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
-				$pageCache = self::getCacheManager()->getCache('cache_pages');
-			} catch (t3lib_cache_exception_NoSuchCache $exception) {
-				t3lib_cache::initPageCache();
-				/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
-				$pageCache = self::getCacheManager()->getCache('cache_pages');
-			}
-			$pageCache->flushByTags(self::getPageUids('pageId_'));
-		} else {
-			/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
-			$pageCache = self::getCacheManager()->getCache('cache_pages');
-			foreach (self::getPageUids() as $pageUid) {
-				$pageCache->getBackend()->flushByTag('pageId_' . $pageUid);
-			}
+		/** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
+		$pageCache = self::getCacheManager()->getCache('cache_pages');
+		foreach (self::getPageUids() as $pageUid) {
+			$pageCache->getBackend()->flushByTag('pageId_' . $pageUid);
 		}
-	}
-
-	/**
-	 * Deletes the cache entries in the cache table to clear the cache.
-	 *
-	 * @return void
-	 */
-	private static function deleteCacheInTable() {
-		$pageUids = self::getPageUids();
-		if (empty($pageUids)) {
-			return;
-		}
-
-		tx_oelib_db::delete(
-			'cache_pages', 'page_id IN (' . implode(',', $pageUids) . ')'
-		);
-	}
-
-	/**
-	 * Checks whether the caching framework is enabled.
-	 *
-	 * @return bool
-	 */
-	private static function isCachingFrameworkEnabled() {
-		return (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) || TYPO3_UseCachingFramework;
 	}
 
 	/**
 	 * Fetches the core cache manager.
 	 *
 	 * @return t3lib_cache_Manager
-	 *
-	 * @throws BadMethodCallException
 	 */
 	public static function getCacheManager() {
-		if (!self::isCachingFrameworkEnabled()) {
-			throw new BadMethodCallException('This method must only be called with an enabled caching framework.', 1416868334);
-		}
-
 		if (self::$cacheManager === NULL) {
-			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
-				self::$cacheManager = t3lib_div::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
-			} else {
-				if (!($GLOBALS['typo3CacheManager'] instanceof t3lib_cache_Manager)) {
-					t3lib_cache::initializeCachingFramework();
-				}
-				self::$cacheManager = $GLOBALS['typo3CacheManager'];
-			}
+			self::$cacheManager = t3lib_div::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
 		}
 
 		return self::$cacheManager;

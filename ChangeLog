@@ -24,6 +24,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5408] Drop version-specific code and class_exists
 - [#5407] Drop the old XCLASS footers
 - [#5344] Clean up the OpenImmo import classes
 - [#5335] Make the calls to static PHPUnit methods static
