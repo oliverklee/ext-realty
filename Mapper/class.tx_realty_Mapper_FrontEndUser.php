@@ -26,7 +26,3 @@ class tx_realty_Mapper_FrontEndUser extends tx_oelib_Mapper_FrontEndUser {
 	 */
 	protected $modelClassName = 'tx_realty_Model_FrontEndUser';
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_FrontEndUser.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_FrontEndUser.php']);
-}

@@ -142,7 +142,3 @@ class tx_realty_lightboxIncluder {
 		return $GLOBALS['TSFE'];
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_lightboxIncluder.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/lib/class.tx_realty_lightboxIncluder.php']);
-}

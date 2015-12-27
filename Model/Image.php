@@ -169,7 +169,3 @@ class tx_realty_Model_Image extends tx_realty_Model_AbstractTitledModel implemen
 		return $this->getAsInteger('position');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/Image.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/Image.php']);
-}

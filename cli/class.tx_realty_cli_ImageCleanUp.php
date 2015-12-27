@@ -257,7 +257,3 @@ class tx_realty_cli_ImageCleanUp {
 		$this->additionalWhereClause = ' AND is_dummy_record = 1';
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli_ImageCleanUp.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/cli/class.tx_realty_cli_ImageCleanUp.php']);
-}

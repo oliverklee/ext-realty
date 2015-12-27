@@ -24,6 +24,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5407] Drop the old XCLASS footers
 - [#5344] Clean up the OpenImmo import classes
 - [#5335] Make the calls to static PHPUnit methods static
 - [#5205] Drop global variables from pi1_wizicon

@@ -68,7 +68,3 @@ class tx_realty_Mapper_Document extends tx_oelib_DataMapper {
 		}
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Mapper/Document.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Mapper/Document.php']);
-}

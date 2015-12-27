@@ -42,7 +42,3 @@ class tx_realty_Model_District extends tx_realty_Model_AbstractTitledModel {
 		$this->set('city', $city);
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_District.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Model/class.tx_realty_Model_District.php']);
-}

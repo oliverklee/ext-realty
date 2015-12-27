@@ -1304,7 +1304,3 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		return $this->isTestMode ? ' AND is_dummy_record=1' : '';
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_frontEndEditor.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_frontEndEditor.php']);
-}

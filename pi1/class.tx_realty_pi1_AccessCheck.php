@@ -181,7 +181,3 @@ class tx_realty_pi1_AccessCheck {
 		throw new tx_oelib_Exception_AccessDenied('message_no_objects_left', 1333036483);
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_AccessCheck.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/class.tx_realty_pi1_AccessCheck.php']);
-}

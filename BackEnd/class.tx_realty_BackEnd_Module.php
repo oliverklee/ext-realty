@@ -295,7 +295,3 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 		return $this->getLanguageService()->getLL($key);
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/BackEnd/class.tx_realty_BackEnd_Module.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/BackEnd/class.tx_realty_BackEnd_Module.php']);
-}

@@ -57,7 +57,3 @@ class tx_realty_pi1_StatusView extends tx_realty_pi1_FrontEndView {
 		return $this->getSubpart('FIELD_WRAPPER_STATUS');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/StatusView.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/pi1/StatusView.php']);
-}
