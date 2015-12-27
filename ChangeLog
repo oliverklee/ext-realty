@@ -5,6 +5,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5420] Stop calling deprecated config check methods
 
 Changes:
 
