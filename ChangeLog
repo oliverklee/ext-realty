@@ -18,6 +18,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5417] Require static_info_tables >= 6.2.0
 - [#5416] Update the static_info_tables version dependencies
 - [#5406] Require TYPO3 6.2 and PHP 5.5
 - [#5254] Document the Prototype/jQuery clash
