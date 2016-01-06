@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders error messages.
@@ -52,10 +53,10 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView {
 		$piVars = $this->piVars;
 		unset($piVars['DATA']);
 
-		$redirectUrl = t3lib_div::locationHeaderUrl(
+		$redirectUrl = GeneralUtility::locationHeaderUrl(
 			$this->cObj->typoLink_URL(array(
 				'parameter' => $this->getFrontEndController()->id,
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
+				'additionalParams' => GeneralUtility::implodeArrayForUrl(
 					$this->prefixId, $piVars, '', TRUE, TRUE
 				),
 				'useCacheHash' => TRUE,
@@ -66,7 +67,7 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView {
 			$this->translate('message_please_login'),
 			array(
 				'parameter' => $this->getConfValueInteger('loginPID'),
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
+				'additionalParams' => GeneralUtility::implodeArrayForUrl(
 					'', array('redirect_url' => $redirectUrl)
 				),
 			)

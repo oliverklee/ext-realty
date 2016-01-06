@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Backend module.
@@ -69,9 +70,9 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 				$this->doc->spacer(10) . $this->createTab()
 			);
 
-			if (t3lib_div::_GP('action') == 'startImport') {
+			if (GeneralUtility::_GP('action') == 'startImport') {
 				/** @var tx_realty_openImmoImport $importer */
-				$importer = t3lib_div::makeInstance('tx_realty_openImmoImport');
+				$importer = GeneralUtility::makeInstance('tx_realty_openImmoImport');
 				$this->template->setMarker(
 					'import_logs',
 					nl2br(htmlspecialchars($importer->importFromZip()))
@@ -96,7 +97,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * @return void
 	 */
 	private function initializeTemplate() {
-		$this->doc = t3lib_div::makeInstance('bigDoc');
+		$this->doc = GeneralUtility::makeInstance('bigDoc');
 		$this->doc->backPath = $GLOBALS['BACK_PATH'];
 		$this->doc->docType = 'xhtml_strict';
 		$this->doc->styleSheetFile2

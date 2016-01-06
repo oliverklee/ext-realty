@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders the offerer view.
@@ -50,7 +51,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function fetchContactDataFromSource($uid) {
 		/** @var tx_realty_offererList $offererList */
-		$offererList = t3lib_div::makeInstance('tx_realty_offererList', $this->conf, $this->cObj);
+		$offererList = GeneralUtility::makeInstance('tx_realty_offererList', $this->conf, $this->cObj);
 		/** @var tx_realty_Mapper_RealtyObject $mapper */
 		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 		/** @var tx_realty_Model_RealtyObject $realtyObject */

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class returns formatted realty object properties.
@@ -273,7 +274,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	private function getLabelForValidNonZeroProperty($key) {
 		$localizedStrings = array();
 
-		foreach (t3lib_div::trimExplode(',', $this->getRealtyObject()->getProperty($key), TRUE) as $value) {
+		foreach (GeneralUtility::trimExplode(',', $this->getRealtyObject()->getProperty($key), TRUE) as $value) {
 			if ($value >= 1) {
 				$localizedStrings[] = $this->getLabelForValidProperty($key, $value);
 			}
@@ -344,7 +345,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		/** @var tx_oelib_ViewHelper_Price $priceViewHelper */
-		$priceViewHelper = t3lib_div::makeInstance('tx_oelib_ViewHelper_Price');
+		$priceViewHelper = GeneralUtility::makeInstance('tx_oelib_ViewHelper_Price');
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 		$priceViewHelper->setValue((float)$rawValue);
 

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides a contact form for the realty plugin.
@@ -224,7 +225,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 
 		$contactName = $contactData['name'];
 		/** @var t3lib_mail_Message $email */
-		$email = t3lib_div::makeInstance('t3lib_mail_Message');
+		$email = GeneralUtility::makeInstance('t3lib_mail_Message');
 		$email->setTo(array($contactData['email'] => $contactName));
 		$email->setSubject($this->getEmailSubject());
 		$email->setBody($this->getFilledEmailBody($contactName));
@@ -356,7 +357,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * @return string[] configuration of $key, empty if no configuration was found
 	 */
 	private function getConfigurationArray($key) {
-		return t3lib_div::trimExplode(',', $this->getConfValueString($key, 's_contactForm'), TRUE);
+		return GeneralUtility::trimExplode(',', $this->getConfValueString($key, 's_contactForm'), TRUE);
 	}
 
 	/**
@@ -505,7 +506,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 	 * @return bool TRUE if the e-mail address is valid, FALSE otherwise
 	 */
 	private function isValidEmail($emailAddress) {
-		return (($emailAddress != '') && t3lib_div::validEmail($emailAddress));
+		return (($emailAddress != '') && GeneralUtility::validEmail($emailAddress));
 	}
 
 	/**

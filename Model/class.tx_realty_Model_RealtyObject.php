@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents a realty object.
@@ -265,7 +266,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 * @return string[] lowercased allowed image file extensions, might be empty
 	 */
 	protected function getAllowedImageExtensions() {
-		$allowedImageExtensions = t3lib_div::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), TRUE);
+		$allowedImageExtensions = GeneralUtility::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), TRUE);
 
 		return array_filter($allowedImageExtensions, array($this, 'isNotPdfOrPs'));
 	}
@@ -431,12 +432,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		$result = $data;
 		$result['images'] = count($data['images']);
-		$this->images = t3lib_div::makeInstance('tx_oelib_List');
+		$this->images = GeneralUtility::makeInstance('tx_oelib_List');
 
 		/** @var string[] $imageData */
 		foreach ($data['images'] as $imageData) {
 			/** @var $image tx_realty_Model_Image */
-			$image = t3lib_div::makeInstance('tx_realty_Model_Image');
+			$image = GeneralUtility::makeInstance('tx_realty_Model_Image');
 			$image->setTitle($imageData['caption']);
 			$image->setFileName($imageData['image']);
 			$image->setPageUid((int)$imageData['pid']);
@@ -471,12 +472,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		$result = $data;
 		$result['documents'] = count($data['documents']);
-		$this->documents = t3lib_div::makeInstance('tx_oelib_List');
+		$this->documents = GeneralUtility::makeInstance('tx_oelib_List');
 
 		/** @var string[] $documentData */
 		foreach ($data['documents'] as $documentData) {
 			/** @var $document tx_realty_Model_Document */
-			$document = t3lib_div::makeInstance('tx_realty_Model_Document');
+			$document = GeneralUtility::makeInstance('tx_realty_Model_Document');
 			$document->setTitle($documentData['title']);
 			$document->setFileName($documentData['filename']);
 			$document->setPageUid((int)$documentData['pid']);
@@ -883,7 +884,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 */
 	private function getReferenceIndex() {
 		if (!self::$referenceIndex) {
-			self::$referenceIndex = t3lib_div::makeInstance('t3lib_refindex');
+			self::$referenceIndex = GeneralUtility::makeInstance('t3lib_refindex');
 		}
 
 		return self::$referenceIndex;
@@ -1159,7 +1160,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		$this->set('images', $this->getAsInteger('images') + 1);
 
 		/** @var $image tx_realty_Model_Image */
-		$image = t3lib_div::makeInstance('tx_realty_Model_Image');
+		$image = GeneralUtility::makeInstance('tx_realty_Model_Image');
 		$image->setTitle($caption);
 		if ($fileName != '') {
 			$image->setFileName($fileName);
@@ -1199,7 +1200,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		$this->set('documents', $this->getAsInteger('documents') + 1);
 
 		/** @var $document tx_realty_Model_Document */
-		$document = t3lib_div::makeInstance('tx_realty_Model_Document');
+		$document = GeneralUtility::makeInstance('tx_realty_Model_Document');
 		if ($title != '') {
 			$document->setTitle($title);
 		}

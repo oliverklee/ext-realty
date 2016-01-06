@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class maps file names to their unique correspondences in the file system.
@@ -83,7 +84,7 @@ class tx_realty_fileNameMapper {
 	 *                will not be empty
 	 */
 	private function getUniqueFileName($originalFileName) {
-		$splittedFileName = t3lib_div::split_fileref($originalFileName);
+		$splittedFileName = GeneralUtility::split_fileref($originalFileName);
 		$newFileName = $this->getCleanedFileNameBody(
 				$splittedFileName['filebody']
 			) . '.' . $splittedFileName['realFileext'];
@@ -108,7 +109,7 @@ class tx_realty_fileNameMapper {
 	 */
 	private function getCleanedFileNameBody($fileNameBody) {
 		if (self::$fileFunctions === NULL) {
-			self::$fileFunctions = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+			self::$fileFunctions = GeneralUtility::makeInstance('t3lib_basicFileFunctions');
 		}
 
 		return self::$fileFunctions->cleanFileName($fileNameBody);
@@ -122,7 +123,7 @@ class tx_realty_fileNameMapper {
 	 * @return void
 	 */
 	private function createNewFileName(&$fileName) {
-		$splittedFileName = t3lib_div::split_fileref($fileName);
+		$splittedFileName = GeneralUtility::split_fileref($fileName);
 
 		$matches = array();
 		preg_match('/^(.*)_([0-9]+)$/', $splittedFileName['filebody'], $matches);

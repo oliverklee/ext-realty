@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders Google Maps.
@@ -170,7 +171,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 			tx_oelib_Geocoding_Google::getInstance()->lookUp($realtyObject);
 			if (!$realtyObject->getShowAddress()) {
 				/** @var tx_oelib_Geocoding_Calculator $geoCalculator */
-				$geoCalculator = t3lib_div::makeInstance('tx_oelib_Geocoding_Calculator');
+				$geoCalculator = GeneralUtility::makeInstance('tx_oelib_Geocoding_Calculator');
 				$geoCalculator->moveInRandomDirection($realtyObject, self::GEO_FUZZING_DISTANCE);
 			}
 			$realtyObject->writeToDatabase();
@@ -180,7 +181,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		/** @var tx_realty_mapMarker $mapMarker */
-		$mapMarker = t3lib_div::makeInstance('tx_realty_mapMarker');
+		$mapMarker = GeneralUtility::makeInstance('tx_realty_mapMarker');
 		$coordinates = $realtyObject->getGeoCoordinates();
 		$mapMarker->setCoordinates($coordinates['latitude'], $coordinates['longitude']);
 		$mapMarker->setTitle($realtyObject->getAddressAsSingleLine());
@@ -223,7 +224,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		} else {
 			$result = $this->cObj->typoLink($linkText, array(
 				'parameter' => $this->getConfValueInteger('singlePID'),
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
+				'additionalParams' => GeneralUtility::implodeArrayForUrl(
 					$this->prefixId, array('showUid' => $realtyObjectUid)
 				),
 				'useCacheHash' => ($this->getConfValueString('what_to_display') != 'favorites'),

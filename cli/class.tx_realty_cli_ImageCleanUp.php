@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class removes unused files from the realty upload folder.
@@ -173,7 +174,7 @@ class tx_realty_cli_ImageCleanUp {
 	 */
 	public function deleteUnusedFiles() {
 		$absolutePath = PATH_site . $this->uploadFolder;
-		$filesInUploadFolder = t3lib_div::getFilesInDir($absolutePath);
+		$filesInUploadFolder = GeneralUtility::getFilesInDir($absolutePath);
 		$this->addToStatistics(
 			'Files in upload folder', count($filesInUploadFolder)
 		);

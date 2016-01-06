@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders the contact button.
@@ -42,7 +43,7 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView {
 
 		$contactUrl = htmlspecialchars($this->cObj->typoLink_URL(array(
 			'parameter' => $this->getConfValueInteger('contactPID'),
-			'additionalParams' => t3lib_div::implodeArrayForUrl(
+			'additionalParams' => GeneralUtility::implodeArrayForUrl(
 				'',
 				array($this->prefixId => array('showUid' => $piVars['showUid']))
 			),

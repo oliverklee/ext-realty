@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides a list of offerers for the realty plugin.
@@ -95,12 +96,12 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 		}
 
 		/** @var $frontEndUser tx_realty_Model_FrontEndUser */
-		$frontEndUser = t3lib_div::makeInstance('tx_realty_Model_FrontEndUser');
+		$frontEndUser = GeneralUtility::makeInstance('tx_realty_Model_FrontEndUser');
 
 		// setData() will not create the relations, but "usergroup" is expected
 		// to hold a list instance.
 		$dataToSet = $ownerData;
-		$dataToSet['usergroup'] = t3lib_div::makeInstance('tx_oelib_List');
+		$dataToSet['usergroup'] = GeneralUtility::makeInstance('tx_oelib_List');
 		$frontEndUser->setData($dataToSet);
 
 		return $this->createListRow($frontEndUser);
@@ -280,7 +281,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			$configurationKey .= 'Special';
 		}
 
-		return in_array($keyOfInformation, t3lib_div::trimExplode(
+		return in_array($keyOfInformation, GeneralUtility::trimExplode(
 			',',
 			$this->getConfValueString($configurationKey, 's_offererInformation'),
 			TRUE
@@ -364,7 +365,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	private function getFirstUserGroup(tx_oelib_List $userGroups) {
 		$result = '';
 
-		$allowedGroups = t3lib_div::trimExplode(
+		$allowedGroups = GeneralUtility::trimExplode(
 			',',
 			$this->getConfValueString(
 				'userGroupsForOffererList', 's_offererInformation'
@@ -398,12 +399,12 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			return '';
 		}
 
-		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(
+		return GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL(
 			array(
 				'parameter' => $this->getConfValueInteger(
 					'objectsByOwnerPID', 's_offererInformation'
 				),
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
+				'additionalParams' => GeneralUtility::implodeArrayForUrl(
 					$this->prefixId, array('owner' => $ownerUid)
 				),
 				'useCacheHash' => TRUE,

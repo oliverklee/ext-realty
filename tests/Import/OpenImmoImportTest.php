@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case.
@@ -87,12 +88,12 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->setupStaticConditions();
 
 		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
+		GeneralUtility::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
 	}
 
 	protected function tearDown() {
-		// Get any surplus instances added via t3lib_div::addInstance.
-		t3lib_div::makeInstance('t3lib_mail_Message');
+		// Get any surplus instances added via GeneralUtility::addInstance.
+		GeneralUtility::makeInstance('t3lib_mail_Message');
 
 		$this->testingFramework->cleanUp();
 		$this->deleteTestImportFolder();
@@ -157,7 +158,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	private function copyTestFileIntoImportFolder($fileName, $newFileName = '') {
 		// creates an import folder if there is none
 		if (!is_dir($this->importFolder)) {
-			t3lib_div::mkdir($this->importFolder);
+			GeneralUtility::mkdir($this->importFolder);
 		}
 		$this->testImportFolderExists = TRUE;
 
@@ -177,7 +178,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	private function deleteTestImportFolder() {
 		if ($this->testImportFolderExists) {
-			t3lib_div::rmdir($this->importFolder, TRUE);
+			GeneralUtility::rmdir($this->importFolder, TRUE);
 			$this->testImportFolderExists = FALSE;
 		}
 	}
@@ -497,7 +498,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	 */
 	public function cleanUpDoesNotRemoveAForeignFolderAlthoughItIsNamedLikeAZipToImport() {
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		t3lib_div::mkdir($this->importFolder . 'foo/');
+		GeneralUtility::mkdir($this->importFolder . 'foo/');
 		$this->fixture->cleanUp($this->importFolder);
 
 		self::assertTrue(
@@ -604,7 +605,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		// just to ensure the import folder exists
 		$this->copyTestFileIntoImportFolder('empty.zip');
 		// copyTestFileIntoImportFolder() cannot copy folders
-		t3lib_div::mkdir($this->importFolder . 'changed-copy-of-same-name/');
+		GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
 		copy(
 			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . 'changed-copy-of-same-name/same-name.zip',
 			$this->importFolder . 'changed-copy-of-same-name/same-name.zip'
@@ -802,7 +803,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->markTableAsDirty('tx_realty_objects');
 
 		$this->copyTestFileIntoImportFolder('foo.zip');
-		t3lib_div::mkdir($this->importFolder . 'foo/');
+		GeneralUtility::mkdir($this->importFolder . 'foo/');
 		$result = $this->fixture->importFromZip();
 
 		self::assertContains(
@@ -825,7 +826,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		// just to ensure the import folder exists
 		$this->copyTestFileIntoImportFolder('empty.zip');
 		// copyTestFileIntoImportFolder() cannot copy folders
-		t3lib_div::mkdir($this->importFolder . 'changed-copy-of-same-name/');
+		GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
 		copy(
 			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
 				'changed-copy-of-same-name/same-name.zip',

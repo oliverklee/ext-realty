@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class checks the Realty Manager configuration for basic sanity.
@@ -239,7 +240,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 *                 otherwise
 	 */
 	private function isSingleViewPartToDisplay($viewPart) {
-		$configuredValues = t3lib_div::trimExplode(
+		$configuredValues = GeneralUtility::trimExplode(
 			',',
 			$this->objectToCheck->getConfValueString('singleViewPartsToDisplay'),
 			TRUE
@@ -520,7 +521,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * @return void
 	 */
 	private function checkPriceRangesForFilterForm() {
-		$displayedWidgetFields = t3lib_div::trimExplode(
+		$displayedWidgetFields = GeneralUtility::trimExplode(
 			',',
 			$this->objectToCheck->getConfValueString(
 				'displayedSearchWidgetFields', 's_searchForm'
@@ -748,7 +749,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 	 * @return bool TRUE if the "terms" checkbox is visible, FALSE otherwise
 	 */
 	private function hasTermsInContactForm() {
-		$visibleFormFields = t3lib_div::trimExplode(
+		$visibleFormFields = GeneralUtility::trimExplode(
 			',',
 			$this->objectToCheck->getConfValueString(
 				'visibleContactFormFields', 's_contactForm'
@@ -785,7 +786,7 @@ class tx_realty_configcheck extends tx_oelib_configcheck {
 				'but are actually not configured to be visible in the form. ' .
 				'The form cannot be submitted as long as this inconsistency ' .
 				'remains.',
-			t3lib_div::trimExplode(
+			GeneralUtility::trimExplode(
 				',',
 				// Replaces "zip_and_city" with "zip,city" as visiblity can only
 				// be configured for ZIP plus city but requirements can be set

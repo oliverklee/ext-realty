@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class can instantiate list views.
@@ -52,6 +53,6 @@ class tx_realty_pi1_ListViewFactory {
 				throw new InvalidArgumentException('The given list view type "' . $type . '" is invalid.', 1333036578);
 		}
 
-		return t3lib_div::makeInstance($viewName, $conf, $cObj);
+		return GeneralUtility::makeInstance($viewName, $conf, $cObj);
 	}
 }

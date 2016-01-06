@@ -12,6 +12,8 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 require_once(PATH_formidableapi);
 
 /**
@@ -77,7 +79,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObjectUid = $uidOfObjectToEdit;
 		$this->xmlPath = $xmlPath;
 
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+		$this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, TRUE);
 
 		parent::__construct($configuration, $cObj);
@@ -104,7 +106,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		$this->formCreator = t3lib_div::makeInstance('tx_ameosformidable');
+		$this->formCreator = GeneralUtility::makeInstance('tx_ameosformidable');
 		// FORMidable would produce an error message if it is initialized with
 		// a non-existing UID.
 		// The FORMidable object is never initialized for testing.
@@ -155,7 +157,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *                configured, the redirect will lead to the base URL
 	 */
 	public function getRedirectUrl() {
-		return t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
+		return GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL(array(
 			'parameter' => $this->getConfValueInteger(
 				'feEditorRedirectPid', 's_feeditor'
 			),
@@ -172,7 +174,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *                file system, will not be empty in a correct configuration
 	 */
 	static public function getTemplatePath() {
-		return t3lib_div::getFileAbsFileName(
+		return GeneralUtility::getFileAbsFileName(
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 				->getAsString('feEditorTemplateFile')
 		);
@@ -241,7 +243,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObjectUid = $uid;
 
 		if ($this->realtyObject->getUid() != $uid) {
-			$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+			$this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 			$this->realtyObject->loadRealtyObject($this->realtyObjectUid, TRUE);
 		}
 	}

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders the single view.
@@ -113,7 +114,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		$this->setPageTitle($uid);
 
 		$hasTextContent = FALSE;
-		$configuredViews = t3lib_div::trimExplode(
+		$configuredViews = GeneralUtility::trimExplode(
 			',', $this->getConfValueString('singleViewPartsToDisplay'), TRUE
 		);
 
@@ -184,7 +185,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function getView($uid, $viewName) {
 		/** @var tx_realty_pi1_FrontEndView $view */
-		$view = t3lib_div::makeInstance(
+		$view = GeneralUtility::makeInstance(
 			'tx_realty_pi1_' . ucfirst($viewName) . 'View',
 			$this->conf, $this->cObj, $this->isTestMode
 		);
@@ -208,7 +209,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 	 */
 	private function hideActionButtonsIfNecessary(array $displayedViews) {
 		/** @var tx_oelib_Visibility_Tree $visibilityTree */
-		$visibilityTree = t3lib_div::makeInstance(
+		$visibilityTree = GeneralUtility::makeInstance(
 			'tx_oelib_Visibility_Tree',
 			array('actionButtons' => array(
 				'addToFavoritesButton' => FALSE,

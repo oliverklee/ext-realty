@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents the favorites list view.
@@ -93,7 +94,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 
 			$contactUrl = htmlspecialchars($this->cObj->typoLink_URL(array(
 				'parameter' => $this->getConfValueInteger('contactPID'),
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
+				'additionalParams' => GeneralUtility::implodeArrayForUrl(
 					'', array($this->prefixId => $piVars)
 				),
 				'useCacheHash' => TRUE,
@@ -327,7 +328,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 
 		$uid = $this->internal['currentRow']['uid'];
 		$this->favoritesDataVerbose[$uid] = array();
-		foreach (t3lib_div::trimExplode(
+		foreach (GeneralUtility::trimExplode(
 			',', $this->getConfValueString('favoriteFieldsInSession'), TRUE
 		) as $key) {
 			$this->favoritesDataVerbose[$uid][$key]

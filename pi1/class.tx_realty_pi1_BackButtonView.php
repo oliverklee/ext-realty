@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders the back button.
@@ -74,7 +75,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 
 		$urlParameter = array(
 			'parameter' => $listViewPage['pid'],
-			'additionalParams' => t3lib_div::implodeArrayForUrl(
+			'additionalParams' => GeneralUtility::implodeArrayForUrl(
 				$this->prefixId, $additionalParameters
 			),
 			'useCacheHash' => TRUE,
@@ -96,7 +97,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 			return FALSE;
 		}
 
-		$displayedSingleViewParts = t3lib_div::trimExplode(
+		$displayedSingleViewParts = GeneralUtility::trimExplode(
 			',', $this->getConfValueString('singleViewPartsToDisplay'), TRUE
 		);
 

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides a form to enter filter criteria for the realty list in the realty plugin.
@@ -51,7 +52,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	 */
 	public function render(array $filterFormData = array()) {
 		$this->extractValidFilterFormData($filterFormData);
-		$this->displayedSearchFields = t3lib_div::trimExplode(
+		$this->displayedSearchFields = GeneralUtility::trimExplode(
 			',',
 			$this->getConfValueString(
 				'displayedSearchWidgetFields', 's_searchForm'),
@@ -185,7 +186,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return array();
 		}
 
-		$rangeLimits = t3lib_div::intExplode('-', $priceRange);
+		$rangeLimits = GeneralUtility::intExplode('-', $priceRange);
 
 		// (int) converts an empty string to 0. So for "-100" zero and 100
 		// will be stored as limits.
@@ -233,7 +234,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 	private function setTargetUrlMarker() {
 		$this->setMarker(
 			'target_url',
-			htmlspecialchars(t3lib_div::locationHeaderUrl($this->cObj->typoLink_URL(array(
+			htmlspecialchars(GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL(array(
 				'parameter' => $this->getConfValueInteger(
 					'filterTargetPID', 's_searchForm'
 				),
@@ -563,7 +564,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		// remain empty.
 		$priceRanges = array(array());
 
-		$priceRangeConfiguration = t3lib_div::trimExplode(
+		$priceRangeConfiguration = GeneralUtility::trimExplode(
 			',',
 			$this->getConfValueString('priceRangesForFilterForm','s_searchForm')
 		);
@@ -596,7 +597,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 		$currency = $this->getConfValueString('currencyUnit');
 
 		/** @var tx_oelib_ViewHelper_Price $priceViewHelper */
-		$priceViewHelper = t3lib_div::makeInstance('tx_oelib_ViewHelper_Price');
+		$priceViewHelper = GeneralUtility::makeInstance('tx_oelib_ViewHelper_Price');
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 
 		if ($range['lowerLimit'] == 0) {

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders the buying price or rent (depending on the object type)
@@ -59,7 +60,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView {
 
 		if (($keyToShow) !== '' && ($keyToHide !== '')) {
 			/** @var tx_realty_pi1_Formatter $formatter */
-			$formatter = t3lib_div::makeInstance('tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf, $this->cObj);
+			$formatter = GeneralUtility::makeInstance('tx_realty_pi1_Formatter', $piVars['showUid'], $this->conf, $this->cObj);
 			$hasValidContent = $this->setOrDeleteMarkerIfNotEmpty(
 				$keyToShow,
 				$formatter->getProperty($keyToShow),

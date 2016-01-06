@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class is the base class for all list views in the front end.
@@ -128,7 +129,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	protected function setRealtyObjectFromUid($realtyObjectUid) {
 		// @todo This needs to be changed to use the data mapper.
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+		$this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->loadRealtyObject($realtyObjectUid, TRUE);
 	}
 
@@ -293,7 +294,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @return void
 	 */
 	private function addHeaderForListView() {
-		$postValues = t3lib_div::_POST();
+		$postValues = GeneralUtility::_POST();
 		if (isset($postValues['tx_realty_pi1'])) {
 			tx_oelib_headerProxyFactory::getInstance()
 				->getHeaderProxy()->addHeader(
@@ -349,7 +350,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		);
 		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader(
 			'Location: ' .
-			t3lib_div::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
+			GeneralUtility::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
 		);
 	}
 
@@ -522,7 +523,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		$this->setMarker('self_url', $this->getSelfUrl());
-		$selectedSortCriteria = t3lib_div::trimExplode(
+		$selectedSortCriteria = GeneralUtility::trimExplode(
 			',', $this->getConfValueString('sortCriteria'), TRUE
 		);
 		$options = array();
@@ -588,7 +589,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		/** @var tx_realty_filterForm $filterForm */
-		$filterForm = t3lib_div::makeInstance('tx_realty_filterForm', $this->conf, $this->cObj);
+		$filterForm = GeneralUtility::makeInstance('tx_realty_filterForm', $this->conf, $this->cObj);
 		$whereClause .= $filterForm->getWhereClausePart($this->piVars);
 
 		return $whereClause;
@@ -716,7 +717,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			}
 		}
 
-		$parameters = t3lib_div::implodeArrayForUrl(
+		$parameters = GeneralUtility::implodeArrayForUrl(
 			'', array($this->prefixId => $piVars), '', TRUE, TRUE
 		);
 		$url = $this->cObj->typoLink_URL(
@@ -772,7 +773,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				$linkText,
 				array(
 					'parameter' => $this->getConfValueInteger('singlePID'),
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
+					'additionalParams' => GeneralUtility::implodeArrayForUrl(
 						$this->prefixId, $additionalParameters
 					),
 					'useCacheHash' => $useCache,
@@ -936,7 +937,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			return $this->formatter;
 		}
 
-		$this->formatter = t3lib_div::makeInstance('tx_realty_pi1_Formatter', $currentUid, $this->conf, $this->cObj);
+		$this->formatter = GeneralUtility::makeInstance('tx_realty_pi1_Formatter', $currentUid, $this->conf, $this->cObj);
 
 		return $this->formatter;
 	}
@@ -1001,7 +1002,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$url = $this->cObj->typoLink_URL(
 				array(
 					'parameter' => $this->getFrontEndController()->id,
-					'additionalParams' => t3lib_div::implodeArrayForUrl($this->prefixId, $additionalParameters),
+					'additionalParams' => GeneralUtility::implodeArrayForUrl($this->prefixId, $additionalParameters),
 					'useCacheHash' => TRUE,
 				)
 			);
@@ -1098,10 +1099,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$linkText,
 			array(
 				'parameter' => $this->getConfValueInteger('loginPID'),
-				'additionalParams' => t3lib_div::implodeArrayForUrl(
+				'additionalParams' => GeneralUtility::implodeArrayForUrl(
 					$this->prefixId,
 					array(
-						'redirect_url' => t3lib_div::locationHeaderUrl(
+						'redirect_url' => GeneralUtility::locationHeaderUrl(
 							$redirectPage
 						),
 					)
@@ -1285,7 +1286,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		/** @var tx_realty_pi1_GoogleMapsView $googleMapsView */
-		$googleMapsView = t3lib_div::makeInstance(
+		$googleMapsView = GeneralUtility::makeInstance(
 			'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj, $this->isTestMode
 		);
 		foreach ($shownObjectsUids as $objectUid) {
@@ -1302,7 +1303,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *        the UID of the object to create the link for, must be > 0
 	 *
 	 * @return array additional parameters to the single view page for usage
-	 *               with t3lib_div::implodeArrayForUrl, will not be empty
+	 *               with GeneralUtility::implodeArrayForUrl, will not be empty
 	 */
 	private function getAdditionalParametersForSingleViewLink($uid) {
 		$result = array('showUid' => $uid);

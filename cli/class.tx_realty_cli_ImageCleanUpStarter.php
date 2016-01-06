@@ -12,6 +12,8 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 defined('TYPO3_cliMode') or die('You cannot run this script directly!');
 
 setlocale(LC_NUMERIC, 'C');
@@ -37,7 +39,7 @@ class tx_realty_cli_ImageCleanUpStarter {
 	public function main() {
 		try {
 			/** @var tx_realty_cli_ImageCleanUp $cleanUp */
-			$cleanUp = t3lib_div::makeInstance('tx_realty_cli_ImageCleanUp');
+			$cleanUp = GeneralUtility::makeInstance('tx_realty_cli_ImageCleanUp');
 			$cleanUp->checkUploadFolder();
 			$cleanUp->hideUnusedImagesInDatabase();
 			$cleanUp->deleteUnusedDocumentRecords();
@@ -52,5 +54,5 @@ class tx_realty_cli_ImageCleanUpStarter {
 }
 
 /** @var tx_realty_cli_ImageCleanUpStarter $starter */
-$starter = t3lib_div::makeInstance('tx_realty_cli_ImageCleanUpStarter');
+$starter = GeneralUtility::makeInstance('tx_realty_cli_ImageCleanUpStarter');
 $starter->main();

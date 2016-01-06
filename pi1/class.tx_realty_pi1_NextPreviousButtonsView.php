@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders the "next" and "previous" buttons.
@@ -36,7 +37,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		/** @var tx_oelib_Visibility_Tree $visibilityTree */
-		$visibilityTree = t3lib_div::makeInstance(
+		$visibilityTree = GeneralUtility::makeInstance(
 			'tx_oelib_Visibility_Tree',
 			array('nextPreviousButtons' => array('previousButton' => FALSE, 'nextButton' => FALSE))
 		);
@@ -201,7 +202,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			'uid = ' . (int)$this->piVars['listUid'] . tx_oelib_db::enableFields('tt_content')
 		);
 		/** @var tslib_cObj $contentObject */
-		$contentObject = t3lib_div::makeInstance('tslib_cObj');
+		$contentObject = GeneralUtility::makeInstance('tslib_cObj');
 		$contentObject->start($contentData, 'tt_content');
 		$listView = tx_realty_pi1_ListViewFactory::make(
 			$this->piVars['listViewType'], $this->conf, $contentObject
@@ -235,7 +236,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 		$additionalParameters['showUid'] = $recordUid;
 		$urlParameters = array(
 			'parameter' => $this->cObj->data['pid'],
-			'additionalParams' => t3lib_div::implodeArrayForUrl(
+			'additionalParams' => GeneralUtility::implodeArrayForUrl(
 				$this->prefixId, $additionalParameters
 			),
 			'useCacheHash' => TRUE,

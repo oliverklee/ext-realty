@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class renders the overview table view.
@@ -62,7 +63,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 		$rows = array();
 		$rowCounter = 0;
 		/** @var tx_realty_pi1_Formatter $formatter */
-		$formatter = t3lib_div::makeInstance('tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj);
+		$formatter = GeneralUtility::makeInstance('tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj);
 
 		foreach ($fieldNames as $key) {
 			if ($this->setMarkerIfNotEmpty('data_current_row', $formatter->getProperty($key))) {
@@ -109,7 +110,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView {
 		/** @var string[] $fieldNamesToShow */
 		$fieldNamesToShow = array();
 		/** @var string[] $fieldsConfiguredToShow */
-		$fieldsConfiguredToShow = t3lib_div::trimExplode(',', $this->getConfValueString('fieldsInSingleViewTable'), TRUE);
+		$fieldsConfiguredToShow = GeneralUtility::trimExplode(',', $this->getConfValueString('fieldsInSingleViewTable'), TRUE);
 
 		foreach ($fieldsConfiguredToShow as $key) {
 			$fieldIsAllowed = $realtyObject->isAllowedKey($key);

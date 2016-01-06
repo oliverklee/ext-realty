@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class that adds the wizard icon.
@@ -52,7 +53,7 @@ class tx_realty_pi1_wizicon {
 		/** @var language $languageService */
 		$languageService = $GLOBALS['LANG'];
 		/** @var t3lib_l10n_parser_Llxml $xmlParser */
-		$xmlParser = t3lib_div::makeInstance('t3lib_l10n_parser_Llxml');
+		$xmlParser = GeneralUtility::makeInstance('t3lib_l10n_parser_Llxml');
 		$localLanguage = $xmlParser->getParsedData($languageFile, $languageService->lang);
 
 		return $localLanguage;

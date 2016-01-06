@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class assumes the image upload for the FE editor in the realty plugin.
@@ -101,7 +102,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 			);
 		}
 
-		$idsOfImagesToDelete = t3lib_div::trimExplode(
+		$idsOfImagesToDelete = GeneralUtility::trimExplode(
 			',', $formData['imagesToDelete'], TRUE
 		);
 		foreach ($idsOfImagesToDelete as $imageId) {
@@ -138,7 +139,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		$validationErrorLabel = '';
 		$maximumFileSizeInBytes
 			= $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024;
-		$imageExtensions = t3lib_div::trimExplode(
+		$imageExtensions = GeneralUtility::trimExplode(
 			',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE
 		);
 		if (in_array('pdf', $imageExtensions)) {
@@ -210,11 +211,11 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	 * @return string URL of the current page, will not be empty
 	 */
 	private function getUrlOfCurrentPage() {
-		return t3lib_div::locationHeaderUrl(
+		return GeneralUtility::locationHeaderUrl(
 			$this->cObj->typoLink_URL(
 				array(
 					'parameter' => $this->getFrontEndController()->id,
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
+					'additionalParams' => GeneralUtility::implodeArrayForUrl(
 						'',
 						array($this->prefixId => array('showUid' => $this->realtyObjectUid))
 					),
@@ -239,7 +240,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 		/** @var tx_realty_Model_Image $image */
 		foreach ($images as $image) {
 			$imagePath = tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName();
-			$imageUrl = htmlspecialchars(t3lib_div::locationHeaderUrl(
+			$imageUrl = htmlspecialchars(GeneralUtility::locationHeaderUrl(
 					$this->cObj->typoLink_URL(array('parameter' => $imagePath, 'useCacheHash' => TRUE))
 			));
 			$title = $image->getTitle();

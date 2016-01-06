@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents a view that contains the status of an object.
@@ -48,7 +49,7 @@ class tx_realty_pi1_StatusView extends tx_realty_pi1_FrontEndView {
 		);
 
 		/** @var tx_realty_pi1_Formatter $formatter */
-		$formatter = t3lib_div::makeInstance(
+		$formatter = GeneralUtility::makeInstance(
 			'tx_realty_pi1_Formatter',
 			$piVars['showUid'], $this->conf, $this->cObj
 		);

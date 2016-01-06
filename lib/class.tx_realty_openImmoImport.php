@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class imports ZIPs containing OpenImmo records.
@@ -106,7 +107,7 @@ class tx_realty_openImmoImport {
 		$this->isTestMode = $isTestMode;
 		libxml_use_internal_errors(TRUE);
 		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
-		$this->fileNameMapper = t3lib_div::makeInstance('tx_realty_fileNameMapper');
+		$this->fileNameMapper = GeneralUtility::makeInstance('tx_realty_fileNameMapper');
 		$this->setUploadDirectory(PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER);
 	}
 
@@ -181,7 +182,7 @@ class tx_realty_openImmoImport {
 	 */
 	private function getTranslator() {
 		if (self::$translator === NULL) {
-			self::$translator = t3lib_div::makeInstance('tx_realty_translator');
+			self::$translator = GeneralUtility::makeInstance('tx_realty_translator');
 		}
 
 		return self::$translator;
@@ -726,7 +727,7 @@ class tx_realty_openImmoImport {
 	 */
 	private function fillEmailTemplate($recordsForOneEmail) {
 		/** @var $template Tx_Oelib_TemplateHelper */
-		$template = t3lib_div::makeInstance('Tx_Oelib_TemplateHelper');
+		$template = GeneralUtility::makeInstance('Tx_Oelib_TemplateHelper');
 		$template->init(array('templateFile' => $this->globalConfiguration->getAsString('emailTemplate')));
 		$template->getTemplateCode();
 		$contentItem = array();
@@ -768,7 +769,7 @@ class tx_realty_openImmoImport {
 
 		foreach ($addressesAndMessages as $address => $content) {
 			/** @var t3lib_mail_Message $email */
-			$email = t3lib_div::makeInstance('t3lib_mail_Message');
+			$email = GeneralUtility::makeInstance('t3lib_mail_Message');
 			$email->setTo(array($address => ''));
 			$email->setSubject($this->getTranslator()->translate('label_subject_openImmo_import'));
 			$email->setBody($this->fillEmailTemplate($content));
@@ -791,7 +792,7 @@ class tx_realty_openImmoImport {
 	 */
 	protected function ensureContactEmail() {
 		$address = $this->getContactEmailFromRealtyObject();
-		$isValid = ($address !== '') && t3lib_div::validEmail($address);
+		$isValid = ($address !== '') && GeneralUtility::validEmail($address);
 
 		if (!$isValid) {
 			$this->setContactEmailOfRealtyObject($this->getDefaultEmailAddress());
@@ -827,7 +828,7 @@ class tx_realty_openImmoImport {
 		$result = array();
 
 		if (is_dir($importDirectory)) {
-			$result = t3lib_div::getAllFilesAndFoldersInPath(array(), $importDirectory, 'zip');
+			$result = GeneralUtility::getAllFilesAndFoldersInPath(array(), $importDirectory, 'zip');
 		}
 
 		return $result;
@@ -888,7 +889,7 @@ class tx_realty_openImmoImport {
 
 		$folderForZipExtraction = $this->getNameForExtractionFolder($pathOfZip);
 		if (!is_dir($folderForZipExtraction)) {
-			if (t3lib_div::mkdir($folderForZipExtraction)) {
+			if (GeneralUtility::mkdir($folderForZipExtraction)) {
 				$this->filesToDelete[] = $folderForZipExtraction;
 				if (!is_writable($folderForZipExtraction)) {
 					$this->addToErrorLog(
@@ -1061,7 +1062,7 @@ class tx_realty_openImmoImport {
 		$imagesNotToCopy = $this->findFileNamesOfDeletedRecords($realtyRecords);
 
 		/** @var string[] $lowercaseFileExtensions */
-		$lowercaseFileExtensions = t3lib_div::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE);
+		$lowercaseFileExtensions = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE);
 		if (!in_array('pdf', $lowercaseFileExtensions, TRUE)) {
 			$lowercaseFileExtensions[] = 'pdf';
 		}
@@ -1168,7 +1169,7 @@ class tx_realty_openImmoImport {
 	private function deleteFile($pathOfFile) {
 		$removedFile = '';
 		if (in_array($pathOfFile, $this->filesToDelete, TRUE)) {
-			t3lib_div::rmdir($pathOfFile, TRUE);
+			GeneralUtility::rmdir($pathOfFile, TRUE);
 			$removedFile = basename($pathOfFile);
 		}
 
@@ -1188,7 +1189,7 @@ class tx_realty_openImmoImport {
 		}
 
 		/** @var tx_realty_domDocumentConverter $domDocumentConverter */
-		$domDocumentConverter = t3lib_div::makeInstance('tx_realty_domDocumentConverter', $this->fileNameMapper);
+		$domDocumentConverter = GeneralUtility::makeInstance('tx_realty_domDocumentConverter', $this->fileNameMapper);
 
 		return $domDocumentConverter->getConvertedData($realtyRecords);
 	}
@@ -1207,7 +1208,7 @@ class tx_realty_openImmoImport {
 	 * @return void
 	 */
 	protected function loadRealtyObject(array $data) {
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+		$this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->loadRealtyObject($data, TRUE);
 	}
 

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class converts DOMDocuments of OpenImmo data to arrays which have the
@@ -518,7 +519,7 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function getTranslator() {
 		if (!self::$translator) {
-			self::$translator = t3lib_div::makeInstance('tx_realty_translator');
+			self::$translator = GeneralUtility::makeInstance('tx_realty_translator');
 		}
 
 		return self::$translator;
@@ -555,7 +556,7 @@ class tx_realty_domDocumentConverter {
 	 * @return array[] image records, will be empty if there are none
 	 */
 	protected function createRecordsForImages() {
-		$imageExtensions = t3lib_div::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE);
+		$imageExtensions = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], TRUE);
 		if (in_array('pdf', $imageExtensions, TRUE)) {
 			unset($imageExtensions[array_search('pdf', $imageExtensions, TRUE)]);
 		}

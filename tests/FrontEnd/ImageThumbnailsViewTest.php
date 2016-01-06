@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case.
@@ -194,7 +195,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		self::assertTrue(
 			in_array(
-				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
+				'<script type="text/javascript" src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/lightbox.js" ></script>',
 				$this->getFrontEndController()->additionalHeaderData
 			)
@@ -213,7 +214,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		self::assertTrue(
 			in_array(
-				'<link rel="stylesheet" type="text/css" href="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
+				'<link rel="stylesheet" type="text/css" href="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') .
 					'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
 				$this->getFrontEndController()->additionalHeaderData
 			)
@@ -232,7 +233,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		self::assertTrue(
 			in_array(
-				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
+				'<script type="text/javascript" src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/prototype.js"></script>',
 				$this->getFrontEndController()->additionalHeaderData
 			)
@@ -251,7 +252,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		self::assertTrue(
 			in_array(
-				'<script type="text/javascript"src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty/pi1' .
+				'<script type="text/javascript"src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty/pi1' .
 					'/contrib/scriptaculous.js?load=effects,builder"></script>',
 				$this->getFrontEndController()->additionalHeaderData
 			)
@@ -270,7 +271,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		self::assertTrue(
 			in_array(
-				'<script type="text/javascript" src="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
+				'<script type="text/javascript" src="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') . 'typo3conf/ext/realty' .
 					'/pi1/contrib/lightbox.js" ></script>',
 				$this->getFrontEndController()->additionalHeaderData
 			)
@@ -289,7 +290,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 
 		self::assertTrue(
 			in_array(
-				'<link rel="stylesheet" type="text/css" href="' . t3lib_div::getIndpEnv('TYPO3_SITE_PATH') .
+				'<link rel="stylesheet" type="text/css" href="' . GeneralUtility::getIndpEnv('TYPO3_SITE_PATH') .
 					'typo3conf/ext/realty/pi1/contrib/lightbox.css" />',
 				$this->getFrontEndController()->additionalHeaderData
 			)

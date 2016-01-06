@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case.
@@ -66,12 +67,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
+		GeneralUtility::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
 	}
 
 	protected function tearDown() {
-		// Get any surplus instances added via t3lib_div::addInstance.
-		t3lib_div::makeInstance('t3lib_mail_Message');
+		// Get any surplus instances added via GeneralUtility::addInstance.
+		GeneralUtility::makeInstance('t3lib_mail_Message');
 
 		tx_realty_cacheManager::purgeCacheManager();
 

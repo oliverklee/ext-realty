@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides an FE editor the realty plugin.
@@ -331,7 +332,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 
 		$result = TRUE;
 
-		$range = t3lib_div::trimExplode('-', $formData['range'], TRUE);
+		$range = GeneralUtility::trimExplode('-', $formData['range'], TRUE);
 		$valuesToCheck = $formData['multiple']
 			? $formData['value']
 			: array($formData['value']);
@@ -851,7 +852,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		/** @var t3lib_mail_Message $email */
-		$email = t3lib_div::makeInstance('t3lib_mail_Message');
+		$email = GeneralUtility::makeInstance('t3lib_mail_Message');
 		$email->setTo(array($this->getConfValueString('feEditorNotifyEmail', 's_feeditor') => ''));
 		$email->setSubject($this->translate('label_email_subject_fe_editor'));
 		$email->setBody($this->getFilledEmailBody());
@@ -1120,7 +1121,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		}
 
 		/** @var $district tx_realty_Model_District */
-		$district = t3lib_div::makeInstance('tx_realty_Model_District');
+		$district = GeneralUtility::makeInstance('tx_realty_Model_District');
 		$district->setData(array('pid' => self::getPageIdForAuxiliaryRecords()));
 		$district->setTitle($title);
 		/** @var tx_realty_Mapper_City $cityMapper */
@@ -1282,7 +1283,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// The faked record is marked as a test record and no fields are
 		// required to be set.
 		$this->setFakedFormValue('is_dummy_record', 1);
-		$this->realtyObject = t3lib_div::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
+		$this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->setRequiredFields(array());
 		$this->realtyObject->loadRealtyObject($this->fakedFormValues);
 		$this->realtyObject->writeToDatabase();

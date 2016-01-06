@@ -17,7 +17,7 @@ $BE_USER->modAccess($MCONF, 1);
 $LANG->includeLLFile('EXT:realty/BackEnd/locallang.xml');
 
 /** @var tx_realty_BackEnd_Module $SOBE */
-$SOBE = t3lib_div::makeInstance('tx_realty_BackEnd_Module');
+$SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_realty_BackEnd_Module');
 $SOBE->init();
 
 echo $SOBE->render();

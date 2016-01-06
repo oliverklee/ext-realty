@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class translates localized strings used in this extension's lib/
@@ -37,12 +38,12 @@ class tx_realty_translator {
 		if (is_object($GLOBALS['LANG'])) {
 			$this->languageService = $GLOBALS['LANG'];
 		} else {
-			$this->languageService = t3lib_div::makeInstance('language');
+			$this->languageService = GeneralUtility::makeInstance('language');
 		}
 		$cliLanguage = tx_oelib_configurationProxy::getInstance('realty')->getAsString('cliLanguage');
 		// "default" is used as language key if the configured language key is not within the set of available language keys.
 		/** @var t3lib_l10n_Locales $locales */
-		$locales = t3lib_div::makeInstance('t3lib_l10n_Locales');
+		$locales = GeneralUtility::makeInstance('t3lib_l10n_Locales');
 		$languageKey = in_array($cliLanguage, $locales->getLocales())? $cliLanguage : 'default';
 
 		$this->languageService->init($languageKey);

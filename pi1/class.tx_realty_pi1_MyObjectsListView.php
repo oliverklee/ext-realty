@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents the "my objects" list view.
@@ -130,7 +131,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 
 		// For testing, the FE editor's FORMidable object must not be created.
 		/** @var tx_realty_frontEndEditor $frontEndEditor */
-		$frontEndEditor = t3lib_div::makeInstance(
+		$frontEndEditor = GeneralUtility::makeInstance(
 			'tx_realty_frontEndEditor', $this->conf, $this->cObj,
 			$this->piVars['delete'], 'pi1/tx_realty_frontEndEditor.xml',
 			$this->isTestMode
@@ -180,7 +181,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 			$this->cObj->typoLink_URL(
 				array(
 					'parameter' => $this->getFrontEndController()->id,
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
+					'additionalParams' => GeneralUtility::implodeArrayForUrl(
 						$this->prefixId,
 						array('delete' => $this->internal['currentRow']['uid'])
 					),
@@ -221,11 +222,11 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 * @return string the link to the FE editor page, will not be empty
 	 */
 	private function createLinkToFeEditorPage($pidKey, $uid) {
-		return t3lib_div::locationHeaderUrl(
+		return GeneralUtility::locationHeaderUrl(
 			$this->cObj->typoLink_URL(
 				array(
 					'parameter' => $this->getConfValueInteger($pidKey),
-					'additionalParams' => t3lib_div::implodeArrayForUrl(
+					'additionalParams' => GeneralUtility::implodeArrayForUrl(
 						$this->prefixId, array('showUid' => $uid)
 					),
 					'useCacheHash' => TRUE,
@@ -259,7 +260,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 		if ($this->hasConfValueString(
 			'advertisementParameterForObjectUid', 's_advertisements'
 		)) {
-			$linkParameters = t3lib_div::implodeArrayForUrl(
+			$linkParameters = GeneralUtility::implodeArrayForUrl(
 				'',
 				array(
 					$this->getConfValueString(

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides a function to clear the FE cache for pages with the
@@ -80,7 +81,7 @@ class tx_realty_cacheManager {
 	 */
 	public static function getCacheManager() {
 		if (self::$cacheManager === NULL) {
-			self::$cacheManager = t3lib_div::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
+			self::$cacheManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
 		}
 
 		return self::$cacheManager;
