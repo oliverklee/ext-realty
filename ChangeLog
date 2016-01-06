@@ -18,6 +18,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5455] Change t3lib_BEfunc into TYPO3\CMS\Backend\Utility\BackendUtility
 - [#5425] Change t3lib_div into \TYPO3\CMS\Core\Utility\GeneralUtility
 - [#5418] Drop the css_styled_content requirement
 - [#5417] Require static_info_tables >= 6.2.0

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -131,7 +132,7 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 	 * @return string the HTML output for the import button
 	 */
 	private function createImportButton() {
-		$moduleUrl = t3lib_BEfunc::getModuleUrl(self::MODULE_NAME, array('id' => $this->id));
+		$moduleUrl = BackendUtility::getModuleUrl(self::MODULE_NAME, array('id' => $this->id));
 		$this->template->setMarker('module_url', htmlspecialchars($moduleUrl));
 		$this->template->setMarker(
 			'label_start_import',
@@ -175,14 +176,14 @@ class tx_realty_BackEnd_Module extends t3lib_SCbase {
 			'pidForRealtyObjectsAndImages'
 		);
 		$canWriteObjectsPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
-			t3lib_BEfunc::getRecord('pages', $objectsPid), 16
+			BackendUtility::getRecord('pages', $objectsPid), 16
 		);
 
 		$auxiliaryPid = $configurationProxy->getAsInteger(
 			'pidForAuxiliaryRecords'
 		);
 		$canWriteAuxiliaryPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
-			t3lib_BEfunc::getRecord('pages', $auxiliaryPid), 16
+			BackendUtility::getRecord('pages', $auxiliaryPid), 16
 		);
 
 		if (!$canWriteObjectsPage) {
