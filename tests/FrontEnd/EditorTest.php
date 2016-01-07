@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -2153,7 +2154,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 		$cacheFrontEnd->expects(self::any())->method('getBackend')->will(self::returnValue($cacheBackEnd));
 		$cacheBackEnd->expects(self::atLeastOnce())->method('flushByTag');
 
-		$cacheManager = new t3lib_cache_Manager();
+		$cacheManager = new CacheManager();
 		$cacheManager->registerCache($cacheFrontEnd);
 		tx_realty_cacheManager::injectCacheManager($cacheManager);
 

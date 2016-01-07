@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -24,7 +25,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class tx_realty_cacheManager {
 	/**
-	 * @var TYPO3\CMS\Core\Cache\CacheManager
+	 * @var CacheManager
 	 */
 	private static $cacheManager = NULL;
 
@@ -75,11 +76,11 @@ class tx_realty_cacheManager {
 	/**
 	 * Fetches the core cache manager.
 	 *
-	 * @return t3lib_cache_Manager
+	 * @return CacheManager
 	 */
 	public static function getCacheManager() {
 		if (self::$cacheManager === NULL) {
-			self::$cacheManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager');
+			self::$cacheManager = GeneralUtility::makeInstance(CacheManager::class);
 		}
 
 		return self::$cacheManager;
@@ -90,11 +91,11 @@ class tx_realty_cacheManager {
 	 *
 	 * This function is intended to be used mainly in unit tests.
 	 *
-	 * @param t3lib_cache_Manager $cacheManager
+	 * @param CacheManager $cacheManager
 	 *
 	 * @return void
 	 */
-	public static function injectCacheManager(t3lib_cache_Manager $cacheManager) {
+	public static function injectCacheManager(CacheManager $cacheManager) {
 		self::$cacheManager = $cacheManager;
 	}
 

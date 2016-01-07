@@ -18,6 +18,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5435] Change t3lib_cache_Manager to \TYPO3\CMS\Core\Cache\CacheManager
 - [#5433] Change t3lib_basicFileFunctions to \TYPO3\CMS\Core\Utility\File\BasicFileUtility
 - [#5427] Change tslib_fe to TypoScriptFrontendController
 - [#5426] Change t3lib_beUserAuth to BackendUserAuthentication
