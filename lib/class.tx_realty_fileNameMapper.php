@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\File\BasicFileUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -35,7 +36,7 @@ class tx_realty_fileNameMapper {
 	private $destinationPath = '';
 
 	/**
-	 * @var t3lib_basicFileFunctions
+	 * @var BasicFileUtility
 	 */
 	private static $fileFunctions = NULL;
 
@@ -109,7 +110,7 @@ class tx_realty_fileNameMapper {
 	 */
 	private function getCleanedFileNameBody($fileNameBody) {
 		if (self::$fileFunctions === NULL) {
-			self::$fileFunctions = GeneralUtility::makeInstance('t3lib_basicFileFunctions');
+			self::$fileFunctions = GeneralUtility::makeInstance(BasicFileUtility::class);
 		}
 
 		return self::$fileFunctions->cleanFileName($fileNameBody);
