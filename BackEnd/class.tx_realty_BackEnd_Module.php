@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -22,7 +23,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package TYPO3
  * @subpackage tx_realty
  */
-class tx_realty_BackEnd_Module extends t3lib_SCbase {
+class tx_realty_BackEnd_Module extends BaseScriptClass {
 	/**
 	 * @var string
 	 */
