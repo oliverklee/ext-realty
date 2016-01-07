@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -224,8 +225,8 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 		}
 
 		$contactName = $contactData['name'];
-		/** @var t3lib_mail_Message $email */
-		$email = GeneralUtility::makeInstance('t3lib_mail_Message');
+		/** @var MailMessage $email */
+		$email = GeneralUtility::makeInstance(MailMessage::class);
 		$email->setTo(array($contactData['email'] => $contactName));
 		$email->setSubject($this->getEmailSubject());
 		$email->setBody($this->getFilledEmailBody($contactName));

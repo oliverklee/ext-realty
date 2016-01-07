@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -69,7 +70,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	private $graphicsConfigurationBackup = array();
 
 	/**
-	 * @var t3lib_mail_Message
+	 * @var MailMessage
 	 */
 	private $message = NULL;
 
@@ -89,13 +90,13 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->fixture = new tx_realty_openImmoImportChild(TRUE);
 		$this->setupStaticConditions();
 
-		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		GeneralUtility::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
+		$this->message = $this->getMock(MailMessage::class, array('send', '__destruct'));
+		GeneralUtility::addInstance(MailMessage::class, $this->message);
 	}
 
 	protected function tearDown() {
 		// Get any surplus instances added via GeneralUtility::addInstance.
-		GeneralUtility::makeInstance('t3lib_mail_Message');
+		GeneralUtility::makeInstance(MailMessage::class);
 
 		$this->testingFramework->cleanUp();
 		$this->deleteTestImportFolder();

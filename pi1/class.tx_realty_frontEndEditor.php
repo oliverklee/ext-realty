@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -851,8 +852,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			return;
 		}
 
-		/** @var t3lib_mail_Message $email */
-		$email = GeneralUtility::makeInstance('t3lib_mail_Message');
+		/** @var MailMessage $email */
+		$email = GeneralUtility::makeInstance(MailMessage::class);
 		$email->setTo(array($this->getConfValueString('feEditorNotifyEmail', 's_feeditor') => ''));
 		$email->setSubject($this->translate('label_email_subject_fe_editor'));
 		$email->setBody($this->getFilledEmailBody());

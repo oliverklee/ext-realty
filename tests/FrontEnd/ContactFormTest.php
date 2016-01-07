@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -49,7 +50,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	const REALTY_OBJECT_NUMBER = '1234567';
 
 	/**
-	 * @var t3lib_mail_Message|PHPUnit_Framework_MockObject_MockObject
+	 * @var MailMessage|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $message = NULL;
 
@@ -81,13 +82,13 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 			'requiredContactFormFields', 'request'
 		);
 
-		$this->message = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		GeneralUtility::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
+		$this->message = $this->getMock(MailMessage::class, array('send', '__destruct'));
+		GeneralUtility::addInstance(MailMessage::class, $this->message);
 	}
 
 	protected function tearDown() {
 		// Get any surplus instances added via GeneralUtility::addInstance.
-		GeneralUtility::makeInstance('t3lib_mail_Message');
+		GeneralUtility::makeInstance(MailMessage::class);
 
 		$this->testingFramework->cleanUp();
 	}

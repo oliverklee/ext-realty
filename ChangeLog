@@ -18,6 +18,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5431] Change t3lib_mail_Message to TYPO3\CMS\Core\Mail\MailMessage
 - [#5436] Change t3lib_cs to \TYPO3\CMS\Core\Charset\CharsetConverter
 - [#5435] Change t3lib_cache_Manager to \TYPO3\CMS\Core\Cache\CacheManager
 - [#5433] Change t3lib_basicFileFunctions to \TYPO3\CMS\Core\Utility\File\BasicFileUtility

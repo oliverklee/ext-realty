@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -768,8 +769,8 @@ class tx_realty_openImmoImport {
 		}
 
 		foreach ($addressesAndMessages as $address => $content) {
-			/** @var t3lib_mail_Message $email */
-			$email = GeneralUtility::makeInstance('t3lib_mail_Message');
+			/** @var MailMessage $email */
+			$email = GeneralUtility::makeInstance(MailMessage::class);
 			$email->setTo(array($address => ''));
 			$email->setSubject($this->getTranslator()->translate('label_subject_openImmo_import'));
 			$email->setBody($this->fillEmailTemplate($content));
