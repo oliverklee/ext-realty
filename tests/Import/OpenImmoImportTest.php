@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -164,7 +165,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		if ($fileName !== '') {
 			copy(
-				t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . $fileName,
+				ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . $fileName,
 				$this->importFolder . (($newFileName !== '') ? $newFileName : basename($fileName))
 			);
 		}
@@ -607,7 +608,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		// copyTestFileIntoImportFolder() cannot copy folders
 		GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
 		copy(
-			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . 'changed-copy-of-same-name/same-name.zip',
+			ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' . 'changed-copy-of-same-name/same-name.zip',
 			$this->importFolder . 'changed-copy-of-same-name/same-name.zip'
 		);
 
@@ -828,7 +829,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		// copyTestFileIntoImportFolder() cannot copy folders
 		GeneralUtility::mkdir($this->importFolder . 'changed-copy-of-same-name/');
 		copy(
-			t3lib_extMgm::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
+			ExtensionManagementUtility::extPath('realty') . 'tests/fixtures/tx_realty_fixtures/' .
 				'changed-copy-of-same-name/same-name.zip',
 			$this->importFolder . 'changed-copy-of-same-name/same-name.zip'
 		);

@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3_MODE') or die('Access denied.');
 
-t3lib_extMgm::addPageTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 
 	# ***************************************************************************************
 	# CONFIGURATION of RTE in table "tx_realty_objects", field "description"
@@ -17,7 +17,7 @@ RTE.config.tx_realty_objects.description {
   }
 }
 ');
-t3lib_extMgm::addPageTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 
 	# ***************************************************************************************
 	# CONFIGURATION of RTE in table "tx_realty_objects", field "equipment"
@@ -33,7 +33,7 @@ RTE.config.tx_realty_objects.equipment {
   }
 }
 ');
-t3lib_extMgm::addPageTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 
 	# ***************************************************************************************
 	# CONFIGURATION of RTE in table "tx_realty_objects", field "location"
@@ -49,7 +49,7 @@ RTE.config.tx_realty_objects.location {
   }
 }
 ');
-t3lib_extMgm::addPageTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 
 	# ***************************************************************************************
 	# CONFIGURATION of RTE in table "tx_realty_objects", field "misc"
@@ -65,29 +65,29 @@ RTE.config.tx_realty_objects.misc {
   }
 }
 ');
-t3lib_extMgm::addUserTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 	options.saveDocNew.tx_realty_objects = 1
 ');
-t3lib_extMgm::addUserTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 	options.saveDocNew.tx_realty_apartment_types = 1
 ');
-t3lib_extMgm::addUserTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 	options.saveDocNew.tx_realty_house_types = 1
 ');
-t3lib_extMgm::addUserTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 	options.saveDocNew.tx_realty_car_places = 1
 ');
-t3lib_extMgm::addUserTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 	options.saveDocNew.tx_realty_pets = 1
 ');
-t3lib_extMgm::addUserTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 	options.saveDocNew.tx_realty_cities = 1
 ');
-t3lib_extMgm::addUserTSConfig('
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
 	options.saveDocNew.tx_realty_districts = 1
 ');
 
-t3lib_extMgm::addPItoST43(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(
 	$_EXTKEY,
 	'pi1/class.tx_realty_pi1.php',
 	'_pi1',
@@ -95,10 +95,10 @@ t3lib_extMgm::addPItoST43(
 	1
 );
 
-t3lib_extMgm::addTypoScript(
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
 	$_EXTKEY,
 	'setup', '
-	tt_content.shortcut.20.conf.tx_realty_objects = < plugin.' . t3lib_extMgm::getCN($_EXTKEY) . '_pi1
+	tt_content.shortcut.20.conf.tx_realty_objects = < plugin.' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getCN($_EXTKEY) . '_pi1
 	tt_content.shortcut.20.conf.tx_realty_objects.CMD = singleView
 ',
 	43

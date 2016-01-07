@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 require_once(PATH_formidableapi);
@@ -113,7 +114,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		if ($this->realtyObjectExistsInDatabase()) {
 			$this->formCreator->init(
 				$this,
-				t3lib_extMgm::extPath('realty') . $this->xmlPath,
+				ExtensionManagementUtility::extPath('realty') . $this->xmlPath,
 				($this->realtyObjectUid > 0) ? $this->realtyObjectUid : FALSE
 			);
 		}

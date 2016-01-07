@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -32,7 +33,7 @@ class tx_realty_pi1_wizicon {
 		/** @var language $languageService */
 		$languageService = $GLOBALS['LANG'];
 		$wizardItems['plugins_tx_realty_pi1'] = array(
-			'icon' => t3lib_extMgm::extRelPath('realty') . 'pi1/ce_wiz.gif',
+			'icon' => ExtensionManagementUtility::extRelPath('realty') . 'pi1/ce_wiz.gif',
 			'title' => $languageService->getLLL('pi1_title', $languageData),
 			'description' => $languageService->getLLL('pi1_description', $languageData),
 			'params' => '&defVals[tt_content][CType]=list&' .
@@ -49,7 +50,7 @@ class tx_realty_pi1_wizicon {
 	 * @return array[] the language labels
 	 */
 	public function includeLocalLang() {
-		$languageFile = t3lib_extMgm::extPath('realty') . 'locallang.xml';
+		$languageFile = ExtensionManagementUtility::extPath('realty') . 'locallang.xml';
 		/** @var language $languageService */
 		$languageService = $GLOBALS['LANG'];
 		/** @var t3lib_l10n_parser_Llxml $xmlParser */

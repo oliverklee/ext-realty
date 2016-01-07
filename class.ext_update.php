@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * This class offers functions to update the database from one version to
@@ -57,9 +58,7 @@ class ext_update {
 	 *         TRUE if the update module may be accessed, FALSE otherwise
 	 */
 	public function access() {
-		if (
-			!t3lib_extMgm::isLoaded('oelib') || !t3lib_extMgm::isLoaded('realty')
-		) {
+		if (!ExtensionManagementUtility::isLoaded('oelib') || !ExtensionManagementUtility::isLoaded('realty')) {
 			return FALSE;
 		}
 		if (!Tx_Oelib_Db::existsTable('tx_realty_objects')
