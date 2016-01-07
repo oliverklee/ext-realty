@@ -13,6 +13,7 @@
  */
 use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -272,7 +273,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass {
 	/**
 	 * Returns $GLOBALS['BE_USER'].
 	 *
-	 * @return t3lib_beUserAuth|NULL
+	 * @return BackendUserAuthentication|null
 	 */
 	protected function getBackEndUserAuthentication() {
 		return isset($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER'] : NULL;
