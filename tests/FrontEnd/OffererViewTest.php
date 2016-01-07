@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -37,7 +38,7 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		/** @var tslib_fe $frontEndController */
+		/** @var TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_OffererView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj

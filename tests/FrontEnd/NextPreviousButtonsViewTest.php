@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -47,7 +48,7 @@ class tx_realty_FrontEnd_NextPreviousButtonsViewTest extends Tx_Phpunit_TestCase
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		/** @var tslib_fe $frontEndController */
+		/** @var TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		$frontEndController->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 		$this->listViewUid = $this->testingFramework->createContentElement();

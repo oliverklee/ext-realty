@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -62,7 +63,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase 
 		$this->testingFramework->createFakeFrontEnd();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);
 
-		/** @var tslib_fe $frontEndController */
+		/** @var TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_ObjectsByOwnerListView(
 			array(

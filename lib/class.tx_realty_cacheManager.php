@@ -31,8 +31,6 @@ class tx_realty_cacheManager {
 	/**
 	 * Clears the FE cache for pages with a realty plugin.
 	 *
-	 * @see tslib_fe::clearPageCacheContent_pidList()
-	 *
 	 * @return void
 	 */
 	public static function clearFrontEndCacheForRealtyPages() {

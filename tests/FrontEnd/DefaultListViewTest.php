@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -96,7 +97,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * Returns the current front-end instance.
 	 *
-	 * @return tslib_fe
+	 * @return TypoScriptFrontendController
 	 */
 	private function getFrontEndController() {
 		return $GLOBALS['TSFE'];

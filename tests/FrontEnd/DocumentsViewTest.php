@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -42,7 +43,7 @@ class tx_realty_FrontEnd_DocumentsViewTest extends Tx_Phpunit_TestCase {
 
 		$this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 
-		/** @var tslib_fe $frontEndController */
+		/** @var TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_DocumentsView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj

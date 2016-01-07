@@ -13,6 +13,7 @@
  */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * This class includes JavaScript and CSS files, for example the main JavaScript
@@ -138,7 +139,7 @@ class tx_realty_lightboxIncluder {
 	/**
 	 * Returns the current front-end instance.
 	 *
-	 * @return tslib_fe
+	 * @return TypoScriptFrontendController
 	 */
 	static protected function getFrontEndController() {
 		return $GLOBALS['TSFE'];

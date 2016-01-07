@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -34,7 +35,7 @@ class tx_realty_FrontEnd_AbstractViewTest extends Tx_Phpunit_TestCase {
 	protected function setUp() {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
-		/** @var tslib_fe $frontEndController */
+		/** @var TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_tests_fixtures_testingFrontEndView(array(), $frontEndController->cObj);
 	}

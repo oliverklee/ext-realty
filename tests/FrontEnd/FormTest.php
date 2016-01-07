@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -57,7 +58,7 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase {
 
 		$this->createDummyRecords();
 
-		/** @var tslib_fe $frontEndController */
+		/** @var TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_frontEndEditor(
 			array(),

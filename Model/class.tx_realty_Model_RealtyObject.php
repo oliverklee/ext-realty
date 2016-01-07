@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * This class represents a realty object.
@@ -2091,7 +2092,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	/**
 	 * Returns the current front-end instance.
 	 *
-	 * @return tslib_fe|NULL
+	 * @return TypoScriptFrontendController|null
 	 */
 	protected function getFrontEndController() {
 		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;

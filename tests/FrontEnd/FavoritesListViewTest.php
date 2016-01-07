@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -83,7 +84,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends Tx_Phpunit_TestCase {
 			tx_oelib_Session::TYPE_TEMPORARY, $this->session
 		);
 
-		/** @var tslib_fe $frontEndController */
+		/** @var TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		$this->fixture = new tx_realty_pi1_FavoritesListView(
 			array(

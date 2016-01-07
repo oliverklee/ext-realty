@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Test case.
@@ -22,7 +23,7 @@
  */
 class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	protected function setUp() {
-		$GLOBALS['TSFE'] = $this->getMock('tslib_fe', array(), array(), '', FALSE);
+		$GLOBALS['TSFE'] = $this->getMock(TypoScriptFrontendController::class, array(), array(), '', FALSE);
 
 		$configuration = new tx_oelib_Configuration();
 		$configuration->setData(array(
@@ -40,7 +41,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	/**
 	 * Returns the current front-end instance.
 	 *
-	 * @return tslib_fe
+	 * @return TypoScriptFrontendController
 	 */
 	private function getFrontEndController() {
 		return $GLOBALS['TSFE'];

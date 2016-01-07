@@ -18,6 +18,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5427] Change tslib_fe to TypoScriptFrontendController
 - [#5426] Change t3lib_beUserAuth to BackendUserAuthentication
 - [#5439] Change t3lib_SCbase to \TYPO3\CMS\Backend\Module\BaseScriptClass
 - [#5430] Change t3lib_extMgm to \TYPO3\CMS\Core\Utility\ExtensionManagementUtility
