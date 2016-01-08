@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Charset\CharsetConverter;
+use TYPO3\CMS\Core\Database\ReferenceIndex;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -230,7 +231,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	private $isDummyRecord = FALSE;
 
 	/**
-	 * @var t3lib_refindex
+	 * @var ReferenceIndex
 	 */
 	private static $referenceIndex = NULL;
 
@@ -882,11 +883,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 * Gets a cached instance of the reference index (and creates it, if
 	 * necessary).
 	 *
-	 * @return t3lib_refindex a cached reference index instance
+	 * @return ReferenceIndex a cached reference index instance
 	 */
 	private function getReferenceIndex() {
 		if (!self::$referenceIndex) {
-			self::$referenceIndex = GeneralUtility::makeInstance('t3lib_refindex');
+			self::$referenceIndex = GeneralUtility::makeInstance(ReferenceIndex::class);
 		}
 
 		return self::$referenceIndex;
