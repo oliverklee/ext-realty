@@ -604,7 +604,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
 			$this->realtyUid,
-			array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - tx_oelib_Time::SECONDS_PER_DAY)
+			array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - Tx_Oelib_Time::SECONDS_PER_DAY)
 		);
 
 		$this->fixture->setConfigurationValue(
@@ -656,7 +656,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->changeRecord(
 			'tx_realty_objects',
 			$this->realtyUid,
-			array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * tx_oelib_Time::SECONDS_PER_DAY)
+			array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * Tx_Oelib_Time::SECONDS_PER_DAY)
 		);
 
 		$this->fixture->setConfigurationValue(

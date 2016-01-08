@@ -307,6 +307,6 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 			return TRUE;
 		}
 
-		return ($advertisementDate + $expiryInDays * tx_oelib_Time::SECONDS_PER_DAY) < $GLOBALS['SIM_ACCESS_TIME'];
+		return ($advertisementDate + $expiryInDays * Tx_Oelib_Time::SECONDS_PER_DAY) < $GLOBALS['SIM_ACCESS_TIME'];
 	}
 }
