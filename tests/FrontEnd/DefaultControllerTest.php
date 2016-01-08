@@ -110,7 +110,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 		// object from being created.
 		$this->fixture = new tx_realty_pi1(TRUE);
 		// This passed array with configuration values becomes part of
-		// $this->fixture->conf. "conf" is inherited from tslib_pibase and needs
+		// $this->fixture->conf. "conf" is inherited from AbstractPlugin and needs
 		// to contain "pidList". "pidList" is none of our configuration values
 		// but if cObj->currentRecord is set, "pidList" is set to our
 		// configuration value "pages".
