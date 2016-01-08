@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Localization\Parser\LocallangXmlParser;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -53,8 +54,8 @@ class tx_realty_pi1_wizicon {
 		$languageFile = ExtensionManagementUtility::extPath('realty') . 'locallang.xml';
 		/** @var language $languageService */
 		$languageService = $GLOBALS['LANG'];
-		/** @var t3lib_l10n_parser_Llxml $xmlParser */
-		$xmlParser = GeneralUtility::makeInstance('t3lib_l10n_parser_Llxml');
+		/** @var LocallangXmlParser $xmlParser */
+		$xmlParser = GeneralUtility::makeInstance(LocallangXmlParser::class);
 		$localLanguage = $xmlParser->getParsedData($languageFile, $languageService->lang);
 
 		return $localLanguage;
