@@ -13,6 +13,7 @@
  */
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Test case.
@@ -105,10 +106,10 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 *
 	 * The page ID isn't checked for existence. So any page ID can be used.
 	 *
-	 * @return tslib_cObj a mock content object
+	 * @return ContentObjectRenderer
 	 */
 	private function createContentMock() {
-		$mock = $this->getMock('tslib_cObj', array('getTypoLink_URL'));
+		$mock = $this->getMock(ContentObjectRenderer::class, array('getTypoLink_URL'));
 		$mock->expects(self::any())->method('getTypoLink_URL')
 			->will(self::returnCallback(array($this, 'getTypoLinkUrl')));
 
@@ -135,9 +136,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createContentMockCreatesContentInstance() {
-		self::assertTrue(
-			$this->createContentMock() instanceof tslib_cObj
-		);
+		self::assertInstanceOf(ContentObjectRenderer::class, $this->createContentMock());
 	}
 
 	/**

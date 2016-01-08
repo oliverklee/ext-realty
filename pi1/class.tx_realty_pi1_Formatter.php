@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * This class returns formatted realty object properties.
@@ -51,9 +52,9 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 	 *
 	 * @param int $realtyObjectUid UID of the object of which to get formatted properties, must be > 0
 	 * @param array $configuration TypoScript configuration for the plugin
-	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param ContentObjectRenderer $contentObjectRenderer the parent cObj content, needed for the flexforms
 	 */
-	public function __construct($realtyObjectUid, array $configuration, tslib_cObj $cObj) {
+	public function __construct($realtyObjectUid, array $configuration, ContentObjectRenderer $contentObjectRenderer) {
 		if ($realtyObjectUid <= 0) {
 			throw new InvalidArgumentException('$realtyObjectUid must be greater than zero.', 1333036496);
 		}
@@ -69,7 +70,7 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 		}
 
 		$this->showUid = $realtyObjectUid;
-		$this->cObj = $cObj;
+		$this->cObj = $contentObjectRenderer;
 		$this->init($configuration);
 	}
 

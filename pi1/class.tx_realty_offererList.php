@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * This class provides a list of offerers for the realty plugin.
@@ -31,14 +32,14 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * The constructor.
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
-	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param ContentObjectRenderer $contentObjectRenderer the parent cObj content, needed for the flexforms
 	 * @param bool $isTestMode TRUE if this class is instantiated for testing, else FALSE
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $isTestMode = FALSE
+		array $configuration, ContentObjectRenderer $contentObjectRenderer, $isTestMode = FALSE
 	) {
 		$this->isTestMode = $isTestMode;
-		parent::__construct($configuration, $cObj);
+		parent::__construct($configuration, $contentObjectRenderer);
 	}
 
 	/**

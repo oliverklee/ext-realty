@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Test case.
@@ -22,12 +23,12 @@
  */
 class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tslib_cObj a mocked content object
+	 * @var ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $cObjMock;
 
 	protected function setUp() {
-		$this->cObjMock = $this->getMock('tslib_cObj');
+		$this->cObjMock = $this->getMock(ContentObjectRenderer::class);
 	}
 
 	/////////////////////////////////////////////

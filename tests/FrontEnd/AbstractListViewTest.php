@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -113,7 +114,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends Tx_Phpunit_TestCase {
 	private $subSystemFolderPid = 0;
 
 	/**
-	 * @var tslib_cObj|PHPUnit_Framework_MockObject_MockObject
+	 * @var ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $contentObject = NULL;
 
@@ -258,7 +259,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends Tx_Phpunit_TestCase {
 	 * @return void
 	 */
 	private function createContentMock() {
-		$this->contentObject = $this->getMock('tslib_cObj', array('typoLink_URL', 'IMAGE'));
+		$this->contentObject = $this->getMock(ContentObjectRenderer::class, array('typoLink_URL', 'IMAGE'));
 		$this->contentObject->expects(self::any())->method('typoLink_URL')
 			->will(self::returnCallback(array($this, 'getTypoLinkUrl')));
 		$this->contentObject->expects(self::any())->method('IMAGE')

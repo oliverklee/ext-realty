@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * This class represents a basic view.
@@ -42,11 +43,11 @@ abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
 	 * and set the CSS classes from TypoScript.
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
-	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param ContentObjectRenderer $contentObjectRenderer the parent cObj content, needed for the flexforms
 	 * @param bool $isTestMode whether the class is instantiated in test mode
 	 */
-	public function __construct(array $configuration, tslib_cObj $cObj, $isTestMode = FALSE) {
-		$this->cObj = $cObj;
+	public function __construct(array $configuration, ContentObjectRenderer $contentObjectRenderer, $isTestMode = FALSE) {
+		$this->cObj = $contentObjectRenderer;
 		$this->init($configuration);
 		$this->getTemplateCode();
 		$this->setLabels();

@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -48,7 +49,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 	private $imagesConfiguration = NULL;
 
 	/**
-	 * @var tslib_cObj|PHPUnit_Framework_MockObject_MockObject
+	 * @var ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $contentObject = NULL;
 
@@ -61,7 +62,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->contentObject = $this->getMock('tslib_cObj');
+		$this->contentObject = $this->getMock(ContentObjectRenderer::class);
 		$this->fixture = new tx_realty_pi1_ImageThumbnailsView(
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $this->contentObject
 		);

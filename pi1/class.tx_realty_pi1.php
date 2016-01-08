@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Plugin "Realty List".
@@ -74,7 +75,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 			::get('plugin.tx_realty_pi1.views.' . $this->getCurrentView());
 
 		if (!$viewConfiguration->getAsBoolean('cache')
-			&& ($this->cObj->getUserObjectType() == tslib_cObj::OBJECTTYPE_USER)
+			&& ($this->cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER)
 		) {
 			$this->cObj->convertToUserIntObject();
 			return '';

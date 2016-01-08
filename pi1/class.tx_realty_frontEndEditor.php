@@ -13,6 +13,7 @@
  */
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * This class provides an FE editor the realty plugin.
@@ -52,7 +53,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * The constructor.
 	 *
 	 * @param array $configuration TypoScript configuration for the plugin
-	 * @param tslib_cObj $cObj the parent cObj content, needed for the flexforms
+	 * @param ContentObjectRenderer $contentObjectRenderer the parent cObj content, needed for the flexforms
 	 * @param int $uidOfObjectToEdit
 	 *        UID of the object to edit, set to 0 to create a new record,
 	 *        must be >= 0
@@ -63,11 +64,11 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *        whether the FE editor is instantiated in test mode
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,
+		array $configuration, ContentObjectRenderer $contentObjectRenderer, $uidOfObjectToEdit, $xmlPath,
 		$isTestMode = FALSE
 	) {
 		parent::__construct(
-			$configuration, $cObj, $uidOfObjectToEdit, $xmlPath, $isTestMode
+			$configuration, $contentObjectRenderer, $uidOfObjectToEdit, $xmlPath, $isTestMode
 		);
 
 		tx_realty_lightboxIncluder::includeMainJavaScript();

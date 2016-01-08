@@ -14,6 +14,7 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 require_once(PATH_formidableapi);
 
@@ -63,7 +64,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *
 	 * @param array $configuration
 	 *        TypoScript configuration for the plugin
-	 * @param tslib_cObj $cObj
+	 * @param ContentObjectRenderer $contentObjectRenderer
 	 *        the parent cObj content, needed for the flexforms
 	 * @param int $uidOfObjectToEdit
 	 *        UID of the object to edit, set to 0 to create a new database record, must not be negative
@@ -73,7 +74,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 *        whether the FE editor is instantiated in test mode
 	 */
 	public function __construct(
-		array $configuration, tslib_cObj $cObj, $uidOfObjectToEdit, $xmlPath,
+		array $configuration, ContentObjectRenderer $contentObjectRenderer, $uidOfObjectToEdit, $xmlPath,
 		$isTestMode = FALSE
 	) {
 		$this->isTestMode = $isTestMode;
@@ -83,7 +84,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 		$this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
 		$this->realtyObject->loadRealtyObject($this->realtyObjectUid, TRUE);
 
-		parent::__construct($configuration, $cObj);
+		parent::__construct($configuration, $contentObjectRenderer);
 	}
 
 	/**

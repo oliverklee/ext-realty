@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * This class renders the "next" and "previous" buttons.
@@ -201,8 +202,8 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			'*', 'tt_content',
 			'uid = ' . (int)$this->piVars['listUid'] . tx_oelib_db::enableFields('tt_content')
 		);
-		/** @var tslib_cObj $contentObject */
-		$contentObject = GeneralUtility::makeInstance('tslib_cObj');
+		/** @var ContentObjectRenderer $contentObject */
+		$contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 		$contentObject->start($contentData, 'tt_content');
 		$listView = tx_realty_pi1_ListViewFactory::make(
 			$this->piVars['listViewType'], $this->conf, $contentObject
