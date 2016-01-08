@@ -44,9 +44,7 @@ class tx_realty_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function fixtureIsInstanceOfOelibFrontEndUser() {
-		self::assertTrue(
-			$this->fixture instanceof tx_oelib_Model_FrontEndUser
-		);
+		self::assertInstanceOf(Tx_Oelib_Model_FrontEndUser::class, $this->fixture);
 	}
 
 

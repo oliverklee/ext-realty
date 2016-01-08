@@ -21,7 +21,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_FrontEndUser extends tx_oelib_Model_FrontEndUser {
+class tx_realty_Model_FrontEndUser extends Tx_Oelib_Model_FrontEndUser {
 	/**
 	 * @var int the number of objects belonging to the current user
 	 */
