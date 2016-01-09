@@ -54,7 +54,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase {
 	private $systemFolderPid = 0;
 
 	protected function setUp() {
-		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
+		Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 		$this->systemFolderPid = $this->testingFramework->createSystemFolder(1);

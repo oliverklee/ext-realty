@@ -132,7 +132,7 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 
 				if ($result == '') {
 					$this->setEmptyResultView();
-					tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+					Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()
 						->addHeader('Status: 404 Not Found');
 					$result = $this->getSubpart('SINGLE_VIEW');
 				}

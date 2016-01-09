@@ -297,7 +297,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	private function addHeaderForListView() {
 		$postValues = GeneralUtility::_POST();
 		if (isset($postValues['tx_realty_pi1'])) {
-			tx_oelib_headerProxyFactory::getInstance()
+			Tx_Oelib_HeaderProxyFactory::getInstance()
 				->getHeaderProxy()->addHeader(
 					'Cache-Control: max-age=86400, must-revalidate'
 				);
@@ -349,7 +349,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		$this->createLinkToSingleViewPageForAnyLinkText(
 			'|', $this->internal['currentRow']['uid']
 		);
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader(
+		Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->addHeader(
 			'Location: ' .
 			GeneralUtility::locationHeaderUrl($this->cObj->lastTypoLinkUrl)
 		);

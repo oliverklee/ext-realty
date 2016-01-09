@@ -52,7 +52,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 	private $message = NULL;
 
 	protected function setUp() {
-		tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
+		Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
