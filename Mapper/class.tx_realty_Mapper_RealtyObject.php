@@ -64,7 +64,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * @return int the number of objects in the given city, will be >= 0
 	 */
 	public function countByCity(tx_realty_Model_City $city) {
-		return tx_oelib_db::count(
+		return Tx_Oelib_Db::count(
 			$this->tableName,
 			'(city = ' . $city->getUid() . ') AND ' .
 				$this->getUniversalWhereClause()
@@ -80,7 +80,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * @return int the number of objects in the given district, will be >= 0
 	 */
 	public function countByDistrict(tx_realty_Model_District $district) {
-		return tx_oelib_db::count(
+		return Tx_Oelib_Db::count(
 			$this->tableName,
 			'(district = ' . $district->getUid() . ') AND ' .
 				$this->getUniversalWhereClause()

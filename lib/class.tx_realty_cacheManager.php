@@ -47,7 +47,7 @@ class tx_realty_cacheManager {
 	 *               prefixed with $prefix, will be empty if there are none
 	 */
 	private static function getPageUids($prefix = '') {
-		$pageUids = tx_oelib_db::selectMultiple(
+		$pageUids = Tx_Oelib_Db::selectMultiple(
 			'pid', 'tt_content', 'list_type = "realty_pi1"'
 		);
 

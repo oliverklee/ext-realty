@@ -189,7 +189,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'uid=' . $this->dummyObjectUid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2101,7 +2101,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 		);
 		$this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
-		$expectedResult = tx_oelib_db::selectSingle(
+		$expectedResult = Tx_Oelib_Db::selectSingle(
 			'uid',
 			'tx_realty_objects',
 			'object_number="1234" AND language="XY"'

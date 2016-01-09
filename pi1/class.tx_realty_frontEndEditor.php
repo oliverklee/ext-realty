@@ -440,7 +440,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'tx_realty_objects',
 			'object_number="' .
 			$databaseConnection->quoteStr($formData['value'], 'tx_realty_objects') . '"' .
-				tx_oelib_db::enableFields('tx_realty_objects', 1) . $this->getWhereClauseForTesting()
+				Tx_Oelib_Db::enableFields('tx_realty_objects', 1) . $this->getWhereClauseForTesting()
 		);
 		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database();
@@ -972,7 +972,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return int UID of the new record, will be > 0
 	 */
 	private function createNewAuxiliaryRecord($title, $table) {
-		return tx_oelib_db::insert(
+		return Tx_Oelib_Db::insert(
 			$table,
 			array(
 				'title' => $title,
@@ -1234,7 +1234,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			return FALSE;
 		}
 
-		if (!tx_oelib_db::tableHasColumn($tableName, $fieldName)) {
+		if (!Tx_Oelib_Db::tableHasColumn($tableName, $fieldName)) {
 			throw new InvalidArgumentException(
 				'"' . $fieldName . '" is not a valid column name for ' . $tableName . '.', 1333036182
 			);

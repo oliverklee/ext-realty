@@ -402,10 +402,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 */
 	protected function loadDatabaseEntry($uid) {
 		try {
-			$result = tx_oelib_db::selectSingle(
+			$result = Tx_Oelib_Db::selectSingle(
 				'*',
 				'tx_realty_objects',
-				'uid=' . $uid . tx_oelib_db::enableFields(
+				'uid=' . $uid . Tx_Oelib_Db::enableFields(
 					'tx_realty_objects', $this->canLoadHiddenObjects ? 1 : -1
 				)
 			);
@@ -606,7 +606,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 			$row = Tx_Oelib_Db::selectSingle(
 				'*',
 				'fe_users',
-				$whereClause . tx_oelib_db::enableFields('fe_users')
+				$whereClause . Tx_Oelib_Db::enableFields('fe_users')
 			);
 			$this->ownerData = $row;
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
@@ -727,7 +727,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	protected function getAllProperties() {
 		$result = array();
 
-		foreach (array_keys(tx_oelib_db::getColumnsInTable('tx_realty_objects'))as $key) {
+		foreach (array_keys(Tx_Oelib_Db::getColumnsInTable('tx_realty_objects'))as $key) {
 			if ($this->existsKey($key)) {
 				$result[$key] = $this->get($key);
 			} elseif (($key == 'uid') && $this->hasUid()) {
@@ -829,7 +829,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 *                 FALSE otherwise
 	 */
 	public function isAllowedKey($key) {
-		return tx_oelib_db::tableHasColumn('tx_realty_objects', $key);
+		return Tx_Oelib_Db::tableHasColumn('tx_realty_objects', $key);
 	}
 
 	/**
@@ -1334,7 +1334,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		// allows an easy removal of records created during the unit tests
 		$dataToInsert['is_dummy_record'] = $this->isDummyRecord;
 
-		return tx_oelib_db::insert($table, $dataToInsert);
+		return Tx_Oelib_Db::insert($table, $dataToInsert);
 	}
 
 	/**
@@ -1359,7 +1359,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		$dataForUpdate = $realtyData;
 		$dataForUpdate['tstamp'] = $GLOBALS['SIM_EXEC_TIME'];
 
-		tx_oelib_db::update(
+		Tx_Oelib_Db::update(
 			'tx_realty_objects',
 			'uid = ' . $dataForUpdate['uid'],
 			$dataForUpdate
@@ -1626,10 +1626,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		}
 
 		try {
-			$row = tx_oelib_db::selectSingle(
+			$row = Tx_Oelib_Db::selectSingle(
 				$titleField,
 				$tableName,
-				'uid = ' . $property . tx_oelib_db::enableFields($tableName)
+				'uid = ' . $property . Tx_Oelib_Db::enableFields($tableName)
 			);
 			$result = $row[$titleField];
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {

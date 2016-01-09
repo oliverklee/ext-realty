@@ -58,10 +58,10 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 		$listUid = (int)$this->piVars['listUid'];
 
 		try {
-			$listViewPage = tx_oelib_db::selectSingle(
+			$listViewPage = Tx_Oelib_Db::selectSingle(
 				'pid',
 				'tt_content',
-				'uid=' . $listUid . tx_oelib_db::enableFields('tt_content')
+				'uid=' . $listUid . Tx_Oelib_Db::enableFields('tt_content')
 			);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 			return '';

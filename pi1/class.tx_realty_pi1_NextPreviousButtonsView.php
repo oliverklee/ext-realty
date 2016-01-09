@@ -93,10 +93,10 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 			return FALSE;
 		}
 
-		return tx_oelib_db::existsRecordWithUid(
+		return Tx_Oelib_Db::existsRecordWithUid(
 			'tt_content',
 			$this->piVars['listUid'],
-			tx_oelib_db::enableFields('tt_content')
+			Tx_Oelib_Db::enableFields('tt_content')
 		);
 	}
 
@@ -198,9 +198,9 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView {
 	 * @return int the UID of the record at the given position, will be >= 0
 	 */
 	private function getRecordAtPosition($recordPosition) {
-		$contentData = tx_oelib_db::selectSingle(
+		$contentData = Tx_Oelib_Db::selectSingle(
 			'*', 'tt_content',
-			'uid = ' . (int)$this->piVars['listUid'] . tx_oelib_db::enableFields('tt_content')
+			'uid = ' . (int)$this->piVars['listUid'] . Tx_Oelib_Db::enableFields('tt_content')
 		);
 		/** @var ContentObjectRenderer $contentObject */
 		$contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);

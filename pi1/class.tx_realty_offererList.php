@@ -151,10 +151,10 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 			$fieldOrder = 'usergroup,city,company,name,username,image';
 		}
 
-		$offererRecords = tx_oelib_db::selectMultiple(
+		$offererRecords = Tx_Oelib_Db::selectMultiple(
 			'*',
 			'fe_users',
-			$whereClause . tx_oelib_db::enableFields('fe_users') .
+			$whereClause . Tx_Oelib_Db::enableFields('fe_users') .
 				$this->getWhereClauseForTesting(),
 			'',
 			$fieldOrder
@@ -177,7 +177,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * @return bool TRUE if the field last_name exists, FALSE otherwise
 	 */
 	private function isLastNameAvailable() {
-		return tx_oelib_db::tableHasColumn('fe_users', 'last_name');
+		return Tx_Oelib_Db::tableHasColumn('fe_users', 'last_name');
 	}
 
 	/**

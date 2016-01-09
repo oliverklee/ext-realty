@@ -132,7 +132,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		if (in_array(
 			'tx_realty_images', $this->testingFramework->getListOfDirtyTables()
 		)) {
-			tx_oelib_db::delete(
+			Tx_Oelib_Db::delete(
 				'sys_refindex', 'ref_string = "' . tx_realty_Model_Image::UPLOAD_FOLDER . 'bar"'
 			);
 		}
@@ -203,7 +203,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	 */
 	public function loadDatabaseEntryWithValidUid() {
 		self::assertEquals(
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'*', 'tx_realty_objects', 'uid = ' . $this->objectUid
 			),
 			$this->fixture->loadDatabaseEntry($this->objectUid)
@@ -226,7 +226,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	public function loadDatabaseEntryOfAnNonHiddenObjectIfOnlyVisibleAreAllowed() {
 		$this->fixture->loadRealtyObject($this->objectUid, FALSE);
 		self::assertEquals(
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'*', 'tx_realty_objects', 'uid = ' . $this->objectUid
 			),
 			$this->fixture->loadDatabaseEntry($this->objectUid)
@@ -256,7 +256,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'tx_realty_objects', array('hidden' => 1)
 		);
 		self::assertEquals(
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'*', 'tx_realty_objects', 'uid = ' . $uid
 			),
 			$this->fixture->loadDatabaseEntry($uid)
@@ -340,7 +340,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="' . self::$otherObjectNumber . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1163,7 +1163,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="' . (self::$otherObjectNumber) . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1200,11 +1200,11 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('pid' => $this->pageUid),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'pid',
 				'tx_realty_objects',
 				'object_number = ' . self::$otherObjectNumber .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1226,7 +1226,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 				'tx_realty_objects',
 				'object_number=' . self::$otherObjectNumber .
 					' AND pid=' . $systemFolderPid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1265,11 +1265,11 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('pid' => $this->otherPageUid),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'pid',
 				'tx_realty_cities',
 				'title = "foo"' .
-					tx_oelib_db::enableFields('tx_realty_cities')
+					Tx_Oelib_Db::enableFields('tx_realty_cities')
 			)
 		);
 	}
@@ -1288,11 +1288,11 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('pid' => $this->pageUid),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'pid',
 				'tx_realty_cities',
 				'title = "foo"' .
-					tx_oelib_db::enableFields('tx_realty_cities')
+					Tx_Oelib_Db::enableFields('tx_realty_cities')
 			)
 		);
 	}
@@ -1662,7 +1662,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('image' => 'foo.jpg'),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'image',
 				'tx_realty_images',
 				'object = ' . $this->objectUid
@@ -1682,7 +1682,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('image' => 'foo.jpg'),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'image',
 				'tx_realty_images',
 				'object = ' . $this->objectUid
@@ -1702,7 +1702,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('caption' => '', 'image' => 'foo.jpg'),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'caption, image',
 				'tx_realty_images',
 				'object = ' . $this->objectUid
@@ -1771,11 +1771,11 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('pid' => $this->pageUid),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'pid',
 				'tx_realty_objects',
 				'object_number = "' . self::$otherObjectNumber . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1791,11 +1791,11 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('pid' => $this->otherPageUid),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'pid',
 				'tx_realty_objects',
 				'object_number = "' . self::$otherObjectNumber . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1816,7 +1816,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 
 		self::assertEquals(
 			array('pid' => $this->otherPageUid),
-			tx_oelib_db::selectSingle(
+			Tx_Oelib_Db::selectSingle(
 				'pid',
 				'tx_realty_images',
 				'is_dummy_record = 1'
@@ -1835,11 +1835,11 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			setAsInteger('pidForRealtyObjectsAndImages', $this->otherPageUid);
 		$message = $this->fixture->writeToDatabase();
 
-		$result = tx_oelib_db::selectSingle(
+		$result = Tx_Oelib_Db::selectSingle(
 			'pid',
 			'tx_realty_objects',
 			'object_number = "' . self::$objectNumber . '"' .
-				tx_oelib_db::enableFields('tx_realty_objects')
+				Tx_Oelib_Db::enableFields('tx_realty_objects')
 		);
 
 		self::assertEquals(
@@ -1875,7 +1875,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 				'tx_realty_objects',
 				'object_number=' . self::$otherObjectNumber .
 					' AND uid <> ' . $uid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1893,7 +1893,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'uid=' . $this->objectUid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1914,7 +1914,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'uid=' . $this->objectUid .
-					tx_oelib_db::enableFields('tx_realty_objects', 1)
+					Tx_Oelib_Db::enableFields('tx_realty_objects', 1)
 			)
 		);
 	}
@@ -1940,7 +1940,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 				'tx_realty_objects',
 				'object_number=' . self::$objectNumber .
 					' AND uid <> ' . $this->objectUid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -1966,7 +1966,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 				'tx_realty_objects',
 				'object_number=' . self::$objectNumber .
 					' AND uid <> ' . $this->objectUid .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2075,7 +2075,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_cities',
 				'title="foo" AND uid <> ' . $cityUid .
-					tx_oelib_db::enableFields('tx_realty_cities')
+					Tx_Oelib_Db::enableFields('tx_realty_cities')
 			)
 		);
 	}

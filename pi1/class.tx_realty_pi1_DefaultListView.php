@@ -133,10 +133,10 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView {
 			'WHERE ' . 'tx_realty_objects' . '.' . $filterCriterion .
 				' = ' . $currentTable . '.uid ' .
 				parent::getWhereClausePartForPidList() .
-				tx_oelib_db::enableFields('tx_realty_objects') .
-			')' . tx_oelib_db::enableFields($currentTable);
+				Tx_Oelib_Db::enableFields('tx_realty_objects') .
+			')' . Tx_Oelib_Db::enableFields($currentTable);
 
-		$checkboxItems = tx_oelib_db::selectMultiple('uid, title', $currentTable, $whereClause, '', 'title ASC');
+		$checkboxItems = Tx_Oelib_Db::selectMultiple('uid, title', $currentTable, $whereClause, '', 'title ASC');
 
 		foreach ($checkboxItems as $checkboxItem) {
 			if (in_array($checkboxItem['uid'], $currentSearch)) {

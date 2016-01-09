@@ -267,7 +267,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	private function getSelectForListView($whereClause) {
 		$sortingColumn = 'tx_realty_objects' . '.sorting';
-		tx_oelib_db::enableQueryLogging();
+		Tx_Oelib_Db::enableQueryLogging();
 
 		return '(' .
 				'SELECT ' . 'tx_realty_objects' . '.*' .
@@ -572,9 +572,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
 		// The result may only contain non-deleted and non-hidden records except
 		// for the my objects view.
-		$whereClause .= tx_oelib_db::enableFields(
+		$whereClause .= Tx_Oelib_Db::enableFields(
 			'tx_realty_objects', $this->shouldShowHiddenObjects()
-		) . tx_oelib_db::enableFields('tx_realty_cities');
+		) . Tx_Oelib_Db::enableFields('tx_realty_cities');
 
 		$whereClause .= $this->getWhereClausePartForPidList();
 
@@ -670,7 +670,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
 		);
 
-		$this->internal['res_count'] = tx_oelib_db::count(
+		$this->internal['res_count'] = Tx_Oelib_Db::count(
 			self::TABLES, $whereClause
 		);
 
@@ -1024,7 +1024,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *                could be fetched
 	 */
 	protected function getWhereClausePartForPidList() {
-		$pidList = tx_oelib_db::createRecursivePageList(
+		$pidList = Tx_Oelib_Db::createRecursivePageList(
 			$this->getConfValueString('pages'),
 			$this->getConfValueInteger('recursive')
 		);
@@ -1200,11 +1200,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		}
 
 		try {
-			$image = tx_oelib_db::selectSingle(
+			$image = Tx_Oelib_Db::selectSingle(
 				'image, caption, thumbnail',
 				'tx_realty_images',
 				'object = ' . $this->internal['currentRow']['uid'] .
-					tx_oelib_db::enableFields('tx_realty_images'),
+					Tx_Oelib_Db::enableFields('tx_realty_images'),
 				'',
 				'sorting',
 				(int)$offset
@@ -1265,7 +1265,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Determines whether hidden results should be shown.
 	 *
-	 * This will be used for tx_oelib_db::enableFields.
+	 * This will be used for Tx_Oelib_Db::enableFields.
 	 *
 	 * @return int 1 if hidden records should be shown, -1 otherwise
 	 */

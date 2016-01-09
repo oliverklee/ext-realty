@@ -202,7 +202,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	/**
 	 * Determines whether hidden results should be shown.
 	 *
-	 * This will be used for tx_oelib_db::enableFields.
+	 * This will be used for Tx_Oelib_Db::enableFields.
 	 *
 	 * @return int 1 if hidden records should be shown, -1 otherwise
 	 */

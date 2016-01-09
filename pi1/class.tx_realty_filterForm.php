@@ -473,13 +473,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 			return;
 		}
 
-		$records = tx_oelib_db::selectMultiple(
+		$records = Tx_Oelib_Db::selectMultiple(
 			$tableName . '.uid, ' . $tableName . '.title',
 			'tx_realty_objects' . ',' . $tableName,
 			'tx_realty_objects' . '.' . $columnName .
 				' = ' . $tableName . '.uid' .
-				tx_oelib_db::enableFields('tx_realty_objects') .
-				tx_oelib_db::enableFields($tableName),
+				Tx_Oelib_Db::enableFields('tx_realty_objects') .
+				Tx_Oelib_Db::enableFields($tableName),
 			'uid',
 			$tableName . '.title'
 		);

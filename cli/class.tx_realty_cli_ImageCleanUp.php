@@ -83,10 +83,10 @@ class tx_realty_cli_ImageCleanUp {
 		$nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
 		$imagesForRealtyRecords = ($nonDeletedRealtyRecordUids == '')
 			? array()
-			: tx_oelib_db::selectColumnForMultiple(
+			: Tx_Oelib_Db::selectColumnForMultiple(
 				'uid', 'tx_realty_images',
 				'object IN (' . $nonDeletedRealtyRecordUids . ')' .
-					tx_oelib_db::enableFields('tx_realty_images', 1) .
+					Tx_Oelib_Db::enableFields('tx_realty_images', 1) .
 					$this->additionalWhereClause
 			);
 		$this->addToStatistics(
@@ -94,14 +94,14 @@ class tx_realty_cli_ImageCleanUp {
 			count($imagesForRealtyRecords)
 		);
 
-		$numberOfImagesHidden = tx_oelib_db::update(
+		$numberOfImagesHidden = Tx_Oelib_Db::update(
 			'tx_realty_images', (empty($imagesForRealtyRecords)
 					? '1=1'
 					: 'uid NOT IN (' . implode(',', $imagesForRealtyRecords) . ')'
 				) . $this->additionalWhereClause,
 			array('hidden' => 1)
 		);
-		$hiddenImageRecords = tx_oelib_db::selectSingle(
+		$hiddenImageRecords = Tx_Oelib_Db::selectSingle(
 			'COUNT(*) AS number', 'tx_realty_images',
 			'hidden = 1 OR deleted = 1' . $this->additionalWhereClause
 		);
@@ -124,10 +124,10 @@ class tx_realty_cli_ImageCleanUp {
 		$nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
 		$documentsWithRealtyRecords = ($nonDeletedRealtyRecordUids == '')
 			? array()
-			: tx_oelib_db::selectColumnForMultiple(
+			: Tx_Oelib_Db::selectColumnForMultiple(
 				'uid', 'tx_realty_documents',
 				'object IN (' . $nonDeletedRealtyRecordUids . ')' .
-					tx_oelib_db::enableFields('tx_realty_documents', 1) .
+					Tx_Oelib_Db::enableFields('tx_realty_documents', 1) .
 					$this->additionalWhereClause
 			);
 		$this->addToStatistics(
@@ -135,7 +135,7 @@ class tx_realty_cli_ImageCleanUp {
 			count($documentsWithRealtyRecords)
 		);
 
-		$numberOfDeletedDocumentRecords = tx_oelib_db::update(
+		$numberOfDeletedDocumentRecords = Tx_Oelib_Db::update(
 			'tx_realty_documents', (empty($documentsWithRealtyRecords)
 					? '1=1'
 					: 'uid NOT IN (' . implode(',', $documentsWithRealtyRecords) . ')'
@@ -156,9 +156,9 @@ class tx_realty_cli_ImageCleanUp {
 	 *         matching records
 	 */
 	private function retrieveRealtyObjectUids() {
-		$uids = tx_oelib_db::selectColumnForMultiple(
+		$uids = Tx_Oelib_Db::selectColumnForMultiple(
 			'uid', 'tx_realty_objects',
-			'1=1' . tx_oelib_db::enableFields('tx_realty_objects', 1) .
+			'1=1' . Tx_Oelib_Db::enableFields('tx_realty_objects', 1) .
 				$this->additionalWhereClause
 		);
 
@@ -179,9 +179,9 @@ class tx_realty_cli_ImageCleanUp {
 			'Files in upload folder', count($filesInUploadFolder)
 		);
 
-		$imageFileNamesInDatabase = tx_oelib_db::selectColumnForMultiple(
+		$imageFileNamesInDatabase = Tx_Oelib_Db::selectColumnForMultiple(
 			'image', 'tx_realty_images',
-			'1=1' . tx_oelib_db::enableFields('tx_realty_images', 1) .
+			'1=1' . Tx_Oelib_Db::enableFields('tx_realty_images', 1) .
 				$this->additionalWhereClause
 		);
 		$this->addToStatistics(
@@ -189,9 +189,9 @@ class tx_realty_cli_ImageCleanUp {
 			count($imageFileNamesInDatabase)
 		);
 
-		$documentFileNamesInDatabase = tx_oelib_db::selectColumnForMultiple(
+		$documentFileNamesInDatabase = Tx_Oelib_Db::selectColumnForMultiple(
 			'filename', 'tx_realty_documents',
-			'1=1' . tx_oelib_db::enableFields('tx_realty_documents', 1) .
+			'1=1' . Tx_Oelib_Db::enableFields('tx_realty_documents', 1) .
 				$this->additionalWhereClause
 		);
 		$this->addToStatistics(

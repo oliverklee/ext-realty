@@ -1017,7 +1017,7 @@ class tx_realty_domDocumentConverter {
 			$uid = self::$cachedCountries[$country];
 		} else {
 			try {
-				$row = tx_oelib_db::selectSingle(
+				$row = Tx_Oelib_Db::selectSingle(
 					'uid',
 					'static_countries',
 					'cn_iso_3 = "' . Tx_Oelib_Db::getDatabaseConnection()->quoteStr($country, 'static_countries') . '"'

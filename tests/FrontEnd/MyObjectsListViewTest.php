@@ -319,7 +319,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase {
 			$this->fixture->render(array('delete' => $this->realtyUid))
 		);
 		self::assertFalse(
-			tx_oelib_db::existsRecordWithUid(
+			Tx_Oelib_Db::existsRecordWithUid(
 				'tx_realty_objects', $this->realtyUid, ' AND deleted = 0'
 			)
 		);

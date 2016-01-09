@@ -52,9 +52,9 @@ class tx_realty_Model_FrontEndUser extends Tx_Oelib_Model_FrontEndUser {
 	public function getNumberOfObjects() {
 		if (!$this->numberOfObjectsHasBeenCalculated) {
 			$whereClause = 'tx_realty_objects' . '.owner=' . $this->getUid() .
-				tx_oelib_db::enableFields('tx_realty_objects', 1);
+				Tx_Oelib_Db::enableFields('tx_realty_objects', 1);
 
-			$this->numberOfObjects = tx_oelib_db::count(
+			$this->numberOfObjects = Tx_Oelib_Db::count(
 				'tx_realty_objects',
 				$whereClause
 			);

@@ -297,11 +297,11 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 		$currentFavorites = $this->getFavorites();
 		if ($currentFavorites != '') {
 			$table = 'tx_realty_objects';
-			$objects = tx_oelib_db::selectMultiple(
+			$objects = Tx_Oelib_Db::selectMultiple(
 				'object_number, title',
 				$table,
 				'uid IN (' . $currentFavorites . ')' .
-					tx_oelib_db::enableFields($table)
+					Tx_Oelib_Db::enableFields($table)
 			);
 
 			$summaryStringOfFavorites = $this->translate('label_on_favorites_list') . LF;

@@ -227,7 +227,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->testingFramework->countRecords(
 				'tx_realty_images',
-				'1=1' . tx_oelib_db::enableFields('tx_realty_images')
+				'1=1' . Tx_Oelib_Db::enableFields('tx_realty_images')
 			)
 		);
 	}
@@ -244,7 +244,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase {
 			0,
 			$this->testingFramework->countRecords(
 				'tx_realty_images',
-				'1=1' . tx_oelib_db::enableFields('tx_realty_images')
+				'1=1' . Tx_Oelib_Db::enableFields('tx_realty_images')
 			)
 		);
 	}

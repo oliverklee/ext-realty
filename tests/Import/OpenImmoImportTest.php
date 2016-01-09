@@ -778,7 +778,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 		$this->copyTestFileIntoImportFolder('same-name.zip');
 		$this->disableValidation();
 		$this->fixture->importFromZip();
-		$result = tx_oelib_db::selectSingle(
+		$result = Tx_Oelib_Db::selectSingle(
 			'uid',
 			'tx_realty_objects',
 			'object_number = "bar1234567" AND zip = "zip"'
@@ -880,7 +880,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="' . $objectNumber . '"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2228,7 +2228,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="' . $objectNumber . '" AND zip="01234"' .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -2283,7 +2283,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 				'tx_realty_objects',
 				'object_number="' . $objectNumber . '" AND ' .
 					'number_of_rooms = 1.25' .
-					tx_oelib_db::enableFields('tx_realty_objects')
+					Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3179,7 +3179,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" '
-					. 'AND pid=' . $this->systemFolderPid . tx_oelib_db::enableFields('tx_realty_objects')
+					. 'AND pid=' . $this->systemFolderPid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3204,7 +3204,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $this->systemFolderPid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $this->systemFolderPid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3230,7 +3230,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3256,7 +3256,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3282,7 +3282,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3311,7 +3311,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3340,7 +3340,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3371,7 +3371,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
@@ -3400,7 +3400,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->countRecords(
 				'tx_realty_objects',
 				'object_number="bar1234567" ' .
-					'AND pid=' . $pid . tx_oelib_db::enableFields('tx_realty_objects')
+					'AND pid=' . $pid . Tx_Oelib_Db::enableFields('tx_realty_objects')
 			)
 		);
 	}
