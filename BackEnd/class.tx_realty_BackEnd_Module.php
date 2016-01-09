@@ -172,7 +172,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass {
 	 *                 otherwise
 	 */
 	private function userHasAccessToPages() {
-		$configurationProxy = tx_oelib_configurationProxy::getInstance('realty');
+		$configurationProxy = Tx_Oelib_ConfigurationProxy::getInstance('realty');
 
 		$objectsPid = $configurationProxy->getAsInteger(
 			'pidForRealtyObjectsAndImages'

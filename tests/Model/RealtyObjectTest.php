@@ -83,7 +83,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		$this->fixture = new tx_realty_Model_RealtyObjectChild(TRUE);
 
 		$this->fixture->setRequiredFields(array());
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsInteger('pidForRealtyObjectsAndImages', $this->pageUid);
 
 		$this->configurationVariablesBackup = $GLOBALS['TYPO3_CONF_VARS'];
@@ -1256,7 +1256,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	 */
 	public function writeToDatabaseCreatesNewCityRecordWithAuxiliaryRecordPid() {
 		$this->testingFramework->markTableAsDirty('tx_realty_cities');
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
 
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1279,7 +1279,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	 */
 	public function writeToDatabaseCreatesNewCityRecordWithRealtyRecordPidIfAuxiliaryRecordPidNotSet() {
 		$this->testingFramework->markTableAsDirty('tx_realty_cities');
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsInteger('pidForAuxiliaryRecords', 0);
 
 		$this->fixture->loadRealtyObject($this->objectUid);
@@ -1511,7 +1511,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function prepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMatchingPid() {
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid);
 		$cityUid = $this->testingFramework->createRecord(
 			'tx_realty_cities',
@@ -1532,7 +1532,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function prepareInsertionAndInsertRelationsCreatesRelationToAlreadyExistingPropertyWithMismatchingPid() {
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
 		$cityUid = $this->testingFramework->createRecord(
 			'tx_realty_cities',
@@ -1553,7 +1553,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function prepareInsertionAndInsertDoesNotUpdateThePidOfAnAlreadyExistingPropertyForMismatchingPids() {
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsInteger('pidForAuxiliaryRecords', $this->otherPageUid + 1);
 		$cityUid = $this->testingFramework->createRecord(
 			'tx_realty_cities',
@@ -1831,7 +1831,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		$this->fixture->loadRealtyObject($this->objectUid);
 		$this->fixture->setProperty('title', 'new title');
 
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsInteger('pidForRealtyObjectsAndImages', $this->otherPageUid);
 		$message = $this->fixture->writeToDatabase();
 
@@ -2794,7 +2794,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFrontEndUser(
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsBoolean(
 				'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 			);
@@ -2815,7 +2815,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFrontEndUser(
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsBoolean(
 				'useFrontEndUserDataAsContactDataForImportedRecords', FALSE
 			);
@@ -2836,7 +2836,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFrontEndUser(
 			'', array('tx_realty_openimmo_anid' => 'test anid')
 		);
-		tx_oelib_configurationProxy::getInstance('realty')->
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			setAsBoolean(
 				'useFrontEndUserDataAsContactDataForImportedRecords', TRUE
 			);

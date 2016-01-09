@@ -657,7 +657,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 *                 the FE, FALSE otherwise
 	 */
 	private function isOwnerDataUsable() {
-		return (tx_oelib_configurationProxy::getInstance('realty')
+		return (Tx_Oelib_ConfigurationProxy::getInstance('realty')
 			->getAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords')
 				&& $this->hasOwner()
 		);
@@ -953,7 +953,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		$pageUid = ($overridePid > 0)
 			? $overridePid
-			: tx_oelib_configurationProxy::getInstance('realty')
+			: Tx_Oelib_ConfigurationProxy::getInstance('realty')
 				->getAsInteger('pidForRealtyObjectsAndImages');
 
 		$sorting = 0;
@@ -1017,7 +1017,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		$pageUid = ($overridePid > 0)
 			? $overridePid
-			: tx_oelib_configurationProxy::getInstance('realty')
+			: Tx_Oelib_ConfigurationProxy::getInstance('realty')
 				->getAsInteger('pidForRealtyObjectsAndImages');
 
 		$sorting = 0;
@@ -1317,13 +1317,13 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		}
 
 		$dataToInsert = $realtyData;
-		$pid = tx_oelib_configurationProxy::getInstance('realty')->
+		$pid = Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 			getAsInteger('pidForAuxiliaryRecords');
 		if (($pid == 0) || ($table == 'tx_realty_objects')) {
 			if ($overridePid > 0) {
 				$pid = $overridePid;
 			} else {
-				$pid = tx_oelib_configurationProxy::getInstance('realty')->
+				$pid = Tx_Oelib_ConfigurationProxy::getInstance('realty')->
 					getAsInteger('pidForRealtyObjectsAndImages');
 			}
 		}

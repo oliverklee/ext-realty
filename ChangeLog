@@ -20,6 +20,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5473] Change tx_oelib_configurationProxy to Tx_Oelib_ConfigurationProxy
 - [#5464] Change t3lib_refindex to \TYPO3\CMS\Core\Database\ReferenceIndex
 - [#5462] Change t3lib_l10n_parser_Llxml to LocallangXmlParser
 - [#5451] Rename tx_oelib_Model_FrontEndUser to Tx_Oelib_Model_FrontEndUser

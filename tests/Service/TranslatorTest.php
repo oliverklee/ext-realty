@@ -30,7 +30,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translatorReturnsGermanString() {
-		tx_oelib_configurationProxy::getInstance('realty')
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')
 			->setAsString('cliLanguage', 'de');
 		$this->fixture = new tx_realty_translator();
 
@@ -44,7 +44,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translatorReturnsEnglishString() {
-		tx_oelib_configurationProxy::getInstance('realty')
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')
 			->setAsString('cliLanguage', 'en');
 		$this->fixture = new tx_realty_translator();
 
@@ -58,7 +58,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translatorReturnsDefaultLanguageStringForInvalidLanguageKey() {
-		tx_oelib_configurationProxy::getInstance('realty')
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')
 			->setAsString('cliLanguage', 'xy');
 		$this->fixture = new tx_realty_translator();
 
@@ -72,7 +72,7 @@ class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translatorReturnsDefaultLanguageStringForEmptyLanguageKey() {
-		tx_oelib_configurationProxy::getInstance('realty')
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')
 			->setAsString('cliLanguage', '');
 		$this->fixture = new tx_realty_translator();
 

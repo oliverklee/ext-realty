@@ -76,7 +76,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	const DE = 54;
 
 	protected function setUp() {
-		tx_oelib_configurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', FALSE);
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')->setAsBoolean('enableConfigCheck', FALSE);
 
 		Tx_Oelib_HeaderProxyFactory::getInstance()->enableTestMode();
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
@@ -189,7 +189,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 		// The configuration check is created during initialization, therefore
 		// the object to test is recreated for this test.
 		unset($this->fixture);
-		tx_oelib_configurationProxy::getInstance('realty')
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')
 			->setAsBoolean('enableConfigCheck', TRUE);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(
@@ -212,7 +212,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 		// The configuration check is created during initialization, therefore
 		// the object to test is recreated for this test.
 		unset($this->fixture);
-		tx_oelib_configurationProxy::getInstance('realty')
+		Tx_Oelib_ConfigurationProxy::getInstance('realty')
 			->setAsBoolean('enableConfigCheck', FALSE);
 		$this->fixture = new tx_realty_pi1();
 		$this->fixture->init(array(

@@ -37,7 +37,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 	private $testingFramework = NULL;
 
 	/**
-	 * @var tx_oelib_configurationProxy
+	 * @var Tx_Oelib_ConfigurationProxy
 	 */
 	private $globalConfiguration = NULL;
 
@@ -83,7 +83,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase {
 
 		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
-		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
+		$this->globalConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('realty');
 
 		$this->translator = new tx_realty_translator();
 

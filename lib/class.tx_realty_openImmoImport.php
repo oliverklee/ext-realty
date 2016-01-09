@@ -53,7 +53,7 @@ class tx_realty_openImmoImport {
 	private $importedXml = NULL;
 
 	/**
-	 * @var tx_oelib_configurationProxy to access the EM configuration
+	 * @var Tx_Oelib_ConfigurationProxy to access the EM configuration
 	 */
 	private $globalConfiguration = NULL;
 
@@ -107,7 +107,7 @@ class tx_realty_openImmoImport {
 	public function __construct($isTestMode = FALSE) {
 		$this->isTestMode = $isTestMode;
 		libxml_use_internal_errors(TRUE);
-		$this->globalConfiguration = tx_oelib_configurationProxy::getInstance('realty');
+		$this->globalConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('realty');
 		$this->fileNameMapper = GeneralUtility::makeInstance('tx_realty_fileNameMapper');
 		$this->setUploadDirectory(PATH_site . tx_realty_Model_Image::UPLOAD_FOLDER);
 	}

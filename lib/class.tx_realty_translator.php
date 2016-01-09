@@ -40,7 +40,7 @@ class tx_realty_translator {
 		} else {
 			$this->languageService = GeneralUtility::makeInstance('language');
 		}
-		$cliLanguage = tx_oelib_configurationProxy::getInstance('realty')->getAsString('cliLanguage');
+		$cliLanguage = Tx_Oelib_ConfigurationProxy::getInstance('realty')->getAsString('cliLanguage');
 		// "default" is used as language key if the configured language key is not within the set of available language keys.
 		/** @var t3lib_l10n_Locales $locales */
 		$locales = GeneralUtility::makeInstance('t3lib_l10n_Locales');
