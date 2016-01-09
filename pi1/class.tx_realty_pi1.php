@@ -24,7 +24,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_pi1 extends tx_oelib_templatehelper {
+class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interface_ConfigurationCheckable {
 	/**
 	 * @var string same as class name
 	 */
@@ -290,5 +290,15 @@ class tx_realty_pi1 extends tx_oelib_templatehelper {
 	public function isAccessToSingleViewPageAllowed() {
 		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
 			|| !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
+	}
+
+	/**
+	 * Returns the prefix for the configuration to check, e.g. "plugin.tx_seminars_pi1.".
+	 *
+	 * @return string the namespace prefix, will end with a dot
+	 */
+	public function getTypoScriptNamespace()
+	{
+		return 'plugin.tx_realty_pi1.';
 	}
 }

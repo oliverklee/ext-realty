@@ -8,6 +8,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5235] Explicitly provide the configuration check namespaces
 - [#5420] Stop calling deprecated config check methods
 - [#5386] Submitting the search keeps the current pagination
 - [#5321] Update .htaccess to be Apache 2.4 compatible
