@@ -22,7 +22,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_configcheck extends tx_oelib_configcheck {
+class tx_realty_configcheck extends Tx_Oelib_ConfigCheck {
 	/**
 	 * Checks the configuration for the filter form of the Realty Manager.
 	 *
