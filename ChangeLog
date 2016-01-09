@@ -48,6 +48,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5497] Rename tx_oelib_Interface_Geo to Tx_Oelib_Interface_Geo
 - [#5468] Rename Tx_Oelib_HeaderProxyFactory to Tx_Oelib_HeaderProxyFactory
 - [#5470] Rename tx_oelib_Time to Tx_Oelib_Time
 - [#5408] Drop version-specific code and class_exists

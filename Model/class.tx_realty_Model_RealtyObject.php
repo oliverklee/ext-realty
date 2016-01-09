@@ -26,7 +26,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel implements tx_oelib_Interface_Geo {
+class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel implements Tx_Oelib_Interface_Geo {
 	/**
 	 * @var int
 	 */
