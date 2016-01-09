@@ -1,6 +1,7 @@
 0.7.0 - currently working on
 
 Features:
+- [#5239] Add a composer.json
 - [#5385] Add a RealURL configuration for the search parameters
 - [#3764] Provide a RealURL auto configuration file
 
