@@ -61,7 +61,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('fe_editor', array(
@@ -80,7 +80,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
+			'Tx_Oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
 		);
 
 		$this->fixture->checkAccess('fe_editor', array(
@@ -104,7 +104,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 					'tx_realty_objects', array('deleted' => 1)
 				)
 			));
-		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		} catch (Tx_Oelib_Exception_AccessDenied $exception) {
 		}
 
 		self::assertEquals(
@@ -118,7 +118,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
@@ -129,7 +129,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForFeEditorThrowsExceptionWithPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess(
@@ -146,7 +146,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_access_denied'
+			'Tx_Oelib_Exception_AccessDenied', 'message_access_denied'
 		);
 
 		$this->fixture->checkAccess(
@@ -166,7 +166,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 			$this->fixture->checkAccess(
 				'fe_editor', array('showUid' => $this->dummyObjectUid)
 			);
-		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		} catch (Tx_Oelib_Exception_AccessDenied $exception) {
 		}
 
 		self::assertEquals(
@@ -238,7 +238,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_no_objects_left'
+			'Tx_Oelib_Exception_AccessDenied', 'message_no_objects_left'
 		);
 
 		$this->fixture->checkAccess('fe_editor', array('showUid' => 0));
@@ -284,7 +284,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('image_upload', array(
@@ -303,7 +303,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_image_upload'
+			'Tx_Oelib_Exception_AccessDenied', 'message_noResultsFound_image_upload'
 		);
 
 		$this->fixture->checkAccess('image_upload', array('showUid' => 0));
@@ -318,7 +318,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
+			'Tx_Oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
 		);
 
 		$this->fixture->checkAccess('image_upload', array(
@@ -342,7 +342,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 					'tx_realty_objects', array('deleted' => 1)
 				)
 			));
-		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		} catch (Tx_Oelib_Exception_AccessDenied $exception) {
 		}
 
 		self::assertEquals(
@@ -356,7 +356,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('image_upload', array('showUid' => 0));
@@ -367,7 +367,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForImageUploadThrowsExceptionWithPleaseLoginMessageForAnExistingObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('image_upload', array(
@@ -384,7 +384,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_access_denied'
+			'Tx_Oelib_Exception_AccessDenied', 'message_access_denied'
 		);
 
 		$this->fixture->checkAccess(
@@ -404,7 +404,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 			$this->fixture->checkAccess(
 				'image_upload', array('showUid' => $this->dummyObjectUid)
 			);
-		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		} catch (Tx_Oelib_Exception_AccessDenied $exception) {
 		}
 
 		self::assertEquals(
@@ -442,7 +442,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageForAnInvalidUidAndNoUserLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('my_objects', array(
@@ -461,7 +461,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
+			'Tx_Oelib_Exception_AccessDenied', 'message_noResultsFound_fe_editor'
 		);
 
 		$this->fixture->checkAccess('my_objects', array(
@@ -485,7 +485,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 					'tx_realty_objects', array('deleted' => 1)
 				)
 			));
-		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		} catch (Tx_Oelib_Exception_AccessDenied $exception) {
 		}
 
 		self::assertEquals(
@@ -499,7 +499,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('my_objects', array('delete' => 0));
@@ -510,7 +510,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForMyObjectsThrowsExceptionWithPleaseLoginMessageWhenNotLoggedInUserAttemptsToDeleteAnObject() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess(
@@ -527,7 +527,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_access_denied'
+			'Tx_Oelib_Exception_AccessDenied', 'message_access_denied'
 		);
 
 		$this->fixture->checkAccess(
@@ -547,7 +547,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 			$this->fixture->checkAccess(
 				'my_objects', array('delete' => $this->dummyObjectUid)
 			);
-		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		} catch (Tx_Oelib_Exception_AccessDenied $exception) {
 		}
 
 		self::assertEquals(
@@ -596,7 +596,7 @@ class tx_realty_Service_AccessCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkAccessForSingleViewThrowsExceptionWithPleaseLoginMessageForNewObjectIfNoUserIsLoggedIn() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_AccessDenied', 'message_please_login'
+			'Tx_Oelib_Exception_AccessDenied', 'message_please_login'
 		);
 
 		$this->fixture->checkAccess('single_view', array());

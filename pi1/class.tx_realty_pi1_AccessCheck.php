@@ -32,7 +32,7 @@ class tx_realty_pi1_AccessCheck {
 	 *        The fe_editor and image_upload can only be checked properly if "showUid" is provided. A UID provided with "delete"
 	 *        is needed for the my_objects view.
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied
+	 * @throws Tx_Oelib_Exception_AccessDenied
 	 *         if access is denied, with the reason of denying as a locallang key
 	 *
 	 * @return void
@@ -72,7 +72,7 @@ class tx_realty_pi1_AccessCheck {
 	 * Checks whether a front-end user is logged in. Sets a 403 header and
 	 * throws the corresponding error message key if no user is logged in.
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if no front-end user is logged in
+	 * @throws Tx_Oelib_Exception_AccessDenied if no front-end user is logged in
 	 *
 	 * @return void
 	 */
@@ -80,14 +80,14 @@ class tx_realty_pi1_AccessCheck {
 		if (!tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 			Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()
 				->addHeader('Status: 403 Forbidden');
-			throw new tx_oelib_Exception_AccessDenied('message_please_login', 1333036432);
+			throw new Tx_Oelib_Exception_AccessDenied('message_please_login', 1333036432);
 		}
 	}
 
 	/**
 	 * Checks whether a non-zero UID for the realty object was provided.
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if the realty object UID is zero
+	 * @throws Tx_Oelib_Exception_AccessDenied if the realty object UID is zero
 	 *
 	 * @param int $realtyObjectUid UID of the object, must be >= 0
 	 *
@@ -100,7 +100,7 @@ class tx_realty_pi1_AccessCheck {
 
 		Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 404 Not Found');
-		throw new tx_oelib_Exception_AccessDenied('message_noResultsFound_image_upload', 1333036450);
+		throw new Tx_Oelib_Exception_AccessDenied('message_noResultsFound_image_upload', 1333036450);
 	}
 
 	/**
@@ -108,8 +108,7 @@ class tx_realty_pi1_AccessCheck {
 	 * non-deleted. A hidden object is considered to be exsistent. A zero UID
 	 * is considered to stand for a new realty record and therefore accepted.
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if the realty object does not
-	 *                                         exist in the database
+	 * @throws Tx_Oelib_Exception_AccessDenied if the realty object does not exist in the database
 	 *
 	 * @param int $realtyObjectUid UID of the object, must be >= 0
 	 *
@@ -124,7 +123,7 @@ class tx_realty_pi1_AccessCheck {
 		}
 
 		Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->addHeader('Status: 404 Not Found');
-		throw new tx_oelib_Exception_AccessDenied('message_noResultsFound_fe_editor', 1333036458);
+		throw new Tx_Oelib_Exception_AccessDenied('message_noResultsFound_fe_editor', 1333036458);
 	}
 
 	/**
@@ -134,7 +133,7 @@ class tx_realty_pi1_AccessCheck {
 	 *
 	 * @param int $realtyObjectUid UID of the realty object for which to check whether a user is authorized, must be >= 0
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if the front-end user does not own the object
+	 * @throws Tx_Oelib_Exception_AccessDenied if the front-end user does not own the object
 	 *
 	 * @return void
 	 */
@@ -154,7 +153,7 @@ class tx_realty_pi1_AccessCheck {
 		}
 
 		Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->addHeader('Status: 403 Forbidden');
-		throw new tx_oelib_Exception_AccessDenied('message_access_denied', 1333036471);
+		throw new Tx_Oelib_Exception_AccessDenied('message_access_denied', 1333036471);
 	}
 
 	/**
@@ -162,7 +161,7 @@ class tx_realty_pi1_AccessCheck {
 	 *
 	 * @param int $realtyObjectUid UID of the object, must be >= 0
 	 *
-	 * @throws tx_oelib_Exception_AccessDenied if the front-end user is not allowed to enter a new object
+	 * @throws Tx_Oelib_Exception_AccessDenied if the front-end user is not allowed to enter a new object
 	 *
 	 * @return void
 	 */
@@ -178,6 +177,6 @@ class tx_realty_pi1_AccessCheck {
 
 		Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()
 			->addHeader('Status: 403 Forbidden');
-		throw new tx_oelib_Exception_AccessDenied('message_no_objects_left', 1333036483);
+		throw new Tx_Oelib_Exception_AccessDenied('message_no_objects_left', 1333036483);
 	}
 }

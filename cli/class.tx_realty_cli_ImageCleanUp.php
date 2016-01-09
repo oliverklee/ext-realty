@@ -44,8 +44,7 @@ class tx_realty_cli_ImageCleanUp {
 	 * Checks whether the Realty upload folder exists and is writable.
 	 *
 	 * @throws RuntimeException if the upload folder does not exist
-	 * @throws tx_oelib_Exception_AccessDenied if the upload folder is not
-	 *                                         writable
+	 * @throws Tx_Oelib_Exception_AccessDenied if the upload folder is not writable
 	 *
 	 * @return void
 	 */
@@ -62,7 +61,7 @@ class tx_realty_cli_ImageCleanUp {
 			$ownerUid = fileowner($absolutePath);
 			$owner = posix_getpwuid($ownerUid);
 
-			throw new tx_oelib_Exception_AccessDenied(
+			throw new Tx_Oelib_Exception_AccessDenied(
 				'The folder ' .  $absolutePath . ' is not writable. Please fix file permissions and restart' .
 					' the import. The folder belongs to the user: ' . $owner['name'] . ', ' . $ownerUid .
 					', and has the following permissions: ' . substr(decoct(fileperms($absolutePath)), 2) .

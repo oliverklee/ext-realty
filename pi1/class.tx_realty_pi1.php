@@ -209,7 +209,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
 			$accessCheck = GeneralUtility::makeInstance('tx_realty_pi1_AccessCheck');
 			$accessCheck->checkAccess($this->getCurrentView(), $this->piVars);
 			$result = '';
-		} catch (tx_oelib_Exception_AccessDenied $exception) {
+		} catch (Tx_Oelib_Exception_AccessDenied $exception) {
 			/** @var tx_realty_pi1_ErrorView $errorView */
 			$errorView = GeneralUtility::makeInstance('tx_realty_pi1_ErrorView', $this->conf, $this->cObj);
 			$result = $errorView->render(array($exception->getMessage()));
