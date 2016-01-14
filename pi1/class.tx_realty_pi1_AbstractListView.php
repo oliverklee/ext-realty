@@ -242,7 +242,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *
 	 * @return mysqli_result the realty records to list
 	 *
-	 * @throws tx_oelib_Exception_Database if a database query error occurs
+	 * @throws Tx_Oelib_Exception_Database if a database query error occurs
 	 */
 	private function initListView() {
 		$whereClause = $this->createWhereClause();
@@ -252,7 +252,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		);
 
 		if ($dbResult === FALSE) {
-			throw new tx_oelib_Exception_Database();
+			throw new Tx_Oelib_Exception_Database();
 		}
 
 		return $dbResult;
@@ -652,7 +652,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Creates the LIMIT statement for initListView().
 	 *
-	 * @throws tx_oelib_Exception_Database if a database query error occurs
+	 * @throws Tx_Oelib_Exception_Database if a database query error occurs
 	 *
 	 * @param string $whereClause
 	 *        WHERE clause of the query for which the LIMIT statement will be,
@@ -1183,7 +1183,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	/**
 	 * Returns an image record that is associated with the current realty record.
 	 *
-	 * @throws tx_oelib_Exception_Database if a database query error occurs
+	 * @throws Tx_Oelib_Exception_Database if a database query error occurs
 	 *
 	 * @param int $offset
 	 *        the number of the image to retrieve (zero-based, may be zero)
@@ -1348,7 +1348,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 * @param int $recordPosition
 	 *        the position of the searched record, must be >= 0
 	 *
-	 * @throws tx_oelib_Exception_Database if a database query error occurs
+	 * @throws Tx_Oelib_Exception_Database if a database query error occurs
 	 * @throws InvalidArgumentException if the record position is a negative integer
 	 * @return int the record UID, will be zero if no record for the given
 	 *                 record number could be found
@@ -1364,7 +1364,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				' LIMIT ' . $recordPosition . ',1'
 		);
 		if ($dbResult === FALSE) {
-			throw new tx_oelib_Exception_Database();
+			throw new Tx_Oelib_Exception_Database();
 		}
 
 		$result = $databaseConnection->sql_fetch_assoc($dbResult);

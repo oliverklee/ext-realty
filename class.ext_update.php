@@ -45,7 +45,7 @@ class ext_update {
 			if ($this->needsToUpdatePhoneNumbers()) {
 				$result .= $this->updatePhoneNumbers();
 			}
-		} catch (tx_oelib_Exception_Database $exception) {
+		} catch (Tx_Oelib_Exception_Database $exception) {
 		}
 
 		return $result;
@@ -72,7 +72,7 @@ class ext_update {
 		try {
 			$result = $this->needsToUpdateDistricts()
 				|| $this->needsToUpdateImages() || $this->needsToUpdateStatus() || $this->needsToUpdatePhoneNumbers();
-		} catch (tx_oelib_Exception_Database $exception) {
+		} catch (Tx_Oelib_Exception_Database $exception) {
 			$result = FALSE;
 		}
 

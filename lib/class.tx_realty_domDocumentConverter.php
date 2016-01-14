@@ -999,7 +999,7 @@ class tx_realty_domDocumentConverter {
 	 * Fetches the value for country, finds the corresponding UID in the static
 	 * countries table and stores it in $this->importedData.
 	 *
-	 * @throws tx_oelib_Exception_Database if the database query fails
+	 * @throws Tx_Oelib_Exception_Database if the database query fails
 	 *
 	 * @return void
 	 */

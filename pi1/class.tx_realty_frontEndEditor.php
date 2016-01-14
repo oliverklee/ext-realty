@@ -225,7 +225,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return array[] items for the select box, will be empty if there are no
 	 *               matching records or if the provided table name was invalid
 	 *
-	 * @throws tx_oelib_Exception_Database
+	 * @throws Tx_Oelib_Exception_Database
 	 */
 	public function populateList(array $unused, array $formData) {
 		$this->checkForValidTableName($formData['table']);
@@ -247,7 +247,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			$titleColumn
 		);
 		if ($dbResult === FALSE) {
-			throw new tx_oelib_Exception_Database();
+			throw new Tx_Oelib_Exception_Database();
 		}
 
 		/** @var array[] $items */
@@ -422,7 +422,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return bool TRUE if the object number is non empty and unique for the entered language,
 	 *                 also TRUE if the object already exists in the database
 	 *
-	 * @throws tx_oelib_Exception_Database
+	 * @throws Tx_Oelib_Exception_Database
 	 */
 	public function isObjectNumberUniqueForLanguage(array $formData) {
 		// FE users cannot change the object number of existing objects anyway.
@@ -443,7 +443,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				Tx_Oelib_Db::enableFields('tx_realty_objects', 1) . $this->getWhereClauseForTesting()
 		);
 		if ($dbResult === FALSE) {
-			throw new tx_oelib_Exception_Database();
+			throw new Tx_Oelib_Exception_Database();
 		}
 
 		$languages = array();
@@ -470,7 +470,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return bool TRUE if the form data value is actually the UID of
 	 *                 a record in a valid table, FALSE otherwise
 	 *
-	 * @throws tx_oelib_Exception_Database
+	 * @throws Tx_Oelib_Exception_Database
 	 */
 	public function checkKeyExistsInTable(array $formData, $mayBeEmptyOrZero = TRUE) {
 		$this->checkForValidTableName($formData['table']);
@@ -486,7 +486,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 				Tx_Oelib_Db::enableFields($formData['table'])
 		);
 		if ($dbResult === FALSE) {
-			throw new tx_oelib_Exception_Database();
+			throw new Tx_Oelib_Exception_Database();
 		}
 
 		$result = $databaseConnection->sql_fetch_assoc($dbResult) !== FALSE;
@@ -944,7 +944,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @return int UID of the record with the title to search or zero if there is no record with this title
 	 *
-	 * @throws tx_oelib_Exception_Database
+	 * @throws Tx_Oelib_Exception_Database
 	 */
 	private function getUidIfAuxiliaryRecordExists($title, $table) {
 		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
@@ -954,7 +954,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'title="' . $databaseConnection->quoteStr($title, $table) . '"' . $this->getWhereClauseForTesting()
 		);
 		if ($dbResult === FALSE) {
-			throw new tx_oelib_Exception_Database();
+			throw new Tx_Oelib_Exception_Database();
 		}
 
 		$result = $databaseConnection->sql_fetch_assoc($dbResult);
@@ -1054,7 +1054,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 *
 	 * @return int UID of the system folder where to store this city's records, will be zero if no folder was set
 	 *
-	 * @throws tx_oelib_Exception_Database
+	 * @throws Tx_Oelib_Exception_Database
 	 */
 	private function getPidFromCityRecord($cityUid) {
 		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
@@ -1064,7 +1064,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			'uid=' . $cityUid
 		);
 		if ($dbResult === FALSE) {
-			throw new tx_oelib_Exception_Database();
+			throw new Tx_Oelib_Exception_Database();
 		}
 
 		$row = $databaseConnection->sql_fetch_assoc($dbResult);
