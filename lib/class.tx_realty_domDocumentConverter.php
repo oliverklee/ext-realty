@@ -1023,7 +1023,7 @@ class tx_realty_domDocumentConverter {
 					'cn_iso_3 = "' . Tx_Oelib_Db::getDatabaseConnection()->quoteStr($country, 'static_countries') . '"'
 				);
 				$uid = $row['uid'];
-			} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+			} catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
 				$uid = 0;
 			}
 			$this->cacheCountry($country, $uid);

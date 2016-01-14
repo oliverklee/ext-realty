@@ -1209,7 +1209,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 				'sorting',
 				(int)$offset
 			);
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+		} catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
 			$image = array();
 		}
 

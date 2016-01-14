@@ -48,6 +48,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5479] Rename tx_oelib_Exception_EmptyQueryResult to Tx_Oelib_Exception_EmptyQueryResult
 - [#5478] Rename tx_oelib_Exception_Database to Tx_Oelib_Exception_Database
 - [#5497] Rename tx_oelib_Interface_Geo to Tx_Oelib_Interface_Geo
 - [#5468] Rename Tx_Oelib_HeaderProxyFactory to Tx_Oelib_HeaderProxyFactory

@@ -409,7 +409,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 					'tx_realty_objects', $this->canLoadHiddenObjects ? 1 : -1
 				)
 			);
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+		} catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
 			$result = array();
 		}
 
@@ -609,7 +609,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 				$whereClause . Tx_Oelib_Db::enableFields('fe_users')
 			);
 			$this->ownerData = $row;
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+		} catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
 		}
 	}
 
@@ -1476,7 +1476,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 				$table,
 				implode(' AND ', $whereClauseParts) . Tx_Oelib_Db::enableFields($table, $showHidden)
 			);
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+		} catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
 			$result = array();
 		}
 
@@ -1632,7 +1632,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 				'uid = ' . $property . Tx_Oelib_Db::enableFields($tableName)
 			);
 			$result = $row[$titleField];
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+		} catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
 			$result = '';
 		}
 

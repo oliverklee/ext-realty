@@ -63,7 +63,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView {
 				'tt_content',
 				'uid=' . $listUid . Tx_Oelib_Db::enableFields('tt_content')
 			);
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+		} catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
 			return '';
 		}
 
