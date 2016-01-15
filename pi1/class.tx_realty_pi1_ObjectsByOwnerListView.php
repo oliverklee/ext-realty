@@ -122,7 +122,7 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	/**
 	 * Returns the selected owner.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if no owner is selected or the owner
+	 * @throws Tx_Oelib_Exception_NotFound if no owner is selected or the owner
 	 *                                     does not exist
 	 *
 	 * @return tx_realty_Model_FrontEndUser the selected owner
@@ -130,13 +130,13 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	private function getOwner() {
 		$ownerUid = (int)$this->piVars['owner'];
 		if ($ownerUid <= 0) {
-			throw new tx_oelib_Exception_NotFound('No owner is selected.', 1333036590);
+			throw new Tx_Oelib_Exception_NotFound('No owner is selected.', 1333036590);
 		}
 
 		/** @var tx_realty_Mapper_FrontEndUser $mapper */
 		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
 		if (!$mapper->existsModel($ownerUid)) {
-			throw new tx_oelib_Exception_NotFound('The owner does not exist.', 1333036603);
+			throw new Tx_Oelib_Exception_NotFound('The owner does not exist.', 1333036603);
 		}
 
 		return $mapper->find($ownerUid);
@@ -151,7 +151,7 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
 	protected function existsOwner() {
 		try {
 			$this->getOwner();
-		} catch (tx_oelib_Exception_NotFound $exception) {
+		} catch (Tx_Oelib_Exception_NotFound $exception) {
 			return FALSE;
 		}
 

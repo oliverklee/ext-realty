@@ -41,7 +41,7 @@ class tx_realty_Mapper_City extends tx_oelib_DataMapper {
 	/**
 	 * Finds a city by its name.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no city with the
+	 * @throws Tx_Oelib_Exception_NotFound if there is no city with the
 	 *                                     given name
 	 *
 	 * @param string $name the name of the city to find, must not be empty

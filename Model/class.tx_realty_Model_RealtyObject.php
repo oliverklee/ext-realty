@@ -645,7 +645,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		try {
 			$this->setAsInteger('owner', $this->getOwner()->getUid());
-		} catch (tx_oelib_Exception_NotFound $exception) {
+		} catch (Tx_Oelib_Exception_NotFound $exception) {
 		}
 	}
 
@@ -672,7 +672,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 *       function should return a real relation. $this->ownerData is no
 	 *       longer needed then either.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no owner - not even a FE
+	 * @throws Tx_Oelib_Exception_NotFound if there is no owner - not even a FE
 	 *                                     user with an ANID matching the
 	 *                                     current object's ANID
 	 *
@@ -691,7 +691,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 			/** @var tx_realty_Model_FrontEndUser $result */
 			$result = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getModel($this->ownerData);
 		} catch (Exception $exception) {
-			throw new tx_oelib_Exception_NotFound('There is no owner for the current realty object.', 1333035795);
+			throw new Tx_Oelib_Exception_NotFound('There is no owner for the current realty object.', 1333035795);
 		}
 
 		return $result;
@@ -1225,7 +1225,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 * @param int $imageKey key of the image record to mark as deleted, must be a key of the image data array and must be >= 0
 	 *
 	 * @throws BadMethodCallException
-	 * @throws tx_oelib_Exception_NotFound
+	 * @throws Tx_Oelib_Exception_NotFound
 	 *
 	 * @return void
 	 */
@@ -1240,7 +1240,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		$image = $this->images->at($imageKey);
 
 		if ($image == NULL) {
-			throw new tx_oelib_Exception_NotFound('The image record does not exist.', 1333035899);
+			throw new Tx_Oelib_Exception_NotFound('The image record does not exist.', 1333035899);
 		}
 
 		/** @var tx_realty_Mapper_Image $mapper */
@@ -1260,7 +1260,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 *        the document data array and must be >= 0
 	 *
 	 * @throws BadMethodCallException
-	 * @throws tx_oelib_Exception_NotFound
+	 * @throws Tx_Oelib_Exception_NotFound
 	 *
 	 * @return void
 	 */
@@ -1273,7 +1273,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		$document = $this->documents->at($key);
 
 		if ($document == NULL) {
-			throw new tx_oelib_Exception_NotFound('The document does not exist.', 1333035940);
+			throw new Tx_Oelib_Exception_NotFound('The document does not exist.', 1333035940);
 		}
 
 		/** @var tx_realty_Mapper_Document $mapper */

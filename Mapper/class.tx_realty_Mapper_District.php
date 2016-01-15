@@ -94,7 +94,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	/**
 	 * Finds a district by its name.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no district with the
+	 * @throws Tx_Oelib_Exception_NotFound if there is no district with the
 	 *                                     given name
 	 *
 	 * @param string $name the name of the district to find, must not be empty
@@ -108,7 +108,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	/**
 	 * Finds a district by its name and its associated city.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no district with the
+	 * @throws Tx_Oelib_Exception_NotFound if there is no district with the
 	 *                                     given name and city
 	 *
 	 * @param string $districtName
@@ -130,7 +130,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 			$model = $this->findByNameAndCityUidFromCache(
 				$districtName, $cityUid
 			);
-		} catch (tx_oelib_Exception_NotFound $exception) {
+		} catch (Tx_Oelib_Exception_NotFound $exception) {
 			$model = $this->findByNameAndCityUidFromDatabase(
 				$districtName, $cityUid
 			);
@@ -142,7 +142,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	/**
 	 * Finds a district by its name and its associated city from the cache.
 	 *
-	 * @throws tx_oelib_Exception_NotFound
+	 * @throws Tx_Oelib_Exception_NotFound
 	 *         if there is no district with the given name and city in the cache
 	 *
 	 * @param string $districtName
@@ -157,7 +157,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 			$districtName, $cityUid
 		);
 		if (!isset($this->cacheByNameAndCityUid[$cacheKey])) {
-			throw new tx_oelib_Exception_NotFound('No model found.', 1333035709);
+			throw new Tx_Oelib_Exception_NotFound('No model found.', 1333035709);
 		}
 
 		return $this->cacheByNameAndCityUid[$cacheKey];
@@ -204,7 +204,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	/**
 	 * Finds a district by its name and its associated city from the database.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no district with the
+	 * @throws Tx_Oelib_Exception_NotFound if there is no district with the
 	 *                                     given name and city in the database
 	 *
 	 * @param string $districtName

@@ -1119,7 +1119,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 			// just closes the modal box; doesn't save the district if it
 			// already exists
 			return array($renderlet->majixCloseBox());
-		} catch (tx_oelib_Exception_NotFound $exception) {
+		} catch (Tx_Oelib_Exception_NotFound $exception) {
 		}
 
 		/** @var $district tx_realty_Model_District */

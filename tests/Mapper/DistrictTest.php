@@ -354,7 +354,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByNameForInexistentNameThrowsException() {
-		$this->setExpectedException('tx_oelib_Exception_NotFound');
+		$this->setExpectedException('Tx_Oelib_Exception_NotFound');
 
 		$this->fixture->findByName('Hupflingen');
 	}
@@ -443,7 +443,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByNameAndCityUidNotFindsDistrictWithThatNameAndOtherCityFromDatabase() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound'
+			'Tx_Oelib_Exception_NotFound'
 		);
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
@@ -464,7 +464,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByNameAndCityUidNotFindsDistrictWithThatNameAndInexistentCityFromDatabase() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound'
+			'Tx_Oelib_Exception_NotFound'
 		);
 
 		$this->testingFramework->createRecord(
@@ -484,7 +484,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByNameAndCityUidNotFindsDistrictWithOtherNameAndMatchingCityFromDatabase() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound'
+			'Tx_Oelib_Exception_NotFound'
 		);
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
@@ -504,7 +504,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByNameAndCityUidNotFindsDistrictWithOtherNameAndOtherCityFromDatabase() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound'
+			'Tx_Oelib_Exception_NotFound'
 		);
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
@@ -544,7 +544,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByNameAndCityUidNotFindsDistrictWithThatNameAndOtherCityFromCache() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound'
+			'Tx_Oelib_Exception_NotFound'
 		);
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
@@ -564,7 +564,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByNameAndCityUidNotFindsDistrictWithOtherNameMatchingCityFromCache() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound'
+			'Tx_Oelib_Exception_NotFound'
 		);
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
@@ -583,7 +583,7 @@ class tx_realty_Mapper_DistrictTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByNameAndCityUidNotFindsDistrictWithOtherNameAndOtherCityFromCache() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound'
+			'Tx_Oelib_Exception_NotFound'
 		);
 
 		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');

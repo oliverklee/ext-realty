@@ -373,7 +373,7 @@ class tx_realty_openImmoImport {
 
 		try {
 			$this->realtyObject->getOwner();
-		} catch (tx_oelib_Exception_NotFound $exception) {
+		} catch (Tx_Oelib_Exception_NotFound $exception) {
 			return FALSE;
 		}
 
@@ -1251,7 +1251,7 @@ class tx_realty_openImmoImport {
 		if ($this->mayUseOwnerData()) {
 			try {
 				$emailAddress = $this->realtyObject->getOwner()->getEmailAddress();
-			} catch (tx_oelib_Exception_NotFound $exception) {
+			} catch (Tx_Oelib_Exception_NotFound $exception) {
 			}
 		}
 

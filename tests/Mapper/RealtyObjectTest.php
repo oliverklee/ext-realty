@@ -244,7 +244,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 *
-	 * @expectedException tx_oelib_Exception_NotFound
+	 * @expectedException Tx_Oelib_Exception_NotFound
 	 */
 	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectNumber() {
 		$this->fixture->getLoadedTestingModel(array(
@@ -261,7 +261,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 *
-	 * @expectedException tx_oelib_Exception_NotFound
+	 * @expectedException Tx_Oelib_Exception_NotFound
 	 */
 	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectId() {
 		$this->fixture->getLoadedTestingModel(array(
@@ -278,7 +278,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 *
-	 * @expectedException tx_oelib_Exception_NotFound
+	 * @expectedException Tx_Oelib_Exception_NotFound
 	 */
 	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectLanguage() {
 		$this->fixture->getLoadedTestingModel(array(

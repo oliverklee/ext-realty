@@ -122,7 +122,7 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByNameForInexistentNameThrowsException() {
-		$this->setExpectedException('tx_oelib_Exception_NotFound');
+		$this->setExpectedException('Tx_Oelib_Exception_NotFound');
 
 		$this->fixture->findByName('Hupflingen');
 	}

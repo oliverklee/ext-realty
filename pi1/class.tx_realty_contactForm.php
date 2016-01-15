@@ -409,7 +409,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView {
 				'email' => $realtyObject->getContactEMailAddress(),
 				'name' => $realtyObject->getContactName(),
 			);
-		} catch (tx_oelib_Exception_NotFound $exception) {
+		} catch (Tx_Oelib_Exception_NotFound $exception) {
 			$contactData = array('email' => '', 'name' => '');
 		}
 

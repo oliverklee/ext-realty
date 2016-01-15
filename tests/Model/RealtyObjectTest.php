@@ -2278,7 +2278,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 *
-	 * @expectedException tx_oelib_Exception_NotFound
+	 * @expectedException Tx_Oelib_Exception_NotFound
 	 */
 	public function markImageRecordAsDeletedForNonExistingRecordThrowsException() {
 		$this->testingFramework->markTableAsDirty('tx_realty_images');
@@ -2530,7 +2530,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 *
-	 * @expectedException tx_oelib_Exception_NotFound
+	 * @expectedException Tx_Oelib_Exception_NotFound
 	 */
 	public function deleteDocumentForNonExistingRecordThrowsException() {
 		$this->testingFramework->markTableAsDirty('tx_realty_documents');

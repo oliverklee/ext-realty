@@ -91,7 +91,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * Finds a realty object by its object number, OpenImmo object ID and
 	 * language.
 	 *
-	 * @throws tx_oelib_Exception_NotFound
+	 * @throws Tx_Oelib_Exception_NotFound
 	 *         if there is no realty object with the provided data
 	 *
 	 * @param string $objectNumber
@@ -111,7 +111,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 			$model = $this->findByObjectNumberAndObjectIdAndLanguageFromCache(
 				$objectNumber, $openImmoObjectId, $language
 			);
-		} catch (tx_oelib_Exception_NotFound $exception) {
+		} catch (Tx_Oelib_Exception_NotFound $exception) {
 			$model = $this->findByObjectNumberAndObjectIdAndLanguageFromDatabase(
 				$objectNumber, $openImmoObjectId, $language
 			);
@@ -124,7 +124,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * Finds a realty object by its object number, OpenImmo object ID and
 	 * language from the cache.
 	 *
-	 * @throws tx_oelib_Exception_NotFound
+	 * @throws Tx_Oelib_Exception_NotFound
 	 *         if there is no realty object with the provided data in the cache
 	 *
 	 * @param string $objectNumber
@@ -144,7 +144,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 			$objectNumber, $openImmoObjectId, $language
 		);
 		if (!isset($this->cacheByObjectNumberAndObjectIdAndLanguage[$cacheKey])) {
-			throw new tx_oelib_Exception_NotFound('No model found.', 1333035741);
+			throw new Tx_Oelib_Exception_NotFound('No model found.', 1333035741);
 		}
 
 		return $this->cacheByObjectNumberAndObjectIdAndLanguage[$cacheKey];
@@ -198,7 +198,7 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	 * Finds a realty object by its object number, OpenImmo object ID and
 	 * language from the database.
 	 *
-	 * @throws tx_oelib_Exception_NotFound
+	 * @throws Tx_Oelib_Exception_NotFound
 	 *         if there is no realty object with the provided data in the
 	 *         database
 	 *
