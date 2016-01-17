@@ -80,7 +80,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 			'coordinates_problem' => FALSE,
 		);
 
-		$this->geoCoder = $this->getMock('tx_oelib_Geocoding_Dummy');
+		$this->geoCoder = $this->getMock(Tx_Oelib_Geocoding_Dummy::class);
 		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
 
 		$this->realtyMapper = $this->getMock('tx_realty_Mapper_RealtyObject');
