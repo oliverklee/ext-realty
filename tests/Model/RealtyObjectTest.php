@@ -4337,8 +4337,8 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getCountryForExistingCountryReturnsCountry() {
 		$this->fixture->setData(array('country' => self::DE));
-		/** @var tx_oelib_Mapper_Country $mapper */
-		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country');
+		/** @var Tx_Oelib_Mapper_Country $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get(Tx_Oelib_Mapper_Country::class);
 		/** @var tx_oelib_Model_Country $country */
 		$country = $mapper->find(self::DE);
 

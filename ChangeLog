@@ -48,6 +48,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5487] Rename tx_oelib_Mapper_Country to Tx_Oelib_Mapper_Country
 - [#5483] Rename tx_oelib_Geocoding_Dummy to Tx_Oelib_Geocoding_Dummy
 - [#5482] Rename tx_oelib_Geocoding_Calculator to Tx_Oelib_Geocoding_Calculator
 - [#5480] Rename tx_oelib_Exception_NotFound to Tx_Oelib_Exception_NotFound
