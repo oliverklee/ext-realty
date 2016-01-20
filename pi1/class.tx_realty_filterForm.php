@@ -596,8 +596,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView {
 
 		$currency = $this->getConfValueString('currencyUnit');
 
-		/** @var tx_oelib_ViewHelper_Price $priceViewHelper */
-		$priceViewHelper = GeneralUtility::makeInstance('tx_oelib_ViewHelper_Price');
+		/** @var Tx_Oelib_ViewHelper_Price $priceViewHelper */
+		$priceViewHelper = GeneralUtility::makeInstance(Tx_Oelib_ViewHelper_Price::class);
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 
 		if ($range['lowerLimit'] == 0) {

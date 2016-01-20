@@ -345,8 +345,8 @@ class tx_realty_pi1_Formatter extends tx_oelib_templatehelper {
 			return '';
 		}
 
-		/** @var tx_oelib_ViewHelper_Price $priceViewHelper */
-		$priceViewHelper = GeneralUtility::makeInstance('tx_oelib_ViewHelper_Price');
+		/** @var Tx_Oelib_ViewHelper_Price $priceViewHelper */
+		$priceViewHelper = GeneralUtility::makeInstance(Tx_Oelib_ViewHelper_Price::class);
 		$priceViewHelper->setCurrencyFromIsoAlpha3Code($currency);
 		$priceViewHelper->setValue((float)$rawValue);
 
