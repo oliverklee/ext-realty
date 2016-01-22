@@ -34,10 +34,7 @@ class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function classIsModel() {
-		self::assertInstanceOf(
-			'Tx_Oelib_Model',
-			$this->subject
-		);
+		self::assertInstanceOf(Tx_Oelib_Model::class, $this->subject);
 	}
 
 	/**

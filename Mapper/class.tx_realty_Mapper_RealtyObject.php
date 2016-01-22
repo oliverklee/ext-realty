@@ -174,13 +174,13 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 	/**
 	 * Caches a model by additional combined keys.
 	 *
-	 * @param tx_oelib_Model $model the model to cache
+	 * @param Tx_Oelib_Model $model the model to cache
 	 * @param string[] $data the data of the model as it is in the DB, must not be empty
 	 *
 	 * @return void
 	 */
 	protected function cacheModelByCombinedKeys(
-		tx_oelib_Model $model, array $data
+		Tx_Oelib_Model $model, array $data
 	) {
 		$objectNumber = isset($data['object_number'])
 			? $data['object_number'] : '';
