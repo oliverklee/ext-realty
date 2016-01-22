@@ -70,7 +70,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * @param int $uid
 	 *        the UID of the city for which to find the disctricts, must be >= 0
 	 *
-	 * @return tx_oelib_List the districts within the given city, may be empty
+	 * @return Tx_Oelib_List the districts within the given city, may be empty
 	 */
 	public function findAllByCityUid($uid) {
 		return $this->findByWhereClause('city = ' . $uid, 'title ASC');
@@ -84,7 +84,7 @@ class tx_realty_Mapper_District extends tx_oelib_DataMapper {
 	 * @param int $uid
 	 *        the UID of the city for which to find the disctricts, must be >= 0
 	 *
-	 * @return tx_oelib_List the districts within the given city or without a city,
+	 * @return Tx_Oelib_List the districts within the given city or without a city,
 	 *                       may be empty
 	 */
 	public function findAllByCityUidOrUnassigned($uid) {

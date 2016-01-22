@@ -228,12 +228,12 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm {
 	/**
 	 * Returns HTML for the images as list items with their thumbnails.
 	 *
-	 * @param tx_oelib_List<tx_realty_Model_Image> $images
+	 * @param Tx_Oelib_List<tx_realty_Model_Image> $images
 	 *        the images to render, may be empty
 	 *
 	 * @return string listed images with thumbnails in HTML, will not be empty
 	 */
-	private function getRenderedImageList(tx_oelib_List $images) {
+	private function getRenderedImageList(Tx_Oelib_List $images) {
 		$result = '';
 
 		$index = 0;

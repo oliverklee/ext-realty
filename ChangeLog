@@ -48,6 +48,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5510] Rename tx_oelib_List to Tx_Oelib_List
 - [#5506] Rename tx_oelib_Model to Tx_Oelib_Model
 - [#5499] Rename tx_oelib_Interface_Sortable to Tx_Oelib_Interface_Sortable
 - [#5495] Rename tx_oelib_Visibility_Tree to Tx_Oelib_Visibility_Tree

@@ -102,7 +102,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 		// setData() will not create the relations, but "usergroup" is expected
 		// to hold a list instance.
 		$dataToSet = $ownerData;
-		$dataToSet['usergroup'] = GeneralUtility::makeInstance('tx_oelib_List');
+		$dataToSet['usergroup'] = GeneralUtility::makeInstance(Tx_Oelib_List::class);
 		$frontEndUser->setData($dataToSet);
 
 		return $this->createListRow($frontEndUser);
@@ -357,13 +357,13 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 * Returns the title of the first user group a user belongs to and which is
 	 * within the list of allowed user groups.
 	 *
-	 * @param tx_oelib_List $userGroups
+	 * @param Tx_Oelib_List $userGroups
 	 *        the offerer's user groups of which to get the first which is within the list of allowed user groups
 	 *
 	 * @return string title of the first allowed user group of the given
 	 *                FE user, will be empty if the user has no group
 	 */
-	private function getFirstUserGroup(tx_oelib_List $userGroups) {
+	private function getFirstUserGroup(Tx_Oelib_List $userGroups) {
 		$result = '';
 
 		$allowedGroups = GeneralUtility::trimExplode(

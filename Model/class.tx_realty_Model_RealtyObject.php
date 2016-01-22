@@ -145,7 +145,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	/**
 	 * the images related to this realty object
 	 *
-	 * @var tx_oelib_List<tx_realty_Model_Image>
+	 * @var Tx_Oelib_List<tx_realty_Model_Image>
 	 */
 	private $images = NULL;
 
@@ -166,7 +166,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	/**
 	 * the documents related to this realty object
 	 *
-	 * @var tx_oelib_List<tx_realty_Model_Document>
+	 * @var Tx_Oelib_List<tx_realty_Model_Document>
 	 */
 	private $documents = NULL;
 
@@ -250,8 +250,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		$this->initializeCharsetConversion();
 
-		$this->images = new tx_oelib_List();
-		$this->documents = new tx_oelib_List();
+		$this->images = new Tx_Oelib_List();
+		$this->documents = new Tx_Oelib_List();
 	}
 
 	/**
@@ -435,7 +435,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		$result = $data;
 		$result['images'] = count($data['images']);
-		$this->images = GeneralUtility::makeInstance('tx_oelib_List');
+		$this->images = GeneralUtility::makeInstance(Tx_Oelib_List::class);
 
 		/** @var string[] $imageData */
 		foreach ($data['images'] as $imageData) {
@@ -475,7 +475,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
 		$result = $data;
 		$result['documents'] = count($data['documents']);
-		$this->documents = GeneralUtility::makeInstance('tx_oelib_List');
+		$this->documents = GeneralUtility::makeInstance(Tx_Oelib_List::class);
 
 		/** @var string[] $documentData */
 		foreach ($data['documents'] as $documentData) {
@@ -1063,7 +1063,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	 *
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=3716
 	 *
-	 * @return tx_oelib_List<tx_realty_Model_Image>
+	 * @return Tx_Oelib_List<tx_realty_Model_Image>
 	 *         the attached images, will be empty if this object has no images
 	 */
 	public function getImages() {
@@ -1083,7 +1083,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	/**
 	 * Gets the related documents.
 	 *
-	 * @return tx_oelib_List<tx_realty_Model_Document>
+	 * @return Tx_Oelib_List<tx_realty_Model_Document>
 	 *         the related documents, will be empty if this object has no
 	 *         documents
 	 */

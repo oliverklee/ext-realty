@@ -77,7 +77,7 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase {
 	public function getDistrictsForCityReturnsDistrictsForCityOrUnassigned() {
 		$city = new tx_realty_Model_District();
 		$city->setData(array('uid' => 2, 'title' => 'Kreuzberg'));
-		$cities = new tx_oelib_List();
+		$cities = new Tx_Oelib_List();
 		$cities->add($city);
 
 		/** @var tx_realty_Mapper_District|PHPUnit_Framework_MockObject_MockObject $mapper */
