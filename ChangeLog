@@ -48,6 +48,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5499] Rename tx_oelib_Interface_Sortable to Tx_Oelib_Interface_Sortable
 - [#5495] Rename tx_oelib_Visibility_Tree to Tx_Oelib_Visibility_Tree
 - [#5493] Rename tx_oelib_ViewHelper_Price to Tx_Oelib_ViewHelper_Price
 - [#5491] Rename tx_oelib_Mapper_FrontEndUser to Tx_Oelib_Mapper_FrontEndUser

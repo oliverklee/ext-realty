@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_Image extends tx_realty_Model_AbstractTitledModel implements tx_oelib_Interface_Sortable {
+class tx_realty_Model_Image extends tx_realty_Model_AbstractTitledModel implements Tx_Oelib_Interface_Sortable {
 	/**
 	 * the folder where uploaded images get stored.
 	 *

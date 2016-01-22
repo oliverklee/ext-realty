@@ -20,7 +20,7 @@
  *
  * @author Bernd Schönbach <bernd.schoenbach@googlemail.com>
  */
-class tx_realty_Model_Document extends tx_realty_Model_AbstractTitledModel implements tx_oelib_Interface_Sortable {
+class tx_realty_Model_Document extends tx_realty_Model_AbstractTitledModel implements Tx_Oelib_Interface_Sortable {
 	/**
 	 * the folder where uploaded documents get stored.
 	 *
