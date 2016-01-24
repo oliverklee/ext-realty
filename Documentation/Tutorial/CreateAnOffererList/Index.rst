@@ -31,7 +31,7 @@ To setup this list, do the following:
    list”.
 
 #. Define which FE user groups are the offerers you intend to display.
-   For this, provide a comma separated list of UIDs to
+   For this, provide a comma-separated list of UIDs to
    “userGroupsForOffererList” or choose the groups via FlexForms in the
    offerer information tab. You can also leave this value empty. All FE
    users will be displayed then.

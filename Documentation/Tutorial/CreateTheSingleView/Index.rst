@@ -53,7 +53,7 @@ Create the single view
   this, set  *requireLoginForSingleViewPage* and define  *loginPID.*
 
 - Via TS setup, you can also define, which fields should be displayed in
-  the overview table. Provide a comma separated list of field names for
+  the overview table. Provide a comma-separated list of field names for
   *fieldsInTheSingleViewTable* .
 
 - If there should be a link to the contact page, you will need to

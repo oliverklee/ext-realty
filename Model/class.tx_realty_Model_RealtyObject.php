@@ -1891,10 +1891,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	}
 
 	/**
-	 * Returns the objects address as a single line, with comma separated values
+	 * Returns the objects address as a single line, with comma-separated values
 	 * and with the granularity defined in the field "show_address".
 	 *
-	 * @return string the address with comma separated values, will not be empty
+	 * @return string the address with comma-separated values, will not be empty
 	 */
 	public function getAddressAsSingleLine() {
 		return implode(', ', $this->getAddressParts());
