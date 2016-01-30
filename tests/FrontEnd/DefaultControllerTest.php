@@ -82,25 +82,25 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$configurationRegistry = tx_oelib_ConfigurationRegistry::getInstance();
+		$configurationRegistry = Tx_Oelib_ConfigurationRegistry::getInstance();
 		$configurationRegistry->set(
-			'plugin.tx_realty_pi1.views.realty_list', new tx_oelib_Configuration()
+			'plugin.tx_realty_pi1.views.realty_list', new Tx_Oelib_Configuration()
 		);
 		$configurationRegistry->set(
-			'plugin.tx_realty_pi1.views.single_view', new tx_oelib_Configuration()
+			'plugin.tx_realty_pi1.views.single_view', new Tx_Oelib_Configuration()
 		);
 		$configurationRegistry->set(
-			'plugin.tx_realty_pi1.views.my_objects', new tx_oelib_Configuration()
+			'plugin.tx_realty_pi1.views.my_objects', new Tx_Oelib_Configuration()
 		);
 		$configurationRegistry->set(
-			'plugin.tx_realty_pi1.views.offerer_list', new tx_oelib_Configuration()
+			'plugin.tx_realty_pi1.views.offerer_list', new Tx_Oelib_Configuration()
 		);
 		$configurationRegistry->set(
-			'plugin.tx_realty_pi1.views.favorites', new tx_oelib_Configuration()
+			'plugin.tx_realty_pi1.views.favorites', new Tx_Oelib_Configuration()
 		);
 		$configurationRegistry->set(
 			'plugin.tx_realty_pi1.views.objects_by_owner',
-			new tx_oelib_Configuration()
+			new Tx_Oelib_Configuration()
 		);
 
 		$this->createDummyPages();
@@ -254,7 +254,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function accessToSingleViewIsAllowedWithoutLoginPerDefault() {
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
 		self::assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -265,7 +265,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function accessToSingleViewIsAllowedWithLoginPerDefault() {
-		tx_oelib_FrontEndLoginManager::getInstance()
+		Tx_Oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		self::assertTrue(
@@ -278,7 +278,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function accessToSingleViewIsAllowedWithoutLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
 		self::assertTrue(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -290,7 +290,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function accessToSingleViewIsAllowedWithLoginIfNotDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 0);
-		tx_oelib_FrontEndLoginManager::getInstance()
+		Tx_Oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		self::assertTrue(
@@ -303,7 +303,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function accessToSingleViewIsDeniedWithoutLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 
 		self::assertFalse(
 			$this->fixture->isAccessToSingleViewPageAllowed()
@@ -315,7 +315,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function accessToSingleViewIsAllowedWithLoginIfDeniedPerConfiguration() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', 1);
-		tx_oelib_FrontEndLoginManager::getInstance()
+		Tx_Oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		self::assertTrue(
@@ -407,7 +407,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function errorMessageIsDisplayedForRenderingTheSingleViewOfHiddenObjectForLoggedInNonOwner() {
-		tx_oelib_FrontEndLoginManager::getInstance()
+		Tx_Oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		$this->testingFramework->changeRecord(
@@ -576,7 +576,7 @@ class tx_realty_FrontEnd_DefaultControllerTest extends Tx_Phpunit_TestCase {
 
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array());
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		self::assertContains(
 			$this->fixture->translate('label_your_objects'),

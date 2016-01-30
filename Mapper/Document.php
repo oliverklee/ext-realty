@@ -20,7 +20,7 @@
  *
  * @author Bernd Schönbach <bernd.schoenbach@googlemail.com>
  */
-class tx_realty_Mapper_Document extends tx_oelib_DataMapper {
+class tx_realty_Mapper_Document extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */

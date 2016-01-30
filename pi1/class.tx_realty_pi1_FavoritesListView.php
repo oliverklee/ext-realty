@@ -115,7 +115,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 			return;
 		}
 
-		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)->setAsString(
+		Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)->setAsString(
 			self::FAVORITES_SESSION_KEY_VERBOSE, json_encode($this->favoritesDataVerbose)
 		);
 	}
@@ -230,7 +230,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * @see storeFavorites
 	 */
 	private function getFavorites() {
-		return tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
+		return Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 			->getAsString(self::FAVORITES_SESSION_KEY);
 	}
 
@@ -252,7 +252,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * @see storeFavorites
 	 */
 	private function getFavoritesArray() {
-		return tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
+		return Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 			->getAsIntegerArray(self::FAVORITES_SESSION_KEY);
 	}
 
@@ -266,7 +266,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * @return void
 	 */
 	private function storeFavorites(array $favorites) {
-		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
+		Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 			->setAsArray(self::FAVORITES_SESSION_KEY, $favorites);
 	}
 
@@ -277,7 +277,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView {
 	 * @return void
 	 */
 	public function writeSummaryStringOfFavoritesToSession() {
-		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
+		Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 			->setAsString(
 				'summaryStringOfFavorites',
 				$this->createSummaryStringOfFavorites()

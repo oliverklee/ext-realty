@@ -94,9 +94,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView {
 		if (!$realtyObject->isHidden()) {
 			$result = TRUE;
 		} else {
-			if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
+			if (Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()) {
 				/** @var tx_realty_Model_FrontEndUser $loggedInUser */
-				$loggedInUser = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+				$loggedInUser = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 				$result = ($loggedInUser->getUid() == $realtyObject->getProperty('owner'));
 			}
 		}

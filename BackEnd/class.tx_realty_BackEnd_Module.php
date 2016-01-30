@@ -32,7 +32,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass {
 	const MODULE_NAME = 'web_txrealtyM1';
 
 	/**
-	 * @var tx_oelib_template template object
+	 * @var Tx_Oelib_Template template object
 	 */
 	private $template = NULL;
 
@@ -108,7 +108,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass {
 			= '../typo3conf/ext/realty/BackEnd/BackEnd.css';
 
 		$this->template
-			= tx_oelib_TemplateRegistry::getInstance()->getByFileName(
+			= Tx_Oelib_TemplateRegistry::getInstance()->getByFileName(
 				'EXT:realty/BackEnd/mod_template.html'
 		);
 	}

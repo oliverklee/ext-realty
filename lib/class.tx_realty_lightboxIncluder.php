@@ -56,7 +56,7 @@ class tx_realty_lightboxIncluder {
 	 */
 	static public function includeLightboxFiles() {
 		$frontEndController = self::getFrontEndController();
-		$configuration = tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		$configuration = Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->getAsTrimmedArray('includeJavaScriptLibraries');
 		if (in_array('prototype', $configuration)) {
 			self::includePrototype();

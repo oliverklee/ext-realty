@@ -25,11 +25,11 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	protected function setUp() {
 		$GLOBALS['TSFE'] = $this->getMock(TypoScriptFrontendController::class, array(), array(), '', FALSE);
 
-		$configuration = new tx_oelib_Configuration();
+		$configuration = new Tx_Oelib_Configuration();
 		$configuration->setData(array(
 			'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox'
 		));
-		tx_oelib_ConfigurationRegistry::getInstance()->set(
+		Tx_Oelib_ConfigurationRegistry::getInstance()->set(
 			'plugin.tx_realty_pi1', $configuration
 		);
 	}
@@ -96,7 +96,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function includeLightboxFilesForLightboxDisabledNotIncludesLightboxCss() {
-		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
@@ -133,7 +133,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function includeLightboxFilesForPrototypeDisabledNotIncludesPrototype() {
-		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->setAsString('includeJavaScriptLibraries', 'scriptaculous, lightbox');
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
@@ -170,7 +170,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function includeLightboxFilesForScriptaculousDisabledNotIncludesScriptaculous() {
-		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->setAsString('includeJavaScriptLibraries', 'prototype, lightbox');
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
@@ -207,7 +207,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function includeLightboxFilesForLightboxDisabledNotIncludesLightbox() {
-		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
@@ -244,7 +244,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function includeLightboxFilesForLightboxDisabledNotIncludesLightboxConfiguration() {
-		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
 
 		tx_realty_lightboxIncluder::includeLightboxFiles();
@@ -286,7 +286,7 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function includePrototypeForLightboxPrototypeDisabledIncludesPrototype() {
-		tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->setAsString('includeJavaScriptLibraries', 'scriptaculous, lightbox');
 
 		tx_realty_lightboxIncluder::includePrototype();

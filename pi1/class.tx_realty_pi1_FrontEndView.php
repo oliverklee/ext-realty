@@ -21,7 +21,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-abstract class tx_realty_pi1_FrontEndView extends tx_oelib_templatehelper {
+abstract class tx_realty_pi1_FrontEndView extends Tx_Oelib_Templatehelper {
 	/**
 	 * @var string path to this script relative to the extension dir
 	 */

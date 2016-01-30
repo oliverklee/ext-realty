@@ -237,7 +237,7 @@ class tx_realty_FrontEnd_AbstractListViewTest extends Tx_Phpunit_TestCase {
 	 */
 	private function denyAccess() {
 		$this->fixture->setConfigurationValue('requireLoginForSingleViewPage', TRUE);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}
 
 	/**

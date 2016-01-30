@@ -69,7 +69,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 */
 	private function setLimitHeading() {
 		/** @var tx_realty_Model_FrontEndUser $user */
-		$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		$user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 		if ($user->getTotalNumberOfAllowedObjects() == 0) {
 			$this->hideSubparts('limit_heading');
 			return;
@@ -110,7 +110,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 */
 	private function setEditorLinkMarker() {
 		/** @var tx_realty_Model_FrontEndUser $user */
-		$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		$user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 		if ($user->canAddNewObjects()) {
 			$this->setMarker('empty_editor_link', $this->createLinkToFeEditorPage('editorPID', 0));
 		} else {
@@ -147,7 +147,7 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView {
 	 */
 	protected function getViewSpecificWhereClauseParts() {
 		return ' AND tx_realty_objects.owner = ' .
-			tx_oelib_FrontEndLoginManager::getInstance()
+			Tx_Oelib_FrontEndLoginManager::getInstance()
 			->getLoggedInUser('tx_realty_Mapper_FrontEndUser')->getUid();
 	}
 

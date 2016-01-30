@@ -56,8 +56,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		tx_oelib_ConfigurationRegistry::getInstance()
-			->set('plugin.tx_realty_pi1', new tx_oelib_Configuration());
+		Tx_Oelib_ConfigurationRegistry::getInstance()
+			->set('plugin.tx_realty_pi1', new Tx_Oelib_Configuration());
 
 		$this->createDummyRecords();
 
@@ -122,7 +122,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 				'tx_realty_openimmo_anid' => 'test-user-anid',
 			)
 		);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->dummyObjectUid = $this->testingFramework->createRecord(
 			'tx_realty_objects',
@@ -1642,7 +1642,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 		$result = $this->fixture->modifyDataToInsert(array());
 
 		self::assertEquals(
-			tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser()
+			Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser()
 				->getUid(),
 			$result['owner']
 		);
@@ -1679,7 +1679,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 	public function addAdministrativeDataAddsEmptyOpenImmoAnidForNewObjectIfUserHasNoAnid() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array());
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->setRealtyObjectUid(0);
 		$result = $this->fixture->modifyDataToInsert(array());
@@ -1869,11 +1869,11 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase {
 	 */
 	public function storeNewAuxiliaryRecordsCreatesANewRecordWithCorrectPid() {
 		$pid = $this->testingFramework->createSystemFolder(1);
-		$configuration = new tx_oelib_Configuration();
+		$configuration = new Tx_Oelib_Configuration();
 		$configuration->setData(array(
 			'sysFolderForFeCreatedAuxiliaryRecords' => $pid
 		));
-		tx_oelib_ConfigurationRegistry::getInstance()->set(
+		Tx_Oelib_ConfigurationRegistry::getInstance()->set(
 			'plugin.tx_realty_pi1', $configuration
 		);
 

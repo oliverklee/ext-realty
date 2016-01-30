@@ -1074,7 +1074,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 *                 FALSE otherwise
 	 */
 	private function isAccessToSingleViewPageAllowed() {
-		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+		return (Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
 			|| !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
 	}
 

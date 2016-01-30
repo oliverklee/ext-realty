@@ -37,14 +37,14 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 	/**
 	 * TS Setup configuration for plugin.tx_realty_pi1
 	 *
-	 * @var tx_oelib_Configuration
+	 * @var Tx_Oelib_Configuration
 	 */
 	private $configuration = NULL;
 
 	/**
 	 * TS Setup configuration for plugin.tx_realty_pi1.images
 	 *
-	 * @var tx_oelib_Configuration
+	 * @var Tx_Oelib_Configuration
 	 */
 	private $imagesConfiguration = NULL;
 
@@ -67,8 +67,8 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $this->contentObject
 		);
 
-		$configurationRegistry = tx_oelib_ConfigurationRegistry::getInstance();
-		$this->configuration = new tx_oelib_Configuration();
+		$configurationRegistry = Tx_Oelib_ConfigurationRegistry::getInstance();
+		$this->configuration = new Tx_Oelib_Configuration();
 		$this->configuration->setData(array(
 			'enableLightbox' => FALSE,
 			'singleImageMaxX' => 102,
@@ -85,7 +85,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase {
 		));
 		$configurationRegistry->set('plugin.tx_realty_pi1', $this->configuration);
 
-		$this->imagesConfiguration = new tx_oelib_Configuration();
+		$this->imagesConfiguration = new Tx_Oelib_Configuration();
 		$this->imagesConfiguration->setData(array(
 			'1.' => array(),
 			'2.' => array(),

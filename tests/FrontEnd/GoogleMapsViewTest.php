@@ -48,7 +48,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 	protected $realtyObject = NULL;
 
 	/**
-	 * @var tx_oelib_Geocoding_Google|PHPUnit_Framework_MockObject_MockObject
+	 * @var Tx_Oelib_Geocoding_Google|PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected $geoCoder = NULL;
 
@@ -81,7 +81,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->geoCoder = $this->getMock(Tx_Oelib_Geocoding_Dummy::class);
-		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
 
 		$this->realtyMapper = $this->getMock('tx_realty_Mapper_RealtyObject');
 		Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $this->realtyMapper);
@@ -159,7 +159,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
 		$this->realtyObject->clearGeoError();
 
-		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
 		$this->geoCoder->expects(self::never())->method('lookUp');
 
 		$this->fixture->setMapMarker($this->realtyUid);
@@ -184,7 +184,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 		$this->realtyObject->setGeoCoordinates(array('latitude' => self::LATITUDE, 'longitude' => self::LONGITUDE));
 		$this->realtyObject->setGeoError();
 
-		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
 		$this->geoCoder->expects(self::never())->method('lookUp');
 
 		$this->fixture->setMapMarker($this->realtyUid);
@@ -209,7 +209,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 		$this->realtyObject->clearGeoCoordinates();
 		$this->realtyObject->setGeoError();
 
-		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
 		$this->geoCoder->expects(self::never())->method('lookUp');
 
 		$this->fixture->setMapMarker($this->realtyUid);
@@ -234,7 +234,7 @@ class tx_realty_FrontEnd_GoogleMapsViewTest extends Tx_Phpunit_TestCase {
 		$this->realtyObject->clearGeoCoordinates();
 		$this->realtyObject->clearGeoError();
 
-		tx_oelib_Geocoding_Google::setInstance($this->geoCoder);
+		Tx_Oelib_Geocoding_Google::setInstance($this->geoCoder);
 		$this->geoCoder->expects(self::once())->method('lookUp')->with($this->realtyObject);
 
 		$this->fixture->setMapMarker($this->realtyUid);

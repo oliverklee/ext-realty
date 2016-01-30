@@ -860,7 +860,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		$email->setSubject($this->translate('label_email_subject_fe_editor'));
 		$email->setBody($this->getFilledEmailBody());
 
-		$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+		$user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 		$email->setFrom(array($user->getEMailAddress() => $user->getName()));
 
 		$email->send();
@@ -991,7 +991,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return int the page ID for new auxiliary records, will be >= 0
 	 */
 	static private function getPageIdForAuxiliaryRecords() {
-		return tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+		return Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 			->getAsInteger('sysFolderForFeCreatedAuxiliaryRecords');
 	}
 
@@ -1028,7 +1028,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 		// New records need some additional data.
 		if ($this->realtyObjectUid == 0) {
 			/** @var tx_realty_Model_FrontEndUser $user */
-			$user = tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
+			$user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 
 			$formData['hidden'] = 1;
 			$formData['crdate'] = time();

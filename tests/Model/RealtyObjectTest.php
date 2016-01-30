@@ -34,7 +34,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	private $testingFramework = NULL;
 
 	/**
-	 * @var tx_oelib_templatehelper
+	 * @var Tx_Oelib_Templatehelper
 	 */
 	private $templateHelper;
 
@@ -77,7 +77,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			->activateTestingMode($this->testingFramework);
 
 		$this->templateHelper = $this->getMock(
-			'tx_oelib_templatehelper', array('hasConfValueString', 'getConfValueString')
+			'Tx_Oelib_Templatehelper', array('hasConfValueString', 'getConfValueString')
 		);
 
 		$this->fixture = new tx_realty_Model_RealtyObjectChild(TRUE);

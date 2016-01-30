@@ -177,7 +177,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView {
 	 */
 	static public function getTemplatePath() {
 		return GeneralUtility::getFileAbsFileName(
-			tx_oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
 				->getAsString('feEditorTemplateFile')
 		);
 	}

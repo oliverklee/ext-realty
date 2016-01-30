@@ -64,7 +64,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends Tx_Phpunit_TestCase {
 	private $favoritesPid = 0;
 
 	/**
-	 * @var tx_oelib_FakeSession a fake session
+	 * @var Tx_Oelib_FakeSession a fake session
 	 */
 	private $session;
 
@@ -75,13 +75,13 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends Tx_Phpunit_TestCase {
 		$this->createDummyPages();
 		$this->createDummyObjects();
 
-		$this->session = new tx_oelib_FakeSession();
+		$this->session = new Tx_Oelib_FakeSession();
 		// Ensures an empty favorites list.
 		$this->session->setAsString(
 			tx_realty_pi1_FavoritesListView::FAVORITES_SESSION_KEY, ''
 		);
-		tx_oelib_Session::setInstance(
-			tx_oelib_Session::TYPE_TEMPORARY, $this->session
+		Tx_Oelib_Session::setInstance(
+			Tx_Oelib_Session::TYPE_TEMPORARY, $this->session
 		);
 
 		/** @var TypoScriptFrontendController $frontEndController */
@@ -446,7 +446,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function writeSummaryStringOfFavoritesToSessionForLoggedInFrontEndUserWritesDataToTemporarySession() {
-		tx_oelib_FrontEndLoginManager::getInstance()
+		Tx_Oelib_FrontEndLoginManager::getInstance()
 			->logInUser(new tx_realty_Model_FrontEndUser());
 
 		$this->session->setAsInteger(
@@ -456,7 +456,7 @@ class tx_realty_FrontEnd_FavoritesListViewTest extends Tx_Phpunit_TestCase {
 
 		self::assertContains(
 			'* ' . self::$firstObjectNumber . ' ' . self::$firstObjectTitle,
-			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
+			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 				->getAsString('summaryStringOfFavorites')
 		);
 	}

@@ -141,7 +141,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 
 		/** @var tx_realty_Model_FrontEndUser $otherUser */
 		$otherUser = $userMapper->getNewGhost();
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($otherUser);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($otherUser);
 
 		self::assertEquals(
 			'',
@@ -163,7 +163,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase {
 				'owner' => $owner->getUid(),
 			)
 		);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($owner);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($owner);
 
 		self::assertNotEquals(
 			'',

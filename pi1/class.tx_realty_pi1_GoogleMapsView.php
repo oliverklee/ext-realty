@@ -169,7 +169,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView {
 		}
 
 		if (!$realtyObject->hasGeoCoordinates()) {
-			tx_oelib_Geocoding_Google::getInstance()->lookUp($realtyObject);
+			Tx_Oelib_Geocoding_Google::getInstance()->lookUp($realtyObject);
 			if (!$realtyObject->getShowAddress()) {
 				/** @var Tx_Oelib_Geocoding_Calculator $geoCalculator */
 				$geoCalculator = GeneralUtility::makeInstance(Tx_Oelib_Geocoding_Calculator::class);

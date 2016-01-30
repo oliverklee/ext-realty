@@ -45,14 +45,14 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$configuration = new tx_oelib_Configuration();
+		$configuration = new Tx_Oelib_Configuration();
 		$configuration->setData(
 			array(
 				'feEditorTemplateFile'
 					=> 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
 			)
 		);
-		tx_oelib_ConfigurationRegistry::getInstance()->set(
+		Tx_Oelib_ConfigurationRegistry::getInstance()->set(
 			'plugin.tx_realty_pi1', $configuration
 		);
 

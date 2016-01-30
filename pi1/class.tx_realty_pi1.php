@@ -71,7 +71,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
 		$this->init($conf);
 		$this->pi_initPIflexForm();
 
-		$viewConfiguration = tx_oelib_ConfigurationRegistry
+		$viewConfiguration = Tx_Oelib_ConfigurationRegistry
 			::get('plugin.tx_realty_pi1.views.' . $this->getCurrentView());
 
 		if (!$viewConfiguration->getAsBoolean('cache')
@@ -288,7 +288,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
 	 *                 FALSE otherwise
 	 */
 	public function isAccessToSingleViewPageAllowed() {
-		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+		return (Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
 			|| !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
 	}
 

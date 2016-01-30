@@ -21,6 +21,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5631] Fix the casing of all tx_oelib usages to Tx_Oelib
 - [#5627] Replace the deprecated bigDoc
 - [#5477] Rename tx_oelib_Exception_AccessDenied to Tx_Oelib_Exception_AccessDenied
 - [#5481] Set 7.9.99 as maximum TYPO3 version

@@ -421,7 +421,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView {
 	 *                if the test mode is enabled, an empty string otherwise
 	 */
 	private function getWhereClauseForTesting() {
-		return $this->isTestMode ? ' AND tx_oelib_is_dummy_record=1' : '';
+		return $this->isTestMode ? ' AND Tx_Oelib_is_dummy_record=1' : '';
 	}
 
 	/**

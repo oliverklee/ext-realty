@@ -226,7 +226,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function specializedContactFormHasDisabledNameFieldIfLoggedIn() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array('name' => 'test user'));
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		self::assertContains(
 			'value="test user" disabled="disabled"',
@@ -240,7 +240,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function contactFormHasNoNameFieldIfLoggedInButNameIsDisabledByConfiguration() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array('name' => 'test user'));
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
@@ -256,7 +256,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function specializedContactFormHasDisabledEmailFieldIfLoggedIn() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array('email' => 'frontend-user@example.com'));
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		self::assertContains(
 			'value="frontend-user@example.com" disabled="disabled"',
@@ -270,7 +270,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function generalContactFormHasDisabledNameFieldIfLoggedIn() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array('name' => 'test user'));
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		self::assertContains(
 			'value="test user" disabled="disabled"',
@@ -284,7 +284,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function generalContactFormHasDisabledEmailFieldIfLoggedIn() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array('email' => 'frontend-user@example.com'));
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		self::assertContains(
 			'value="frontend-user@example.com" disabled="disabled"',
@@ -318,7 +318,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function specializedContactFormHasDisabledInfomationIfLoggedIn() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array('name' => 'test user'));
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		self::assertContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
@@ -332,7 +332,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 	public function generalContactFormHasDisabledInfomationIfLoggedIn() {
 		$user = new tx_realty_Model_FrontEndUser();
 		$user->setData(array('name' => 'test user'));
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		self::assertContains(
 			$this->fixture->translate('label_requester_data_is_uneditable'),
@@ -1575,7 +1575,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 				'email' => 'frontend-user@example.com',
 			)
 		);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->render(
 			array(
@@ -1602,7 +1602,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 				'email' => 'frontend-user@example.com',
 			)
 		);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->render(
 			array(
@@ -1629,7 +1629,7 @@ class tx_realty_FrontEnd_ContactFormTest extends Tx_Phpunit_TestCase {
 				'email' => 'frontend-user@example.com',
 			)
 		);
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser($user);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
 		$this->fixture->setConfigurationValue('visibleContactFormFields', '');
 
