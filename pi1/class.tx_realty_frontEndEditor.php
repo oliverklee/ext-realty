@@ -13,6 +13,7 @@
  */
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -1205,7 +1206,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm {
 	 * @return int one if the object is for sale, zero if it is for rent
 	 */
 	private function getObjectType() {
-		return t3lib_utility_Math::forceIntegerInRange(
+		return MathUtility::forceIntegerInRange(
 			$this->getFormValue('object_type'),
 			tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
 			tx_realty_Model_RealtyObject::TYPE_FOR_SALE,

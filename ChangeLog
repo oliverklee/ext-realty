@@ -8,6 +8,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5629] Use MathUtility instead of t3lib_utility_Math
 - [#5235] Explicitly provide the configuration check namespaces
 - [#5420] Stop calling deprecated config check methods
 - [#5386] Submitting the search keeps the current pagination

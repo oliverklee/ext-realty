@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
@@ -662,11 +663,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 	 */
 	private function createLimitStatement($whereClause) {
 		// number of results to show in a listing
-		$this->internal['results_at_a_time'] = t3lib_utility_Math::forceIntegerInRange(
+		$this->internal['results_at_a_time'] = MathUtility::forceIntegerInRange(
 			$this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
 		);
 		// the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
-		$this->internal['maxPages'] = t3lib_utility_Math::forceIntegerInRange(
+		$this->internal['maxPages'] = MathUtility::forceIntegerInRange(
 			$this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
 		);
 
@@ -683,7 +684,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 		);
 
 		$lowerLimit = $this->piVars['pointer'] * (int)$this->internal['results_at_a_time'];
-		$upperLimit = t3lib_utility_Math::forceIntegerInRange($this->internal['results_at_a_time'], 1, 1000);
+		$upperLimit = MathUtility::forceIntegerInRange($this->internal['results_at_a_time'], 1, 1000);
 		$this->startingRecordNumber = $lowerLimit;
 
 		return $lowerLimit . ',' . $upperLimit;
