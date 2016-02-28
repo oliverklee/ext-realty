@@ -52,6 +52,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5657] Remove the byte order mark from the ReST files
 - [#5573] Fix the spelling of "comma-separated"
 - [#5510] Rename tx_oelib_List to Tx_Oelib_List
 - [#5506] Rename tx_oelib_Model to Tx_Oelib_Model
