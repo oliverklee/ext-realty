@@ -15,6 +15,7 @@ use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Database\ReferenceIndex;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * This class represents a realty object.
@@ -2103,7 +2104,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	/**
 	 * Returns $GLOBALS['LANG'].
 	 *
-	 * @return language|NULL
+	 * @return LanguageService|null
 	 */
 	protected function getLanguageService() {
 		return isset($GLOBALS['LANG']) ? $GLOBALS['LANG'] : NULL;

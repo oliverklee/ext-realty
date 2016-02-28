@@ -14,6 +14,7 @@
 use TYPO3\CMS\Core\Localization\Parser\LocallangXmlParser;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * Class that adds the wizard icon.
@@ -31,7 +32,7 @@ class tx_realty_pi1_wizicon {
 	public function proc(array $wizardItems) {
 		$languageData = $this->includeLocalLang();
 
-		/** @var language $languageService */
+		/** @var LanguageService $languageService */
 		$languageService = $GLOBALS['LANG'];
 		$wizardItems['plugins_tx_realty_pi1'] = array(
 			'icon' => ExtensionManagementUtility::extRelPath('realty') . 'pi1/ce_wiz.gif',
@@ -52,7 +53,7 @@ class tx_realty_pi1_wizicon {
 	 */
 	public function includeLocalLang() {
 		$languageFile = ExtensionManagementUtility::extPath('realty') . 'locallang.xml';
-		/** @var language $languageService */
+		/** @var LanguageService $languageService */
 		$languageService = $GLOBALS['LANG'];
 		/** @var LocallangXmlParser $xmlParser */
 		$xmlParser = GeneralUtility::makeInstance(LocallangXmlParser::class);

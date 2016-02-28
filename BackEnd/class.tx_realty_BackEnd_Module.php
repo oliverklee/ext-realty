@@ -16,6 +16,7 @@ use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * Backend module.
@@ -283,7 +284,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass {
 	/**
 	 * Returns $GLOBALS['LANG'].
 	 *
-	 * @return language
+	 * @return LanguageService
 	 */
 	protected function getLanguageService() {
 		return $GLOBALS['LANG'];

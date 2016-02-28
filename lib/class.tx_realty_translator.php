@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * This class translates localized strings used in this extension's lib/
@@ -24,7 +25,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class tx_realty_translator {
 	/**
-	 * @var language
+	 * @var LanguageService
 	 */
 	protected $languageService = NULL;
 
