@@ -16,292 +16,305 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 /**
  * Test case.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase {
-	protected function setUp() {
-		$GLOBALS['TSFE'] = $this->getMock(TypoScriptFrontendController::class, array(), array(), '', FALSE);
+class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase
+{
+    protected function setUp()
+    {
+        $GLOBALS['TSFE'] = $this->getMock(TypoScriptFrontendController::class, array(), array(), '', false);
 
-		$configuration = new Tx_Oelib_Configuration();
-		$configuration->setData(array(
-			'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox'
-		));
-		Tx_Oelib_ConfigurationRegistry::getInstance()->set(
-			'plugin.tx_realty_pi1', $configuration
-		);
-	}
+        $configuration = new Tx_Oelib_Configuration();
+        $configuration->setData(array(
+            'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox'
+        ));
+        Tx_Oelib_ConfigurationRegistry::getInstance()->set(
+            'plugin.tx_realty_pi1', $configuration
+        );
+    }
 
-	protected function tearDown() {
-		$GLOBALS['TSFE'] = NULL;
-	}
+    protected function tearDown()
+    {
+        $GLOBALS['TSFE'] = null;
+    }
 
-	/**
-	 * Returns the current front-end instance.
-	 *
-	 * @return TypoScriptFrontendController
-	 */
-	private function getFrontEndController() {
-		return $GLOBALS['TSFE'];
-	}
+    /**
+     * Returns the current front-end instance.
+     *
+     * @return TypoScriptFrontendController
+     */
+    private function getFrontEndController()
+    {
+        return $GLOBALS['TSFE'];
+    }
 
-	///////////////////////////////////////////
-	// Tests concerning includeMainJavaScript
-	///////////////////////////////////////////
+    ///////////////////////////////////////////
+    // Tests concerning includeMainJavaScript
+    ///////////////////////////////////////////
 
-	/**
-	 * @test
-	 */
-	public function includeMainJavaScriptIncludesMainFile() {
-		tx_realty_lightboxIncluder::includeMainJavaScript();
+    /**
+     * @test
+     */
+    public function includeMainJavaScriptIncludesMainFile()
+    {
+        tx_realty_lightboxIncluder::includeMainJavaScript();
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
-		);
-		self::assertContains(
-			'tx_realty_pi1.js',
-			$additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID]
-		);
-	}
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID])
+        );
+        self::assertContains(
+            'tx_realty_pi1.js',
+            $additionalHeaderData[tx_realty_lightboxIncluder::PREFIX_ID]
+        );
+    }
 
+    //////////////////////////////////////////
+    // Tests concerning includeLightboxFiles
+    //////////////////////////////////////////
 
-	//////////////////////////////////////////
-	// Tests concerning includeLightboxFiles
-	//////////////////////////////////////////
+    /**
+     * @test
+     */
+    public function includeLightboxFilesIncludesLightboxCss()
+    {
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesIncludesLightboxCss() {
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
+            ])
+        );
+        self::assertContains(
+            'lightbox.css',
+            $additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
+            ]
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
-			])
-		);
-		self::assertContains(
-			'lightbox.css',
-			$additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
-			]
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesForLightboxDisabledNotIncludesLightboxCss()
+    {
+        Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+            ->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesForLightboxDisabledNotIncludesLightboxCss() {
-		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
-			->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertFalse(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
+            ])
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertFalse(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightboxcss'
-			])
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesIncludesPrototype()
+    {
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesIncludesPrototype() {
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+            ])
+        );
+        self::assertContains(
+            'prototype.js',
+            $additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+            ]
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
-		);
-		self::assertContains(
-			'prototype.js',
-			$additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			]
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesForPrototypeDisabledNotIncludesPrototype()
+    {
+        Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+            ->setAsString('includeJavaScriptLibraries', 'scriptaculous, lightbox');
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesForPrototypeDisabledNotIncludesPrototype() {
-		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
-			->setAsString('includeJavaScriptLibraries', 'scriptaculous, lightbox');
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertFalse(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+            ])
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertFalse(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesIncludesScriptaculous()
+    {
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesIncludesScriptaculous() {
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
+            ])
+        );
+        self::assertContains(
+            'scriptaculous.js',
+            $additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
+            ]
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
-			])
-		);
-		self::assertContains(
-			'scriptaculous.js',
-			$additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
-			]
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesForScriptaculousDisabledNotIncludesScriptaculous()
+    {
+        Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+            ->setAsString('includeJavaScriptLibraries', 'prototype, lightbox');
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesForScriptaculousDisabledNotIncludesScriptaculous() {
-		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
-			->setAsString('includeJavaScriptLibraries', 'prototype, lightbox');
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertFalse(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
+            ])
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertFalse(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_scriptaculous'
-			])
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesIncludesLightbox()
+    {
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesIncludesLightbox() {
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
+            ])
+        );
+        self::assertContains(
+            'lightbox.js',
+            $additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
+            ]
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
-			])
-		);
-		self::assertContains(
-			'lightbox.js',
-			$additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
-			]
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesForLightboxDisabledNotIncludesLightbox()
+    {
+        Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+            ->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesForLightboxDisabledNotIncludesLightbox() {
-		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
-			->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertFalse(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
+            ])
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertFalse(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox'
-			])
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesIncludesLightboxConfiguration()
+    {
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesIncludesLightboxConfiguration() {
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
+            ])
+        );
+        self::assertContains(
+            'LightboxOptions',
+            $additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
+            ]
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
-			])
-		);
-		self::assertContains(
-			'LightboxOptions',
-			$additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
-			]
-		);
-	}
+    /**
+     * @test
+     */
+    public function includeLightboxFilesForLightboxDisabledNotIncludesLightboxConfiguration()
+    {
+        Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+            ->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
 
-	/**
-	 * @test
-	 */
-	public function includeLightboxFilesForLightboxDisabledNotIncludesLightboxConfiguration() {
-		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
-			->setAsString('includeJavaScriptLibraries', 'prototype, scriptaculous');
+        tx_realty_lightboxIncluder::includeLightboxFiles();
 
-		tx_realty_lightboxIncluder::includeLightboxFiles();
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertFalse(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
+            ])
+        );
+    }
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertFalse(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_lightbox_config'
-			])
-		);
-	}
+    //////////////////////////////////////
+    // Tests concerning includePrototype
+    //////////////////////////////////////
 
+    /**
+     * @test
+     */
+    public function includePrototypeIncludesPrototype()
+    {
+        tx_realty_lightboxIncluder::includePrototype();
 
-	//////////////////////////////////////
-	// Tests concerning includePrototype
-	//////////////////////////////////////
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+            ])
+        );
+        self::assertContains(
+            'prototype.js',
+            $additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+            ]
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function includePrototypeIncludesPrototype() {
-		tx_realty_lightboxIncluder::includePrototype();
+    /**
+     * @test
+     */
+    public function includePrototypeForLightboxPrototypeDisabledIncludesPrototype()
+    {
+        Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
+            ->setAsString('includeJavaScriptLibraries', 'scriptaculous, lightbox');
 
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
-		);
-		self::assertContains(
-			'prototype.js',
-			$additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			]
-		);
-	}
+        tx_realty_lightboxIncluder::includePrototype();
 
-	/**
-	 * @test
-	 */
-	public function includePrototypeForLightboxPrototypeDisabledIncludesPrototype() {
-		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1')
-			->setAsString('includeJavaScriptLibraries', 'scriptaculous, lightbox');
-
-		tx_realty_lightboxIncluder::includePrototype();
-
-		$additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
-		self::assertTrue(
-			isset($additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			])
-		);
-		self::assertContains(
-			'prototype.js',
-			$additionalHeaderData[
-				tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
-			]
-		);
-	}
+        $additionalHeaderData = $this->getFrontEndController()->additionalHeaderData;
+        self::assertTrue(
+            isset($additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+            ])
+        );
+        self::assertContains(
+            'prototype.js',
+            $additionalHeaderData[
+                tx_realty_lightboxIncluder::PREFIX_ID . '_prototype'
+            ]
+        );
+    }
 }

@@ -15,273 +15,287 @@
 /**
  * Test case.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase {
-	/**
-	 * @var tx_realty_Model_Image
-	 */
-	private $fixture = NULL;
+class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
+{
+    /**
+     * @var tx_realty_Model_Image
+     */
+    private $fixture = null;
 
-	protected function setUp() {
-		$this->fixture = new tx_realty_Model_Image();
-	}
+    protected function setUp()
+    {
+        $this->fixture = new tx_realty_Model_Image();
+    }
 
-	/*
-	 * Tests concerning the title
-	 */
+    /*
+     * Tests concerning the title
+     */
 
-	/**
-	 * @test
-	 */
-	public function getTitleReturnsCaption() {
-		$this->fixture->setData(array('caption' => 'Just another room'));
+    /**
+     * @test
+     */
+    public function getTitleReturnsCaption()
+    {
+        $this->fixture->setData(array('caption' => 'Just another room'));
 
-		self::assertEquals(
-			'Just another room',
-			$this->fixture->getTitle()
-		);
-	}
+        self::assertEquals(
+            'Just another room',
+            $this->fixture->getTitle()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setTitleSetsTitle() {
-		$this->fixture->setTitle('Just another room');
+    /**
+     * @test
+     */
+    public function setTitleSetsTitle()
+    {
+        $this->fixture->setTitle('Just another room');
 
-		self::assertEquals(
-			'Just another room',
-			$this->fixture->getTitle()
-		);
-	}
+        self::assertEquals(
+            'Just another room',
+            $this->fixture->getTitle()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setTitleForEmptyTitleSetsEmptyTitle() {
-		$this->fixture->setTitle('');
+    /**
+     * @test
+     */
+    public function setTitleForEmptyTitleSetsEmptyTitle()
+    {
+        $this->fixture->setTitle('');
 
-		self::assertEquals(
-			'',
-			$this->fixture->getTitle()
-		);
-	}
+        self::assertEquals(
+            '',
+            $this->fixture->getTitle()
+        );
+    }
 
+    /////////////////////////////////////////
+    // Tests concerning the image file name
+    /////////////////////////////////////////
 
-	/////////////////////////////////////////
-	// Tests concerning the image file name
-	/////////////////////////////////////////
+    /**
+     * @test
+     */
+    public function getFileNameReturnsImageFileName()
+    {
+        $this->fixture->setData(array('image' => 'foo.jpg'));
 
-	/**
-	 * @test
-	 */
-	public function getFileNameReturnsImageFileName() {
-		$this->fixture->setData(array('image' => 'foo.jpg'));
+        self::assertEquals(
+            'foo.jpg',
+            $this->fixture->getFileName()
+        );
+    }
 
-		self::assertEquals(
-			'foo.jpg',
-			$this->fixture->getFileName()
-		);
-	}
+    /**
+     * @test
+     */
+    public function setFileNameSetsFileName()
+    {
+        $this->fixture->setFileName('bar.jpg');
 
-	/**
-	 * @test
-	 */
-	public function setFileNameSetsFileName() {
-		$this->fixture->setFileName('bar.jpg');
+        self::assertEquals(
+            'bar.jpg',
+            $this->fixture->getFileName()
+        );
+    }
 
-		self::assertEquals(
-			'bar.jpg',
-			$this->fixture->getFileName()
-		);
-	}
+    /**
+     * @test
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function setFileNameForEmptyFileNameThrowsException()
+    {
+        $this->fixture->setFileName('');
+    }
 
-	/**
-	 * @test
-	 *
-	 * @expectedException InvalidArgumentException
-	 */
-	public function setFileNameForEmptyFileNameThrowsException() {
-		$this->fixture->setFileName('');
-	}
+    /////////////////////////////////////////////
+    // Tests concerning the thumbnail file name
+    /////////////////////////////////////////////
 
+    /**
+     * @test
+     */
+    public function getThumbnailFileNameReturnsThumbnailFileName()
+    {
+        $this->fixture->setData(array('thumbnail' => 'foo.jpg'));
 
-	/////////////////////////////////////////////
-	// Tests concerning the thumbnail file name
-	/////////////////////////////////////////////
+        self::assertEquals(
+            'foo.jpg',
+            $this->fixture->getThumbnailFileName()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getThumbnailFileNameReturnsThumbnailFileName() {
-		$this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+    /**
+     * @test
+     */
+    public function setThumbnailFileNameSetsThumbnailFileName()
+    {
+        $this->fixture->setThumbnailFileName('bar.jpg');
 
-		self::assertEquals(
-			'foo.jpg',
-			$this->fixture->getThumbnailFileName()
-		);
-	}
+        self::assertEquals(
+            'bar.jpg',
+            $this->fixture->getThumbnailFileName()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setThumbnailFileNameSetsThumbnailFileName() {
-		$this->fixture->setThumbnailFileName('bar.jpg');
+    /**
+     * @test
+     */
+    public function setThumbnailFileNameCanSetThumbnailFileNameToEmptyString()
+    {
+        $this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+        $this->fixture->setThumbnailFileName('');
 
-		self::assertEquals(
-			'bar.jpg',
-			$this->fixture->getThumbnailFileName()
-		);
-	}
+        self::assertEquals(
+            '',
+            $this->fixture->getThumbnailFileName()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setThumbnailFileNameCanSetThumbnailFileNameToEmptyString() {
-		$this->fixture->setData(array('thumbnail' => 'foo.jpg'));
-		$this->fixture->setThumbnailFileName('');
+    /**
+     * @test
+     */
+    public function hasThumbnailFileNameForNoThumbnailReturnsFalse()
+    {
+        $this->fixture->setData(array());
 
-		self::assertEquals(
-			'',
-			$this->fixture->getThumbnailFileName()
-		);
-	}
+        self::assertFalse(
+            $this->fixture->hasThumbnailFileName()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function hasThumbnailFileNameForNoThumbnailReturnsFalse() {
-		$this->fixture->setData(array());
+    /**
+     * @test
+     */
+    public function hasThumbnailFileNameForNonEmptyThumbnailReturnsFalse()
+    {
+        $this->fixture->setData(array('thumbnail' => 'foo.jpg'));
 
-		self::assertFalse(
-			$this->fixture->hasThumbnailFileName()
-		);
-	}
+        self::assertTrue(
+            $this->fixture->hasThumbnailFileName()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function hasThumbnailFileNameForNonEmptyThumbnailReturnsFalse() {
-		$this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+    ///////////////////////////////////////////////////////
+    // Tests concerning the relation to the realty object
+    ///////////////////////////////////////////////////////
 
-		self::assertTrue(
-			$this->fixture->hasThumbnailFileName()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getObjectReturnsObject()
+    {
+        $realtyObject = new tx_realty_Model_RealtyObject();
+        $this->fixture->setData(array('object' => $realtyObject));
 
+        self::assertSame(
+            $realtyObject,
+            $this->fixture->getObject()
+        );
+    }
 
-	///////////////////////////////////////////////////////
-	// Tests concerning the relation to the realty object
-	///////////////////////////////////////////////////////
+    /**
+     * @test
+     */
+    public function setObjectSetsObject()
+    {
+        $realtyObject = new tx_realty_Model_RealtyObject();
+        $this->fixture->setObject($realtyObject);
 
-	/**
-	 * @test
-	 */
-	public function getObjectReturnsObject() {
-		$realtyObject = new tx_realty_Model_RealtyObject();
-		$this->fixture->setData(array('object' => $realtyObject));
+        self::assertSame(
+            $realtyObject,
+            $this->fixture->getObject()
+        );
+    }
 
-		self::assertSame(
-			$realtyObject,
-			$this->fixture->getObject()
-		);
-	}
+    /////////////////////////////////
+    // Tests concerning the sorting
+    /////////////////////////////////
 
-	/**
-	 * @test
-	 */
-	public function setObjectSetsObject() {
-		$realtyObject = new tx_realty_Model_RealtyObject();
-		$this->fixture->setObject($realtyObject);
+    /**
+     * @test
+     */
+    public function getSortingInitiallyReturnsZero()
+    {
+        $this->fixture->setData(array());
 
-		self::assertSame(
-			$realtyObject,
-			$this->fixture->getObject()
-		);
-	}
+        self::assertEquals(
+            0,
+            $this->fixture->getSorting()
+        );
+    }
 
+    /**
+     * @test
+     */
+    public function getSortingReturnsSorting()
+    {
+        $this->fixture->setData(array('sorting' => 42));
 
-	/////////////////////////////////
-	// Tests concerning the sorting
-	/////////////////////////////////
+        self::assertEquals(
+            42,
+            $this->fixture->getSorting()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getSortingInitiallyReturnsZero() {
-		$this->fixture->setData(array());
+    /**
+     * @test
+     */
+    public function setSortingSetsSorting()
+    {
+        $this->fixture->setSorting(21);
 
-		self::assertEquals(
-			0,
-			$this->fixture->getSorting()
-		);
-	}
+        self::assertEquals(
+            21,
+            $this->fixture->getSorting()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function getSortingReturnsSorting() {
-		$this->fixture->setData(array('sorting' => 42));
+    ///////////////////////////////////////////////
+    // Tests concerning the position of the image
+    ///////////////////////////////////////////////
 
-		self::assertEquals(
-			42,
-			$this->fixture->getSorting()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getPositionWithoutDataSetReturnsZero()
+    {
+        $this->fixture->setData(array());
 
-	/**
-	 * @test
-	 */
-	public function setSortingSetsSorting() {
-		$this->fixture->setSorting(21);
+        self::assertEquals(
+            0,
+            $this->fixture->getPosition()
+        );
+    }
 
-		self::assertEquals(
-			21,
-			$this->fixture->getSorting()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getPositionWithPositionSetReturnsPosition()
+    {
+        $this->fixture->setData(array('position' => 1));
 
+        self::assertEquals(
+            1,
+            $this->fixture->getPosition()
+        );
+    }
 
-	///////////////////////////////////////////////
-	// Tests concerning the position of the image
-	///////////////////////////////////////////////
+    /**
+     * @test
+     */
+    public function setPositionSetsPosition()
+    {
+        $this->fixture->setPosition(5);
 
-	/**
-	 * @test
-	 */
-	public function getPositionWithoutDataSetReturnsZero() {
-		$this->fixture->setData(array());
-
-		self::assertEquals(
-			0,
-			$this->fixture->getPosition()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getPositionWithPositionSetReturnsPosition() {
-		$this->fixture->setData(array('position' => 1));
-
-		self::assertEquals(
-			1,
-			$this->fixture->getPosition()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setPositionSetsPosition() {
-		$this->fixture->setPosition(5);
-
-		self::assertEquals(
-			5,
-			$this->fixture->getPosition()
-		);
-	}
+        self::assertEquals(
+            5,
+            $this->fixture->getPosition()
+        );
+    }
 }

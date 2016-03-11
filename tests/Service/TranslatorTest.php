@@ -15,83 +15,87 @@
 /**
  * Test case.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase {
-	/**
-	 * @var tx_realty_translator instance to be tested
-	 */
-	private $fixture = NULL;
+class tx_realty_Service_TranslatorTest extends Tx_Phpunit_TestCase
+{
+    /**
+     * @var tx_realty_translator instance to be tested
+     */
+    private $fixture = null;
 
-	/**
-	 * @test
-	 */
-	public function translatorReturnsGermanString() {
-		Tx_Oelib_ConfigurationProxy::getInstance('realty')
-			->setAsString('cliLanguage', 'de');
-		$this->fixture = new tx_realty_translator();
+    /**
+     * @test
+     */
+    public function translatorReturnsGermanString()
+    {
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsString('cliLanguage', 'de');
+        $this->fixture = new tx_realty_translator();
 
-		self::assertEquals(
-			'Erlaubt',
-			$this->fixture->translate('label_allowed')
-		);
-	}
+        self::assertEquals(
+            'Erlaubt',
+            $this->fixture->translate('label_allowed')
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function translatorReturnsEnglishString() {
-		Tx_Oelib_ConfigurationProxy::getInstance('realty')
-			->setAsString('cliLanguage', 'en');
-		$this->fixture = new tx_realty_translator();
+    /**
+     * @test
+     */
+    public function translatorReturnsEnglishString()
+    {
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsString('cliLanguage', 'en');
+        $this->fixture = new tx_realty_translator();
 
-		self::assertEquals(
-			'Allowed',
-			$this->fixture->translate('label_allowed')
-		);
-	}
+        self::assertEquals(
+            'Allowed',
+            $this->fixture->translate('label_allowed')
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function translatorReturnsDefaultLanguageStringForInvalidLanguageKey() {
-		Tx_Oelib_ConfigurationProxy::getInstance('realty')
-			->setAsString('cliLanguage', 'xy');
-		$this->fixture = new tx_realty_translator();
+    /**
+     * @test
+     */
+    public function translatorReturnsDefaultLanguageStringForInvalidLanguageKey()
+    {
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsString('cliLanguage', 'xy');
+        $this->fixture = new tx_realty_translator();
 
-		self::assertEquals(
-			'Allowed',
-			$this->fixture->translate('label_allowed')
-		);
-	}
+        self::assertEquals(
+            'Allowed',
+            $this->fixture->translate('label_allowed')
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function translatorReturnsDefaultLanguageStringForEmptyLanguageKey() {
-		Tx_Oelib_ConfigurationProxy::getInstance('realty')
-			->setAsString('cliLanguage', '');
-		$this->fixture = new tx_realty_translator();
+    /**
+     * @test
+     */
+    public function translatorReturnsDefaultLanguageStringForEmptyLanguageKey()
+    {
+        Tx_Oelib_ConfigurationProxy::getInstance('realty')
+            ->setAsString('cliLanguage', '');
+        $this->fixture = new tx_realty_translator();
 
-		self::assertEquals(
-			'Allowed',
-			$this->fixture->translate('label_allowed')
-		);
-	}
+        self::assertEquals(
+            'Allowed',
+            $this->fixture->translate('label_allowed')
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function translatorThrowsAnExceptionForEmptyKey() {
-		$this->fixture = new tx_realty_translator();
+    /**
+     * @test
+     */
+    public function translatorThrowsAnExceptionForEmptyKey()
+    {
+        $this->fixture = new tx_realty_translator();
 
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'$key must not be empty.'
-		);
-		$this->fixture->translate('');
-	}
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            '$key must not be empty.'
+        );
+        $this->fixture->translate('');
+    }
 }

@@ -16,50 +16,51 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 /**
  * Test case.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_realty_FrontEnd_PrintPageButtonViewTest extends Tx_Phpunit_TestCase {
-	/**
-	 * @var tx_realty_pi1_PrintPageButtonView
-	 */
-	private $fixture = NULL;
+class tx_realty_FrontEnd_PrintPageButtonViewTest extends Tx_Phpunit_TestCase
+{
+    /**
+     * @var tx_realty_pi1_PrintPageButtonView
+     */
+    private $fixture = null;
 
-	/**
-	 * @var Tx_Oelib_TestingFramework
-	 */
-	private $testingFramework = NULL;
+    /**
+     * @var Tx_Oelib_TestingFramework
+     */
+    private $testingFramework = null;
 
-	protected function setUp() {
-		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-		$this->testingFramework->createFakeFrontEnd();
+    protected function setUp()
+    {
+        $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
+        $this->testingFramework->createFakeFrontEnd();
 
-		/** @var TypoScriptFrontendController $frontEndController */
-		$frontEndController = $GLOBALS['TSFE'];
-		$this->fixture = new tx_realty_pi1_PrintPageButtonView(
-			array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
-			$frontEndController->cObj
-		);
-	}
+        /** @var TypoScriptFrontendController $frontEndController */
+        $frontEndController = $GLOBALS['TSFE'];
+        $this->fixture = new tx_realty_pi1_PrintPageButtonView(
+            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+            $frontEndController->cObj
+        );
+    }
 
-	protected function tearDown() {
-		$this->testingFramework->cleanUp();
-	}
+    protected function tearDown()
+    {
+        $this->testingFramework->cleanUp();
+    }
 
+    ////////////////////////////////////
+    // Testing the basic functionality
+    ////////////////////////////////////
 
-	////////////////////////////////////
-	// Testing the basic functionality
-	////////////////////////////////////
-
-	/**
-	 * @test
-	 */
-	public function renderReturnsButtonPrint() {
-		self::assertContains(
-			'class="button printPage"',
-			$this->fixture->render(array('showUid' => 0))
-		);
-	}
+    /**
+     * @test
+     */
+    public function renderReturnsButtonPrint()
+    {
+        self::assertContains(
+            'class="button printPage"',
+            $this->fixture->render(array('showUid' => 0))
+        );
+    }
 }

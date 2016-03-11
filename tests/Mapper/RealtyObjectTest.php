@@ -15,280 +15,291 @@
 /**
  * Test case.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
-	/**
-	 * @var tx_realty_Mapper_RealtyObject
-	 */
-	private $fixture = NULL;
+class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
+{
+    /**
+     * @var tx_realty_Mapper_RealtyObject
+     */
+    private $fixture = null;
 
-	/**
-	 * @var Tx_Oelib_TestingFramework
-	 */
-	private $testingFramework = NULL;
+    /**
+     * @var Tx_Oelib_TestingFramework
+     */
+    private $testingFramework = null;
 
-	protected function setUp() {
-		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
-		$this->fixture = new tx_realty_Mapper_RealtyObject();
-	}
+    protected function setUp()
+    {
+        $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
+        $this->fixture = new tx_realty_Mapper_RealtyObject();
+    }
 
-	protected function tearDown() {
-		$this->testingFramework->cleanUp();
-	}
+    protected function tearDown()
+    {
+        $this->testingFramework->cleanUp();
+    }
 
+    /////////////////////////////////////////
+    // Tests concerning the basic functions
+    /////////////////////////////////////////
 
-	/////////////////////////////////////////
-	// Tests concerning the basic functions
-	/////////////////////////////////////////
+    /**
+     * @test
+     */
+    public function findWithUidOfExistingRecordReturnsRealtyObjectInstance()
+    {
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects', array('title' => 'foo')
+        );
 
-	/**
-	 * @test
-	 */
-	public function findWithUidOfExistingRecordReturnsRealtyObjectInstance() {
-		$uid = $this->testingFramework->createRecord(
-			'tx_realty_objects', array('title' => 'foo')
-		);
+        self::assertTrue(
+            $this->fixture->find($uid) instanceof tx_realty_Model_RealtyObject
+        );
+    }
 
-		self::assertTrue(
-			$this->fixture->find($uid) instanceof tx_realty_Model_RealtyObject
-		);
-	}
+    /**
+     * @test
+     */
+    public function getOwnerForMappedModelReturnsFrontEndUserInstance()
+    {
+        $ownerUid = $this->testingFramework->createFrontEndUser();
+        $objectUid = $this->testingFramework->createRecord(
+            'tx_realty_objects', array('title' => 'foo', 'owner' => $ownerUid)
+        );
 
-	/**
-	 * @test
-	 */
-	public function getOwnerForMappedModelReturnsFrontEndUserInstance() {
-		$ownerUid = $this->testingFramework->createFrontEndUser();
-		$objectUid = $this->testingFramework->createRecord(
-			'tx_realty_objects', array('title' => 'foo', 'owner' => $ownerUid)
-		);
+        /** @var tx_realty_Model_RealtyObject $model */
+        $model = $this->fixture->find($objectUid);
+        self::assertTrue(
+            $model->getOwner() instanceof tx_realty_Model_FrontEndUser
+        );
+    }
 
-		/** @var tx_realty_Model_RealtyObject $model */
-		$model = $this->fixture->find($objectUid);
-		self::assertTrue(
-			$model->getOwner() instanceof tx_realty_Model_FrontEndUser
-		);
-	}
+    /////////////////////////////////
+    // Tests concerning countByCity
+    /////////////////////////////////
 
+    /**
+     * @test
+     */
+    public function countByCityForNoMatchesReturnsZero()
+    {
+        $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+        /** @var tx_realty_Model_City $city */
+        $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
-	/////////////////////////////////
-	// Tests concerning countByCity
-	/////////////////////////////////
+        self::assertEquals(
+            0,
+            $this->fixture->countByCity($city)
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function countByCityForNoMatchesReturnsZero() {
-		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		/** @var tx_realty_Model_City $city */
-		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+    /**
+     * @test
+     */
+    public function countByCityWithOneMatchReturnsOne()
+    {
+        $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+        /** @var tx_realty_Model_City $city */
+        $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
-		self::assertEquals(
-			0,
-			$this->fixture->countByCity($city)
-		);
-	}
+        $this->testingFramework->createRecord(
+            'tx_realty_objects', array('city' => $cityUid)
+        );
 
-	/**
-	 * @test
-	 */
-	public function countByCityWithOneMatchReturnsOne() {
-		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		/** @var tx_realty_Model_City $city */
-		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+        self::assertEquals(
+            1,
+            $this->fixture->countByCity($city)
+        );
+    }
 
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('city' => $cityUid)
-		);
+    /**
+     * @test
+     */
+    public function countByCityWithTwoMatchesReturnsTwo()
+    {
+        $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+        /** @var tx_realty_Model_City $city */
+        $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
-		self::assertEquals(
-			1,
-			$this->fixture->countByCity($city)
-		);
-	}
+        $this->testingFramework->createRecord(
+            'tx_realty_objects', array('city' => $cityUid)
+        );
+        $this->testingFramework->createRecord(
+            'tx_realty_objects', array('city' => $cityUid)
+        );
 
-	/**
-	 * @test
-	 */
-	public function countByCityWithTwoMatchesReturnsTwo() {
-		$cityUid = $this->testingFramework->createRecord('tx_realty_cities');
-		/** @var tx_realty_Model_City $city */
-		$city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+        self::assertEquals(
+            2,
+            $this->fixture->countByCity($city)
+        );
+    }
 
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('city' => $cityUid)
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('city' => $cityUid)
-		);
+    /////////////////////////////////////
+    // Tests concerning countByDistrict
+    /////////////////////////////////////
 
-		self::assertEquals(
-			2,
-			$this->fixture->countByCity($city)
-		);
-	}
+    /**
+     * @test
+     */
+    public function countByDistrictForNoMatchesReturnsZero()
+    {
+        $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
+        /** @var tx_realty_Model_District $district */
+        $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
+        self::assertEquals(
+            0,
+            $this->fixture->countByDistrict($district)
+        );
+    }
 
-	/////////////////////////////////////
-	// Tests concerning countByDistrict
-	/////////////////////////////////////
+    /**
+     * @test
+     */
+    public function countByDistrictWithOneMatchReturnsOne()
+    {
+        $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
+        /** @var tx_realty_Model_District $district */
+        $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
-	/**
-	 * @test
-	 */
-	public function countByDistrictForNoMatchesReturnsZero() {
-		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
-		/** @var tx_realty_Model_District $district */
-		$district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+        $this->testingFramework->createRecord(
+            'tx_realty_objects', array('district' => $districtUid)
+        );
 
-		self::assertEquals(
-			0,
-			$this->fixture->countByDistrict($district)
-		);
-	}
+        self::assertEquals(
+            1,
+            $this->fixture->countByDistrict($district)
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function countByDistrictWithOneMatchReturnsOne() {
-		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
-		/** @var tx_realty_Model_District $district */
-		$district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+    /**
+     * @test
+     */
+    public function countByDistrictWithTwoMatchesReturnsTwo()
+    {
+        $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
+        /** @var tx_realty_Model_District $district */
+        $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
+        $this->testingFramework->createRecord(
+            'tx_realty_objects', array('district' => $districtUid)
+        );
+        $this->testingFramework->createRecord(
+            'tx_realty_objects', array('district' => $districtUid)
+        );
 
-		self::assertEquals(
-			1,
-			$this->fixture->countByDistrict($district)
-		);
-	}
+        self::assertEquals(
+            2,
+            $this->fixture->countByDistrict($district)
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function countByDistrictWithTwoMatchesReturnsTwo() {
-		$districtUid = $this->testingFramework->createRecord('tx_realty_districts');
-		/** @var tx_realty_Model_District $district */
-		$district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+    //////////////////////////////////////////////////////////////
+    // Tests concerning findByObjectNumberAndObjectIdAndLanguage
+    //////////////////////////////////////////////////////////////
 
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
-		$this->testingFramework->createRecord(
-			'tx_realty_objects', array('district' => $districtUid)
-		);
+    /**
+     * @test
+     */
+    public function findByObjectNumberAndObjectIdAndLanguageForAllParametersEmptyAndExistingMatchNotThrowsException()
+    {
+        $this->fixture->getLoadedTestingModel(array('object_number' => '', 'openimmo_obid' => '', 'language' => ''));
 
-		self::assertEquals(
-			2,
-			$this->fixture->countByDistrict($district)
-		);
-	}
+        $this->fixture->findByObjectNumberAndObjectIdAndLanguage('', '', '');
+    }
 
+    /**
+     * @test
+     */
+    public function findByObjectNumberAndObjectIdAndLanguageReturnsRealtyObject()
+    {
+        $this->fixture->getLoadedTestingModel(array(
+            'object_number' => 'FLAT0001',
+            'openimmo_obid' => 'abc01234',
+            'language' => 'de',
+        ));
 
-	//////////////////////////////////////////////////////////////
-	// Tests concerning findByObjectNumberAndObjectIdAndLanguage
-	//////////////////////////////////////////////////////////////
+        self::assertTrue(
+            $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+                'FLAT0001', 'abc01234', 'de'
+            ) instanceof tx_realty_Model_RealtyObject
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function findByObjectNumberAndObjectIdAndLanguageForAllParametersEmptyAndExistingMatchNotThrowsException() {
-		$this->fixture->getLoadedTestingModel(array('object_number' => '', 'openimmo_obid' => '', 'language' => ''));
+    /**
+     * @test
+     */
+    public function findByObjectNumberAndObjectIdAndLanguageCanFindRealtyObjectWithMatchingDataFromDatabase()
+    {
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            array(
+                'object_number' => 'FLAT0001',
+                'openimmo_obid' => 'abc01234',
+                'language' => 'de',
+            )
+        );
 
-		$this->fixture->findByObjectNumberAndObjectIdAndLanguage('', '', '');
-	}
+        self::assertEquals(
+            $uid,
+            $this->fixture->findByObjectNumberAndObjectIdAndLanguage('FLAT0001', 'abc01234', 'de')->getUid()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function findByObjectNumberAndObjectIdAndLanguageReturnsRealtyObject() {
-		$this->fixture->getLoadedTestingModel(array(
-			'object_number' => 'FLAT0001',
-			'openimmo_obid' => 'abc01234',
-			'language' => 'de',
-		));
+    /**
+     * @test
+     *
+     * @expectedException Tx_Oelib_Exception_NotFound
+     */
+    public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectNumber()
+    {
+        $this->fixture->getLoadedTestingModel(array(
+            'object_number' => 'FLAT0001',
+            'openimmo_obid' => 'abc01234',
+            'language' => 'de',
+        ));
 
-		self::assertTrue(
-			$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-				'FLAT0001', 'abc01234', 'de'
-			) instanceof tx_realty_Model_RealtyObject
-		);
-	}
+        $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+            'FLAT0002', 'abc01234', 'de'
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function findByObjectNumberAndObjectIdAndLanguageCanFindRealtyObjectWithMatchingDataFromDatabase() {
-		$uid = $this->testingFramework->createRecord(
-			'tx_realty_objects',
-			array(
-				'object_number' => 'FLAT0001',
-				'openimmo_obid' => 'abc01234',
-				'language' => 'de',
-			)
-		);
+    /**
+     * @test
+     *
+     * @expectedException Tx_Oelib_Exception_NotFound
+     */
+    public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectId()
+    {
+        $this->fixture->getLoadedTestingModel(array(
+            'object_number' => 'FLAT0001',
+            'openimmo_obid' => 'abc01234',
+            'language' => 'de',
+        ));
 
-		self::assertEquals(
-			$uid,
-			$this->fixture->findByObjectNumberAndObjectIdAndLanguage('FLAT0001', 'abc01234', 'de')->getUid()
-		);
-	}
+        $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+            'FLAT0001', '9684654651', 'de'
+        );
+    }
 
-	/**
-	 * @test
-	 *
-	 * @expectedException Tx_Oelib_Exception_NotFound
-	 */
-	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectNumber() {
-		$this->fixture->getLoadedTestingModel(array(
-			'object_number' => 'FLAT0001',
-			'openimmo_obid' => 'abc01234',
-			'language' => 'de',
-		));
+    /**
+     * @test
+     *
+     * @expectedException Tx_Oelib_Exception_NotFound
+     */
+    public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectLanguage()
+    {
+        $this->fixture->getLoadedTestingModel(array(
+            'object_number' => 'FLAT0001',
+            'openimmo_obid' => 'abc01234',
+            'language' => 'de',
+        ));
 
-		$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-			'FLAT0002', 'abc01234', 'de'
-		);
-	}
-
-	/**
-	 * @test
-	 *
-	 * @expectedException Tx_Oelib_Exception_NotFound
-	 */
-	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectId() {
-		$this->fixture->getLoadedTestingModel(array(
-			'object_number' => 'FLAT0001',
-			'openimmo_obid' => 'abc01234',
-			'language' => 'de',
-		));
-
-		$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-			'FLAT0001', '9684654651', 'de'
-		);
-	}
-
-	/**
-	 * @test
-	 *
-	 * @expectedException Tx_Oelib_Exception_NotFound
-	 */
-	public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectLanguage() {
-		$this->fixture->getLoadedTestingModel(array(
-			'object_number' => 'FLAT0001',
-			'openimmo_obid' => 'abc01234',
-			'language' => 'de',
-		));
-
-		$this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-			'FLAT0002', 'abc01234', 'en'
-		);
-	}
+        $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
+            'FLAT0002', 'abc01234', 'en'
+        );
+    }
 }

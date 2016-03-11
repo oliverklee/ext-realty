@@ -88,32 +88,32 @@ RTE.config.tx_realty_objects.misc {
 ');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(
-	$_EXTKEY,
-	'pi1/class.tx_realty_pi1.php',
-	'_pi1',
-	'list_type',
-	1
+    $_EXTKEY,
+    'pi1/class.tx_realty_pi1.php',
+    '_pi1',
+    'list_type',
+    1
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-	$_EXTKEY,
-	'setup', '
+    $_EXTKEY,
+    'setup', '
 	tt_content.shortcut.20.conf.tx_realty_objects = < plugin.' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getCN($_EXTKEY) . '_pi1
 	tt_content.shortcut.20.conf.tx_realty_objects.CMD = singleView
 ',
-	43
+    43
 );
 
 // registers the key for class.tx_realty_cli.php
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['openImmoImport']
-	= array('EXT:realty/cli/class.tx_realty_cli.php', '_CLI_realty');
+    = array('EXT:realty/cli/class.tx_realty_cli.php', '_CLI_realty');
 // registers the key for class.tx_realty_cli_ImageCleanUpStarter.php
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['cleanUpRealtyImages']
-	= array('EXT:realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php', '_CLI_realty');
+    = array('EXT:realty/cli/class.tx_realty_cli_ImageCleanUpStarter.php', '_CLI_realty');
 
 // registers the eID functions for AJAX
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY] = 'EXT:' . $_EXTKEY . '/Ajax/tx_realty_Ajax_Dispatcher.php';
 
 // RealURL autoconfiguration
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['realty']
-	= 'Tx_Realty_Configuration_RealUrl_Configuration->addConfiguration';
+    = 'Tx_Realty_Configuration_RealUrl_Configuration->addConfiguration';

@@ -22,27 +22,27 @@ setlocale(LC_NUMERIC, 'C');
  * To run this script, use the following command in a console: '/[absolute path
  * of the TYPO3 installation]/typo3/cli_dispatch.phpsh openImmoImport'.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_cli {
-	/**
-	 * Calls the OpenImmo importer.
-	 *
-	 * @return void
-	 */
-	public function main() {
-		try {
-			/** @var tx_realty_openImmoImport $importer */
-			$importer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_realty_openImmoImport');
-			echo $importer->importFromZip();
-		} catch (Exception $exception) {
-			echo $exception->getMessage() . LF . LF .
-				$exception->getTraceAsString() . LF .LF;
-		}
-	}
+class tx_realty_cli
+{
+    /**
+     * Calls the OpenImmo importer.
+     *
+     * @return void
+     */
+    public function main()
+    {
+        try {
+            /** @var tx_realty_openImmoImport $importer */
+            $importer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_realty_openImmoImport');
+            echo $importer->importFromZip();
+        } catch (Exception $exception) {
+            echo $exception->getMessage() . LF . LF .
+                $exception->getTraceAsString() . LF . LF;
+        }
+    }
 }
 
 /** @var tx_realty_cli $cli */

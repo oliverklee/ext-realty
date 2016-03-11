@@ -15,98 +15,103 @@
 /**
  * Test case.
  *
- * @package TYPO3
- * @subpackage  tx_realty
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase {
-	/**
-	 * @var tx_realty_Model_District
-	 */
-	private $fixture = NULL;
+class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase
+{
+    /**
+     * @var tx_realty_Model_District
+     */
+    private $fixture = null;
 
-	protected function setUp() {
-		$this->fixture = new tx_realty_Model_District();
-	}
+    protected function setUp()
+    {
+        $this->fixture = new tx_realty_Model_District();
+    }
 
-	///////////////////////////////
-	// Tests concerning the title
-	///////////////////////////////
+    ///////////////////////////////
+    // Tests concerning the title
+    ///////////////////////////////
 
-	/**
-	 * @test
-	 */
-	public function getTitleWithNonEmptyTitleReturnsTitle() {
-		$this->fixture->setData(array('title' => 'Bad Godesberg'));
+    /**
+     * @test
+     */
+    public function getTitleWithNonEmptyTitleReturnsTitle()
+    {
+        $this->fixture->setData(array('title' => 'Bad Godesberg'));
 
-		self::assertEquals(
-			'Bad Godesberg',
-			$this->fixture->getTitle()
-		);
-	}
+        self::assertEquals(
+            'Bad Godesberg',
+            $this->fixture->getTitle()
+        );
+    }
 
-	/**
-	 * @test
-	 */
-	public function setTitleSetsTitle() {
-		$this->fixture->setTitle('Bad Godesberg');
+    /**
+     * @test
+     */
+    public function setTitleSetsTitle()
+    {
+        $this->fixture->setTitle('Bad Godesberg');
 
-		self::assertEquals(
-			'Bad Godesberg',
-			$this->fixture->getTitle()
-		);
-	}
+        self::assertEquals(
+            'Bad Godesberg',
+            $this->fixture->getTitle()
+        );
+    }
 
-	/**
-	 * @test
-	 * @expectedException InvalidArgumentException
-	 */
-	public function setTitleWithEmptyStringThrowsException() {
-		$this->fixture->setTitle('');
-	}
+    /**
+     * @test
+     * @expectedException InvalidArgumentException
+     */
+    public function setTitleWithEmptyStringThrowsException()
+    {
+        $this->fixture->setTitle('');
+    }
 
+    //////////////////////////////
+    // Tests concerning the city
+    //////////////////////////////
 
-	//////////////////////////////
-	// Tests concerning the city
-	//////////////////////////////
+    /**
+     * @test
+     */
+    public function getCityWithCitySetReturnsCity()
+    {
+        $city = new tx_realty_Model_City();
 
-	/**
-	 * @test
-	 */
-	public function getCityWithCitySetReturnsCity() {
-		$city = new tx_realty_Model_City();
+        $this->fixture->setData(array('city' => $city));
 
-		$this->fixture->setData(array('city' => $city));
+        self::assertSame(
+            $city,
+            $this->fixture->getCity()
+        );
+    }
 
-		self::assertSame(
-			$city,
-			$this->fixture->getCity()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getCityReturnsCitySetWithSetCity()
+    {
+        $city = new tx_realty_Model_City();
 
-	/**
-	 * @test
-	 */
-	public function getCityReturnsCitySetWithSetCity() {
-		$city = new tx_realty_Model_City();
+        $this->fixture->setCity($city);
 
-		$this->fixture->setCity($city);
+        self::assertSame(
+            $city,
+            $this->fixture->getCity()
+        );
+    }
 
-		self::assertSame(
-			$city,
-			$this->fixture->getCity()
-		);
-	}
+    /**
+     * @test
+     */
+    public function getCityAfterSetCityWithNullReturnsNull()
+    {
+        $this->fixture->setCity(null);
 
-	/**
-	 * @test
-	 */
-	public function getCityAfterSetCityWithNullReturnsNull() {
-		$this->fixture->setCity(NULL);
-
-		self::assertNull(
-			$this->fixture->getCity()
-		);
-	}
+        self::assertNull(
+            $this->fixture->getCity()
+        );
+    }
 }

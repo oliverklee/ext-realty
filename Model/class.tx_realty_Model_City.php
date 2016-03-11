@@ -15,10 +15,9 @@
 /**
  * This class represents a city.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Model_City extends tx_realty_Model_AbstractTitledModel {
+class tx_realty_Model_City extends tx_realty_Model_AbstractTitledModel
+{
 }

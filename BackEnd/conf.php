@@ -1,5 +1,5 @@
 <?php
-	// DO NOT REMOVE OR CHANGE THESE 2 LINES:
+    // DO NOT REMOVE OR CHANGE THESE 2 LINES:
 $MCONF['name'] = 'web_txrealtyM1';
 $MCONF['script'] = '_DISPATCH';
 

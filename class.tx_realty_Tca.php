@@ -15,32 +15,32 @@
 /**
  * This class provides functions for the TCA.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_realty_Tca {
-	/**
-	 * Gets the districts for a certain city.
-	 *
-	 * @param array[] $data the TCEforms data, must at least contain [row][city]
-	 *
-	 * @return array[] the TCEforms data with the districts added
-	 */
-	public function getDistrictsForCity(array $data) {
-		$items = array(array('', 0));
+class tx_realty_Tca
+{
+    /**
+     * Gets the districts for a certain city.
+     *
+     * @param array[] $data the TCEforms data, must at least contain [row][city]
+     *
+     * @return array[] the TCEforms data with the districts added
+     */
+    public function getDistrictsForCity(array $data)
+    {
+        $items = array(array('', 0));
 
-		/** @var tx_realty_Mapper_District $mapper */
-		$mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
-		$districts = $mapper->findAllByCityUidOrUnassigned((int)$data['row']['city']);
-		/** @var tx_realty_Model_District $district */
-		foreach ($districts as $district) {
-			$items[] = array($district->getTitle(), $district->getUid());
-		}
+        /** @var tx_realty_Mapper_District $mapper */
+        $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
+        $districts = $mapper->findAllByCityUidOrUnassigned((int)$data['row']['city']);
+        /** @var tx_realty_Model_District $district */
+        foreach ($districts as $district) {
+            $items[] = array($district->getTitle(), $district->getUid());
+        }
 
-		$data['items'] = $items;
+        $data['items'] = $items;
 
-		return $data;
-	}
+        return $data;
+    }
 }

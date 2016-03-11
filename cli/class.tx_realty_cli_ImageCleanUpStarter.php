@@ -25,32 +25,32 @@ setlocale(LC_NUMERIC, 'C');
  * To run this script, use the following command in a console: '/[absolute path
  * of the TYPO3 installation]/typo3/cli_dispatch.phpsh cleanUpRealtyImages'.
  *
- * @package TYPO3
- * @subpackage tx_realty
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_realty_cli_ImageCleanUpStarter {
-	/**
-	 * Starts the clean-up.
-	 *
-	 * @return void
-	 */
-	public function main() {
-		try {
-			/** @var tx_realty_cli_ImageCleanUp $cleanUp */
-			$cleanUp = GeneralUtility::makeInstance('tx_realty_cli_ImageCleanUp');
-			$cleanUp->checkUploadFolder();
-			$cleanUp->hideUnusedImagesInDatabase();
-			$cleanUp->deleteUnusedDocumentRecords();
-			$cleanUp->deleteUnusedFiles();
-			echo $cleanUp->getStatistics() . LF . LF;
-		} catch (Exception $exception) {
-			echo 'An error has occurred during the clean-up: ' . LF .
-				$exception->getMessage() . LF . LF .
-				$exception->getTraceAsString() . LF . LF;
-		}
-	}
+class tx_realty_cli_ImageCleanUpStarter
+{
+    /**
+     * Starts the clean-up.
+     *
+     * @return void
+     */
+    public function main()
+    {
+        try {
+            /** @var tx_realty_cli_ImageCleanUp $cleanUp */
+            $cleanUp = GeneralUtility::makeInstance('tx_realty_cli_ImageCleanUp');
+            $cleanUp->checkUploadFolder();
+            $cleanUp->hideUnusedImagesInDatabase();
+            $cleanUp->deleteUnusedDocumentRecords();
+            $cleanUp->deleteUnusedFiles();
+            echo $cleanUp->getStatistics() . LF . LF;
+        } catch (Exception $exception) {
+            echo 'An error has occurred during the clean-up: ' . LF .
+                $exception->getMessage() . LF . LF .
+                $exception->getTraceAsString() . LF . LF;
+        }
+    }
 }
 
 /** @var tx_realty_cli_ImageCleanUpStarter $starter */

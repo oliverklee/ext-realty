@@ -53,6 +53,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5360] Reformat the code to PSR-2
 - [#5658] Replace "language" in the PHPDoc
 - [#5657] Remove the byte order mark from the ReST files
 - [#5573] Fix the spelling of "comma-separated"
