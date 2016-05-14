@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -3105,9 +3106,9 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->testingFramework->createContentElement($pageUid, array('list_type' => 'realty_pi1'));
 
-        /** @var $cacheFrontEnd t3lib_cache_frontend_AbstractFrontend|PHPUnit_Framework_MockObject_MockObject */
+        /** @var AbstractCacheFrontEnd|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd  */
         $cacheFrontEnd = $this->getMock(
-            't3lib_cache_frontend_AbstractFrontend',
+            AbstractCacheFrontEnd::class,
             array('getIdentifier', 'set', 'get', 'getByTag', 'getBackend'),
             array(), '', false
         );

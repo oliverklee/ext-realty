@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface as CacheFrontEndInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -68,7 +69,7 @@ class tx_realty_cacheManager
      */
     private static function clearCacheWithCachingFramework()
     {
-        /** @var $pageCache t3lib_cache_frontend_AbstractFrontend */
+        /** @var CacheFrontEndInterface $pageCache */
         $pageCache = self::getCacheManager()->getCache('cache_pages');
         foreach (self::getPageUids() as $pageUid) {
             $pageCache->getBackend()->flushByTag('pageId_' . $pageUid);

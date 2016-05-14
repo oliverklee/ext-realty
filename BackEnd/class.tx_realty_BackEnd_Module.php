@@ -15,8 +15,10 @@ use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
+use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
 
 /**
  * Backend module.
@@ -123,7 +125,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
      */
     private function createTab()
     {
-        $moduleToken = t3lib_formprotection_Factory::get()->generateToken('moduleCall', self::MODULE_NAME);
+        $moduleToken = FormProtectionFactory::get()->generateToken('moduleCall', self::MODULE_NAME);
         return $this->doc->getTabMenu(
             array('M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id),
             'tab',

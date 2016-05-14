@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -2287,9 +2288,9 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->testingFramework->createContentElement($pageUid, array('list_type' => 'realty_pi1'));
 
-        /** @var $cacheFrontEnd t3lib_cache_frontend_AbstractFrontend|PHPUnit_Framework_MockObject_MockObject */
+        /** @var AbstractCacheFrontend|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
         $cacheFrontEnd = $this->getMock(
-            't3lib_cache_frontend_AbstractFrontend',
+            AbstractCacheFrontend::class,
             array('getIdentifier', 'set', 'get', 'getByTag', 'getBackend'),
             array(), '', false
         );

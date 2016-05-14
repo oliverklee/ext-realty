@@ -77,7 +77,7 @@ class tx_realty_fileNameMapper
      * array yet. Also replaces any character not matching [.a-zA-Z0-9_-] by '_'
      * within the file name.
      *
-     * t3lib's basic file functions class is not used to create the unique name
+     * The core's basic file functions class is not used to create the unique name
      * as it only can produce unique names for files which already exist in the
      * file system. Here, also the internal mapping has to be taken into account.
      *

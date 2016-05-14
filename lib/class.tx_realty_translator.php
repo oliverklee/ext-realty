@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Localization\Locales;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
 
@@ -43,8 +44,8 @@ class tx_realty_translator
         }
         $cliLanguage = Tx_Oelib_ConfigurationProxy::getInstance('realty')->getAsString('cliLanguage');
         // "default" is used as language key if the configured language key is not within the set of available language keys.
-        /** @var t3lib_l10n_Locales $locales */
-        $locales = GeneralUtility::makeInstance('t3lib_l10n_Locales');
+        /** @var Locales $locales */
+        $locales = GeneralUtility::makeInstance(Locales::class);
         $languageKey = in_array($cliLanguage, $locales->getLocales())? $cliLanguage : 'default';
 
         $this->languageService->init($languageKey);
