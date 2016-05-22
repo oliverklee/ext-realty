@@ -15,7 +15,6 @@
 /**
  * This class provides functions for the TCA.
  *
- *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_realty_Tca
