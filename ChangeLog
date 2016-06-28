@@ -55,6 +55,7 @@ Changes:
 - [#5399] Document the new FORMidable in the upgrade notes
 
 Cleanup:
+- [#5716] Move all includes and locallang loading into the classes
 - [#5695] Move the TypoScript to Configuration/TypoScript
 - [#5360] Reformat the code to PSR-2
 - [#5658] Replace "language" in the PHPDoc

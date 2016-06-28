@@ -16,11 +16,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-require_once(PATH_formidableapi);
-
 /**
  * This class provides functions used in the realty plugin's forms.
- *
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
@@ -84,6 +81,8 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
         $this->realtyObject->loadRealtyObject($this->realtyObjectUid, true);
 
         parent::__construct($configuration, $contentObjectRenderer);
+
+        require_once(PATH_formidableapi);
     }
 
     /**
