@@ -1,17 +1,11 @@
-0.6.3 - currently working on
+0.6.3 - released 2017-02-18
 
 Features:
 - [#5653] Add a configuration for PDF rendering of the manual
 
-Localization:
-
 Bug fixes:
 - [#5235] Explicitly provide the configuration check namespaces
 - [#5420] Stop calling deprecated config check methods
-
-Changes:
-
-Cleanup:
 
 
 0.6.2 - released 2015-12-04
