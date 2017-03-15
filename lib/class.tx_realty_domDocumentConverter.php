@@ -399,7 +399,7 @@ class tx_realty_domDocumentConverter
 
     /**
      * Replaces the strings 'TRUE' and 'FALSE' of the currently imported data
-     * with real booleans. This replacement is not case sensitive.
+     * with ints. This replacement is not case sensitive.
      *
      * @return void
      */
@@ -408,9 +408,9 @@ class tx_realty_domDocumentConverter
         foreach (self::$booleanFields as $key) {
             $value = $this->importedData[$key];
             if ($this->isBooleanLikeStringTrue($value)) {
-                $this->importedData[$key] = true;
+                $this->importedData[$key] = 1;
             } elseif ($this->isBooleanLikeStringFalse($value)) {
-                $this->importedData[$key] = false;
+                $this->importedData[$key] = 0;
             }
         }
     }
@@ -993,7 +993,7 @@ class tx_realty_domDocumentConverter
         // The node is valid when there is a node name, it does not need to
         // have attributes.
         if ($this->getNodeName($nodeWithAttributes)) {
-            $this->addImportedData('deleted', in_array('delete', $this->fetchLowercasedDomAttributes($nodeWithAttributes), true));
+            $this->addImportedData('deleted', (int)in_array('delete', $this->fetchLowercasedDomAttributes($nodeWithAttributes), true));
         }
     }
 

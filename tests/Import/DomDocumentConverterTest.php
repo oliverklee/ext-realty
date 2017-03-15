@@ -1894,9 +1894,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         $result = $this->fixture->getConvertedData($node);
-        self::assertTrue(
-            $result[0]['with_hot_water']
-        );
+        self::assertSame(1, $result[0]['with_hot_water']);
     }
 
     /**
@@ -1918,9 +1916,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         $result = $this->fixture->getConvertedData($node);
-        self::assertFalse(
-            $result[0]['with_hot_water']
-        );
+        self::assertSame(0, $result[0]['with_hot_water']);
     }
 
     /**
@@ -3348,12 +3344,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
 
         $result = $this->fixture->getConvertedData($node);
         self::assertSame(
-            false,
+            0,
             $result[0]['elevator'],
             'The value for "elevator" is incorrect.'
         );
         self::assertSame(
-            true,
+            1,
             $result[0]['fitted_kitchen'],
             'The value for "fitted_kitchen" is incorrect.'
         );
@@ -3805,9 +3801,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         $result = $this->fixture->getConvertedData($node);
-        self::assertTrue(
-            $result[0]['show_address']
-        );
+        self::assertSame(1, $result[0]['show_address']);
     }
 
     /**
@@ -3828,9 +3822,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         $result = $this->fixture->getConvertedData($node);
-        self::assertFalse(
-            $result[0]['show_address']
-        );
+        self::assertSame(0, $result[0]['show_address']);
     }
 
     /**
