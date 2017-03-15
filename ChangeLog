@@ -25,6 +25,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#5784] Drop old update functions
 - [#5066] Make the TCA cacheable
 - [#5631] Fix the casing of all tx_oelib usages to Tx_Oelib
 - [#5627] Replace the deprecated bigDoc
