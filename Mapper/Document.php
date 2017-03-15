@@ -43,14 +43,15 @@ class tx_realty_Mapper_Document extends Tx_Oelib_DataMapper
      * Marks $document as deleted, saves it to the DB (if it has a UID) and deletes
      * the corresponding document file.
      *
-     * @param tx_realty_Model_Document $document
+     * @param Tx_Oelib_Model $document
      *        the document model to delete, must not be a memory-only dummy, must
      *        not be read-only
      *
      * @return void
      */
-    public function delete(tx_realty_Model_Document $document)
+    public function delete(Tx_Oelib_Model $document)
     {
+        /** @var tx_realty_Model_Document $document */
         if ($document->isDead()) {
             return;
         }

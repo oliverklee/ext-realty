@@ -25,16 +25,16 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
      * Adds a new element $value to the array $arrayExpand, using the key $key.
      * The element will not be added if is NULL.
      *
-     * @param array $arrayToExpand
+     * @param string[] $arrayToExpand
      *        array into which the new element should be inserted, may be empty
-     * @param string $keyToInsert the key to insert, must not be empty
-     * @param mixed $valueToInsert the value to insert, may be empty or even NULL
+     * @param string $key the key to insert, must not be empty
+     * @param mixed $value the value to insert, may be empty or even NULL
      *
      * @return void
      */
-    public function addElementToArray(&$arrayToExpand, $keyToInsert, $valueToInsert)
+    public function addElementToArray(array &$arrayToExpand, $key, $value)
     {
-        parent::addElementToArray($arrayToExpand, $keyToInsert, $valueToInsert);
+        parent::addElementToArray($arrayToExpand, $key, $value);
     }
 
     /**
@@ -83,7 +83,7 @@ final class tx_realty_domDocumentConverterChild extends tx_realty_domDocumentCon
      *
      * @return string[] attributes and attribute values, empty if there are no attributes
      */
-    public function fetchDomAttributes($nodeWithAttributes)
+    public function fetchDomAttributes($nodeWithAttributes = null)
     {
         return parent::fetchDomAttributes($nodeWithAttributes);
     }

@@ -41,9 +41,8 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
      *                 database result could not be fetched or if neither 'uid'
      *                 nor $alternativeKey were elements of $dataArray.
      */
-    public function recordExistsInDatabase(
-        $dataArray, $table = 'tx_realty_objects'
-    ) {
+    public function recordExistsInDatabase(array $dataArray, $table = 'tx_realty_objects')
+    {
         return parent::recordExistsInDatabase($dataArray, $table);
     }
 

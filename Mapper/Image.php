@@ -43,14 +43,15 @@ class tx_realty_Mapper_Image extends Tx_Oelib_DataMapper
      * Marks $image as deleted, saves it to the DB (if it has a UID) and deletes
      * the corresponding image file.
      *
-     * @param tx_realty_Model_Image $image
-     *        the image model  to delete, must not be a memory-only dummy, must
+     * @param Tx_Oelib_Model $image
+     *        the image model to delete, must not be a memory-only dummy, must
      *        not be read-only
      *
      * @return void
      */
-    public function delete(tx_realty_Model_Image $image)
+    public function delete(Tx_Oelib_Model $image)
     {
+        /** @var tx_realty_Model_Image $image */
         if ($image->isDead()) {
             return;
         }

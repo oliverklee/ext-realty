@@ -103,7 +103,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport
      *
      * @return void
      */
-    public function writeToDatabase($realtyRecord, $overridePid = 0)
+    public function writeToDatabase(array $realtyRecord, $overridePid = 0)
     {
         parent::writeToDatabase($realtyRecord, $overridePid);
     }
@@ -165,7 +165,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport
      *               not necessarily unique. Empty if the input array is
      *               empty or invalid.
      */
-    public function prepareEmails($emailData)
+    public function prepareEmails(array $emailData)
     {
         return parent::prepareEmails($emailData);
     }
@@ -197,7 +197,7 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport
      * of an existent realty object to load from the database. If the data is of
      * an invalid type the realty object stays empty.
      *
-     * @param array $data
+     * @param array|mixed $data
      *        data for the realty object as an array
      *
      * @return void
@@ -210,11 +210,11 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport
     /**
      * Converts a DOMDocument to an array.
      *
-     * @param DOMDocument $realtyRecords which contains realty records, can be NULL
+     * @param DOMDocument|null $realtyRecords which contains realty records, can be NULL
      *
      * @return array[] $realtyRecords realty records in an array, will be empty if the data was not convertible
      */
-    public function convertDomDocumentToArray($realtyRecords)
+    public function convertDomDocumentToArray(DOMDocument $realtyRecords = null)
     {
         return parent::convertDomDocumentToArray($realtyRecords);
     }

@@ -1432,9 +1432,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *                 database result could not be fetched or if neither 'uid'
      *                 nor $alternativeKey were elements of $dataArray.
      */
-    protected function recordExistsInDatabase(
-        array $dataArray, $table = 'tx_realty_objects'
-    ) {
+    protected function recordExistsInDatabase(array $dataArray, $table = 'tx_realty_objects')
+    {
         $databaseResult = $this->compareWithDatabase(
             'COUNT(*) AS number', $dataArray, $table
         );

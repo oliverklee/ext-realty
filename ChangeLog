@@ -9,6 +9,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5785] Make realty compatible with PHP 7
 - [#5783] Make realty compatible with MySQL in strict mode
 - [#5704] Remove all references to t3lib
 - [#5661] Fix the static-info-tables dependency in the composer.json

@@ -1221,7 +1221,7 @@ class tx_realty_openImmoImport
     /**
      * Converts a DOMDocument to an array.
      *
-     * @param DOMDocument $realtyRecords which contains realty records, can be NULL
+     * @param DOMDocument|null $realtyRecords which contains realty records, can be NULL
      *
      * @return array[] $realtyRecords realty records in an array, will be empty if the data was not convertible
      */
@@ -1245,12 +1245,12 @@ class tx_realty_openImmoImport
      * of an existent realty object to load from the database. If the data is of
      * an invalid type the realty object stays empty.
      *
-     * @param array $data
+     * @param array|mixed $data
      *        data for the realty object as an array
      *
      * @return void
      */
-    protected function loadRealtyObject(array $data)
+    protected function loadRealtyObject($data)
     {
         $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
         $this->realtyObject->loadRealtyObject($data, true);
