@@ -4,10 +4,10 @@
 
 ---
 conf.py:
-  copyright: 2016
+  copyright: 2017
   project: Realty Manager
   version: 0.6
-  release: 0.6.53
+  release: 0.6.54
   latex_documents:
   - - Index
     - realty.tex
