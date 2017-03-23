@@ -33,6 +33,8 @@ organizations:
 
 - `ISP media e.K. <http://www.isp-media.de/>`_
 
+- `jansass GmbH <http://www.jansass.com/>`_
+
 - `maddesigns - Sven Wolfermann <http://www.maddesigns.de/>`_
 
 - `PARAPLAN - Römhild & Steger GbR <http://www.paraplan.de/>`_
