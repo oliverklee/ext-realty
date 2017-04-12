@@ -1327,7 +1327,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getConvertedDataCanGetMultipleValidHeatingTypesFromFiringNode()
+    public function getConvertedDataRecognizesHeatingTypesMixedTrueAndFalse()
     {
         $node = new DOMDocument();
         $node->loadXML(
@@ -1350,7 +1350,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getConvertedDataRecognizesHeatingTypesMixedTrueAndFalse()
+    public function getConvertedDataCanGetMultipleValidHeatingTypesFromFiringNode()
     {
         $node = new DOMDocument();
         $node->loadXML(
