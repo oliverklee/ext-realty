@@ -1,5 +1,8 @@
 0.6.4 - not released yet
 
+Changes:
+- [#5793] Allow oelib up to 1.9.99
+
 Bug fixes:
 - [#5792] Heating types are set even if "false" in OpenImmo
 
