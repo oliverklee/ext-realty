@@ -654,7 +654,7 @@ class tx_realty_domDocumentConverter {
 
 		foreach (array('serviceleistungen', 'fahrstuhl', 'kueche') as $grandchildName) {
 			$nodeWithAttributes = $this->findFirstGrandchild('ausstattung', $grandchildName);
-			$rawAttributes[$grandchildName] = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
+			$rawAttributes[$grandchildName] = $this->fetchLowercasedTruthyDomAttributes($nodeWithAttributes);
 		}
 
 		foreach (
@@ -749,8 +749,8 @@ class tx_realty_domDocumentConverter {
 		$heatingTypeNode = $this->findFirstGrandchild('ausstattung', 'heizungsart');
 		$firingTypeNode = $this->findFirstGrandchild('ausstattung', 'befeuerung');
 		$attributes = array_merge(
-			array_keys($this->fetchLowercasedDomAttributes($heatingTypeNode)),
-			array_keys($this->fetchLowercasedDomAttributes($firingTypeNode))
+			array_keys($this->fetchLowercasedTruthyDomAttributes($heatingTypeNode)),
+			array_keys($this->fetchLowercasedTruthyDomAttributes($firingTypeNode))
 		);
 
 		// The fetched heating types are always German. In the database they
@@ -783,7 +783,7 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function fetchParkingSpaceType() {
 		$nodeWithAttributes = $this->findFirstGrandchild('ausstattung', 'stellplatzart');
-		$attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
+		$attributes = $this->fetchLowercasedTruthyDomAttributes($nodeWithAttributes);
 
 		$this->addImportedDataIfValueIsNonEmpty('garage_type', $this->getFormattedString(array_keys($attributes)));
 	}
@@ -880,7 +880,7 @@ class tx_realty_domDocumentConverter {
 	 */
 	private function fetchFlooring() {
 		$flooringNode = $this->findFirstGrandchild('ausstattung', 'boden');
-		$attributes = $this->fetchLowercasedDomAttributes($flooringNode);
+		$attributes = $this->fetchLowercasedTruthyDomAttributes($flooringNode);
 
 		// The fetched flooring types are always German. In the database they
 		// are stored as a sorted list of keys which refer to localized strings.
@@ -1348,6 +1348,28 @@ class tx_realty_domDocumentConverter {
 
 		return $result;
 	}
+
+    /**
+     * Fetches an attribute from a given node and returns lowercased name/value
+     * pairs as an array for those attributes that have a truthy value.
+     * If there are no attributes, the returned array will be empty.
+     *
+     * @param DOMNode $nodeWithAttributes node from where to fetch the attribute, may be NULL
+     *
+     * @return string[] lowercased attributes and attribute values, empty if
+     *               there are no attributes
+     */
+    private function fetchLowercasedTruthyDomAttributes($nodeWithAttributes)
+    {
+        $result = array();
+        foreach ($this->fetchLowercasedDomAttributes($nodeWithAttributes) as $key => $value) {
+            if ($value === 'true' || $value === '1') {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
 
 	/**
 	 * Caches the fetched countries in order to reduce the the number of

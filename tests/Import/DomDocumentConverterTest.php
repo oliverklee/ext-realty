@@ -1153,30 +1153,54 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
-	/**
-	 * @test
-	 */
-	public function getConvertedDataCanGetOneValidHeatingType() {
-		$node = new DOMDocument();
-		$node->loadXML(
-			'<openimmo>' .
-				'<anbieter>' .
-					'<immobilie>' .
-						'<ausstattung>' .
-							'<heizungsart ZENTRAL="true" />' .
-						'</ausstattung>' .
-					'</immobilie>' .
-				'</anbieter>' .
-			'</openimmo>'
-		);
-		$this->fixture->setRawRealtyData($node);
+    /**
+     * @test
+     */
+    public function getConvertedDataCanGetOneValidHeatingTypeSetToTrue()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
 
-		$result = $this->fixture->getConvertedData($node);
-		self::assertEquals(
-			'2',
-			$result[0]['heating_type']
-		);
-	}
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(2, $result[0]['heating_type']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataCanGetOneValidHeatingTypeSetToOne()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="1" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(
+            2,
+            $result[0]['heating_type']
+        );
+    }
 
 	/**
 	 * @test
@@ -1202,6 +1226,79 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 			$result[0]['heating_type']
 		);
 	}
+
+    /**
+     * @test
+     */
+    public function getConvertedDataReadsHeatingSetToFalseAsFalse()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="false" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertEmpty(
+            $result[0]['heating_type']
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataReadsHeatingSetToZeroAsFalse()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="0" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertEmpty(
+            $result[0]['heating_type']
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataRecognizesHeatingTypesMixedTrueAndFalse()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<heizungsart ZENTRAL="true" OFEN="false" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(2, $result[0]['heating_type']);
+    }
 
 	/**
 	 * @test
@@ -1254,7 +1351,122 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
-	/**
+    /**
+     * @test
+     */
+    public function getConvertedDataRecognizesFiringNodeWithTrue()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="true" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(12, $result[0]['heating_type']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataRecognizesFiringNodeWithOne()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="1" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(12, $result[0]['heating_type']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataRecognizesFiringNodeWithFalseAsNotSet()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="false" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertEmpty($result[0]['heating_type']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataRecognizesFiringNodeWithZeroAsNotSet()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="0" />' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertEmpty($result[0]['heating_type']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataRecognizesFiringNodeWithTrueAndFalseMixed()
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+            '<anbieter>' .
+            '<immobilie>' .
+            '<ausstattung>' .
+            '<befeuerung BLOCK="false" OEL="true"/>' .
+            '</ausstattung>' .
+            '</immobilie>' .
+            '</anbieter>' .
+            '</openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(8, $result[0]['heating_type']);
+    }
+
+    /**
 	 * @test
 	 */
 	public function getConvertedDataDoesNotGetInvalidHeatingTypeFromHeatingTypeNode() {
@@ -3227,11 +3439,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase {
 		);
 
 		$result = $this->fixture->getConvertedData($node);
-		self::assertSame(
-			FALSE,
-			$result[0]['elevator'],
-			'The value for "elevator" is incorrect.'
-		);
+		self::assertEmpty($result[0]['elevator'], 'The value for "elevator" is incorrect.');
 		self::assertSame(
 			TRUE,
 			$result[0]['fitted_kitchen'],
