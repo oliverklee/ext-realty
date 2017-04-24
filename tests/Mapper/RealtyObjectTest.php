@@ -15,7 +15,6 @@
 /**
  * Test case.
  *
- *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
@@ -301,5 +300,76 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
             'FLAT0002', 'abc01234', 'en'
         );
+    }
+
+    /*
+     * Tests concerning findByAnid
+     */
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function findByAnidForEmptyAnidThrowsException()
+    {
+        $this->fixture->findByAnid('');
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidForNoMatchesReturnsEmptyList()
+    {
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidIgnoresObjectWithEmptyAnid()
+    {
+        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => '']);
+
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidIgnoresObjectWithOtherAnid()
+    {
+        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => 'other-anid']);
+
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidIgnoresDeletedObjectWithOtherMatchingAnid()
+    {
+        $anid = 'abc-def-ghi-1234';
+        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid, 'deleted' => 1]);
+
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidFindsObjectWithMatchingAnid()
+    {
+        $anid = 'abc-def-ghi-1234';
+        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
+
+        $result = $this->fixture->findByAnid($anid);
+        self::assertSame(1, $result->count());
+        /** @var \tx_realty_Model_RealtyObject $firstMatch */
+        $firstMatch = $result->first();
+        self::assertSame($anid, $firstMatch->getAnid());
     }
 }

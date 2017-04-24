@@ -15,7 +15,6 @@
 /**
  * Test case.
  *
- *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
@@ -2789,6 +2788,17 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase
     /////////////////////////////////////
     // Tests for processing owner data.
     /////////////////////////////////////
+
+    /**
+     * @test
+     */
+    public function getAnidReturnsOffererId()
+    {
+        $anid = 'bklhjewkbjvewq';
+        $this->fixture->setData(['openimmo_anid' => $anid]);
+
+        self::assertSame($anid, $this->fixture->getAnid());
+    }
 
     /**
      * @test

@@ -20,7 +20,6 @@ use TYPO3\CMS\Lang\LanguageService;
 /**
  * This class represents a realty object.
  *
- *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Bernd Schönbach <bernd@oliverklee.de>
@@ -600,21 +599,31 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
+     * Returns the offerer ID (OpenImmo ANID).
+     *
+     * @return string
+     */
+    public function getAnid()
+    {
+        return $this->getAsString('openimmo_anid');
+    }
+
+    /**
      * Loads the owner's database record into $this->ownerData.
      *
      * @return void
      */
     private function loadOwnerRecord()
     {
-        if (!$this->hasOwner() && ($this->getAsString('openimmo_anid') == '')) {
+        if (!$this->hasOwner() && $this->getAnid() === '') {
             return;
         }
 
         if ($this->hasOwner()) {
             $whereClause = 'uid=' . $this->getAsInteger('owner');
         } else {
-            $whereClause = 'tx_realty_openimmo_anid="' .
-                Tx_Oelib_Db::getDatabaseConnection()->quoteStr($this->getAsString('openimmo_anid'), 'tx_realty_objects') . '" ';
+            $whereClause = 'tx_realty_openimmo_anid = "' .
+                \Tx_Oelib_Db::getDatabaseConnection()->quoteStr($this->getAnid(), 'fe_users') . '" ';
         }
 
         try {
@@ -701,7 +710,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         if (empty($this->ownerData)
             || ($this->ownerData['uid'] != $this->getAsInteger('owner'))
-            || ($this->ownerData['tx_realty_openimmo_anid'] != $this->getAsString('openimmo_anid'))
+            || ($this->ownerData['tx_realty_openimmo_anid'] !== $this->getAnid())
         ) {
             $this->loadOwnerRecord();
         }

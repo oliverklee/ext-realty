@@ -15,7 +15,6 @@
 /**
  * This class represents a mapper for realty objects.
  *
- *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
@@ -222,5 +221,25 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
             'openimmo_obid' => $openImmoObjectId,
             'language' => $language
         ));
+    }
+
+    /**
+     * @param string $anid offerer ID, must not be empty
+     *
+     * @return \Tx_Oelib_List \Tx_Oelib_List<\tx_realty_Model_RealtyObject>
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function findByAnid($anid)
+    {
+        if ($anid === '') {
+            throw new \InvalidArgumentException('$anid must not be empty.', 1493038952067);
+        }
+
+        $databaseConnection = \Tx_Oelib_Db::getDatabaseConnection();
+
+        return $this->findByWhereClause(
+            'openimmo_anid = "' . $databaseConnection->quoteStr($anid, $this->tableName). '"'
+        );
     }
 }
