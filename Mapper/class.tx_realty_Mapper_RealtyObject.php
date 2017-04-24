@@ -242,4 +242,25 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
             'openimmo_anid = "' . $databaseConnection->quoteStr($anid, $this->tableName). '"'
         );
     }
+
+    /**
+     * Deletes objects that have the offerer ID $anid, but spares the $exceptions.
+     *
+     * @param string $anid must not be empty
+     * @param \Tx_Oelib_List $exceptions \Tx_Oelib_List<\tx_realty_Model_RealtyObject> to not delete
+     *
+     * @return void
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function deleteByAnidWithExceptions($anid, \Tx_Oelib_List $exceptions)
+    {
+        $matches = $this->findByAnid($anid);
+        /** @var \tx_realty_Model_RealtyObject $realtyObject */
+        foreach ($matches as $realtyObject ) {
+            if (!$exceptions->hasUid($realtyObject->getUid())) {
+                $this->delete($realtyObject);
+            }
+        }
+    }
 }
