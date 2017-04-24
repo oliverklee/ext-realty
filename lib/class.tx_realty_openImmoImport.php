@@ -209,7 +209,6 @@ class tx_realty_openImmoImport
     {
         $emailData = array();
 
-        $overridePid = $this->getOverridePidForZip($currentZip);
         $recordsToInsert = $this->convertDomDocumentToArray($this->getImportedXml());
 
         if (!empty($recordsToInsert)) {
@@ -228,7 +227,7 @@ class tx_realty_openImmoImport
         }
 
         foreach ($recordsToInsert as $record) {
-            $this->writeToDatabase($record, $overridePid);
+            $this->writeToDatabase($record);
 
             if (!$this->realtyObject->isDead()) {
                 $emailData[] = $this->createEmailRawDataArray(
@@ -248,42 +247,6 @@ class tx_realty_openImmoImport
     }
 
     /**
-     * Finds out whether a particular PID is configured for objects in the ZIP
-     * with the given file name $fileName.
-     *
-     * @param string $fileName path of the ZIP to check
-     *
-     * @return int PID of the system folder to store the realty record
-     *                 in or 0 if the default folder should be used
-     */
-    private function getOverridePidForZip($fileName)
-    {
-        if (($fileName === '')|| ($this->globalConfiguration->getAsString('pidsForRealtyObjectsAndImagesByFileName') === '')) {
-            return 0;
-        }
-
-        $overridePid = 0;
-        $matches = array();
-        $baseName = basename($fileName, '.zip');
-
-        if (preg_match_all(
-            '/(^|;)([^\:]+)\:(\d+)/', $this->globalConfiguration->getAsString('pidsForRealtyObjectsAndImagesByFileName'), $matches
-        )) {
-            $fileNamePatterns = $matches[2];
-            $pageUids = $matches[3];
-
-            foreach ($fileNamePatterns as $index => $pattern) {
-                if (preg_match('/' . $pattern . '/', $baseName)) {
-                    $overridePid = $pageUids[$index];
-                    break;
-                }
-            }
-        }
-
-        return $overridePid;
-    }
-
-    /**
      * Tries to write an imported record to the database and checks the contact
      * e-mail address. If the address is invalid, it is replaced by the default
      * address as configured in EM.
@@ -293,11 +256,10 @@ class tx_realty_openImmoImport
      * logged.
      *
      * @param array $realtyRecord record to insert, may be empty
-     * @param int $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
      *
      * @return void
      */
-    protected function writeToDatabase(array $realtyRecord, $overridePid = 0)
+    protected function writeToDatabase(array $realtyRecord)
     {
         $this->loadRealtyObject($realtyRecord);
         $this->ensureContactEmail();
@@ -311,7 +273,7 @@ class tx_realty_openImmoImport
         }
 
         // 'TRUE' allows to add an owner to the realty record if it hasn't got one.
-        $errorMessage = $this->realtyObject->writeToDatabase($overridePid, true);
+        $errorMessage = $this->realtyObject->writeToDatabase(0, true);
 
         switch ($errorMessage) {
             case '':

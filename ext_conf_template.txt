@@ -12,8 +12,6 @@ allowedFrontEndUserGroups =
 pidForRealtyObjectsAndImages =
 # cat=basic; type=integer; label=PID for auxiliary records:Page ID of the system folder where auxiliary records (like cities or house types) will be stored. Leave this field empty to store these records in the same system folder as realty records and images.
 pidForAuxiliaryRecords =
-# cat=basic; type=string; label=PIDs for realty records by filename:This will sort imported realty records and images into system folders depending on the file name of the ZIP. This field is optional. Have a look in the manual for details on how to use this.
-pidsForRealtyObjectsAndImagesByFileName =
 # cat=basic; type=boolean; label=Use FE user data as contact data: If checked, the data of the FE user who has the same OpenImmo ANID as found in the imported record is used. This means, the notification e-mail (if this option is enabled) will be sent to this user and if it is enabled to show contact data in the FE, it is also this user's data that will be used. No matter which data is used, the imported FE user data will be stored within the record.
 useFrontEndUserDataAsContactDataForImportedRecords = 0
 # cat=basic; type=string; label=Recipient of the import logs:This e-mail address will receive the complete import log if "Notify contact persons" is disabled. If "Notify contact persons" is enabled, this address will receive only the log parts about OpenImmo files that did not contain a valid contact e-mail address. Leave this field empty to completely disable e-mailing the import logs.

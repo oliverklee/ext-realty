@@ -53,9 +53,7 @@ To setup a cron job the following needs to be done:
   only used if “Only import for registered FE users” is checked.
 
 - PID for realty objects and images:Set the PID of the system folder
-  where new realty records and related images should be stored. If you
-  need the realty records to be sorted into different folders, you can
-  use the option  *PIDs for realty records by filename* .
+  where new realty records and related images should be stored.
 
 - PID for auxiliary records:Specify a system folder where to store
   auxiliary records (e.g. house types, heating types, pets) or leave
@@ -63,18 +61,6 @@ To setup a cron job the following needs to be done:
   OpenImmo records. **Note:** It is important that all auxiliary records
   are stored in only one folder, or you will not be able to edit the
   realty objects in the BE.
-
-- PIDs for realty records by filename:This will allow you to sort the
-  imported realty records and the related image records into system
-  folders depending on the file name of the ZIP file. This has no
-  influence on the PID of existing records that will be updated.This
-  line uses the following format (the regular expressions are perl-
-  regular expressions without the / delimiters): regular
-  expression:PID;regular expression:PID; ...The following example will
-  sort all records from file starting with “de” into the system folder
-  with the PID 42 and all records that contain “2008” at any position
-  into the system folder with the PID 39. All other records will go into
-  the default system folder for new realty records.^de:42;2008:39;
 
 - Use FE user data as contact data:Check this option to set the contact
   data source of each imported object which has an owner to the owner.

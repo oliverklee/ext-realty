@@ -27,6 +27,7 @@ Bug fixes:
 - [#5249] Missing comma in tca.php
 
 Changes:
+- [#4436] Drop the feature of importing into different folders by file name
 - [#5793] Allow oelib up to 1.9.99
 - [#5784] Drop old update functions
 - [#5066] Make the TCA cacheable

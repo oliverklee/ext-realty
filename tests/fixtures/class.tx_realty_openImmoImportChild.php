@@ -99,13 +99,12 @@ final class tx_realty_openImmoImportChild extends tx_realty_openImmoImport
      * logged.
      *
      * @param array $realtyRecord record to insert, may be empty
-     * @param int $overridePid PID for new records (omit this parameter to use the PID set in the global configuration)
      *
      * @return void
      */
-    public function writeToDatabase(array $realtyRecord, $overridePid = 0)
+    public function writeToDatabase(array $realtyRecord)
     {
-        parent::writeToDatabase($realtyRecord, $overridePid);
+        parent::writeToDatabase($realtyRecord);
     }
 
     /**
