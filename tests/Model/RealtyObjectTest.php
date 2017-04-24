@@ -179,6 +179,17 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
+    public function getObidReturnsObid()
+    {
+        $obid = 'bklhjewkbjvewq';
+        $this->fixture->setData(['openimmo_obid' => $obid]);
+
+        self::assertSame($obid, $this->fixture->getObid());
+    }
+
+    /**
+     * @test
+     */
     public function recordExistsInDatabaseIfNoExistingObjectNumberGiven()
     {
         self::assertFalse(

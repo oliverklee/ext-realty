@@ -394,12 +394,13 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => 'other-anid']);
 
         $anid = 'abc-def-ghi-1234';
-        $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
+        $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
 
         self::assertSame(
             1,
             $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
+        self::assertSame([], $result);
     }
 
     /**
@@ -410,12 +411,13 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => '']);
 
         $anid = 'abc-def-ghi-1234';
-        $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
+        $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
 
         self::assertSame(
             1,
             $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
+        self::assertSame([], $result);
     }
 
     /**
@@ -425,13 +427,15 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $anid = 'abc-def-ghi-1234';
         $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
+        $object = $this->fixture->find($uid);
 
-        $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
+        $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
 
         self::assertSame(
             1,
             $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
         );
+        self::assertSame([$object], $result);
     }
 
     /**
@@ -444,11 +448,12 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $exceptions = new \Tx_Oelib_List();
         $exceptions->add($this->fixture->find($uid));
 
-        $this->fixture->deleteByAnidWithExceptions($anid, $exceptions);
+        $result = $this->fixture->deleteByAnidWithExceptions($anid, $exceptions);
 
         self::assertSame(
             1,
             $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
+        self::assertSame([], $result);
     }
 }

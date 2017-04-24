@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
 use TYPO3\CMS\Core\Mail\MailMessage;
@@ -19,7 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case.
- *
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
@@ -81,6 +81,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
         $this->systemFolderPid = $this->testingFramework->createSystemFolder();
         $this->importFolder = PATH_site . 'typo3temp/tx_realty_fixtures/';
+        GeneralUtility::mkdir_deep($this->importFolder);
 
         Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
@@ -130,6 +131,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $this->globalConfiguration->setAsString('openImmoSchema', $this->importFolder . 'schema.xsd');
         $this->globalConfiguration->setAsString('importFolder', $this->importFolder);
         $this->globalConfiguration->setAsBoolean('deleteZipsAfterImport', true);
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', false);
         $this->globalConfiguration->setAsBoolean('notifyContactPersons', true);
         $this->globalConfiguration->setAsInteger('pidForRealtyObjectsAndImages', $this->systemFolderPid);
         $this->globalConfiguration->setAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords', false);
@@ -201,6 +203,21 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         if (!in_array('zip', get_loaded_extensions(), true)) {
             self::markTestSkipped('This PHP installation does not provide the ZIPArchive class.');
         }
+    }
+
+    /**
+     * Creates a ZIP "import.zip" with an xml file "import.xml" with $xml in it.
+     *
+     * @param string $xml
+     *
+     * @return void
+     */
+    private function createZipFile($xml)
+    {
+        $zip = new \ZipArchive();
+        $zip->open($this->importFolder . 'import.zip', \ZipArchive::CREATE);
+        $zip->addFromString('import.xml', $xml);
+        $zip->close();
     }
 
     /*
@@ -377,6 +394,38 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
             '',
             $this->fixture->getPathForXml($this->importFolder . 'empty.zip')
         );
+    }
+
+    /**
+     * @test
+     */
+    public function createZipFileCreatesFile()
+    {
+        $path = $this->importFolder . 'import.zip';
+        $xml = '<openimmo></openimmo>';
+
+        $this->createZipFile($xml);
+
+        self::assertFileExists($path);
+    }
+
+    /**
+     * @test
+     */
+    public function createZipFilePutsXmlContentInZipFile()
+    {
+        $path = $this->importFolder . 'import.zip';
+        $xml = '<openimmo></openimmo>';
+
+        $this->createZipFile($xml);
+
+        $zip = new \ZipArchive();
+        $zip->open($path);
+        $zip->extractTo($this->importFolder);
+        $zip->close();
+
+        self::assertFileExists($this->importFolder . 'import.xml');
+        self::assertStringEqualsFile($this->importFolder . 'import.xml', $xml);
     }
 
     ////////////////////////////////////////////////////////////
@@ -2973,7 +3022,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function prepareEmailsSortsMessagesForOneRecepientWhichHaveTheSameObjectNumber()
+    public function prepareEmailsSortsMessagesForOneRecipientWhichHaveTheSameObjectNumber()
     {
         $emailData = array(
             array(
@@ -3004,7 +3053,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function prepareEmailsSortsMessagesForTwoRecepientWhichHaveTheSameObjectNumber()
+    public function prepareEmailsSortsMessagesForTwoRecipientWhichHaveTheSameObjectNumber()
     {
         $emailData = array(
             array(
@@ -3250,9 +3299,9 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         );
     }
 
-    //////////////////////////////////////////////////////////////
-    // Tests for setting the PID depending on the ZIP file name.
-    //////////////////////////////////////////////////////////////
+    /*
+     * Tests for setting the PID
+     */
 
     /**
      * @test
@@ -3629,6 +3678,455 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
                 'fooBar', $feUserUid, 1
             ),
             $this->message->getBody()
+        );
+    }
+
+    /*
+     * Tests for deleting objects for full sync
+     */
+
+    /**
+     * @test
+     */
+    public function defaultSyncWithDeletingEnabledKeepsUnmentionedObjectsWithSameAnid()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $anid = '12341-12341-12341';
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => $anid,
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                        </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid>' . $anid . '</openimmo_anid>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function partialSyncWithDeletingEnabledKeepsUnmentionedObjectsWithSameAnid()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $anid = '12341-12341-12341';
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => $anid,
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="TEIL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                            </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                        </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid>' . $anid . '</openimmo_anid>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function fullSyncWithDeletingEnabledKeepsMentionedObjectsWithSameAnidAndObjectNumber()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $anid = '12341-12341-12341';
+        $obid = '1v24512-1g423512gv4-1gv2';
+        $objectNumber = 'bar1234567';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => $anid,
+                'openimmo_obid' => $obid,
+                'object_number' => $objectNumber,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="VOLL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>' . $obid . '</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>' . $objectNumber . '</objektnr_extern>
+                        </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid>' . $anid . '</openimmo_anid>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function fullSyncWithDeletingEnabledKeepsUnmentionedObjectsWithOtherAnid()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $anid = '12341-12341-12341';
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => $anid,
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="VOLL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                        </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                        </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid>other-anid</openimmo_anid>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function fullSyncWithDeletingEnabledDeletesUnmentionedObjectsWithSameAnid()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $anid = '12341-12341-12341';
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => $anid,
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="VOLL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                            </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                            </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid>' . $anid . '</openimmo_anid>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function fullSyncWithDeletingEnabledLogsDeletion()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $anid = '12341-12341-12341';
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => $anid,
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="VOLL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                            </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                            </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid>' . $anid . '</openimmo_anid>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $result = $this->fixture->importFromZip();
+
+        $message = $this->translator->translate('message_deleted_objects_from_full_sync') . ' ' . $uid;
+        self::assertContains($message, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function fullSyncWithDeletingEnabledWithoutAnidKeepsUnmentionedObjectsWithEmptyAnid()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => '',
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="VOLL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                            </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                            </verwaltung_techn>
+                    </immobilie>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function fullSyncWithDeletingDisabledKeepsUnmentionedObjectsWithSameAnid()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', false);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $anid = '12341-12341-12341';
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'openimmo_anid' => $anid,
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="VOLL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                            </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                            </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid>' . $anid . '</openimmo_anid>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 0')
         );
     }
 }

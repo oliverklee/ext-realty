@@ -249,18 +249,24 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      * @param string $anid must not be empty
      * @param \Tx_Oelib_List $exceptions \Tx_Oelib_List<\tx_realty_Model_RealtyObject> to not delete
      *
-     * @return void
+     * @return \tx_realty_Model_RealtyObject[] deleted objects
      *
      * @throws \InvalidArgumentException
      */
     public function deleteByAnidWithExceptions($anid, \Tx_Oelib_List $exceptions)
     {
+        /** @var \tx_realty_Model_RealtyObject[] $deletedObjects */
+        $deletedObjects = [];
+
         $matches = $this->findByAnid($anid);
         /** @var \tx_realty_Model_RealtyObject $realtyObject */
         foreach ($matches as $realtyObject ) {
             if (!$exceptions->hasUid($realtyObject->getUid())) {
                 $this->delete($realtyObject);
+                $deletedObjects[] = $realtyObject;
             }
         }
+
+        return $deletedObjects;
     }
 }

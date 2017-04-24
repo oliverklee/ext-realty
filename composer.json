@@ -1,7 +1,7 @@
 {
   "name": "oliverklee/realty",
   "type": "typo3-cms-extension",
-  "version": "0.6.54",
+  "version": "0.6.55",
   "description": "This extension provides a plugin that displays realty objects (immovables, properties, real estate), including an image gallery for each object.",
   "keywords": ["realty", "renting", "housing", "real estate", "immovables", "property", "properties"],
   "homepage": "https://www.oliverklee.de",

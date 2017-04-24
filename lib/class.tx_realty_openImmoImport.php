@@ -23,6 +23,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_realty_openImmoImport
 {
     /**
+     * @var string
+     */
+    const FULL_TRANSFER_MODE = 'VOLL';
+
+    /**
      * @var string stores the complete log entry
      */
     private $logEntry = '';
@@ -207,9 +212,29 @@ class tx_realty_openImmoImport
      */
     private function processRealtyRecordInsertion($currentZip)
     {
-        $emailData = array();
+        $emailData = [];
+        $savedRealtyObjects = new \Tx_Oelib_List();
+        $offererId = '';
+        $transferMode = null;
 
-        $recordsToInsert = $this->convertDomDocumentToArray($this->getImportedXml());
+        $xml = $this->getImportedXml();
+        if ($xml !== null) {
+            $offererXpath = new \DOMXPath($xml);
+            $offererNodes = $offererXpath->query('//openimmo/anbieter/openimmo_anid');
+            if ($offererNodes->length > 0) {
+                $offererNode = $offererNodes->item(0);
+                $offererId = (string)$offererNode->nodeValue;
+            }
+
+            $transferXpath = new \DOMXPath($xml);
+            $transferNodes = $transferXpath->query('//openimmo/uebertragung');
+            if ($transferNodes->length > 0) {
+                $transferNode = $transferNodes->item(0);
+                $transferMode = $transferNode->getAttribute('umfang');
+            }
+        }
+
+        $recordsToInsert = $this->convertDomDocumentToArray($xml);
 
         if (!empty($recordsToInsert)) {
             $this->copyImagesAndDocumentsFromExtractedZip($currentZip, $recordsToInsert);
@@ -221,21 +246,40 @@ class tx_realty_openImmoImport
                 $this->filesToDelete[] = $currentZip;
             }
         } else {
-            // Ensures that the foreach-loop is passed at least once, so the log
-            // gets processed correctly.
-            $recordsToInsert = array(array());
+            // Ensures that the foreach-loop is passed at least once, so the log gets processed correctly.
+            $recordsToInsert = [[]];
         }
 
         foreach ($recordsToInsert as $record) {
             $this->writeToDatabase($record);
 
             if (!$this->realtyObject->isDead()) {
+                $savedRealtyObjects->add($this->realtyObject);
                 $emailData[] = $this->createEmailRawDataArray(
                     $this->getContactEmailFromRealtyObject(),
                     $this->getObjectNumberFromRealtyObject()
                 );
             }
             $this->storeLogsAndClearTemporaryLog();
+        }
+
+        if ($this->globalConfiguration->getAsBoolean('importCanDeleteRecordsForFullSync')
+            && $transferMode === self::FULL_TRANSFER_MODE && $offererId !== ''
+        ) {
+            /** @var \tx_realty_Mapper_RealtyObject $realtyObjectMapper */
+            $realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
+            $deletedObjects = $realtyObjectMapper->deleteByAnidWithExceptions($offererId, $savedRealtyObjects);
+            if (!empty($deletedObjects)) {
+                /** @var string[] $uids */
+                $uids = [];
+                foreach ($deletedObjects as $deletedObject) {
+                    $uids[] = $deletedObject->getUid();
+                }
+                $this->addToLogEntry(
+                    $this->getTranslator()->translate('message_deleted_objects_from_full_sync') . ' ' .
+                    implode(', ', $uids)
+                );
+            }
         }
 
         if (!$this->deleteCurrentZipFile) {
@@ -361,13 +405,13 @@ class tx_realty_openImmoImport
      * This function is to be used for positive information only. Errors should
      * get logged through 'addToErrorLog()' instead.
      *
-     * @param string $logFraction message to log, may be empty
+     * @param string $message message to log, may be empty
      *
      * @return void
      */
-    private function addToLogEntry($logFraction)
+    private function addToLogEntry($message)
     {
-        $this->temporaryLogEntry .= $logFraction . LF;
+        $this->temporaryLogEntry .= $message . LF;
     }
 
     /**

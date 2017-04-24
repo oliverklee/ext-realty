@@ -599,6 +599,16 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     }
 
     /**
+     * Returns the OpenImmo OBID.
+     *
+     * @return string
+     */
+    public function getObid()
+    {
+        return $this->getAsString('openimmo_obid');
+    }
+
+    /**
      * Returns the offerer ID (OpenImmo ANID).
      *
      * @return string

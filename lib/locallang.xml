@@ -15,6 +15,7 @@
 			<label index="message_upload_directory_not_existing">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</label>
 			<label index="message_upload_directory_not_writable">Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</label>
 			<label index="message_no_zips">No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</label>
+			<label index="message_deleted_objects_from_full_sync">The following objects have been deleted during full sync:</label>
 			<label index="message_object_not_loaded">The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</label>
 			<label index="message_insertion_failed">An error occurred while trying to create a new database record. This record was not inserted into the database.</label>
 			<label index="message_deleted_flag_causes_deletion">Updating this record deletes the record.</label>
@@ -57,6 +58,7 @@
 			<label index="message_upload_directory_not_existing">Der Import kann nicht durchgeführt werden, weil der Upload-Ordner der Realty-Extension &quot;%s&quot; nicht existiert. Bitte überprüfen Sie Ihre Konfiguration und starten Sie den Import erneut.</label>
 			<label index="message_upload_directory_not_writable">Der Import kann nicht durchgeführt werden, weil für den Upload-Ordner der Realty-Extension &quot;%s&quot; keine Schreibrechte gesetzt sind. Bitte ändern Sie die Dateirechte für diesen Ordner und starten Sie den Import erneut. Der Ordner gehört dem Benutzer: &quot;%s&quot; und hat folgende Zugriffsrechte: &quot;%s&quot;. Der Import wurde von folgendem Benutzer ausgeführt: &quot;%s&quot;.</label>
 			<label index="message_no_zips">Es wurden keine ZIP-Archive im Import-Ordner gefunden. Bitte überprüfen Sie den konfigurierten Pfad und den Inhalt des Ordners.</label>
+			<label index="message_deleted_objects_from_full_sync">Diese Objekte wurden beim Vollabgleich gelöscht:</label>
 			<label index="message_object_not_loaded">Der Datensatz konnte nicht geladen werden. Aufgrund invaliden Inhalts wurde der Datensatz möglicherweise nicht vollständig importiert.</label>
 			<label index="message_insertion_failed">Während des Einfügens in die Datenbank trat ein Fehler auf. Der Datensatz konnte nicht in die Datenbank geschrieben werden.</label>
 			<label index="message_deleted_flag_causes_deletion">Dieser Datensatz wird durch die Aktualisierung gelöscht.</label>
