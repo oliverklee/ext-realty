@@ -35,6 +35,8 @@ organizations:
 
 - `jansass GmbH <http://www.jansass.com/>`_
 
+- `Kreisbaugesellschaft Tübingen mbH <http://www.kreisbau-tuebingen.de/>`_
+
 - `maddesigns - Sven Wolfermann <http://www.maddesigns.de/>`_
 
 - `PARAPLAN - Römhild & Steger GbR <http://www.paraplan.de/>`_
