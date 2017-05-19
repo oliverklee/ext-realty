@@ -594,8 +594,9 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		if ($this->hasOwner()) {
 			$whereClause = 'uid=' . $this->getAsInteger('owner');
 		} else {
-			$whereClause = 'tx_realty_openimmo_anid="' .
-				Tx_Oelib_Db::getDatabaseConnection()->quoteStr($this->getAsString('openimmo_anid'), 'tx_realty_objects') . '" ';
+			$relevantPartOfAnid = mb_substr($this->getAnid(), 0, 4, 'UTF-8');
+			$whereClause = 'LEFT(tx_realty_openimmo_anid, 4) = "' .
+				\Tx_Oelib_Db::getDatabaseConnection()->quoteStr($relevantPartOfAnid, 'fe_users') . '" ';
 		}
 
 		try {

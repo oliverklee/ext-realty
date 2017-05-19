@@ -1,6 +1,7 @@
 0.6.5 - not released yet
 
 Bug fixes:
+- [#5798] Match only the first 4 characters when matching FE users by ANID
 - [#5797] Update the ameos_formidable URL in the manual
 
 
