@@ -32,7 +32,7 @@ Installation
    **sf\_register** or **sr\_feuser\_register** extension is installed.
 
 #. Install **ameos\_formidable**: Please use the `patched ameos\_formidable
-   <https://dl.dropboxusercontent.com/u/27225645/Extensions/T3X_ameos_formidable-1_1_564-z-201506082123.t3x>`_.
+   <https://www.dropbox.com/s/y513ui1u08mcc2z/T3X_ameos_formidable-1_1_564-z-201506082123.t3x?dl=0>`_.
 
 #. Install the required extensions **static\_info\_tables** and **oelib**
    which are available in the TER.
