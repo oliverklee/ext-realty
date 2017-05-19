@@ -224,6 +224,8 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
     }
 
     /**
+     * Finds objects by ANID. Only the first four characters of the ANID will be used for matching.
+     *
      * @param string $anid offerer ID, must not be empty
      *
      * @return \Tx_Oelib_List \Tx_Oelib_List<\tx_realty_Model_RealtyObject>
@@ -237,14 +239,17 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
         }
 
         $databaseConnection = \Tx_Oelib_Db::getDatabaseConnection();
+        $relevantPartOfAnid = mb_substr($anid, 0, 4, 'UTF-8');
 
         return $this->findByWhereClause(
-            'openimmo_anid = "' . $databaseConnection->quoteStr($anid, $this->tableName). '"'
+            'LEFT(openimmo_anid, 4) = "' . $databaseConnection->quoteStr($relevantPartOfAnid, $this->tableName). '"'
         );
     }
 
     /**
      * Deletes objects that have the offerer ID $anid, but spares the $exceptions.
+     *
+     * Only the first four characters of the ANID will be used for matching.
      *
      * @param string $anid must not be empty
      * @param \Tx_Oelib_List $exceptions \Tx_Oelib_List<\tx_realty_Model_RealtyObject> to not delete

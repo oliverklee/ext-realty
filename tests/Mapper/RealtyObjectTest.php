@@ -361,16 +361,47 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function findByAnidFindsObjectWithMatchingAnid()
+    public function findByAnidFindsObjectWithExactMatchingAnid()
     {
-        $anid = 'abc-def-ghi-1234';
-        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
+        $anid = 'OABC20017128124930123asd43fer35';
+        $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
 
         $result = $this->fixture->findByAnid($anid);
         self::assertSame(1, $result->count());
         /** @var \tx_realty_Model_RealtyObject $firstMatch */
         $firstMatch = $result->first();
-        self::assertSame($anid, $firstMatch->getAnid());
+        self::assertSame($uid, $firstMatch->getUid());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidFindsObjectWithMatchingFirstFourCharactersOfAnid()
+    {
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+        );
+
+        $result = $this->fixture->findByAnid('OABC10017128124930123asd43fer35');
+        self::assertSame(1, $result->count());
+        /** @var \tx_realty_Model_RealtyObject $firstMatch */
+        $firstMatch = $result->first();
+        self::assertSame($uid, $firstMatch->getUid());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidNotFindsObjectWithMatchingOnlyFirstThreeCharactersOfAnid()
+    {
+        $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+        );
+
+        $result = $this->fixture->findByAnid('OABD20017128124930123asd43fer35');
+        self::assertTrue($result->isEmpty());
     }
 
     /*
@@ -391,9 +422,12 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function deleteByAnidWithExceptionsNotDeletesRecordWithNonMatchingAnid()
     {
-        $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => 'other-anid']);
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+        );
 
-        $anid = 'abc-def-ghi-1234';
+        $anid = 'OABD20017128124930123asd43fer35';
         $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
 
         self::assertSame(
@@ -410,7 +444,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => '']);
 
-        $anid = 'abc-def-ghi-1234';
+        $anid = 'OABC20017128124930123asd43fer35';
         $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
 
         self::assertSame(
@@ -423,13 +457,13 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function deleteByAnidWithExceptionsDeletesRecordWithMatchingAnid()
+    public function deleteByAnidWithExceptionsDeletesRecordWithMatchingAnidByFirstFourCharacters()
     {
-        $anid = 'abc-def-ghi-1234';
+        $anid = 'OABC20017128124930123asd43fer35';
         $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
         $object = $this->fixture->find($uid);
 
-        $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
+        $result = $this->fixture->deleteByAnidWithExceptions('OABC10017128124930123asd43fer35', new \Tx_Oelib_List());
 
         self::assertSame(
             1,
@@ -443,7 +477,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function deleteByAnidWithExceptionsNotDeletesMatchingRecordMarkedAsException()
     {
-        $anid = 'abc-def-ghi-1234';
+        $anid = 'OABC20017128124930123asd43fer35';
         $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
         $exceptions = new \Tx_Oelib_List();
         $exceptions->add($this->fixture->find($uid));
