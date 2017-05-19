@@ -291,4 +291,106 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'FLAT0002', 'abc01234', 'en'
 		);
 	}
+
+    /*
+     * Tests concerning findByAnid
+     */
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function findByAnidForEmptyAnidThrowsException()
+    {
+        $this->fixture->findByAnid('');
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidForNoMatchesReturnsEmptyList()
+    {
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidIgnoresObjectWithEmptyAnid()
+    {
+        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => '']);
+
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidIgnoresObjectWithOtherAnid()
+    {
+        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => 'other-anid']);
+
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidIgnoresDeletedObjectWithOtherMatchingAnid()
+    {
+        $anid = 'abc-def-ghi-1234';
+        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid, 'deleted' => 1]);
+
+        $result = $this->fixture->findByAnid('not-in-database');
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidFindsObjectWithExactMatchingAnid()
+    {
+        $anid = 'OABC20017128124930123asd43fer35';
+        $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
+
+        $result = $this->fixture->findByAnid($anid);
+        self::assertSame(1, $result->count());
+        /** @var \tx_realty_Model_RealtyObject $firstMatch */
+        $firstMatch = $result->first();
+        self::assertSame($uid, $firstMatch->getUid());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidFindsObjectWithMatchingFirstFourCharactersOfAnid()
+    {
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+        );
+
+        $result = $this->fixture->findByAnid('OABC10017128124930123asd43fer35');
+        self::assertSame(1, $result->count());
+        /** @var \tx_realty_Model_RealtyObject $firstMatch */
+        $firstMatch = $result->first();
+        self::assertSame($uid, $firstMatch->getUid());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidNotFindsObjectWithMatchingOnlyFirstThreeCharactersOfAnid()
+    {
+        $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+        );
+
+        $result = $this->fixture->findByAnid('OABD20017128124930123asd43fer35');
+        self::assertTrue($result->isEmpty());
+    }
 }

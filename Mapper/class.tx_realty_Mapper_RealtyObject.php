@@ -221,6 +221,29 @@ class tx_realty_Mapper_RealtyObject extends tx_oelib_DataMapper {
 			'language' => $language
 		));
 	}
+
+    /**
+     * Finds objects by ANID. Only the first four characters of the ANID will be used for matching.
+     *
+     * @param string $anid offerer ID, must not be empty
+     *
+     * @return \Tx_Oelib_List \Tx_Oelib_List<\tx_realty_Model_RealtyObject>
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function findByAnid($anid)
+    {
+        if ($anid === '') {
+            throw new \InvalidArgumentException('$anid must not be empty.', 1493038952067);
+        }
+
+        $databaseConnection = \Tx_Oelib_Db::getDatabaseConnection();
+        $relevantPartOfAnid = mb_substr($anid, 0, 4, 'UTF-8');
+
+        return $this->findByWhereClause(
+            'LEFT(openimmo_anid, 4) = "' . $databaseConnection->quoteStr($relevantPartOfAnid, $this->tableName). '"'
+        );
+    }
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/realty/Mapper/class.tx_realty_Mapper_RealtyObject.php']) {

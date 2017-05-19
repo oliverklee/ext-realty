@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Realty Manager',
-    'description' => 'This extension provides a plugin that displays realty objects (immovables, properties, real estate), including an image gallery for each object. For compatibility with TYPO3 7.6 and 8.7, please see the manual.',
+	'description' => 'This extension provides a plugin that displays realty objects (immovables, properties, real estate), including an image gallery for each object. For compatibility with TYPO3 7.6 and 8.7, please see the manual.',
 	'category' => 'plugin',
 	'author' => 'Oliver Klee',
 	'author_email' => 'typo3-coding@oliverklee.de',
@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearCacheOnLoad' => 1,
 	'lockType' => '',
 	'author_company' => 'oliverklee.de',
-	'version' => '0.6.6',
+	'version' => '0.6.7',
 	'_md5_values_when_last_written' => '',
 	'constraints' => array(
 		'depends' => array(

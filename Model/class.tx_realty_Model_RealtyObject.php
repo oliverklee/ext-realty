@@ -581,13 +581,23 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 		return $ownerCanAddObjects;
 	}
 
+    /**
+     * Returns the offerer ID (OpenImmo ANID).
+     *
+     * @return string
+     */
+    public function getAnid()
+    {
+        return $this->getAsString('openimmo_anid');
+    }
+
 	/**
 	 * Loads the owner's database record into $this->ownerData.
 	 *
 	 * @return void
 	 */
 	private function loadOwnerRecord() {
-		if (!$this->hasOwner() && ($this->getAsString('openimmo_anid') == '')) {
+		if (!$this->hasOwner() && ($this->getAnid() === '')) {
 			return;
 		}
 
@@ -679,7 +689,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 	public function getOwner() {
 		if (empty($this->ownerData)
 			|| ($this->ownerData['uid'] != $this->getAsInteger('owner'))
-			|| ($this->ownerData['tx_realty_openimmo_anid'] != $this->getAsString('openimmo_anid'))
+			|| ($this->ownerData['tx_realty_openimmo_anid'] !== $this->getAnid())
 		) {
 			$this->loadOwnerRecord();
 		}

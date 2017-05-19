@@ -2670,6 +2670,17 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 	// Tests for processing owner data.
 	/////////////////////////////////////
 
+    /**
+     * @test
+     */
+    public function getAnidReturnsOffererId()
+    {
+        $anid = 'bklhjewkbjvewq';
+        $this->fixture->setData(['openimmo_anid' => $anid]);
+
+        self::assertSame($anid, $this->fixture->getAnid());
+    }
+
 	/**
 	 * @test
 	 */
@@ -2712,7 +2723,7 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase {
 			'', array('tx_realty_openimmo_anid' => 'OABC20017128124930123asd43fer35')
 		);
 		$this->fixture->loadRealtyObject($this->objectUid);
-		$this->fixture->setProperty('openimmo_anid', 'OABC20011128124930123asd43fer34');
+		$this->fixture->setProperty('openimmo_anid', 'OABC10011128124930123asd43fer34');
 		$this->fixture->writeToDatabase(0, true);
 
 		self::assertSame(
