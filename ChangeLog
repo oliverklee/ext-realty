@@ -12,6 +12,7 @@ Features:
 Localization:
 
 Bug fixes:
+- [#5797] Update the ameos_formidable URL in the manual
 - [#5792] Heating types are set even if "false" in OpenImmo
 - [#5785] Make realty compatible with PHP 7
 - [#5783] Make realty compatible with MySQL in strict mode
