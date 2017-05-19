@@ -2849,6 +2849,42 @@ class tx_realty_Model_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
+    public function userIsMatchedByAnidWithTheFirstFourCharactersTheSame()
+    {
+        $feUserUid = $this->testingFramework->createFrontEndUser(
+            '', array('tx_realty_openimmo_anid' => 'OABC20017128124930123asd43fer35')
+        );
+        $this->fixture->loadRealtyObject($this->objectUid);
+        $this->fixture->setProperty('openimmo_anid', 'OABC20011128124930123asd43fer34');
+        $this->fixture->writeToDatabase(0, true);
+
+        self::assertSame(
+            $feUserUid,
+            (int)$this->fixture->getProperty('owner')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function userIsNotMatchedByAnidWithOnlyTheFirstThreeCharactersTheSame()
+    {
+        $feUserUid = $this->testingFramework->createFrontEndUser(
+            '', array('tx_realty_openimmo_anid' => 'OABC20017128124930123asd43fer35')
+        );
+        $this->fixture->loadRealtyObject($this->objectUid);
+        $this->fixture->setProperty('openimmo_anid', 'OABD20011128124930123asd43fer34');
+        $this->fixture->writeToDatabase(0, true);
+
+        self::assertNotSame(
+            $feUserUid,
+            (int)$this->fixture->getProperty('owner')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function uidOfFeUserWithMatchingAnidIsNotAddedAsOwnerIfThisIsForbidden()
     {
         $this->testingFramework->createFrontEndUser(
