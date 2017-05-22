@@ -74,6 +74,12 @@
 			<label index="tx_realty_objects.heating_type.10">solar heating</label>
 			<label index="tx_realty_objects.heating_type.11">heating by stove</label>
 			<label index="tx_realty_objects.heating_type.12">zone heating</label>
+			<label index="tx_realty_objects.heating_type.13">air heat pump</label>
+			<label index="tx_realty_objects.heating_type.14">additional decentralized hot water</label>
+			<label index="tx_realty_objects.heating_type.15">pellets</label>
+			<label index="tx_realty_objects.heating_type.16">coal</label>
+			<label index="tx_realty_objects.heating_type.17">wood</label>
+			<label index="tx_realty_objects.heating_type.18">liquefied gas</label>
 			<label index="tx_realty_objects.has_air_conditioning">Air conditioning</label>
 			<label index="tx_realty_objects.garage_type">Parking space type</label>
 			<label index="tx_realty_objects.parking_spaces">Number of parking spaces</label>
@@ -286,6 +292,12 @@
 			<label index="tx_realty_objects.heating_type.10">Solarheizung</label>
 			<label index="tx_realty_objects.heating_type.11">Ofen</label>
 			<label index="tx_realty_objects.heating_type.12">Blockheizung</label>
+			<label index="tx_realty_objects.heating_type.13">Luft-Wärmepumpe</label>
+			<label index="tx_realty_objects.heating_type.14">Ergänzendes dezentrales Warmwasser</label>
+			<label index="tx_realty_objects.heating_type.15">Pellets</label>
+			<label index="tx_realty_objects.heating_type.16">Kohle</label>
+			<label index="tx_realty_objects.heating_type.17">Holz</label>
+			<label index="tx_realty_objects.heating_type.18">Flüssiggas</label>
 			<label index="tx_realty_objects.has_air_conditioning">Klimaanlage</label>
 			<label index="tx_realty_objects.garage_type">Stellplatzart</label>
 			<label index="tx_realty_objects.parking_spaces">Anzahl Stellplätze</label>

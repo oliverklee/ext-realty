@@ -797,6 +797,12 @@ class tx_realty_domDocumentConverter
                 10 => 'solar',
                 11 => 'ofen',
                 12 => 'block',
+                13 => 'luftwp',
+                14 => 'wasser-elektro',
+                15 => 'pellet',
+                16 => 'kohle',
+                17 => 'holz',
+                18 => 'fluessiggas',
             ),
             $attributes
         ));

@@ -1592,6 +1592,101 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
     }
 
     /**
+     * @return array[]
+     */
+    public function heatingTypeDataProvider()
+    {
+        return [
+            'OFEN' => ['OFEN', 11],
+            'ETAGE' => ['ETAGE', 9],
+            'ZENTRAL' => ['ZENTRAL', 2],
+            'FERN' => ['FERN', 1],
+            'FUSSBODEN' => ['FUSSBODEN', 4],
+        ];
+    }
+
+    /**
+     * @test
+     * @param string $name
+     * @param int $id
+     * @dataProvider heatingTypeDataProvider
+     */
+    public function getConvertedDataImportsAllHeatingTypes($name, $id)
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>
+                <anbieter>
+                    <immobilie>
+                        <ausstattung>
+                            <heizungsart ' . $name . '="true"/>
+                        </ausstattung>
+                    </immobilie>
+                </anbieter>
+             </openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(
+            $id,
+            $result[0]['heating_type']
+        );
+    }
+
+    /**
+     * @return array[]
+     */
+    public function firingTypeDataProvider()
+    {
+        return [
+            'OEL' => ['OEL', 8],
+            'GAS' => ['GAS', 5],
+            'ELEKTRO' => ['ELEKTRO', 3],
+            'ALTERNATIV' => ['ALTERNATIV', 6],
+            'SOLAR' => ['SOLAR', 10],
+            'ERDWAERME' => ['ERDWAERME', 7],
+            'LUFTWP' => ['LUFTWP', 13],
+            'FERN' => ['FERN', 1],
+            'BLOCK' => ['BLOCK', 12],
+            'WASSER-ELEKTRO' => ['WASSER-ELEKTRO', 14],
+            'PELLET' => ['PELLET', 15],
+            'KOHLE' => ['KOHLE', 16],
+            'HOLZ' => ['HOLZ', 17],
+            'FLUESSIGGAS' => ['FLUESSIGGAS', 18],
+        ];
+    }
+
+    /**
+     * @test
+     * @param string $name
+     * @param int $id
+     * @dataProvider firingTypeDataProvider
+     */
+    public function getConvertedDataImportsAllFiringTypes($name, $id)
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>
+                <anbieter>
+                    <immobilie>
+                        <ausstattung>
+                            <befeuerung ' . $name . '="true"/>
+                        </ausstattung>
+                    </immobilie>
+                </anbieter>
+             </openimmo>'
+        );
+        $this->fixture->setRawRealtyData($node);
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(
+            $id,
+            $result[0]['heating_type']
+        );
+    }
+
+    /**
      * @test
      */
     public function getConvertedDataFetchesSwitchboardPhoneNumber()

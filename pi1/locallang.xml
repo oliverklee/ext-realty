@@ -215,6 +215,12 @@
 			<label index="label_heating_type_10">solar heating</label>
 			<label index="label_heating_type_11">heating by stove</label>
 			<label index="label_heating_type_12">zone heating</label>
+			<label index="label_heating_type_13">air heat pump</label>
+			<label index="label_heating_type_14">additional decentralized hot water</label>
+			<label index="label_heating_type_15">pellets</label>
+			<label index="label_heating_type_16">coal</label>
+			<label index="label_heating_type_17">wood</label>
+			<label index="label_heating_type_18">liquefied gas</label>
 			<label index="label_garage_type">Parking space type</label>
 			<label index="label_parking_spaces">Number of parking spaces</label>
 			<label index="label_garage_rent">Rent for garage/parking space</label>
@@ -640,6 +646,12 @@
 			<label index="label_heating_type_10">Solarheizung</label>
 			<label index="label_heating_type_11">Ofen</label>
 			<label index="label_heating_type_12">Blockheizung</label>
+			<label index="label_heating_type_13">Luft-Wärmepumpe</label>
+			<label index="label_heating_type_14">Ergänzendes dezentrales Warmwasser</label>
+			<label index="label_heating_type_15">Pellets</label>
+			<label index="label_heating_type_16">Kohle</label>
+			<label index="label_heating_type_17">Holz</label>
+			<label index="label_heating_type_18">Flüssiggas</label>
 			<label index="label_garage_type">Stellplatzart</label>
 			<label index="label_parking_spaces">Anzahl Stellplätze</label>
 			<label index="label_garage_rent">Miete für Garage/Stellplatz</label>
