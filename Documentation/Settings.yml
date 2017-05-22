@@ -7,7 +7,7 @@ conf.py:
   copyright: 2016
   project: Realty Manager
   version: 0.6
-  release: 0.6.4
+  release: 0.6.5
   latex_documents:
   - - Index
     - realty.tex
