@@ -24,6 +24,7 @@ return [
         ],
         'iconfile' => 'EXT:realty/icons/icon_tx_realty_objects.gif',
         'requestUpdate' => 'city,has_coordinates',
+        'searchFields' => 'uid,title,object_number,zip,openimmo_anid,openimmo_obid',
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,' .

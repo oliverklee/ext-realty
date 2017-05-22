@@ -14,6 +14,7 @@ return [
         'default_sortby' => 'ORDER BY title',
         'delete' => 'deleted',
         'iconfile' => 'EXT:realty/icons/icon_tx_realty_house_types.gif',
+        'searchFields' => 'uid,title',
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid,l18n_parent,l18n_diffsource,title',

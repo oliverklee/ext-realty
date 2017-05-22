@@ -1,6 +1,7 @@
 0.7.0 - currently working on
 
 Features:
+- [#5801] Configure the BE search fields
 - [#5800] Import and display more heating types
 - [#5794] For full import, delete non-imported objects
 - [#5796] Add RealtyObjectMapper::deleteByAnidWithExceptions
