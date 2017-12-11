@@ -23,5 +23,4 @@ Development Workflow
    :glob:
 
    ChangingOrCustomizingTheExtension/Index
-   GettingTheExtensionFromGit/Index
    DevelopmentWorkflowAndCodingStyleGuidelines/Index

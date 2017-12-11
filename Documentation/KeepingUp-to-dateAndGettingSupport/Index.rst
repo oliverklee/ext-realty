@@ -27,5 +27,4 @@ you question and benefit from the answers as well.
    :glob:
 
    PaidServicesOfferedByTheAuthor/Index
-   FreePublicSupport/Index
    FoundABug/Index
