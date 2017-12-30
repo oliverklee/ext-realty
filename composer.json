@@ -1,7 +1,7 @@
 {
     "name": "oliverklee/realty",
-    "type": "typo3-cms-extension",
     "description": "This extension provides a plugin that displays realty objects (immovables, properties, real estate), including an image gallery for each object.",
+    "type": "typo3-cms-extension",
     "keywords": [
         "realty",
         "renting",
@@ -12,6 +12,7 @@
         "properties"
     ],
     "homepage": "https://www.oliverklee.de/typo3-services/typo3-extensions/realty-manager.html",
+    "license": "GPL-3.0+",
     "authors": [
         {
             "name": "Oliver Klee",
@@ -23,11 +24,6 @@
         "issues": "https://github.com/oliverklee/ext-realty/issues",
         "source": "https://github.com/oliverklee/ext-realty"
     },
-    "license": "GPL-3.0+",
-    "replace": {
-        "realty": "self.version",
-        "typo3-ter/realty": "self.version"
-    },
     "require": {
         "php": ">=5.5.0,<8.0",
         "typo3/cms-core": ">=6.2.0,<8.0",
@@ -37,6 +33,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8.0"
+    },
+    "replace": {
+        "realty": "self.version",
+        "typo3-ter/realty": "self.version"
     },
     "autoload": {
         "classmap": [
