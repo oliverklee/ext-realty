@@ -1,39 +1,57 @@
 {
-  "name": "oliverklee/realty",
-  "type": "typo3-cms-extension",
-  "description": "This extension provides a plugin that displays realty objects (immovables, properties, real estate), including an image gallery for each object.",
-  "keywords": ["realty", "renting", "housing", "real estate", "immovables", "property", "properties"],
-  "homepage": "https://www.oliverklee.de",
-  "authors": [
-    {
-      "name": "Oliver Klee",
-      "role": "Developer",
-      "homepage": "https://www.oliverklee.de"
+    "name": "oliverklee/realty",
+    "type": "typo3-cms-extension",
+    "description": "This extension provides a plugin that displays realty objects (immovables, properties, real estate), including an image gallery for each object.",
+    "keywords": [
+        "realty",
+        "renting",
+        "housing",
+        "real estate",
+        "immovables",
+        "property",
+        "properties"
+    ],
+    "homepage": "https://www.oliverklee.de",
+    "authors": [
+        {
+            "name": "Oliver Klee",
+            "role": "Developer",
+            "homepage": "https://www.oliverklee.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/oliverklee/ext-realty/issues",
+        "source": "https://github.com/oliverklee/ext-realty"
+    },
+    "license": "GPL-3.0+",
+    "replace": {
+        "realty": "self.version",
+        "typo3-ter/realty": "self.version"
+    },
+    "require": {
+        "php": ">=5.5.0,<8.0",
+        "typo3/cms-core": ">=6.2.0,<8.0",
+        "oelib": ">=0.9.52",
+        "sjbr/static-info-tables": ">=6.2.0",
+        "ameos_formidable": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8.0"
+    },
+    "autoload": {
+        "classmap": [
+            "Ajax",
+            "BackEnd",
+            "cli",
+            "lib",
+            "Mapper",
+            "Model",
+            "pi1"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests"
+        ]
     }
-  ],
-  "support": {
-    "issues": "https://github.com/oliverklee/ext-realty/issues",
-    "source": "https://github.com/oliverklee/ext-realty"
-  },
-  "license": "GPL-3.0+",
-  "replace": {
-    "realty": "self.version",
-    "typo3-ter/realty": "self.version"
-  },
-  "require": {
-    "php": ">=5.5.0,<8.0",
-    "typo3/cms-core": ">=6.2.0,<8.0",
-    "oelib": ">=0.9.52",
-    "sjbr/static-info-tables": ">=6.2.0",
-    "ameos_formidable": "*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "~4.8.0"
-  },
-  "autoload": {
-    "classmap": ["Ajax", "BackEnd", "cli", "lib", "Mapper", "Model", "pi1"]
-  },
-  "autoload-dev": {
-    "classmap": ["tests"]
-  }
 }
