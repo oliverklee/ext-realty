@@ -72,8 +72,6 @@ Key features
 
 - works with TYPO3 CMS 6.2.0 and up
 
-- works with PHP 5.5 and up
-
 - works with MySQL 5.0 and up
 
 - contains unit tests which can be used with the  *phpunit* extension

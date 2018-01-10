@@ -16,8 +16,6 @@
 Upgrading from version 0.6.x to 1.0.x
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#. Make sure that you are using at least TYPO3 CMS 6.2.0 and at least PHP 5.5.
-
 #. Install the latest version of the  *oelib* and  *static\_info\_tables*
    extensions.
 
