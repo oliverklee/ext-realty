@@ -6,8 +6,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/oliverklee/realty/v/unstable.svg)](https://packagist.org/packages/oliverklee/realty)
 [![License](https://poser.pugx.org/oliverklee/realty/license.svg)](https://packagist.org/packages/oliverklee/realty)
 
-This extension provides a plugin that displays realty objects (immovables,
-properties, real estate), including an image gallery for each object.
+TYPO3 extension that provides a plugin that displays realty objects
+(properties, real estate), including an image gallery for each object.
 
 For compatibility with TYPO3 CMS 7.6 and 8.7, there is a
 [crowdfunding campaign](https://docs.google.com/spreadsheets/d/1BfSmradrQMrcbnABqCpo0gGbgNpfNtGzy94Lpvd8Grk/pubhtml).
