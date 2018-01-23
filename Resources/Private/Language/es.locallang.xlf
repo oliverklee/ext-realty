@@ -1,0 +1,1596 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="es" datatype="plaintext" original="messages" date="2018-01-23T11:09:47Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="pi1_title" xml:space="preserve" approved="yes">
+				<source>Realty Manager</source>
+				<target>Manager Inmobiliário</target>
+			</trans-unit>
+			<trans-unit id="pi1_description" xml:space="preserve" approved="yes">
+				<source>Displays realty objects in the FE</source>
+				<target>Listado de immobiliarias en el FE</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.templateFile" xml:space="preserve" approved="yes">
+				<source>HTML template:</source>
+				<target>HTML TEmplate</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_general" xml:space="preserve" approved="yes">
+				<source>General</source>
+				<target>General</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.what_to_display" xml:space="preserve" approved="yes">
+				<source>What should be displayed:</source>
+				<target>Cuáles deberían ser mostradas</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.realty_list" xml:space="preserve" approved="yes">
+				<source>Realty List</source>
+				<target>Listado Inmobiliário</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.favorites" xml:space="preserve" approved="yes">
+				<source>Favorites</source>
+				<target>Favoritos</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.single_view" xml:space="preserve" approved="yes">
+				<source>Single view</source>
+				<target>Vista única</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.filter_form" xml:space="preserve" approved="yes">
+				<source>Search form</source>
+				<target>Formulario de busqueda</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.contact_form" xml:space="preserve" approved="yes">
+				<source>Contact form</source>
+				<target>Formulario de Coctacto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.my_objects" xml:space="preserve" approved="yes">
+				<source>My objects</source>
+				<target>mis objetos</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.offerer_list" xml:space="preserve" approved="yes">
+				<source>Offerer list</source>
+				<target>Listado de proveedores</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.objects_by_owner" xml:space="preserve" approved="yes">
+				<source>Objects by offerer</source>
+				<target>Objetos de un proveedor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.fe_editor" xml:space="preserve" approved="yes">
+				<source>FE editor</source>
+				<target>FE Editor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.image_upload" xml:space="preserve" approved="yes">
+				<source>Image upload</source>
+				<target>Cargar imagen</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.staticSqlFilter" xml:space="preserve" approved="yes">
+				<source>Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</source>
+				<target>Consulta SQL</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_contactForm" xml:space="preserve" approved="yes">
+				<source>Contact form</source>
+				<target>Formulario de contacto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.defaultContactEmail" xml:space="preserve" approved="yes">
+				<source>E-mail address for contact requests if the realty object's contact data cannot be used:</source>
+				<target>Dirección correo electrónico, en el caso no existiese en el contacto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.blindCarbonCopyAddress" xml:space="preserve" approved="yes">
+				<source>E-mail address for a blind carbon copy of each request:</source>
+				<target>Dirección de correo electrónico para envio de copia oculta por cada petición</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.requiredContactFormFields" xml:space="preserve" approved="yes">
+				<source>Required form fields:</source>
+				<target>Campo obligatorio</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.visibleContactFormFields" xml:space="preserve" approved="yes">
+				<source>Form fields to show:</source>
+				<target>Campos a mostrar</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.request" xml:space="preserve" approved="yes">
+				<source>message text</source>
+				<target>Mensaje de Texto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.viewing" xml:space="preserve" approved="yes">
+				<source>checkbox about a viewing</source>
+				<target>Checkbox- Concertar visita</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.information" xml:space="preserve" approved="yes">
+				<source>checkbox about object information</source>
+				<target>Checkbox -Información del objeto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.callback" xml:space="preserve" approved="yes">
+				<source>checkbox about object a callback</source>
+				<target>Checkbox - Devolución de llamada</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.terms" xml:space="preserve" approved="yes">
+				<source>checkbox for the terms</source>
+				<target>Checkbox - Condiciones Generales</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.law" xml:space="preserve" approved="yes">
+				<source>note concerning the law against unfair competition</source>
+				<target>Nota concerniente ley competencia desleal</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.termsPID" xml:space="preserve" approved="yes">
+				<source>Page with the terms:</source>
+				<target>Página con las condiciones generales</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.showContactPageLink" xml:space="preserve" approved="yes">
+				<source>Show link to the contact form in the favorites view:</source>
+				<target>Mostrar Link al formulacio de contacto en el bloc de notas</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.checkboxesFilter" xml:space="preserve" approved="yes">
+				<source>DB field to create the search filter checkboxes from:</source>
+				<target>Campo de la base de datos para mostrar opciones de búsqueda</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.orderBy" xml:space="preserve" approved="yes">
+				<source>Initially, sort list view by:</source>
+				<target>Mostrar listado segun criterios:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sortCriteria" xml:space="preserve" approved="yes">
+				<source>DB fields by which a FE user can sort the list view:</source>
+				<target>Campos de la Base da datos con los que el usuario podrá ordenar los resultados</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.random" xml:space="preserve" approved="yes">
+				<source>random</source>
+				<target>al azar</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.fromTsSetup" xml:space="preserve" approved="yes">
+				<source>(from TS setup)</source>
+				<target>(del TS- Setup)</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.hide" xml:space="preserve" approved="yes">
+				<source>hide</source>
+				<target>esconder</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.show" xml:space="preserve" approved="yes">
+				<source>show</source>
+				<target>mostrar</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.singlePID" xml:space="preserve" approved="yes">
+				<source>Page for the single view:</source>
+				<target>Página para mostrar la ficha técnica</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.favoritesPID" xml:space="preserve" approved="yes">
+				<source>Page with the favorites list:</source>
+				<target>Página para favoritos</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.editorPID" xml:space="preserve" approved="yes">
+				<source>Page with the FE editor:</source>
+				<target>Página con el FE-Editor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.imageUploadPID" xml:space="preserve" approved="yes">
+				<source>Page with the FE image upload:</source>
+				<target>Página para subir las Imagenes del FE</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.objectsByOwnerPID" xml:space="preserve" approved="yes">
+				<source>Page with list of objects by one owner:</source>
+				<target>Página con los objetos de un proveedor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.userGroupsForOffererList" xml:space="preserve" approved="yes">
+				<source>FE user groups for the offerer list:</source>
+				<target>Grupo de Usuarios del FE para la lista del proveedor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sysFolderForFeCreatedRecords" xml:space="preserve" approved="yes">
+				<source>System folder for FE-created records:</source>
+				<target>Carpeta de sistema para los objetos creados</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.feEditorRedirectPid" xml:space="preserve" approved="yes">
+				<source>FE page displayed after saving a FE-created record:</source>
+				<target>Página FE después de crear un objeto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.feEditorNotifyEmail" xml:space="preserve" approved="yes">
+				<source>E-mail address that receives a message when a new record has been FE-created:</source>
+				<target>Correo electronico que recibira un mensaje cada vez que se cree un nuevo objeto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_feeditor" xml:space="preserve" approved="yes">
+				<source>FE Editor</source>
+				<target>FE Editor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_googlemaps" xml:space="preserve" approved="yes">
+				<source>Google Maps</source>
+				<target>Mapas Google</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.showGoogleMaps" xml:space="preserve" approved="yes">
+				<source>Show Google Maps in list view:</source>
+				<target>Mostrar Mapas de Google en el listado</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.defaultCountry" xml:space="preserve" approved="yes">
+				<source>Default country of objects:</source>
+				<target>Pais Standart de los objetos</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_searchForm" xml:space="preserve" approved="yes">
+				<source>Search form</source>
+				<target>Formulario de busqueda</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayedSearchWidgetFields" xml:space="preserve" approved="yes">
+				<source>Search fields to show:</source>
+				<target>Campos del formulario de busqueda</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displaySite" xml:space="preserve" approved="yes">
+				<source>city and ZIP</source>
+				<target>Ciudad y Codigo postal</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayCity" xml:space="preserve" approved="yes">
+				<source>city drop-down</source>
+				<target>Ciudad Drop-Down</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayDistrict" xml:space="preserve" approved="yes">
+				<source>district drop-down</source>
+				<target>Distrito Drop-Down</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayHouseType" xml:space="preserve" approved="yes">
+				<source>house type drop-down</source>
+				<target>Tipo de casa Drop-Down</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayRent" xml:space="preserve" approved="yes">
+				<source>price input fields</source>
+				<target>Campo del precio</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayPriceRange" xml:space="preserve" approved="yes">
+				<source>rent/buying price drop-down</source>
+				<target>Alquiler - Compra Drop-Down</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayObjectNumber" xml:space="preserve" approved="yes">
+				<source>object number</source>
+				<target>Nro. del Objeto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayUid" xml:space="preserve" approved="yes">
+				<source>Immo ID</source>
+				<target>Immo ID</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayObjectType" xml:space="preserve" approved="yes">
+				<source>Radiobuttons rent/sale</source>
+				<target>Campo Radio Compra/Alquiler</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayNumberOfRooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Nro. de habitaciones</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayLivingArea" xml:space="preserve" approved="yes">
+				<source>Living area</source>
+				<target>Salon</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.filterTargetPID" xml:space="preserve" approved="yes">
+				<source>Target page for the search widget:</source>
+				<target>Página de destino para el selector de ciudades</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.priceRangesForFilterForm" xml:space="preserve" approved="yes">
+				<source>Price ranges for the price selector:</source>
+				<target>Preis entre y para el Menu Drop-Down</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.objectNumber" xml:space="preserve" approved="yes">
+				<source>Object number</source>
+				<target>Nro Objeto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.uid" xml:space="preserve" approved="yes">
+				<source>Immo ID</source>
+				<target>Immo ID</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_offererInformation" xml:space="preserve" approved="yes">
+				<source>Offerer information</source>
+				<target>Information proveedor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayedContactInformation" xml:space="preserve" approved="yes">
+				<source>Contact data to show for all FE user groups:</source>
+				<target>Campos de contacto, para todos los usuarios del grupo</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.groupsWithSpeciallyDisplayedContactInformation" xml:space="preserve" approved="yes">
+				<source>FE user groups with different contact data:</source>
+				<target>Grupo de usuarios del FE con otros datos de contacto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.displayedContactInformationSpecial" xml:space="preserve" approved="yes">
+				<source>Contact data to show for these FE user groups:</source>
+				<target>Campos de contacto a mostar para estos usuarios</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.firstUserGroup" xml:space="preserve" approved="yes">
+				<source>first user group</source>
+				<target>Primer grupo de usuarios</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.company" xml:space="preserve" approved="yes">
+				<source>company</source>
+				<target>compañia</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.offererLabel" xml:space="preserve" approved="yes">
+				<source>name</source>
+				<target>Apellidos</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.street" xml:space="preserve" approved="yes">
+				<source>street</source>
+				<target>calle</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.city" xml:space="preserve" approved="yes">
+				<source>city</source>
+				<target>ciudad</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.zip_and_city" xml:space="preserve" approved="yes">
+				<source>ZIP and city</source>
+				<target>ciudad y codigo postal</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.telephone" xml:space="preserve" approved="yes">
+				<source>telephone</source>
+				<target>telefono</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.email" xml:space="preserve" approved="yes">
+				<source>e-mail address</source>
+				<target>dirección de correo</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.homepage" xml:space="preserve" approved="yes">
+				<source>homepage</source>
+				<target>Página de inicio</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.image" xml:space="preserve" approved="yes">
+				<source>image</source>
+				<target>imagen</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.objectsByOwnerLink" xml:space="preserve" approved="yes">
+				<source>link to page with list of objects by one owner</source>
+				<target>Link a la página con los objetos del proveedor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_advertisements" xml:space="preserve" approved="yes">
+				<source>Advertisements</source>
+				<target>Anuncios publicitarios</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.advertisementPID" xml:space="preserve" approved="yes">
+				<source>Page with the advertisement form:</source>
+				<target>Página con el formulario para los anuncios</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.advertisementParameterForObjectUid" xml:space="preserve" approved="yes">
+				<source>GET parameter for the object UID:</source>
+				<target>Parametros GET para el UID del objeto:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.advertisementExpirationInDays" xml:space="preserve" approved="yes">
+				<source>Expiration period of advertisements (in days):</source>
+				<target>Duración del anuncio (en dias):</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.singleViewPartsToDisplay" xml:space="preserve" approved="yes">
+				<source>Single view parts to display:</source>
+				<target>Vista parcial del objeto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.nextPreviousButtons" xml:space="preserve" approved="yes">
+				<source>next/previous buttons</source>
+				<target>Button átras/próximo</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.heading" xml:space="preserve" approved="yes">
+				<source>heading</source>
+				<target>Cabecera</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.address" xml:space="preserve" approved="yes">
+				<source>address</source>
+				<target>Dirección</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.description" xml:space="preserve" approved="yes">
+				<source>description</source>
+				<target>Descripcion</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.documents" xml:space="preserve" approved="yes">
+				<source>documents</source>
+				<target>Documento</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.price" xml:space="preserve" approved="yes">
+				<source>rent/buying price</source>
+				<target>Precio Alquiler/Compra</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.overviewTable" xml:space="preserve" approved="yes">
+				<source>overview table</source>
+				<target>Tabla principal</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.contactButton" xml:space="preserve" approved="yes">
+				<source>button &quot;contact&quot;</source>
+				<target>button &quot; Contactar&quot;</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.addToFavoritesButton" xml:space="preserve" approved="yes">
+				<source>button &quot;add to favorites&quot;</source>
+				<target>button &quot;Añadir a favoritos&quot;</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.printPageButton" xml:space="preserve" approved="yes">
+				<source>button &quot;print&quot;</source>
+				<target>button &quot;Imprimir&quot;</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.backButton" xml:space="preserve" approved="yes">
+				<source>buttons &quot;back&quot;</source>
+				<target>button &quot; Atras&quot;</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.furtherDescription" xml:space="preserve" approved="yes">
+				<source>fields &quot;equipment&quot;, &quot;location&quot; and &quot;misc&quot;</source>
+				<target>Campos &quot;Equipamiento&quot;, &quot;Situación&quot; y &quot;Otros&quot;</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.imageThumbnails" xml:space="preserve" approved="yes">
+				<source>images</source>
+				<target>imagen</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.offerer" xml:space="preserve" approved="yes">
+				<source>offerer information</source>
+				<target>Informacion del proveedor</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.status" xml:space="preserve" approved="yes">
+				<source>object status</source>
+				<target>Status del objeto</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.googleMaps" xml:space="preserve" approved="yes">
+				<source>Google Maps</source>
+				<target>Mapas Google</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_template_and_special" xml:space="preserve" approved="yes">
+				<source>Templates</source>
+				<target>Templates</target>
+			</trans-unit>
+			<trans-unit id="decimal_mark" xml:space="preserve" approved="yes">
+				<source>.</source>
+				<target>,</target>
+			</trans-unit>
+			<trans-unit id="thousands_separator" xml:space="preserve" approved="yes">
+				<source></source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="label_title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Título</target>
+			</trans-unit>
+			<trans-unit id="label_city" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Ciudad</target>
+			</trans-unit>
+			<trans-unit id="label_district" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Provincia</target>
+			</trans-unit>
+			<trans-unit id="label_country" xml:space="preserve" approved="yes">
+				<source>Country</source>
+				<target>Pais</target>
+			</trans-unit>
+			<trans-unit id="label_tstamp" xml:space="preserve" approved="yes">
+				<source>Date of last change</source>
+				<target>Fecha del último cambio</target>
+			</trans-unit>
+			<trans-unit id="label_extra_charges" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Cargas extras</target>
+			</trans-unit>
+			<trans-unit id="label_extra_charges_short" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Cargas extras</target>
+			</trans-unit>
+			<trans-unit id="label_rent_excluding_bills" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Alquiler sin gastos adicionales</target>
+			</trans-unit>
+			<trans-unit id="label_rent_excluding_bills_short" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Alquiler sin gastos adicionales</target>
+			</trans-unit>
+			<trans-unit id="label_rent_per_square_meter" xml:space="preserve" approved="yes">
+				<source>Rent/m²</source>
+				<target>Alquiler pro m</target>
+			</trans-unit>
+			<trans-unit id="label_number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Número de habitaciones</target>
+			</trans-unit>
+			<trans-unit id="label_number_of_rooms_short" xml:space="preserve" approved="yes">
+				<source>rooms</source>
+				<target>habitaciones</target>
+			</trans-unit>
+			<trans-unit id="label_balcony" xml:space="preserve" approved="yes">
+				<source>Balcony/patio</source>
+				<target>Balcón/Terraza</target>
+			</trans-unit>
+			<trans-unit id="label_balcony_short" xml:space="preserve" approved="yes">
+				<source>balcony/patio</source>
+				<target>balcon/terraza</target>
+			</trans-unit>
+			<trans-unit id="label_garden" xml:space="preserve" approved="yes">
+				<source>garden</source>
+				<target>Jardín / Jardín comunitario</target>
+			</trans-unit>
+			<trans-unit id="label_garden_short" xml:space="preserve" approved="yes">
+				<source>Garden (usage)</source>
+				<target>jardín</target>
+			</trans-unit>
+			<trans-unit id="label_elevator" xml:space="preserve" approved="yes">
+				<source>Elevator</source>
+				<target>Ascensor</target>
+			</trans-unit>
+			<trans-unit id="label_elevator_short" xml:space="preserve" approved="yes">
+				<source>elevator</source>
+				<target>ascensor</target>
+			</trans-unit>
+			<trans-unit id="label_has_air_conditioning" xml:space="preserve" approved="yes">
+				<source>Air conditioning</source>
+				<target>Aire Acondicionado</target>
+			</trans-unit>
+			<trans-unit id="label_has_air_conditioning_short" xml:space="preserve" approved="yes">
+				<source>air conditioning</source>
+				<target>aire acondicionado</target>
+			</trans-unit>
+			<trans-unit id="label_has_pool" xml:space="preserve" approved="yes">
+				<source>Pool</source>
+				<target>Piscina</target>
+			</trans-unit>
+			<trans-unit id="label_has_pool_short" xml:space="preserve" approved="yes">
+				<source>pool</source>
+				<target>Piscina</target>
+			</trans-unit>
+			<trans-unit id="label_has_community_pool" xml:space="preserve" approved="yes">
+				<source>Community pool</source>
+				<target>Piscina comunitaria</target>
+			</trans-unit>
+			<trans-unit id="label_has_community_pool_short" xml:space="preserve" approved="yes">
+				<source>community pool</source>
+				<target>Piscina comunitaria</target>
+			</trans-unit>
+			<trans-unit id="label_distance_to_the_sea" xml:space="preserve" approved="yes">
+				<source>Distance to the sea</source>
+				<target>Distancia al mar</target>
+			</trans-unit>
+			<trans-unit id="label_sea_view" xml:space="preserve" approved="yes">
+				<source>Sea view</source>
+				<target>Vista al mar</target>
+			</trans-unit>
+			<trans-unit id="label_barrier_free" xml:space="preserve" approved="yes">
+				<source>Accessible</source>
+				<target>Acceso discapacitados</target>
+			</trans-unit>
+			<trans-unit id="label_barrier_free_short" xml:space="preserve" approved="yes">
+				<source>accessible</source>
+				<target>acceso discapacitados</target>
+			</trans-unit>
+			<trans-unit id="label_assisted_living" xml:space="preserve" approved="yes">
+				<source>Assisted living</source>
+				<target>Portero automático</target>
+			</trans-unit>
+			<trans-unit id="label_assisted_living_short" xml:space="preserve" approved="yes">
+				<source>assisted living</source>
+				<target>portero automático</target>
+			</trans-unit>
+			<trans-unit id="label_fitted_kitchen" xml:space="preserve" approved="yes">
+				<source>Fitted kitchen</source>
+				<target>Cocina equipada</target>
+			</trans-unit>
+			<trans-unit id="label_fitted_kitchen_short" xml:space="preserve" approved="yes">
+				<source>fitted kitchen</source>
+				<target>cocina equipada</target>
+			</trans-unit>
+			<trans-unit id="label_flooring" xml:space="preserve" approved="yes">
+				<source>Flooring</source>
+				<target>Tipo de suelo</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_1" xml:space="preserve" approved="yes">
+				<source>tiled</source>
+				<target>Ceramica</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_2" xml:space="preserve" approved="yes">
+				<source>stone</source>
+				<target>Piedra</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_3" xml:space="preserve" approved="yes">
+				<source>carpet</source>
+				<target>tapiz</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_4" xml:space="preserve" approved="yes">
+				<source>parquet</source>
+				<target>parquet</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_5" xml:space="preserve" approved="yes">
+				<source>prefinished floor</source>
+				<target>parquet</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_6" xml:space="preserve" approved="yes">
+				<source>laminate</source>
+				<target>laminado</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_7" xml:space="preserve" approved="yes">
+				<source>timber piling</source>
+				<target>tarima</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_8" xml:space="preserve" approved="yes">
+				<source>PVC</source>
+				<target>PVC</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_9" xml:space="preserve" approved="yes">
+				<source>screed</source>
+				<target>Buhardilla</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_10" xml:space="preserve" approved="yes">
+				<source>double floor</source>
+				<target>Doble suelo</target>
+			</trans-unit>
+			<trans-unit id="label_flooring_11" xml:space="preserve" approved="yes">
+				<source>linoleum</source>
+				<target>linoleo</target>
+			</trans-unit>
+			<trans-unit id="label_construction_year" xml:space="preserve" approved="yes">
+				<source>Year of construction</source>
+				<target>Año de construcción</target>
+			</trans-unit>
+			<trans-unit id="label_construction_year_short" xml:space="preserve" approved="yes">
+				<source>year of construction</source>
+				<target>año de construcción</target>
+			</trans-unit>
+			<trans-unit id="label_old_or_new_building_1" xml:space="preserve" approved="yes">
+				<source>new building</source>
+				<target>Nueva construcción</target>
+			</trans-unit>
+			<trans-unit id="label_old_or_new_building_2" xml:space="preserve" approved="yes">
+				<source>old building</source>
+				<target>Casa de antigua construcción</target>
+			</trans-unit>
+			<trans-unit id="label_usable_from" xml:space="preserve" approved="yes">
+				<source>Can be used starting at</source>
+				<target>Habitable a partir de</target>
+			</trans-unit>
+			<trans-unit id="label_usable_from_short" xml:space="preserve" approved="yes">
+				<source>can be used starting at</source>
+				<target>habitable a partir de</target>
+			</trans-unit>
+			<trans-unit id="label_object_number" xml:space="preserve" approved="yes">
+				<source>Object #</source>
+				<target>Ref.:</target>
+			</trans-unit>
+			<trans-unit id="label_address" xml:space="preserve" approved="yes">
+				<source>Address</source>
+				<target>Dirección</target>
+			</trans-unit>
+			<trans-unit id="label_description" xml:space="preserve" approved="yes">
+				<source>Description</source>
+				<target>Descripción</target>
+			</trans-unit>
+			<trans-unit id="label_offerer" xml:space="preserve" approved="yes">
+				<source>Offerer</source>
+				<target>Proveedor</target>
+			</trans-unit>
+			<trans-unit id="label_phone" xml:space="preserve" approved="yes">
+				<source>Phone:</source>
+				<target>Teléfono</target>
+			</trans-unit>
+			<trans-unit id="label_equipment" xml:space="preserve" approved="yes">
+				<source>Equipment</source>
+				<target>Equipamiento</target>
+			</trans-unit>
+			<trans-unit id="label_overview" xml:space="preserve" approved="yes">
+				<source>Overview</source>
+				<target>Descripción general</target>
+			</trans-unit>
+			<trans-unit id="label_location" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Ubicación</target>
+			</trans-unit>
+			<trans-unit id="label_misc" xml:space="preserve" approved="yes">
+				<source>Miscellaneous</source>
+				<target>Miscelánea</target>
+			</trans-unit>
+			<trans-unit id="label_layout" xml:space="preserve" approved="yes">
+				<source>Layout</source>
+				<target>Plantilla</target>
+			</trans-unit>
+			<trans-unit id="label_living_area" xml:space="preserve" approved="yes">
+				<source>Living area</source>
+				<target>Área del comedor</target>
+			</trans-unit>
+			<trans-unit id="label_total_area" xml:space="preserve" approved="yes">
+				<source>Total area</source>
+				<target>Área total</target>
+			</trans-unit>
+			<trans-unit id="label_shop_area" xml:space="preserve" approved="yes">
+				<source>Shop area</source>
+				<target>Área del local ca.</target>
+			</trans-unit>
+			<trans-unit id="label_sales_area" xml:space="preserve" approved="yes">
+				<source>Sales area</source>
+				<target>Área de ventas ca.</target>
+			</trans-unit>
+			<trans-unit id="label_total_usable_area" xml:space="preserve" approved="yes">
+				<source>Total usable area</source>
+				<target>Área utilizable ca-</target>
+			</trans-unit>
+			<trans-unit id="label_storage_area" xml:space="preserve" approved="yes">
+				<source>Storage area</source>
+				<target>Almacen ca.</target>
+			</trans-unit>
+			<trans-unit id="label_office_space" xml:space="preserve" approved="yes">
+				<source>Office space</source>
+				<target>Área oficinas ca.</target>
+			</trans-unit>
+			<trans-unit id="label_other_area" xml:space="preserve" approved="yes">
+				<source>Other area</source>
+				<target>Otras áreas</target>
+			</trans-unit>
+			<trans-unit id="label_window_bank" xml:space="preserve" approved="yes">
+				<source>Window bank</source>
+				<target>Ventanal</target>
+			</trans-unit>
+			<trans-unit id="label_estate_size" xml:space="preserve" approved="yes">
+				<source>Estate size</source>
+				<target>Superficie del terreno ca.</target>
+			</trans-unit>
+			<trans-unit id="label_site_occupancy_index" xml:space="preserve" approved="yes">
+				<source>Site occupancy index</source>
+				<target>Indice de ocupación del sitio</target>
+			</trans-unit>
+			<trans-unit id="label_floor_space_index" xml:space="preserve" approved="yes">
+				<source>Floor-space index</source>
+				<target>Nro. de pisos</target>
+			</trans-unit>
+			<trans-unit id="label_heating_included" xml:space="preserve" approved="yes">
+				<source>Extra charges include heating</source>
+				<target>Calefacción incluida en gastos extras</target>
+			</trans-unit>
+			<trans-unit id="label_deposit" xml:space="preserve" approved="yes">
+				<source>Security deposit</source>
+				<target>Déposito de garantía</target>
+			</trans-unit>
+			<trans-unit id="label_provision" xml:space="preserve" approved="yes">
+				<source>Provision/broker's fee</source>
+				<target>Provisiones / Comisiones</target>
+			</trans-unit>
+			<trans-unit id="label_buying_price" xml:space="preserve" approved="yes">
+				<source>Price for buying</source>
+				<target>Precio de venta</target>
+			</trans-unit>
+			<trans-unit id="label_hoa_fee" xml:space="preserve" approved="yes">
+				<source>HOA fee</source>
+				<target>Comunidad</target>
+			</trans-unit>
+			<trans-unit id="label_year_rent" xml:space="preserve" approved="yes">
+				<source>Net rent per year</source>
+				<target>Renta neta anual</target>
+			</trans-unit>
+			<trans-unit id="label_rental_income_target" xml:space="preserve" approved="yes">
+				<source>Rental income (target)</source>
+				<target>Entradas por alquiler (Debe)</target>
+			</trans-unit>
+			<trans-unit id="label_status" xml:space="preserve" approved="yes">
+				<source>Status</source>
+				<target>Status</target>
+			</trans-unit>
+			<trans-unit id="label_status_0" xml:space="preserve" approved="yes">
+				<source>vacant</source>
+				<target>libre</target>
+			</trans-unit>
+			<trans-unit id="label_status_1" xml:space="preserve" approved="yes">
+				<source>reserved</source>
+				<target>reservado</target>
+			</trans-unit>
+			<trans-unit id="label_status_2" xml:space="preserve" approved="yes">
+				<source>sold</source>
+				<target>vendido</target>
+			</trans-unit>
+			<trans-unit id="label_status_3" xml:space="preserve" approved="yes">
+				<source>rented</source>
+				<target>alquilado</target>
+			</trans-unit>
+			<trans-unit id="label_apartment_type" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Tipo de apartamento</target>
+			</trans-unit>
+			<trans-unit id="label_house_type" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Tipo de casa</target>
+			</trans-unit>
+			<trans-unit id="label_floor" xml:space="preserve" approved="yes">
+				<source>Floor</source>
+				<target>Planta</target>
+			</trans-unit>
+			<trans-unit id="label_floors" xml:space="preserve" approved="yes">
+				<source>Number of floors</source>
+				<target>Número de plantas</target>
+			</trans-unit>
+			<trans-unit id="label_bedrooms" xml:space="preserve" approved="yes">
+				<source>Number of bedrooms</source>
+				<target>Número de habitaciones</target>
+			</trans-unit>
+			<trans-unit id="label_bathrooms" xml:space="preserve" approved="yes">
+				<source>Number of bathrooms</source>
+				<target>Número de baños</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type" xml:space="preserve" approved="yes">
+				<source>Type of heating</source>
+				<target>Tipo de calefacción</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_1" xml:space="preserve" approved="yes">
+				<source>district heating</source>
+				<target>Calefacción de distrito</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_2" xml:space="preserve" approved="yes">
+				<source>central heating</source>
+				<target>Calefacción central</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_3" xml:space="preserve" approved="yes">
+				<source>electric heating</source>
+				<target>Cafelacción eléctrica</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_4" xml:space="preserve" approved="yes">
+				<source>floor heating</source>
+				<target>Calefacción por suelo radiante</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_5" xml:space="preserve" approved="yes">
+				<source>gas heating</source>
+				<target>Caleffación a gas</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_6" xml:space="preserve" approved="yes">
+				<source>green fuel heating</source>
+				<target>Calefacción alternativa</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_7" xml:space="preserve" approved="yes">
+				<source>heat pump heating</source>
+				<target>Bomba de calor</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_8" xml:space="preserve" approved="yes">
+				<source>oil heating</source>
+				<target>Calefacción de aceite</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_9" xml:space="preserve" approved="yes">
+				<source>self-contained central heating</source>
+				<target>Calefacción por pisos</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_10" xml:space="preserve" approved="yes">
+				<source>solar heating</source>
+				<target>Caleffación solar</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_11" xml:space="preserve" approved="yes">
+				<source>heating by stove</source>
+				<target>Estufas</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type_12" xml:space="preserve" approved="yes">
+				<source>zone heating</source>
+				<target>Calefacción de zona</target>
+			</trans-unit>
+			<trans-unit id="label_garage_type" xml:space="preserve" approved="yes">
+				<source>Parking space type</source>
+				<target>Garage / Plaza(s) de parking</target>
+			</trans-unit>
+			<trans-unit id="label_parking_spaces" xml:space="preserve" approved="yes">
+				<source>Number of parking spaces</source>
+				<target>Nro de plazas de parking exteriores</target>
+			</trans-unit>
+			<trans-unit id="label_garage_rent" xml:space="preserve" approved="yes">
+				<source>Rent for garage/parking space</source>
+				<target>Precio de alquiler del garage/plaza(s) de parking</target>
+			</trans-unit>
+			<trans-unit id="label_garage_price" xml:space="preserve" approved="yes">
+				<source>Price for buying the garage/parking space</source>
+				<target>Precio de venta del garage/plaza(s) de parking</target>
+			</trans-unit>
+			<trans-unit id="label_pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Animales domésticos</target>
+			</trans-unit>
+			<trans-unit id="label_state" xml:space="preserve" approved="yes">
+				<source>Condition</source>
+				<target>Estado</target>
+			</trans-unit>
+			<trans-unit id="label_state_1" xml:space="preserve" approved="yes">
+				<source>bare brickwork</source>
+				<target>Obra bruta</target>
+			</trans-unit>
+			<trans-unit id="label_state_2" xml:space="preserve" approved="yes">
+				<source>by arrangement</source>
+				<target>a concordar</target>
+			</trans-unit>
+			<trans-unit id="label_state_3" xml:space="preserve" approved="yes">
+				<source>dilapidated</source>
+				<target>en mal estado</target>
+			</trans-unit>
+			<trans-unit id="label_state_4" xml:space="preserve" approved="yes">
+				<source>first occupancy</source>
+				<target>Primera ocupación</target>
+			</trans-unit>
+			<trans-unit id="label_state_5" xml:space="preserve" approved="yes">
+				<source>for demolition</source>
+				<target>para demoler</target>
+			</trans-unit>
+			<trans-unit id="label_state_6" xml:space="preserve" approved="yes">
+				<source>gutted</source>
+				<target>vaciada</target>
+			</trans-unit>
+			<trans-unit id="label_state_7" xml:space="preserve" approved="yes">
+				<source>modernized</source>
+				<target>modernizada</target>
+			</trans-unit>
+			<trans-unit id="label_state_8" xml:space="preserve" approved="yes">
+				<source>neat</source>
+				<target>necesita arreglos</target>
+			</trans-unit>
+			<trans-unit id="label_state_9" xml:space="preserve" approved="yes">
+				<source>in need of renovation</source>
+				<target>para total renovación</target>
+			</trans-unit>
+			<trans-unit id="label_state_10" xml:space="preserve" approved="yes">
+				<source>reconditioned</source>
+				<target>reacondicionada</target>
+			</trans-unit>
+			<trans-unit id="label_state_11" xml:space="preserve" approved="yes">
+				<source>renovated</source>
+				<target>renovada</target>
+			</trans-unit>
+			<trans-unit id="label_state_12" xml:space="preserve" approved="yes">
+				<source>sanitated</source>
+				<target>saneada</target>
+			</trans-unit>
+			<trans-unit id="label_state_13" xml:space="preserve" approved="yes">
+				<source>planned</source>
+				<target>proyectada</target>
+			</trans-unit>
+			<trans-unit id="label_state_14" xml:space="preserve" approved="yes">
+				<source>not renovated</source>
+				<target>parcialmente renovada</target>
+			</trans-unit>
+			<trans-unit id="label_state_15" xml:space="preserve" approved="yes">
+				<source>partly renovated</source>
+				<target>parcialmente saneada</target>
+			</trans-unit>
+			<trans-unit id="label_state_16" xml:space="preserve" approved="yes">
+				<source>currently being planned</source>
+				<target>saneamiento planeado</target>
+			</trans-unit>
+			<trans-unit id="label_state_17" xml:space="preserve" approved="yes">
+				<source>in need of renovation</source>
+				<target>necesita renovacion</target>
+			</trans-unit>
+			<trans-unit id="label_state_18" xml:space="preserve" approved="yes">
+				<source>fully rented</source>
+				<target>totalmente alquilada</target>
+			</trans-unit>
+			<trans-unit id="label_state_19" xml:space="preserve" approved="yes">
+				<source>vacant</source>
+				<target>esta vacia</target>
+			</trans-unit>
+			<trans-unit id="label_state_20" xml:space="preserve" approved="yes">
+				<source>partly rented</source>
+				<target>parcialmente alquilada</target>
+			</trans-unit>
+			<trans-unit id="label_state_21" xml:space="preserve" approved="yes">
+				<source>has building permit</source>
+				<target>con permisos de obra</target>
+			</trans-unit>
+			<trans-unit id="label_furnishing_category" xml:space="preserve" approved="yes">
+				<source>Furnishing category</source>
+				<target>Categoria del mobiliario</target>
+			</trans-unit>
+			<trans-unit id="label_furnishing_category_1" xml:space="preserve" approved="yes">
+				<source>standard</source>
+				<target>stadart</target>
+			</trans-unit>
+			<trans-unit id="label_furnishing_category_2" xml:space="preserve" approved="yes">
+				<source>upmarket</source>
+				<target>superior</target>
+			</trans-unit>
+			<trans-unit id="label_furnishing_category_3" xml:space="preserve" approved="yes">
+				<source>luxurious</source>
+				<target>lujoso</target>
+			</trans-unit>
+			<trans-unit id="label_weofferyou_formal" xml:space="preserve" approved="yes">
+				<source>We offer you the following objects:</source>
+				<target>Le ofrecemos los siguientes objetos:</target>
+			</trans-unit>
+			<trans-unit id="label_weofferyou_informal" xml:space="preserve" approved="yes">
+				<source>We offer you the following objects:</source>
+				<target>Te ofrecemos los siguientes objetos:</target>
+			</trans-unit>
+			<trans-unit id="label_yourfavorites_formal" xml:space="preserve" approved="yes">
+				<source>You have the following objects on your favorites list:</source>
+				<target>Los siguientes objetos se encuentran en su lista de favoritos.</target>
+			</trans-unit>
+			<trans-unit id="label_yourfavorites_informal" xml:space="preserve" approved="yes">
+				<source>You have the following objects on your favorites list:</source>
+				<target>Los siguientes objetos se encuentran en tu lista de favoritos.</target>
+			</trans-unit>
+			<trans-unit id="label_your_objects_formal" xml:space="preserve" approved="yes">
+				<source>Your objects:</source>
+				<target>Sus objetos:</target>
+			</trans-unit>
+			<trans-unit id="label_your_objects_informal" xml:space="preserve" approved="yes">
+				<source>Your objects:</source>
+				<target>Tus obejtos:</target>
+			</trans-unit>
+			<trans-unit id="label_objects_already_entered" xml:space="preserve" approved="yes">
+				<source>You have already entered %u of %u objects.</source>
+				<target>Ya ha metido %u del total %u de objetos</target>
+			</trans-unit>
+			<trans-unit id="label_no_objects_left" xml:space="preserve" approved="yes">
+				<source>You cannot enter any more objects.</source>
+				<target>Ya no puedo meter mas objetos</target>
+			</trans-unit>
+			<trans-unit id="label_one_object_left" xml:space="preserve" approved="yes">
+				<source>You can enter one more object.</source>
+				<target>Solo puede meter un solo objeto más</target>
+			</trans-unit>
+			<trans-unit id="label_multiple_objects_left" xml:space="preserve" approved="yes">
+				<source>You can enter %u more objects.</source>
+				<target>Solo puede meter %u objetos</target>
+			</trans-unit>
+			<trans-unit id="label_searchin" xml:space="preserve" approved="yes">
+				<source>Search in</source>
+				<target>Buscar en</target>
+			</trans-unit>
+			<trans-unit id="label_page" xml:space="preserve" approved="yes">
+				<source>Page</source>
+				<target>Página</target>
+			</trans-unit>
+			<trans-unit id="label_approx" xml:space="preserve" approved="yes">
+				<source>approx.</source>
+				<target>aprox.</target>
+			</trans-unit>
+			<trans-unit id="label_squareMeters" xml:space="preserve" approved="yes">
+				<source>m²</source>
+				<target>m²</target>
+			</trans-unit>
+			<trans-unit id="label_meter" xml:space="preserve" approved="yes">
+				<source>m</source>
+				<target>m</target>
+			</trans-unit>
+			<trans-unit id="label_back" xml:space="preserve" approved="yes">
+				<source>Back to the list</source>
+				<target>Volver al listado</target>
+			</trans-unit>
+			<trans-unit id="label_add_to_favorites" xml:space="preserve" approved="yes">
+				<source>Add to favorites</source>
+				<target>Añadir a mis favoritos</target>
+			</trans-unit>
+			<trans-unit id="label_remove_from_favorites" xml:space="preserve" approved="yes">
+				<source>Remove from favorites</source>
+				<target>Borrar de mis favoritos</target>
+			</trans-unit>
+			<trans-unit id="label_on_favorites_list" xml:space="preserve" approved="yes">
+				<source>Objects on the favorites list:</source>
+				<target>Objetos en mi lista de favoritos</target>
+			</trans-unit>
+			<trans-unit id="label_print_page" xml:space="preserve" approved="yes">
+				<source>Print page</source>
+				<target>Imprimir página</target>
+			</trans-unit>
+			<trans-unit id="label_filter_form" xml:space="preserve" approved="yes">
+				<source>Search criteria</source>
+				<target>Criterios de busqueda</target>
+			</trans-unit>
+			<trans-unit id="label_enter_zip_or_city" xml:space="preserve" approved="yes">
+				<source>City or ZIP code:</source>
+				<target>Ciudad o codigo postal:</target>
+			</trans-unit>
+			<trans-unit id="label_enter_object_number" xml:space="preserve" approved="yes">
+				<source>Object number:</source>
+				<target>Nro. del objeto:</target>
+			</trans-unit>
+			<trans-unit id="label_enter_uid" xml:space="preserve" approved="yes">
+				<source>Immo ID:</source>
+				<target>Immo-ID:</target>
+			</trans-unit>
+			<trans-unit id="label_select_city" xml:space="preserve" approved="yes">
+				<source>City:</source>
+				<target>Ciudad</target>
+			</trans-unit>
+			<trans-unit id="label_pleaseselectcity" xml:space="preserve" approved="yes">
+				<source>&amp;#8212; Please select city &amp;#8212;</source>
+				<target>&amp;#8212; Seleccionar ciudad &amp;#8212;</target>
+			</trans-unit>
+			<trans-unit id="label_select_district" xml:space="preserve" approved="yes">
+				<source>District:</source>
+				<target>Distrito</target>
+			</trans-unit>
+			<trans-unit id="label_pleaseselectdistrict" xml:space="preserve" approved="yes">
+				<source>&amp;#8212; Please select district &amp;#8212;</source>
+				<target>&amp;#8212; Por favor seleccione distrito &amp;#8212;</target>
+			</trans-unit>
+			<trans-unit id="label_select_house_type" xml:space="preserve" approved="yes">
+				<source>House type:</source>
+				<target>Tipo de casa:</target>
+			</trans-unit>
+			<trans-unit id="label_pleaseselecthousetype" xml:space="preserve" approved="yes">
+				<source>&amp;#8212; Please select house type &amp;#8212;</source>
+				<target>&amp;#8212; Por favor seleccione tipo de casa &amp;#8212;</target>
+			</trans-unit>
+			<trans-unit id="label_select_price_range" xml:space="preserve" approved="yes">
+				<source>Rent/buying price:</source>
+				<target>Alquiler/Precio compra:</target>
+			</trans-unit>
+			<trans-unit id="label_enter_rent" xml:space="preserve" approved="yes">
+				<source>Rent/buying price from:</source>
+				<target>Alquiler/precio compra desde:</target>
+			</trans-unit>
+			<trans-unit id="label_enter_living_area" xml:space="preserve" approved="yes">
+				<source>Living area from:</source>
+				<target>Sala de estar desde:</target>
+			</trans-unit>
+			<trans-unit id="label_select_object_type" xml:space="preserve" approved="yes">
+				<source>Only objects:</source>
+				<target>Solo objetos:</target>
+			</trans-unit>
+			<trans-unit id="label_select_rent" xml:space="preserve" approved="yes">
+				<source>for rent</source>
+				<target>para alquilar</target>
+			</trans-unit>
+			<trans-unit id="label_select_sale" xml:space="preserve" approved="yes">
+				<source>for sale</source>
+				<target>para vender</target>
+			</trans-unit>
+			<trans-unit id="label_enter_number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms:</source>
+				<target>Nro de habitaciones</target>
+			</trans-unit>
+			<trans-unit id="label_less_than" xml:space="preserve" approved="yes">
+				<source>less than</source>
+				<target>menos de</target>
+			</trans-unit>
+			<trans-unit id="label_greater_than" xml:space="preserve" approved="yes">
+				<source>greater than</source>
+				<target>más de</target>
+			</trans-unit>
+			<trans-unit id="label_to" xml:space="preserve" approved="yes">
+				<source>to</source>
+				<target>hasta</target>
+			</trans-unit>
+			<trans-unit id="label_next_image" xml:space="preserve" approved="yes">
+				<source>go to the next image</source>
+				<target>ir a la próxima imágen</target>
+			</trans-unit>
+			<trans-unit id="label_sorry" xml:space="preserve" approved="yes">
+				<source>Sorry!</source>
+				<target>Lo sentimos!</target>
+			</trans-unit>
+			<trans-unit id="label_ascending" xml:space="preserve" approved="yes">
+				<source>ascending</source>
+				<target>ascendente</target>
+			</trans-unit>
+			<trans-unit id="label_descending" xml:space="preserve" approved="yes">
+				<source>descending</source>
+				<target>descendente</target>
+			</trans-unit>
+			<trans-unit id="label_sort" xml:space="preserve" approved="yes">
+				<source>sort</source>
+				<target>mostrar</target>
+			</trans-unit>
+			<trans-unit id="label_search" xml:space="preserve" approved="yes">
+				<source>search</source>
+				<target>buscar</target>
+			</trans-unit>
+			<trans-unit id="label_sortby" xml:space="preserve" approved="yes">
+				<source>Display sorted by</source>
+				<target>Mostrar resultados por</target>
+			</trans-unit>
+			<trans-unit id="label_random" xml:space="preserve" approved="yes">
+				<source>random</source>
+				<target>al azar</target>
+			</trans-unit>
+			<trans-unit id="label_contact" xml:space="preserve" approved="yes">
+				<source>Contact us</source>
+				<target>Contacte con nosotros</target>
+			</trans-unit>
+			<trans-unit id="label_close_window" xml:space="preserve" approved="yes">
+				<source>Close window</source>
+				<target>Cerrar ventana</target>
+			</trans-unit>
+			<trans-unit id="label_objects" xml:space="preserve" approved="yes">
+				<source>objects</source>
+				<target>objetos</target>
+			</trans-unit>
+			<trans-unit id="label_previous_page" xml:space="preserve" approved="yes">
+				<source>previous object</source>
+				<target>objeto anterior</target>
+			</trans-unit>
+			<trans-unit id="label_next_page" xml:space="preserve" approved="yes">
+				<source>next object</source>
+				<target>próximo objeto</target>
+			</trans-unit>
+			<trans-unit id="message_yes" xml:space="preserve" approved="yes">
+				<source>yes</source>
+				<target>si</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_realty_list_formal" xml:space="preserve" approved="yes">
+				<source>No results were found with these search parameters. Please try refining your search.</source>
+				<target>No se han encontrado resultados con estos parámetros. Por favor redefina su búsqueda</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_realty_list_informal" xml:space="preserve" approved="yes">
+				<source>No results were found with these search parameters. Please try refining your search.</source>
+				<target>No se han encontrado resultados con estos parámetros. Por favor redefine tu búsqueda</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_favorites_formal" xml:space="preserve" approved="yes">
+				<source>Your favorites list currently is empty.</source>
+				<target>Su listado de favoritos se encuentra vacio.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_favorites_informal" xml:space="preserve" approved="yes">
+				<source>Your favorites list currently is empty.</source>
+				<target>Tu listado de favoritos se encuentra vacio.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_contact_form_formal" xml:space="preserve" approved="yes">
+				<source>The object you requested contact for does not exist.</source>
+				<target>El objeto a contactar deseado por Vd. ya no existe</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_contact_form_informal" xml:space="preserve" approved="yes">
+				<source>The object you requested contact for does not exist.</source>
+				<target>El objeto a contactar deseado por ti ya no exite</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_fe_editor_formal" xml:space="preserve" approved="yes">
+				<source>The object does not exist in the database. Please choose another object or enter a new one.</source>
+				<target>El objeto deseado ya no existen en la base de datos. Por favor elija otro objeto.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_fe_editor_informal" xml:space="preserve" approved="yes">
+				<source>The object does not exist in the database. Please choose another object or enter a new one.</source>
+				<target>El objeto deseado ya no existen en la base de datos. Por favor elije otro objeto.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_image_upload" xml:space="preserve" approved="yes">
+				<source>You can only upload images for a specified realty object. Click the image upload button in the &quot;my objects&quot; list.</source>
+				<target>Sólo puedes subir imágenes de un objeto especificado . Haga clic en el botón de carga de la imagen en la lista de mis objetos</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_single_view_formal" xml:space="preserve" approved="yes">
+				<source>This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</source>
+				<target>URL inválida. El objeto no está disponible. Contacte con el Webmaster</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_single_view_informal" xml:space="preserve" approved="yes">
+				<source>This URL is invalid. The object to be shown in the detail view is not available. Please contact the web master.</source>
+				<target>URL inválida. El objeto no está disponible. Contacta con el Webmaster</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_my_objects_formal" xml:space="preserve" approved="yes">
+				<source>You do not have any objects.</source>
+				<target>Vd. no tiene ningún objeto</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_my_objects_informal" xml:space="preserve" approved="yes">
+				<source>You do not have any objects.</source>
+				<target>Tu no tienes nigún objeto</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_offererList" xml:space="preserve" approved="yes">
+				<source>There are no offerers to display.</source>
+				<target>Por el momento no existen objetos</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_objects_by_owner" xml:space="preserve" approved="yes">
+				<source>This offerer currently does not have any objects.</source>
+				<target>Este proveedor no tiene objetos</target>
+			</trans-unit>
+			<trans-unit id="message_access_denied_formal" xml:space="preserve" approved="yes">
+				<source>You do not have access to the editing mode for this object. Only this object's owner may edit this record.</source>
+				<target>Usted no tiene permisos para modificar este objeto. Solo el propietario del mismo puede modificarlo.</target>
+			</trans-unit>
+			<trans-unit id="message_access_denied_informal" xml:space="preserve" approved="yes">
+				<source>You do not have access to the editing mode for this object. Only this object's owner may edit this record.</source>
+				<target>Tu no tienes permisos para modificar este objeto. Solo el propietario del mismo puede modificarlo.</target>
+			</trans-unit>
+			<trans-unit id="message_invalidImage_formal" xml:space="preserve" approved="yes">
+				<source>This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</source>
+				<target>La imágen no está disponible en nuestra base de datos. Por favor compruebe si la dirección que introdujo es correcta. Si ha seguido un enlace hasta esta página, o el enlace es incorrecto o caducado,</target>
+			</trans-unit>
+			<trans-unit id="message_invalidImage_informal" xml:space="preserve" approved="yes">
+				<source>This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</source>
+				<target>La imágen no está disponible en nuestra base de datos. Por favor comprueba si la dirección que introdujiste es correcta. Si has seguido un enlace hasta esta página, o el enlace es incorrecto o caducado,</target>
+			</trans-unit>
+			<trans-unit id="message_please_login_formal" xml:space="preserve" approved="yes">
+				<source>Please log in to view this page.</source>
+				<target>Por favor, identifíquese para ver esta página</target>
+			</trans-unit>
+			<trans-unit id="message_please_login_informal" xml:space="preserve" approved="yes">
+				<source>Please log in to view this page.</source>
+				<target>Por favor, identifícate para ver esta página</target>
+			</trans-unit>
+			<trans-unit id="message_no_objects_left" xml:space="preserve" approved="yes">
+				<source>You have reached the number of objects you are allowed to enter and cannot enter any more objects.</source>
+				<target>Vd ya no puede meter mas datos, ya que llego al máximo permitido.</target>
+			</trans-unit>
+			<trans-unit id="label_salutation" xml:space="preserve" approved="yes">
+				<source>Hello</source>
+				<target>Hola</target>
+			</trans-unit>
+			<trans-unit id="label_uid" xml:space="preserve" approved="yes">
+				<source>Database ID</source>
+				<target>ID Banco de Datos</target>
+			</trans-unit>
+			<trans-unit id="label_user_text" xml:space="preserve" approved="yes">
+				<source>wrote the following</source>
+				<target>escribio  la siguiente  petición</target>
+			</trans-unit>
+			<trans-unit id="label_user_contact_information" xml:space="preserve" approved="yes">
+				<source>Contact information</source>
+				<target>Datos de contacto</target>
+			</trans-unit>
+			<trans-unit id="label_email_subject_specialized" xml:space="preserve" approved="yes">
+				<source>Request concerning object #</source>
+				<target>Solicitud de información para el objeto</target>
+			</trans-unit>
+			<trans-unit id="label_email_subject_general" xml:space="preserve" approved="yes">
+				<source>Realty request</source>
+				<target>Peticion de immobiliarias</target>
+			</trans-unit>
+			<trans-unit id="label_contact_form_description_formal" xml:space="preserve" approved="yes">
+				<source>Here you can write a message to the offerer.</source>
+				<target>Aqui puede Vd. enviar un mensaje el proveedor</target>
+			</trans-unit>
+			<trans-unit id="label_contact_form_description_informal" xml:space="preserve" approved="yes">
+				<source>Here you can write a message to the offerer.</source>
+				<target>Aqui puedes enviar un mensjae al proveedor</target>
+			</trans-unit>
+			<trans-unit id="label_requested_object" xml:space="preserve" approved="yes">
+				<source>The requested object:</source>
+				<target>Tu objeto requerido:</target>
+			</trans-unit>
+			<trans-unit id="label_requester_data_is_uneditable_formal" xml:space="preserve" approved="yes">
+				<source>We are using the contact data from your account here.</source>
+				<target>Utilizamos los datos de su cuenta</target>
+			</trans-unit>
+			<trans-unit id="label_requester_data_is_uneditable_informal" xml:space="preserve" approved="yes">
+				<source>We are using the contact data from your account here.</source>
+				<target>Utilizamos los datos de tu cuenta</target>
+			</trans-unit>
+			<trans-unit id="label_your_name" xml:space="preserve" approved="yes">
+				<source>Name</source>
+				<target>Nombre</target>
+			</trans-unit>
+			<trans-unit id="label_street" xml:space="preserve" approved="yes">
+				<source>Street</source>
+				<target>Calle</target>
+			</trans-unit>
+			<trans-unit id="label_zip" xml:space="preserve" approved="yes">
+				<source>ZIP</source>
+				<target>Codigo Postal</target>
+			</trans-unit>
+			<trans-unit id="label_zip_and_city" xml:space="preserve" approved="yes">
+				<source>ZIP and city</source>
+				<target>Codigo Postal y Ciudad</target>
+			</trans-unit>
+			<trans-unit id="label_your_email" xml:space="preserve" approved="yes">
+				<source>E-mail address</source>
+				<target>Correo electrónico</target>
+			</trans-unit>
+			<trans-unit id="label_your_phone" xml:space="preserve" approved="yes">
+				<source>Phone number</source>
+				<target>Nro. de teléfono</target>
+			</trans-unit>
+			<trans-unit id="label_your_request" xml:space="preserve" approved="yes">
+				<source>Request</source>
+				<target>Petición</target>
+			</trans-unit>
+			<trans-unit id="label_viewing" xml:space="preserve" approved="yes">
+				<source>Please arrange a date for viewing the object with me.</source>
+				<target>Concertar una cita para ver el objeto conmigo</target>
+			</trans-unit>
+			<trans-unit id="label_information" xml:space="preserve" approved="yes">
+				<source>Please send me some information material.</source>
+				<target>Por favor envieme más informaciones del objeto</target>
+			</trans-unit>
+			<trans-unit id="label_callback" xml:space="preserve" approved="yes">
+				<source>Please call me back.</source>
+				<target>Por favor devuelvame la llamada</target>
+			</trans-unit>
+			<trans-unit id="label_terms" xml:space="preserve" approved="yes">
+				<source>I have read and agree to the %s terms %s.</source>
+				<target>He leido y acepto las %s terms %s</target>
+			</trans-unit>
+			<trans-unit id="label_law" xml:space="preserve" approved="yes">
+				<source>If you would like us to call you back, please give us explicit permission to do so.</source>
+				<target>Desde el 01 de agosto de 2009 son las llamadas sin consentimiento en virtud del artículo 7 párrafo 2 no. 2 de la ley contra la publicidad de Telefónica ilegal de competencia desleal (UWG). Le pedimos que nos otorga su consentimiento para las llamadas de teléfono, para que podamos informarle en el futuro personalmente en este punto.</target>
+			</trans-unit>
+			<trans-unit id="label_submit" xml:space="preserve" approved="yes">
+				<source>Send</source>
+				<target>Enviar</target>
+			</trans-unit>
+			<trans-unit id="label_save" xml:space="preserve" approved="yes">
+				<source>Save</source>
+				<target>Grabar</target>
+			</trans-unit>
+			<trans-unit id="label_cancel" xml:space="preserve" approved="yes">
+				<source>Cancel</source>
+				<target>Anular</target>
+			</trans-unit>
+			<trans-unit id="label_save_and_close" xml:space="preserve" approved="yes">
+				<source>Save and close</source>
+				<target>Grabar y cerrar</target>
+			</trans-unit>
+			<trans-unit id="label_no_contact_person" xml:space="preserve" approved="yes">
+				<source>The request cannot be sent because no contact person was entered for this object.</source>
+				<target>Esta petición no puede ser enviada por faltar la persona de contacto de este objeto.</target>
+			</trans-unit>
+			<trans-unit id="label_set_name_formal" xml:space="preserve" approved="yes">
+				<source>Please provide your name without special characters.</source>
+				<target>Por favor introduzca su nombre si caracteres especiales</target>
+			</trans-unit>
+			<trans-unit id="label_set_name_informal" xml:space="preserve" approved="yes">
+				<source>Please provide your name without special characters.</source>
+				<target>Por favor introduce tu nombre sin caracteres especiales</target>
+			</trans-unit>
+			<trans-unit id="label_set_valid_email_address_formal" xml:space="preserve" approved="yes">
+				<source>Please provide a valid e-mail address.</source>
+				<target>Por favor introduzca un dirección de correo electrónico válida</target>
+			</trans-unit>
+			<trans-unit id="label_set_valid_email_address_informal" xml:space="preserve" approved="yes">
+				<source>Please provide a valid e-mail address.</source>
+				<target>Por favor introduce una dirección de correo valida</target>
+			</trans-unit>
+			<trans-unit id="message_required_field_request" xml:space="preserve" approved="yes">
+				<source>Please enter a request.</source>
+				<target>En que podemos ayudarle:</target>
+			</trans-unit>
+			<trans-unit id="message_required_field_terms" xml:space="preserve" approved="yes">
+				<source>For processing your request, we need you to explicitly accept our terms and conditions. Please check the checkbox below.</source>
+				<target>Solo lo podemos ayudar si ha leeido y aceptado nuestras condiciones generales. Por favor cheque el respectivo cuadrito</target>
+			</trans-unit>
+			<trans-unit id="label_thank_you_formal" xml:space="preserve" approved="yes">
+				<source>Thank you for your request.</source>
+				<target>Gracias por su petición</target>
+			</trans-unit>
+			<trans-unit id="label_thank_you_informal" xml:space="preserve" approved="yes">
+				<source>Thank you for your request.</source>
+				<target>Gracias por tu petición</target>
+			</trans-unit>
+			<trans-unit id="label_message_sent_formal" xml:space="preserve" approved="yes">
+				<source>Your request was sent.</source>
+				<target>Su petición ha sido enviada</target>
+			</trans-unit>
+			<trans-unit id="label_message_sent_informal" xml:space="preserve" approved="yes">
+				<source>Your request was sent.</source>
+				<target>Tu petición ha sido enviada</target>
+			</trans-unit>
+			<trans-unit id="label_has_request" xml:space="preserve" approved="yes">
+				<source>has written the following request:</source>
+				<target>ha enviado la siguiente petición</target>
+			</trans-unit>
+			<trans-unit id="label_summary_string_of_favorites" xml:space="preserve" approved="yes">
+				<source>The following objects were on the requester's favorites list:</source>
+				<target>Los siguientes objetos estabán tu bloc de notas</target>
+			</trans-unit>
+			<trans-unit id="label_sender_contact" xml:space="preserve" approved="yes">
+				<source>The sender's contact data:</source>
+				<target>La direccion de contacto del remitente</target>
+			</trans-unit>
+			<trans-unit id="label_append_images" xml:space="preserve" approved="yes">
+				<source>Append images</source>
+				<target>Importa imagines</target>
+			</trans-unit>
+			<trans-unit id="label_edit" xml:space="preserve" approved="yes">
+				<source>Edit</source>
+				<target>Modificar</target>
+			</trans-unit>
+			<trans-unit id="label_new_record" xml:space="preserve" approved="yes">
+				<source>Create new object</source>
+				<target>Crear un nuevo objeto</target>
+			</trans-unit>
+			<trans-unit id="label_delete" xml:space="preserve" approved="yes">
+				<source>Delete</source>
+				<target>Borrar</target>
+			</trans-unit>
+			<trans-unit id="label_really_delete" xml:space="preserve" approved="yes">
+				<source>Do you really want to delete this record?</source>
+				<target>Esta Vd. seguro de querer borrar este objeto.</target>
+			</trans-unit>
+			<trans-unit id="label_published" xml:space="preserve" approved="yes">
+				<source>Published</source>
+				<target>Publicado</target>
+			</trans-unit>
+			<trans-unit id="label_pending" xml:space="preserve" approved="yes">
+				<source>Pending</source>
+				<target>Pendiente</target>
+			</trans-unit>
+			<trans-unit id="label_advertise" xml:space="preserve" approved="yes">
+				<source>Advertise</source>
+				<target>Anunciar</target>
+			</trans-unit>
+			<trans-unit id="label_advertised" xml:space="preserve" approved="yes">
+				<source>Advertised</source>
+				<target>Anunciado</target>
+			</trans-unit>
+			<trans-unit id="message_no_valid_number" xml:space="preserve" approved="yes">
+				<source>Please enter a valid number.</source>
+				<target>Por favor introduzca un número válido</target>
+			</trans-unit>
+			<trans-unit id="message_no_valid_price" xml:space="preserve" approved="yes">
+				<source>Please enter a valid price.</source>
+				<target>Por favor introduzca un precio válido</target>
+			</trans-unit>
+			<trans-unit id="message_no_valid_year" xml:space="preserve" approved="yes">
+				<source>Please enter a year that lies in the past.</source>
+				<target>Por favor introduzca una fecha en el pasado</target>
+			</trans-unit>
+			<trans-unit id="message_no_valid_longitude_degree" xml:space="preserve" approved="yes">
+				<source>Please enter a valid longitude degree (-180 to 180).</source>
+				<target>Por favor introduzca las coordenadas de longitud (-180 hasta 180)</target>
+			</trans-unit>
+			<trans-unit id="message_no_valid_latitude_degree" xml:space="preserve" approved="yes">
+				<source>Please enter a valid latitude degree (-90 to 90).</source>
+				<target>Por favor introduzca las coordenadas de latitude (-90 hasta  90)</target>
+			</trans-unit>
+			<trans-unit id="message_object_number_exists" xml:space="preserve" approved="yes">
+				<source>The entered object number already exists in the database. Please enter a different object number.</source>
+				<target>El objeto que quiere introducir ya existe el el banco de datos. Por favor meta un nro. de obejto diferente</target>
+			</trans-unit>
+			<trans-unit id="message_required_field" xml:space="preserve" approved="yes">
+				<source>Please enter a value for this field.</source>
+				<target>Campo obligatorio. por favor introduzca un valor para este campo</target>
+			</trans-unit>
+			<trans-unit id="message_required_field_requesterZip" xml:space="preserve" approved="yes">
+				<source>Please enter your ZIP code.</source>
+				<target>Por favor introduzca su codigo postal</target>
+			</trans-unit>
+			<trans-unit id="message_required_field_requesterCity" xml:space="preserve" approved="yes">
+				<source>Please enter your city.</source>
+				<target>Por favor introduzca su ciudad</target>
+			</trans-unit>
+			<trans-unit id="message_value_not_allowed" xml:space="preserve" approved="yes">
+				<source>The provided value is not within the set of allowed values.</source>
+				<target>El valor introducido no es valido para este campo. Por favor vuelva a intentarlo</target>
+			</trans-unit>
+			<trans-unit id="message_enter_valid_non_empty_buying_price" xml:space="preserve" approved="yes">
+				<source>Please enter a valid price because this is an object to buy.</source>
+				<target>Por favor introduzca un precio real, ya que es un objeto para vender</target>
+			</trans-unit>
+			<trans-unit id="message_enter_valid_or_empty_buying_price" xml:space="preserve" approved="yes">
+				<source>Please enter a valid price or leave this field empty.</source>
+				<target>Por favor introduzca un precio real o deje el campo vacio</target>
+			</trans-unit>
+			<trans-unit id="message_enter_valid_non_empty_rent" xml:space="preserve" approved="yes">
+				<source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; because this is an object to rent.</source>
+				<target>Por favor introduzca un precio valido &lt;em&gt; para alquiler neto, ya que se trata de un objeto en alquiler</target>
+			</trans-unit>
+			<trans-unit id="message_enter_valid_or_empty_rent" xml:space="preserve" approved="yes">
+				<source>Please enter a valid price for &lt;em&gt;net rent per year&lt;/em&gt; or &lt;em&gt;rent excluding bills&lt;/em&gt; or leave these fields empty.</source>
+				<target>Por favor introduzca un precio valido &lt;em&gt; para alquiler neto, ya que se trata de un objeto en alquiler o deje el campo vacio</target>
+			</trans-unit>
+			<trans-unit id="message_either_new_or_existing_record" xml:space="preserve" approved="yes">
+				<source>A new and an existing record cannot be stored for the same object. Please either select an existing record or provide a new title.</source>
+				<target>Un objeto nuevo y otro existente no se pueden grabar en el mismo objeto. Por favor seleccione otro objeto a dele un nuevo titulo.</target>
+			</trans-unit>
+			<trans-unit id="message_emptyTitle" xml:space="preserve" approved="yes">
+				<source>Please enter a title.</source>
+				<target>Por favor introducza un titulo</target>
+			</trans-unit>
+			<trans-unit id="message_emptyCity" xml:space="preserve" approved="yes">
+				<source>Please select a city.</source>
+				<target>Por favor seleccione una ciudad</target>
+			</trans-unit>
+			<trans-unit id="label_new_city" xml:space="preserve" approved="yes">
+				<source>Create new city</source>
+				<target>Por favor cree una nueva ciudad</target>
+			</trans-unit>
+			<trans-unit id="label_new_district" xml:space="preserve" approved="yes">
+				<source>Create new district</source>
+				<target>Por favor cree un nuevo distrito</target>
+			</trans-unit>
+			<trans-unit id="label_email_subject_fe_editor" xml:space="preserve" approved="yes">
+				<source>A new realty record has been created in the FE.</source>
+				<target>Un nuevo objeto immobiliario ha sido creado en el FE</target>
+			</trans-unit>
+			<trans-unit id="label_new_object_created" xml:space="preserve" approved="yes">
+				<source>A new record has been added to the database.</source>
+				<target>Un nevo dato ha sido anexado en la base de datos</target>
+			</trans-unit>
+			<trans-unit id="label_name" xml:space="preserve" approved="yes">
+				<source>Name</source>
+				<target>Nombre</target>
+			</trans-unit>
+			<trans-unit id="label_username" xml:space="preserve" approved="yes">
+				<source>User name</source>
+				<target>Nombre usuario</target>
+			</trans-unit>
+			<trans-unit id="label_image_upload" xml:space="preserve" approved="yes">
+				<source>Image upload</source>
+				<target>Subir imagen</target>
+			</trans-unit>
+			<trans-unit id="label_image_list" xml:space="preserve" approved="yes">
+				<source>Currently appended images</source>
+				<target>Imagenes subidas actualmente</target>
+			</trans-unit>
+			<trans-unit id="message_image_too_large" xml:space="preserve" approved="yes">
+				<source>The image you have tried to upload is too large. Please choose a smaller one or scale this image and try again.</source>
+				<target>La imagen que quiere subir es muy grande. Por favor escoja una mas pequeña o reduzca esta y pruebe de nuevo.</target>
+			</trans-unit>
+			<trans-unit id="message_invalid_type" xml:space="preserve" approved="yes">
+				<source>The image you have tried to upload is of an invalid file type. Allowed extensions are: JPG, JPEG, GIF, PNG.</source>
+				<target>La imagen que quiere subir tiene un tipo invalido. Las extensiones permitîdas son : JPG, JPEG, GIF, PNG.</target>
+			</trans-unit>
+			<trans-unit id="message_empty_caption" xml:space="preserve" approved="yes">
+				<source>Please provide a caption for the image.</source>
+				<target>Por favor introduzca un título para la foto</target>
+			</trans-unit>
+			<trans-unit id="label_offerings_by" xml:space="preserve" approved="yes">
+				<source>Offerings by</source>
+				<target>Ofertas de</target>
+			</trans-unit>
+			<trans-unit id="message_no_such_owner" xml:space="preserve" approved="yes">
+				<source>The selected offerer does not exist in the database.</source>
+				<target>El proveedor elegido no existe en nuestra base de datos</target>
+			</trans-unit>
+			<trans-unit id="label_offerer_list" xml:space="preserve" approved="yes">
+				<source>Offerer list</source>
+				<target>Listado de proveedores.</target>
+			</trans-unit>
+			<trans-unit id="label_this_owners_objects" xml:space="preserve" approved="yes">
+				<source>All objects by this offerer</source>
+				<target>Todos los objetos de este proveedor.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

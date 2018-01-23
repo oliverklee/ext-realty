@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2018-01-23T12:02:53Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="message_zip_archive_not_installed" xml:space="preserve">
+				<source>Importing is impossible because your PHP installation lacks in ZIP file functions. Please compile PHP with ZIP support by using the &quot;--enable-zip&quot; configure option. On a SUSE system the packages &quot;php-zip&quot; or &quot;php5-zip&quot; must be installed for this.</source>
+			</trans-unit>
+			<trans-unit id="message_import_directory_not_existing" xml:space="preserve">
+				<source>Importing is impossible because the configured import directory &quot;%s&quot; does not exist. It is also possible that the current user &quot;%s&quot; has no read permissions on one of the parent folders. Please check your configuration and restart the import.</source>
+			</trans-unit>
+			<trans-unit id="message_import_directory_not_readable" xml:space="preserve">
+				<source>Importing is impossible because the configured import directory &quot;%s&quot; is not readable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
+			</trans-unit>
+			<trans-unit id="message_import_directory_not_writable" xml:space="preserve">
+				<source>Importing is impossible because the configured import directory &quot;%s&quot; is not writable. Please fix file permissions or configure another directory and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
+			</trans-unit>
+			<trans-unit id="message_upload_directory_not_existing" xml:space="preserve">
+				<source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; does not exist. Please check your configuration and restart the import.</source>
+			</trans-unit>
+			<trans-unit id="message_upload_directory_not_writable" xml:space="preserve">
+				<source>Importing is impossible because the upload directory of the realty extension &quot;%s&quot; is not writable. Please fix file permissions and restart the import. The folder belongs to the user: &quot;%s&quot; and has the following permissions: &quot;%s&quot;. The user starting this import was: &quot;%s&quot;.</source>
+			</trans-unit>
+			<trans-unit id="message_no_zips" xml:space="preserve">
+				<source>No ZIPs to extract. The configured import folder does not contain any ZIP archives. Please check the path configured in the extension manager and the contents of the folder.</source>
+			</trans-unit>
+			<trans-unit id="message_deleted_objects_from_full_sync" xml:space="preserve">
+				<source>The following objects have been deleted during full sync:</source>
+			</trans-unit>
+			<trans-unit id="message_object_not_loaded" xml:space="preserve">
+				<source>The record could not be loaded. Because of invalid contents, the record might not have been imported completely.</source>
+			</trans-unit>
+			<trans-unit id="message_insertion_failed" xml:space="preserve">
+				<source>An error occurred while trying to create a new database record. This record was not inserted into the database.</source>
+			</trans-unit>
+			<trans-unit id="message_deleted_flag_causes_deletion" xml:space="preserve">
+				<source>Updating this record deletes the record.</source>
+			</trans-unit>
+			<trans-unit id="message_deleted_flag_set" xml:space="preserve">
+				<source>This record is marked to be deleted and is ignored by the importer because it does not exist in the database.</source>
+			</trans-unit>
+			<trans-unit id="message_written_to_database" xml:space="preserve">
+				<source>The record was written to the database.</source>
+			</trans-unit>
+			<trans-unit id="message_fields_required" xml:space="preserve">
+				<source>The record was not imported because the required fields are not set</source>
+			</trans-unit>
+			<trans-unit id="message_openimmo_anid_not_matches_allowed_fe_user" xml:space="preserve">
+				<source>The record was not imported because the option to restrict import on registered users is activated and this record's OpenImmo ANID did not match any OpenImmo ANID of a FE user who is in the allowed user groups. The record's OpenImmo ANID was:</source>
+			</trans-unit>
+			<trans-unit id="message_log_sent_to" xml:space="preserve">
+				<source>The log was sent to</source>
+			</trans-unit>
+			<trans-unit id="message_extracted_successfully" xml:space="preserve">
+				<source>The ZIP archive was extracted successfully.</source>
+			</trans-unit>
+			<trans-unit id="message_extraction_failed" xml:space="preserve">
+				<source>The extraction of this ZIP archive failed. The ZIP archive could not be opened. The file might be corrupt.</source>
+			</trans-unit>
+			<trans-unit id="message_surplus_folder" xml:space="preserve">
+				<source>The folder which needs to be created for importing already exists in your import directory. The record cannot be imported as long as this folder exists. Please remove this folder.</source>
+			</trans-unit>
+			<trans-unit id="message_folder_creation_failed" xml:space="preserve">
+				<source>The folder &quot;%s&quot; could not be created. Please check your access rights.</source>
+			</trans-unit>
+			<trans-unit id="message_folder_not_writable" xml:space="preserve">
+				<source>The folder &quot;%s&quot; has been created successfully, but is not writable. Please check your access rights.</source>
+			</trans-unit>
+			<trans-unit id="message_invalid_xml_path" xml:space="preserve">
+				<source>The path of the XML file is not valid. There might be no extraction folder. This could be a file permissions problem. Please check you are permitted to write in the import directory.</source>
+			</trans-unit>
+			<trans-unit id="message_too_many_xml" xml:space="preserve">
+				<source>There must not be more than one XML file in the ZIP archive. Please remove the surplus XML files from the archive.</source>
+			</trans-unit>
+			<trans-unit id="message_no_xml" xml:space="preserve">
+				<source>No XML file could be found in the ZIP archive. If there is one anyway, please ensure the name ends with '.xml'.</source>
+			</trans-unit>
+			<trans-unit id="message_successful_validation" xml:space="preserve">
+				<source>The validation proceeded successfully.</source>
+			</trans-unit>
+			<trans-unit id="message_no_schema_file" xml:space="preserve">
+				<source>There is no schema file set for validation.</source>
+			</trans-unit>
+			<trans-unit id="message_invalid_schema_file_path" xml:space="preserve">
+				<source>The path of the schema file is invalid. Please check your configuration in the extension manager.</source>
+			</trans-unit>
+			<trans-unit id="message_import_without_validation" xml:space="preserve">
+				<source>The import is done without validation.</source>
+			</trans-unit>
+			<trans-unit id="message_please_validate" xml:space="preserve">
+				<source>Please ensure the validity of the data to import.</source>
+			</trans-unit>
+			<trans-unit id="message_validation_impossible" xml:space="preserve">
+				<source>The validation is not possible. There might be a syntax error in the XML file to load.</source>
+			</trans-unit>
+			<trans-unit id="message_line" xml:space="preserve">
+				<source>Line</source>
+			</trans-unit>
+			<trans-unit id="message_files_removed" xml:space="preserve">
+				<source>The following files have been removed</source>
+			</trans-unit>
+			<trans-unit id="message_introduction" xml:space="preserve">
+				<source>Here is the result of the last import of your OpenImmo records.</source>
+			</trans-unit>
+			<trans-unit id="message_explanation" xml:space="preserve">
+				<source>You are receiving this e-mail because you are the contact person for the OpenImmo records above.</source>
+			</trans-unit>
+			<trans-unit id="message_object_limit_reached" xml:space="preserve">
+				<source>The record for the user %s (UID: %u) was not imported because the user's object limit of %u has been reached.</source>
+			</trans-unit>
+			<trans-unit id="label_subject_openImmo_import" xml:space="preserve">
+				<source>OpenImmo import</source>
+			</trans-unit>
+			<trans-unit id="label_object_number" xml:space="preserve">
+				<source>Object Number</source>
+			</trans-unit>
+			<trans-unit id="label_allowed" xml:space="preserve">
+				<source>Allowed</source>
+			</trans-unit>
+			<trans-unit id="label_not_allowed" xml:space="preserve">
+				<source>Unwelcome</source>
+			</trans-unit>
+			<trans-unit id="label_lightbox_image" xml:space="preserve">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="label_lightbox_of" xml:space="preserve">
+				<source>of</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

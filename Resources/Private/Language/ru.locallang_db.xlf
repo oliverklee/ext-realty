@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="ru" datatype="plaintext" original="messages" date="2018-01-22T16:00:30Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="tx_realty_objects" xml:space="preserve" approved="yes">
+				<source>Realty object</source>
+				<target>Объекты недвижимости</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_number" xml:space="preserve" approved="yes">
+				<source>Object number</source>
+				<target>Номер объекта</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.0" xml:space="preserve" approved="yes">
+				<source>for renting</source>
+				<target>аренда</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.1" xml:space="preserve" approved="yes">
+				<source>for sale</source>
+				<target>продажа</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type" xml:space="preserve" approved="yes">
+				<source>Object type</source>
+				<target>Тип объекта</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Заголовок</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.emphasized" xml:space="preserve" approved="yes">
+				<source>Emphasized</source>
+				<target>Выделить</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.street" xml:space="preserve" approved="yes">
+				<source>Street</source>
+				<target>Улица</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.zip" xml:space="preserve" approved="yes">
+				<source>ZIP code</source>
+				<target>Почтовый индект</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.city" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Город</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.district" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Район</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Кол-во комнат</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.living_area" xml:space="preserve" approved="yes">
+				<source>Living area in m²</source>
+				<target>Жилая площадь в м²</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.total_area" xml:space="preserve" approved="yes">
+				<source>Total area in m²</source>
+				<target>Общая площадь в м²</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.rent_excluding_bills" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Арендная плата</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.extra_charges" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Дополнительные платежи</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_included" xml:space="preserve" approved="yes">
+				<source>Extra charges include heating</source>
+				<target>Дополнительные платежи включая отопления</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.deposit" xml:space="preserve" approved="yes">
+				<source>Security deposit</source>
+				<target>Залог, предоплата</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.provision" xml:space="preserve" approved="yes">
+				<source>Provision/Broker's fee</source>
+				<target>Процент агента</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.usable_from" xml:space="preserve" approved="yes">
+				<source>Can be used starting at</source>
+				<target>Освобождается с</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.buying_price" xml:space="preserve" approved="yes">
+				<source>Price for buying</source>
+				<target>Цена покупки</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.year_rent" xml:space="preserve" approved="yes">
+				<source>Net rent per year</source>
+				<target>Цена при оплате на год вперед</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.apartment_type" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Тип квартиры</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.house_type" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Тип дома</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floor" xml:space="preserve" approved="yes">
+				<source>Floor</source>
+				<target>Этаж</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floors" xml:space="preserve" approved="yes">
+				<source>Number of floors</source>
+				<target>Этажей</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bedrooms" xml:space="preserve" approved="yes">
+				<source>Number of bedrooms</source>
+				<target>Кол-во спален</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bathrooms" xml:space="preserve" approved="yes">
+				<source>Number of bathrooms</source>
+				<target>Кол-во ванных комнат</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type" xml:space="preserve" approved="yes">
+				<source>Type of heating</source>
+				<target>Тип отопления</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_type" xml:space="preserve" approved="yes">
+				<source>Parking space type</source>
+				<target>Наличие гаража/стоянки</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_rent" xml:space="preserve" approved="yes">
+				<source>Rent for garage/parking space</source>
+				<target>Стоимость аренды гаража/стоянки</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_price" xml:space="preserve" approved="yes">
+				<source>Price for buying the garage/parking space</source>
+				<target>Цена покупки гаража/стоянки</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Домашние животные</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.construction_year" xml:space="preserve" approved="yes">
+				<source>Year of construction</source>
+				<target>Год сдачи в эксплуатацию</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state" xml:space="preserve" approved="yes">
+				<source>Condition</source>
+				<target>Состояние</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.balcony" xml:space="preserve" approved="yes">
+				<source>Balcony/patio</source>
+				<target>Балкон/лоджия</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garden" xml:space="preserve" approved="yes">
+				<source>Garden (usage)</source>
+				<target>Сад</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.elevator" xml:space="preserve" approved="yes">
+				<source>Elevator</source>
+				<target>Лифт</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve" approved="yes">
+				<source>Accessible</source>
+				<target>Удобное месторасположение</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve" approved="yes">
+				<source>Assisted living</source>
+				<target>Совместное проживание</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.fitted_kitchen" xml:space="preserve" approved="yes">
+				<source>Fitted kitchen</source>
+				<target>Оборудованная кухня</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.description" xml:space="preserve" approved="yes">
+				<source>Description</source>
+				<target>Описание</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.equipment" xml:space="preserve" approved="yes">
+				<source>Equipment</source>
+				<target>Оборудование</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.layout" xml:space="preserve" approved="yes">
+				<source>Layout</source>
+				<target>Планировка</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.location" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Месторасположение</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.misc" xml:space="preserve" approved="yes">
+				<source>Miscellaneous</source>
+				<target>Другое</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
+				<source>Images</source>
+				<target>Изображения</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
+				<source>Last changed</source>
+				<target>Последнее изменение</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Тип квартиры</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Заголовок</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Тип дома</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Заголовок</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places" xml:space="preserve" approved="yes">
+				<source>Car place</source>
+				<target>Место для машин</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Заголовок</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Домашние животные</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Заголовок</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Изображения</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
+				<source>Caption</source>
+				<target>Подпись</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Изображение</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Город</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
+				<source>City name</source>
+				<target>Название города</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Район</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
+				<source>The district's name</source>
+				<target>Название района</target>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">
+				<source>Realty Manager</source>
+				<target>Список объектов недвижимости</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -54,7 +54,7 @@
 		</actionlets>
 	</control>
 	<elements>
-		<renderlet:TEXT name="title" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.title">
+		<renderlet:TEXT name="title" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.title">
 			<validators>
 				<validator:STANDARD>
 					<required>
@@ -72,16 +72,16 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:RADIOBUTTON name="object_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type">
+		<renderlet:RADIOBUTTON name="object_type" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type">
 			<data defaultvalue="0">
 				<items>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.0" value="0"/>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_type.I.1" value="1"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.0" value="0"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_type.I.1" value="1"/>
 				</items>
 			</data>
 			<onclick>updateHideAndShow();</onclick>
 		</renderlet:RADIOBUTTON>
-		<renderlet:TEXT name="object_number" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.object_number">
+		<renderlet:TEXT name="object_number" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.object_number">
 			<readonly>
 				<userobj>
 					<extension>this</extension>
@@ -103,11 +103,11 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:CHECKSINGLE name="emphasized" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.emphasized"/>
+		<renderlet:CHECKSINGLE name="emphasized" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.emphasized"/>
 
-		<renderlet:CHECKSINGLE name="show_address" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.show_address"/>
-		<renderlet:TEXT name="street" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.street"/>
-		<renderlet:TEXT name="zip" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.zip">
+		<renderlet:CHECKSINGLE name="show_address" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.show_address"/>
+		<renderlet:TEXT name="street" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.street"/>
+		<renderlet:TEXT name="zip" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.zip">
 			<validators>
 				<validator:STANDARD>
 					<required>
@@ -125,7 +125,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="distance_to_the_sea" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.distance_to_the_sea">
+		<renderlet:TEXT name="distance_to_the_sea" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.distance_to_the_sea">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -145,8 +145,8 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:CHECKSINGLE name="sea_view" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.sea_view"/>
-		<renderlet:LISTBOX name="city" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.city">
+		<renderlet:CHECKSINGLE name="sea_view" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sea_view"/>
+		<renderlet:LISTBOX name="city" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.city">
 			<data>
 				<items>
 					<item>
@@ -176,7 +176,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:TEXT name="new_city" label="LLL:EXT:realty/pi1/locallang.xml:label_new_city">
+		<renderlet:TEXT name="new_city" label="LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_new_city">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -199,7 +199,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:LISTBOX name="district" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.district">
+		<renderlet:LISTBOX name="district" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.district">
 			<data>
 				<items>
 					<item>
@@ -234,7 +234,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:BUTTON name="newDistrictButton" label="LLL:EXT:realty/pi1/locallang.xml:label_new_district">
+		<renderlet:BUTTON name="newDistrictButton" label="LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_new_district">
 			<onclick runat="ajax" cache="false">
 				<userobj>
 					<php><![CDATA[
@@ -248,8 +248,8 @@
 		</renderlet:BUTTON>
 		<renderlet:MODALBOX name="newDistrictModalBox">
 			<childs>
-				<renderlet:TEXT name="newDistrictTitle" label="LLL:EXT:realty/locallang_db.xml:tx_realty_districts.title"/>
-				<renderlet:LISTBOX name="newDistrictCity" label="LLL:EXT:realty/locallang_db.xml:tx_realty_districts.city">
+				<renderlet:TEXT name="newDistrictTitle" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts.title"/>
+				<renderlet:LISTBOX name="newDistrictCity" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts.city">
 					<data>
 						<items>
 							<item>
@@ -264,7 +264,7 @@
 						</userobj>
 					</data>
 				</renderlet:LISTBOX>
-				<renderlet:BUTTON name="newDistrictCancelButton" label="LLL:EXT:realty/pi1/locallang.xml:label_cancel" wrap="&lt;div class=&quot;formidable-rdrstd-rdtwrap tx_realty_pi1_modalbox_buttons&quot;&gt;|">
+				<renderlet:BUTTON name="newDistrictCancelButton" label="LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_cancel" wrap="&lt;div class=&quot;formidable-rdrstd-rdtwrap tx_realty_pi1_modalbox_buttons&quot;&gt;|">
 					<onclick runat="client">
 						<userobj>
 							<php><![CDATA[
@@ -273,7 +273,7 @@
 						</userobj>
 					</onclick>
 				</renderlet:BUTTON>
-				<renderlet:BUTTON name="newDistrictSaveButton" label="LLL:EXT:realty/pi1/locallang.xml:label_save" wrap="|&lt;/div&gt;">
+				<renderlet:BUTTON name="newDistrictSaveButton" label="LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save" wrap="|&lt;/div&gt;">
 					<onclick runat="ajax" cache="false" params="newDistrictTitle, newDistrictCity">
 						<userobj>
 							<php><![CDATA[
@@ -284,7 +284,7 @@
 				</renderlet:BUTTON>
 			</childs>
 		</renderlet:MODALBOX>
-		<renderlet:LISTBOX name="country" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.country">
+		<renderlet:LISTBOX name="country" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.country">
 			<data>
 				<items>
 					<item>
@@ -325,17 +325,17 @@
 			</validators>
 		</renderlet:LISTBOX>
 
-		<renderlet:RADIOBUTTON name="contact_data_source" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source">
+		<renderlet:RADIOBUTTON name="contact_data_source" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source">
 			<data defaultvalue="0">
 				<items>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.0" value="0"/>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_data_source.I.1" value="1"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.0" value="0"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_data_source.I.1" value="1"/>
 				</items>
 			</data>
 			<onclick>updateHideAndShow();</onclick>
 		</renderlet:RADIOBUTTON>
-		<renderlet:TEXT name="employer" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.employer"/>
-		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_person">
+		<renderlet:TEXT name="employer" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.employer"/>
+		<renderlet:TEXT name="contact_person" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_person">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -355,7 +355,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="contact_email" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.contact_email">
+		<renderlet:TEXT name="contact_email" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.contact_email">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -387,11 +387,11 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="phone_switchboard" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.phone_switchboard"/>
-		<renderlet:TEXT name="phone_direct_extension" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.phone_direct_extension"/>
+		<renderlet:TEXT name="phone_switchboard" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_switchboard"/>
+		<renderlet:TEXT name="phone_direct_extension" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.phone_direct_extension"/>
 
-		<renderlet:TEXT name="currency" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.currency"/>
-		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.buying_price">
+		<renderlet:TEXT name="currency" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.currency"/>
+		<renderlet:TEXT name="buying_price" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -410,7 +410,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="hoa_fee" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.hoa_fee">
+		<renderlet:TEXT name="hoa_fee" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.hoa_fee">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -430,7 +430,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="rent_excluding_bills" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_excluding_bills">
+		<renderlet:TEXT name="rent_excluding_bills" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -449,7 +449,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="rent_per_square_meter" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rent_per_square_meter">
+		<renderlet:TEXT name="rent_per_square_meter" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_per_square_meter">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -469,8 +469,8 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="provision" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.provision"/>
-		<renderlet:TEXT name="extra_charges" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.extra_charges">
+		<renderlet:TEXT name="provision" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.provision"/>
+		<renderlet:TEXT name="extra_charges" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.extra_charges">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -490,10 +490,10 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:CHECKSINGLE name="heating_included" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_included"/>
-		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.deposit"/>
-		<renderlet:TEXT name="year_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.year_rent"/>
-		<renderlet:TEXT name="rental_income_target" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.rental_income_target">
+		<renderlet:CHECKSINGLE name="heating_included" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_included"/>
+		<renderlet:TEXT name="deposit" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.deposit"/>
+		<renderlet:TEXT name="year_rent" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.year_rent"/>
+		<renderlet:TEXT name="rental_income_target" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rental_income_target">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -513,23 +513,23 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:LISTBOX name="status" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status">
+		<renderlet:LISTBOX name="status" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status">
 			<data defaultvalue="0">
 				<items>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.0" value="0"/>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.1" value="1"/>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.2" value="2"/>
-					<item caption="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.status.3" value="3"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.0" value="0"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.1" value="1"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.2" value="2"/>
+					<item caption="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.status.3" value="3"/>
 				</items>
 			</data>
 		</renderlet:LISTBOX>
-		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.usable_from">
+		<renderlet:DATE name="usable_from" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.usable_from">
 			<data>
 				<datetime format="%Y-%m-%d" displaytime="true" converttotimestamp="false" allowmanualedition="true"/>
 			</data>
 		</renderlet:DATE>
 
-		<renderlet:LISTBOX name="house_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.house_type">
+		<renderlet:LISTBOX name="house_type" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.house_type">
 			<data>
 				<userobj>
 					<extension>this</extension>
@@ -561,7 +561,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:LISTBOX name="apartment_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.apartment_type">
+		<renderlet:LISTBOX name="apartment_type" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.apartment_type">
 			<data>
 				<items>
 					<item>
@@ -599,9 +599,9 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:TEXT name="utilization" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.utilization"/>
+		<renderlet:TEXT name="utilization" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.utilization"/>
 
-		<renderlet:TEXT name="construction_year" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.construction_year">
+		<renderlet:TEXT name="construction_year" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.construction_year">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -621,7 +621,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:LISTBOX name="old_or_new_building" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building">
+		<renderlet:LISTBOX name="old_or_new_building" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building">
 			<data>
 				<items>
 					<item>
@@ -629,11 +629,11 @@
 						<value>0</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.1</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.1</caption>
 						<value>1</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.old_or_new_building.I.2</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.old_or_new_building.I.2</caption>
 						<value>2</value>
 					</item>
 				</items>
@@ -660,7 +660,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:LISTBOX name="state" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state">
+		<renderlet:LISTBOX name="state" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state">
 			<data>
 				<items>
 					<item>
@@ -668,87 +668,87 @@
 						<value>0</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.1</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.1</caption>
 						<value>1</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.2</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.2</caption>
 						<value>2</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.3</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.3</caption>
 						<value>3</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.4</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.4</caption>
 						<value>4</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.5</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.5</caption>
 						<value>5</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.6</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.6</caption>
 						<value>6</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.7</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.7</caption>
 						<value>7</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.8</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.8</caption>
 						<value>8</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.9</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.9</caption>
 						<value>9</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.10</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.10</caption>
 						<value>10</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.11</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.11</caption>
 						<value>11</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.12</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.12</caption>
 						<value>12</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.13</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.13</caption>
 						<value>13</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.14</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.14</caption>
 						<value>14</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.15</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.15</caption>
 						<value>15</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.16</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.16</caption>
 						<value>16</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.17</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.17</caption>
 						<value>17</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.18</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.18</caption>
 						<value>18</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.19</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.19</caption>
 						<value>19</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.20</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.20</caption>
 						<value>20</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.state.21</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.state.21</caption>
 						<value>21</value>
 					</item>
 				</items>
@@ -775,7 +775,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:LISTBOX name="furnishing_category" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category">
+		<renderlet:LISTBOX name="furnishing_category" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category">
 			<data>
 				<items>
 					<item>
@@ -783,15 +783,15 @@
 						<value>0</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.1</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.1</caption>
 						<value>1</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.2</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.2</caption>
 						<value>2</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.furnishing_category.3</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.furnishing_category.3</caption>
 						<value>3</value>
 					</item>
 				</items>
@@ -818,7 +818,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:TEXT name="estate_size" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.estate_size">
+		<renderlet:TEXT name="estate_size" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.estate_size">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -838,7 +838,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="living_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.living_area">
+		<renderlet:TEXT name="living_area" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.living_area">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -858,7 +858,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="total_usable_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_usable_area">
+		<renderlet:TEXT name="total_usable_area" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_usable_area">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -878,7 +878,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="office_space" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.office_space">
+		<renderlet:TEXT name="office_space" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.office_space">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -898,7 +898,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="shop_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.shop_area">
+		<renderlet:TEXT name="shop_area" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.shop_area">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -918,7 +918,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="sales_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.sales_area">
+		<renderlet:TEXT name="sales_area" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.sales_area">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -938,7 +938,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="storage_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.storage_area">
+		<renderlet:TEXT name="storage_area" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.storage_area">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -958,7 +958,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="other_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.other_area">
+		<renderlet:TEXT name="other_area" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.other_area">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -978,7 +978,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="window_bank" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.window_bank">
+		<renderlet:TEXT name="window_bank" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.window_bank">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -998,7 +998,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="site_occupancy_index" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.site_occupancy_index">
+		<renderlet:TEXT name="site_occupancy_index" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.site_occupancy_index">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1018,7 +1018,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="floor_space_index" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor_space_index">
+		<renderlet:TEXT name="floor_space_index" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor_space_index">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1038,7 +1038,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="total_area" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.total_area">
+		<renderlet:TEXT name="total_area" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.total_area">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1058,7 +1058,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="parking_spaces" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.parking_spaces">
+		<renderlet:TEXT name="parking_spaces" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.parking_spaces">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1078,8 +1078,8 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXTAREA name="teaser" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.teaser"/>
-		<renderlet:TEXTAREA name="description" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.description">
+		<renderlet:TEXTAREA name="teaser" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.teaser"/>
+		<renderlet:TEXTAREA name="description" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.description">
 			<validators>
 				<validator:STANDARD>
 					<required>
@@ -1097,9 +1097,9 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXTAREA>
-		<renderlet:TEXTAREA name="location" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.location"/>
+		<renderlet:TEXTAREA name="location" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.location"/>
 
-		<renderlet:TEXT name="floor" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floor">
+		<renderlet:TEXT name="floor" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1119,7 +1119,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="floors" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.floors">
+		<renderlet:TEXT name="floors" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floors">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1139,7 +1139,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="number_of_rooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.number_of_rooms">
+		<renderlet:TEXT name="number_of_rooms" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.number_of_rooms">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1159,7 +1159,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="bedrooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.bedrooms">
+		<renderlet:TEXT name="bedrooms" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bedrooms">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1179,7 +1179,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="bathrooms" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.bathrooms">
+		<renderlet:TEXT name="bathrooms" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.bathrooms">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1199,9 +1199,9 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXTAREA name="layout" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.layout"/>
+		<renderlet:TEXTAREA name="layout" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.layout"/>
 
-		<renderlet:LISTBOX name="garage_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_type">
+		<renderlet:LISTBOX name="garage_type" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_type">
 			<data>
 				<items>
 					<item>
@@ -1239,7 +1239,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:TEXT name="garage_rent" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_rent">
+		<renderlet:TEXT name="garage_rent" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_rent">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1259,7 +1259,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="garage_price" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garage_price">
+		<renderlet:TEXT name="garage_price" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garage_price">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1280,51 +1280,51 @@
 			</validators>
 		</renderlet:TEXT>
 
-		<renderlet:CHECKBOX name="flooring" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring">
+		<renderlet:CHECKBOX name="flooring" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring">
 			<data>
 				<items>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.1</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.1</caption>
 						<value>1</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.2</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.2</caption>
 						<value>2</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.3</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.3</caption>
 						<value>3</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.4</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.4</caption>
 						<value>4</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.5</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.5</caption>
 						<value>5</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.6</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.6</caption>
 						<value>6</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.7</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.7</caption>
 						<value>7</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.8</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.8</caption>
 						<value>8</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.9</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.9</caption>
 						<value>9</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.10</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.10</caption>
 						<value>10</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.flooring.11</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.flooring.11</caption>
 						<value>11</value>
 					</item>
 				</items>
@@ -1353,55 +1353,55 @@
 			</validators>
 		</renderlet:CHECKBOX>
 
-		<renderlet:CHECKBOX name="heating_type" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type">
+		<renderlet:CHECKBOX name="heating_type" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type">
 			<data>
 				<items>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.1</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.1</caption>
 						<value>1</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.2</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.2</caption>
 						<value>2</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.3</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.3</caption>
 						<value>3</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.4</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.4</caption>
 						<value>4</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.5</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.5</caption>
 						<value>5</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.6</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.6</caption>
 						<value>6</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.7</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.7</caption>
 						<value>7</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.8</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.8</caption>
 						<value>8</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.9</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.9</caption>
 						<value>9</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.10</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.10</caption>
 						<value>10</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.11</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.11</caption>
 						<value>11</value>
 					</item>
 					<item>
-						<caption>LLL:EXT:realty/locallang_db.xml:tx_realty_objects.heating_type.12</caption>
+						<caption>LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.heating_type.12</caption>
 						<value>12</value>
 					</item>
 				</items>
@@ -1429,11 +1429,11 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:CHECKBOX>
-		<renderlet:CHECKSINGLE name="fitted_kitchen" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.fitted_kitchen"/>
-		<renderlet:CHECKSINGLE name="has_pool" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_pool"/>
-		<renderlet:CHECKSINGLE name="has_community_pool" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_community_pool"/>
-		<renderlet:CHECKSINGLE name="has_air_conditioning" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_air_conditioning"/>
-		<renderlet:LISTBOX name="pets" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.pets">
+		<renderlet:CHECKSINGLE name="fitted_kitchen" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.fitted_kitchen"/>
+		<renderlet:CHECKSINGLE name="has_pool" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_pool"/>
+		<renderlet:CHECKSINGLE name="has_community_pool" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_community_pool"/>
+		<renderlet:CHECKSINGLE name="has_air_conditioning" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_air_conditioning"/>
+		<renderlet:LISTBOX name="pets" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.pets">
 			<data>
 				<items>
 					<item>
@@ -1471,20 +1471,20 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:LISTBOX>
-		<renderlet:CHECKSINGLE name="balcony" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.balcony"/>
-		<renderlet:CHECKSINGLE name="garden" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.garden"/>
-		<renderlet:CHECKSINGLE name="elevator" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.elevator"/>
-		<renderlet:CHECKSINGLE name="barrier_free" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.barrier_free"/>
-		<renderlet:CHECKSINGLE name="assisted_living" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.assisted_living"/>
-		<renderlet:TEXTAREA name="equipment" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.equipment"/>
+		<renderlet:CHECKSINGLE name="balcony" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.balcony"/>
+		<renderlet:CHECKSINGLE name="garden" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.garden"/>
+		<renderlet:CHECKSINGLE name="elevator" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.elevator"/>
+		<renderlet:CHECKSINGLE name="barrier_free" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.barrier_free"/>
+		<renderlet:CHECKSINGLE name="assisted_living" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.assisted_living"/>
+		<renderlet:TEXTAREA name="equipment" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.equipment"/>
 
-		<renderlet:TEXTAREA name="misc" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.misc"/>
+		<renderlet:TEXTAREA name="misc" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.misc"/>
 
-		<renderlet:CHECKSINGLE name="has_coordinates" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.has_coordinates">
+		<renderlet:CHECKSINGLE name="has_coordinates" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_coordinates">
 			<onclick>updateHideAndShow();</onclick>
 		</renderlet:CHECKSINGLE>
-		<renderlet:CHECKSINGLE name="coordinates_problem" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.coordinates_problem"/>
-		<renderlet:TEXT name="longitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.longitude">
+		<renderlet:CHECKSINGLE name="coordinates_problem" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.coordinates_problem"/>
+		<renderlet:TEXT name="longitude" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.longitude">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1504,7 +1504,7 @@
 				</validator:STANDARD>
 			</validators>
 		</renderlet:TEXT>
-		<renderlet:TEXT name="latitude" label="LLL:EXT:realty/locallang_db.xml:tx_realty_objects.latitude">
+		<renderlet:TEXT name="latitude" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.latitude">
 			<validators>
 				<validator:STANDARD>
 					<userobj>
@@ -1525,6 +1525,6 @@
 			</validators>
 		</renderlet:TEXT>
 
-		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save"/>
+		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save"/>
 	</elements>
 </formidable>

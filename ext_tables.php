@@ -8,7 +8,7 @@ $extPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY)
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
     array(
-        'LLL:EXT:realty/locallang_db.xml:tt_content.list_type_pi1',
+        'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tt_content.list_type_pi1',
         $_EXTKEY . '_pi1',
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'ext_icon.gif',
     ),

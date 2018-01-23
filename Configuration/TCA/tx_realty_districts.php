@@ -3,7 +3,7 @@ defined('TYPO3_MODE') or die('Access denied.');
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_districts',
+        'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -53,7 +53,7 @@ return [
         ],
         'title' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_districts.title',
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts.title',
             'config' => [
                 'type' => 'input',
                 'size' => '30',
@@ -62,7 +62,7 @@ return [
         ],
         'city' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_districts.city',
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_districts.city',
             'config' => [
                 'type' => 'select',
                 'items' => [

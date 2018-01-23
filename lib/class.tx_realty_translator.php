@@ -49,7 +49,7 @@ class tx_realty_translator
         $languageKey = in_array($cliLanguage, $locales->getLocales())? $cliLanguage : 'default';
 
         $this->languageService->init($languageKey);
-        $this->languageService->includeLLFile('EXT:realty/lib/locallang.xml');
+        $this->languageService->includeLLFile('EXT:realty/Resources/Private/Language/locallang_import.xlf');
     }
 
     /**

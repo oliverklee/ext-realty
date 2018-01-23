@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="dk" datatype="plaintext" original="messages" date="2018-01-22T16:00:30Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="tx_realty_objects" xml:space="preserve" approved="yes">
+				<source>Realty object</source>
+				<target>Bolig objekt</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_number" xml:space="preserve" approved="yes">
+				<source>Object number</source>
+				<target>Objektnumber</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.0" xml:space="preserve" approved="yes">
+				<source>for renting</source>
+				<target>udlejes</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.1" xml:space="preserve" approved="yes">
+				<source>for sale</source>
+				<target>til salg</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type" xml:space="preserve" approved="yes">
+				<source>Object type</source>
+				<target>Objekttype</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.emphasized" xml:space="preserve" approved="yes">
+				<source>Emphasized</source>
+				<target>Fremhævet</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.street" xml:space="preserve" approved="yes">
+				<source>Street</source>
+				<target>Gade</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.zip" xml:space="preserve" approved="yes">
+				<source>ZIP code</source>
+				<target>Postnummer</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.city" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>By</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.district" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Bydel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Antal værelser</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.living_area" xml:space="preserve" approved="yes">
+				<source>Living area in m²</source>
+				<target>Beboelsesareal i m²</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.total_area" xml:space="preserve" approved="yes">
+				<source>Total area in m²</source>
+				<target>Total areal i m²</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.estate_size" xml:space="preserve" approved="yes">
+				<source>Estate size in m²</source>
+				<target>Grundareal i m²</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.rent_excluding_bills" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Husleje før fællesudgifter</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.extra_charges" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Fællesudgifter</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_included" xml:space="preserve" approved="yes">
+				<source>Extra charges include heating</source>
+				<target>Fællesudgifter inkl. varme</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.deposit" xml:space="preserve" approved="yes">
+				<source>Security deposit</source>
+				<target>Depositum</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.provision" xml:space="preserve" approved="yes">
+				<source>Provision/Broker's fee</source>
+				<target>Mæglersalær</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.usable_from" xml:space="preserve" approved="yes">
+				<source>Can be used starting at</source>
+				<target>Indflytningsklar fra</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.buying_price" xml:space="preserve" approved="yes">
+				<source>Price for buying</source>
+				<target>Købspris</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.year_rent" xml:space="preserve" approved="yes">
+				<source>Net rent per year</source>
+				<target>Årlig husleje</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.apartment_type" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Lejlighedstype</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.house_type" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Ejendomstype</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floor" xml:space="preserve" approved="yes">
+				<source>Floor</source>
+				<target>Etage</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floors" xml:space="preserve" approved="yes">
+				<source>Number of floors</source>
+				<target>Antal etager</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bedrooms" xml:space="preserve" approved="yes">
+				<source>Number of bedrooms</source>
+				<target>Antal værelser</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bathrooms" xml:space="preserve" approved="yes">
+				<source>Number of bathrooms</source>
+				<target>Antal badeværelser</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type" xml:space="preserve" approved="yes">
+				<source>Type of heating</source>
+				<target>Opvarmningstype</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_type" xml:space="preserve" approved="yes">
+				<source>Parking space type</source>
+				<target>Garage/parkering</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_rent" xml:space="preserve" approved="yes">
+				<source>Rent for garage/parking space</source>
+				<target>Leje for garage/parkering</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_price" xml:space="preserve" approved="yes">
+				<source>Price for buying the garage/parking space</source>
+				<target>Pris for garage/parkeringsbås</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Husdyr</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.construction_year" xml:space="preserve" approved="yes">
+				<source>Year of construction</source>
+				<target>Bygningsår</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.old_or_new_building" xml:space="preserve" approved="yes">
+				<source>Old or new building</source>
+				<target>Gammel eller ny bygning</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.old_or_new_building.I.1" xml:space="preserve" approved="yes">
+				<source>new building</source>
+				<target>ny bygning</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.old_or_new_building.I.2" xml:space="preserve" approved="yes">
+				<source>old building</source>
+				<target>gammel bygning</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state" xml:space="preserve" approved="yes">
+				<source>Condition</source>
+				<target>Tilstand</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.balcony" xml:space="preserve" approved="yes">
+				<source>Balcony/patio</source>
+				<target>Balkon/Altan</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garden" xml:space="preserve" approved="yes">
+				<source>Garden (usage)</source>
+				<target>Have</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.elevator" xml:space="preserve" approved="yes">
+				<source>Elevator</source>
+				<target>Elevator</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve" approved="yes">
+				<source>Accessible</source>
+				<target>Tilgængelig</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve" approved="yes">
+				<source>Assisted living</source>
+				<target>Handikapvenlig</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.fitted_kitchen" xml:space="preserve" approved="yes">
+				<source>Fitted kitchen</source>
+				<target>Integreret køkken</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.description" xml:space="preserve" approved="yes">
+				<source>Description</source>
+				<target>Beskrivelse</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.equipment" xml:space="preserve" approved="yes">
+				<source>Equipment</source>
+				<target>Udstyr</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.layout" xml:space="preserve" approved="yes">
+				<source>Layout</source>
+				<target>Layout</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.location" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Beliggenhed</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.misc" xml:space="preserve" approved="yes">
+				<source>Miscellaneous</source>
+				<target>Iøvrigt</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.details_page" xml:space="preserve" approved="yes">
+				<source>Separate page for the details view for this object</source>
+				<target>Separat side for detaljeret objektbeskrivelse</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
+				<source>Images</source>
+				<target>Billeder</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
+				<source>Last changed</source>
+				<target>Sidst ændret</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.employer" xml:space="preserve" approved="yes">
+				<source>Employer</source>
+				<target>Medarbejder</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.openimmo_anid" xml:space="preserve" approved="yes">
+				<source>&quot;OpenImmo-ANID&quot;</source>
+				<target>&quot;OpenImmo-ANID&quot;</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.openimmo_obid" xml:space="preserve" approved="yes">
+				<source>&quot;OpenImmo-OBID&quot;</source>
+				<target>&quot;OpenImmo-OBID&quot;</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.utilization" xml:space="preserve" approved="yes">
+				<source>Utilization</source>
+				<target>Anvendelsestype</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_data_source" xml:space="preserve" approved="yes">
+				<source>Contact data source (for contact form and detail view)</source>
+				<target>Kontakt datakilden (for kontaktformular and detaljeret visning)</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_data_source.I.0" xml:space="preserve" approved="yes">
+				<source>This realty object</source>
+				<target>Dette boligobjekt</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_data_source.I.1" xml:space="preserve" approved="yes">
+				<source>My account</source>
+				<target>Min konto</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_person" xml:space="preserve" approved="yes">
+				<source>Contact person</source>
+				<target>Kontaktperson</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_email" xml:space="preserve" approved="yes">
+				<source>Contact e-mail</source>
+				<target>Kontakt e-mail</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.owner" xml:space="preserve" approved="yes">
+				<source>FE user who has created this object</source>
+				<target>FE-bruger der har skabt dette objekt</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.language" xml:space="preserve" approved="yes">
+				<source>Language of the record</source>
+				<target>Sprog for denne datamængde</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Lejlighedstype</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Boligtype</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places" xml:space="preserve" approved="yes">
+				<source>Car place</source>
+				<target>Parkering</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Husdyr</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Billede</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
+				<source>Caption</source>
+				<target>Billedtekst</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Billede</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>By</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
+				<source>City name</source>
+				<target>Bynavn</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities.save_folder" xml:space="preserve" approved="yes">
+				<source>Folder for objects in this city (only for FE-created records)</source>
+				<target>Mappe for objekter i denne by (kun for FE-skabte data)</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Bydel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
+				<source>The district's name</source>
+				<target>Bydelens navn</target>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_realty_tab" xml:space="preserve" approved="yes">
+				<source>Realty</source>
+				<target>Fast ejendom</target>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_realty_openimmo_anid" xml:space="preserve" approved="yes">
+				<source>OpenImmo offerer ID</source>
+				<target>OpenImmo udbyder-ID</target>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">
+				<source>Realty Manager</source>
+				<target>EjendomsManager</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

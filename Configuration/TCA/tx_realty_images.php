@@ -3,7 +3,7 @@ defined('TYPO3_MODE') or die('Access denied.');
 
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images',
+        'title' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images',
         'label' => 'caption',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -75,7 +75,7 @@ return [
         ],
         'caption' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images.caption',
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.caption',
             'config' => [
                 'type' => 'input',
                 'size' => '30',
@@ -84,7 +84,7 @@ return [
         ],
         'image' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images.image',
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.image',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'file',
@@ -99,7 +99,7 @@ return [
         ],
         'thumbnail' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images.thumbnail',
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.thumbnail',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'file',
@@ -114,15 +114,15 @@ return [
         ],
         'position' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:realty/locallang_db.xml:tx_realty_images.position',
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position',
             'config' => [
                 'type' => 'select',
                 'items' => [
-                    ['LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.0', '0'],
-                    ['LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.1', '1'],
-                    ['LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.2', '2'],
-                    ['LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.3', '3'],
-                    ['LLL:EXT:realty/locallang_db.xml:tx_realty_images.position.4', '4'],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.0', '0'],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.1', '1'],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.2', '2'],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.3', '3'],
+                    ['LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.position.4', '4'],
                 ],
             ],
         ],

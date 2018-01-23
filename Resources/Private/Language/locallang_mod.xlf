@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2018-01-22T15:56:08Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="title" xml:space="preserve">
+				<source>Realty</source>
+			</trans-unit>
+			<trans-unit id="import_tab" xml:space="preserve">
+				<source>OpenImmo import</source>
+			</trans-unit>
+			<trans-unit id="start_import_button" xml:space="preserve">
+				<source>Start OpenImmo import</source>
+			</trans-unit>
+			<trans-unit id="label_import_in_progress" xml:space="preserve">
+				<source>Data is being imported &amp;#8230;</source>
+			</trans-unit>
+			<trans-unit id="message_no_permission" xml:space="preserve">
+				<source>You don't have the permissions to access this module.</source>
+			</trans-unit>
+			<trans-unit id="error_message_objects_pid" xml:space="preserve">
+				<source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForRealtyObjectsAndImages&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
+			</trans-unit>
+			<trans-unit id="error_message_auxiliary_pid" xml:space="preserve">
+				<source>You don't have write access to the sysfolder with the PID %u which is set by the extension manager setting &amp;quot;pidForAuxiliaryRecords&amp;quot; of the realty extension. Please edit the sys folder permissions and grant access to one of the BE user's groups.</source>
+			</trans-unit>
+			<trans-unit id="error_message_table_access" xml:space="preserve">
+				<source>You are not allowed to create records in the table &amp;quot;%s&amp;quot; which is neccessary to import realty objects. Please edit one of the BE user's user groups and grant write access to this table.</source>
+			</trans-unit>
+			<trans-unit id="mlang_tabs_tab" xml:space="preserve">
+				<source>Realty</source>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tabdescr" xml:space="preserve">
+				<source>This module allows you to manage and import realty objects</source>
+			</trans-unit>
+			<trans-unit id="mlang_labels_tablabel" xml:space="preserve">
+				<source>Realty</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
