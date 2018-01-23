@@ -6,4 +6,4 @@ $MCONF['script'] = '_DISPATCH';
 $MCONF['access'] = 'user,group';
 
 $MLANG['default']['tabs_images']['tab'] = 'moduleicon.gif';
-$MLANG['default']['ll_ref'] = 'LLL:EXT:realty/BackEnd/locallang_mod.xml';
+$MLANG['default']['ll_ref'] = 'LLL:EXT:realty/Resources/Private/Language/locallang_mod.xlf';

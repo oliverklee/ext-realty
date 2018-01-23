@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="ru" datatype="plaintext" original="messages" date="2018-01-23T11:09:47Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="pi1_title" xml:space="preserve" approved="yes">
+				<source>Realty Manager</source>
+				<target>Управление недвижимостью</target>
+			</trans-unit>
+			<trans-unit id="pi1_description" xml:space="preserve" approved="yes">
+				<source>Displays realty objects in the FE</source>
+				<target>Управление недвижимостью</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_general" xml:space="preserve" approved="yes">
+				<source>General</source>
+				<target>Общие</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.what_to_display" xml:space="preserve" approved="yes">
+				<source>What should be displayed:</source>
+				<target>Выберите, что нужно показать посетителю сайта:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.realty_list" xml:space="preserve" approved="yes">
+				<source>Realty List</source>
+				<target>Список недвижемости</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.favorites" xml:space="preserve" approved="yes">
+				<source>Favorites</source>
+				<target>Избранные</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.staticSqlFilter" xml:space="preserve" approved="yes">
+				<source>Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</source>
+				<target>Статический фильтр SQL (добавляется к условию WHERE, можно использовать оператор &quot; AND &quot;):</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.checkboxesFilter" xml:space="preserve" approved="yes">
+				<source>DB field to create the search filter checkboxes from:</source>
+				<target>Поля базы данных доступные для фильтрации поиска:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sortCriteria" xml:space="preserve" approved="yes">
+				<source>DB fields by which a FE user can sort the list view:</source>
+				<target>Поля базы данных доступные для фильтрации списка недвижимости:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.singlePID" xml:space="preserve" approved="yes">
+				<source>Page for the single view:</source>
+				<target>Страница для просмотра единственного елемента недвижимости (single):</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.favoritesPID" xml:space="preserve" approved="yes">
+				<source>Page with the favorites list:</source>
+				<target>Страница с избранными:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.filterTargetPID" xml:space="preserve" approved="yes">
+				<source>Target page for the search widget:</source>
+				<target>Страница с выбором недвижемости по городам:</target>
+			</trans-unit>
+			<trans-unit id="decimal_mark" xml:space="preserve" approved="yes">
+				<source>.</source>
+				<target>,</target>
+			</trans-unit>
+			<trans-unit id="thousands_separator" xml:space="preserve" approved="yes">
+				<source></source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="label_title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Заголовок</target>
+			</trans-unit>
+			<trans-unit id="label_city" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Город</target>
+			</trans-unit>
+			<trans-unit id="label_district" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Район</target>
+			</trans-unit>
+			<trans-unit id="label_tstamp" xml:space="preserve" approved="yes">
+				<source>Date of last change</source>
+				<target>Дата последнего изменения</target>
+			</trans-unit>
+			<trans-unit id="label_extra_charges" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Дополнительные выплаты</target>
+			</trans-unit>
+			<trans-unit id="label_extra_charges_short" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Дополнительные выплаты</target>
+			</trans-unit>
+			<trans-unit id="label_rent_excluding_bills" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Аренда</target>
+			</trans-unit>
+			<trans-unit id="label_rent_excluding_bills_short" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Аренда</target>
+			</trans-unit>
+			<trans-unit id="label_number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Количество комнат</target>
+			</trans-unit>
+			<trans-unit id="label_number_of_rooms_short" xml:space="preserve" approved="yes">
+				<source>rooms</source>
+				<target>комнат</target>
+			</trans-unit>
+			<trans-unit id="label_balcony" xml:space="preserve" approved="yes">
+				<source>Balcony/patio</source>
+				<target>Балкон/лоджия</target>
+			</trans-unit>
+			<trans-unit id="label_balcony_short" xml:space="preserve" approved="yes">
+				<source>balcony/patio</source>
+				<target>балкон/лоджия</target>
+			</trans-unit>
+			<trans-unit id="label_garden" xml:space="preserve" approved="yes">
+				<source>garden</source>
+				<target>сад</target>
+			</trans-unit>
+			<trans-unit id="label_garden_short" xml:space="preserve" approved="yes">
+				<source>Garden (usage)</source>
+				<target>Сад (общий)</target>
+			</trans-unit>
+			<trans-unit id="label_elevator" xml:space="preserve" approved="yes">
+				<source>Elevator</source>
+				<target>Лифт</target>
+			</trans-unit>
+			<trans-unit id="label_elevator_short" xml:space="preserve" approved="yes">
+				<source>elevator</source>
+				<target>лифт</target>
+			</trans-unit>
+			<trans-unit id="label_barrier_free" xml:space="preserve" approved="yes">
+				<source>Accessible</source>
+				<target>Удобства</target>
+			</trans-unit>
+			<trans-unit id="label_barrier_free_short" xml:space="preserve" approved="yes">
+				<source>accessible</source>
+				<target>удобства</target>
+			</trans-unit>
+			<trans-unit id="label_assisted_living" xml:space="preserve" approved="yes">
+				<source>Assisted living</source>
+				<target>С обслуживанием</target>
+			</trans-unit>
+			<trans-unit id="label_assisted_living_short" xml:space="preserve" approved="yes">
+				<source>assisted living</source>
+				<target>с обслуживанием</target>
+			</trans-unit>
+			<trans-unit id="label_fitted_kitchen" xml:space="preserve" approved="yes">
+				<source>Fitted kitchen</source>
+				<target>Совместная кухня</target>
+			</trans-unit>
+			<trans-unit id="label_fitted_kitchen_short" xml:space="preserve" approved="yes">
+				<source>fitted kitchen</source>
+				<target>совместная кухня</target>
+			</trans-unit>
+			<trans-unit id="label_construction_year" xml:space="preserve" approved="yes">
+				<source>Year of construction</source>
+				<target>Дата постройки здания</target>
+			</trans-unit>
+			<trans-unit id="label_construction_year_short" xml:space="preserve" approved="yes">
+				<source>year of construction</source>
+				<target>дата постройки здания</target>
+			</trans-unit>
+			<trans-unit id="label_usable_from" xml:space="preserve" approved="yes">
+				<source>Can be used starting at</source>
+				<target>Освобождается</target>
+			</trans-unit>
+			<trans-unit id="label_usable_from_short" xml:space="preserve" approved="yes">
+				<source>can be used starting at</source>
+				<target>освобождается</target>
+			</trans-unit>
+			<trans-unit id="label_object_number" xml:space="preserve" approved="yes">
+				<source>Object #</source>
+				<target>Объект №</target>
+			</trans-unit>
+			<trans-unit id="label_address" xml:space="preserve" approved="yes">
+				<source>Address</source>
+				<target>Адрес</target>
+			</trans-unit>
+			<trans-unit id="label_description" xml:space="preserve" approved="yes">
+				<source>Description</source>
+				<target>Описание</target>
+			</trans-unit>
+			<trans-unit id="label_equipment" xml:space="preserve" approved="yes">
+				<source>Equipment</source>
+				<target>Оборудован</target>
+			</trans-unit>
+			<trans-unit id="label_overview" xml:space="preserve" approved="yes">
+				<source>Overview</source>
+				<target>Обзор</target>
+			</trans-unit>
+			<trans-unit id="label_location" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Ориентир</target>
+			</trans-unit>
+			<trans-unit id="label_misc" xml:space="preserve" approved="yes">
+				<source>Miscellaneous</source>
+				<target>Контактная информация:</target>
+			</trans-unit>
+			<trans-unit id="label_layout" xml:space="preserve" approved="yes">
+				<source>Layout</source>
+				<target>Планировка</target>
+			</trans-unit>
+			<trans-unit id="label_living_area" xml:space="preserve" approved="yes">
+				<source>Living area</source>
+				<target>Жилая площадь</target>
+			</trans-unit>
+			<trans-unit id="label_total_area" xml:space="preserve" approved="yes">
+				<source>Total area</source>
+				<target>Общая площадь</target>
+			</trans-unit>
+			<trans-unit id="label_heating_included" xml:space="preserve" approved="yes">
+				<source>Extra charges include heating</source>
+				<target>Дополнительные расходы включая отопление</target>
+			</trans-unit>
+			<trans-unit id="label_deposit" xml:space="preserve" approved="yes">
+				<source>Security deposit</source>
+				<target>Предоплата</target>
+			</trans-unit>
+			<trans-unit id="label_provision" xml:space="preserve" approved="yes">
+				<source>Provision/broker's fee</source>
+				<target>Оплата услуг агентства</target>
+			</trans-unit>
+			<trans-unit id="label_buying_price" xml:space="preserve" approved="yes">
+				<source>Price for buying</source>
+				<target>Цена покупки</target>
+			</trans-unit>
+			<trans-unit id="label_year_rent" xml:space="preserve" approved="yes">
+				<source>Net rent per year</source>
+				<target>Стоимость с выплатой (в год)</target>
+			</trans-unit>
+			<trans-unit id="label_apartment_type" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Квартира</target>
+			</trans-unit>
+			<trans-unit id="label_house_type" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Дом</target>
+			</trans-unit>
+			<trans-unit id="label_floor" xml:space="preserve" approved="yes">
+				<source>Floor</source>
+				<target>Этаж</target>
+			</trans-unit>
+			<trans-unit id="label_floors" xml:space="preserve" approved="yes">
+				<source>Number of floors</source>
+				<target>Всего этажей</target>
+			</trans-unit>
+			<trans-unit id="label_bedrooms" xml:space="preserve" approved="yes">
+				<source>Number of bedrooms</source>
+				<target>Кол-во спален</target>
+			</trans-unit>
+			<trans-unit id="label_bathrooms" xml:space="preserve" approved="yes">
+				<source>Number of bathrooms</source>
+				<target>Кол-во ванных комнат</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type" xml:space="preserve" approved="yes">
+				<source>Type of heating</source>
+				<target>Тип отопления</target>
+			</trans-unit>
+			<trans-unit id="label_garage_type" xml:space="preserve" approved="yes">
+				<source>Parking space type</source>
+				<target>Наличие гаража/стоянки</target>
+			</trans-unit>
+			<trans-unit id="label_garage_rent" xml:space="preserve" approved="yes">
+				<source>Rent for garage/parking space</source>
+				<target>Стоимость аренды гаража/стоянки</target>
+			</trans-unit>
+			<trans-unit id="label_garage_price" xml:space="preserve" approved="yes">
+				<source>Price for buying the garage/parking space</source>
+				<target>Стоимость покупки гаража</target>
+			</trans-unit>
+			<trans-unit id="label_pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Домашние животные</target>
+			</trans-unit>
+			<trans-unit id="label_state" xml:space="preserve" approved="yes">
+				<source>Condition</source>
+				<target>Состояние</target>
+			</trans-unit>
+			<trans-unit id="label_weofferyou_formal" xml:space="preserve" approved="yes">
+				<source>We offer you the following objects:</source>
+				<target>Ознакомтесь, пожалуйста, с нашими предложениями:</target>
+			</trans-unit>
+			<trans-unit id="label_weofferyou_informal" xml:space="preserve" approved="yes">
+				<source>We offer you the following objects:</source>
+				<target>Ознакомтесь пожалуйста с нашими предложениями:</target>
+			</trans-unit>
+			<trans-unit id="label_yourfavorites_formal" xml:space="preserve" approved="yes">
+				<source>You have the following objects on your favorites list:</source>
+				<target>Список добавленных Вами в избранное:</target>
+			</trans-unit>
+			<trans-unit id="label_yourfavorites_informal" xml:space="preserve" approved="yes">
+				<source>You have the following objects on your favorites list:</source>
+				<target>Список избранных:</target>
+			</trans-unit>
+			<trans-unit id="label_searchin" xml:space="preserve" approved="yes">
+				<source>Search in</source>
+				<target>Искать в</target>
+			</trans-unit>
+			<trans-unit id="label_page" xml:space="preserve" approved="yes">
+				<source>Page</source>
+				<target>Страница</target>
+			</trans-unit>
+			<trans-unit id="label_approx" xml:space="preserve" approved="yes">
+				<source>approx.</source>
+				<target>приблизительно</target>
+			</trans-unit>
+			<trans-unit id="label_squareMeters" xml:space="preserve" approved="yes">
+				<source>m²</source>
+				<target>m&amp;sup2;</target>
+			</trans-unit>
+			<trans-unit id="label_back" xml:space="preserve" approved="yes">
+				<source>Back to the list</source>
+				<target>Назад в список</target>
+			</trans-unit>
+			<trans-unit id="label_add_to_favorites" xml:space="preserve" approved="yes">
+				<source>Add to favorites</source>
+				<target>Добавить в избранное</target>
+			</trans-unit>
+			<trans-unit id="label_remove_from_favorites" xml:space="preserve" approved="yes">
+				<source>Remove from favorites</source>
+				<target>Убрать из избранного</target>
+			</trans-unit>
+			<trans-unit id="label_pleaseselectcity" xml:space="preserve" approved="yes">
+				<source>&amp;#8212; Please select city &amp;#8212;</source>
+				<target>&amp;#8212; Пожалуйста, выберите город &amp;#8212;</target>
+			</trans-unit>
+			<trans-unit id="label_next_image" xml:space="preserve" approved="yes">
+				<source>go to the next image</source>
+				<target>следующее изображение</target>
+			</trans-unit>
+			<trans-unit id="label_sorry" xml:space="preserve" approved="yes">
+				<source>Sorry!</source>
+				<target>Извините!</target>
+			</trans-unit>
+			<trans-unit id="label_ascending" xml:space="preserve" approved="yes">
+				<source>ascending</source>
+				<target>убыванию</target>
+			</trans-unit>
+			<trans-unit id="label_descending" xml:space="preserve" approved="yes">
+				<source>descending</source>
+				<target>возростанию</target>
+			</trans-unit>
+			<trans-unit id="label_sort" xml:space="preserve" approved="yes">
+				<source>sort</source>
+				<target>сортировать</target>
+			</trans-unit>
+			<trans-unit id="label_search" xml:space="preserve" approved="yes">
+				<source>search</source>
+				<target>искать</target>
+			</trans-unit>
+			<trans-unit id="label_sortby" xml:space="preserve" approved="yes">
+				<source>Display sorted by</source>
+				<target>Сортировать по</target>
+			</trans-unit>
+			<trans-unit id="label_contact" xml:space="preserve" approved="yes">
+				<source>Contact us</source>
+				<target>Связаться с нами</target>
+			</trans-unit>
+			<trans-unit id="label_close_window" xml:space="preserve" approved="yes">
+				<source>Close window</source>
+				<target>Закрыть окно</target>
+			</trans-unit>
+			<trans-unit id="message_yes" xml:space="preserve" approved="yes">
+				<source>yes</source>
+				<target>да</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_realty_list_formal" xml:space="preserve" approved="yes">
+				<source>No results were found with these search parameters. Please try refining your search.</source>
+				<target>По заданым параметрам не найдено ни одного предложения. Пожалуйста, попробуйте изменить условия поиска.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_realty_list_informal" xml:space="preserve" approved="yes">
+				<source>No results were found with these search parameters. Please try refining your search.</source>
+				<target>По заданым параметрам не найдено ни одного предложения. Пожалуйста, попробуйте изменить условия поиска.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_favorites_formal" xml:space="preserve" approved="yes">
+				<source>Your favorites list currently is empty.</source>
+				<target>В настоящий момент Ваш список избранного пуст.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_favorites_informal" xml:space="preserve" approved="yes">
+				<source>Your favorites list currently is empty.</source>
+				<target>В настоящий момент Ваш список избранного пуст.</target>
+			</trans-unit>
+			<trans-unit id="message_invalidImage_formal" xml:space="preserve" approved="yes">
+				<source>This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</source>
+				<target>Это изображение не доступно в нашей базе данных. Пожалуйста, убедитесь в правильности адреса. Если Вы перешли на эту старницу по ссылке на сайте, значит возможно ссылка повреждена или устарела. Пожалуйста, сообщите об этом администратору сайта.</target>
+			</trans-unit>
+			<trans-unit id="message_invalidImage_informal" xml:space="preserve" approved="yes">
+				<source>This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</source>
+				<target>Это изображение не доступно в нашей базе данных. Пожалуйста, убедитесь в правильности адреса. Если Вы перешли на эту старницу по ссылке на сайте, значит возможно ссылка повреждена или устарела. Пожалуйста, сообщите об этом администратору сайта.</target>
+			</trans-unit>
+			<trans-unit id="label_tlinks_print" xml:space="preserve" approved="yes">
+				<source></source>
+				<target>напечатать</target>
+			</trans-unit>
+			<trans-unit id="label_tlinks_order" xml:space="preserve" approved="yes">
+				<source></source>
+				<target>заказать</target>
+			</trans-unit>
+			<trans-unit id="label_tlinks_favs" xml:space="preserve" approved="yes">
+				<source></source>
+				<target>избранное</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

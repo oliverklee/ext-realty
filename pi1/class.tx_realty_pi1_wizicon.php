@@ -48,14 +48,14 @@ class tx_realty_pi1_wizicon
     }
 
     /**
-     * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found
+     * Reads the [extDir]/Resources/Private/Language/locallang.xlf and returns the $LOCAL_LANG array found
      * in that file.
      *
      * @return array[] the language labels
      */
     public function includeLocalLang()
     {
-        $languageFile = ExtensionManagementUtility::extPath('realty') . 'locallang.xml';
+        $languageFile = ExtensionManagementUtility::extPath('realty') . 'Resources/Private/Language/locallang.xlf';
         /** @var LanguageService $languageService */
         $languageService = $GLOBALS['LANG'];
         /** @var LocallangXmlParser $xmlParser */

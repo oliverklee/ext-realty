@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="tr" datatype="plaintext" original="messages" date="2018-01-22T16:00:30Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="tx_realty_objects" xml:space="preserve" approved="yes">
+				<source>Realty object</source>
+				<target>Emlak</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_number" xml:space="preserve" approved="yes">
+				<source>Object number</source>
+				<target>Kod Numarasi</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.0" xml:space="preserve" approved="yes">
+				<source>for renting</source>
+				<target>Kiralık</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.1" xml:space="preserve" approved="yes">
+				<source>for sale</source>
+				<target>Satılık</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type" xml:space="preserve" approved="yes">
+				<source>Object type</source>
+				<target>Emlak tipi</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Başlık</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.emphasized" xml:space="preserve" approved="yes">
+				<source>Emphasized</source>
+				<target>Önemli</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.street" xml:space="preserve" approved="yes">
+				<source>Street</source>
+				<target>Cadde</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.zip" xml:space="preserve" approved="yes">
+				<source>ZIP code</source>
+				<target>Posta kodu</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.city" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Şehir</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.district" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Semt</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Oda sazısı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.living_area" xml:space="preserve" approved="yes">
+				<source>Living area in m²</source>
+				<target>Kullanım alanı m2</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.total_area" xml:space="preserve" approved="yes">
+				<source>Total area in m²</source>
+				<target>Tüm alan m2</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.rent_excluding_bills" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Ücret masraflar hariç</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.extra_charges" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Ekstra masraflar</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_included" xml:space="preserve" approved="yes">
+				<source>Extra charges include heating</source>
+				<target>Extra masraflar ısınma içinde</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.deposit" xml:space="preserve" approved="yes">
+				<source>Security deposit</source>
+				<target>Provizyon</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.provision" xml:space="preserve" approved="yes">
+				<source>Provision/Broker's fee</source>
+				<target>Emlak Provizyonu</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.usable_from" xml:space="preserve" approved="yes">
+				<source>Can be used starting at</source>
+				<target>Şu andan itibaren kullanılabilir</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.buying_price" xml:space="preserve" approved="yes">
+				<source>Price for buying</source>
+				<target>Alış Fiyatı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.year_rent" xml:space="preserve" approved="yes">
+				<source>Net rent per year</source>
+				<target>Yıllık net kira</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.apartment_type" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Konut tipi</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.house_type" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Ev tipi</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floor" xml:space="preserve" approved="yes">
+				<source>Floor</source>
+				<target>Kat</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floors" xml:space="preserve" approved="yes">
+				<source>Number of floors</source>
+				<target>Kat sayısı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bedrooms" xml:space="preserve" approved="yes">
+				<source>Number of bedrooms</source>
+				<target>Yatak odası sayısı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bathrooms" xml:space="preserve" approved="yes">
+				<source>Number of bathrooms</source>
+				<target>Banyo/WC sayısı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type" xml:space="preserve" approved="yes">
+				<source>Type of heating</source>
+				<target>Isınma türü</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_type" xml:space="preserve" approved="yes">
+				<source>Parking space type</source>
+				<target>Garaj/park alanı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_rent" xml:space="preserve" approved="yes">
+				<source>Rent for garage/parking space</source>
+				<target>Garaj/park alanı kirası</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_price" xml:space="preserve" approved="yes">
+				<source>Price for buying the garage/parking space</source>
+				<target>Garaj/park alanı satış fiyatı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Evcil Hayvanlar</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.construction_year" xml:space="preserve" approved="yes">
+				<source>Year of construction</source>
+				<target>Yapım yılı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state" xml:space="preserve" approved="yes">
+				<source>Condition</source>
+				<target>Durumu</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.balcony" xml:space="preserve" approved="yes">
+				<source>Balcony/patio</source>
+				<target>Balkon/Teras</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garden" xml:space="preserve" approved="yes">
+				<source>Garden (usage)</source>
+				<target>Bahçe (kullanılabilir)</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.elevator" xml:space="preserve" approved="yes">
+				<source>Elevator</source>
+				<target>Asansör</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve" approved="yes">
+				<source>Accessible</source>
+				<target>Özürlüler için uygunluk</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve" approved="yes">
+				<source>Assisted living</source>
+				<target>Özürlüler /Yaşlılar için bakım</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.fitted_kitchen" xml:space="preserve" approved="yes">
+				<source>Fitted kitchen</source>
+				<target>Hazır Mutfak</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.description" xml:space="preserve" approved="yes">
+				<source>Description</source>
+				<target>Açıklama</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.equipment" xml:space="preserve" approved="yes">
+				<source>Equipment</source>
+				<target>Donanım</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.layout" xml:space="preserve" approved="yes">
+				<source>Layout</source>
+				<target>Plan</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.location" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Konum</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.misc" xml:space="preserve" approved="yes">
+				<source>Miscellaneous</source>
+				<target>Dİğer</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
+				<source>Images</source>
+				<target>Resimler</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
+				<source>Last changed</source>
+				<target>Güncelleme tarihi</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Konut tipi</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Başlık</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Ev tipi</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Başlık</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places" xml:space="preserve" approved="yes">
+				<source>Car place</source>
+				<target>Araba park imkanı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Başlık</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Evcil hayvanlar</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Başlık</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Resim</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
+				<source>Caption</source>
+				<target>Resim tanımı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Resim</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Şehir</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
+				<source>City name</source>
+				<target>Şehir adı</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Semt</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
+				<source>The district's name</source>
+				<target>Semt adı</target>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">
+				<source>Realty Manager</source>
+				<target>Emlak Listesi</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
