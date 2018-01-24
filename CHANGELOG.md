@@ -19,7 +19,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
-- #1 Convert the locallang files to XLIFF
+- #3 require static_info_tables >= 6.3.7
+- #1 convert the locallang files to XLIFF
 - move the extension to GitHub
 - allow oelib up to 1.9.99
 - set 7.9.99 as maximum TYPO3 version
