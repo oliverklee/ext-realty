@@ -11,7 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
-use TYPO3\CMS\Core\Localization\Parser\LocallangXmlParser;
+use TYPO3\CMS\Core\Localization\Parser\XliffParser;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
@@ -58,9 +58,9 @@ class tx_realty_pi1_wizicon
         $languageFile = ExtensionManagementUtility::extPath('realty') . 'Resources/Private/Language/locallang.xlf';
         /** @var LanguageService $languageService */
         $languageService = $GLOBALS['LANG'];
-        /** @var LocallangXmlParser $xmlParser */
-        $xmlParser = GeneralUtility::makeInstance(LocallangXmlParser::class);
-        $localLanguage = $xmlParser->getParsedData($languageFile, $languageService->lang);
+        /** @var XliffParser $xliffParser */
+        $xliffParser = GeneralUtility::makeInstance(XliffParser::class);
+        $localLanguage = $xliffParser->getParsedData($languageFile, $languageService->lang);
 
         return $localLanguage;
     }
