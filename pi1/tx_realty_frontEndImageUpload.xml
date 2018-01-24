@@ -43,8 +43,8 @@
 		</actionlets>
 	</control>
 	<elements>
-		<renderlet:TEXT name="caption" label="LLL:EXT:realty/locallang_db.xml:tx_realty_images.caption"/>
-		<renderlet:FILE name="image" label="LLL:EXT:realty/locallang_db.xml:tx_realty_images.image">
+		<renderlet:TEXT name="caption" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.caption"/>
+		<renderlet:FILE name="image" label="LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_images.image">
 			<data>
 				<targetdir>uploads/tx_realty/</targetdir>
 			</data>
@@ -66,12 +66,12 @@
 		<renderlet:HIDDEN name="imagesToDelete">
 			<data defaultvalue="" />
 		</renderlet:HIDDEN>
-		<renderlet:SUBMIT name="button_submit_and_stay" label="LLL:EXT:realty/pi1/locallang.xml:label_save">
+		<renderlet:SUBMIT name="button_submit_and_stay" label="LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save">
 			<onclick>
 				document.getElementById("tx_realty_frontEndImageUpload_proceed_image_upload").value = 1
 			</onclick>
 		</renderlet:SUBMIT>
-		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/pi1/locallang.xml:label_save_and_close"/>
+		<renderlet:SUBMIT name="button_submit" label="LLL:EXT:realty/Resources/Private/Language/locallang.xlf:label_save_and_close"/>
 		<renderlet:HIDDEN name="proceed_image_upload" />
 	</elements>
 </formidable>

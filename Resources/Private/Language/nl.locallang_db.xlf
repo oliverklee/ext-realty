@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="nl" datatype="plaintext" original="messages" date="2018-01-22T16:00:30Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="tx_realty_objects" xml:space="preserve" approved="yes">
+				<source>Realty object</source>
+				<target>Realty object</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_number" xml:space="preserve" approved="yes">
+				<source>Object number</source>
+				<target>Object nummer</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.0" xml:space="preserve" approved="yes">
+				<source>for renting</source>
+				<target>Te huur</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type.I.1" xml:space="preserve" approved="yes">
+				<source>for sale</source>
+				<target>Te koop</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.object_type" xml:space="preserve" approved="yes">
+				<source>Object type</source>
+				<target>Soort object</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.emphasized" xml:space="preserve" approved="yes">
+				<source>Emphasized</source>
+				<target>Bijzonderheden</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.street" xml:space="preserve" approved="yes">
+				<source>Street</source>
+				<target>Straat</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.zip" xml:space="preserve" approved="yes">
+				<source>ZIP code</source>
+				<target>Postcode</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.city" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Plaats</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.district" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Regio</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.country" xml:space="preserve" approved="yes">
+				<source>Country</source>
+				<target>Land</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.show_address" xml:space="preserve" approved="yes">
+				<source>Show exact address in front end</source>
+				<target>Toon adres in FE</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Aantal kamers</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.living_area" xml:space="preserve" approved="yes">
+				<source>Living area in m²</source>
+				<target>Woonoppervlakte</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.total_area" xml:space="preserve" approved="yes">
+				<source>Total area in m²</source>
+				<target>Totale oppervlakte</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.estate_size" xml:space="preserve" approved="yes">
+				<source>Estate size in m²</source>
+				<target>Kavelgrootte</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.rent_excluding_bills" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Kale huur</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.extra_charges" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Servicekosten</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_included" xml:space="preserve" approved="yes">
+				<source>Extra charges include heating</source>
+				<target>Kosten verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.deposit" xml:space="preserve" approved="yes">
+				<source>Security deposit</source>
+				<target>Borg</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.provision" xml:space="preserve" approved="yes">
+				<source>Provision/Broker's fee</source>
+				<target>Makelaars provisie</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.usable_from" xml:space="preserve" approved="yes">
+				<source>Can be used starting at</source>
+				<target>Beschikbaar vanaf</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.buying_price" xml:space="preserve" approved="yes">
+				<source>Price for buying</source>
+				<target>Koopprijs</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.hoa_fee" xml:space="preserve" approved="yes">
+				<source>HOA fee</source>
+				<target>VVE bijdrage</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.year_rent" xml:space="preserve" approved="yes">
+				<source>Net rent per year</source>
+				<target>Netto huur per jaar</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.apartment_type" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Type appartement</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.house_type" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Type huis</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floor" xml:space="preserve" approved="yes">
+				<source>Floor</source>
+				<target>Verdieping</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.floors" xml:space="preserve" approved="yes">
+				<source>Number of floors</source>
+				<target>Aantal verdiepingen</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bedrooms" xml:space="preserve" approved="yes">
+				<source>Number of bedrooms</source>
+				<target>Aantal slaapkamers</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.bathrooms" xml:space="preserve" approved="yes">
+				<source>Number of bathrooms</source>
+				<target>Aantal badkamers</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type" xml:space="preserve" approved="yes">
+				<source>Type of heating</source>
+				<target>Soort verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.1" xml:space="preserve" approved="yes">
+				<source>district heating</source>
+				<target>Stadverwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.2" xml:space="preserve" approved="yes">
+				<source>central heating</source>
+				<target>Centrale verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.3" xml:space="preserve" approved="yes">
+				<source>electric heating</source>
+				<target>Elektrische verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.4" xml:space="preserve" approved="yes">
+				<source>floor heating</source>
+				<target>Vloerverwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.5" xml:space="preserve" approved="yes">
+				<source>gas heating</source>
+				<target>Gasverwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.6" xml:space="preserve" approved="yes">
+				<source>green fuel heating</source>
+				<target>Alternatieve verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.7" xml:space="preserve" approved="yes">
+				<source>heat pump heating</source>
+				<target>Aardwarmtepomp</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.8" xml:space="preserve" approved="yes">
+				<source>oil heating</source>
+				<target>Olie verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.9" xml:space="preserve" approved="yes">
+				<source>self-contained central heating</source>
+				<target>Etage verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.10" xml:space="preserve" approved="yes">
+				<source>solar heating</source>
+				<target>Zonne energie</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.11" xml:space="preserve" approved="yes">
+				<source>heating by stove</source>
+				<target>Kachelverwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.heating_type.12" xml:space="preserve" approved="yes">
+				<source>zone heating</source>
+				<target>Blok verwarming</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.has_air_conditioning" xml:space="preserve" approved="yes">
+				<source>Air conditioning</source>
+				<target>Airconditioning</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_type" xml:space="preserve" approved="yes">
+				<source>Parking space type</source>
+				<target>Garage</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_rent" xml:space="preserve" approved="yes">
+				<source>Rent for garage/parking space</source>
+				<target>Huur voor een garage</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garage_price" xml:space="preserve" approved="yes">
+				<source>Price for buying the garage/parking space</source>
+				<target>Koopprijs garage</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Huisdieren</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.construction_year" xml:space="preserve" approved="yes">
+				<source>Year of construction</source>
+				<target>Bouwjaar</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.old_or_new_building" xml:space="preserve" approved="yes">
+				<source>Old or new building</source>
+				<target>Bestaand of Nieuwbouw</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.old_or_new_building.I.1" xml:space="preserve" approved="yes">
+				<source>new building</source>
+				<target>Nieuwbouw</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.old_or_new_building.I.2" xml:space="preserve" approved="yes">
+				<source>old building</source>
+				<target>Bestaande bouw</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state" xml:space="preserve" approved="yes">
+				<source>Condition</source>
+				<target>Staat van onderhoud</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.1" xml:space="preserve" approved="yes">
+				<source>bare brickwork</source>
+				<target>Ruwbouw</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.2" xml:space="preserve" approved="yes">
+				<source>by arrangement</source>
+				<target>Na afspraak</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.3" xml:space="preserve" approved="yes">
+				<source>dilapidated</source>
+				<target>Bouwval</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.4" xml:space="preserve" approved="yes">
+				<source>first occupancy</source>
+				<target>Nieuw</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.5" xml:space="preserve" approved="yes">
+				<source>for demolition</source>
+				<target>Afbraakpand</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.6" xml:space="preserve" approved="yes">
+				<source>gutted</source>
+				<target>Gestript</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.7" xml:space="preserve" approved="yes">
+				<source>modernized</source>
+				<target>Gemoderniseerd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.8" xml:space="preserve" approved="yes">
+				<source>neat</source>
+				<target>Normaal</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.9" xml:space="preserve" approved="yes">
+				<source>in need of renovation</source>
+				<target>Dient gerenoveerd te worden</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.10" xml:space="preserve" approved="yes">
+				<source>reconditioned</source>
+				<target>Zo goed als nieuw</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.11" xml:space="preserve" approved="yes">
+				<source>renovated</source>
+				<target>Gerenoveerd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.12" xml:space="preserve" approved="yes">
+				<source>sanitated</source>
+				<target>Gesaneerd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.13" xml:space="preserve" approved="yes">
+				<source>planned</source>
+				<target>Bouwplannen aanwezig</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.14" xml:space="preserve" approved="yes">
+				<source>not renovated</source>
+				<target>niet gerenoveerd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.15" xml:space="preserve" approved="yes">
+				<source>partly renovated</source>
+				<target>gedeeltelijk gerenoveerd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.16" xml:space="preserve" approved="yes">
+				<source>currently being planned</source>
+				<target>Renovatie gepland</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.17" xml:space="preserve" approved="yes">
+				<source>in need of renovation</source>
+				<target>Renovatie noodzakelijk</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.18" xml:space="preserve" approved="yes">
+				<source>fully rented</source>
+				<target>Volledig verhuurd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.19" xml:space="preserve" approved="yes">
+				<source>vacant</source>
+				<target>Vrij</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.20" xml:space="preserve" approved="yes">
+				<source>partly rented</source>
+				<target>Gedeeltelijk verhuurd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.state.21" xml:space="preserve" approved="yes">
+				<source>has building permit</source>
+				<target>Bouwvergunning aanwezig</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.balcony" xml:space="preserve" approved="yes">
+				<source>Balcony/patio</source>
+				<target>Balkon</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.garden" xml:space="preserve" approved="yes">
+				<source>Garden (usage)</source>
+				<target>Tuin</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.elevator" xml:space="preserve" approved="yes">
+				<source>Elevator</source>
+				<target>Lift</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve" approved="yes">
+				<source>Accessible</source>
+				<target>Toegankelijkheid</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve" approved="yes">
+				<source>Assisted living</source>
+				<target>Aanleunwoning</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.fitted_kitchen" xml:space="preserve" approved="yes">
+				<source>Fitted kitchen</source>
+				<target>Keuken</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.has_pool" xml:space="preserve" approved="yes">
+				<source>Pool</source>
+				<target>Zwembad</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.has_community_pool" xml:space="preserve" approved="yes">
+				<source>Community pool</source>
+				<target>Gemeenschappelijk zwembad</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.teaser" xml:space="preserve" approved="yes">
+				<source>Teaser</source>
+				<target>Teaser</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.description" xml:space="preserve" approved="yes">
+				<source>Description</source>
+				<target>Beschrijving</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.equipment" xml:space="preserve" approved="yes">
+				<source>Equipment</source>
+				<target>Apparatuur</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.layout" xml:space="preserve" approved="yes">
+				<source>Layout</source>
+				<target>Indeling</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.location" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Liging</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.misc" xml:space="preserve" approved="yes">
+				<source>Miscellaneous</source>
+				<target>Diverse</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.details_page" xml:space="preserve" approved="yes">
+				<source>Separate page for the details view for this object</source>
+				<target>Pagina voor de details</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.images" xml:space="preserve" approved="yes">
+				<source>Images</source>
+				<target>Foto's</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.tstamp" xml:space="preserve" approved="yes">
+				<source>Last changed</source>
+				<target>Laatst gewijzigd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.employer" xml:space="preserve" approved="yes">
+				<source>Employer</source>
+				<target>Firma</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.openimmo_anid" xml:space="preserve" approved="yes">
+				<source>&quot;OpenImmo-ANID&quot;</source>
+				<target>OpenImmo ANID</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.openimmo_obid" xml:space="preserve" approved="yes">
+				<source>&quot;OpenImmo-OBID&quot;</source>
+				<target>OpenImmo OBID</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.utilization" xml:space="preserve" approved="yes">
+				<source>Utilization</source>
+				<target>Benutting</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_data_source" xml:space="preserve" approved="yes">
+				<source>Contact data source (for contact form and detail view)</source>
+				<target>Bron contactgegevens (voor contactformulier en detail aanzicht)</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_data_source.I.0" xml:space="preserve" approved="yes">
+				<source>This realty object</source>
+				<target>Dit objekt</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_data_source.I.1" xml:space="preserve" approved="yes">
+				<source>My account</source>
+				<target>Mijn Account</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_person" xml:space="preserve" approved="yes">
+				<source>Contact person</source>
+				<target>Kontaktpersoon</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.contact_email" xml:space="preserve" approved="yes">
+				<source>Contact e-mail</source>
+				<target>Kontakt E-mail</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.owner" xml:space="preserve" approved="yes">
+				<source>FE user who has created this object</source>
+				<target>FE gebruiker die dit objekt heeft aangelegd</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.language" xml:space="preserve" approved="yes">
+				<source>Language of the record</source>
+				<target>Taal</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.currency" xml:space="preserve" approved="yes">
+				<source>Currency</source>
+				<target>Muntsoort</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.sorting" xml:space="preserve" approved="yes">
+				<source>Positioning in the list view</source>
+				<target>Positie in de lijst</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.advertised_date" xml:space="preserve" approved="yes">
+				<source>Advertised on</source>
+				<target>Geadverteerd sinds</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Type appartement</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_apartment_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Type huis</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_house_types.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places" xml:space="preserve" approved="yes">
+				<source>Car place</source>
+				<target>Parkeerplaats</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_car_places.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Huisdieren</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_pets.title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Foto</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.caption" xml:space="preserve" approved="yes">
+				<source>Caption</source>
+				<target>Bijschrift</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_images.image" xml:space="preserve" approved="yes">
+				<source>Image</source>
+				<target>Foto</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Plaats</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities.title" xml:space="preserve" approved="yes">
+				<source>City name</source>
+				<target>Plaats</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_cities.save_folder" xml:space="preserve" approved="yes">
+				<source>Folder for objects in this city (only for FE-created records)</source>
+				<target>Folder voor plaatsnamen</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Regio</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts.title" xml:space="preserve" approved="yes">
+				<source>The district's name</source>
+				<target>Regio</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_districts.city" xml:space="preserve" approved="yes">
+				<source>City which this district belongs to</source>
+				<target>Plaats waar dit stadsdeel toe behoort</target>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_realty_tab" xml:space="preserve" approved="yes">
+				<source>Realty</source>
+				<target>Onroerend goed</target>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_realty_openimmo_anid" xml:space="preserve" approved="yes">
+				<source>OpenImmo offerer ID</source>
+				<target>OpenImmo aanbieder ID</target>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_realty_maximum_objects" xml:space="preserve" approved="yes">
+				<source>Maximum number of objects</source>
+				<target>Maximum aantal van objecten</target>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">
+				<source>Realty Manager</source>
+				<target>Realty Manager</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

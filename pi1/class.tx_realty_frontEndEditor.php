@@ -770,7 +770,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      * @param array $formData
      *        Form data, must contain the elements 'fieldName' and 'label'.The value of 'fieldName' must be a database column
      *        name of 'tx_realty_objects' which concerns the message and must not be empty. The element 'label' defines the label
-     *        of the message to return and must be a key defined in /pi1/locallang.xml.
+     *        of the message to return and must be a key defined in Resources/Private/Language/locallang.xlf.
      *
      * @return string localized message following the pattern
      *                "[field name]: [message]", in case no valid field
@@ -783,7 +783,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         // This  will lead to an exception for an invalid non-empty field name.
         $labelOfField = $this->checkForValidFieldName(
                 $formData['fieldName'], 'tx_realty_objects', true
-            ) ? 'LLL:EXT:realty/locallang_db.xml:' . 'tx_realty_objects' . '.' .
+            ) ? 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:' . 'tx_realty_objects' . '.' .
                 $formData['fieldName']
             : '';
         // This will cause an exception if the locallang key was invalid.
@@ -798,7 +798,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      * @param string $labelOfField
      *        label of the field which concerns the the message, must be the absolute path starting with "LLL:EXT:", may be empty
      * @param string $labelOfMessage
-     *        label of the message to return, must be defined in pi1/locallang.xml, must not be empty
+     *        label of the message to return, must be defined in Resources/Private/Language/locallang.xlf, must not be empty
      *
      * @return string localized message following the pattern
      *                "[field name]: [message]" if $labelOfField was
@@ -1201,12 +1201,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         if ($formData['title'] == '') {
             $validationErrors[] = $formidable->getLLLabel(
-                'LLL:EXT:realty/pi1/locallang.xml:message_emptyTitle'
+                'LLL:EXT:realty/Resources/Private/Language/locallang.xlf:message_emptyTitle'
             );
         }
         if ($formData['city'] <= 0) {
             $validationErrors[] = $formidable->getLLLabel(
-                'LLL:EXT:realty/pi1/locallang.xml:message_emptyCity'
+                'LLL:EXT:realty/Resources/Private/Language/locallang.xlf:message_emptyCity'
             );
         }
 

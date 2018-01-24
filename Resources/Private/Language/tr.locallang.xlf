@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="tr" datatype="plaintext" original="messages" date="2018-01-23T11:09:47Z" product-name="realty">
+		<header/>
+		<body>
+			<trans-unit id="pi1_title" xml:space="preserve" approved="yes">
+				<source>Realty Manager</source>
+				<target>Emlak Yöneticisi</target>
+			</trans-unit>
+			<trans-unit id="pi1_description" xml:space="preserve" approved="yes">
+				<source>Displays realty objects in the FE</source>
+				<target>Emlak Yöneticisi</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sheet_general" xml:space="preserve" approved="yes">
+				<source>General</source>
+				<target>Genel</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.what_to_display" xml:space="preserve" approved="yes">
+				<source>What should be displayed:</source>
+				<target>Ne gösterilsin:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.realty_list" xml:space="preserve" approved="yes">
+				<source>Realty List</source>
+				<target>Emlak Listesi</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.favorites" xml:space="preserve" approved="yes">
+				<source>Favorites</source>
+				<target>Favoriler</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.staticSqlFilter" xml:space="preserve" approved="yes">
+				<source>Static SQL filter (will be appended to the WHERE clause using &quot; AND &quot;):</source>
+				<target>Statik SQL filitresi (&quot; AND &quot; ile birlikte  WHERE clause ile kullanılır ):</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.checkboxesFilter" xml:space="preserve" approved="yes">
+				<source>DB field to create the search filter checkboxes from:</source>
+				<target>İçinden arama filitresi ve onay kutucuğu (checkbox) oluşturabilen veri bankası tablosu:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.sortCriteria" xml:space="preserve" approved="yes">
+				<source>DB fields by which a FE user can sort the list view:</source>
+				<target>Kullanıcı tarafından liste görünümü düzenlenebilen Veri Bankası tabloları:</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.singlePID" xml:space="preserve" approved="yes">
+				<source>Page for the single view:</source>
+				<target>Sayfa Detaylı (tek)görünüşü</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.favoritesPID" xml:space="preserve" approved="yes">
+				<source>Page with the favorites list:</source>
+				<target>Sayfa favoriler</target>
+			</trans-unit>
+			<trans-unit id="realty.pi_flexform.filterTargetPID" xml:space="preserve" approved="yes">
+				<source>Target page for the search widget:</source>
+				<target>Şehir seçicisi için Sayfa</target>
+			</trans-unit>
+			<trans-unit id="decimal_mark" xml:space="preserve" approved="yes">
+				<source>.</source>
+				<target>,</target>
+			</trans-unit>
+			<trans-unit id="thousands_separator" xml:space="preserve" approved="yes">
+				<source></source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="label_title" xml:space="preserve" approved="yes">
+				<source>Title</source>
+				<target>Başlık</target>
+			</trans-unit>
+			<trans-unit id="label_city" xml:space="preserve" approved="yes">
+				<source>City</source>
+				<target>Şehir</target>
+			</trans-unit>
+			<trans-unit id="label_district" xml:space="preserve" approved="yes">
+				<source>District</source>
+				<target>Semt</target>
+			</trans-unit>
+			<trans-unit id="label_tstamp" xml:space="preserve" approved="yes">
+				<source>Date of last change</source>
+				<target>Son Değişim tarihi</target>
+			</trans-unit>
+			<trans-unit id="label_extra_charges" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>Ekstra ücretler</target>
+			</trans-unit>
+			<trans-unit id="label_extra_charges_short" xml:space="preserve" approved="yes">
+				<source>Extra charges</source>
+				<target>&lt;acronym title=&quot;Ekstra ücretler&quot;&gt;NK&lt;/acronym&gt;</target>
+			</trans-unit>
+			<trans-unit id="label_rent_excluding_bills" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>Aidatsız/ ekstrasız kira</target>
+			</trans-unit>
+			<trans-unit id="label_rent_excluding_bills_short" xml:space="preserve" approved="yes">
+				<source>Rent excluding bills</source>
+				<target>&lt;acronym title=&quot;Aidatsız/ ekstrasız kira&quot;&gt;KM&lt;/acronym&gt;</target>
+			</trans-unit>
+			<trans-unit id="label_number_of_rooms" xml:space="preserve" approved="yes">
+				<source>Number of rooms</source>
+				<target>Oda sayısı</target>
+			</trans-unit>
+			<trans-unit id="label_number_of_rooms_short" xml:space="preserve" approved="yes">
+				<source>rooms</source>
+				<target>Odalar</target>
+			</trans-unit>
+			<trans-unit id="label_balcony" xml:space="preserve" approved="yes">
+				<source>Balcony/patio</source>
+				<target>Balkon/Teras</target>
+			</trans-unit>
+			<trans-unit id="label_balcony_short" xml:space="preserve" approved="yes">
+				<source>balcony/patio</source>
+				<target>Balkon/Teras</target>
+			</trans-unit>
+			<trans-unit id="label_garden" xml:space="preserve" approved="yes">
+				<source>garden</source>
+				<target>Bahçe</target>
+			</trans-unit>
+			<trans-unit id="label_garden_short" xml:space="preserve" approved="yes">
+				<source>Garden (usage)</source>
+				<target>Bahçe (kullanım)</target>
+			</trans-unit>
+			<trans-unit id="label_elevator" xml:space="preserve" approved="yes">
+				<source>Elevator</source>
+				<target>Asansör</target>
+			</trans-unit>
+			<trans-unit id="label_elevator_short" xml:space="preserve" approved="yes">
+				<source>elevator</source>
+				<target>asansör</target>
+			</trans-unit>
+			<trans-unit id="label_barrier_free" xml:space="preserve" approved="yes">
+				<source>Accessible</source>
+				<target>Özürlüler için uygunluk</target>
+			</trans-unit>
+			<trans-unit id="label_barrier_free_short" xml:space="preserve" approved="yes">
+				<source>accessible</source>
+				<target>Özürlüler için uygunluk</target>
+			</trans-unit>
+			<trans-unit id="label_assisted_living" xml:space="preserve" approved="yes">
+				<source>Assisted living</source>
+				<target>Özürlüler /Yaşlılar için bakım</target>
+			</trans-unit>
+			<trans-unit id="label_assisted_living_short" xml:space="preserve" approved="yes">
+				<source>assisted living</source>
+				<target>Özürlüler /Yaşlılar için bakım</target>
+			</trans-unit>
+			<trans-unit id="label_fitted_kitchen" xml:space="preserve" approved="yes">
+				<source>Fitted kitchen</source>
+				<target>Hazır Mutfak</target>
+			</trans-unit>
+			<trans-unit id="label_fitted_kitchen_short" xml:space="preserve" approved="yes">
+				<source>fitted kitchen</source>
+				<target>Hazır Mutfak</target>
+			</trans-unit>
+			<trans-unit id="label_construction_year" xml:space="preserve" approved="yes">
+				<source>Year of construction</source>
+				<target>Yapım yılı</target>
+			</trans-unit>
+			<trans-unit id="label_construction_year_short" xml:space="preserve" approved="yes">
+				<source>year of construction</source>
+				<target>Yapım yılı</target>
+			</trans-unit>
+			<trans-unit id="label_usable_from" xml:space="preserve" approved="yes">
+				<source>Can be used starting at</source>
+				<target>şu tarihden itibaren kullanılabilir</target>
+			</trans-unit>
+			<trans-unit id="label_usable_from_short" xml:space="preserve" approved="yes">
+				<source>can be used starting at</source>
+				<target>şu tarihden itibaren kullanılabilir</target>
+			</trans-unit>
+			<trans-unit id="label_object_number" xml:space="preserve" approved="yes">
+				<source>Object #</source>
+				<target>Yer No:</target>
+			</trans-unit>
+			<trans-unit id="label_address" xml:space="preserve" approved="yes">
+				<source>Address</source>
+				<target>Adres</target>
+			</trans-unit>
+			<trans-unit id="label_description" xml:space="preserve" approved="yes">
+				<source>Description</source>
+				<target>Açıklama</target>
+			</trans-unit>
+			<trans-unit id="label_equipment" xml:space="preserve" approved="yes">
+				<source>Equipment</source>
+				<target>Donanım</target>
+			</trans-unit>
+			<trans-unit id="label_overview" xml:space="preserve" approved="yes">
+				<source>Overview</source>
+				<target>Özet</target>
+			</trans-unit>
+			<trans-unit id="label_location" xml:space="preserve" approved="yes">
+				<source>Location</source>
+				<target>Konum</target>
+			</trans-unit>
+			<trans-unit id="label_misc" xml:space="preserve" approved="yes">
+				<source>Miscellaneous</source>
+				<target>Diğer</target>
+			</trans-unit>
+			<trans-unit id="label_layout" xml:space="preserve" approved="yes">
+				<source>Layout</source>
+				<target>Plan</target>
+			</trans-unit>
+			<trans-unit id="label_living_area" xml:space="preserve" approved="yes">
+				<source>Living area</source>
+				<target>kullanım alanı</target>
+			</trans-unit>
+			<trans-unit id="label_total_area" xml:space="preserve" approved="yes">
+				<source>Total area</source>
+				<target>Toplam Alan</target>
+			</trans-unit>
+			<trans-unit id="label_heating_included" xml:space="preserve" approved="yes">
+				<source>Extra charges include heating</source>
+				<target>Extra masraflar ısınma içinde</target>
+			</trans-unit>
+			<trans-unit id="label_deposit" xml:space="preserve" approved="yes">
+				<source>Security deposit</source>
+				<target>Provizyon</target>
+			</trans-unit>
+			<trans-unit id="label_provision" xml:space="preserve" approved="yes">
+				<source>Provision/broker's fee</source>
+				<target>Emlak Provizyonu</target>
+			</trans-unit>
+			<trans-unit id="label_buying_price" xml:space="preserve" approved="yes">
+				<source>Price for buying</source>
+				<target>Satış fiyatı</target>
+			</trans-unit>
+			<trans-unit id="label_year_rent" xml:space="preserve" approved="yes">
+				<source>Net rent per year</source>
+				<target>Yıllık Net Kira</target>
+			</trans-unit>
+			<trans-unit id="label_apartment_type" xml:space="preserve" approved="yes">
+				<source>Apartment type</source>
+				<target>Konut tipi</target>
+			</trans-unit>
+			<trans-unit id="label_house_type" xml:space="preserve" approved="yes">
+				<source>House type</source>
+				<target>Ev tipi</target>
+			</trans-unit>
+			<trans-unit id="label_floor" xml:space="preserve" approved="yes">
+				<source>Floor</source>
+				<target>Kat</target>
+			</trans-unit>
+			<trans-unit id="label_floors" xml:space="preserve" approved="yes">
+				<source>Number of floors</source>
+				<target>Kat adedi</target>
+			</trans-unit>
+			<trans-unit id="label_bedrooms" xml:space="preserve" approved="yes">
+				<source>Number of bedrooms</source>
+				<target>Yatak odası sayısı</target>
+			</trans-unit>
+			<trans-unit id="label_bathrooms" xml:space="preserve" approved="yes">
+				<source>Number of bathrooms</source>
+				<target>Banyo/WC sayısı</target>
+			</trans-unit>
+			<trans-unit id="label_heating_type" xml:space="preserve" approved="yes">
+				<source>Type of heating</source>
+				<target>Isınma şekli</target>
+			</trans-unit>
+			<trans-unit id="label_garage_type" xml:space="preserve" approved="yes">
+				<source>Parking space type</source>
+				<target>Garaj/park imkanı</target>
+			</trans-unit>
+			<trans-unit id="label_garage_rent" xml:space="preserve" approved="yes">
+				<source>Rent for garage/parking space</source>
+				<target>Garaj / park yeri kirası</target>
+			</trans-unit>
+			<trans-unit id="label_garage_price" xml:space="preserve" approved="yes">
+				<source>Price for buying the garage/parking space</source>
+				<target>Garaj/ park yeri satış fiyatı</target>
+			</trans-unit>
+			<trans-unit id="label_pets" xml:space="preserve" approved="yes">
+				<source>Pets</source>
+				<target>Evcil Hayvanlar</target>
+			</trans-unit>
+			<trans-unit id="label_state" xml:space="preserve" approved="yes">
+				<source>Condition</source>
+				<target>Durumu</target>
+			</trans-unit>
+			<trans-unit id="label_weofferyou_formal" xml:space="preserve" approved="yes">
+				<source>We offer you the following objects:</source>
+				<target>Sizlere şu objeleri sunuyoruz:</target>
+			</trans-unit>
+			<trans-unit id="label_weofferyou_informal" xml:space="preserve" approved="yes">
+				<source>We offer you the following objects:</source>
+				<target>Sana şu objeleri sunuyoruz:</target>
+			</trans-unit>
+			<trans-unit id="label_yourfavorites_formal" xml:space="preserve" approved="yes">
+				<source>You have the following objects on your favorites list:</source>
+				<target>Şu objeler favori listenizde bulunmaktadır:</target>
+			</trans-unit>
+			<trans-unit id="label_yourfavorites_informal" xml:space="preserve" approved="yes">
+				<source>You have the following objects on your favorites list:</source>
+				<target>Şu objeler favori listende bulunmaktadır:</target>
+			</trans-unit>
+			<trans-unit id="label_searchin" xml:space="preserve" approved="yes">
+				<source>Search in</source>
+				<target>Aramayı daralt</target>
+			</trans-unit>
+			<trans-unit id="label_page" xml:space="preserve" approved="yes">
+				<source>Page</source>
+				<target>Sayfa</target>
+			</trans-unit>
+			<trans-unit id="label_approx" xml:space="preserve" approved="yes">
+				<source>approx.</source>
+				<target>yaklaşık</target>
+			</trans-unit>
+			<trans-unit id="label_squareMeters" xml:space="preserve" approved="yes">
+				<source>m²</source>
+				<target>m&amp;sup2;</target>
+			</trans-unit>
+			<trans-unit id="label_back" xml:space="preserve" approved="yes">
+				<source>Back to the list</source>
+				<target>geri dön</target>
+			</trans-unit>
+			<trans-unit id="label_add_to_favorites" xml:space="preserve" approved="yes">
+				<source>Add to favorites</source>
+				<target>Favori listesine ekle</target>
+			</trans-unit>
+			<trans-unit id="label_remove_from_favorites" xml:space="preserve" approved="yes">
+				<source>Remove from favorites</source>
+				<target>Favori listesinden çıkar</target>
+			</trans-unit>
+			<trans-unit id="label_pleaseselectcity" xml:space="preserve" approved="yes">
+				<source>&amp;#8212; Please select city &amp;#8212;</source>
+				<target>&amp;#8212; Lütfen şehir seçiniz &amp;#8212;</target>
+			</trans-unit>
+			<trans-unit id="label_next_image" xml:space="preserve" approved="yes">
+				<source>go to the next image</source>
+				<target>bir sonraki resim</target>
+			</trans-unit>
+			<trans-unit id="label_sorry" xml:space="preserve" approved="yes">
+				<source>Sorry!</source>
+				<target>Pardon!</target>
+			</trans-unit>
+			<trans-unit id="label_ascending" xml:space="preserve" approved="yes">
+				<source>ascending</source>
+				<target>yükselen</target>
+			</trans-unit>
+			<trans-unit id="label_descending" xml:space="preserve" approved="yes">
+				<source>descending</source>
+				<target>alçalan</target>
+			</trans-unit>
+			<trans-unit id="label_sort" xml:space="preserve" approved="yes">
+				<source>sort</source>
+				<target>Düzenle</target>
+			</trans-unit>
+			<trans-unit id="label_search" xml:space="preserve" approved="yes">
+				<source>search</source>
+				<target>Arama</target>
+			</trans-unit>
+			<trans-unit id="label_sortby" xml:space="preserve" approved="yes">
+				<source>Display sorted by</source>
+				<target>Düzenli göster</target>
+			</trans-unit>
+			<trans-unit id="label_contact" xml:space="preserve" approved="yes">
+				<source>Contact us</source>
+				<target>Bize Ulaşın</target>
+			</trans-unit>
+			<trans-unit id="label_close_window" xml:space="preserve" approved="yes">
+				<source>Close window</source>
+				<target>Penceryi kapat</target>
+			</trans-unit>
+			<trans-unit id="message_yes" xml:space="preserve" approved="yes">
+				<source>yes</source>
+				<target>evet</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_realty_list_formal" xml:space="preserve" approved="yes">
+				<source>No results were found with these search parameters. Please try refining your search.</source>
+				<target>Maalaesef aradığınız kelime ile ilgili sonuç bulunamamıştır. Arama İşleminizi genelelleştirerek tekrar deneyiniz.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_realty_list_informal" xml:space="preserve" approved="yes">
+				<source>No results were found with these search parameters. Please try refining your search.</source>
+				<target>Maalaesef aradığın kelime ile ilgili sonuç bulunamamıştır. Arama İşlemini genelelleştirerek tekrar deneyin.</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_favorites_formal" xml:space="preserve" approved="yes">
+				<source>Your favorites list currently is empty.</source>
+				<target>Favori listeniz boş</target>
+			</trans-unit>
+			<trans-unit id="message_noResultsFound_favorites_informal" xml:space="preserve" approved="yes">
+				<source>Your favorites list currently is empty.</source>
+				<target>Favori listen boş</target>
+			</trans-unit>
+			<trans-unit id="message_invalidImage_formal" xml:space="preserve" approved="yes">
+				<source>This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</source>
+				<target>Bu resim veri bankamızda kullanıma açık değil. Lütfen yazdıgınız adresi kontrol ediniz. Eğer bu sayfaya bir linkı takip ederek geldiyseniz, link yanlış ya da eski olabilir</target>
+			</trans-unit>
+			<trans-unit id="message_invalidImage_informal" xml:space="preserve" approved="yes">
+				<source>This image is not available in our databases. Please check that the address you've entered is correct. If you have followed a link to this page, the link might be incorrect or out of date.</source>
+				<target>Bu resim veri bankamızda kullanıma açık değil. Lütfen yazdığın adresi kontrol et. Eğer bu sayfaya bir linkı takip ederek geldiysen, link yanlış ya da eski olabilir.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
