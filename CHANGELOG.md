@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- switch from ext_autoload to Composer autoloading (#9)
 - Composer script for PHP linting
 - add TravisCI builds
 - configure the BE search fields
@@ -20,8 +21,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
-- #3 require static_info_tables >= 6.3.7
-- #1 convert the locallang files to XLIFF
+- require static_info_tables >= 6.3.7 (#3)
+- convert the locallang files to XLIFF (#1)
 - move the extension to GitHub
 - allow oelib up to 1.9.99
 - set 7.9.99 as maximum TYPO3 version
