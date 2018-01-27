@@ -46,6 +46,16 @@ $EM_CONF[$_EXTKEY] = [
             'sr_feuser_register' => '',
         ],
     ],
-    'suggests' => [
+    'autoload' => [
+        'classmap' => [
+            'Ajax',
+            'BackEnd',
+            'cli',
+            'lib',
+            'Mapper',
+            'Model',
+            'pi1',
+            'tests',
+        ],
     ],
 ];
