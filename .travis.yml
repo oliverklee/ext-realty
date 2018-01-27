@@ -30,6 +30,7 @@ install:
   else
     composer require typo3/minimal:$TYPO3_VERSION;
   fi;
+  composer show;
 - >
   echo;
   echo "Restoring the composer.json";
@@ -39,6 +40,9 @@ install:
   --database-user-name="${DATABASE_USER}" --database-host-name="${DATABASE_HOST}"
   --database-port="${DATABASE_PORT}" --database-name="${DATABASE_NAME}"
   --admin-user-name="admin" --admin-password="password" --site-name="Test installation";
+
+before_script:
+- mysql -u ${DATABASE_USER} ${DATABASE_NAME} -e "INSERT INTO be_users (username, password) VALUES ('_cli_phpunit', 'password')"
 
 script:
 - >
@@ -50,3 +54,8 @@ script:
   echo;
   echo "Linting all TypoScript files";
   composer ci:ts:lint;
+
+- >
+  echo;
+  echo "Running the unit tests";
+  composer ci:tests:unit;
