@@ -1,220 +1,235 @@
 plugin.tx_realty_pi1 {
-	# Do not copy this variable into your TS setup! This is needed for checking whether this static template has been included correctly.
-	isStaticTemplateLoaded = 1
+    # Do not copy this variable into your TS setup! This is needed for checking whether this static template has been included correctly.
+    isStaticTemplateLoaded = 1
 
-	# location of the HTML template file
-	templateFile = EXT:realty/pi1/tx_realty_pi1.tpl.htm
-	# location of the HTML template file for the FE editor and image upload
-	feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
+    # location of the HTML template file
+    templateFile = EXT:realty/pi1/tx_realty_pi1.tpl.htm
+    # location of the HTML template file for the FE editor and image upload
+    feEditorTemplateFile = EXT:realty/pi1/tx_realty_frontEndEditor.html
 
-	# whether to use formal or informal language
-	salutation = formal
+    # whether to use formal or informal language
+    salutation = formal
 
-	# currency symbol, must be a valid ISO alpha 3 code, e.g. "EUR" for Euro, "USD" for US dollars.
-	currencyUnit = EUR
-	# format for all dates (as required for strftime)
-	dateFormat = %d.%m.%Y
+    # currency symbol, must be a valid ISO alpha 3 code, e.g. "EUR" for Euro, "USD" for US dollars.
+    currencyUnit = EUR
+    # format for all dates (as required for strftime)
+    dateFormat = %d.%m.%Y
 
-	# maximum X size of images in the list view
-	listImageMaxX = 98
-	# maximum Y size of images in the list view
-	listImageMaxY = 98
-	# maximum X size of images in the single view
-	singleImageMaxX = 137
-	# maximum Y size of images in the single view
-	singleImageMaxY = 137
-	# maximum width of thumbnails in the front-end image upload
-	imageUploadThumbnailWidth = 113
-	# maximum height of thumbnails in the front-end image upload
-	imageUploadThumbnailHeight = 75
-	# maximum width of the images shown in the lightbox gallery
-	lightboxImageWidthMax = 1024
-	# maximum height of the images shown in the lightbox gallery
-	lightboxImageHeightMax = 768
-	# whether the lightbox should be enabled
-	enableLightbox = 1
+    # maximum X size of images in the list view
+    listImageMaxX = 98
+    # maximum Y size of images in the list view
+    listImageMaxY = 98
+    # maximum X size of images in the single view
+    singleImageMaxX = 137
+    # maximum Y size of images in the single view
+    singleImageMaxY = 137
+    # maximum width of thumbnails in the front-end image upload
+    imageUploadThumbnailWidth = 113
+    # maximum height of thumbnails in the front-end image upload
+    imageUploadThumbnailHeight = 75
+    # maximum width of the images shown in the lightbox gallery
+    lightboxImageWidthMax = 1024
+    # maximum height of the images shown in the lightbox gallery
+    lightboxImageHeightMax = 768
+    # whether the lightbox should be enabled
+    enableLightbox = 1
 
-	# ordered, comma-separated list of fields from tx_realty_objects that will be shown in the table in the single view
-	fieldsInSingleViewTable = house_type, apartment_type, total_area, total_usable_area, living_area, office_space, shop_area, sales_area, site_occupancy_index, floor_space_index, window_bank, storage_area, other_area, estate_size, garage_type, parking_spaces, state, status, usable_from, number_of_rooms, bedrooms, bathrooms, heating_type, furnishing_category, flooring, construction_year, floor, floors, layout, pets, balcony, garden, elevator, barrier_free, assisted_living, fitted_kitchen, has_air_conditioning, has_pool, has_community_pool, distance_to_the_sea, sea_view, buying_price, rent_excluding_bills, year_rent, rental_income_target, rent_per_square_meter, extra_charges, heating_included, deposit, hoa_fee, provision, garage_rent, garage_price, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class
+    # ordered, comma-separated list of fields from tx_realty_objects that will be shown in the table in the single view
+    fieldsInSingleViewTable = house_type, apartment_type, total_area, total_usable_area, living_area, office_space, shop_area, sales_area, site_occupancy_index, floor_space_index, window_bank, storage_area, other_area, estate_size, garage_type, parking_spaces, state, status, usable_from, number_of_rooms, bedrooms, bathrooms, heating_type, furnishing_category, flooring, construction_year, floor, floors, layout, pets, balcony, garden, elevator, barrier_free, assisted_living, fitted_kitchen, has_air_conditioning, has_pool, has_community_pool, distance_to_the_sea, sea_view, buying_price, rent_excluding_bills, year_rent, rental_income_target, rent_per_square_meter, extra_charges, heating_included, deposit, hoa_fee, provision, garage_rent, garage_price, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class
 
-	# ordered, comma-separated list of field names that will be stored in the session when displaying the favorites list, leave empty to disable
-	favoriteFieldsInSession =
+    # ordered, comma-separated list of field names that will be stored in the session when displaying the favorites list, leave empty to disable
+    favoriteFieldsInSession =
 
-	# whether the single view page may only be viewed by logged-in FE users
-	requireLoginForSingleViewPage = 0
+    # whether the single view page may only be viewed by logged-in FE users
+    requireLoginForSingleViewPage = 0
 
-	# PID of the page with a login form (only used if requireLoginForDetailsPage is 1)
-	loginPID =
+    # PID of the page with a login form (only used if requireLoginForDetailsPage is 1)
+    loginPID =
 
-	# PID of the contact page which will be linked from the favorites list
-	# (leave empty to disable this link)
-	contactPID =
+    # PID of the contact page which will be linked from the favorites list
+    # (leave empty to disable this link)
+    contactPID =
 
-	# PID of the system folder for FE-created auxiliary records
-	sysFolderForFeCreatedAuxiliaryRecords =
+    # PID of the system folder for FE-created auxiliary records
+    sysFolderForFeCreatedAuxiliaryRecords =
 
-	# whether the price (buying price or rent) should only be visible if an
-	# object is vacant or reserved, but not if it is sold of rented
-	priceOnlyIfAvailable = 0
+    # whether the price (buying price or rent) should only be visible if an
+    # object is vacant or reserved, but not if it is sold of rented
+    priceOnlyIfAvailable = 0
 
-	# whether to show the next and previous buttons in the single view
-	enableNextPreviousButtons = 0
+    # whether to show the next and previous buttons in the single view
+    enableNextPreviousButtons = 0
 
-	# which Lightbox-related JavaScript libraries to include on the single view
-	# page and the image upload dialog
-	includeJavaScriptLibraries = prototype, scriptaculous, lightbox
+    # which Lightbox-related JavaScript libraries to include on the single view
+    # page and the image upload dialog
+    includeJavaScriptLibraries = prototype, scriptaculous, lightbox
 
+    ##########################################################################
+    # The following variable can also be set using flexforms. Non-empty values
+    # in flexforms override values set via TS.
+    ##########################################################################
 
-	##########################################################################
-	# The following variable can also be set using flexforms. Non-empty values
-	# in flexforms override values set via TS.
-	##########################################################################
+    # comma-separated list of PIDs that contain the realty records to be displayed
+    pages =
+    # recursion level for the pages list
+    recursive = 0
+    # static SQL filter (will be appended to the WHERE clause using " AND ")
+    staticSqlFilter =
 
-	# comma-separated list of PIDs that contain the realty records to be displayed
-	pages =
-	# recursion level for the pages list
-	recursive = 0
-	# static SQL filter (will be appended to the WHERE clause using " AND ")
-	staticSqlFilter =
+    # which contact information should be displayed in the FE
+    displayedContactInformation = offerer_label,telephone
+    # which contact information of offerers in the special offerers groups
+    # should be displayed in the FE
+    displayedContactInformationSpecial = offerer_label,telephone
+    # FE user groups with offerers with special displayed contact information
+    groupsWithSpeciallyDisplayedContactInformation =
+    # comma-separated list of FE group UIDs for the offerer list
+    userGroupsForOffererList =
+    # PID of the target page for the list of objects by one owner, leave empty
+    # to disable the link to this list in the detail view
+    objectsByOwnerPID =
+    # the maximum width for the offerer image
+    offererImageMaxWidth = 150
+    # the maximum height for the offerer image
+    offererImageMaxHeight = 100
 
-	# which contact information should be displayed in the FE
-	displayedContactInformation = offerer_label,telephone
-	# which contact information of offerers in the special offerers groups
-	# should be displayed in the FE
-	displayedContactInformationSpecial = offerer_label,telephone
-	# FE user groups with offerers with special displayed contact information
-	groupsWithSpeciallyDisplayedContactInformation =
-	# comma-separated list of FE group UIDs for the offerer list
-	userGroupsForOffererList =
-	# PID of the target page for the list of objects by one owner, leave empty
-	# to disable the link to this list in the detail view
-	objectsByOwnerPID =
-	# the maximum width for the offerer image
-	offererImageMaxWidth = 150
-	# the maximum height for the offerer image
-	offererImageMaxHeight = 100
+    # default e-mail address for requests, used without validation if the record
+    # has no valid contact_email
+    defaultContactEmail =
+    # e-mail address where to send a BCC of each request, leave empty to disable
+    blindCarbonCopyAddress =
+    # fields to show in the contact form
+    visibleContactFormFields = name,street,zip_and_city,telephone,request
+    # required fields for the contact form
+    requiredContactFormFields = name,request
+    # PID of the page containing the terms linked from the contact form
+    termsPID =
+    # whether the link to the contact form should be displayed in the favorites view
+    showContactPageLink = 0
+    # single view parts to display
+    singleViewPartsToDisplay = heading,address,description,documents,furtherDescription,price,overviewTable,imageThumbnails,addToFavoritesButton,contactButton,offerer,printPageButton,backButton
 
-	# default e-mail address for requests, used without validation if the record
-	# has no valid contact_email
-	defaultContactEmail =
-	# e-mail address where to send a BCC of each request, leave empty to disable
-	blindCarbonCopyAddress =
-	# fields to show in the contact form
-	visibleContactFormFields = name,street,zip_and_city,telephone,request
-	# required fields for the contact form
-	requiredContactFormFields = name,request
-	# PID of the page containing the terms linked from the contact form
-	termsPID =
-	# whether the link to the contact form should be displayed in the favorites view
-	showContactPageLink = 0
-	# single view parts to display
-	singleViewPartsToDisplay = heading,address,description,documents,furtherDescription,price,overviewTable,imageThumbnails,addToFavoritesButton,contactButton,offerer,printPageButton,backButton
+    # name of the DB field to create the search filter checkboxes from
+    checkboxesFilter =
+    # DB field, by which the list view should be sorted initially, set to "random" for random sorting
+    orderBy = tstamp
+    # DB fields by which a FE user can sort the list view, also "random" is allowed
+    sortCriteria =
 
-	# name of the DB field to create the search filter checkboxes from
-	checkboxesFilter =
-	# DB field, by which the list view should be sorted initially, set to "random" for random sorting
-	orderBy = tstamp
-	# DB fields by which a FE user can sort the list view, also "random" is allowed
-	sortCriteria =
+    # list of search fields which should be displayed in the search widget
+    displayedSearchWidgetFields = site
+    # price ranges for the search form, leave empty to hide this field
+    # e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
+    priceRangesForFilterForm =
+    # PID of the target page for the search form and the city selector
+    filterTargetPID =
 
-	# list of search fields which should be displayed in the search widget
-	displayedSearchWidgetFields = site
-	# price ranges for the search form, leave empty to hide this field
-	# e.g. -100,101-200,201-300,301- will create four options: up to 100; 101 to 200; 201 to 300; starting with 301
-	priceRangesForFilterForm =
-	# PID of the target page for the search form and the city selector
-	filterTargetPID =
+    # PID of the page for the single view (leave empty to use the same page as the list view)
+    singlePID =
+    # PID of the page with the favorites list
+    favoritesPID =
 
-	# PID of the page for the single view (leave empty to use the same page as the list view)
-	singlePID =
-	# PID of the page with the favorites list
-	favoritesPID =
+    # PID of the FE editor page
+    editorPID =
+    # PID of the page with the FE image upload
+    imageUploadPID =
+    # PID of the system folder for FE-created records
+    sysFolderForFeCreatedRecords =
+    # PID of the FE page to redirect to after saving a FE-created record
+    feEditorRedirectPid =
+    # e-mail address which receives a message if e new FE record was created
+    feEditorNotifyEmail =
 
-	# PID of the FE editor page
-	editorPID =
-	# PID of the page with the FE image upload
-	imageUploadPID =
-	# PID of the system folder for FE-created records
-	sysFolderForFeCreatedRecords =
-	# PID of the FE page to redirect to after saving a FE-created record
-	feEditorRedirectPid =
-	# e-mail address which receives a message if e new FE record was created
-	feEditorNotifyEmail =
+    # whether Google Maps should be displayed in the FE
+    showGoogleMaps = 0
+    # default country for objects that have no country set (a UID
+    # from the static_countries table, 54 = Germany)
+    defaultCountryUID = 54
 
-	# whether Google Maps should be displayed in the FE
-	showGoogleMaps = 0
-	# default country for objects that have no country set (a UID
-	# from the static_countries table, 54 = Germany)
-	defaultCountryUID = 54
+    # the page ID with an advertisement form for realty objects, leave empty
+    # to disable the link
+    advertisementPID =
+    # the GET parameter name that will contain the UID of realty object for the
+    # "advertise" link, e.g. "tx_foo[uid]"
+    advertisementParameterForObjectUid =
+    # the number of days after which an advertisement expires, set to 0 to have
+    # no expiration
+    advertisementExpirationInDays = 0
 
-	# the page ID with an advertisement form for realty objects, leave empty
-	# to disable the link
-	advertisementPID =
-	# the GET parameter name that will contain the UID of realty object for the
-	# "advertise" link, e.g. "tx_foo[uid]"
-	advertisementParameterForObjectUid =
-	# the number of days after which an advertisement expires, set to 0 to have
-	# no expiration
-	advertisementExpirationInDays = 0
+    views {
+        realty_list {
+            cache = 1
+        }
 
-	views {
-		realty_list {
-			cache = 1
-		}
-		single_view {
-			cache = 1
-		}
-		filter_form {
-			cache = 1
-		}
-		offerer_list {
-			cache = 1
-		}
-		objects_by_owner {
-			cache = 1
-		}
-		favorites {
-			cache = 0
-		}
-		contact_form {
-			cache = 0
-		}
-		my_objects {
-			cache = 0
-		}
-		fe_editor {
-			cache = 0
-		}
-		image_upload {
-			cache = 0
-		}
-	}
+        single_view {
+            cache = 1
+        }
 
-	images {
-		1 {
-		}
-		2 {
-		}
-		3 {
-		}
-		4 {
-		}
-	}
+        filter_form {
+            cache = 1
+        }
+
+        offerer_list {
+            cache = 1
+        }
+
+        objects_by_owner {
+            cache = 1
+        }
+
+        favorites {
+            cache = 0
+        }
+
+        contact_form {
+            cache = 0
+        }
+
+        my_objects {
+            cache = 0
+        }
+
+        fe_editor {
+            cache = 0
+        }
+
+        image_upload {
+            cache = 0
+        }
+    }
+
+    images {
+        1 {
+
+        }
+
+        2 {
+
+        }
+
+        3 {
+
+        }
+
+        4 {
+
+        }
+    }
 }
 
 plugin.tx_realty_pi1.listView {
-	results_at_a_time = 10
-	maxPages = 5
-	descFlag = 1
+    results_at_a_time = 10
+    maxPages = 5
+    descFlag = 1
 }
 
 page.includeCSS {
-	tx_realty_pi1 = {$plugin.tx_realty_pi1.cssFile}
-	tx_realty_pi1.media = all
+    tx_realty_pi1 = {$plugin.tx_realty_pi1.cssFile}
+    tx_realty_pi1.media = all
 
-	tx_realty_pi1_screen = {$plugin.tx_realty_pi1.cssFileScreen}
-	tx_realty_pi1_screen.media = screen
+    tx_realty_pi1_screen = {$plugin.tx_realty_pi1.cssFileScreen}
+    tx_realty_pi1_screen.media = screen
 
-	tx_realty_pi1_print = {$plugin.tx_realty_pi1.cssFilePrint}
-	tx_realty_pi1_print.media = print
+    tx_realty_pi1_print = {$plugin.tx_realty_pi1.cssFilePrint}
+    tx_realty_pi1_print.media = print
 }
