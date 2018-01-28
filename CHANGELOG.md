@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 - switch from ext_autoload to Composer autoloading (#9)
-- Composer script for PHP linting
+- Composer script for PHP linting (#5)
 - add TravisCI builds
 - configure the BE search fields
 - import and display more heating types
