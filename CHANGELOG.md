@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
+- require ameos_formidable in Composer mode (#14)
 - require static_info_tables >= 6.3.7 (#3)
 - convert the locallang files to XLIFF (#1)
 - move the extension to GitHub
