@@ -1,8 +1,8 @@
 plugin.tx_realty_pi1 {
-	# cat=plugin.tx_realty_pi1//; type=string; label=Path to CSS file: location of the CSS file (leave empty to include no CSS file)
-	cssFile = EXT:realty/pi1/tx_realty_pi1.tpl.css
-	# cat=plugin.tx_realty_pi1//; type=string; label=Path to additional screen-only CSS file: location of the CSS file (leave empty to include no CSS file)
-	cssFileScreen = EXT:realty/pi1/tx_realty_pi1_screen.css
-	# cat=plugin.tx_realty_pi1//; type=string; label=Path to additional print-only CSS file: location of the CSS file (leave empty to include no CSS file)
-	cssFilePrint = EXT:realty/pi1/tx_realty_pi1_print.css
+    # cat=plugin.tx_realty_pi1//; type=string; label=Path to CSS file: location of the CSS file (leave empty to include no CSS file)
+    cssFile = EXT:realty/pi1/tx_realty_pi1.tpl.css
+    # cat=plugin.tx_realty_pi1//; type=string; label=Path to additional screen-only CSS file: location of the CSS file (leave empty to include no CSS file)
+    cssFileScreen = EXT:realty/pi1/tx_realty_pi1_screen.css
+    # cat=plugin.tx_realty_pi1//; type=string; label=Path to additional print-only CSS file: location of the CSS file (leave empty to include no CSS file)
+    cssFilePrint = EXT:realty/pi1/tx_realty_pi1_print.css
 }
