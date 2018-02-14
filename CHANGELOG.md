@@ -46,6 +46,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- send email after OpenImmo import again (#15)
 - reliably create the upload folder on installation (#13)
 - match only the first 4 characters of the OpenImmo ANID for a full sync
 - match only the first 4 characters when matching FE users by ANID
