@@ -35,7 +35,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
      * @param bool $isTestMode TRUE if this class is instantiated for testing, else FALSE
      */
     public function __construct(
-        array $configuration, ContentObjectRenderer $contentObjectRenderer, $isTestMode = false
+        array $configuration,
+        ContentObjectRenderer $contentObjectRenderer,
+        $isTestMode = false
     ) {
         $this->isTestMode = $isTestMode;
         parent::__construct($configuration, $contentObjectRenderer);
@@ -48,7 +50,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML of the offerer list, will not be empty
      */
-    public function render(array $unused = array())
+    public function render(array $unused = [])
     {
         $listItems = $this->getListItems();
 
@@ -60,7 +62,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
                 $this->translate('message_noResultsFound_offererList')
             );
             $this->setSubpart(
-                'offerer_list_result', $this->getSubpart('EMPTY_RESULT_VIEW')
+                'offerer_list_result',
+                $this->getSubpart('EMPTY_RESULT_VIEW')
             );
         }
 
@@ -94,7 +97,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
     {
         if (isset($ownerData['usergroup'])) {
             throw new BadMethodCallException(
-                'To process user group information you need to use render() or renderOneItem().', 1333036231
+                'To process user group information you need to use render() or renderOneItem().',
+                1333036231
             );
         }
 
@@ -119,13 +123,15 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
     private function getListItems()
     {
         if ($this->hasConfValueString(
-            'userGroupsForOffererList', 's_offererInformation'
+            'userGroupsForOffererList',
+            's_offererInformation'
         )) {
             $userGroups = str_replace(
                 ',',
                 '|',
                 $this->getConfValueString(
-                    'userGroupsForOffererList', 's_offererInformation'
+                    'userGroupsForOffererList',
+                    's_offererInformation'
                 )
             );
             $userGroupRestriction = 'usergroup ' .
@@ -205,7 +211,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             );
 
             if (!in_array(
-                $key, array('www', 'objects_by_owner_link', 'image'))
+                $key,
+                ['www', 'objects_by_owner_link', 'image']
+            )
             ) {
                 $value = htmlspecialchars($value);
             }
@@ -223,7 +231,7 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             $this->hideSubparts('usergroup', 'wrapper');
         }
 
-        return ($rowHasContent ? $this->getSubpart('OFFERER_LIST_ITEM') : '');
+        return $rowHasContent ? $this->getSubpart('OFFERER_LIST_ITEM') : '';
     }
 
     /**
@@ -236,9 +244,9 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
      */
     private function getListRowContent(tx_realty_Model_FrontEndUser $offerer)
     {
-        $result = array();
+        $result = [];
 
-        $maximumRowContent = array(
+        $maximumRowContent = [
             'usergroup' => $this->getFirstUserGroup($offerer->getUserGroups()),
             'company' => $this->getCompany($offerer),
             'offerer_label' => $this->getOffererLabel($offerer),
@@ -251,10 +259,10 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             ),
             'www' => $this->cObj->typoLink(
                 htmlspecialchars($offerer->getHomepage()),
-                array('parameter' => $offerer->getHomepage())
+                ['parameter' => $offerer->getHomepage()]
             ),
             'image' => $this->getImageMarkerContent($offerer),
-        );
+        ];
 
         foreach ($maximumRowContent as $key => $value) {
             $result[$key] = $this->mayDisplayInformation($offerer, $key)
@@ -274,7 +282,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
      *                 the provided offerer, FALSE otherwise
      */
     private function mayDisplayInformation(
-        tx_realty_Model_FrontEndUser $offerer, $keyOfInformation
+        tx_realty_Model_FrontEndUser $offerer,
+        $keyOfInformation
     ) {
         $configurationKey = 'displayedContactInformation';
 
@@ -351,7 +360,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
      * @return void
      */
     private function appendUserGroup(
-        &$information, tx_realty_Model_FrontEndUser $offerer
+        &$information,
+        tx_realty_Model_FrontEndUser $offerer
     ) {
         if (($this->getConfValueString('what_to_display') != 'single_view')
             && $this->mayDisplayInformation($offerer, 'usergroup')
@@ -379,7 +389,8 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
         $allowedGroups = GeneralUtility::trimExplode(
             ',',
             $this->getConfValueString(
-                'userGroupsForOffererList', 's_offererInformation'
+                'userGroupsForOffererList',
+                's_offererInformation'
             ),
             true
         );
@@ -412,15 +423,17 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
         }
 
         return GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL(
-            array(
+            [
                 'parameter' => $this->getConfValueInteger(
-                    'objectsByOwnerPID', 's_offererInformation'
+                    'objectsByOwnerPID',
+                    's_offererInformation'
                 ),
                 'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                    $this->prefixId, array('owner' => $ownerUid)
+                    $this->prefixId,
+                    ['owner' => $ownerUid]
                 ),
                 'useCacheHash' => true,
-            )
+            ]
         ));
     }
 
@@ -459,15 +472,15 @@ class tx_realty_offererList extends tx_realty_pi1_FrontEndView
             $uploadFolder .= '/';
         }
 
-        $imageConfiguration = array(
+        $imageConfiguration = [
             'altText' => '',
             'titleText' => $offerer->getName(),
             'file' => $uploadFolder . $offerer->getImage(),
-            'file.' => array(
+            'file.' => [
                 'maxW' => $this->getConfValueInteger('offererImageMaxWidth'),
                 'maxH' => $this->getConfValueInteger('offererImageMaxHeight'),
-            ),
-        );
+            ],
+        ];
         return $this->cObj->IMAGE($imageConfiguration);
     }
 }

@@ -63,14 +63,17 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->createDummyRecords();
 
         $this->fixture = new tx_realty_frontEndEditor(
-            array(
+            [
                 'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
                 'feEditorTemplateFile' => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
-            ),
-            $this->getFrontEndController()->cObj, 0, '', true
+            ],
+            $this->getFrontEndController()->cObj,
+            0,
+            '',
+            true
         );
 
-        $this->message = $this->getMock(MailMessage::class, array('send', '__destruct'));
+        $this->message = $this->getMock(MailMessage::class, ['send', '__destruct']);
         GeneralUtility::addInstance(MailMessage::class, $this->message);
     }
 
@@ -119,21 +122,21 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         /** @var tx_realty_Model_FrontEndUser $user */
         $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(
-            array(
+            [
                 'username' => 'test_user',
                 'name' => 'Mr. Test',
                 'email' => 'mr-test@example.com',
                 'tx_realty_openimmo_anid' => 'test-user-anid',
-            )
+            ]
         );
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->dummyObjectUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'object_number' => self::$dummyStringValue,
-                'language' => self::$dummyStringValue
-            )
+                'language' => self::$dummyStringValue,
+            ]
         );
         $this->createAuxiliaryRecords();
     }
@@ -148,10 +151,10 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $realtyObject = new tx_realty_Model_RealtyObject(true);
         $realtyObject->loadRealtyObject($this->dummyObjectUid);
 
-        foreach (array(
+        foreach ([
             'city' => 'tx_realty_cities',
             'district' => 'tx_realty_districts',
-        ) as $key => $table) {
+        ] as $key => $table) {
             $realtyObject->setProperty($key, self::$dummyStringValue);
             $this->testingFramework->markTableAsDirty($table);
         }
@@ -185,7 +188,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->dummyObjectUid,
-            array('owner' => $this->testingFramework->createFrontEndUser())
+            ['owner' => $this->testingFramework->createFrontEndUser()]
         );
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $this->fixture->deleteRecord();
@@ -240,13 +243,13 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
             'tx_realty_districts',
-            array('city' => $cityUid, 'title' => 'Kreuzberg')
+            ['city' => $cityUid, 'title' => 'Kreuzberg']
         );
         $this->fixture->setFakedFormValue('city', $cityUid);
 
         self::assertTrue(
             in_array(
-                array('value' => $districtUid, 'caption' => 'Kreuzberg'),
+                ['value' => $districtUid, 'caption' => 'Kreuzberg'],
                 $this->fixture->populateDistrictList()
             )
         );
@@ -259,13 +262,14 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('title' => 'Kreuzberg')
+            'tx_realty_districts',
+            ['title' => 'Kreuzberg']
         );
         $this->fixture->setFakedFormValue('city', $cityUid);
 
         self::assertTrue(
             in_array(
-                array('value' => $districtUid, 'caption' => 'Kreuzberg'),
+                ['value' => $districtUid, 'caption' => 'Kreuzberg'],
                 $this->fixture->populateDistrictList()
             )
         );
@@ -280,13 +284,13 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
             'tx_realty_districts',
-            array('city' => $otherCityUid, 'title' => 'Kreuzberg')
+            ['city' => $otherCityUid, 'title' => 'Kreuzberg']
         );
         $this->fixture->setFakedFormValue('city', $cityUid);
 
         self::assertFalse(
             in_array(
-                array('value' => $districtUid, 'caption' => 'Kreuzberg'),
+                ['value' => $districtUid, 'caption' => 'Kreuzberg'],
                 $this->fixture->populateDistrictList()
             )
         );
@@ -300,7 +304,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('city', 0);
 
         self::assertEquals(
-            array(),
+            [],
             $this->fixture->populateDistrictList()
         );
     }
@@ -315,7 +319,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function populateListForValidTableReturnsARecordsTitleAsCaption()
     {
         $result = $this->fixture->populateList(
-            array(), array('table' => 'tx_realty_cities')
+            [],
+            ['table' => 'tx_realty_cities']
         );
 
         self::assertEquals(
@@ -334,7 +339,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             '"invalid_table" is not a valid table name.'
         );
         $this->fixture->populateList(
-            array(), array('table' => 'invalid_table')
+            [],
+            ['table' => 'invalid_table']
         );
     }
 
@@ -348,7 +354,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             '"foo" is not a valid column name for ' . 'tx_realty_cities' . '.'
         );
         $this->fixture->populateList(
-            array(), array('title_column' => 'foo', 'table' => 'tx_realty_cities')
+            [],
+            ['title_column' => 'foo', 'table' => 'tx_realty_cities']
         );
     }
 
@@ -358,14 +365,14 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function populateListOfCountriesContainsDeutschland()
     {
         self::assertContains(
-            array(
+            [
                 'value' => '54',
                 'caption' => 'Deutschland',
-            ),
-            $this->fixture->populateList(array(), array(
+            ],
+            $this->fixture->populateList([], [
                 'table' => 'static_countries',
                 'title_column' => 'cn_short_local',
-            ))
+            ])
         );
     }
 
@@ -382,7 +389,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.floor') . ': ' .
                 $this->fixture->translate('message_no_valid_number'),
             $this->fixture->getMessageForRealtyObjectField(
-                array('fieldName' => 'floor', 'label' => 'message_no_valid_number')
+                ['fieldName' => 'floor', 'label' => 'message_no_valid_number']
             )
         );
     }
@@ -395,7 +402,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertEquals(
             $this->fixture->translate('message_no_valid_number'),
             $this->fixture->getMessageForRealtyObjectField(
-                array('fieldName' => '', 'label' => 'message_no_valid_number')
+                ['fieldName' => '', 'label' => 'message_no_valid_number']
             )
         );
     }
@@ -410,7 +417,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             '"foo" is not a valid column name for ' . 'tx_realty_objects' . '.'
         );
         $this->fixture->getMessageForRealtyObjectField(
-            array('fieldName' => 'foo', 'label' => 'message_no_valid_number')
+            ['fieldName' => 'foo', 'label' => 'message_no_valid_number']
         );
     }
 
@@ -423,7 +430,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             'InvalidArgumentException',
             '"123" is not a valid locallang key.'
         );
-        $this->fixture->getMessageForRealtyObjectField(array('label' => '123'));
+        $this->fixture->getMessageForRealtyObjectField(['label' => '123']);
     }
 
     /**
@@ -435,7 +442,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             'InvalidArgumentException',
             '"" is not a valid locallang key.'
         );
-        $this->fixture->getMessageForRealtyObjectField(array('label' => ''));
+        $this->fixture->getMessageForRealtyObjectField(['label' => '']);
     }
 
     /**
@@ -448,7 +455,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price') . ': ' .
                 $this->fixture->translate('message_enter_valid_non_empty_buying_price'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
+            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
         );
     }
 
@@ -462,7 +469,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.buying_price') . ': ' .
                 $this->fixture->translate('message_enter_valid_or_empty_buying_price'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'buying_price'))
+            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'buying_price'])
         );
     }
 
@@ -476,7 +483,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills') . ': ' .
                 $this->fixture->translate('message_enter_valid_non_empty_rent'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
+            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
         );
     }
 
@@ -490,7 +497,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertEquals(
             $this->translate('LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.rent_excluding_bills') . ': ' .
                 $this->fixture->translate('message_enter_valid_or_empty_rent'),
-            $this->fixture->getNoValidPriceOrEmptyMessage(array('fieldName' => 'rent_excluding_bills'))
+            $this->fixture->getNoValidPriceOrEmptyMessage(['fieldName' => 'rent_excluding_bills'])
         );
     }
 
@@ -542,8 +549,10 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function getInvalidOrEmptyCityMessageForNonEmptyCity()
     {
         $this->fixture->setFakedFormValue(
-            'city', $this->testingFramework->createRecord(
-                'tx_realty_cities', array('deleted' => 1)
+            'city',
+            $this->testingFramework->createRecord(
+                'tx_realty_cities',
+                ['deleted' => 1]
             )
         );
 
@@ -564,7 +573,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNonNegativeIntegerNumberForIntegerReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidNonNegativeIntegerNumber(array('value' => '12345'))
+            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '12345'])
         );
     }
 
@@ -574,7 +583,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNonNegativeIntegerNumberForIntegerWithSpaceAsThousandsSeparatorReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidNonNegativeIntegerNumber(array('value' => '12 345'))
+            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '12 345'])
         );
     }
 
@@ -584,7 +593,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNonNegativeIntegerNumberForEmptyStringReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidNonNegativeIntegerNumber(array('value' => ''))
+            $this->fixture->isValidNonNegativeIntegerNumber(['value' => ''])
         );
     }
 
@@ -594,7 +603,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNonNegativeIntegerNumberForNumberWithDotAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(array('value' => '123.45'))
+            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '123.45'])
         );
     }
 
@@ -604,7 +613,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNonNegativeIntegerNumberForNumberWithCommaAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(array('value' => '123,45'))
+            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '123,45'])
         );
     }
 
@@ -614,7 +623,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNonNegativeIntegerNumberForNegativeIntegerReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(array('value' => '-123'))
+            $this->fixture->isValidNonNegativeIntegerNumber(['value' => '-123'])
         );
     }
 
@@ -624,7 +633,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNonNegativeIntegerNumberForNonNumericStringReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidNonNegativeIntegerNumber(array('value' => 'string'))
+            $this->fixture->isValidNonNegativeIntegerNumber(['value' => 'string'])
         );
     }
 
@@ -634,7 +643,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidIntegerNumberForIntegerReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(array('value' => '12345'))
+            $this->fixture->isValidIntegerNumber(['value' => '12345'])
         );
     }
 
@@ -644,7 +653,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidIntegerNumberForIntegerWithSpaceAsThousandsSeparatorReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(array('value' => '12 345'))
+            $this->fixture->isValidIntegerNumber(['value' => '12 345'])
         );
     }
 
@@ -654,7 +663,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidIntegerNumberForEmptyStringReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(array('value' => ''))
+            $this->fixture->isValidIntegerNumber(['value' => ''])
         );
     }
 
@@ -664,7 +673,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidIntegerNumberForNumberWithDotAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidIntegerNumber(array('value' => '123.45'))
+            $this->fixture->isValidIntegerNumber(['value' => '123.45'])
         );
     }
 
@@ -674,7 +683,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidIntegerNumberForNumberWithCommaAsDecimalSeparatorReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidIntegerNumber(array('value' => '123,45'))
+            $this->fixture->isValidIntegerNumber(['value' => '123,45'])
         );
     }
 
@@ -684,7 +693,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidIntegerNumberForNegativeIntegerReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->isValidIntegerNumber(array('value' => '-123'))
+            $this->fixture->isValidIntegerNumber(['value' => '-123'])
         );
     }
 
@@ -694,7 +703,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidIntegerNumberForNonNumericStringReturnsFalse()
     {
         self::assertFalse(
-            $this->fixture->isValidIntegerNumber(array('value' => 'string'))
+            $this->fixture->isValidIntegerNumber(['value' => 'string'])
         );
     }
 
@@ -704,7 +713,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithOneDecimal()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(array('value' => '1234.5'))
+            $this->fixture->isValidNumberWithDecimals(['value' => '1234.5'])
         );
     }
 
@@ -714,7 +723,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithOneDecimalAndSpace()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(array('value' => '1 234.5'))
+            $this->fixture->isValidNumberWithDecimals(['value' => '1 234.5'])
         );
     }
 
@@ -724,7 +733,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithTwoDecimalsSeparatedByDot()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(array('value' => '123.45'))
+            $this->fixture->isValidNumberWithDecimals(['value' => '123.45'])
         );
     }
 
@@ -734,7 +743,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithTwoDecimalsSeparatedByComma()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(array('value' => '123,45'))
+            $this->fixture->isValidNumberWithDecimals(['value' => '123,45'])
         );
     }
 
@@ -744,7 +753,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsTrueForNumberWithoutDecimals()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(array('value' => '12345'))
+            $this->fixture->isValidNumberWithDecimals(['value' => '12345'])
         );
     }
 
@@ -754,7 +763,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsTrueForAnEmptyString()
     {
         self::assertTrue(
-            $this->fixture->isValidNumberWithDecimals(array('value' => ''))
+            $this->fixture->isValidNumberWithDecimals(['value' => ''])
         );
     }
 
@@ -764,7 +773,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsFalseForNumberWithMoreThanTwoDecimals()
     {
         self::assertFalse(
-            $this->fixture->isValidNumberWithDecimals(array('value' => '12.345'))
+            $this->fixture->isValidNumberWithDecimals(['value' => '12.345'])
         );
     }
 
@@ -774,7 +783,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidNumberWithDecimalsReturnsFalseForNonNumericString()
     {
         self::assertFalse(
-            $this->fixture->isValidNumberWithDecimals(array('value' => 'string'))
+            $this->fixture->isValidNumberWithDecimals(['value' => 'string'])
         );
     }
 
@@ -785,7 +794,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->isIntegerInRange(
-                array('value' => '1', 'range' => '1-2', 'multiple' => '0')
+                ['value' => '1', 'range' => '1-2', 'multiple' => '0']
             )
         );
     }
@@ -797,7 +806,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isIntegerInRange(
-                array('value' => '0', 'range' => '1-2', 'multiple' => '0')
+                ['value' => '0', 'range' => '1-2', 'multiple' => '0']
             )
         );
     }
@@ -809,7 +818,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isIntegerInRange(
-                array('value' => '2', 'range' => '0-1', 'multiple' => '0')
+                ['value' => '2', 'range' => '0-1', 'multiple' => '0']
             )
         );
     }
@@ -821,7 +830,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isIntegerInRange(
-                array('value' => 'string', 'range' => '0-1', 'multiple' => '0')
+                ['value' => 'string', 'range' => '0-1', 'multiple' => '0']
             )
         );
     }
@@ -833,7 +842,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->isIntegerInRange(
-                array('value' => array(0, 1, 2), 'range' => '0-2', 'multiple' => '1')
+                ['value' => [0, 1, 2], 'range' => '0-2', 'multiple' => '1']
             )
         );
     }
@@ -845,7 +854,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isIntegerInRange(
-                array('value' => array(0, 1, 2), 'range' => '1-2', 'multiple' => '1')
+                ['value' => [0, 1, 2], 'range' => '1-2', 'multiple' => '1']
             )
         );
     }
@@ -857,7 +866,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isIntegerInRange(
-                array('value' => array(0, 1, 2), 'range' => '0-1', 'multiple' => '1')
+                ['value' => [0, 1, 2], 'range' => '0-1', 'multiple' => '1']
             )
         );
     }
@@ -869,7 +878,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->isIntegerInRange(
-                array('value' => '', 'range' => '1-2', 'multiple' => '0')
+                ['value' => '', 'range' => '1-2', 'multiple' => '0']
             )
         );
     }
@@ -880,7 +889,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidYearReturnsTrueForTheCurrentYear()
     {
         self::assertTrue(
-            $this->fixture->isValidYear(array('value' => date('Y', time())))
+            $this->fixture->isValidYear(['value' => date('Y', time())])
         );
     }
 
@@ -890,7 +899,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidYearReturnsTrueForFormerYear()
     {
         self::assertTrue(
-            $this->fixture->isValidYear(array('value' => '2000'))
+            $this->fixture->isValidYear(['value' => '2000'])
         );
     }
 
@@ -900,7 +909,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidYearReturnsTrueForFutureYear()
     {
         self::assertTrue(
-            $this->fixture->isValidYear(array('value' => '2100'))
+            $this->fixture->isValidYear(['value' => '2100'])
         );
     }
 
@@ -910,7 +919,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isValidYearReturnsFalseForNumberWithDecimals()
     {
         self::assertFalse(
-            $this->fixture->isValidYear(array('value' => '42,55'))
+            $this->fixture->isValidYear(['value' => '42,55'])
         );
     }
 
@@ -922,7 +931,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertTrue(
             $this->fixture->isNonEmptyValidPriceForObjectForSale(
-                array('value' => '1234')
+                ['value' => '1234']
             )
         );
     }
@@ -935,7 +944,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForSale(
-                array('value' => 'foo')
+                ['value' => 'foo']
             )
         );
     }
@@ -948,7 +957,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('object_type', tx_realty_Model_RealtyObject::TYPE_FOR_SALE);
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForSale(
-                array('value' => '')
+                ['value' => '']
             )
         );
     }
@@ -963,7 +972,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                array('value' => '1234')
+                ['value' => '1234']
             )
         );
     }
@@ -978,7 +987,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                array('value' => '')
+                ['value' => '']
             )
         );
     }
@@ -993,7 +1002,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                array('value' => '1234')
+                ['value' => '1234']
             )
         );
     }
@@ -1008,7 +1017,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                array('value' => 'foo')
+                ['value' => 'foo']
             )
         );
     }
@@ -1023,7 +1032,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                array('value' => '')
+                ['value' => '']
             )
         );
     }
@@ -1038,7 +1047,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                array('value' => 'foo')
+                ['value' => 'foo']
             )
         );
     }
@@ -1053,7 +1062,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->isNonEmptyValidPriceForObjectForRent(
-                array('value' => '1234')
+                ['value' => '1234']
             )
         );
     }
@@ -1067,7 +1076,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         // is always ''.
         self::assertTrue(
             $this->fixture->isObjectNumberUniqueForLanguage(
-                array('value' => '1234')
+                ['value' => '1234']
             )
         );
     }
@@ -1078,12 +1087,14 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isObjectNumberUniqueForLanguageForHiddenRecordWithDifferensObjectNumber()
     {
         $this->testingFramework->changeRecord(
-            'tx_realty_objects', $this->dummyObjectUid, array('hidden' => '1')
+            'tx_realty_objects',
+            $this->dummyObjectUid,
+            ['hidden' => '1']
         );
 
         self::assertTrue(
             $this->fixture->isObjectNumberUniqueForLanguage(
-                array('value' => '1234')
+                ['value' => '1234']
             )
         );
     }
@@ -1094,12 +1105,14 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isObjectNumberUniqueForLanguageForExistentCombination()
     {
         $this->testingFramework->changeRecord(
-            'tx_realty_objects', $this->dummyObjectUid, array('language' => '')
+            'tx_realty_objects',
+            $this->dummyObjectUid,
+            ['language' => '']
         );
 
         self::assertFalse(
             $this->fixture->isObjectNumberUniqueForLanguage(
-                array('value' => self::$dummyStringValue)
+                ['value' => self::$dummyStringValue]
             )
         );
     }
@@ -1112,12 +1125,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->dummyObjectUid,
-            array('language' => '', 'hidden' => '1')
+            ['language' => '', 'hidden' => '1']
         );
 
         self::assertFalse(
             $this->fixture->isObjectNumberUniqueForLanguage(
-                array('value' => self::$dummyStringValue)
+                ['value' => self::$dummyStringValue]
             )
         );
     }
@@ -1129,7 +1142,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isObjectNumberUniqueForLanguage(
-                array('value' => '')
+                ['value' => '']
             )
         );
     }
@@ -1141,7 +1154,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->isAllowedValueForCity(
-                array('value' => $this->testingFramework->createRecord('tx_realty_cities'))
+                ['value' => $this->testingFramework->createRecord('tx_realty_cities')]
             )
         );
     }
@@ -1155,7 +1168,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->isAllowedValueForCity(
-                array('value' => '0')
+                ['value' => '0']
             )
         );
     }
@@ -1167,7 +1180,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isAllowedValueForCity(
-                array('value' => '0')
+                ['value' => '0']
             )
         );
     }
@@ -1179,9 +1192,10 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->isAllowedValueForCity(
-                array('value' => $this->testingFramework->createRecord(
-                    'tx_realty_cities', array('deleted' => 1)
-                ))
+                ['value' => $this->testingFramework->createRecord(
+                    'tx_realty_cities',
+                    ['deleted' => 1]
+                )]
             )
         );
     }
@@ -1193,10 +1207,10 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->checkKeyExistsInTable(
-                array(
+                [
                     'value' => $this->testingFramework->createRecord('tx_realty_districts'),
                     'table' => 'tx_realty_districts',
-                )
+                ]
             )
         );
     }
@@ -1208,7 +1222,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->checkKeyExistsInTable(
-                array('value' => '0', 'table' => 'tx_realty_districts')
+                ['value' => '0', 'table' => 'tx_realty_districts']
             )
         );
     }
@@ -1220,12 +1234,13 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->checkKeyExistsInTable(
-                array(
+                [
                     'value' => $this->testingFramework->createRecord(
-                        'tx_realty_districts', array('deleted' => 1)
+                        'tx_realty_districts',
+                        ['deleted' => 1]
                     ),
-                    'table' => 'tx_realty_districts'
-                )
+                    'table' => 'tx_realty_districts',
+                ]
             )
         );
     }
@@ -1239,9 +1254,9 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
             'InvalidArgumentException',
             '"invalid_table" is not a valid table name.'
         );
-        $this->fixture->checkKeyExistsInTable(array(
-            'value' => 1, 'table' => 'invalid_table'
-        ));
+        $this->fixture->checkKeyExistsInTable([
+            'value' => 1, 'table' => 'invalid_table',
+        ]);
     }
 
     /**
@@ -1251,7 +1266,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '180')
+                ['value' => '180']
             )
         );
     }
@@ -1263,7 +1278,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '180.0')
+                ['value' => '180.0']
             )
         );
     }
@@ -1275,7 +1290,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '180.00')
+                ['value' => '180.00']
             )
         );
     }
@@ -1287,7 +1302,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '-180.0')
+                ['value' => '-180.0']
             )
         );
     }
@@ -1299,7 +1314,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '180.1')
+                ['value' => '180.1']
             )
         );
     }
@@ -1311,7 +1326,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '-180.1')
+                ['value' => '-180.1']
             )
         );
     }
@@ -1323,7 +1338,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '123.12345678901234')
+                ['value' => '123.12345678901234']
             )
         );
     }
@@ -1335,7 +1350,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '-123.12345678901234')
+                ['value' => '-123.12345678901234']
             )
         );
     }
@@ -1347,7 +1362,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '0')
+                ['value' => '0']
             )
         );
     }
@@ -1359,7 +1374,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => '')
+                ['value' => '']
             )
         );
     }
@@ -1371,7 +1386,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->IsValidLongitudeDegree(
-                array('value' => 'abc')
+                ['value' => 'abc']
             )
         );
     }
@@ -1383,7 +1398,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '90')
+                ['value' => '90']
             )
         );
     }
@@ -1395,7 +1410,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '90.0')
+                ['value' => '90.0']
             )
         );
     }
@@ -1407,7 +1422,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '-90.0')
+                ['value' => '-90.0']
             )
         );
     }
@@ -1419,7 +1434,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '90.1')
+                ['value' => '90.1']
             )
         );
     }
@@ -1431,7 +1446,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '-90.1')
+                ['value' => '-90.1']
             )
         );
     }
@@ -1443,7 +1458,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '83.12345678901234')
+                ['value' => '83.12345678901234']
             )
         );
     }
@@ -1455,7 +1470,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '-83.12345678901234')
+                ['value' => '-83.12345678901234']
             )
         );
     }
@@ -1467,7 +1482,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '')
+                ['value' => '']
             )
         );
     }
@@ -1479,7 +1494,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => '0')
+                ['value' => '0']
             )
         );
     }
@@ -1491,7 +1506,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->IsValidLatitudeDegree(
-                array('value' => 'abc')
+                ['value' => 'abc']
             )
         );
     }
@@ -1504,10 +1519,10 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('city', 0);
 
         self::assertTrue(
-            $this->fixture->isAtMostOneValueForAuxiliaryRecordProvided(array(
+            $this->fixture->isAtMostOneValueForAuxiliaryRecordProvided([
                 'value' => $this->testingFramework->createRecord('tx_realty_cities'),
                 'fieldName' => 'city',
-            ))
+            ])
         );
     }
 
@@ -1519,10 +1534,10 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('city', $this->testingFramework->createRecord('tx_realty_cities'));
 
         self::assertFalse(
-            $this->fixture->isAtMostOneValueForAuxiliaryRecordProvided(array(
+            $this->fixture->isAtMostOneValueForAuxiliaryRecordProvided([
                 'value' => $this->testingFramework->createRecord('tx_realty_cities'),
-                'fieldName' => 'city'
-            ))
+                'fieldName' => 'city',
+            ])
         );
     }
 
@@ -1532,11 +1547,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsOwner()
     {
         $this->fixture->setFakedFormValue(
-            'contact_data_source', tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
+            'contact_data_source',
+            tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
         );
 
         self::assertTrue(
-            $this->fixture->isNonEmptyOrOwnerDataUsed(array())
+            $this->fixture->isNonEmptyOrOwnerDataUsed([])
         );
     }
 
@@ -1546,11 +1562,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsNonEmpty()
     {
         $this->fixture->setFakedFormValue(
-            'contact_data_source', tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
+            'contact_data_source',
+            tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
         );
 
         self::assertTrue(
-            $this->fixture->isNonEmptyOrOwnerDataUsed(array('value' => 'foo'))
+            $this->fixture->isNonEmptyOrOwnerDataUsed(['value' => 'foo'])
         );
     }
 
@@ -1560,11 +1577,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function isNonEmptyOrOwnerDataUsedIfTheContactDataSourceIsNotOwnerAndTheValueIsEmpty()
     {
         $this->fixture->setFakedFormValue(
-            'contact_data_source', tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
+            'contact_data_source',
+            tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT
         );
 
         self::assertFalse(
-            $this->fixture->isNonEmptyOrOwnerDataUsed(array())
+            $this->fixture->isNonEmptyOrOwnerDataUsed([])
         );
     }
 
@@ -1581,7 +1599,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
 
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
         // object type will always be added and is not needed here.
         unset($result['object_type']);
 
@@ -1599,7 +1617,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setRealtyObjectUid(0);
 
         self::assertTrue(
-            in_array('tstamp', $this->fixture->modifyDataToInsert(array()))
+            in_array('tstamp', $this->fixture->modifyDataToInsert([]))
         );
     }
 
@@ -1611,7 +1629,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setRealtyObjectUid(0);
 
         self::assertTrue(
-            in_array('crdate', $this->fixture->modifyDataToInsert(array()))
+            in_array('crdate', $this->fixture->modifyDataToInsert([]))
         );
     }
 
@@ -1623,7 +1641,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setRealtyObjectUid(0);
 
         self::assertTrue(
-            in_array('pid', $this->fixture->modifyDataToInsert(array()))
+            in_array('pid', $this->fixture->modifyDataToInsert([]))
         );
     }
 
@@ -1635,7 +1653,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setRealtyObjectUid(0);
 
         self::assertTrue(
-            in_array('hidden', $this->fixture->modifyDataToInsert(array()))
+            in_array('hidden', $this->fixture->modifyDataToInsert([]))
         );
     }
 
@@ -1647,7 +1665,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setRealtyObjectUid(0);
 
         self::assertTrue(
-            in_array('object_type', $this->fixture->modifyDataToInsert(array()))
+            in_array('object_type', $this->fixture->modifyDataToInsert([]))
         );
     }
 
@@ -1659,7 +1677,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setRealtyObjectUid(0);
 
         self::assertTrue(
-            in_array('owner', $this->fixture->modifyDataToInsert(array()))
+            in_array('owner', $this->fixture->modifyDataToInsert([]))
         );
     }
 
@@ -1671,7 +1689,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setRealtyObjectUid(0);
 
         self::assertTrue(
-            in_array('openimmo_anid', $this->fixture->modifyDataToInsert(array()))
+            in_array('openimmo_anid', $this->fixture->modifyDataToInsert([]))
         );
     }
 
@@ -1682,10 +1700,11 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $systemFolderPid = $this->testingFramework->createSystemFolder(1);
         $this->fixture->setConfigurationValue(
-            'sysFolderForFeCreatedRecords', $systemFolderPid
+            'sysFolderForFeCreatedRecords',
+            $systemFolderPid
         );
         $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertEquals(
             $systemFolderPid,
@@ -1700,10 +1719,11 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $systemFolderPid = $this->testingFramework->createSystemFolder(1);
         $this->fixture->setConfigurationValue(
-            'sysFolderForFeCreatedRecords', $systemFolderPid
+            'sysFolderForFeCreatedRecords',
+            $systemFolderPid
         );
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertNotEquals(
             $systemFolderPid,
@@ -1718,11 +1738,12 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $systemFolderPid = $this->testingFramework->createSystemFolder(1);
         $cityUid = $this->testingFramework->createRecord(
-            'tx_realty_cities', array('save_folder' => $systemFolderPid)
+            'tx_realty_cities',
+            ['save_folder' => $systemFolderPid]
         );
 
         $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(array('city' => $cityUid));
+        $result = $this->fixture->modifyDataToInsert(['city' => $cityUid]);
 
         self::assertEquals(
             $systemFolderPid,
@@ -1737,14 +1758,16 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $systemFolderPid = $this->testingFramework->createSystemFolder(1);
         $cityUid = $this->testingFramework->createRecord(
-            'tx_realty_cities', array('save_folder' => $systemFolderPid)
+            'tx_realty_cities',
+            ['save_folder' => $systemFolderPid]
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $cityUid)
+            'tx_realty_objects',
+            ['city' => $cityUid]
         );
 
         $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(array('city' => $cityUid));
+        $result = $this->fixture->modifyDataToInsert(['city' => $cityUid]);
 
         self::assertEquals(
             $systemFolderPid,
@@ -1758,7 +1781,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function addAdministrativeDataAddsFrontEndUserUidForNewObject()
     {
         $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertEquals(
             Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser()
@@ -1773,7 +1796,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function addAdministrativeDataNotAddsFrontEndUserUidForObjectToUpdate()
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertFalse(
             isset($result['owner'])
@@ -1786,7 +1809,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function addAdministrativeDataAddsFrontEndUsersOpenImmoAnidForNewObject()
     {
         $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertEquals(
             'test-user-anid',
@@ -1800,11 +1823,11 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function addAdministrativeDataAddsEmptyOpenImmoAnidForNewObjectIfUserHasNoAnid()
     {
         $user = new tx_realty_Model_FrontEndUser();
-        $user->setData(array());
+        $user->setData([]);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertEquals(
             '',
@@ -1818,7 +1841,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function addAdministrativeDataNotAddsFrontEndUsersOpenImmoAnidForAnObjectToUpdate()
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertFalse(
             isset($result['openimmo_anid'])
@@ -1831,7 +1854,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function newRecordIsMarkedAsHidden()
     {
         $this->fixture->setRealtyObjectUid(0);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertEquals(
             1,
@@ -1845,7 +1868,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function existingRecordIsNotMarkedAsHidden()
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(array());
+        $result = $this->fixture->modifyDataToInsert([]);
 
         self::assertFalse(
             isset($result['hidden'])
@@ -1862,9 +1885,9 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function unifyNumbersToInsertForNonNumericValues()
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $formData = array(
-            'title' => '12,3.45', 'employer' => 'abc,de.fgh'
-        );
+        $formData = [
+            'title' => '12,3.45', 'employer' => 'abc,de.fgh',
+        ];
         $result = $this->fixture->modifyDataToInsert($formData);
         // PID, object type and time stamp will always be added,
         // they are not needed here.
@@ -1882,16 +1905,16 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function unifyNumbersToInsertIfSomeElementsNeedFormatting()
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $result = $this->fixture->modifyDataToInsert(array(
+        $result = $this->fixture->modifyDataToInsert([
             'garage_rent' => '123,45',
-            'garage_price' => '12 345'
-        ));
+            'garage_price' => '12 345',
+        ]);
         // PID, object type and time stamp will always be added,
         // they are not needed here.
         unset($result['tstamp'], $result['pid'], $result['object_type']);
 
         self::assertEquals(
-            array('garage_rent' => '123.45', 'garage_price' => '12345'),
+            ['garage_rent' => '123.45', 'garage_price' => '12345'],
             $result
         );
     }
@@ -1907,7 +1930,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $result = $this->fixture->modifyDataToInsert(
-            array('new_city' => 'foo')
+            ['new_city' => 'foo']
         );
 
         self::assertFalse(
@@ -1922,7 +1945,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $result = $this->fixture->modifyDataToInsert(
-            array('new_city' => '')
+            ['new_city' => '']
         );
 
         self::assertFalse(
@@ -1937,7 +1960,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $result = $this->fixture->modifyDataToInsert(
-            array('new_district' => 'foo')
+            ['new_district' => 'foo']
         );
 
         self::assertFalse(
@@ -1952,7 +1975,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $result = $this->fixture->modifyDataToInsert(
-            array('new_district' => '')
+            ['new_district' => '']
         );
 
         self::assertFalse(
@@ -1967,7 +1990,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $this->fixture->modifyDataToInsert(
-            array('new_city' => self::$dummyStringValue)
+            ['new_city' => self::$dummyStringValue]
         );
 
         self::assertEquals(
@@ -1985,12 +2008,13 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function storeNewAuxiliaryRecordsCreatesANewRecordForNewTitle()
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->modifyDataToInsert(array('new_city' => 'new city'));
+        $this->fixture->modifyDataToInsert(['new_city' => 'new city']);
 
         self::assertEquals(
             1,
             $this->testingFramework->countRecords(
-                'tx_realty_cities', 'title = "new city"'
+                'tx_realty_cities',
+                'title = "new city"'
             )
         );
     }
@@ -2002,15 +2026,16 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $pid = $this->testingFramework->createSystemFolder(1);
         $configuration = new Tx_Oelib_Configuration();
-        $configuration->setData(array(
-            'sysFolderForFeCreatedAuxiliaryRecords' => $pid
-        ));
+        $configuration->setData([
+            'sysFolderForFeCreatedAuxiliaryRecords' => $pid,
+        ]);
         Tx_Oelib_ConfigurationRegistry::getInstance()->set(
-            'plugin.tx_realty_pi1', $configuration
+            'plugin.tx_realty_pi1',
+            $configuration
         );
 
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->modifyDataToInsert(array('new_city' => 'new city'));
+        $this->fixture->modifyDataToInsert(['new_city' => 'new city']);
 
         self::assertEquals(
             1,
@@ -2028,7 +2053,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $result = $this->fixture->modifyDataToInsert(
-            array('new_city' => 'new city')
+            ['new_city' => 'new city']
         );
 
         self::assertTrue(
@@ -2046,7 +2071,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function storeNewAuxiliaryRecordsCreatesnoNewRecordForAnEmptyTitle()
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
-        $this->fixture->modifyDataToInsert(array('new_city' => ''));
+        $this->fixture->modifyDataToInsert(['new_city' => '']);
 
         self::assertEquals(
             1,
@@ -2061,13 +2086,14 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $result = $this->fixture->modifyDataToInsert(
-            array('city' => 1, 'new_city' => 'new city')
+            ['city' => 1, 'new_city' => 'new city']
         );
 
         self::assertEquals(
             0,
             $this->testingFramework->countRecords(
-                'tx_realty_cities', 'title = "new city"'
+                'tx_realty_cities',
+                'title = "new city"'
             )
         );
         self::assertEquals(
@@ -2090,7 +2116,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertFalse(
             array_key_exists(
                 'spacer_01',
-                $this->fixture->modifyDataToInsert(array('spacer_01' => 'blubb'))
+                $this->fixture->modifyDataToInsert(['spacer_01' => 'blubb'])
             )
         );
         // TODO: remove the workaround when PHPUnit Bug 992 is fixed.
@@ -2107,7 +2133,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         self::assertTrue(
             array_key_exists(
                 'title',
-                $this->fixture->modifyDataToInsert(array('title' => 'foo'))
+                $this->fixture->modifyDataToInsert(['title' => 'foo'])
             )
         );
         // TODO: remove the workaround when PHPUnit Bug 992 is fixed.
@@ -2128,7 +2154,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         // This will create an empty dummy record.
         $this->fixture->writeFakedFormDataToDatabase();
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2146,7 +2173,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         // This will create an empty dummy record.
         $this->fixture->writeFakedFormDataToDatabase();
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2164,7 +2192,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         // This will create an empty dummy record.
         $this->fixture->writeFakedFormDataToDatabase();
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2182,7 +2211,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         // This will create an empty dummy record.
         $this->fixture->writeFakedFormDataToDatabase();
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2200,7 +2230,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('title', 'any title');
         $this->fixture->writeFakedFormDataToDatabase();
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2218,7 +2249,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('object_number', '1234');
         $this->fixture->writeFakedFormDataToDatabase();
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2239,7 +2271,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         $this->fixture->setFakedFormValue('language', 'XY');
         $this->fixture->writeFakedFormDataToDatabase();
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2250,7 +2283,7 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
         );
 
         self::assertContains(
-            (string) $expectedResult['uid'],
+            (string)$expectedResult['uid'],
             $this->message->getBody()
         );
     }
@@ -2273,7 +2306,8 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setRealtyObjectUid($this->dummyObjectUid);
         $this->fixture->setConfigurationValue(
-            'feEditorNotifyEmail', 'recipient@example.com'
+            'feEditorNotifyEmail',
+            'recipient@example.com'
         );
         $this->fixture->sendEmailForNewObjectAndClearFrontEndCache();
 
@@ -2286,13 +2320,15 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function sendEmailForNewObjectAndClearFrontEndCacheClearsFrontEndCache()
     {
         $pageUid = $this->testingFramework->createFrontEndPage();
-        $this->testingFramework->createContentElement($pageUid, array('list_type' => 'realty_pi1'));
+        $this->testingFramework->createContentElement($pageUid, ['list_type' => 'realty_pi1']);
 
         /** @var AbstractCacheFrontend|PHPUnit_Framework_MockObject_MockObject $cacheFrontEnd */
         $cacheFrontEnd = $this->getMock(
             AbstractCacheFrontend::class,
-            array('getIdentifier', 'set', 'get', 'getByTag', 'getBackend'),
-            array(), '', false
+            ['getIdentifier', 'set', 'get', 'getByTag', 'getBackend'],
+            [],
+            '',
+            false
         );
         $cacheFrontEnd->expects(self::once())->method('getIdentifier')->will(self::returnValue('cache_pages'));
         /** @var \TYPO3\CMS\Core\Cache\Backend\TaggableBackendInterface|PHPUnit_Framework_MockObject_MockObject $cacheBackEnd */
@@ -2347,12 +2383,13 @@ class tx_realty_FrontEnd_EditorTest extends Tx_Phpunit_TestCase
     public function populateCityListContainsCityFromDatabase()
     {
         $cityUid = $this->testingFramework->createRecord(
-            'tx_realty_cities', array('title' => 'Bonn')
+            'tx_realty_cities',
+            ['title' => 'Bonn']
         );
 
         self::assertTrue(
             in_array(
-                array('value' => $cityUid, 'caption' => 'Bonn'),
+                ['value' => $cityUid, 'caption' => 'Bonn'],
                 tx_realty_frontEndEditor::populateCityList()
             )
         );

@@ -29,7 +29,7 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML of the error message, will not be empty
      */
-    public function render(array $errorMessage = array())
+    public function render(array $errorMessage = [])
     {
         if ($errorMessage[0] == 'message_please_login') {
             $message = $this->getLinkedPleaseLogInMessage();
@@ -55,23 +55,28 @@ class tx_realty_pi1_ErrorView extends tx_realty_pi1_FrontEndView
         unset($piVars['DATA']);
 
         $redirectUrl = GeneralUtility::locationHeaderUrl(
-            $this->cObj->typoLink_URL(array(
+            $this->cObj->typoLink_URL([
                 'parameter' => $this->getFrontEndController()->id,
                 'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                    $this->prefixId, $piVars, '', true, true
+                    $this->prefixId,
+                    $piVars,
+                    '',
+                    true,
+                    true
                 ),
                 'useCacheHash' => true,
-            ))
+            ])
         );
 
         return $this->cObj->typoLink(
             $this->translate('message_please_login'),
-            array(
+            [
                 'parameter' => $this->getConfValueInteger('loginPID'),
                 'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                    '', array('redirect_url' => $redirectUrl)
+                    '',
+                    ['redirect_url' => $redirectUrl]
                 ),
-            )
+            ]
         );
     }
 }

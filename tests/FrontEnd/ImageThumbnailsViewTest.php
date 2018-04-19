@@ -64,34 +64,35 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         $this->contentObject = $this->getMock(ContentObjectRenderer::class);
         $this->fixture = new tx_realty_pi1_ImageThumbnailsView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $this->contentObject
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            $this->contentObject
         );
 
         $configurationRegistry = Tx_Oelib_ConfigurationRegistry::getInstance();
         $this->configuration = new Tx_Oelib_Configuration();
-        $this->configuration->setData(array(
+        $this->configuration->setData([
             'enableLightbox' => false,
             'singleImageMaxX' => 102,
             'singleImageMaxY' => 77,
             'lightboxImageWidthMax' => 1024,
             'lightboxImageHeightMax' => 768,
-            'images.' => array(
-                '1.' => array(),
-                '2.' => array(),
-                '3.' => array(),
-                '4.' => array(),
-            ),
+            'images.' => [
+                '1.' => [],
+                '2.' => [],
+                '3.' => [],
+                '4.' => [],
+            ],
             'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox',
-        ));
+        ]);
         $configurationRegistry->set('plugin.tx_realty_pi1', $this->configuration);
 
         $this->imagesConfiguration = new Tx_Oelib_Configuration();
-        $this->imagesConfiguration->setData(array(
-            '1.' => array(),
-            '2.' => array(),
-            '3.' => array(),
-            '4.' => array(),
-        ));
+        $this->imagesConfiguration->setData([
+            '1.' => [],
+            '2.' => [],
+            '3.' => [],
+            '4.' => [],
+        ]);
         $configurationRegistry->set('plugin.tx_realty_pi1.images', $this->imagesConfiguration);
 
         $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
@@ -123,7 +124,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $this->realtyObjectMapper->getNewGhost()->getUid()))
+            $this->fixture->render(['showUid' => $this->realtyObjectMapper->getNewGhost()->getUid()])
         );
     }
 
@@ -138,7 +139,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '###',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -155,7 +156,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'rel="lightbox[objectGallery]"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -170,7 +171,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'foo</br>',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -183,11 +184,12 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertTrue(
             array_key_exists(
-                'tx_realty_pi1_lightbox_config', $this->getFrontEndController()->additionalHeaderData
+                'tx_realty_pi1_lightbox_config',
+                $this->getFrontEndController()->additionalHeaderData
             )
         );
     }
@@ -201,7 +203,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertTrue(
             in_array(
@@ -221,7 +223,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertTrue(
             in_array(
@@ -241,7 +243,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertTrue(
             in_array(
@@ -261,7 +263,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertTrue(
             in_array(
@@ -281,7 +283,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertTrue(
             in_array(
@@ -301,7 +303,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('foo', 'foo.jpg');
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertTrue(
             in_array(
@@ -323,7 +325,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'rel="lightbox[objectGallery]"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -338,7 +340,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '<a href',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -352,18 +354,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('fooBar', 'foo.jpg');
 
         $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -378,18 +380,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('fooBar', 'foo.jpg');
 
         $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -404,18 +406,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('fooBar', 'foo.jpg');
 
         $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'maxW' => 1024,
                     'maxH' => 768,
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /*
@@ -432,18 +434,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
         $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -451,25 +453,25 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
      */
     public function renderForImageInPosition1AndThumbnailSizesUsesPositionSpecificThumbnailSizes()
     {
-        $this->imagesConfiguration->set('1.', array('singleImageMaxX' => 40, 'singleImageMaxY' => 30));
+        $this->imagesConfiguration->set('1.', ['singleImageMaxX' => 40, 'singleImageMaxY' => 30]);
 
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
         $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '40c',
                     'height' => '30c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -477,7 +479,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
      */
     public function renderForImageInPosition2WithoutSpecificSettingsIsNotAffectedByPosition1Settings()
     {
-        $this->imagesConfiguration->set('1.', array('singleImageMaxX' => 40, 'singleImageMaxY' => 30));
+        $this->imagesConfiguration->set('1.', ['singleImageMaxX' => 40, 'singleImageMaxY' => 30]);
 
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
@@ -485,18 +487,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 2);
 
         $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -504,25 +506,25 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
      */
     public function renderForImageInPosition4AndThumbnailSizesSetUsesPositionSpecificThumbnailSizes()
     {
-        $this->imagesConfiguration->set('4.', array('singleImageMaxX' => 40, 'singleImageMaxY' => 30));
+        $this->imagesConfiguration->set('4.', ['singleImageMaxX' => 40, 'singleImageMaxY' => 30]);
 
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 4);
 
         $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '40c',
                     'height' => '30c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -537,18 +539,18 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
         $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'maxW' => 1024,
                     'maxH' => 768,
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -557,25 +559,25 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
     public function renderForImageInPosition1AndThumbnailSizesSetAndLightboxEnabledSetUsesThumbnailSizesForPosition1()
     {
         $this->configuration->setAsBoolean('enableLightbox', true);
-        $this->imagesConfiguration->set('1.', array('lightboxImageWidthMax' => 400, 'lightboxImageHeightMax' => 300));
+        $this->imagesConfiguration->set('1.', ['lightboxImageWidthMax' => 400, 'lightboxImageHeightMax' => 300]);
 
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 1);
 
         $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'foo.jpg',
-                'file.' => array(
+                'file.' => [
                     'maxW' => 400,
                     'maxH' => 300,
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -589,7 +591,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'rel="lightbox[',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -606,7 +608,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'rel="lightbox[objectGallery_1]"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -615,7 +617,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
      */
     public function renderForPosition1ImageAndLightboxGloballyDisabledAndLocallyEnabledAddsLightboxAttributeToImage()
     {
-        $this->imagesConfiguration->set('1.', array('enableLightbox' => true));
+        $this->imagesConfiguration->set('1.', ['enableLightbox' => true]);
 
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
@@ -623,7 +625,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'rel="lightbox[objectGallery_1]"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -633,7 +635,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
     public function renderForPosition1ImageAndLightboxGloballyEnabledAndLocallyDisabledNotAddsLightboxAttributeToImage()
     {
         $this->configuration->setAsBoolean('enableLightbox', true);
-        $this->imagesConfiguration->set('1.', array('enableLightbox' => false));
+        $this->imagesConfiguration->set('1.', ['enableLightbox' => false]);
 
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getNewGhost();
@@ -641,7 +643,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'rel="lightbox[',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -657,40 +659,40 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('0', '0.jpg', 0);
 
         $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => '0',
                 'titleText' => '0',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '0.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
         $this->contentObject->expects(self::at(1))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => '1',
                 'titleText' => '1',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '1.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
         $this->contentObject->expects(self::at(2))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => '2',
                 'titleText' => '2',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . '2.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 
     /**
@@ -703,7 +705,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg', 0);
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertNotContains(
@@ -734,7 +736,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertNotContains(
@@ -753,7 +755,7 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('foo', 'foo.jpg', 1);
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertNotContains(
@@ -784,17 +786,17 @@ class tx_realty_FrontEnd_ImageThumbnailsViewTest extends Tx_Phpunit_TestCase
         $realtyObject->addImageRecord('fooBar', 'foo.jpg', 0, 'thumbnail.jpg');
 
         $this->contentObject->expects(self::at(0))->method('IMAGE')->with(
-            array(
+            [
                 'altText' => 'fooBar',
                 'titleText' => 'fooBar',
                 'file' => tx_realty_Model_Image::UPLOAD_FOLDER . 'thumbnail.jpg',
-                'file.' => array(
+                'file.' => [
                     'width' => '102c',
                     'height' => '77c',
-                ),
-            )
+                ],
+            ]
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
     }
 }

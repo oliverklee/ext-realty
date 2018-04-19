@@ -42,7 +42,9 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             tx_realty_pi1_ListViewFactory::make(
-                'realty_list', array(), $this->cObjMock
+                'realty_list',
+                [],
+                $this->cObjMock
             ) instanceof tx_realty_pi1_DefaultListView
         );
     }
@@ -54,7 +56,9 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             tx_realty_pi1_ListViewFactory::make(
-                'favorites', array(), $this->cObjMock
+                'favorites',
+                [],
+                $this->cObjMock
             ) instanceof tx_realty_pi1_FavoritesListView
         );
     }
@@ -66,7 +70,9 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             tx_realty_pi1_ListViewFactory::make(
-                'my_objects', array(), $this->cObjMock
+                'my_objects',
+                [],
+                $this->cObjMock
             ) instanceof tx_realty_pi1_MyObjectsListView
         );
     }
@@ -78,7 +84,9 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase
     {
         self::assertTrue(
             tx_realty_pi1_ListViewFactory::make(
-                'objects_by_owner', array(), $this->cObjMock
+                'objects_by_owner',
+                [],
+                $this->cObjMock
             ) instanceof tx_realty_pi1_ObjectsByOwnerListView
         );
     }
@@ -93,6 +101,6 @@ class tx_realty_Service_ListViewFactoryTest extends Tx_Phpunit_TestCase
             'The given list view type "foo" is invalid.'
         );
 
-        tx_realty_pi1_ListViewFactory::make('foo', array(), $this->cObjMock);
+        tx_realty_pi1_ListViewFactory::make('foo', [], $this->cObjMock);
     }
 }

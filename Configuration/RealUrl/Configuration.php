@@ -29,19 +29,19 @@ class Tx_Realty_Configuration_RealUrl_Configuration
      */
     public function addConfiguration(array $parameters)
     {
-        $preVariables = array(
-            array(
+        $preVariables = [
+            [
                 'GETvar' => 'no_cache',
-                'valueMap' => array(
+                'valueMap' => [
                     'no_cache' => 1,
-                ),
+                ],
                 'noMatch' => 'bypass',
-            ),
-        );
+            ],
+        ];
 
-        $paginationGetVariable = array(
+        $paginationGetVariable = [
             'GETvar' => 'tx_realty_pi1[pointer]',
-            'valueMap' => array(
+            'valueMap' => [
                 '1' => '0',
                 '2' => '1',
                 '3' => '2',
@@ -73,45 +73,45 @@ class Tx_Realty_Configuration_RealUrl_Configuration
                 '29' => '28',
                 '30' => '29',
                 '31' => '30',
-            ),
+            ],
             'noMatch' => 'bypass',
-        );
+        ];
 
-        $realtyObjectGetVariable = array(
+        $realtyObjectGetVariable = [
             'GETvar' => 'tx_realty_pi1[showUid]',
-            'lookUpTable' => array(
+            'lookUpTable' => [
                 'table' => 'tx_realty_objects',
                 'id_field' => 'uid',
                 'alias_field' => 'title',
                 'addWhereClause' => ' AND NOT deleted',
                 'useUniqueCache' => true,
-                'useUniqueCache_conf' => array(
+                'useUniqueCache_conf' => [
                     'strtolower' => 1,
                     'spaceCharacter' => '-',
-                ),
+                ],
                 'autoUpdate' => true,
-            ),
-        );
+            ],
+        ];
 
-        $modeGetVariable = array('GETvar' => 'tx_realty_pi1[mode]', 'valueMap' => array('-' => '0'));
-        $removeGetVariable = array('GETvar' => 'tx_realty_pi1[remove]', 'valueMap' => array('remove' => '1', '-' => '0'));
-        $deleteGetVariable = array('GETvar' => 'tx_realty_pi1[delete]', 'valueMap' => array('remove' => '1', '-' => '0'));
-        $ownerGetVariable = array('GETvar' => 'tx_realty_pi1[owner]', 'valueMap' => array('-' => '0'));
-        $uidGetVariable = array('GETvar' => 'tx_realty_pi1[uid]', 'valueMap' => array('-' => '0'));
+        $modeGetVariable = ['GETvar' => 'tx_realty_pi1[mode]', 'valueMap' => ['-' => '0']];
+        $removeGetVariable = ['GETvar' => 'tx_realty_pi1[remove]', 'valueMap' => ['remove' => '1', '-' => '0']];
+        $deleteGetVariable = ['GETvar' => 'tx_realty_pi1[delete]', 'valueMap' => ['remove' => '1', '-' => '0']];
+        $ownerGetVariable = ['GETvar' => 'tx_realty_pi1[owner]', 'valueMap' => ['-' => '0']];
+        $uidGetVariable = ['GETvar' => 'tx_realty_pi1[uid]', 'valueMap' => ['-' => '0']];
 
         return array_merge_recursive(
             $parameters['config'],
-            array(
+            [
                 'preVars' => $preVariables,
-                'postVarSets' => array(
-                    '_DEFAULT' => array(
-                        'immo' => array(
+                'postVarSets' => [
+                    '_DEFAULT' => [
+                        'immo' => [
                             $paginationGetVariable, $realtyObjectGetVariable, $modeGetVariable, $removeGetVariable,
                             $deleteGetVariable, $ownerGetVariable, $uidGetVariable,
-                        ),
-                    ),
-                ),
-            )
+                        ],
+                    ],
+                ],
+            ]
         );
     }
 }

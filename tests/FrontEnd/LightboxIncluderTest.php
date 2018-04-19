@@ -23,14 +23,15 @@ class tx_realty_FrontEnd_LightboxIncluderTest extends Tx_Phpunit_TestCase
 {
     protected function setUp()
     {
-        $GLOBALS['TSFE'] = $this->getMock(TypoScriptFrontendController::class, array(), array(), '', false);
+        $GLOBALS['TSFE'] = $this->getMock(TypoScriptFrontendController::class, [], [], '', false);
 
         $configuration = new Tx_Oelib_Configuration();
-        $configuration->setData(array(
-            'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox'
-        ));
+        $configuration->setData([
+            'includeJavaScriptLibraries' => 'prototype, scriptaculous, lightbox',
+        ]);
         Tx_Oelib_ConfigurationRegistry::getInstance()->set(
-            'plugin.tx_realty_pi1', $configuration
+            'plugin.tx_realty_pi1',
+            $configuration
         );
     }
 

@@ -73,7 +73,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $this->testingFramework->createRecord(
             'tx_realty_districts',
-            array('title' => 'Kreuzberg', 'city' => $cityUid)
+            ['title' => 'Kreuzberg', 'city' => $cityUid]
         );
 
         self::assertContains(
@@ -90,7 +90,7 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $this->testingFramework->createRecord(
             'tx_realty_districts',
-            array('title' => 'A & B', 'city' => $cityUid)
+            ['title' => 'A & B', 'city' => $cityUid]
         );
 
         self::assertContains(
@@ -106,7 +106,8 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $cityUid)
+            'tx_realty_districts',
+            ['city' => $cityUid]
         );
 
         self::assertContains(
@@ -122,10 +123,12 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid1 = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $cityUid)
+            'tx_realty_districts',
+            ['city' => $cityUid]
         );
         $districtUid2 = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $cityUid)
+            'tx_realty_districts',
+            ['city' => $cityUid]
         );
 
         $output = tx_realty_Ajax_DistrictSelector::render($cityUid);
@@ -164,7 +167,8 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $otherCityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $otherCityUid)
+            'tx_realty_districts',
+            ['city' => $otherCityUid]
         );
 
         self::assertNotContains(
@@ -184,13 +188,16 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $cityUid, 'title' => 'Beuel')
+            'tx_realty_districts',
+            ['city' => $cityUid, 'title' => 'Beuel']
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('district' => $districtUid)
+            'tx_realty_objects',
+            ['district' => $districtUid]
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('district' => $districtUid)
+            'tx_realty_objects',
+            ['district' => $districtUid]
         );
 
         self::assertContains(
@@ -206,7 +213,8 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $cityUid)
+            'tx_realty_districts',
+            ['city' => $cityUid]
         );
 
         self::assertNotContains(
@@ -226,13 +234,16 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $cityUid, 'title' => 'Beuel')
+            'tx_realty_districts',
+            ['city' => $cityUid, 'title' => 'Beuel']
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('district' => $districtUid)
+            'tx_realty_objects',
+            ['district' => $districtUid]
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('district' => $districtUid)
+            'tx_realty_objects',
+            ['district' => $districtUid]
         );
 
         self::assertNotContains(
@@ -248,7 +259,8 @@ class tx_realty_Ajax_DistrictSelectorTest extends Tx_Phpunit_TestCase
     {
         $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
         $districtUid = $this->testingFramework->createRecord(
-            'tx_realty_districts', array('city' => $cityUid)
+            'tx_realty_districts',
+            ['city' => $cityUid]
         );
 
         self::assertContains(

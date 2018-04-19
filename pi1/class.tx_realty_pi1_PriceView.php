@@ -32,7 +32,7 @@ class tx_realty_pi1_PriceView extends tx_realty_pi1_FrontEndView
      *                with the provided UID has no prices for the defined object
      *                type
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');

@@ -75,11 +75,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
         $this->createDummyObjects();
 
         $this->fixture = new tx_realty_pi1_DefaultListView(
-            array(
+            [
                 'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
                 'pages' => $this->systemFolderPid,
                 'showGoogleMaps' => 0,
-            ),
+            ],
             $this->getFrontEndController()->cObj,
             true
         );
@@ -114,19 +114,19 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
         $this->createDummyCities();
         $this->firstRealtyUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'pid' => $this->systemFolderPid,
                 'city' => $this->firstCityUid,
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
-            )
+            ]
         );
         $this->secondRealtyUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'pid' => $this->systemFolderPid,
                 'city' => $this->secondCityUid,
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
-            )
+            ]
         );
     }
 
@@ -139,11 +139,11 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
     {
         $this->firstCityUid = $this->testingFramework->createRecord(
             'tx_realty_cities',
-            array('title' => self::$firstCityTitle)
+            ['title' => self::$firstCityTitle]
         );
         $this->secondCityUid = $this->testingFramework->createRecord(
             'tx_realty_cities',
-            array('title' => self::$secondCityTitle)
+            ['title' => self::$secondCityTitle]
         );
     }
 
@@ -159,9 +159,10 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            array('district' => $this->testingFramework->createRecord(
-                'tx_realty_districts', array('title' => 'test district')
-            ))
+            ['district' => $this->testingFramework->createRecord(
+                'tx_realty_districts',
+                ['title' => 'test district']
+            )]
         );
         $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
@@ -179,12 +180,12 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
         $systemFolder = $this->testingFramework->createSystemFolder();
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 // A city is the minimum requirement for an object to be displayed,
                 // though the object is rendered empty because the city has no title.
                 'city' => $this->testingFramework->createRecord('tx_realty_cities'),
-                'pid' => $systemFolder
-            )
+                'pid' => $systemFolder,
+            ]
         );
 
         $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
@@ -208,15 +209,16 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->firstRealtyUid,
-            array('district' => $this->testingFramework->createRecord(
-                'tx_realty_districts', array('title' => 'test district')
-            ))
+            ['district' => $this->testingFramework->createRecord(
+                'tx_realty_districts',
+                ['title' => 'test district']
+            )]
         );
         $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
         self::assertContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render(array('city' => $this->firstCityUid))
+            $this->fixture->render(['city' => $this->firstCityUid])
         );
     }
 
@@ -226,7 +228,8 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
     public function listFilterIsInvisibleIfCheckboxesFilterSetToDistrictAndNoRecordIsLinkedToADistrict()
     {
         $this->testingFramework->createRecord(
-            'tx_realty_districts', array('title' => 'test district')
+            'tx_realty_districts',
+            ['title' => 'test district']
         );
         $this->fixture->setConfigurationValue('checkboxesFilter', 'district');
 
@@ -271,7 +274,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'id="tx_realty_pi1_search"',
-            $this->fixture->render(array('city' => $this->firstCityUid))
+            $this->fixture->render(['city' => $this->firstCityUid])
         );
     }
 
@@ -292,7 +295,8 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
     public function listFilterDoesNotDisplayUnlinkedCity()
     {
         $this->testingFramework->createRecord(
-            'tx_realty_cities', array('title' => 'unlinked city')
+            'tx_realty_cities',
+            ['title' => 'unlinked city']
         );
         $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
@@ -314,10 +318,13 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
     public function listFilterDoesNotDisplayDeletedCity()
     {
         $deletedCityUid = $this->testingFramework->createRecord(
-            'tx_realty_cities', array('title' => 'deleted city', 'deleted' => 1)
+            'tx_realty_cities',
+            ['title' => 'deleted city', 'deleted' => 1]
         );
         $this->testingFramework->changeRecord(
-            'tx_realty_objects', $this->firstRealtyUid, array('city' => $deletedCityUid)
+            'tx_realty_objects',
+            $this->firstRealtyUid,
+            ['city' => $deletedCityUid]
         );
         $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
 
@@ -339,7 +346,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
     public function listIsFilteredForOneCriterion()
     {
         $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-        $piVars = array('search' => array($this->firstCityUid));
+        $piVars = ['search' => [$this->firstCityUid]];
 
         // The city's title will occur twice if it is within the list view and
         // within the list filter. It will occur once if it is only a filter
@@ -363,9 +370,9 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
     public function listIsFilteredForTwoCriteria()
     {
         $this->fixture->setConfigurationValue('checkboxesFilter', 'city');
-        $piVars = array('search' => array(
-            $this->firstCityUid, $this->secondCityUid
-        ));
+        $piVars = ['search' => [
+            $this->firstCityUid, $this->secondCityUid,
+        ]];
 
         // The city's title will occur twice if it is within the list view and
         // within the list filter. It will occur once if it is only a filter
@@ -405,7 +412,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'tx_realty_pi1[search][0]=' . $this->firstCityUid,
-            $this->fixture->render(array('search' => array($this->firstCityUid)))
+            $this->fixture->render(['search' => [$this->firstCityUid]])
         );
     }
 
@@ -418,7 +425,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             'pointer',
-            $this->fixture->render(array('pointer' => 1))
+            $this->fixture->render(['pointer' => 1])
         );
     }
 
@@ -432,7 +439,7 @@ class tx_realty_FrontEnd_DefaultListViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             'tx_realty_pi1%5Bowner%5D=25',
-            $this->fixture->render(array('owner' => 25))
+            $this->fixture->render(['owner' => 25])
         );
     }
 }

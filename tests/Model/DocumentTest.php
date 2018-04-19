@@ -39,7 +39,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
      */
     public function getTitleReturnsTitle()
     {
-        $this->fixture->setData(array('title' => 'Just another document'));
+        $this->fixture->setData(['title' => 'Just another document']);
 
         self::assertEquals(
             'Just another document',
@@ -62,7 +62,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function setTitleForEmptyTitleThrowsException()
     {
@@ -78,7 +78,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
      */
     public function getFileNameReturnsDocumentFileName()
     {
-        $this->fixture->setData(array('filename' => 'foo.pdf'));
+        $this->fixture->setData(['filename' => 'foo.pdf']);
 
         self::assertEquals(
             'foo.pdf',
@@ -102,7 +102,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
     /**
      * @test
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function setFileNameForEmptyFileNameThrowsException()
     {
@@ -119,7 +119,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
     public function getObjectReturnsObject()
     {
         $realtyObject = new tx_realty_Model_RealtyObject();
-        $this->fixture->setData(array('object' => $realtyObject));
+        $this->fixture->setData(['object' => $realtyObject]);
 
         self::assertSame(
             $realtyObject,
@@ -150,7 +150,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
      */
     public function getSortingInitiallyReturnsZero()
     {
-        $this->fixture->setData(array());
+        $this->fixture->setData([]);
 
         self::assertEquals(
             0,
@@ -163,7 +163,7 @@ class tx_realty_Model_DocumentTest extends Tx_Phpunit_TestCase
      */
     public function getSortingReturnsSorting()
     {
-        $this->fixture->setData(array('sorting' => 42));
+        $this->fixture->setData(['sorting' => 42]);
 
         self::assertEquals(
             42,

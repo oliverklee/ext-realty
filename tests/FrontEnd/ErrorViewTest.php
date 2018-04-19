@@ -38,7 +38,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase
         );
 
         $this->fixture = new tx_realty_pi1_ErrorView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
             $this->getFrontEndController()->cObj
         );
     }
@@ -65,7 +65,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase
     {
         self::assertContains(
             $this->fixture->translate('message_access_denied'),
-            $this->fixture->render(array('message_access_denied'))
+            $this->fixture->render(['message_access_denied'])
         );
     }
 
@@ -75,12 +75,13 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsLinkedPleaseLoginMessage()
     {
         $this->fixture->setConfigurationValue(
-            'loginPID', $this->testingFramework->createFrontEndPage()
+            'loginPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             '<a href',
-            $this->fixture->render(array('message_please_login'))
+            $this->fixture->render(['message_please_login'])
         );
     }
 
@@ -94,7 +95,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             '?id=' . $loginPid,
-            $this->fixture->render(array('message_please_login'))
+            $this->fixture->render(['message_please_login'])
         );
     }
 
@@ -104,12 +105,13 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsPleaseLoginMessageWithRedirectUrl()
     {
         $this->fixture->setConfigurationValue(
-            'loginPID', $this->testingFramework->createFrontEndPage()
+            'loginPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             urlencode('?id=' . $this->getFrontEndController()->id),
-            $this->fixture->render(array('message_please_login'))
+            $this->fixture->render(['message_please_login'])
         );
     }
 
@@ -120,7 +122,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase
     {
         self::assertContains(
             'class="error"',
-            $this->fixture->render(array('message_access_denied'))
+            $this->fixture->render(['message_access_denied'])
         );
     }
 
@@ -131,7 +133,7 @@ class tx_realty_FrontEnd_ErrorViewTest extends Tx_Phpunit_TestCase
     {
         self::assertNotContains(
             '###',
-            $this->fixture->render(array('message_access_denied'))
+            $this->fixture->render(['message_access_denied'])
         );
     }
 }

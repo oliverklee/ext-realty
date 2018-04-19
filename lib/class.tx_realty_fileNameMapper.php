@@ -27,7 +27,7 @@ class tx_realty_fileNameMapper
      *
      * @var string[]
      */
-    private $fileNames = array();
+    private $fileNames = [];
 
     /**
      * @var string path of the folder in which to check whether a file exists
@@ -130,7 +130,7 @@ class tx_realty_fileNameMapper
     {
         $splittedFileName = GeneralUtility::split_fileref($fileName);
 
-        $matches = array();
+        $matches = [];
         preg_match('/^(.*)_([0-9]+)$/', $splittedFileName['filebody'], $matches);
 
         if (!empty($matches)) {

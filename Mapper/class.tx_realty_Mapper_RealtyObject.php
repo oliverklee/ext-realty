@@ -35,7 +35,7 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      *
      * @var string[]
      */
-    protected $relations = array();
+    protected $relations = [];
 
     /**
      * cache by object number, OpenImmo object ID and language, using values
@@ -43,14 +43,14 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      *
      * @var tx_realty_Model_RealtyObject[]
      */
-    private $cacheByObjectNumberAndObjectIdAndLanguage = array();
+    private $cacheByObjectNumberAndObjectIdAndLanguage = [];
 
     /**
      * Frees as much memory that has been used by this object as possible.
      */
     public function __destruct()
     {
-        $this->cacheByObjectNumberAndObjectIdAndLanguage = array();
+        $this->cacheByObjectNumberAndObjectIdAndLanguage = [];
 
         parent::__destruct();
     }
@@ -106,15 +106,21 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      *         the realty object that matches all three parameters
      */
     public function findByObjectNumberAndObjectIdAndLanguage(
-        $objectNumber, $openImmoObjectId, $language = ''
+        $objectNumber,
+        $openImmoObjectId,
+        $language = ''
     ) {
         try {
             $model = $this->findByObjectNumberAndObjectIdAndLanguageFromCache(
-                $objectNumber, $openImmoObjectId, $language
+                $objectNumber,
+                $openImmoObjectId,
+                $language
             );
         } catch (Tx_Oelib_Exception_NotFound $exception) {
             $model = $this->findByObjectNumberAndObjectIdAndLanguageFromDatabase(
-                $objectNumber, $openImmoObjectId, $language
+                $objectNumber,
+                $openImmoObjectId,
+                $language
             );
         }
 
@@ -139,10 +145,14 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      *         the realty object that matches all three parameters
      */
     private function findByObjectNumberAndObjectIdAndLanguageFromCache(
-        $objectNumber, $openImmoObjectId, $language
+        $objectNumber,
+        $openImmoObjectId,
+        $language
     ) {
         $cacheKey = $this->createCacheKeyFromObjectNumberAndObjectIdAndLanguage(
-            $objectNumber, $openImmoObjectId, $language
+            $objectNumber,
+            $openImmoObjectId,
+            $language
         );
         if (!isset($this->cacheByObjectNumberAndObjectIdAndLanguage[$cacheKey])) {
             throw new Tx_Oelib_Exception_NotFound('No model found.', 1333035741);
@@ -167,7 +177,9 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      *         empty
      */
     private function createCacheKeyFromObjectNumberAndObjectIdAndLanguage(
-        $objectNumber, $openImmoObjectId, $language
+        $objectNumber,
+        $openImmoObjectId,
+        $language
     ) {
         return $objectNumber . ':' . $openImmoObjectId . ':' . $language;
     }
@@ -181,7 +193,8 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      * @return void
      */
     protected function cacheModelByCombinedKeys(
-        Tx_Oelib_Model $model, array $data
+        Tx_Oelib_Model $model,
+        array $data
     ) {
         $objectNumber = isset($data['object_number'])
             ? $data['object_number'] : '';
@@ -190,7 +203,9 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
         $language = isset($data['language']) ? $data['language'] : '';
 
         $cacheKey = $this->createCacheKeyFromObjectNumberAndObjectIdAndLanguage(
-            $objectNumber, $openImmoObjectId, $language
+            $objectNumber,
+            $openImmoObjectId,
+            $language
         );
         $this->cacheByObjectNumberAndObjectIdAndLanguage[$cacheKey] = $model;
     }
@@ -214,13 +229,15 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      *         the realty object that matches all three parameters
      */
     private function findByObjectNumberAndObjectIdAndLanguageFromDatabase(
-        $objectNumber, $openImmoObjectId, $language
+        $objectNumber,
+        $openImmoObjectId,
+        $language
     ) {
-        return $this->findSingleByWhereClause(array(
+        return $this->findSingleByWhereClause([
             'object_number' => $objectNumber,
             'openimmo_obid' => $openImmoObjectId,
-            'language' => $language
-        ));
+            'language' => $language,
+        ]);
     }
 
     /**
@@ -242,7 +259,7 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
         $relevantPartOfAnid = mb_substr($anid, 0, 4, 'UTF-8');
 
         return $this->findByWhereClause(
-            'LEFT(openimmo_anid, 4) = "' . $databaseConnection->quoteStr($relevantPartOfAnid, $this->tableName). '"'
+            'LEFT(openimmo_anid, 4) = "' . $databaseConnection->quoteStr($relevantPartOfAnid, $this->tableName) . '"'
         );
     }
 
@@ -265,7 +282,7 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
 
         $matches = $this->findByAnid($anid);
         /** @var \tx_realty_Model_RealtyObject $realtyObject */
-        foreach ($matches as $realtyObject ) {
+        foreach ($matches as $realtyObject) {
             if (!$exceptions->hasUid($realtyObject->getUid())) {
                 $this->delete($realtyObject);
                 $deletedObjects[] = $realtyObject;

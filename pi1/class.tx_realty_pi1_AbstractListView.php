@@ -53,7 +53,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     /**
      * @var string[] sort criteria that can be selected in the BE flexforms.
      */
-    private static $sortCriteria = array(
+    private static $sortCriteria = [
         'object_number',
         'title',
         'city',
@@ -64,7 +64,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         'living_area',
         'tstamp',
         'random',
-    );
+    ];
 
     /**
      * @var string the locallang key to the label of a list view
@@ -106,7 +106,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *        whether this class should be instantiated for testing
      */
     public function __construct(
-        array $configuration, ContentObjectRenderer $contentObjectRenderer, $isTestMode = false
+        array $configuration,
+        ContentObjectRenderer $contentObjectRenderer,
+        $isTestMode = false
     ) {
         $this->checkMemberVariables();
         $this->isTestMode = $isTestMode;
@@ -174,7 +176,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      * @return string HTML list of table entries or the HTML for an error
      *                view if no items were found
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         $this->setPiVars($piVars);
         $this->addHeaderForListView();
@@ -219,7 +221,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         $listItems = '';
         $rowCounter = 0;
-        $listedObjectsUids = array();
+        $listedObjectsUids = [];
 
         $databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
         while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
@@ -335,10 +337,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         return htmlspecialchars(
             $this->cObj->typoLink_URL(
-                array(
+                [
                     'parameter' => $pageId,
                     'useCacheHash' => true,
-                )
+                ]
             )
         );
     }
@@ -358,7 +360,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         }
 
         $this->createLinkToSingleViewPageForAnyLinkText(
-            '|', $this->internal['currentRow']['uid']
+            '|',
+            $this->internal['currentRow']['uid']
         );
         Tx_Oelib_HeaderProxyFactory::getInstance()->getHeaderProxy()->addHeader(
             'Location: ' .
@@ -374,10 +377,12 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     private function setEmptyResultView()
     {
         $this->setMarker(
-            'message_noResultsFound', $this->createNoResultsMessage()
+            'message_noResultsFound',
+            $this->createNoResultsMessage()
         );
         $this->setSubpart(
-            'list_result', $this->getSubpart('EMPTY_RESULT_VIEW')
+            'list_result',
+            $this->getSubpart('EMPTY_RESULT_VIEW')
         );
     }
 
@@ -427,7 +432,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 break;
         }
 
-        foreach (array(
+        foreach ([
             'uid' => $this->internal['currentRow']['uid'],
             'object_number' => $this->internal['currentRow']['object_number'],
             'teaser' => $this->internal['currentRow']['teaser'],
@@ -435,33 +440,38 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             'features' => $this->getFeatureList(),
             'list_image_left' => $leftImage,
             'list_image_right' => $rightImage,
-        ) as $key => $value) {
+        ] as $key => $value) {
             $this->setOrDeleteMarkerIfNotEmpty($key, $value, '', 'wrapper');
         }
 
-        foreach (array(
+        foreach ([
             'city', 'district', 'living_area', 'number_of_rooms', 'heating_type',
             'buying_price', 'extra_charges', 'rent_excluding_bills', 'status', 'floor',
-        ) as $key) {
+        ] as $key) {
             $this->setOrDeleteMarkerIfNotEmpty(
-                $key, $this->getFormatter()->getProperty($key), '', 'wrapper'
+                $key,
+                $this->getFormatter()->getProperty($key),
+                '',
+                'wrapper'
             );
         }
 
-        $statusClasses = array(
+        $statusClasses = [
             tx_realty_Model_RealtyObject::STATUS_VACANT => 'vacant',
             tx_realty_Model_RealtyObject::STATUS_RESERVED => 'reserved',
             tx_realty_Model_RealtyObject::STATUS_SOLD => 'sold',
             tx_realty_Model_RealtyObject::STATUS_RENTED => 'rented',
-        );
+        ];
         $this->setMarker(
-            'statusclass', $statusClasses[$this->getRealtyObject()->getStatus()]
+            'statusclass',
+            $statusClasses[$this->getRealtyObject()->getStatus()]
         );
 
         switch ($this->internal['currentRow']['object_type']) {
             case tx_realty_Model_RealtyObject::TYPE_FOR_SALE:
                 $this->hideSubparts(
-                    'rent_excluding_bills,extra_charges', 'wrapper'
+                    'rent_excluding_bills,extra_charges',
+                    'wrapper'
                 );
                 break;
             case tx_realty_Model_RealtyObject::TYPE_FOR_RENT:
@@ -475,7 +485,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             && $this->getRealtyObject()->isRentedOrSold()
         ) {
             $this->hideSubparts(
-                'rent_excluding_bills,extra_charges,buying_price', 'wrapper'
+                'rent_excluding_bills,extra_charges,buying_price',
+                'wrapper'
             );
         }
 
@@ -510,7 +521,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $this->setMarker('number_of_results', $this->internal['res_count']);
 
         $links = $this->createPaginationLink(
-            max(0, $this->piVars['pointer'] - 1), '&lt;', false
+            max(0, $this->piVars['pointer'] - 1),
+            '&lt;',
+            false
         );
         $links .= $this->createPageList();
         $links .= $this->createPaginationLink(
@@ -543,9 +556,11 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         $this->setMarker('self_url', $this->getSelfUrl());
         $selectedSortCriteria = GeneralUtility::trimExplode(
-            ',', $this->getConfValueString('sortCriteria'), true
+            ',',
+            $this->getConfValueString('sortCriteria'),
+            true
         );
-        $options = array();
+        $options = [];
         foreach ($selectedSortCriteria as $selectedSortCriterion) {
             if (in_array($selectedSortCriterion, self::$sortCriteria)) {
                 $sortCriterion = isset($this->piVars['orderBy'])
@@ -592,7 +607,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         // The result may only contain non-deleted and non-hidden records except
         // for the my objects view.
         $whereClause .= Tx_Oelib_Db::enableFields(
-            'tx_realty_objects', $this->shouldShowHiddenObjects()
+            'tx_realty_objects',
+            $this->shouldShowHiddenObjects()
         ) . Tx_Oelib_Db::enableFields('tx_realty_cities');
 
         $whereClause .= $this->getWhereClausePartForPidList();
@@ -683,15 +699,22 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     {
         // number of results to show in a listing
         $this->internal['results_at_a_time'] = MathUtility::forceIntegerInRange(
-            $this->getListViewConfValueInteger('results_at_a_time'), 0, 1000, 3
+            $this->getListViewConfValueInteger('results_at_a_time'),
+            0,
+            1000,
+            3
         );
         // the maximum number of "pages" in the browse-box: "Page 1", "Page 2", etc.
         $this->internal['maxPages'] = MathUtility::forceIntegerInRange(
-            $this->getListViewConfValueInteger('maxPages'), 1, 1000, 2
+            $this->getListViewConfValueInteger('maxPages'),
+            1,
+            1000,
+            2
         );
 
         $this->internal['res_count'] = Tx_Oelib_Db::count(
-            self::TABLES, $whereClause
+            self::TABLES,
+            $whereClause
         );
 
         // The number of the last possible page in a listing
@@ -727,9 +750,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *                be empty
      */
     protected function getSelfUrl(
-        $keepPiVars = true, array $keysToRemove = array()
+        $keepPiVars = true,
+        array $keysToRemove = []
     ) {
-        $piVars = array();
+        $piVars = [];
         if ($keepPiVars) {
             foreach ($this->piVars as $key => $value) {
                 if (($key != 'DATA') && !in_array($key, $keysToRemove)) {
@@ -739,14 +763,18 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         }
 
         $parameters = GeneralUtility::implodeArrayForUrl(
-            '', array($this->prefixId => $piVars), '', true, true
+            '',
+            [$this->prefixId => $piVars],
+            '',
+            true,
+            true
         );
         $url = $this->cObj->typoLink_URL(
-            array(
+            [
                 'parameter' => $this->getFrontEndController()->id,
                 'additionalParams' => $parameters,
                 'useCacheHash' => true,
-            )
+            ]
         );
 
         return htmlspecialchars($url);
@@ -772,7 +800,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *                login page, will be empty if no link text was provided
      */
     private function createLinkToSingleViewPageForAnyLinkText(
-        $linkText, $uid, $separateSingleViewPage = ''
+        $linkText,
+        $uid,
+        $separateSingleViewPage = ''
     ) {
         if ($linkText == '') {
             return '';
@@ -785,20 +815,21 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         if ($hasSeparateSingleViewPage) {
             $completeLink = $this->cObj->typoLink(
                 $linkText,
-                array('parameter' => $separateSingleViewPage)
+                ['parameter' => $separateSingleViewPage]
             );
         } else {
             $additionalParameters
                 = $this->getAdditionalParametersForSingleViewLink($uid);
             $completeLink = $this->cObj->typoLink(
                 $linkText,
-                array(
+                [
                     'parameter' => $this->getConfValueInteger('singlePID'),
                     'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                        $this->prefixId, $additionalParameters
+                        $this->prefixId,
+                        $additionalParameters
                     ),
                     'useCacheHash' => $useCache,
-                )
+                ]
             );
         }
 
@@ -806,7 +837,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             $result = $completeLink;
         } else {
             $result = $this->createLoginPageLink(
-                $linkText, $hasSeparateSingleViewPage
+                $linkText,
+                $hasSeparateSingleViewPage
             );
         }
 
@@ -875,10 +907,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     private function getFeatureList()
     {
-        $features = array();
+        $features = [];
 
         // get features described by DB relations
-        foreach (array('apartment_type', 'house_type', 'garage_type') as $key) {
+        foreach (['apartment_type', 'house_type', 'garage_type'] as $key) {
             $propertyTitle = $this->getFormatter()->getProperty($key);
             if ($propertyTitle != '') {
                 $features[] = $propertyTitle;
@@ -886,9 +918,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         }
 
         // get features set with (bool) checkboxes
-        foreach (array(
+        foreach ([
             'balcony', 'garden', 'elevator', 'barrier_free',
-            'assisted_living', 'fitted_kitchen', )
+            'assisted_living', 'fitted_kitchen', ]
         as $key) {
             if ($this->internal['currentRow'][$key]) {
                 $features[] = ($this->translate('label_' . $key . '_short') != '')
@@ -898,7 +930,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         }
 
         if ($this->internal['currentRow']['old_or_new_building'] > 0) {
-            $features[] = $this->translate('label_old_or_new_building_' .
+            $features[] = $this->translate(
+                'label_old_or_new_building_' .
                 $this->internal['currentRow']['old_or_new_building']
             );
         }
@@ -959,8 +992,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             throw new BadMethodCallException('$this->internal[\'currentRow\'] must not be empty.', 1333036395);
         }
 
-        $currentUid = (int) $this->internal['currentRow']['uid'];
-        if (($this->formatter !== null) && (((int) $this->formatter->getProperty('uid')) === $currentUid)) {
+        $currentUid = (int)$this->internal['currentRow']['uid'];
+        if (($this->formatter !== null) && (((int)$this->formatter->getProperty('uid')) === $currentUid)) {
             return $this->formatter;
         }
 
@@ -985,7 +1018,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             $this->piVars['pointer'] + $surroundings
         );
 
-        $pageLinks = array();
+        $pageLinks = [];
         for ($i = $minPage; $i <= $maxPage; $i++) {
             $pageLinks[] = $this->createPaginationLink($i, $i + 1);
         }
@@ -1008,12 +1041,14 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *                is FALSE and the $pageNum is the current page
      */
     private function createPaginationLink(
-        $pageNum, $linkText, $alsoShowNonLinks = true
+        $pageNum,
+        $linkText,
+        $alsoShowNonLinks = true
     ) {
         $result = '';
         $this->setMarker('linktext', $linkText);
 
-        $selectedPageNumber = (int) $this->piVars['pointer'];
+        $selectedPageNumber = (int)$this->piVars['pointer'];
         // Don't link to the current page (for usability reasons).
         if ($pageNum == $selectedPageNumber) {
             if ($alsoShowNonLinks) {
@@ -1025,14 +1060,15 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
             $additionalParameters = $piVars;
             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
-                $additionalParameters, array('pointer' => $pageNum)
+                $additionalParameters,
+                ['pointer' => $pageNum]
             );
             $url = $this->cObj->typoLink_URL(
-                array(
+                [
                     'parameter' => $this->getFrontEndController()->id,
                     'additionalParams' => GeneralUtility::implodeArrayForUrl($this->prefixId, $additionalParameters),
                     'useCacheHash' => true,
-                )
+                ]
             );
 
             $this->setMarker('url', htmlspecialchars($url));
@@ -1070,7 +1106,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     private function getSearchSelection()
     {
-        $result = array();
+        $result = [];
 
         if ($this->searchSelectionExists()) {
             foreach ($this->piVars['search'] as $currentItem) {
@@ -1081,7 +1117,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         return array_unique($result);
     }
 
-     /**
+    /**
      * Checks whether a search selection exists.
      *
      * @return bool TRUE if a search selection is provided in the
@@ -1089,8 +1125,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     protected function searchSelectionExists()
     {
-        return (isset($this->piVars['search'])
-            && is_array($this->piVars['search']));
+        return isset($this->piVars['search'])
+            && is_array($this->piVars['search']);
     }
 
     /**
@@ -1104,8 +1140,8 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     private function isAccessToSingleViewPageAllowed()
     {
-        return (Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
-            || !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
+        return Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+            || !$this->getConfValueBoolean('requireLoginForSingleViewPage');
     }
 
     /**
@@ -1130,17 +1166,17 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         return $this->cObj->typoLink(
             $linkText,
-            array(
+            [
                 'parameter' => $this->getConfValueInteger('loginPID'),
                 'additionalParams' => GeneralUtility::implodeArrayForUrl(
                     $this->prefixId,
-                    array(
+                    [
                         'redirect_url' => GeneralUtility::locationHeaderUrl(
                             $redirectPage
                         ),
-                    )
+                    ]
                 ),
-            )
+            ]
         );
     }
 
@@ -1164,10 +1200,14 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *                login page, will be empty if no link text was provided
      */
     public function createLinkToSingleViewPage(
-        $linkText, $uid, $separateSingleViewPage = ''
+        $linkText,
+        $uid,
+        $separateSingleViewPage = ''
     ) {
         return $this->createLinkToSingleViewPageForAnyLinkText(
-            htmlspecialchars($linkText), $uid, $separateSingleViewPage
+            htmlspecialchars($linkText),
+            $uid,
+            $separateSingleViewPage
         );
     }
 
@@ -1206,7 +1246,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 ? $image['thumbnail'] : $image['image'];
 
             $result = $this->createImageTag(
-                    $fileName, $maxSizeVariable, $image['caption'], $id
+                    $fileName,
+                $maxSizeVariable,
+                $image['caption'],
+                $id
             );
         }
 
@@ -1230,7 +1273,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     {
         // The UID will not be set if a hidden or deleted record was requested.
         if (!isset($this->internal['currentRow']['uid'])) {
-            return array();
+            return [];
         }
 
         try {
@@ -1244,7 +1287,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
                 (int)$offset
             );
         } catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
-            $image = array();
+            $image = [];
         }
 
         return $image;
@@ -1272,15 +1315,15 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
         $maxWidth = $this->getConfValueInteger($maxSizeVariable . 'X');
         $maxHeight = $this->getConfValueInteger($maxSizeVariable . 'Y');
 
-        $imageConfiguration = array(
+        $imageConfiguration = [
             'altText' => $caption,
             'titleText' => $caption,
             'file' => $fullPath,
-            'file.' => array(
+            'file.' => [
                 'width' => $maxWidth . 'c',
                 'height' => $maxHeight . 'c',
-            ),
-        );
+            ],
+        ];
         if ($id !== '') {
             $imageConfiguration['params'] = 'id="' . $id . '"';
         }
@@ -1326,7 +1369,10 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         /** @var tx_realty_pi1_GoogleMapsView $googleMapsView */
         $googleMapsView = GeneralUtility::makeInstance(
-            'tx_realty_pi1_GoogleMapsView', $this->conf, $this->cObj, $this->isTestMode
+            'tx_realty_pi1_GoogleMapsView',
+            $this->conf,
+            $this->cObj,
+            $this->isTestMode
         );
         foreach ($shownObjectsUids as $objectUid) {
             $googleMapsView->setMapMarker($objectUid, true);
@@ -1346,13 +1392,13 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      */
     private function getAdditionalParametersForSingleViewLink($uid)
     {
-        $result = array('showUid' => $uid);
+        $result = ['showUid' => $uid];
         if (!$this->getConfValueBoolean('enableNextPreviousButtons')) {
             return $result;
         }
 
         $filterFormPiVars = tx_realty_filterForm::getPiVarKeys();
-        $parametersToSerialize = array();
+        $parametersToSerialize = [];
 
         foreach ($filterFormPiVars as $key) {
             if (isset($this->piVars[$key])) {
@@ -1388,6 +1434,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
      *
      * @throws Tx_Oelib_Exception_Database if a database query error occurs
      * @throws InvalidArgumentException if the record position is a negative integer
+     *
      * @return int the record UID, will be zero if no record for the given
      *                 record number could be found
      */

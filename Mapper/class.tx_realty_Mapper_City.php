@@ -35,7 +35,7 @@ class tx_realty_Mapper_City extends Tx_Oelib_DataMapper
      *
      * @var string[]
      */
-    protected $additionalKeys = array('title');
+    protected $additionalKeys = ['title'];
 
     /**
      * Finds a city by its name.

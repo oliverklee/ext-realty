@@ -61,7 +61,8 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase
     public function findWithUidOfExistingRecordReturnsRecordAsModel()
     {
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_images', array('caption' => 'a nice green lawn')
+            'tx_realty_images',
+            ['caption' => 'a nice green lawn']
         );
 
         /** @var tx_realty_Model_Image $model */
@@ -85,7 +86,7 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
         /** @var tx_realty_Model_Image $image */
         $image = $this->fixture->getLoadedTestingModel(
-            array('object' => $realtyObject->getUid())
+            ['object' => $realtyObject->getUid()]
         );
 
         self::assertSame(
@@ -105,7 +106,8 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase
     {
         $dummyFile = $this->testingFramework->createDummyFile('foo.jpg');
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_images', array('image' => basename($dummyFile))
+            'tx_realty_images',
+            ['image' => basename($dummyFile)]
         );
 
         /** @var tx_realty_Model_Image $model */
@@ -125,7 +127,8 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase
         $dummyFile = $this->testingFramework->createDummyFile('foo.jpg');
         unlink($dummyFile);
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_images', array('image' => basename($dummyFile))
+            'tx_realty_images',
+            ['image' => basename($dummyFile)]
         );
 
         /** @var tx_realty_Model_Image $model */
@@ -139,7 +142,8 @@ class tx_realty_Mapper_ImageTest extends Tx_Phpunit_TestCase
     public function deleteForEmptyImageFileNameNotThrowsException()
     {
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_images', array('image' => '')
+            'tx_realty_images',
+            ['image' => '']
         );
 
         /** @var tx_realty_Model_Image $model */

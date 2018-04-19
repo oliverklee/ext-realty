@@ -106,7 +106,7 @@ class tx_realty_pi1_ObjectsByOwnerListView extends tx_realty_pi1_AbstractListVie
     {
         $owner = $this->getOwner();
 
-        return ($owner->hasCompany() ? $owner->getCompany() : $owner->getName());
+        return $owner->hasCompany() ? $owner->getCompany() : $owner->getName();
     }
 
     /**

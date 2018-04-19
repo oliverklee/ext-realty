@@ -50,10 +50,12 @@ class tx_realty_cacheManager
     private static function getPageUids($prefix = '')
     {
         $pageUids = Tx_Oelib_Db::selectMultiple(
-            'pid', 'tt_content', 'list_type = "realty_pi1"'
+            'pid',
+            'tt_content',
+            'list_type = "realty_pi1"'
         );
 
-        $result = array();
+        $result = [];
         foreach ($pageUids as $pageUid) {
             $result[] = $prefix . $pageUid['pid'];
         }

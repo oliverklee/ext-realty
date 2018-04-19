@@ -30,7 +30,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
      * @return string the HTML output for the "previous" and "next" buttons,
      *                will be empty if both buttons are hidden
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         $this->piVars = $this->sanitizePiVars();
         if (!$this->canButtonsBeRendered()) {
@@ -40,7 +40,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
         /** @var Tx_Oelib_Visibility_Tree $visibilityTree */
         $visibilityTree = GeneralUtility::makeInstance(
             Tx_Oelib_Visibility_Tree::class,
-            array('nextPreviousButtons' => array('previousButton' => false, 'nextButton' => false))
+            ['nextPreviousButtons' => ['previousButton' => false, 'nextButton' => false]]
         );
 
         $recordPosition = $this->piVars['recordPosition'];
@@ -50,12 +50,12 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
                 'previous_url',
                 $this->getButtonUrl($recordPosition - 1, $previousRecordUid)
             );
-            $visibilityTree->makeNodesVisible(array('previousButton'));
+            $visibilityTree->makeNodesVisible(['previousButton']);
         }
 
         $nextRecordUid = $this->getNextRecordUid();
         if ($nextRecordUid > 0) {
-            $visibilityTree->makeNodesVisible(array('nextButton'));
+            $visibilityTree->makeNodesVisible(['nextButton']);
             $this->setMarker(
                 'next_url',
                 $this->getButtonUrl($recordPosition + 1, $nextRecordUid)
@@ -63,7 +63,8 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
         }
 
         $this->hideSubpartsArray(
-            $visibilityTree->getKeysOfHiddenSubparts(), 'FIELD_WRAPPER'
+            $visibilityTree->getKeysOfHiddenSubparts(),
+            'FIELD_WRAPPER'
         );
 
         return $this->getSubpart('FIELD_WRAPPER_NEXTPREVIOUSBUTTONS');
@@ -85,7 +86,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
         }
         if (!in_array(
                 $this->piVars['listViewType'],
-                array('my_objects', 'favorites', 'objects_by_offerer', 'realty_list')
+                ['my_objects', 'favorites', 'objects_by_offerer', 'realty_list']
             )
         ) {
             return false;
@@ -115,7 +116,7 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
      */
     private function sanitizePiVars()
     {
-        $sanitizedPiVars = array();
+        $sanitizedPiVars = [];
 
         $sanitizedPiVars['recordPosition'] = (isset($this->piVars['recordPosition']))
             ? (int)$this->piVars['recordPosition'] : -1;
@@ -144,14 +145,14 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
     {
         $rawData = json_decode($this->piVars['listViewLimitation'], true);
         if (!is_array($rawData) || empty($rawData)) {
-            return array();
+            return [];
         }
 
         $allowedKeys = array_merge(
-            array('search', 'orderBy', 'descFlag'),
+            ['search', 'orderBy', 'descFlag'],
             tx_realty_filterForm::getPiVarKeys()
         );
-        $result = array();
+        $result = [];
 
         foreach ($allowedKeys as $allowedKey) {
             if (isset($rawData[$allowedKey])) {
@@ -203,14 +204,17 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
     private function getRecordAtPosition($recordPosition)
     {
         $contentData = Tx_Oelib_Db::selectSingle(
-            '*', 'tt_content',
+            '*',
+            'tt_content',
             'uid = ' . (int)$this->piVars['listUid'] . Tx_Oelib_Db::enableFields('tt_content')
         );
         /** @var ContentObjectRenderer $contentObject */
         $contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $contentObject->start($contentData, 'tt_content');
         $listView = tx_realty_pi1_ListViewFactory::make(
-            $this->piVars['listViewType'], $this->conf, $contentObject
+            $this->piVars['listViewType'],
+            $this->conf,
+            $contentObject
         );
         // TODO: use tslib_content::readFlexformIntoConf when TYPO3 4.3 is required
         $listView->pi_initPIflexForm();
@@ -239,13 +243,14 @@ class tx_realty_pi1_NextPreviousButtonsView extends tx_realty_pi1_FrontEndView
         $additionalParameters = $this->piVars;
         $additionalParameters['recordPosition'] = $recordPosition;
         $additionalParameters['showUid'] = $recordUid;
-        $urlParameters = array(
+        $urlParameters = [
             'parameter' => $this->cObj->data['pid'],
             'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                $this->prefixId, $additionalParameters
+                $this->prefixId,
+                $additionalParameters
             ),
             'useCacheHash' => true,
-        );
+        ];
 
         return htmlspecialchars($this->cObj->typoLink_URL($urlParameters));
     }

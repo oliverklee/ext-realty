@@ -30,28 +30,31 @@ class tx_realty_pi1_StatusView extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML for this view, will not be empty
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $mapper->find($piVars['showUid']);
 
-        $statusClasses = array(
+        $statusClasses = [
             tx_realty_Model_RealtyObject::STATUS_VACANT => 'vacant',
             tx_realty_Model_RealtyObject::STATUS_RESERVED => 'reserved',
             tx_realty_Model_RealtyObject::STATUS_SOLD => 'sold',
             tx_realty_Model_RealtyObject::STATUS_RENTED => 'rented',
-        );
+        ];
 
         $this->setMarker(
-            'statusclass', $statusClasses[$realtyObject->getStatus()]
+            'statusclass',
+            $statusClasses[$realtyObject->getStatus()]
         );
 
         /** @var tx_realty_pi1_Formatter $formatter */
         $formatter = GeneralUtility::makeInstance(
             'tx_realty_pi1_Formatter',
-            $piVars['showUid'], $this->conf, $this->cObj
+            $piVars['showUid'],
+            $this->conf,
+            $this->cObj
         );
         $this->setMarker('status', $formatter->getProperty('status'));
 

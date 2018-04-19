@@ -39,7 +39,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
      *
      * @var array
      */
-    private $graphicsConfigurationBackup = array();
+    private $graphicsConfigurationBackup = [];
 
     protected function setUp()
     {
@@ -203,11 +203,11 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
      */
     public function addOneElementToTheRealtyDataArray()
     {
-        $data = array();
+        $data = [];
         $this->fixture->addElementToArray($data, 'foo', 'bar');
 
         self::assertSame(
-            array('foo' => 'bar'),
+            ['foo' => 'bar'],
             $data
         );
     }
@@ -217,12 +217,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
      */
     public function addTwoElementsToTheRealtyDataArray()
     {
-        $data = array();
+        $data = [];
         $this->fixture->addElementToArray($data, 'foo', 'foo');
         $this->fixture->addElementToArray($data, 'bar', 'bar');
 
         self::assertSame(
-            array('foo' => 'foo', 'bar' => 'bar'),
+            ['foo' => 'foo', 'bar' => 'bar'],
             $data
         );
     }
@@ -232,12 +232,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
      */
     public function addOneElementTwiceToTheRealtyDataArray()
     {
-        $data = array();
+        $data = [];
         $this->fixture->addElementToArray($data, 'foo', 'foo');
         $this->fixture->addElementToArray($data, 'foo', 'bar');
 
         self::assertSame(
-            array('foo' => 'bar'),
+            ['foo' => 'bar'],
             $data
         );
     }
@@ -258,7 +258,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->getConvertedData($node)
         );
     }
@@ -277,15 +277,15 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertEquals(
-            array(
-                array(
+            [
+                [
                     'sales_area' => 0.0,
                     'other_area' => 0.0,
                     'window_bank' => 0.0,
                     'rental_income_target' => 0.0,
                     'energy_certificate_issue_date' => 0,
-                ),
-            ),
+                ],
+            ],
             $this->fixture->getConvertedData($node)
         );
     }
@@ -305,22 +305,22 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertEquals(
-            array(
-                array(
+            [
+                [
                     'sales_area' => 0.0,
                     'other_area' => 0.0,
                     'window_bank' => 0.0,
                     'rental_income_target' => 0.0,
                     'energy_certificate_issue_date' => 0,
-                ),
-                array(
+                ],
+                [
                     'sales_area' => 0.0,
                     'other_area' => 0.0,
                     'window_bank' => 0.0,
                     'rental_income_target' => 0.0,
                     'energy_certificate_issue_date' => 0,
-                ),
-            ),
+                ],
+            ],
             $this->fixture->getConvertedData($node)
         );
     }
@@ -511,12 +511,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
      */
     public function htmlFieldsDataProvider()
     {
-        return array(
-            'location' => array('lage', 'location'),
-            'misc' => array('sonstige_angaben', 'misc'),
-            'equipment' => array('ausstatt_beschr', 'equipment'),
-            'description' => array('objektbeschreibung', 'description'),
-        );
+        return [
+            'location' => ['lage', 'location'],
+            'misc' => ['sonstige_angaben', 'misc'],
+            'equipment' => ['ausstatt_beschr', 'equipment'],
+            'description' => ['objektbeschreibung', 'description'],
+        ];
     }
 
     /**
@@ -766,7 +766,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
             . '</openimmo>'
         );
 
-        $universalDataAndDefaultValues = array(
+        $universalDataAndDefaultValues = [
             'sales_area' => 0.0,
             'other_area' => 0.0,
             'window_bank' => 0.0,
@@ -774,7 +774,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
             'employer' => 'foo',
             'openimmo_anid' => 'bar',
             'energy_certificate_issue_date' => 0,
-        );
+        ];
         $result = $this->fixture->getConvertedData($node);
 
         self::assertEquals(
@@ -1607,6 +1607,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $name
      * @param int $id
      * @dataProvider heatingTypeDataProvider
@@ -1659,6 +1660,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
+     *
      * @param string $name
      * @param int $id
      * @dataProvider firingTypeDataProvider
@@ -2459,7 +2461,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
 
         $result = $this->fixture->getConvertedData($node);
         self::assertSame(
-            (int) $value,
+            (int)$value,
             $result[0]['year_of_construction']
         );
     }
@@ -2964,7 +2966,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->createRecordsForImages()
         );
     }
@@ -2988,12 +2990,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(
-                array(
+            [
+                [
                     'caption' => 'bar',
                     'image' => 'tx_realty_image_test.jpg',
-                ),
-            ),
+                ],
+            ],
             $this->fixture->createRecordsForImages()
         );
     }
@@ -3017,12 +3019,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(
-                array(
+            [
+                [
                     'caption' => 'bar',
                     'image' => 'tx_realty_image_test.JPG',
-                ),
-            ),
+                ],
+            ],
             $this->fixture->createRecordsForImages()
         );
     }
@@ -3046,7 +3048,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->createRecordsForImages()
         );
     }
@@ -3070,7 +3072,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->createRecordsForImages()
         );
     }
@@ -3094,7 +3096,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->createRecordsForImages()
         );
     }
@@ -3118,12 +3120,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(
-                array(
+            [
+                [
                     'caption' => '',
                     'image' => 'tx_realty_image_test.jpg',
-                ),
-            ),
+                ],
+            ],
             $this->fixture->createRecordsForImages()
         );
     }
@@ -3154,17 +3156,17 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         $images = $this->fixture->createRecordsForImages();
 
         self::assertSame(
-            array(
+            [
                 'caption' => 'bar',
                 'image' => 'tx_realty_image_test2.jpg',
-            ),
+            ],
             $images[0]
         );
         self::assertSame(
-            array(
+            [
                 'caption' => 'foo',
                 'image' => 'tx_realty_image_test.jpg',
-            ),
+            ],
             $images[1]
         );
     }
@@ -3195,17 +3197,17 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         $images = $this->fixture->createRecordsForImages();
 
         self::assertSame(
-            array(
+            [
                 'caption' => 'bar',
                 'image' => 'tx_realty_image_test2.jpg',
-            ),
+            ],
             $images[0]
         );
         self::assertSame(
-            array(
+            [
                 'caption' => 'bar',
                 'image' => 'tx_realty_image_test.jpg',
-            ),
+            ],
             $images[1]
         );
     }
@@ -3278,17 +3280,17 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         $result = $this->fixture->getConvertedData($node);
 
         self::assertSame(
-            array(
+            [
                 'caption' => 'bar',
                 'image' => 'tx_realty_image_test.jpg',
-            ),
+            ],
             $result[0]['images'][0]
         );
         self::assertSame(
-            array(
+            [
                 'caption' => 'foo',
                 'image' => 'tx_realty_image_test_00.jpg',
-            ),
+            ],
             $result[1]['images'][0]
         );
     }
@@ -3313,7 +3315,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->importDocuments()
         );
     }
@@ -3337,12 +3339,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(
-                array(
+            [
+                [
                     'title' => 'bar',
-                    'filename' => 'tx_realty_document_test.pdf'
-                )
-            ),
+                    'filename' => 'tx_realty_document_test.pdf',
+                ],
+            ],
             $this->fixture->importDocuments()
         );
     }
@@ -3366,12 +3368,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(
-                array(
+            [
+                [
                     'title' => 'bar',
-                    'filename' => 'tx_realty_document_test.PDF'
-                )
-            ),
+                    'filename' => 'tx_realty_document_test.PDF',
+                ],
+            ],
             $this->fixture->importDocuments()
         );
     }
@@ -3396,12 +3398,12 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(
-                array(
+            [
+                [
                     'title' => 'bar',
-                    'filename' => 'tx_realty_document_test.pdf'
-                )
-            ),
+                    'filename' => 'tx_realty_document_test.pdf',
+                ],
+            ],
             $this->fixture->importDocuments()
         );
     }
@@ -3425,7 +3427,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->importDocuments()
         );
     }
@@ -3449,7 +3451,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->importDocuments()
         );
     }
@@ -3473,7 +3475,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->importDocuments()
         );
     }
@@ -3497,7 +3499,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->importDocuments()
         );
     }
@@ -3528,17 +3530,17 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         $documents = $this->fixture->importDocuments();
 
         self::assertSame(
-            array(
+            [
                 'title' => 'bar',
-                'filename' => 'tx_realty_document_test2.pdf'
-            ),
+                'filename' => 'tx_realty_document_test2.pdf',
+            ],
             $documents[0]
         );
         self::assertSame(
-            array(
+            [
                 'title' => 'foo',
-                'filename' => 'tx_realty_document_test.pdf'
-            ),
+                'filename' => 'tx_realty_document_test.pdf',
+            ],
             $documents[1]
         );
     }
@@ -3611,17 +3613,17 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         $result = $this->fixture->getConvertedData($node);
 
         self::assertSame(
-            array(
+            [
                 'title' => 'bar',
-                'filename' => 'tx_realty_document_test.pdf'
-            ),
+                'filename' => 'tx_realty_document_test.pdf',
+            ],
             $result[0]['documents'][0]
         );
         self::assertSame(
-            array(
+            [
                 'title' => 'foo',
-                'filename' => 'tx_realty_document_test_00.pdf'
-            ),
+                'filename' => 'tx_realty_document_test_00.pdf',
+            ],
             $result[1]['documents'][0]
         );
     }
@@ -4598,7 +4600,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         $element->setAttributeNode(new DOMAttr('foo', 'bar'));
 
         self::assertSame(
-            array('foo' => 'bar'),
+            ['foo' => 'bar'],
             $this->fixture->fetchDomAttributes($element)
         );
     }
@@ -4612,7 +4614,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         $element = $node->appendChild($node->createElement('foo'));
 
         self::assertSame(
-            array(),
+            [],
             $this->fixture->fetchDomAttributes($element)
         );
     }

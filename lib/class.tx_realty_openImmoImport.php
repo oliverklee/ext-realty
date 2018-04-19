@@ -93,7 +93,7 @@ class tx_realty_openImmoImport
      *            XML file as this is the criterion for trying to import the
      *            XML file as an OpenImmo record.
      */
-    private $filesToDelete = array();
+    private $filesToDelete = [];
 
     /**
      * whether the class is tested and only dummy records should be created
@@ -158,7 +158,7 @@ class tx_realty_openImmoImport
             return $this->logEntry;
         }
 
-        $emailData = array();
+        $emailData = [];
         $zipsToExtract = $this->getPathsOfZipsToExtract($checkedImportDirectory);
 
         $this->storeLogsAndClearTemporaryLog();
@@ -283,7 +283,7 @@ class tx_realty_openImmoImport
         }
 
         if (!$this->deleteCurrentZipFile) {
-            $this->filesToDelete = array_diff($this->filesToDelete, array($currentZip));
+            $this->filesToDelete = array_diff($this->filesToDelete, [$currentZip]);
             $this->deleteCurrentZipFile = true;
         }
 
@@ -606,12 +606,12 @@ class tx_realty_openImmoImport
      */
     private function createEmailRawDataArray($email, $objectNumber)
     {
-        return array(
+        return [
             'recipient' => $email,
             'objectNumber' => $objectNumber,
             'logEntry' => $this->temporaryLogEntry,
             'errorLog' => $this->temporaryErrorLog,
-        );
+        ];
     }
 
     /**
@@ -637,10 +637,10 @@ class tx_realty_openImmoImport
     protected function prepareEmails(array $emailData)
     {
         if (!$this->validateEmailDataArray($emailData)) {
-            return array();
+            return [];
         }
 
-        $result = array();
+        $result = [];
         $emailDataToPrepare = $emailData;
         if ($this->isErrorLogOnlyEnabled()) {
             $log = 'errorLog';
@@ -657,9 +657,9 @@ class tx_realty_openImmoImport
                 $record['objectNumber'] = '------';
             }
 
-            $result[$record['recipient']][] = array(
-                $record['objectNumber'] => $record[$log]
-            );
+            $result[$record['recipient']][] = [
+                $record['objectNumber'] => $record[$log],
+            ];
         }
 
         $this->purgeRecordsWithoutLogMessages($result);
@@ -685,24 +685,23 @@ class tx_realty_openImmoImport
     private function validateEmailDataArray(array $emailData)
     {
         $isValidDataArray = true;
-        $requiredKeys = array(
+        $requiredKeys = [
             'recipient',
             'objectNumber',
             'logEntry',
             'errorLog',
-        );
+        ];
 
         foreach ($emailData as $dataArray) {
             if (!is_array($dataArray)) {
                 $isValidDataArray = false;
                 break;
-            } else {
-                $numberOfValidArrays = count(array_intersect(array_keys($dataArray), $requiredKeys));
+            }
+            $numberOfValidArrays = count(array_intersect(array_keys($dataArray), $requiredKeys));
 
-                if ($numberOfValidArrays !== 4) {
-                    $isValidDataArray = false;
-                    break;
-                }
+            if ($numberOfValidArrays !== 4) {
+                $isValidDataArray = false;
+                break;
             }
         }
 
@@ -760,9 +759,9 @@ class tx_realty_openImmoImport
     {
         /** @var $template Tx_Oelib_TemplateHelper */
         $template = GeneralUtility::makeInstance('Tx_Oelib_TemplateHelper');
-        $template->init(array('templateFile' => $this->globalConfiguration->getAsString('emailTemplate')));
+        $template->init(['templateFile' => $this->globalConfiguration->getAsString('emailTemplate')]);
         $template->getTemplateCode();
-        $contentItem = array();
+        $contentItem = [];
 
         // collects data for the subpart 'CONTENT_ITEM'
         $template->setMarker('label_object_number', $this->getTranslator()->translate('label_object_number'));
@@ -803,7 +802,7 @@ class tx_realty_openImmoImport
         foreach ($addressesAndMessages as $address => $content) {
             /** @var MailMessage $email */
             $email = GeneralUtility::makeInstance(MailMessage::class);
-            $email->setTo(array($address => ''));
+            $email->setTo([$address => '']);
             $email->setSubject($this->getTranslator()->translate('label_subject_openImmo_import'));
             $email->setBody($this->fillEmailTemplate($content));
             $email->send();
@@ -862,10 +861,10 @@ class tx_realty_openImmoImport
      */
     protected function getPathsOfZipsToExtract($importDirectory)
     {
-        $result = array();
+        $result = [];
 
         if (is_dir($importDirectory)) {
-            $result = GeneralUtility::getAllFilesAndFoldersInPath(array(), $importDirectory, 'zip');
+            $result = GeneralUtility::getAllFilesAndFoldersInPath([], $importDirectory, 'zip');
         }
 
         return $result;
@@ -1151,7 +1150,7 @@ class tx_realty_openImmoImport
      */
     private function findFileNamesOfDeletedRecords(array $records)
     {
-        $filesNotToCopy = array();
+        $filesNotToCopy = [];
 
         foreach ($records as $record) {
             if ($record['deleted'] && is_array($record['images'])) {
@@ -1185,7 +1184,7 @@ class tx_realty_openImmoImport
             return;
         }
 
-        $removedFiles = array();
+        $removedFiles = [];
         $deleteImportedZips = $this->globalConfiguration->getAsBoolean('deleteZipsAfterImport');
 
         foreach ($this->getPathsOfZipsToExtract($importDirectory) as $currentPath) {
@@ -1235,7 +1234,7 @@ class tx_realty_openImmoImport
     protected function convertDomDocumentToArray(DOMDocument $realtyRecords = null)
     {
         if ($realtyRecords === null) {
-            return array();
+            return [];
         }
 
         /** @var tx_realty_domDocumentConverter $domDocumentConverter */
@@ -1347,7 +1346,7 @@ class tx_realty_openImmoImport
     protected function getRequiredFields()
     {
         if (!is_object($this->realtyObject)) {
-            return array();
+            return [];
         }
 
         return $this->realtyObject->getRequiredFields();

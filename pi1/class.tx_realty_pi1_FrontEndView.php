@@ -60,5 +60,5 @@ abstract class tx_realty_pi1_FrontEndView extends Tx_Oelib_Templatehelper
      *
      * @return string the view's content
      */
-    abstract public function render(array $piVars = array());
+    abstract public function render(array $piVars = []);
 }

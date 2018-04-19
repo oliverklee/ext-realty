@@ -49,7 +49,7 @@ return [
         'l18n_diffsource' => [
             'config' => [
                 'type' => 'passthrough',
-            ]
+            ],
         ],
         'title' => [
             'exclude' => 0,

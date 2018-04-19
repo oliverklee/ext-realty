@@ -94,7 +94,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
         $result = '';
         $realtyObject = $this->getRealtyObject();
         $uid = $this->getUid();
-        $rawProperty = ($key !== 'uid') ? $realtyObject->getProperty($key) : (string) $uid;
+        $rawProperty = ($key !== 'uid') ? $realtyObject->getProperty($key) : (string)$uid;
 
         switch ($key) {
             case 'status':
@@ -203,8 +203,8 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
             case 'parking_spaces':
                 // The fallthrough is intended.
             case 'construction_year':
-                $number = (int) $rawProperty;
-                $result = ($number != 0) ? ((string) $number) : '';
+                $number = (int)$rawProperty;
+                $result = ($number != 0) ? ((string)$number) : '';
                 break;
             case 'heating_included':
                 // The fallthrough is intended.
@@ -247,7 +247,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
                 $result = $uid;
                 break;
             case 'energy_certificate_issue_date':
-                $timestamp = (int) $rawProperty;
+                $timestamp = (int)$rawProperty;
                 $result = $this->formatDate($timestamp);
                 break;
             default:
@@ -275,7 +275,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
      */
     private function getLabelForValidNonZeroProperty($key)
     {
-        $localizedStrings = array();
+        $localizedStrings = [];
 
         foreach (GeneralUtility::trimExplode(',', $this->getRealtyObject()->getProperty($key), true) as $value) {
             if ($value >= 1) {

@@ -28,7 +28,7 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML for the back button, will not be empty
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         if ($this->nextPreviousButtonsAreEnabled()) {
             $backUrl = $this->getBackLinkUrl();
@@ -68,19 +68,20 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView
             return '';
         }
 
-        $additionalParameters = array();
+        $additionalParameters = [];
         if (isset($this->piVars['listViewLimitation'])) {
             $decodedParameters = json_decode($this->piVars['listViewLimitation'], true);
-            $additionalParameters = (is_array($decodedParameters)) ? $decodedParameters : array();
+            $additionalParameters = (is_array($decodedParameters)) ? $decodedParameters : [];
         }
 
-        $urlParameter = array(
+        $urlParameter = [
             'parameter' => $listViewPage['pid'],
             'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                $this->prefixId, $additionalParameters
+                $this->prefixId,
+                $additionalParameters
             ),
             'useCacheHash' => true,
-        );
+        ];
 
         return htmlspecialchars($this->cObj->typoLink_URL($urlParameter));
     }
@@ -100,7 +101,9 @@ class tx_realty_pi1_BackButtonView extends tx_realty_pi1_FrontEndView
         }
 
         $displayedSingleViewParts = GeneralUtility::trimExplode(
-            ',', $this->getConfValueString('singleViewPartsToDisplay'), true
+            ',',
+            $this->getConfValueString('singleViewPartsToDisplay'),
+            true
         );
 
         if (!in_array('nextPreviousButtons', $displayedSingleViewParts)) {

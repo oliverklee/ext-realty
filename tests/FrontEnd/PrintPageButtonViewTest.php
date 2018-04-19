@@ -39,7 +39,7 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_PrintPageButtonView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
             $frontEndController->cObj
         );
     }
@@ -60,7 +60,7 @@ class tx_realty_FrontEnd_PrintPageButtonViewTest extends Tx_Phpunit_TestCase
     {
         self::assertContains(
             'class="button printPage"',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 }

@@ -44,7 +44,7 @@ class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase
     public function getTitleWithNonEmptyTitleReturnsTitle()
     {
         $title = 'God save McQueen!';
-        $this->subject->setData(array('title' => $title));
+        $this->subject->setData(['title' => $title]);
 
         self::assertSame(
             $title,
@@ -68,7 +68,7 @@ class tx_realty_Model_AbstractTitledModelTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function setTitleWithEmptyStringThrowsException()
     {

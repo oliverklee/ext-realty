@@ -61,7 +61,7 @@ class tx_realty_tests_fixtures_TestingListView extends tx_realty_pi1_AbstractLis
      * @return string htmlspecialchared URL of the current page, will not
      *                be empty
      */
-    public function getSelfUrl($keepPiVars = true, array $removeKeys = array())
+    public function getSelfUrl($keepPiVars = true, array $removeKeys = [])
     {
         return parent::getSelfUrl($keepPiVars, $removeKeys);
     }

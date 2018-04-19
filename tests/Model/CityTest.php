@@ -35,7 +35,7 @@ class tx_realty_Model_CityTest extends Tx_Phpunit_TestCase
      */
     public function getTitleWithNonEmptyTitleReturnsTitle()
     {
-        $this->fixture->setData(array('title' => 'London'));
+        $this->fixture->setData(['title' => 'London']);
 
         self::assertEquals(
             'London',
@@ -58,7 +58,7 @@ class tx_realty_Model_CityTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function setTitleWithEmptyStringThrowsException()
     {

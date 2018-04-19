@@ -62,7 +62,8 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase
     public function findWithUidOfExistingRecordReturnsRecordAsModel()
     {
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_cities', array('title' => 'London')
+            'tx_realty_cities',
+            ['title' => 'London']
         );
 
         /** @var tx_realty_Model_City $model */
@@ -96,7 +97,7 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase
     public function findByNameCanFindModelFromCache()
     {
         $model = $this->fixture->getLoadedTestingModel(
-            array('title' => 'Kleinwurzeling')
+            ['title' => 'Kleinwurzeling']
         );
 
         self::assertSame(
@@ -111,7 +112,8 @@ class tx_realty_Mapper_CityTest extends Tx_Phpunit_TestCase
     public function findByNameCanLoadModelFromDatabase()
     {
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_cities', array('title' => 'Kleinwurzeling')
+            'tx_realty_cities',
+            ['title' => 'Kleinwurzeling']
         );
 
         /** @var tx_realty_Model_City $model */

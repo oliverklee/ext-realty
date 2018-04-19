@@ -28,7 +28,7 @@ class tx_realty_pi1_DescriptionView extends tx_realty_pi1_FrontEndView
      * @return string HTML for the description view, will be empty if the
      *                realty object with the provided UID has no description
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
@@ -37,7 +37,10 @@ class tx_realty_pi1_DescriptionView extends tx_realty_pi1_FrontEndView
         $description = $this->pi_RTEcssText($object->getProperty('description'));
 
         $this->setOrDeleteMarkerIfNotEmpty(
-            'description', $description, '', 'field_wrapper'
+            'description',
+            $description,
+            '',
+            'field_wrapper'
         );
 
         return $this->getSubpart('FIELD_WRAPPER_DESCRIPTION');

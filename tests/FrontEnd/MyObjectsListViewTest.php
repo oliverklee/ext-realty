@@ -62,10 +62,10 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_MyObjectsListView(
-            array(
+            [
                 'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
                 'pages' => $this->systemFolderPid,
-            ),
+            ],
             $frontEndController->cObj,
             true
         );
@@ -89,21 +89,21 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
      *
      * @return void
      */
-    private function prepareMyObjects(array $userData = array())
+    private function prepareMyObjects(array $userData = [])
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
         $user->setData($userData);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->cityUid = $this->testingFramework->createRecord(
             'tx_realty_cities',
-            array('title' => 'Bonn')
+            ['title' => 'Bonn']
         );
         $this->realtyUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'title' => self::$objectTitle,
                 'object_number' => '1',
                 'pid' => $this->systemFolderPid,
@@ -114,7 +114,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
                 'has_community_pool' => '0',
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'owner' => $user->getUid(),
-            )
+            ]
         );
     }
 
@@ -143,7 +143,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->testingFramework->existsRecordWithUid(
-                'tx_realty_objects', $this->realtyUid
+                'tx_realty_objects',
+                $this->realtyUid
             )
         );
     }
@@ -157,7 +158,9 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->testingFramework->existsRecordWithUid(
-                'tx_realty_objects', $this->realtyUid, ' AND owner <> 0'
+                'tx_realty_objects',
+                $this->realtyUid,
+                ' AND owner <> 0'
             )
         );
     }
@@ -167,7 +170,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
      */
     public function prepareMyObjectsCanStoreUsernameForUser()
     {
-        $this->prepareMyObjects(array('username' => 'foo'));
+        $this->prepareMyObjects(['username' => 'foo']);
 
         self::assertEquals(
             'foo',
@@ -186,7 +189,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForLoggedInUserWhoHasNoObjectsDisplaysNoResultsFoundMessage()
     {
         /** @var tx_realty_Model_FrontEndUser $user */
-        $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(array());
+        $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel([]);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertContains(
@@ -215,7 +218,7 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     {
         $this->prepareMyObjects();
         /** @var tx_realty_Model_FrontEndUser $user */
-        $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(array());
+        $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel([]);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         self::assertNotContains(
@@ -230,17 +233,17 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderNotDisplaysObjectsWithoutOwner()
     {
         /** @var tx_realty_Model_FrontEndUser $user */
-        $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel(array());
+        $user = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')->getLoadedTestingModel([]);
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'title' => 'another object',
                 'object_number' => '1',
                 'pid' => $this->systemFolderPid,
                 'city' => $this->cityUid,
-            )
+            ]
         );
 
         self::assertNotContains(
@@ -270,7 +273,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         $this->prepareMyObjects();
 
         $this->fixture->setConfigurationValue(
-            'editorPID', $this->testingFramework->createFrontEndPage()
+            'editorPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
@@ -303,7 +307,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         $this->prepareMyObjects();
 
         $this->fixture->setConfigurationValue(
-            'editorPID', $this->testingFramework->createFrontEndPage()
+            'editorPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertEquals(
@@ -329,11 +334,13 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::$objectTitle,
-            $this->fixture->render(array('delete' => $this->realtyUid))
+            $this->fixture->render(['delete' => $this->realtyUid])
         );
         self::assertFalse(
             Tx_Oelib_Db::existsRecordWithUid(
-                'tx_realty_objects', $this->realtyUid, ' AND deleted = 0'
+                'tx_realty_objects',
+                $this->realtyUid,
+                ' AND deleted = 0'
             )
         );
     }
@@ -344,13 +351,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForLoggedInUserWithoutLimitContainsCreateNewObjectLink()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 0));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 0]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue(
-            'editorPID', $this->testingFramework->createFrontEndPage()
+            'editorPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
@@ -365,13 +373,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForLoggedInUserWithLimitButLessObjectsThanLimitContainsCreateNewObjectLink()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 2));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 2]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue(
-            'editorPID', $this->testingFramework->createFrontEndPage()
+            'editorPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
@@ -386,13 +395,14 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForLoggedInUserNoObjectsLeftToEnterHidesCreateNewObjectLink()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 1));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 1]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
         $this->fixture->setConfigurationValue(
-            'editorPID', $this->testingFramework->createFrontEndPage()
+            'editorPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertNotContains(
@@ -407,8 +417,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function createNewObjectLinkInTheMyObjectsViewContainsTheEditorPid()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array());
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData([]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(0));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
@@ -441,7 +451,9 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     {
         $this->prepareMyObjects();
         $this->testingFramework->changeRecord(
-            'tx_realty_objects', $this->realtyUid, array('hidden' => 1)
+            'tx_realty_objects',
+            $this->realtyUid,
+            ['hidden' => 1]
         );
 
         self::assertContains(
@@ -456,8 +468,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderHidesLimitHeadingForUserWithMaximumObjectsSetToZero()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 0));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 0]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
@@ -473,8 +485,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderShowsLimitHeadingForUserWithMaximumObjectsSetToOne()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 1));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 1]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
@@ -490,8 +502,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForUserWithOneObjectAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 1));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 1]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
@@ -507,8 +519,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForUserWithTwoObjectsAndMaximumObjectsSetToOneShowsNoObjectsLeftLabel()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 1));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 1]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(2));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
@@ -524,8 +536,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForUserWithOneObjectAndMaximumObjectsSetToTwoShowsOneObjectLeftLabel()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 2));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 2]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(1));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
@@ -541,8 +553,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     public function renderForUserWithNoObjectAndMaximumObjectsSetToTwoShowsMultipleObjectsLeftLabel()
     {
         /** @var tx_realty_Model_FrontEndUser|PHPUnit_Framework_MockObject_MockObject $user */
-        $user = $this->getMock('tx_realty_Model_FrontEndUser', array('getNumberOfObjects'));
-        $user->setData(array('tx_realty_maximum_objects' => 2));
+        $user = $this->getMock('tx_realty_Model_FrontEndUser', ['getNumberOfObjects']);
+        $user->setData(['tx_realty_maximum_objects' => 2]);
         $user->expects(self::any())->method('getNumberOfObjects')->will(self::returnValue(0));
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($user);
 
@@ -563,7 +575,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
     {
         $this->prepareMyObjects();
         $this->fixture->setConfigurationValue(
-            'advertisementPID', $this->testingFramework->createFrontEndPage()
+            'advertisementPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
@@ -593,7 +606,8 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         $this->prepareMyObjects();
         $advertisementPid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue(
-            'advertisementPID', $advertisementPid
+            'advertisementPID',
+            $advertisementPid
         );
 
         self::assertContains(
@@ -610,10 +624,12 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         $this->prepareMyObjects();
         $advertisementPid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue(
-            'advertisementPID', $advertisementPid
+            'advertisementPID',
+            $advertisementPid
         );
         $this->fixture->setConfigurationValue(
-            'advertisementParameterForObjectUid', 'foo'
+            'advertisementParameterForObjectUid',
+            'foo'
         );
 
         self::assertContains(
@@ -632,15 +648,17 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->realtyUid,
-            array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - Tx_Oelib_Time::SECONDS_PER_DAY)
+            ['advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - Tx_Oelib_Time::SECONDS_PER_DAY]
         );
 
         $this->fixture->setConfigurationValue(
-            'advertisementExpirationInDays', 0
+            'advertisementExpirationInDays',
+            0
         );
         $advertisementPid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue(
-            'advertisementPID', $advertisementPid
+            'advertisementPID',
+            $advertisementPid
         );
 
         self::assertNotContains(
@@ -659,15 +677,17 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->realtyUid,
-            array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 10)
+            ['advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 10]
         );
 
         $this->fixture->setConfigurationValue(
-            'advertisementExpirationInDays', 1
+            'advertisementExpirationInDays',
+            1
         );
         $advertisementPid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue(
-            'advertisementPID', $advertisementPid
+            'advertisementPID',
+            $advertisementPid
         );
 
         self::assertContains(
@@ -686,15 +706,17 @@ class tx_realty_FrontEnd_MyObjectsListViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->realtyUid,
-            array('advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * Tx_Oelib_Time::SECONDS_PER_DAY)
+            ['advertised_date' => $GLOBALS['SIM_ACCESS_TIME'] - 2 * Tx_Oelib_Time::SECONDS_PER_DAY]
         );
 
         $this->fixture->setConfigurationValue(
-            'advertisementExpirationInDays', 1
+            'advertisementExpirationInDays',
+            1
         );
         $advertisementPid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue(
-            'advertisementPID', $advertisementPid
+            'advertisementPID',
+            $advertisementPid
         );
 
         self::assertNotContains(

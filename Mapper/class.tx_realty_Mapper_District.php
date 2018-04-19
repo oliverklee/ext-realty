@@ -33,16 +33,16 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
     /**
      * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
      */
-    protected $relations = array(
+    protected $relations = [
         'city' => 'tx_realty_Mapper_City',
-    );
+    ];
 
     /**
      * the column names of additional string keys
      *
      * @var string[]
      */
-    protected $additionalKeys = array('title');
+    protected $additionalKeys = ['title'];
 
     /**
      * cache by district name and city UID, using values from
@@ -50,14 +50,14 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
      *
      * @var tx_realty_Model_District[]
      */
-    private $cacheByNameAndCityUid = array();
+    private $cacheByNameAndCityUid = [];
 
     /**
      * Frees as much memory that has been used by this object as possible.
      */
     public function __destruct()
     {
-        $this->cacheByNameAndCityUid = array();
+        $this->cacheByNameAndCityUid = [];
 
         parent::__destruct();
     }
@@ -132,11 +132,13 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
 
         try {
             $model = $this->findByNameAndCityUidFromCache(
-                $districtName, $cityUid
+                $districtName,
+                $cityUid
             );
         } catch (Tx_Oelib_Exception_NotFound $exception) {
             $model = $this->findByNameAndCityUidFromDatabase(
-                $districtName, $cityUid
+                $districtName,
+                $cityUid
             );
         }
 
@@ -159,7 +161,8 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
     private function findByNameAndCityUidFromCache($districtName, $cityUid)
     {
         $cacheKey = $this->createCacheKeyFromNameAndCityUid(
-            $districtName, $cityUid
+            $districtName,
+            $cityUid
         );
         if (!isset($this->cacheByNameAndCityUid[$cacheKey])) {
             throw new Tx_Oelib_Exception_NotFound('No model found.', 1333035709);
@@ -177,7 +180,8 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
      * @return void
      */
     protected function cacheModelByCombinedKeys(
-        Tx_Oelib_Model $model, array $data
+        Tx_Oelib_Model $model,
+        array $data
     ) {
         $districtName = isset($data['title']) ? $data['title'] : '';
         if ($districtName == '') {
@@ -187,7 +191,8 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
         $cityUid = isset($data['city']) ? $data['city'] : 0;
 
         $cacheKey = $this->createCacheKeyFromNameAndCityUid(
-            $districtName, $cityUid
+            $districtName,
+            $cityUid
         );
         $this->cacheByNameAndCityUid[$cacheKey] = $model;
     }
@@ -222,9 +227,9 @@ class tx_realty_Mapper_District extends Tx_Oelib_DataMapper
      */
     private function findByNameAndCityUidFromDatabase($districtName, $cityUid)
     {
-        return $this->findSingleByWhereClause(array(
+        return $this->findSingleByWhereClause([
             'title' => $districtName,
             'city' => $cityUid,
-        ));
+        ]);
     }
 }

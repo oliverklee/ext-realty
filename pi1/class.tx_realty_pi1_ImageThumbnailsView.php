@@ -32,7 +32,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      *
      * @var array[]
      */
-    private $imageConfiguration = array();
+    private $imageConfiguration = [];
 
     /**
      * the number of image subparts in the default HTML template which will be
@@ -50,7 +50,7 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      * @return string HTML for the image thumbnails, will be empty if there are
      *                no images to render
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         $this->showUid = $piVars['showUid'];
 
@@ -76,13 +76,13 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         $realtyObject = $realtyObjectMapper->find($this->getUid());
         $allImages = $realtyObject->getImages();
 
-        $imagesByPosition = array();
+        $imagesByPosition = [];
         $usedPositions = max(
             self::IMAGE_POSITIONS_IN_DEFAULT_TEMPLATE,
             $this->findHighestConfiguredPositionIndex()
         );
         for ($i = 0; $i <= $usedPositions; $i++) {
-            $imagesByPosition[$i] = array();
+            $imagesByPosition[$i] = [];
         }
 
         /** @var tx_realty_Model_Image $image */
@@ -150,15 +150,15 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         $fileName = $image->hasThumbnailFileName() ? $image->getThumbnailFileName() : $image->getFileName();
         $title = $image->getTitle();
 
-        $imageConfiguration = array(
+        $imageConfiguration = [
             'altText' => $title,
             'titleText' => $title,
             'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $fileName,
-            'file.' => array(
+            'file.' => [
                 'width' => $containerImageConfiguration['thumbnailSizeX'] . 'c',
                 'height' => $containerImageConfiguration['thumbnailSizeY'] . 'c',
-            ),
-        );
+            ],
+        ];
         return $this->cObj->IMAGE($imageConfiguration);
     }
 
@@ -178,18 +178,18 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
         $position = $image->getPosition();
         $configuration = $this->getImageConfigurationForContainer($position);
 
-        $imageConfiguration = array(
+        $imageConfiguration = [
             'altText' => $image->getTitle(),
             'titleText' => $image->getTitle(),
             'file' => tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName(),
-            'file.' => array(
+            'file.' => [
                 'maxW' => $configuration['lightboxSizeX'],
                 'maxH' => $configuration['lightboxSizeY'],
-            ),
-        );
+            ],
+        ];
         $imageWithTag = $this->cObj->IMAGE($imageConfiguration);
 
-        $imagePath = array();
+        $imagePath = [];
         preg_match('/src="([^"]*)"/', $imageWithTag, $imagePath);
         $fullSizeImageUrl = $imagePath[1];
 
@@ -222,19 +222,19 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
 
         $highestPositionIndex = $this->findHighestConfiguredPositionIndex();
         for ($position = 0; $position <= $highestPositionIndex; $position++) {
-            $accumulatedConfiguration = array(
+            $accumulatedConfiguration = [
                 'enableLightbox' => $configuration->getAsBoolean('enableLightbox'),
                 'thumbnailSizeX' => $configuration->getAsInteger('singleImageMaxX'),
                 'thumbnailSizeY' => $configuration->getAsInteger('singleImageMaxY'),
                 'lightboxSizeX' => $configuration->getAsInteger('lightboxImageWidthMax'),
                 'lightboxSizeY' => $configuration->getAsInteger('lightboxImageHeightMax'),
-            );
+            ];
 
             if ($position > 0) {
                 $specificConfiguration = Tx_Oelib_ConfigurationRegistry::get('plugin.tx_realty_pi1.images')
                     ->getAsMultidimensionalArray($position . '.');
                 if (isset($specificConfiguration['enableLightbox'])) {
-                    $accumulatedConfiguration['enableLightbox'] = (bool) $specificConfiguration['enableLightbox'];
+                    $accumulatedConfiguration['enableLightbox'] = (bool)$specificConfiguration['enableLightbox'];
                 }
                 if (isset($specificConfiguration['singleImageMaxX'])) {
                     $accumulatedConfiguration['thumbnailSizeX'] = (int)$specificConfiguration['singleImageMaxX'];
@@ -266,7 +266,6 @@ class tx_realty_pi1_ImageThumbnailsView extends tx_realty_pi1_FrontEndView
      *         index using the array keys "enableLightbox", "singleImageMaxX",
      *         "singleImageMaxY", "lightboxImageWidthMax" and
      *         "lightboxImageHeightMax"
-     *
      */
     private function getImageConfigurationForContainer($containerIndex)
     {

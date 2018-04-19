@@ -39,7 +39,8 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_DescriptionView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            $frontEndController->cObj
         );
     }
 
@@ -58,11 +59,11 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNonEmptyResultForShowUidOfExistingRecord()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('description' => 'foo'));
+            ->getLoadedTestingModel(['description' => 'foo']);
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -72,10 +73,10 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('description' => 'foo'));
+            ->getLoadedTestingModel(['description' => 'foo']);
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertNotEquals(
@@ -94,11 +95,11 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsTheRealtyObjectsDescriptionForValidRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('description' => 'foo'));
+            ->getLoadedTestingModel(['description' => 'foo']);
 
         self::assertContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -108,11 +109,11 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsTheRealtyObjectsDescriptionNonHtmlspecialchared()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('description' => 'foo</br>bar'));
+            ->getLoadedTestingModel(['description' => 'foo</br>bar']);
 
         self::assertContains(
             'foo</br>bar',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -122,11 +123,11 @@ class tx_realty_FrontEnd_DescriptionViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsEmptyResultForEmptyDescriptionOfValidRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('description' => ''));
+            ->getLoadedTestingModel(['description' => '']);
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 }

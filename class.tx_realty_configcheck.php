@@ -95,7 +95,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
         $this->checkCurrencyUnit();
         $this->checkRequireLoginForSingleViewPage();
         if ($this->objectToCheck->getConfValueBoolean(
-            'requireLoginForSingleViewPage', 's_template_special'
+            'requireLoginForSingleViewPage',
+            's_template_special'
         )) {
             $this->checkLoginPid();
         }
@@ -153,7 +154,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
         $this->checkImageUploadPid();
         $this->checkAdvertisementPid();
         if ($this->objectToCheck->hasConfValueInteger(
-            'advertisementPID', 's_advertisements'
+            'advertisementPID',
+            's_advertisements'
         )) {
             $this->checkAdvertisementParameterForObjectUid();
             $this->checkAdvertisementExpirationInDays();
@@ -270,7 +272,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
     {
         $this->checkShowGoogleMaps();
         if ($this->objectToCheck->getConfValueBoolean(
-            'showGoogleMaps', 's_googlemaps'
+            'showGoogleMaps',
+            's_googlemaps'
         )) {
             $this->checkDefaultCountry();
         }
@@ -290,7 +293,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies the type of the realty plug-in to display. '
                 . 'If it is not set correctly, it is ignored and the list view '
                 . 'is displayed.',
-            array(
+            [
                 'realty_list',
                 'single_view',
                 'favorites',
@@ -301,7 +304,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                 'objects_by_owner',
                 'fe_editor',
                 'image_upload',
-            )
+            ]
         );
     }
 
@@ -319,12 +322,12 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This setting specifies which single view parts to render, ' .
                 'incorrect keys will not be displayed and the single view will ' .
                 'be an empty page if no value is provided.',
-            array(
+            [
                 'nextPreviousButtons', 'heading', 'address', 'description',
                 'documents', 'price', 'overviewTable', 'contactButton',
                 'addToFavoritesButton', 'furtherDescription', 'imageThumbnails',
                 'offerer', 'status', 'googleMaps', 'printPageButton', 'backButton',
-            )
+            ]
         );
     }
 
@@ -336,7 +339,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
     protected function checkCurrencyUnit()
     {
         $quotedCurrencyUnit = Tx_Oelib_Db::getDatabaseConnection()->quoteStr(
-            $this->objectToCheck->getConfValueString('currencyUnit'), 'static_currencies'
+            $this->objectToCheck->getConfValueString('currencyUnit'),
+            'static_currencies'
         );
         if (!Tx_Oelib_Db::existsRecord('static_currencies', 'cu_iso_3 = "' . $quotedCurrencyUnit . '"')) {
             $this->setErrorMessageAndRequestCorrection(
@@ -374,10 +378,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
      */
     private function checkImageSizeValuesForListView()
     {
-        $imageSizeItems = array(
+        $imageSizeItems = [
             'listImageMaxX',
-            'listImageMaxY'
-        );
+            'listImageMaxY',
+        ];
 
         foreach ($imageSizeItems as $fieldName) {
             $this->checkIfPositiveInteger(
@@ -397,10 +401,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
      */
     private function checkImageSizeValuesForSingleView()
     {
-        $imageSizeItems = array(
+        $imageSizeItems = [
             'singleImageMaxX',
-            'singleImageMaxY'
-        );
+            'singleImageMaxY',
+        ];
 
         foreach ($imageSizeItems as $fieldName) {
             $this->checkIfPositiveInteger(
@@ -534,10 +538,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies which search widget fields to display in the ' .
                 'front-end. The search widget will not display any fields at ' .
                 'all if this value is empty or contains only invalid keys.',
-            array(
+            [
                 'site', 'priceRanges', 'uid', 'objectNumber', 'city', 'district',
                 'objectType', 'rent', 'livingArea', 'houseType', 'numberOfRooms',
-            )
+            ]
         );
     }
 
@@ -551,7 +555,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
         $displayedWidgetFields = GeneralUtility::trimExplode(
             ',',
             $this->objectToCheck->getConfValueString(
-                'displayedSearchWidgetFields', 's_searchForm'
+                'displayedSearchWidgetFields',
+                's_searchForm'
             ),
             true
         );
@@ -566,7 +571,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value defines the ranges to be displayed in the filter ' .
                 'form\'s selectbox for prices. With an invalid configuration, ' .
                 'price ranges will not be displayed correctly.',
-            '/^(((\d+-\d+|-\d+|\d+-), *)*(\d+-\d+|-\d+|\d+-))$/'
+            '/^(((\\d+-\\d+|-\\d+|\\d+-), *)*(\\d+-\\d+|-\\d+|\\d+-))$/'
         );
     }
 
@@ -629,7 +634,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
         }
 
         $this->$checkFunction(
-            'objectsByOwnerPID', true, 's_offererInformation', $errorText
+            'objectsByOwnerPID',
+            true,
+            's_offererInformation',
+            $errorText
         );
     }
 
@@ -673,10 +681,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies which contact data to display in the front-end. ' .
                 'The contact data will not be displayed at all if this value is ' .
                 'empty or contains only invalid keys.',
-            array(
+            [
                 'company', 'offerer_label', 'usergroup', 'street', 'city',
-                'telephone', 'email', 'www', 'image', 'objects_by_owner_link'
-            )
+                'telephone', 'email', 'www', 'image', 'objects_by_owner_link',
+            ]
         );
     }
 
@@ -697,10 +705,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                 'which to display special contact data. The contact data will ' .
                 'not be displayed at all if this value is empty or contains only' .
                 'invalid keys.',
-            array(
+            [
                 'company', 'offerer_label', 'usergroup', 'street', 'city',
-                'telephone', 'email', 'www', 'image', 'objects_by_owner_link'
-            )
+                'telephone', 'email', 'www', 'image', 'objects_by_owner_link',
+            ]
         );
     }
 
@@ -773,10 +781,10 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies which fields are visible in the contact form. ' .
                 'Some fields will be not be visible if this configuration is ' .
                 'incorrect.',
-            array(
+            [
                 'name', 'street', 'zip_and_city', 'telephone', 'request',
                 'viewing', 'information', 'callback', 'terms', 'law',
-            )
+            ]
         );
     }
 
@@ -790,7 +798,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
         $visibleFormFields = GeneralUtility::trimExplode(
             ',',
             $this->objectToCheck->getConfValueString(
-                'visibleContactFormFields', 's_contactForm'
+                'visibleContactFormFields',
+                's_contactForm'
             ),
             true
         );
@@ -812,7 +821,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies which fields are required to be filled when ' .
                 'committing a contact request. Some fields will be not be ' .
                 'required if this configuration is incorrect.',
-            array('name', 'street', 'zip', 'city', 'telephone', 'request')
+            ['name', 'street', 'zip', 'city', 'telephone', 'request']
         );
 
         // checks whether the required fields are visible
@@ -834,7 +843,8 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                     '_and_',
                     ',',
                     $this->objectToCheck->getConfValueString(
-                        'visibleContactFormFields', 's_contactForm'
+                        'visibleContactFormFields',
+                        's_contactForm'
                     )
                 ),
                 true
@@ -891,7 +901,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies the database field name by which the list view ' .
                 'should be sorted initially. Displaying the list view might not ' .
                 'work properly if this value is misconfigured.',
-            array(
+            [
                 'object_number',
                 'title',
                 'city',
@@ -902,7 +912,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                 'living_area',
                 'tstamp',
                 'random',
-            )
+            ]
         );
     }
 
@@ -920,7 +930,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies the database field names by which a FE user ' .
                 'can sort the list view. This value is usually set via ' .
                 'flexforms.',
-            array(
+            [
                 'object_number',
                 'title',
                 'city',
@@ -931,7 +941,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
                 'living_area',
                 'tstamp',
                 'random',
-            )
+            ]
         );
     }
 
@@ -1366,7 +1376,7 @@ class tx_realty_configcheck extends Tx_Oelib_ConfigCheck
             'This value specifies which Lightbox-related JavaScript libraries ' .
                 'get included. If this value is not set correctly, the ' .
                 'Lightbox will not work.',
-            array('prototype', 'scriptaculous', 'lightbox')
+            ['prototype', 'scriptaculous', 'lightbox']
         );
     }
 

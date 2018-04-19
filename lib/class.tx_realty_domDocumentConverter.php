@@ -37,104 +37,104 @@ class tx_realty_domDocumentConverter
      *
      * @var array[]
      */
-    protected $propertyArray = array(
+    protected $propertyArray = [
         // OpenImmo tag for 'starttime' could possibly be 'beginn_bietzeit'.
-        'starttime' => array('bieterverfahren' => 'beginn_angebotsphase'),
-        'endtime' => array('bieterverfahren' => 'ende_bietzeit'),
-        'object_number' => array('verwaltung_techn' => 'objektnr_extern'),
-        'title' => array('freitexte' => 'objekttitel'),
-        'street' => array('geo' => 'strasse'),
-        'zip' => array('geo' => 'plz'),
-        'city' => array('geo' => 'ort'),
-        'district' => array('geo' => 'regionaler_zusatz'),
-        'show_address' => array('verwaltung_objekt' => 'objektadresse_freigeben'),
-        'living_area' => array('flaechen' => 'wohnflaeche'),
-        'total_usable_area' => array('flaechen' => 'nutzflaeche'),
-        'total_area' => array('flaechen' => 'gesamtflaeche'),
-        'shop_area' => array('flaechen' => 'ladenflaeche'),
-        'storage_area' => array('flaechen' => 'lagerflaeche'),
-        'office_space' => array('flaechen' => 'bueroflaeche'),
-        'floor_space_index' => array('flaechen' => 'grz'),
-        'site_occupancy_index' => array('flaechen' => 'gfz'),
-        'estate_size' => array('flaechen' => 'grundstuecksflaeche'),
-        'number_of_rooms' => array('flaechen' => 'anzahl_zimmer'),
-        'bedrooms' => array('flaechen' => 'anzahl_schlafzimmer'),
-        'bathrooms' => array('flaechen' => 'anzahl_badezimmer'),
-        'balcony' => array('flaechen' => 'anzahl_balkon_terrassen'),
-        'parking_spaces' => array('flaechen' => 'anzahl_stellplaetze'),
-        'buying_price' => array('preise' => 'kaufpreis'),
-        'extra_charges' => array('preise' => 'nebenkosten'),
-        'heating_included' => array('preise' => 'heizkosten_enthalten'),
-        'hoa_fee' => array('preise' => 'hausgeld'),
-        'rent_per_square_meter' => array('preise' => 'mietpreis_pro_qm'),
-        'provision' => array('preise' => 'aussen_courtage'),
-        'year_rent' => array('preise' => 'mieteinnahmen_ist'),
-        'deposit' => array('preise' => 'kaution'),
+        'starttime' => ['bieterverfahren' => 'beginn_angebotsphase'],
+        'endtime' => ['bieterverfahren' => 'ende_bietzeit'],
+        'object_number' => ['verwaltung_techn' => 'objektnr_extern'],
+        'title' => ['freitexte' => 'objekttitel'],
+        'street' => ['geo' => 'strasse'],
+        'zip' => ['geo' => 'plz'],
+        'city' => ['geo' => 'ort'],
+        'district' => ['geo' => 'regionaler_zusatz'],
+        'show_address' => ['verwaltung_objekt' => 'objektadresse_freigeben'],
+        'living_area' => ['flaechen' => 'wohnflaeche'],
+        'total_usable_area' => ['flaechen' => 'nutzflaeche'],
+        'total_area' => ['flaechen' => 'gesamtflaeche'],
+        'shop_area' => ['flaechen' => 'ladenflaeche'],
+        'storage_area' => ['flaechen' => 'lagerflaeche'],
+        'office_space' => ['flaechen' => 'bueroflaeche'],
+        'floor_space_index' => ['flaechen' => 'grz'],
+        'site_occupancy_index' => ['flaechen' => 'gfz'],
+        'estate_size' => ['flaechen' => 'grundstuecksflaeche'],
+        'number_of_rooms' => ['flaechen' => 'anzahl_zimmer'],
+        'bedrooms' => ['flaechen' => 'anzahl_schlafzimmer'],
+        'bathrooms' => ['flaechen' => 'anzahl_badezimmer'],
+        'balcony' => ['flaechen' => 'anzahl_balkon_terrassen'],
+        'parking_spaces' => ['flaechen' => 'anzahl_stellplaetze'],
+        'buying_price' => ['preise' => 'kaufpreis'],
+        'extra_charges' => ['preise' => 'nebenkosten'],
+        'heating_included' => ['preise' => 'heizkosten_enthalten'],
+        'hoa_fee' => ['preise' => 'hausgeld'],
+        'rent_per_square_meter' => ['preise' => 'mietpreis_pro_qm'],
+        'provision' => ['preise' => 'aussen_courtage'],
+        'year_rent' => ['preise' => 'mieteinnahmen_ist'],
+        'deposit' => ['preise' => 'kaution'],
 
         // OpenImmo tag for 'usable_from' could possibly be 'abdatum'.
-        'usable_from' => array('verwaltung_objekt' => 'verfuegbar_ab'),
-        'floor' => array('geo' => 'etage'),
-        'floors' => array('geo' => 'anzahl_etagen'),
-        'pets' => array('verwaltung_objekt' => 'haustiere'),
-        'construction_year' => array('zustand_angaben' => 'baujahr'),
-        'garden' => array('ausstattung' => 'gartennutzung'),
-        'barrier_free' => array('ausstattung' => 'rollstuhlgerecht'),
-        'description' => array('freitexte' => 'objektbeschreibung'),
-        'equipment' => array('freitexte' => 'ausstatt_beschr'),
-        'location' => array('freitexte' => 'lage'),
-        'misc' => array('freitexte' => 'sonstige_angaben'),
-        'openimmo_obid' => array('verwaltung_techn' => 'openimmo_obid'),
-        'contact_person' => array('kontaktperson' => 'name'),
-        'contact_person_first_name' => array('kontaktperson' => 'vorname'),
-        'contact_person_salutation' => array('kontaktperson' => 'anrede'),
-        'contact_email' => array('kontaktperson' => 'email_zentrale'),
-        'phone_switchboard' => array('kontaktperson' => 'tel_zentrale'),
-        'phone_direct_extension' => array('kontaktperson' => 'tel_durchw'),
-        'with_hot_water' => array('energiepass' => 'mitwarmwasser'),
-        'energy_certificate_valid_until' => array('energiepass' => 'gueltig_bis'),
-        'energy_consumption_characteristic' => array('energiepass' => 'energieverbrauchkennwert'),
-        'ultimate_energy_demand' => array('energiepass' => 'endenergiebedarf'),
-        'primary_energy_carrier' => array('energiepass' => 'primaerenergietraeger'),
-        'electric_power_consumption_characteristic' => array('energiepass' => 'stromwert'),
-        'heat_energy_consumption_characteristic' => array('energiepass' => 'waermewert'),
-        'value_category' => array('energiepass' => 'wertklasse'),
-        'year_of_construction' => array('energiepass' => 'baujahr'),
-        'energy_certificate_text' => array('energiepass' => 'epasstext'),
-        'heat_energy_requirement_value' => array('energiepass' => 'hwbwert'),
-        'heat_energy_requirement_class' => array('energiepass' => 'hwbklasse'),
-        'total_energy_efficiency_value' => array('energiepass' => 'fgeewert'),
-        'total_energy_efficiency_class' => array('energiepass' => 'fgeeklasse'),
-    );
+        'usable_from' => ['verwaltung_objekt' => 'verfuegbar_ab'],
+        'floor' => ['geo' => 'etage'],
+        'floors' => ['geo' => 'anzahl_etagen'],
+        'pets' => ['verwaltung_objekt' => 'haustiere'],
+        'construction_year' => ['zustand_angaben' => 'baujahr'],
+        'garden' => ['ausstattung' => 'gartennutzung'],
+        'barrier_free' => ['ausstattung' => 'rollstuhlgerecht'],
+        'description' => ['freitexte' => 'objektbeschreibung'],
+        'equipment' => ['freitexte' => 'ausstatt_beschr'],
+        'location' => ['freitexte' => 'lage'],
+        'misc' => ['freitexte' => 'sonstige_angaben'],
+        'openimmo_obid' => ['verwaltung_techn' => 'openimmo_obid'],
+        'contact_person' => ['kontaktperson' => 'name'],
+        'contact_person_first_name' => ['kontaktperson' => 'vorname'],
+        'contact_person_salutation' => ['kontaktperson' => 'anrede'],
+        'contact_email' => ['kontaktperson' => 'email_zentrale'],
+        'phone_switchboard' => ['kontaktperson' => 'tel_zentrale'],
+        'phone_direct_extension' => ['kontaktperson' => 'tel_durchw'],
+        'with_hot_water' => ['energiepass' => 'mitwarmwasser'],
+        'energy_certificate_valid_until' => ['energiepass' => 'gueltig_bis'],
+        'energy_consumption_characteristic' => ['energiepass' => 'energieverbrauchkennwert'],
+        'ultimate_energy_demand' => ['energiepass' => 'endenergiebedarf'],
+        'primary_energy_carrier' => ['energiepass' => 'primaerenergietraeger'],
+        'electric_power_consumption_characteristic' => ['energiepass' => 'stromwert'],
+        'heat_energy_consumption_characteristic' => ['energiepass' => 'waermewert'],
+        'value_category' => ['energiepass' => 'wertklasse'],
+        'year_of_construction' => ['energiepass' => 'baujahr'],
+        'energy_certificate_text' => ['energiepass' => 'epasstext'],
+        'heat_energy_requirement_value' => ['energiepass' => 'hwbwert'],
+        'heat_energy_requirement_class' => ['energiepass' => 'hwbklasse'],
+        'total_energy_efficiency_value' => ['energiepass' => 'fgeewert'],
+        'total_energy_efficiency_class' => ['energiepass' => 'fgeeklasse'],
+    ];
 
     /**
      * fields that should be imported as decimals
      *
      * @var string[][]
      */
-    private static $decimalFields = array(
-        'sales_area' => array('flaechen' => 'verkaufsflaeche'),
-        'other_area' => array('flaechen' => 'sonstflaeche'),
-        'window_bank' => array('flaechen' => 'fensterfront'),
-        'rental_income_target' => array('preise' => 'mieteinnahmen_soll'),
-    );
+    private static $decimalFields = [
+        'sales_area' => ['flaechen' => 'verkaufsflaeche'],
+        'other_area' => ['flaechen' => 'sonstflaeche'],
+        'window_bank' => ['flaechen' => 'fensterfront'],
+        'rental_income_target' => ['preise' => 'mieteinnahmen_soll'],
+    ];
 
     /**
      * the keys of the fields that are of boolean type
      *
      * @var string[]
      */
-    private static $booleanFields = array(
+    private static $booleanFields = [
         'show_address', 'heating_included', 'garden', 'barrier_free',
         'elevator', 'has_air_conditioning', 'assisted_living', 'fitted_kitchen',
         'has_pool', 'has_community_pool', 'with_hot_water',
-    );
+    ];
 
     /**
      * the keys of the fields that are of rich text type
      *
      * @var string[]
      */
-    private static $richTextFields = array('description', 'equipment', 'location', 'misc');
+    private static $richTextFields = ['description', 'equipment', 'location', 'misc'];
 
     /**
      * raw data of an OpenImmo record
@@ -148,14 +148,14 @@ class tx_realty_domDocumentConverter
      *
      * @var string[]
      */
-    private $universalRealtyData = array();
+    private $universalRealtyData = [];
 
     /**
      * imported data of a realty record
      *
      * @var array
      */
-    private $importedData = array();
+    private $importedData = [];
 
     /**
      * Number of the current record. Sometimes there are several realties in one
@@ -168,7 +168,7 @@ class tx_realty_domDocumentConverter
     /**
      * @var int[]
      */
-    private static $cachedCountries = array();
+    private static $cachedCountries = [];
 
     /**
      * the mapper that creates unique file names for images and documents
@@ -224,10 +224,10 @@ class tx_realty_domDocumentConverter
     {
         $this->setRawRealtyData($domDocument);
         if (!$this->hasValidRootNode()) {
-            return array();
+            return [];
         }
 
-        $result = array();
+        $result = [];
 
         $this->fetchUniversalData();
         $numberOfRecords = $this->getNumberOfRecords();
@@ -266,7 +266,7 @@ class tx_realty_domDocumentConverter
      */
     private function resetImportedData()
     {
-        $this->importedData = array();
+        $this->importedData = [];
     }
 
     /**
@@ -303,12 +303,12 @@ class tx_realty_domDocumentConverter
      */
     private function fetchEmployerAndAnid()
     {
-        $result = array();
+        $result = [];
 
-        $columnNames = array(
+        $columnNames = [
             'firma' => 'employer',
             'openimmo_anid' => 'openimmo_anid',
-        );
+        ];
         foreach ($columnNames as $grandchild => $columnName) {
             $nodeList = $this->getNodeListFromRawData('anbieter', $grandchild);
             $this->addElementToArray(
@@ -324,7 +324,7 @@ class tx_realty_domDocumentConverter
     /**
      * Substitutes XML namespaces from a node name and returns the name.
      *
-     * @param DOMNode|NULL $domNode node, may be NULL
+     * @param DOMNode|null $domNode node, may be NULL
      *
      * @return string node name without namespaces, may be empty
      */
@@ -588,12 +588,12 @@ class tx_realty_domDocumentConverter
 
         $listedRealtyObjects = $this->getListedRealtyObjects();
         if ($listedRealtyObjects === null) {
-            return array();
+            return [];
         }
 
         $attachments = $this->getNodeListFromRawData('anhang', '', $listedRealtyObjects->item($this->recordNumber));
 
-        $images = array();
+        $images = [];
         /** @var DOMNode $contextNode */
         foreach ($attachments as $contextNode) {
             $titleNodeList = $this->getNodeListFromRawData('anhangtitel', '', $contextNode);
@@ -611,7 +611,7 @@ class tx_realty_domDocumentConverter
                 if (preg_match($extensionValidator, $rawFileName)) {
                     $fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(basename($rawFileName));
 
-                    $images[] = array('caption' => $title, 'image' => $fileName);
+                    $images[] = ['caption' => $title, 'image' => $fileName];
                 }
             }
         }
@@ -639,12 +639,12 @@ class tx_realty_domDocumentConverter
     {
         $listedRealtyObjects = $this->getListedRealtyObjects();
         if ($listedRealtyObjects === null) {
-            return array();
+            return [];
         }
 
         $attachments = $this->getNodeListFromRawData('anhang', '', $listedRealtyObjects->item($this->recordNumber));
 
-        $documents = array();
+        $documents = [];
         /** @var DOMNode $contextNode */
         foreach ($attachments as $contextNode) {
             $titleNodeList = $this->getNodeListFromRawData('anhangtitel', '', $contextNode);
@@ -660,7 +660,7 @@ class tx_realty_domDocumentConverter
             if (($title !== '') && preg_match('/\\.pdf$/i', $rawFileName)) {
                 $fileName = $this->fileNameMapper->getUniqueFileNameAndMapIt(basename($rawFileName));
 
-                $documents[] = array('title' => $title, 'filename' => $fileName);
+                $documents[] = ['title' => $title, 'filename' => $fileName];
             }
         }
 
@@ -675,20 +675,20 @@ class tx_realty_domDocumentConverter
      */
     private function fetchEquipmentAttributes()
     {
-        $rawAttributes = array();
+        $rawAttributes = [];
 
-        foreach (array('serviceleistungen', 'fahrstuhl', 'kueche') as $grandchildName) {
+        foreach (['serviceleistungen', 'fahrstuhl', 'kueche'] as $grandchildName) {
             $nodeWithAttributes = $this->findFirstGrandchild('ausstattung', $grandchildName);
             $rawAttributes[$grandchildName] = $this->fetchLowercasedTruthyDomAttributes($nodeWithAttributes);
         }
 
         foreach (
-            array(
+            [
                 'assisted_living' => $rawAttributes['serviceleistungen']['betreutes_wohnen'],
                 'fitted_kitchen' => $rawAttributes['kueche']['ebk'],
                 // For realty records, the type of elevator is not relevant.
                 'elevator' => $rawAttributes['fahrstuhl']['lasten'],
-            ) as $key => $value
+            ] as $key => $value
         ) {
             if (isset($value)) {
                 $this->addImportedDataIfValueIsNonEmpty($key, $value);
@@ -723,7 +723,7 @@ class tx_realty_domDocumentConverter
             }
         }
 
-        $utilizationAttributes = array();
+        $utilizationAttributes = [];
         $nodes = $this->findFirstGrandchild('objektkategorie', 'nutzungsart');
         $domAttributes = $this->fetchDomAttributes($nodes);
         foreach ($domAttributes as $key => $value) {
@@ -750,7 +750,8 @@ class tx_realty_domDocumentConverter
         }
 
         $nodeWithAttributes = $this->rawRealtyData->query(
-            './/*[not(starts-with(local-name(), "#"))]', $nodeContainingAttributeNode
+            './/*[not(starts-with(local-name(), "#"))]',
+            $nodeContainingAttributeNode
         );
 
         $value = $this->getNodeName($nodeWithAttributes->item(0));
@@ -762,7 +763,7 @@ class tx_realty_domDocumentConverter
                 $value .= ': ' . $this->getFormattedString(array_values($attributes));
             }
 
-            $this->addImportedData('house_type', $this->getFormattedString(array($value)));
+            $this->addImportedData('house_type', $this->getFormattedString([$value]));
         }
     }
 
@@ -784,7 +785,7 @@ class tx_realty_domDocumentConverter
         // The fetched heating types are always German. In the database they
         // are stored as a sorted list of keys which refer to localized strings.
         $keys = array_keys(array_intersect(
-            array(
+            [
                 1 => 'fern',
                 2 => 'zentral',
                 3 => 'elektro',
@@ -803,7 +804,7 @@ class tx_realty_domDocumentConverter
                 16 => 'kohle',
                 17 => 'holz',
                 18 => 'fluessiggas',
-            ),
+            ],
             $attributes
         ));
         $this->addImportedDataIfValueIsNonEmpty('heating_type', implode(',', $keys));
@@ -872,7 +873,7 @@ class tx_realty_domDocumentConverter
     {
         $nodeWithAttributes = $this->findFirstGrandchild('zustand_angaben', 'zustand');
         $attributes = $this->fetchLowercasedDomAttributes($nodeWithAttributes);
-        $possibleStates = array(
+        $possibleStates = [
             'rohbau' => 1,
             'nach_vereinbarung' => 2,
             'baufaellig' => 3,
@@ -886,7 +887,7 @@ class tx_realty_domDocumentConverter
             'teil_vollrenoviert' => 11,
             'teil_vollsaniert' => 12,
             'projektiert' => 13,
-        );
+        ];
 
         if (isset($attributes['zustand_art'], $possibleStates[$attributes['zustand_art']])) {
             $this->addImportedData('state', $possibleStates[$attributes['zustand_art']]);
@@ -924,7 +925,7 @@ class tx_realty_domDocumentConverter
 
         // The fetched flooring types are always German. In the database they
         // are stored as a sorted list of keys which refer to localized strings.
-        $validKeys = array(
+        $validKeys = [
             1 => 'fliesen',
             2 => 'stein',
             3 => 'teppich',
@@ -936,9 +937,9 @@ class tx_realty_domDocumentConverter
             9 => 'estrich',
             10 => 'doppelboden',
             11 => 'linoleum',
-        );
+        ];
 
-        $keys = array();
+        $keys = [];
         foreach ($validKeys as $key => $value) {
             if (isset($attributes[$value]) && $this->isBooleanLikeStringTrue($attributes[$value])) {
                 $keys[] = $key;
@@ -959,11 +960,11 @@ class tx_realty_domDocumentConverter
         $nodeWithAttributes = $this->findFirstGrandchild('ausstattung', 'ausstatt_kategorie');
         $furnishingCategory = strtolower($nodeWithAttributes->nodeValue);
 
-        $possibleStates = array(
+        $possibleStates = [
             'standard' => 1,
             'gehoben' => 2,
             'luxus' => 3,
-        );
+        ];
 
         if (($furnishingCategory !== '') && isset($possibleStates[$furnishingCategory])) {
             $this->addImportedData('furnishing_category', $possibleStates[$furnishingCategory]);
@@ -1107,10 +1108,10 @@ class tx_realty_domDocumentConverter
             return;
         }
 
-        $validValues = array(
+        $validValues = [
             'BEDARF' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_REQUIREMENT,
             'VERBRAUCH' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_TYPE_CONSUMPTION,
-        );
+        ];
 
         $nodeValue = $node->nodeValue;
         if (isset($validValues[$nodeValue])) {
@@ -1130,12 +1131,12 @@ class tx_realty_domDocumentConverter
             return;
         }
 
-        $validValues = array(
+        $validValues = [
             '2008' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2008,
             '2014' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_2014,
             'ohne' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_AVAILABLE,
             'nicht_noetig' => tx_realty_Model_RealtyObject::ENERGY_CERTIFICATE_YEAR_NOT_REQUIRED,
-        );
+        ];
 
         $nodeValue = $node->nodeValue;
         if (isset($validValues[$nodeValue])) {
@@ -1155,10 +1156,10 @@ class tx_realty_domDocumentConverter
             return;
         }
 
-        $validValues = array(
+        $validValues = [
             'wohn' => tx_realty_Model_RealtyObject::BUILDING_TYPE_RESIDENTIAL,
             'nichtwohn' => tx_realty_Model_RealtyObject::BUILDING_TYPE_BUSINESS,
-        );
+        ];
 
         $nodeValue = $node->nodeValue;
         if (isset($validValues[$nodeValue])) {
@@ -1297,7 +1298,7 @@ class tx_realty_domDocumentConverter
         }
 
         if ($this->isRichtextField($key)) {
-            $cleanedValue = (string) $value;
+            $cleanedValue = (string)$value;
         } elseif (is_string($value)) {
             $cleanedValue = preg_replace('/[\\r\\n\\t]+/', ' ', trim($value));
         } else {
@@ -1361,24 +1362,24 @@ class tx_realty_domDocumentConverter
      */
     private function isElementSetAndNonEmpty($key, array $array)
     {
-        return (isset($array[$key]) && !empty($array[$key]));
+        return isset($array[$key]) && !empty($array[$key]);
     }
 
     /**
      * Fetches an attribute from a given node and returns name/value pairs as an
      * array. If there are no attributes, the returned array will be empty.
      *
-     * @param DOMNode|DOMNodeList|NULL $nodeWithAttributes node from where to fetch the attribute, may be NULL
+     * @param DOMNode|DOMNodeList|null $nodeWithAttributes node from where to fetch the attribute, may be NULL
      *
      * @return string[] attributes and attribute values, empty if there are no attributes
      */
     protected function fetchDomAttributes($nodeWithAttributes = null)
     {
         if ($nodeWithAttributes === null) {
-            return array();
+            return [];
         }
 
-        $fetchedValues = array();
+        $fetchedValues = [];
         $attributeToFetch = $nodeWithAttributes->attributes;
         if ($attributeToFetch) {
             /** @var DOMAttr $domObject */
@@ -1402,7 +1403,7 @@ class tx_realty_domDocumentConverter
      */
     private function fetchLowercasedDomAttributes($nodeWithAttributes)
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->fetchDomAttributes($nodeWithAttributes) as $key => $value) {
             $result[strtolower($key)] = strtolower($value);
@@ -1423,7 +1424,7 @@ class tx_realty_domDocumentConverter
      */
     private function fetchLowercasedTruthyDomAttributes($nodeWithAttributes)
     {
-        $result = array();
+        $result = [];
         foreach ($this->fetchLowercasedDomAttributes($nodeWithAttributes) as $key => $value) {
             if ($value === 'true' || $value === '1') {
                 $result[$key] = $value;

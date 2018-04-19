@@ -50,7 +50,7 @@ return [
         'l18n_diffsource' => [
             'config' => [
                 'type' => 'passthrough',
-            ]
+            ],
         ],
         'object' => [
             'exclude' => 0,
@@ -95,4 +95,3 @@ return [
         '1' => ['showitem' => ''],
     ],
 ];
-

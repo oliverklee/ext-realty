@@ -48,14 +48,14 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
 
         $this->realtyObject = Tx_Oelib_MapperRegistry
             ::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
-        $this->realtyObject->setData(array('title' => 'test realty object'));
+        $this->realtyObject->setData(['title' => 'test realty object']);
 
         $this->fixture = new tx_realty_pi1_Formatter(
             $this->realtyObject->getUid(),
-            array(
+            [
                 'defaultCountryUID' => self::DE,
                 'currencyUnit' => 'EUR',
-            ),
+            ],
             $this->getFrontEndController()->cObj
         );
     }
@@ -89,7 +89,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
             '$realtyObjectUid must be greater than zero.'
         );
 
-        $this->fixture = new tx_realty_pi1_Formatter(0, array(), $this->getFrontEndController()->cObj);
+        $this->fixture = new tx_realty_pi1_Formatter(0, [], $this->getFrontEndController()->cObj);
     }
 
     /**
@@ -105,7 +105,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
                 '. The formatter can only work for existing, non-deleted realty objects.'
         );
 
-        new tx_realty_pi1_Formatter($this->realtyObject->getUid(), array(), $this->getFrontEndController()->cObj);
+        new tx_realty_pi1_Formatter($this->realtyObject->getUid(), [], $this->getFrontEndController()->cObj);
     }
 
     ///////////////////////////////////////////
@@ -249,7 +249,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
         $this->realtyObject->setProperty(
                 'city',
                 $this->testingFramework->createRecord(
-                    'tx_realty_cities', array('title' => 'test city')
+                    'tx_realty_cities',
+                    ['title' => 'test city']
                 )
             );
 
@@ -267,7 +268,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
         $this->realtyObject->setProperty(
                 'city',
                 $this->testingFramework->createRecord(
-                    'tx_realty_cities', array('title' => 'test<br/>city')
+                    'tx_realty_cities',
+                    ['title' => 'test<br/>city']
                 )
             );
 
@@ -411,7 +413,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     public function getPropertyForStatusVacantReturnsVacantLabel()
     {
         $this->realtyObject->setProperty(
-            'status', tx_realty_Model_RealtyObject::STATUS_VACANT
+            'status',
+            tx_realty_Model_RealtyObject::STATUS_VACANT
         );
 
         self::assertEquals(
@@ -426,7 +429,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     public function getPropertyForStatusReservedReturnsReservedLabel()
     {
         $this->realtyObject->setProperty(
-            'status', tx_realty_Model_RealtyObject::STATUS_RESERVED
+            'status',
+            tx_realty_Model_RealtyObject::STATUS_RESERVED
         );
 
         self::assertEquals(
@@ -441,7 +445,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     public function getPropertyForStatusSoldReturnsSoldLabel()
     {
         $this->realtyObject->setProperty(
-            'status', tx_realty_Model_RealtyObject::STATUS_SOLD
+            'status',
+            tx_realty_Model_RealtyObject::STATUS_SOLD
         );
 
         self::assertEquals(
@@ -456,7 +461,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     public function getPropertyForStatusRentedReturnsRentedLabel()
     {
         $this->realtyObject->setProperty(
-            'status', tx_realty_Model_RealtyObject::STATUS_RENTED
+            'status',
+            tx_realty_Model_RealtyObject::STATUS_RENTED
         );
 
         self::assertEquals(
@@ -476,7 +482,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
         $this->realtyObject->setProperty(
             'city',
             $this->testingFramework->createRecord(
-                'tx_realty_cities', array('title' => 'Test Town')
+                'tx_realty_cities',
+                ['title' => 'Test Town']
             )
         );
 

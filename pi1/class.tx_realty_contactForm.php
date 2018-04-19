@@ -26,7 +26,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
     /**
      * @var array data for the contact form
      */
-    private $contactFormData = array(
+    private $contactFormData = [
         'isSubmitted' => false,
         'showUid' => 0,
         'requesterName' => '',
@@ -41,7 +41,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
         'callback' => 0,
         'terms' => 0,
         'summaryStringOfFavorites' => '',
-    );
+    ];
 
     /**
      * Returns the contact form in HTML.
@@ -60,7 +60,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML of the contact form, will not be empty
      */
-    public function render(array $contactFormData = array())
+    public function render(array $contactFormData = [])
     {
         $this->storeContactFormData($contactFormData);
 
@@ -75,11 +75,11 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
         $this->hideNonVisibleFormFields();
 
         $subpartName = 'CONTACT_FORM';
-        $errorMessages = array(
+        $errorMessages = [
             'requesterName' => '', 'requesterStreet' => '', 'requesterZip' => '',
             'requesterCity' => '', 'requesterEmail' => '', 'requesterPhone' => '',
             'request' => '', 'terms' => '', 'contact_form' => '',
-        );
+        ];
 
         $this->fillContactInformationFieldsForLoggedInUser();
         $this->createTermsLink();
@@ -112,11 +112,11 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
 
         $this->hideSubpartsArray(
             array_diff(
-                array(
+                [
                     'name', 'street', 'zip_and_city', 'telephone', 'request',
                     'viewing', 'information', 'callback', 'law_asterisk',
                     'terms', 'law',
-                ),
+                ],
                 $visibleFields
             ),
             'contact_form_wrapper'
@@ -159,7 +159,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
             if (!empty($nonFilledRequiredFields)) {
                 foreach ($nonFilledRequiredFields as $key) {
                     $suffix = '';
-                    if (in_array($key, array('requesterZip', 'requesterCity', 'request', 'terms'))) {
+                    if (in_array($key, ['requesterZip', 'requesterCity', 'request', 'terms'])) {
                         $suffix = '_' . $key;
                     }
 
@@ -181,17 +181,17 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function getEmptyRequiredFields()
     {
-        $result = array();
+        $result = [];
         $requiredFields = $this->getConfigurationArray('requiredContactFormFields');
 
-        foreach (array(
+        foreach ([
             'requesterName' => 'name',
             'requesterStreet' => 'street',
             'requesterZip' => 'zip',
             'requesterCity' => 'city',
             'requesterPhone' => 'telephone',
             'request' => 'request',
-        ) as $formDataKey => $fieldName) {
+        ] as $formDataKey => $fieldName) {
             if (in_array($fieldName, $requiredFields) && (trim($this->contactFormData[$formDataKey]) == '')) {
                 $result[] = $formDataKey;
             }
@@ -232,14 +232,14 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
         $contactName = $contactData['name'];
         /** @var MailMessage $email */
         $email = GeneralUtility::makeInstance(MailMessage::class);
-        $email->setTo(array($contactData['email'] => $contactName));
+        $email->setTo([$contactData['email'] => $contactName]);
         $email->setSubject($this->getEmailSubject());
         $email->setBody($this->getFilledEmailBody($contactName));
-        $email->setFrom(array($this->contactFormData['requesterEmail'] => $this->contactFormData['requesterName']));
+        $email->setFrom([$this->contactFormData['requesterEmail'] => $this->contactFormData['requesterName']]);
 
         if ($this->hasConfValueString('blindCarbonCopyAddress', 's_contactForm')) {
             $bccAddress = $this->getConfValueString('blindCarbonCopyAddress', 's_contactForm');
-            $email->setBcc(array($bccAddress => ''));
+            $email->setBcc([$bccAddress => '']);
         }
 
         $email->send();
@@ -258,7 +258,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function getFilledEmailBody($contactPerson)
     {
-        foreach (array(
+        foreach ([
             'request' => $this->contactFormData['request'],
             'requester_name' => $this->contactFormData['requesterName'],
             'requester_email' => $this->contactFormData['requesterEmail'],
@@ -269,7 +269,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
                 ),
             'summary_string_of_favorites' => $this->contactFormData['summaryStringOfFavorites'],
             'contact_person' => $contactPerson,
-        ) as $marker => $value) {
+        ] as $marker => $value) {
             $this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
         }
 
@@ -286,9 +286,9 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function getCheckboxesForEMail()
     {
-        $result = array();
+        $result = [];
 
-        foreach (array('viewing', 'information', 'callback') as $key) {
+        foreach (['viewing', 'information', 'callback'] as $key) {
             if ($this->contactFormData[$key] == 1) {
                 $result[] = $this->translate('label_' . $key);
             }
@@ -334,24 +334,24 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
             return;
         }
 
-        $visibilityKeysForFormData = array(
+        $visibilityKeysForFormData = [
             'requesterName' => 'name',
             'requesterStreet' => 'street',
             'requesterPhone' => 'telephone',
             'requesterZip' => 'zip_and_city',
             'requesterCity' => 'zip_and_city',
-        );
+        ];
         $visibleFields = array_intersect($visibilityKeysForFormData, $this->getVisibleFields());
 
         $loggedInUser = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-        foreach (array(
+        foreach ([
             'requesterName' => 'getName',
             'requesterStreet' => 'getStreet',
             'requesterZip' => 'getZip',
             'requesterCity' => 'getCity',
             'requesterEmail' => 'getEMailAddress',
             'requesterPhone' => 'getPhoneNumber',
-        ) as $contactFormDataKey => $functionName) {
+        ] as $contactFormDataKey => $functionName) {
             if (isset($visibleFields[$contactFormDataKey]) || ($contactFormDataKey == 'requesterEmail')) {
                 $this->contactFormData[$contactFormDataKey] = $loggedInUser->$functionName();
             }
@@ -391,7 +391,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function getContactData()
     {
-        $result = array('name' => '', 'email' => '');
+        $result = ['name' => '', 'email' => ''];
         $contactData = $this->fetchContactDataFromSource();
 
         if ($this->isValidEmail($contactData['email'])) {
@@ -412,17 +412,17 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
     private function fetchContactDataFromSource()
     {
         if (!$this->isSpecializedView()) {
-            return array('email' => '', 'name' => '');
+            return ['email' => '', 'name' => ''];
         }
 
         try {
             $realtyObject = $this->getRealtyObject();
-            $contactData = array(
+            $contactData = [
                 'email' => $realtyObject->getContactEMailAddress(),
                 'name' => $realtyObject->getContactName(),
-            );
+            ];
         } catch (Tx_Oelib_Exception_NotFound $exception) {
-            $contactData = array('email' => '', 'name' => '');
+            $contactData = ['email' => '', 'name' => ''];
         }
 
         return $contactData;
@@ -447,7 +447,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
             if (!$mapper->existsModel($this->getShowUid())) {
                 $wasSuccessful = false;
             } else {
-                foreach (array('object_number', 'title', 'uid') as $key) {
+                foreach (['object_number', 'title', 'uid'] as $key) {
                     $value = ($key == 'uid')
                         ? $this->getRealtyObject()->getUid()
                         : $this->getRealtyObject()->getProperty($key);
@@ -512,7 +512,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function isSpecializedView()
     {
-        return ($this->getShowUid() > 0);
+        return $this->getShowUid() > 0;
     }
 
     /**
@@ -524,7 +524,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function isValidEmail($emailAddress)
     {
-        return (($emailAddress != '') && GeneralUtility::validEmail($emailAddress));
+        return ($emailAddress != '') && GeneralUtility::validEmail($emailAddress);
     }
 
     /**
@@ -542,7 +542,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
             return true;
         }
 
-        return (bool) preg_match('/^[\S ]+$/s', $name) && !preg_match('/[<>"]/', $name);
+        return (bool)preg_match('/^[\\S ]+$/s', $name) && !preg_match('/[<>"]/', $name);
     }
 
     /**
@@ -578,7 +578,7 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
      */
     private function setFormValues()
     {
-        foreach (array(
+        foreach ([
             'request' => $this->contactFormData['request'],
             'requester_name' => $this->contactFormData['requesterName'],
             'requester_street' => $this->contactFormData['requesterStreet'],
@@ -586,16 +586,16 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
             'requester_city' => $this->contactFormData['requesterCity'],
             'requester_email' => $this->contactFormData['requesterEmail'],
             'requester_phone' => $this->contactFormData['requesterPhone'],
-        ) as $marker => $value) {
+        ] as $marker => $value) {
             $this->setMarker($marker, htmlspecialchars($value));
         }
 
-        foreach (array(
+        foreach ([
             'viewing' => $this->contactFormData['viewing'],
             'information' => $this->contactFormData['information'],
             'callback' => $this->contactFormData['callback'],
             'terms' => $this->contactFormData['terms'],
-        ) as $key => $value) {
+        ] as $key => $value) {
             $checked = ($value == 1) ? 'checked="checked" ' : '';
             $this->setMarker($key, $checked, 'checked');
         }
@@ -611,20 +611,20 @@ class tx_realty_contactForm extends tx_realty_pi1_FrontEndView
     private function storeContactFormData(array $contactFormData)
     {
         foreach (
-            array(
+            [
                 'requesterName', 'requesterStreet', 'requesterZip',
                 'requesterCity', 'requesterEmail', 'requesterPhone', 'request',
-            ) as $key
+            ] as $key
         ) {
             $this->contactFormData[$key] = isset($contactFormData[$key]) ? trim($contactFormData[$key]) : '';
         }
-        foreach (array('viewing', 'information', 'callback', 'terms') as $key) {
-            $this->contactFormData[$key] = isset($contactFormData[$key]) ? (int) $contactFormData[$key] : 0;
+        foreach (['viewing', 'information', 'callback', 'terms'] as $key) {
+            $this->contactFormData[$key] = isset($contactFormData[$key]) ? (int)$contactFormData[$key] : 0;
         }
 
         $this->contactFormData['isSubmitted'] = isset($contactFormData['isSubmitted'])
-            ? (bool) $contactFormData['isSubmitted'] : false;
-        $this->contactFormData['showUid'] = isset($contactFormData['showUid']) ? (int) $contactFormData['showUid'] : 0;
+            ? (bool)$contactFormData['isSubmitted'] : false;
+        $this->contactFormData['showUid'] = isset($contactFormData['showUid']) ? (int)$contactFormData['showUid'] : 0;
         $this->contactFormData['summaryStringOfFavorites'] = isset($contactFormData['summaryStringOfFavorites'])
             ? $contactFormData['summaryStringOfFavorites'] : '';
     }

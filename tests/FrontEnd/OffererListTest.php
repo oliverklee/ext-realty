@@ -61,12 +61,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_offererList(
-            array(
+            [
                 'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
                 'what_to_display' => 'offerer_list',
                 'userGroupsForOffererList' => $this->feUserGroupUid,
                 'displayedContactInformation' => 'usergroup,offerer_label',
-            ),
+            ],
             $frontEndController->cObj,
             // TRUE enables the test mode
             true
@@ -90,10 +90,11 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     private function createDummyRecords()
     {
         $this->feUserGroupUid = $this->testingFramework->createFrontEndUserGroup(
-            array('title' => self::FE_USER_GROUP_NAME)
+            ['title' => self::FE_USER_GROUP_NAME]
         );
         $this->offererUid = $this->testingFramework->createFrontEndUser(
-            $this->feUserGroupUid, array('username' => self::FE_USER_NAME)
+            $this->feUserGroupUid,
+            ['username' => self::FE_USER_NAME]
         );
     }
 
@@ -131,7 +132,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            array('deleted' => 1)
+            ['deleted' => 1]
         );
 
         self::assertNotContains(
@@ -149,7 +150,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            array('usergroup' => $this->feUserGroupUid . ',' . $otherGroupUid)
+            ['usergroup' => $this->feUserGroupUid . ',' . $otherGroupUid]
         );
 
         self::assertContains(
@@ -166,10 +167,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $firstGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $thirdGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array(
+            'fe_users',
+            $this->offererUid,
+            [
                 'usergroup' => $firstGroupUid . ',' .
-                    $this->feUserGroupUid . ',' . $thirdGroupUid
-                )
+                    $this->feUserGroupUid . ',' . $thirdGroupUid,
+                ]
         );
 
         self::assertContains(
@@ -186,10 +189,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $firstGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $secondGroupUid = $this->testingFramework->createFrontEndUserGroup();
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array(
+            'fe_users',
+            $this->offererUid,
+            [
                 'usergroup' => $firstGroupUid . ',' .
-                    $secondGroupUid . ',' . $this->feUserGroupUid
-                )
+                    $secondGroupUid . ',' . $this->feUserGroupUid,
+                ]
         );
 
         self::assertContains(
@@ -204,7 +209,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListDisplaysTwoOfferersWhoAreInTheSameConfiguredGroup()
     {
         $this->testingFramework->createFrontEndUser(
-            $this->feUserGroupUid, array('username' => 'other user')
+            $this->feUserGroupUid,
+            ['username' => 'other user']
         );
 
         $output = $this->fixture->render();
@@ -229,7 +235,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
             $this->feUserGroupUid . ',' . $secondFeUserGroupUid
         );
         $this->testingFramework->createFrontEndUser(
-            $secondFeUserGroupUid, array('username' => 'other user')
+            $secondFeUserGroupUid,
+            ['username' => 'other user']
         );
 
         $output = $this->fixture->render();
@@ -250,7 +257,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('userGroupsForOffererList', '');
         $this->testingFramework->createFrontEndUser(
-            '', array('username' => 'other user')
+            '',
+            ['username' => 'other user']
         );
 
         $output = $this->fixture->render();
@@ -273,7 +281,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         // record in the database.
         $this->fixture->setConfigurationValue('userGroupsForOffererList', '');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('usergroup' => '')
+            'fe_users',
+            $this->offererUid,
+            ['usergroup' => '']
         );
 
         self::assertContains(
@@ -293,7 +303,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
             $this->feUserGroupUid . ',' . $secondFeUserGroupUid
         );
         $this->testingFramework->createFrontEndUser(
-            $secondFeUserGroupUid, array('username' => 'other user')
+            $secondFeUserGroupUid,
+            ['username' => 'other user']
         );
 
         $result = $this->fixture->render();
@@ -309,7 +320,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListNotDisplaysOffererWhoIsOnlyInANonConfiguredGroup()
     {
         $this->testingFramework->createFrontEndUser(
-            '', array('username' => 'other user')
+            '',
+            ['username' => 'other user']
         );
 
         self::assertNotContains(
@@ -355,7 +367,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersName()
     {
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('name' => 'Mr. Test')
+            'fe_users',
+            $this->offererUid,
+            ['name' => 'Mr. Test']
         );
 
         self::assertContains(
@@ -370,7 +384,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemNotContainsTheUserNameIfTheOffererNameIsSet()
     {
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('name' => 'Mr. Test')
+            'fe_users',
+            $this->offererUid,
+            ['name' => 'Mr. Test']
         );
 
         self::assertNotContains(
@@ -385,7 +401,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersLastNameIfNoFirstNameIsSet()
     {
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('last_name' => 'User')
+            'fe_users',
+            $this->offererUid,
+            ['last_name' => 'User']
         );
 
         self::assertContains(
@@ -400,7 +418,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemNotContainsTheOfferersLastNameWithLeadingCommaIfNoCompanyIsSet()
     {
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('last_name' => 'User')
+            'fe_users',
+            $this->offererUid,
+            ['last_name' => 'User']
         );
 
         self::assertNotContains(
@@ -417,7 +437,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            array('first_name' => 'Test', 'last_name' => 'User')
+            ['first_name' => 'Test', 'last_name' => 'User']
         );
 
         self::assertContains(
@@ -432,7 +452,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemNotContainsTheUserNameIfLastNameIsSet()
     {
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('last_name' => 'User')
+            'fe_users',
+            $this->offererUid,
+            ['last_name' => 'User']
         );
 
         self::assertNotContains(
@@ -462,12 +484,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersFirstUserGroupNameForTheOfferersFirstGroupMatchingConfiguration()
     {
         $otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
-            array('title' => 'other group')
+            ['title' => 'other group']
         );
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            array('usergroup' => $this->feUserGroupUid . ',' . $otherGroupUid)
+            ['usergroup' => $this->feUserGroupUid . ',' . $otherGroupUid]
         );
 
         self::assertContains(
@@ -482,12 +504,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersSecondUserGroupNameForTheOfferersSecondGroupMatchingConfiguration()
     {
         $otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
-            array('title' => 'other group')
+            ['title' => 'other group']
         );
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            array('usergroup' =>  $otherGroupUid . ',' . $this->feUserGroupUid)
+            ['usergroup' =>  $otherGroupUid . ',' . $this->feUserGroupUid]
         );
 
         self::assertContains(
@@ -502,12 +524,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemNotContainsTheOfferersFirstUserGroupNameForTheOfferersSecondGroupMatchingConfiguration()
     {
         $otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
-            array('title' => 'other group')
+            ['title' => 'other group']
         );
         $this->testingFramework->changeRecord(
             'fe_users',
             $this->offererUid,
-            array('usergroup' => $otherGroupUid . ',' . $this->feUserGroupUid)
+            ['usergroup' => $otherGroupUid . ',' . $this->feUserGroupUid]
         );
 
         self::assertNotContains(
@@ -522,7 +544,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsNoBranchesIfTheOfferersFirstUserGroupIsNameless()
     {
         $this->testingFramework->changeRecord(
-            'fe_groups', $this->feUserGroupUid, array('title' => '')
+            'fe_groups',
+            $this->feUserGroupUid,
+            ['title' => '']
         );
 
         self::assertNotContains(
@@ -537,13 +561,15 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersFirstUserGroupNameWhenACompanyIsSetButHiddenByConfiguration()
     {
         $otherGroupUid = $this->testingFramework->createFrontEndUserGroup(
-            array('title' => 'other group')
+            ['title' => 'other group']
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array(
+            'fe_users',
+            $this->offererUid,
+            [
                 'usergroup' => $this->feUserGroupUid . ',' . $otherGroupUid,
                 'company' => 'Test Company',
-            )
+            ]
         );
 
         self::assertContains(
@@ -601,7 +627,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemNotContainsTheOfferersUserGroupIfConfiguredButNeitherNameNorCompanyEnabled()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'usergroup'
+            'displayedContactInformation',
+            'usergroup'
         );
 
         self::assertNotContains(
@@ -616,7 +643,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersUserGroupIfUserGroupAndNameAreEnabledByConfiguration()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'usergroup,offerer_label'
+            'displayedContactInformation',
+            'usergroup,offerer_label'
         );
 
         self::assertContains(
@@ -644,10 +672,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersCompanyIfConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'company'
+            'displayedContactInformation',
+            'company'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('company' => 'Test Company')
+            'fe_users',
+            $this->offererUid,
+            ['company' => 'Test Company']
         );
 
         self::assertContains(
@@ -663,7 +694,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('company' => 'Test Company')
+            'fe_users',
+            $this->offererUid,
+            ['company' => 'Test Company']
         );
 
         self::assertNotContains(
@@ -678,10 +711,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsCompanyWithClassEmphasizedForEnabledCompany()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'company'
+            'displayedContactInformation',
+            'company'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('company' => 'Test Company')
+            'fe_users',
+            $this->offererUid,
+            ['company' => 'Test Company']
         );
 
         self::assertContains(
@@ -696,7 +732,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersLabelIfConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label'
+            'displayedContactInformation',
+            'offerer_label'
         );
 
         self::assertContains(
@@ -724,10 +761,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsOffererTitleWithoutClassEmphasizedForEnabledCompany()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'company,offerer_label'
+            'displayedContactInformation',
+            'company,offerer_label'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('company' => 'Test Company')
+            'fe_users',
+            $this->offererUid,
+            ['company' => 'Test Company']
         );
 
         self::assertNotContains(
@@ -742,10 +782,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsFirstUserGroupWithoutClassEmphasizedForEnabledCompany()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'company,offerer_label,usergroup'
+            'displayedContactInformation',
+            'company,offerer_label,usergroup'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('company' => 'Test Company')
+            'fe_users',
+            $this->offererUid,
+            ['company' => 'Test Company']
         );
 
         self::assertNotContains(
@@ -760,10 +803,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsOffererTitleWithClassEmphasizedForDisabledCompany()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label'
+            'displayedContactInformation',
+            'offerer_label'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('company' => 'Test Company')
+            'fe_users',
+            $this->offererUid,
+            ['company' => 'Test Company']
         );
 
         self::assertContains(
@@ -778,10 +824,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersStreetIfConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'street'
+            'displayedContactInformation',
+            'street'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('address' => 'Main Street')
+            'fe_users',
+            $this->offererUid,
+            ['address' => 'Main Street']
         );
 
         self::assertContains(
@@ -797,7 +846,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('address' => 'Main Street')
+            'fe_users',
+            $this->offererUid,
+            ['address' => 'Main Street']
         );
 
         self::assertNotContains(
@@ -812,11 +863,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersCityAndZipIfConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'city'
+            'displayedContactInformation',
+            'city'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid,
-            array('city' => 'City Title', 'zip' => '12345')
+            'fe_users',
+            $this->offererUid,
+            ['city' => 'City Title', 'zip' => '12345']
         );
 
         self::assertContains(
@@ -832,7 +885,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('city' => 'City Title')
+            'fe_users',
+            $this->offererUid,
+            ['city' => 'City Title']
         );
 
         self::assertNotContains(
@@ -848,8 +903,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid,
-            array('city' => 'City Title', 'zip' => '99999')
+            'fe_users',
+            $this->offererUid,
+            ['city' => 'City Title', 'zip' => '99999']
         );
 
         self::assertNotContains(
@@ -864,7 +920,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemNotContainsCityWrapperContentIfCityIsConfiguredButEmpty()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label,city'
+            'displayedContactInformation',
+            'offerer_label,city'
         );
 
         self::assertNotContains(
@@ -879,10 +936,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersPhoneNumberIfConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'telephone'
+            'displayedContactInformation',
+            'telephone'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+            'fe_users',
+            $this->offererUid,
+            ['telephone' => '1234-56789']
         );
 
         self::assertContains(
@@ -898,7 +958,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+            'fe_users',
+            $this->offererUid,
+            ['telephone' => '1234-56789']
         );
 
         self::assertNotContains(
@@ -913,10 +975,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsHtmlSpecialCharedPhoneNumber()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'telephone'
+            'displayedContactInformation',
+            'telephone'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('telephone' => '<123>3455')
+            'fe_users',
+            $this->offererUid,
+            ['telephone' => '<123>3455']
         );
 
         self::assertContains(
@@ -931,10 +996,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersEmailIfConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'email'
+            'displayedContactInformation',
+            'email'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('email' => 'offerer@company.org')
+            'fe_users',
+            $this->offererUid,
+            ['email' => 'offerer@company.org']
         );
 
         self::assertContains(
@@ -950,7 +1018,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('email' => 'offerer@company.org')
+            'fe_users',
+            $this->offererUid,
+            ['email' => 'offerer@company.org']
         );
 
         self::assertNotContains(
@@ -965,10 +1035,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersLinkedWebsiteIfConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'www'
+            'displayedContactInformation',
+            'www'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('www' => 'http://www.company.org')
+            'fe_users',
+            $this->offererUid,
+            ['www' => 'http://www.company.org']
         );
 
         self::assertContains(
@@ -983,10 +1056,13 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsTheOfferersLinkedWebsiteWithEscapedAmpersand()
     {
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'www'
+            'displayedContactInformation',
+            'www'
         );
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('www' => 'http://www.company.org/?a=b&c=d')
+            'fe_users',
+            $this->offererUid,
+            ['www' => 'http://www.company.org/?a=b&c=d']
         );
 
         self::assertContains(
@@ -1002,7 +1078,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('www' => 'http://www.company.org')
+            'fe_users',
+            $this->offererUid,
+            ['www' => 'http://www.company.org']
         );
 
         self::assertNotContains(
@@ -1024,7 +1102,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('displayedContactInformationSpecial', 'telephone');
         $this->fixture->setConfigurationValue('groupsWithSpeciallyDisplayedContactInformation', $this->feUserGroupUid);
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+            'fe_users',
+            $this->offererUid,
+            ['telephone' => '1234-56789']
         );
 
         self::assertContains(
@@ -1041,7 +1121,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('displayedContactInformationSpecial', 'telephone');
 
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+            'fe_users',
+            $this->offererUid,
+            ['telephone' => '1234-56789']
         );
 
         self::assertNotContains(
@@ -1058,7 +1140,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $this->fixture->setConfigurationValue('displayedContactInformationSpecial', '');
         $this->fixture->setConfigurationValue('groupsWithSpeciallyDisplayedContactInformation', $this->feUserGroupUid);
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('telephone' => '1234-56789')
+            'fe_users',
+            $this->offererUid,
+            ['telephone' => '1234-56789']
         );
 
         self::assertNotContains(
@@ -1077,10 +1161,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListItemContainsLinkToTheObjectsByOffererListIfPageConfigured()
     {
         $this->fixture->setConfigurationValue(
-            'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+            'objectsByOwnerPID',
+            $this->testingFramework->createFrontEndPage()
         );
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'objects_by_owner_link'
+            'displayedContactInformation',
+            'objects_by_owner_link'
         );
 
         self::assertContains(
@@ -1097,7 +1183,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'objects_by_owner_link'
+            'displayedContactInformation',
+            'objects_by_owner_link'
         );
 
         self::assertContains(
@@ -1114,7 +1201,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'objects_by_owner_link'
+            'displayedContactInformation',
+            'objects_by_owner_link'
         );
 
         self::assertContains(
@@ -1131,7 +1219,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label'
+            'displayedContactInformation',
+            'offerer_label'
         );
 
         self::assertNotContains(
@@ -1148,7 +1237,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label'
+            'displayedContactInformation',
+            'offerer_label'
         );
         $this->fixture->setConfigurationValue(
             'groupsWithSpeciallyDisplayedContactInformation',
@@ -1169,10 +1259,12 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
         $pageUid = $this->testingFramework->createFrontEndPage();
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $pageUid);
         $this->fixture->setConfigurationValue(
-            'displayedContactInformationSpecial', 'offerer_label'
+            'displayedContactInformationSpecial',
+            'offerer_label'
         );
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label, objects_by_owner_link'
+            'displayedContactInformation',
+            'offerer_label, objects_by_owner_link'
         );
         $this->fixture->setConfigurationValue(
             'groupsWithSpeciallyDisplayedContactInformation',
@@ -1197,7 +1289,8 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
             'offerer_label, objects_by_owner_link'
         );
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label'
+            'displayedContactInformation',
+            'offerer_label'
         );
         $this->fixture->setConfigurationValue(
             'groupsWithSpeciallyDisplayedContactInformation',
@@ -1231,7 +1324,9 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function renderOneItemReturnsEmptyStringForUidOfDisabledOfferer()
     {
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('deleted' => 1)
+            'fe_users',
+            $this->offererUid,
+            ['deleted' => 1]
         );
 
         self::assertEquals(
@@ -1251,7 +1346,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         self::assertContains(
             'test offerer',
-            $this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
+            $this->fixture->renderOneItemWithTheDataProvided(['name' => 'test offerer'])
         );
     }
 
@@ -1262,7 +1357,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             '',
-            $this->fixture->renderOneItemWithTheDataProvided(array())
+            $this->fixture->renderOneItemWithTheDataProvided([])
         );
     }
 
@@ -1273,7 +1368,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             '',
-            $this->fixture->renderOneItemWithTheDataProvided(array('foo' => 'bar'))
+            $this->fixture->renderOneItemWithTheDataProvided(['foo' => 'bar'])
         );
     }
 
@@ -1284,7 +1379,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     {
         self::assertNotContains(
             'class="button objectsByOwner"',
-            $this->fixture->renderOneItemWithTheDataProvided(array('name' => 'test offerer'))
+            $this->fixture->renderOneItemWithTheDataProvided(['name' => 'test offerer'])
         );
     }
 
@@ -1298,7 +1393,7 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
             'To process user group information you need to use render() or renderOneItem().'
         );
 
-        $this->fixture->renderOneItemWithTheDataProvided(array('usergroup' => 1));
+        $this->fixture->renderOneItemWithTheDataProvided(['usergroup' => 1]);
     }
 
     /////////////////////////////////////////////////////
@@ -1311,17 +1406,20 @@ class tx_realty_FrontEnd_OffererListTest extends Tx_Phpunit_TestCase
     public function offererListIsSortedByCity()
     {
         $this->testingFramework->changeRecord(
-            'fe_users', $this->offererUid, array('city' => 'City A')
+            'fe_users',
+            $this->offererUid,
+            ['city' => 'City A']
         );
         $this->testingFramework->createFrontEndUser(
             $this->feUserGroupUid,
-            array(
+            [
                 'username' => 'Testuser 2',
                 'city' => 'City B',
-            )
+            ]
         );
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'city'
+            'displayedContactInformation',
+            'city'
         );
 
         self::assertRegExp(

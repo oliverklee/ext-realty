@@ -33,7 +33,7 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView
      *                configured "contactPID" equals the current page or is not
      *                set at all
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         if (!$this->hasConfValueInteger('contactPID')
             || ($this->getConfValueInteger('contactPID') == (int)$this->getFrontEndController()->id)
@@ -41,14 +41,14 @@ class tx_realty_pi1_ContactButtonView extends tx_realty_pi1_FrontEndView
             return '';
         }
 
-        $contactUrl = htmlspecialchars($this->cObj->typoLink_URL(array(
+        $contactUrl = htmlspecialchars($this->cObj->typoLink_URL([
             'parameter' => $this->getConfValueInteger('contactPID'),
             'additionalParams' => GeneralUtility::implodeArrayForUrl(
                 '',
-                array($this->prefixId => array('showUid' => $piVars['showUid']))
+                [$this->prefixId => ['showUid' => $piVars['showUid']]]
             ),
             'useCacheHash' => true,
-        )));
+        ]));
         $this->setMarker('contact_url', $contactUrl);
 
         return $this->getSubpart('FIELD_WRAPPER_CONTACTBUTTON');

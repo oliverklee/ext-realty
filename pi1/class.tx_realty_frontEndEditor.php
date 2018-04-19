@@ -28,7 +28,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     /**
      * @var string[] table names which are allowed as form values
      */
-    private static $allowedTables = array(
+    private static $allowedTables = [
         'tx_realty_cities',
         'tx_realty_districts',
         'tx_realty_apartment_types',
@@ -36,18 +36,18 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         'tx_realty_car_places',
         'tx_realty_pets',
         'static_countries',
-    );
+    ];
 
     /**
      * @var string[] field keys that are numeric
      */
-    private static $numericFields = array(
+    private static $numericFields = [
         'number_of_rooms', 'living_area', 'total_area', 'estate_size',
         'rent_excluding_bills', 'extra_charges', 'year_rent', 'floor', 'floors',
         'bedrooms', 'bathrooms', 'garage_rent', 'garage_price',
         'construction_year', 'exact_longitude', 'exact_latitude',
         'rough_longitude', 'rough_latitude',
-    );
+    ];
 
     /**
      * The constructor.
@@ -64,11 +64,18 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      *        whether the FE editor is instantiated in test mode
      */
     public function __construct(
-        array $configuration, ContentObjectRenderer $contentObjectRenderer, $uidOfObjectToEdit, $xmlPath,
+        array $configuration,
+        ContentObjectRenderer $contentObjectRenderer,
+        $uidOfObjectToEdit,
+        $xmlPath,
         $isTestMode = false
     ) {
         parent::__construct(
-            $configuration, $contentObjectRenderer, $uidOfObjectToEdit, $xmlPath, $isTestMode
+            $configuration,
+            $contentObjectRenderer,
+            $uidOfObjectToEdit,
+            $xmlPath,
+            $isTestMode
         );
 
         tx_realty_lightboxIncluder::includeMainJavaScript();
@@ -109,16 +116,20 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      *
      * @return string the HTML output for the FE editor, will not be empty
      */
-    public function render(array $unused = array())
+    public function render(array $unused = [])
     {
         $result = parent::render();
 
         $result = str_replace(
-            '###DISTRICT_VISIBILITY###', $this->getDistrictVisibility(), $result
+            '###DISTRICT_VISIBILITY###',
+            $this->getDistrictVisibility(),
+            $result
         );
         if ($this->isObjectNumberReadonly()) {
             $result = str_replace(
-                ' for="tx_realty_frontEndEditor_object_number"', '', $result
+                ' for="tx_realty_frontEndEditor_object_number"',
+                '',
+                $result
             );
         }
 
@@ -132,7 +143,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      */
     public function isObjectNumberReadonly()
     {
-        return ($this->realtyObjectUid > 0);
+        return $this->realtyObjectUid > 0;
     }
 
     /**
@@ -142,17 +153,17 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      */
     public static function populateCityList()
     {
-        $options = array();
+        $options = [];
 
         /** @var tx_realty_Mapper_City $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
         $cities = $mapper->findAll('title');
         /** @var tx_realty_Model_City $city */
         foreach ($cities as $city) {
-            $options[] = array(
+            $options[] = [
                 'value' => $city->getUid(),
                 'caption' => $city->getTitle(),
-            );
+            ];
         }
 
         return $options;
@@ -168,20 +179,20 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     {
         $cityUid = $this->getSelectedCityUid();
         if ($cityUid == 0) {
-            return array();
+            return [];
         }
 
-        $options = array();
+        $options = [];
 
         /** @var tx_realty_Mapper_District $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
         $districts = $mapper->findAllByCityUidOrUnassigned($cityUid);
         /** @var tx_realty_Model_District $district */
         foreach ($districts as $district) {
-            $options[] = array(
+            $options[] = [
                 'value' => $district->getUid(),
                 'caption' => $district->getTitle(),
-            );
+            ];
         }
 
         return $options;
@@ -236,7 +247,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     {
         $this->checkForValidTableName($formData['table']);
 
-        $titleColumn = (isset($formData['title_column'])
+        $titleColumn = (
+            isset($formData['title_column'])
                 && ($formData['title_column'] != '')
             ) ? $formData['title_column']
             : 'title';
@@ -257,12 +269,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         }
 
         /** @var array[] $items */
-        $items = array();
+        $items = [];
         while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
-            $items[] = array(
+            $items[] = [
                 'value' => $row['uid'],
                 'caption' => $row[$titleColumn],
-            );
+            ];
         }
         $databaseConnection->sql_free_result($dbResult);
 
@@ -346,10 +358,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $range = GeneralUtility::trimExplode('-', $formData['range'], true);
         $valuesToCheck = $formData['multiple']
             ? $formData['value']
-            : array($formData['value']);
+            : [$formData['value']];
 
         foreach ($valuesToCheck as $value) {
-            if (!$this->isValidNonNegativeIntegerNumber(array('value' => $value))) {
+            if (!$this->isValidNonNegativeIntegerNumber(['value' => $value])) {
                 $result = false;
             }
         }
@@ -388,7 +400,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     public function isNonEmptyValidPriceForObjectForSale(array $formData)
     {
         return $this->isValidPriceForObjectType(
-            $formData['value'], tx_realty_Model_RealtyObject::TYPE_FOR_SALE
+            $formData['value'],
+            tx_realty_Model_RealtyObject::TYPE_FOR_SALE
         );
     }
 
@@ -413,7 +426,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         $twoValidValues =
             $this->isValidNumberWithDecimals($formData)
-            && $this->isValidNumberWithDecimals(array('value' => $yearRent));
+            && $this->isValidNumberWithDecimals(['value' => $yearRent]);
 
         $oneValueMatchesObjectTypeConditions =
             $this->isValidPriceForObjectType($formData['value'], tx_realty_Model_RealtyObject::TYPE_FOR_RENT)
@@ -459,7 +472,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             throw new Tx_Oelib_Exception_Database();
         }
 
-        $languages = array();
+        $languages = [];
         while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
             $languages[] = $row['language'];
         }
@@ -524,9 +537,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     {
         $mayBeEmpty = ($this->getFormValue('new_city') == '') ? false : true;
 
-        return $this->checkKeyExistsInTable(array(
-                'value' => $formData['value'], 'table' => 'tx_realty_cities'
-            ),
+        return $this->checkKeyExistsInTable(
+            [
+                'value' => $formData['value'], 'table' => 'tx_realty_cities',
+            ],
             $mayBeEmpty
         );
     }
@@ -545,9 +559,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      */
     public function isAtMostOneValueForAuxiliaryRecordProvided(array $formData)
     {
-        return (($formData['value'] == '')
-            || ($this->getFormValue($formData['fieldName']) == 0)
-        );
+        return ($formData['value'] == '')
+            || ($this->getFormValue($formData['fieldName']) == 0);
     }
 
     /**
@@ -563,7 +576,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     public function isAtMostOneValueForCityRecordProvided(array $valueToCheck)
     {
         return $this->isAtMostOneValueForAuxiliaryRecordProvided(
-            $valueToCheck['value'], 'city'
+            $valueToCheck['value'],
+            'city'
         );
     }
 
@@ -584,7 +598,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             return true;
         }
 
-        return ($formData['value'] != '');
+        return $formData['value'] != '';
     }
 
     /**
@@ -600,7 +614,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     public function isValidLongitudeDegree(array $formData)
     {
         return $this->checkGeoCoordinate(
-            $formData['value'], -180.00, 180.00
+            $formData['value'],
+            -180.00,
+            180.00
         );
     }
 
@@ -637,12 +653,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         $unifiedValueToCheck = $this->unifyNumber($valueToCheck);
 
-        $valueContainsOnlyAllowedCharacters = (bool) preg_match(
-            '/^-?\d{1,3}(\.\d{1,14})?$/', $unifiedValueToCheck
+        $valueContainsOnlyAllowedCharacters = (bool)preg_match(
+            '/^-?\\d{1,3}(\\.\\d{1,14})?$/',
+            $unifiedValueToCheck
         );
         $valueIsInAllowedRange = ((float)$unifiedValueToCheck >= $minimum) && ((float)$unifiedValueToCheck <= $maximum);
 
-        return ($valueContainsOnlyAllowedCharacters && $valueIsInAllowedRange);
+        return $valueContainsOnlyAllowedCharacters && $valueIsInAllowedRange;
     }
 
     /**
@@ -663,9 +680,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $unifiedValueToCheck = $this->unifyNumber($valueToCheck);
 
         if ($mayHaveDecimals) {
-            $result = preg_match('/^[\d]*(\.[\d]{1,2})?$/', $unifiedValueToCheck);
+            $result = preg_match('/^[\\d]*(\\.[\\d]{1,2})?$/', $unifiedValueToCheck);
         } else {
-            $result = preg_match('/^[\d]*$/', $unifiedValueToCheck);
+            $result = preg_match('/^[\\d]*$/', $unifiedValueToCheck);
         }
 
         return (bool)$result;
@@ -719,10 +736,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             ? '_non_empty' : '_or_empty';
         $fieldSuffix .= $isFieldForBuying ? '_buying_price' : '_rent';
 
-        return $this->getMessageForRealtyObjectField(array(
+        return $this->getMessageForRealtyObjectField([
             'fieldName' => $formData['fieldName'],
             'label' => 'message_enter_valid' . $fieldSuffix,
-        ));
+        ]);
     }
 
     /**
@@ -742,7 +759,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         }
 
         return $this->getMessageForRealtyObjectField(
-            array('fieldName' => 'object_number', 'label' => $message)
+            ['fieldName' => 'object_number', 'label' => $message]
         );
     }
 
@@ -755,13 +772,14 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      */
     public function getInvalidOrEmptyCityMessage()
     {
-        return $this->getMessageForRealtyObjectField(array(
+        return $this->getMessageForRealtyObjectField([
             'fieldName' => 'city',
-            'label' => (($this->getFormValue('city') == 0)
+            'label' => (
+                ($this->getFormValue('city') == 0)
                 ? 'message_required_field'
                 : 'message_value_not_allowed'
             ),
-        ));
+        ]);
     }
 
     /**
@@ -782,7 +800,9 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     {
         // This  will lead to an exception for an invalid non-empty field name.
         $labelOfField = $this->checkForValidFieldName(
-                $formData['fieldName'], 'tx_realty_objects', true
+                $formData['fieldName'],
+            'tx_realty_objects',
+            true
             ) ? 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:' . 'tx_realty_objects' . '.' .
                 $formData['fieldName']
             : '';
@@ -885,12 +905,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         /** @var MailMessage $email */
         $email = GeneralUtility::makeInstance(MailMessage::class);
-        $email->setTo(array($this->getConfValueString('feEditorNotifyEmail', 's_feeditor') => ''));
+        $email->setTo([$this->getConfValueString('feEditorNotifyEmail', 's_feeditor') => '']);
         $email->setSubject($this->translate('label_email_subject_fe_editor'));
         $email->setBody($this->getFilledEmailBody());
 
         $user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
-        $email->setFrom(array($user->getEMailAddress() => $user->getName()));
+        $email->setFrom([$user->getEMailAddress() => $user->getName()]);
 
         $email->send();
     }
@@ -909,13 +929,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $user = Tx_Oelib_FrontEndLoginManager::getInstance()->getLoggedInUser('tx_realty_Mapper_FrontEndUser');
 
         $insertId = Tx_Oelib_Db::getDatabaseConnection()->sql_insert_id();
-        foreach (array(
+        foreach ([
             'username' => $user->getUserName(),
             'name' => $user->getName(),
             'object_number' => $this->getFormValue('object_number'),
             'title' => $this->getFormValue('title'),
             'uid' => $insertId,
-        ) as $marker => $value) {
+        ] as $marker => $value) {
             $this->setOrDeleteMarkerIfNotEmpty($marker, $value, '', 'wrapper');
         }
 
@@ -1009,13 +1029,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
     {
         return Tx_Oelib_Db::insert(
             $table,
-            array(
+            [
                 'title' => $title,
                 'pid' => self::getPageIdForAuxiliaryRecords(),
                 'tstamp' => time(),
                 'crdate' => time(),
-                'is_dummy_record' => $this->isTestMode
-            )
+                'is_dummy_record' => $this->isTestMode,
+            ]
         );
     }
 
@@ -1072,7 +1092,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             $formData['owner'] = $user->getUid();
             $formData['openimmo_anid'] = $user->getOpenImmoOffererId();
             $formData['pid'] = $this->getConfValueString(
-                'sysFolderForFeCreatedRecords', 's_feeditor'
+                'sysFolderForFeCreatedRecords',
+                's_feeditor'
             );
         }
 
@@ -1135,18 +1156,19 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         $cityUid = (int)$formData['newDistrictCity'];
 
         $validationErrors = self::validateDistrict(
-            $formidable, array(
+            $formidable,
+            [
                 'title' => $title,
                 'city' => $cityUid,
-            )
+            ]
         );
         if (!empty($validationErrors)) {
-            return array(
+            return [
                 $formidable->majixExecJs(
-                    'alert("' . implode('\n', $validationErrors) . '");'
+                    'alert("' . implode('\\n', $validationErrors) . '");'
                 ),
-            );
-        };
+            ];
+        }
 
         /** @var tx_realty_Mapper_District $districtMapper */
         $districtMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
@@ -1157,13 +1179,13 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
             $renderlet = $formidable->aORenderlets['newDistrictModalBox'];
             // just closes the modal box; doesn't save the district if it
             // already exists
-            return array($renderlet->majixCloseBox());
+            return [$renderlet->majixCloseBox()];
         } catch (Tx_Oelib_Exception_NotFound $exception) {
         }
 
         /** @var $district tx_realty_Model_District */
         $district = GeneralUtility::makeInstance('tx_realty_Model_District');
-        $district->setData(array('pid' => self::getPageIdForAuxiliaryRecords()));
+        $district->setData(['pid' => self::getPageIdForAuxiliaryRecords()]);
         $district->setTitle($title);
         /** @var tx_realty_Mapper_City $cityMapper */
         $cityMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City');
@@ -1175,12 +1197,12 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         /** @var tx_rdtmodalbox $renderlet */
         $renderlet = $formidable->aORenderlets['newDistrictModalBox'];
-        return array(
+        return [
             $renderlet->majixCloseBox(),
             $formidable->majixExecJs(
                 'appendDistrictInEditor(' . $district->getUid() . ', "' . addcslashes($district->getTitle(), '"\\') . '");'
             ),
-        );
+        ];
     }
 
     /**
@@ -1195,9 +1217,10 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      * @return string[] any error messages, will be empty if there are no validation errors
      */
     private static function validateDistrict(
-        tx_ameosformidable $formidable, array $formData
+        tx_ameosformidable $formidable,
+        array $formData
     ) {
-        $validationErrors = array();
+        $validationErrors = [];
 
         if ($formData['title'] == '') {
             $validationErrors[] = $formidable->getLLLabel(
@@ -1267,7 +1290,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
      *                 realty objects table and non-empty, FALSE otherwise
      */
     private function checkForValidFieldName(
-        $fieldName, $tableName = 'tx_realty_objects',
+        $fieldName,
+        $tableName = 'tx_realty_objects',
         $noExceptionIfEmpty = false
     ) {
         if ((trim($fieldName) == '') && $noExceptionIfEmpty) {
@@ -1276,7 +1300,8 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
 
         if (!Tx_Oelib_Db::tableHasColumn($tableName, $fieldName)) {
             throw new InvalidArgumentException(
-                '"' . $fieldName . '" is not a valid column name for ' . $tableName . '.', 1333036182
+                '"' . $fieldName . '" is not a valid column name for ' . $tableName . '.',
+                1333036182
             );
         }
 
@@ -1328,7 +1353,7 @@ class tx_realty_frontEndEditor extends tx_realty_frontEndForm
         // required to be set.
         $this->setFakedFormValue('is_dummy_record', 1);
         $this->realtyObject = GeneralUtility::makeInstance('tx_realty_Model_RealtyObject', $this->isTestMode);
-        $this->realtyObject->setRequiredFields(array());
+        $this->realtyObject->setRequiredFields([]);
         $this->realtyObject->loadRealtyObject($this->fakedFormValues);
         $this->realtyObject->writeToDatabase();
     }
