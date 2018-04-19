@@ -177,7 +177,7 @@ class tx_realty_Import_FileNameMapperTest extends Tx_Phpunit_TestCase
         $this->fixture->getUniqueFileNameAndMapIt('test.txt');
 
         self::assertEquals(
-            array('test.txt'),
+            ['test.txt'],
             $this->fixture->releaseMappedFileNames('test.txt')
         );
     }
@@ -191,7 +191,7 @@ class tx_realty_Import_FileNameMapperTest extends Tx_Phpunit_TestCase
         $this->fixture->getUniqueFileNameAndMapIt('test.txt');
 
         self::assertEquals(
-            array('test.txt', 'test_00.txt'),
+            ['test.txt', 'test_00.txt'],
             $this->fixture->releaseMappedFileNames('test.txt')
         );
     }
@@ -202,7 +202,7 @@ class tx_realty_Import_FileNameMapperTest extends Tx_Phpunit_TestCase
     public function releaseMappedFileNamesReturnsAnEmptyArrayIfNoFileWithThisFilenameHasBeenMapped()
     {
         self::assertEquals(
-            array(),
+            [],
             $this->fixture->releaseMappedFileNames('test.txt')
         );
     }
@@ -216,7 +216,7 @@ class tx_realty_Import_FileNameMapperTest extends Tx_Phpunit_TestCase
         $this->fixture->releaseMappedFileNames('test.txt');
 
         self::assertEquals(
-            array(),
+            [],
             $this->fixture->releaseMappedFileNames('test.txt')
         );
     }

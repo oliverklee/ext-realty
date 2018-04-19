@@ -93,8 +93,8 @@ class tx_realty_Model_FrontEndUser extends Tx_Oelib_Model_FrontEndUser
      */
     public function canAddNewObjects()
     {
-        return (($this->getTotalNumberOfAllowedObjects() == 0)
-            || ($this->getObjectsLeftToEnter() > 0));
+        return ($this->getTotalNumberOfAllowedObjects() == 0)
+            || ($this->getObjectsLeftToEnter() > 0);
     }
 
     /**

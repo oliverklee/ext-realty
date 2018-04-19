@@ -52,7 +52,7 @@ return [
         'l18n_diffsource' => [
             'config' => [
                 'type' => 'passthrough',
-            ]
+            ],
         ],
         'hidden' => [
             'exclude' => 1,

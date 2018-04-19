@@ -52,7 +52,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         $this->realtyObjectMapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
 
         $this->fixture = new tx_realty_pi1_SingleView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'),
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
             $this->getFrontEndController()->cObj,
             true
         );
@@ -96,7 +96,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     {
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 
@@ -111,7 +111,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -121,10 +121,10 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewReturnsEmptyResultForShowUidOfHiddenRecordAndNoUserLoggedIn()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('hidden' => 1));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['hidden' => 1]);
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -139,10 +139,10 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
 
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'hidden' => 1,
                 'owner' => $owner->getUid(),
-            )
+            ]
         );
 
         /** @var tx_realty_Model_FrontEndUser $otherUser */
@@ -151,7 +151,7 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -165,16 +165,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
         $owner = $userMapper->getNewGhost();
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'hidden' => 1,
                 'owner' => $owner->getUid(),
-            )
+            ]
         );
         Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser($owner);
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -184,11 +184,11 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewReturnsNonEmptyResultForShowUidOfExistingRecord()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -198,11 +198,11 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         self::assertNotContains(
             '###',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -216,15 +216,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTheTitleOfARealtyObjectIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -234,15 +235,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTheTitleOfARealtyObjectIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'description'
+            'singleViewPartsToDisplay',
+            'description'
         );
 
         self::assertNotContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -252,15 +254,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTheDescriptionOfARealtyObjectIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('description' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['description' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'description'
+            'singleViewPartsToDisplay',
+            'description'
         );
 
         self::assertContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -270,15 +273,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTheDescriptionOfARealtyObjectIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('description' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['description' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -288,16 +292,17 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTheDocumentsOfARealtyObjectIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array());
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $realtyObject->addDocument('new document', 'readme.pdf');
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'documents'
+            'singleViewPartsToDisplay',
+            'documents'
         );
 
         self::assertContains(
             'new document',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -307,16 +312,17 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTheDocumentsOfARealtyObjectIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array());
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
         $realtyObject->addDocument('new document', 'readme.pdf');
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             'new document',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -327,15 +333,15 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
-            )
+            ]
         );
 
         self::assertContains(
             '123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -346,19 +352,20 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
-            )
+            ]
         );
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             '123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -368,15 +375,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTheEquipmentDescriptionOfARealtyObjectIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('equipment' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['equipment' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'furtherDescription'
+            'singleViewPartsToDisplay',
+            'furtherDescription'
         );
 
         self::assertContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -386,15 +394,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTheEquipmentDescriptionOfARealtyObjectIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('equipment' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['equipment' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -404,15 +413,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTheAddToFavoritesButtonIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'addToFavoritesButton'
+            'singleViewPartsToDisplay',
+            'addToFavoritesButton'
         );
 
         self::assertContains(
             'class="button singleViewAddToFavorites"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -422,15 +432,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTheAddToFavoritesButtonIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'backButton'
+            'singleViewPartsToDisplay',
+            'backButton'
         );
 
         self::assertNotContains(
             'class="button singleViewAddToFavorites"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -440,15 +451,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysThePrintPageButtonIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'printPageButton'
+            'singleViewPartsToDisplay',
+            'printPageButton'
         );
 
         self::assertContains(
             'class="button printPage"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -458,15 +470,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysThePrintPageButtonIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'addToFavoritesButton'
+            'singleViewPartsToDisplay',
+            'addToFavoritesButton'
         );
 
         self::assertNotContains(
             'class="button printPage"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -476,11 +489,11 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTheBackButtonIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         self::assertContains(
             'class="button singleViewBack"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -490,15 +503,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTheBackButtonIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'printPageButton'
+            'singleViewPartsToDisplay',
+            'printPageButton'
         );
 
         self::assertNotContains(
             'class="button singleViewBack"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -508,12 +522,13 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplayingAnyOfTheActionButtonsHidesActionSubpart()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'header'
+            'singleViewPartsToDisplay',
+            'header'
         );
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertFalse(
             $this->fixture->isSubpartVisible('FIELD_WRAPPER_ACTIONBUTTONS')
@@ -526,15 +541,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTextPaneDivIfOnlyImagesShouldBeDisplayed()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'imageThumbnails'
+            'singleViewPartsToDisplay',
+            'imageThumbnails'
         );
 
         self::assertNotContains(
             '<div class="text-pane',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -544,15 +560,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTextPaneDivAndWithImagesClassNameImagesAndTextShouldBeDisplayed()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading,imageThumbnails'
+            'singleViewPartsToDisplay',
+            'heading,imageThumbnails'
         );
 
         self::assertContains(
             '<div class="text-pane with-images',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -562,15 +579,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysWithImagesClassNameIfOnlyTextShouldBeDisplayed()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'foo'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             'with-images',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -580,15 +598,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysContactButtonIfThisIsEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'test title'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'test title']);
 
         $this->fixture->setConfigurationValue(
-            'contactPID', $this->testingFramework->createFrontEndPage()
+            'contactPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             'class="button singleViewContact"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -598,18 +617,20 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysContactButtonIfThisIsDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('title' => 'test title'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['title' => 'test title']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
         $this->fixture->setConfigurationValue(
-            'contactPID', $this->testingFramework->createFrontEndPage()
+            'contactPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertNotContains(
             'class="button singleViewContact"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -619,18 +640,20 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysOffererInformationIfThisIsEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('phone_switchboard' => '12345'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['phone_switchboard' => '12345']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'offerer'
+            'singleViewPartsToDisplay',
+            'offerer'
         );
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'telephone'
+            'displayedContactInformation',
+            'telephone'
         );
 
         self::assertContains(
             $this->fixture->translate('label_offerer'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -640,18 +663,20 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysOffererInformationIfThisIsDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('phone_switchboard' => '12345'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['phone_switchboard' => '12345']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'telephone'
+            'displayedContactInformation',
+            'telephone'
         );
 
         self::assertNotContains(
             $this->fixture->translate('label_offerer'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -661,15 +686,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysStatusIfThisIsEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array());
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'status'
+            'singleViewPartsToDisplay',
+            'status'
         );
 
         self::assertContains(
             'tx-realty-pi1-status',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -679,15 +705,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysStatusIfThisIsDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array());
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel([]);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             'tx-realty-pi1-status',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -697,18 +724,20 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysOverviewTableRowIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('has_air_conditioning' => '1'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['has_air_conditioning' => '1']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'overviewTable'
+            'singleViewPartsToDisplay',
+            'overviewTable'
         );
         $this->fixture->setConfigurationValue(
-            'fieldsInSingleViewTable', 'has_air_conditioning'
+            'fieldsInSingleViewTable',
+            'has_air_conditioning'
         );
 
         self::assertContains(
             $this->fixture->translate('label_has_air_conditioning'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -718,18 +747,20 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysOverviewTableRowIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('has_air_conditioning' => '1'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['has_air_conditioning' => '1']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
         $this->fixture->setConfigurationValue(
-            'fieldsInSingleViewTable', 'has_air_conditioning'
+            'fieldsInSingleViewTable',
+            'has_air_conditioning'
         );
 
         self::assertNotContains(
             $this->fixture->translate('label_has_air_conditioning'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -739,15 +770,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewDisplaysTheAddressOfARealtyObjectIfEnabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('zip' => '12345'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['zip' => '12345']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'address'
+            'singleViewPartsToDisplay',
+            'address'
         );
 
         self::assertContains(
             '12345',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -757,15 +789,16 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewNotDisplaysTheAddressOfARealtyObjectIfDisabled()
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
-        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(array('zip' => '12345'));
+        $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(['zip' => '12345']);
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             '12345',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -780,20 +813,21 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'has_coordinates' => true,
                 'latitude' => 50.734343,
                 'longitude' => 7.10211,
                 'show_address' => true,
-            )
+            ]
         );
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'googleMaps'
+            'singleViewPartsToDisplay',
+            'googleMaps'
         );
 
         self::assertContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -804,21 +838,22 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'has_coordinates' => true,
                 'latitude' => 50.734343,
                 'longitude' => 7.10211,
                 'show_address' => true,
-            )
+            ]
         );
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'heading'
+            'singleViewPartsToDisplay',
+            'heading'
         );
 
         self::assertNotContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -829,19 +864,20 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'has_coordinates' => true,
                 'latitude' => 50.734343,
                 'longitude' => 7.10211,
                 'show_address' => true,
-            )
+            ]
         );
 
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'googleMaps'
+            'singleViewPartsToDisplay',
+            'googleMaps'
         );
 
-        $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $this->fixture->render(['showUid' => $realtyObject->getUid()]);
         self::assertNotContains(
             'href=',
             $this->getFrontEndController()->additionalHeaderData['tx_realty_pi1_maps']
@@ -855,19 +891,19 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     {
         /** @var tx_realty_Model_RealtyObject $realtyObject */
         $realtyObject = $this->realtyObjectMapper->getLoadedTestingModel(
-            array(
+            [
                 'has_coordinates' => true,
                 'latitude' => 50.734343,
                 'longitude' => 7.10211,
                 'show_address' => true,
-            )
+            ]
         );
 
         $this->fixture->setConfigurationValue('showGoogleMaps', 1);
 
         self::assertNotContains(
             '<div id="tx_realty_map"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -881,28 +917,32 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewForEnabledNextPreviousButtonsShowsNextPreviousButtonsSubpart()
     {
         $objectUid = $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $this->dummyCityUid)
+            'tx_realty_objects',
+            ['city' => $this->dummyCityUid]
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $this->dummyCityUid)
+            'tx_realty_objects',
+            ['city' => $this->dummyCityUid]
         );
         $this->getFrontEndController()->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
         $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons', true
+            'enableNextPreviousButtons',
+            true
         );
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'nextPreviousButtons'
+            'singleViewPartsToDisplay',
+            'nextPreviousButtons'
         );
 
         self::assertContains(
             'previousNextButtons',
-            $this->fixture->render(array(
+            $this->fixture->render([
                 'showUid' => $objectUid,
                 'recordPosition' => 0,
                 'listViewType' => 'realty_list',
                 'listUid' => $this->testingFramework->createContentElement(),
-            ))
+            ])
         );
     }
 
@@ -912,25 +952,28 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewForEnabledNextPreviousButtonsButNotSetDisplayPartHidesNextPreviousButtonsSubpart()
     {
         $objectUid = $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $this->dummyCityUid)
+            'tx_realty_objects',
+            ['city' => $this->dummyCityUid]
         );
         $this->getFrontEndController()->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
         $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons', true
+            'enableNextPreviousButtons',
+            true
         );
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', ''
+            'singleViewPartsToDisplay',
+            ''
         );
 
         self::assertNotContains(
             'previousNextButtons',
-            $this->fixture->render(array(
+            $this->fixture->render([
                 'showUid' => $objectUid,
                 'recordPosition' => 0,
                 'listViewType' => 'realty_list',
                 'listUid' => $this->testingFramework->createContentElement(),
-            ))
+            ])
         );
     }
 
@@ -940,24 +983,27 @@ class tx_realty_FrontEnd_SingleViewTest extends Tx_Phpunit_TestCase
     public function singleViewForDisabledNextPreviousButtonsHidesNextPreviousButtonsSubpart()
     {
         $objectUid = $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $this->dummyCityUid)
+            'tx_realty_objects',
+            ['city' => $this->dummyCityUid]
         );
         $this->getFrontEndController()->cObj->data['pid'] = $this->testingFramework->createFrontEndPage();
 
         $this->fixture->setConfigurationValue(
-            'enableNextPreviousButtons', false
+            'enableNextPreviousButtons',
+            false
         );
         $this->fixture->setConfigurationValue(
-            'singleViewPartsToDisplay', 'nextPreviousButtons'
+            'singleViewPartsToDisplay',
+            'nextPreviousButtons'
         );
 
         self::assertNotContains(
             'previousNextButtons',
-            $this->fixture->render(array(
+            $this->fixture->render([
                 'showUid' => $objectUid,
                 'recordPosition' => 0,
                 'listViewType' => 'realty_list',
-            ))
+            ])
         );
     }
 }

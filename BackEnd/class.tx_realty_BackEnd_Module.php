@@ -18,13 +18,11 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
-use TYPO3\CMS\Core\Cache\Frontend\AbstractFrontend as AbstractCacheFrontEnd;
 
 /**
  * Backend module.
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
- *
  */
 class tx_realty_BackEnd_Module extends BaseScriptClass
 {
@@ -43,7 +41,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
      *
      * @var string[]
      */
-    private $errorMessages = array();
+    private $errorMessages = [];
 
     /**
      * @var int tab import
@@ -127,10 +125,10 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
     {
         $moduleToken = FormProtectionFactory::get()->generateToken('moduleCall', self::MODULE_NAME);
         return $this->doc->getTabMenu(
-            array('M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id),
+            ['M' => self::MODULE_NAME, 'moduleToken' => $moduleToken, 'id' => $this->id],
             'tab',
             self::IMPORT_TAB,
-            array(self::IMPORT_TAB => $this->translate('import_tab'))
+            [self::IMPORT_TAB => $this->translate('import_tab')]
             ) . $this->doc->spacer(5);
     }
 
@@ -142,7 +140,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
      */
     private function createImportButton()
     {
-        $moduleUrl = BackendUtility::getModuleUrl(self::MODULE_NAME, array('id' => $this->id));
+        $moduleUrl = BackendUtility::getModuleUrl(self::MODULE_NAME, ['id' => $this->id]);
         $this->template->setMarker('module_url', htmlspecialchars($moduleUrl));
         $this->template->setMarker(
             'label_start_import',
@@ -188,14 +186,16 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
             'pidForRealtyObjectsAndImages'
         );
         $canWriteObjectsPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
-            BackendUtility::getRecord('pages', $objectsPid), 16
+            BackendUtility::getRecord('pages', $objectsPid),
+            16
         );
 
         $auxiliaryPid = $configurationProxy->getAsInteger(
             'pidForAuxiliaryRecords'
         );
         $canWriteAuxiliaryPage = $this->getBackEndUserAuthentication()->doesUserHaveAccess(
-            BackendUtility::getRecord('pages', $auxiliaryPid), 16
+            BackendUtility::getRecord('pages', $auxiliaryPid),
+            16
         );
 
         if (!$canWriteObjectsPage) {
@@ -218,7 +218,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
     private function userHasAccessToTables()
     {
         $userHasAccessToTables = true;
-        $neededTables = array(
+        $neededTables = [
             'tx_realty_objects',
             'tx_realty_apartment_types',
             'tx_realty_car_places',
@@ -227,7 +227,7 @@ class tx_realty_BackEnd_Module extends BaseScriptClass
             'tx_realty_house_types',
             'tx_realty_images',
             'tx_realty_pets',
-        );
+        ];
 
         foreach ($neededTables as $table) {
             if (!$this->getBackEndUserAuthentication()->check('tables_modify', $table)) {

@@ -36,7 +36,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
      * @param bool $isTestMode whether the class is instantiated in test mode
      */
     public function __construct(
-        array $configuration, ContentObjectRenderer $contentObjectRenderer, $isTestMode = false
+        array $configuration,
+        ContentObjectRenderer $contentObjectRenderer,
+        $isTestMode = false
     ) {
         parent::__construct($configuration, $contentObjectRenderer, $isTestMode);
         $this->isTestMode = $isTestMode;
@@ -50,7 +52,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
      * @return string HTML for the single view or an empty string if the
      *                provided UID is no UID of a valid realty object
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         if (!$this->existsRealtyObject($piVars['showUid'])) {
             return '';
@@ -118,15 +120,17 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
 
         $hasTextContent = false;
         $configuredViews = GeneralUtility::trimExplode(
-            ',', $this->getConfValueString('singleViewPartsToDisplay'), true
+            ',',
+            $this->getConfValueString('singleViewPartsToDisplay'),
+            true
         );
 
-        foreach (array(
+        foreach ([
             'nextPreviousButtons', 'heading', 'address', 'description',
             'documents', 'price', 'overviewTable', 'offerer', 'contactButton',
             'googleMaps', 'addToFavoritesButton', 'furtherDescription',
             'imageThumbnails', 'backButton', 'printPageButton', 'status',
-        ) as $key) {
+        ] as $key) {
             $viewContent = in_array($key, $configuredViews)
                 ? $this->getView($uid, $key)
                 : '';
@@ -192,7 +196,9 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         /** @var tx_realty_pi1_FrontEndView $view */
         $view = GeneralUtility::makeInstance(
             'tx_realty_pi1_' . ucfirst($viewName) . 'View',
-            $this->conf, $this->cObj, $this->isTestMode
+            $this->conf,
+            $this->cObj,
+            $this->isTestMode
         );
         $view->piVars = $this->piVars;
 
@@ -201,7 +207,7 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
             $view->setMapMarker($uid);
         }
 
-        return $view->render(array('showUid' => $uid));
+        return $view->render(['showUid' => $uid]);
     }
 
     /**
@@ -217,15 +223,16 @@ class tx_realty_pi1_SingleView extends tx_realty_pi1_FrontEndView
         /** @var Tx_Oelib_Visibility_Tree $visibilityTree */
         $visibilityTree = GeneralUtility::makeInstance(
             Tx_Oelib_Visibility_Tree::class,
-            array('actionButtons' => array(
+            ['actionButtons' => [
                 'addToFavoritesButton' => false,
                 'backButton' => false,
                 'printPageButton' => false,
-            ))
+            ]]
         );
         $visibilityTree->makeNodesVisible($displayedViews);
         $this->hideSubpartsArray(
-            $visibilityTree->getKeysOfHiddenSubparts(), 'FIELD_WRAPPER'
+            $visibilityTree->getKeysOfHiddenSubparts(),
+            'FIELD_WRAPPER'
         );
     }
 }

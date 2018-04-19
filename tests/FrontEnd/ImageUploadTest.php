@@ -71,7 +71,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
      *
      * @var array
      */
-    private $graphicsConfigurationBackup = array();
+    private $graphicsConfigurationBackup = [];
 
     protected function setUp()
     {
@@ -88,9 +88,9 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
         $this->createDummyRecords();
 
         $this->fixture = new tx_realty_frontEndImageUpload(
-            array('feEditorTemplateFile'
-                => 'EXT:realty/pi1/tx_realty_frontEndEditor.html'
-            ),
+            ['feEditorTemplateFile'
+                => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
+            ],
             $this->getFrontEndController()->cObj,
             0,
             '',
@@ -130,7 +130,8 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
         $userUid = $this->testingFramework->createFrontEndUser();
 
         $this->dummyObjectUid = $this->testingFramework->createRecord(
-            'tx_realty_objects', array('owner' => $userUid)
+            'tx_realty_objects',
+            ['owner' => $userUid]
         );
         $this->createImageRecords();
     }
@@ -162,10 +163,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function processImageUploadWritesNewImageRecordForCurrentObjectToTheDatabase()
     {
         $this->fixture->processImageUpload(
-            array(
+            [
                 'caption' => 'test image',
-                'image' => array('name' => 'image.jpg')
-            )
+                'image' => ['name' => 'image.jpg'],
+            ]
         );
 
         self::assertEquals(
@@ -183,10 +184,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function processImageUploadStoresCurrentObjectUidAsParentForTheImage()
     {
         $this->fixture->processImageUpload(
-            array(
+            [
                 'caption' => 'test image',
-                'image' => array('name' => 'image.jpg')
-            )
+                'image' => ['name' => 'image.jpg'],
+            ]
         );
 
         self::assertEquals(
@@ -205,10 +206,10 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function processImageUploadDoesNotInsertAnImageIfOnlyACaptionProvided()
     {
         $this->fixture->processImageUpload(
-            array(
+            [
                 'caption' => 'test image',
-                'image' => array('name' => '')
-            )
+                'image' => ['name' => ''],
+            ]
         );
 
         self::assertEquals(
@@ -227,7 +228,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function processImageUploadDeletesImageRecordForCurrentObjectFromTheDatabase()
     {
         $this->fixture->processImageUpload(
-            array('imagesToDelete' => 'attached_image_0,')
+            ['imagesToDelete' => 'attached_image_0,']
         );
 
         self::assertEquals(
@@ -245,7 +246,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function processImageUploadDeletesImageTwoRecordsForCurrentObjectFromTheDatabase()
     {
         $this->fixture->processImageUpload(
-            array('imagesToDelete' => 'attached_image_0,attached_image_1,')
+            ['imagesToDelete' => 'attached_image_0,attached_image_1,']
         );
 
         self::assertEquals(
@@ -267,7 +268,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function checkFileForNoImageReturnsTrue()
     {
         self::assertTrue(
-            $this->fixture->checkFile(array('value' => array('name')))
+            $this->fixture->checkFile(['value' => ['name']])
         );
     }
 
@@ -280,7 +281,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.gif', 'size' => 1))
+                ['value' => ['name' => 'foo.gif', 'size' => 1]]
             )
         );
     }
@@ -294,7 +295,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.png', 'size' => 1))
+                ['value' => ['name' => 'foo.png', 'size' => 1]]
             )
         );
     }
@@ -308,7 +309,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.jpg', 'size' => 1))
+                ['value' => ['name' => 'foo.jpg', 'size' => 1]]
             )
         );
     }
@@ -322,7 +323,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.jpeg', 'size' => 1))
+                ['value' => ['name' => 'foo.jpeg', 'size' => 1]]
             )
         );
     }
@@ -336,7 +337,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.pdf', 'size' => 1))
+                ['value' => ['name' => 'foo.pdf', 'size' => 1]]
             )
         );
     }
@@ -350,7 +351,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.ps', 'size' => 1))
+                ['value' => ['name' => 'foo.ps', 'size' => 1]]
             )
         );
     }
@@ -362,7 +363,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         self::assertFalse(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.jpg', 'size' => 1))
+                ['value' => ['name' => 'foo.jpg', 'size' => 1]]
             )
         );
     }
@@ -377,7 +378,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.jpg', 'size' => $tooLarge))
+                ['value' => ['name' => 'foo.jpg', 'size' => $tooLarge]]
             )
         );
     }
@@ -391,7 +392,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
 
         self::assertFalse(
             $this->fixture->checkFile(
-                array('value' => array('name' => 'foo.foo', 'size' => 1))
+                ['value' => ['name' => 'foo.foo', 'size' => 1]]
             )
         );
     }
@@ -402,7 +403,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     public function getImageUploadErrorMessageForEmptyCaption()
     {
         $this->fixture->checkFile(
-            array('value' => array('name' => 'foo.jpg', 'size' => 1))
+            ['value' => ['name' => 'foo.jpg', 'size' => 1]]
         );
 
         self::assertEquals(
@@ -418,7 +419,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
     {
         $this->fixture->setFakedFormValue('caption', 'foo');
         $this->fixture->checkFile(
-            array('value' => array('name' => 'foo.foo', 'size' => 1))
+            ['value' => ['name' => 'foo.foo', 'size' => 1]]
         );
 
         self::assertEquals(
@@ -435,7 +436,7 @@ class tx_realty_FrontEnd_ImageUploadTest extends Tx_Phpunit_TestCase
         $tooLarge = ($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024) + 1;
         $this->fixture->setFakedFormValue('caption', 'foo');
         $this->fixture->checkFile(
-            array('value' => array('name' => 'foo.jpg', 'size' => $tooLarge))
+            ['value' => ['name' => 'foo.jpg', 'size' => $tooLarge]]
         );
 
         self::assertEquals(

@@ -61,7 +61,8 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase
     public function findWithUidOfExistingRecordReturnsRecordAsModel()
     {
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_documents', array('title' => 'an important document')
+            'tx_realty_documents',
+            ['title' => 'an important document']
         );
 
         /** @var tx_realty_Model_Document $model */
@@ -85,7 +86,7 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getNewGhost();
         /** @var tx_realty_Model_Document $document */
         $document = $this->fixture->getLoadedTestingModel(
-            array('object' => $realtyObject->getUid())
+            ['object' => $realtyObject->getUid()]
         );
 
         self::assertSame(
@@ -105,7 +106,8 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase
     {
         $dummyFile = $this->testingFramework->createDummyFile('foo.pdf');
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_documents', array('filename' => basename($dummyFile))
+            'tx_realty_documents',
+            ['filename' => basename($dummyFile)]
         );
 
         /** @var tx_realty_Model_Document $model */
@@ -125,7 +127,8 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase
         $dummyFile = $this->testingFramework->createDummyFile('foo.pdf');
         unlink($dummyFile);
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_documents', array('filename' => basename($dummyFile))
+            'tx_realty_documents',
+            ['filename' => basename($dummyFile)]
         );
 
         /** @var tx_realty_Model_Document $model */
@@ -139,7 +142,8 @@ class tx_realty_Mapper_DocumentTest extends Tx_Phpunit_TestCase
     public function deleteForEmptyFileNameNotThrowsException()
     {
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_documents', array('filename' => '')
+            'tx_realty_documents',
+            ['filename' => '']
         );
 
         /** @var tx_realty_Model_Document $model */

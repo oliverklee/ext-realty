@@ -86,9 +86,9 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
         $this->setLabels();
 
         $this->internal['currentTable'] = 'tx_realty_objects';
-        $this->ensureIntegerPiVars(array(
-            'remove', 'showUid', 'delete', 'owner', 'uid'
-        ));
+        $this->ensureIntegerPiVars([
+            'remove', 'showUid', 'delete', 'owner', 'uid',
+        ]);
 
         // Checks the configuration and displays any errors.
         // The direct return value from $this->checkConfiguration() is not
@@ -98,7 +98,8 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
 
         $errorViewHtml = $this->checkAccessAndGetHtmlOfErrorView();
         $result = $this->pi_wrapInBaseClass(
-            (($errorViewHtml == '')
+            (
+                ($errorViewHtml == '')
                 ? $this->getHtmlForCurrentView()
                 : $errorViewHtml
             ) . $this->getWrappedConfigCheckMessage()
@@ -128,7 +129,10 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
             case 'single_view':
                 /** @var tx_realty_pi1_SingleView $singleView */
                 $singleView = GeneralUtility::makeInstance(
-                    'tx_realty_pi1_SingleView', $this->conf, $this->cObj, $this->isTestMode
+                    'tx_realty_pi1_SingleView',
+                    $this->conf,
+                    $this->cObj,
+                    $this->isTestMode
                 );
                 $result = $singleView->render($this->piVars);
 
@@ -151,16 +155,22 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
             case 'fe_editor':
                 /** @var tx_realty_frontEndEditor $frontEndEditor */
                 $frontEndEditor = GeneralUtility::makeInstance(
-                    'tx_realty_frontEndEditor', $this->conf, $this->cObj,
-                    $this->piVars['showUid'], 'pi1/tx_realty_frontEndEditor.xml'
+                    'tx_realty_frontEndEditor',
+                    $this->conf,
+                    $this->cObj,
+                    $this->piVars['showUid'],
+                    'pi1/tx_realty_frontEndEditor.xml'
                 );
                 $result = $frontEndEditor->render();
                 break;
             case 'image_upload':
                 /** @var tx_realty_frontEndImageUpload $imageUpload */
                 $imageUpload = GeneralUtility::makeInstance(
-                    'tx_realty_frontEndImageUpload', $this->conf, $this->cObj,
-                    $this->piVars['showUid'], 'pi1/tx_realty_frontEndImageUpload.xml'
+                    'tx_realty_frontEndImageUpload',
+                    $this->conf,
+                    $this->cObj,
+                    $this->piVars['showUid'],
+                    'pi1/tx_realty_frontEndImageUpload.xml'
                 );
                 $result = $imageUpload->render();
                 break;
@@ -183,7 +193,9 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
         }
         if ($listViewType != '') {
             $listView = tx_realty_pi1_ListViewFactory::make(
-                $listViewType, $this->conf, $this->cObj
+                $listViewType,
+                $this->conf,
+                $this->cObj
             );
             $result = $listView->render($this->piVars);
         }
@@ -215,7 +227,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
         } catch (Tx_Oelib_Exception_AccessDenied $exception) {
             /** @var tx_realty_pi1_ErrorView $errorView */
             $errorView = GeneralUtility::makeInstance('tx_realty_pi1_ErrorView', $this->conf, $this->cObj);
-            $result = $errorView->render(array($exception->getMessage()));
+            $result = $errorView->render([$exception->getMessage()]);
         }
 
         return $result;
@@ -232,10 +244,12 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
         $noResultsMessage = 'message_noResultsFound_' . $view;
 
         $this->setMarker(
-            'message_noResultsFound', $this->translate($noResultsMessage)
+            'message_noResultsFound',
+            $this->translate($noResultsMessage)
         );
         $this->setSubpart(
-            $view . '_result', $this->getSubpart('EMPTY_RESULT_VIEW')
+            $view . '_result',
+            $this->getSubpart('EMPTY_RESULT_VIEW')
         );
     }
 
@@ -254,7 +268,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
     {
         $whatToDisplay = $this->getConfValueString('what_to_display');
 
-        if (in_array($whatToDisplay, array(
+        if (in_array($whatToDisplay, [
             'realty_list',
             'single_view',
             'favorites',
@@ -265,7 +279,7 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
             'objects_by_owner',
             'fe_editor',
             'image_upload',
-        ))) {
+        ])) {
             $result = $whatToDisplay;
         } else {
             $result = 'realty_list';
@@ -295,8 +309,8 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
      */
     public function isAccessToSingleViewPageAllowed()
     {
-        return (Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
-            || !$this->getConfValueBoolean('requireLoginForSingleViewPage'));
+        return Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+            || !$this->getConfValueBoolean('requireLoginForSingleViewPage');
     }
 
     /**

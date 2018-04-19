@@ -44,11 +44,12 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
      * @return string HTML for the FE editor or an error view if the
      *                  requested object is not editable for the current user
      */
-    public function render(array $unused = array())
+    public function render(array $unused = [])
     {
         $result = parent::render($unused);
         tx_realty_lightboxIncluder::includeLightboxFiles(
-            $this->prefixId, $this->extKey
+            $this->prefixId,
+            $this->extKey
         );
         tx_realty_lightboxIncluder::includeMainJavaScript();
         $this->processTemplate($result);
@@ -104,7 +105,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         }
 
         $idsOfImagesToDelete = GeneralUtility::trimExplode(
-            ',', $formData['imagesToDelete'], true
+            ',',
+            $formData['imagesToDelete'],
+            true
         );
         foreach ($idsOfImagesToDelete as $imageId) {
             try {
@@ -142,7 +145,9 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         $maximumFileSizeInBytes
             = $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] * 1024;
         $imageExtensions = GeneralUtility::trimExplode(
-            ',', $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'], true
+            ',',
+            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+            true
         );
         if (in_array('pdf', $imageExtensions)) {
             unset($imageExtensions[array_search('pdf', $imageExtensions)]);
@@ -150,7 +155,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         if (in_array('ps', $imageExtensions)) {
             unset($imageExtensions[array_search('ps', $imageExtensions)]);
         }
-        $extensionValidator = '/^.+\.(' . implode('|', $imageExtensions) . ')$/i';
+        $extensionValidator = '/^.+\\.(' . implode('|', $imageExtensions) . ')$/i';
 
         if ($this->getFormValue('caption') == '') {
             $validationErrorLabel = 'message_empty_caption';
@@ -164,7 +169,7 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
             ? $this->translate($validationErrorLabel)
             : '';
 
-        return ($validationErrorLabel == '');
+        return $validationErrorLabel == '';
     }
 
     /**
@@ -217,14 +222,14 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
     {
         return GeneralUtility::locationHeaderUrl(
             $this->cObj->typoLink_URL(
-                array(
+                [
                     'parameter' => $this->getFrontEndController()->id,
                     'additionalParams' => GeneralUtility::implodeArrayForUrl(
                         '',
-                        array($this->prefixId => array('showUid' => $this->realtyObjectUid))
+                        [$this->prefixId => ['showUid' => $this->realtyObjectUid]]
                     ),
                     'useCacheHash' => true,
-                )
+                ]
             )
         );
     }
@@ -246,19 +251,19 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
         foreach ($images as $image) {
             $imagePath = tx_realty_Model_Image::UPLOAD_FOLDER . $image->getFileName();
             $imageUrl = htmlspecialchars(GeneralUtility::locationHeaderUrl(
-                    $this->cObj->typoLink_URL(array('parameter' => $imagePath, 'useCacheHash' => true))
+                    $this->cObj->typoLink_URL(['parameter' => $imagePath, 'useCacheHash' => true])
             ));
             $title = $image->getTitle();
 
-            $imageConfiguration = array(
+            $imageConfiguration = [
                 'altText' => '',
                 'titleText' => $title,
                 'file' => $imagePath,
-                'file.' => array(
+                'file.' => [
                     'width' => $this->getConfValueInteger('imageUploadThumbnailWidth') . 'c',
                     'height' => $this->getConfValueInteger('imageUploadThumbnailHeight') . 'c',
-                ),
-            );
+                ],
+            ];
             $imageTag = $this->cObj->IMAGE($imageConfiguration);
             $this->setMarker(
                 'single_image_item',
@@ -267,14 +272,16 @@ class tx_realty_frontEndImageUpload extends tx_realty_frontEndForm
                     '>' . $imageTag . '</a>'
             );
             $this->setMarker(
-                'image_title', htmlspecialchars($title)
+                'image_title',
+                htmlspecialchars($title)
             );
             $this->setMarker(
                 'image_title_for_js',
                 htmlspecialchars(addslashes($title))
             );
             $this->setMarker(
-                'single_attached_image_id', 'attached_image_' . $index
+                'single_attached_image_id',
+                'attached_image_' . $index
             );
             $result .= $this->getSubpart('SINGLE_ATTACHED_IMAGE');
 

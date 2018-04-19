@@ -37,10 +37,12 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->createFakeFrontEnd();
 
         $this->fixture = new tx_realty_pi1_ContactButtonView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $this->getFrontEndController()->cObj
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            $this->getFrontEndController()->cObj
         );
         $this->fixture->setConfigurationValue(
-            'contactPID', $this->testingFramework->createFrontEndPage()
+            'contactPID',
+            $this->testingFramework->createFrontEndPage()
         );
     }
 
@@ -70,7 +72,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
     {
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 
@@ -80,11 +82,11 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNonEmptyResultForShowUidOfRealtyRecordProvided()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('title' => 'test title'));
+            ->getLoadedTestingModel(['title' => 'test title']);
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -94,11 +96,11 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsProvidedShowUidOfRealtyRecordAsLinkParameter()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('title' => 'test title'));
+            ->getLoadedTestingModel(['title' => 'test title']);
 
         self::assertContains(
             'tx_realty_pi1[showUid]=' . $realtyObject->getUid(),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -109,7 +111,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
     {
         self::assertNotContains(
             '###',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 
@@ -122,7 +124,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 
@@ -135,7 +137,7 @@ class tx_realty_FrontEnd_ContactButtonViewTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 }

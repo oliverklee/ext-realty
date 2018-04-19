@@ -41,10 +41,12 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_OffererView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            $frontEndController->cObj
         );
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'company'
+            'displayedContactInformation',
+            'company'
         );
     }
 
@@ -64,13 +66,13 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
      *
      * @return tx_realty_Model_RealtyObject the realty object with the owner
      */
-    private function getRealtyObjectWithOwner(array $ownerData = array())
+    private function getRealtyObjectWithOwner(array $ownerData = [])
     {
         return Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
-            array(
+            [
                 'owner' => $this->testingFramework->createFrontEndUser('', $ownerData),
                 'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
-            )
+            ]
         );
     }
 
@@ -103,7 +105,7 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
      */
     public function getRealtyObjectWithCanStoreDataToOwner()
     {
-        $owner = $this->getRealtyObjectWithOwner(array('name' => 'foo'))->getOwner();
+        $owner = $this->getRealtyObjectWithOwner(['name' => 'foo'])->getOwner();
 
         self::assertEquals(
             'foo',
@@ -121,11 +123,11 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNonEmptyResultForShowUidOfExistingRecord()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('employer' => 'foo'));
+            ->getLoadedTestingModel(['employer' => 'foo']);
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -135,9 +137,9 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('employer' => 'foo'));
+            ->getLoadedTestingModel(['employer' => 'foo']);
 
-        $result = $this->fixture->render(array('showUid' => $realtyObject->getUid()));
+        $result = $this->fixture->render(['showUid' => $realtyObject->getUid()]);
 
         self::assertNotEquals(
             '',
@@ -155,11 +157,11 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsTheRealtyObjectsEmployerForValidRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('employer' => 'foo'));
+            ->getLoadedTestingModel(['employer' => 'foo']);
 
         self::assertContains(
             'foo',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -169,11 +171,11 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsEmptyResultForValidRealtyObjectWithoutData()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array());
+            ->getLoadedTestingModel([]);
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -187,13 +189,13 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsContactInformationIfEnabledAndInformationIsSetInTheRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('phone_switchboard' => '12345'));
+            ->getLoadedTestingModel(['phone_switchboard' => '12345']);
 
         $this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
         self::assertContains(
             $this->fixture->translate('label_offerer'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -203,13 +205,13 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsPhoneNumberIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('phone_switchboard' => '12345'));
+            ->getLoadedTestingModel(['phone_switchboard' => '12345']);
 
         $this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
         self::assertContains(
             '12345',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -219,13 +221,13 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsBasicContactNameIfOffererDataIsEnabledAndInformationIsSetInTheRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('contact_person' => 'Ali Baba'));
+            ->getLoadedTestingModel(['contact_person' => 'Ali Baba']);
 
         $this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
 
         self::assertContains(
             'Ali Baba',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -235,18 +237,18 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsFullContactNameIfOffererDataIsEnabledAndInformationIsSetInTheRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->getLoadedTestingModel(
-                array(
+                [
                     'contact_person' => 'Green',
                     'contact_person_first_name' => 'Laci',
                     'contact_person_salutation' => 'Ms.',
-                )
+                ]
         );
 
         $this->fixture->setConfigurationValue('displayedContactInformation', 'offerer_label');
 
         self::assertContains(
             'Ms. Laci Green',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -258,20 +260,20 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
         /** @var tx_realty_Model_RealtyObject|PHPUnit_Framework_MockObject_MockObject $model */
         $model = $this->getMock(
             'tx_realty_Model_RealtyObject',
-            array('getContactPhoneNumber', 'getProperty')
+            ['getContactPhoneNumber', 'getProperty']
         );
         $model->expects(self::once())->method('getContactPhoneNumber');
-        $model->setData(array());
+        $model->setData([]);
 
         /** @var tx_realty_Mapper_RealtyObject|PHPUnit_Framework_MockObject_MockObject $mapper */
-        $mapper = $this->getMock('tx_realty_Mapper_RealtyObject', array('find'));
+        $mapper = $this->getMock('tx_realty_Mapper_RealtyObject', ['find']);
         $mapper->expects(self::any())->method('find')
             ->will(self::returnValue($model));
         Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_RealtyObject', $mapper);
 
         $this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
-        $this->fixture->render(array('showUid' => 0));
+        $this->fixture->render(['showUid' => 0]);
     }
 
     /**
@@ -280,11 +282,11 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsCompanyIfContactDataIsEnabledAndInformationIsSetInTheRealtyObject()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('employer' => 'test company'));
+            ->getLoadedTestingModel(['employer' => 'test company']);
 
         self::assertContains(
             'test company',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -294,14 +296,14 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsOwnersPhoneNumberIfContactDataIsEnabledAndContactDataMayBeTakenFromOwner()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('telephone' => '123123')
+            ['telephone' => '123123']
         );
 
         $this->fixture->setConfigurationValue('displayedContactInformation', 'telephone');
 
         self::assertContains(
             '123123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -311,12 +313,12 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsOwnersCompanyIfContactDataIsEnabledAndContactDataMayBeTakenFromOwner()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('company' => 'any company')
+            ['company' => 'any company']
         );
 
         self::assertContains(
             'any company',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -326,13 +328,13 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderNotReturnsContactInformationIfOptionIsDisabled()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('phone_switchboard' => '12345'));
+            ->getLoadedTestingModel(['phone_switchboard' => '12345']);
 
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
 
         self::assertNotContains(
             $this->fixture->translate('label_offerer'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -342,12 +344,12 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderNotReturnsContactInformationForEnabledOptionAndDeletedOwner()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('company' => 'any company', 'deleted' => 1)
+            ['company' => 'any company', 'deleted' => 1]
         );
 
         self::assertNotContains(
             $this->fixture->translate('label_offerer'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -360,7 +362,7 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             $this->fixture->translate('label_offerer'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -370,19 +372,21 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsLabelForLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('username' => 'foo')
+            ['username' => 'foo']
         );
 
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+            'displayedContactInformation',
+            'offerer_label,objects_by_owner_link'
         );
         $this->fixture->setConfigurationValue(
-            'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+            'objectsByOwnerPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             $this->fixture->translate('label_this_owners_objects'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -392,19 +396,21 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsLabelOffererIfTheLinkToTheObjectsByOwnerListIsEnabled()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('username' => 'foo')
+            ['username' => 'foo']
         );
 
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+            'displayedContactInformation',
+            'offerer_label,objects_by_owner_link'
         );
         $this->fixture->setConfigurationValue(
-            'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+            'objectsByOwnerPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             $this->fixture->translate('label_offerer'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -414,18 +420,19 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('username' => 'foo')
+            ['username' => 'foo']
         );
         $objectsByOwnerPid = $this->testingFramework->createFrontEndPage();
 
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+            'displayedContactInformation',
+            'offerer_label,objects_by_owner_link'
         );
         $this->fixture->setConfigurationValue('objectsByOwnerPID', $objectsByOwnerPid);
 
         self::assertContains(
             '?id=' . $objectsByOwnerPid,
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -435,24 +442,27 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsOwnerUidInLinkToTheObjectsByOwnerListForEnabledOptionAndOwnerSet()
     {
         $ownerUid = $this->testingFramework->createFrontEndUser(
-            '', array('username' => 'foo')
+            '',
+            ['username' => 'foo']
         );
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'owner' => $ownerUid,
-                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
-        ));
+                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
+        ]);
 
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+            'displayedContactInformation',
+            'offerer_label,objects_by_owner_link'
         );
         $this->fixture->setConfigurationValue(
-            'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+            'objectsByOwnerPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertContains(
             'tx_realty_pi1[owner]=' . $ownerUid,
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -462,19 +472,21 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderForDisabledOptionAndOwnerSetHidesObjectsByOwnerLink()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('username' => 'foo')
+            ['username' => 'foo']
         );
 
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label'
+            'displayedContactInformation',
+            'offerer_label'
         );
         $this->fixture->setConfigurationValue(
-            'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+            'objectsByOwnerPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertNotContains(
             $this->fixture->translate('label_this_owners_objects'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -484,20 +496,22 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderNotReturnsLinkToTheObjectsByOwnerListForEnabledOptionAndNoOwnerSet()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
-                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT
-        ));
+            ->getLoadedTestingModel([
+                'contact_data_source' => tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_OWNER_ACCOUNT,
+        ]);
 
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+            'displayedContactInformation',
+            'offerer_label,objects_by_owner_link'
         );
         $this->fixture->setConfigurationValue(
-            'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+            'objectsByOwnerPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertNotContains(
             $this->fixture->translate('label_this_owners_objects'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -507,17 +521,18 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
     public function renderNotReturnsLinkToTheObjectsByOwnerListForDisabledContactInformationAndOwnerAndPidSet()
     {
         $realtyObject = $this->getRealtyObjectWithOwner(
-            array('username' => 'foo')
+            ['username' => 'foo']
         );
 
         $this->fixture->setConfigurationValue('displayedContactInformation', '');
         $this->fixture->setConfigurationValue(
-            'objectsByOwnerPID', $this->testingFramework->createFrontEndPage()
+            'objectsByOwnerPID',
+            $this->testingFramework->createFrontEndPage()
         );
 
         self::assertNotContains(
             $this->fixture->translate('label_this_owners_objects'),
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -526,15 +541,16 @@ class tx_realty_FrontEnd_OffererViewTest extends Tx_Phpunit_TestCase
      */
     public function renderForNoObjectsByOwnerPidSetAndOwnerSetReturnsLinkWithoutId()
     {
-        $realtyObject = $this->getRealtyObjectWithOwner(array('username' => 'foo'));
+        $realtyObject = $this->getRealtyObjectWithOwner(['username' => 'foo']);
 
         $this->fixture->setConfigurationValue(
-            'displayedContactInformation', 'offerer_label,objects_by_owner_link'
+            'displayedContactInformation',
+            'offerer_label,objects_by_owner_link'
         );
 
         self::assertNotContains(
             '?id=',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 }

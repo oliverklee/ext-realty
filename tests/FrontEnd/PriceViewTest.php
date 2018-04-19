@@ -40,11 +40,11 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_PriceView(
-            array(
+            [
                 'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
                 'currencyUnit' => 'EUR',
                 'priceOnlyIfAvailable' => false,
-            ),
+            ],
             $frontEndController->cObj
         );
     }
@@ -64,14 +64,14 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNonEmptyResultForShowUidOfExistingRecord()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-        ));
+        ]);
 
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -81,11 +81,11 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsEmptyResultForShowUidOfObjectWithInvalidObjectType()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array('object_type' => 2));
+            ->getLoadedTestingModel(['object_type' => 2]);
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -95,13 +95,13 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNoUnreplacedMarkersWhileTheResultIsNonEmpty()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-        ));
+        ]);
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertNotEquals(
@@ -120,14 +120,14 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsTheRealtyObjectsBuyingPriceForObjectForSale()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
-        ));
+        ]);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -137,17 +137,17 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderWithPriceOnlyIfAvailableForVacantObjectForSaleReturnsBuyingPrice()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
-                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT
-        ));
+                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+        ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -157,17 +157,17 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderWithPriceOnlyIfAvailableForReservedObjectForSaleReturnsBuyingPrice()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
-                'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED
-        ));
+                'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
+        ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -177,17 +177,17 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderWithPriceOnlyIfAvailableForSoldObjectForSaleReturnsEmptyString()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '123',
-                'status' => tx_realty_Model_RealtyObject::STATUS_SOLD
-        ));
+                'status' => tx_realty_Model_RealtyObject::STATUS_SOLD,
+        ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -197,14 +197,14 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderNotReturnsTheRealtyObjectsBuyingPriceForObjectForRenting()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'buying_price' => '123',
-        ));
+        ]);
 
         self::assertNotContains(
             '123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -214,14 +214,14 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsTheRealtyObjectsRentForObjectForRenting()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-        ));
+        ]);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -231,17 +231,17 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderWithPriceOnlyIfAvailableForVacantObjectForRentReturnsBuyingPrice()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT
-        ));
+                'status' => tx_realty_Model_RealtyObject::STATUS_VACANT,
+        ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -251,17 +251,17 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderWithPriceOnlyIfAvailableForReservedObjectForRentReturnsBuyingPrice()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-                'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED
-        ));
+                'status' => tx_realty_Model_RealtyObject::STATUS_RESERVED,
+        ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertContains(
             '&euro; 123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -271,17 +271,17 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderWithPriceOnlyIfAvailableForRentedObjectForRentReturnsEmptyString()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_RENT,
                 'rent_excluding_bills' => '123',
-                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED
-        ));
+                'status' => tx_realty_Model_RealtyObject::STATUS_RENTED,
+        ]);
 
         $this->fixture->setConfigurationValue('priceOnlyIfAvailable', true);
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -291,14 +291,14 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderNotReturnsTheRealtyObjectsRentForObjectForSale()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'rent_excluding_bills' => '123',
-        ));
+        ]);
 
         self::assertNotContains(
             '&euro; 123',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -308,14 +308,14 @@ class tx_realty_FrontEnd_PriceViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsEmptyResultForEmptyBuyingPriceOfObjectForSale()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array(
+            ->getLoadedTestingModel([
                 'object_type' => tx_realty_Model_RealtyObject::TYPE_FOR_SALE,
                 'buying_price' => '',
-        ));
+        ]);
 
         self::assertEquals(
             '',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 }

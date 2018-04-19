@@ -30,7 +30,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
      * @return string HTML for this view or an empty string if the realty object
      *                with the provided UID has no data to show
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
@@ -61,7 +61,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
             return false;
         }
 
-        $rows = array();
+        $rows = [];
         $rowCounter = 0;
         /** @var tx_realty_pi1_Formatter $formatter */
         $formatter = GeneralUtility::makeInstance('tx_realty_pi1_Formatter', $uid, $this->conf, $this->cObj);
@@ -78,7 +78,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
 
         $this->setSubpart('overview_row', implode(LF, $rows));
 
-        return ($rowCounter > 0);
+        return $rowCounter > 0;
     }
 
     /**
@@ -92,7 +92,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
     public function getFieldNames($uid)
     {
         if (!$this->hasConfValueString('fieldsInSingleViewTable')) {
-            return array();
+            return [];
         }
 
         /** @var tx_realty_Mapper_RealtyObject $mapper */
@@ -101,16 +101,16 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
         $realtyObject = $mapper->find($uid);
 
         if ($this->getConfValueBoolean('priceOnlyIfAvailable') && $realtyObject->isRentedOrSold()) {
-            $fieldsToHideForThisType = array(
+            $fieldsToHideForThisType = [
                 'rent_excluding_bills', 'extra_charges', 'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
-                'rent_per_square_meter', 'garage_rent', 'garage_price'
-            );
+                'rent_per_square_meter', 'garage_rent', 'garage_price',
+            ];
         } else {
-            $fieldsToHideForThisType = array();
+            $fieldsToHideForThisType = [];
         }
 
         /** @var string[] $fieldNamesToShow */
-        $fieldNamesToShow = array();
+        $fieldNamesToShow = [];
         /** @var string[] $fieldsConfiguredToShow */
         $fieldsConfiguredToShow = GeneralUtility::trimExplode(',', $this->getConfValueString('fieldsInSingleViewTable'), true);
 

@@ -17,7 +17,7 @@
  *
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
-  */
+ */
 class tx_realty_tests_fixtures_testingFrontEndView extends tx_realty_pi1_FrontEndView
 {
     /**
@@ -27,7 +27,7 @@ class tx_realty_tests_fixtures_testingFrontEndView extends tx_realty_pi1_FrontEn
      *
      * @return string the view's content
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         return 'Hi, I am the testingFrontEndView!';
     }

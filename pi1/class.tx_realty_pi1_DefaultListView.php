@@ -40,7 +40,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
     /**
      * @var string[] the names of the database tables for foreign keys
      */
-    private $tableNames = array(
+    private $tableNames = [
         'objects' => 'tx_realty_objects',
         'city' => 'tx_realty_cities',
         'district' => 'tx_realty_districts',
@@ -50,7 +50,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
         'garage_type' => 'tx_realty_car_places',
         'pets' => 'tx_realty_pets',
         'images' => 'tx_realty_images',
-    );
+    ];
 
     /**
      * Initializes some view-specific data.
@@ -85,7 +85,7 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
         $items = $this->getCheckboxItems();
         if (!empty($items)) {
             $this->setSubpart('search_item', implode(LF, $items));
-            $this->setMarker('self_url_without_pivars', $this->getSelfUrl(true, array('search', 'pointer')));
+            $this->setMarker('self_url_without_pivars', $this->getSelfUrl(true, ['search', 'pointer']));
 
             $result = $this->getSubpart('LIST_FILTER');
         } else {
@@ -108,9 +108,8 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
             return false;
         }
 
-        return (($this->getConfValueString('checkboxesFilter') != 'city')
-            || !$this->isCitySelectorInUse()
-        );
+        return ($this->getConfValueString('checkboxesFilter') != 'city')
+            || !$this->isCitySelectorInUse();
     }
 
     /**
@@ -122,13 +121,13 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
      */
     private function getCheckboxItems()
     {
-        $result = array();
+        $result = [];
 
         $filterCriterion = $this->getConfValueString('checkboxesFilter');
         $currentTable = $this->tableNames[$filterCriterion];
         $currentSearch = parent::searchSelectionExists()
             ? $this->piVars['search']
-            : array();
+            : [];
 
         $whereClause = 'EXISTS ' . '(' .
             'SELECT * ' .
@@ -150,7 +149,8 @@ class tx_realty_pi1_DefaultListView extends tx_realty_pi1_AbstractListView
             $this->setMarker('search_checked', $checked);
             $this->setMarker('search_value', $checkboxItem['uid']);
             $this->setMarker(
-                'search_label', htmlspecialchars($checkboxItem['title'])
+                'search_label',
+                htmlspecialchars($checkboxItem['title'])
             );
             $result[] = $this->getSubpart('SEARCH_ITEM');
         }

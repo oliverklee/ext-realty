@@ -129,8 +129,8 @@ class tx_realty_mapMarker
         // 3. escapes </ to <\/ (because this is embedded JavaScript)
         // Note: We cannot use addslashes because " must not be escaped.
         $this->infoWindowHtml = str_replace(
-            array('\\', '\'', '</'),
-            array('\\\\', '\\\'', '<\/'),
+            ['\\', '\'', '</'],
+            ['\\\\', '\\\'', '<\\/'],
             $html
         );
     }

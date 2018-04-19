@@ -31,7 +31,7 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView
      * @return string HTML for the offerer view or an empty string if the
      *                realty object with the provided UID has no data to show
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         $contactData = $this->fetchContactDataFromSource($piVars['showUid']);
         $this->setMarker('offerer_information', $contactData);
@@ -64,13 +64,13 @@ class tx_realty_pi1_OffererView extends tx_realty_pi1_FrontEndView
                 break;
             case tx_realty_Model_RealtyObject::CONTACT_DATA_FROM_REALTY_OBJECT:
                 $result = $offererList->renderOneItemWithTheDataProvided(
-                    array(
+                    [
                         'email' => $realtyObject->getContactEMailAddress(),
                         'company' => $realtyObject->getProperty('employer'),
                         'telephone' => $realtyObject->getContactPhoneNumber(),
                         'name' => $realtyObject->getContactName(),
                         'image' => '',
-                    )
+                    ]
                 );
                 break;
             default:

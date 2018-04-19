@@ -36,7 +36,7 @@ class tx_realty_pi1_AccessCheck
      *
      * @return void
      */
-    public function checkAccess($flavor, array $piVars = array())
+    public function checkAccess($flavor, array $piVars = [])
     {
         switch ($flavor) {
             case 'fe_editor':

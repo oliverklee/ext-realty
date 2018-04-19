@@ -66,7 +66,9 @@ final class tx_realty_Model_RealtyObjectChild extends tx_realty_Model_RealtyObje
      *                 was set
      */
     public function createNewDatabaseEntry(
-        array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
+        array $realtyData,
+        $table = 'tx_realty_objects',
+        $overridePid = 0
     ) {
         return parent::createNewDatabaseEntry($realtyData, $table, $overridePid);
     }

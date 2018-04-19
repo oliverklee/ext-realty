@@ -51,11 +51,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends Tx_Phpunit_TestCase
         $this->fixture->setCoordinates($latitude, $longitude);
 
         self::assertContains(
-            (string) $latitude,
+            (string)$latitude,
             $this->fixture->render()
         );
         self::assertContains(
-            (string) $longitude,
+            (string)$longitude,
             $this->fixture->render()
         );
     }
@@ -96,7 +96,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends Tx_Phpunit_TestCase
         $this->fixture->setTitle('Foo " title');
 
         self::assertContains(
-            'title: "Foo \" title"',
+            'title: "Foo \\" title"',
             $this->fixture->render()
         );
     }
@@ -136,11 +136,11 @@ class tx_realty_FrontEnd_MapMarkerTest extends Tx_Phpunit_TestCase
         $this->fixture->setCoordinates($latitude, $longitude);
 
         self::assertContains(
-            (string) $latitude,
+            (string)$latitude,
             $this->fixture->getCoordinates()
         );
         self::assertContains(
-            (string) $longitude,
+            (string)$longitude,
             $this->fixture->getCoordinates()
         );
     }
@@ -224,7 +224,7 @@ class tx_realty_FrontEnd_MapMarkerTest extends Tx_Phpunit_TestCase
         $this->fixture->setInfoWindowHtml('<strong>foo</strong><br />bar');
 
         self::assertContains(
-            'myInfoWindow.setContent(\'<strong>foo<\/strong><br />bar\')',
+            'myInfoWindow.setContent(\'<strong>foo<\\/strong><br />bar\')',
             $this->fixture->render()
         );
     }

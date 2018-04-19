@@ -35,9 +35,9 @@ class tx_realty_Mapper_Image extends Tx_Oelib_DataMapper
      *
      * @var string[]
      */
-    protected $relations = array(
+    protected $relations = [
         'object' => 'tx_realty_Mapper_RealtyObject',
-    );
+    ];
 
     /**
      * Marks $image as deleted, saves it to the DB (if it has a UID) and deletes

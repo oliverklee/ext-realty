@@ -29,7 +29,7 @@ class tx_realty_pi1_HeadingView extends tx_realty_pi1_FrontEndView
      * @return string HTML for the heading view or an empty string if the
      *                realty object with the provided UID has no title
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');

@@ -29,14 +29,14 @@ class tx_realty_pi1_AddToFavoritesButtonView extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML for the buttons, will not be empty
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         $favoritesUrl = htmlspecialchars(
             $this->cObj->typoLink_URL(
-                array(
+                [
                     'parameter' => $this->getConfValueInteger('favoritesPID'),
                     'useCacheHash' => true,
-                )
+                ]
             )
         );
 

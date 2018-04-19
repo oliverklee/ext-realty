@@ -33,7 +33,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
     /**
      * @var tx_realty_mapMarker[]
      */
-    private $mapMarkers = array();
+    private $mapMarkers = [];
 
     /**
      * @var bool whether the constructor is called in test mode
@@ -53,7 +53,9 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
      * @param bool $isTestMode whether the class is instantiated in test mode
      */
     public function __construct(
-        array $configuration, ContentObjectRenderer $contentObjectRenderer, $isTestMode = false
+        array $configuration,
+        ContentObjectRenderer $contentObjectRenderer,
+        $isTestMode = false
     ) {
         $this->isTestMode = $isTestMode;
         $this->cObj = $contentObjectRenderer;
@@ -82,7 +84,7 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
      * @return string HTML for the Google Map, will be empty no map markers have
      *                been set before
      */
-    public function render(array $unused = array())
+    public function render(array $unused = [])
     {
         if (empty($this->mapMarkers)) {
             return '';
@@ -225,16 +227,18 @@ class tx_realty_pi1_GoogleMapsView extends tx_realty_pi1_FrontEndView
 
         if ($separateSingleViewPage != '') {
             $result = $this->cObj->typoLink(
-                $linkText, array('parameter' => $separateSingleViewPage)
+                $linkText,
+                ['parameter' => $separateSingleViewPage]
             );
         } else {
-            $result = $this->cObj->typoLink($linkText, array(
+            $result = $this->cObj->typoLink($linkText, [
                 'parameter' => $this->getConfValueInteger('singlePID'),
                 'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                    $this->prefixId, array('showUid' => $realtyObjectUid)
+                    $this->prefixId,
+                    ['showUid' => $realtyObjectUid]
                 ),
                 'useCacheHash' => ($this->getConfValueString('what_to_display') != 'favorites'),
-            ));
+            ]);
         }
 
         return $result;

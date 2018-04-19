@@ -29,17 +29,17 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      *            derived from the form data. Fields initialized with 0 refer to
      *            integer values and fields initialized with '' to strings.
      */
-    private $filterFormData = array(
+    private $filterFormData = [
         'uid' => 0, 'objectNumber' => '', 'site' => '', 'city' => 0,
         'district' => 0, 'houseType' => 0, 'priceRange' => '', 'rentFrom' => 0,
         'rentTo' => 0, 'livingAreaFrom' => 0, 'livingAreaTo' => 0,
         'objectType' => '', 'numberOfRoomsFrom' => 0, 'numberOfRoomsTo' => 0,
-    );
+    ];
 
     /**
      * @var string[] the search fields which should be displayed in the search form
      */
-    private $displayedSearchFields = array();
+    private $displayedSearchFields = [];
 
     /**
      * Returns the filter form in HTML.
@@ -49,13 +49,15 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML of the filter form, will not be empty
      */
-    public function render(array $filterFormData = array())
+    public function render(array $filterFormData = [])
     {
         $this->extractValidFilterFormData($filterFormData);
         $this->displayedSearchFields = GeneralUtility::trimExplode(
             ',',
             $this->getConfValueString(
-                'displayedSearchWidgetFields', 's_searchForm'),
+                'displayedSearchWidgetFields',
+                's_searchForm'
+            ),
             true
         );
 
@@ -154,7 +156,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                     $this->filterFormData[$key] = $rawValue;
                     break;
                 case 'objectType':
-                    $this->filterFormData['objectType'] = in_array($rawValue, array('forSale', 'forRent'), true) ?  $rawValue : '';
+                    $this->filterFormData['objectType'] = in_array($rawValue, ['forSale', 'forRent'], true) ? $rawValue : '';
                     break;
                 case 'priceRange':
                     $this->filterFormData['priceRange'] = preg_match('/^(\\d+-\\d+|-\\d+|\\d+-)$/', $rawValue) ? $rawValue : '';
@@ -170,6 +172,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
                     }
                     $decimalMark = $this->translate('decimal_mark');
                     $this->filterFormData[$key] = number_format($commaFreeValue, $decimals, $decimalMark, '');
+                    // no break
                 default:
             }
         }
@@ -187,17 +190,17 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     private function getFormattedPriceRange($priceRange)
     {
         if ($priceRange == '') {
-            return array();
+            return [];
         }
 
         $rangeLimits = GeneralUtility::intExplode('-', $priceRange);
 
         // (int) converts an empty string to 0. So for "-100" zero and 100
         // will be stored as limits.
-        return array(
+        return [
             'lowerLimit' => $rangeLimits[0],
             'upperLimit' => $rangeLimits[1],
-        );
+        ];
     }
 
     /**
@@ -241,12 +244,13 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     {
         $this->setMarker(
             'target_url',
-            htmlspecialchars(GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL(array(
+            htmlspecialchars(GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL([
                 'parameter' => $this->getConfValueInteger(
-                    'filterTargetPID', 's_searchForm'
+                    'filterTargetPID',
+                    's_searchForm'
                 ),
                 'useCacheHash' => true,
-            ))))
+            ])))
         );
     }
 
@@ -264,7 +268,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     {
         if ($this->hasSearchField('site')) {
             $this->setMarker(
-                'site', htmlspecialchars($this->filterFormData['site'])
+                'site',
+                htmlspecialchars($this->filterFormData['site'])
             );
         } else {
             $this->hideSubparts('wrapper_site_search');
@@ -302,7 +307,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $this->setMarker('price_range_options', $optionTags);
 
         $this->setMarker(
-            'price_range_on_change', $this->getOnChangeForSingleField()
+            'price_range_on_change',
+            $this->getOnChangeForSingleField()
         );
     }
 
@@ -322,7 +328,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
 
         $this->setMarker(
             'searched_uid',
-            (((int)$this->filterFormData['uid'] === 0) ? '' : (int)$this->filterFormData['uid']
+            (
+                ((int)$this->filterFormData['uid'] === 0) ? '' : (int)$this->filterFormData['uid']
             )
         );
     }
@@ -368,7 +375,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     private function fillOrHideDistrictSearch()
     {
         $this->createAndSetDropDown(
-            'district', $this->getOnChangeForSingleField()
+            'district',
+            $this->getOnChangeForSingleField()
         );
 
         $this->setMarker(
@@ -408,7 +416,8 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         );
 
         $this->setMarker(
-            $type . '_select_on_change', $onChange
+            $type . '_select_on_change',
+            $onChange
         );
     }
 
@@ -425,7 +434,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     public function createDropDownItems($type, $selectedUid = 0)
     {
-        if (!in_array($type, array('city', 'district'))) {
+        if (!in_array($type, ['city', 'district'])) {
             throw new InvalidArgumentException('"' . $type . '" is not a valid type.', 1333036086);
         }
 
@@ -481,7 +490,9 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      * @return void
      */
     private function fillOrHideAuxiliaryRecordSearch(
-        $searchKey, $tableName, $columnName
+        $searchKey,
+        $tableName,
+        $columnName
     ) {
         if (!$this->hasSearchField($searchKey)) {
             $this->hideSubparts('wrapper_' . $columnName . '_search');
@@ -524,9 +535,11 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
             return;
         }
 
-        foreach (array('forRent' => 'rent', 'forSale' => 'sale') as $key => $markerPrefix) {
-            $this->setMarker($markerPrefix . '_attributes',
-                (($this->filterFormData['objectType'] == $key)
+        foreach (['forRent' => 'rent', 'forSale' => 'sale'] as $key => $markerPrefix) {
+            $this->setMarker(
+                $markerPrefix . '_attributes',
+                (
+                    ($this->filterFormData['objectType'] == $key)
                     ? ' checked="checked"'
                     : ''
                 ) . $this->getOnChangeForSingleField()
@@ -550,7 +563,7 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
             return;
         }
 
-        foreach (array('From', 'To') as $suffix) {
+        foreach (['From', 'To'] as $suffix) {
             $this->setMarker(
                 'searched_' . $fieldMarkerPart . '_' . $suffix,
                 ($this->filterFormData[$searchField . $suffix])
@@ -573,14 +586,16 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
     private function getPriceRangesFromConfiguration()
     {
         if (!$this->hasConfValueString(
-            'priceRangesForFilterForm', 's_searchForm')
+            'priceRangesForFilterForm',
+            's_searchForm'
+        )
         ) {
-            return array();
+            return [];
         }
 
         // The first element is empty because the first selectbox element should
         // remain empty.
-        $priceRanges = array(array());
+        $priceRanges = [[]];
 
         $priceRangeConfiguration = GeneralUtility::trimExplode(
             ',',
@@ -932,10 +947,10 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
      */
     public static function getPiVarKeys()
     {
-        return array(
+        return [
             'uid', 'objectNumber', 'site', 'city', 'district', 'houseType',
             'priceRange', 'rentFrom', 'rentTo', 'livingAreaFrom', 'livingAreaTo',
-            'objectType', 'numberOfRoomsFrom', 'numberOfRoomsTo'
-        );
+            'objectType', 'numberOfRoomsFrom', 'numberOfRoomsTo',
+        ];
     }
 }

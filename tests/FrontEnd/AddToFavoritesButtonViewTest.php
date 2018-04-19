@@ -39,7 +39,8 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_AddToFavoritesButtonView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            $frontEndController->cObj
         );
     }
 
@@ -59,7 +60,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
     {
         self::assertNotEquals(
             '',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 
@@ -70,7 +71,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
     {
         self::assertContains(
             'class="button singleViewAddToFavorites"',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 
@@ -84,7 +85,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
 
         self::assertContains(
             'value="' . $realtyObject->getUid() . '"',
-            $this->fixture->render(array('showUid' => $realtyObject->getUid()))
+            $this->fixture->render(['showUid' => $realtyObject->getUid()])
         );
     }
 
@@ -98,7 +99,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
 
         self::assertContains(
             '?id=' . $pageUid,
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 
@@ -109,7 +110,7 @@ class tx_realty_FrontEnd_AddToFavoritesButtonViewTest extends Tx_Phpunit_TestCas
     {
         self::assertNotContains(
             '###',
-            $this->fixture->render(array('showUid' => 0))
+            $this->fixture->render(['showUid' => 0])
         );
     }
 }

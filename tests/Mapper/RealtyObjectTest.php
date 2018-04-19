@@ -51,7 +51,8 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     public function findWithUidOfExistingRecordReturnsRealtyObjectInstance()
     {
         $uid = $this->testingFramework->createRecord(
-            'tx_realty_objects', array('title' => 'foo')
+            'tx_realty_objects',
+            ['title' => 'foo']
         );
 
         self::assertTrue(
@@ -66,7 +67,8 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $ownerUid = $this->testingFramework->createFrontEndUser();
         $objectUid = $this->testingFramework->createRecord(
-            'tx_realty_objects', array('title' => 'foo', 'owner' => $ownerUid)
+            'tx_realty_objects',
+            ['title' => 'foo', 'owner' => $ownerUid]
         );
 
         /** @var tx_realty_Model_RealtyObject $model */
@@ -105,7 +107,8 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $cityUid)
+            'tx_realty_objects',
+            ['city' => $cityUid]
         );
 
         self::assertEquals(
@@ -124,10 +127,12 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $cityUid)
+            'tx_realty_objects',
+            ['city' => $cityUid]
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('city' => $cityUid)
+            'tx_realty_objects',
+            ['city' => $cityUid]
         );
 
         self::assertEquals(
@@ -165,7 +170,8 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('district' => $districtUid)
+            'tx_realty_objects',
+            ['district' => $districtUid]
         );
 
         self::assertEquals(
@@ -184,10 +190,12 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('district' => $districtUid)
+            'tx_realty_objects',
+            ['district' => $districtUid]
         );
         $this->testingFramework->createRecord(
-            'tx_realty_objects', array('district' => $districtUid)
+            'tx_realty_objects',
+            ['district' => $districtUid]
         );
 
         self::assertEquals(
@@ -205,7 +213,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByObjectNumberAndObjectIdAndLanguageForAllParametersEmptyAndExistingMatchNotThrowsException()
     {
-        $this->fixture->getLoadedTestingModel(array('object_number' => '', 'openimmo_obid' => '', 'language' => ''));
+        $this->fixture->getLoadedTestingModel(['object_number' => '', 'openimmo_obid' => '', 'language' => '']);
 
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage('', '', '');
     }
@@ -215,15 +223,17 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByObjectNumberAndObjectIdAndLanguageReturnsRealtyObject()
     {
-        $this->fixture->getLoadedTestingModel(array(
+        $this->fixture->getLoadedTestingModel([
             'object_number' => 'FLAT0001',
             'openimmo_obid' => 'abc01234',
             'language' => 'de',
-        ));
+        ]);
 
         self::assertTrue(
             $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-                'FLAT0001', 'abc01234', 'de'
+                'FLAT0001',
+                'abc01234',
+                'de'
             ) instanceof tx_realty_Model_RealtyObject
         );
     }
@@ -235,11 +245,11 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     {
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'object_number' => 'FLAT0001',
                 'openimmo_obid' => 'abc01234',
                 'language' => 'de',
-            )
+            ]
         );
 
         self::assertEquals(
@@ -251,54 +261,60 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      *
-     * @expectedException Tx_Oelib_Exception_NotFound
+     * @expectedException \Tx_Oelib_Exception_NotFound
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectNumber()
     {
-        $this->fixture->getLoadedTestingModel(array(
+        $this->fixture->getLoadedTestingModel([
             'object_number' => 'FLAT0001',
             'openimmo_obid' => 'abc01234',
             'language' => 'de',
-        ));
+        ]);
 
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-            'FLAT0002', 'abc01234', 'de'
+            'FLAT0002',
+            'abc01234',
+            'de'
         );
     }
 
     /**
      * @test
      *
-     * @expectedException Tx_Oelib_Exception_NotFound
+     * @expectedException \Tx_Oelib_Exception_NotFound
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectId()
     {
-        $this->fixture->getLoadedTestingModel(array(
+        $this->fixture->getLoadedTestingModel([
             'object_number' => 'FLAT0001',
             'openimmo_obid' => 'abc01234',
             'language' => 'de',
-        ));
+        ]);
 
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-            'FLAT0001', '9684654651', 'de'
+            'FLAT0001',
+            '9684654651',
+            'de'
         );
     }
 
     /**
      * @test
      *
-     * @expectedException Tx_Oelib_Exception_NotFound
+     * @expectedException \Tx_Oelib_Exception_NotFound
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectLanguage()
     {
-        $this->fixture->getLoadedTestingModel(array(
+        $this->fixture->getLoadedTestingModel([
             'object_number' => 'FLAT0001',
             'openimmo_obid' => 'abc01234',
             'language' => 'de',
-        ));
+        ]);
 
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
-            'FLAT0002', 'abc01234', 'en'
+            'FLAT0002',
+            'abc01234',
+            'en'
         );
     }
 

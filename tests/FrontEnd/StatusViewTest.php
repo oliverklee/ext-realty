@@ -39,7 +39,8 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_StatusView(
-            array('templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'), $frontEndController->cObj
+            ['templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm'],
+            $frontEndController->cObj
         );
     }
 
@@ -58,10 +59,10 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
     public function renderReturnsNoUnreplacedMarkers()
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
-            ->getLoadedTestingModel(array());
+            ->getLoadedTestingModel([]);
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertNotContains(
@@ -81,11 +82,11 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
             ->getLoadedTestingModel(
-                array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)
+                ['status' => tx_realty_Model_RealtyObject::STATUS_VACANT]
             );
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(
@@ -101,11 +102,11 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
             ->getLoadedTestingModel(
-                array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)
+                ['status' => tx_realty_Model_RealtyObject::STATUS_RENTED]
             );
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(
@@ -121,11 +122,11 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
             ->getLoadedTestingModel(
-                array('status' => tx_realty_Model_RealtyObject::STATUS_VACANT)
+                ['status' => tx_realty_Model_RealtyObject::STATUS_VACANT]
             );
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(
@@ -141,11 +142,11 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
             ->getLoadedTestingModel(
-                array('status' => tx_realty_Model_RealtyObject::STATUS_RESERVED)
+                ['status' => tx_realty_Model_RealtyObject::STATUS_RESERVED]
             );
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(
@@ -161,11 +162,11 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
             ->getLoadedTestingModel(
-                array('status' => tx_realty_Model_RealtyObject::STATUS_SOLD)
+                ['status' => tx_realty_Model_RealtyObject::STATUS_SOLD]
             );
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(
@@ -181,11 +182,11 @@ class tx_realty_FrontEnd_StatusViewTest extends Tx_Phpunit_TestCase
     {
         $realtyObject = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')
             ->getLoadedTestingModel(
-                array('status' => tx_realty_Model_RealtyObject::STATUS_RENTED)
+                ['status' => tx_realty_Model_RealtyObject::STATUS_RENTED]
             );
 
         $result = $this->fixture->render(
-            array('showUid' => $realtyObject->getUid())
+            ['showUid' => $realtyObject->getUid()]
         );
 
         self::assertContains(

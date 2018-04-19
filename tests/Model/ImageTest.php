@@ -39,7 +39,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function getTitleReturnsCaption()
     {
-        $this->fixture->setData(array('caption' => 'Just another room'));
+        $this->fixture->setData(['caption' => 'Just another room']);
 
         self::assertEquals(
             'Just another room',
@@ -82,7 +82,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function getFileNameReturnsImageFileName()
     {
-        $this->fixture->setData(array('image' => 'foo.jpg'));
+        $this->fixture->setData(['image' => 'foo.jpg']);
 
         self::assertEquals(
             'foo.jpg',
@@ -106,7 +106,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
     /**
      * @test
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function setFileNameForEmptyFileNameThrowsException()
     {
@@ -122,7 +122,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function getThumbnailFileNameReturnsThumbnailFileName()
     {
-        $this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+        $this->fixture->setData(['thumbnail' => 'foo.jpg']);
 
         self::assertEquals(
             'foo.jpg',
@@ -148,7 +148,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function setThumbnailFileNameCanSetThumbnailFileNameToEmptyString()
     {
-        $this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+        $this->fixture->setData(['thumbnail' => 'foo.jpg']);
         $this->fixture->setThumbnailFileName('');
 
         self::assertEquals(
@@ -162,7 +162,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function hasThumbnailFileNameForNoThumbnailReturnsFalse()
     {
-        $this->fixture->setData(array());
+        $this->fixture->setData([]);
 
         self::assertFalse(
             $this->fixture->hasThumbnailFileName()
@@ -174,7 +174,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function hasThumbnailFileNameForNonEmptyThumbnailReturnsFalse()
     {
-        $this->fixture->setData(array('thumbnail' => 'foo.jpg'));
+        $this->fixture->setData(['thumbnail' => 'foo.jpg']);
 
         self::assertTrue(
             $this->fixture->hasThumbnailFileName()
@@ -191,7 +191,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
     public function getObjectReturnsObject()
     {
         $realtyObject = new tx_realty_Model_RealtyObject();
-        $this->fixture->setData(array('object' => $realtyObject));
+        $this->fixture->setData(['object' => $realtyObject]);
 
         self::assertSame(
             $realtyObject,
@@ -222,7 +222,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function getSortingInitiallyReturnsZero()
     {
-        $this->fixture->setData(array());
+        $this->fixture->setData([]);
 
         self::assertEquals(
             0,
@@ -235,7 +235,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function getSortingReturnsSorting()
     {
-        $this->fixture->setData(array('sorting' => 42));
+        $this->fixture->setData(['sorting' => 42]);
 
         self::assertEquals(
             42,
@@ -265,7 +265,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function getPositionWithoutDataSetReturnsZero()
     {
-        $this->fixture->setData(array());
+        $this->fixture->setData([]);
 
         self::assertEquals(
             0,
@@ -278,7 +278,7 @@ class tx_realty_Model_ImageTest extends Tx_Phpunit_TestCase
      */
     public function getPositionWithPositionSetReturnsPosition()
     {
-        $this->fixture->setData(array('position' => 1));
+        $this->fixture->setData(['position' => 1]);
 
         self::assertEquals(
             1,

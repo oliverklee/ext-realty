@@ -28,7 +28,7 @@ class tx_realty_pi1_AddressView extends tx_realty_pi1_FrontEndView
      * @return string HTML for the address view or an empty string if the
      *                realty object with the provided UID has no address at all
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         /** @var tx_realty_Mapper_RealtyObject $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject');
@@ -37,7 +37,10 @@ class tx_realty_pi1_AddressView extends tx_realty_pi1_FrontEndView
         $address = $object->getAddressAsHtml();
 
         $this->setOrDeleteMarkerIfNotEmpty(
-            'address', $address, '', 'field_wrapper'
+            'address',
+            $address,
+            '',
+            'field_wrapper'
         );
 
         return $this->getSubpart('FIELD_WRAPPER_ADDRESS');

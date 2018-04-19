@@ -66,5 +66,5 @@ return [
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
-    ]
+    ],
 ];

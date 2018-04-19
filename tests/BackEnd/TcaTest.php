@@ -51,7 +51,7 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase
     public function getDistrictsForCitySetsItems()
     {
         $result = $this->fixture->getDistrictsForCity(
-            array('row' => array('city' => 0))
+            ['row' => ['city' => 0]]
         );
 
         self::assertTrue(
@@ -65,11 +65,11 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase
     public function getDistrictsForCityContainsEmptyOption()
     {
         $result = $this->fixture->getDistrictsForCity(
-            array('row' => array('city' => 0))
+            ['row' => ['city' => 0]]
         );
 
         self::assertTrue(
-            in_array(array('', 0), $result['items'])
+            in_array(['', 0], $result['items'])
         );
     }
 
@@ -79,13 +79,14 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase
     public function getDistrictsForCityReturnsDistrictsForCityOrUnassigned()
     {
         $city = new tx_realty_Model_District();
-        $city->setData(array('uid' => 2, 'title' => 'Kreuzberg'));
+        $city->setData(['uid' => 2, 'title' => 'Kreuzberg']);
         $cities = new Tx_Oelib_List();
         $cities->add($city);
 
         /** @var tx_realty_Mapper_District|PHPUnit_Framework_MockObject_MockObject $mapper */
         $mapper = $this->getMock(
-            'tx_realty_Mapper_District', array('findAllByCityUidOrUnassigned')
+            'tx_realty_Mapper_District',
+            ['findAllByCityUidOrUnassigned']
         );
         $mapper->expects(self::once())
             ->method('findAllByCityUidOrUnassigned')->with(42)
@@ -93,11 +94,11 @@ class tx_realty_BackEnd_TcaTest extends Tx_Phpunit_TestCase
         Tx_Oelib_MapperRegistry::set('tx_realty_Mapper_District', $mapper);
 
         $result = $this->fixture->getDistrictsForCity(
-            array('row' => array('city' => 42))
+            ['row' => ['city' => 42]]
         );
 
         self::assertTrue(
-            in_array(array('Kreuzberg', 2), $result['items'])
+            in_array(['Kreuzberg', 2], $result['items'])
         );
     }
 }

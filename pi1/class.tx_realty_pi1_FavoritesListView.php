@@ -86,20 +86,22 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
         }
 
         if ($this->getConfValueBoolean('showContactPageLink')
-            && ($this->getConfValueInteger('contactPID')
+            && (
+                $this->getConfValueInteger('contactPID')
                 != $this->getConfValueInteger('favoritesPID')
             )
         ) {
             $piVars = $this->piVars;
             unset($piVars['DATA']);
 
-            $contactUrl = htmlspecialchars($this->cObj->typoLink_URL(array(
+            $contactUrl = htmlspecialchars($this->cObj->typoLink_URL([
                 'parameter' => $this->getConfValueInteger('contactPID'),
                 'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                    '', array($this->prefixId => $piVars)
+                    '',
+                    [$this->prefixId => $piVars]
                 ),
                 'useCacheHash' => true,
-            )));
+            ]));
             $this->setMarker('contact_url', $contactUrl);
         } else {
             $this->hideSubparts('contact', 'wrapper');
@@ -118,7 +120,8 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
         }
 
         Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)->setAsString(
-            self::FAVORITES_SESSION_KEY_VERBOSE, json_encode($this->favoritesDataVerbose)
+            self::FAVORITES_SESSION_KEY_VERBOSE,
+            json_encode($this->favoritesDataVerbose)
         );
     }
 
@@ -136,7 +139,7 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
             ? ' AND ' . 'tx_realty_objects' . '.uid ' .
                 'IN(' . $this->getFavorites() . ')'
             : ' AND 0 = 1';
-        $this->favoritesDataVerbose = array();
+        $this->favoritesDataVerbose = [];
 
         return $result;
     }
@@ -339,9 +342,11 @@ class tx_realty_pi1_FavoritesListView extends tx_realty_pi1_AbstractListView
         }
 
         $uid = $this->internal['currentRow']['uid'];
-        $this->favoritesDataVerbose[$uid] = array();
+        $this->favoritesDataVerbose[$uid] = [];
         foreach (GeneralUtility::trimExplode(
-            ',', $this->getConfValueString('favoriteFieldsInSession'), true
+            ',',
+            $this->getConfValueString('favoriteFieldsInSession'),
+            true
         ) as $key) {
             $this->favoritesDataVerbose[$uid][$key]
                 = $this->getFormatter()->getProperty($key);

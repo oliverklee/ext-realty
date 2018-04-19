@@ -37,7 +37,7 @@ class tx_realty_FrontEnd_AbstractViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->createFakeFrontEnd();
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
-        $this->fixture = new tx_realty_tests_fixtures_testingFrontEndView(array(), $frontEndController->cObj);
+        $this->fixture = new tx_realty_tests_fixtures_testingFrontEndView([], $frontEndController->cObj);
     }
 
     protected function tearDown()

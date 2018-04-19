@@ -39,7 +39,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase
      */
     public function getTitleWithNonEmptyTitleReturnsTitle()
     {
-        $this->fixture->setData(array('title' => 'Bad Godesberg'));
+        $this->fixture->setData(['title' => 'Bad Godesberg']);
 
         self::assertEquals(
             'Bad Godesberg',
@@ -62,7 +62,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function setTitleWithEmptyStringThrowsException()
     {
@@ -80,7 +80,7 @@ class tx_realty_Model_DistrictTest extends Tx_Phpunit_TestCase
     {
         $city = new tx_realty_Model_City();
 
-        $this->fixture->setData(array('city' => $city));
+        $this->fixture->setData(['city' => $city]);
 
         self::assertSame(
             $city,

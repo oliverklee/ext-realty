@@ -28,14 +28,14 @@ class tx_realty_Tca
      */
     public function getDistrictsForCity(array $data)
     {
-        $items = array(array('', 0));
+        $items = [['', 0]];
 
         /** @var tx_realty_Mapper_District $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District');
         $districts = $mapper->findAllByCityUidOrUnassigned((int)$data['row']['city']);
         /** @var tx_realty_Model_District $district */
         foreach ($districts as $district) {
-            $items[] = array($district->getTitle(), $district->getUid());
+            $items[] = [$district->getTitle(), $district->getUid()];
         }
 
         $data['items'] = $items;

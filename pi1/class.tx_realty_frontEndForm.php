@@ -48,7 +48,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
     /**
      * @var array this is used to fake form values for testing
      */
-    protected $fakedFormValues = array();
+    protected $fakedFormValues = [];
 
     /**
      * @var string the path to the FORMidable XML file
@@ -70,7 +70,10 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      *        whether the FE editor is instantiated in test mode
      */
     public function __construct(
-        array $configuration, ContentObjectRenderer $contentObjectRenderer, $uidOfObjectToEdit, $xmlPath,
+        array $configuration,
+        ContentObjectRenderer $contentObjectRenderer,
+        $uidOfObjectToEdit,
+        $xmlPath,
         $isTestMode = false
     ) {
         $this->isTestMode = $isTestMode;
@@ -131,7 +134,7 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      * @return string HTML for the FE editor or an error view if the
      *                requested object is not editable for the current user
      */
-    public function render(array $unused = array())
+    public function render(array $unused = [])
     {
         $this->addOnLoadHandler();
         $this->makeFormCreator();
@@ -161,12 +164,13 @@ class tx_realty_frontEndForm extends tx_realty_pi1_FrontEndView
      */
     public function getRedirectUrl()
     {
-        return GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL(array(
+        return GeneralUtility::locationHeaderUrl($this->cObj->typoLink_URL([
             'parameter' => $this->getConfValueInteger(
-                'feEditorRedirectPid', 's_feeditor'
+                'feEditorRedirectPid',
+                's_feeditor'
             ),
             'useCacheHash' => true,
-        )));
+        ]));
     }
 
     /**

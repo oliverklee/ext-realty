@@ -135,8 +135,11 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         // For testing, the FE editor's FORMidable object must not be created.
         /** @var tx_realty_frontEndEditor $frontEndEditor */
         $frontEndEditor = GeneralUtility::makeInstance(
-            'tx_realty_frontEndEditor', $this->conf, $this->cObj,
-            $this->piVars['delete'], 'pi1/tx_realty_frontEndEditor.xml',
+            'tx_realty_frontEndEditor',
+            $this->conf,
+            $this->cObj,
+            $this->piVars['delete'],
+            'pi1/tx_realty_frontEndEditor.xml',
             $this->isTestMode
         );
         $frontEndEditor->deleteRecord();
@@ -165,18 +168,20 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         $this->setMarker(
             'editor_link',
             $this->createLinkToFeEditorPage(
-                'editorPID', $this->internal['currentRow']['uid']
+                'editorPID',
+                $this->internal['currentRow']['uid']
             )
         );
         $this->setMarker(
             'image_upload_link',
             $this->createLinkToFeEditorPage(
-                'imageUploadPID', $this->internal['currentRow']['uid']
+                'imageUploadPID',
+                $this->internal['currentRow']['uid']
             )
         );
         $this->setMarker(
             'really_delete',
-            $this->translate('label_really_delete') . '\n' .
+            $this->translate('label_really_delete') . '\\n' .
                 $this->translate('label_object_number') . ' ' .
                 $this->internal['currentRow']['object_number'] . ': ' .
                 $this->internal['currentRow']['title']
@@ -184,19 +189,20 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         $this->setMarker(
             'delete_link',
             $this->cObj->typoLink_URL(
-                array(
+                [
                     'parameter' => $this->getFrontEndController()->id,
                     'additionalParams' => GeneralUtility::implodeArrayForUrl(
                         $this->prefixId,
-                        array('delete' => $this->internal['currentRow']['uid'])
+                        ['delete' => $this->internal['currentRow']['uid']]
                     ),
                     'useCacheHash' => true,
-                )
+                ]
             )
         );
         $this->setMarker(
             'record_state',
-            $this->translate($this->internal['currentRow']['hidden']
+            $this->translate(
+                $this->internal['currentRow']['hidden']
                 ? 'label_pending' : 'label_published'
             )
         );
@@ -231,13 +237,14 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
     {
         return GeneralUtility::locationHeaderUrl(
             $this->cObj->typoLink_URL(
-                array(
+                [
                     'parameter' => $this->getConfValueInteger($pidKey),
                     'additionalParams' => GeneralUtility::implodeArrayForUrl(
-                        $this->prefixId, array('showUid' => $uid)
+                        $this->prefixId,
+                        ['showUid' => $uid]
                     ),
                     'useCacheHash' => true,
-                )
+                ]
             )
         );
     }
@@ -250,7 +257,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
     private function setAdvertisementMarkers()
     {
         if (!$this->hasConfValueInteger(
-            'advertisementPID', 's_advertisements'
+            'advertisementPID',
+            's_advertisements'
         )) {
             $this->hideSubparts('wrapper_advertising');
             return;
@@ -266,16 +274,17 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         $this->hideSubparts('wrapper_advertised_status');
 
         if ($this->hasConfValueString(
-            'advertisementParameterForObjectUid', 's_advertisements'
+            'advertisementParameterForObjectUid',
+            's_advertisements'
         )) {
             $linkParameters = GeneralUtility::implodeArrayForUrl(
                 '',
-                array(
+                [
                     $this->getConfValueString(
                         'advertisementParameterForObjectUid',
                         's_advertisements'
-                    ) => $this->internal['currentRow']['uid']
-                )
+                    ) => $this->internal['currentRow']['uid'],
+                ]
             );
         } else {
             $linkParameters = '';
@@ -284,13 +293,14 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         $this->setMarker(
             'advertise_link',
             $this->cObj->typoLink_URL(
-                array(
+                [
                     'parameter' => $this->getConfValueInteger(
-                        'advertisementPID', 's_advertisements'
+                        'advertisementPID',
+                        's_advertisements'
                     ),
                     'additionalParams' => $linkParameters,
                     'useCacheHash' => true,
-                )
+                ]
             )
         );
     }
@@ -310,7 +320,8 @@ class tx_realty_pi1_MyObjectsListView extends tx_realty_pi1_AbstractListView
         }
 
         $expiryInDays = $this->getConfValueInteger(
-            'advertisementExpirationInDays', 's_advertisements'
+            'advertisementExpirationInDays',
+            's_advertisements'
         );
         if ($expiryInDays == 0) {
             return true;

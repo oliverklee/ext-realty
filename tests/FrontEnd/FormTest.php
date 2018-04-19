@@ -47,13 +47,14 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase
 
         $configuration = new Tx_Oelib_Configuration();
         $configuration->setData(
-            array(
+            [
                 'feEditorTemplateFile'
                     => 'EXT:realty/pi1/tx_realty_frontEndEditor.html',
-            )
+            ]
         );
         Tx_Oelib_ConfigurationRegistry::getInstance()->set(
-            'plugin.tx_realty_pi1', $configuration
+            'plugin.tx_realty_pi1',
+            $configuration
         );
 
         $this->createDummyRecords();
@@ -61,7 +62,7 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_frontEndEditor(
-            array(),
+            [],
             $frontEndController->cObj,
             0,
             '',
@@ -117,10 +118,12 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase
     public function getRedirectUrlReturnsUrlWithoutRedirectPidForMisconfiguredRedirectPid()
     {
         $nonExistingFePageUid = $this->testingFramework->createFrontEndPage(
-            0, array('deleted' => 1)
+            0,
+            ['deleted' => 1]
         );
         $this->fixture->setConfigurationValue(
-            'feEditorRedirectPid', $nonExistingFePageUid
+            'feEditorRedirectPid',
+            $nonExistingFePageUid
         );
 
         self::assertNotContains(
@@ -152,7 +155,7 @@ class tx_realty_FrontEnd_FormTest extends Tx_Phpunit_TestCase
     public function getTemplatePathReturnsAbsolutePathFromTheConfiguration()
     {
         self::assertRegExp(
-            '/\/typo3conf\/ext\/realty\/pi1\/tx_realty_frontEndEditor\.html$/',
+            '/\\/typo3conf\\/ext\\/realty\\/pi1\\/tx_realty_frontEndEditor\\.html$/',
             tx_realty_frontEndForm::getTemplatePath()
         );
     }

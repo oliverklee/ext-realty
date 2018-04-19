@@ -176,7 +176,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.show_address',
             'config' => [
                 'type' => 'check',
-            ]
+            ],
         ],
         'street' => [
             'exclude' => 0,
@@ -273,7 +273,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'foreign_table' => 'static_countries',
                 'foreign_table_where' => 'ORDER BY static_countries.cn_short_en',
@@ -583,7 +583,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'items' => [
-                    ['', 0]
+                    ['', 0],
                 ],
                 'foreign_table' => 'tx_realty_apartment_types',
                 'foreign_table_where' => 'AND tx_realty_apartment_types.pid=###STORAGE_PID### ORDER BY tx_realty_apartment_types.title',
@@ -752,7 +752,7 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_air_conditioning',
             'config' => [
                 'type' => 'check',
-            ]
+            ],
         ],
         'garage_type' => [
             'exclude' => 1,
@@ -1000,14 +1000,14 @@ return [
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_pool',
             'config' => [
                 'type' => 'check',
-            ]
+            ],
         ],
         'has_community_pool' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.has_community_pool',
             'config' => [
                 'type' => 'check',
-            ]
+            ],
         ],
         'teaser' => [
             'exclude' => 1,
@@ -1016,7 +1016,7 @@ return [
                 'type' => 'text',
                 'cols' => '20',
                 'rows' => '3',
-            ]
+            ],
         ],
         'description' => [
             'exclude' => 0,
@@ -1567,7 +1567,7 @@ return [
                 'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
                 'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
                 'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class',
-        ]
+        ],
     ],
     'palettes' => [
         '1' => ['showitem' => 'starttime, endtime'],

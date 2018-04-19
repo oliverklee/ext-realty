@@ -37,7 +37,7 @@ class tx_realty_cli_ImageCleanUp
      *
      * @var string[]
      */
-    private $statistics = array();
+    private $statistics = [];
 
     /**
      * Checks whether the Realty upload folder exists and is writable.
@@ -52,7 +52,7 @@ class tx_realty_cli_ImageCleanUp
         $absolutePath = PATH_site . $this->uploadFolder;
         if (!@is_dir($absolutePath)) {
             throw new RuntimeException(
-                'The folder ' .  $absolutePath . ' with the uploaded realty files does not exist. ' .
+                'The folder ' . $absolutePath . ' with the uploaded realty files does not exist. ' .
                     'Please check your configuration and restart the clean-up.',
                 1333035462
             );
@@ -62,7 +62,7 @@ class tx_realty_cli_ImageCleanUp
             $owner = posix_getpwuid($ownerUid);
 
             throw new Tx_Oelib_Exception_AccessDenied(
-                'The folder ' .  $absolutePath . ' is not writable. Please fix file permissions and restart' .
+                'The folder ' . $absolutePath . ' is not writable. Please fix file permissions and restart' .
                     ' the import. The folder belongs to the user: ' . $owner['name'] . ', ' . $ownerUid .
                     ', and has the following permissions: ' . substr(decoct(fileperms($absolutePath)), 2) .
                     '. The user starting this import was: ' . get_current_user() . '.',
@@ -82,9 +82,10 @@ class tx_realty_cli_ImageCleanUp
     {
         $nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
         $imagesForRealtyRecords = ($nonDeletedRealtyRecordUids == '')
-            ? array()
+            ? []
             : Tx_Oelib_Db::selectColumnForMultiple(
-                'uid', 'tx_realty_images',
+                'uid',
+                'tx_realty_images',
                 'object IN (' . $nonDeletedRealtyRecordUids . ')' .
                     Tx_Oelib_Db::enableFields('tx_realty_images', 1) .
                     $this->additionalWhereClause
@@ -95,14 +96,17 @@ class tx_realty_cli_ImageCleanUp
         );
 
         $numberOfImagesHidden = Tx_Oelib_Db::update(
-            'tx_realty_images', (empty($imagesForRealtyRecords)
+            'tx_realty_images',
+            (
+                empty($imagesForRealtyRecords)
                     ? '1=1'
                     : 'uid NOT IN (' . implode(',', $imagesForRealtyRecords) . ')'
                 ) . $this->additionalWhereClause,
-            array('hidden' => 1)
+            ['hidden' => 1]
         );
         $hiddenImageRecords = Tx_Oelib_Db::selectSingle(
-            'COUNT(*) AS number', 'tx_realty_images',
+            'COUNT(*) AS number',
+            'tx_realty_images',
             'hidden = 1 OR deleted = 1' . $this->additionalWhereClause
         );
         $this->addToStatistics(
@@ -124,9 +128,10 @@ class tx_realty_cli_ImageCleanUp
     {
         $nonDeletedRealtyRecordUids = $this->retrieveRealtyObjectUids();
         $documentsWithRealtyRecords = ($nonDeletedRealtyRecordUids == '')
-            ? array()
+            ? []
             : Tx_Oelib_Db::selectColumnForMultiple(
-                'uid', 'tx_realty_documents',
+                'uid',
+                'tx_realty_documents',
                 'object IN (' . $nonDeletedRealtyRecordUids . ')' .
                     Tx_Oelib_Db::enableFields('tx_realty_documents', 1) .
                     $this->additionalWhereClause
@@ -137,14 +142,17 @@ class tx_realty_cli_ImageCleanUp
         );
 
         $numberOfDeletedDocumentRecords = Tx_Oelib_Db::update(
-            'tx_realty_documents', (empty($documentsWithRealtyRecords)
+            'tx_realty_documents',
+            (
+                empty($documentsWithRealtyRecords)
                     ? '1=1'
                     : 'uid NOT IN (' . implode(',', $documentsWithRealtyRecords) . ')'
                 ) . $this->additionalWhereClause,
-            array('deleted' => 1)
+            ['deleted' => 1]
         );
         $this->addToStatistics(
-            'Total deleted document records', $numberOfDeletedDocumentRecords
+            'Total deleted document records',
+            $numberOfDeletedDocumentRecords
         );
     }
 
@@ -159,7 +167,8 @@ class tx_realty_cli_ImageCleanUp
     private function retrieveRealtyObjectUids()
     {
         $uids = Tx_Oelib_Db::selectColumnForMultiple(
-            'uid', 'tx_realty_objects',
+            'uid',
+            'tx_realty_objects',
             '1=1' . Tx_Oelib_Db::enableFields('tx_realty_objects', 1) .
                 $this->additionalWhereClause
         );
@@ -179,11 +188,13 @@ class tx_realty_cli_ImageCleanUp
         $absolutePath = PATH_site . $this->uploadFolder;
         $filesInUploadFolder = GeneralUtility::getFilesInDir($absolutePath);
         $this->addToStatistics(
-            'Files in upload folder', count($filesInUploadFolder)
+            'Files in upload folder',
+            count($filesInUploadFolder)
         );
 
         $imageFileNamesInDatabase = Tx_Oelib_Db::selectColumnForMultiple(
-            'image', 'tx_realty_images',
+            'image',
+            'tx_realty_images',
             '1=1' . Tx_Oelib_Db::enableFields('tx_realty_images', 1) .
                 $this->additionalWhereClause
         );
@@ -193,7 +204,8 @@ class tx_realty_cli_ImageCleanUp
         );
 
         $documentFileNamesInDatabase = Tx_Oelib_Db::selectColumnForMultiple(
-            'filename', 'tx_realty_documents',
+            'filename',
+            'tx_realty_documents',
             '1=1' . Tx_Oelib_Db::enableFields('tx_realty_documents', 1) .
                 $this->additionalWhereClause
         );
@@ -204,7 +216,8 @@ class tx_realty_cli_ImageCleanUp
 
         $filesToDelete = array_diff(
             $filesInUploadFolder,
-            $imageFileNamesInDatabase, $documentFileNamesInDatabase
+            $imageFileNamesInDatabase,
+            $documentFileNamesInDatabase
         );
         $this->addToStatistics('Files deleted', count($filesToDelete));
         foreach ($filesToDelete as $image) {

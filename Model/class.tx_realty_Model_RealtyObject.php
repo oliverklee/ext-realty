@@ -187,12 +187,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     /**
      * @var string[] the owner record is cached in order to improve performance
      */
-    private $ownerData = array();
+    private $ownerData = [];
 
     /**
      * @var string[] required fields for OpenImmo records
      */
-    private $requiredFields = array(
+    private $requiredFields = [
         'zip',
         'object_number',
         // 'object_type' refers to 'vermarktungsart' in the OpenImmo schema.
@@ -202,22 +202,22 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         'openimmo_anid',
         'openimmo_obid',
         'contact_person',
-        'contact_email'
-    );
+        'contact_email',
+    ];
 
     /**
      * property names and their corresponding tables
      *
      * @var string[]
      */
-    private static $propertyTables = array(
+    private static $propertyTables = [
         'tx_realty_cities' => 'city',
         'tx_realty_apartment_types' => 'apartment_type',
         'tx_realty_house_types' => 'house_type',
         'tx_realty_districts' => 'district',
         'tx_realty_pets' => 'pets',
         'tx_realty_car_places' => 'garage_type',
-    );
+    ];
 
     /**
      * @var bool whether hidden objects are loadable
@@ -273,7 +273,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         $allowedImageExtensions = GeneralUtility::trimExplode(',', strtolower($GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']), true);
 
-        return array_filter($allowedImageExtensions, array($this, 'isNotPdfOrPs'));
+        return array_filter($allowedImageExtensions, [$this, 'isNotPdfOrPs']);
     }
 
     /**
@@ -285,7 +285,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     protected function isNotPdfOrPs($fileExtension)
     {
-        return !in_array($fileExtension, array('pdf', 'ps'));
+        return !in_array($fileExtension, ['pdf', 'ps']);
     }
 
     /**
@@ -322,14 +322,14 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         $this->canLoadHiddenObjects = $canLoadHiddenObjects;
 
         switch ($this->getDataType($realtyData)) {
-            case 'array' :
+            case 'array':
                 $this->setData($realtyData);
                 break;
-            case 'uid' :
+            case 'uid':
                 $this->setData($this->loadDatabaseEntry((int)$realtyData));
                 break;
-            default :
-                $this->setData(array());
+            default:
+                $this->setData([]);
                 break;
         }
     }
@@ -415,11 +415,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
                 '*',
                 'tx_realty_objects',
                 'uid=' . $uid . Tx_Oelib_Db::enableFields(
-                    'tx_realty_objects', $this->canLoadHiddenObjects ? 1 : -1
+                    'tx_realty_objects',
+                    $this->canLoadHiddenObjects ? 1 : -1
                 )
             );
         } catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
-            $result = array();
+            $result = [];
         }
 
         return $result;
@@ -556,7 +557,9 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             $errorMessage = 'message_object_limit_reached';
         } else {
             $newUid = $this->createNewDatabaseEntry(
-                $this->getAllProperties(), 'tx_realty_objects', $overridePid
+                $this->getAllProperties(),
+                'tx_realty_objects',
+                $overridePid
             );
             switch ($newUid) {
                 case -1:
@@ -695,10 +698,9 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     private function isOwnerDataUsable()
     {
-        return (Tx_Oelib_ConfigurationProxy::getInstance('realty')
+        return Tx_Oelib_ConfigurationProxy::getInstance('realty')
             ->getAsBoolean('useFrontEndUserDataAsContactDataForImportedRecords')
-                && $this->hasOwner()
-        );
+                && $this->hasOwner();
     }
 
     /**
@@ -743,7 +745,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function hasOwner()
     {
-        return ($this->getAsInteger('owner') > 0);
+        return $this->getAsInteger('owner') > 0;
     }
 
     /**
@@ -767,7 +769,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     protected function getAllProperties()
     {
-        $result = array();
+        $result = [];
 
         foreach (array_keys(Tx_Oelib_Db::getColumnsInTable('tx_realty_objects'))as $key) {
             if ($this->existsKey($key)) {
@@ -845,7 +847,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     private function isAllowedValue($value)
     {
-        return (is_numeric($value) || is_string($value) || is_bool($value));
+        return is_numeric($value) || is_string($value) || is_bool($value);
     }
 
     /**
@@ -856,7 +858,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function checkForRequiredFields()
     {
-        $missingFields = array();
+        $missingFields = [];
 
         foreach ($this->requiredFields as $requiredField) {
             if (!$this->existsKey($requiredField)) {
@@ -961,7 +963,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         // If the property is not defined or the value is an empty string or
         // zero, no record will be created.
         if (!$this->existsKey($key)
-            || in_array($this->get($key), array('0', '', 0), true)
+            || in_array($this->get($key), ['0', '', 0], true)
         ) {
             return 0;
         }
@@ -972,7 +974,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             return $this->getAsInteger($key);
         }
 
-        $propertyArray = array('title' => $this->getAsString($key));
+        $propertyArray = ['title' => $this->getAsString($key)];
 
         if ($this->recordExistsInDatabase($propertyArray, $table)) {
             $uidOfProperty = $this->getRecordUid($propertyArray, $table);
@@ -1213,7 +1215,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      * @return int key of the newly created record, will be >= 0
      */
     public function addImageRecord(
-        $caption, $fileName, $position = 0, $thumbnailFileName = ''
+        $caption,
+        $fileName,
+        $position = 0,
+        $thumbnailFileName = ''
     ) {
         if ($this->isVirgin()) {
             throw new BadMethodCallException('A realty record must be loaded before images can be appended.', 1333035831);
@@ -1295,7 +1300,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         if ($this->isVirgin()) {
             throw new BadMethodCallException(
-                'A realty record must be loaded before images can be marked as deleted.', 1333035867
+                'A realty record must be loaded before images can be marked as deleted.',
+                1333035867
             );
         }
 
@@ -1367,7 +1373,9 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *                 was set
      */
     protected function createNewDatabaseEntry(
-        array $realtyData, $table = 'tx_realty_objects', $overridePid = 0
+        array $realtyData,
+        $table = 'tx_realty_objects',
+        $overridePid = 0
     ) {
         if (empty($realtyData)) {
             return 0;
@@ -1455,10 +1463,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     protected function recordExistsInDatabase(array $dataArray, $table = 'tx_realty_objects')
     {
         $databaseResult = $this->compareWithDatabase(
-            'COUNT(*) AS number', $dataArray, $table
+            'COUNT(*) AS number',
+            $dataArray,
+            $table
         );
 
-        return ($databaseResult['number'] >= 1);
+        return $databaseResult['number'] >= 1;
     }
 
     /**
@@ -1473,8 +1483,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
             return true;
         }
 
-        $dataArray = array();
-        foreach (array('object_number', 'language', 'openimmo_obid') as $key) {
+        $dataArray = [];
+        foreach (['object_number', 'language', 'openimmo_obid'] as $key) {
             if ($this->existsKey($key)) {
                 $dataArray[$key] = $this->get($key);
             }
@@ -1499,13 +1509,16 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      *                 none was found
      */
     private function getRecordUid(
-        array $dataArray, $table = 'tx_realty_objects'
+        array $dataArray,
+        $table = 'tx_realty_objects'
     ) {
         $databaseResultRow = $this->compareWithDatabase(
-            'uid', $dataArray, $table
+            'uid',
+            $dataArray,
+            $table
         );
 
-        return (!empty($databaseResultRow) ? $databaseResultRow['uid'] : 0);
+        return !empty($databaseResultRow) ? $databaseResultRow['uid'] : 0;
     }
 
     /**
@@ -1525,7 +1538,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     private function compareWithDatabase($whatToSelect, array $dataArray, $table)
     {
-        $whereClauseParts = array();
+        $whereClauseParts = [];
         foreach (array_keys($dataArray) as $key) {
             $whereClauseParts[] = $key . '=' .
                 Tx_Oelib_Db::getDatabaseConnection()->fullQuoteStr($dataArray[$key], $table);
@@ -1543,7 +1556,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
                 implode(' AND ', $whereClauseParts) . Tx_Oelib_Db::enableFields($table, $showHidden)
             );
         } catch (Tx_Oelib_Exception_EmptyQueryResult $exception) {
-            $result = array();
+            $result = [];
         }
 
         return $result;
@@ -1698,7 +1711,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
 
         // In case property is an integer, it is expected to be a UID, else
         // the foreign property's title is assumed to be directly provided.
-        if (!preg_match('/^\d+$/', $property)) {
+        if (!preg_match('/^\\d+$/', $property)) {
             return $property;
         }
 
@@ -1731,7 +1744,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         }
         $zipAndCity = trim($this->getZip() . ' ' . $this->getCity()->getTitle());
 
-        $addressParts = array();
+        $addressParts = [];
 
         if ($this->hasStreet()) {
             $addressParts[] = $this->getStreet();
@@ -1766,13 +1779,13 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     public function getGeoCoordinates()
     {
         if (!$this->hasGeoCoordinates()) {
-            return array();
+            return [];
         }
 
-        return array(
+        return [
             'latitude' => $this->getLatitude(),
             'longitude' => $this->getLongitude(),
-        );
+        ];
     }
 
     /**
@@ -1821,7 +1834,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         if (!isset($coordinates['latitude']) || !isset($coordinates['longitude'])) {
             throw new InvalidArgumentException(
-                'setGeoCoordinates requires both a latitude and a longitude.', 1340376055
+                'setGeoCoordinates requires both a latitude and a longitude.',
+                1340376055
             );
         }
 
@@ -1864,7 +1878,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     public function clearGeoCoordinates()
     {
-        $this->setGeoCoordinates(array('latitude' => 0.0, 'longitude' => 0.0));
+        $this->setGeoCoordinates(['latitude' => 0.0, 'longitude' => 0.0]);
         $this->setAsBoolean('has_coordinates', false);
     }
 
@@ -1918,7 +1932,10 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
         $interceptPoint = ($cropSize > 0) ? $cropSize : self::CROP_SIZE;
 
         return $this->charsetConversion->crop(
-            $this->renderCharset, $fullTitle, $interceptPoint, '…'
+            $this->renderCharset,
+            $fullTitle,
+            $interceptPoint,
+            '…'
         );
     }
 
@@ -1964,7 +1981,7 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     protected function getAddressParts()
     {
-        $result = array();
+        $result = [];
 
         if ($this->getShowAddress() && ($this->getAsString('street') != '')
         ) {
@@ -2016,12 +2033,12 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
      */
     protected function getFullContactNameFromObject()
     {
-        $nameParts = array(
+        $nameParts = [
             $this->getContactSalutation(),
             $this->getContactFirstName(),
             $this->getContactLastOrFullName(),
-        );
-        $nonEmptyNameParts = array();
+        ];
+        $nonEmptyNameParts = [];
         foreach ($nameParts as $namePart) {
             if ($namePart !== '') {
                 $nonEmptyNameParts[] = $namePart;
@@ -2302,7 +2319,8 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     {
         if ($distanceInMeters < 0) {
             throw new InvalidArgumentException(
-                '$distanceInMeters must be >= 0, but actually is: ' . $distanceInMeters, 1342813877
+                '$distanceInMeters must be >= 0, but actually is: ' . $distanceInMeters,
+                1342813877
             );
         }
 

@@ -27,7 +27,7 @@ class tx_realty_pi1_PrintPageButtonView extends tx_realty_pi1_FrontEndView
      *
      * @return string HTML for the print button, will not be empty
      */
-    public function render(array $piVars = array())
+    public function render(array $piVars = [])
     {
         return $this->getSubpart('FIELD_WRAPPER_PRINTPAGEBUTTON');
     }

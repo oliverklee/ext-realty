@@ -66,10 +66,10 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         /** @var TypoScriptFrontendController $frontEndController */
         $frontEndController = $GLOBALS['TSFE'];
         $this->fixture = new tx_realty_pi1_ObjectsByOwnerListView(
-            array(
+            [
                 'templateFile' => 'EXT:realty/pi1/tx_realty_pi1.tpl.htm',
                 'pages' => $this->systemFolderPid,
-            ),
+            ],
             $frontEndController->cObj,
             true
         );
@@ -94,7 +94,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
      *
      * @return void
      */
-    private function createObjectWithOwner(array $userData = array())
+    private function createObjectWithOwner(array $userData = [])
     {
         $owner = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser')
             ->getLoadedTestingModel($userData);
@@ -103,12 +103,12 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
             = $this->testingFramework->createRecord('tx_realty_cities');
         $this->objectUid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'title' => self::OBJECT_TITLE,
                 'pid' => $this->systemFolderPid,
                 'city' => $this->cityUid,
                 'owner' => $this->ownerUid,
-            )
+            ]
         );
     }
 
@@ -125,7 +125,8 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->testingFramework->existsRecordWithUid(
-                'tx_realty_objects', $this->objectUid
+                'tx_realty_objects',
+                $this->objectUid
             )
         );
     }
@@ -139,7 +140,8 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->testingFramework->existsRecordWithUid(
-                'tx_realty_cities', $this->cityUid
+                'tx_realty_cities',
+                $this->cityUid
             )
         );
     }
@@ -166,7 +168,8 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertTrue(
             $this->testingFramework->existsRecordWithUid(
-                'tx_realty_objects', $this->objectUid,
+                'tx_realty_objects',
+                $this->objectUid,
                 ' AND owner = ' . $this->ownerUid
             )
         );
@@ -177,7 +180,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
      */
     public function createObjectWithOwnerCanStoreUsernameForUser()
     {
-        $this->createObjectWithOwner(array('username' => 'foo'));
+        $this->createObjectWithOwner(['username' => 'foo']);
 
         /** @var tx_realty_Mapper_FrontEndUser $mapper */
         $mapper = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_FrontEndUser');
@@ -202,7 +205,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             '###',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -215,7 +218,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             $this->fixture->translate('label_offerings_by'),
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -228,7 +231,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             self::OBJECT_TITLE,
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -242,7 +245,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertNotContains(
             self::OBJECT_TITLE,
-            $this->fixture->render(array('owner' => $ownerUid))
+            $this->fixture->render(['owner' => $ownerUid])
         );
     }
 
@@ -254,17 +257,17 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         $this->createObjectWithOwner();
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'title' => 'lonely object',
                 'pid' => $this->systemFolderPid,
                 'city' => $this->cityUid,
                 'owner' => 0,
-            )
+            ]
         );
 
         self::assertNotContains(
             'lonely object',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -276,18 +279,18 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         $this->createObjectWithOwner();
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'title' => 'hidden object',
                 'pid' => $this->systemFolderPid,
                 'city' => $this->cityUid,
                 'owner' => $this->ownerUid,
                 'hidden' => 1,
-            )
+            ]
         );
 
         self::assertNotContains(
             'hidden object',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -299,7 +302,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         self::assertContains(
             $this->fixture->translate('message_noResultsFound_objects_by_owner'),
             $this->fixture->render(
-                array('owner' => $this->testingFramework->createFrontEndUser())
+                ['owner' => $this->testingFramework->createFrontEndUser()]
             )
         );
     }
@@ -313,12 +316,12 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
         $this->testingFramework->changeRecord(
             'tx_realty_objects',
             $this->objectUid,
-            array('hidden' => 1)
+            ['hidden' => 1]
         );
 
         self::assertContains(
             $this->fixture->translate('message_noResultsFound_objects_by_owner'),
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -331,7 +334,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             $this->fixture->translate('label_add_to_favorites'),
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -344,11 +347,11 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
      */
     public function displaysCompanyNameIfProvided()
     {
-        $this->createObjectWithOwner(array('company' => 'realty test company'));
+        $this->createObjectWithOwner(['company' => 'realty test company']);
 
         self::assertContains(
             'realty test company',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -358,15 +361,15 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     public function displaysFirstAndLastNameIfFirstAndLastNameAreSetAndNoCompanyIsSet()
     {
         $this->createObjectWithOwner(
-            array(
+            [
                 'last_name' => 'last name',
                 'first_name' => 'first name',
-            )
+            ]
         );
 
         self::assertContains(
             'first name last name',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -375,11 +378,11 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
      */
     public function displaysLastNameIfLastNameIsSetAndNeitherCompanyNorFirstNameAreSet()
     {
-        $this->createObjectWithOwner(array('last_name' => 'last name'));
+        $this->createObjectWithOwner(['last_name' => 'last name']);
 
         self::assertContains(
             'last name',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -389,15 +392,15 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     public function displaysNameIfFirstNameIsSetAndNeitherCompanyNorLastNameAreSet()
     {
         $this->createObjectWithOwner(
-            array(
+            [
                 'first_name' => 'first name',
                 'name' => 'test name',
-            )
+            ]
         );
 
         self::assertContains(
             'test name',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -406,11 +409,11 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
      */
     public function displaysNameIfNeitherCompanyNorLastNameNorFirstNameAreSet()
     {
-        $this->createObjectWithOwner(array('name' => 'test name'));
+        $this->createObjectWithOwner(['name' => 'test name']);
 
         self::assertContains(
             'test name',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -420,12 +423,12 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     public function displaysUsernameIfNeitherCompanyNorLastNameNorNameAreSet()
     {
         $this->createObjectWithOwner(
-            array('username' => 'test user')
+            ['username' => 'test user']
         );
 
         self::assertContains(
             'test user',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -440,7 +443,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     {
         self::assertContains(
             $this->fixture->translate('message_no_such_owner'),
-            $this->fixture->render(array('owner' => 0))
+            $this->fixture->render(['owner' => 0])
         );
     }
 
@@ -451,7 +454,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     {
         self::assertContains(
             $this->fixture->translate('label_sorry'),
-            $this->fixture->render(array('owner' => 0))
+            $this->fixture->render(['owner' => 0])
         );
     }
 
@@ -462,7 +465,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     {
         self::assertNotContains(
             $this->fixture->translate('label_offerings_by'),
-            $this->fixture->render(array('owner' => 0))
+            $this->fixture->render(['owner' => 0])
         );
     }
 
@@ -473,17 +476,17 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     {
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'title' => 'lonely object',
                 'pid' => $this->systemFolderPid,
                 'city' => $this->testingFramework->createRecord('tx_realty_cities'),
                 'owner' => 0,
-            )
+            ]
         );
 
         self::assertNotContains(
             'lonely object',
-            $this->fixture->render(array('owner' => 0))
+            $this->fixture->render(['owner' => 0])
         );
     }
 
@@ -500,7 +503,7 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
 
         self::assertContains(
             $this->fixture->translate('message_no_such_owner'),
-            $this->fixture->render(array('owner' => $ownerUid))
+            $this->fixture->render(['owner' => $ownerUid])
         );
     }
 
@@ -510,19 +513,20 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     public function displaysNoSuchOwnerMessageForDeletedFeUserWithObject()
     {
         $ownerUid = $this->testingFramework->createFrontEndUser(
-            '', array('deleted' => 1)
+            '',
+            ['deleted' => 1]
         );
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'owner' => $ownerUid,
                 'city' => $this->testingFramework->createRecord('tx_realty_cities'),
-            )
+            ]
         );
 
         self::assertContains(
             $this->fixture->translate('message_no_such_owner'),
-            $this->fixture->render(array('owner' => $ownerUid))
+            $this->fixture->render(['owner' => $ownerUid])
         );
     }
 
@@ -532,20 +536,21 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     public function notDisplaysADeletedFeUsersObject()
     {
         $ownerUid = $this->testingFramework->createFrontEndUser(
-            '', array('deleted' => 1)
+            '',
+            ['deleted' => 1]
         );
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'title' => 'object of deleted owner',
                 'owner' => $ownerUid,
                 'city' => $this->testingFramework->createRecord('tx_realty_cities'),
-            )
+            ]
         );
 
         self::assertNotContains(
             'object of deleted owner',
-            $this->fixture->render(array('owner' => $this->ownerUid))
+            $this->fixture->render(['owner' => $this->ownerUid])
         );
     }
 
@@ -555,19 +560,20 @@ class tx_realty_FrontEnd_ObjectsByOwnerListViewTest extends Tx_Phpunit_TestCase
     public function displaysLabelSorryForDeletedFeUserWithAnObject()
     {
         $ownerUid = $this->testingFramework->createFrontEndUser(
-            '', array('deleted' => 1)
+            '',
+            ['deleted' => 1]
         );
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            array(
+            [
                 'owner' => $ownerUid,
                 'city' => $this->testingFramework->createRecord('tx_realty_cities'),
-            )
+            ]
         );
 
         self::assertContains(
             $this->fixture->translate('label_sorry'),
-            $this->fixture->render(array('owner' => $ownerUid))
+            $this->fixture->render(['owner' => $ownerUid])
         );
     }
 }
