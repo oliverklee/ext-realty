@@ -34,7 +34,8 @@
     },
     "require-dev": {
         "helhum/typo3-composer-setup": "^0.5.1",
-        "phpunit/phpunit": "~4.8.0"
+        "oliverklee/phpunit": "^4.8.37",
+        "phpunit/phpunit": "^4.8.0"
     },
     "replace": {
         "realty": "self.version",
