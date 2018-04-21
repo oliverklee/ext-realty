@@ -38,6 +38,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ### Deprecated
 
 ### Removed
+- Drop the incorrect TYPO3 Core license headers  (#24)
 - drop the feature of importing into different folders by file name
 - drop old update functions
 - drop the css_styled_content requirement
