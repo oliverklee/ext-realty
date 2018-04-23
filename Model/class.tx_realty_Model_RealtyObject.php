@@ -1887,9 +1887,11 @@ class tx_realty_Model_RealtyObject extends tx_realty_Model_AbstractTitledModel i
     /**
      * Marks this object as having an error with the geo coordinates.
      *
+     * @param string $reason
+     *
      * @return void
      */
-    public function setGeoError()
+    public function setGeoError($reason = '')
     {
         $this->setAsBoolean('coordinates_problem', true);
     }
