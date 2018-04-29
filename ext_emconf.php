@@ -1,15 +1,5 @@
 <?php
 
-/***************************************************************
- * Extension Manager/Repository config file for ext "realty".
- *
- * Auto generated 17-01-2015 14:12
- *
- * Manual updates:
- * Only the data in the array - everything else is removed by next
- * writing. "version" and "dependencies" must not be touched!
- ***************************************************************/
-
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Realty Manager',
     'description' => 'Provides a plugin that displays realty objects (properties, real estate), including an image gallery for each object. For compatibility with TYPO3 7.6 and 8.7, please see the manual.',
