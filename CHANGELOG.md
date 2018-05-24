@@ -50,6 +50,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - drop global variables from pi1_wizicon
 
 ### Fixed
+- Re-add ext_autoload.php for compatibility with TYPO3 6.2 (#29)
 - Provide cli_dispatch.phpsh for 8.7 on Travis (#23)
 - Install Composer version of ameos/formidable from GitHub (#20)
 - send email after OpenImmo import again (#15)
