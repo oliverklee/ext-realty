@@ -21,41 +21,48 @@ organizations:
 
 - `Acco Real <http://www.accoreal.de/>`_
 
-- `ASTERIOS Design e. U. <http://www.multimedia-agentur.at/>`_
+- `ART-KON-TOR Kommunikation GmbH <https://www.art-kon-tor.de/>`_
 
-- `Dieter Schwab Immobilien <http://www.immobilien-schwab.de/>`_
+- `ASTERIOS Design e. U. <https://www.multimedia-agentur.at/>`_
 
-- `e-center <http://www.e-center.at/>`_
+- `Dieter Schwab Immobilien <https://www.immobilien-schwab.de/>`_
 
-- `Geonet IT GmbH <http://www.geo.net/>`_
+- e-center
 
-- `Immobilientreuhand Rathmanner <http://www.rathmanner.co.at/>`_
+- `Geonet GmbH <https://geonet.eu/>`_
 
-- `ISP media e.K. <http://www.isp-media.de/>`_
+- Heiko Özaykut
 
-- `jansass GmbH <http://www.jansass.com/>`_
+- `Facility Management Rathmanner <http://www.facility-management-rathmanner.at/>`_
 
-- `Kreisbaugesellschaft Tübingen mbH <http://www.kreisbau-tuebingen.de/>`_
+- `ISP media e.K. <https://www.isp-media.de/>`_
 
-- `maddesigns - Sven Wolfermann <http://www.maddesigns.de/>`_
+- `jansass GmbH <https://www.jansass.com/>`_
 
-- `PARAPLAN - Römhild & Steger GbR <http://www.paraplan.de/>`_
+- `Kreisbaugesellschaft Tübingen mbH <https://kreisbau.com/>`_
+
+- `maddesigns - Sven Wolfermann <http://maddesigns.de/>`_
+
+- `PARAPLAN <https://www.paraplan.de/>`_
+
+- `Duitslandhypotheek.info <http://www.duitslandhypotheek.info/>`_
 
 - Michael Pfannkuchen
 
-- `PEIS24.de <http://www.duitslandhypotheek.info/>`_
+- `plehn media <https://www.plehn-media.de/>`_
 
-- `plehn media <http://www.plehn-media.de/>`_
+- `pinkiwi GmbH & Co. KG <https://www.pinkiwi.de/>`_
 
-- `pinkiwi GmbH & Co. KG <http://www.pinkiwi.de/>`_
+- `PROFORMA Markus Eusterbrock <http://www.proforma-kassel.de/>`_
 
-- `TRYFACTORY <http://www.tryfactory.com/>`_ `, Die Internetagentur
-  <http://www.tryfactory.com/>`_
+- Rick Denburg
 
-- `tsitrone medien GmbH & Co. KG <http://www.tsitrone.de/>`_
+- `TRYFACTORY <https://www.tryfactory.com/>`_
 
-- `Verkon Media Systems Ltd. <http://www.verkon.de/>`_
+- `tsitrone medien GmbH & Co. KG <https://www.tsitrone.de/>`_
+
+- `Verkon Media <https://www.verkon.de/>`_
 
 - `Weber eBusiness Services GmbH <https://www.weber-ebusiness.de/>`_
 
-- `WVC Communications AG <http://www.wvc.ch/>`_
+- `WVC Communications AG <https://www.wvc.ch/>`_
