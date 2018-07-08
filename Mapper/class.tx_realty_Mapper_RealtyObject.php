@@ -47,15 +47,17 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      * Returns the number of realty objects in the city $city.
      *
      * @param tx_realty_Model_City $city the city for which to count the objects
+     * @param string $additionalWhereClause must either be empty or start with "AND"
      *
      * @return int the number of objects in the given city, will be >= 0
+     *
+     * @throws \Tx_Oelib_Exception_Database
      */
-    public function countByCity(tx_realty_Model_City $city)
+    public function countByCity(tx_realty_Model_City $city, $additionalWhereClause = '')
     {
         return Tx_Oelib_Db::count(
             $this->tableName,
-            '(city = ' . $city->getUid() . ') AND ' .
-                $this->getUniversalWhereClause()
+            '(city = ' . $city->getUid() . ') ' . $additionalWhereClause . ' AND ' . $this->getUniversalWhereClause()
         );
     }
 
@@ -64,15 +66,18 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
      *
      * @param tx_realty_Model_District $district
      *        the district for which to count the objects
+     * @param string $additionalWhereClause must either be empty or start with "AND"
      *
      * @return int the number of objects in the given district, will be >= 0
+     *
+     * @throws \Tx_Oelib_Exception_Database
      */
-    public function countByDistrict(tx_realty_Model_District $district)
+    public function countByDistrict(tx_realty_Model_District $district, $additionalWhereClause = '')
     {
         return Tx_Oelib_Db::count(
             $this->tableName,
-            '(district = ' . $district->getUid() . ') AND ' .
-                $this->getUniversalWhereClause()
+            '(district = ' . $district->getUid() . ') ' . $additionalWhereClause . ' AND '
+            . $this->getUniversalWhereClause()
         );
     }
 
