@@ -431,10 +431,16 @@ class tx_realty_filterForm extends tx_realty_pi1_FrontEndView
         $countFunction = 'countBy' . ucfirst($type);
         $models = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_' . ucfirst($type))->findAll('title ASC');
 
+        if ($this->hasConfValueString('staticSqlFilter')) {
+            $additionalWhereClause = ' AND ' . $this->getConfValueString('staticSqlFilter');
+        } else {
+            $additionalWhereClause = '';
+        }
+
         $options = '';
         /** @var tx_realty_Model_AbstractTitledModel $model */
         foreach ($models as $model) {
-            $numberOfMatches = $objectMapper->$countFunction($model);
+            $numberOfMatches = $objectMapper->$countFunction($model, $additionalWhereClause);
             if ($numberOfMatches == 0) {
                 continue;
             }
