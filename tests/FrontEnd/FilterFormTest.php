@@ -1045,9 +1045,19 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
         );
     }
 
-    ///////////////////////////////////////////////////
-    // Testing the filter form's WHERE clause parts.
-    ///////////////////////////////////////////////////
+    /*
+     * Tests for the WHERE clause part
+     */
+
+    /**
+     * @test
+     */
+    public function getWhereClausePartForEmptyFilterDataReturnsEmptyString()
+    {
+        $result = $this->fixture->getWhereClausePart([]);
+
+        static::assertSame('', $result);
+    }
 
     /**
      * @test
@@ -1611,10 +1621,11 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
         );
     }
 
-    /////////////////////////////////////////
-    // Tests concerning createDropDownItems
-    /////////////////////////////////////////
-    // Note: We test only the details for cities. The districts work the same.
+    /*
+     * Tests concerning createDropDownItems
+     *
+     * Note: We test only the details for cities. The districts work the same.
+     */
 
     /**
      * @test
@@ -1690,6 +1701,23 @@ class tx_realty_FrontEnd_FilterFormTest extends Tx_Phpunit_TestCase
         self::assertContains(
             'Foo city (2)',
             $this->fixture->createDropDownItems('city')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function createDropDownItemsForCityWithObjectWithStaticSqlFilterContainsItemWithCountOfMatches()
+    {
+        $cityUid = $this->testingFramework->createRecord('tx_realty_cities', ['title' => 'Foo city']);
+        $this->testingFramework->createRecord('tx_realty_objects', ['city' => $cityUid, 'title' => 'House']);
+        $this->testingFramework->createRecord('tx_realty_objects', ['city' => $cityUid, 'title' => 'Flat']);
+
+        $this->fixture->setConfigurationValue('staticSqlFilter', '(title = "House")');
+
+        $result = $this->fixture->createDropDownItems('city');
+
+        self::assertContains('Foo city (1)', $result
         );
     }
 
