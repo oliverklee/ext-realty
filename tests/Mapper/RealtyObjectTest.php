@@ -66,9 +66,9 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         );
     }
 
-    /////////////////////////////////
-    // Tests concerning countByCity
-    /////////////////////////////////
+    /*
+     * Tests concerning countByCity
+     */
 
     /**
      * @test
@@ -79,10 +79,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         /** @var tx_realty_Model_City $city */
         $city = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
 
-        self::assertEquals(
-            0,
-            $this->fixture->countByCity($city)
-        );
+        self::assertSame(0, $this->fixture->countByCity($city));
     }
 
     /**
@@ -99,10 +96,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
             ['city' => $cityUid]
         );
 
-        self::assertEquals(
-            1,
-            $this->fixture->countByCity($city)
-        );
+        self::assertSame(1, $this->fixture->countByCity($city));
     }
 
     /**
@@ -123,15 +117,27 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
             ['city' => $cityUid]
         );
 
-        self::assertEquals(
-            2,
-            $this->fixture->countByCity($city)
-        );
+        self::assertSame(2, $this->fixture->countByCity($city));
     }
 
-    /////////////////////////////////////
-    // Tests concerning countByDistrict
-    /////////////////////////////////////
+    /**
+     * @test
+     */
+    public function countByCityTakesAdditionalWhereClauseIntoAccount()
+    {
+        $cityUid = $this->testingFramework->createRecord('tx_realty_cities');
+        /** @var \tx_realty_Model_City $city */
+        $city = \Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_City')->find($cityUid);
+
+        $this->testingFramework->createRecord('tx_realty_objects', ['city' => $cityUid, 'title' => 'Studio']);
+        $this->testingFramework->createRecord('tx_realty_objects', ['city' => $cityUid, 'title' => 'Shared flat']);
+
+        self::assertSame(1, $this->fixture->countByCity($city, 'AND title = "Studio"'));
+    }
+
+    /*
+     * Tests concerning countByDistrict
+     */
 
     /**
      * @test
@@ -142,10 +148,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
         /** @var tx_realty_Model_District $district */
         $district = Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
 
-        self::assertEquals(
-            0,
-            $this->fixture->countByDistrict($district)
-        );
+        self::assertSame(0, $this->fixture->countByDistrict($district));
     }
 
     /**
@@ -162,10 +165,7 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
             ['district' => $districtUid]
         );
 
-        self::assertEquals(
-            1,
-            $this->fixture->countByDistrict($district)
-        );
+        self::assertSame(1, $this->fixture->countByDistrict($district));
     }
 
     /**
@@ -186,10 +186,22 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
             ['district' => $districtUid]
         );
 
-        self::assertEquals(
-            2,
-            $this->fixture->countByDistrict($district)
-        );
+        self::assertSame(2, $this->fixture->countByDistrict($district));
+    }
+
+    /**
+     * @test
+     */
+    public function countByDistrictTakesAdditionalWhereClauseIntoAccount()
+    {
+        $districtUid = $this->testingFramework->createRecord('tx_realty_districts');
+        /** @var tx_realty_Model_District $district */
+        $district = \Tx_Oelib_MapperRegistry::get('tx_realty_Mapper_District')->find($districtUid);
+
+        $this->testingFramework->createRecord('tx_realty_objects', ['district' => $districtUid, 'title' => 'Studio']);
+        $this->testingFramework->createRecord('tx_realty_objects', ['district' => $districtUid, 'title' => 'Room']);
+
+        self::assertSame(1, $this->fixture->countByDistrict($district, 'AND title = "Studio"'));
     }
 
     //////////////////////////////////////////////////////////////
