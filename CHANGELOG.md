@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Make more fields available in the list view (#31)
 - switch from ext_autoload to Composer autoloading (#9)
 - Composer script for PHP linting (#5)
 - add TravisCI builds
