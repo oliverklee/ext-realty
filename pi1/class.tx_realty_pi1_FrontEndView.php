@@ -10,9 +10,11 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 abstract class tx_realty_pi1_FrontEndView extends Tx_Oelib_Templatehelper
 {
     /**
-     * @var string path to this script relative to the extension dir
+     * faking $this->scriptRelPath so the locallang.xlf file is found
+     *
+     * @var string
      */
-    public $scriptRelPath = 'pi1/class.tx_realty_pi1_FrontEndView.php';
+    public $scriptRelPath = 'Resources/Private/Language/locallang.xlf';
 
     /**
      * @var string same as plugin name

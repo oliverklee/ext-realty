@@ -18,9 +18,11 @@ class tx_realty_pi1 extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interfac
     public $prefixId = 'tx_realty_pi1';
 
     /**
-     * @var string path to this script relative to the extension directory
+     * faking $this->scriptRelPath so the locallang.xlf file is found
+     *
+     * @var string
      */
-    public $scriptRelPath = 'pi1/class.tx_realty_pi1.php';
+    public $scriptRelPath = 'Resources/Private/Language/locallang.xlf';
 
     /**
      * @var string the extension key
