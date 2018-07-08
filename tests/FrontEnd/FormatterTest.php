@@ -843,6 +843,28 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function getPropertyFormatsDescriptionAsRichText()
+    {
+        $text = '<strong>Hello</strong>';
+        $this->realtyObject->setProperty('description', $text);
+
+        self::assertSame($text, $this->fixture->getProperty('description'));
+    }
+
+    /**
+     * @test
+     */
+    public function getPropertyFormatsTeaserAsRichText()
+    {
+        $text = '<strong>Hello</strong>';
+        $this->realtyObject->setProperty('teaser', $text);
+
+        self::assertSame($text, $this->fixture->getProperty('teaser'));
+    }
+
     /////////////////////////////////////////
     // Tests concerning formatDecimal
     /////////////////////////////////////////

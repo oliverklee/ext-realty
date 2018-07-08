@@ -221,6 +221,8 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
             case 'sea_view':
                 $result = ($rawProperty == 1) ? $this->translate('message_yes') : '';
                 break;
+            case 'teaser':
+                // The fallthrough is intended.
             case 'description':
                 // The fallthrough is intended.
             case 'equipment':
