@@ -19,11 +19,6 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     public $prefixId = 'tx_realty_pi1';
 
     /**
-     * @var string path to this script relative to the extension directory
-     */
-    public $scriptRelPath = 'pi1/class.tx_realty_pi1_AbstractListView.php';
-
-    /**
      * @var bool whether this class is called in the test mode
      */
     protected $isTestMode = false;
