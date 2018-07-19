@@ -57,7 +57,6 @@ class tx_realty_domDocumentConverter
         'rent_per_square_meter' => ['preise' => 'mietpreis_pro_qm'],
         'provision' => ['preise' => 'aussen_courtage'],
         'year_rent' => ['preise' => 'mieteinnahmen_ist'],
-        'deposit' => ['preise' => 'kaution'],
 
         // OpenImmo tag for 'usable_from' could possibly be 'abdatum'.
         'usable_from' => ['verwaltung_objekt' => 'verfuegbar_ab'],
@@ -378,6 +377,7 @@ class tx_realty_domDocumentConverter
         $this->fetchEnergyCertificateType();
         $this->fetchEnergyCertificateYear();
         $this->fetchBuildingType();
+        $this->fetchDeposit();
 
         $this->replaceImportedBooleanLikeStrings();
         $this->substituteSurplusDecimals();
@@ -1219,8 +1219,7 @@ class tx_realty_domDocumentConverter
      * @param string $nameOfChild name of child, must not be empty
      * @param string $nameOfGrandchild name of grandchild, must not be empty
      *
-     * @return DOMNode first grandchild with this name, NULL if it does not
-     *                 exist
+     * @return DOMNode first grandchild with this name, null if it does not exist
      */
     protected function findFirstGrandchild($nameOfChild, $nameOfGrandchild)
     {
@@ -1455,6 +1454,27 @@ class tx_realty_domDocumentConverter
 
         if ($nodeWithAttributes) {
             $this->addImportedDataIfValueIsNonEmpty('rent_excluding_bills', $nodeWithAttributes->nodeValue);
+        }
+    }
+
+    /**
+     * Fetches the deposit from the XML.
+     *
+     * The deposit will be fetched from preise > kaution_text, and if that is empty, from preise > kaution.
+     *
+     * @return void
+     */
+    private function fetchDeposit()
+    {
+        $depositTextNode = $this->findFirstGrandchild('preise', 'kaution_text');
+        if ($depositTextNode !== null && $depositTextNode->nodeValue !== '') {
+            $this->addImportedDataIfValueIsNonEmpty('deposit', $depositTextNode->nodeValue);
+        } else {
+            $depositNumberNode = $this->findFirstGrandchild('preise', 'kaution');
+            if ($depositNumberNode !== null && $depositNumberNode->nodeValue !== '') {
+                $deposit = (float)$depositNumberNode->nodeValue;
+                $this->addImportedDataIfValueIsNonEmpty('deposit', (string)$deposit);
+            }
         }
     }
 }

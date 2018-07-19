@@ -4572,6 +4572,74 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function getConvertedDataImportsDepositAsFloat()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<preise>' .
+                            '<kaution>1234.56</kaution>' .
+                        '</preise>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->fixture->getConvertedData($node);
+
+        self::assertSame('1234.56', $result[0]['deposit']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataImportsDepositAsInt()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<preise>' .
+                            '<kaution>1234</kaution>' .
+                        '</preise>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->fixture->getConvertedData($node);
+
+        self::assertSame(1234, $result[0]['deposit']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataImportsDepositAsText()
+    {
+        $deposit = 'one rent';
+
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<preise>' .
+                            '<kaution_text>' . $deposit . '</kaution_text>' .
+                        '</preise>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->fixture->getConvertedData($node);
+
+        self::assertSame($deposit, $result[0]['deposit']);
+    }
+
     ////////////////////////////////////////
     // Tests concerning fetchDomAttributes
     ////////////////////////////////////////
