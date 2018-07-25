@@ -4503,7 +4503,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function getConvertedDataImportsNumberOfBalconies()
+    public function getConvertedDataImportsNumberOfBalconiesFromBalconiesAndPatios()
     {
         $node = $this->setRawDataToConvert(
             '<openimmo>' .
@@ -4518,10 +4518,51 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         );
 
         $importedData = $this->fixture->getConvertedData($node);
-        self::assertSame(
-            1,
-            $importedData[0]['balcony']
+
+        self::assertSame(1, $importedData[0]['balcony']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataImportsNumberOfBalconies()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<flaechen>' .
+                            '<anzahl_balkone>1</anzahl_balkone>' .
+                        '</flaechen>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
         );
+
+        $importedData = $this->fixture->getConvertedData($node);
+        self::assertSame(1, $importedData[0]['balcony']);
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataRecognizesNoBalconiesAndNoPatios()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<flaechen>' .
+                            '<anzahl_balkon_terrassen>0</anzahl_balkon_terrassen>' .
+                            '<anzahl_balkone>0</anzahl_balkone>' .
+                        '</flaechen>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $importedData = $this->fixture->getConvertedData($node);
+        self::assertNull($importedData[0]['balcony']);
     }
 
     /**
