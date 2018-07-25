@@ -18,6 +18,8 @@ Live examples
 
 - `Berlinmægleren <https://www.berlinmaegleren.com/>`_
 
+- `casa domani <https://www.casadomani.de/>`_
+
 - `Dieter Schwab Immobilien <https://www.immobilien-schwab.de/>`_
 
 - `EWG Berlin-Pankow eG <https://www.ewg-pankow.de/wohnen/wohnungsangebote.html>`_
