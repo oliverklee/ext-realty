@@ -48,7 +48,6 @@ class tx_realty_domDocumentConverter
         'number_of_rooms' => ['flaechen' => 'anzahl_zimmer'],
         'bedrooms' => ['flaechen' => 'anzahl_schlafzimmer'],
         'bathrooms' => ['flaechen' => 'anzahl_badezimmer'],
-        'balcony' => ['flaechen' => 'anzahl_balkon_terrassen'],
         'parking_spaces' => ['flaechen' => 'anzahl_stellplaetze'],
         'buying_price' => ['preise' => 'kaufpreis'],
         'extra_charges' => ['preise' => 'nebenkosten'],
@@ -349,8 +348,7 @@ class tx_realty_domDocumentConverter
      * the database table 'tx_realty_objects'. The result is an empty array if
      * the given data is of an invalid format.
      *
-     * @return array data of the realty object, empty if the DOMNode is
-     *               not convertible
+     * @return array data of the realty object, empty if the DOMNode is not convertible
      */
     private function getRealtyArray()
     {
@@ -378,6 +376,7 @@ class tx_realty_domDocumentConverter
         $this->fetchEnergyCertificateYear();
         $this->fetchBuildingType();
         $this->fetchDeposit();
+        $this->fetchBalcony();
 
         $this->replaceImportedBooleanLikeStrings();
         $this->substituteSurplusDecimals();
@@ -1476,5 +1475,25 @@ class tx_realty_domDocumentConverter
                 $this->addImportedDataIfValueIsNonEmpty('deposit', (string)$deposit);
             }
         }
+    }
+
+    /**
+     * Fetches the balcony presence from the XML.
+     *
+     * @return void
+     */
+    private function fetchBalcony()
+    {
+        $hasBalconies = false;
+
+        $balconiesNode = $this->findFirstGrandchild('flaechen', 'anzahl_balkone');
+        if ($balconiesNode !== null) {
+            $hasBalconies = $hasBalconies || (bool)$balconiesNode->nodeValue;
+        }
+        $balconyAndPatioNode = $this->findFirstGrandchild('flaechen', 'anzahl_balkon_terrassen');
+        if ($balconyAndPatioNode !== null) {
+            $hasBalconies = $hasBalconies || (bool)$balconyAndPatioNode->nodeValue;
+        }
+        $this->addImportedDataIfValueIsNonEmpty('balcony', (int)$hasBalconies);
     }
 }
