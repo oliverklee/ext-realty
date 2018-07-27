@@ -277,28 +277,7 @@ override the corresponding value from TS Setup.**
          will be shown in the table in the single view
 
    Default
-         house\_type, apartment\_type, total\_area, total\_usable\_area,
-         living\_area, office\_space, shop\_area, sales\_area,
-         site\_occupancy\_index, floor\_space\_index, window\_bank,
-         storage\_area, other\_area, estate\_size, garage\_type,
-         parking\_spaces, state, status, usable\_from, number\_of\_rooms,
-         bedrooms, bathrooms, heating\_type, furnishing\_category, flooring,
-         construction\_year, floor, floors, layout, pets, balcony, garden,
-         elevator, barrier\_free, assisted\_living, fitted\_kitchen,
-         has\_air\_conditioning, has\_pool, has\_community\_pool,
-         distance\_to\_the\_sea, sea\_view, buying\_price,
-         rent\_excluding\_bills, year\_rent, rental\_income\_target,
-         rent\_per\_square\_meter, extra\_charges, heating\_included, deposit,
-         hoa\_fee, provision, garage\_rent, garage\_price,
-         energy\_certificate\_type, energy\_certificate\_valid\_until,
-         energy\_consumption\_characteristic, with\_hot\_water,
-         ultimate\_energy\_demand, primary\_energy\_carrier,
-         electric\_power\_consumption\_characteristic,
-         heat\_energy\_consumption\_characteristic, value\_category,
-         year\_of\_construction, energy\_certificate\_issue\_date,
-         energy\_certificate\_year, building\_type, energy\_certificate\_text,
-         heat\_energy\_requirement\_value, heat\_energy\_requirement\_class,
-         total\_energy\_efficiency\_value, total\_energy\_efficiency\_class
+         house\_type, apartment\_type, total\_area, total\_usable\_area, living\_area, office\_space, shop\_area, sales\_area, site\_occupancy\_index, floor\_space\_index, window\_bank, storage\_area, other\_area, estate\_size, garage\_type, parking\_spaces, state, status, usable\_from, number\_of\_rooms, bedrooms, bathrooms, heating\_type, furnishing\_category, flooring, construction\_year, floor, floors, layout, pets, balcony, garden, barrier\_free, wheelchair\_accessible, elevator, ramp, lifting\_platform, suitable\_for\_the\_elderly, assisted\_living, fitted\_kitchen, has\_air\_conditioning, has\_pool, has\_community\_pool, distance\_to\_the\_sea, sea\_view, buying\_price, rent\_excluding\_bills, year\_rent, rental\_income\_target, rent\_per\_square\_meter, extra\_charges, heating\_included, deposit, hoa\_fee, provision, garage\_rent, garage\_price, energy\_certificate\_type, energy\_certificate\_valid\_until, energy\_consumption\_characteristic, with\_hot\_water, ultimate\_energy\_demand, primary\_energy\_carrier, electric\_power\_consumption\_characteristic, heat\_energy\_consumption\_characteristic, value\_category, year\_of\_construction, energy\_certificate\_issue\_date, energy\_certificate\_year, building\_type, energy\_certificate\_text, heat\_energy\_requirement\_value, heat\_energy\_requirement\_class, total\_energy\_efficiency\_value, total\_energy\_efficiency\_class
 
 
 .. container:: table-row

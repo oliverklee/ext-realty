@@ -532,12 +532,44 @@
 				<target>Meerblick</target>
 			</trans-unit>
 			<trans-unit id="label_barrier_free" xml:space="preserve" approved="yes">
-				<source>Accessible</source>
-				<target>Rollstuhlgerecht</target>
+				<source>Barrier-free</source>
+				<target>Barrierefrei</target>
 			</trans-unit>
 			<trans-unit id="label_barrier_free_short" xml:space="preserve" approved="yes">
-				<source>accessible</source>
+				<source>barrier-free</source>
+				<target>barrierefrei</target>
+			</trans-unit>
+			<trans-unit id="label_wheelchair_accessible" xml:space="preserve" approved="yes">
+				<source>Wheelchair-accessible</source>
+				<target>Rollstuhlgerecht</target>
+			</trans-unit>
+			<trans-unit id="label_wheelchair_accessible_short" xml:space="preserve" approved="yes">
+				<source>wheelchair-accessible</source>
 				<target>rollstuhlgerecht</target>
+			</trans-unit>
+			<trans-unit id="label_ramp" xml:space="preserve" approved="yes">
+				<source>Ramp</source>
+				<target>Rampe</target>
+			</trans-unit>
+			<trans-unit id="label_ramp_short" xml:space="preserve" approved="yes">
+				<source>ramp</source>
+				<target>Rampe</target>
+			</trans-unit>
+			<trans-unit id="label_lifting_platform" xml:space="preserve" approved="yes">
+				<source>Lifting platform</source>
+				<target>Hebebühne</target>
+			</trans-unit>
+			<trans-unit id="label_lifting_platform_short" xml:space="preserve" approved="yes">
+				<source>lifting platform</source>
+				<target>Hebebühne</target>
+			</trans-unit>
+			<trans-unit id="label_suitable_for_the_elderly" xml:space="preserve" approved="yes">
+				<source>Suitable for the elderly</source>
+				<target>Seniorengerecht</target>
+			</trans-unit>
+			<trans-unit id="label_suitable_for_the_elderly_short" xml:space="preserve" approved="yes">
+				<source>senior-friendly</source>
+				<target>seniorengerecht</target>
 			</trans-unit>
 			<trans-unit id="label_assisted_living" xml:space="preserve" approved="yes">
 				<source>Assisted living</source>

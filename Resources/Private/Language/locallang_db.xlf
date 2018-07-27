@@ -369,11 +369,26 @@
 			<trans-unit id="tx_realty_objects.garden" xml:space="preserve">
 				<source>Garden (usage)</source>
 			</trans-unit>
+			<trans-unit id="tx_realty_objects.accessibility" xml:space="preserve">
+				<source>Accessibility</source>
+			</trans-unit>
 			<trans-unit id="tx_realty_objects.elevator" xml:space="preserve">
 				<source>Elevator</source>
 			</trans-unit>
 			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve">
-				<source>Accessible</source>
+				<source>Barrier-free</source>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.wheelchair_accessible" xml:space="preserve">
+				<source>Wheelchair-accessible</source>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.ramp" xml:space="preserve">
+				<source>Ramp</source>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.lifting_platform" xml:space="preserve">
+				<source>Lifting platform</source>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.suitable_for_the_elderly" xml:space="preserve">
+				<source>Suitable for the elderly</source>
 			</trans-unit>
 			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve">
 				<source>Assisted living</source>

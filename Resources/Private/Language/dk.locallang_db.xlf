@@ -172,7 +172,7 @@
 				<target>Elevator</target>
 			</trans-unit>
 			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve" approved="yes">
-				<source>Accessible</source>
+				<source>Barrier-free</source>
 				<target>Tilgængelig</target>
 			</trans-unit>
 			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve" approved="yes">

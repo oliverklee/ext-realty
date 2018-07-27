@@ -400,10 +400,34 @@
 				<source>Sea view</source>
 			</trans-unit>
 			<trans-unit id="label_barrier_free" xml:space="preserve">
-				<source>Accessible</source>
+				<source>Barrier-free</source>
 			</trans-unit>
 			<trans-unit id="label_barrier_free_short" xml:space="preserve">
-				<source>accessible</source>
+				<source>barrier-free</source>
+			</trans-unit>
+			<trans-unit id="label_wheelchair_accessible" xml:space="preserve">
+				<source>Wheelchair-accessible</source>
+			</trans-unit>
+			<trans-unit id="label_wheelchair_accessible_short" xml:space="preserve">
+				<source>wheelchair-accessible</source>
+			</trans-unit>
+			<trans-unit id="label_ramp" xml:space="preserve">
+				<source>Ramp</source>
+			</trans-unit>
+			<trans-unit id="label_ramp_short" xml:space="preserve">
+				<source>ramp</source>
+			</trans-unit>
+			<trans-unit id="label_lifting_platform" xml:space="preserve">
+				<source>Lifting platform</source>
+			</trans-unit>
+			<trans-unit id="label_lifting_platform_short" xml:space="preserve">
+				<source>lifting platform</source>
+			</trans-unit>
+			<trans-unit id="label_suitable_for_the_elderly" xml:space="preserve">
+				<source>Suitable for the elderly</source>
+			</trans-unit>
+			<trans-unit id="label_suitable_for_the_elderly_short" xml:space="preserve">
+				<source>senior-friendly</source>
 			</trans-unit>
 			<trans-unit id="label_assisted_living" xml:space="preserve">
 				<source>Assisted living</source>
