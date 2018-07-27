@@ -50,6 +50,20 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
     ];
 
     /**
+     * @var string[]
+     */
+    protected static $booleanFeatureFields = [
+        'balcony',
+        'garden',
+        'fitted_kitchen',
+        'elevator',
+        'barrier_free',
+        'wheelchair_accessible',
+        'suitable_for_the_elderly',
+        'assisted_living',
+    ];
+
+    /**
      * @var string the locallang key to the label of a list view
      */
     protected $listViewLabel = '';
@@ -900,13 +914,9 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
             }
         }
 
-        // get features set with (bool) checkboxes
-        foreach ([
-            'balcony', 'garden', 'elevator', 'barrier_free',
-            'assisted_living', 'fitted_kitchen', ]
-        as $key) {
-            if ($this->internal['currentRow'][$key]) {
-                $features[] = ($this->translate('label_' . $key . '_short') != '')
+        foreach (static::$booleanFeatureFields as $key) {
+            if ((bool)$this->internal['currentRow'][$key]) {
+                $features[] = $this->translate('label_' . $key . '_short') !== ''
                     ? $this->translate('label_' . $key . '_short')
                     : $this->translate('label_' . $key);
             }

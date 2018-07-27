@@ -476,11 +476,11 @@
 				<target>gemeenschappelijk zwembad</target>
 			</trans-unit>
 			<trans-unit id="label_barrier_free" xml:space="preserve" approved="yes">
-				<source>Accessible</source>
+				<source>Barrier-free</source>
 				<target>Rolstoelvoorzieningen</target>
 			</trans-unit>
 			<trans-unit id="label_barrier_free_short" xml:space="preserve" approved="yes">
-				<source>accessible</source>
+				<source>barrier-free</source>
 				<target>rolstoelvoorzieningen</target>
 			</trans-unit>
 			<trans-unit id="label_assisted_living" xml:space="preserve" approved="yes">

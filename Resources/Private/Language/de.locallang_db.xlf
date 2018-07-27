@@ -491,13 +491,33 @@
 				<source>Garden (usage)</source>
 				<target>Garten(-mitbenutzung)</target>
 			</trans-unit>
+			<trans-unit id="tx_realty_objects.accessibility" xml:space="preserve">
+				<source>Accessibility</source>
+				<target>Barrierefreiheit</target>
+			</trans-unit>
 			<trans-unit id="tx_realty_objects.elevator" xml:space="preserve" approved="yes">
 				<source>Elevator</source>
 				<target>Personenaufzug</target>
 			</trans-unit>
 			<trans-unit id="tx_realty_objects.barrier_free" xml:space="preserve" approved="yes">
-				<source>Accessible</source>
+				<source>Barrier-free</source>
+				<target>Barrierefrei</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.wheelchair_accessible" xml:space="preserve" approved="yes">
+				<source>Wheelchair-accessible</source>
 				<target>Rollstuhlgerecht</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.ramp" xml:space="preserve" approved="yes">
+				<source>Ramp</source>
+				<target>Rampe</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.lifting_platform" xml:space="preserve" approved="yes">
+				<source>Lifting platform</source>
+				<target>Hebebühne</target>
+			</trans-unit>
+			<trans-unit id="tx_realty_objects.suitable_for_the_elderly" xml:space="preserve" approved="yes">
+				<source>Suitable for the elderly</source>
+				<target>Seniorengerecht</target>
 			</trans-unit>
 			<trans-unit id="tx_realty_objects.assisted_living" xml:space="preserve" approved="yes">
 				<source>Assisted living</source>

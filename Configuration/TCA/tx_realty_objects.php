@@ -38,18 +38,19 @@ return [
             'year_rent,rental_income_target,status,apartment_type,house_type,floor,floors,bedrooms,' .
             'bathrooms,heating_type,has_air_conditioning,garage_type,parking_spaces,garage_rent,' .
             'garage_price,pets,flooring,construction_year,old_or_new_building,' .
-            'state,furnishing_category,balcony,garden,elevator,barrier_free,' .
-            'assisted_living,fitted_kitchen, has_pool,has_community_pool,teaser,' .
+            'state,furnishing_category,balcony,garden,' .
+            'fitted_kitchen, has_pool,has_community_pool,teaser,' .
             'description,equipment,layout,location,misc,details_page,images,' .
             'employer,openimmo_anid,openimmo_obid,utilization,contact_data_source,' .
             'contact_person,contact_person_first_name,contact_person_salutation,contact_email,phone_switchboard,' .
             'phone_direct_extension,owner,language,currency,' .
-            'has_coordinates,coordinates_problem,longitude,latitude,' .
             'advertised_date, energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
             'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
             'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
             'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
-            'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class',
+            'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
+            'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, assisted_living, ' .
+            'has_coordinates,coordinates_problem,longitude,latitude',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -975,8 +976,35 @@ return [
             ],
         ],
         'barrier_free' => [
-            'exclude' => 0,
             'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.barrier_free',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'wheelchair_accessible' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.wheelchair_accessible',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'ramp' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.ramp',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'lifting_platform' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.lifting_platform',
+            'config' => [
+                'type' => 'check',
+            ],
+        ],
+        'suitable_for_the_elderly' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.suitable_for_the_elderly',
             'config' => [
                 'type' => 'check',
             ],
@@ -1479,8 +1507,7 @@ return [
                 'apartment_type, house_type, floor, floors, bedrooms, ' .
                 'bathrooms, heating_type, has_air_conditioning, garage_type, parking_spaces, ' .
                 'garage_rent, pets, flooring, construction_year, old_or_new_building, ' .
-                'state, furnishing_category, balcony, garden, elevator, barrier_free, ' .
-                'assisted_living, fitted_kitchen, has_pool, has_community_pool,' .
+                'state, furnishing_category, balcony, garden, fitted_kitchen, has_pool, has_community_pool,' .
                 'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
                 'bold|italic|underline|left|center|right|orderedlist|' .
                 'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
@@ -1507,14 +1534,16 @@ return [
                 'contact_person;;2, contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
                 'advertised_date;;;;2-2-2, ' .
-                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, ' .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
                 'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
                 'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
                 'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
-                'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class',
+                'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
+                'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
+                'has_coordinates, coordinates_problem, longitude, latitude'
         ],
         '1' => [
             // for sale
@@ -1531,8 +1560,7 @@ return [
                 'apartment_type, house_type, floor, floors, bedrooms, bathrooms, ' .
                 'heating_type, has_air_conditioning, garage_type, parking_spaces, garage_price, ' .
                 'flooring, construction_year, old_or_new_building, state, ' .
-                'furnishing_category, balcony, garden, elevator, barrier_free, ' .
-                'fitted_kitchen, has_pool, has_community_pool, ' .
+                'furnishing_category, balcony, garden, fitted_kitchen, has_pool, has_community_pool, ' .
                 'teaser;;;richtext[cut|copy|paste|formatblock|textcolor|' .
                 'bold|italic|underline|left|center|right|orderedlist|' .
                 'unorderedlist|outdent|indent|link|table|image|line|chMode]' .
@@ -1559,14 +1587,16 @@ return [
                 'contact_person;;2, contact_email, phone_switchboard, ' .
                 'phone_direct_extension, owner, language, currency, ' .
                 'advertised_date;;;;2-2-2, ' .
-                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
-                'has_coordinates, coordinates_problem, longitude, latitude, ' .
                 '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.energy_certificate, ' .
                 'energy_certificate_type, energy_certificate_valid_until, energy_consumption_characteristic, ' .
                 'with_hot_water, ultimate_energy_demand, primary_energy_carrier, electric_power_consumption_characteristic, ' .
                 'heat_energy_consumption_characteristic, value_category, year_of_construction, energy_certificate_issue_date, ' .
                 'energy_certificate_year, building_type, energy_certificate_text, heat_energy_requirement_value, ' .
-                'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class',
+                'heat_energy_requirement_class, total_energy_efficiency_value, total_energy_efficiency_class, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.accessibility, ' .
+                'elevator, barrier_free, wheelchair_accessible, ramp, lifting_platform, suitable_for_the_elderly, ' .
+                '--div--;LLL:EXT:realty/Resources/Private/Language/locallang_db.xlf:tx_realty_objects.geo, ' .
+                'has_coordinates, coordinates_problem, longitude, latitude'
         ],
     ],
     'palettes' => [

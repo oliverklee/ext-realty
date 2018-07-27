@@ -54,7 +54,7 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
         if (!$mapper->existsModel($realtyObjectUid, true)) {
             throw new InvalidArgumentException(
                 'There was no realty object to load with the provided UID of ' . $realtyObjectUid .
-                    '. The formatter can only work for existing, non-deleted realty objects.',
+                '. The formatter can only work for existing, non-deleted realty objects.',
                 1333036514
             );
         }
@@ -219,7 +219,15 @@ class tx_realty_pi1_Formatter extends Tx_Oelib_Templatehelper
             case 'with_hot_water':
                 // The fallthrough is intended.
             case 'sea_view':
-                $result = ($rawProperty == 1) ? $this->translate('message_yes') : '';
+                // The fallthrough is intended.
+            case 'wheelchair_accessible':
+                // The fallthrough is intended.
+            case 'ramp':
+                // The fallthrough is intended.
+            case 'lifting_platform':
+                // The fallthrough is intended.
+            case 'suitable_for_the_elderly':
+                $result = (bool)$rawProperty ? $this->translate('message_yes') : '';
                 break;
             case 'teaser':
                 // The fallthrough is intended.

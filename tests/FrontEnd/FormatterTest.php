@@ -90,7 +90,7 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
         $this->setExpectedException(
             'InvalidArgumentException',
             'There was no realty object to load with the provided UID of ' . $this->realtyObject->getUid() .
-                '. The formatter can only work for existing, non-deleted realty objects.'
+            '. The formatter can only work for existing, non-deleted realty objects.'
         );
 
         new tx_realty_pi1_Formatter($this->realtyObject->getUid(), [], $this->getFrontEndController()->cObj);
@@ -172,8 +172,8 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             $this->fixture->translate('label_heating_type_1') . ', ' .
-                $this->fixture->translate('label_heating_type_3') . ', ' .
-                $this->fixture->translate('label_heating_type_4'),
+            $this->fixture->translate('label_heating_type_3') . ', ' .
+            $this->fixture->translate('label_heating_type_4'),
             $this->fixture->getProperty('heating_type')
         );
     }
@@ -235,12 +235,12 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     public function getPropertyReturnsTitleOfCity()
     {
         $this->realtyObject->setProperty(
-                'city',
-                $this->testingFramework->createRecord(
-                    'tx_realty_cities',
-                    ['title' => 'test city']
-                )
-            );
+            'city',
+            $this->testingFramework->createRecord(
+                'tx_realty_cities',
+                ['title' => 'test city']
+            )
+        );
 
         self::assertEquals(
             'test city',
@@ -254,12 +254,12 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     public function getPropertyReturnsHtmlSpecialcharedTitleOfCity()
     {
         $this->realtyObject->setProperty(
-                'city',
-                $this->testingFramework->createRecord(
-                    'tx_realty_cities',
-                    ['title' => 'test<br/>city']
-                )
-            );
+            'city',
+            $this->testingFramework->createRecord(
+                'tx_realty_cities',
+                ['title' => 'test<br/>city']
+            )
+        );
 
         self::assertEquals(
             htmlspecialchars('test<br/>city'),
@@ -804,29 +804,52 @@ class tx_realty_FrontEnd_FormatterTest extends Tx_Phpunit_TestCase
     }
 
     /**
-     * @test
+     * @return string[][][]
      */
-    public function getPropertyForSeaViewReturnsYes()
+    public function booleanPropertyDataProvider()
     {
-        $this->realtyObject->setProperty('sea_view', 1);
-
-        self::assertSame(
-            $this->fixture->translate('message_yes'),
-            $this->fixture->getProperty('sea_view')
-        );
+        return [
+            'heating_included' => ['heating_included'],
+            'has_air_conditioning' => ['has_air_conditioning'],
+            'has_pool' => ['has_pool'],
+            'has_community_pool' => ['has_community_pool'],
+            'balcony' => ['balcony'],
+            'garden' => ['garden'],
+            'elevator' => ['elevator'],
+            'barrier_free' => ['barrier_free'],
+            'assisted_living' => ['assisted_living'],
+            'fitted_kitchen' => ['fitted_kitchen'],
+            'with_hot_water' => ['with_hot_water'],
+            'sea_view' => ['sea_view'],
+            'wheelchair_accessible' => ['wheelchair_accessible'],
+            'ramp' => ['ramp'],
+            'lifting_platform' => ['lifting_platform'],
+            'suitable_for_the_elderly' => ['suitable_for_the_elderly'],
+        ];
     }
 
     /**
      * @test
+     * @param string $key
+     * @dataProvider booleanPropertyDataProvider
      */
-    public function getPropertyForNonSeaViewReturnsEmptyString()
+    public function getPropertyForBooleanPropertyYesReturnsYes($key)
     {
-        $this->realtyObject->setProperty('sea_view', 0);
+        $this->realtyObject->setProperty($key, 1);
 
-        self::assertSame(
-            '',
-            $this->fixture->getProperty('sea_view')
-        );
+        self::assertSame($this->fixture->translate('message_yes'), $this->fixture->getProperty($key));
+    }
+
+    /**
+     * @test
+     * @param string $key
+     * @dataProvider booleanPropertyDataProvider
+     */
+    public function getPropertyForBooleanPropertyNoReturnsEmptyString($key)
+    {
+        $this->realtyObject->setProperty($key, 0);
+
+        self::assertSame('', $this->fixture->getProperty($key));
     }
 
     /**

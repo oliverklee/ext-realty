@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## x.y.z
 
 ### Added
+- Add and display more accessibility-related fields (#16, #38)
 - Also import the deposit in text form (#35, #36)
 - Use the static SQL filter in the filter form (#34)
 - Use additional WHERE clauses in countByCity and countByDistrict (#33)
