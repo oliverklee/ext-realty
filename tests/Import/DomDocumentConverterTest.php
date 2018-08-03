@@ -4681,6 +4681,70 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
         self::assertSame($deposit, $result[0]['deposit']);
     }
 
+    /**
+     * @return string[][]
+     */
+    public function booleanInfrastructureDataProvider()
+    {
+        return [
+            'barrier_free' => ['barrierefrei', 'barrier_free'],
+            'wheelchair_accessible' => ['rollstuhlgerecht', 'wheelchair_accessible'],
+            'ramp' => ['rampe', 'ramp'],
+            'lifting_platform' => ['hebebuehne', 'lifting_platform'],
+            'suitable_for_the_elderly' => ['seniorengerecht', 'suitable_for_the_elderly'],
+        ];
+    }
+
+    /**
+     * @test
+     * @param string $nodeName
+     * @param string $fieldName
+     * @dataProvider booleanInfrastructureDataProvider
+     */
+    public function getConvertedDataFetchesBooleanInfrastructureNodeTrue($nodeName, $fieldName)
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<ausstattung>' .
+                            '<' . $nodeName . '>true</' . $nodeName . '>' .
+                        '</ausstattung>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(1, $result[0][$fieldName]);
+    }
+
+    /**
+     * @test
+     * @param string $nodeName
+     * @param string $fieldName
+     * @dataProvider booleanInfrastructureDataProvider
+     */
+    public function getConvertedDataFetchesBooleanInfrastructureNodeFalse($nodeName, $fieldName)
+    {
+        $node = new DOMDocument();
+        $node->loadXML(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<ausstattung>' .
+                            '<' . $nodeName . '>false</' . $nodeName . '>' .
+                        '</ausstattung>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(0, $result[0][$fieldName]);
+    }
+
     ////////////////////////////////////////
     // Tests concerning fetchDomAttributes
     ////////////////////////////////////////

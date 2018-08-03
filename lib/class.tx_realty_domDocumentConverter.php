@@ -64,7 +64,11 @@ class tx_realty_domDocumentConverter
         'pets' => ['verwaltung_objekt' => 'haustiere'],
         'construction_year' => ['zustand_angaben' => 'baujahr'],
         'garden' => ['ausstattung' => 'gartennutzung'],
-        'barrier_free' => ['ausstattung' => 'rollstuhlgerecht'],
+        'barrier_free' => ['ausstattung' => 'barrierefrei'],
+        'wheelchair_accessible' => ['ausstattung' => 'rollstuhlgerecht'],
+        'ramp' => ['ausstattung' => 'rampe'],
+        'lifting_platform' => ['ausstattung' => 'hebebuehne'],
+        'suitable_for_the_elderly' => ['ausstattung' => 'seniorengerecht'],
         'description' => ['freitexte' => 'objektbeschreibung'],
         'equipment' => ['freitexte' => 'ausstatt_beschr'],
         'location' => ['freitexte' => 'lage'],
@@ -110,7 +114,8 @@ class tx_realty_domDocumentConverter
      * @var string[]
      */
     private static $booleanFields = [
-        'show_address', 'heating_included', 'garden', 'barrier_free',
+        'show_address', 'heating_included', 'garden', 'barrier_free', 'wheelchair_accessible', 'ramp',
+        'lifting_platform', 'suitable_for_the_elderly',
         'elevator', 'has_air_conditioning', 'assisted_living', 'fitted_kitchen',
         'has_pool', 'has_community_pool', 'with_hot_water',
     ];
