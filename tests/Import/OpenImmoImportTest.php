@@ -35,8 +35,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
     private $translator = null;
 
     /**
-     * @var int PID of the system folder where imported records will
-     *              be stored
+     * @var int PID of the system folder where imported records will be stored
      */
     private $systemFolderPid = 0;
 
@@ -3708,6 +3707,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
+                'pid' => $this->systemFolderPid,
                 'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
             ]
@@ -3763,6 +3763,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
+                'pid' => $this->systemFolderPid,
                 'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
             ]
@@ -3820,6 +3821,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
+                'pid' => $this->systemFolderPid,
                 'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
                 'object_number' => $objectNumber,
@@ -3877,6 +3879,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
+                'pid' => $this->systemFolderPid,
                 'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
             ]
@@ -3922,7 +3925,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function fullSyncWithDeletingEnabledDeletesUnmentionedObjectsWithSameAnid()
+    public function fullSyncWithDeletingEnabledDeletesUnmentionedObjectsWithSameNonEmptyAnid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
         $this->testingFramework->markTableAsDirty('tx_realty_house_types');
@@ -3933,6 +3936,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
+                'pid' => $this->systemFolderPid,
                 'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
             ]
@@ -3978,6 +3982,61 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
+    public function fullSyncWithDeletingEnabledDeletesUnmentionedObjectsWithSameEmptyAnid()
+    {
+        $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
+        $this->testingFramework->markTableAsDirty('tx_realty_house_types');
+
+        $obid = '1v24512-1g423512gv4-1gv2';
+
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            [
+                'pid' => $this->systemFolderPid,
+                'openimmo_obid' => $obid,
+            ]
+        );
+
+        $xml =
+            '<openimmo>
+                <uebertragung umfang="VOLL"/>
+                <anbieter>
+                    <immobilie>
+                        <objektkategorie>
+                            <nutzungsart WOHNEN="1"/>
+                            <vermarktungsart KAUF="1"/>
+                            <objektart><zimmer/></objektart>
+                        </objektkategorie>
+                        <geo>
+                            <plz>bar</plz>
+                        </geo>
+                        <kontaktperson>
+                            <name>bar</name>
+                            <email_zentrale>bar</email_zentrale>
+                            </kontaktperson>
+                        <verwaltung_techn>
+                            <openimmo_obid>other-obid</openimmo_obid>
+                            <aktion/>
+                            <objektnr_extern>bar1234567</objektnr_extern>
+                            </verwaltung_techn>
+                    </immobilie>
+                    <openimmo_anid/>
+                    <firma>bar</firma>
+                </anbieter>
+            </openimmo>';
+        $this->createZipFile($xml);
+
+        $this->fixture->importFromZip();
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function fullSyncWithDeletingEnabledLogsDeletion()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
@@ -3989,6 +4048,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
+                'pid' => $this->systemFolderPid,
                 'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
             ]
@@ -4032,17 +4092,20 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function fullSyncWithDeletingEnabledWithoutAnidKeepsUnmentionedObjectsWithEmptyAnid()
+    public function fullSyncWithDeletingEnabledWithoutAnidKeepsUnmentionedObjectsWithNonImportPid()
     {
         $this->globalConfiguration->setAsBoolean('importCanDeleteRecordsForFullSync', true);
         $this->testingFramework->markTableAsDirty('tx_realty_house_types');
 
+        $anid = '12341-12341-12341';
         $obid = '1v24512-1g423512gv4-1gv2';
 
+        $pid = $this->testingFramework->createSystemFolder();
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
-                'openimmo_anid' => '',
+                'pid' => $pid,
+                'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
             ]
         );
@@ -4070,6 +4133,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
                             <objektnr_extern>bar1234567</objektnr_extern>
                             </verwaltung_techn>
                     </immobilie>
+                    <openimmo_anid>' . $anid . '</openimmo_anid>
                     <firma>bar</firma>
                 </anbieter>
             </openimmo>';
@@ -4097,6 +4161,7 @@ class tx_realty_Import_OpenImmoImportTest extends Tx_Phpunit_TestCase
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
             [
+                'pid' => $this->systemFolderPid,
                 'openimmo_anid' => $anid,
                 'openimmo_obid' => $obid,
             ]

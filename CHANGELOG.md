@@ -30,6 +30,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - make the TCA cacheable
 
 ### Changed
+- Also check for the PID when deleting imported objects (#43)
 - Import both possible fields for the number of balconies (#37)
 - Render the teaser as an RTE field in the FE (#32)
 - Update to PHPUnit 5.3 (#28)
