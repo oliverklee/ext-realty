@@ -226,54 +226,51 @@ class tx_realty_Mapper_RealtyObject extends Tx_Oelib_DataMapper
         $openImmoObjectId,
         $language
     ) {
-        return $this->findSingleByWhereClause([
-            'object_number' => $objectNumber,
-            'openimmo_obid' => $openImmoObjectId,
-            'language' => $language,
-        ]);
-    }
-
-    /**
-     * Finds objects by ANID. Only the first four characters of the ANID will be used for matching.
-     *
-     * @param string $anid offerer ID, must not be empty
-     *
-     * @return \Tx_Oelib_List \Tx_Oelib_List<\tx_realty_Model_RealtyObject>
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function findByAnid($anid)
-    {
-        if ($anid === '') {
-            throw new \InvalidArgumentException('$anid must not be empty.', 1493038952067);
-        }
-
-        $databaseConnection = \Tx_Oelib_Db::getDatabaseConnection();
-        $relevantPartOfAnid = mb_substr($anid, 0, 4, 'UTF-8');
-
-        return $this->findByWhereClause(
-            'LEFT(openimmo_anid, 4) = "' . $databaseConnection->quoteStr($relevantPartOfAnid, $this->tableName) . '"'
+        return $this->findSingleByWhereClause(
+            [
+                'object_number' => $objectNumber,
+                'openimmo_obid' => $openImmoObjectId,
+                'language' => $language,
+            ]
         );
     }
 
     /**
-     * Deletes objects that have the offerer ID $anid, but spares the $exceptions.
+     * Finds objects by ANID and PID. Only the first four characters of the ANID will be used for matching.
+     *
+     * @param string $anid offerer ID, may be empty
+     * @param int $pid page UID
+     *
+     * @return \Tx_Oelib_List \Tx_Oelib_List<\tx_realty_Model_RealtyObject>
+     */
+    public function findByAnidAndPid($anid, $pid)
+    {
+        $databaseConnection = \Tx_Oelib_Db::getDatabaseConnection();
+        $relevantPartOfAnid = \mb_substr($anid, 0, 4, 'UTF-8');
+
+        return $this->findByWhereClause(
+            'pid = ' . $pid . ' AND LEFT(openimmo_anid, 4) = "' .
+            $databaseConnection->quoteStr($relevantPartOfAnid, $this->tableName) . '"'
+        );
+    }
+
+    /**
+     * Deletes objects that have the offerer ID $anid and PID $pid, but spares the $exceptions.
      *
      * Only the first four characters of the ANID will be used for matching.
      *
-     * @param string $anid must not be empty
+     * @param string $anid may not be empty
+     * @param int $pid page UID
      * @param \Tx_Oelib_List $exceptions \Tx_Oelib_List<\tx_realty_Model_RealtyObject> to not delete
      *
      * @return \tx_realty_Model_RealtyObject[] deleted objects
-     *
-     * @throws \InvalidArgumentException
      */
-    public function deleteByAnidWithExceptions($anid, \Tx_Oelib_List $exceptions)
+    public function deleteByAnidAndPidWithExceptions($anid, $pid, \Tx_Oelib_List $exceptions)
     {
         /** @var \tx_realty_Model_RealtyObject[] $deletedObjects */
         $deletedObjects = [];
 
-        $matches = $this->findByAnid($anid);
+        $matches = $this->findByAnidAndPid($anid, $pid);
         /** @var \tx_realty_Model_RealtyObject $realtyObject */
         foreach ($matches as $realtyObject) {
             if (!$exceptions->hasUid($realtyObject->getUid())) {

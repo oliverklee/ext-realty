@@ -251,12 +251,17 @@ class tx_realty_openImmoImport
             $this->storeLogsAndClearTemporaryLog();
         }
 
-        if ($this->globalConfiguration->getAsBoolean('importCanDeleteRecordsForFullSync')
-            && $transferMode === self::FULL_TRANSFER_MODE && $offererId !== ''
+        if ($transferMode === self::FULL_TRANSFER_MODE
+            && $this->globalConfiguration->getAsBoolean('importCanDeleteRecordsForFullSync')
         ) {
+            $pid = \Tx_Oelib_ConfigurationProxy::getInstance('realty')->getAsInteger('pidForRealtyObjectsAndImages');
             /** @var \tx_realty_Mapper_RealtyObject $realtyObjectMapper */
             $realtyObjectMapper = \Tx_Oelib_MapperRegistry::get(\tx_realty_Mapper_RealtyObject::class);
-            $deletedObjects = $realtyObjectMapper->deleteByAnidWithExceptions($offererId, $savedRealtyObjects);
+            $deletedObjects = $realtyObjectMapper->deleteByAnidAndPidWithExceptions(
+                $offererId,
+                $pid,
+                $savedRealtyObjects
+            );
             if (!empty($deletedObjects)) {
                 /** @var string[] $uids */
                 $uids = [];

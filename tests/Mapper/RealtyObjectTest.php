@@ -18,9 +18,15 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     private $testingFramework = null;
 
+    /**
+     * @var int
+     */
+    private $folderUid = 0;
+
     protected function setUp()
     {
         $this->testingFramework = new Tx_Oelib_TestingFramework('tx_realty');
+        $this->folderUid = $this->testingFramework->createSystemFolder();
         $this->fixture = new tx_realty_Mapper_RealtyObject();
     }
 
@@ -223,11 +229,13 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByObjectNumberAndObjectIdAndLanguageReturnsRealtyObject()
     {
-        $this->fixture->getLoadedTestingModel([
-            'object_number' => 'FLAT0001',
-            'openimmo_obid' => 'abc01234',
-            'language' => 'de',
-        ]);
+        $this->fixture->getLoadedTestingModel(
+            [
+                'object_number' => 'FLAT0001',
+                'openimmo_obid' => 'abc01234',
+                'language' => 'de',
+            ]
+        );
 
         self::assertTrue(
             $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
@@ -265,11 +273,13 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectNumber()
     {
-        $this->fixture->getLoadedTestingModel([
-            'object_number' => 'FLAT0001',
-            'openimmo_obid' => 'abc01234',
-            'language' => 'de',
-        ]);
+        $this->fixture->getLoadedTestingModel(
+            [
+                'object_number' => 'FLAT0001',
+                'openimmo_obid' => 'abc01234',
+                'language' => 'de',
+            ]
+        );
 
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
             'FLAT0002',
@@ -285,11 +295,13 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectId()
     {
-        $this->fixture->getLoadedTestingModel([
-            'object_number' => 'FLAT0001',
-            'openimmo_obid' => 'abc01234',
-            'language' => 'de',
-        ]);
+        $this->fixture->getLoadedTestingModel(
+            [
+                'object_number' => 'FLAT0001',
+                'openimmo_obid' => 'abc01234',
+                'language' => 'de',
+            ]
+        );
 
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
             'FLAT0001',
@@ -305,11 +317,13 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
      */
     public function findByObjectNumberAndObjectIdAndLanguageNotFindsModelWithDifferentObjectLanguage()
     {
-        $this->fixture->getLoadedTestingModel([
-            'object_number' => 'FLAT0001',
-            'openimmo_obid' => 'abc01234',
-            'language' => 'de',
-        ]);
+        $this->fixture->getLoadedTestingModel(
+            [
+                'object_number' => 'FLAT0001',
+                'openimmo_obid' => 'abc01234',
+                'language' => 'de',
+            ]
+        );
 
         $this->fixture->findByObjectNumberAndObjectIdAndLanguage(
             'FLAT0002',
@@ -319,70 +333,39 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     }
 
     /*
-     * Tests concerning findByAnid
+     * Tests concerning findByAnidAndPid
      */
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function findByAnidForEmptyAnidThrowsException()
+    public function findByAnidAndPidForNoMatchesReturnsEmptyList()
     {
-        $this->fixture->findByAnid('');
-    }
-
-    /**
-     * @test
-     */
-    public function findByAnidForNoMatchesReturnsEmptyList()
-    {
-        $result = $this->fixture->findByAnid('not-in-database');
+        $result = $this->fixture->findByAnidAndPid('not-in-database', $this->folderUid);
         self::assertTrue($result->isEmpty());
     }
 
     /**
      * @test
      */
-    public function findByAnidIgnoresObjectWithEmptyAnid()
+    public function findByAnidAndPidForNonEmptyAnidIgnoresObjectWithEmptyAnid()
     {
-        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => '']);
+        $this->testingFramework->createRecord('tx_realty_objects', ['pid' => $this->folderUid, 'openimmo_anid' => '']);
 
-        $result = $this->fixture->findByAnid('not-in-database');
+        $result = $this->fixture->findByAnidAndPid('not-in-database', $this->folderUid);
         self::assertTrue($result->isEmpty());
     }
 
     /**
      * @test
      */
-    public function findByAnidIgnoresObjectWithOtherAnid()
+    public function findByAnidAndPidForEmptyAnidFindsObjectWithEmptyAnid()
     {
-        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => 'other-anid']);
+        $uid = $this->testingFramework->createRecord('tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => '']
+        );
 
-        $result = $this->fixture->findByAnid('not-in-database');
-        self::assertTrue($result->isEmpty());
-    }
-
-    /**
-     * @test
-     */
-    public function findByAnidIgnoresDeletedObjectWithOtherMatchingAnid()
-    {
-        $anid = 'abc-def-ghi-1234';
-        $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid, 'deleted' => 1]);
-
-        $result = $this->fixture->findByAnid('not-in-database');
-        self::assertTrue($result->isEmpty());
-    }
-
-    /**
-     * @test
-     */
-    public function findByAnidFindsObjectWithExactMatchingAnid()
-    {
-        $anid = 'OABC20017128124930123asd43fer35';
-        $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
-
-        $result = $this->fixture->findByAnid($anid);
+        $result = $this->fixture->findByAnidAndPid('', $this->folderUid);
         self::assertSame(1, $result->count());
         /** @var \tx_realty_Model_RealtyObject $firstMatch */
         $firstMatch = $result->first();
@@ -392,14 +375,60 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function findByAnidFindsObjectWithMatchingFirstFourCharactersOfAnid()
+    public function findByAnidAndPidIgnoresObjectWithOtherAnid()
+    {
+        $this->testingFramework->createRecord('tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => 'other-anid']
+        );
+
+        $result = $this->fixture->findByAnidAndPid('not-in-database', $this->folderUid);
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidAndPidIgnoresDeletedObjectWithOtherMatchingAnid()
+    {
+        $anid = 'abc-def-ghi-1234';
+        $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => $anid, 'deleted' => 1]
+        );
+
+        $result = $this->fixture->findByAnidAndPid('not-in-database', $this->folderUid);
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidAndPidFindsObjectWithExactMatchingAnid()
+    {
+        $anid = 'OABC20017128124930123asd43fer35';
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => $anid]
+        );
+
+        $result = $this->fixture->findByAnidAndPid($anid, $this->folderUid);
+        self::assertSame(1, $result->count());
+        /** @var \tx_realty_Model_RealtyObject $firstMatch */
+        $firstMatch = $result->first();
+        self::assertSame($uid, $firstMatch->getUid());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidAndPidFindsObjectWithMatchingFirstFourCharactersOfAnid()
     {
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+            ['pid' => $this->folderUid, 'openimmo_anid' => 'OABC20017128124930123asd43fer35']
         );
 
-        $result = $this->fixture->findByAnid('OABC10017128124930123asd43fer35');
+        $result = $this->fixture->findByAnidAndPid('OABC10017128124930123asd43fer35', $this->folderUid);
         self::assertSame(1, $result->count());
         /** @var \tx_realty_Model_RealtyObject $firstMatch */
         $firstMatch = $result->first();
@@ -409,42 +438,48 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function findByAnidNotFindsObjectWithMatchingOnlyFirstThreeCharactersOfAnid()
+    public function findByAnidAndPidNotFindsObjectWithMatchingOnlyFirstThreeCharactersOfAnid()
     {
         $this->testingFramework->createRecord(
             'tx_realty_objects',
-            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+            ['pid' => $this->folderUid, 'openimmo_anid' => 'OABC20017128124930123asd43fer35']
         );
 
-        $result = $this->fixture->findByAnid('OABD20017128124930123asd43fer35');
+        $result = $this->fixture->findByAnidAndPid('OABD20017128124930123asd43fer35', $this->folderUid);
+        self::assertTrue($result->isEmpty());
+    }
+
+    /**
+     * @test
+     */
+    public function findByAnidAndPidIgnoresObjectWithDifferentPid()
+    {
+        $anid = 'OABC20017128124930123asd43fer35';
+        $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => $anid]
+        );
+
+        $result = $this->fixture->findByAnidAndPid($anid, $this->folderUid + 1);
         self::assertTrue($result->isEmpty());
     }
 
     /*
-     * Tests concerning deleteByAnidWithExceptions
+     * Tests concerning deleteByAnidAndPidWithExceptions
      */
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function deleteByAnidWithExceptionsForEmptyAnidThrowsException()
-    {
-        $this->fixture->deleteByAnidWithExceptions('', new \Tx_Oelib_List());
-    }
-
-    /**
-     * @test
-     */
-    public function deleteByAnidWithExceptionsNotDeletesRecordWithNonMatchingAnid()
+    public function deleteByAnidAndPidWithExceptionsNotDeletesRecordWithNonMatchingAnid()
     {
         $uid = $this->testingFramework->createRecord(
             'tx_realty_objects',
-            ['openimmo_anid' => 'OABC20017128124930123asd43fer35']
+            ['pid' => $this->folderUid, 'openimmo_anid' => 'OABC20017128124930123asd43fer35']
         );
 
         $anid = 'OABD20017128124930123asd43fer35';
-        $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
+        $result = $this->fixture->deleteByAnidAndPidWithExceptions($anid, $this->folderUid, new \Tx_Oelib_List());
 
         self::assertSame(
             1,
@@ -456,12 +491,15 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function deleteByAnidWithExceptionsNotDeletesRecordWithEmptyAnid()
+    public function deleteByAnidAndPidWithExceptionsNotDeletesRecordWithNonMatchingPid()
     {
-        $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => '']);
+        $anid = 'OABD20017128124930123asd43fer35';
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => $anid]
+        );
 
-        $anid = 'OABC20017128124930123asd43fer35';
-        $result = $this->fixture->deleteByAnidWithExceptions($anid, new \Tx_Oelib_List());
+        $result = $this->fixture->deleteByAnidAndPidWithExceptions($anid, $this->folderUid + 1, new \Tx_Oelib_List());
 
         self::assertSame(
             1,
@@ -473,13 +511,19 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function deleteByAnidWithExceptionsDeletesRecordWithMatchingAnidByFirstFourCharacters()
+    public function deleteByAnidAndPidWithExceptionsDeletesRecordWithMatchingAnidByFirstFourCharacters()
     {
         $anid = 'OABC20017128124930123asd43fer35';
-        $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => $anid]
+        );
         $object = $this->fixture->find($uid);
 
-        $result = $this->fixture->deleteByAnidWithExceptions('OABC10017128124930123asd43fer35', new \Tx_Oelib_List());
+        $result = $this->fixture->deleteByAnidAndPidWithExceptions(
+            'OABC10017128124930123asd43fer35', $this->folderUid,
+            new \Tx_Oelib_List()
+        );
 
         self::assertSame(
             1,
@@ -491,14 +535,37 @@ class tx_realty_Mapper_RealtyObjectTest extends Tx_Phpunit_TestCase
     /**
      * @test
      */
-    public function deleteByAnidWithExceptionsNotDeletesMatchingRecordMarkedAsException()
+    public function deleteByAnidAndPidWithExceptionsDeletesRecordWithMatchingEmptyAnid()
+    {
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => '']
+        );
+        $object = $this->fixture->find($uid);
+
+        $result = $this->fixture->deleteByAnidAndPidWithExceptions('', $this->folderUid, new \Tx_Oelib_List());
+
+        self::assertSame(
+            1,
+            $this->testingFramework->countRecords('tx_realty_objects', 'uid = ' . $uid . ' AND deleted = 1')
+        );
+        self::assertSame([$object], $result);
+    }
+
+    /**
+     * @test
+     */
+    public function deleteByAnidAndPidWithExceptionsNotDeletesMatchingRecordMarkedAsException()
     {
         $anid = 'OABC20017128124930123asd43fer35';
-        $uid = $this->testingFramework->createRecord('tx_realty_objects', ['openimmo_anid' => $anid]);
+        $uid = $this->testingFramework->createRecord(
+            'tx_realty_objects',
+            ['pid' => $this->folderUid, 'openimmo_anid' => $anid]
+        );
         $exceptions = new \Tx_Oelib_List();
         $exceptions->add($this->fixture->find($uid));
 
-        $result = $this->fixture->deleteByAnidWithExceptions($anid, $exceptions);
+        $result = $this->fixture->deleteByAnidAndPidWithExceptions($anid, $this->folderUid, $exceptions);
 
         self::assertSame(
             1,
