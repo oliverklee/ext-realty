@@ -39,7 +39,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
      *
      * @param int $uid UID of the realty object for which to create the table, must be > 0
      *
-     * @return bool TRUE if at least one row has been filled, FALSE otherwise
+     * @return bool true if at least one row has been filled, false otherwise
      */
     private function createTableRows($uid)
     {
@@ -90,7 +90,7 @@ class tx_realty_pi1_OverviewTableView extends tx_realty_pi1_FrontEndView
 
         if ($this->getConfValueBoolean('priceOnlyIfAvailable') && $realtyObject->isRentedOrSold()) {
             $fieldsToHideForThisType = [
-                'rent_excluding_bills', 'extra_charges', 'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
+                'rent_excluding_bills', 'rent_with_heating_costs', 'extra_charges', 'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
                 'rent_per_square_meter', 'garage_rent', 'garage_price',
             ];
         } else {

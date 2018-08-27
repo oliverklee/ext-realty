@@ -459,6 +459,10 @@
 				<source>Rent excluding bills</source>
 				<target>Kaltmiete</target>
 			</trans-unit>
+			<trans-unit id="label_rent_with_heating_costs" xml:space="preserve" approved="yes">
+				<source>Rent with heating costs</source>
+				<target>Warmmiete</target>
+			</trans-unit>
 			<trans-unit id="label_rent_excluding_bills_short" xml:space="preserve" approved="yes">
 				<source>Rent excluding bills</source>
 				<target>&lt;acronym title=&quot;Kaltmiete&quot;&gt;KM&lt;/acronym&gt;</target>

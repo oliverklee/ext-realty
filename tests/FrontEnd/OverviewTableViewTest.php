@@ -382,14 +382,14 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
             ->getLoadedTestingModel([]);
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
-            'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+            'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
                 'provision,buying_price,hoa_fee,year_rent,' .
                 'rent_per_square_meter,garage_rent,garage_price,pets'
         );
 
         self::assertEquals(
             [
-                'heating_type', 'rent_excluding_bills', 'extra_charges',
+                'heating_type', 'rent_excluding_bills', 'rent_with_heating_costs', 'extra_charges',
                 'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
                 'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets',
             ],
@@ -408,7 +408,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
             );
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
-            'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+            'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
                 'provision,buying_price,hoa_fee,year_rent,' .
                 'rent_per_square_meter,garage_rent,garage_price,pets'
         );
@@ -417,7 +417,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             [
-                'heating_type', 'rent_excluding_bills', 'extra_charges',
+                'heating_type', 'rent_excluding_bills', 'rent_with_heating_costs', 'extra_charges',
                 'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
                 'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets',
             ],
@@ -436,7 +436,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
             );
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
-            'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+            'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
                 'provision,buying_price,hoa_fee,year_rent,' .
                 'rent_per_square_meter,garage_rent,garage_price,pets'
         );
@@ -445,7 +445,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
 
         self::assertEquals(
             [
-                'heating_type', 'rent_excluding_bills', 'extra_charges',
+                'heating_type', 'rent_excluding_bills', 'rent_with_heating_costs', 'extra_charges',
                 'deposit', 'provision', 'buying_price', 'hoa_fee', 'year_rent',
                 'rent_per_square_meter', 'garage_rent', 'garage_price', 'pets',
             ],
@@ -464,7 +464,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
             );
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
-            'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+            'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
                 'provision,buying_price,hoa_fee,year_rent,' .
                 'rent_per_square_meter,garage_rent,garage_price,pets'
         );
@@ -490,7 +490,7 @@ class tx_realty_FrontEnd_OverviewTableViewTest extends Tx_Phpunit_TestCase
             );
         $this->fixture->setConfigurationValue(
             'fieldsInSingleViewTable',
-            'heating_type,rent_excluding_bills,extra_charges,deposit,' .
+            'heating_type,rent_excluding_bills,rent_with_heating_costs,extra_charges,deposit,' .
                 'provision,buying_price,hoa_fee,year_rent,' .
                 'rent_per_square_meter,garage_rent,garage_price,pets'
         );

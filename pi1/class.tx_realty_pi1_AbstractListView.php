@@ -443,7 +443,7 @@ abstract class tx_realty_pi1_AbstractListView extends tx_realty_pi1_FrontEndView
 
         foreach ([
             'city', 'district', 'living_area', 'total_area', 'sales_area', 'number_of_rooms', 'heating_type',
-            'buying_price', 'extra_charges', 'rent_excluding_bills', 'status', 'floor',
+            'buying_price', 'extra_charges', 'rent_excluding_bills', 'rent_with_heating_costs', 'status', 'floor',
         ] as $key) {
             $this->setOrDeleteMarkerIfNotEmpty(
                 $key,
