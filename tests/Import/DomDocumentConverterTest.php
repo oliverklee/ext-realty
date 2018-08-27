@@ -271,6 +271,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
                     'window_bank' => 0.0,
                     'rental_income_target' => 0.0,
                     'energy_certificate_issue_date' => 0,
+                    'rent_with_heating_costs' => 0.0,
                 ],
             ],
             $this->fixture->getConvertedData($node)
@@ -299,6 +300,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
                     'window_bank' => 0.0,
                     'rental_income_target' => 0.0,
                     'energy_certificate_issue_date' => 0,
+                    'rent_with_heating_costs' => 0.0,
                 ],
                 [
                     'sales_area' => 0.0,
@@ -306,6 +308,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
                     'window_bank' => 0.0,
                     'rental_income_target' => 0.0,
                     'energy_certificate_issue_date' => 0,
+                    'rent_with_heating_costs' => 0.0,
                 ],
             ],
             $this->fixture->getConvertedData($node)
@@ -761,6 +764,7 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
             'employer' => 'foo',
             'openimmo_anid' => 'bar',
             'energy_certificate_issue_date' => 0,
+            'rent_with_heating_costs' => 0.0,
         ];
         $result = $this->fixture->getConvertedData($node);
 
@@ -3766,6 +3770,27 @@ class tx_realty_Import_DomDocumentConverterTest extends Tx_Phpunit_TestCase
             54321.00,
             $result[0]['rent_excluding_bills']
         );
+    }
+
+    /**
+     * @test
+     */
+    public function getConvertedDataImportsRentWithHeatingCostsFromWarmmiete()
+    {
+        $node = $this->setRawDataToConvert(
+            '<openimmo>' .
+                '<anbieter>' .
+                    '<immobilie>' .
+                        '<preise>' .
+                            '<warmmiete>12345.67</warmmiete>' .
+                        '</preise>' .
+                    '</immobilie>' .
+                '</anbieter>' .
+            '</openimmo>'
+        );
+
+        $result = $this->fixture->getConvertedData($node);
+        self::assertSame(12345.67, $result[0]['rent_with_heating_costs']);
     }
 
     /**

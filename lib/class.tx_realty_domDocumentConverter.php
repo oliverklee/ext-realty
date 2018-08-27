@@ -106,6 +106,7 @@ class tx_realty_domDocumentConverter
         'other_area' => ['flaechen' => 'sonstflaeche'],
         'window_bank' => ['flaechen' => 'fensterfront'],
         'rental_income_target' => ['preise' => 'mieteinnahmen_soll'],
+        'rent_with_heating_costs' => ['preise' => 'warmmiete'],
     ];
 
     /**
